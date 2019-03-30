@@ -1,0 +1,21 @@
+{
+  "presets": ["babel-preset-expo"],
+  "plugins": [
+    // ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    // ["@babel/plugin-proposal-class-properties", { "loose": true }],
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@assets": "./assets",
+          "@components": "./components",
+          "@constants": "./constants",
+          "@screens": "./screens",
+          "@stores": "./stores",
+          "@styles": "./styles",
+          "@utils": "./utils"
+        }
+      }
+    ]
+  ]
+}
