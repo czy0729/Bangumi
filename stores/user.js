@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 18:15:28
+ * @Last Modified time: 2019-04-02 13:01:39
  */
 import { observable, computed } from 'mobx'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
@@ -20,15 +20,19 @@ import common from './common'
 class User extends common {
   state = observable({
     userInfo: {
-      access_token: '',
+      access_token: '4e0c1181c03854930378923857bb4e71018a1dd4',
       expires_in: 604800,
       token_type: 'Bearer',
       scope: null,
-      user_id: 0,
+      user_id: 456208,
       refresh_token: ''
     },
-    userCollection: {},
-    userProgress: {}
+    userCollection: {
+      // [`${userId}]: {}
+    },
+    userProgress: {
+      // [`${userId}|${subjectId}`]: {}
+    }
   })
 
   async init() {
@@ -99,7 +103,10 @@ class User extends common {
         },
         info: 'access_token'
       },
-      'userInfo'
+      'userInfo',
+      {
+        storage: true
+      }
     )
   }
 
@@ -110,7 +117,7 @@ class User extends common {
   fetchUserCollection(userId = this.myUserId) {
     return this.fetch(
       {
-        url: `${API_USER_COLLECTION(userId)}?cat=watching&ids=243916`,
+        url: `${API_USER_COLLECTION(userId)}?cat=all_watching`,
         info: '在看收藏'
       },
       ['userCollection', userId],

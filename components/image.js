@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-29 06:37:53
+ * @Last Modified time: 2019-04-06 04:51:11
  */
 import React from 'react'
 import {
@@ -12,7 +12,7 @@ import {
   View,
   TouchableHighlight
 } from 'react-native'
-import { colorBg, radiusXs } from '@styles'
+import { colorPlain, radiusXs } from '@styles'
 
 const _Image = ({
   style,
@@ -22,10 +22,14 @@ const _Image = ({
   border,
   radius,
   shadow,
+  placeholder,
   onPress,
+  onLongPress,
   ...other
 }) => {
-  const _style = [styles.image]
+  const source = typeof src === 'string' ? { uri: src } : src
+  const _style = []
+  const highlightStyle = [styles.highlight]
   if (size) {
     _style.push({
       width: size,
@@ -37,28 +41,26 @@ const _Image = ({
   }
   if (radius) {
     _style.push(styles.radius)
+    highlightStyle.push(styles.radius)
   }
-  if (shadow) {
-    const highlightStyle = [styles.highlight]
-    if (radius) {
-      highlightStyle.push(styles.radius)
-    }
-    return (
-      <View style={styles.shadow}>
-        {onPress && (
-          <TouchableHighlight
-            style={highlightStyle}
-            underlayColor='rgba(0, 0, 0, 0.24)'
-            onPress={onPress}
-          >
-            <View />
-          </TouchableHighlight>
-        )}
-        <Image style={_style} source={{ uri: src }} {...other} />
-      </View>
-    )
+  if (placeholder) {
+    _style.push(styles.placeholder)
   }
-  return <Image style={_style} source={{ uri: src }} {...other} />
+  return (
+    <View style={shadow ? styles.shadow : undefined}>
+      {onPress && (
+        <TouchableHighlight
+          style={highlightStyle}
+          underlayColor='rgba(0, 0, 0, 0.24)'
+          onPress={onPress}
+          onLongPress={onLongPress}
+        >
+          <View />
+        </TouchableHighlight>
+      )}
+      <Image style={_style} source={source} {...other} />
+    </View>
+  )
 }
 
 _Image.defaultProps = {
@@ -67,15 +69,13 @@ _Image.defaultProps = {
   height: undefined,
   border: false,
   radius: false,
-  shadow: false
+  shadow: false,
+  placeholder: true
 }
 
 export default _Image
 
 const styles = StyleSheet.create({
-  image: {
-    backgroundColor: colorBg
-  },
   border: {
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.8)'
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   shadow: Platform.select({
     ios: {
       shadowColor: '#000',
-      shadowOffset: { height: 3 },
+      shadowOffset: { height: 4 },
       shadowOpacity: 0.16,
       shadowRadius: radiusXs
     },
@@ -94,6 +94,9 @@ const styles = StyleSheet.create({
       elevation: 8
     }
   }),
+  placeholder: {
+    backgroundColor: colorPlain
+  },
   highlight: {
     position: 'absolute',
     zIndex: 1,

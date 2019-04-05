@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 18:14:04
+ * @Last Modified time: 2019-04-05 09:39:03
  */
 import { observable, computed } from 'mobx'
 import {
@@ -38,8 +38,8 @@ const initSubjectItem = {
   url: ''
 }
 const initSubjectItemFormHTML = {
-  tags: [],
-  count: []
+  tags: [], // 标签
+  count: [] // 标签的数目
 }
 const initCalendar = []
 
@@ -54,6 +54,7 @@ class Subject extends common {
   async init() {
     this.setState({
       subject: await this.getStorage('subject'),
+      subjectFormHTML: await this.getStorage('subjectFormHTML'),
       subjectEp: await this.getStorage('subjectEp'),
       calendar: (await this.getStorage('calendar')) || initCalendar
     })
@@ -69,6 +70,11 @@ class Subject extends common {
       () => this.state.subject[subjectId] || initSubjectItem
     ).get()
   }
+
+  /**
+   * 取爬取网页的条目信息
+   * @param {*} subjectId
+   */
   getSubjectFormHTML(subjectId) {
     return computed(
       () => this.state.subjectFormHTML[subjectId] || initSubjectItemFormHTML
@@ -112,7 +118,7 @@ class Subject extends common {
   }
 
   /**
-   * 分析HTML获取条目信息
+   * 爬取网页获取条目信息 (高流量, 80k左右1次)
    * @param {*} subjectId
    */
   async fetchSubjectFormHTML(subjectId) {
@@ -126,6 +132,7 @@ class Subject extends common {
       )[0]
 
     if (tagsHtml) {
+      const key = 'subjectFormHTML'
       const tags = tagsHtml
         .match(/<span>(.+?)<\/span>/g)
         .map(tag => tag.replace(/<span>|<\/span>/g, ''))
@@ -133,13 +140,14 @@ class Subject extends common {
         .match(/<smallclass="grey">(.+?)<\/small>/g)
         .map(tag => tag.replace(/<smallclass="grey">|<\/small>/g, ''))
       this.setState({
-        subjectFormHTML: {
+        [key]: {
           [subjectId]: {
             tags,
             counts
           }
         }
       })
+      this.setStorage(key)
     }
   }
 

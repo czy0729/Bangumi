@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 14:00:20
+ * @Last Modified time: 2019-04-05 10:02:41
  */
 import { AsyncStorage } from 'react-native'
 
@@ -336,4 +336,40 @@ export function arrGroup(arr, num = 40) {
   }
 
   return allData
+}
+
+/**
+ * 首字母大写
+ * @param {*} str
+ */
+export function titleCase(str) {
+  return str.replace(/( |^)[a-z]/g, L => L.toUpperCase())
+}
+
+/**
+ * 颜色过渡
+ * @param {*} startColor
+ * @param {*} endColor
+ * @param {*} step
+ */
+export function gradientColor(startRGB, endRGB, step) {
+  const startR = startRGB[0]
+  const startG = startRGB[1]
+  const startB = startRGB[2]
+  const endR = endRGB[0]
+  const endG = endRGB[1]
+  const endB = endRGB[2]
+  const sR = (endR - startR) / step // 总差值
+  const sG = (endG - startG) / step
+  const sB = (endB - startB) / step
+
+  const colorArr = []
+  for (let i = 0; i < step; i += 1) {
+    // 计算每一步的hex值
+    const rgb = `rgb(${parseInt(sR * i + startR)}, ${parseInt(
+      sG * i + startG
+    )}, ${parseInt(sB * i + startB)})`
+    colorArr.push(rgb)
+  }
+  return colorArr
 }

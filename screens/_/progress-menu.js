@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-16 08:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-26 00:56:35
+ * @Last Modified time: 2019-04-06 05:03:44
  */
 import React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
@@ -16,7 +16,7 @@ const ProgressMenu = ({ style, title, data, onSelect }) => (
         {title.map((item, index) => (
           <Text
             key={item}
-            style={index !== 0 && _.mt.xs}
+            style={index !== 0 && _.mt.sm}
             type='sub'
             size={12}
             align='center'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 18:13:09
+ * @Last Modified time: 2019-04-05 09:17:53
  */
 import { observable, computed } from 'mobx'
 import { API_COLLECTION, API_COLLECTION_ACTION } from '@constants/api'
@@ -13,6 +13,12 @@ class Collection extends common {
   state = observable({
     collection: {}
   })
+
+  async init() {
+    this.setState({
+      collection: await this.getStorage('collection')
+    })
+  }
 
   // -------------------- get --------------------
   /**
@@ -34,7 +40,10 @@ class Collection extends common {
         url: API_COLLECTION(subjectId),
         info: '条目收藏信息'
       },
-      ['collection', subjectId]
+      ['collection', subjectId],
+      {
+        storage: true
+      }
     )
   }
 
@@ -58,5 +67,6 @@ class Collection extends common {
 }
 
 const Store = new Collection()
+Store.init()
 
 export default Store

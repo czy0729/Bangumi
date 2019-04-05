@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 18:12:36
+ * @Last Modified time: 2019-04-01 22:22:43
  */
-import { AsyncStorage } from 'react-native'
 import { Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
-import { urlStringify, sleep, getTimestamp } from './index'
+import { getStorage, urlStringify, sleep, getTimestamp } from './index'
 import { log } from './dev'
 
 // const STATUS_SUCCESS = 200
@@ -27,11 +26,10 @@ import { log } from './dev'
 const retryCount = {}
 export default async function _fetch(config = {}) {
   const { url, data = {}, method = 'GET', retryCb, info = '' } = config
-  const tokenType =
-    (await AsyncStorage.getItem('@userStore:tokenType')) || 'Bearer'
+  const userInfo = (await getStorage('User|userInfo|state')) || {}
+  const tokenType = userInfo.token_type || 'Bearer'
   const accessToken =
-    (await AsyncStorage.getItem('@userStore:accessToken')) ||
-    'e8f04774b3abb68b5642d48d9ce8e589a3cd1043'
+    userInfo.access_token || '4e0c1181c03854930378923857bb4e71018a1dd4'
   const _config = {
     headers: {
       Authorization: `${tokenType} ${accessToken}`
@@ -63,8 +61,10 @@ export default async function _fetch(config = {}) {
           retryCount[key] = 0
         }
       }
+
       // log(method, 'success', _url, config, !isGet ? res : 'not show')
-      return Promise.resolve(res)
+      // 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串
+      return Promise.resolve(safe(res))
     })
     .catch(async err => {
       // NOTE Bangumi的接口代理经常报错, 我也就只能一直请求到成功为止了hhh
@@ -108,4 +108,8 @@ export async function queue(fetchs = []) {
   ] = fetchs
   await Promise.all([f1(), f2()])
   return Promise.all([f3(), f4()])
+}
+
+function safe(res) {
+  return JSON.parse(JSON.stringify(res).replace(/:null/g, ':""'))
 }

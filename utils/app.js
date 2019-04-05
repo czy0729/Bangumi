@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-29 06:58:12
+ * @Last Modified time: 2019-04-02 13:23:34
  */
 
 /**
@@ -15,6 +15,7 @@ export function getType(label) {
     想看: 'main',
     看过: 'warning',
     在看: 'primary',
+    在读: 'primary',
     搁置: 'wait',
     抛弃: 'disabled'
   }

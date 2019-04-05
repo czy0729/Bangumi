@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-25 05:52:56
+ * @Last Modified time: 2019-04-03 14:47:55
  */
 import React from 'react'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { titleCase } from '@utils'
 import _, {
   colorPlain,
   colorMain,
@@ -19,66 +20,86 @@ import _, {
   radiusXs,
   shadow
 } from '@styles'
+import Touchable from './touchable'
 import Activity from './activity'
 import Text from './text'
 
 const _Button = ({
   style,
-  type = 'plain',
-  size = 'md',
+  type,
+  size,
   shadow,
-  radius = true,
+  radius,
   loading,
   children,
-  renderContent,
   onPress,
   ...other
 }) => {
   const _style = [styles.button]
-  const textStyle = [styles['button-text']]
-
+  const textStyle = [styles.text]
   if (type) {
-    _style.push(styles[`button-${type}`])
-    textStyle.push(styles[`button-text-${type}`])
+    _style.push(styles[type])
+    textStyle.push(styles[`text${titleCase(type)}`])
   }
-
   if (size) {
-    _style.push(styles[`button-${size}`])
-    textStyle.push(styles[`button-text-${size}`])
+    _style.push(styles[size])
+    textStyle.push(styles[`text${titleCase(size)}`])
   }
-
   if (shadow) {
-    _style.push(styles['button-shadow'])
+    _style.push(styles.shadow)
+  }
+  if (radius) {
+    _style.push(styles.radius)
   }
 
-  if (!radius) {
-    _style.push(styles['button-no-radius'])
-  }
+  const content = (
+    <>
+      {loading && <Activity style={_.mr.xs} size='xs' />}
+      <Text style={textStyle}>{children}</Text>
+    </>
+  )
+  if (onPress) {
+    const outerStyle = []
+    if (radius) {
+      outerStyle.push(styles.radius)
+    }
 
-  let content
-  if (renderContent) {
-    content = renderContent
-  } else {
-    content = <Text style={textStyle}>{children}</Text>
-  }
+    const whitelistStyle = {}
+    if (style) {
+      outerStyle.push(style)
 
-  if (!onPress) {
+      // 过滤掉margin之类的外围style
+      Object.keys(style).forEach(key => {
+        if (key.indexOf('margin') === -1) {
+          whitelistStyle[key] = style[key]
+        }
+      })
+    }
+
     return (
-      <View style={[_style, style]} {...other}>
-        {loading && <Activity style={_.mr.xs} size='xs' />}
-        {content}
+      <View style={outerStyle}>
+        <Touchable onPress={onPress}>
+          <View style={[_style, whitelistStyle]} {...other}>
+            {content}
+          </View>
+        </Touchable>
       </View>
     )
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.56} onPress={onPress}>
-      <View style={[_style, style]} {...other}>
-        {loading && <Activity style={_.mr.xs} size='xs' />}
-        {content}
-      </View>
-    </TouchableOpacity>
+    <View style={[_style, style]} {...other}>
+      {content}
+    </View>
   )
+}
+
+_Button.defaultProps = {
+  type: 'plain',
+  size: 'md',
+  shadow: false,
+  radius: true,
+  loading: false
 }
 
 export default _Button
@@ -89,105 +110,98 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderStyle: 'solid',
-    borderRadius: radiusXs
+    borderWidth: StyleSheet.hairlineWidth
   },
 
   // type
-  'button-plain': {
+  plain: {
     backgroundColor: colorPlain,
     borderColor: 'rgb(223, 223, 223)'
   },
-  'button-main': {
+  main: {
     backgroundColor: colorMain,
     borderColor: 'rgb(255, 54, 76)'
   },
-  'button-primary': {
+  primary: {
     backgroundColor: colorPrimary,
     borderColor: 'rgb(13, 156, 204)'
   },
-  'button-warning': {
+  warning: {
     backgroundColor: colorWarning,
     borderColor: 'rgb(249, 163, 80)'
   },
-  'button-wait': {
+  wait: {
     backgroundColor: colorWait,
     borderColor: 'rgb(160, 160, 160)'
   },
-  'button-disabled': {
+  disabled: {
     backgroundColor: colorDisabled,
     borderColor: 'rgb(80, 80, 80)'
   },
 
   // ghost type
-  'button-ghost-plain': {
+  ghostPlain: {
     backgroundColor: colorPlain,
-    borderColor: colorBorder,
-    borderWidth: 1
+    borderColor: colorBorder
   },
-  'button-ghost-primary': {
+  ghostPrimary: {
     backgroundColor: 'rgb(248, 253, 255)',
-    borderColor: 'rgb(159, 230, 254)',
-    borderWidth: 1
+    borderColor: 'rgb(159, 230, 254)'
   },
-  'button-ghost-success': {
+  ghostSuccess: {
     backgroundColor: 'rgb(236, 255, 236)',
-    borderColor: 'rgb(115, 241, 115)',
-    borderWidth: 1
+    borderColor: 'rgb(115, 241, 115)'
   },
 
   // size
-  'button-sm': {
+  sm: {
     width: 32,
     height: 32
   },
-  'button-md': {
+  md: {
     width: '100%',
     height: 40
   },
 
-  // other
-  'button-shadow': {
-    ...shadow
+  // text
+  text: {
+    fontSize: 14
   },
-  'button-no-radius': {
-    borderRadius: 0
-  },
-
-  // button text
-  'button-text': {
-    fontSize: 14,
+  textSm: {
+    fontSize: 11,
     fontWeight: 'bold'
   },
-  'button-text-sm': {
-    fontSize: 11
-  },
-  'button-text-plain': {
+  textPlain: {
     color: colorDesc
   },
-  'button-text-main': {
+  textMain: {
     color: colorPlain
   },
-  'button-text-primary': {
+  textPrimary: {
     color: colorPlain
   },
-  'button-text-warning': {
+  textWarning: {
     color: colorPlain
   },
-  'button-text-wait': {
+  textWait: {
     color: colorPlain
   },
-  'button-text-disabled': {
+  textDisabled: {
     color: colorPlain
   },
-  'button-text-ghost-plain': {
+  textGhostPlain: {
     color: colorSub
   },
-  'button-text-ghost-primary': {
+  textGhostPrimary: {
     color: colorSub
   },
-  'button-text-ghost-success': {
+  textGhostSuccess: {
     color: colorSub
+  },
+
+  // other
+  shadow,
+  radius: {
+    borderRadius: radiusXs
   }
 })

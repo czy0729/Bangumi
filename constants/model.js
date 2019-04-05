@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 13:25:06
+ * @Last Modified time: 2019-04-02 20:55:18
  */
 
 class Modal {
@@ -10,37 +10,67 @@ class Modal {
     this.data = data
   }
   data = []
+
+  /**
+   * 优先通过value找label
+   * @param {*} value
+   */
   getLabel(value) {
-    const find = this.data.find(item => item.value == value)
+    const find = this.data.find(
+      item => item.value == value || item.title === value
+    )
     return find ? find.label : false
   }
+
+  /**
+   * 优先通过label找value
+   * @param {*} label
+   */
   getValue(label) {
-    const find = this.data.find(item => item.label == label)
+    const find = this.data.find(
+      item => item.label == label || item.title === label
+    )
     return find ? find.value : false
+  }
+
+  /**
+   * 优先通过label找title
+   * @param {*} label
+   */
+  getTitle(label) {
+    const find = this.data.find(
+      item => item.label == label || item.value == label
+    )
+    return find ? find.title : false
   }
 }
 
 // 条目类型
 export const MODEL_SUBJECT_TYPE = new Modal([
   {
-    label: 'book',
-    value: '1'
-  },
-  {
     label: 'anime',
-    value: '2'
+    value: '2',
+    title: '动画'
   },
   {
-    label: 'music',
-    value: '3'
+    label: 'book',
+    value: '1',
+    title: '书籍'
   },
   {
     label: 'game',
-    value: '4'
+    value: '4',
+    title: '游戏'
+  },
+  {
+    label: 'music',
+    value: '3',
+    title: '音乐'
   },
   {
     label: 'real',
-    value: '6'
+    value: '6',
+    title: '三次元'
   }
 ])
 

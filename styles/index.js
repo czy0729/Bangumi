@@ -2,17 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-30 18:48:45
+ * @Last Modified time: 2019-04-06 05:08:52
  */
 import { Dimensions, StyleSheet, Platform } from 'react-native'
 
-// Dimensions
+// 设备
 const { width, height } = Dimensions.get('window')
 export const window = {
   width,
+  maxWidth: width, // @TODO 用来兼容IPAD
   height,
-  isSmallDevice: width < 375
+  isSmallDevice: width < 375,
+  isLargeDevice: width > 375
 }
+export const appbarHeight = Platform.OS === 'ios' ? 44 : 56
+export const statusBarHeight = Platform.OS === 'ios' ? 20 : 0
+export const headerHeight = appbarHeight + statusBarHeight + 22 // @? 不确定是否22
 
 // 统一布局单位
 export const space = 20
@@ -23,7 +28,8 @@ export const md = 16
 export const lg = 32
 
 // 主题色
-export const colorPlain = 'rgb(255, 255, 255)'
+export const colorPlainRaw = [255, 255, 255]
+export const colorPlain = `rgb(${colorPlainRaw.join()})`
 export const colorMain = 'rgb(252, 127, 138)'
 export const colorPrimary = 'rgb(68, 207, 252)'
 export const colorPrimaryLight = 'rgb(248, 253, 255)'
@@ -31,25 +37,27 @@ export const colorSuccess = 'rgb(50, 200, 64)'
 export const colorWarning = 'rgb(254, 190, 88)'
 export const colorWait = 'rgb(200, 200, 200)'
 export const colorDisabled = 'rgb(150, 150, 150)'
-export const colorBorder = 'rgb(223, 223, 223)'
-export const colorBg = 'rgb(244, 244, 244)'
-export const colorPlaceholder = '#fbfbfb'
+export const colorBorder = 'rgb(222, 222, 222)'
+export const colorBg = 'rgb(248, 248, 248)'
+export const colorPlaceholder = 'rgb(250, 250, 250)'
+export const colorHighLight = 'rgb(216, 216, 216)'
+export const colorShadow = 'rgb(0, 0, 0)'
 
 // 文字
-// export const colorTitle = 'rgb(8, 8, 8)'
-export const colorTitle = 'rgb(50, 50, 50)'
-export const colorDesc = 'rgb(50, 50, 50)'
+export const colorTitleRaw = [12, 12, 12]
+export const colorTitle = `rgb(${colorTitleRaw.join()})`
+export const colorDesc = 'rgb(40, 40, 40)'
 export const colorSub = 'rgb(142, 142, 147)'
-export const colorDefault = '#dddddd'
+export const colorIcon = 'rgb(200, 200, 200)'
 export const lineHeightRatio = 1.28
 
-// other
-export const radiusXs = 4
+// 圆角
+export const radiusXs = 5
 export const radiusSm = 8
 export const radiusMd = 16
 export const radiusLg = 32
 
-// utils
+// 其他
 export const shadow = Platform.select({
   ios: {
     shadowColor: 'black',
@@ -58,11 +66,11 @@ export const shadow = Platform.select({
     shadowRadius: 3
   },
   android: {
-    elevation: 3
+    elevation: 2
   }
 })
 
-// mixin
+// 函数
 export function fontSize(pt) {
   return {
     fontSize: pt,
@@ -70,14 +78,17 @@ export function fontSize(pt) {
   }
 }
 
+// 工具样式
 const Styles = {
   container: StyleSheet.create({
+    safeArea: {
+      paddingTop: appbarHeight
+    },
     content: {
       paddingTop: 30
     },
     flex: {
-      flex: 1,
-      backgroundColor: colorPlain
+      flex: 1
     },
     column: {
       flex: 1,
@@ -126,6 +137,12 @@ const Styles = {
     },
     lg: {
       marginTop: lg
+    },
+    wind: {
+      marginTop: wind
+    },
+    header: {
+      marginTop: headerHeight
     }
   }),
 
@@ -138,6 +155,9 @@ const Styles = {
     },
     md: {
       marginRight: md
+    },
+    wind: {
+      marginRight: wind
     }
   }),
 
@@ -162,6 +182,9 @@ const Styles = {
     },
     md: {
       marginLeft: md
+    },
+    wind: {
+      marginLeft: wind
     }
   }),
 
@@ -192,10 +215,10 @@ const Styles = {
   shadow: StyleSheet.create({
     item: Platform.select({
       ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: 3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3
+        shadowColor: '#333',
+        shadowOffset: { height: 8 },
+        shadowOpacity: 0.08,
+        shadowRadius: 8
       },
       android: {
         elevation: 1

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-29 07:10:47
+ * @Last Modified time: 2019-04-05 09:42:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -64,11 +64,18 @@ const Ranting = ({ style }, { $ }) => {
             </Flex.Item>
           ))}
       </Flex>
-      <Flex style={_.mt.md}>
-        <Text type='main'>{rating.score}</Text>
-        <Text type='desc'> / {rating.total} votes </Text>
-        <Text type='desc'>/ Ranked:</Text>
-        <Text style={_.ml.xs} type='main'>
+      <Flex style={_.mt.sm}>
+        <Text type='main' size={13}>
+          {rating.score}
+        </Text>
+        <Text type='desc' size={13}>
+          {' '}
+          / {rating.total} votes{' '}
+        </Text>
+        <Text type='desc' size={13}>
+          / Ranked:
+        </Text>
+        <Text style={_.ml.xs} type='main' size={13}>
           #{rank}
         </Text>
       </Flex>
@@ -84,7 +91,7 @@ export default observer(Ranting)
 
 const styles = StyleSheet.create({
   item: {
-    height: 100,
+    height: 96,
     backgroundColor: colorBg
   },
   itemFill: {

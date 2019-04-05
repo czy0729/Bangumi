@@ -2,34 +2,39 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-30 13:56:16
+ * @Last Modified time: 2019-04-06 04:58:50
  */
 import React from 'react'
+import { Platform } from 'react-native'
 import {
   createAppContainer,
   createBottomTabNavigator,
-  createStackNavigator,
-  createSwitchNavigator
+  createSwitchNavigator,
+  createStackNavigator
 } from 'react-navigation'
+import { Constants } from 'expo'
 import { Icon } from '@components'
-import Home from '@screens/home'
-import Calendar from '@screens/calendar'
-import Settings from '@screens/SettingsScreen'
-import Subject from '@screens/subject'
-import { colorMain } from '@styles'
+import { Auth, Home, Login, Calendar, Settings, Subject } from '@screens'
+import { Logo } from '@screens/_'
+import { wind, colorMain, colorTitle, colorBorder } from '@styles'
 
-const TabNav = createBottomTabNavigator(
+const HomeSwitch = createSwitchNavigator({
+  Auth,
+  Home
+})
+
+const NavBottomTab = createBottomTabNavigator(
   {
-    HomeTab: {
+    Home: {
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name='ios-heart-empty' size={26} style={{ color: tintColor }} />
         ),
         tabBarLabel: '进度'
       },
-      screen: Home
+      screen: HomeSwitch
     },
-    CalendarTab: {
+    Calendar: {
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name='ios-calendar' size={26} style={{ color: tintColor }} />
@@ -38,7 +43,7 @@ const TabNav = createBottomTabNavigator(
       },
       screen: Calendar
     },
-    SettingsTab: {
+    Settings: {
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name='ios-timer' size={26} style={{ color: tintColor }} />
@@ -49,38 +54,47 @@ const TabNav = createBottomTabNavigator(
     }
   },
   {
+    navigationOptions: {
+      headerTitle: <Logo />,
+      headerStyle: {
+        borderBottomColor: colorBorder
+      }
+    },
     tabBarOptions: {
-      activeTintColor: colorMain
+      activeTintColor: colorMain,
+      ...Platform.select({
+        android: { headerStyle: { marginTop: -Constants.statusBarHeight } }
+      })
     }
   }
 )
 
-// TabNav.navigationOptions = ({ navigation, screenProps }) => {
-//   const childOptions = getActiveChildNavigationOptions(navigation, screenProps)
-//   return {
-//     title: childOptions.title
-//   }
-// }
-
 export default createAppContainer(
-  createSwitchNavigator(
+  createStackNavigator(
     {
-      Subject: {
-        navigationOptions: ({ navigation }) => ({
-          // title: `${navigation.state.params.name}'s Profile!`
-          title: '条目'
-        }),
-        screen: Subject
-      },
-      Root: {
-        screen: TabNav
-      }
+      Subject,
+      Login,
+      NavBottomTab
     },
     {
-      initialRouteName: 'Root',
-      // initialRouteParams: '',
-      // mode: Platform.OS === 'ios' ? 'modal' : 'card',
-      headerMode: 'screen'
+      initialRouteName: 'Subject',
+      initialRouteParams: {
+        subjectId: 248175
+      },
+      headerMode: 'screen',
+      headerBackTitleVisible: false,
+      headerTransitionPreset: 'uikit',
+      defaultNavigationOptions: {
+        headerTintColor: colorTitle,
+        headerLeftContainerStyle: Platform.select({
+          ios: {
+            paddingLeft: 8
+          }
+        }),
+        headerRightContainerStyle: {
+          paddingRight: wind
+        }
+      }
     }
   )
 )

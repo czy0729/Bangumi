@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 15:23:01
+ * @Last Modified time: 2019-04-02 14:10:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,9 @@ import _ from '@styles'
 
 const Character = ({ style }, { $ }) => {
   const { crt } = $.subject
-  if (!crt) return null
+  if (!crt) {
+    return null
+  }
   return (
     <View style={[_.container.wind, style]}>
       <Text size={20}>角色</Text>

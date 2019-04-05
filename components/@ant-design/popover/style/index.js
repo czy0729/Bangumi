@@ -6,8 +6,8 @@ export default theme =>
       ...Platform.select({
         ios: {
           shadowColor: '#000000',
-          shadowOffset: { height: 16 },
-          shadowOpacity: 0.12,
+          shadowOffset: { width: 8, height: 8 },
+          shadowOpacity: 0.16,
           shadowRadius: 16
         }
       })

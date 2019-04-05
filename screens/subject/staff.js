@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-29 07:11:16
+ * @Last Modified time: 2019-04-02 14:11:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,9 @@ import _ from '@styles'
 
 const Staff = ({ style }, { $ }) => {
   const { staff } = $.subject
-  if (!staff) return null
+  if (!staff) {
+    return null
+  }
   return (
     <View style={[_.container.wind, style]}>
       <Text size={20}>制作人员</Text>

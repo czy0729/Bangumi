@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 01:37:21
+ * @Last Modified time: 2019-04-05 10:07:33
  */
 import React from 'react'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex } from '@ant-design/react-native'
-import { BlurView, Image, Text } from '@components'
+import { Image, Text } from '@components'
 import { ScoreTag } from '@screens/_'
 import _, { wind, colorPlain, radiusLg } from '@styles'
+
+const imageWidth = 120
 
 const Head = ({ style }, { $ }) => {
   const { type } = $.state.bangumiInfo
@@ -22,16 +24,11 @@ const Head = ({ style }, { $ }) => {
     rating = {}
   } = $.subject
   return (
-    <BlurView
-      style={[styles.container, style]}
-      theme='xdark'
-      src={images.medium}
-    >
-      <StatusBar barStyle='light-content' />
+    <View style={[styles.container, style]}>
       <View style={styles.image}>
         <Image
           src={images.large}
-          size={120}
+          size={imageWidth}
           height={160}
           radius
           border
@@ -45,23 +42,25 @@ const Head = ({ style }, { $ }) => {
         align='start'
       >
         <View>
-          <Text type='sub' size={name.length > 16 ? 11 : 13}>
-            {name} {!!type && `· ${String(type).toUpperCase()}`}
-          </Text>
-          <Text style={_.mt.xs} size={nameCn.length > 16 ? 16 : 20}>
-            {nameCn}
+          {!!nameCn && (
+            <Text type='sub' size={name.length > 16 ? 11 : 13}>
+              {name} {!!type && `· ${String(type).toUpperCase()}`}
+            </Text>
+          )}
+          <Text style={!!nameCn && _.mt.xs} size={nameCn.length > 16 ? 16 : 20}>
+            {nameCn || name}
           </Text>
         </View>
         <Flex align='baseline'>
           <Text type='main' size={24} lineHeight={1}>
-            {rating.score}
+            {rating.score !== undefined && rating.score.toFixed(1)}
           </Text>
           {rating.score !== undefined && (
             <ScoreTag style={_.ml.sm} value={rating.score} />
           )}
         </Flex>
       </Flex>
-    </BlurView>
+    </View>
   )
 }
 
@@ -73,21 +72,19 @@ export default observer(Head)
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
-    height: 226
+    paddingTop: 48
   },
   image: {
     position: 'absolute',
     zIndex: 1,
-    top: 60,
+    top: wind,
     left: wind
   },
   content: {
-    height: 140,
+    height: 144,
     paddingVertical: wind,
-    paddingLeft: 120 + 1.8 * wind,
+    paddingLeft: imageWidth + wind + 12,
     paddingRight: wind,
-    marginTop: 64,
     backgroundColor: colorPlain,
     borderTopLeftRadius: radiusLg,
     borderTopRightRadius: radiusLg

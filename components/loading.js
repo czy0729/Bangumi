@@ -2,23 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-17 15:30:01
+ * @Last Modified time: 2019-04-03 13:26:48
  */
 import React from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
-import _, { colorTitle, radiusSm } from '@styles'
+import _, { colorDesc, radiusSm } from '@styles'
 
-const styles = StyleSheet.create({
-  line: {
-    width: 6,
-    marginHorizontal: 2,
-    backgroundColor: colorTitle,
-    borderRadius: radiusSm
-  }
-})
 const arr = [1, 2, 3, 4, 5]
 
-export default class Loading extends React.Component {
+class Raw extends React.Component {
+  static defaultProps = {
+    color: colorDesc
+  }
+
   constructor() {
     super()
 
@@ -28,6 +24,7 @@ export default class Loading extends React.Component {
     )
     this.state = initState
   }
+
   componentDidMount() {
     arr.forEach(item => {
       const animation = Animated.sequence([
@@ -51,21 +48,37 @@ export default class Loading extends React.Component {
       }, item * 240)
     })
   }
+
   render() {
-    return (
-      <View style={_.container.row}>
-        {arr.map(item => (
-          <Animated.View
-            key={item}
-            style={[
-              styles.line,
-              {
-                height: this.state[`heightAnim${item}`]
-              }
-            ]}
-          />
-        ))}
-      </View>
-    )
+    const { color } = this.props
+    return arr.map(item => (
+      <Animated.View
+        key={item}
+        style={[
+          styles.line,
+          {
+            backgroundColor: color,
+            height: this.state[`heightAnim${item}`]
+          }
+        ]}
+      />
+    ))
   }
 }
+
+const Loading = ({ style }) => (
+  <View style={[_.container.row, style]}>
+    <Raw />
+  </View>
+)
+
+Loading.Raw = Raw
+export default Loading
+
+const styles = StyleSheet.create({
+  line: {
+    width: 6,
+    marginHorizontal: 2,
+    borderRadius: radiusSm
+  }
+})

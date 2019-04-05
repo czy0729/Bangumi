@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-26 05:13:45
+ * @Last Modified time: 2019-04-04 03:21:34
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@ant-design/react-native'
 import { Text } from '@components'
 import { date } from '@utils'
-import _ from '@styles'
+import _, { md } from '@styles'
 
 const ArticleItem = ({
   style,
@@ -19,7 +19,7 @@ const ArticleItem = ({
   timestamp,
   replies
 }) => (
-  <View style={style}>
+  <View style={[{ paddingVertical: md }, style]}>
     <Text size={16}>{title}</Text>
     <Flex style={_.mt.xs}>
       <Text type='sub' size={12}>
@@ -32,7 +32,7 @@ const ArticleItem = ({
         {date('Y-m-d', timestamp)} / {replies} replies
       </Text>
     </Flex>
-    {summary && (
+    {!!summary && (
       <Text style={_.mt.sm} type='desc' lineHeight={18} numberOfLines={3}>
         {summary}
       </Text>

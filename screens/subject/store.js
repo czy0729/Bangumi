@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 04:25:16
+ * @Last Modified time: 2019-04-05 10:27:51
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -14,7 +14,7 @@ import { queue } from '@utils/fetch'
 
 export default class Store extends commonStore {
   state = observable({
-    // loading: true
+    visible: false,
     bangumiInfo: {
       begin: '',
       comment: '',
@@ -24,8 +24,7 @@ export default class Store extends commonStore {
       sites: [],
       title: '',
       titleTranslate: {},
-      type: '',
-      _loaded: false
+      type: ''
     }
   })
 
@@ -38,8 +37,8 @@ export default class Store extends commonStore {
     return subjectStore.getSubject(this.params.subjectId)
   }
 
-  @computed get subjectFormHtml() {
-    return subjectStore.getSubject(this.params.subjectId)
+  @computed get subjectFormHTML() {
+    return subjectStore.getSubjectFormHTML(this.params.subjectId)
   }
 
   @computed get eps() {
@@ -56,14 +55,12 @@ export default class Store extends commonStore {
 
   // -------------------- page --------------------
   mounted = async () => {
-    const data = await subjectStore.fetchSubject(this.params.subjectId)
+    const res = subjectStore.fetchSubject(this.params.subjectId)
+    const data = await res
     const item = bangumiData.items.find(item => item.title === data.name)
     if (item) {
       this.setState({
-        bangumiInfo: {
-          ...item,
-          _loaded: true
-        }
+        bangumiInfo: item
       })
     }
 
@@ -73,11 +70,24 @@ export default class Store extends commonStore {
       () => collectionStore.fetchCollection(this.params.subjectId),
       () => userStore.fetchUserProgress(this.params.subjectId)
     ])
+    return res
+  }
+
+  showManageModel = () => {
+    this.setState({
+      visible: true
+    })
+  }
+
+  closeManageModal = () => {
+    this.setState({
+      visible: false
+    })
   }
 
   // -------------------- action --------------------
   /**
-   * 章节菜单选择
+   * 章节菜单操作
    */
   doEpsSelect = async (value, item) => {
     const status = MODEL_EP_STATUS.getValue(value)
@@ -104,5 +114,14 @@ export default class Store extends commonStore {
     if (value === '本集讨论') {
       WebBrowser.openBrowserAsync(item.url)
     }
+  }
+
+  /**
+   * 管理收藏
+   */
+  doUpdateCollection = async values => {
+    await collectionStore.doUpdateCollection(values)
+    collectionStore.fetchCollection(this.params.subjectId)
+    this.closeManageModal()
   }
 }

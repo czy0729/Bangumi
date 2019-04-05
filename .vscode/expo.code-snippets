@@ -1,0 +1,95 @@
+{
+  // ------import
+  "import PropTypes": {
+    "scope": "javascript,typescript",
+    "prefix": "iproptypes",
+    "body": ["import PropTypes from 'prop-types'"],
+    "description": "import PropTypes"
+  },
+  "import components": {
+    "scope": "javascript,typescript",
+    "prefix": "icomponents",
+    "body": ["import { $1 } from '@components'"],
+    "description": "import components"
+  },
+  "import constants": {
+    "scope": "javascript,typescript",
+    "prefix": "iconstants",
+    "body": ["import { $1 } from '@constants'"],
+    "description": "import constants"
+  },
+  "import utils": {
+    "scope": "javascript,typescript",
+    "prefix": "iutils",
+    "body": ["import { $1 } from '@utils'"],
+    "description": "import utils"
+  },
+  "import inject": {
+    "scope": "javascript,typescript",
+    "prefix": "iinject",
+    "body": ["import inject from '@utils/inject'"],
+    "description": "import inject"
+  },
+  "import styles": {
+    "scope": "javascript,typescript",
+    "prefix": "istyles",
+    "body": ["import _ from '@styles'"],
+    "description": "import styles"
+  },
+  "import flex": {
+    "scope": "javascript,typescript",
+    "prefix": "iflex",
+    "body": ["import { Flex } from '@ant-design/react-native'"],
+    "description": "import flex"
+  },
+
+  // ------
+  "contextType": {
+    "scope": "javascript,typescript",
+    "prefix": "contextTypes",
+    "body": [
+      "contextTypes = {",
+      "  $: PropTypes.object,",
+      "  navigation: PropTypes.object",
+      "}"
+    ],
+    "description": "contextType"
+  },
+  "styleSheet create": {
+    "scope": "javascript,typescript",
+    "prefix": "screate",
+    "body": ["const styles = StyleSheet.create({", "  $1", "})"],
+    "description": "styleSheet create"
+  },
+
+  // ------
+  "flex.item": {
+    "scope": "javascript,typescript",
+    "prefix": "flexitem",
+    "body": ["<Flex.Item>", "  $1", "</Flex.Item>"],
+    "description": "flex.item"
+  },
+
+  // ------
+  "import pure component": {
+    "scope": "javascript,typescript",
+    "prefix": "ipc",
+    "body": [
+      "import React from 'react'",
+      "import { View } from 'react-native'",
+      "import { observer } from 'mobx-react'",
+      "import $ from './store'",
+      "",
+      "const $1 = () => {",
+      "  return (",
+      "    <View>",
+      "      ",
+      "    </View>",
+      "  )",
+      "}",
+      "",
+      "export default observer($1)"
+    ],
+    "description": "flex.item"
+  }
+}

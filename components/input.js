@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-19 03:36:17
+ * @Last Modified time: 2019-04-03 13:26:37
  */
 import React from 'react'
 import {
@@ -11,11 +11,19 @@ import {
   TextInput,
   TouchableWithoutFeedback
 } from 'react-native'
-import { fontSize, colorBorder, colorPlain, radiusXs } from '@styles'
+import {
+  fontSize,
+  colorBorder,
+  colorDesc,
+  colorPlain,
+  radiusXs
+} from '@styles'
 
 const initInputHeight = 18
 
 export default class Input extends React.Component {
+  TextInput
+
   render() {
     const { style, multiline, numberOfLines = 1, ...other } = this.props
 
@@ -27,7 +35,7 @@ export default class Input extends React.Component {
             style={[styles.multiContainer, { height: containerHeight }, style]}
           >
             <TextInput
-              ref={textInput => (this.TextInput = textInput)}
+              ref={ref => (this.TextInput = ref)}
               style={styles.multiInput}
               multiline
               numberOfLines={numberOfLines}
@@ -57,6 +65,7 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     padding: 8,
+    color: colorDesc,
     ...fontSize(14),
     backgroundColor: colorPlain,
     borderWidth: StyleSheet.hairlineWidth,

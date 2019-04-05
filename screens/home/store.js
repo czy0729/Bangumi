@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 01:45:35
+ * @Last Modified time: 2019-04-05 09:50:00
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -13,21 +13,35 @@ import { userStore, subjectStore, collectionStore } from '@stores'
 import { MODEL_EP_STATUS } from '@constants/model'
 import { sleep, getStorage, setStorage } from '@utils'
 
-const screen = 'screen-home'
+const screen = '@screen|home|state'
 const itemState = {
   expand: false,
   doing: false
 }
+export const tabs = [
+  {
+    title: '全部'
+  },
+  {
+    title: '动画'
+  },
+  {
+    title: '书籍'
+  },
+  {
+    title: '三次元'
+  }
+]
 
 export default class Store extends commonStore {
   state = observable({
-    index: {
-      loading: true,
-      visible: false,
-      subjectId: 0
-    },
+    loading: true, // 是否加载数据中
+    visible: false, // <Modal>可见性
+    subjectId: 0, // <Modal>当前条目Id
+    page: 0, // <Tabs>缓存当前页数,
+    top: [], // <Item>置顶记录
     item: {
-      0: itemState
+      // [subjectId]: itemState // 每个<Item>的状态
     }
   })
 
@@ -57,14 +71,14 @@ export default class Store extends commonStore {
   /**
    * 用户条目收视进度
    */
-  userProgress(subjectId) {
+  getUserProgress(subjectId) {
     return computed(() => userStore.getUserProgress(subjectId)).get()
   }
 
   /**
    * 条目信息
    */
-  subject(subjectId) {
+  getSubject(subjectId) {
     return computed(() => {
       const { subject } =
         this.userCollection.find(item => item.subject_id === subjectId) || {}
@@ -75,17 +89,17 @@ export default class Store extends commonStore {
   /**
    * 条目章节数据
    */
-  eps(subjectId) {
+  getEps(subjectId) {
     return computed(() => subjectStore.getSubjectEp(subjectId).eps || []).get()
   }
 
   /**
    * 条目下一个未看章节
    */
-  nextWatchEp(subjectId) {
+  getNextWatchEp(subjectId) {
     return computed(() => {
-      const eps = this.eps(subjectId)
-      const userPorgress = this.userProgress(subjectId)
+      const eps = this.getEps(subjectId)
+      const userPorgress = this.getUserProgress(subjectId)
       const index = eps.findIndex(
         item => item.type === 0 && userPorgress[item.id] !== '看过'
       )
@@ -99,9 +113,9 @@ export default class Store extends commonStore {
   /**
    * 章节是否放送中
    */
-  isToday(subjectId) {
+  getIsToday(subjectId) {
     return computed(() => {
-      const eps = this.eps(subjectId)
+      const eps = this.getEps(subjectId)
       return eps.findIndex(item => item.status === 'Today') !== -1
     }).get()
   }
@@ -109,16 +123,16 @@ export default class Store extends commonStore {
   /**
    * 条目观看进度百分比
    */
-  percent(subjectId, subject = {}) {
+  getPercent(subjectId, subject = {}) {
     return computed(() => {
-      const eps = this.eps(subjectId)
+      const eps = this.getEps(subjectId)
       if (!subject.eps_count || !eps.length) {
         return 0
       }
 
       // 排除SP章节
       let watchedCount = 0
-      const userProgress = this.userProgress(subjectId)
+      const userProgress = this.getUserProgress(subjectId)
       eps
         .filter(item => item.type === 0)
         .forEach(item => {
@@ -146,9 +160,7 @@ export default class Store extends commonStore {
         userStore.fetchUserProgress()
       ])
       this.setState({
-        index: {
-          loading: false
-        }
+        loading: false
       })
 
       if (data[1]) {
@@ -163,30 +175,36 @@ export default class Store extends commonStore {
   }
 
   /**
-   * 显示收藏管理Modal
+   * <Tabs>换页
+   */
+  tabsChange = (item, page) => {
+    this.setState({
+      page
+    })
+    this.setStorage()
+  }
+
+  /**
+   * 显示收藏管理<Modal>
    */
   showManageModal = subjectId => {
     this.setState({
-      index: {
-        visible: true,
-        subjectId
-      }
+      visible: true,
+      subjectId
     })
   }
 
   /**
-   * 隐藏收藏管理Modal
+   * 隐藏收藏管理<Modal>
    */
   closeManageModal = () => {
     this.setState({
-      index: {
-        visible: false
-      }
+      visible: false
     })
   }
 
   /**
-   * Item展开和收起
+   * <Item>展开和收起
    */
   itemToggleExpand = subjectId => {
     const state = this.$item(subjectId)
@@ -202,15 +220,42 @@ export default class Store extends commonStore {
   }
 
   /**
+   * <Item>置顶和取消置顶
+   */
+  itemToggleTop = (subjectId, isTop) => {
+    const { top } = this.state
+    const _top = [...top]
+    const index = _top.indexOf(subjectId)
+    if (index === -1) {
+      _top.push(subjectId)
+    } else {
+      _top.splice(index, 1)
+
+      // 再置顶
+      if (isTop) {
+        _top.push(subjectId)
+      }
+    }
+    this.setState({
+      top: _top
+    })
+    this.setStorage()
+  }
+
+  /**
    * 保存
    */
   setStorage = () => {
+    const { loading, page, top, item } = this.state
     const state = {
+      loading,
+      page,
+      top,
       item: {}
     }
-    Object.keys(this.state.item).forEach(key => {
+    Object.keys(item).forEach(key => {
       state.item[key] = {
-        expand: this.state.item[key].expand
+        expand: item[key].expand
       }
     })
     setStorage(screen, state)
@@ -234,7 +279,7 @@ export default class Store extends commonStore {
       }
     })
 
-    const { id } = this.nextWatchEp(subjectId)
+    const { id } = this.getNextWatchEp(subjectId)
     await userStore.doUpdateEpStatus({
       id,
       status: MODEL_EP_STATUS.getValue('看过')
@@ -260,7 +305,7 @@ export default class Store extends commonStore {
   }
 
   /**
-   * 章节菜单选择
+   * 章节菜单操作
    */
   doEpsSelect = async (value, item, subjectId) => {
     const status = MODEL_EP_STATUS.getValue(value)

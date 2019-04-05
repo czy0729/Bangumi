@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-29 06:48:03
+ * @Last Modified time: 2019-04-05 11:22:37
  */
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
@@ -27,14 +27,14 @@ const _Text = ({
   children,
   ...other
 }) => {
-  const _style = []
+  const _style = [styles.text]
   if (type) {
     _style.push(styles[type])
   }
   if (size) {
     _style.push(styles[size])
   }
-  if (lineHeight) {
+  if (lineHeight !== undefined) {
     _style.push({
       lineHeight:
         lineHeight <= 2 ? lineHeight * size : lineHeight * lineHeightRatio
@@ -55,7 +55,7 @@ const _Text = ({
 }
 
 _Text.defaultProps = {
-  type: 'title',
+  type: 'desc',
   size: 14,
   lineHeight: undefined,
   align: undefined
@@ -71,6 +71,9 @@ function fontSize(pt) {
 }
 
 const styles = StyleSheet.create({
+  text: {
+    fontWeight: 'normal'
+  },
   alignCenter: {
     textAlign: 'center'
   },

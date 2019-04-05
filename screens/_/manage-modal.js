@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-21 23:48:18
+ * @Last Modified time: 2019-04-05 09:08:41
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
-import { Icon } from 'expo'
 import { Modal, Flex } from '@ant-design/react-native'
-import { Text, Activity, Input, Button } from '@components'
+import { Text, Activity, Input, Button, Icon } from '@components'
 import { collectionStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
-import _, { colorBg, colorPlain } from '@styles'
+import _, { window, wind, colorBg, colorPlain } from '@styles'
 import StarGroup from './star-group'
 import StatusBtnGroup from './status-btn-group'
 
@@ -59,7 +58,7 @@ class ManageModal extends React.Component {
         })
       }
     } else {
-      // Modal有渐出动画
+      // <Modal>有渐出动画
       setTimeout(() => {
         this.setState(initState)
       }, 400)
@@ -129,13 +128,17 @@ class ManageModal extends React.Component {
       <Modal
         style={styles.modal}
         visible={visible}
-        title={title}
+        title={
+          <Text type='title' size={16}>
+            {title}
+          </Text>
+        }
         transparent
         maskClosable
         closable
         onClose={onClose}
       >
-        <Text style={_.mt.sm} type='desc' size={12} align='center'>
+        <Text style={_.mt.sm} type='sub' size={12} align='center'>
           {desc}
         </Text>
         <Flex style={[styles.wrap, _.mt.sm]} justify='center'>
@@ -174,7 +177,7 @@ class ManageModal extends React.Component {
                   type='main'
                   onPress={this.togglePrivacy}
                 >
-                  <Icon.Ionicons
+                  <Icon
                     name={
                       MODEL_PRIVATE.getLabel(privacy) === '公开'
                         ? 'ios-eye'
@@ -197,16 +200,18 @@ export default observer(ManageModal)
 
 const styles = StyleSheet.create({
   modal: {
-    width: '92%',
+    width: window.width - 2 * wind,
     backgroundColor: colorBg
   },
   wrap: {
     height: 340
   },
   content: {
-    width: '100%'
+    width: '100%',
+    maxWidth: window.maxWidth,
+    paddingBottom: 8
   },
   btnEye: {
-    width: 48
+    width: 56
   }
 })

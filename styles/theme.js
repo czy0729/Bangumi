@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 17:31:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-14 17:31:53
+ * @Last Modified time: 2019-04-03 13:27:29
  */
-import { colorPrimary } from './index'
+import { colorPrimary, colorDesc } from './index'
 
 const brandPrimary = colorPrimary
 const brandPrimaryTap = '#1284d6'
@@ -19,7 +19,8 @@ export default {
   // 8-digit-hex to 4-digit hex https://css-tricks.com/8-digit-hex-codes/
   // https://www.chromestatus.com/feature/5685348285808640 chrome will support `#RGBA`
   // 文字色
-  color_text_base: '#000000', // 基本
+  // color_text_base: '#000000', // 基本
+  color_text_base: colorDesc, // 基本
   color_text_base_inverse: '#ffffff', // 基本 _ 反色
   color_text_secondary: '#a4a9b0', // 辅助色
   color_text_placeholder: '#bbbbbb', // 文本框提示

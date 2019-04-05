@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-20 00:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 13:24:04
+ * @Last Modified time: 2019-04-03 14:20:15
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -22,6 +22,7 @@ const StatusBtnGroup = ({ style, value, onSelect }) => (
               ? getType(item.label)
               : 'plain'
           }
+          radius={!(index !== 0 && index !== 4)}
           onPress={() => onSelect(item.value)}
         >
           {item.label}
@@ -42,15 +43,6 @@ const styles = StyleSheet.create({
   btn0: {
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
-  },
-  btn1: {
-    borderRadius: 0
-  },
-  btn2: {
-    borderRadius: 0
-  },
-  btn3: {
-    borderRadius: 0
   },
   btn4: {
     borderTopLeftRadius: 0,
