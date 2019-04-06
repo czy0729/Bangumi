@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 09:08:41
+ * @Last Modified time: 2019-04-07 03:35:11
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
-import { Modal, Flex } from '@ant-design/react-native'
-import { Text, Activity, Input, Button, Icon } from '@components'
+import { Modal } from '@ant-design/react-native'
+import { Activity, Button, Flex, Icon, Input, Text } from '@components'
 import { collectionStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
 import _, { window, wind, colorBg, colorPlain } from '@styles'

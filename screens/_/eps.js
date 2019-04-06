@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-03 14:11:28
+ * @Last Modified time: 2019-04-07 03:33:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Flex, Carousel } from '@ant-design/react-native'
-import { Button, Text } from '@components'
-import Popover from '@components/@ant-design/popover'
+import { Carousel } from '@ant-design/react-native'
+import { Flex, Popover, Menu, Button, Text } from '@components'
 import { arrGroup, pad } from '@utils'
 import { colorPlain, colorDesc, colorSub } from '@styles'
-import ProgressMenu from './progress-menu'
 
 const getType = (progress, status) => {
   switch (progress) {
@@ -50,11 +48,11 @@ export default class Eps extends React.Component {
     width: 0
   }
 
-  onLayout = event => {
+  onLayout = ({ nativeEvent }) => {
     const { width } = this.state
     if (!width) {
       this.setState({
-        width: event.nativeEvent.layout.width
+        width: nativeEvent.layout.width
       })
     }
   }
@@ -89,7 +87,7 @@ export default class Eps extends React.Component {
       data = ['本集讨论']
     }
     return (
-      <ProgressMenu
+      <Menu
         title={[
           `ep.${item.sort} ${item.name || item.name_cn}`,
           `${item.airdate} 讨论数：${item.comment}`

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 10:07:33
+ * @Last Modified time: 2019-04-07 03:31:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex } from '@ant-design/react-native'
-import { Image, Text } from '@components'
+import { Flex, Image, Text } from '@components'
 import { ScoreTag } from '@screens/_'
 import _, { wind, colorPlain, radiusLg } from '@styles'
 

@@ -2,13 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-02 23:30:57
+ * @Last Modified time: 2019-04-06 23:59:45
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { Icon } from 'expo'
-import { Flex } from '@ant-design/react-native'
-import { Text, Touchable } from '@components'
+import { Text, Touchable, Icon, Flex } from '@components'
 import { MODEL_RATING } from '@constants/model'
 import _, { colorWarning, colorIcon } from '@styles'
 
@@ -68,8 +66,8 @@ export default class StarGroup extends React.Component {
               <Text style={_.ml.sm} type='sub' size={16}>
                 /
               </Text>
-              <Touchable onPress={this.clear}>
-                <Text style={_.ml.sm} type='sub' size={16}>
+              <Touchable style={_.ml.sm} onPress={this.clear}>
+                <Text type='sub' size={16}>
                   清除
                 </Text>
               </Touchable>
@@ -87,9 +85,12 @@ export default class StarGroup extends React.Component {
               type = 'ios-star-outline'
             }
             return (
-              <Touchable key={item} onPress={() => this.change(item)}>
-                <Icon.Ionicons
-                  style={item > 1 && _.ml.sm}
+              <Touchable
+                key={item}
+                style={item > 1 && _.ml.sm}
+                onPress={() => this.change(item)}
+              >
+                <Icon
                   name={type}
                   size={40}
                   color={type === 'ios-star-outline' ? colorIcon : colorWarning}

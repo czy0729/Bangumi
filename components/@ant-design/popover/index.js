@@ -1,5 +1,5 @@
 import React, { isValidElement } from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
 import { Popover as Pop, PopoverController } from 'react-native-modal-popover'
 import { WithTheme } from '../style'
 import PopoverStyles from './style'
@@ -101,7 +101,7 @@ export default class Popover extends React.PureComponent {
                 <Pop
                   popoverStyle={s.popover}
                   contentStyle={s.content}
-                  arrowStyle={s.arrow}
+                  arrowStyle={Platform.OS === 'ios' ? s.arrow : s.arrowAndroid}
                   backgroundStyle={s.background}
                   visible={popoverVisible}
                   onClose={closePopover}

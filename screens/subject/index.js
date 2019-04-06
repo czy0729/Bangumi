@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 21:42:25
+ * @Last Modified time: 2019-04-07 02:18:29
  */
 import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { SafeAreaView } from 'react-navigation'
+import { WebBrowser } from 'expo'
+import { ActionSheet } from '@ant-design/react-native'
 import { BlurView } from '@components'
 import { ManageModal } from '@screens/_'
 import inject from '@utils/inject'
+import { getBangumiUrl } from '@utils/app'
 import _, { window, headerHeight, colorPlain } from '@styles'
 import Head from './head'
 import Box from './box'
@@ -44,12 +46,40 @@ class Subject extends React.Component {
           headerTransitionTitle: title
         })
       }
-    }, 0)
+    }, 400)
 
-    const data = await $.mounted()
+    const data = await $.initFetch()
     if (data) {
+      const { sites = [] } = $.state.bangumiInfo
+      const title = data.name_cn || data.name
+      const url = String(data.url).replace('http://', 'https://')
       navigation.setParams({
-        headerTransitionTitle: data.name_cn || data.name
+        headerTransitionTitle: data.name_cn || data.name,
+        popover: {
+          data: ['刷新', '分享', ...sites.map(item => item.site)],
+          onSelect: key => {
+            let item
+            switch (key) {
+              case '刷新':
+                $.initFetch()
+                break
+              case '分享':
+                ActionSheet.showShareActionSheetWithOptions({
+                  message: `${title}\n${url}`,
+                  title: '分享',
+                  url
+                })
+                break
+              default:
+                item = sites.find(item => item.site === title)
+                if (item) {
+                  const url = getBangumiUrl(item)
+                  WebBrowser.openBrowserAsync(url)
+                }
+                break
+            }
+          }
+        }
       })
     }
   }
@@ -69,7 +99,7 @@ class Subject extends React.Component {
           onScroll={onScroll}
         >
           <Head />
-          <SafeAreaView style={styles.content}>
+          <View style={styles.content}>
             <Box style={_.mt.md} />
             <Ep style={_.mt.lg} />
             <Tags style={_.mt.lg} />
@@ -79,7 +109,7 @@ class Subject extends React.Component {
             <Staff style={_.mt.lg} />
             <Blog style={_.mt.lg} />
             <Topic style={_.mt.lg} />
-          </SafeAreaView>
+          </View>
         </ScrollView>
         <ManageModal
           visible={visible}
@@ -94,7 +124,9 @@ class Subject extends React.Component {
   }
 }
 
-export default inject(Store, { headerTransition: 48 })(observer(Subject))
+export default inject(Store, {
+  headerTransition: 48
+})(observer(Subject))
 
 const styles = StyleSheet.create({
   blurView: {

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-20 00:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-03 14:20:15
+ * @Last Modified time: 2019-04-07 03:31:17
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { Flex } from '@ant-design/react-native'
-import { Button } from '@components'
+import { Flex, Button } from '@components'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 import { getType } from '@utils/app'
 

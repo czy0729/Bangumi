@@ -2,19 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 21:38:16
+ * @Last Modified time: 2019-04-07 03:34:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Progress, Modal } from '@ant-design/react-native'
-import { Image, Text, Icon, Activity, Touchable } from '@components'
+import { Progress, Modal } from '@ant-design/react-native'
+import {
+  Activity,
+  Flex,
+  Icon,
+  Image,
+  Shadow,
+  Text,
+  Touchable
+} from '@components'
 import { Eps } from '@screens/_'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { pad } from '@utils'
 import _, {
-  window,
   wind,
   colorPlain,
   colorMain,
@@ -135,7 +142,7 @@ class Item extends React.Component {
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     const doing = isBook ? '读' : '看'
     return (
-      <View style={[_.shadow.item, _.mb.md]}>
+      <Shadow style={_.mb.md} initHeight={120}>
         <View style={styles.item}>
           <Flex>
             <Image
@@ -195,7 +202,6 @@ class Item extends React.Component {
           {expand && (
             <Eps
               style={_.mt.wind}
-              numbersOfLine={window.isLargeDevice ? 9 : 8}
               login={$.isLogin}
               subjectId={subjectId}
               eps={$.getEps(subjectId)}
@@ -205,7 +211,7 @@ class Item extends React.Component {
           )}
           {top && <View style={styles.dot} />}
         </View>
-      </View>
+      </Shadow>
     )
   }
 }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-02 13:23:34
+ * @Last Modified time: 2019-04-06 05:36:14
  */
 
 /**
@@ -38,4 +38,26 @@ export function getRating(score) {
   if (score >= 2.5) return '差'
   if (score >= 1.5) return '很差'
   return '不忍直视'
+}
+
+/**
+ * 获得在线播放地址
+ * @param {*} item bangumiInfo数据项
+ */
+export function getBangumiUrl(item) {
+  if (!item) {
+    return ''
+  }
+
+  const { site, id, url } = item
+  switch (site) {
+    case 'bangumi':
+      return url || `https://bangumi.tv/subject/${id}`
+    case 'bilibili':
+      return url || `https://bangumi.bilibili.com/anime/${id}`
+    case 'nicovideo':
+      return url || `http://ch.nicovideo.jp/${id}`
+    default:
+      return ''
+  }
 }

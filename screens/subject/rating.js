@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 09:42:08
+ * @Last Modified time: 2019-04-07 03:31:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex } from '@ant-design/react-native'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import _, { colorBg, colorWait } from '@styles'
 
 const initialRating = {

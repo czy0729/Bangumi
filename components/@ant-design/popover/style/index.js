@@ -22,6 +22,9 @@ export default theme =>
     arrow: {
       borderTopColor: '#ffffff'
     },
+    arrowAndroid: {
+      borderTopColor: 'transparent'
+    },
     background: {
       backgroundColor: 'transparent'
     }

@@ -3,21 +3,20 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 05:09:59
+ * @Last Modified time: 2019-04-06 13:06:36
  */
 import React from 'react'
 import { Platform, StyleSheet, StatusBar } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Icon } from '@components'
+import { Popover, Menu, Icon } from '@components'
 import Stores from '@stores'
 import { gradientColor } from '@utils'
 import {
   headerHeight,
   colorPlainRaw,
   colorTitleRaw,
-  colorBorder,
-  colorShadow
+  colorBorder
 } from '@styles'
 import { urlStringify } from './index'
 
@@ -56,15 +55,35 @@ const Inject = (
                   })
                 : ComposedComponent.navigationOptions
 
+            const popover = navigation.getParam('popover', {
+              data: [],
+              onSelect: () => {}
+            })
+            let headerRight
+            if (popover.data.length) {
+              headerRight = (
+                <Popover
+                  placement='bottom'
+                  overlay={
+                    <Menu
+                      title={popover.title}
+                      data={popover.data}
+                      onSelect={popover.onSelect}
+                    />
+                  }
+                >
+                  <Icon size={32} name='ios-more' color={headerTintColor} />
+                </Popover>
+              )
+            }
+
             return {
               // @TODO headerTitle优先级应比title大
               title: navigation.getParam('title'),
               headerTransparent: true,
               headerStyle,
               headerTintColor,
-              headerRight: (
-                <Icon size={32} name='ios-more' color={headerTintColor} />
-              ),
+              headerRight,
               ...screenOptions
             }
           }
@@ -146,18 +165,18 @@ const Inject = (
           headerStyle: {
             backgroundColor: `rgba(255, 255, 255, ${opacity})`,
             borderBottomWidth: isTransitioned ? StyleSheet.hairlineWidth : 0,
-            borderBottomColor: colorBorder,
-            ...Platform.select({
-              ios: {
-                shadowColor: colorShadow,
-                shadowOffset: { height: 2 },
-                shadowOpacity: 0.08,
-                shadowRadius: isTransitioned ? 4 : 0
-              },
-              android: {
-                elevation: isTransitioned ? 2 : 0
-              }
-            })
+            borderBottomColor: colorBorder
+            // ...Platform.select({
+            //   ios: {
+            //     shadowColor: colorShadow,
+            //     shadowOffset: { height: 2 },
+            //     shadowOpacity: 0.08,
+            //     shadowRadius: isTransitioned ? 4 : 0
+            //   },
+            //   android: {
+            //     elevation: isTransitioned ? 2 : 0
+            //   }
+            // })
           }
         })
       }
@@ -174,7 +193,11 @@ const Inject = (
         const { barStyle } = this.state
         return (
           <>
-            <StatusBar animated translucent barStyle={barStyle} />
+            {Platform.OS === 'ios' ? (
+              <StatusBar animated barStyle={barStyle} />
+            ) : (
+              <StatusBar animated translucent barStyle='light-content' />
+            )}
             <ComposedComponent
               onScroll={this.headerTransitionCallback}
               {...this.props}

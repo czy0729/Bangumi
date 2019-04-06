@@ -2,17 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 04:51:11
+ * @Last Modified time: 2019-04-07 03:27:26
  */
 import React from 'react'
-import {
-  Platform,
-  StyleSheet,
-  Image,
-  View,
-  TouchableHighlight
-} from 'react-native'
-import { colorPlain, radiusXs } from '@styles'
+import { StyleSheet, Image, View } from 'react-native'
+import { IOS } from '@constants'
+import { colorBg, radiusXs, shadow } from '@styles'
+import Touchable from './touchable'
 
 const _Image = ({
   style,
@@ -28,49 +24,61 @@ const _Image = ({
   ...other
 }) => {
   const source = typeof src === 'string' ? { uri: src } : src
-  const _style = []
-  const highlightStyle = [styles.highlight]
+  const _wrap = []
+  const _image = []
   if (size) {
-    _style.push({
+    _image.push({
       width: size,
       height: height || size
     })
   }
   if (border) {
-    _style.push(styles.border)
+    _image.push(styles.border)
   }
   if (radius) {
-    _style.push(styles.radius)
-    highlightStyle.push(styles.radius)
+    _wrap.push(styles.radius)
+    _image.push(styles.radius)
+  }
+  if (shadow) {
+    _wrap.push(styles.shadow)
   }
   if (placeholder) {
-    _style.push(styles.placeholder)
+    _wrap.push(styles.placeholder)
   }
+  if (style) {
+    _wrap.push(style)
+  }
+  if (onPress || onLongPress) {
+    return (
+      <Touchable
+        style={_wrap}
+        highlight={IOS}
+        onPress={onPress}
+        onLongPress={onLongPress}
+      >
+        <Image style={_image} source={source} {...other} />
+      </Touchable>
+    )
+  }
+
   return (
-    <View style={shadow ? styles.shadow : undefined}>
-      {onPress && (
-        <TouchableHighlight
-          style={highlightStyle}
-          underlayColor='rgba(0, 0, 0, 0.24)'
-          onPress={onPress}
-          onLongPress={onLongPress}
-        >
-          <View />
-        </TouchableHighlight>
-      )}
-      <Image style={_style} source={source} {...other} />
+    <View style={_wrap}>
+      <Image style={_image} source={source} {...other} />
     </View>
   )
 }
 
 _Image.defaultProps = {
+  style: undefined,
   src: undefined,
   size: 40,
   height: undefined,
   border: false,
   radius: false,
   shadow: false,
-  placeholder: true
+  placeholder: true,
+  onPress: undefined,
+  onLongPress: undefined
 }
 
 export default _Image
@@ -81,28 +89,11 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.8)'
   },
   radius: {
-    borderRadius: radiusXs
+    borderRadius: radiusXs,
+    overflow: 'hidden'
   },
-  shadow: Platform.select({
-    ios: {
-      shadowColor: '#000',
-      shadowOffset: { height: 4 },
-      shadowOpacity: 0.16,
-      shadowRadius: radiusXs
-    },
-    android: {
-      elevation: 8
-    }
-  }),
+  shadow,
   placeholder: {
-    backgroundColor: colorPlain
-  },
-  highlight: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
+    backgroundColor: colorBg
   }
 })

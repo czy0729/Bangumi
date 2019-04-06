@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-03 15:15:01
+ * @Last Modified time: 2019-04-07 01:36:24
  */
 import React from 'react'
 import {
-  Platform,
+  StyleSheet,
   TouchableOpacity,
   TouchableHighlight,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  View
 } from 'react-native'
+import { IOS } from '@constants'
 import { colorHighLight } from '@styles'
 
 const Touchable = ({
@@ -27,29 +29,38 @@ const Touchable = ({
       </TouchableOpacity>
     )
   }
-  if (Platform.OS === 'ios') {
+
+  if (IOS) {
     if (highlight) {
       return (
-        <TouchableHighlight
-          style={style}
-          activeOpacity={1}
-          underlayColor={colorHighLight}
-          {...other}
-        >
+        <View style={style}>
+          <TouchableHighlight
+            style={styles.touchable}
+            activeOpacity={1}
+            underlayColor={colorHighLight}
+            {...other}
+          >
+            <View />
+          </TouchableHighlight>
           {children}
-        </TouchableHighlight>
+        </View>
       )
     }
+
     return (
       <TouchableOpacity style={style} activeOpacity={0.64} {...other}>
         {children}
       </TouchableOpacity>
     )
   }
+
   return (
-    <TouchableNativeFeedback style={style} {...other}>
+    <View style={style}>
+      <TouchableNativeFeedback {...other}>
+        <View style={styles.touchable} />
+      </TouchableNativeFeedback>
       {children}
-    </TouchableNativeFeedback>
+    </View>
   )
 }
 
@@ -59,3 +70,10 @@ Touchable.defaultProps = {
 }
 
 export default Touchable
+
+const styles = StyleSheet.create({
+  touchable: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 1
+  }
+})

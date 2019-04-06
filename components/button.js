@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-03 14:47:55
+ * @Last Modified time: 2019-04-07 01:02:09
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { titleCase } from '@utils'
 import _, {
   colorPlain,
@@ -17,8 +17,8 @@ import _, {
   colorBorder,
   colorDesc,
   colorSub,
-  radiusXs,
-  shadow
+  colorShadow,
+  radiusXs
 } from '@styles'
 import Touchable from './touchable'
 import Activity from './activity'
@@ -35,60 +35,42 @@ const _Button = ({
   onPress,
   ...other
 }) => {
-  const _style = [styles.button]
-  const textStyle = [styles.text]
+  const _wrap = [styles.button]
+  const _text = [styles.text]
   if (type) {
-    _style.push(styles[type])
-    textStyle.push(styles[`text${titleCase(type)}`])
+    _wrap.push(styles[type])
+    _text.push(styles[`text${titleCase(type)}`])
   }
   if (size) {
-    _style.push(styles[size])
-    textStyle.push(styles[`text${titleCase(size)}`])
+    _wrap.push(styles[size])
+    _text.push(styles[`text${titleCase(size)}`])
   }
   if (shadow) {
-    _style.push(styles.shadow)
+    _wrap.push(styles.shadow)
   }
   if (radius) {
-    _style.push(styles.radius)
+    _wrap.push(styles.radius)
+  }
+  if (style) {
+    _wrap.push(style)
   }
 
   const content = (
     <>
       {loading && <Activity style={_.mr.xs} size='xs' />}
-      <Text style={textStyle}>{children}</Text>
+      <Text style={_text}>{children}</Text>
     </>
   )
   if (onPress) {
-    const outerStyle = []
-    if (radius) {
-      outerStyle.push(styles.radius)
-    }
-
-    const whitelistStyle = {}
-    if (style) {
-      outerStyle.push(style)
-
-      // 过滤掉margin之类的外围style
-      Object.keys(style).forEach(key => {
-        if (key.indexOf('margin') === -1) {
-          whitelistStyle[key] = style[key]
-        }
-      })
-    }
-
     return (
-      <View style={outerStyle}>
-        <Touchable onPress={onPress}>
-          <View style={[_style, whitelistStyle]} {...other}>
-            {content}
-          </View>
-        </Touchable>
-      </View>
+      <Touchable style={_wrap} onPress={onPress} {...other}>
+        {content}
+      </Touchable>
     )
   }
 
   return (
-    <View style={[_style, style]} {...other}>
+    <View style={_wrap} {...other}>
       {content}
     </View>
   )
@@ -200,8 +182,20 @@ const styles = StyleSheet.create({
   },
 
   // other
-  shadow,
+  shadow: Platform.select({
+    ios: {
+      shadowColor: colorShadow,
+      shadowOffset: { height: 3 },
+      shadowOpacity: 0.16,
+      shadowRadius: 3
+    },
+    android: {
+      backgroundColor: colorPlain,
+      elevation: 3
+    }
+  }),
   radius: {
-    borderRadius: radiusXs
+    borderRadius: radiusXs,
+    overflow: 'hidden'
   }
 })

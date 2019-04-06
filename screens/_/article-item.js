@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-04 03:21:34
+ * @Last Modified time: 2019-04-07 03:31:02
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex } from '@ant-design/react-native'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { date } from '@utils'
 import _, { md } from '@styles'
 

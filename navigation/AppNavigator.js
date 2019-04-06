@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 04:58:50
+ * @Last Modified time: 2019-04-07 00:31:23
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -15,8 +15,7 @@ import {
 import { Constants } from 'expo'
 import { Icon } from '@components'
 import { Auth, Home, Login, Calendar, Settings, Subject } from '@screens'
-import { Logo } from '@screens/_'
-import { wind, colorMain, colorTitle, colorBorder } from '@styles'
+import { wind, colorMain, colorTitle } from '@styles'
 
 const HomeSwitch = createSwitchNavigator({
   Auth,
@@ -55,10 +54,7 @@ const NavBottomTab = createBottomTabNavigator(
   },
   {
     navigationOptions: {
-      headerTitle: <Logo />,
-      headerStyle: {
-        borderBottomColor: colorBorder
-      }
+      header: null
     },
     tabBarOptions: {
       activeTintColor: colorMain,
@@ -77,7 +73,7 @@ export default createAppContainer(
       NavBottomTab
     },
     {
-      initialRouteName: 'Subject',
+      initialRouteName: 'NavBottomTab',
       initialRouteParams: {
         subjectId: 248175
       },
@@ -89,6 +85,11 @@ export default createAppContainer(
         headerLeftContainerStyle: Platform.select({
           ios: {
             paddingLeft: 8
+          }
+        }),
+        headerTitleStyle: Platform.select({
+          android: {
+            marginLeft: -4
           }
         }),
         headerRightContainerStyle: {

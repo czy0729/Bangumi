@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 20:52:54
+ * @Last Modified time: 2019-04-07 03:31:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { WebBrowser } from 'expo'
-import { Flex } from '@ant-design/react-native'
-import { Image, Button, Loading } from '@components'
+import { Flex, Image, Button, Loading } from '@components'
 import { APP_ID, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { urlStringify } from '@utils'
 import { userStore } from '@stores'

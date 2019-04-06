@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 11:22:37
+ * @Last Modified time: 2019-04-07 03:29:48
  */
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
@@ -15,7 +15,8 @@ import {
   colorDanger,
   colorTitle,
   colorDesc,
-  colorSub
+  colorSub,
+  fontSize
 } from '@styles'
 
 const _Text = ({
@@ -55,20 +56,15 @@ const _Text = ({
 }
 
 _Text.defaultProps = {
+  style: undefined,
   type: 'desc',
   size: 14,
   lineHeight: undefined,
-  align: undefined
+  align: undefined,
+  children: ''
 }
 
 export default _Text
-
-function fontSize(pt) {
-  return {
-    fontSize: pt,
-    lineHeight: pt * lineHeightRatio
-  }
-}
 
 const styles = StyleSheet.create({
   text: {

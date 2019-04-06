@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 05:08:52
+ * @Last Modified time: 2019-04-07 01:38:30
  */
 import { Dimensions, StyleSheet, Platform } from 'react-native'
+
+const isIOS = Platform.OS === 'ios'
 
 // 设备
 const { width, height } = Dimensions.get('window')
@@ -15,8 +17,8 @@ export const window = {
   isSmallDevice: width < 375,
   isLargeDevice: width > 375
 }
-export const appbarHeight = Platform.OS === 'ios' ? 44 : 56
-export const statusBarHeight = Platform.OS === 'ios' ? 20 : 0
+export const appbarHeight = isIOS ? 44 : 56
+export const statusBarHeight = isIOS ? 20 : 0
 export const headerHeight = appbarHeight + statusBarHeight + 22 // @? 不确定是否22
 
 // 统一布局单位
@@ -40,7 +42,7 @@ export const colorDisabled = 'rgb(150, 150, 150)'
 export const colorBorder = 'rgb(222, 222, 222)'
 export const colorBg = 'rgb(248, 248, 248)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
-export const colorHighLight = 'rgb(216, 216, 216)'
+export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
 export const colorShadow = 'rgb(0, 0, 0)'
 
 // 文字
@@ -60,13 +62,16 @@ export const radiusLg = 32
 // 其他
 export const shadow = Platform.select({
   ios: {
-    shadowColor: 'black',
+    shadowColor: colorShadow,
     shadowOffset: { height: 3 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.16,
     shadowRadius: 3
   },
   android: {
-    elevation: 2
+    backgroundColor: colorPlain,
+    borderRadius: 5,
+    overflow: 'hidden',
+    elevation: 3
   }
 })
 

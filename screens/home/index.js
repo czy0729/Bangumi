@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 21:50:44
+ * @Last Modified time: 2019-04-06 11:30:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { Constants } from 'expo'
 import { Loading } from '@components'
 import Tabs from '@components/@ant-design/tabs'
 import { ManageModal } from '@screens/_'
@@ -49,6 +50,12 @@ class Home extends React.Component {
           }
         ]}
       >
+        <View
+          style={{
+            height: Constants.statusBarHeight,
+            backgroundColor: colorPlain
+          }}
+        />
         <Tabs
           tabs={tabs}
           initialPage={page}

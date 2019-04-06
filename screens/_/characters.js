@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-28 15:21:07
+ * @Last Modified time: 2019-04-07 03:31:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex } from '@ant-design/react-native'
-import { Image, Text } from '@components'
+import { Flex, Image, Text } from '@components'
 import { IMG_DEFAULT } from '@constants'
 import _, { window, wind } from '@styles'
 

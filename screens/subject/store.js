@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 10:27:51
+ * @Last Modified time: 2019-04-06 11:50:52
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -54,7 +54,7 @@ export default class Store extends commonStore {
   }
 
   // -------------------- page --------------------
-  mounted = async () => {
+  initFetch = async () => {
     const res = subjectStore.fetchSubject(this.params.subjectId)
     const data = await res
     const item = bangumiData.items.find(item => item.title === data.name)
