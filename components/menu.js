@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 07:32:20
+ * @Last Modified time: 2019-04-08 01:23:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import _, { colorPlain, colorBorder } from '@styles'
+import _, { window, colorPlain, colorBorder } from '@styles'
 import Text from './text'
 import Touchable from './touchable'
 
@@ -67,16 +67,16 @@ export default Menu
 
 const styles = StyleSheet.create({
   container: {
-    minWidth: 160
+    width: window.width * 0.5
   },
   title: {
-    maxWidth: 224,
+    width: '100%',
     paddingVertical: 12,
     paddingHorizontal: 24,
     backgroundColor: colorPlain
   },
   item: {
-    maxWidth: 224,
+    width: '100%',
     paddingVertical: 12,
     paddingHorizontal: 24,
     backgroundColor: colorPlain

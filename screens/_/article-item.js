@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:31:02
+ * @Last Modified time: 2019-04-07 17:20:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,7 @@ const ArticleItem = ({
       </Text>
     </Flex>
     {!!summary && (
-      <Text style={_.mt.sm} type='desc' lineHeight={18} numberOfLines={3}>
+      <Text style={_.mt.md} lineHeight={18} numberOfLines={3}>
         {summary}
       </Text>
     )}

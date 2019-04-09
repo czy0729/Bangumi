@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 01:02:09
+ * @Last Modified time: 2019-04-09 16:44:20
  */
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -195,7 +195,6 @@ const styles = StyleSheet.create({
     }
   }),
   radius: {
-    borderRadius: radiusXs,
-    overflow: 'hidden'
+    borderRadius: radiusXs
   }
 })

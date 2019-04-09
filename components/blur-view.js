@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 01:04:30
+ * @Last Modified time: 2019-04-09 14:58:02
  */
 import React from 'react'
-import { StyleSheet, View, Image } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { LinearGradient } from 'expo'
+import Image from './image'
 
 const backgroundColor = {
   dark: ['rgba(0, 0, 0, 0.24)', 'rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.24)'],
@@ -19,9 +20,13 @@ const BlurView = ({ style, src, theme, children }) => (
   <View style={style}>
     {src && (
       <Image
-        source={{ uri: src }}
+        imageStyle={{
+          ...StyleSheet.absoluteFill,
+          width: 'auto',
+          height: 'auto'
+        }}
+        src={src}
         blurRadius={40}
-        style={StyleSheet.absoluteFill}
       />
     )}
     <LinearGradient

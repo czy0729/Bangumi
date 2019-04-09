@@ -1,8 +1,9 @@
 /*
+ * 收藏
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 09:17:53
+ * @Last Modified time: 2019-04-08 16:04:07
  */
 import { observable, computed } from 'mobx'
 import { API_COLLECTION, API_COLLECTION_ACTION } from '@constants/api'

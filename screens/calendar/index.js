@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-29 04:00:30
+ * @Last Modified time: 2019-04-08 15:06:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,17 +13,13 @@ import List from './list'
 import Store from './store'
 
 class Calendar extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
-
   static contextTypes = {
     $: PropTypes.object
   }
 
   componentDidMount() {
     const { $ } = this.context
-    $.mounted()
+    $.initFetch()
   }
 
   render() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:34:24
+ * @Last Modified time: 2019-04-09 19:36:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -147,7 +147,7 @@ class Item extends React.Component {
           <Flex>
             <Image
               size={88}
-              src={subject.images.large}
+              src={subject.images.medium}
               radius
               onPress={this.onPress}
               onLongPress={this.onLongPress}

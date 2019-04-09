@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 05:36:14
+ * @Last Modified time: 2019-04-07 17:29:54
  */
 
 /**
@@ -55,8 +55,16 @@ export function getBangumiUrl(item) {
       return url || `https://bangumi.tv/subject/${id}`
     case 'bilibili':
       return url || `https://bangumi.bilibili.com/anime/${id}`
+    case 'iqiyi':
+      return url || `https://www.iqiyi.com/${id}.html`
+    case 'pptv':
+      return url || `http://v.pptv.com/page/${id}.html`
+    case 'youku':
+      return url || `https://list.youku.com/show/id_z${id}.html`
+    case 'acfun':
+      return url || `http://www.acfun.cn/v/ab${id}`
     case 'nicovideo':
-      return url || `http://ch.nicovideo.jp/${id}`
+      return url || `https://ch.nicovideo.jp/${id}`
     default:
       return ''
   }

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 09:50:00
+ * @Last Modified time: 2019-04-09 16:28:10
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -148,7 +148,7 @@ export default class Store extends commonStore {
   /**
    * 页面加载
    */
-  mounted = async () => {
+  initFetch = async () => {
     if (this.isLogin) {
       const state = await getStorage(screen)
       if (state) {

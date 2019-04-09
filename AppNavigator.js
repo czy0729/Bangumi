@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 00:31:23
+ * @Last Modified time: 2019-04-09 17:05:21
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -53,6 +53,7 @@ const NavBottomTab = createBottomTabNavigator(
     }
   },
   {
+    initialRouteName: 'Home',
     navigationOptions: {
       header: null
     },

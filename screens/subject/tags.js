@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 09:41:35
+ * @Last Modified time: 2019-04-08 14:06:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -30,12 +30,12 @@ const Tags = ({ style }, { $ }) => {
   }
   return (
     <View style={[_.container.wind, style]}>
-      <Text size={20}>标签</Text>
+      <Text size={18}>标签</Text>
       <Flex style={_.mt.sm} wrap='wrap'>
         {_tags.map((item, index) => (
           <Flex key={item} style={styles.item}>
             <Text size={13}>{item}</Text>
-            <Text style={_.ml.sm} type='sub' size={13}>
+            <Text style={_.ml.xs} type='sub' size={13}>
               {_counts[index]}
             </Text>
           </Flex>

@@ -78,7 +78,7 @@ const Inject = (
             }
 
             return {
-              // @TODO headerTitle优先级应比title大
+              // @todo headerTitle优先级应比title大
               title: navigation.getParam('title'),
               headerTransparent: true,
               headerStyle,

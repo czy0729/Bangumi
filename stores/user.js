@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-02 13:01:39
+ * @Last Modified time: 2019-04-09 16:58:11
  */
 import { observable, computed } from 'mobx'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
@@ -17,16 +17,18 @@ import {
 import fetch from '@utils/fetch'
 import common from './common'
 
+const initUserInfo = {
+  access_token: '',
+  expires_in: 604800,
+  token_type: 'Bearer',
+  scope: null,
+  user_id: 0,
+  refresh_token: ''
+}
+
 class User extends common {
   state = observable({
-    userInfo: {
-      access_token: '4e0c1181c03854930378923857bb4e71018a1dd4',
-      expires_in: 604800,
-      token_type: 'Bearer',
-      scope: null,
-      user_id: 456208,
-      refresh_token: ''
-    },
+    userInfo: initUserInfo,
     userCollection: {
       // [`${userId}]: {}
     },
@@ -168,7 +170,12 @@ class User extends common {
   }
 
   // -------------------- action --------------------
-  logout() {}
+  logout() {
+    this.setState({
+      userInfo: initUserInfo
+    })
+    this.setStorage('userInfo')
+  }
 
   /**
    * 更新收视进度

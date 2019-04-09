@@ -2,26 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-02 22:18:12
+ * @Last Modified time: 2019-04-07 16:58:32
  */
 module.exports = {
   root: true,
   globals: {
     process: true,
     require: true,
+    fetch: true,
     __DEV__: true
   },
   env: {
-    // browser: true,
     commonjs: true,
     es6: true,
     node: true
-  },
-  settings: {
-    // 'import/resolver': {
-    //   'babel-module': {},
-    // },
-    // 'import/core-modules': ['styled-jsx/css']
   },
 
   // https://npm.taobao.org/package/babel-eslint
@@ -55,8 +49,8 @@ module.exports = {
     sourceType: 'module'
   },
 
-  // 0 1 2 -> off warn error
   // https://eslint.org/docs/rules/
+  // 0: off, 1: warn, 2: error
   rules: {
     'arrow-parens': ['error', 'as-needed'],
     'class-methods-use-this': 0,
@@ -107,6 +101,7 @@ module.exports = {
         aspects: ['noHref', 'invalidHref', 'preferButton']
       }
     ],
+
     // 下面屏蔽的都是一些web端辅助元素属性, 如aria-*
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 0,

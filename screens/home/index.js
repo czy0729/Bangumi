@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 11:30:34
+ * @Last Modified time: 2019-04-09 13:54:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -25,7 +25,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     const { $ } = this.context
-    $.mounted()
+    $.initFetch()
   }
 
   render() {

@@ -1,8 +1,9 @@
 /*
+ * 公共
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-21 19:59:53
+ * @Last Modified time: 2019-04-08 16:04:16
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, action, toJS } from 'mobx'

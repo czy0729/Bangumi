@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-02 20:55:18
+ * @Last Modified time: 2019-04-07 16:25:55
  */
 
 class Modal {
@@ -91,6 +91,18 @@ export const MODEL_EP_STATUS = new Modal([
   {
     label: '撤销',
     value: 'remove'
+  }
+])
+
+// 章节类型
+export const MODEL_EP_TYPE = new Modal([
+  {
+    label: '普通',
+    value: '1'
+  },
+  {
+    label: 'SP',
+    value: '0'
   }
 ])
 

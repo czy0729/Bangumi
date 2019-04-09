@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:35:11
+ * @Last Modified time: 2019-04-08 14:04:58
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -46,14 +46,14 @@ class ManageModal extends React.Component {
           tag = [],
           comment,
           private: privacy,
-          status: { type }
+          status = {}
         } = await collectionStore.fetchCollection(subjectId)
         this.setState({
           loading: false,
           rating,
           tags: tag.join(' '),
           comment,
-          status: type,
+          status: status.type,
           privacy
         })
       }

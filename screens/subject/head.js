@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:31:44
+ * @Last Modified time: 2019-04-09 15:10:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,18 +10,30 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { ScoreTag } from '@screens/_'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _, { wind, colorPlain, radiusLg } from '@styles'
 
 const imageWidth = 120
 
 const Head = ({ style }, { $ }) => {
-  const { type } = $.state.bangumiInfo
   const {
     images = {},
     name = '',
     name_cn: nameCn = '',
-    rating = {}
+    rating = {
+      count: {},
+      score: '',
+      total: ''
+    },
+    type
   } = $.subject
+
+  // bangumiInfo只有动画的数据
+  let label = MODEL_SUBJECT_TYPE.getTitle(type)
+  if (label === '动画') {
+    label = String($.state.bangumiInfo.type).toUpperCase()
+  }
+
   return (
     <View style={[styles.container, style]}>
       <View style={styles.image}>
@@ -43,7 +55,7 @@ const Head = ({ style }, { $ }) => {
         <View>
           {!!nameCn && (
             <Text type='sub' size={name.length > 16 ? 11 : 13}>
-              {name} {!!type && `· ${String(type).toUpperCase()}`}
+              {name} · {label}
             </Text>
           )}
           <Text style={!!nameCn && _.mt.xs} size={nameCn.length > 16 ? 16 : 20}>
@@ -52,9 +64,9 @@ const Head = ({ style }, { $ }) => {
         </View>
         <Flex align='baseline'>
           <Text type='main' size={24} lineHeight={1}>
-            {rating.score !== undefined && rating.score.toFixed(1)}
+            {rating.score === '' ? '-' : rating.score.toFixed(1)}
           </Text>
-          {rating.score !== undefined && (
+          {rating.score !== '' && (
             <ScoreTag style={_.ml.sm} value={rating.score} />
           )}
         </Flex>

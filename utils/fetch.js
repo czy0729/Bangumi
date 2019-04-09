@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-01 22:22:43
+ * @Last Modified time: 2019-04-09 16:58:45
  */
 import { Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
 import { getStorage, urlStringify, sleep, getTimestamp } from './index'
 import { log } from './dev'
 
+const ERR_RETRY_COUNT = 3 // GET请求失败重试次数
 // const STATUS_SUCCESS = 200
 // const STATUS_ACCEPTED = 202
 // const STATUS_NOT_MODIFIED = 304
@@ -24,15 +25,21 @@ import { log } from './dev'
  * @param {*} param
  */
 const retryCount = {}
-export default async function _fetch(config = {}) {
-  const { url, data = {}, method = 'GET', retryCb, info = '' } = config
-  const userInfo = (await getStorage('User|userInfo|state')) || {}
-  const tokenType = userInfo.token_type || 'Bearer'
-  const accessToken =
-    userInfo.access_token || '4e0c1181c03854930378923857bb4e71018a1dd4'
+export default async function _fetch({
+  url,
+  data = {},
+  method = 'GET',
+  retryCb,
+  info = ''
+} = {}) {
+  // 避免userStore循环引用
+  const userStore = require('../stores/user').default
+  const { userInfo = {} } = userStore
   const _config = {
     headers: {
-      Authorization: `${tokenType} ${accessToken}`
+      Authorization: `${userInfo.token_type || 'Bearer'} ${
+        userInfo.access_token
+      }`
     }
   }
   const isGet = method === 'GET'
@@ -40,8 +47,8 @@ export default async function _fetch(config = {}) {
     app_id: APP_ID,
     ...data
   }
-  let _url = url
 
+  let _url = url
   if (!isGet) {
     _config.method = 'POST'
     _config.headers['content-type'] = 'application/x-www-form-urlencoded'
@@ -60,22 +67,33 @@ export default async function _fetch(config = {}) {
         if (retryCount[key]) {
           retryCount[key] = 0
         }
+      } else {
+        log(method, 'success', url, data, info, res)
       }
 
-      // log(method, 'success', _url, config, !isGet ? res : 'not show')
+      // @issue 由于Bangumi提供的API没有统一返回数据
+      // 正常情况没有code, 错误情况例如空的时候, 返回{code: 400, err: '...'}
+      if (res && res.error) {
+        if (res.error === 'invalid_token') {
+          Toast.info('登录过期')
+          userStore.logout()
+        }
+        return Promise.resolve({})
+      }
+
       // 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串
       return Promise.resolve(safe(res))
     })
     .catch(async err => {
-      // NOTE Bangumi的接口代理经常报错, 我也就只能一直请求到成功为止了hhh
+      // @issue Bangumi提供的API的代理经常报错, 我也就只能一直请求到成功为止了hhh
       if (isGet && typeof retryCb === 'function') {
         await sleep(1000)
 
         const key = `${url}|${urlStringify(data)}`
         retryCount[key] = (retryCount[key] || 0) + 1
 
-        if (retryCount[key] < 3) {
-          log('re-fetch', `fail ${retryCount[key]} time`, _url, config, err)
+        if (retryCount[key] < ERR_RETRY_COUNT) {
+          log('re-fetch', `fail ${retryCount[key]} time`, url, info, err)
           return retryCb()
         }
       }
@@ -89,13 +107,12 @@ export default async function _fetch(config = {}) {
  * @version 190323 1.0
  * @param {*} param
  */
-export async function fetchHTML(config = {}) {
-  const { url } = config
+export async function fetchHTML({ url } = {}) {
   return fetch(url).then(res => Promise.resolve(res._bodyInit))
 }
 
 /**
- * @TODO
+ * @todo
  * 接口防并发请求问题严重, 暂时延迟一下, 2个请求一组
  * @param {*} fetchs
  */

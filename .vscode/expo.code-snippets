@@ -18,6 +18,12 @@
     "body": ["import { $1 } from '@constants'"],
     "description": "import constants"
   },
+  "import constants/model": {
+    "scope": "javascript,typescript",
+    "prefix": "imodel",
+    "body": ["import { $1 } from '@constants/model'"],
+    "description": "import constants/model"
+  },
   "import utils": {
     "scope": "javascript,typescript",
     "prefix": "iutils",

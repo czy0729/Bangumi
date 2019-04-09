@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 01:38:30
+ * @Last Modified time: 2019-04-08 01:50:44
  */
 import { Dimensions, StyleSheet, Platform } from 'react-native'
 
@@ -12,7 +12,7 @@ const isIOS = Platform.OS === 'ios'
 const { width, height } = Dimensions.get('window')
 export const window = {
   width,
-  maxWidth: width, // @TODO 用来兼容IPAD
+  maxWidth: width, // @todo 用来兼容IPAD
   height,
   isSmallDevice: width < 375,
   isLargeDevice: width > 375
@@ -65,7 +65,7 @@ export const shadow = Platform.select({
     shadowColor: colorShadow,
     shadowOffset: { height: 3 },
     shadowOpacity: 0.16,
-    shadowRadius: 3
+    shadowRadius: 4
   },
   android: {
     backgroundColor: colorPlain,

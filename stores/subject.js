@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 09:39:03
+ * @Last Modified time: 2019-04-09 19:38:43
  */
 import { observable, computed } from 'mobx'
 import {
@@ -29,7 +29,9 @@ const initSubjectItem = {
   name_cn: '',
   rank: '',
   rating: {
-    count: {}
+    count: {},
+    score: '',
+    total: ''
   },
   staff: [],
   summary: '',
@@ -37,18 +39,18 @@ const initSubjectItem = {
   type: '',
   url: ''
 }
-const initSubjectItemFormHTML = {
+const initSubjectFormHTMLItem = {
   tags: [], // 标签
-  count: [] // 标签的数目
+  counts: [], // 标签的数目
+  relations: [] // 关联条目
 }
-const initCalendar = []
 
 class Subject extends common {
   state = observable({
     subject: {},
     subjectFormHTML: {},
     subjectEp: {},
-    calendar: initCalendar
+    calendar: []
   })
 
   async init() {
@@ -56,7 +58,7 @@ class Subject extends common {
       subject: await this.getStorage('subject'),
       subjectFormHTML: await this.getStorage('subjectFormHTML'),
       subjectEp: await this.getStorage('subjectEp'),
-      calendar: (await this.getStorage('calendar')) || initCalendar
+      calendar: (await this.getStorage('calendar')) || []
     })
   }
 
@@ -77,7 +79,7 @@ class Subject extends common {
    */
   getSubjectFormHTML(subjectId) {
     return computed(
-      () => this.state.subjectFormHTML[subjectId] || initSubjectItemFormHTML
+      () => this.state.subjectFormHTML[subjectId] || initSubjectFormHTMLItem
     ).get()
   }
 
@@ -122,33 +124,82 @@ class Subject extends common {
    * @param {*} subjectId
    */
   async fetchSubjectFormHTML(subjectId) {
-    const html = await fetchHTML({
+    const htmlRaw = await fetchHTML({
       url: API_HTML_SUBJECT(subjectId)
     })
-    const tagsHtml = html
-      .replace(/\s+/g, '')
-      .match(
-        /<divclass="subject_tag_section">(.+?)<\/div><divid="panelInterestWrapper">/g
-      )[0]
+    const html = htmlRaw.replace(/\s+/g, '')
 
+    // 标签
+    let tags = []
+    let counts = []
+    const tagsHtml = html.match(
+      /<divclass="subject_tag_section">(.+?)<\/div><divid="panelInterestWrapper">/g
+    )[0]
     if (tagsHtml) {
-      const key = 'subjectFormHTML'
-      const tags = tagsHtml
+      tags = tagsHtml
         .match(/<span>(.+?)<\/span>/g)
         .map(tag => tag.replace(/<span>|<\/span>/g, ''))
-      const counts = tagsHtml
+      counts = tagsHtml
         .match(/<smallclass="grey">(.+?)<\/small>/g)
         .map(tag => tag.replace(/<smallclass="grey">|<\/small>/g, ''))
-      this.setState({
-        [key]: {
-          [subjectId]: {
-            tags,
-            counts
-          }
-        }
-      })
-      this.setStorage(key)
     }
+
+    // 关联条目
+    const relations = []
+    const relationsHtml = html.match(
+      /<h2class="subtitle">关联条目<\/h2><\/div><divclass="content_inner"><ulclass="browserCoverMediumclearit">(.+?)<\/ul>/
+    )
+    if (relationsHtml) {
+      const _relations = []
+      relationsHtml[1]
+        .split('<liclass="sep">')
+        .filter(item => !!item)
+        .forEach(item =>
+          _relations.push({
+            type: item.match(/<spanclass="sub">(.+?)<\/span>/)[1],
+            title: item
+              .match(/"class="title">(.+?)<\/a><\/li>/g)
+              .map(item => item.replace(/"class="title">|<\/a><\/li>/g, '')),
+            image: item
+              .match(/background-image:url\('(.+?)'\)"><\/span>/g)
+              .map(item =>
+                item.replace(/background-image:url\('|'\)"><\/span>/g, '')
+              ),
+            url: item
+              .match(/<\/a><ahref="(.+?)"class="title">/g)
+              .map(item => item.replace(/<\/a><ahref="|"class="title">/g, ''))
+          })
+        )
+
+      _relations.forEach(item => {
+        item.title.forEach((i, idx) => {
+          relations.push({
+            type: item.type,
+            id: item.url[idx].replace('/subject/', ''),
+            title: i,
+
+            // 排除空白图片
+            image:
+              item.image[idx] === '/img/no_icon_subject.png'
+                ? ''
+                : `https:${item.image[idx]}`,
+            url: item.url[idx]
+          })
+        })
+      })
+    }
+
+    const key = 'subjectFormHTML'
+    this.setState({
+      [key]: {
+        [subjectId]: {
+          tags,
+          counts,
+          relations
+        }
+      }
+    })
+    this.setStorage(key)
   }
 
   /**

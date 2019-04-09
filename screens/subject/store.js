@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 11:50:52
+ * @Last Modified time: 2019-04-07 17:11:12
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -104,7 +104,7 @@ export default class Store extends commonStore {
     if (value === '看到') {
       // 批量更新收视进度
       await userStore.doUpdateSubjectWatched({
-        subjectId: this.subjectId,
+        subjectId: this.params.subjectId,
         sort: item.sort
       })
       userStore.fetchUserCollection()

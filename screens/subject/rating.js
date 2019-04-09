@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:31:58
+ * @Last Modified time: 2019-04-07 17:20:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -43,7 +43,7 @@ const Ranting = ({ style }, { $ }) => {
   const { rating = initialRating, rank } = $.subject
   return (
     <View style={[_.container.wind, style]}>
-      <Text size={20}>评分分布</Text>
+      <Text size={18}>评分分布</Text>
       <Flex style={_.mt.md}>
         {Object.keys(rating.count)
           .reverse()
@@ -57,7 +57,7 @@ const Ranting = ({ style }, { $ }) => {
                   ]}
                 />
               </Flex>
-              <Text style={_.mt.xs} type='desc' size={12} align='center'>
+              <Text style={_.mt.xs} size={12} align='center'>
                 {item}
               </Text>
             </Flex.Item>
@@ -67,13 +67,8 @@ const Ranting = ({ style }, { $ }) => {
         <Text type='main' size={13}>
           {rating.score}
         </Text>
-        <Text type='desc' size={13}>
-          {' '}
-          / {rating.total} votes{' '}
-        </Text>
-        <Text type='desc' size={13}>
-          / Ranked:
-        </Text>
+        <Text size={13}> / {rating.total} votes </Text>
+        <Text size={13}>/ Ranked:</Text>
         <Text style={_.ml.xs} type='main' size={13}>
           #{rank}
         </Text>

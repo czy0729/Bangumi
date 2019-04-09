@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 09:41:27
+ * @Last Modified time: 2019-04-08 11:46:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,14 +16,16 @@ const Ep = ({ style }, { $ }) => {
   if (!$.eps) {
     return null
   }
+
   return (
     <View style={[_.container.wind, style]}>
-      <Text size={20}>章节</Text>
+      <Text size={18}>章节</Text>
       <Eps
-        style={_.mt.sm}
+        style={_.mt.md}
+        advance
+        pagination
         login={$.isLogin}
         subjectId={$.params.subjectId}
-        advance
         eps={$.eps}
         userProgress={$.userProgress}
         onSelect={$.doEpsSelect}

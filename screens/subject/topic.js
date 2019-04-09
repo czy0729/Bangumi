@@ -21,7 +21,7 @@ const Topic = ({ style }, { $ }) => {
   return (
     <View style={style}>
       <View style={_.container.wind}>
-        <Text size={20}>讨论版</Text>
+        <Text size={18}>讨论版</Text>
       </View>
       <View style={_.mt.sm}>
         {topic.map(item => (

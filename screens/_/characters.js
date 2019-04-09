@@ -31,7 +31,7 @@ const Character = ({ style, data }) => (
             border
             shadow
           />
-          <Text style={_.mt.sm} type='desc' numberOfLines={2}>
+          <Text style={_.mt.sm} numberOfLines={2}>
             {item.name}
           </Text>
           <Text type='sub' size={12} numberOfLines={1}>

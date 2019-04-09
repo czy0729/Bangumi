@@ -21,7 +21,7 @@ const Blog = ({ style }, { $ }) => {
   return (
     <View style={style}>
       <View style={_.container.wind}>
-        <Text size={20}>评论</Text>
+        <Text size={18}>评论</Text>
       </View>
       <View style={_.mt.sm}>
         {blog.map(item => (

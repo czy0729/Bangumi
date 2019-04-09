@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:33:24
+ * @Last Modified time: 2019-04-08 11:48:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Carousel } from '@ant-design/react-native'
 import { Flex, Popover, Menu, Button, Text } from '@components'
+import { MODEL_EP_TYPE } from '@constants/model'
 import { arrGroup, pad } from '@utils'
 import { colorPlain, colorDesc, colorSub } from '@styles'
 
@@ -36,9 +37,9 @@ export default class Eps extends React.Component {
   static defaultProps = {
     numbersOfLine: 8, // 一行多少个, 为了美观, 通过计算按钮占满一行
     pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
+    advance: false, // 详情页模式, 显示SP和更多的操作按钮
     login: false,
     subjectId: 0,
-    advance: false,
     eps: [],
     userProgress: {},
     onSelect: () => {}
@@ -172,15 +173,15 @@ export default class Eps extends React.Component {
     const itemsNormal = []
     const itemsSp = []
     eps.forEach(item => {
-      // SP 0, 普通 1
-      if (item.type === 1) {
+      const label = MODEL_EP_TYPE.getLabel(item.type)
+      if (label === '普通') {
         itemsSp.push(item)
-      } else {
+      } else if (label === 'SP') {
         itemsNormal.push(item)
       }
     })
     return (
-      <Flex wrap='wrap'>
+      <Flex wrap='wrap' align='start'>
         {itemsNormal.map((item, index) => this.renderButton(item, index + 1))}
         {this.renderSp(itemsSp, itemsNormal.length)}
       </Flex>
@@ -196,6 +197,7 @@ export default class Eps extends React.Component {
         infinite
       >
         {epsGroup
+          // @todo 暂时只取前10页
           .filter((item, index) => index < 10)
           .map((eps, index) => (
             // eslint-disable-next-line react/no-array-index-key
@@ -206,12 +208,24 @@ export default class Eps extends React.Component {
   }
 
   render() {
-    const { numbersOfLine, eps } = this.props
-    const pages = arrGroup(eps, numbersOfLine * 4)
+    const { numbersOfLine, advance, eps } = this.props
+    let _eps = eps
+    if (!advance) {
+      _eps = _eps.filter(item => MODEL_EP_TYPE.getLabel(item.type) !== '普通')
+    }
+    _eps = _eps
+      // 保证SP排在普通章节后面
+      .sort((a, b) => {
+        const normalA = MODEL_EP_TYPE.getLabel(a.type) === '普通' ? 1 : 0
+        const normalB = MODEL_EP_TYPE.getLabel(b.type) === '普通' ? 1 : 0
+        return normalA - normalB
+      })
+
+    // SP可能会占用一格, 所以减1避免换行
+    const pages = arrGroup(_eps, numbersOfLine * 4 - 1)
     if (!pages.length) {
       return null
     }
-
     const { style, pagination } = this.props
     const { width } = this.state
     const mounted = width !== 0
@@ -227,9 +241,10 @@ export default class Eps extends React.Component {
         </View>
       )
     }
+
     return (
       <View style={_style} onLayout={this.onLayout}>
-        {mounted ? this.renderNormal(pages[pages.length - 1]) : null}
+        {mounted ? this.renderNormal(pages[0]) : null}
       </View>
     )
   }
@@ -237,7 +252,7 @@ export default class Eps extends React.Component {
 
 const styles = StyleSheet.create({
   carousel: {
-    height: 248
+    height: 200
   },
   dotStyle: {
     backgroundColor: colorPlain,
@@ -248,6 +263,7 @@ const styles = StyleSheet.create({
     backgroundColor: colorDesc
   },
   sp: {
+    marginTop: 2,
     borderLeftWidth: 2,
     borderColor: colorSub
   }
