@@ -3,13 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 19:38:43
+ * @Last Modified time: 2019-04-12 12:13:55
  */
 import { observable, computed } from 'mobx'
+import { LIST_EMPTY } from '@constants'
 import {
   API_SUBJECT,
   API_HTML_SUBJECT,
   API_SUBJECT_EP,
+  API_HTML_SUBJECT_COMMENTS,
   API_CALENDAR
 } from '@constants/api'
 import { fetchHTML } from '@utils/fetch'
@@ -50,6 +52,7 @@ class Subject extends common {
     subject: {},
     subjectFormHTML: {},
     subjectEp: {},
+    subjectCommentsFormHTML: LIST_EMPTY,
     calendar: []
   })
 
@@ -58,6 +61,7 @@ class Subject extends common {
       subject: await this.getStorage('subject'),
       subjectFormHTML: await this.getStorage('subjectFormHTML'),
       subjectEp: await this.getStorage('subjectEp'),
+      // subjectCommentsFormHTML: (await this.getStorage('subjectCommentsFormHTML')) || LIST_EMPTY,
       calendar: (await this.getStorage('calendar')) || []
     })
   }
@@ -74,7 +78,7 @@ class Subject extends common {
   }
 
   /**
-   * 取爬取网页的条目信息
+   * 取条目信息
    * @param {*} subjectId
    */
   getSubjectFormHTML(subjectId) {
@@ -89,6 +93,16 @@ class Subject extends common {
    */
   getSubjectEp(subjectId) {
     return computed(() => this.state.subjectEp[subjectId] || {}).get()
+  }
+
+  /**
+   * 取条目吐槽
+   * @param {*} subjectId
+   */
+  getSubjectCommentsFormHTML(subjectId) {
+    return computed(
+      () => this.state.subjectCommentsFormHTML[subjectId] || LIST_EMPTY
+    ).get()
   }
 
   /**
@@ -124,24 +138,30 @@ class Subject extends common {
    * @param {*} subjectId
    */
   async fetchSubjectFormHTML(subjectId) {
-    const htmlRaw = await fetchHTML({
+    const res = fetchHTML({
       url: API_HTML_SUBJECT(subjectId)
     })
+    const htmlRaw = await res
     const html = htmlRaw.replace(/\s+/g, '')
 
     // 标签
-    let tags = []
-    let counts = []
+    const tags = []
     const tagsHtml = html.match(
-      /<divclass="subject_tag_section">(.+?)<\/div><divid="panelInterestWrapper">/g
-    )[0]
+      /<divclass="subject_tag_section">(.+?)<\/div><divid="panelInterestWrapper">/
+    )
     if (tagsHtml) {
-      tags = tagsHtml
-        .match(/<span>(.+?)<\/span>/g)
-        .map(tag => tag.replace(/<span>|<\/span>/g, ''))
-      counts = tagsHtml
+      const _tags = tagsHtml[1]
+        .match(/class="l"><span>(.+?)<\/span>/g)
+        .map(item => item.replace(/class="l"><span>|<\/span>/g, ''))
+      const _counts = tagsHtml[1]
         .match(/<smallclass="grey">(.+?)<\/small>/g)
-        .map(tag => tag.replace(/<smallclass="grey">|<\/small>/g, ''))
+        .map(item => item.replace(/<smallclass="grey">|<\/small>/g, ''))
+      _tags.forEach((item, index) => {
+        tags.push({
+          name: item,
+          count: _counts[index]
+        })
+      })
     }
 
     // 关联条目
@@ -194,12 +214,12 @@ class Subject extends common {
       [key]: {
         [subjectId]: {
           tags,
-          counts,
           relations
         }
       }
     })
     this.setStorage(key)
+    return res
   }
 
   /**
@@ -217,6 +237,100 @@ class Subject extends common {
         storage: true
       }
     )
+  }
+
+  /**
+   * 爬取网页获取留言 (高流量, 30k左右1次)
+   * @param {*} subjectId
+   * @param {*} refresh 是否重新获取
+   */
+  async fetchSubjectCommentsFormHTML({ subjectId }, refresh) {
+    const { list, pagination } = this.getSubjectCommentsFormHTML(subjectId)
+
+    // 计算下一页的页码
+    let page
+    if (refresh) {
+      page = 1
+    } else {
+      page = pagination.page + 1
+    }
+
+    // -------------------- 请求HTML --------------------
+    const res = fetchHTML({
+      url: API_HTML_SUBJECT_COMMENTS(subjectId, page)
+    })
+    const rawHtml = await res
+    const html = rawHtml.replace(/\s+/g, '')
+    const commentsHtml = html.match(
+      /<divid="comment_box">(.+?)<\/div><\/div><divclass="section_lineclear">/
+    )
+
+    // -------------------- 分析HTML --------------------
+    const comments = []
+    let { pageTotal = 0 } = pagination
+    if (commentsHtml) {
+      /**
+       * 总页数
+       * @tucao 晕了, 至少有三种情况, 其实在第一页的时候获取就足够了
+       * [1] 超过10页的, 有总页数
+       * [2] 少于10页的, 需要读取最后一个分页按钮获取页数
+       * [3] 只有1页, 没有分页按钮
+       */
+      if (page === 1) {
+        const pageHtml =
+          html.match(
+            /<spanclass="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
+          ) ||
+          html.match(
+            /<ahref="\?page=\d+"class="p">(\d+)<\/a><ahref="\?page=2"class="p">&rsaquo;&rsaquo;<\/a>/
+          )
+        if (pageHtml) {
+          // eslint-disable-next-line prefer-destructuring
+          pageTotal = pageHtml[1]
+        } else {
+          pageTotal = 1
+        }
+      }
+
+      // 留言
+      const items = commentsHtml[1].split('<divclass="itemclearit">')
+      items.shift()
+      items.forEach(item => {
+        const userid = item.match(
+          /<divclass="text"><ahref="\/user\/(.+?)"class="l">/
+        )
+        const username = item.match(/"class="l">(.+?)<\/a><smallclass="grey"/)
+        const avatar = item.match(/background-image:url\('(.+?)'\)"><\/span>/)
+        const time = item.match(/<smallclass="grey">@(.+?)<\/small>/)
+        const star = item.match(/sstars(.+?)starsinfo/)
+        const comment = item.match(/<p>(.+?)<\/p>/)
+        comments.push({
+          userid: userid[1],
+          username: username[1],
+          avatar: avatar[1],
+          time: time[1],
+          star: star ? star[1] : '',
+          comment: comment[1]
+        })
+      })
+    }
+
+    // -------------------- 保存 --------------------
+    const key = 'subjectCommentsFormHTML'
+    this.setState({
+      [key]: {
+        [subjectId]: {
+          list: page === 1 ? comments : [...list, ...comments],
+          pagination: {
+            page,
+            pageTotal: parseInt(pageTotal)
+          },
+          _loaded: true
+        }
+      }
+    })
+    this.setStorage(key)
+    return res
   }
 
   /**

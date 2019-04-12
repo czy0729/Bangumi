@@ -2,30 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 19:37:10
+ * @Last Modified time: 2019-04-12 12:38:08
  */
 import React from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { WebBrowser } from 'expo'
 import { ActionSheet } from '@ant-design/react-native'
-import { BlurView } from '@components'
-import { ManageModal } from '@screens/_'
+import { BlurView, ListView } from '@components'
+import { ManageModal, CommentItem } from '@screens/_'
 import inject from '@utils/inject'
 import { getBangumiUrl } from '@utils/app'
-import _, { window, headerHeight, space, colorPlain } from '@styles'
-import Head from './head'
-import Box from './box'
-import Ep from './ep'
-import Tags from './tags'
-import Summary from './summary'
-import Rating from './rating'
-import Character from './character'
-import Staff from './staff'
-import Relations from './relations'
-import Blog from './blog'
-import Topic from './topic'
+import _, { window, headerHeight, space } from '@styles'
+import Header from './header'
 import Store from './store'
 
 class Subject extends React.Component {
@@ -96,35 +86,37 @@ class Subject extends React.Component {
     const { $ } = this.context
     const { onScroll } = this.props
     const { visible } = $.state
-    const { nameCn, name, images = {} } = $.subject
+    const { name_cn: nameCn, name, images = {} } = $.subject
+    const { tags = [] } = $.subjectFormHTML
     return (
       <>
         <BlurView style={styles.blurView} theme='dark' src={images.medium} />
-        <ScrollView
+        <ListView
           style={_.container.flex}
           contentContainerStyle={styles.contentContainerStyle}
+          keyExtractor={item => `${item.userid} ${item.time}`}
+          data={$.subjectCommentsFormHTML}
           scrollEventThrottle={16}
+          ListHeaderComponent={<Header />}
+          renderItem={({ item, index }) => (
+            <CommentItem
+              isTop={index === 0}
+              time={item.time}
+              avatar={item.avatar}
+              username={item.username}
+              star={item.star}
+              comment={item.comment}
+            />
+          )}
           onScroll={onScroll}
-        >
-          <Head />
-          <View style={styles.content}>
-            <Box style={_.mt.md} />
-            <Ep style={_.mt.lg} />
-            <Tags style={_.mt.lg} />
-            <Summary style={_.mt.lg} />
-            <Rating style={_.mt.lg} />
-            <Character style={_.mt.lg} />
-            <Staff style={_.mt.lg} />
-            <Relations style={_.mt.lg} />
-            <Blog style={_.mt.lg} />
-            <Topic style={_.mt.lg} />
-          </View>
-        </ScrollView>
+          onFooterRefresh={$.fetchSubjectCommentsFormHTML}
+        />
         <ManageModal
           visible={visible}
           subjectId={$.params.subjectId}
           title={nameCn || name}
           desc={name}
+          tags={tags}
           onSubmit={$.doUpdateCollection}
           onClose={$.closeManageModal}
         />
@@ -148,8 +140,5 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingTop: headerHeight,
     paddingBottom: space
-  },
-  content: {
-    backgroundColor: colorPlain
   }
 })

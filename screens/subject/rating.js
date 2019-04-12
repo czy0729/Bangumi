@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 17:20:47
+ * @Last Modified time: 2019-04-10 15:46:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
+import { SectionTitle } from '@screens/_'
 import _, { colorBg, colorWait } from '@styles'
 
 const initialRating = {
@@ -43,7 +44,7 @@ const Ranting = ({ style }, { $ }) => {
   const { rating = initialRating, rank } = $.subject
   return (
     <View style={[_.container.wind, style]}>
-      <Text size={18}>评分分布</Text>
+      <SectionTitle>评分分布</SectionTitle>
       <Flex style={_.mt.md}>
         {Object.keys(rating.count)
           .reverse()

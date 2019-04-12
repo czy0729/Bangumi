@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 17:05:21
+ * @Last Modified time: 2019-04-12 13:18:55
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -76,7 +76,8 @@ export default createAppContainer(
     {
       initialRouteName: 'NavBottomTab',
       initialRouteParams: {
-        subjectId: 248175
+        // 评论数 [43]248175 [6]204135 [1]18007 [0]273437
+        subjectId: 204135
       },
       headerMode: 'screen',
       headerBackTitleVisible: false,

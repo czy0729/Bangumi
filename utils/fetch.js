@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 16:58:45
+ * @Last Modified time: 2019-04-10 05:56:17
  */
 import { Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
-import { getStorage, urlStringify, sleep, getTimestamp } from './index'
+import { urlStringify, sleep, getTimestamp } from './index'
 import { log } from './dev'
 
 const ERR_RETRY_COUNT = 3 // GET请求失败重试次数
@@ -20,7 +20,7 @@ const ERR_RETRY_COUNT = 3 // GET请求失败重试次数
 
 /**
  * 统一请求方法
- * 若GET请求异常, 500ms后重试retryCb, 直到成功
+ * 若GET请求异常, 默认一段时间后重试retryCb, 直到成功
  * @version 190303 1.2
  * @param {*} param
  */
@@ -87,7 +87,7 @@ export default async function _fetch({
     .catch(async err => {
       // @issue Bangumi提供的API的代理经常报错, 我也就只能一直请求到成功为止了hhh
       if (isGet && typeof retryCb === 'function') {
-        await sleep(1000)
+        await sleep()
 
         const key = `${url}|${urlStringify(data)}`
         retryCount[key] = (retryCount[key] || 0) + 1
@@ -121,12 +121,21 @@ export async function queue(fetchs = []) {
     f1 = Function.prototype,
     f2 = Function.prototype,
     f3 = Function.prototype,
-    f4 = Function.prototype
+    f4 = Function.prototype,
+    f5 = Function.prototype,
+    f6 = Function.prototype
   ] = fetchs
   await Promise.all([f1(), f2()])
-  return Promise.all([f3(), f4()])
+  await sleep()
+  await Promise.all([f3(), f4()])
+  await sleep()
+  return Promise.all([f5(), f6()])
 }
 
+/**
+ * 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串
+ * @param {*} re's
+ */
 function safe(res) {
   return JSON.parse(JSON.stringify(res).replace(/:null/g, ':""'))
 }

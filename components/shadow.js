@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-01 07:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:15:10
+ * @Last Modified time: 2019-04-12 13:20:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -48,7 +48,7 @@ export default class Shadow extends React.Component {
 const styles = StyleSheet.create({
   ios: {
     shadowColor: colorShadow,
-    shadowOffset: { height: 8 },
+    shadowOffset: { height: 4 },
     shadowOpacity: 0.08,
     shadowRadius: 8
   },

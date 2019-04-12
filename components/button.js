@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 16:44:20
+ * @Last Modified time: 2019-04-10 16:13:18
  */
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -13,6 +13,7 @@ import _, {
   colorPrimary,
   colorWarning,
   colorWait,
+  colorBg,
   colorDisabled,
   colorBorder,
   colorDesc,
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
 
   // ghost type
   ghostPlain: {
-    backgroundColor: colorPlain,
+    backgroundColor: colorBg,
     borderColor: colorBorder
   },
   ghostPrimary: {

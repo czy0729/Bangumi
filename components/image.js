@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 16:24:38
+ * @Last Modified time: 2019-04-10 14:46:11
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -17,13 +17,14 @@ import Touchable from './touchable'
 export default class Image extends React.Component {
   static defaultProps = {
     style: undefined,
-    imageStyle: undefined,
+    imageStyle: undefined, // 强制传递给图片的样式
     src: undefined,
-    size: 40,
-    height: undefined,
-    border: false,
-    radius: false,
-    shadow: false,
+    size: 40, // 大小|宽度
+    height: undefined, // 高度
+    border: false, // 边框
+    radius: false, // 圆角
+    shadow: false, // 阴影
+    placeholder: true, // 是否有底色
     onPress: undefined,
     onLongPress: undefined
   }
@@ -75,11 +76,12 @@ export default class Image extends React.Component {
       border,
       radius,
       shadow,
+      placeholder,
       onPress,
       onLongPress,
       ...other
     } = this.props
-    const _wrap = [styles.image]
+    const _wrap = []
     const _image = []
     if (size) {
       _image.push({
@@ -88,7 +90,14 @@ export default class Image extends React.Component {
       })
     }
     if (border) {
-      _image.push(styles.border)
+      if (typeof border === 'string') {
+        _image.push({
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: border
+        })
+      } else {
+        _image.push(styles.border)
+      }
     }
     if (radius) {
       _wrap.push(styles.radius)
@@ -96,6 +105,9 @@ export default class Image extends React.Component {
     }
     if (shadow) {
       _wrap.push(styles.shadow)
+    }
+    if (placeholder) {
+      _wrap.push(styles.placeholder)
     }
     if (style) {
       _wrap.push(style)
@@ -143,9 +155,6 @@ export default class Image extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  image: {
-    backgroundColor: colorPlain
-  },
   border: {
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.8)'
@@ -153,5 +162,8 @@ const styles = StyleSheet.create({
   radius: {
     borderRadius: radiusXs
   },
-  shadow
+  shadow,
+  placeholder: {
+    backgroundColor: colorPlain
+  }
 })

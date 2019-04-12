@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-08 18:33:37
+ * @Last Modified time: 2019-04-10 05:58:04
  */
 export const HOST = 'https://api.bgm.tv'
 export const SERVER = 'https://bangumi.tv'
@@ -14,13 +14,18 @@ export const API_ACCESS_TOKEN = () => 'https://bgm.tv/oauth/access_token'
 
 // -------------------- HTML --------------------
 /**
- * 条目HTML
+ * 爬取条目HTML
  * @param {*} *subjectId
  */
 export const API_HTML_SUBJECT = subjectId => `${SERVER}/subject/${subjectId}`
 
-export const API_HTML_SUBJECT_COMMENTS = subjectId =>
-  `${SERVER}/subject/${subjectId}/comments`
+/**
+ * 爬取条目吐槽HTML
+ * @param {*} subjectId
+ * @param {*} page
+ */
+export const API_HTML_SUBJECT_COMMENTS = (subjectId, page = 1) =>
+  `${SERVER}/subject/${subjectId}/comments?page=${page}`
 
 // -------------------- 用户 --------------------
 /**

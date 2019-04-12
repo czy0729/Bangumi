@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:29:48
+ * @Last Modified time: 2019-04-12 13:14:29
  */
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   16: fontSize(16),
   18: fontSize(18),
   20: fontSize(20),
+  22: fontSize(22),
   24: fontSize(24),
   plain: {
     color: 'rgba(255, 255, 255, 0.92)'

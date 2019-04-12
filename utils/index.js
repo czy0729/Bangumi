@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-05 10:02:41
+ * @Last Modified time: 2019-04-10 14:23:48
  */
 import { AsyncStorage } from 'react-native'
 
@@ -61,7 +61,7 @@ export function pad(n) {
  * @version 180417 1.0
  * @return {Promise}
  */
-export function sleep(ms) {
+export function sleep(ms = 1600) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
@@ -372,4 +372,22 @@ export function gradientColor(startRGB, endRGB, step) {
     colorArr.push(rgb)
   }
   return colorArr
+}
+
+/**
+ * HTML反转义
+ * @param {*} str
+ */
+export function HTMLDecode(str = '') {
+  if (str.length === 0) {
+    return ''
+  }
+  return str
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    // eslint-disable-next-line quotes
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
 }

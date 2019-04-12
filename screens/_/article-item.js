@@ -2,41 +2,72 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 17:20:30
+ * @Last Modified time: 2019-04-11 15:23:08
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Flex, Text } from '@components'
-import { date } from '@utils'
-import _, { md } from '@styles'
+import { StyleSheet } from 'react-native'
+import { observer } from 'mobx-react'
+import { Flex, Text, Image, Touchable } from '@components'
+import { date, HTMLDecode } from '@utils'
+import _, { md, wind, colorBorder } from '@styles'
 
 const ArticleItem = ({
   style,
+  isFirst,
+  avatar,
   title,
   summary,
   nickname,
   timestamp,
-  replies
+  replies,
+  onPress,
+  onAvatarPress
 }) => (
-  <View style={[{ paddingVertical: md }, style]}>
-    <Text size={16}>{title}</Text>
-    <Flex style={_.mt.xs}>
-      <Text type='sub' size={12}>
-        by
-      </Text>
-      <Text style={_.ml.xs} size={12}>
-        {nickname}
-      </Text>
-      <Text type='sub' style={_.ml.xs} size={12}>
-        {date('Y-m-d', timestamp)} / {replies} replies
-      </Text>
+  <Touchable style={style} highlight onPress={onPress}>
+    <Flex align='start'>
+      <Image
+        style={styles.image}
+        size={28}
+        src={avatar}
+        radius
+        border={colorBorder}
+        onPress={onAvatarPress}
+      />
+      <Flex.Item style={[styles.item, !isFirst && styles.border, _.ml.sm]}>
+        <Text size={16}>{title}</Text>
+        <Flex style={_.mt.xs}>
+          <Text type='sub' size={12}>
+            by
+          </Text>
+          <Text style={_.ml.xs} size={12}>
+            {HTMLDecode(nickname)}
+          </Text>
+          <Text type='sub' style={_.ml.xs} size={12}>
+            / {date('Y-m-d', timestamp)} / {replies} replies
+          </Text>
+        </Flex>
+        {!!summary && (
+          <Text style={_.mt.sm} size={15} lineHeight={20} numberOfLines={4}>
+            {HTMLDecode(summary)}
+          </Text>
+        )}
+      </Flex.Item>
     </Flex>
-    {!!summary && (
-      <Text style={_.mt.md} lineHeight={18} numberOfLines={3}>
-        {summary}
-      </Text>
-    )}
-  </View>
+  </Touchable>
 )
 
-export default ArticleItem
+export default observer(ArticleItem)
+
+const styles = StyleSheet.create({
+  image: {
+    marginTop: md
+  },
+  item: {
+    paddingVertical: md,
+    paddingRight: wind
+  },
+  border: {
+    borderTopColor: colorBorder,
+    borderTopWidth: StyleSheet.hairlineWidth
+  }
+})

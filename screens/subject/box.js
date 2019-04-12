@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-08 14:05:44
+ * @Last Modified time: 2019-04-10 15:51:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Button, Icon, Text, Touchable } from '@components'
+import { SectionTitle } from '@screens/_'
 import { getType, getRating } from '@utils/app'
 import _, { colorPlain, shadow } from '@styles'
 
@@ -23,7 +24,7 @@ const Box = ({ style }, { $ }) => {
   }
   return (
     <View style={[_.container.wind, style]}>
-      <Text size={18}>收藏盒</Text>
+      <SectionTitle>收藏盒</SectionTitle>
       <View style={[shadow, _.mt.md]}>
         <Touchable onPress={$.showManageModel}>
           <Flex justify='center'>

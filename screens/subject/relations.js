@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-08 11:40:12
+ * @Last Modified time: 2019-04-10 15:56:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Text } from '@components'
-import { HorizontalList } from '@screens/_'
+import { SectionTitle, HorizontalList } from '@screens/_'
 import _ from '@styles'
 
 const Relations = ({ style }, { $, navigation }) => {
@@ -26,11 +25,9 @@ const Relations = ({ style }, { $, navigation }) => {
   }))
   return (
     <View style={style}>
-      <Text style={_.container.wind} size={18}>
-        关联条目
-      </Text>
+      <SectionTitle style={_.container.wind}>关联条目</SectionTitle>
       <HorizontalList
-        style={_.mt.md}
+        style={_.mt.sm}
         data={data}
         width={80}
         height={106}

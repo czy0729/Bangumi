@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 15:44:38
+ * @Last Modified time: 2019-04-11 13:58:10
  */
 import { Platform } from 'react-native'
 import { Constants } from 'expo'
@@ -21,6 +21,15 @@ export const IMG_DEFAULT = require('@assets/images/default.png')
 export const IMG_EMPTY = {
   uri:
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP4////GQAJyAPKSOz6nwAAAABJRU5ErkJggg=='
+}
+
+export const LIST_EMPTY = {
+  list: [],
+  pagination: {
+    page: 0,
+    pageTotal: 0
+  },
+  _loaded: false
 }
 
 export const IOS = Platform.OS === 'ios'

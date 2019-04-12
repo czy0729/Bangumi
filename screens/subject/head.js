@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 15:10:35
+ * @Last Modified time: 2019-04-12 13:14:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -62,8 +62,8 @@ const Head = ({ style }, { $ }) => {
             {nameCn || name}
           </Text>
         </View>
-        <Flex align='baseline'>
-          <Text type='main' size={24} lineHeight={1}>
+        <Flex>
+          <Text type='main' size={22} lineHeight={1}>
             {rating.score === '' ? '-' : rating.score.toFixed(1)}
           </Text>
           {rating.score !== '' && (

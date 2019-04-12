@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 17:11:12
+ * @Last Modified time: 2019-04-12 10:16:13
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -16,15 +16,8 @@ export default class Store extends commonStore {
   state = observable({
     visible: false,
     bangumiInfo: {
-      begin: '',
-      comment: '',
-      end: '',
-      lang: '',
-      officialSite: '',
-      sites: [],
-      title: '',
-      titleTranslate: {},
-      type: ''
+      sites: [], // 动画在线地址
+      type: '' // 动画类型
     }
   })
 
@@ -34,45 +27,66 @@ export default class Store extends commonStore {
   }
 
   @computed get subject() {
-    return subjectStore.getSubject(this.params.subjectId)
+    const { subjectId } = this.params
+    return subjectStore.getSubject(subjectId)
   }
 
   @computed get subjectFormHTML() {
-    return subjectStore.getSubjectFormHTML(this.params.subjectId)
+    const { subjectId } = this.params
+    return subjectStore.getSubjectFormHTML(subjectId)
   }
 
-  @computed get eps() {
-    return subjectStore.getSubjectEp(this.params.subjectId).eps
+  @computed get subjectEps() {
+    const { subjectId } = this.params
+    return subjectStore.getSubjectEp(subjectId).eps
+  }
+
+  @computed get subjectCommentsFormHTML() {
+    const { subjectId } = this.params
+    return subjectStore.getSubjectCommentsFormHTML(subjectId)
   }
 
   @computed get collection() {
-    return collectionStore.getCollection(this.params.subjectId)
+    const { subjectId } = this.params
+    return collectionStore.getCollection(subjectId)
   }
 
   @computed get userProgress() {
-    return userStore.getUserProgress(this.params.subjectId)
+    const { subjectId } = this.params
+    return userStore.getUserProgress(subjectId)
   }
 
-  // -------------------- page --------------------
+  // -------------------- fetch --------------------
   initFetch = async () => {
-    const res = subjectStore.fetchSubject(this.params.subjectId)
+    const { subjectId } = this.params
+    const res = subjectStore.fetchSubject(subjectId)
     const data = await res
     const item = bangumiData.items.find(item => item.title === data.name)
     if (item) {
       this.setState({
-        bangumiInfo: item
+        bangumiInfo: {
+          sites: item.sites,
+          type: item.type
+        }
       })
     }
 
     queue([
-      () => subjectStore.fetchSubjectFormHTML(this.params.subjectId),
-      () => subjectStore.fetchSubjectEp(this.params.subjectId),
-      () => collectionStore.fetchCollection(this.params.subjectId),
-      () => userStore.fetchUserProgress(this.params.subjectId)
+      () => this.fetchSubjectCommentsFormHTML(true),
+      () => subjectStore.fetchSubjectFormHTML(subjectId),
+      () => subjectStore.fetchSubjectEp(subjectId),
+      () => collectionStore.fetchCollection(subjectId),
+      () => userStore.fetchUserProgress(subjectId)
     ])
     return res
   }
 
+  fetchSubjectCommentsFormHTML = refresh => {
+    const { subjectId } = this.params
+    return subjectStore.fetchSubjectCommentsFormHTML({ subjectId }, refresh)
+  }
+
+  // -------------------- page --------------------
   showManageModel = () => {
     this.setState({
       visible: true
@@ -90,6 +104,7 @@ export default class Store extends commonStore {
    * 章节菜单操作
    */
   doEpsSelect = async (value, item) => {
+    const { subjectId } = this.params
     const status = MODEL_EP_STATUS.getValue(value)
     if (status) {
       // 更新收视进度
@@ -104,7 +119,7 @@ export default class Store extends commonStore {
     if (value === '看到') {
       // 批量更新收视进度
       await userStore.doUpdateSubjectWatched({
-        subjectId: this.params.subjectId,
+        subjectId,
         sort: item.sort
       })
       userStore.fetchUserCollection()
@@ -120,8 +135,9 @@ export default class Store extends commonStore {
    * 管理收藏
    */
   doUpdateCollection = async values => {
+    const { subjectId } = this.params
     await collectionStore.doUpdateCollection(values)
-    collectionStore.fetchCollection(this.params.subjectId)
+    collectionStore.fetchCollection(subjectId)
     this.closeManageModal()
   }
 }

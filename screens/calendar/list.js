@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:31:24
+ * @Last Modified time: 2019-04-12 13:33:26
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -27,7 +27,7 @@ const List = (props, { $ }) => {
       <View style={_.container.outer}>
         {sortCalendar.map(item => (
           <View key={item.weekday.cn}>
-            <Text size={24}>{item.weekday.cn}</Text>
+            <Text size={20}>{item.weekday.cn}</Text>
             <Flex style={_.mt.md} wrap='wrap' align='start'>
               {item.items
                 .sort((a, b) => {
