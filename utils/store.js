@@ -1,17 +1,17 @@
 /*
- * 公共
+ * 状态公共继承
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-08 16:04:16
+ * @Last Modified time: 2019-04-14 01:05:07
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, action, toJS } from 'mobx'
-import fetch from '@utils/fetch'
+import fetch from './fetch'
 
 configure({ enforceActions: 'observed' })
 
-class Common {
+export default class Store {
   /**
    * 统一setState方法
    * @version 190226 v1.0
@@ -83,6 +83,13 @@ class Common {
    * @param {*} value
    */
   setStorage(key, value) {
+    if (!key) {
+      return AsyncStorage.setItem(
+        `${this.getName()}|state`,
+        JSON.stringify(this.state)
+      )
+    }
+
     return AsyncStorage.setItem(
       `${this.getName()}|${key}|state`,
       JSON.stringify(value || this.state[key])
@@ -94,6 +101,10 @@ class Common {
    * @param {*} key
    */
   async getStorage(key) {
+    if (!key) {
+      return JSON.parse(await AsyncStorage.getItem(`${this.getName()}|state`))
+    }
+
     return JSON.parse(
       await AsyncStorage.getItem(`${this.getName()}|${key}|state`)
     )
@@ -149,5 +160,3 @@ export function dev() {
   // }
   // window.Stores[key] = store
 }
-
-export default Common

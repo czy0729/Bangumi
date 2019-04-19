@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 16:28:10
+ * @Last Modified time: 2019-04-15 15:40:36
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
-import commonStore from '@stores/common'
 import { userStore, subjectStore, collectionStore } from '@stores'
 import { MODEL_EP_STATUS } from '@constants/model'
 import { sleep, getStorage, setStorage } from '@utils'
+import store from '@utils/store'
 
 const screen = '@screen|home|state'
 const itemState = {
@@ -33,7 +33,7 @@ export const tabs = [
   }
 ]
 
-export default class Store extends commonStore {
+export default class Store extends store {
   state = observable({
     loading: true, // 是否加载数据中
     visible: false, // <Modal>可见性

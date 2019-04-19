@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 12:36:52
+ * @Last Modified time: 2019-04-19 19:43:35
  */
 import { Dimensions, StyleSheet, Platform } from 'react-native'
 
@@ -104,16 +104,14 @@ const Styles = {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: colorPlain
+      alignItems: 'center'
     },
     row: {
       flex: 1,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: colorPlain
+      alignItems: 'center'
     },
     outer: {
       paddingVertical: space,

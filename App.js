@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 19:32:48
+ * @Last Modified time: 2019-04-15 15:23:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { AppLoading, Asset } from 'expo'
 import { Provider } from '@ant-design/react-native'
+import Stores from '@stores'
 import { colorPlain } from '@styles'
 import theme from '@styles/theme'
 import AppNavigator from './AppNavigator'
@@ -24,7 +25,8 @@ export default class App extends React.Component {
       Asset.loadAsync([
         require('@assets/images/logo.png'),
         require('@assets/components/activity/loading.gif')
-      ])
+      ]),
+      Stores.init()
     ])
 
   handleLoadingError = error => {

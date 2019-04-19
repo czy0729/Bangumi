@@ -3,21 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 16:58:11
+ * @Last Modified time: 2019-04-15 15:48:11
  */
 import { observable, computed } from 'mobx'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import {
   API_ACCESS_TOKEN,
+  API_USER_INFO,
   API_USER_COLLECTION,
   API_USER_PROGRESS,
   API_EP_STATUS,
   API_SUBJECT_UPDATE_WATCHED
 } from '@constants/api'
+import store from '@utils/store'
 import fetch from '@utils/fetch'
-import common from './common'
 
-const initUserInfo = {
+const initAccessToken = {
   access_token: '',
   expires_in: 604800,
   token_type: 'Bearer',
@@ -25,24 +26,46 @@ const initUserInfo = {
   user_id: 0,
   refresh_token: ''
 }
+const initUserInfo = {
+  avatar: {},
+  id: 0,
+  nickname: '',
+  sign: '',
+  url: '',
+  usergroup: '',
+  username: ''
+}
 
-class User extends common {
+class User extends store {
   state = observable({
+    accessToken: initAccessToken,
     userInfo: initUserInfo,
-    userCollection: {
-      // [`${userId}]: {}
-    },
-    userProgress: {
-      // [`${userId}|${subjectId}`]: {}
-    }
+    userCookie: '',
+    userCollection: {}, // 'userId': {}
+    userProgress: {} // 'userId|subjectId': {}
   })
 
   async init() {
+    const res = Promise.all([
+      this.getStorage('accessToken'),
+      this.getStorage('userInfo'),
+      this.getStorage('userCookie'),
+      this.getStorage('userCollection'),
+      this.getStorage('userProgress')
+    ])
+    const state = await res
     this.setState({
-      userInfo: await this.getStorage('userInfo'),
-      userCollection: await this.getStorage('userCollection'),
-      userProgress: await this.getStorage('userProgress')
+      accessToken: state[0],
+      userInfo: state[1],
+      userCookie: state[2],
+      userCollection: state[3],
+      userProgress: state[4]
     })
+    if (this.isLogin) {
+      this.fetchUserInfo()
+    }
+
+    return res
   }
 
   // -------------------- get --------------------
@@ -57,14 +80,28 @@ class User extends common {
    * 取自己用户Id
    */
   @computed get myUserId() {
-    return this.userInfo.user_id
+    return this.userInfo.id || this.accessToken.user_id
+  }
+
+  /**
+   * 取授权信息
+   */
+  @computed get accessToken() {
+    return this.state.accessToken
   }
 
   /**
    * 取是否登录
    */
   @computed get isLogin() {
-    return !!this.userInfo.access_token
+    return !!this.accessToken.access_token
+  }
+
+  /**
+   * 取用户cookie (请求HTML用)
+   */
+  @computed get userCookie() {
+    return this.state.userCookie
   }
 
   /**
@@ -88,7 +125,7 @@ class User extends common {
 
   // -------------------- fetch --------------------
   /**
-   * oauth获取access_token
+   * 获取授权信息
    * @param {*} code 回调获取的 code
    */
   fetchAccessToken(code) {
@@ -104,6 +141,23 @@ class User extends common {
           redirect_uri: OAUTH_REDIRECT_URL
         },
         info: 'access_token'
+      },
+      'accessToken',
+      {
+        storage: true
+      }
+    )
+  }
+
+  /**
+   * 用户信息
+   * @param {*} userId
+   */
+  fetchUserInfo(userId = this.myUserId) {
+    return this.fetch(
+      {
+        url: API_USER_INFO(userId),
+        info: '用户信息'
       },
       'userInfo',
       {
@@ -169,14 +223,30 @@ class User extends common {
     return res
   }
 
-  // -------------------- action --------------------
+  // -------------------- page --------------------
+  /**
+   * @todo 清除所有用户相关缓存
+   * 登出
+   */
   logout() {
     this.setState({
-      userInfo: initUserInfo
+      accessToken: initAccessToken
     })
-    this.setStorage('userInfo')
+    this.setStorage('accessToken')
   }
 
+  /**
+   * 更新用户cookie
+   * @param {*} data
+   */
+  updateUserCookie(data) {
+    this.setState({
+      userCookie: data
+    })
+    this.setStorage('userCookie')
+  }
+
+  // -------------------- action --------------------
   /**
    * 更新收视进度
    */
@@ -201,7 +271,4 @@ class User extends common {
   }
 }
 
-const Store = new User()
-Store.init()
-
-export default Store
+export default new User()

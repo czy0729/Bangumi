@@ -3,19 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 12:13:55
+ * @Last Modified time: 2019-04-15 15:19:19
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
-import {
-  API_SUBJECT,
-  API_HTML_SUBJECT,
-  API_SUBJECT_EP,
-  API_HTML_SUBJECT_COMMENTS,
-  API_CALENDAR
-} from '@constants/api'
+import { API_SUBJECT, API_SUBJECT_EP, API_CALENDAR } from '@constants/api'
+import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS } from '@constants/html'
+import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
-import common from './common'
 
 const initSubjectItem = {
   air_date: '',
@@ -47,7 +42,7 @@ const initSubjectFormHTMLItem = {
   relations: [] // 关联条目
 }
 
-class Subject extends common {
+class Subject extends store {
   state = observable({
     subject: {},
     subjectFormHTML: {},
@@ -57,13 +52,21 @@ class Subject extends common {
   })
 
   async init() {
+    const res = Promise.all([
+      this.getStorage('subject'),
+      this.getStorage('subjectFormHTML'),
+      this.getStorage('subjectEp'),
+      this.getStorage('calendar')
+    ])
+    const state = await res
     this.setState({
-      subject: await this.getStorage('subject'),
-      subjectFormHTML: await this.getStorage('subjectFormHTML'),
-      subjectEp: await this.getStorage('subjectEp'),
-      // subjectCommentsFormHTML: (await this.getStorage('subjectCommentsFormHTML')) || LIST_EMPTY,
-      calendar: (await this.getStorage('calendar')) || []
+      subject: state[0],
+      subjectFormHTML: state[1],
+      subjectEp: state[2],
+      calendar: state[3] || []
     })
+
+    return res
   }
 
   // -------------------- get --------------------
@@ -134,26 +137,26 @@ class Subject extends common {
   }
 
   /**
-   * 爬取网页获取条目信息 (高流量, 80k左右1次)
+   * 分析网页获取条目信息 (高流量, 80k左右1次)
    * @param {*} subjectId
    */
   async fetchSubjectFormHTML(subjectId) {
     const res = fetchHTML({
-      url: API_HTML_SUBJECT(subjectId)
+      url: HTML_SUBJECT(subjectId)
     })
     const htmlRaw = await res
     const html = htmlRaw.replace(/\s+/g, '')
 
     // 标签
     const tags = []
-    const tagsHtml = html.match(
+    const tagsHTML = html.match(
       /<divclass="subject_tag_section">(.+?)<\/div><divid="panelInterestWrapper">/
     )
-    if (tagsHtml) {
-      const _tags = tagsHtml[1]
+    if (tagsHTML) {
+      const _tags = tagsHTML[1]
         .match(/class="l"><span>(.+?)<\/span>/g)
         .map(item => item.replace(/class="l"><span>|<\/span>/g, ''))
-      const _counts = tagsHtml[1]
+      const _counts = tagsHTML[1]
         .match(/<smallclass="grey">(.+?)<\/small>/g)
         .map(item => item.replace(/<smallclass="grey">|<\/small>/g, ''))
       _tags.forEach((item, index) => {
@@ -166,12 +169,12 @@ class Subject extends common {
 
     // 关联条目
     const relations = []
-    const relationsHtml = html.match(
+    const relationsHTML = html.match(
       /<h2class="subtitle">关联条目<\/h2><\/div><divclass="content_inner"><ulclass="browserCoverMediumclearit">(.+?)<\/ul>/
     )
-    if (relationsHtml) {
+    if (relationsHTML) {
       const _relations = []
-      relationsHtml[1]
+      relationsHTML[1]
         .split('<liclass="sep">')
         .filter(item => !!item)
         .forEach(item =>
@@ -240,7 +243,7 @@ class Subject extends common {
   }
 
   /**
-   * 爬取网页获取留言 (高流量, 30k左右1次)
+   * 分析网页获取留言 (高流量, 30k左右1次)
    * @param {*} subjectId
    * @param {*} refresh 是否重新获取
    */
@@ -257,18 +260,18 @@ class Subject extends common {
 
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
-      url: API_HTML_SUBJECT_COMMENTS(subjectId, page)
+      url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
-    const rawHtml = await res
-    const html = rawHtml.replace(/\s+/g, '')
-    const commentsHtml = html.match(
+    const rawHTML = await res
+    const html = rawHTML.replace(/\s+/g, '')
+    const commentsHTML = html.match(
       /<divid="comment_box">(.+?)<\/div><\/div><divclass="section_lineclear">/
     )
 
     // -------------------- 分析HTML --------------------
     const comments = []
     let { pageTotal = 0 } = pagination
-    if (commentsHtml) {
+    if (commentsHTML) {
       /**
        * 总页数
        * @tucao 晕了, 至少有三种情况, 其实在第一页的时候获取就足够了
@@ -277,23 +280,23 @@ class Subject extends common {
        * [3] 只有1页, 没有分页按钮
        */
       if (page === 1) {
-        const pageHtml =
+        const pageHTML =
           html.match(
             /<spanclass="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
           ) ||
           html.match(
             /<ahref="\?page=\d+"class="p">(\d+)<\/a><ahref="\?page=2"class="p">&rsaquo;&rsaquo;<\/a>/
           )
-        if (pageHtml) {
+        if (pageHTML) {
           // eslint-disable-next-line prefer-destructuring
-          pageTotal = pageHtml[1]
+          pageTotal = pageHTML[1]
         } else {
           pageTotal = 1
         }
       }
 
       // 留言
-      const items = commentsHtml[1].split('<divclass="itemclearit">')
+      const items = commentsHTML[1].split('<divclass="itemclearit">')
       items.shift()
       items.forEach(item => {
         const userid = item.match(
@@ -315,7 +318,7 @@ class Subject extends common {
       })
     }
 
-    // -------------------- 保存 --------------------
+    // -------------------- 缓存 --------------------
     const key = 'subjectCommentsFormHTML'
     this.setState({
       [key]: {
@@ -350,7 +353,4 @@ class Subject extends common {
   }
 }
 
-const Store = new Subject()
-Store.init()
-
-export default Store
+export default new Subject()

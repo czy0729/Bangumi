@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 13:18:55
+ * @Last Modified time: 2019-04-15 10:32:56
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -14,7 +14,15 @@ import {
 } from 'react-navigation'
 import { Constants } from 'expo'
 import { Icon } from '@components'
-import { Auth, Home, Login, Calendar, Settings, Subject } from '@screens'
+import {
+  Auth,
+  Home,
+  Login,
+  Calendar,
+  Settings,
+  Subject,
+  Timeline
+} from '@screens'
 import { wind, colorMain, colorTitle } from '@styles'
 
 const HomeSwitch = createSwitchNavigator({
@@ -24,6 +32,15 @@ const HomeSwitch = createSwitchNavigator({
 
 const NavBottomTab = createBottomTabNavigator(
   {
+    Timeline: {
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name='ios-list' size={26} style={{ color: tintColor }} />
+        ),
+        tabBarLabel: '时间胶囊'
+      },
+      screen: Timeline
+    },
     Home: {
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
@@ -53,9 +70,9 @@ const NavBottomTab = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Timeline',
     navigationOptions: {
-      header: null
+      title: 'Bangumi'
     },
     tabBarOptions: {
       activeTintColor: colorMain,

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-08 15:19:25
+ * @Last Modified time: 2019-04-15 15:40:20
  */
 import { observable, computed } from 'mobx'
-import commonStore from '@stores/common'
 import { subjectStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
+import store from '@utils/store'
 
 const screen = '@screen|calendar|state'
 
-export default class Store extends commonStore {
+export default class Store extends store {
   state = observable({
     loading: true
   })

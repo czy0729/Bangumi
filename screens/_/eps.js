@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 13:09:44
+ * @Last Modified time: 2019-04-14 20:51:19
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,27 +11,6 @@ import { Flex, Popover, Menu, Button, Text } from '@components'
 import { MODEL_EP_TYPE } from '@constants/model'
 import { arrGroup, pad } from '@utils'
 import { colorPlain, colorDesc, colorSub } from '@styles'
-
-const getType = (progress, status) => {
-  switch (progress) {
-    case '想看':
-      return 'main'
-    case '看过':
-      return 'primary'
-    case '抛弃':
-      return 'disabled'
-    default:
-      break
-  }
-  switch (status) {
-    case 'Air':
-      return 'ghostPrimary'
-    case 'Today':
-      return 'ghostSuccess'
-    default:
-      return 'ghostPlain'
-  }
-}
 
 export default class Eps extends React.Component {
   static defaultProps = {
@@ -61,8 +40,9 @@ export default class Eps extends React.Component {
   get style() {
     const { width } = this.state
     const { numbersOfLine } = this.props
-
-    if (!width) return {}
+    if (!width) {
+      return {}
+    }
 
     const marginPercent = 0.24
     const marginNumbers = numbersOfLine - 1
@@ -268,3 +248,24 @@ const styles = StyleSheet.create({
     borderColor: colorSub
   }
 })
+
+const getType = (progress, status) => {
+  switch (progress) {
+    case '想看':
+      return 'main'
+    case '看过':
+      return 'primary'
+    case '抛弃':
+      return 'disabled'
+    default:
+      break
+  }
+  switch (status) {
+    case 'Air':
+      return 'ghostPrimary'
+    case 'Today':
+      return 'ghostSuccess'
+    default:
+      return 'ghostPlain'
+  }
+}

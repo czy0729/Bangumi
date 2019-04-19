@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 12:43:33
+ * @Last Modified time: 2019-04-18 13:49:24
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,26 +11,6 @@ import { Flex, Text, Image } from '@components'
 import { HTMLDecode } from '@utils'
 import _, { md, wind, colorPlain, colorBorder } from '@styles'
 import Stars from './stars'
-
-/**
- * 由于爬出的html做了去除空格操作
- * 还原本来有操作的时间字符串
- * @param {*} str
- */
-function formatTime(str = '') {
-  if (str.indexOf('ago') === -1) {
-    // date
-    const { length } = str
-    return `${str.slice(0, length - 5)} ${str.slice(length - 5, length)}`
-  }
-
-  // ago
-  return str
-    .replace('d', 'd ')
-    .replace('h', 'h ')
-    .replace('m', 'm ')
-    .replace('s', 's ')
-}
 
 const CommentItem = ({
   style,
@@ -45,7 +25,7 @@ const CommentItem = ({
     <Image
       style={styles.image}
       size={28}
-      src={`https:${avatar}`}
+      src={avatar}
       radius
       border={colorBorder}
     />
@@ -87,3 +67,23 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth
   }
 })
+
+/**
+ * 由于爬出的html做了去除空格操作
+ * 还原本来有操作的时间字符串
+ * @param {*} str
+ */
+function formatTime(str = '') {
+  if (str.indexOf('ago') === -1) {
+    // date
+    const { length } = str
+    return `${str.slice(0, length - 5)} ${str.slice(length - 5, length)}`
+  }
+
+  // ago
+  return str
+    .replace('d', 'd ')
+    .replace('h', 'h ')
+    .replace('m', 'm ')
+    .replace('s', 's ')
+}

@@ -16,6 +16,7 @@
     "bangumi-data": "^0.2.46",
     "deepmerge": "^3.2.0",
     "expo": "^32.0.0",
+    "htmlparser2": "^3.10.1",
     "mobx": "^4.9.2",
     "mobx-react": "^5.4.3",
     "prop-types": "^15.7.2",

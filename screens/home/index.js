@@ -2,18 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 13:54:31
+ * @Last Modified time: 2019-04-15 15:58:07
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Constants } from 'expo'
-import { Loading } from '@components'
-import Tabs from '@components/@ant-design/tabs'
+import { Loading, Tabs } from '@components'
 import { ManageModal } from '@screens/_'
 import inject from '@utils/inject'
-import _, { window, colorMain, colorPlain, colorBg, radiusSm } from '@styles'
+import _, { colorBg } from '@styles'
 import Login from './login'
 import List from './list'
 import Store, { tabs } from './store'
@@ -50,20 +48,7 @@ class Home extends React.Component {
           }
         ]}
       >
-        <View
-          style={{
-            height: Constants.statusBarHeight,
-            backgroundColor: colorPlain
-          }}
-        />
-        <Tabs
-          tabs={tabs}
-          initialPage={page}
-          tabBarBackgroundColor={colorPlain}
-          tabBarUnderlineStyle={styles.tabBarUnderline}
-          prerenderingSiblingsNumber={0}
-          onChange={$.tabsChange}
-        >
+        <Tabs tabs={tabs} initialPage={page} onChange={$.tabsChange}>
           <List />
           <List title='动画' />
           <List title='书籍' />
@@ -83,14 +68,3 @@ class Home extends React.Component {
 }
 
 export default inject(Store)(observer(Home))
-
-const tabWidth = window.width / 4
-const lineWidth = 56
-const styles = StyleSheet.create({
-  tabBarUnderline: {
-    width: lineWidth,
-    marginLeft: (tabWidth - lineWidth) / 2,
-    backgroundColor: colorMain,
-    borderRadius: radiusSm
-  }
-})

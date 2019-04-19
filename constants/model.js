@@ -1,8 +1,9 @@
 /*
+ * 字典
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 16:25:55
+ * @Last Modified time: 2019-04-18 20:46:17
  */
 
 class Modal {
@@ -142,19 +143,70 @@ export const MODEL_PRIVATE = new Modal([
   }
 ])
 
-// 评分
-export const MODEL_RATING = {
-  getLabel(score) {
-    if (score === undefined) return false
-    if (score >= 9.5) return '超神作'
-    if (score >= 8.5) return '神作'
-    if (score >= 7.5) return '力荐'
-    if (score >= 6.5) return '推荐'
-    if (score >= 5.5) return '还行'
-    if (score >= 4.5) return '不过不失'
-    if (score >= 3.5) return '较差'
-    if (score >= 2.5) return '差'
-    if (score >= 1.5) return '很差'
-    return '不忍直视'
+// 时间胶囊范围
+export const MODEL_TIMELINE_SCOPE = new Modal([
+  {
+    label: '好友',
+    value: 'friend'
+  },
+  {
+    label: '所有',
+    value: 'all'
+  },
+  {
+    label: '自己',
+    value: 'self'
   }
-}
+])
+
+// 时间胶囊类型
+export const MODEL_TIMELINE_TYPE = new Modal([
+  {
+    label: '全部',
+    value: 'all'
+  },
+  {
+    label: '吐槽',
+    value: 'say'
+  },
+  {
+    label: '收藏',
+    value: 'subject'
+  },
+  {
+    label: '进度',
+    value: 'progress'
+  },
+  {
+    label: '日志',
+    value: 'blog'
+  },
+  {
+    label: '人物',
+    value: 'mono'
+  },
+  {
+    label: '好友',
+    value: 'relation'
+  },
+  {
+    label: '小组',
+    value: 'group'
+  },
+  {
+    label: '维基',
+    value: 'wiki'
+  },
+  {
+    label: '目录',
+    value: 'index'
+  },
+  {
+    label: '天窗',
+    value: 'doujin'
+  },
+  {
+    label: '',
+    value: 'all'
+  }
+])

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:31:31
+ * @Last Modified time: 2019-04-15 15:48:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -37,6 +37,7 @@ export default class Login extends React.Component {
           loading: true
         })
         await userStore.fetchAccessToken(code)
+        await userStore.fetchUserInfo()
 
         const { navigation } = this.props
         navigation.popToTop()

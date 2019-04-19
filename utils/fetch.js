@@ -1,8 +1,9 @@
 /*
+ * 请求相关
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-10 05:56:17
+ * @Last Modified time: 2019-04-18 20:21:49
  */
 import { Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
@@ -34,12 +35,13 @@ export default async function _fetch({
 } = {}) {
   // 避免userStore循环引用
   const userStore = require('../stores/user').default
-  const { userInfo = {} } = userStore
+  const {
+    token_type: tokenType,
+    access_token: accessToken
+  } = userStore.accessToken
   const _config = {
     headers: {
-      Authorization: `${userInfo.token_type || 'Bearer'} ${
-        userInfo.access_token
-      }`
+      Authorization: `${tokenType} ${accessToken}`
     }
   }
   const isGet = method === 'GET'
@@ -108,7 +110,29 @@ export default async function _fetch({
  * @param {*} param
  */
 export async function fetchHTML({ url } = {}) {
-  return fetch(url).then(res => Promise.resolve(res._bodyInit))
+  // const userStore = require('../stores/user').default
+  // let { userCookie } = userStore
+  // if (!userCookie) {
+  //   userCookie = await userStore.getStorage('userCookie')
+  // }
+
+  log('HTML', 'fetch', url)
+  const data = {
+    method: 'GET'
+  }
+  console.log(url)
+  if (url.indexOf('!') !== 0) {
+    data.headers = {
+      'User-Agent':
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+      Cookie:
+        // eslint-disable-next-line max-len
+        '__utmz=1.1555120637.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); chii_cookietime=0; __utma=1.158421289.1555120637.1555572370.1555588783.31; __utmc=1; __utmt=1; chii_auth=1F1x%2F%2B%2FI6xZMGqClBkBqX7xFaxcYp%2FYqZdXb7fcsBrj5KqSAYhb1LPRRjPoumbh5Lmb9NGgfSlM63avajmOO78RV0nzrnEkeoCAi; chii_sid=pqUt9U; __utmb=1.14.10.1555588783'
+    }
+  }
+  return fetch(url.replace('!', ''), data).then(res =>
+    Promise.resolve(res._bodyInit)
+  )
 }
 
 /**

@@ -1,10 +1,18 @@
 /*
- * 项目相关方法
+ * 项目相关
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 17:29:54
+ * @Last Modified time: 2019-04-19 19:36:20
  */
+
+/**
+ * 根据Bangumi的url判断路由跳转方式
+ */
+export function appLocation(url = '') {
+
+}
+
 
 /**
  * 获取颜色type
@@ -68,4 +76,18 @@ export function getBangumiUrl(item) {
     default:
       return ''
   }
+}
+
+/**
+ * 从cookies字符串中分析cookie值
+ * @param {*} cookies
+ * @param {*} name
+ */
+export function getCookie(cookies = '', name) {
+  const list = cookies.split('; ')
+  for (let i = 0; i < list.length; i += 1) {
+    const arr = list[i].split('=')
+    if (arr[0] == name) return decodeURIComponent(arr[1])
+  }
+  return ''
 }

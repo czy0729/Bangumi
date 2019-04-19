@@ -1,9 +1,10 @@
 /* eslint-disable indent */
 /*
+ * 封装应用主要功能实现的装饰器
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 13:06:36
+ * @Last Modified time: 2019-04-12 22:09:28
  */
 import React from 'react'
 import { Platform, StyleSheet, StatusBar } from 'react-native'

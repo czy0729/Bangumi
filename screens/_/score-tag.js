@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-23 08:43:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 13:13:03
+ * @Last Modified time: 2019-04-14 21:06:45
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Text } from '@components'
-import { MODEL_RATING } from '@constants/model'
+import { getRating } from '@utils/app'
 import { colorMain, radiusXs } from '@styles'
 
 const ScoreTag = ({ style, value }) => (
   <Text style={[styles.container, style]} type='plain' size={12} lineHeight={1}>
-    {MODEL_RATING.getLabel(value)}
+    {getRating(value)}
   </Text>
 )
 

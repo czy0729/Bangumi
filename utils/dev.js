@@ -1,8 +1,9 @@
 /*
+ * 开发调试
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-01 22:22:14
+ * @Last Modified time: 2019-04-15 15:30:46
  */
 import { date } from './index'
 
@@ -46,5 +47,5 @@ export function log(type, key, value, ...other) {
   if (other && other.length) {
     res.push('|', other)
   }
-  console.log(...res)
+  console.info(...res)
 }

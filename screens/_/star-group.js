@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-06 23:59:45
+ * @Last Modified time: 2019-04-14 21:07:01
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Text, Touchable, Icon, Flex } from '@components'
-import { MODEL_RATING } from '@constants/model'
+import { getRating } from '@utils/app'
 import _, { colorWarning, colorIcon } from '@styles'
 
 export default class StarGroup extends React.Component {
@@ -61,7 +61,7 @@ export default class StarGroup extends React.Component {
           {value !== 0 && (
             <>
               <Text type='warning' size={16}>
-                {MODEL_RATING.getLabel(value)}
+                {getRating(value)}
               </Text>
               <Text style={_.ml.sm} type='sub' size={16}>
                 /

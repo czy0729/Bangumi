@@ -5,8 +5,10 @@ import {
   Dimensions,
   Platform,
   ViewPagerAndroid,
-  View
+  View,
+  Text
 } from 'react-native'
+import Flex from '../../flex'
 import { WithTheme } from '../style'
 import { DefaultTabBar } from './defaultTabBar'
 import TabsStyles from './style/tabs'
@@ -14,16 +16,17 @@ import TabsStyles from './style/tabs'
 let instanceId = 0
 export class Tabs extends React.PureComponent {
   static defaultProps = {
-    tabBarPosition: 'top',
-    initialPage: 0,
-    swipeable: true,
     animated: true,
-    prerenderingSiblingsNumber: 1,
-    tabs: [],
     destroyInactiveTab: false,
-    usePaged: true,
-    tabDirection: 'horizontal',
     distanceToChangeTab: 0.3,
+    initialPage: 0,
+    prerenderingSiblingsNumber: 1,
+    swipeable: true,
+    tabBarPosition: 'top',
+    tabDirection: 'horizontal',
+    tabs: [],
+    usePaged: true,
+    renderTabBarLeft: undefined,
     style: {}
   }
   static DefaultTabBar = DefaultTabBar
@@ -380,12 +383,21 @@ export class Tabs extends React.PureComponent {
 
   // tslint:disable-next-line:no-shadowed-variable
   renderTabBar(tabBarProps, DefaultTabBar) {
-    const { renderTabBar } = this.props
+    const { renderTabBar, renderTabBarLeft } = this.props
     if (renderTabBar === false) {
       return null
     } else if (renderTabBar) {
       return renderTabBar(tabBarProps)
     } else {
+      // @modify
+      if (renderTabBarLeft) {
+        return (
+          <Flex>
+            {renderTabBarLeft}
+            <DefaultTabBar {...tabBarProps} />
+          </Flex>
+        )
+      }
       return <DefaultTabBar {...tabBarProps} />
     }
   }

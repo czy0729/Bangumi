@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-10 14:46:11
+ * @Last Modified time: 2019-04-18 20:27:18
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -48,7 +48,10 @@ export default class Image extends React.Component {
     if (IOS) {
       let uri
       if (typeof src === 'string') {
-        const _src = src.replace('http://', 'https://')
+        let _src = src.replace('http://', 'https://')
+        if (_src.indexOf('https:') === -1) {
+          _src = `https:${_src}`
+        }
         const path = await CacheManager.get(_src).getPath()
         if (path) {
           uri = path
@@ -60,8 +63,15 @@ export default class Image extends React.Component {
         })
       }
     } else {
+      let _src = src
+      if (typeof _src === 'string') {
+        _src = src.replace('http://', 'https://')
+        if (_src.indexOf('https:' === -1)) {
+          _src = `https:${_src}`
+        }
+      }
       this.setState({
-        uri: src
+        uri: _src
       })
     }
   }
@@ -81,6 +91,7 @@ export default class Image extends React.Component {
       onLongPress,
       ...other
     } = this.props
+    const { uri } = this.state
     const _wrap = []
     const _image = []
     if (size) {
@@ -119,7 +130,6 @@ export default class Image extends React.Component {
 
     let image
     if (typeof src === 'string' || typeof src === 'undefined') {
-      const { uri } = this.state
       if (uri) {
         image = (
           <AnimateImage

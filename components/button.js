@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-10 16:13:18
+ * @Last Modified time: 2019-04-14 13:59:58
  */
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -127,6 +127,10 @@ const styles = StyleSheet.create({
     backgroundColor: colorBg,
     borderColor: colorBorder
   },
+  ghostMain: {
+    backgroundColor: 'rgb(255, 243, 244)',
+    borderColor: 'rgb(252, 128, 138)'
+  },
   ghostPrimary: {
     backgroundColor: 'rgb(248, 253, 255)',
     borderColor: 'rgb(159, 230, 254)'
@@ -173,6 +177,9 @@ const styles = StyleSheet.create({
     color: colorPlain
   },
   textGhostPlain: {
+    color: colorSub
+  },
+  textGhostMain: {
     color: colorSub
   },
   textGhostPrimary: {

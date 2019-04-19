@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-10 14:23:48
+ * @Last Modified time: 2019-04-19 14:43:25
  */
 import { AsyncStorage } from 'react-native'
+import HTMLParser from './common/html-parser'
 
 /**
  * 保存数据
@@ -382,12 +383,164 @@ export function HTMLDecode(str = '') {
   if (str.length === 0) {
     return ''
   }
-  return str
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&nbsp;/g, ' ')
-    // eslint-disable-next-line quotes
-    .replace(/&#39;/g, "'")
-    .replace(/&quot;/g, '"')
+  return (
+    str
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&nbsp;/g, ' ')
+      // eslint-disable-next-line quotes
+      .replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"')
+  )
+}
+
+/**
+ * HTML压缩
+ * @param {*} str
+ */
+export function HTMLTrim(str = '') {
+  return (
+    str
+      // .replace(/<!--.*?-->/gi, '')
+      // .replace(/\/\*.*?\*\//gi, '')
+      // .replace(/[ ]+</gi, '<')
+      // eslint-disable-next-line no-control-regex, no-tabs
+      .replace(/\n+|\s\s\s*|\t/g, '')
+  )
+}
+
+/**
+ * html字符串转对象 (很好的利用js的引用特性, hhh)
+ * @param {*} html
+ */
+export function HTMLToTree(html) {
+  const tree = {
+    tag: 'root',
+    attrs: {},
+    text: [],
+    children: [],
+    cmd: 'root'
+  }
+  let ref = tree
+
+  HTMLParser(html, {
+    start: (tag, attrs, unary) => {
+      const attrsMap = {}
+      attrs.forEach(
+        ({ name, value, escaped }) => (attrsMap[name] = escaped || value)
+      )
+      const item = {
+        tag,
+        attrs: attrsMap,
+        cmd: `${ref.cmd} > ${tag}`
+      }
+      if (!unary) {
+        item.parent = ref
+        item.text = []
+        item.children = []
+      }
+      ref.children.push(item)
+
+      if (!unary) {
+        ref = item
+      }
+    },
+    chars: text => {
+      ref.text.push(text)
+    },
+    end: () => {
+      const _ref = ref.parent
+      delete ref.parent
+      ref = _ref
+    }
+  })
+
+  return tree
+}
+
+/**
+ * tree查找
+ * ul > li
+ * ul > li > a|title
+ * ul > li > a|title=123
+ * ul > li > a|title=123&class=article
+ * @param {*} children
+ * @param {*} cmd
+ * @return {Array}
+ */
+export function findTreeNode(children, cmd = '', defaultValue) {
+  if (!cmd) {
+    return children
+  }
+
+  const split = ' > '
+  const tags = cmd.split(split)
+  const tag = tags.shift()
+  const find = children.filter(item => {
+    let temp = tag.split('|')
+    const _tag = temp[0]
+    const attr = temp[1] || ''
+
+    if (attr) {
+      const attrs = attr.split('&')
+      let match = true
+      attrs.forEach(attr => {
+        if (attr.indexOf('~') !== -1) {
+          // ~
+          temp = attr.split('~')
+          const _attr = temp[0]
+          const _value = temp[1]
+          if (_value) {
+            match =
+              match &&
+              (item.tag === _tag &&
+                item.attrs[_attr] &&
+                item.attrs[_attr].indexOf(_value) !== -1)
+          }
+          if (_attr) {
+            match =
+              match && (item.tag === _tag && item.attrs[_attr] !== undefined)
+          }
+        } else if (attr.indexOf('=') !== -1) {
+          // =
+
+          temp = attr.split('=')
+          const _attr = temp[0]
+          const _value = temp[1]
+          if (_value) {
+            match = match && (item.tag === _tag && item.attrs[_attr] == _value)
+          }
+          if (_attr) {
+            match =
+              match && (item.tag === _tag && item.attrs[_attr] !== undefined)
+          }
+        }
+      })
+      return match
+    }
+    return item.tag === _tag
+  })
+  if (!find.length) {
+    return undefined || defaultValue
+  }
+  if (!tags.length) {
+    return find
+  }
+
+  const _find = []
+  find.forEach(item => {
+    _find.push(...(findTreeNode(item.children, tags.join(split)) || []))
+  })
+  if (!_find.length) {
+    return undefined || defaultValue
+  }
+  return _find
+}
+
+/**
+ * @param {*} str
+ */
+export function trim(str = '') {
+  return str.replace(/^\s+|\s+$/gm, '')
 }

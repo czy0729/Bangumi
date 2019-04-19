@@ -1,4 +1,13 @@
-/* eslint-disable */
+/* eslint-disable max-len */
+/* eslint-disable quotes */
+/* eslint-disable quote-props */
+/*
+ * Mock数据
+ * @Author: czy0729
+ * @Date: 2019-04-14 21:47:51
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2019-04-14 21:49:11
+ */
 export const DATA_USER_INFO = {
   id: 456208,
   url: 'http://bgm.tv/user/456208',

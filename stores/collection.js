@@ -3,22 +3,26 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-08 16:04:07
+ * @Last Modified time: 2019-04-15 15:17:42
  */
 import { observable, computed } from 'mobx'
 import { API_COLLECTION, API_COLLECTION_ACTION } from '@constants/api'
+import store from '@utils/store'
 import fetch from '@utils/fetch'
-import common from './common'
 
-class Collection extends common {
+class Collection extends store {
   state = observable({
     collection: {}
   })
 
   async init() {
+    const res = Promise.all([this.getStorage('collection')])
+    const state = await res
     this.setState({
-      collection: await this.getStorage('collection')
+      collection: state[0]
     })
+
+    return res
   }
 
   // -------------------- get --------------------
@@ -67,7 +71,4 @@ class Collection extends common {
   }
 }
 
-const Store = new Collection()
-Store.init()
-
-export default Store
+export default new Collection()

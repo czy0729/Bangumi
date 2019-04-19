@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 13:35:22
+ * @Last Modified time: 2019-04-18 16:32:09
  */
 import React from 'react'
 import {
-  StyleSheet,
   ActivityIndicator,
   FlatList,
+  SectionList,
+  StyleSheet,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -30,6 +31,7 @@ export default class ListView extends React.Component {
   static defaultProps = {
     style: undefined,
     keyExtractor: undefined,
+    section: '', // 当有此值, 根据item[section]构造<SectionList>的sections
     data: LIST_EMPTY,
     renderItem: undefined,
     footerRefreshingText: '玩命加载中 >.<',
@@ -90,7 +92,6 @@ export default class ListView extends React.Component {
 
   onEndReached = () => {
     if (this.shouldStartFooterRefreshing()) {
-      console.log('onFooterRefresh')
       this.onFooterRefresh()
     }
   }
@@ -192,12 +193,43 @@ export default class ListView extends React.Component {
   }
 
   render() {
-    const { style, data, ...other } = this.props
+    const { style, section, data, ...other } = this.props
     const { refreshState } = this.state
+
+    if (section) {
+      const sections = []
+      const sectionsMap = {}
+      data.list.slice().forEach(item => {
+        const title = item[section]
+        if (sectionsMap[title] === undefined) {
+          sectionsMap[title] = sections.length
+          sections.push({
+            title,
+            data: [item]
+          })
+        } else {
+          sections[sectionsMap[title]].data.push(item)
+        }
+      })
+
+      return (
+        <SectionList
+          style={[styles.container, style]}
+          sections={sections}
+          refreshing={refreshState === RefreshState.HeaderRefreshing}
+          ListFooterComponent={this.renderFooter(refreshState)}
+          onRefresh={this.onHeaderRefresh}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.16}
+          {...other}
+        />
+      )
+    }
+
     return (
       <FlatList
         style={[styles.container, style]}
-        data={data.list}
+        data={data.list.slice()}
         refreshing={refreshState === RefreshState.HeaderRefreshing}
         ListFooterComponent={this.renderFooter(refreshState)}
         onRefresh={this.onHeaderRefresh}

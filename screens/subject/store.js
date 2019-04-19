@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 10:16:13
+ * @Last Modified time: 2019-04-15 15:41:04
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
 import { userStore, subjectStore, collectionStore } from '@stores'
-import commonStore from '@stores/common'
 import { MODEL_EP_STATUS } from '@constants/model'
 import { queue } from '@utils/fetch'
+import store from '@utils/store'
 
-export default class Store extends commonStore {
+export default class Store extends store {
   state = observable({
     visible: false,
     bangumiInfo: {
