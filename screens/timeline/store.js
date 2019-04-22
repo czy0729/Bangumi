@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-20 02:39:45
+ * @Last Modified time: 2019-04-22 19:02:25
  */
 import { observable, computed } from 'mobx'
 import { timelineStore } from '@stores'
@@ -15,14 +15,21 @@ export const tabs = MODEL_TIMELINE_TYPE.data.map(item => ({
 
 export default class ScreenTimeline extends store {
   state = observable({
-    loading: true, // 是否加载数据中
     scope: MODEL_TIMELINE_SCOPE.getValue('好友'),
     page: 0 // <Tabs>缓存当前页数,
   })
 
+  init = async () => {
+    const state = await this.getStorage()
+    if (state) {
+      this.setState(state)
+    }
+    this.fetchTimeline(true)
+  }
+
   // -------------------- get --------------------
-  getTimeline(scope, type) {
-    return computed(() => timelineStore.getTimeline(scope, type)).get()
+  timeline(scope, type) {
+    return computed(() => timelineStore.timeline(scope, type)).get()
   }
 
   // -------------------- fetch --------------------
@@ -33,25 +40,12 @@ export default class ScreenTimeline extends store {
   }
 
   // -------------------- page --------------------
-  initFetch = async () => {
-    const state = await this.getStorage()
-    if (state) {
-      this.setState(state)
-    }
-
-    this.fetchTimeline(true)
-    this.setState({
-      loading: false
-    })
-    this.setStorage()
-  }
-
   tabsChange = (item, page) => {
     this.setState({
       page
     })
-    this.setStorage()
     this.fetchTimeline(true)
+    this.setStorage()
   }
 
   onSelectScope = label => {

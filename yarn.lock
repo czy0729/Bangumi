@@ -1963,10 +1963,10 @@ balanced-match@^1.0.0:
   resolved "http://registry.npm.taobao.org/balanced-match/download/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-bangumi-data@^0.2.46:
-  version "0.2.46"
-  resolved "http://registry.npm.taobao.org/bangumi-data/download/bangumi-data-0.2.46.tgz#a2b199a59ed8ed277eaf2970c8f03f3cf986312c"
-  integrity sha1-orGZpZ7Y7Sd+rylwyPA/PPmGMSw=
+bangumi-data@^0.2.50:
+  version "0.2.50"
+  resolved "http://registry.npm.taobao.org/bangumi-data/download/bangumi-data-0.2.50.tgz#aa0a812b44d7046a12f2d32750ddec2f1f63ff48"
+  integrity sha1-qgqBK0TXBGoS8tMnUN3sLx9j/0g=
 
 base64-js@1.1.2:
   version "1.1.2"

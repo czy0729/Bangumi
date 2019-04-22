@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-14 08:00:20
+ * @Last Modified time: 2019-04-21 18:36:45
  */
 import React from 'react'
 import { Flex, Icon, Text } from '@components'
@@ -37,6 +37,7 @@ const Stars = ({ style, simple, value }) => {
         }
         return (
           <Icon
+            key={item}
             name={type}
             size={12}
             color={type === 'ios-star-outline' ? colorIcon : colorWarning}

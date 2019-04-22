@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-18 20:21:49
+ * @Last Modified time: 2019-04-22 18:53:04
  */
 import { Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
@@ -83,6 +83,10 @@ export default async function _fetch({
         return Promise.resolve({})
       }
 
+      // if (_url.indexOf('https://api.bgm.tv/user/456208/progress') !== -1) {
+      //   console.log(_url, _config, JSON.stringify(safe(res)))
+      // }
+
       // 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串
       return Promise.resolve(safe(res))
     })
@@ -120,7 +124,7 @@ export async function fetchHTML({ url } = {}) {
   const data = {
     method: 'GET'
   }
-  console.log(url)
+
   if (url.indexOf('!') !== 0) {
     data.headers = {
       'User-Agent':
@@ -130,9 +134,17 @@ export async function fetchHTML({ url } = {}) {
         '__utmz=1.1555120637.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); chii_cookietime=0; __utma=1.158421289.1555120637.1555572370.1555588783.31; __utmc=1; __utmt=1; chii_auth=1F1x%2F%2B%2FI6xZMGqClBkBqX7xFaxcYp%2FYqZdXb7fcsBrj5KqSAYhb1LPRRjPoumbh5Lmb9NGgfSlM63avajmOO78RV0nzrnEkeoCAi; chii_sid=pqUt9U; __utmb=1.14.10.1555588783'
     }
   }
-  return fetch(url.replace('!', ''), data).then(res =>
-    Promise.resolve(res._bodyInit)
-  )
+
+  // 加上时间戳防止缓存
+  let _url = url.replace('!', '')
+  const state = getTimestamp()
+  if (_url.indexOf('?')) {
+    _url = `${_url}&${state}`
+  } else {
+    _url = `${_url}?${state}`
+  }
+
+  return fetch(_url, data).then(res => Promise.resolve(res._bodyInit))
 }
 
 /**
@@ -158,7 +170,7 @@ export async function queue(fetchs = []) {
 
 /**
  * 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串
- * @param {*} re's
+ * @param {*} res
  */
 function safe(res) {
   return JSON.parse(JSON.stringify(res).replace(/:null/g, ':""'))

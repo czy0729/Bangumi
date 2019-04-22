@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-15 10:32:56
+ * @Last Modified time: 2019-04-22 13:21:57
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -70,7 +70,7 @@ const NavBottomTab = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'Timeline',
+    initialRouteName: 'Home',
     navigationOptions: {
       title: 'Bangumi'
     },

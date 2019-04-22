@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-15 15:48:11
+ * @Last Modified time: 2019-04-22 18:52:38
  */
 import { observable, computed } from 'mobx'
-import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
+import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL, LIST_EMPTY } from '@constants'
 import {
   API_ACCESS_TOKEN,
   API_USER_INFO,
@@ -41,8 +41,12 @@ class User extends store {
     accessToken: initAccessToken,
     userInfo: initUserInfo,
     userCookie: '',
-    userCollection: {}, // 'userId': {}
-    userProgress: {} // 'userId|subjectId': {}
+    userCollection: LIST_EMPTY,
+    userProgress: {
+      // [subjectId]: {
+      //   [epId]: '看过'
+      // }
+    }
   })
 
   async init() {
@@ -55,10 +59,10 @@ class User extends store {
     ])
     const state = await res
     this.setState({
-      accessToken: state[0],
-      userInfo: state[1],
+      accessToken: state[0] || initAccessToken,
+      userInfo: state[1] || initUserInfo,
       userCookie: state[2],
-      userCollection: state[3],
+      userCollection: state[3] || LIST_EMPTY,
       userProgress: state[4]
     })
     if (this.isLogin) {
@@ -105,22 +109,19 @@ class User extends store {
   }
 
   /**
-   * 取某人的在看收藏
+   * 取在看收藏
    * @param {*} userId
    */
-  getUserCollection(userId = this.myUserId) {
-    return computed(() => this.state.userCollection[userId] || []).get()
+  @computed get userCollection() {
+    return this.state.userCollection
   }
 
   /**
-   * 取某人的收视进度
+   * 取收视进度
    * @param {*} subjectId
-   * @param {*} userId
    */
-  getUserProgress(subjectId, userId = this.myUserId) {
-    return computed(
-      () => this.state.userProgress[`${userId}|${subjectId}`] || {}
-    ).get()
+  userProgress(subjectId) {
+    return computed(() => this.state.userProgress[subjectId] || {}).get()
   }
 
   // -------------------- fetch --------------------
@@ -176,8 +177,9 @@ class User extends store {
         url: `${API_USER_COLLECTION(userId)}?cat=all_watching`,
         info: '在看收藏'
       },
-      ['userCollection', userId],
+      'userCollection',
       {
+        list: true,
         storage: true
       }
     )
@@ -201,20 +203,23 @@ class User extends store {
     const res = fetch(config)
     const data = await res
 
-    // NOTE 当用户没有收视进度, API_USER_PROGRESS接口服务器直接返回null
+    // @issue 当用户没有收视进度, API_USER_PROGRESS接口服务器直接返回null
     // 注意请求单个返回对象, 多个返回数组
     if (data) {
       // 统一结构
       const _data = Array.isArray(data) ? data : [data]
+
       // 扁平化
       _data.forEach(item => {
-        if (!item.eps) return
+        if (!item.eps) {
+          return
+        }
 
         const userProgress = {}
         item.eps.forEach(i => (userProgress[i.id] = i.status.cn_name))
         this.setState({
           userProgress: {
-            [`${userId}|${item.subject_id}`]: userProgress
+            [item.subject_id]: userProgress
           }
         })
         this.setStorage('userProgress')

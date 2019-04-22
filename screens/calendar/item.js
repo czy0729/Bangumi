@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-09 19:36:18
+ * @Last Modified time: 2019-04-20 20:34:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,27 +13,17 @@ import { IMG_DEFAULT } from '@constants'
 import _, { window, wind } from '@styles'
 
 const containerWidth = window.width - 2 * wind
-const imageWidth = containerWidth * 0.3
-const marginRight = (containerWidth - 3 * imageWidth) / 2
+const imageWidth = containerWidth * 0.22
+const marginLeft = (containerWidth - 4 * imageWidth) / 3
 
-const Item = (
-  { style, index, subjectId, images = {}, name },
-  { navigation }
-) => {
-  const _style = [styles.item]
+const Item = ({ style, subjectId, images = {}, name }, { navigation }) => {
   const onPress = () => {
     navigation.push('Subject', {
       subjectId
     })
   }
-  if ((index + 1) % 3 !== 0) {
-    _style.push(styles.mr)
-  }
-  if (style) {
-    _style.push(style)
-  }
   return (
-    <View style={_style}>
+    <View style={[styles.item, style]}>
       <Image
         size={imageWidth}
         src={images.medium || IMG_DEFAULT}
@@ -43,7 +33,7 @@ const Item = (
         onPress={onPress}
       />
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} numberOfLines={2}>
+        <Text style={_.mt.sm} size={12} numberOfLines={2}>
           {name}
         </Text>
       </Touchable>
@@ -60,9 +50,7 @@ export default observer(Item)
 const styles = StyleSheet.create({
   item: {
     width: imageWidth,
-    marginBottom: wind
-  },
-  mr: {
-    marginRight
+    marginBottom: wind,
+    marginLeft
   }
 })

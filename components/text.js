@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 13:14:29
+ * @Last Modified time: 2019-04-21 18:57:49
  */
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
@@ -22,6 +22,7 @@ import {
 const _Text = ({
   style,
   type,
+  underline,
   size,
   lineHeight,
   align,
@@ -31,6 +32,9 @@ const _Text = ({
   const _style = [styles.text]
   if (type) {
     _style.push(styles[type])
+  }
+  if (underline) {
+    _style.push(styles.underline)
   }
   if (size) {
     _style.push(styles[size])
@@ -58,6 +62,7 @@ const _Text = ({
 _Text.defaultProps = {
   style: undefined,
   type: 'desc',
+  underline: false,
   size: 14,
   lineHeight: undefined,
   align: undefined,
@@ -113,5 +118,9 @@ const styles = StyleSheet.create({
   },
   sub: {
     color: colorSub
+  },
+  underline: {
+    textDecorationLine: 'underline',
+    textDecorationColor: colorMain
   }
 })

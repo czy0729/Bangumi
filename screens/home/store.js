@@ -4,17 +4,16 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-15 15:40:36
+ * @Last Modified time: 2019-04-22 19:06:55
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
 import { userStore, subjectStore, collectionStore } from '@stores'
 import { MODEL_EP_STATUS } from '@constants/model'
-import { sleep, getStorage, setStorage } from '@utils'
+import { sleep } from '@utils'
 import store from '@utils/store'
 
-const screen = '@screen|home|state'
-const itemState = {
+const initItem = {
   expand: false,
   doing: false
 }
@@ -33,24 +32,49 @@ export const tabs = [
   }
 ]
 
-export default class Store extends store {
+export default class ScreenHome extends store {
   state = observable({
-    loading: true, // 是否加载数据中
     visible: false, // <Modal>可见性
     subjectId: 0, // <Modal>当前条目Id
     page: 0, // <Tabs>缓存当前页数,
     top: [], // <Item>置顶记录
     item: {
-      // [subjectId]: itemState // 每个<Item>的状态
+      // [subjectId]: initItem // 每个<Item>的状态
     }
   })
+
+  init = async () => {
+    if (this.isLogin) {
+      const state = await this.getStorage()
+      if (state) {
+        this.setState({
+          page: state.page || 0,
+          top: state.top || [],
+          item: state.item || {}
+        })
+      }
+
+      const data = await Promise.all([
+        userStore.fetchUserCollection(),
+        userStore.fetchUserProgress()
+      ])
+      if (data[0]) {
+        // @issue 由于Bangumi没提供一次性查询多个章节信息的Api
+        // 暂时只能每一项都发一次请求
+        for (const item of data[0]) {
+          await subjectStore.fetchSubjectEp(item.subject_id)
+          await sleep()
+        }
+      }
+    }
+  }
 
   // -------------------- get --------------------
   /**
    * <Item />
    */
-  $item(subjectId) {
-    return computed(() => this.state.item[subjectId] || itemState).get()
+  $Item(subjectId) {
+    return computed(() => this.state.item[subjectId] || initItem).get()
   }
 
   // 用户 -> 收藏 -> 条目 -> 章节
@@ -65,23 +89,24 @@ export default class Store extends store {
    * 用户收藏
    */
   @computed get userCollection() {
-    return userStore.getUserCollection()
+    return userStore.userCollection
   }
 
   /**
    * 用户条目收视进度
    */
-  getUserProgress(subjectId) {
-    return computed(() => userStore.getUserProgress(subjectId)).get()
+  userProgress(subjectId) {
+    return computed(() => userStore.userProgress(subjectId)).get()
   }
 
   /**
    * 条目信息
    */
-  getSubject(subjectId) {
+  subject(subjectId) {
     return computed(() => {
       const { subject } =
-        this.userCollection.find(item => item.subject_id === subjectId) || {}
+        this.userCollection.list.find(item => item.subject_id === subjectId) ||
+        {}
       return subject || {}
     }).get()
   }
@@ -89,19 +114,19 @@ export default class Store extends store {
   /**
    * 条目章节数据
    */
-  getEps(subjectId) {
-    return computed(() => subjectStore.getSubjectEp(subjectId).eps || []).get()
+  eps(subjectId) {
+    return computed(() => subjectStore.subjectEp(subjectId).eps || []).get()
   }
 
   /**
    * 条目下一个未看章节
    */
-  getNextWatchEp(subjectId) {
+  nextWatchEp(subjectId) {
     return computed(() => {
-      const eps = this.getEps(subjectId)
-      const userPorgress = this.getUserProgress(subjectId)
+      const eps = this.eps(subjectId)
+      const userProgress = this.userProgress(subjectId)
       const index = eps.findIndex(
-        item => item.type === 0 && userPorgress[item.id] !== '看过'
+        item => item.type === 0 && userProgress[item.id] !== '看过'
       )
       if (index === -1) {
         return {}
@@ -113,9 +138,9 @@ export default class Store extends store {
   /**
    * 章节是否放送中
    */
-  getIsToday(subjectId) {
+  isToday(subjectId) {
     return computed(() => {
-      const eps = this.getEps(subjectId)
+      const eps = this.eps(subjectId)
       return eps.findIndex(item => item.status === 'Today') !== -1
     }).get()
   }
@@ -123,16 +148,16 @@ export default class Store extends store {
   /**
    * 条目观看进度百分比
    */
-  getPercent(subjectId, subject = {}) {
+  percent(subjectId, subject = {}) {
     return computed(() => {
-      const eps = this.getEps(subjectId)
+      const eps = this.eps(subjectId)
       if (!subject.eps_count || !eps.length) {
         return 0
       }
 
       // 排除SP章节
       let watchedCount = 0
-      const userProgress = this.getUserProgress(subjectId)
+      const userProgress = this.userProgress(subjectId)
       eps
         .filter(item => item.type === 0)
         .forEach(item => {
@@ -145,35 +170,6 @@ export default class Store extends store {
   }
 
   // -------------------- page --------------------
-  /**
-   * 页面加载
-   */
-  initFetch = async () => {
-    if (this.isLogin) {
-      const state = await getStorage(screen)
-      if (state) {
-        this.setState(state)
-      }
-
-      const data = await Promise.all([
-        userStore.fetchUserCollection(),
-        userStore.fetchUserProgress()
-      ])
-      this.setState({
-        loading: false
-      })
-
-      if (data[1]) {
-        // 由于Bangumi没提供一次性查询多个章节信息的Api
-        // 暂时只能每一项都发一次请求
-        for (const item of data[1]) {
-          await subjectStore.fetchSubjectEp(item.subject_id)
-          await sleep(1000)
-        }
-      }
-    }
-  }
-
   /**
    * <Tabs>换页
    */
@@ -207,7 +203,7 @@ export default class Store extends store {
    * <Item>展开和收起
    */
   itemToggleExpand = subjectId => {
-    const state = this.$item(subjectId)
+    const state = this.$Item(subjectId)
     this.setState({
       item: {
         [subjectId]: {
@@ -242,31 +238,12 @@ export default class Store extends store {
     this.setStorage()
   }
 
-  /**
-   * 保存
-   */
-  setStorage = () => {
-    const { loading, page, top, item } = this.state
-    const state = {
-      loading,
-      page,
-      top,
-      item: {}
-    }
-    Object.keys(item).forEach(key => {
-      state.item[key] = {
-        expand: item[key].expand
-      }
-    })
-    setStorage(screen, state)
-  }
-
   // -------------------- action --------------------
   /**
    * 观看下一集
    */
   doWatchedNextEp = async subjectId => {
-    const state = this.$item(subjectId)
+    const state = this.$Item(subjectId)
     if (state.doing) {
       return
     }
@@ -279,7 +256,7 @@ export default class Store extends store {
       }
     })
 
-    const { id } = this.getNextWatchEp(subjectId)
+    const { id } = this.nextWatchEp(subjectId)
     await userStore.doUpdateEpStatus({
       id,
       status: MODEL_EP_STATUS.getValue('看过')

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-18 20:02:35
+ * @Last Modified time: 2019-04-22 11:55:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading, Tabs } from '@components'
+import { Tabs } from '@components'
 import inject from '@utils/inject'
-import _, { colorBg } from '@styles'
+import _ from '@styles'
 import TabBarLeft from './tab-bar-left'
 import List from './list'
 import Store, { tabs } from './store'
@@ -22,25 +22,14 @@ class Timeline extends React.Component {
 
   componentDidMount() {
     const { $ } = this.context
-    $.initFetch()
+    $.init()
   }
 
   render() {
     const { $ } = this.context
-    const { loading, page } = $.state
-    if (loading) {
-      return <Loading />
-    }
-
+    const { scope, page } = $.state
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: colorBg
-          }
-        ]}
-      >
+      <View style={_.container.screen}>
         <Tabs
           tabs={tabs}
           initialPage={page}
@@ -48,7 +37,7 @@ class Timeline extends React.Component {
           onChange={$.tabsChange}
         >
           {tabs.map(item => (
-            <List key={item.title} title={item.title} />
+            <List key={item.title} title={item.title} scope={scope} />
           ))}
         </Tabs>
       </View>

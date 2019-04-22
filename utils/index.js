@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-19 14:43:25
+ * @Last Modified time: 2019-04-21 18:36:06
  */
 import { AsyncStorage } from 'react-native'
 import HTMLParser from './common/html-parser'
@@ -461,10 +461,10 @@ export function HTMLToTree(html) {
 
 /**
  * tree查找
- * ul > li
  * ul > li > a|title
  * ul > li > a|title=123
  * ul > li > a|title=123&class=article
+ * ul > li > a|text&title=123&class=article
  * @param {*} children
  * @param {*} cmd
  * @return {Array}
@@ -497,23 +497,24 @@ export function findTreeNode(children, cmd = '', defaultValue) {
               (item.tag === _tag &&
                 item.attrs[_attr] &&
                 item.attrs[_attr].indexOf(_value) !== -1)
-          }
-          if (_attr) {
+          } else if (_attr) {
             match =
               match && (item.tag === _tag && item.attrs[_attr] !== undefined)
           }
-        } else if (attr.indexOf('=') !== -1) {
+        } else {
           // =
-
           temp = attr.split('=')
           const _attr = temp[0]
           const _value = temp[1]
           if (_value) {
             match = match && (item.tag === _tag && item.attrs[_attr] == _value)
-          }
-          if (_attr) {
-            match =
-              match && (item.tag === _tag && item.attrs[_attr] !== undefined)
+          } else if (_attr) {
+            if (_attr === 'text') {
+              match = match && (item.tag === _tag && item.text.length !== 0)
+            } else {
+              match =
+                match && (item.tag === _tag && item.attrs[_attr] !== undefined)
+            }
           }
         }
       })

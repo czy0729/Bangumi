@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-15 15:19:19
+ * @Last Modified time: 2019-04-22 19:00:06
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
-import { API_SUBJECT, API_SUBJECT_EP, API_CALENDAR } from '@constants/api'
+import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS } from '@constants/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
@@ -44,11 +44,18 @@ const initSubjectFormHTMLItem = {
 
 class Subject extends store {
   state = observable({
-    subject: {},
-    subjectFormHTML: {},
-    subjectEp: {},
-    subjectCommentsFormHTML: LIST_EMPTY,
-    calendar: []
+    subject: {
+      // [subjectId]: initSubjectItem
+    },
+    subjectFormHTML: {
+      // [subjectId]: initSubjectFormHTMLItem
+    },
+    subjectEp: {
+      // [subjectId]: {}
+    },
+    subjectCommentsFormHTML: {
+      // [subjectId]: LIST_EMPTY
+    }
   })
 
   async init() {
@@ -56,14 +63,14 @@ class Subject extends store {
       this.getStorage('subject'),
       this.getStorage('subjectFormHTML'),
       this.getStorage('subjectEp'),
-      this.getStorage('calendar')
+      this.getStorage('subjectCommentsFormHTML')
     ])
     const state = await res
     this.setState({
       subject: state[0],
       subjectFormHTML: state[1],
       subjectEp: state[2],
-      calendar: state[3] || []
+      subjectCommentsFormHTML: state[3]
     })
 
     return res
@@ -74,7 +81,7 @@ class Subject extends store {
    * 取条目信息
    * @param {*} subjectId
    */
-  getSubject(subjectId) {
+  subject(subjectId) {
     return computed(
       () => this.state.subject[subjectId] || initSubjectItem
     ).get()
@@ -84,7 +91,7 @@ class Subject extends store {
    * 取条目信息
    * @param {*} subjectId
    */
-  getSubjectFormHTML(subjectId) {
+  subjectFormHTML(subjectId) {
     return computed(
       () => this.state.subjectFormHTML[subjectId] || initSubjectFormHTMLItem
     ).get()
@@ -94,7 +101,7 @@ class Subject extends store {
    * 取章节数据
    * @param {*} subjectId
    */
-  getSubjectEp(subjectId) {
+  subjectEp(subjectId) {
     return computed(() => this.state.subjectEp[subjectId] || {}).get()
   }
 
@@ -102,17 +109,10 @@ class Subject extends store {
    * 取条目吐槽
    * @param {*} subjectId
    */
-  getSubjectCommentsFormHTML(subjectId) {
+  subjectCommentsFormHTML(subjectId) {
     return computed(
       () => this.state.subjectCommentsFormHTML[subjectId] || LIST_EMPTY
     ).get()
-  }
-
-  /**
-   * 取每日放送
-   */
-  @computed get calendar() {
-    return this.state.calendar
   }
 
   // -------------------- fetch --------------------
@@ -248,7 +248,7 @@ class Subject extends store {
    * @param {*} refresh 是否重新获取
    */
   async fetchSubjectCommentsFormHTML({ subjectId }, refresh) {
-    const { list, pagination } = this.getSubjectCommentsFormHTML(subjectId)
+    const { list, pagination } = this.subjectCommentsFormHTML(subjectId)
 
     // 计算下一页的页码
     let page
@@ -334,22 +334,6 @@ class Subject extends store {
     })
     this.setStorage(key)
     return res
-  }
-
-  /**
-   * 每日放送
-   */
-  fetchCalendar() {
-    return this.fetch(
-      {
-        url: API_CALENDAR(),
-        info: '每日放送'
-      },
-      'calendar',
-      {
-        storage: true
-      }
-    )
   }
 }
 

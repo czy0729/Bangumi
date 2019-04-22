@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 13:21:55
+ * @Last Modified time: 2019-04-22 18:36:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -79,19 +79,19 @@ class Item extends React.Component {
   renderBtnNextEp() {
     const { $ } = this.context
     const { subjectId } = this.props
-    const { sort } = $.getNextWatchEp(subjectId)
+    const { sort } = $.nextWatchEp(subjectId)
     if (!sort) {
       return null
     }
 
-    const { doing } = $.$item(subjectId)
+    const { doing } = $.$Item(subjectId)
     return (
       <Touchable onPress={() => $.doWatchedNextEp(subjectId)}>
         <Flex justify='center'>
           <Icon
             style={styles.icon}
             name='ios-checkbox-outline'
-            size={20}
+            size={18}
             color={colorIcon}
           />
           <View style={[styles.placeholder, _.ml.sm]}>
@@ -111,13 +111,13 @@ class Item extends React.Component {
   renderToolBar() {
     const { $ } = this.context
     const { subjectId, subject } = this.props
-    const { expand } = $.$item(subjectId)
+    const { expand } = $.$Item(subjectId)
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     return (
       <Flex>
         {this.renderBtnNextEp()}
         <Touchable style={_.ml.md} onPress={() => $.showManageModal(subjectId)}>
-          <Icon name='ios-star-outline' size={20} color={colorIcon} />
+          <Icon name='ios-star-outline' size={18} color={colorIcon} />
         </Touchable>
         {!isBook && (
           <Touchable
@@ -126,7 +126,7 @@ class Item extends React.Component {
           >
             <Icon
               name='ios-menu'
-              size={20}
+              size={18}
               color={expand ? colorMain : colorIcon}
             />
           </Touchable>
@@ -138,7 +138,7 @@ class Item extends React.Component {
   render() {
     const { $ } = this.context
     const { top, subjectId, subject, epStatus } = this.props
-    const { expand } = $.$item(subjectId)
+    const { expand } = $.$Item(subjectId)
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     const doing = isBook ? '读' : '看'
     return (
@@ -146,7 +146,7 @@ class Item extends React.Component {
         <View style={styles.item}>
           <Flex>
             <Image
-              size={88}
+              size={72}
               src={subject.images.medium}
               radius
               onPress={this.onPress}
@@ -156,32 +156,32 @@ class Item extends React.Component {
               <Touchable withoutFeedback onPress={this.onPress}>
                 <Flex align='start'>
                   <Flex.Item style={styles.title}>
-                    <Text size={15} numberOfLines={1}>
+                    <Text numberOfLines={1}>
                       {subject.name_cn || subject.name}
                     </Text>
                     <Text style={_.mt.xs} type='sub' size={11}>
                       {subject.collection.doing} 人在{doing}
                     </Text>
                   </Flex.Item>
-                  {$.getIsToday(subjectId) && (
+                  {$.isToday(subjectId) && (
                     <Text style={_.ml.sm} type='success' size={12}>
                       放送中
                     </Text>
                   )}
                 </Flex>
               </Touchable>
-              <View style={_.mt.md}>
+              <View style={_.mt.sm}>
                 <Flex>
                   <Flex.Item>
                     {!expand && (
-                      <Flex align='end'>
+                      <Flex align='baseline'>
                         <Text type='primary' size={18} lineHeight={1}>
                           {epStatus}
                         </Text>
                         <Text
                           style={_.ml.xs}
                           type='sub'
-                          size={11}
+                          size={10}
                           lineHeight={1}
                         >
                           / {subject.eps_count || '-'}
@@ -192,8 +192,8 @@ class Item extends React.Component {
                   {this.renderToolBar()}
                 </Flex>
                 <Progress
-                  style={[styles.progress, _.mt.sm]}
-                  percent={$.getPercent(subjectId, subject)}
+                  style={styles.progress}
+                  percent={$.percent(subjectId, subject)}
                   barStyle={styles.bar}
                 />
               </View>
@@ -204,8 +204,8 @@ class Item extends React.Component {
               style={_.mt.wind}
               login={$.isLogin}
               subjectId={subjectId}
-              eps={$.getEps(subjectId)}
-              userProgress={$.getUserProgress(subjectId)}
+              eps={$.eps(subjectId)}
+              userProgress={$.userProgress(subjectId)}
               onSelect={$.doEpsSelect}
             />
           )}
@@ -231,6 +231,7 @@ const styles = StyleSheet.create({
     marginBottom: -1
   },
   progress: {
+    marginTop: 6,
     backgroundColor: colorBg
   },
   bar: {

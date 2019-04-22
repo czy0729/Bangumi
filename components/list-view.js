@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-18 16:32:09
+ * @Last Modified time: 2019-04-22 11:24:52
  */
 import React from 'react'
 import {
@@ -31,8 +31,9 @@ export default class ListView extends React.Component {
   static defaultProps = {
     style: undefined,
     keyExtractor: undefined,
-    section: '', // 当有此值, 根据item[section]构造<SectionList>的sections
     data: LIST_EMPTY,
+    sectionKey: '', // 当有此值, 根据item[section]构造<SectionList>的sections
+    sections: undefined,
     renderItem: undefined,
     footerRefreshingText: '玩命加载中 >.<',
     footerFailureText: '我擦嘞，居然失败了 =.=!',
@@ -67,6 +68,9 @@ export default class ListView extends React.Component {
       })
     }
   }
+
+  scrollTo = Function.prototype
+  scrollToLocation = Function.prototype
 
   onHeaderRefresh = async () => {
     const { onHeaderRefresh } = this.props
@@ -193,29 +197,38 @@ export default class ListView extends React.Component {
   }
 
   render() {
-    const { style, section, data, ...other } = this.props
+    const { style, data, sectionKey, sections, ...other } = this.props
     const { refreshState } = this.state
 
-    if (section) {
-      const sections = []
-      const sectionsMap = {}
-      data.list.slice().forEach(item => {
-        const title = item[section]
-        if (sectionsMap[title] === undefined) {
-          sectionsMap[title] = sections.length
-          sections.push({
-            title,
-            data: [item]
-          })
-        } else {
-          sections[sectionsMap[title]].data.push(item)
-        }
-      })
+    if (sectionKey || sections) {
+      let _sections = []
+      if (sections) {
+        _sections = sections.slice()
+      } else {
+        const sectionsMap = {}
+        data.list.slice().forEach(item => {
+          const title = item[sectionKey]
+          if (sectionsMap[title] === undefined) {
+            sectionsMap[title] = _sections.length
+            _sections.push({
+              title,
+              data: [item]
+            })
+          } else {
+            _sections[sectionsMap[title]].data.push(item)
+          }
+        })
+      }
 
       return (
         <SectionList
+          ref={ref => {
+            if (ref) {
+              this.scrollToLocation = params => ref.scrollToLocation(params)
+            }
+          }}
           style={[styles.container, style]}
-          sections={sections}
+          sections={_sections}
           refreshing={refreshState === RefreshState.HeaderRefreshing}
           ListFooterComponent={this.renderFooter(refreshState)}
           onRefresh={this.onHeaderRefresh}
@@ -228,6 +241,11 @@ export default class ListView extends React.Component {
 
     return (
       <FlatList
+        ref={ref => {
+          if (ref) {
+            this.scrollTo = params => ref.scrollTo(params)
+          }
+        }}
         style={[styles.container, style]}
         data={data.list.slice()}
         refreshing={refreshState === RefreshState.HeaderRefreshing}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-19 19:43:35
+ * @Last Modified time: 2019-04-21 14:49:57
  */
 import { Dimensions, StyleSheet, Platform } from 'react-native'
 
@@ -97,7 +97,7 @@ const Styles = {
     },
     screen: {
       flex: 1,
-      backgroundColor: colorPlain
+      backgroundColor: colorBg
     },
     column: {
       flex: 1,

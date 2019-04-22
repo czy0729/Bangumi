@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-15 15:41:04
+ * @Last Modified time: 2019-04-22 19:08:53
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -21,43 +21,7 @@ export default class Store extends store {
     }
   })
 
-  // -------------------- get --------------------
-  @computed get isLogin() {
-    return userStore.isLogin
-  }
-
-  @computed get subject() {
-    const { subjectId } = this.params
-    return subjectStore.getSubject(subjectId)
-  }
-
-  @computed get subjectFormHTML() {
-    const { subjectId } = this.params
-    return subjectStore.getSubjectFormHTML(subjectId)
-  }
-
-  @computed get subjectEps() {
-    const { subjectId } = this.params
-    return subjectStore.getSubjectEp(subjectId).eps
-  }
-
-  @computed get subjectCommentsFormHTML() {
-    const { subjectId } = this.params
-    return subjectStore.getSubjectCommentsFormHTML(subjectId)
-  }
-
-  @computed get collection() {
-    const { subjectId } = this.params
-    return collectionStore.getCollection(subjectId)
-  }
-
-  @computed get userProgress() {
-    const { subjectId } = this.params
-    return userStore.getUserProgress(subjectId)
-  }
-
-  // -------------------- fetch --------------------
-  initFetch = async () => {
+  init = async () => {
     const { subjectId } = this.params
     const res = subjectStore.fetchSubject(subjectId)
     const data = await res
@@ -81,6 +45,42 @@ export default class Store extends store {
     return res
   }
 
+  // -------------------- get --------------------
+  @computed get isLogin() {
+    return userStore.isLogin
+  }
+
+  @computed get subject() {
+    const { subjectId } = this.params
+    return subjectStore.subject(subjectId)
+  }
+
+  @computed get subjectFormHTML() {
+    const { subjectId } = this.params
+    return subjectStore.subjectFormHTML(subjectId)
+  }
+
+  @computed get subjectEps() {
+    const { subjectId } = this.params
+    return subjectStore.subjectEp(subjectId).eps
+  }
+
+  @computed get subjectCommentsFormHTML() {
+    const { subjectId } = this.params
+    return subjectStore.subjectCommentsFormHTML(subjectId)
+  }
+
+  @computed get collection() {
+    const { subjectId } = this.params
+    return collectionStore.collection(subjectId)
+  }
+
+  @computed get userProgress() {
+    const { subjectId } = this.params
+    return userStore.userProgress(subjectId)
+  }
+
+  // -------------------- fetch --------------------
   fetchSubjectCommentsFormHTML = refresh => {
     const { subjectId } = this.params
     return subjectStore.fetchSubjectCommentsFormHTML({ subjectId }, refresh)

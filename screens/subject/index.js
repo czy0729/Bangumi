@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-18 20:34:42
+ * @Last Modified time: 2019-04-22 19:03:25
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -40,7 +40,7 @@ class Subject extends React.Component {
     }, 400)
 
     // 右上角头部按钮
-    const data = await $.initFetch()
+    const data = await $.init()
     if (data) {
       const { sites = [] } = $.state.bangumiInfo
       const title = data.name_cn || data.name
@@ -59,7 +59,7 @@ class Subject extends React.Component {
             let item
             switch (key) {
               case '刷新':
-                $.initFetch()
+                $.init()
                 break
               case '分享':
                 ActionSheet.showShareActionSheetWithOptions({

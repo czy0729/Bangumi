@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-15 15:58:07
+ * @Last Modified time: 2019-04-22 18:30:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading, Tabs } from '@components'
+import { Tabs } from '@components'
 import { ManageModal } from '@screens/_'
 import inject from '@utils/inject'
-import _, { colorBg } from '@styles'
+import _ from '@styles'
 import Login from './login'
 import List from './list'
 import Store, { tabs } from './store'
@@ -23,7 +23,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     const { $ } = this.context
-    $.initFetch()
+    $.init()
   }
 
   render() {
@@ -32,22 +32,10 @@ class Home extends React.Component {
       return <Login />
     }
 
-    const { loading } = $.state
-    if (loading) {
-      return <Loading />
-    }
-
     const { visible, subjectId, page } = $.state
-    const { name, name_cn: nameCn } = $.getSubject(subjectId)
+    const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: colorBg
-          }
-        ]}
-      >
+      <View style={_.container.screen}>
         <Tabs tabs={tabs} initialPage={page} onChange={$.tabsChange}>
           <List />
           <List title='动画' />

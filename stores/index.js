@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-18 14:26:57
+ * @Last Modified time: 2019-04-20 11:44:00
  */
+import calendarStore from './calendar'
 import collectionStore from './collection'
 import subjectStore from './subject'
 import timelineStore from './timeline'
@@ -15,6 +16,7 @@ class Stores {
    */
   async init() {
     const res = Promise.all([
+      calendarStore.init(),
       collectionStore.init(),
       subjectStore.init(),
       timelineStore.init(),
@@ -48,4 +50,10 @@ const Store = new Stores()
 Store.init()
 
 export default Store
-export { collectionStore, subjectStore, timelineStore, userStore }
+export {
+  calendarStore,
+  collectionStore,
+  subjectStore,
+  timelineStore,
+  userStore
+}

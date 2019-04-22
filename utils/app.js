@@ -3,16 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-19 19:36:20
+ * @Last Modified time: 2019-04-22 12:23:23
  */
 
 /**
  * 根据Bangumi的url判断路由跳转方式
  */
-export function appLocation(url = '') {
-
+export function appNavigate(url = '') {
+  console.log(url)
 }
-
 
 /**
  * 获取颜色type

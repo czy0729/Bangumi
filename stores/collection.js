@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-15 15:17:42
+ * @Last Modified time: 2019-04-22 19:01:11
  */
 import { observable, computed } from 'mobx'
 import { API_COLLECTION, API_COLLECTION_ACTION } from '@constants/api'
@@ -30,7 +30,7 @@ class Collection extends store {
    * 条目收藏信息
    * @param {*} subjectId
    */
-  getCollection(subjectId) {
+  collection(subjectId) {
     return computed(() => this.state.collection[subjectId] || {}).get()
   }
 
