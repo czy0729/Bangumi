@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 09:21:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 01:03:06
+ * @Last Modified time: 2019-04-23 13:38:14
  */
 import React from 'react'
 import Image from './image'
@@ -18,7 +18,7 @@ const Activity = ({ style, size, ...other }) => {
     <Image
       style={style}
       size={_size}
-      source={require('@assets/components/activity/loading.gif')}
+      src={require('@assets/components/activity/loading.gif')}
       placeholder={false}
       {...other}
     />

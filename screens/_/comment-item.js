@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-18 13:49:24
+ * @Last Modified time: 2019-04-23 17:17:16
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image } from '@components'
-import { HTMLDecode } from '@utils'
 import _, { md, wind, colorPlain, colorBorder } from '@styles'
 import Stars from './stars'
 
@@ -17,7 +16,7 @@ const CommentItem = ({
   isTop,
   time,
   avatar,
-  username,
+  userName,
   star,
   comment
 }) => (
@@ -33,7 +32,7 @@ const CommentItem = ({
       <Flex>
         <Flex.Item>
           <Flex>
-            <Text size={12}>{HTMLDecode(username)}</Text>
+            <Text size={12}>{userName}</Text>
             <Text style={_.ml.xs} type='sub' size={12}>
               / {formatTime(time)}
             </Text>
@@ -42,7 +41,7 @@ const CommentItem = ({
         <Stars value={star} />
       </Flex>
       <Text style={_.mt.xs} size={15} lineHeight={20}>
-        {HTMLDecode(comment)}
+        {comment}
       </Text>
     </Flex.Item>
   </Flex>

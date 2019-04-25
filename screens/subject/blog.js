@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-10 22:27:10
+ * @Last Modified time: 2019-04-23 17:20:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,8 @@ const Blog = ({ style }, { $ }) => {
       <View style={_.mt.sm}>
         {blog.map((item, index) => (
           <ArticleItem
-            key={item.title}
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
             style={{ paddingLeft: wind }}
             isFirst={index === 0}
             avatar={item.user.avatar.small}

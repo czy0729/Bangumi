@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 13:48:47
+ * @Last Modified time: 2019-04-23 14:24:44
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, action, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants'
+import { date } from '@utils'
 import fetch from './fetch'
 
 configure({ enforceActions: 'observed' })
@@ -37,7 +38,7 @@ export default class Store {
   })
 
   /**
-   * 请求并入Store, 入Store成功会设置标志位_loaded=true
+   * 请求并入Store, 入Store成功会设置标志位_loaded=date()
    * 请求失败后会在1秒后递归重试
    * @version 190420 v1.2
    * @param {String|Object} fetchConfig
@@ -61,12 +62,21 @@ export default class Store {
     const res = fetch(_fetchConfig)
     const data = await res
 
-    let _data = data
-    if (list) {
+    let _data
+    if (Array.isArray(data)) {
+      if (list) {
+        _data = {
+          ...LIST_EMPTY,
+          list: data,
+          _loaded: date()
+        }
+      } else {
+        _data = data
+      }
+    } else {
       _data = {
-        ...LIST_EMPTY,
-        list: data,
-        _loaded: true
+        ...data,
+        _loaded: date()
       }
     }
 
@@ -79,11 +89,7 @@ export default class Store {
     } else {
       const initState = this.state[stateKey]
       this.setState({
-        [stateKey]:
-          {
-            ..._data,
-            _loaded: true
-          } || initState
+        [stateKey]: _data || initState
       })
     }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 13:36:17
+ * @Last Modified time: 2019-04-23 15:17:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ const Ep = ({ style }, { $ }) => (
       pagination
       login={$.isLogin}
       subjectId={$.params.subjectId}
-      eps={$.subjectEps}
+      eps={$.subjectEp.eps}
       userProgress={$.userProgress}
       onSelect={$.doEpsSelect}
     />

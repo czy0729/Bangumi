@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-21 14:49:57
+ * @Last Modified time: 2019-04-24 22:46:01
  */
 import { Dimensions, StyleSheet, Platform } from 'react-native'
 
@@ -20,10 +20,12 @@ export const window = {
 export const appbarHeight = isIOS ? 44 : 56
 export const statusBarHeight = isIOS ? 20 : 0
 export const headerHeight = appbarHeight + statusBarHeight + 22 // @? 不确定是否22
+export const tabBarHeight = 50
 
 // 统一布局单位
 export const space = 20
 export const wind = 16
+export const bottom = tabBarHeight + space
 export const xs = 4
 export const sm = 8
 export const md = 16
@@ -32,7 +34,7 @@ export const lg = 32
 // 主题色
 export const colorPlainRaw = [255, 255, 255]
 export const colorPlain = `rgb(${colorPlainRaw.join()})`
-export const colorMain = 'rgb(252, 127, 138)'
+export const colorMain = 'rgb(252, 127, 138)' // #FC7F8A
 export const colorPrimary = 'rgb(68, 207, 252)'
 export const colorPrimaryLight = 'rgb(248, 253, 255)'
 export const colorSuccess = 'rgb(50, 200, 64)'
@@ -48,7 +50,7 @@ export const colorShadow = 'rgb(0, 0, 0)'
 // 文字
 export const colorTitleRaw = [12, 12, 12]
 export const colorTitle = `rgb(${colorTitleRaw.join()})`
-export const colorDesc = 'rgb(40, 40, 40)'
+export const colorDesc = 'rgb(40, 40, 40)' // #282828
 export const colorSub = 'rgb(142, 142, 147)'
 export const colorIcon = 'rgb(200, 200, 200)'
 export const lineHeightRatio = 1.28

@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-14 07:23:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 13:03:17
+ * @Last Modified time: 2019-04-23 17:44:37
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Image, Touchable } from '@components'
+import { Flex, Text, Image } from '@components'
+import { Stars } from '@screens/_'
 import { appNavigate } from '@utils/app'
 import _, { wind, md, colorPlain, colorBorder } from '@styles'
-import Stars from './stars'
 
 const avatarWidth = 28
 const regSubject = /\/\/bangumi.tv\/subject\/\d+$/
 
-class TimelineItem extends React.Component {
+class Item extends React.Component {
   static defaultProps = {
     avatar: {},
     p1: {},
@@ -198,7 +198,7 @@ class TimelineItem extends React.Component {
   }
 }
 
-export default observer(TimelineItem)
+export default observer(Item)
 
 const styles = StyleSheet.create({
   item: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-20 11:44:00
+ * @Last Modified time: 2019-04-23 13:50:50
  */
 import calendarStore from './calendar'
 import collectionStore from './collection'
@@ -25,6 +25,7 @@ class Stores {
     await res
     // console.info(
     //   JSON.stringify({
+    //     calendarStore: calendarStore.state,
     //     collectionStore: collectionStore.state,
     //     subjectStore: subjectStore.state,
     //     timelineStore: timelineStore.state,

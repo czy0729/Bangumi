@@ -5,13 +5,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 19:01:54
+ * @Last Modified time: 2019-04-23 16:50:49
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
 import { HTML_TIMELINE } from '@constants/html'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode, trim } from '@utils'
+import { trim } from '@utils'
+import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import userStore from './user'
@@ -68,16 +69,16 @@ class Timeline extends store {
     const res = fetchHTML({
       url: HTML_TIMELINE(scope, type, userStore.myUserId, page)
     })
-    const rawHTML = await res
-    const html = HTMLTrim(rawHTML).match(
+    const raw = await res
+    const HTML = HTMLTrim(raw).match(
       /<div id="timeline">(.+?)<div id="tmlPager">/
     )
 
     // -------------------- 分析HTML --------------------
     const timeline = []
-    if (html) {
+    if (HTML) {
       const isSelf = MODEL_TIMELINE_SCOPE.getLabel(scope) === '自己'
-      const tree = HTMLToTree(html[1])
+      const tree = HTMLToTree(HTML[1])
       let node
 
       // ---------- 日期分组
@@ -224,7 +225,7 @@ class Timeline extends store {
           )
           const subject = node ? HTMLDecode(node[0].text[0]) : ''
           const subjectId = node
-            ? node[0].attrs.href.replace('://bangumi.tv/subject/', '')
+            ? node[0].attrs.href.replace('https://bangumi.tv/subject/', '')
             : 0
 
           // ---------- 时间

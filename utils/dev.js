@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-15 15:30:46
+ * @Last Modified time: 2019-04-22 22:04:21
  */
 import { date } from './index'
 
@@ -33,19 +33,10 @@ export function fill(str, len = 32) {
  * @param {Any}    value 消息值
  */
 export function log(type, key, value, ...other) {
-  const res = [
-    '[DEV]',
-    '|',
-    date('H:i:s', new Date().valueOf() / 1000),
-    '|',
-    fill(type, 6),
-    '|',
-    fill(key, 24),
-    '|',
-    fill(value, 24)
-  ]
+  const res = [type, '\n', key, '\n', fill(value, 12)]
   if (other && other.length) {
-    res.push('|', other)
+    res.push('\n', other)
   }
+  res.push('\n', '---------------------------------------------')
   console.info(...res)
 }

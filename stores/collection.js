@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 19:01:11
+ * @Last Modified time: 2019-04-23 15:29:26
  */
 import { observable, computed } from 'mobx'
 import { API_COLLECTION, API_COLLECTION_ACTION } from '@constants/api'
@@ -12,14 +12,16 @@ import fetch from '@utils/fetch'
 
 class Collection extends store {
   state = observable({
-    collection: {}
+    collection: {
+      // [subjectId]: {}
+    }
   })
 
   async init() {
     const res = Promise.all([this.getStorage('collection')])
     const state = await res
     this.setState({
-      collection: state[0]
+      collection: state[0] || {}
     })
 
     return res

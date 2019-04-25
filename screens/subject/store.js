@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 19:08:53
+ * @Last Modified time: 2019-04-23 15:16:50
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
-import { userStore, subjectStore, collectionStore } from '@stores'
+import { subjectStore, userStore, collectionStore } from '@stores'
 import { MODEL_EP_STATUS } from '@constants/model'
 import { queue } from '@utils/fetch'
 import store from '@utils/store'
@@ -36,11 +36,11 @@ export default class Store extends store {
     }
 
     queue([
-      () => this.fetchSubjectCommentsFormHTML(true),
-      () => subjectStore.fetchSubjectFormHTML(subjectId),
       () => subjectStore.fetchSubjectEp(subjectId),
       () => collectionStore.fetchCollection(subjectId),
-      () => userStore.fetchUserProgress(subjectId)
+      () => userStore.fetchUserProgress(subjectId),
+      () => subjectStore.fetchSubjectFormHTML(subjectId),
+      () => this.fetchSubjectCommentsFormHTML(true)
     ])
     return res
   }
@@ -60,9 +60,9 @@ export default class Store extends store {
     return subjectStore.subjectFormHTML(subjectId)
   }
 
-  @computed get subjectEps() {
+  @computed get subjectEp() {
     const { subjectId } = this.params
-    return subjectStore.subjectEp(subjectId).eps
+    return subjectStore.subjectEp(subjectId)
   }
 
   @computed get subjectCommentsFormHTML() {

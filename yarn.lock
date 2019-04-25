@@ -6828,6 +6828,13 @@ react-navigation-drawer@1.3.0:
   dependencies:
     react-native-tab-view "^1.2.0"
 
+react-navigation-drawer@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npm.taobao.org/react-navigation-drawer/download/react-navigation-drawer-1.2.1.tgz#7bd5efeee7d2f611d3ebb0933e0c8e8eb7cafe52"
+  integrity sha1-e9Xv7ufS9hHT67CTPgyOjrfK/lI=
+  dependencies:
+    react-native-tab-view "^1.2.0"
+
 react-navigation-stack@1.1.1:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/react-navigation-stack/download/react-navigation-stack-1.1.1.tgz#f9d70db678b50ba581c6aeea1171ad6b1a212693"

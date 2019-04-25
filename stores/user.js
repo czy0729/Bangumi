@@ -3,8 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 18:52:38
+ * @Last Modified time: 2019-04-25 13:18:09
  */
+import { AsyncStorage } from 'react-native'
 import { observable, computed } from 'mobx'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL, LIST_EMPTY } from '@constants'
 import {
@@ -15,6 +16,7 @@ import {
   API_EP_STATUS,
   API_SUBJECT_UPDATE_WATCHED
 } from '@constants/api'
+import { date } from '@utils'
 import store from '@utils/store'
 import fetch from '@utils/fetch'
 
@@ -215,29 +217,44 @@ class User extends store {
           return
         }
 
-        const userProgress = {}
+        const userProgress = {
+          _loaded: date()
+        }
         item.eps.forEach(i => (userProgress[i.id] = i.status.cn_name))
         this.setState({
           userProgress: {
             [item.subject_id]: userProgress
           }
         })
-        this.setStorage('userProgress')
+      })
+    } else {
+      // 没有数据也要记得设置_loaded
+      this.setState({
+        userProgress: {
+          [subjectId]: {
+            _loaded: date()
+          }
+        }
       })
     }
+    this.setStorage('userProgress')
+
     return res
   }
 
   // -------------------- page --------------------
   /**
-   * @todo 清除所有用户相关缓存
    * 登出
    */
-  logout() {
+  async logout() {
+    const res = AsyncStorage.clear()
+    await res
     this.setState({
-      accessToken: initAccessToken
+      accessToken: initAccessToken,
+      userInfo: initUserInfo
     })
-    this.setStorage('accessToken')
+
+    return res
   }
 
   /**

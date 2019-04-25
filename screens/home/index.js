@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 18:30:20
+ * @Last Modified time: 2019-04-24 14:30:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,11 @@ class Home extends React.Component {
       return <Login />
     }
 
-    const { visible, subjectId, page } = $.state
+    const { visible, subjectId, page, _loaded } = $.state
+    if (!_loaded) {
+      return null
+    }
+
     const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
       <View style={_.container.screen}>

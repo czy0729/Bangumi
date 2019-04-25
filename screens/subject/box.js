@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-10 15:51:14
+ * @Last Modified time: 2019-04-23 15:41:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -36,7 +36,7 @@ const Box = ({ style }, { $ }) => {
             {!!rating && (
               <Flex.Item>
                 <Button style={rightStyle} type={getType(btnText)}>
-                  {getRating(rating)}
+                  {getRating(rating)}{' '}
                   {[1, 2, 3, 4, 5].map(item => {
                     let type
                     if (rating / 2 >= item) {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-18 20:46:17
+ * @Last Modified time: 2019-04-23 17:32:36
  */
 
 class Modal {
@@ -150,7 +150,7 @@ export const MODEL_TIMELINE_SCOPE = new Modal([
     value: 'friend'
   },
   {
-    label: '所有',
+    label: '全站',
     value: 'all'
   },
   {

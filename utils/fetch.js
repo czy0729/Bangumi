@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 18:53:04
+ * @Last Modified time: 2019-04-22 22:17:38
  */
 import { Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
@@ -60,6 +60,8 @@ export default async function _fetch({
     _url = `${url}?${urlStringify(body)}`
   }
 
+  log('API', 'fetch', _url)
+
   return fetch(_url, _config)
     .then(response => response.json())
     .then(res => {
@@ -74,7 +76,7 @@ export default async function _fetch({
       }
 
       // @issue 由于Bangumi提供的API没有统一返回数据
-      // 正常情况没有code, 错误情况例如空的时候, 返回{code: 400, err: '...'}
+      // 正常情况没有code, 错误情况例如空的时候, 返回 {code: 400, err: '...'}
       if (res && res.error) {
         if (res.error === 'invalid_token') {
           Toast.info('登录过期')
@@ -82,10 +84,6 @@ export default async function _fetch({
         }
         return Promise.resolve({})
       }
-
-      // if (_url.indexOf('https://api.bgm.tv/user/456208/progress') !== -1) {
-      //   console.log(_url, _config, JSON.stringify(safe(res)))
-      // }
 
       // 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串
       return Promise.resolve(safe(res))
@@ -119,8 +117,6 @@ export async function fetchHTML({ url } = {}) {
   // if (!userCookie) {
   //   userCookie = await userStore.getStorage('userCookie')
   // }
-
-  log('HTML', 'fetch', url)
   const data = {
     method: 'GET'
   }
@@ -138,11 +134,13 @@ export async function fetchHTML({ url } = {}) {
   // 加上时间戳防止缓存
   let _url = url.replace('!', '')
   const state = getTimestamp()
-  if (_url.indexOf('?')) {
-    _url = `${_url}&${state}`
+  if (_url.indexOf('?') === -1) {
+    _url = `${_url}?state=${state}`
   } else {
-    _url = `${_url}?${state}`
+    _url = `${_url}&state=${state}`
   }
+
+  log('fetchHTML', _url, data)
 
   return fetch(_url, data).then(res => Promise.resolve(res._bodyInit))
 }

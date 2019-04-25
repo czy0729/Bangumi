@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 19:01:38
+ * @Last Modified time: 2019-04-23 18:14:12
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
-import { SectionHeader, TimelineItem } from '@screens/_'
+import { SectionHeader } from '@screens/_'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
+import Item from './item'
 
 class List extends React.Component {
   static contextTypes = {
@@ -26,14 +27,18 @@ class List extends React.Component {
   }
 
   scrollTop = () => {
-    if (this.ref) {
-      setTimeout(() => {
-        this.ref.scrollToLocation({
-          sectionIndex: 0,
-          itemIndex: 0,
-          viewOffset: 32 // <SectionHeader>的高度
-        })
-      }, 600)
+    try {
+      if (this.ref && this.ref.scrollToLocation) {
+        setTimeout(() => {
+          this.ref.scrollToLocation({
+            sectionIndex: 0,
+            itemIndex: 0,
+            viewOffset: 32 // <SectionHeader>的高度
+          })
+        }, 600)
+      }
+    } catch (error) {
+      // do nothing
     }
   }
 
@@ -56,12 +61,7 @@ class List extends React.Component {
           <SectionHeader>{title}</SectionHeader>
         )}
         renderItem={({ item, index }) => (
-          <TimelineItem
-            key={item.id}
-            index={index}
-            navigation={navigation}
-            {...item}
-          />
+          <Item key={item.id} index={index} navigation={navigation} {...item} />
         )}
         onHeaderRefresh={() => $.fetchTimeline(true)}
         onFooterRefresh={$.fetchTimeline}

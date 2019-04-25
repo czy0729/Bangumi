@@ -3,12 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 19:00:06
+ * @Last Modified time: 2019-04-23 17:16:58
  */
 import { observable, computed } from 'mobx'
-import { LIST_EMPTY } from '@constants'
+import { HOST, LIST_EMPTY } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS } from '@constants/html'
+import { date } from '@utils'
+import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 
@@ -34,12 +36,13 @@ const initSubjectItem = {
   summary: '',
   topic: [],
   type: '',
-  url: ''
+  url: '',
+  _loaded: false
 }
 const initSubjectFormHTMLItem = {
   tags: [], // 标签
-  counts: [], // 标签的数目
-  relations: [] // 关联条目
+  relations: [], // 关联条目
+  _loaded: false
 }
 
 class Subject extends store {
@@ -141,73 +144,61 @@ class Subject extends store {
    * @param {*} subjectId
    */
   async fetchSubjectFormHTML(subjectId) {
+    // -------------------- 请求HTML --------------------
     const res = fetchHTML({
       url: HTML_SUBJECT(subjectId)
     })
-    const htmlRaw = await res
-    const html = htmlRaw.replace(/\s+/g, '')
+    const raw = await res
+    const HTML = HTMLTrim(raw)
 
+    // -------------------- 分析HTML --------------------
     // 标签
     const tags = []
-    const tagsHTML = html.match(
-      /<divclass="subject_tag_section">(.+?)<\/div><divid="panelInterestWrapper">/
+    const tagsHTML = HTML.match(
+      /<\/h2><div class="inner">(.+?)<\/div><\/div><\/div><div id="panelInterestWrapper">/
     )
     if (tagsHTML) {
-      const _tags = tagsHTML[1]
-        .match(/class="l"><span>(.+?)<\/span>/g)
-        .map(item => item.replace(/class="l"><span>|<\/span>/g, ''))
-      const _counts = tagsHTML[1]
-        .match(/<smallclass="grey">(.+?)<\/small>/g)
-        .map(item => item.replace(/<smallclass="grey">|<\/small>/g, ''))
-      _tags.forEach((item, index) => {
+      const tree = HTMLToTree(tagsHTML[1])
+      findTreeNode(tree.children, 'a > span|text', []).forEach(item => {
         tags.push({
-          name: item,
-          count: _counts[index]
+          name: item.text[0]
         })
       })
+      findTreeNode(tree.children, 'a > small|text&class=grey', []).forEach(
+        (item, index) => {
+          // eslint-disable-next-line prefer-destructuring
+          tags[index].count = item.text[0]
+        }
+      )
     }
 
     // 关联条目
     const relations = []
-    const relationsHTML = html.match(
-      /<h2class="subtitle">关联条目<\/h2><\/div><divclass="content_inner"><ulclass="browserCoverMediumclearit">(.+?)<\/ul>/
+    const relationsHTML = HTML.match(
+      /<ul class="browserCoverMedium clearit">(.+?)<\/ul><\/div><\/div><div class="subject_section">/
     )
     if (relationsHTML) {
-      const _relations = []
-      relationsHTML[1]
-        .split('<liclass="sep">')
-        .filter(item => !!item)
-        .forEach(item =>
-          _relations.push({
-            type: item.match(/<spanclass="sub">(.+?)<\/span>/)[1],
-            title: item
-              .match(/"class="title">(.+?)<\/a><\/li>/g)
-              .map(item => item.replace(/"class="title">|<\/a><\/li>/g, '')),
-            image: item
-              .match(/background-image:url\('(.+?)'\)"><\/span>/g)
-              .map(item =>
-                item.replace(/background-image:url\('|'\)"><\/span>/g, '')
-              ),
-            url: item
-              .match(/<\/a><ahref="(.+?)"class="title">/g)
-              .map(item => item.replace(/<\/a><ahref="|"class="title">/g, ''))
-          })
+      const tree = HTMLToTree(relationsHTML[1])
+      let typeIndex
+      tree.children.forEach((item, index) => {
+        // HTML项目是平铺的, 取前一个class=sub的type
+        if (item.attrs.class === 'sep') {
+          typeIndex = index
+        }
+        const type = tree.children[typeIndex].children[0].text[0]
+        const id = item.children[2].attrs.href.replace('/subject/', '')
+        const image = item.children[1].children[0].attrs.style.replace(
+          /background-image:url\('|'\)/g,
+          ''
         )
+        relations.push({
+          type,
+          id,
+          title: item.children[2].text[0],
 
-      _relations.forEach(item => {
-        item.title.forEach((i, idx) => {
-          relations.push({
-            type: item.type,
-            id: item.url[idx].replace('/subject/', ''),
-            title: i,
-
-            // 排除空白图片
-            image:
-              item.image[idx] === '/img/no_icon_subject.png'
-                ? ''
-                : `https:${item.image[idx]}`,
-            url: item.url[idx]
-          })
+          // 排除空白占位图片
+          image: image === '/img/no_icon_subject.png' ? '' : image,
+          url: `${HOST}/subject/${id}`
         })
       })
     }
@@ -217,7 +208,8 @@ class Subject extends store {
       [key]: {
         [subjectId]: {
           tags,
-          relations
+          relations,
+          _loaded: date()
         }
       }
     })
@@ -262,13 +254,14 @@ class Subject extends store {
     const res = fetchHTML({
       url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
-    const rawHTML = await res
-    const html = rawHTML.replace(/\s+/g, '')
+    const raw = await res
+    const html = raw.replace(/\s+/g, '')
     const commentsHTML = html.match(
       /<divid="comment_box">(.+?)<\/div><\/div><divclass="section_lineclear">/
     )
 
     // -------------------- 分析HTML --------------------
+    // @todo 使用新的HTML解释函数重写
     const comments = []
     let { pageTotal = 0 } = pagination
     if (commentsHTML) {
@@ -298,22 +291,23 @@ class Subject extends store {
       // 留言
       const items = commentsHTML[1].split('<divclass="itemclearit">')
       items.shift()
-      items.forEach(item => {
-        const userid = item.match(
+      items.forEach((item, index) => {
+        const userId = item.match(
           /<divclass="text"><ahref="\/user\/(.+?)"class="l">/
         )
-        const username = item.match(/"class="l">(.+?)<\/a><smallclass="grey"/)
+        const userName = item.match(/"class="l">(.+?)<\/a><smallclass="grey"/)
         const avatar = item.match(/background-image:url\('(.+?)'\)"><\/span>/)
         const time = item.match(/<smallclass="grey">@(.+?)<\/small>/)
         const star = item.match(/sstars(.+?)starsinfo/)
         const comment = item.match(/<p>(.+?)<\/p>/)
         comments.push({
-          userid: userid[1],
-          username: username[1],
+          id: `${page}|${index}`,
+          userId: userId[1],
+          userName: HTMLDecode(userName[1]),
           avatar: avatar[1],
           time: time[1],
           star: star ? star[1] : '',
-          comment: comment[1]
+          comment: HTMLDecode(comment[1])
         })
       })
     }
@@ -328,11 +322,12 @@ class Subject extends store {
             page,
             pageTotal: parseInt(pageTotal)
           },
-          _loaded: true
+          _loaded: date()
         }
       }
     })
     this.setStorage(key)
+
     return res
   }
 }

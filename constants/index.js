@@ -3,10 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-14 21:47:46
+ * @Last Modified time: 2019-04-23 14:34:28
  */
 import { Platform } from 'react-native'
 import { Constants } from 'expo'
+
+export const HOST = 'https://bangumi.tv'
 
 // 环境
 export const IOS = Platform.OS === 'ios'
@@ -24,6 +26,11 @@ export const IMG_EMPTY = {
   uri:
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP4////GQAJyAPKSOz6nwAAAABJRU5ErkJggg=='
 }
+// export const IMG_EMPTY = {
+//   uri:
+//     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP48ePHfwAJvAPoaIODcwAAAABJRU5ErkJggg=='
+// }
+
 export const IMG_DEFAULT = require('@assets/images/default.png')
 
 // 全局统一列表数据结构

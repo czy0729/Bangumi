@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 18:36:54
+ * @Last Modified time: 2019-04-23 15:06:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -201,7 +201,7 @@ class Item extends React.Component {
           </Flex>
           {expand && (
             <Eps
-              style={_.mt.wind}
+              style={_.mt.md}
               login={$.isLogin}
               subjectId={subjectId}
               eps={$.eps(subjectId)}

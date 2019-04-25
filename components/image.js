@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-20 20:33:14
+ * @Last Modified time: 2019-04-23 15:39:50
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -11,7 +11,7 @@ import {
   Image as AnimateImage
 } from 'react-native-expo-image-cache'
 import { IOS, IMG_EMPTY } from '@constants'
-import { colorPlain, radiusXs, shadow } from '@styles'
+import { colorBg, radiusXs, shadow } from '@styles'
 import Touchable from './touchable'
 
 export default class Image extends React.Component {
@@ -174,6 +174,6 @@ const styles = StyleSheet.create({
   },
   shadow,
   placeholder: {
-    backgroundColor: colorPlain
+    backgroundColor: colorBg
   }
 })

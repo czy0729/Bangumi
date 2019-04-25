@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-18 20:34:07
+ * @Last Modified time: 2019-04-23 11:27:48
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Touchable } from '@components'
-import { date, HTMLDecode } from '@utils'
+import { date } from '@utils'
+import { HTMLDecode } from '@utils/html'
 import _, { md, wind, colorBorder } from '@styles'
 
 const ArticleItem = ({

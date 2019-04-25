@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-18 20:46:25
+ * @Last Modified time: 2019-04-23 17:32:32
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 
@@ -30,7 +30,7 @@ export const HTML_SUBJECT_COMMENTS = (subjectId, page = 1) =>
  */
 export const HTML_TIMELINE = (scope, type, userId, page = 1) => {
   switch (MODEL_TIMELINE_SCOPE.getLabel(scope)) {
-    case '所有':
+    case '全站':
       return `!${HOST}/timeline?type=${type}&page=${page}`
     case '自己':
       return `${HOST}/user/${userId}/timeline?type=${type}&page=${page}`

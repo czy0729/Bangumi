@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 19:03:25
+ * @Last Modified time: 2019-04-23 17:24:27
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -26,18 +26,13 @@ class Subject extends React.Component {
 
   async componentDidMount() {
     const { $, navigation } = this.context
-
-    // @issue 由于subjectStore里面的缓存数据是异步获取的
-    // 当本页面是首屏, 会出现同步时获取不到数据的情况, 当然本屏通常不是首屏
-    setTimeout(() => {
-      const { name_cn: nameCn, name } = $.subject
-      const title = nameCn || name
-      if (title) {
-        navigation.setParams({
-          headerTransitionTitle: title
-        })
-      }
-    }, 400)
+    const { name_cn: nameCn, name } = $.subject
+    const title = nameCn || name
+    if (title) {
+      navigation.setParams({
+        headerTransitionTitle: title
+      })
+    }
 
     // 右上角头部按钮
     const data = await $.init()
@@ -87,14 +82,13 @@ class Subject extends React.Component {
     const { onScroll } = this.props
     const { visible } = $.state
     const { name_cn: nameCn, name, images = {} } = $.subject
-    const { tags = [] } = $.subjectFormHTML
     return (
       <>
         <BlurView style={styles.blurView} theme='dark' src={images.medium} />
         <ListView
           style={_.container.flex}
           contentContainerStyle={styles.contentContainerStyle}
-          keyExtractor={item => `${item.userid} ${item.time}`}
+          keyExtractor={item => String(item.id)}
           data={$.subjectCommentsFormHTML}
           scrollEventThrottle={16}
           ListHeaderComponent={<Header />}
@@ -103,7 +97,7 @@ class Subject extends React.Component {
               isTop={index === 0}
               time={item.time}
               avatar={item.avatar}
-              username={item.username}
+              userName={item.userName}
               star={item.star}
               comment={item.comment}
             />
@@ -116,7 +110,6 @@ class Subject extends React.Component {
           subjectId={$.params.subjectId}
           title={nameCn || name}
           desc={name}
-          tags={tags}
           onSubmit={$.doUpdateCollection}
           onClose={$.closeManageModal}
         />

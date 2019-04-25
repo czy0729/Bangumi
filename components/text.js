@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-21 18:57:49
+ * @Last Modified time: 2019-04-24 20:37:52
  */
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
@@ -26,6 +26,7 @@ const _Text = ({
   size,
   lineHeight,
   align,
+  bold,
   children,
   ...other
 }) => {
@@ -48,6 +49,9 @@ const _Text = ({
   if (align) {
     _style.push(align === 'right' ? styles.alignRight : styles.alignCenter)
   }
+  if (bold) {
+    _style.push(styles.bold)
+  }
   if (style) {
     _style.push(style)
   }
@@ -66,6 +70,7 @@ _Text.defaultProps = {
   size: 14,
   lineHeight: undefined,
   align: undefined,
+  bold: false,
   children: ''
 }
 
@@ -80,6 +85,9 @@ const styles = StyleSheet.create({
   },
   alignRight: {
     textAlign: 'right'
+  },
+  bold: {
+    fontWeight: 'bold'
   },
   10: fontSize(10),
   11: fontSize(11),

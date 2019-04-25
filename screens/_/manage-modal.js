@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 13:23:28
+ * @Last Modified time: 2019-04-23 13:41:53
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -17,7 +17,7 @@ import {
   Text,
   Touchable
 } from '@components'
-import { collectionStore } from '@stores'
+import { collectionStore, subjectStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
 import _, {
   window,
@@ -33,6 +33,7 @@ import StatusBtnGroup from './status-btn-group'
 const initState = {
   loading: true,
   doing: false,
+  fetching: false,
   rating: 0,
   tags: '',
   comment: '',
@@ -46,7 +47,6 @@ class ManageModal extends React.Component {
     subjectId: 0,
     title: '',
     desc: '',
-    tags: [],
     onSubmit: () => {},
     onClose: () => {}
   }
@@ -122,10 +122,21 @@ class ManageModal extends React.Component {
     })
   }
 
+  fetchTags = async () => {
+    const { subjectId } = this.props
+    this.setState({
+      fetching: true
+    })
+    await subjectStore.fetchSubjectFormHTML(subjectId)
+
+    this.setState({
+      fetching: false
+    })
+  }
+
   onSubmit = async () => {
     const { subjectId, onSubmit } = this.props
     const { rating, tags, comment, status, privacy } = this.state
-
     this.setState({
       doing: true
     })
@@ -138,16 +149,34 @@ class ManageModal extends React.Component {
       status,
       privacy
     })
-
     this.setState({
       doing: false
     })
   }
 
+  get subjectFormHTML() {
+    const { subjectId } = this.props
+    return subjectStore.subjectFormHTML(subjectId)
+  }
+
   renderTags() {
-    const { tags } = this.props
-    const { tags: stateTags } = this.state
-    const selected = stateTags.split(' ')
+    const { fetching } = this.state
+    if (fetching) {
+      return <Activity />
+    }
+
+    const { _loaded, tags } = this.subjectFormHTML
+    if (!_loaded) {
+      return (
+        <Touchable style={[_.mt.sm, _.ml.sm]} onPress={this.fetchTags}>
+          <Text size={13} underline>
+            点击获取大家的标注
+          </Text>
+        </Touchable>
+      )
+    }
+
+    const selected = this.state.tags.split(' ')
     return (
       <ScrollView horizontal>
         {tags.map(({ name, count }) => (

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 19:06:55
+ * @Last Modified time: 2019-04-23 14:51:33
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -40,33 +40,46 @@ export default class ScreenHome extends store {
     top: [], // <Item>置顶记录
     item: {
       // [subjectId]: initItem // 每个<Item>的状态
-    }
+    },
+    _loaded: false // 本地数据读取完成
   })
 
   init = async () => {
     if (this.isLogin) {
-      const state = await this.getStorage()
-      if (state) {
-        this.setState({
-          page: state.page || 0,
-          top: state.top || [],
-          item: state.item || {}
-        })
-      }
+      const state = (await this.getStorage()) || {}
+      this.setState({
+        page: state.page || 0,
+        top: state.top || [],
+        item: state.item || {},
+        _loaded: true
+      })
 
-      const data = await Promise.all([
-        userStore.fetchUserCollection(),
-        userStore.fetchUserProgress()
-      ])
-      if (data[0]) {
-        // @issue 由于Bangumi没提供一次性查询多个章节信息的Api
-        // 暂时只能每一项都发一次请求
-        for (const item of data[0]) {
-          await subjectStore.fetchSubjectEp(item.subject_id)
+      this.initFetch()
+    }
+  }
+
+  initFetch = async refresh => {
+    let res = Promise.all([
+      userStore.fetchUserCollection(),
+      userStore.fetchUserProgress()
+    ])
+    const data = await res
+
+    if (data[0]) {
+      // @issue 由于Bangumi没提供一次性查询多个章节信息的API
+      // 暂时只能每一项都发一次请求
+      const list = this.sortList(data[0])
+      for (const item of list) {
+        const { subject_id: subjectId } = item
+        const { _loaded } = this.subjectEp(subjectId)
+        if (refresh || !_loaded) {
+          res = subjectStore.fetchSubjectEp(subjectId)
+          await res
           await sleep()
         }
       }
     }
+    return res
   }
 
   // -------------------- get --------------------
@@ -109,6 +122,13 @@ export default class ScreenHome extends store {
         {}
       return subject || {}
     }).get()
+  }
+
+  /**
+   * 条目章节
+   */
+  subjectEp(subjectId) {
+    return computed(() => subjectStore.subjectEp(subjectId)).get()
   }
 
   /**
@@ -178,6 +198,32 @@ export default class ScreenHome extends store {
       page
     })
     this.setStorage()
+  }
+
+  /**
+   * 列表排序
+   */
+  sortList = (list = []) => {
+    // 置顶排序
+    const { top } = this.state
+    const topMap = {}
+    top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
+
+    return (
+      list
+        // 上映日期
+        .sort(
+          (a, b) =>
+            String(b.subject.air_date).replace(/-/g, '') -
+            String(a.subject.air_date).replace(/-/g, '')
+        )
+        // 放送中
+        .sort((a, b) => this.isToday(b.subject_id) - this.isToday(a.subject_id))
+        // 置顶, 数组位置越大排越前
+        .sort(
+          (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
+        )
+    )
   }
 
   /**
