@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-14 14:21:34
+ * @Last Modified time: 2019-04-28 22:57:20
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { colorMain, colorPlain, radiusSm } from '@styles'
+import { colorMain, radiusSm } from '@styles'
 import AntdTabs from './@ant-design/tabs'
 
 const Tabs = ({
@@ -33,7 +33,7 @@ const Tabs = ({
 Tabs.defaultProps = {
   tabs: [],
   prerenderingSiblingsNumber: 0,
-  tabBarBackgroundColor: colorPlain,
+  tabBarBackgroundColor: 'transparent',
   tabBarUnderlineStyle: undefined,
   renderTabBarLeft: undefined // 导航栏左边插入
 }
@@ -43,6 +43,7 @@ export default Tabs
 const styles = StyleSheet.create({
   tabBarUnderline: {
     backgroundColor: colorMain,
-    borderRadius: radiusSm
+    borderRadius: radiusSm,
+    transform: [{ scaleX: 0.5 }]
   }
 })

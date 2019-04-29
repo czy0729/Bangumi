@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 18:14:12
+ * @Last Modified time: 2019-04-29 17:40:43
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { SectionHeader } from '@screens/_'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
+import { listViewWithTabsHeaderProps } from '@styles/commonProps'
 import Item from './item'
 
 class List extends React.Component {
@@ -53,7 +54,7 @@ class List extends React.Component {
     return (
       <ListView
         ref={ref => (this.ref = ref)}
-        keyExtractor={item => item.id}
+        keyExtractor={item => String(item.id)}
         data={timeline}
         sectionKey='date'
         stickySectionHeadersEnabled={false}
@@ -61,10 +62,11 @@ class List extends React.Component {
           <SectionHeader>{title}</SectionHeader>
         )}
         renderItem={({ item, index }) => (
-          <Item key={item.id} index={index} navigation={navigation} {...item} />
+          <Item index={index} navigation={navigation} {...item} />
         )}
         onHeaderRefresh={() => $.fetchTimeline(true)}
         onFooterRefresh={$.fetchTimeline}
+        {...listViewWithTabsHeaderProps}
       />
     )
   }

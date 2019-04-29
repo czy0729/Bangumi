@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-25 13:18:09
+ * @Last Modified time: 2019-04-28 04:43:42
  */
 import { AsyncStorage } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -14,8 +14,10 @@ import {
   API_USER_COLLECTION,
   API_USER_PROGRESS,
   API_EP_STATUS,
-  API_SUBJECT_UPDATE_WATCHED
+  API_SUBJECT_UPDATE_WATCHED,
+  API_USER_COLLECTIONS
 } from '@constants/api'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { date } from '@utils'
 import store from '@utils/store'
 import fetch from '@utils/fetch'
@@ -37,17 +39,25 @@ const initUserInfo = {
   usergroup: '',
   username: ''
 }
+const initUserCookie = {
+  cookie: '',
+  userAgent: ''
+}
+const initScope = MODEL_SUBJECT_TYPE.getLabel('动画')
 
 class User extends store {
   state = observable({
     accessToken: initAccessToken,
     userInfo: initUserInfo,
-    userCookie: '',
+    userCookie: initUserCookie,
     userCollection: LIST_EMPTY,
     userProgress: {
       // [subjectId]: {
       //   [epId]: '看过'
       // }
+    },
+    userCollections: {
+      // [`${type}|${userId}`]: LIST_EMPTY
     }
   })
 
@@ -57,15 +67,17 @@ class User extends store {
       this.getStorage('userInfo'),
       this.getStorage('userCookie'),
       this.getStorage('userCollection'),
-      this.getStorage('userProgress')
+      this.getStorage('userProgress'),
+      this.getStorage('userCollections')
     ])
     const state = await res
     this.setState({
       accessToken: state[0] || initAccessToken,
       userInfo: state[1] || initUserInfo,
-      userCookie: state[2],
+      userCookie: state[2] || initUserCookie,
       userCollection: state[3] || LIST_EMPTY,
-      userProgress: state[4]
+      userProgress: state[4],
+      userCollections: state[5]
     })
     if (this.isLogin) {
       this.fetchUserInfo()
@@ -124,6 +136,17 @@ class User extends store {
    */
   userProgress(subjectId) {
     return computed(() => this.state.userProgress[subjectId] || {}).get()
+  }
+
+  /**
+   * 取用户收藏概览
+   * @param {*} scope
+   * @param {*} userId
+   */
+  userCollections(scope = initScope, userId = this.myUserId) {
+    return computed(
+      () => this.state.userCollections[`${scope}|${userId}`] || LIST_EMPTY
+    ).get()
   }
 
   // -------------------- fetch --------------------
@@ -242,6 +265,51 @@ class User extends store {
     return res
   }
 
+  /**
+   * 获取用户收藏概览
+   * @param {*} scope
+   * @param {*} userId
+   */
+  async fetchUserCollections(scope = initScope, userId = this.myUserId) {
+    const config = {
+      url: API_USER_COLLECTIONS(scope, userId),
+      data: {
+        max_results: 100
+      },
+      retryCb: () => this.fetchUserCollections(scope, userId),
+      info: '收藏概览'
+    }
+    const res = fetch(config)
+    const data = await res
+
+    // 原始数据的结构很臃肿, 扁平一下
+    const collections = {
+      ...LIST_EMPTY,
+      list: [],
+      _loaded: date()
+    }
+    if (data) {
+      data[0].collects.forEach(item => {
+        collections.list.push({
+          list: item.list.map(i => i.subject),
+          status: item.status.name,
+          count: item.count
+        })
+      })
+    }
+
+    const key = 'userCollections'
+    const stateKey = `${scope}|${userId}`
+    this.setState({
+      [key]: {
+        [stateKey]: collections
+      }
+    })
+    this.setStorage(key)
+
+    return res
+  }
+
   // -------------------- page --------------------
   /**
    * 登出
@@ -261,7 +329,7 @@ class User extends store {
    * 更新用户cookie
    * @param {*} data
    */
-  updateUserCookie(data) {
+  updateUserCookie(data = initUserCookie) {
     this.setState({
       userCookie: data
     })

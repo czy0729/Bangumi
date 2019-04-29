@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-24 23:47:39
+ * @Last Modified time: 2019-04-26 23:34:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,9 +13,8 @@ import { IMG_DEFAULT } from '@constants'
 import { HTMLDecode } from '@utils/html'
 import _, { window, wind } from '@styles'
 
-const containerWidth = window.width - 2 * wind
-const imageWidth = containerWidth * 0.22
-const marginLeft = (containerWidth - 4 * imageWidth) / 3
+const imageWidth = window.width * 0.2
+const marginLeft = (window.width - 4 * imageWidth) / 5
 
 const Item = ({ style, subjectId, images = {}, name }, { navigation }) => {
   const onPress = () => {

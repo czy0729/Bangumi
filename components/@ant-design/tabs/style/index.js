@@ -2,13 +2,12 @@ import { StyleSheet } from 'react-native'
 
 export default theme =>
   StyleSheet.create({
-    container: {
-    },
+    container: {},
     tabs: {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-around',
-      backgroundColor: 'rgba(255, 255, 255, 0)',
+      backgroundColor: 'transparent',
       shadowRadius: 0,
       shadowOpacity: 0,
       elevation: 0
@@ -19,7 +18,7 @@ export default theme =>
       alignItems: 'center',
       padding: 0,
       height: theme.tabs_height,
-      backgroundColor: 'rgba(255, 255, 255, 0)'
+      backgroundColor: 'transparent'
     },
     underline: {
       height: 2,

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-14 21:45:23
+ * @Last Modified time: 2019-04-27 01:29:50
  */
 export const HOST = 'https://api.bgm.tv'
 
@@ -30,11 +30,11 @@ export const API_USER_COLLECTION = userId => `${HOST}/user/${userId}/collection`
 
 /**
  * 用户收藏概览
- * @param {*} *userId        UID
  * @param {*} *subjectType   条目类型: book, anime, music, game, real
+ * @param {*} *userId        UID
  * @param {*} max_results    显示条数最多25
  */
-export const API_USER_COLLECTIONS = (userId, subjectType = 'anime') =>
+export const API_USER_COLLECTIONS = (subjectType = 'anime', userId) =>
   `${HOST}/user/${userId}/collections/${subjectType}`
 
 /**

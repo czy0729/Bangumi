@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-14 13:59:58
+ * @Last Modified time: 2019-04-29 17:43:44
  */
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -128,15 +128,15 @@ const styles = StyleSheet.create({
     borderColor: colorBorder
   },
   ghostMain: {
-    backgroundColor: 'rgb(255, 243, 244)',
+    backgroundColor: 'rgba(255, 243, 244, 0.8)',
     borderColor: 'rgb(252, 128, 138)'
   },
   ghostPrimary: {
-    backgroundColor: 'rgb(248, 253, 255)',
+    backgroundColor: 'rgba(248, 253, 255, 0.8)',
     borderColor: 'rgb(159, 230, 254)'
   },
   ghostSuccess: {
-    backgroundColor: 'rgb(236, 255, 236)',
+    backgroundColor: 'rgba(236, 255, 236, 0.8)',
     borderColor: 'rgb(115, 241, 115)'
   },
 

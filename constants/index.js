@@ -3,29 +3,29 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 14:34:28
+ * @Last Modified time: 2019-04-29 14:30:22
  */
 import { Platform } from 'react-native'
-import { Constants } from 'expo'
 
-export const HOST = 'https://bangumi.tv'
-
-// 环境
 export const IOS = Platform.OS === 'ios'
 
-// 开发
+// APP
 export const APP_ID = 'bgm8885c4d524cd61fc'
 export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
 
-// Oauth
-export const OAUTH_URL = 'https://bgm.tv/oauth/authorize'
-export const OAUTH_REDIRECT_URL = Constants.linkingUri
+// URL
+export const HOST = 'https://bangumi.tv'
+export const OAUTH_URL = `${HOST}/oauth/authorize`
+export const OAUTH_REDIRECT_URL = HOST
+// export const OAUTH_REDIRECT_URL = Constants.linkingUri
 
 // 图片
+// 白
 export const IMG_EMPTY = {
   uri:
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP4////GQAJyAPKSOz6nwAAAABJRU5ErkJggg=='
 }
+// 灰
 // export const IMG_EMPTY = {
 //   uri:
 //     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP48ePHfwAJvAPoaIODcwAAAABJRU5ErkJggg=='

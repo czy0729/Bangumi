@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 22:04:21
+ * @Last Modified time: 2019-04-28 05:04:49
  */
 import { date } from './index'
 
@@ -32,7 +32,7 @@ export function fill(str, len = 32) {
  * @param {String} key   消息键
  * @param {Any}    value 消息值
  */
-export function log(type, key, value, ...other) {
+export function log(type = '', key = '', value = '', ...other) {
   const res = [type, '\n', key, '\n', fill(value, 12)]
   if (other && other.length) {
     res.push('\n', other)

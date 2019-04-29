@@ -2,47 +2,64 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-24 17:54:41
+ * @Last Modified time: 2019-04-29 17:37:30
  */
 import React from 'react'
-import { View } from 'react-native'
+import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Tabs } from '@components'
-import inject from '@utils/inject'
+import { IconTabBar } from '@screens/_'
+import injectWithTabsHeader from '@utils/decorators/injectWithTabsHeader'
 import _ from '@styles'
-import TabBarLeft from './tab-bar-left'
+import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
 class Timeline extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object
+  static navigationOptions = {
+    tabBarIcon: ({ tintColor }) => (
+      <IconTabBar name='time' tintColor={tintColor} />
+    ),
+    tabBarLabel: '时间胶囊'
   }
 
-  componentDidMount() {
-    const { $ } = this.context
-    $.init()
+  static contextTypes = {
+    $: PropTypes.object,
+    navigation: PropTypes.object
+  }
+
+  async componentDidMount() {
+    const { $, navigation } = this.context
+    await $.init()
+
+    // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
+    navigation.setParams({
+      headerTabs: <Tabs $={$} />
+    })
   }
 
   render() {
     const { $ } = this.context
-    const { scope, page } = $.state
+    const { scope, _loaded } = $.state
+    if (!_loaded) {
+      return null
+    }
+
     return (
-      <View style={_.container.screen}>
+      <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
         <Tabs
-          tabs={tabs}
-          initialPage={page}
-          renderTabBarLeft={<TabBarLeft $={$} />}
-          onChange={$.tabsChange}
+          $={$}
+          tabBarStyle={{
+            display: 'none'
+          }}
         >
           {tabs.map(item => (
             <List key={item.title} title={item.title} scope={scope} />
           ))}
         </Tabs>
-      </View>
+      </SafeAreaView>
     )
   }
 }
 
-export default inject(Store)(observer(Timeline))
+export default injectWithTabsHeader(Store)(observer(Timeline))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 15:39:50
+ * @Last Modified time: 2019-04-26 23:21:57
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -25,6 +25,7 @@ export default class Image extends React.Component {
     radius: false, // 圆角
     shadow: false, // 阴影
     placeholder: true, // 是否有底色
+    quality: false, // 是否根据设置改变图片质量
     onPress: undefined,
     onLongPress: undefined
   }
@@ -44,14 +45,22 @@ export default class Image extends React.Component {
   }
 
   cache = async src => {
-    // @issue 安卓无法使用? 并且安卓貌似自带缓存
+    const { quality } = this.props
+    let uri
+
+    // @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存?
     if (IOS) {
-      let uri
       if (typeof src === 'string') {
         let _src = src.replace('http://', 'https://')
         if (_src.indexOf('https:') === -1) {
           _src = `https:${_src}`
         }
+
+        // @todo 做一个全局控制图片质量的设置
+        if (quality) {
+          _src = _src.replace('/m/', '/l/')
+        }
+
         const path = await CacheManager.get(_src).getPath()
         if (path) {
           uri = path
@@ -63,15 +72,15 @@ export default class Image extends React.Component {
         })
       }
     } else {
-      let _src = src
-      if (typeof _src === 'string') {
-        _src = src.replace('http://', 'https://')
-        if (_src.indexOf('https:' === -1)) {
-          _src = `https:${_src}`
+      uri = src
+      if (typeof uri === 'string') {
+        uri = src.replace('http://', 'https://')
+        if (uri.indexOf('https:') === -1) {
+          uri = `https:${uri}`
         }
       }
       this.setState({
-        uri: _src
+        uri
       })
     }
   }
@@ -87,6 +96,7 @@ export default class Image extends React.Component {
       radius,
       shadow,
       placeholder,
+      quality,
       onPress,
       onLongPress,
       ...other

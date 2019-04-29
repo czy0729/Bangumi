@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-25 13:20:07
+ * @Last Modified time: 2019-04-27 13:00:30
  */
 import React from 'react'
 import { createAppContainer, createDrawerNavigator } from 'react-navigation'
@@ -11,6 +11,7 @@ import Drawer from '@screens/_/drawer'
 import { colorMain } from '@styles'
 import HomeStack from './stacks/home'
 import CalendarStack from './stacks/calendar'
+import UserStack from './stacks/user'
 
 export default createAppContainer(
   createDrawerNavigator(
@@ -49,8 +50,8 @@ export default createAppContainer(
           )
         }
       },
-      Calendar2: {
-        screen: CalendarStack,
+      User: {
+        screen: UserStack,
         navigationOptions: {
           drawerLabel: '时光机',
           drawerIcon: ({ tintColor }) => (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 19:02:25
+ * @Last Modified time: 2019-04-29 17:33:10
  */
 import { observable, computed } from 'mobx'
 import { timelineStore } from '@stores'
@@ -16,15 +16,21 @@ export const tabs = MODEL_TIMELINE_TYPE.data.map(item => ({
 export default class ScreenTimeline extends store {
   state = observable({
     scope: MODEL_TIMELINE_SCOPE.getValue('好友'),
-    page: 0 // <Tabs>缓存当前页数,
+    page: 0, // <Tabs>当前页数
+    _page: 0, // header上的假<Tabs>当前页数,
+    _loaded: false
   })
 
   init = async () => {
-    const state = await this.getStorage()
-    if (state) {
-      this.setState(state)
-    }
+    const res = this.getStorage()
+    const state = await res
+    this.setState({
+      ...state,
+      _loaded: true
+    })
+
     this.fetchTimeline(true)
+    return res
   }
 
   // -------------------- get --------------------
@@ -40,9 +46,27 @@ export default class ScreenTimeline extends store {
   }
 
   // -------------------- page --------------------
-  tabsChange = (item, page) => {
+  /**
+   * @issue onTabClick与onChange在用受控模式的时候, 有冲突
+   * 暂时这样解决
+   */
+  onTabClick = (item, page) => {
+    if (page === this.state.page) {
+      return
+    }
     this.setState({
       page
+    })
+    this.fetchTimeline(true)
+    this.setStorage()
+  }
+  onChange = (item, page) => {
+    if (page === this.state.page) {
+      return
+    }
+    this.setState({
+      page,
+      _page: page
     })
     this.fetchTimeline(true)
     this.setStorage()

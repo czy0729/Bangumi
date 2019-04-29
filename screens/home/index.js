@@ -2,49 +2,71 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-24 14:30:45
+ * @Last Modified time: 2019-04-29 17:13:33
  */
 import React from 'react'
-import { View } from 'react-native'
+import { NavigationEvents, SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Tabs } from '@components'
-import { ManageModal } from '@screens/_'
-import inject from '@utils/inject'
+import { IconTabBar, ManageModal } from '@screens/_'
+import injectWithTabsHeader from '@utils/decorators/injectWithTabsHeader'
 import _ from '@styles'
-import Login from './login'
+import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
 class Home extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object
+  static navigationOptions = {
+    tabBarIcon: ({ tintColor }) => (
+      <IconTabBar name='heart' tintColor={tintColor} />
+    ),
+    tabBarLabel: '进度'
   }
 
-  componentDidMount() {
-    const { $ } = this.context
-    $.init()
+  static contextTypes = {
+    $: PropTypes.object,
+    navigation: PropTypes.object
+  }
+
+  async componentDidMount() {
+    const { $, navigation } = this.context
+    await $.init()
+
+    // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
+    navigation.setParams({
+      headerTabs: <Tabs $={$} />
+    })
   }
 
   render() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     if (!$.isLogin) {
-      return <Login />
+      return (
+        <NavigationEvents
+          onWillFocus={() => {
+            navigation.navigate('Auth')
+          }}
+        />
+      )
     }
 
-    const { visible, subjectId, page, _loaded } = $.state
+    const { visible, subjectId, _loaded } = $.state
     if (!_loaded) {
       return null
     }
 
     const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
-      <View style={_.container.screen}>
-        <Tabs tabs={tabs} initialPage={page} onChange={$.tabsChange}>
-          <List />
-          <List title='动画' />
-          <List title='书籍' />
-          <List title='三次元' />
+      <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
+        <Tabs
+          $={$}
+          tabBarStyle={{
+            display: 'none'
+          }}
+        >
+          {tabs.map(item => (
+            <List key={item.title} title={item.title} />
+          ))}
         </Tabs>
         <ManageModal
           visible={visible}
@@ -54,9 +76,9 @@ class Home extends React.Component {
           onSubmit={$.doUpdateCollection}
           onClose={$.closeManageModal}
         />
-      </View>
+      </SafeAreaView>
     )
   }
 }
 
-export default inject(Store)(observer(Home))
+export default injectWithTabsHeader(Store)(observer(Home))

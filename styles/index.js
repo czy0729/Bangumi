@@ -1,12 +1,13 @@
+/* eslint-disable indent */
 /*
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-24 22:46:01
+ * @Last Modified time: 2019-04-29 17:01:52
  */
-import { Dimensions, StyleSheet, Platform } from 'react-native'
-
-const isIOS = Platform.OS === 'ios'
+import { Dimensions, StyleSheet } from 'react-native'
+import { Constants } from 'expo'
+import { IOS } from '@constants'
 
 // 设备
 const { width, height } = Dimensions.get('window')
@@ -17,10 +18,14 @@ export const window = {
   isSmallDevice: width < 375,
   isLargeDevice: width > 375
 }
-export const appbarHeight = isIOS ? 44 : 56
-export const statusBarHeight = isIOS ? 20 : 0
-export const headerHeight = appbarHeight + statusBarHeight + 22 // @? 不确定是否22
-export const tabBarHeight = 50
+export const logoWidth = 120 // logo宽度
+// export const statusBarHeight = IOS ? 20 : 0 // 状态栏高度
+export const statusBarHeight = Constants.statusBarHeight - 4 // 状态栏高度
+export const appBarHeight = IOS ? 44 : 56 // 单独头部高度
+export const headerHeight = appBarHeight + statusBarHeight // 整个头部高度
+export const tabsHeight = 42 // 标签页的标签栏高度
+export const tabsHeaderHeight = headerHeight + tabsHeight // 带标签栏的头部高度
+export const tabBarHeight = 50 // 标签栏高度
 
 // 统一布局单位
 export const space = 20
@@ -51,8 +56,8 @@ export const colorShadow = 'rgb(0, 0, 0)'
 export const colorTitleRaw = [12, 12, 12]
 export const colorTitle = `rgb(${colorTitleRaw.join()})`
 export const colorDesc = 'rgb(40, 40, 40)' // #282828
-export const colorSub = 'rgb(142, 142, 147)'
-export const colorIcon = 'rgb(200, 200, 200)'
+export const colorSub = 'rgb(142, 142, 147)' // #8E8E93
+export const colorIcon = 'rgb(200, 200, 200)' // #C8C8C8
 export const lineHeightRatio = 1.28
 
 // 圆角
@@ -62,20 +67,19 @@ export const radiusMd = 16
 export const radiusLg = 32
 
 // 其他
-export const shadow = Platform.select({
-  ios: {
-    shadowColor: colorShadow,
-    shadowOffset: { height: 3 },
-    shadowOpacity: 0.16,
-    shadowRadius: 4
-  },
-  android: {
-    backgroundColor: colorPlain,
-    borderRadius: 5,
-    overflow: 'hidden',
-    elevation: 3
-  }
-})
+export const shadow = IOS
+  ? {
+      shadowColor: colorShadow,
+      shadowOffset: { height: 3 },
+      shadowOpacity: 0.16,
+      shadowRadius: 4
+    }
+  : {
+      backgroundColor: colorPlain,
+      borderRadius: 5,
+      overflow: 'hidden',
+      elevation: 3
+    }
 
 // 函数
 export function fontSize(pt) {
@@ -89,7 +93,7 @@ export function fontSize(pt) {
 const Styles = {
   container: StyleSheet.create({
     safeArea: {
-      paddingTop: appbarHeight
+      paddingTop: appBarHeight
     },
     content: {
       paddingTop: 30
@@ -116,8 +120,9 @@ const Styles = {
       alignItems: 'center'
     },
     outer: {
-      paddingVertical: space,
-      paddingHorizontal: wind
+      paddingHorizontal: wind,
+      paddingTop: space,
+      paddingBottom: bottom
     },
     inner: {
       paddingVertical: wind,
@@ -222,17 +227,16 @@ const Styles = {
   }),
 
   shadow: StyleSheet.create({
-    item: Platform.select({
-      ios: {
-        shadowColor: '#333',
-        shadowOffset: { height: 8 },
-        shadowOpacity: 0.08,
-        shadowRadius: 8
-      },
-      android: {
-        elevation: 1
-      }
-    })
+    item: IOS
+      ? {
+          shadowColor: '#333',
+          shadowOffset: { height: 8 },
+          shadowOpacity: 0.08,
+          shadowRadius: 8
+        }
+      : {
+          elevation: 1
+        }
   }),
 
   input: StyleSheet.create({

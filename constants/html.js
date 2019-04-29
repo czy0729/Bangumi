@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 17:32:32
+ * @Last Modified time: 2019-04-28 04:58:04
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 
@@ -25,7 +25,9 @@ export const HTML_SUBJECT_COMMENTS = (subjectId, page = 1) =>
 
 /**
  * 获取时间胶囊HTML (需登录)
+ * @param {*} scope
  * @param {*} type
+ * @param {*} userId
  * @param {*} page
  */
 export const HTML_TIMELINE = (scope, type, userId, page = 1) => {
@@ -38,3 +40,11 @@ export const HTML_TIMELINE = (scope, type, userId, page = 1) => {
       return `${HOST}/timeline?type=${type}&page=${page}`
   }
 }
+
+/**
+ * 超展开
+ * @param {*} scope
+ * @param {*} type
+ */
+export const HTML_RAKUEN = (scope, type) =>
+  `${HOST}/rakuen/${scope}?type=${type}`

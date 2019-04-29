@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 11:25:16
+ * @Last Modified time: 2019-04-29 16:30:33
  */
-import HTMLParser from './common/html-parser'
+import HTMLParser from './thirdParty/html-parser'
 
 /**
  * HTML反转义

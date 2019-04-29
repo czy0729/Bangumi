@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 11:27:48
+ * @Last Modified time: 2019-04-27 20:13:06
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Image, Touchable } from '@components'
 import { date } from '@utils'
 import { HTMLDecode } from '@utils/html'
-import _, { md, wind, colorBorder } from '@styles'
+import _, { md, wind, colorPlain, colorBorder } from '@styles'
 
 const ArticleItem = ({
   style,
@@ -24,7 +24,7 @@ const ArticleItem = ({
   onPress,
   onAvatarPress
 }) => (
-  <Touchable style={style} highlight onPress={onPress}>
+  <Touchable style={[styles.container, style]} highlight onPress={onPress}>
     <Flex align='start'>
       <Image
         style={styles.image}
@@ -60,6 +60,9 @@ const ArticleItem = ({
 export default observer(ArticleItem)
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colorPlain
+  },
   image: {
     marginTop: md
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 07:23:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 17:44:37
+ * @Last Modified time: 2019-04-28 04:29:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -147,7 +147,6 @@ class Item extends React.Component {
 
   render() {
     const { style, index, avatar, p3, star, reply, time, image } = this.props
-    console.log(this.props)
     return (
       <Flex style={[styles.item, style]} align='start'>
         <View style={styles.image}>

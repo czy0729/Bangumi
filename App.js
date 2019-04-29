@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-24 17:33:43
+ * @Last Modified time: 2019-04-29 16:31:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Provider } from '@ant-design/react-native'
 import Stores from '@stores'
 import { colorPlain } from '@styles'
 import theme from '@styles/theme'
-import Navigation from './navigation'
+import Navigations from './navigations'
 
 console.disableYellowBox = true
 
@@ -53,7 +53,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Provider theme={theme}>
-          <Navigation />
+          <Navigations />
         </Provider>
       </View>
     )

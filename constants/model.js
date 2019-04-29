@@ -3,9 +3,8 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 17:32:36
+ * @Last Modified time: 2019-04-27 14:02:29
  */
-
 class Modal {
   constructor(data) {
     this.data = data
@@ -209,4 +208,76 @@ export const MODEL_TIMELINE_TYPE = new Modal([
     label: '',
     value: 'all'
   }
+])
+
+// 超展开板块
+export const MODEL_RAKUEN_SCOPE = new Modal([
+  {
+    label: '全局聚合',
+    value: 'topiclist'
+  },
+  {
+    label: '新番乐园',
+    value: 'new_bangumi'
+  },
+  {
+    label: 'etokei 绘时计',
+    value: 'tokei'
+  },
+  {
+    label: '经典动画',
+    value: 'classical_bangumi'
+  },
+  {
+    label: '天窗联盟',
+    value: 'doujin'
+  },
+  {
+    label: '1/8位面',
+    value: 'pvc'
+  }
+])
+
+// 超展开全局聚合类型
+export const MODEL_RAKUEN_TYPE = new Modal([
+  {
+    label: '全部',
+    value: ''
+  },
+  {
+    label: '小组',
+    value: 'group'
+  },
+  // {
+  //   label: '已加入小组话题',
+  //   value: 'my_group'
+  // },
+  // {
+  //   label: '我发表的话题',
+  //   value: 'my_group&filter=topic'
+  // },
+  // {
+  //   label: '我回复的话题',
+  //   value: 'my_group&filter=reply'
+  // },
+  {
+    label: '条目',
+    value: 'subject'
+  },
+  {
+    label: '章节',
+    value: 'ep'
+  },
+  {
+    label: '人物',
+    value: 'mono'
+  }
+  // {
+  //   label: '虚拟角色',
+  //   value: 'mono&filter=character'
+  // },
+  // {
+  //   label: '现实人物',
+  //   value: 'mono&filter=person'
+  // }
 ])

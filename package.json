@@ -24,8 +24,11 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-expo-image-cache": "^3.2.0",
     "react-native-modal-popover": "0.0.12",
+    "react-native-paper": "^2.15.2",
     "react-navigation": "^3.0.9",
-    "react-navigation-drawer": "^1.2.1"
+    "react-navigation-drawer": "^1.2.1",
+    "react-navigation-material-bottom-tabs": "^1.0.0",
+    "react-navigation-tabs": "1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

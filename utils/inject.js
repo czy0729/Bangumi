@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 22:09:28
+ * @Last Modified time: 2019-04-26 15:28:11
  */
 import React from 'react'
 import { Platform, StyleSheet, StatusBar } from 'react-native'
@@ -167,17 +167,6 @@ const Inject = (
             backgroundColor: `rgba(255, 255, 255, ${opacity})`,
             borderBottomWidth: isTransitioned ? StyleSheet.hairlineWidth : 0,
             borderBottomColor: colorBorder
-            // ...Platform.select({
-            //   ios: {
-            //     shadowColor: colorShadow,
-            //     shadowOffset: { height: 2 },
-            //     shadowOpacity: 0.08,
-            //     shadowRadius: isTransitioned ? 4 : 0
-            //   },
-            //   android: {
-            //     elevation: isTransitioned ? 2 : 0
-            //   }
-            // })
           }
         })
       }

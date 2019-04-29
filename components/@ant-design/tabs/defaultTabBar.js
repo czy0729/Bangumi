@@ -24,7 +24,7 @@ export class DefaultTabBar extends React.PureComponent {
     activeTab: 0,
     page: 5,
     tabBarUnderlineStyle: {},
-    tabBarBackgroundColor: 'rgbs(255, 255, 255, 0)',
+    tabBarBackgroundColor: 'transparent',
     tabBarActiveTextColor: '',
     tabBarInactiveTextColor: '',
     tabBarTextStyle: {},

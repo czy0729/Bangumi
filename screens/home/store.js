@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 14:51:33
+ * @Last Modified time: 2019-04-29 17:33:24
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -13,10 +13,6 @@ import { MODEL_EP_STATUS } from '@constants/model'
 import { sleep } from '@utils'
 import store from '@utils/store'
 
-const initItem = {
-  expand: false,
-  doing: false
-}
 export const tabs = [
   {
     title: '全部'
@@ -32,11 +28,17 @@ export const tabs = [
   }
 ]
 
+const initItem = {
+  expand: false,
+  doing: false
+}
+
 export default class ScreenHome extends store {
   state = observable({
     visible: false, // <Modal>可见性
     subjectId: 0, // <Modal>当前条目Id
-    page: 0, // <Tabs>缓存当前页数,
+    page: 0, // <Tabs>当前页数
+    _page: 0, // header上的假<Tabs>当前页数
     top: [], // <Item>置顶记录
     item: {
       // [subjectId]: initItem // 每个<Item>的状态
@@ -45,17 +47,18 @@ export default class ScreenHome extends store {
   })
 
   init = async () => {
+    let res
     if (this.isLogin) {
-      const state = (await this.getStorage()) || {}
+      res = this.getStorage()
+      const state = await res
       this.setState({
-        page: state.page || 0,
-        top: state.top || [],
-        item: state.item || {},
+        ...state,
         _loaded: true
       })
 
       this.initFetch()
     }
+    return res
   }
 
   initFetch = async refresh => {
@@ -191,11 +194,25 @@ export default class ScreenHome extends store {
 
   // -------------------- page --------------------
   /**
-   * <Tabs>换页
+   * @issue onTabClick与onChange在用受控模式的时候, 有冲突
+   * 暂时这样解决
    */
-  tabsChange = (item, page) => {
+  onTabClick = (item, page) => {
+    if (page === this.state.page) {
+      return
+    }
     this.setState({
       page
+    })
+    this.setStorage()
+  }
+  onChange = (item, page) => {
+    if (page === this.state.page) {
+      return
+    }
+    this.setState({
+      page,
+      _page: page
     })
     this.setStorage()
   }

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 11:24:52
+ * @Last Modified time: 2019-04-28 22:53:22
  */
 import React from 'react'
 import {
-  ActivityIndicator,
   FlatList,
+  RefreshControl,
   SectionList,
   StyleSheet,
   TouchableOpacity,
@@ -16,7 +16,9 @@ import {
 import { LIST_EMPTY } from '@constants'
 import { sleep } from '@utils'
 import { window, colorSub } from '@styles'
+import Activity from './activity'
 import Text from './text'
+import HeaderPlaceholder from './header-placeholder'
 
 const RefreshState = {
   Idle: 0,
@@ -34,6 +36,7 @@ export default class ListView extends React.Component {
     data: LIST_EMPTY,
     sectionKey: '', // 当有此值, 根据item[section]构造<SectionList>的sections
     sections: undefined,
+    progressViewOffset: undefined,
     renderItem: undefined,
     footerRefreshingText: '玩命加载中 >.<',
     footerFailureText: '我擦嘞，居然失败了 =.=!',
@@ -176,7 +179,7 @@ export default class ListView extends React.Component {
       case RefreshState.FooterRefreshing:
         footer = footerRefreshingComponent || (
           <View style={styles.footerContainer}>
-            <ActivityIndicator size='small' />
+            <Activity size='small' />
             <Text style={[styles.footerText, { marginLeft: 8 }]}>
               {footerRefreshingText}
             </Text>
@@ -197,8 +200,42 @@ export default class ListView extends React.Component {
   }
 
   render() {
-    const { style, data, sectionKey, sections, ...other } = this.props
+    const {
+      style,
+      data,
+      sectionKey,
+      sections,
+      progressViewOffset,
+      ...other
+    } = this.props
     const { refreshState } = this.state
+    const commonProps = {
+      ref: ref => {
+        if (ref) {
+          this.scrollToLocation = params => ref.scrollToLocation(params)
+        }
+      },
+      style: [styles.container, style],
+      initialNumToRender: 10,
+      refreshing: refreshState === RefreshState.HeaderRefreshing,
+      refreshControl: (
+        <RefreshControl
+          title={
+            typeof data._loaded === 'string'
+              ? `上次刷新时间: ${data._loaded}`
+              : undefined
+          }
+          titleColor={colorSub}
+          progressViewOffset={progressViewOffset}
+          refreshing={refreshState === RefreshState.HeaderRefreshing}
+          onRefresh={this.onHeaderRefresh}
+        />
+      ),
+      ListFooterComponent: this.renderFooter(refreshState),
+      onRefresh: this.onHeaderRefresh,
+      onEndReached: this.onEndReached,
+      onEndReachedThreshold: 0.16
+    }
 
     if (sectionKey || sections) {
       let _sections = []
@@ -219,43 +256,10 @@ export default class ListView extends React.Component {
           }
         })
       }
-
-      return (
-        <SectionList
-          ref={ref => {
-            if (ref) {
-              this.scrollToLocation = params => ref.scrollToLocation(params)
-            }
-          }}
-          style={[styles.container, style]}
-          sections={_sections}
-          refreshing={refreshState === RefreshState.HeaderRefreshing}
-          ListFooterComponent={this.renderFooter(refreshState)}
-          onRefresh={this.onHeaderRefresh}
-          onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.16}
-          {...other}
-        />
-      )
+      return <SectionList sections={_sections} {...commonProps} {...other} />
     }
 
-    return (
-      <FlatList
-        ref={ref => {
-          if (ref) {
-            this.scrollTo = params => ref.scrollTo(params)
-          }
-        }}
-        style={[styles.container, style]}
-        data={data.list.slice()}
-        refreshing={refreshState === RefreshState.HeaderRefreshing}
-        ListFooterComponent={this.renderFooter(refreshState)}
-        onRefresh={this.onHeaderRefresh}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={0.16}
-        {...other}
-      />
-    )
+    return <FlatList data={data.list.slice()} {...commonProps} {...other} />
   }
 }
 

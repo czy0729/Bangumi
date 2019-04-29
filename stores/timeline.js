@@ -5,13 +5,13 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 16:50:49
+ * @Last Modified time: 2019-04-27 16:52:04
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
 import { HTML_TIMELINE } from '@constants/html'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-import { trim } from '@utils'
+import { trim, date } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
@@ -300,20 +300,21 @@ class Timeline extends store {
     }
 
     // -------------------- 缓存 --------------------
-    const key = `${scope}|${type}`
+    const key = 'timeline'
+    const stateKey = `${scope}|${type}`
     this.setState({
-      timeline: {
-        [key]: {
+      [key]: {
+        [stateKey]: {
           list: page === 1 ? timeline : [...list, ...timeline],
           pagination: {
             page,
             pageTotal: timeline.length ? 100 : page // 页面没有分页信息
           },
-          _loaded: true
+          _loaded: date()
         }
       }
     })
-    this.setStorage('timeline')
+    this.setStorage(key)
 
     return res
   }

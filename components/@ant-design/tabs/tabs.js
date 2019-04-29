@@ -8,6 +8,7 @@ import {
   View,
   Text
 } from 'react-native'
+import HeaderPlaceholder from '../../header-placeholder'
 import Flex from '../../flex'
 import { WithTheme } from '../style'
 import { DefaultTabBar } from './defaultTabBar'
@@ -26,8 +27,9 @@ export class Tabs extends React.PureComponent {
     tabDirection: 'horizontal',
     tabs: [],
     usePaged: true,
-    renderTabBarLeft: undefined,
-    style: {}
+    renderTabBarLeft: undefined, // @add
+    style: {}, // @add
+    tabBarStyle: {} // @add
   }
   static DefaultTabBar = DefaultTabBar
 
@@ -204,6 +206,7 @@ export class Tabs extends React.PureComponent {
 
   render() {
     const {
+      tabBarStyle, // @add
       tabBarPosition,
       noRenderContent,
       keyboardShouldPersistTaps
@@ -229,17 +232,19 @@ export class Tabs extends React.PureComponent {
       //     [this.props.tabBarPosition === 'overlayTop' ? 'top' : 'bottom']: 0,
       // };
     }
+
     return (
       <WithTheme styles={this.props.styles} themeStyles={TabsStyles}>
         {styles => {
           const content = [
             <View
               key='$tabbar'
-              style={
+              style={[
                 tabBarPosition === 'top'
                   ? styles.topTabBarSplitLine
-                  : styles.bottomTabBarSplitLine
-              }
+                  : styles.bottomTabBarSplitLine,
+                tabBarStyle // @add
+              ]}
             >
               {this.renderTabBar(tabBarProps, DefaultTabBar)}
             </View>,
@@ -349,7 +354,6 @@ export class Tabs extends React.PureComponent {
 
   getTabBarBaseProps() {
     const { currentTab } = this.state
-
     const {
       animated,
       onTabClick,
@@ -389,7 +393,7 @@ export class Tabs extends React.PureComponent {
     } else if (renderTabBar) {
       return renderTabBar(tabBarProps)
     } else {
-      // @modify
+      // @add
       if (renderTabBarLeft) {
         return (
           <Flex>

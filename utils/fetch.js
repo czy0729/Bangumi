@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 22:17:38
+ * @Last Modified time: 2019-04-28 15:35:22
  */
 import { Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
@@ -18,6 +18,19 @@ const ERR_RETRY_COUNT = 3 // GET请求失败重试次数
 // const STATUS_UNAUTHORIZED = 401
 // const STATUS_NOT_FOUND = 404
 // const STATUS_METHOD_NOT_ALLOWED = 405
+
+// 防止cookie过期
+const cacheHeaders = {
+  // Accept:
+  //   'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  // 'Accept-Encoding': 'gzip, deflate, br',
+  // 'Accept-Language': 'zh-CN,zh;q=0.9',
+  // 'Cache-Control': 'max-age=0',
+  // Connection: 'keep-alive',
+  // Host: 'bangumi.tv',
+  // Referer: 'https://bangumi.tv/',
+  // 'Upgrade-Insecure-Requests': 1
+}
 
 /**
  * 统一请求方法
@@ -59,7 +72,6 @@ export default async function _fetch({
     body.state = getTimestamp() // 随机数防止接口CDN缓存
     _url = `${url}?${urlStringify(body)}`
   }
-
   log('API', 'fetch', _url)
 
   return fetch(_url, _config)
@@ -101,6 +113,7 @@ export default async function _fetch({
           return retryCb()
         }
       }
+
       Toast.info(`${info}请求失败`)
       return Promise.reject(err)
     })
@@ -112,22 +125,18 @@ export default async function _fetch({
  * @param {*} param
  */
 export async function fetchHTML({ url } = {}) {
-  // const userStore = require('../stores/user').default
-  // let { userCookie } = userStore
-  // if (!userCookie) {
-  //   userCookie = await userStore.getStorage('userCookie')
-  // }
+  const userStore = require('../stores/user').default
+  const { userAgent, cookie } = userStore.userCookie
   const data = {
     method: 'GET'
   }
 
+  // 叹号代表不携带cookie
   if (url.indexOf('!') !== 0) {
     data.headers = {
-      'User-Agent':
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
-      Cookie:
-        // eslint-disable-next-line max-len
-        '__utmz=1.1555120637.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); chii_cookietime=0; __utma=1.158421289.1555120637.1555572370.1555588783.31; __utmc=1; __utmt=1; chii_auth=1F1x%2F%2B%2FI6xZMGqClBkBqX7xFaxcYp%2FYqZdXb7fcsBrj5KqSAYhb1LPRRjPoumbh5Lmb9NGgfSlM63avajmOO78RV0nzrnEkeoCAi; chii_sid=pqUt9U; __utmb=1.14.10.1555588783'
+      'User-Agent': userAgent,
+      Cookie: cookie,
+      ...cacheHeaders
     }
   }
 
@@ -139,8 +148,7 @@ export async function fetchHTML({ url } = {}) {
   } else {
     _url = `${_url}&state=${state}`
   }
-
-  log('fetchHTML', _url, data)
+  log('fetchHTML', _url)
 
   return fetch(_url, data).then(res => Promise.resolve(res._bodyInit))
 }
