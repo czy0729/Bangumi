@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 16:57:20
+ * @Last Modified time: 2019-05-04 22:55:26
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
+import { withTabsHeader } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
-import { listViewWithTabsHeaderProps } from '@styles/commonProps'
 import Item from './item'
 
 const List = ({ title }, { $ }) => {
@@ -48,7 +48,7 @@ const List = ({ title }, { $ }) => {
       )}
       ListFooterComponent={null}
       onHeaderRefresh={() => $.initFetch(true)}
-      {...listViewWithTabsHeaderProps}
+      {...withTabsHeader.listViewProps}
     />
   )
 }

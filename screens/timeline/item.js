@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 07:23:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 04:29:15
+ * @Last Modified time: 2019-05-05 02:03:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { appNavigate } from '@utils/app'
 import _, { wind, md, colorPlain, colorBorder } from '@styles'
 
 const avatarWidth = 28
-const regSubject = /\/\/bangumi.tv\/subject\/\d+$/
+const regSubject = /\/\/bgm.tv\/subject\/\d+$/
 
 class Item extends React.Component {
   static defaultProps = {

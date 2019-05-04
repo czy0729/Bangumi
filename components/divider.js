@@ -2,16 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-03-29 03:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-03-29 04:10:27
+ * @Last Modified time: 2019-05-02 19:49:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { colorBorder } from '@styles'
+import { wind, colorBorder } from '@styles'
+import Flex from './flex'
+import Text from './text'
 
 const Divider = ({ style }) => (
-  <View style={[styles.divider, style]}>
+  <Flex style={[styles.divider, style]}>
     <View style={styles.line} />
-  </View>
+    <Text style={styles.text} type='border' size={20}>
+      / / /
+    </Text>
+    <View style={styles.line} />
+  </Flex>
 )
 
 export default Divider
@@ -22,11 +28,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     width: '100%',
-    paddingVertical: 16
+    paddingVertical: 32
+  },
+  text: {
+    marginHorizontal: wind
   },
   line: {
-    width: 48,
-    borderWidth: 1,
+    width: 80,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: colorBorder
   }
 })

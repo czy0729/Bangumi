@@ -2,19 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 17:37:30
+ * @Last Modified time: 2019-05-05 00:04:17
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { IconTabBar } from '@screens/_'
-import injectWithTabsHeader from '@utils/decorators/injectWithTabsHeader'
+import { inject, withTabsHeader } from '@utils/decorators'
 import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+export default
+@inject(Store)
+@withTabsHeader()
+@observer
 class Timeline extends React.Component {
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
@@ -33,9 +37,7 @@ class Timeline extends React.Component {
     await $.init()
 
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
-    navigation.setParams({
-      headerTabs: <Tabs $={$} />
-    })
+    withTabsHeader.setTabs(navigation, <Tabs $={$} />)
   }
 
   render() {
@@ -47,12 +49,7 @@ class Timeline extends React.Component {
 
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
-        <Tabs
-          $={$}
-          tabBarStyle={{
-            display: 'none'
-          }}
-        >
+        <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
           {tabs.map(item => (
             <List key={item.title} title={item.title} scope={scope} />
           ))}
@@ -61,5 +58,3 @@ class Timeline extends React.Component {
     )
   }
 }
-
-export default injectWithTabsHeader(Store)(observer(Timeline))

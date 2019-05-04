@@ -3,11 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 04:58:04
+ * @Last Modified time: 2019-05-05 02:03:28
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
-
-export const HOST = 'https://bangumi.tv'
+import { HOST } from './index'
 
 /**
  * 获取条目HTML
@@ -48,3 +47,9 @@ export const HTML_TIMELINE = (scope, type, userId, page = 1) => {
  */
 export const HTML_RAKUEN = (scope, type) =>
   `${HOST}/rakuen/${scope}?type=${type}`
+
+/**
+ * 帖子
+ * @param {*} topicId
+ */
+export const HTML_TOPIC = topicId => `${HOST}/group/topic/${topicId}`

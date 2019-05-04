@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-26 15:35:30
+ * @Last Modified time: 2019-05-04 16:03:02
  */
 export { default as ArticleItem } from './article-item'
 export { default as Characters } from './characters'
@@ -22,5 +22,6 @@ export { default as SectionHeader } from './section-header'
 export { default as SectionTitle } from './section-title'
 export { default as StarGroup } from './star-group'
 export { default as Stars } from './stars'
+export { default as StatusBar } from './status-bar'
 export { default as StatusBarPlaceholder } from './status-bar-placeholder'
 export { default as StatusBtnGroup } from './status-btn-group'

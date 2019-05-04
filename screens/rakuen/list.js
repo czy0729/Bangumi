@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 16:56:41
+ * @Last Modified time: 2019-05-05 00:04:56
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
-import { appNavigate } from '@utils/app'
+import { withTabsHeader } from '@utils/decorators'
 import { MODEL_RAKUEN_TYPE } from '@constants/model'
-import { listViewWithTabsHeaderProps } from '@styles/commonProps'
+import _ from '@styles'
 import Item from './item'
 
 const List = ({ type }, { $ }) => {
@@ -21,25 +21,19 @@ const List = ({ type }, { $ }) => {
 
   return (
     <ListView
+      contentContainerStyle={_.container.bottom}
       keyExtractor={item => item.href}
       data={rakuen}
-      renderItem={({ item, index }) => (
-        <Item
-          isFirst={index === 0}
-          {...item}
-          onPress={() => appNavigate(item.href)}
-        />
-      )}
+      renderItem={({ item, index }) => <Item index={index} {...item} />}
       onHeaderRefresh={() => $.fetchRakuen(true)}
       onFooterRefresh={$.fetchRakuen}
-      {...listViewWithTabsHeaderProps}
+      {...withTabsHeader.listViewProps}
     />
   )
 }
 
 List.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
+  $: PropTypes.object
 }
 
 export default observer(List)

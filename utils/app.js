@@ -3,17 +3,28 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 15:50:12
+ * @Last Modified time: 2019-05-05 02:15:59
  */
 import { WebBrowser } from 'expo'
+import { HOST } from '@constants'
 
 /**
  * 根据Bangumi的url判断路由跳转方式
  * @param {*} url
+ * @param {*} navigation
  */
-export function appNavigate(url = '') {
+export function appNavigate(url = '', navigation) {
   console.log(url)
-  // WebBrowser.openBrowserAsync(url)
+  if (
+    url.indexOf('/rakuen/topic/group/') !== -1 ||
+    url.indexOf('/group/topic/') !== -1
+  ) {
+    navigation.push('Topic', {
+      topicId: url.match(/\/(\d+)/)[1]
+    })
+  } else {
+    WebBrowser.openBrowserAsync(url)
+  }
 }
 
 /**
@@ -62,7 +73,7 @@ export function getBangumiUrl(item) {
   const { site, id, url } = item
   switch (site) {
     case 'bangumi':
-      return url || `https://bangumi.tv/subject/${id}`
+      return url || `${HOST}/subject/${id}`
     case 'bilibili':
       return url || `https://bangumi.bilibili.com/anime/${id}`
     case 'iqiyi':

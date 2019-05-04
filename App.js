@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 16:31:16
+ * @Last Modified time: 2019-05-02 12:34:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -66,3 +66,22 @@ const styles = StyleSheet.create({
     backgroundColor: colorPlain
   }
 })
+
+global.log = (value, space) => {
+  const handleCircular = () => {
+    const cache = []
+    const keyCache = []
+    return (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        const index = cache.indexOf(value)
+        if (index !== -1) {
+          return `[Circular ${keyCache[index]}]`
+        }
+        cache.push(value)
+        keyCache.push(key || 'root')
+      }
+      return value
+    }
+  }
+  console.log(JSON.stringify(value, handleCircular(), space))
+}

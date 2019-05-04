@@ -3,17 +3,20 @@
  * @Author: czy0729
  * @Date: 2019-04-26 20:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-27 01:04:43
+ * @Last Modified time: 2019-05-05 00:14:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading } from '@components'
-import inject from '@utils/inject'
+import { inject } from '@utils/decorators'
 import _ from '@styles'
 import List from './list'
 import Store from './store'
 
+export default
+@inject(Store)
+@observer
 class User extends React.Component {
   static contextTypes = {
     $: PropTypes.object
@@ -33,5 +36,3 @@ class User extends React.Component {
     return <List />
   }
 }
-
-export default inject(Store)(observer(User))

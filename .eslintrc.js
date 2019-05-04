@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 16:58:32
+ * @Last Modified time: 2019-05-02 12:34:33
  */
 module.exports = {
   root: true,
@@ -10,7 +10,8 @@ module.exports = {
     process: true,
     require: true,
     fetch: true,
-    __DEV__: true
+    __DEV__: true,
+    log: true
   },
   env: {
     commonjs: true,

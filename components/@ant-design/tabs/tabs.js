@@ -149,7 +149,7 @@ export class Tabs extends React.PureComponent {
           { useNativeDriver: true } // <-- Add this
         )}
         onMomentumScrollEnd={this.onMomentumScrollEnd}
-        scrollEventThrottle={16}
+        scrollEventThrottle={32}
         scrollsToTop={false}
         showsHorizontalScrollIndicator={false}
         scrollEnabled={this.props.swipeable}

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 14:30:22
+ * @Last Modified time: 2019-05-05 02:05:00
  */
 import { Platform } from 'react-native'
 
@@ -14,7 +14,9 @@ export const APP_ID = 'bgm8885c4d524cd61fc'
 export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
 
 // URL
-export const HOST = 'https://bangumi.tv'
+export const HOST_NAME = 'bgm.tv'
+export const HOST = `https://${HOST_NAME}`
+export const HOST_MIRRO = 'https://mirror.bgm.rin.cat'
 export const OAUTH_URL = `${HOST}/oauth/authorize`
 export const OAUTH_REDIRECT_URL = HOST
 // export const OAUTH_REDIRECT_URL = Constants.linkingUri
@@ -32,6 +34,7 @@ export const IMG_EMPTY = {
 // }
 
 export const IMG_DEFAULT = require('@assets/images/default.png')
+export const IMG_ERROR = require('@assets/images/icon/pic-error-defult.png')
 
 // 全局统一列表数据结构
 export const LIST_EMPTY = {
@@ -40,5 +43,7 @@ export const LIST_EMPTY = {
     page: 0,
     pageTotal: 0
   },
+  _list: [], // 用于某些方法制造分页效果
   _loaded: false
 }
+export const LIST_LIMIT = 20

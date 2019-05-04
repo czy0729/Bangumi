@@ -1,8 +1,15 @@
 /*
+ * 图片
+ * 1. 支持各种样式设置
+ * 2. 支持本地和远端图片
+ * 3. 图片缓存到本地, @todo 安卓
+ * 4. 远端图片自动获取高度
+ * 5. 错误处理
+ * 6. @todo 自动选择Bangumi图片质量
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-26 23:21:57
+ * @Last Modified time: 2019-05-04 21:44:21
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -10,7 +17,7 @@ import {
   CacheManager,
   Image as AnimateImage
 } from 'react-native-expo-image-cache'
-import { IOS, IMG_EMPTY } from '@constants'
+import { IOS, IMG_EMPTY, IMG_ERROR } from '@constants'
 import { colorBg, radiusXs, shadow } from '@styles'
 import Touchable from './touchable'
 
@@ -26,16 +33,24 @@ export default class Image extends React.Component {
     shadow: false, // 阴影
     placeholder: true, // 是否有底色
     quality: false, // 是否根据设置改变图片质量
+    autoSize: 0, // 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例
     onPress: undefined,
     onLongPress: undefined
   }
 
   state = {
-    uri: undefined
+    error: false,
+    uri: undefined,
+    width: 0,
+    height: 0
   }
 
-  componentDidMount() {
-    this.cache(this.props.src)
+  async componentDidMount() {
+    const { src, autoSize } = this.props
+    await this.cache(src)
+    if (autoSize) {
+      this.getSize()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,29 +61,37 @@ export default class Image extends React.Component {
 
   cache = async src => {
     const { quality } = this.props
+    let res
     let uri
 
     // @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存?
     if (IOS) {
-      if (typeof src === 'string') {
-        let _src = src.replace('http://', 'https://')
-        if (_src.indexOf('https:') === -1) {
-          _src = `https:${_src}`
-        }
+      try {
+        if (typeof src === 'string') {
+          let _src = src.replace('http://', 'https://')
+          if (_src.indexOf('https:') === -1) {
+            _src = `https:${_src}`
+          }
 
-        // @todo 做一个全局控制图片质量的设置
-        if (quality) {
-          _src = _src.replace('/m/', '/l/')
-        }
+          // @todo 做一个全局控制图片质量的设置
+          if (quality) {
+            _src = _src.replace('/m/', '/l/')
+          }
 
-        const path = await CacheManager.get(_src).getPath()
-        if (path) {
-          uri = path
-        } else {
-          uri = _src
+          res = CacheManager.get(_src).getPath()
+          const path = await res
+          if (path) {
+            uri = path
+          } else {
+            uri = _src
+          }
+          this.setState({
+            uri
+          })
         }
+      } catch (e) {
         this.setState({
-          uri
+          error: true
         })
       }
     } else {
@@ -83,6 +106,34 @@ export default class Image extends React.Component {
         uri
       })
     }
+
+    return res
+  }
+
+  getSize = () => {
+    const { autoSize } = this.props
+    const { uri } = this.state
+    if (typeof uri !== 'string' || typeof autoSize !== 'number') {
+      return
+    }
+
+    RNImage.getSize(uri, (width, height) => {
+      let _width
+      let _height
+
+      // 假如图片本身的宽度没有超过给定的最大宽度, 直接沿用图片原尺寸
+      if (width < autoSize) {
+        _width = width
+        _height = height
+      } else {
+        _width = autoSize
+        _height = Math.floor((autoSize / width) * height)
+      }
+      this.setState({
+        width: _width,
+        height: _height
+      })
+    })
   }
 
   render() {
@@ -97,14 +148,22 @@ export default class Image extends React.Component {
       shadow,
       placeholder,
       quality,
+      autoSize,
       onPress,
       onLongPress,
       ...other
     } = this.props
-    const { uri } = this.state
+    const { error, uri, width: _width, height: _height } = this.state
     const _wrap = []
     const _image = []
-    if (size) {
+
+    // 以state里面的width和height优先
+    if (autoSize) {
+      _image.push({
+        width: _width || 160,
+        height: _height || 160
+      })
+    } else if (size) {
       _image.push({
         width: size,
         height: height || size
@@ -139,7 +198,11 @@ export default class Image extends React.Component {
     }
 
     let image
-    if (typeof src === 'string' || typeof src === 'undefined') {
+    if (error) {
+      image = (
+        <RNImage style={[_image, styles.error]} source={IMG_ERROR} {...other} />
+      )
+    } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
         image = (
           <AnimateImage
@@ -185,5 +248,8 @@ const styles = StyleSheet.create({
   shadow,
   placeholder: {
     backgroundColor: colorBg
+  },
+  error: {
+    padding: 4
   }
 })

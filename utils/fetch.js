@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 15:35:22
+ * @Last Modified time: 2019-05-05 02:16:10
  */
 import { Toast } from '@ant-design/react-native'
-import { APP_ID } from '@constants'
+import { HOST_NAME, HOST, APP_ID } from '@constants'
 import { urlStringify, sleep, getTimestamp } from './index'
 import { log } from './dev'
 
@@ -25,11 +25,11 @@ const cacheHeaders = {
   //   'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
   // 'Accept-Encoding': 'gzip, deflate, br',
   // 'Accept-Language': 'zh-CN,zh;q=0.9',
-  // 'Cache-Control': 'max-age=0',
-  // Connection: 'keep-alive',
-  // Host: 'bangumi.tv',
-  // Referer: 'https://bangumi.tv/',
-  // 'Upgrade-Insecure-Requests': 1
+  'Cache-Control': 'max-age=0',
+  Connection: 'keep-alive',
+  Host: HOST_NAME,
+  Referer: `${HOST}/`,
+  'Upgrade-Insecure-Requests': 1
 }
 
 /**

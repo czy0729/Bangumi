@@ -5,10 +5,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-27 16:52:04
+ * @Last Modified time: 2019-05-05 02:06:59
  */
 import { observable, computed } from 'mobx'
-import { LIST_EMPTY } from '@constants'
+import { HOST, HOST_NAME, LIST_EMPTY } from '@constants'
 import { HTML_TIMELINE } from '@constants/html'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import { trim, date } from '@utils'
@@ -96,13 +96,8 @@ class Timeline extends store {
            * 所以每次获取id时, 先跟历史比较, 假如发现存在, 直接return
            */
           // ---------- id
+          // @todo 暂时用把page也作为key的一部分排除相同的列
           const id = `${page}|${i.attrs.id.replace('tml_', '')}`
-          // if (list.findIndex(item => item.id === id) !== -1) {
-          //   // 因为ListView对没分页列表判断的机制, 所以第1页不能return
-          //   if (page !== 1) {
-          //     return true
-          //   }
-          // }
 
           // 位置1, 通常是用户信息
           const p1 = {
@@ -136,7 +131,7 @@ class Timeline extends store {
                 avatar: { small }
               } = userStore.userInfo
               avatar.src = small
-              avatar.url = `https://bangumi.tv/user/${id}`
+              avatar.url = `${HOST}/user/${id}`
             }
           } else {
             node = findTreeNode(children, 'a > span|style~background')
@@ -151,7 +146,7 @@ class Timeline extends store {
           if (!isSelf) {
             node = findTreeNode(
               children,
-              'a|text&class=l&href~://bangumi.tv/user/'
+              `a|text&class=l&href~://${HOST_NAME}/user/`
             )
             if (node) {
               p1.text = node[0].text[0]
@@ -174,27 +169,27 @@ class Timeline extends store {
           node =
             findTreeNode(
               children,
-              'a|text&class=l&href~://bangumi.tv/subject/'
+              `a|text&class=l&href~://${HOST_NAME}/subject/`
             ) ||
             findTreeNode(
               children,
-              'a|text&class=l&href~://bangumi.tv/character/'
+              `a|text&class=l&href~://${HOST_NAME}/character/`
             ) ||
             findTreeNode(
               children,
-              'a|text&class=l&href~://bangumi.tv/person/'
+              `a|text&class=l&href~://${HOST_NAME}/person/`
             ) ||
             findTreeNode(
               children,
-              'a|text&class=l&href~://bangumi.tv/group/'
+              `a|text&class=l&href~://${HOST_NAME}/group/`
             ) ||
             findTreeNode(
               children,
-              'a|text&class=l&href~://bangumi.tv/index/'
+              `a|text&class=l&href~://${HOST_NAME}/index/`
             ) ||
             findTreeNode(
               children,
-              'a|text&class=l&href~://doujin.bangumi.tv/subject/'
+              `a|text&class=l&href~://doujin.${HOST_NAME}/subject/`
             ) ||
             []
           node.forEach(item => {
@@ -210,7 +205,7 @@ class Timeline extends store {
           if (!node.length) {
             node = findTreeNode(
               children.reverse(),
-              'a|text&class=l&href~://bangumi.tv/user/'
+              `a|text&class=l&href~://${HOST_NAME}/user/`
             )
             if (node && node[0].attrs.href !== p1.url) {
               p3.text.push(HTMLDecode(node[0].text[0]))
@@ -221,11 +216,11 @@ class Timeline extends store {
           // ---------- 条目
           node = findTreeNode(
             children,
-            'div > a|text&class=tip&href~://bangumi.tv/subject/'
+            `div > a|text&class=tip&href~://${HOST_NAME}/subject/`
           )
           const subject = node ? HTMLDecode(node[0].text[0]) : ''
           const subjectId = node
-            ? node[0].attrs.href.replace('https://bangumi.tv/subject/', '')
+            ? node[0].attrs.href.replace(`${HOST}/subject/`, '')
             : 0
 
           // ---------- 时间

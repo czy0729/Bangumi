@@ -25,6 +25,7 @@
     "react-native-expo-image-cache": "^3.2.0",
     "react-native-modal-popover": "0.0.12",
     "react-native-paper": "^2.15.2",
+    "react-native-render-html": "^4.1.2",
     "react-navigation": "^3.0.9",
     "react-navigation-drawer": "^1.2.1",
     "react-navigation-material-bottom-tabs": "^1.0.0",

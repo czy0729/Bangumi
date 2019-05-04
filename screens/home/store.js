@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 17:33:24
+ * @Last Modified time: 2019-05-05 02:29:16
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -324,7 +324,8 @@ export default class ScreenHome extends store {
       id,
       status: MODEL_EP_STATUS.getValue('看过')
     })
-    userStore.fetchUserProgress(subjectId)
+    userStore.fetchUserCollection()
+    userStore.fetchUserProgress()
 
     this.setState({
       item: {

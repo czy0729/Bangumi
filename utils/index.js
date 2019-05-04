@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 11:25:16
+ * @Last Modified time: 2019-04-30 20:09:19
  */
 import { AsyncStorage } from 'react-native'
 
@@ -313,9 +313,23 @@ export function parseIOS8601(isostr, format = 'Y-m-d') {
  */
 export function getTimestamp(date) {
   if (date) {
-    return Math.floor(new Date(date).valueOf() / 1000)
+    return Math.floor(new Date(date.replace(/-/g, '/')).valueOf() / 1000)
   }
   return Math.floor(new Date().valueOf() / 1000)
+}
+
+/**
+ * 返回最简单的时间表达
+ * @version 190430 1.1
+ * @return {String} *time 时间戳字符串
+ */
+const _y = date('y', getTimestamp())
+export function simpleTime(time = '') {
+  return date('y-m-d', getTimestamp(time))
+    .split('-')
+    .filter((item, index) => (index === 0 ? item != _y : true))
+    .map(item => parseInt(item))
+    .join('-')
 }
 
 /**

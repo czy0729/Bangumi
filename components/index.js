@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 20:58:50
+ * @Last Modified time: 2019-04-30 20:15:16
  */
 export { default as Activity } from './activity'
 export { default as BlurView } from './blur-view'
@@ -17,6 +17,7 @@ export { default as ListView } from './list-view'
 export { default as Loading } from './loading'
 export { default as Menu } from './menu'
 export { default as Popover } from './popover'
+export { default as RenderHtml } from './render-html'
 export { default as Shadow } from './shadow'
 export { default as Tabs } from './tabs'
 export { default as Text } from './text'

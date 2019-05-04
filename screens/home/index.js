@@ -2,19 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 17:13:33
+ * @Last Modified time: 2019-05-04 22:53:18
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { IconTabBar, ManageModal } from '@screens/_'
-import injectWithTabsHeader from '@utils/decorators/injectWithTabsHeader'
+import { inject, withTabsHeader } from '@utils/decorators'
 import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+export default
+@inject(Store)
+@withTabsHeader()
+@observer
 class Home extends React.Component {
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
@@ -33,9 +37,7 @@ class Home extends React.Component {
     await $.init()
 
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
-    navigation.setParams({
-      headerTabs: <Tabs $={$} />
-    })
+    withTabsHeader.setTabs(navigation, <Tabs $={$} />)
   }
 
   render() {
@@ -58,12 +60,7 @@ class Home extends React.Component {
     const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
-        <Tabs
-          $={$}
-          tabBarStyle={{
-            display: 'none'
-          }}
-        >
+        <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
           {tabs.map(item => (
             <List key={item.title} title={item.title} />
           ))}
@@ -80,5 +77,3 @@ class Home extends React.Component {
     )
   }
 }
-
-export default injectWithTabsHeader(Store)(observer(Home))

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-24 20:37:52
+ * @Last Modified time: 2019-05-02 19:50:44
  */
 import React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text as RNText } from 'react-native'
 import {
   lineHeightRatio,
   colorMain,
@@ -16,10 +16,11 @@ import {
   colorTitle,
   colorDesc,
   colorSub,
+  colorBorder,
   fontSize
 } from '@styles'
 
-const _Text = ({
+const Text = ({
   style,
   type,
   underline,
@@ -57,13 +58,13 @@ const _Text = ({
   }
 
   return (
-    <Text style={_style} {...other}>
+    <RNText style={_style} {...other}>
       {children}
-    </Text>
+    </RNText>
   )
 }
 
-_Text.defaultProps = {
+Text.defaultProps = {
   style: undefined,
   type: 'desc',
   underline: false,
@@ -74,7 +75,7 @@ _Text.defaultProps = {
   children: ''
 }
 
-export default _Text
+export default Text
 
 const styles = StyleSheet.create({
   text: {
@@ -126,6 +127,9 @@ const styles = StyleSheet.create({
   },
   sub: {
     color: colorSub
+  },
+  border: {
+    color: colorBorder
   },
   underline: {
     textDecorationLine: 'underline',

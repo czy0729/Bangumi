@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 04:43:42
+ * @Last Modified time: 2019-05-05 02:14:21
  */
 import { AsyncStorage } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -331,7 +331,13 @@ class User extends store {
    */
   updateUserCookie(data = initUserCookie) {
     this.setState({
-      userCookie: data
+      userCookie: {
+        ...data,
+        cookie: data.cookie.replace(
+          'chii_cookietime=0;',
+          'chii_cookietime=2592000;'
+        )
+      }
     })
     this.setStorage('userCookie')
   }

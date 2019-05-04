@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-26 13:18:52
+ * @Last Modified time: 2019-05-05 02:33:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -25,6 +25,7 @@ import _, {
   wind,
   colorPlain,
   colorMain,
+  colorSuccess,
   colorBg,
   colorIcon,
   colorBorder,
@@ -139,6 +140,7 @@ class Item extends React.Component {
     const { $ } = this.context
     const { top, subjectId, subject, epStatus } = this.props
     const { expand } = $.$Item(subjectId)
+    const isToday = $.isToday(subjectId)
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     const doing = isBook ? '读' : '看'
     return (
@@ -159,11 +161,11 @@ class Item extends React.Component {
                     <Text numberOfLines={1}>
                       {subject.name_cn || subject.name}
                     </Text>
-                    <Text style={_.mt.xs} type='sub' size={11}>
+                    <Text style={_.mt.xs} type='sub' size={10}>
                       {subject.collection.doing} 人在{doing}
                     </Text>
                   </Flex.Item>
-                  {$.isToday(subjectId) && (
+                  {!top && isToday && (
                     <Text style={_.ml.sm} type='success' size={12}>
                       放送中
                     </Text>
@@ -193,8 +195,8 @@ class Item extends React.Component {
                 </Flex>
                 <Progress
                   style={styles.progress}
-                  percent={$.percent(subjectId, subject)}
                   barStyle={styles.bar}
+                  percent={$.percent(subjectId, subject)}
                 />
               </View>
             </Flex.Item>
@@ -209,7 +211,16 @@ class Item extends React.Component {
               onSelect={$.doEpsSelect}
             />
           )}
-          {top && <View style={styles.dot} />}
+          {top && (
+            <View
+              style={[
+                styles.dot,
+                {
+                  borderLeftColor: isToday ? colorSuccess : colorBorder
+                }
+              ]}
+            />
+          )}
         </View>
       </Shadow>
     )
@@ -236,15 +247,15 @@ const styles = StyleSheet.create({
   },
   bar: {
     borderBottomWidth: 2,
-    borderRadius: 2
+    borderRadius: 2,
+    backgroundColor: 'transparent'
   },
   dot: {
     position: 'absolute',
-    top: 8,
-    right: 8,
+    top: 6,
+    right: 6,
     borderWidth: 8,
     borderTopColor: 'transparent',
-    borderLeftColor: colorBorder,
     borderBottomColor: 'transparent',
     borderRightColor: 'transparent',
     transform: [{ rotate: '-45deg' }]
