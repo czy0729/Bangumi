@@ -1,1 +1,4 @@
 node_modules
+.vscode
+.expo
+example
