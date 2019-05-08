@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 19:08:55
+ * @Last Modified time: 2019-05-07 18:15:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Carousel } from '@ant-design/react-native'
 import { Flex, Popover, Menu, Button, Text } from '@components'
+import { IOS } from '@constants'
 import { MODEL_EP_TYPE } from '@constants/model'
 import { arrGroup, pad } from '@utils'
 import { colorPlain, colorDesc, colorSub } from '@styles'
@@ -37,6 +38,11 @@ export default class Eps extends React.Component {
     }
   }
 
+  onSelect = (value, item) => {
+    const { subjectId, onSelect } = this.props
+    onSelect(value, item, subjectId)
+  }
+
   get style() {
     const { width } = this.state
     const { numbersOfLine } = this.props
@@ -50,31 +56,36 @@ export default class Eps extends React.Component {
     const widthSum = width - marginSum
 
     return {
-      width: widthSum / numbersOfLine,
-      margin: marginSum / marginNumbers
+      width: Math.floor(widthSum / numbersOfLine),
+      margin: Math.floor(marginSum / marginNumbers)
     }
   }
 
-  renderOverlay(item) {
-    const { login, subjectId, advance, userProgress, onSelect } = this.props
+  getPopoverData = item => {
+    const { login, advance, userProgress } = this.props
+    const discuss = IOS ? '本集讨论' : `本集讨论 (+${item.comment})`
     let data
     if (login) {
       data = [userProgress[item.id] === '看过' ? '撤销' : '看过']
       if (advance) {
         data.push('想看', '抛弃')
       }
-      data.push('看到', '本集讨论')
+      data.push('看到', discuss)
     } else {
-      data = ['本集讨论']
+      data = [discuss]
     }
+    return data
+  }
+
+  renderOverlay(item) {
     return (
       <Menu
         title={[
           `ep.${item.sort} ${item.name || item.name_cn}`,
           `${item.airdate} 讨论数：${item.comment}`
         ]}
-        data={data}
-        onSelect={value => onSelect(value, item, subjectId)}
+        data={this.getPopoverData(item)}
+        onSelect={value => this.onSelect(value, item)}
       />
     )
   }
@@ -94,7 +105,9 @@ export default class Eps extends React.Component {
           marginRight: isSide ? 0 : margin,
           marginBottom: margin
         }}
-        overlay={this.renderOverlay(item)}
+        overlay={this.renderOverlay(item)} // iOS用
+        data={this.getPopoverData(item)} // 安卓用
+        onSelect={value => this.onSelect(value, item)} // 安卓用
       >
         <Button
           type={getType(userProgress[item.id], item.status)}
@@ -188,7 +201,7 @@ export default class Eps extends React.Component {
   }
 
   render() {
-    const { numbersOfLine, advance, eps } = this.props
+    const { numbersOfLine, advance, eps = [] } = this.props
     let _eps = eps
     if (!advance) {
       _eps = _eps.filter(item => MODEL_EP_TYPE.getLabel(item.type) !== '普通')

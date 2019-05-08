@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 02:20:44
+ * @Last Modified time: 2019-05-05 20:13:22
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -203,7 +203,14 @@ export default class RenderHtml extends React.Component {
   }
 
   render() {
-    const { style, baseFontStyle, imagesMaxWidth, html, ...other } = this.props
+    const {
+      style,
+      baseFontStyle,
+      imagesMaxWidth,
+      html,
+      onLinkPress,
+      ...other
+    } = this.props
     return (
       <View style={style}>
         <HTML

@@ -2,14 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-03 00:14:37
+ * @Last Modified time: 2019-05-05 20:08:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text, RenderHtml, Divider } from '@components'
+import {
+  HeaderPlaceholder,
+  Flex,
+  Image,
+  Text,
+  RenderHtml,
+  Divider
+} from '@components'
 import { appNavigate } from '@utils/app'
+import { IOS } from '@constants'
 import _, { colorBorder } from '@styles'
 
 const Top = (props, { $, navigation }) => {
@@ -25,6 +33,7 @@ const Top = (props, { $, navigation }) => {
   } = $.topic
   return (
     <>
+      {!IOS && <HeaderPlaceholder />}
       <View style={_.container.wind}>
         <Text type='title' size={20} bold>
           {title}

@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 00:04:44
+ * @Last Modified time: 2019-05-08 22:22:10
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
-import { SectionHeader } from '@screens/_'
+import { SectionHeader, TimelineItem } from '@screens/_'
 import { withTabsHeader } from '@utils/decorators'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
 import _ from '@styles'
-import Item from './item'
 
 class List extends React.Component {
   static contextTypes = {
@@ -20,31 +19,31 @@ class List extends React.Component {
     navigation: PropTypes.object
   }
 
-  ref
+  state = {
+    // @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
+    // 暂时使用重新渲染的办法解决列表变换置顶问题
+    hide: false
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.scope !== this.props.scope) {
-      this.scrollTop()
-    }
-  }
-
-  scrollTop = () => {
-    try {
-      if (this.ref && this.ref.scrollToLocation) {
-        setTimeout(() => {
-          this.ref.scrollToLocation({
-            sectionIndex: 0,
-            itemIndex: 0,
-            viewOffset: 32 // <SectionHeader>的高度
-          })
-        }, 600)
-      }
-    } catch (error) {
-      // do nothing
+      this.setState({
+        hide: true
+      })
+      setTimeout(() => {
+        this.setState({
+          hide: false
+        })
+      }, 0)
     }
   }
 
   render() {
+    const { hide } = this.state
+    if (hide) {
+      return null
+    }
+
     const { $, navigation } = this.context
     const { scope, title } = this.props
     const timeline = $.timeline(scope, MODEL_TIMELINE_TYPE.getValue(title))
@@ -54,7 +53,6 @@ class List extends React.Component {
 
     return (
       <ListView
-        ref={ref => (this.ref = ref)}
         contentContainerStyle={_.container.bottom}
         keyExtractor={item => String(item.id)}
         data={timeline}
@@ -64,7 +62,7 @@ class List extends React.Component {
           <SectionHeader>{title}</SectionHeader>
         )}
         renderItem={({ item, index }) => (
-          <Item index={index} navigation={navigation} {...item} />
+          <TimelineItem navigation={navigation} index={index} {...item} />
         )}
         onHeaderRefresh={() => $.fetchTimeline(true)}
         onFooterRefresh={$.fetchTimeline}

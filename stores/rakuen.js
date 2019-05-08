@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-02 01:36:58
+ * @Last Modified time: 2019-05-05 20:03:31
  */
 import { observable, computed } from 'mobx'
 import { date } from '@utils'
@@ -371,13 +371,15 @@ async function _fetchTopic({ topicId = 0 }) {
         const subTree = HTMLToTree(subHTML[1])
         subTree.children.forEach((item, index) => {
           // 子楼层回复内容
-          const message = subMessageHTML[index].match(
-            /<div class="cmt_sub_content">(.+?)<\/div><\/div>/
-          )[1]
-          sub.push({
-            ...getCommentAttrs(item),
-            message
-          })
+          if (subMessageHTML[index]) {
+            const message = subMessageHTML[index].match(
+              /<div class="cmt_sub_content">(.+?)<\/div><\/div>/
+            )[1]
+            sub.push({
+              ...getCommentAttrs(item),
+              message
+            })
+          }
         })
       }
 

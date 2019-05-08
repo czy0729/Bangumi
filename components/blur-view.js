@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-24 20:25:02
+ * @Last Modified time: 2019-05-08 02:49:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { LinearGradient } from 'expo'
+import { BlurView as ExpoBlurView, LinearGradient } from 'expo'
+import { IOS } from '@constants'
 import Image from './image'
 
 const backgroundColor = {
@@ -16,7 +17,7 @@ const backgroundColor = {
   xlight: ['rgba(255, 255, 255, 0.64)', 'rgba(255, 255, 255, 0.8)']
 }
 
-const BlurView = ({ style, src, theme, children }) => (
+const BlurView = ({ style, src, theme, intensity, children }) => (
   <View style={style}>
     {src && (
       <Image
@@ -26,21 +27,30 @@ const BlurView = ({ style, src, theme, children }) => (
           height: 'auto'
         }}
         src={src}
-        blurRadius={40}
+        blurRadius={IOS ? undefined : 40}
       />
     )}
-    <LinearGradient
-      colors={backgroundColor[theme]}
-      style={StyleSheet.absoluteFill}
-    />
+    {IOS ? (
+      <ExpoBlurView
+        style={StyleSheet.absoluteFill}
+        tint='default'
+        intensity={intensity}
+      />
+    ) : (
+      <LinearGradient
+        colors={backgroundColor[theme]}
+        style={StyleSheet.absoluteFill}
+      />
+    )}
     {children}
   </View>
 )
 
 BlurView.defaultProps = {
   style: undefined,
-  theme: 'dark',
+  theme: 'default',
   src: undefined,
+  intensity: 100,
   children: undefined
 }
 

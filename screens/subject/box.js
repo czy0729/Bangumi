@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 15:41:21
+ * @Last Modified time: 2019-05-05 19:32:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,11 +13,12 @@ import { SectionTitle } from '@screens/_'
 import { getType, getRating } from '@utils/app'
 import _, { colorPlain, shadow } from '@styles'
 
-const Box = ({ style }, { $ }) => {
+const Box = ({ style }, { $, navigation }) => {
   const { status = { name: '未收藏' }, tag = [], rating = 0 } = $.collection
   const leftStyle = []
   const rightStyle = []
   const btnText = $.isLogin ? status.name : '登陆管理'
+  const onPress = $.isLogin ? $.showManageModel : () => navigation.push('Login')
   if (rating) {
     leftStyle.push(styles.left)
     rightStyle.push(styles.right)
@@ -26,7 +27,7 @@ const Box = ({ style }, { $ }) => {
     <View style={[_.container.wind, style]}>
       <SectionTitle>收藏盒</SectionTitle>
       <View style={[shadow, _.mt.md]}>
-        <Touchable onPress={$.showManageModel}>
+        <Touchable onPress={onPress}>
           <Flex justify='center'>
             <Flex.Item>
               <Button style={leftStyle} type={getType(btnText)}>
@@ -71,7 +72,8 @@ const Box = ({ style }, { $ }) => {
 }
 
 Box.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(Box)

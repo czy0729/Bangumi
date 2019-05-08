@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 04:48:18
+ * @Last Modified time: 2019-05-08 22:35:04
  */
 import calendarStore from './calendar'
 import collectionStore from './collection'
@@ -32,18 +32,6 @@ class Stores {
       timelineStore.init(),
       userStore.init()
     ])
-    await res
-    // console.info(
-    //   JSON.stringify({
-    //     calendarStore: calendarStore.state,
-    //     collectionStore: collectionStore.state,
-    //     rakuenStore: rakuenStore.state,
-    //     subjectStore: subjectStore.state,
-    //     timelineStore: timelineStore.state,
-    //     userStore: userStore.state
-    //   })
-    // )
-
     return res
   }
 

@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 02:16:10
+ * @Last Modified time: 2019-05-08 22:19:22
  */
-import { Toast } from '@ant-design/react-native'
-import { HOST_NAME, HOST, APP_ID } from '@constants'
+import { IOS, APP_ID } from '@constants'
 import { urlStringify, sleep, getTimestamp } from './index'
 import { log } from './dev'
+import { info as UIInfo } from './ui'
 
-const ERR_RETRY_COUNT = 3 // GET请求失败重试次数
 // const STATUS_SUCCESS = 200
 // const STATUS_ACCEPTED = 202
 // const STATUS_NOT_MODIFIED = 304
@@ -19,6 +18,8 @@ const ERR_RETRY_COUNT = 3 // GET请求失败重试次数
 // const STATUS_NOT_FOUND = 404
 // const STATUS_METHOD_NOT_ALLOWED = 405
 
+const ERR_RETRY_COUNT = 5 // GET请求失败重试次数
+
 // 防止cookie过期
 const cacheHeaders = {
   // Accept:
@@ -26,10 +27,10 @@ const cacheHeaders = {
   // 'Accept-Encoding': 'gzip, deflate, br',
   // 'Accept-Language': 'zh-CN,zh;q=0.9',
   'Cache-Control': 'max-age=0',
-  Connection: 'keep-alive',
-  Host: HOST_NAME,
-  Referer: `${HOST}/`,
-  'Upgrade-Insecure-Requests': 1
+  Connection: 'keep-alive'
+  // Host: HOST_NAME,
+  // Referer: `${HOST}/`,
+  // 'Upgrade-Insecure-Requests': 1
 }
 
 /**
@@ -91,7 +92,7 @@ export default async function _fetch({
       // 正常情况没有code, 错误情况例如空的时候, 返回 {code: 400, err: '...'}
       if (res && res.error) {
         if (res.error === 'invalid_token') {
-          Toast.info('登录过期')
+          UIInfo('登录过期')
           userStore.logout()
         }
         return Promise.resolve({})
@@ -114,7 +115,7 @@ export default async function _fetch({
         }
       }
 
-      Toast.info(`${info}请求失败`)
+      UIInfo(`${info}请求失败`)
       return Promise.reject(err)
     })
 }
@@ -131,17 +132,25 @@ export async function fetchHTML({ url } = {}) {
     method: 'GET'
   }
 
-  // 叹号代表不携带cookie
+  // const needReplace = false // 是否启用第二域名模拟不带cookie (iOS)
+  let _url = url.replace('!', '') // 叹号代表不携带cookie
   if (url.indexOf('!') !== 0) {
     data.headers = {
       'User-Agent': userAgent,
-      Cookie: cookie,
+
+      // 前面这个分号很重要, CDN那边经常给我加一堆乱七八糟的会搞坏cookie
+      Cookie: `; ${cookie}`,
       ...cacheHeaders
     }
+  } else if (IOS) {
+    // @issue 安卓和iOS模拟器没问题, 实机iOS端不清楚什么原因强制带cookie请求
+    // credentials设置也无效, 暂时变通方法请求第二域名
+    // 并把结果的html的HOST_2全局替换成HOST
+    // _url = _url.replace(HOST, HOST_2)
+    // needReplace = true
   }
 
   // 加上时间戳防止缓存
-  let _url = url.replace('!', '')
   const state = getTimestamp()
   if (_url.indexOf('?') === -1) {
     _url = `${_url}?state=${state}`
@@ -151,11 +160,17 @@ export async function fetchHTML({ url } = {}) {
   log('fetchHTML', _url)
 
   return fetch(_url, data).then(res => Promise.resolve(res._bodyInit))
+  // return fetch(_url, data).then(res => {
+  //   if (needReplace) {
+  //     const reg = RegExp(HOST_2, 'g')
+  //     return Promise.resolve(res._bodyInit.replace(reg, HOST))
+  //   }
+  //   return Promise.resolve(res._bodyInit)
+  // })
 }
 
 /**
- * @todo
- * 接口防并发请求问题严重, 暂时延迟一下, 2个请求一组
+ * @todo 接口防并发请求问题严重, 暂时延迟一下, 2个请求一组
  * @param {*} fetchs
  */
 export async function queue(fetchs = []) {

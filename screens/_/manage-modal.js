@@ -2,21 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 13:41:53
+ * @Last Modified time: 2019-05-08 21:39:12
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Modal } from '@ant-design/react-native'
-import {
-  Activity,
-  Button,
-  Flex,
-  Icon,
-  Input,
-  Text,
-  Touchable
-} from '@components'
+import { ActivityIndicator, Modal } from '@ant-design/react-native'
+import { Button, Flex, Icon, Input, Text, Touchable } from '@components'
 import { collectionStore, subjectStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
 import _, {
@@ -140,7 +132,7 @@ class ManageModal extends React.Component {
     this.setState({
       doing: true
     })
-
+    console.log(typeof comment, comment)
     await onSubmit({
       subjectId,
       rating,
@@ -162,13 +154,17 @@ class ManageModal extends React.Component {
   renderTags() {
     const { fetching } = this.state
     if (fetching) {
-      return <Activity />
+      return (
+        <View style={_.ml.xs}>
+          <ActivityIndicator />
+        </View>
+      )
     }
 
     const { _loaded, tags } = this.subjectFormHTML
     if (!_loaded) {
       return (
-        <Touchable style={[_.mt.sm, _.ml.sm]} onPress={this.fetchTags}>
+        <Touchable style={_.ml.xs} onPress={this.fetchTags}>
           <Text size={13} underline>
             点击获取大家的标注
           </Text>
@@ -228,7 +224,7 @@ class ManageModal extends React.Component {
         </Text>
         <Flex style={[styles.wrap, _.mt.sm]} justify='center'>
           {loading ? (
-            <Activity />
+            <ActivityIndicator size='small' />
           ) : (
             <Flex style={styles.content} direction='column'>
               <StarGroup value={rating} onChange={this.changeRating} />
@@ -238,7 +234,7 @@ class ManageModal extends React.Component {
                 placeholder='我的标签'
                 onChangeText={text => this.changeText('tags', text)}
               />
-              <View style={[styles.tags, _.mt.sm]}>{this.renderTags()}</View>
+              <Flex style={styles.tags}>{this.renderTags()}</Flex>
               <Input
                 style={_.mt.xs}
                 defaultValue={comment}
@@ -299,13 +295,13 @@ const styles = StyleSheet.create({
   },
   tags: {
     width: '100%',
-    height: 40
+    height: 52,
+    paddingVertical: 12
   },
   tag: {
     paddingVertical: 4,
     paddingHorizontal: 8,
     marginRight: 8,
-    marginBottom: 12,
     backgroundColor: colorBg,
     borderWidth: 1,
     borderColor: colorBorder,

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 02:14:21
+ * @Last Modified time: 2019-05-08 19:29:41
  */
 import { AsyncStorage } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -47,17 +47,33 @@ const initScope = MODEL_SUBJECT_TYPE.getLabel('动画')
 
 class User extends store {
   state = observable({
+    // 授权信息
     accessToken: initAccessToken,
+
+    // 自己用户信息
     userInfo: initUserInfo,
+
+    // 用户cookie
     userCookie: initUserCookie,
+
+    // 在看收藏
     userCollection: LIST_EMPTY,
+
+    // 收视进度
     userProgress: {
       // [subjectId]: {
       //   [epId]: '看过'
       // }
     },
+
+    // 用户收藏概览
     userCollections: {
       // [`${type}|${userId}`]: LIST_EMPTY
+    },
+
+    // 某用户信息
+    usersInfo: {
+      // [userId]: initUserInfo
     }
   })
 
@@ -67,8 +83,7 @@ class User extends store {
       this.getStorage('userInfo'),
       this.getStorage('userCookie'),
       this.getStorage('userCollection'),
-      this.getStorage('userProgress'),
-      this.getStorage('userCollections')
+      this.getStorage('userProgress')
     ])
     const state = await res
     this.setState({
@@ -76,8 +91,7 @@ class User extends store {
       userInfo: state[1] || initUserInfo,
       userCookie: state[2] || initUserCookie,
       userCollection: state[3] || LIST_EMPTY,
-      userProgress: state[4],
-      userCollections: state[5]
+      userProgress: state[4]
     })
     if (this.isLogin) {
       this.fetchUserInfo()
@@ -87,6 +101,13 @@ class User extends store {
   }
 
   // -------------------- get --------------------
+  /**
+   * 取授权信息
+   */
+  @computed get accessToken() {
+    return this.state.accessToken
+  }
+
   /**
    * 取自己用户信息
    */
@@ -99,13 +120,6 @@ class User extends store {
    */
   @computed get myUserId() {
     return this.userInfo.id || this.accessToken.user_id
-  }
-
-  /**
-   * 取授权信息
-   */
-  @computed get accessToken() {
-    return this.state.accessToken
   }
 
   /**
@@ -147,6 +161,14 @@ class User extends store {
     return computed(
       () => this.state.userCollections[`${scope}|${userId}`] || LIST_EMPTY
     ).get()
+  }
+
+  /**
+   * 取某用户信息
+   * @param {*} userId
+   */
+  usersInfo(userId = this.myUserId) {
+    return computed(() => this.state.usersInfo[userId] || initUserInfo).get()
   }
 
   // -------------------- fetch --------------------
@@ -305,9 +327,22 @@ class User extends store {
         [stateKey]: collections
       }
     })
-    this.setStorage(key)
 
     return res
+  }
+
+  /**
+   * 获取某用户信息
+   * @param {*} userId
+   */
+  fetchUsersInfo(userId = this.myUserId) {
+    return this.fetch(
+      {
+        url: API_USER_INFO(userId),
+        info: '某用户信息'
+      },
+      ['usersInfo', userId]
+    )
   }
 
   // -------------------- page --------------------
@@ -331,13 +366,7 @@ class User extends store {
    */
   updateUserCookie(data = initUserCookie) {
     this.setState({
-      userCookie: {
-        ...data,
-        cookie: data.cookie.replace(
-          'chii_cookietime=0;',
-          'chii_cookietime=2592000;'
-        )
-      }
+      userCookie: data
     })
     this.setStorage('userCookie')
   }

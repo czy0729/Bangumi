@@ -8,7 +8,6 @@ import {
   View,
   Text
 } from 'react-native'
-import HeaderPlaceholder from '../../header-placeholder'
 import Flex from '../../flex'
 import { WithTheme } from '../style'
 import { DefaultTabBar } from './defaultTabBar'
@@ -252,12 +251,15 @@ export class Tabs extends React.PureComponent {
           ]
 
           return (
-            <View
-              style={[styles.container, this.props.style]}
-              onLayout={this.handleLayout}
-            >
-              {tabBarPosition === 'top' ? content : content.reverse()}
-            </View>
+            <>
+              {this.props.renderHeaderComponent}
+              <View
+                style={[styles.container, this.props.style]}
+                onLayout={this.handleLayout}
+              >
+                {tabBarPosition === 'top' ? content : content.reverse()}
+              </View>
+            </>
           )
         }}
       </WithTheme>

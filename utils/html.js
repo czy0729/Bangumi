@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 16:30:33
+ * @Last Modified time: 2019-05-07 18:56:16
  */
 import HTMLParser from './thirdParty/html-parser'
 
@@ -60,9 +60,12 @@ export function HTMLToTree(html) {
   HTMLParser(html, {
     start: (tag, attrs, unary) => {
       const attrsMap = {}
-      attrs.forEach(
-        ({ name, value, escaped }) => (attrsMap[name] = escaped || value)
-      )
+      attrs.forEach(({ name, value, escaped }) => {
+        // @issue 190507
+        // 带有cookie的请求经过cloudflare返回的html部分attr的属性被加上了data-cf前缀??? 醉了
+        const _name = name.replace('data-cf', '')
+        return (attrsMap[_name] = escaped || value)
+      })
       const item = {
         tag,
         attrs: attrsMap,

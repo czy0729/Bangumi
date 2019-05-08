@@ -4,15 +4,15 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-04 21:42:38
+ * @Last Modified time: 2019-05-08 13:45:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Toast } from '@ant-design/react-native'
 import { WebView, Flex, Image, Button, Loading } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { urlStringify } from '@utils'
+import { info } from '@utils/ui'
 import { userStore } from '@stores'
 import _, { colorMain } from '@styles'
 
@@ -75,18 +75,22 @@ export default class Login extends React.Component {
           if (data) {
             if (data.href.indexOf(`${HOST}/login?`) !== -1) {
               // do nothing
-            } else if (
-              data.href.indexOf(`${OAUTH_URL}?`) !== -1 &&
-              data.href.indexOf('redirect_uri') === -1
-            ) {
+            } else if (data.href.indexOf(`${OAUTH_URL}?`) !== -1) {
               // @issue 首次登陆跳转后redirect_uri丢失了, 不清楚是什么问题
               // 这个时候刷新当前页面就回到正常的页面?
-              this.refreshWebView()
-            } else if (data.href.indexOf(`${HOST}/?code=`) !== -1) {
+              if (data.href.indexOf('redirect_uri') === -1) {
+                // @issue 安卓登陆后全过程能拿到完整的cookie, 但是iOS不清除是什么问题
+                // 只有这个报错的节点能找到chii_auth, 所以在这里捕获用户cookie
+                this.updateUserCookie(data)
+                this.refreshWebView()
+              }
+            } else if (
+              data.href.indexOf(`${OAUTH_REDIRECT_URL}/?code=`) !== -1
+            ) {
               // 得到code之后获取access_token
               this.doLogin(data)
             } else {
-              console.log(data)
+              this.onOtherPage()
             }
           }
           break
@@ -99,7 +103,14 @@ export default class Login extends React.Component {
   }
 
   onError = () => {
-    Toast.info('网络似乎出了点问题')
+    info('网络似乎出了点问题')
+    this.setState({
+      clicked: false
+    })
+  }
+
+  onOtherPage = () => {
+    info('授权过程中不要随便乱逛>.<')
     this.setState({
       clicked: false
     })
@@ -116,18 +127,22 @@ export default class Login extends React.Component {
     }, 800)
   }
 
-  doLogin = async ({ href = '', userAgent, cookie } = {}) => {
-    const { navigation } = this.props
-    const code = href.replace(`${HOST}/?code=`, '')
+  updateUserCookie = ({ userAgent, cookie }) =>
     userStore.updateUserCookie({
       userAgent,
       cookie
     })
 
+  doLogin = async ({ href = '' } = {}) => {
+    const { navigation } = this.props
+    const code = href.replace(`${HOST}/?code=`, '')
     try {
       await userStore.fetchAccessToken(code)
     } catch (ex) {
-      navigation.goBack()
+      this.setState({
+        clicked: false
+      })
+      return
     }
 
     await userStore.fetchUserInfo()

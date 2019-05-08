@@ -3,9 +3,8 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 05:04:49
+ * @Last Modified time: 2019-05-07 19:45:26
  */
-import { date } from './index'
 
 /**
  * 字符串填充

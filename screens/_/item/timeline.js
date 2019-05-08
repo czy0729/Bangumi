@@ -1,27 +1,23 @@
 /*
  * @Author: czy0729
- * @Date: 2019-04-14 07:23:02
+ * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 02:47:53
+ * @Last Modified time: 2019-05-08 22:22:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image } from '@components'
-import { Stars } from '@screens/_'
 import { appNavigate } from '@utils/app'
 import _, { wind, md, colorPlain, colorBorder } from '@styles'
+import Stars from '../stars'
 
 const avatarWidth = 28
 const regSubject = /\/\/bgm.tv\/subject\/\d+$/
 
-class Item extends React.Component {
-  static contextTypes = {
-    navigation: PropTypes.object
-  }
-
+class TimelineItem extends React.Component {
   static defaultProps = {
+    navigation: null,
     avatar: {},
     p1: {},
     p2: {},
@@ -35,7 +31,7 @@ class Item extends React.Component {
   }
 
   appNavigate = url => {
-    const { navigation } = this.context
+    const { navigation } = this.props
     appNavigate(url, navigation)
   }
 
@@ -106,8 +102,7 @@ class Item extends React.Component {
   }
 
   renderDesc() {
-    const { navigation } = this.context
-    const { subject, subjectId, comment, reply } = this.props
+    const { navigation, subject, subjectId, comment, reply } = this.props
     return (
       <>
         {!!subject && (
@@ -187,7 +182,7 @@ class Item extends React.Component {
                 <Text style={_.mr.sm} type='sub' size={12}>
                   {time}
                 </Text>
-                <Stars value={star} simple={false} />
+                <Stars value={star} />
               </Flex>
             </Flex.Item>
             {image.length === 1 && (
@@ -207,7 +202,7 @@ class Item extends React.Component {
   }
 }
 
-export default observer(Item)
+export default observer(TimelineItem)
 
 const styles = StyleSheet.create({
   item: {

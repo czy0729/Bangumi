@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 17:43:44
+ * @Last Modified time: 2019-05-08 21:15:43
  */
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
+import { ActivityIndicator } from '@ant-design/react-native'
 import { titleCase } from '@utils'
 import _, {
   colorPlain,
@@ -22,7 +23,7 @@ import _, {
   radiusXs
 } from '@styles'
 import Touchable from './touchable'
-import Activity from './activity'
+import Flex from './flex'
 import Text from './text'
 
 const _Button = ({
@@ -38,6 +39,11 @@ const _Button = ({
 }) => {
   const _wrap = [styles.button]
   const _text = [styles.text]
+
+  // 安卓的阴影要保证有背景颜色才能显示, 所以为了不覆盖type的bg, 放在type前面
+  if (shadow) {
+    _wrap.push(styles.shadow)
+  }
   if (type) {
     _wrap.push(styles[type])
     _text.push(styles[`text${titleCase(type)}`])
@@ -45,9 +51,6 @@ const _Button = ({
   if (size) {
     _wrap.push(styles[size])
     _text.push(styles[`text${titleCase(size)}`])
-  }
-  if (shadow) {
-    _wrap.push(styles.shadow)
   }
   if (radius) {
     _wrap.push(styles.radius)
@@ -57,10 +60,14 @@ const _Button = ({
   }
 
   const content = (
-    <>
-      {loading && <Activity style={_.mr.xs} size='xs' />}
+    <Flex justify='center'>
+      {loading && (
+        <View style={_.mr.xs}>
+          <ActivityIndicator color='white' size='small' />
+        </View>
+      )}
       <Text style={_text}>{children}</Text>
-    </>
+    </Flex>
   )
   if (onPress) {
     return (

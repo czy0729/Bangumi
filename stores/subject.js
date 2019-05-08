@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 17:16:58
+ * @Last Modified time: 2019-05-08 02:40:26
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY } from '@constants'
@@ -159,7 +159,7 @@ class Subject extends store {
     )
     if (tagsHTML) {
       const tree = HTMLToTree(tagsHTML[1])
-      findTreeNode(tree.children, 'a > span|text', []).forEach(item => {
+      findTreeNode(tree.children, 'a > span', []).forEach(item => {
         tags.push({
           name: item.text[0]
         })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 22:53:22
+ * @Last Modified time: 2019-05-08 21:17:22
  */
 import React from 'react'
 import {
@@ -13,12 +13,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import { ActivityIndicator } from '@ant-design/react-native'
 import { LIST_EMPTY } from '@constants'
 import { sleep } from '@utils'
 import { window, colorSub } from '@styles'
-import Activity from './activity'
 import Text from './text'
-import HeaderPlaceholder from './header-placeholder'
 
 const RefreshState = {
   Idle: 0,
@@ -179,7 +178,7 @@ export default class ListView extends React.Component {
       case RefreshState.FooterRefreshing:
         footer = footerRefreshingComponent || (
           <View style={styles.footerContainer}>
-            <Activity size='small' />
+            <ActivityIndicator size='small' />
             <Text style={[styles.footerText, { marginLeft: 8 }]}>
               {footerRefreshingText}
             </Text>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 21:04:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-25 13:22:01
+ * @Last Modified time: 2019-05-08 22:17:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,13 +11,7 @@ import { DrawerActions } from 'react-navigation-drawer'
 import { observer } from 'mobx-react'
 import { BlurView, Flex, Image, Text, Touchable } from '@components'
 import { userStore } from '@stores'
-import _, {
-  colorMain,
-  colorPlain,
-  colorDesc,
-  colorSub,
-  colorBorder
-} from '@styles'
+import _, { colorMain, colorPlain, colorDesc, colorBorder } from '@styles'
 import StatusBarPlaceholder from './status-bar-placeholder'
 
 const contentOptions = {
@@ -76,7 +70,8 @@ const Drawer = ({ navigation, ...otherProps }) => {
           <Touchable
             onPress={async () => {
               await userStore.logout()
-              navigation.dispatch(DrawerActions.toggleDrawer())
+              navigation.dispatch(DrawerActions.closeDrawer())
+              navigation.navigate('Auth')
             }}
           >
             <Flex style={styles.bottom}>

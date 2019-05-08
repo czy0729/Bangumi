@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-27 13:00:30
+ * @Last Modified time: 2019-05-08 14:31:46
  */
 import React from 'react'
 import { createAppContainer, createDrawerNavigator } from 'react-navigation'
 import { Image } from '@components'
+import { Login } from '@screens'
 import Drawer from '@screens/_/drawer'
 import { colorMain } from '@styles'
 import HomeStack from './stacks/home'
@@ -54,6 +55,23 @@ export default createAppContainer(
         screen: UserStack,
         navigationOptions: {
           drawerLabel: '时光机',
+          drawerIcon: ({ tintColor }) => (
+            <Image
+              size={20}
+              placeholder={false}
+              src={
+                tintColor === colorMain
+                  ? require('@assets/images/icon/compass-active.png')
+                  : require('@assets/images/icon/compass.png')
+              }
+            />
+          )
+        }
+      },
+      Login: {
+        screen: Login,
+        navigationOptions: {
+          drawerLabel: '登陆',
           drawerIcon: ({ tintColor }) => (
             <Image
               size={20}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:03:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-04 21:42:39
+ * @Last Modified time: 2019-05-08 20:34:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import {
 } from 'react-navigation'
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs'
 import { BlurView } from 'expo'
-import { Login, Subject, Rakuen, Timeline, Topic } from '@screens'
+import { Login, Subject, Rakuen, Timeline, Topic, Zone } from '@screens'
 import { IOS } from '@constants'
 import { colorMain, colorPlain, colorDesc, colorBorder } from '@styles'
 import HomeScreen from '../screens/home'
@@ -26,7 +26,7 @@ const HomeTab = createBottomTabNavigator(
     Rakuen
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Timeline',
     tabBarComponent: props => {
       if (IOS) {
         return (
@@ -55,14 +55,16 @@ const HomeStack = createStackNavigator(
     HomeTab,
     Login,
     Subject,
-    Topic
+    Topic,
+    Zone
   },
   {
     initialRouteName: 'HomeTab',
-    // initialRouteParams: {
-    //   subjectId: 204135, // 评论数 [43]248175 [6]204135 [1]18007 [0]273437
-    //   topicId: 346386
-    // },
+    initialRouteParams: {
+      subjectId: 204135, // 评论数 [43]248175 [6]204135 [1]18007 [0]273437
+      topicId: 346386,
+      userId: 419012
+    },
     ...config
   }
 )

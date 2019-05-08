@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 17:33:10
+ * @Last Modified time: 2019-05-08 22:18:36
  */
 import { observable, computed } from 'mobx'
 import { timelineStore } from '@stores'
@@ -64,10 +64,20 @@ export default class ScreenTimeline extends store {
     if (page === this.state.page) {
       return
     }
-    this.setState({
-      page,
-      _page: page
-    })
+
+    // 这里最后一个tab是假占位, 跳回到第一个tab
+    if (page + 1 === tabs.length) {
+      this.setState({
+        page: 0,
+        _page: 0
+      })
+    } else {
+      this.setState({
+        page,
+        _page: page
+      })
+    }
+
     this.fetchTimeline(true)
     this.setStorage()
   }

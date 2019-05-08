@@ -2,22 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 02:33:03
+ * @Last Modified time: 2019-05-08 21:19:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Progress, Modal } from '@ant-design/react-native'
-import {
-  Activity,
-  Flex,
-  Icon,
-  Image,
-  Shadow,
-  Text,
-  Touchable
-} from '@components'
+import { ActivityIndicator, Progress, Modal } from '@ant-design/react-native'
+import { Flex, Icon, Image, Shadow, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { pad } from '@utils'
@@ -97,7 +89,7 @@ class Item extends React.Component {
           />
           <View style={[styles.placeholder, _.ml.sm]}>
             {doing ? (
-              <Activity style={styles.activity} size='xs' />
+              <ActivityIndicator size='small' />
             ) : (
               <Text type='sub' size={13}>
                 {pad(sort)}

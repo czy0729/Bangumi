@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 17:42:24
+ * @Last Modified time: 2019-05-07 18:27:59
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,15 +13,13 @@ import { wind, sm } from '@styles'
 
 const TabBarLeft = ({ $ }) => {
   const { scope } = $.state
+  const data = MODEL_TIMELINE_SCOPE.data.map(item => item.label)
   return (
     <Popover
       placement='bottom'
-      overlay={
-        <Menu
-          data={MODEL_TIMELINE_SCOPE.data.map(item => item.label)}
-          onSelect={$.onSelectScope}
-        />
-      }
+      overlay={<Menu data={data} onSelect={$.onSelectScope} />}
+      data={data} // 安卓用
+      onSelect={$.onSelectScope} // 安卓用
     >
       <Flex style={styles.tabBarLeft} justify='center'>
         <Button style={styles.btn} type='ghostMain' size='sm'>

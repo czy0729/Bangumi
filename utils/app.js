@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 02:15:59
+ * @Last Modified time: 2019-05-08 02:48:57
  */
 import { WebBrowser } from 'expo'
 import { HOST } from '@constants'
@@ -14,10 +14,22 @@ import { HOST } from '@constants'
  * @param {*} navigation
  */
 export function appNavigate(url = '', navigation) {
-  console.log(url)
-  if (
-    url.indexOf('/rakuen/topic/group/') !== -1 ||
-    url.indexOf('/group/topic/') !== -1
+  log(url)
+
+  if (url.includes(`${HOST}/subject/`)) {
+    // 条目
+    navigation.push('Subject', {
+      subjectId: url.replace(`${HOST}/subject/`, '')
+    })
+  } else if (url.includes(`${HOST}/user/`)) {
+    // 个人中心
+    navigation.push('Zone', {
+      userId: url.replace(`${HOST}/user/`, '')
+    })
+  } else if (
+    // 超展开内容
+    url.includes('/rakuen/topic/group/') ||
+    url.includes('/group/topic/')
   ) {
     navigation.push('Topic', {
       topicId: url.match(/\/(\d+)/)[1]

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-13 10:38:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-26 13:50:31
+ * @Last Modified time: 2019-05-08 00:25:42
  */
 import React from 'react'
 import { WebView as RNWebView } from 'react-native'
@@ -28,6 +28,7 @@ export default class WebView extends React.Component {
           }
         }}
         useWebKit
+        thirdPartyCookiesEnabled={false}
         source={{ uri }}
         {...other}
       />

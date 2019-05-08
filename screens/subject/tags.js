@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 21:51:40
+ * @Last Modified time: 2019-05-08 02:44:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -17,9 +17,10 @@ const Tags = ({ style }, { $ }) => {
   let _tags
   // 标签太多时过滤一部分
   if (tags.length > 12) {
-    _tags = tags.filter(item => parseInt(item.count) >= 10)
+    // 有些标签被系统吃掉为空要过滤掉
+    _tags = tags.filter(item => !!item.name && parseInt(item.count) >= 10)
   } else {
-    _tags = tags
+    _tags = tags.filter(item => !!item.name)
   }
   return (
     <View style={[_.container.wind, style]}>

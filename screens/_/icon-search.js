@@ -2,19 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-26 15:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 19:54:21
+ * @Last Modified time: 2019-05-07 14:33:37
  */
 import React from 'react'
-import { Touchable, Image } from '@components'
+import { Touchable, Iconfont } from '@components'
 
-const IconSearch = ({ style, navigation }) => (
+const IconSearch = ({ style }) => (
   <Touchable style={style}>
-    <Image
-      style={{ marginLeft: 12 }}
-      size={22}
-      placeholder={false}
-      src={require('@assets/images/icon/search.png')}
-    />
+    <Iconfont name='search' size={24} />
   </Touchable>
 )
 
