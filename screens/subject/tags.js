@@ -2,39 +2,39 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 02:44:57
+ * @Last Modified time: 2019-05-09 19:42:28
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text } from '@components'
+import { Expand, Flex, Text } from '@components'
 import { SectionTitle } from '@screens/_'
-import _, { colorBg, colorBorder, radiusXs } from '@styles'
+import _ from '@styles'
 
 const Tags = ({ style }, { $ }) => {
   const { tags = [] } = $.subjectFormHTML
-  let _tags
-  // 标签太多时过滤一部分
-  if (tags.length > 12) {
-    // 有些标签被系统吃掉为空要过滤掉
-    _tags = tags.filter(item => !!item.name && parseInt(item.count) >= 10)
-  } else {
-    _tags = tags.filter(item => !!item.name)
-  }
+  const { tag = [] } = $.collection
   return (
     <View style={[_.container.wind, style]}>
       <SectionTitle>标签</SectionTitle>
-      <Flex style={_.mt.sm} wrap='wrap'>
-        {_tags.map(({ name, count }) => (
-          <Flex key={name} style={styles.item}>
-            <Text size={13}>{name}</Text>
-            <Text style={_.ml.xs} type='sub' size={13}>
-              {count}
-            </Text>
-          </Flex>
-        ))}
-      </Flex>
+      <Expand style={_.mt.sm} maxHeight={152}>
+        <Flex wrap='wrap'>
+          {tags
+            .filter(item => !!item.name)
+            .map(({ name, count }) => (
+              <Flex
+                key={name}
+                style={[styles.item, tag.includes(name) && styles.selected]}
+              >
+                <Text size={13}>{name}</Text>
+                <Text style={_.ml.xs} type='sub' size={13}>
+                  {count}
+                </Text>
+              </Flex>
+            ))}
+        </Flex>
+      </Expand>
     </View>
   )
 }
@@ -51,9 +51,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     marginRight: 8,
     marginBottom: 12,
-    backgroundColor: colorBg,
+    backgroundColor: _.colorBg,
     borderWidth: 1,
-    borderColor: colorBorder,
-    borderRadius: radiusXs
+    borderColor: _.colorBorder,
+    borderRadius: _.radiusXs
+  },
+  selected: {
+    backgroundColor: _.colorPrimaryLight,
+    borderColor: _.colorPrimaryBorder
   }
 })

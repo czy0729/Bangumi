@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 16:42:51
+ * @Last Modified time: 2019-05-09 02:35:28
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -44,6 +44,10 @@ export default class RakuenStore extends store {
   rakuen(type) {
     const { scope } = this.state
     return computed(() => rakuenStore.rakuen(scope, type)).get()
+  }
+
+  topic(topidId) {
+    return computed(() => rakuenStore.topic(topidId)).get()
   }
 
   // -------------------- fetch --------------------

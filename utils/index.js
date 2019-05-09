@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 22:41:13
+ * @Last Modified time: 2019-05-09 22:30:47
  */
 import { AsyncStorage } from 'react-native'
 
@@ -325,11 +325,14 @@ export function getTimestamp(date) {
  */
 const _y = date('y', getTimestamp())
 export function simpleTime(time = '') {
-  return date('y-m-d', getTimestamp(time))
+  const _time = getTimestamp(time)
+  const ymd = date('y-m-d', _time)
     .split('-')
     .filter((item, index) => (index === 0 ? item != _y : true))
     .map(item => parseInt(item))
     .join('-')
+  const hi = date('h:i', _time)
+  return `${ymd} ${hi}`
 }
 
 /**

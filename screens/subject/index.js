@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 00:13:55
+ * @Last Modified time: 2019-05-09 05:48:05
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ import { BlurView, ListView } from '@components'
 import { ManageModal, CommentItem } from '@screens/_'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
-import _, { window, headerHeight, space } from '@styles'
+import _, { window, headerHeight, space, colorPlain } from '@styles'
 import Header from './header'
 import Store from './store'
 
@@ -46,7 +46,6 @@ class Subject extends React.Component {
         headerTransitionTitle: data.name_cn || data.name,
         popover: {
           data: [
-            '刷新',
             '分享',
             ...sites
               .filter(item => ['tudou', 'acfun'].indexOf(item.site) === -1)
@@ -55,9 +54,6 @@ class Subject extends React.Component {
           onSelect: key => {
             let item
             switch (key) {
-              case '刷新':
-                $.init()
-                break
               case '分享':
                 ActionSheet.showShareActionSheetWithOptions({
                   message: `${title}\n${url}`,
@@ -93,6 +89,10 @@ class Subject extends React.Component {
           keyExtractor={item => String(item.id)}
           data={$.subjectCommentsFormHTML}
           scrollEventThrottle={32}
+          refreshControlProps={{
+            tintColor: colorPlain,
+            titleColor: colorPlain
+          }}
           ListHeaderComponent={<Header />}
           renderItem={({ item, index }) => (
             <CommentItem
@@ -105,6 +105,7 @@ class Subject extends React.Component {
             />
           )}
           onScroll={onScroll}
+          onHeaderRefresh={$.init}
           onFooterRefresh={$.fetchSubjectCommentsFormHTML}
         />
         <ManageModal

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 21:39:12
+ * @Last Modified time: 2019-05-09 16:39:20
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -11,14 +11,7 @@ import { ActivityIndicator, Modal } from '@ant-design/react-native'
 import { Button, Flex, Icon, Input, Text, Touchable } from '@components'
 import { collectionStore, subjectStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
-import _, {
-  window,
-  wind,
-  colorBg,
-  colorPlain,
-  colorBorder,
-  radiusXs
-} from '@styles'
+import _ from '@styles'
 import StarGroup from './star-group'
 import StatusBtnGroup from './status-btn-group'
 
@@ -266,7 +259,7 @@ class ManageModal extends React.Component {
                         : 'ios-eye-off'
                     }
                     size={24}
-                    color={colorPlain}
+                    color={_.colorPlain}
                   />
                 </Button>
               </Flex>
@@ -282,15 +275,15 @@ export default observer(ManageModal)
 
 const styles = StyleSheet.create({
   modal: {
-    width: window.width - 2 * wind,
-    backgroundColor: colorBg
+    width: _.window.width - 2 * _.wind,
+    backgroundColor: _.colorBg
   },
   wrap: {
     height: 380
   },
   content: {
     width: '100%',
-    maxWidth: window.maxWidth,
+    maxWidth: _.window.maxWidth,
     paddingBottom: 8
   },
   tags: {
@@ -302,14 +295,14 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
     marginRight: 8,
-    backgroundColor: colorBg,
+    backgroundColor: _.colorBg,
     borderWidth: 1,
-    borderColor: colorBorder,
-    borderRadius: radiusXs
+    borderColor: _.colorBorder,
+    borderRadius: _.radiusXs
   },
   tagSelected: {
-    backgroundColor: 'rgb(248, 253, 255)',
-    borderColor: 'rgb(159, 230, 254)'
+    backgroundColor: _.colorPrimaryLight,
+    borderColor: _.colorPrimaryBorder
   },
   btnEye: {
     width: 56

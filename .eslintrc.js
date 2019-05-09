@@ -2,21 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-02 12:34:33
+ * @Last Modified time: 2019-05-09 16:27:06
  */
 module.exports = {
   root: true,
   globals: {
-    process: true,
     require: true,
-    fetch: true,
-    __DEV__: true,
-    log: true
+    fetch: true, // react-native的fetch
+    log: true, // 测试打印函数, 能规避循环引用
+    _: true // 全局样式导出
   },
   env: {
     commonjs: true,
-    es6: true,
-    node: true
+    es6: true
   },
 
   // https://npm.taobao.org/package/babel-eslint

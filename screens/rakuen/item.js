@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 00:03:17
+ * @Last Modified time: 2019-05-09 02:44:30
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,44 +10,51 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Touchable } from '@components'
 import { appNavigate } from '@utils/app'
-import _, { md, wind, colorPlain, colorBorder } from '@styles'
+import _, { md, wind, colorPlain, colorBg, colorBorder } from '@styles'
 
 const Item = (
-  { style, index, href, avatar, title, replies, group, time },
-  { navigation }
-) => (
-  <Touchable
-    style={[styles.container, style]}
-    highlight
-    onPress={() => appNavigate(href, navigation)}
-  >
-    <Flex align='start'>
-      <Image
-        style={styles.image}
-        size={28}
-        src={avatar}
-        radius
-        border={colorBorder}
-      />
-      <Flex.Item style={[styles.item, index !== 0 && styles.border, _.ml.sm]}>
-        <Text size={16}>
-          {title}
-          <Text type='main' size={12} lineHeight={16}>
-            {' '}
-            {replies}
+  { style, index, href = '', avatar, title, replies, group, time },
+  { $, navigation }
+) => {
+  const isTop = index === 0
+  const match = href.match(/\/(\d+)/)
+  const id = match && match[1]
+  const { _loaded } = $.topic(id)
+  return (
+    <Touchable
+      style={[styles.container, _loaded && styles.readed, style]}
+      highlight
+      onPress={() => appNavigate(href, navigation)}
+    >
+      <Flex align='start'>
+        <Image
+          style={styles.image}
+          size={28}
+          src={avatar}
+          radius
+          border={colorBorder}
+        />
+        <Flex.Item style={[styles.item, !isTop && styles.border, _.ml.sm]}>
+          <Text size={16}>
+            {title}
+            <Text type='main' size={12} lineHeight={16}>
+              {' '}
+              {replies}
+            </Text>
           </Text>
-        </Text>
-        <Text style={_.mt.xs} type='sub' size={12}>
-          {correctTime(time)}
-          {group ? ' / ' : ''}
-          <Text size={12}>{group}</Text>
-        </Text>
-      </Flex.Item>
-    </Flex>
-  </Touchable>
-)
+          <Text style={_.mt.xs} type='sub' size={12}>
+            {correctTime(time)}
+            {group ? ' / ' : ''}
+            <Text size={12}>{group}</Text>
+          </Text>
+        </Flex.Item>
+      </Flex>
+    </Touchable>
+  )
+}
 
 Item.contextTypes = {
+  $: PropTypes.object,
   navigation: PropTypes.object
 }
 
@@ -57,6 +64,9 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: wind,
     backgroundColor: colorPlain
+  },
+  readed: {
+    backgroundColor: colorBg
   },
   image: {
     marginTop: md

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 20:39:05
+ * @Last Modified time: 2019-05-09 16:39:09
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import { Constants } from 'expo'
@@ -13,10 +13,8 @@ import { IOS } from '@constants'
 const { width, height } = Dimensions.get('window')
 export const window = {
   width,
-  maxWidth: width, // @todo 用来兼容IPAD
-  height,
-  isSmallDevice: width < 375,
-  isLargeDevice: width > 375
+  maxWidth: width, // @todo 以后兼容IPAD
+  height
 }
 export const logoWidth = 120 // logo宽度
 export const statusBarHeight = IOS ? Constants.statusBarHeight - 6 : 0 // 状态栏高度, IOS的Constants.statusBarHeight不知道为什么多了6
@@ -27,9 +25,9 @@ export const tabsHeaderHeight = headerHeight + tabsHeight // 带标签栏的头�
 export const tabBarHeight = 50 // 标签栏高度
 
 // -------------------- 统一布局单位 --------------------
-export const space = 20
-export const wind = 16
-export const bottom = tabBarHeight + space
+export const space = 20 // 上下
+export const wind = 16 // 两翼
+export const bottom = tabBarHeight + space // 底部留空
 export const xs = 4
 export const sm = 8
 export const md = 16
@@ -42,6 +40,7 @@ export const colorMain = 'rgb(252, 127, 138)' // #FC7F8A
 export const colorMainLight = 'rgb(255, 243, 244)'
 export const colorPrimary = 'rgb(68, 207, 252)'
 export const colorPrimaryLight = 'rgb(248, 253, 255)'
+export const colorPrimaryBorder = 'rgb(159, 230, 254)'
 export const colorSuccess = 'rgb(50, 200, 64)'
 export const colorWarning = 'rgb(254, 190, 88)'
 export const colorWait = 'rgb(200, 200, 200)'
@@ -90,180 +89,165 @@ export function fontSize(pt) {
 }
 
 // -------------------- 工具样式 --------------------
-const Styles = {
-  container: StyleSheet.create({
-    flex: {
-      flex: 1
-    },
-    screen: {
-      flex: 1,
-      backgroundColor: colorBg
-    },
-    column: {
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    row: {
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    outer: {
-      paddingHorizontal: wind,
-      paddingTop: space,
-      paddingBottom: bottom
-    },
-    inner: {
-      paddingVertical: space,
-      paddingHorizontal: wind
-    },
-    wind: {
-      paddingHorizontal: wind
-    },
-    bottom: {
-      paddingBottom: bottom
-    }
-  }),
+export const container = StyleSheet.create({
+  flex: {
+    flex: 1
+  },
+  screen: {
+    flex: 1,
+    backgroundColor: colorBg
+  },
+  column: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  row: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  outer: {
+    paddingHorizontal: wind,
+    paddingTop: space,
+    paddingBottom: bottom
+  },
+  inner: {
+    paddingVertical: space,
+    paddingHorizontal: wind
+  },
+  wind: {
+    paddingHorizontal: wind
+  },
+  bottom: {
+    paddingBottom: bottom
+  }
+})
 
-  h: StyleSheet.create({
-    100: {
-      height: '100%'
-    }
-  }),
+export const h = StyleSheet.create({
+  100: {
+    height: '100%'
+  }
+})
 
-  mt: StyleSheet.create({
-    xs: {
-      marginTop: xs
-    },
-    sm: {
-      marginTop: sm
-    },
-    md: {
-      marginTop: md
-    },
-    lg: {
-      marginTop: lg
-    },
-    wind: {
-      marginTop: wind
-    },
-    header: {
-      marginTop: headerHeight
-    }
-  }),
+export const mt = StyleSheet.create({
+  xs: {
+    marginTop: xs
+  },
+  sm: {
+    marginTop: sm
+  },
+  md: {
+    marginTop: md
+  },
+  lg: {
+    marginTop: lg
+  },
+  wind: {
+    marginTop: wind
+  },
+  header: {
+    marginTop: headerHeight
+  }
+})
 
-  mr: StyleSheet.create({
-    xs: {
-      marginRight: xs
-    },
-    sm: {
-      marginRight: sm
-    },
-    md: {
-      marginRight: md
-    },
-    wind: {
-      marginRight: wind
-    }
-  }),
+export const mr = StyleSheet.create({
+  xs: {
+    marginRight: xs
+  },
+  sm: {
+    marginRight: sm
+  },
+  md: {
+    marginRight: md
+  },
+  wind: {
+    marginRight: wind
+  }
+})
 
-  mb: StyleSheet.create({
-    xs: {
-      marginBottom: xs
-    },
-    sm: {
-      marginBottom: sm
-    },
-    md: {
-      marginBottom: md
-    }
-  }),
+export const mb = StyleSheet.create({
+  xs: {
+    marginBottom: xs
+  },
+  sm: {
+    marginBottom: sm
+  },
+  md: {
+    marginBottom: md
+  }
+})
 
-  ml: StyleSheet.create({
-    xs: {
-      marginLeft: xs
-    },
-    sm: {
-      marginLeft: sm
-    },
-    md: {
-      marginLeft: md
-    },
-    wind: {
-      marginLeft: wind
-    }
-  }),
+export const ml = StyleSheet.create({
+  xs: {
+    marginLeft: xs
+  },
+  sm: {
+    marginLeft: sm
+  },
+  md: {
+    marginLeft: md
+  },
+  wind: {
+    marginLeft: wind
+  }
+})
 
-  border: StyleSheet.create({
-    vh: {
-      borderStyle: 'solid',
-      borderWidth: 1,
-      borderColor: colorBorder
-    },
-    top: {
-      borderStyle: 'solid',
-      borderTopWidth: StyleSheet.hairlineWidth,
-      borderTopColor: colorBorder
-    }
-  }),
+export const border = StyleSheet.create({
+  vh: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: colorBorder
+  },
+  top: {
+    borderStyle: 'solid',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colorBorder
+  }
+})
 
-  radius: StyleSheet.create({
-    xs: {
-      borderRadius: radiusXs,
-      overflow: 'hidden'
-    },
-    sm: {
-      borderRadius: radiusSm,
-      overflow: 'hidden'
-    }
-  }),
+export const radius = StyleSheet.create({
+  xs: {
+    borderRadius: radiusXs,
+    overflow: 'hidden'
+  },
+  sm: {
+    borderRadius: radiusSm,
+    overflow: 'hidden'
+  }
+})
 
-  shadow: StyleSheet.create({
-    item: IOS
-      ? {
-          shadowColor: '#333',
-          shadowOffset: { height: 8 },
-          shadowOpacity: 0.08,
-          shadowRadius: 8
-        }
-      : {
-          elevation: 1
-        }
-  }),
+export const input = StyleSheet.create({
+  base: {
+    padding: 8,
+    width: '100%',
+    ...fontSize(14),
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: colorBorder,
+    borderRadius: radiusXs
+  },
+  multi: {
+    padding: 8,
+    width: '100%',
+    ...fontSize(14),
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: colorBorder,
+    borderRadius: radiusXs
+  }
+})
 
-  input: StyleSheet.create({
-    base: {
-      padding: 8,
-      width: '100%',
-      ...fontSize(14),
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: colorBorder,
-      borderRadius: radiusXs
-    },
-    multi: {
-      padding: 8,
-      width: '100%',
-      ...fontSize(14),
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: colorBorder,
-      borderRadius: radiusXs
-    }
-  }),
+export const header = StyleSheet.create({
+  left: {
+    position: 'absolute',
+    top: statusBarHeight + 8,
+    left: 4
+  }
+})
 
-  header: StyleSheet.create({
-    left: {
-      position: 'absolute',
-      top: statusBarHeight + 8,
-      left: 4
-    }
-  })
-}
-
-export default Styles
+export default module.exports

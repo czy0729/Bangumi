@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-10 22:26:44
+ * @Last Modified time: 2019-05-09 19:53:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { SectionTitle, ArticleItem } from '@screens/_'
-import _, { wind } from '@styles'
+import { appNavigate } from '@utils/app'
+import _ from '@styles'
 
-const Topic = ({ style }, { $ }) => {
+const Topic = ({ style }, { $, navigation }) => {
   const { topic } = $.subject
   if (!topic) {
     return null
@@ -19,12 +20,12 @@ const Topic = ({ style }, { $ }) => {
 
   return (
     <View style={style}>
-      <SectionTitle style={{ paddingLeft: wind }}>讨论版</SectionTitle>
+      <SectionTitle style={{ paddingLeft: _.wind }}>讨论版</SectionTitle>
       <View style={_.mt.sm}>
         {topic.map((item, index) => (
           <ArticleItem
             key={item.id}
-            style={{ paddingLeft: wind }}
+            style={{ paddingLeft: _.wind }}
             isFirst={index === 0}
             avatar={item.user.avatar.small}
             title={item.title}
@@ -32,7 +33,7 @@ const Topic = ({ style }, { $ }) => {
             nickname={item.user.nickname}
             timestamp={item.timestamp}
             replies={item.replies}
-            onPress={() => {}}
+            onPress={() => appNavigate(item.url, navigation)}
           />
         ))}
       </View>
@@ -41,7 +42,8 @@ const Topic = ({ style }, { $ }) => {
 }
 
 Topic.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(Topic)

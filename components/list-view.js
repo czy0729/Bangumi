@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 21:17:22
+ * @Last Modified time: 2019-05-09 05:44:26
  */
 import React from 'react'
 import {
@@ -36,6 +36,7 @@ export default class ListView extends React.Component {
     sectionKey: '', // 当有此值, 根据item[section]构造<SectionList>的sections
     sections: undefined,
     progressViewOffset: undefined,
+    refreshControlProps: {},
     renderItem: undefined,
     footerRefreshingText: '玩命加载中 >.<',
     footerFailureText: '我擦嘞，居然失败了 =.=!',
@@ -205,6 +206,7 @@ export default class ListView extends React.Component {
       sectionKey,
       sections,
       progressViewOffset,
+      refreshControlProps,
       ...other
     } = this.props
     const { refreshState } = this.state
@@ -228,6 +230,7 @@ export default class ListView extends React.Component {
           progressViewOffset={progressViewOffset}
           refreshing={refreshState === RefreshState.HeaderRefreshing}
           onRefresh={this.onHeaderRefresh}
+          {...refreshControlProps}
         />
       ),
       ListFooterComponent: this.renderFooter(refreshState),

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:03:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 20:34:36
+ * @Last Modified time: 2019-05-09 22:25:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -26,7 +26,7 @@ const HomeTab = createBottomTabNavigator(
     Rakuen
   },
   {
-    initialRouteName: 'Timeline',
+    initialRouteName: 'Rakuen',
     tabBarComponent: props => {
       if (IOS) {
         return (
@@ -60,11 +60,11 @@ const HomeStack = createStackNavigator(
   },
   {
     initialRouteName: 'HomeTab',
-    initialRouteParams: {
-      subjectId: 204135, // 评论数 [43]248175 [6]204135 [1]18007 [0]273437
-      topicId: 346386,
-      userId: 419012
-    },
+    // initialRouteParams: {
+    //   subjectId: 204135, // 204135 评论数 [43]248175 [6]204135 [1]18007 [0]273437
+    //   topicId: 'ep/805584',
+    //   userId: 419012
+    // },
     ...config
   }
 )

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 20:03:31
+ * @Last Modified time: 2019-05-09 22:42:36
  */
 import { observable, computed } from 'mobx'
 import { date } from '@utils'
@@ -15,7 +15,7 @@ import { HTML_RAKUEN, HTML_TOPIC } from '@constants/html'
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 import store from '@utils/store'
 
-const LIST_LIMIT_COMMENTS = 5
+const LIST_LIMIT_COMMENTS = 6
 const initScope = MODEL_RAKUEN_SCOPE.getValue('全局聚合')
 const initType = MODEL_RAKUEN_TYPE.getValue('全部')
 
@@ -283,7 +283,7 @@ async function _fetchRakuen({ scope, type } = {}) {
 async function _fetchTopic({ topicId = 0 }) {
   // -------------------- 请求HTML --------------------
   const raw = await fetchHTML({
-    url: HTML_TOPIC(topicId)
+    url: `!${HTML_TOPIC(topicId)}`
   })
   const HTML = HTMLTrim(raw)
 
@@ -332,7 +332,7 @@ async function _fetchTopic({ topicId = 0 }) {
   // -------------------- 分析留言 --------------------
   // 留言层信息
   const commentHTML = HTML.match(
-    /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><div id="columnInSubjectB" class="column">/
+    /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><div style="margin-top/
   )
   const comments = []
   if (commentHTML) {
@@ -348,26 +348,20 @@ async function _fetchTopic({ topicId = 0 }) {
         return
       }
 
-      // 登陆的时候有回复框, 过滤掉
-      if (item.attrs.id === 'reply_wrapper') {
-        return
-      }
-
       const sub = [] // 存放子回复
       const subHTML = messageHTML[index].match(
         /<div class="topic_sub_reply" id="topic_reply_\d+">(.+?)$/
       )
       if (subHTML) {
         const subMessageHTML = subHTML[1]
-          .match(
-            /<div id="post_\d+" class="sub_reply_bgclearit">(.+?)<\/div><\/div><\/div>/g
-          )
+          .match(/<div id="post_\d+"(.+?)<\/div><\/div><\/div>/g)
           .map(item =>
             item.replace(
               /<div id="post_\d+" class="sub_reply_bgclearit">|<\/div>$/g,
               ''
             )
           )
+
         const subTree = HTMLToTree(subHTML[1])
         subTree.children.forEach((item, index) => {
           // 子楼层回复内容
@@ -375,6 +369,7 @@ async function _fetchTopic({ topicId = 0 }) {
             const message = subMessageHTML[index].match(
               /<div class="cmt_sub_content">(.+?)<\/div><\/div>/
             )[1]
+            log(message)
             sub.push({
               ...getCommentAttrs(item),
               message
@@ -387,11 +382,11 @@ async function _fetchTopic({ topicId = 0 }) {
       let message
       if (sub.length) {
         message = messageHTML[index].match(
-          /<div class="message">(.+?)<\/div><div class="topic_sub_reply"/
+          /<div class="message.*">(.+?)<\/div><div class="topic_sub_reply"/
         )[1]
       } else {
         message = messageHTML[index].match(
-          /<div class="message">(.+?)<\/div><\/div>/
+          /<div class="message.*">(.+?)<\/div><\/div>/
         )[1]
       }
       comments.push({

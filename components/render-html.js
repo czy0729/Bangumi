@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 20:13:22
+ * @Last Modified time: 2019-05-09 22:45:13
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -214,7 +214,7 @@ export default class RenderHtml extends React.Component {
     return (
       <View style={style}>
         <HTML
-          html={html}
+          html={`<div>${html}</div>`}
           baseFontStyle={baseFontStyle}
           onLinkPress={this.onLinkPress}
           {...this.generateConfig(imagesMaxWidth, baseFontStyle)}

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 17:20:35
+ * @Last Modified time: 2019-05-09 19:50:12
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { SectionTitle, ArticleItem } from '@screens/_'
-import _, { wind } from '@styles'
+import { appNavigate } from '@utils/app'
+import _ from '@styles'
 
-const Blog = ({ style }, { $ }) => {
+const Blog = ({ style }, { $, navigation }) => {
   const { blog = [] } = $.subject
   if (!blog) {
     return null
@@ -19,13 +20,13 @@ const Blog = ({ style }, { $ }) => {
 
   return (
     <View style={style}>
-      <SectionTitle style={{ paddingLeft: wind }}>评论</SectionTitle>
+      <SectionTitle style={{ paddingLeft: _.wind }}>评论</SectionTitle>
       <View style={_.mt.sm}>
         {blog.map((item, index) => (
           <ArticleItem
             // eslint-disable-next-line react/no-array-index-key
             key={index}
-            style={{ paddingLeft: wind }}
+            style={{ paddingLeft: _.wind }}
             isFirst={index === 0}
             avatar={item.user.avatar.small}
             title={item.title}
@@ -33,7 +34,7 @@ const Blog = ({ style }, { $ }) => {
             nickname={item.user.nickname}
             timestamp={item.timestamp}
             replies={item.replies}
-            onPress={() => {}}
+            onPress={() => appNavigate(item.url, navigation)}
           />
         ))}
       </View>
@@ -42,7 +43,8 @@ const Blog = ({ style }, { $ }) => {
 }
 
 Blog.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(Blog)

@@ -1,9 +1,10 @@
+/* eslint-disable prefer-destructuring */
 /*
  * 条目
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 02:40:26
+ * @Last Modified time: 2019-05-09 15:47:35
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY } from '@constants'
@@ -42,6 +43,11 @@ const initSubjectItem = {
 const initSubjectFormHTMLItem = {
   tags: [], // 标签
   relations: [], // 关联条目
+  friend: {
+    score: 0, // 好友评分
+    total: 0
+  },
+  typeNum: '', // eg. 291人想看 / 21人看过 / 744人在看 / 49人搁置 / 83人抛弃
   _loaded: false
 }
 
@@ -203,12 +209,37 @@ class Subject extends store {
       })
     }
 
+    // 好友评分
+    const friend = {
+      ...initSubjectFormHTMLItem.friend
+    }
+    const friendHTML = HTML.match(/<div class="frdScore">(.+?)<\/div>/)
+    if (friendHTML) {
+      const tree = HTMLToTree(friendHTML[1])
+      friend.score = tree.children[0].text[0]
+      friend.total = tree.children[2].text[0].replace(' 人评分', '')
+    }
+
+    // 观看状态人数
+    let typeNum = ''
+    const typeNumHTML = HTML.match(
+      /<span class="tip_i">\/(.+?)<\/span><\/div><\/div><div id="columnSubjectHomeB"/
+    )
+    if (typeNumHTML) {
+      const tree = HTMLToTree(typeNumHTML[1])
+      typeNum = findTreeNode(tree.children, 'div > a|text&class=l', [])
+        .map(item => item.text[0])
+        .join(' / ')
+    }
+
     const key = 'subjectFormHTML'
     this.setState({
       [key]: {
         [subjectId]: {
           tags,
           relations,
+          friend,
+          typeNum,
           _loaded: date()
         }
       }

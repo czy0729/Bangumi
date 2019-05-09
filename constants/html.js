@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 02:03:28
+ * @Last Modified time: 2019-05-09 20:24:00
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { HOST } from './index'
@@ -50,6 +50,6 @@ export const HTML_RAKUEN = (scope, type) =>
 
 /**
  * 帖子
- * @param {*} topicId
+ * @param {*} topicId eg. group/12345, subject/12345, ep/12345, prsn/123456
  */
-export const HTML_TOPIC = topicId => `${HOST}/group/topic/${topicId}`
+export const HTML_TOPIC = topicId => `${HOST}/rakuen/topic/${topicId}`

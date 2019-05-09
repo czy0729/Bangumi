@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-07 14:32:03
+ * @Last Modified time: 2019-05-09 02:57:58
  */
 import React from 'react'
 import { Icon } from 'expo'
-import { colorTitle } from '@styles'
+import { colorIcon } from '@styles'
 
 const Iconfont = ({ style, name, size, color, ...other }) => (
   <Icon.Iconfont
@@ -28,7 +28,7 @@ Iconfont.defaultProps = {
   style: undefined,
   name: undefined,
   size: 20,
-  color: colorTitle
+  color: colorIcon
 }
 
 export default Iconfont

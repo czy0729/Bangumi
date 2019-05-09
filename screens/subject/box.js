@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 19:32:20
+ * @Last Modified time: 2019-05-09 16:06:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,8 @@ import { getType, getRating } from '@utils/app'
 import _, { colorPlain, shadow } from '@styles'
 
 const Box = ({ style }, { $, navigation }) => {
-  const { status = { name: '未收藏' }, tag = [], rating = 0 } = $.collection
+  const { typeNum } = $.subjectFormHTML
+  const { status = { name: '未收藏' }, rating = 0 } = $.collection
   const leftStyle = []
   const rightStyle = []
   const btnText = $.isLogin ? status.name : '登陆管理'
@@ -62,9 +63,9 @@ const Box = ({ style }, { $, navigation }) => {
           </Flex>
         </Touchable>
       </View>
-      {!!tag.filter(item => !!item).length && (
-        <Text style={_.mt.md} type='sub' size={13}>
-          {tag.join(' / ')}
+      {!!typeNum && (
+        <Text style={_.mt.md} size={12} type='sub'>
+          {typeNum}
         </Text>
       )}
     </View>

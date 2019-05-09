@@ -2,26 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 21:15:43
+ * @Last Modified time: 2019-05-09 16:40:08
  */
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { titleCase } from '@utils'
-import _, {
-  colorPlain,
-  colorMain,
-  colorPrimary,
-  colorWarning,
-  colorWait,
-  colorBg,
-  colorDisabled,
-  colorBorder,
-  colorDesc,
-  colorSub,
-  colorShadow,
-  radiusXs
-} from '@styles'
+import _ from '@styles'
 import Touchable from './touchable'
 import Flex from './flex'
 import Text from './text'
@@ -105,34 +92,34 @@ const styles = StyleSheet.create({
 
   // type
   plain: {
-    backgroundColor: colorPlain,
+    backgroundColor: _.colorPlain,
     borderColor: 'rgb(223, 223, 223)'
   },
   main: {
-    backgroundColor: colorMain,
+    backgroundColor: _.colorMain,
     borderColor: 'rgb(255, 54, 76)'
   },
   primary: {
-    backgroundColor: colorPrimary,
+    backgroundColor: _.colorPrimary,
     borderColor: 'rgb(13, 156, 204)'
   },
   warning: {
-    backgroundColor: colorWarning,
+    backgroundColor: _.colorWarning,
     borderColor: 'rgb(249, 163, 80)'
   },
   wait: {
-    backgroundColor: colorWait,
+    backgroundColor: _.colorWait,
     borderColor: 'rgb(160, 160, 160)'
   },
   disabled: {
-    backgroundColor: colorDisabled,
+    backgroundColor: _.colorDisabled,
     borderColor: 'rgb(80, 80, 80)'
   },
 
   // ghost type
   ghostPlain: {
-    backgroundColor: colorBg,
-    borderColor: colorBorder
+    backgroundColor: _.colorBg,
+    borderColor: _.colorBorder
   },
   ghostMain: {
     backgroundColor: 'rgba(255, 243, 244, 0.8)',
@@ -140,7 +127,7 @@ const styles = StyleSheet.create({
   },
   ghostPrimary: {
     backgroundColor: 'rgba(248, 253, 255, 0.8)',
-    borderColor: 'rgb(159, 230, 254)'
+    borderColor: _.colorPrimaryBorder
   },
   ghostSuccess: {
     backgroundColor: 'rgba(236, 255, 236, 0.8)',
@@ -166,50 +153,50 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   textPlain: {
-    color: colorDesc
+    color: _.colorDesc
   },
   textMain: {
-    color: colorPlain
+    color: _.colorPlain
   },
   textPrimary: {
-    color: colorPlain
+    color: _.colorPlain
   },
   textWarning: {
-    color: colorPlain
+    color: _.colorPlain
   },
   textWait: {
-    color: colorPlain
+    color: _.colorPlain
   },
   textDisabled: {
-    color: colorPlain
+    color: _.colorPlain
   },
   textGhostPlain: {
-    color: colorSub
+    color: _.colorSub
   },
   textGhostMain: {
-    color: colorSub
+    color: _.colorSub
   },
   textGhostPrimary: {
-    color: colorSub
+    color: _.colorSub
   },
   textGhostSuccess: {
-    color: colorSub
+    color: _.colorSub
   },
 
   // other
   shadow: Platform.select({
     ios: {
-      shadowColor: colorShadow,
+      shadowColor: _.colorShadow,
       shadowOffset: { height: 3 },
       shadowOpacity: 0.16,
       shadowRadius: 3
     },
     android: {
-      backgroundColor: colorPlain,
+      backgroundColor: _.colorPlain,
       elevation: 3
     }
   }),
   radius: {
-    borderRadius: radiusXs
+    borderRadius: _.radiusXs
   }
 })
