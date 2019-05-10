@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-14 21:07:01
+ * @Last Modified time: 2019-05-10 16:45:02
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { Text, Touchable, Icon, Flex } from '@components'
+import { Text, Touchable, Iconfont, Flex } from '@components'
 import { getRating } from '@utils/app'
-import _, { colorWarning, colorIcon } from '@styles'
+import _ from '@styles'
 
 export default class StarGroup extends React.Component {
   static defaultProps = {
@@ -78,11 +78,11 @@ export default class StarGroup extends React.Component {
           {[1, 2, 3, 4, 5].map(item => {
             let type
             if (value / 2 >= item) {
-              type = 'ios-star'
+              type = 'star-full'
             } else if (value / 2 >= item - 0.5) {
-              type = 'ios-star-half'
+              type = 'star-half'
             } else {
-              type = 'ios-star-outline'
+              type = 'star'
             }
             return (
               <Touchable
@@ -90,10 +90,10 @@ export default class StarGroup extends React.Component {
                 style={item > 1 && _.ml.sm}
                 onPress={() => this.change(item)}
               >
-                <Icon
+                <Iconfont
                   name={type}
-                  size={40}
-                  color={type === 'ios-star-outline' ? colorIcon : colorWarning}
+                  size={36}
+                  color={type === 'star' ? _.colorIcon : _.colorWarning}
                 />
               </Touchable>
             )

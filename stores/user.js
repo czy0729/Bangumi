@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 19:29:41
+ * @Last Modified time: 2019-05-10 17:09:26
  */
 import { AsyncStorage } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -18,7 +18,7 @@ import {
   API_USER_COLLECTIONS
 } from '@constants/api'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { date } from '@utils'
+import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import fetch from '@utils/fetch'
 
@@ -93,10 +93,15 @@ class User extends store {
       userCollection: state[3] || LIST_EMPTY,
       userProgress: state[4]
     })
-    if (this.isLogin) {
-      this.fetchUserInfo()
-    }
 
+    if (this.isLogin) {
+      const { _loaded } = state[1] || initUserInfo
+
+      // 用户信息被动刷新, 距离上次24小时候后才请求
+      if (!_loaded || getTimestamp() - _loaded > 86400) {
+        this.fetchUserInfo()
+      }
+    }
     return res
   }
 
@@ -263,7 +268,7 @@ class User extends store {
         }
 
         const userProgress = {
-          _loaded: date()
+          _loaded: getTimestamp()
         }
         item.eps.forEach(i => (userProgress[i.id] = i.status.cn_name))
         this.setState({
@@ -277,7 +282,7 @@ class User extends store {
       this.setState({
         userProgress: {
           [subjectId]: {
-            _loaded: date()
+            _loaded: getTimestamp()
           }
         }
       })
@@ -308,7 +313,7 @@ class User extends store {
     const collections = {
       ...LIST_EMPTY,
       list: [],
-      _loaded: date()
+      _loaded: getTimestamp()
     }
     if (data) {
       data[0].collects.forEach(item => {

@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 22:19:22
+ * @Last Modified time: 2019-05-10 16:53:56
  */
-import { IOS, APP_ID } from '@constants'
+import { APP_ID } from '@constants'
 import { urlStringify, sleep, getTimestamp } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
@@ -73,7 +73,7 @@ export default async function _fetch({
     body.state = getTimestamp() // 随机数防止接口CDN缓存
     _url = `${url}?${urlStringify(body)}`
   }
-  log('API', 'fetch', _url)
+  log(info, _url)
 
   return fetch(_url, _config)
     .then(response => response.json())
@@ -132,7 +132,6 @@ export async function fetchHTML({ url } = {}) {
     method: 'GET'
   }
 
-  // const needReplace = false // 是否启用第二域名模拟不带cookie (iOS)
   let _url = url.replace('!', '') // 叹号代表不携带cookie
   if (url.indexOf('!') !== 0) {
     data.headers = {
@@ -142,12 +141,6 @@ export async function fetchHTML({ url } = {}) {
       Cookie: `; ${cookie}`,
       ...cacheHeaders
     }
-  } else if (IOS) {
-    // @issue 安卓和iOS模拟器没问题, 实机iOS端不清楚什么原因强制带cookie请求
-    // credentials设置也无效, 暂时变通方法请求第二域名
-    // 并把结果的html的HOST_2全局替换成HOST
-    // _url = _url.replace(HOST, HOST_2)
-    // needReplace = true
   }
 
   // 加上时间戳防止缓存
@@ -157,16 +150,9 @@ export async function fetchHTML({ url } = {}) {
   } else {
     _url = `${_url}&state=${state}`
   }
-  log('fetchHTML', _url)
+  log(_url)
 
   return fetch(_url, data).then(res => Promise.resolve(res._bodyInit))
-  // return fetch(_url, data).then(res => {
-  //   if (needReplace) {
-  //     const reg = RegExp(HOST_2, 'g')
-  //     return Promise.resolve(res._bodyInit.replace(reg, HOST))
-  //   }
-  //   return Promise.resolve(res._bodyInit)
-  // })
 }
 
 /**

@@ -5,13 +5,13 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 19:07:02
+ * @Last Modified time: 2019-05-10 16:58:24
  */
 import { observable, computed } from 'mobx'
 import { HOST, HOST_NAME, LIST_EMPTY } from '@constants'
 import { HTML_TIMELINE } from '@constants/html'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-import { trim, date } from '@utils'
+import { trim, getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
@@ -380,6 +380,6 @@ async function _fetchTimeline(
       page,
       pageTotal: timeline.length ? 100 : page // 页面没有分页信息
     },
-    _loaded: date()
+    _loaded: getTimestamp()
   })
 }

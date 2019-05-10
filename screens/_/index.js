@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 22:20:31
+ * @Last Modified time: 2019-05-10 17:18:02
  */
 export { default as ArticleItem } from './article-item'
 export { default as BangumiListItem } from './bangumi-list-item'
@@ -14,7 +14,7 @@ export { default as Eps } from './eps'
 export { default as HorizontalList } from './horizontal-list'
 export { default as IconBack } from './icon/back'
 export { default as IconDrawer } from './icon-drawer'
-export { default as IconMenu } from './icon-menu'
+export { default as IconMenu } from './icon/menu'
 export { default as IconSearch } from './icon-search'
 export { default as IconTabBar } from './icon-tab-bar'
 export { default as Logo } from './logo'

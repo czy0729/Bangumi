@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-23 14:24:44
+ * @Last Modified time: 2019-05-10 16:58:59
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, action, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants'
-import { date } from '@utils'
+import { getTimestamp } from '@utils'
 import fetch from './fetch'
 
 configure({ enforceActions: 'observed' })
@@ -68,7 +68,7 @@ export default class Store {
         _data = {
           ...LIST_EMPTY,
           list: data,
-          _loaded: date()
+          _loaded: getTimestamp()
         }
       } else {
         _data = data
@@ -76,7 +76,7 @@ export default class Store {
     } else {
       _data = {
         ...data,
-        _loaded: date()
+        _loaded: getTimestamp()
       }
     }
 

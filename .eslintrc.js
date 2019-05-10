@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 16:27:06
+ * @Last Modified time: 2019-05-10 15:12:28
  */
 module.exports = {
   root: true,
@@ -62,7 +62,7 @@ module.exports = {
     'import/extensions': 0,
     'import/no-unresolved': 0,
     'import/prefer-default-export': 0,
-    indent: ['error', 2, { SwitchCase: 1 }],
+    indent: 0, // 经常与三元表达的自动格式化冲突, 所以关闭
     'linebreak-style': ['error', 'unix'],
     'lines-between-class-members': 0,
     'max-len': ['error', 200],

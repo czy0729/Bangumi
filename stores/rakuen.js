@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 22:42:36
+ * @Last Modified time: 2019-05-10 16:58:01
  */
 import { observable, computed } from 'mobx'
-import { date } from '@utils'
+import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import { LIST_EMPTY, LIST_LIMIT } from '@constants'
@@ -131,7 +131,7 @@ class Rakuen extends store {
               pageTotal: Math.ceil(rakuen.length / LIST_LIMIT)
             },
             _list: rakuen,
-            _loaded: date()
+            _loaded: getTimestamp()
           }
         }
       })
@@ -172,7 +172,7 @@ class Rakuen extends store {
       // 重新请求
       res = _fetchTopic({ topicId })
       const { topic, comments } = await res
-      const _loaded = date()
+      const _loaded = getTimestamp()
 
       // 缓存帖子内容
       this.setState({
@@ -343,8 +343,8 @@ async function _fetchTopic({ topicId = 0 }) {
 
     const tree = HTMLToTree(commentHTML[1])
     tree.children.forEach((item, index) => {
-      // @todo 暂时只显示前60楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
-      if (index >= 60) {
+      // @todo 暂时只显示前100楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
+      if (index >= 100) {
         return
       }
 
@@ -369,7 +369,7 @@ async function _fetchTopic({ topicId = 0 }) {
             const message = subMessageHTML[index].match(
               /<div class="cmt_sub_content">(.+?)<\/div><\/div>/
             )[1]
-            log(message)
+            // log(message)
             sub.push({
               ...getCommentAttrs(item),
               message

@@ -2,27 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 21:19:11
+ * @Last Modified time: 2019-05-10 17:52:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ActivityIndicator, Progress, Modal } from '@ant-design/react-native'
-import { Flex, Icon, Image, Shadow, Text, Touchable } from '@components'
+import { Flex, Iconfont, Image, Shadow, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { pad } from '@utils'
-import _, {
-  wind,
-  colorPlain,
-  colorMain,
-  colorSuccess,
-  colorBg,
-  colorIcon,
-  colorBorder,
-  radiusXs
-} from '@styles'
+import _ from '@styles'
 
 class Item extends React.Component {
   static defaultProps = {
@@ -39,9 +29,12 @@ class Item extends React.Component {
 
   onPress = () => {
     const { navigation } = this.context
-    const { subjectId } = this.props
+    const { subjectId, subject } = this.props
     navigation.push('Subject', {
-      subjectId
+      subjectId,
+      _jp: subject.name,
+      _cn: subject.name_cn || subject.name,
+      _image: subject.images.medium
     })
   }
 
@@ -81,18 +74,13 @@ class Item extends React.Component {
     return (
       <Touchable onPress={() => $.doWatchedNextEp(subjectId)}>
         <Flex justify='center'>
-          <Icon
-            style={styles.icon}
-            name='ios-checkbox-outline'
-            size={18}
-            color={colorIcon}
-          />
+          <Iconfont style={styles.icon} name='check' size={16} />
           <View style={[styles.placeholder, _.ml.sm]}>
             {doing ? (
               <ActivityIndicator size='small' />
             ) : (
               <Text type='sub' size={13}>
-                {pad(sort)}
+                {sort}
               </Text>
             )}
           </View>
@@ -110,17 +98,17 @@ class Item extends React.Component {
       <Flex>
         {this.renderBtnNextEp()}
         <Touchable style={_.ml.md} onPress={() => $.showManageModal(subjectId)}>
-          <Icon name='ios-star-outline' size={18} color={colorIcon} />
+          <Iconfont name='star' size={16} />
         </Touchable>
         {!isBook && (
           <Touchable
             style={_.ml.md}
             onPress={() => $.itemToggleExpand(subjectId)}
           >
-            <Icon
-              name='ios-menu'
-              size={18}
-              color={expand ? colorMain : colorIcon}
+            <Iconfont
+              name={expand ? 'grid-full' : 'grid-half'}
+              size={16}
+              color={expand ? _.colorMain : _.colorIcon}
             />
           </Touchable>
         )}
@@ -129,7 +117,7 @@ class Item extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     const { top, subjectId, subject, epStatus } = this.props
     const { expand } = $.$Item(subjectId)
     const isToday = $.isToday(subjectId)
@@ -153,7 +141,7 @@ class Item extends React.Component {
                     <Text numberOfLines={1}>
                       {subject.name_cn || subject.name}
                     </Text>
-                    <Text style={_.mt.xs} type='sub' size={10}>
+                    <Text style={_.mt.xs} type='sub' size={11}>
                       {subject.collection.doing} 人在{doing}
                     </Text>
                   </Flex.Item>
@@ -200,7 +188,9 @@ class Item extends React.Component {
               subjectId={subjectId}
               eps={$.eps(subjectId)}
               userProgress={$.userProgress(subjectId)}
-              onSelect={$.doEpsSelect}
+              onSelect={(value, item, subjectId) =>
+                $.doEpsSelect(value, item, subjectId, navigation)
+              }
             />
           )}
           {top && (
@@ -208,7 +198,7 @@ class Item extends React.Component {
               style={[
                 styles.dot,
                 {
-                  borderLeftColor: isToday ? colorSuccess : colorBorder
+                  borderLeftColor: isToday ? _.colorSuccess : _.colorBorder
                 }
               ]}
             />
@@ -223,11 +213,11 @@ export default observer(Item)
 
 const styles = StyleSheet.create({
   item: {
-    padding: wind,
-    backgroundColor: colorPlain,
-    borderColor: colorBorder,
+    padding: _.wind,
+    backgroundColor: _.colorPlain,
+    borderColor: _.colorBorder,
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: radiusXs,
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   icon: {
@@ -235,7 +225,7 @@ const styles = StyleSheet.create({
   },
   progress: {
     marginTop: 6,
-    backgroundColor: colorBg
+    backgroundColor: _.colorBg
   },
   bar: {
     borderBottomWidth: 2,

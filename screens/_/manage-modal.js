@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 16:39:20
+ * @Last Modified time: 2019-05-10 16:49:27
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator, Modal } from '@ant-design/react-native'
-import { Button, Flex, Icon, Input, Text, Touchable } from '@components'
+import { Button, Flex, Input, Text, Touchable } from '@components'
 import { collectionStore, subjectStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
 import _ from '@styles'
@@ -249,18 +249,10 @@ class ManageModal extends React.Component {
                 </Flex.Item>
                 <Button
                   style={[styles.btnEye, _.ml.sm]}
-                  type='main'
+                  type='ghostMain'
                   onPress={this.togglePrivacy}
                 >
-                  <Icon
-                    name={
-                      MODEL_PRIVATE.getLabel(privacy) === '公开'
-                        ? 'ios-eye'
-                        : 'ios-eye-off'
-                    }
-                    size={24}
-                    color={_.colorPlain}
-                  />
+                  {MODEL_PRIVATE.getLabel(privacy)}
                 </Button>
               </Flex>
             </Flex>

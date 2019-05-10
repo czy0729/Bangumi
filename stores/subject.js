@@ -4,13 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 15:47:35
+ * @Last Modified time: 2019-05-10 16:58:19
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS } from '@constants/html'
-import { date } from '@utils'
+import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
@@ -240,7 +240,7 @@ class Subject extends store {
           relations,
           friend,
           typeNum,
-          _loaded: date()
+          _loaded: getTimestamp()
         }
       }
     })
@@ -353,7 +353,7 @@ class Subject extends store {
             page,
             pageTotal: parseInt(pageTotal)
           },
-          _loaded: date()
+          _loaded: getTimestamp()
         }
       }
     })

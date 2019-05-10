@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 02:35:28
+ * @Last Modified time: 2019-05-10 15:05:15
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -29,7 +29,6 @@ export default class RakuenStore extends store {
       _loaded: true
     })
 
-    // 超展开页面初始化时, 假如有缓存, 不重新请求
     const { page } = this.state
     const type = MODEL_RAKUEN_TYPE.getValue(tabs[page].title)
     const { _loaded, list } = this.rakuen(type)
@@ -46,8 +45,8 @@ export default class RakuenStore extends store {
     return computed(() => rakuenStore.rakuen(scope, type)).get()
   }
 
-  topic(topidId) {
-    return computed(() => rakuenStore.topic(topidId)).get()
+  comments(topidId) {
+    return computed(() => rakuenStore.comments(topidId)).get()
   }
 
   // -------------------- fetch --------------------
@@ -58,23 +57,28 @@ export default class RakuenStore extends store {
   }
 
   // -------------------- page --------------------
-  /**
-   * @issue onTabClick与onChange在用受控模式的时候, 有冲突
-   * 暂时这样解决
-   */
   onTabClick = ({ title }, page) => {
     if (page === this.state.page) {
       return
     }
+
     this.setState({
       page
     })
+    // @issue onTabClick与onChange在用受控模式的时候有冲突, 暂时这样解决
+    setTimeout(() => {
+      this.setState({
+        _page: page
+      })
+    }, 400)
     this.shouldFetchRakuen(title)
   }
+
   onChange = ({ title }, page) => {
     if (page === this.state.page) {
       return
     }
+
     this.setState({
       page,
       _page: page

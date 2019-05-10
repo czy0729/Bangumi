@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 22:45:13
+ * @Last Modified time: 2019-05-10 18:50:13
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -49,6 +49,7 @@ export default class RenderHtml extends React.Component {
    * 用continuousBgmImagesCount保存连续个数
    * 显示图片的时候, 当bgmImagesCount不为0时, 把图片先缓存到bgmImagesTemp里
    * 在最后一个表情渲染的时候统一渲染
+   * @todo 暂时只处理了一行中第一个表情与之前的问题同行, 后面的暂时想不到办法处理
    */
   textWithBgmImage = '' // 用于下一个节点是表情的时候, 保存当前文字
   continuousBgmImagesCount = 0 // 后面还有多少个节点是表情
@@ -89,7 +90,7 @@ export default class RenderHtml extends React.Component {
 
       if (type === 'text') {
         // 检测下一个节点是不是表情
-        if (this.checkNextIsBgmImage(next)) {
+        if (!this.textWithBgmImage && this.checkNextIsBgmImage(next)) {
           this.textWithBgmImage = data
 
           // 这里应该是库的问题, 不能返回空字符串会被当成不处理, 导致多出了一空行
@@ -107,19 +108,22 @@ export default class RenderHtml extends React.Component {
         convertedCSSStyles,
         passProps
       ) => {
-        const props = {}
+        const props = {
+          key: passProps.key
+        }
 
         // bgm表情
         if (alt.indexOf('(bgm') !== -1) {
           props.source = { uri: `${HOST}/${src}` }
           props.style = {
             width: 20,
-            height: 20
+            height: 20,
+            resizeMode: 'contain'
           }
 
           // 当后面还有连续表情的时候
           if (this.continuousBgmImagesCount) {
-            this.bgmImagesTemp.push(<RNImage key={passProps.key} {...props} />)
+            this.bgmImagesTemp.push(<RNImage {...props} />)
             this.continuousBgmImagesCount -= 1
             return null
           }
@@ -152,7 +156,8 @@ export default class RenderHtml extends React.Component {
         }
         props.autoSize = imagesMaxWidth
         props.border = colorBorder
-        return <Image key={passProps.key} {...props} />
+        props.placeholder = false
+        return <Image {...props} />
       },
       span: ({ style = '' }, children, convertedCSSStyles, passProps) => {
         // @todo 暂时没有对样式混合的情况作出正确的判断
@@ -211,10 +216,18 @@ export default class RenderHtml extends React.Component {
       onLinkPress,
       ...other
     } = this.props
+    // let _html = `<div>${html}</div>`
+    // const match = _html.match(/>[^<>]+?</g)
+    // if (match) {
+    //   match.forEach(item => {
+    //     _html = _html.replace(item, `><span${item}/span><`)
+    //   })
+    // }
+
     return (
       <View style={style}>
         <HTML
-          html={`<div>${html}</div>`}
+          html={html}
           baseFontStyle={baseFontStyle}
           onLinkPress={this.onLinkPress}
           {...this.generateConfig(imagesMaxWidth, baseFontStyle)}

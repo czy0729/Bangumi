@@ -1,10 +1,9 @@
-/* eslint-disable indent */
 /*
  * 封装应用主要功能实现的装饰器
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-04 22:24:22
+ * @Last Modified time: 2019-05-10 17:25:50
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -34,8 +33,18 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
         const { navigation } = props
         const { state } = navigation
 
+        // 后期对页面跳转传递数据进行了优化, 排除_开头的key
+        const params = {}
+        Object.keys(state.params || {}).forEach(key => {
+          if (key.indexOf('_') === 0) {
+            return
+          }
+          params[key] = state.params[key]
+        })
+
         // 初始化页面Store
-        const screenKey = `${state.routeName}?${urlStringify(state.params)}`
+        // storeKey约定为路由名字 + 参数(排除_开头的key)的序列化
+        const screenKey = `${state.routeName}?${urlStringify(params)}`
         this.$ = Stores.get(screenKey)
         if (!this.$) {
           this.$ = new Store()

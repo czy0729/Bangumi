@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 20:11:49
+ * @Last Modified time: 2019-05-10 04:42:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,19 +11,12 @@ import { observer } from 'mobx-react'
 import { Flex, Image, Text, RenderHtml } from '@components'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
-import _, {
-  window,
-  sm,
-  md,
-  wind,
-  colorPlain,
-  colorBg,
-  colorBorder
-} from '@styles'
+import _ from '@styles'
 
 const avatarWidth = 28
-const imagesMaxWidth = window.width - 2 * wind - avatarWidth - sm
-const imagesMaxWidthSub = window.width - 2 * wind - 2 * avatarWidth - 2 * sm
+const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
+const imagesMaxWidthSub =
+  _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
 const Item = (
   {
@@ -49,7 +42,7 @@ const Item = (
         size={avatarWidth}
         src={avatar}
         radius
-        border={colorBorder}
+        border={_.colorBorder}
       />
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>
@@ -94,7 +87,7 @@ const Item = (
                   size={avatarWidth}
                   src={item.avatar}
                   radius
-                  border={colorBorder}
+                  border={_.colorBorder}
                 />
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
@@ -146,31 +139,31 @@ export default observer(Item)
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: colorPlain
+    backgroundColor: _.colorPlain
   },
   itemOdd: {
-    backgroundColor: colorBg
+    backgroundColor: _.colorBg
   },
   image: {
-    marginTop: wind,
-    marginLeft: wind
+    marginTop: _.wind,
+    marginLeft: _.wind
   },
   content: {
-    paddingVertical: wind,
-    paddingRight: wind
+    paddingVertical: _.wind,
+    paddingRight: _.wind
   },
   border: {
-    borderTopColor: colorBorder,
+    borderTopColor: _.colorBorder,
     borderTopWidth: StyleSheet.hairlineWidth
   },
   sub: {
-    marginTop: md,
-    marginBottom: -md
+    marginTop: _.md,
+    marginBottom: -_.md
   },
   subImage: {
-    marginTop: md
+    marginTop: _.md
   },
   subContent: {
-    paddingVertical: md
+    paddingVertical: _.md
   }
 })

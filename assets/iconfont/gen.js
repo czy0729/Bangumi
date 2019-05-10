@@ -1,6 +1,6 @@
 const path = require('path');
-const oldPath = path.resolve(__dirname, 'iconfont.css');
-const newPath = path.resolve(__dirname, 'iconfont.json');
+const oldPath = path.resolve(__dirname, 'Iconfont.css');
+const newPath = path.resolve(__dirname, 'Iconfont.json');
 
 var gen = (module.exports = function() {
   const readline = require('readline');

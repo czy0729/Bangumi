@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 20:29:22
+ * @Last Modified time: 2019-05-10 18:45:41
  */
 import { WebBrowser } from 'expo'
-import { HOST } from '@constants'
+import { HOST, HOST_NAME } from '@constants'
 
 /**
  * 根据Bangumi的url判断路由跳转方式
@@ -15,31 +15,62 @@ import { HOST } from '@constants'
  */
 export function appNavigate(url = '', navigation) {
   let _url = url
-  if (!_url.includes('http://') || !_url.includes('https://')) {
+
+  // 补全协议
+  if (!_url.includes('http://') && !_url.includes('https://')) {
     _url = `${HOST}${_url}`
+  }
+
+  // HOST纠正为https
+  if (_url.includes(`http://${HOST_NAME}`)) {
+    _url = _url.replace(`http://${HOST_NAME}`, HOST)
   }
   console.log(_url)
 
-  if (_url.includes(`${HOST}/subject/`)) {
-    // 条目
-    navigation.push('Subject', {
-      subjectId: _url.replace(`${HOST}/subject/`, '')
-    })
-  } else if (_url.includes(`${HOST}/user/`)) {
-    // 个人中心
-    navigation.push('Zone', {
-      userId: _url.replace(`${HOST}/user/`, '')
-    })
-  } else if (
-    // 超展开内容
-    _url.includes(`${HOST}/rakuen/topic/`)
-  ) {
-    navigation.push('Topic', {
-      topicId: _url.replace(`${HOST}/rakuen/topic/`, '')
-    })
-  } else {
+  // 非本站
+  if (!_url.includes(HOST)) {
     WebBrowser.openBrowserAsync(_url)
+    return
   }
+
+  // 条目 [/subject/{subjectId}]
+  if (_url.includes('/subject/')) {
+    navigation.push('Subject', {
+      subjectId: _url.replace(`${HOST}/subject/`, ''),
+      _url
+    })
+    return
+  }
+
+  // 个人中心 [/user/{userId}]
+  if (_url.includes('/user/')) {
+    navigation.push('Zone', {
+      userId: _url.replace(`${HOST}/user/`, ''),
+      _url
+    })
+    return
+  }
+
+  // 超展开内容 [/rakuen/topic/{topicId}]
+  if (_url.includes('/rakuen/topic/')) {
+    navigation.push('Topic', {
+      topicId: _url.replace(`${HOST}/rakuen/topic/`, ''),
+      _url
+    })
+    return
+  }
+
+  // 本集讨论 [/ep/\d+]
+  // 结构与超展开内容类似, 跳转到超展开内容
+  if (_url.includes('/ep/')) {
+    navigation.push('Topic', {
+      topicId: _url.replace(`${HOST}/`, ''),
+      _url
+    })
+    return
+  }
+
+  WebBrowser.openBrowserAsync(_url)
 }
 
 /**

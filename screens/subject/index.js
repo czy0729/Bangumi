@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 05:48:05
+ * @Last Modified time: 2019-05-10 17:30:59
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -80,9 +80,11 @@ class Subject extends React.Component {
     const { onScroll } = this.props
     const { visible } = $.state
     const { name_cn: nameCn, name, images = {} } = $.subject
+    const { _image } = $.params
+    const image = images.medium || _image
     return (
       <>
-        <BlurView style={styles.blurView} theme='dark' src={images.medium} />
+        <BlurView style={styles.blurView} theme='dark' src={image} />
         <ListView
           style={_.container.flex}
           contentContainerStyle={styles.contentContainerStyle}

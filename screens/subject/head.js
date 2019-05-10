@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-12 13:14:36
+ * @Last Modified time: 2019-05-10 17:35:32
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -28,6 +28,12 @@ const Head = ({ style }, { $ }) => {
     type
   } = $.subject
 
+  // 跨页面传递的参数
+  const { _jp, _cn, _image } = $.params
+  const jp = name || _jp
+  const cn = nameCn || name || _cn
+  const image = images.large || _image
+
   // bangumiInfo只有动画的数据
   let label = MODEL_SUBJECT_TYPE.getTitle(type)
   if (label === '动画') {
@@ -38,7 +44,7 @@ const Head = ({ style }, { $ }) => {
     <View style={[styles.container, style]}>
       <View style={styles.image}>
         <Image
-          src={images.large}
+          src={image}
           size={imageWidth}
           height={160}
           radius
@@ -53,13 +59,13 @@ const Head = ({ style }, { $ }) => {
         align='start'
       >
         <View>
-          {!!nameCn && (
+          {!!jp && (
             <Text type='sub' size={name.length > 16 ? 11 : 13}>
-              {name} · {label}
+              {jp} · {label}
             </Text>
           )}
           <Text style={!!nameCn && _.mt.xs} size={nameCn.length > 16 ? 16 : 20}>
-            {nameCn || name}
+            {cn}
           </Text>
         </View>
         <Flex>

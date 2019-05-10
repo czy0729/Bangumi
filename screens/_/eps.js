@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-07 18:15:53
+ * @Last Modified time: 2019-05-10 16:37:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -98,6 +98,14 @@ export default class Eps extends React.Component {
     const { numbersOfLine, userProgress } = this.props
     const { width, margin } = this.style
     const isSide = num % numbersOfLine === 0
+    const popoverProps = IOS
+      ? {
+          overlay: this.renderOverlay(item)
+        }
+      : {
+          data: this.getPopoverData(item),
+          onSelect: value => this.onSelect(value, item)
+        }
     return (
       <Popover
         key={item.id}
@@ -105,9 +113,7 @@ export default class Eps extends React.Component {
           marginRight: isSide ? 0 : margin,
           marginBottom: margin
         }}
-        overlay={this.renderOverlay(item)} // iOS用
-        data={this.getPopoverData(item)} // 安卓用
-        onSelect={value => this.onSelect(value, item)} // 安卓用
+        {...popoverProps}
       >
         <Button
           type={getType(userProgress[item.id], item.status)}
@@ -117,7 +123,7 @@ export default class Eps extends React.Component {
             height: width
           }}
         >
-          {pad(item.sort)}
+          {item.sort}
         </Button>
       </Popover>
     )

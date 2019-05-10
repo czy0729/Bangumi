@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 02:44:30
+ * @Last Modified time: 2019-05-10 14:57:42
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -17,9 +17,8 @@ const Item = (
   { $, navigation }
 ) => {
   const isTop = index === 0
-  const match = href.match(/\/(\d+)/)
-  const id = match && match[1]
-  const { _loaded } = $.topic(id)
+  const topicId = href.replace('/rakuen/topic/', '')
+  const { _loaded } = $.comments(topicId)
   return (
     <Touchable
       style={[styles.container, _loaded && styles.readed, style]}

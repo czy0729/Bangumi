@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 05:44:26
+ * @Last Modified time: 2019-05-10 17:05:41
  */
 import React from 'react'
 import {
@@ -15,8 +15,8 @@ import {
 } from 'react-native'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { LIST_EMPTY } from '@constants'
-import { sleep } from '@utils'
-import { window, colorSub } from '@styles'
+import { sleep, date, simpleTime } from '@utils'
+import _ from '@styles'
 import Text from './text'
 
 const RefreshState = {
@@ -222,11 +222,11 @@ export default class ListView extends React.Component {
       refreshControl: (
         <RefreshControl
           title={
-            typeof data._loaded === 'string'
-              ? `上次刷新时间: ${data._loaded}`
+            data._loaded
+              ? `上次刷新时间: ${simpleTime(date(data._loaded))}`
               : undefined
           }
-          titleColor={colorSub}
+          titleColor={_.colorSub}
           progressViewOffset={progressViewOffset}
           refreshing={refreshState === RefreshState.HeaderRefreshing}
           onRefresh={this.onHeaderRefresh}
@@ -267,7 +267,7 @@ export default class ListView extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: window.height * 0.24
+    minHeight: _.window.height * 0.24
   },
   footerContainer: {
     flex: 1,
@@ -279,6 +279,6 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 14,
-    color: colorSub
+    color: _.colorSub
   }
 })

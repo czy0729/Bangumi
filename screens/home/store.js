@@ -4,13 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 02:29:16
+ * @Last Modified time: 2019-05-10 17:53:35
  */
 import { observable, computed } from 'mobx'
-import { WebBrowser } from 'expo'
 import { userStore, subjectStore, collectionStore } from '@stores'
 import { MODEL_EP_STATUS } from '@constants/model'
 import { sleep } from '@utils'
+import { appNavigate } from '@utils/app'
 import store from '@utils/store'
 
 export const tabs = [
@@ -55,29 +55,28 @@ export default class ScreenHome extends store {
         ...state,
         _loaded: true
       })
-
       this.initFetch()
     }
     return res
   }
 
   initFetch = async refresh => {
-    let res = Promise.all([
+    const res = Promise.all([
       userStore.fetchUserCollection(),
       userStore.fetchUserProgress()
     ])
     const data = await res
 
     if (data[0]) {
-      // @issue 由于Bangumi没提供一次性查询多个章节信息的API
-      // 暂时只能每一项都发一次请求
+      // @issue 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
       const list = this.sortList(data[0])
       for (const item of list) {
         const { subject_id: subjectId } = item
         const { _loaded } = this.subjectEp(subjectId)
+
+        // 被动请求
         if (refresh || !_loaded) {
-          res = subjectStore.fetchSubjectEp(subjectId)
-          await res
+          await subjectStore.fetchSubjectEp(subjectId)
           await sleep()
         }
       }
@@ -93,7 +92,6 @@ export default class ScreenHome extends store {
     return computed(() => this.state.item[subjectId] || initItem).get()
   }
 
-  // 用户 -> 收藏 -> 条目 -> 章节
   /**
    * 用户是否登录
    */
@@ -201,15 +199,24 @@ export default class ScreenHome extends store {
     if (page === this.state.page) {
       return
     }
+
     this.setState({
       page
     })
+    // @issue onTabClick与onChange在用受控模式的时候有冲突, 暂时这样解决
+    setTimeout(() => {
+      this.setState({
+        _page: page
+      })
+    }, 400)
     this.setStorage()
   }
+
   onChange = (item, page) => {
     if (page === this.state.page) {
       return
     }
+
     this.setState({
       page,
       _page: page
@@ -348,7 +355,7 @@ export default class ScreenHome extends store {
   /**
    * 章节菜单操作
    */
-  doEpsSelect = async (value, item, subjectId) => {
+  doEpsSelect = async (value, item, subjectId, navigation) => {
     const status = MODEL_EP_STATUS.getValue(value)
     if (status) {
       // 更新收视进度
@@ -371,7 +378,7 @@ export default class ScreenHome extends store {
     }
 
     if (value === '本集讨论') {
-      WebBrowser.openBrowserAsync(item.url)
+      appNavigate(item.url, navigation)
     }
   }
 }

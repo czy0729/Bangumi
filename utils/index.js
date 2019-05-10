@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 22:30:47
+ * @Last Modified time: 2019-05-10 17:05:15
  */
 import { AsyncStorage } from 'react-native'
 
@@ -331,7 +331,7 @@ export function simpleTime(time = '') {
     .filter((item, index) => (index === 0 ? item != _y : true))
     .map(item => parseInt(item))
     .join('-')
-  const hi = date('h:i', _time)
+  const hi = date('H:i', _time)
   return `${ymd} ${hi}`
 }
 

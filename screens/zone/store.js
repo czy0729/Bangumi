@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 20:15:49
+ * @Last Modified time: 2019-05-10 14:54:36
  */
 import { observable, computed } from 'mobx'
 import { userStore, timelineStore } from '@stores'
@@ -101,7 +101,6 @@ export default class Store extends store {
         _page: page
       })
     }, 400)
-
     this.tabChangeCallback(page)
   }
 
@@ -114,7 +113,6 @@ export default class Store extends store {
       page,
       _page: page
     })
-
     this.tabChangeCallback(page)
   }
 
