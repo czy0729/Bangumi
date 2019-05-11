@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-10 15:56:21
+ * @Last Modified time: 2019-05-11 21:22:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import _ from '@styles'
 
-const Character = ({ style }, { $ }) => {
+const Character = ({ style }, { $, navigation }) => {
   const { crt = [] } = $.subject
   if (!crt.length) {
     return null
@@ -35,13 +35,22 @@ const Character = ({ style }, { $ }) => {
   return (
     <View style={style}>
       <SectionTitle style={_.container.wind}>角色</SectionTitle>
-      <HorizontalList style={_.mt.sm} data={data} />
+      <HorizontalList
+        style={_.mt.sm}
+        data={data}
+        onPress={id =>
+          navigation.push('Mono', {
+            monoId: `character/${id}`
+          })
+        }
+      />
     </View>
   )
 }
 
 Character.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(Character)

@@ -1,10 +1,13 @@
 {
   "expo": {
     "name": "Bangumi番组计划",
-    "slug": "new-bangumi",
+    "slug": "bangumi",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,9 +19,13 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "A React Native App for https://bangumi.tv . Developing with Expo",
+    "githubUrl": "https://github.com/czy0729/Bangumi"
   }
 }

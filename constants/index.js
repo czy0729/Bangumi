@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 00:31:49
+ * @Last Modified time: 2019-05-11 20:35:01
  */
 import { Platform } from 'react-native'
 
@@ -48,3 +48,4 @@ export const LIST_EMPTY = {
   _loaded: false
 }
 export const LIST_LIMIT = 20
+export const LIST_LIMIT_COMMENTS = 8

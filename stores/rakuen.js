@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 16:58:01
+ * @Last Modified time: 2019-05-11 21:00:45
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -334,73 +334,91 @@ async function _fetchTopic({ topicId = 0 }) {
   const commentHTML = HTML.match(
     /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><div style="margin-top/
   )
-  const comments = []
-  if (commentHTML) {
-    // 回复内容需要渲染html就不能使用node查找了, 而且子回复也在里面
-    const messageHTML = commentHTML[1]
-      .match(/<div class="reply_content">(.+?)<\/div><\/div><\/div><\/div>/g)
-      .map(item => item.replace(/^<div class="reply_content">|<\/div>$/g, ''))
-
-    const tree = HTMLToTree(commentHTML[1])
-    tree.children.forEach((item, index) => {
-      // @todo 暂时只显示前100楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
-      if (index >= 100) {
-        return
-      }
-
-      const sub = [] // 存放子回复
-      const subHTML = messageHTML[index].match(
-        /<div class="topic_sub_reply" id="topic_reply_\d+">(.+?)$/
-      )
-      if (subHTML) {
-        const subMessageHTML = subHTML[1]
-          .match(/<div id="post_\d+"(.+?)<\/div><\/div><\/div>/g)
-          .map(item =>
-            item.replace(
-              /<div id="post_\d+" class="sub_reply_bgclearit">|<\/div>$/g,
-              ''
-            )
-          )
-
-        const subTree = HTMLToTree(subHTML[1])
-        subTree.children.forEach((item, index) => {
-          // 子楼层回复内容
-          if (subMessageHTML[index]) {
-            const message = subMessageHTML[index].match(
-              /<div class="cmt_sub_content">(.+?)<\/div><\/div>/
-            )[1]
-            // log(message)
-            sub.push({
-              ...getCommentAttrs(item),
-              message
-            })
-          }
-        })
-      }
-
-      // 楼层回复内容
-      let message
-      if (sub.length) {
-        message = messageHTML[index].match(
-          /<div class="message.*">(.+?)<\/div><div class="topic_sub_reply"/
-        )[1]
-      } else {
-        message = messageHTML[index].match(
-          /<div class="message.*">(.+?)<\/div><\/div>/
-        )[1]
-      }
-      comments.push({
-        ...getCommentAttrs(item),
-        message,
-        sub
-      })
-    })
-  }
+  const comments = analysisComments(commentHTML)
 
   return Promise.resolve({
     topic,
     comments
   })
+}
+
+/**
+ * 分析留言层信息
+ * @param {*} commentHTML
+ */
+export function analysisComments(commentHTML) {
+  const comments = []
+  if (!commentHTML) {
+    return comments
+  }
+
+  // 回复内容需要渲染html就不能使用node查找了, 而且子回复也在里面
+  const messageHTML = commentHTML[1]
+    .match(/<div class="reply_content">(.+?)<\/div><\/div><\/div><\/div>/g)
+    .map(item => item.replace(/^<div class="reply_content">|<\/div>$/g, ''))
+
+  const tree = HTMLToTree(commentHTML[1])
+  tree.children.forEach((item, index) => {
+    // @todo 暂时只显示前100楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
+    if (index >= 100) {
+      return
+    }
+
+    const sub = [] // 存放子回复
+    const subHTML =
+      messageHTML[index] &&
+      messageHTML[index].match(
+        /<div class="topic_sub_reply" id="topic_reply_\d+">(.+?)$/
+      )
+    if (subHTML) {
+      const subMessageHTML = subHTML[1]
+        .match(/<div id="post_\d+"(.+?)<\/div><\/div><\/div>/g)
+        .map(item =>
+          item.replace(
+            /<div id="post_\d+" class="sub_reply_bgclearit">|<\/div>$/g,
+            ''
+          )
+        )
+
+      const subTree = HTMLToTree(subHTML[1])
+      subTree.children.forEach((item, index) => {
+        // 子楼层回复内容
+        if (subMessageHTML[index]) {
+          const message = subMessageHTML[index].match(
+            /<div class="cmt_sub_content">(.+?)<\/div><\/div>/
+          )[1]
+          // log(message)
+          sub.push({
+            ...getCommentAttrs(item),
+            message
+          })
+        }
+      })
+    }
+
+    // 楼层回复内容
+    let message
+    if (sub.length) {
+      message =
+        messageHTML[index] &&
+        messageHTML[index].match(
+          /<div class="message.*">(.+?)<\/div><div class="topic_sub_reply"/
+        )[1]
+    } else {
+      message =
+        messageHTML[index] &&
+        messageHTML[index].match(
+          /<div class="message.*">(.+?)<\/div><\/div>/
+        )[1]
+    }
+    comments.push({
+      ...getCommentAttrs(item),
+      message,
+      sub
+    })
+  })
+
+  return comments
 }
 
 /**

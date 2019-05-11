@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-10 15:56:40
+ * @Last Modified time: 2019-05-11 21:22:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import _ from '@styles'
 
-const Staff = ({ style }, { $ }) => {
+const Staff = ({ style }, { $, navigation }) => {
   const { staff = [] } = $.subject
   if (!staff.length) {
     return null
@@ -28,13 +28,22 @@ const Staff = ({ style }, { $ }) => {
   return (
     <View style={style}>
       <SectionTitle style={_.container.wind}>制作人员</SectionTitle>
-      <HorizontalList style={_.mt.sm} data={data} />
+      <HorizontalList
+        style={_.mt.sm}
+        data={data}
+        onPress={id =>
+          navigation.push('Mono', {
+            monoId: `person/${id}`
+          })
+        }
+      />
     </View>
   )
 }
 
 Staff.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(Staff)

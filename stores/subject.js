@@ -4,16 +4,17 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 16:58:19
+ * @Last Modified time: 2019-05-11 21:14:03
  */
 import { observable, computed } from 'mobx'
-import { HOST, LIST_EMPTY } from '@constants'
+import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
-import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS } from '@constants/html'
+import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_MONO } from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
+import { analysisComments } from './rakuen'
 
 const initSubjectItem = {
   air_date: '',
@@ -50,20 +51,44 @@ const initSubjectFormHTMLItem = {
   typeNum: '', // eg. 291人想看 / 21人看过 / 744人在看 / 49人搁置 / 83人抛弃
   _loaded: false
 }
+const initMono = {
+  name: '',
+  nameCn: '',
+  cover: '', // 封面
+  info: '', // 简介
+  detail: ''
+}
 
 class Subject extends store {
   state = observable({
+    // 条目
     subject: {
       // [subjectId]: initSubjectItem
     },
+
+    // 条目HTML
     subjectFormHTML: {
       // [subjectId]: initSubjectFormHTMLItem
     },
+
+    // 条目章节
     subjectEp: {
       // [subjectId]: {}
     },
-    subjectCommentsFormHTML: {
+
+    // 条目吐槽箱
+    subjectComments: {
       // [subjectId]: LIST_EMPTY
+    },
+
+    // 人物
+    mono: {
+      // [monoId]: initMono
+    },
+
+    // 人物吐槽箱
+    monoComments: {
+      // [monoId]: LIST_EMPTY | initMonoCommentsItem
     }
   })
 
@@ -72,14 +97,18 @@ class Subject extends store {
       this.getStorage('subject'),
       this.getStorage('subjectFormHTML'),
       this.getStorage('subjectEp'),
-      this.getStorage('subjectCommentsFormHTML')
+      this.getStorage('subjectComments'),
+      this.getStorage('mono'),
+      this.getStorage('monoComments')
     ])
     const state = await res
     this.setState({
       subject: state[0],
       subjectFormHTML: state[1],
       subjectEp: state[2],
-      subjectCommentsFormHTML: state[3]
+      subjectComments: state[3],
+      mono: state[4],
+      monoComments: state[5]
     })
 
     return res
@@ -118,10 +147,26 @@ class Subject extends store {
    * 取条目吐槽
    * @param {*} subjectId
    */
-  subjectCommentsFormHTML(subjectId) {
+  subjectComments(subjectId) {
     return computed(
-      () => this.state.subjectCommentsFormHTML[subjectId] || LIST_EMPTY
+      () => this.state.subjectComments[subjectId] || LIST_EMPTY
     ).get()
+  }
+
+  /**
+   * 取人物信息
+   * @param {*} monoId
+   */
+  mono(monoId) {
+    return computed(() => this.state.mono[monoId] || initMono).get()
+  }
+
+  /**
+   * 取人物信息吐槽
+   * @param {*} monoId
+   */
+  monoComments(monoId) {
+    return computed(() => this.state.monoComments[monoId] || LIST_EMPTY).get()
   }
 
   // -------------------- fetch --------------------
@@ -270,8 +315,8 @@ class Subject extends store {
    * @param {*} subjectId
    * @param {*} refresh 是否重新获取
    */
-  async fetchSubjectCommentsFormHTML({ subjectId }, refresh) {
-    const { list, pagination } = this.subjectCommentsFormHTML(subjectId)
+  async fetchSubjectComments({ subjectId }, refresh) {
+    const { list, pagination } = this.subjectComments(subjectId)
 
     // 计算下一页的页码
     let page
@@ -344,7 +389,7 @@ class Subject extends store {
     }
 
     // -------------------- 缓存 --------------------
-    const key = 'subjectCommentsFormHTML'
+    const key = 'subjectComments'
     this.setState({
       [key]: {
         [subjectId]: {
@@ -361,6 +406,126 @@ class Subject extends store {
 
     return res
   }
+
+  /**
+   * 人物信息和吐槽箱
+   * 为了提高体验, 吐槽箱做模拟分页加载效果, 逻辑与超展开回复一致
+   * @param {*} monoId
+   */
+  async fetchMono({ monoId }, refresh) {
+    let res
+    const monoKey = 'mono'
+    const commentsKey = 'monoComments'
+    const stateKey = monoId
+
+    if (refresh) {
+      // 重新请求
+      res = _fetchMono({ monoId })
+      const { mono, monoComments } = await res
+      const _loaded = getTimestamp()
+
+      // 缓存人物信息
+      this.setState({
+        [monoKey]: {
+          [stateKey]: {
+            ...mono,
+            _loaded
+          }
+        }
+      })
+      this.setStorage(monoKey)
+
+      // 缓存吐槽箱
+      this.setState({
+        [commentsKey]: {
+          [stateKey]: {
+            list: monoComments.slice(0, LIST_LIMIT_COMMENTS),
+            pagination: {
+              page: 1,
+              pageTotal: Math.ceil(monoComments.length / LIST_LIMIT_COMMENTS)
+            },
+            _list: monoComments,
+            _loaded
+          }
+        }
+      })
+      this.setStorage(commentsKey)
+    } else {
+      // 加载下一页留言
+      const monoComments = this.monoComments(monoId)
+      const page = monoComments.pagination.page + 1
+      this.setState({
+        [commentsKey]: {
+          [stateKey]: {
+            ...monoComments,
+            list: monoComments._list.slice(0, LIST_LIMIT_COMMENTS * page),
+            pagination: {
+              ...monoComments.pagination,
+              page
+            }
+          }
+        }
+      })
+      this.setStorage(commentsKey)
+    }
+
+    return res
+  }
 }
 
 export default new Subject()
+
+async function _fetchMono({ monoId = 0 }) {
+  // -------------------- 请求HTML --------------------
+  const raw = await fetchHTML({
+    url: `!${HTML_MONO(monoId)}`
+  })
+  const HTML = HTMLTrim(raw)
+
+  // -------------------- 分析内容 --------------------
+  let node
+
+  // 人物信息
+  const mono = {
+    ...initMono
+  }
+  let monoComments = [] // 人物吐槽箱
+
+  if (HTML) {
+    const titleHTML = HTML.match(/<h1 class="nameSingle">(.+?)<\/h1>/)
+    if (titleHTML) {
+      const tree = HTMLToTree(titleHTML[1])
+      node = findTreeNode(tree.children, 'a|text&title')
+      if (node) {
+        mono.name = node[0].text[0]
+        mono.nameCn = node[0].attrs.title
+      }
+    }
+
+    const coverHTML = HTML.match(/<img src="(.+?)" class="cover" \/>/)
+    if (coverHTML) {
+      mono.cover = coverHTML[1]
+    }
+
+    const infoHTML = HTML.match(/<ul id="infobox">(.+?)<\/ul>/)
+    if (infoHTML) {
+      mono.info = infoHTML[1]
+    }
+
+    const detailHTML = HTML.match(/<div class="detail">(.+?)<\/div>/)
+    if (detailHTML) {
+      mono.detail = detailHTML[1]
+    }
+
+    // 吐槽箱
+    const commentHTML = HTML.match(
+      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><\/div><\/div><div/
+    )
+    monoComments = analysisComments(commentHTML)
+  }
+
+  return Promise.resolve({
+    mono,
+    monoComments
+  })
+}

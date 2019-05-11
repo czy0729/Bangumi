@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 22:22:53
+ * @Last Modified time: 2019-05-11 03:16:40
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image } from '@components'
 import { appNavigate } from '@utils/app'
@@ -133,20 +133,30 @@ class TimelineItem extends React.Component {
       return null
     }
 
+    const images = image.map((item, index) => (
+      <Image
+        key={item}
+        style={_.mr.sm}
+        src={item}
+        size={48}
+        radius
+        border={colorBorder}
+        onPress={() => this.appNavigate(p3.url[index])}
+      />
+    ))
+    if (image.length <= 5) {
+      return (
+        <Flex style={_.mt.sm} wrap='wrap'>
+          {images}
+        </Flex>
+      )
+    }
+
+    // 有一次性操作很多条目很多图片的情况, 水平滚动比较合适
     return (
-      <Flex style={_.mt.sm}>
-        {image.map((item, index) => (
-          <Image
-            key={item}
-            style={_.mr.sm}
-            src={item}
-            size={48}
-            radius
-            border={colorBorder}
-            onPress={() => this.appNavigate(p3.url[index])}
-          />
-        ))}
-      </Flex>
+      <ScrollView style={_.mt.sm} horizontal>
+        {images}
+      </ScrollView>
     )
   }
 

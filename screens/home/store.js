@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 17:53:35
+ * @Last Modified time: 2019-05-10 19:26:53
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -208,8 +208,8 @@ export default class ScreenHome extends store {
       this.setState({
         _page: page
       })
+      this.setStorage()
     }, 400)
-    this.setStorage()
   }
 
   onChange = (item, page) => {

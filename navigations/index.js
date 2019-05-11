@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 14:31:46
+ * @Last Modified time: 2019-05-10 19:37:35
  */
 import React from 'react'
 import { createAppContainer, createDrawerNavigator } from 'react-navigation'
-import { Image } from '@components'
 import { Login } from '@screens'
-import Drawer from '@screens/_/drawer'
-import { colorMain } from '@styles'
+import { Drawer, IconDrawer } from '@screens/_'
 import HomeStack from './stacks/home'
 import CalendarStack from './stacks/calendar'
 import UserStack from './stacks/user'
@@ -22,15 +20,7 @@ export default createAppContainer(
         navigationOptions: {
           drawerLabel: '主页',
           drawerIcon: ({ tintColor }) => (
-            <Image
-              size={20}
-              placeholder={false}
-              src={
-                tintColor === colorMain
-                  ? require('@assets/images/icon/home-active.png')
-                  : require('@assets/images/icon/home.png')
-              }
-            />
+            <IconDrawer name='star' color={tintColor} />
           )
         }
       },
@@ -39,15 +29,7 @@ export default createAppContainer(
         navigationOptions: {
           drawerLabel: '每日放送',
           drawerIcon: ({ tintColor }) => (
-            <Image
-              size={20}
-              placeholder={false}
-              src={
-                tintColor === colorMain
-                  ? require('@assets/images/icon/calendar-active.png')
-                  : require('@assets/images/icon/calendar.png')
-              }
-            />
+            <IconDrawer name='calendar' color={tintColor} />
           )
         }
       },
@@ -56,15 +38,7 @@ export default createAppContainer(
         navigationOptions: {
           drawerLabel: '时光机',
           drawerIcon: ({ tintColor }) => (
-            <Image
-              size={20}
-              placeholder={false}
-              src={
-                tintColor === colorMain
-                  ? require('@assets/images/icon/compass-active.png')
-                  : require('@assets/images/icon/compass.png')
-              }
-            />
+            <IconDrawer name='planet' color={tintColor} />
           )
         }
       },
@@ -73,15 +47,7 @@ export default createAppContainer(
         navigationOptions: {
           drawerLabel: '登陆',
           drawerIcon: ({ tintColor }) => (
-            <Image
-              size={20}
-              placeholder={false}
-              src={
-                tintColor === colorMain
-                  ? require('@assets/images/icon/compass-active.png')
-                  : require('@assets/images/icon/compass.png')
-              }
-            />
+            <IconDrawer name='planet' color={tintColor} />
           )
         }
       }

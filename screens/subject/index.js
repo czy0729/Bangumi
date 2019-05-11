@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 17:30:59
+ * @Last Modified time: 2019-05-11 03:08:14
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ import { BlurView, ListView } from '@components'
 import { ManageModal, CommentItem } from '@screens/_'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
-import _, { window, headerHeight, space, colorPlain } from '@styles'
+import _ from '@styles'
 import Header from './header'
 import Store from './store'
 
@@ -76,7 +76,7 @@ class Subject extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     const { onScroll } = this.props
     const { visible } = $.state
     const { name_cn: nameCn, name, images = {} } = $.subject
@@ -89,18 +89,20 @@ class Subject extends React.Component {
           style={_.container.flex}
           contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={item => String(item.id)}
-          data={$.subjectCommentsFormHTML}
+          data={$.subjectComments}
           scrollEventThrottle={32}
           refreshControlProps={{
-            tintColor: colorPlain,
-            titleColor: colorPlain
+            tintColor: _.colorPlain,
+            titleColor: _.colorPlain
           }}
           ListHeaderComponent={<Header />}
           renderItem={({ item, index }) => (
             <CommentItem
-              isTop={index === 0}
+              navigation={navigation}
+              index={index}
               time={item.time}
               avatar={item.avatar}
+              userId={item.userId}
               userName={item.userName}
               star={item.star}
               comment={item.comment}
@@ -108,7 +110,7 @@ class Subject extends React.Component {
           )}
           onScroll={onScroll}
           onHeaderRefresh={$.init}
-          onFooterRefresh={$.fetchSubjectCommentsFormHTML}
+          onFooterRefresh={$.fetchSubjectComments}
         />
         <ManageModal
           visible={visible}
@@ -129,10 +131,10 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: window.height * 0.5
+    height: _.window.height * 0.5
   },
   contentContainerStyle: {
-    paddingTop: headerHeight,
-    paddingBottom: space
+    paddingTop: _.headerHeight,
+    paddingBottom: _.space
   }
 })

@@ -3,32 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 18:50:13
+ * @Last Modified time: 2019-05-11 21:35:29
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
 import HTML from 'react-native-render-html'
 import { WebBrowser } from 'expo'
 import { HOST } from '@constants'
-import {
-  window,
-  wind,
-  sm,
-  colorPlain,
-  colorTitle,
-  colorSub,
-  colorMain,
-  colorPrimaryLight,
-  colorDesc,
-  colorBorder
-} from '@styles'
+import _ from '@styles'
 import Image from './image'
 
 // 一些超展开内容文本样式的标记
 const spanMark = {
   mask: 'background-color:#555;',
   bold: 'font-weight:bold;',
-  lineThrough: 'text-decoration: line-through;'
+  lineThrough: 'line-through;',
+  hidden: 'visibility:hidden;'
 }
 
 export default class RenderHtml extends React.Component {
@@ -36,9 +26,9 @@ export default class RenderHtml extends React.Component {
     baseFontStyle: {
       fontSize: 16,
       lineHeight: 26,
-      color: colorTitle
+      color: _.colorTitle
     },
-    imagesMaxWidth: window.width - 2 * wind,
+    imagesMaxWidth: _.window.width - 2 * _.wind,
     html: ''
   }
 
@@ -73,13 +63,13 @@ export default class RenderHtml extends React.Component {
    * 生成render-html配置
    */
   generateConfig = (imagesMaxWidth, baseFontStyle) => ({
-    imagesMaxWidth: window.width,
+    imagesMaxWidth: _.window.width,
     baseFontStyle,
     tagsStyles: {
       a: {
-        paddingRight: sm,
-        color: colorMain,
-        textDecorationColor: colorMain
+        paddingRight: _.sm,
+        color: _.colorMain,
+        textDecorationColor: _.colorMain
       }
     },
     textSelectable: true,
@@ -155,13 +145,14 @@ export default class RenderHtml extends React.Component {
           marginTop: 4
         }
         props.autoSize = imagesMaxWidth
-        props.border = colorBorder
+        props.border = _.colorBorder
         props.placeholder = false
         return <Image {...props} />
       },
       span: ({ style = '' }, children, convertedCSSStyles, passProps) => {
         // @todo 暂时没有对样式混合的情况作出正确的判断
-        // 隐藏字
+        // 防剧透字
+        console.log(style)
         if (style.indexOf(spanMark.mask) !== -1) {
           const text =
             (passProps.rawChildren[0] && passProps.rawChildren[0].data) || ''
@@ -190,10 +181,29 @@ export default class RenderHtml extends React.Component {
           )
         }
 
+        // 隐藏字
+        if (style.indexOf(spanMark.hidden) !== -1) {
+          const text =
+            (passProps.rawChildren[0] && passProps.rawChildren[0].data) || ''
+          return (
+            <Text
+              key={passProps.key}
+              style={[passProps.baseFontStyle, styles.hidden]}
+            >
+              {text}
+            </Text>
+          )
+        }
+
         return children
       },
       q: (attrs, children, convertedCSSStyles, passProps) => (
         <QuoteText key={passProps.key}>{children}</QuoteText>
+      ),
+      li: (attrs, children, convertedCSSStyles, passProps) => (
+        <View key={passProps.key} style={styles.li}>
+          {children}
+        </View>
       )
     }
   })
@@ -223,7 +233,7 @@ export default class RenderHtml extends React.Component {
     //     _html = _html.replace(item, `><span${item}/span><`)
     //   })
     // }
-
+console.log(html)
     return (
       <View style={style}>
         <HTML
@@ -290,29 +300,37 @@ class QuoteText extends React.Component {
 
 const styles = StyleSheet.create({
   blockText: {
-    color: colorDesc,
-    backgroundColor: colorDesc
+    color: _.colorDesc,
+    backgroundColor: _.colorDesc
   },
   blockTextShow: {
-    color: colorPlain,
-    backgroundColor: colorDesc
+    color: _.colorPlain,
+    backgroundColor: _.colorDesc
   },
   quoteTextPlaceholder: {
     paddingBottom: 8,
     marginTop: -8,
-    color: colorSub,
+    color: _.colorSub,
     textAlign: 'center'
   },
   quoteText: {
     paddingVertical: 4,
     paddingHorizontal: 12,
     marginBottom: 4,
-    backgroundColor: colorPrimaryLight,
+    backgroundColor: _.colorPrimaryLight,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colorBorder,
-    transform: [{ scale: 0.92 }]
+    borderColor: _.colorBorder,
+    transform: [{ scale: 0.96 }]
   },
   lineThrought: {
     textDecorationLine: 'line-through'
+  },
+  hidden: {
+    opacity: 0
+  },
+  li: {
+    paddingVertical: _.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: _.colorBg
   }
 })

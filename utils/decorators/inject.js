@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 17:25:50
+ * @Last Modified time: 2019-05-11 21:59:09
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { StatusBar } from '@screens/_'
 import Stores from '@stores'
 import { urlStringify } from '../index'
+import observer from './observer'
 
 /**
  * App HOC
@@ -71,7 +71,7 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
         return (
           <>
             <StatusBar />
-            <ComposedComponent {...this.props} />
+            <ComposedComponent />
           </>
         )
       }

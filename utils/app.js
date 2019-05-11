@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 18:45:41
+ * @Last Modified time: 2019-05-11 02:28:41
  */
 import { WebBrowser } from 'expo'
 import { HOST, HOST_NAME } from '@constants'
@@ -25,11 +25,22 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes(`http://${HOST_NAME}`)) {
     _url = _url.replace(`http://${HOST_NAME}`, HOST)
   }
-  console.log(_url)
+
+  log(_url)
 
   // 非本站
   if (!_url.includes(HOST)) {
     WebBrowser.openBrowserAsync(_url)
+    return
+  }
+
+  // 条目 > 讨论版
+  if (_url.includes('/subject/topic/')) {
+    const id = _url.replace(`${HOST}/subject/topic/`, '')
+    navigation.push('Topic', {
+      topicId: `subject/${id}`,
+      _url
+    })
     return
   }
 

@@ -3,19 +3,19 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 20:24:00
+ * @Last Modified time: 2019-05-11 18:43:32
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { HOST } from './index'
 
 /**
- * 获取条目HTML
+ * 条目
  * @param {*} *subjectId
  */
 export const HTML_SUBJECT = subjectId => `${HOST}/subject/${subjectId}`
 
 /**
- * 获取条目吐槽HTML
+ * 条目吐槽
  * @param {*} subjectId
  * @param {*} page
  */
@@ -23,7 +23,18 @@ export const HTML_SUBJECT_COMMENTS = (subjectId, page = 1) =>
   `${HOST}/subject/${subjectId}/comments?page=${page}`
 
 /**
- * 获取时间胶囊HTML (需登录)
+ * 人物
+ * @param {*} monoId character/1234, person/1234
+ */
+export const HTML_MONO = monoId => {
+  if (monoId.includes('character/') || monoId.includes('person/')) {
+    return `${HOST}/${monoId}`
+  }
+  return HOST
+}
+
+/**
+ * 时间胶囊 (需登录)
  * @param {*} scope
  * @param {*} type
  * @param {*} userId

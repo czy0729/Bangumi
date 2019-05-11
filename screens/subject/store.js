@@ -40,7 +40,7 @@ export default class Store extends store {
       () => collectionStore.fetchCollection(subjectId),
       () => userStore.fetchUserProgress(subjectId),
       () => subjectStore.fetchSubjectFormHTML(subjectId),
-      () => this.fetchSubjectCommentsFormHTML(true)
+      () => this.fetchSubjectComments(true)
     ])
     return res
   }
@@ -65,9 +65,9 @@ export default class Store extends store {
     return subjectStore.subjectEp(subjectId)
   }
 
-  @computed get subjectCommentsFormHTML() {
+  @computed get subjectComments() {
     const { subjectId } = this.params
-    return subjectStore.subjectCommentsFormHTML(subjectId)
+    return subjectStore.subjectComments(subjectId)
   }
 
   @computed get collection() {
@@ -81,9 +81,9 @@ export default class Store extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchSubjectCommentsFormHTML = refresh => {
+  fetchSubjectComments = refresh => {
     const { subjectId } = this.params
-    return subjectStore.fetchSubjectCommentsFormHTML({ subjectId }, refresh)
+    return subjectStore.fetchSubjectComments({ subjectId }, refresh)
   }
 
   // -------------------- page --------------------

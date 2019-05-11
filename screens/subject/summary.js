@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 19:41:28
+ * @Last Modified time: 2019-05-11 02:00:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ const Summary = ({ style }, { $ }) => {
   return (
     <View style={[_.container.wind, style]}>
       <SectionTitle>简介</SectionTitle>
-      <Expand maxHeight={148}>
+      <Expand maxHeight={154}>
         <Text style={_.mt.sm} size={15} lineHeight={22}>
           {summary}
         </Text>

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-24 23:49:38
+ * @Last Modified time: 2019-05-11 21:21:43
  */
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image, Text, Touchable } from '@components'
 import { IMG_DEFAULT } from '@constants'
-import _, { wind } from '@styles'
+import _ from '@styles'
 
-const HorizontalList = ({ style, data, width, height, onSelect }) => (
+const HorizontalList = ({ style, data, width, height, onPress }) => (
   <ScrollView
     style={style}
     contentContainerStyle={styles.contentContainerStyle}
@@ -26,7 +26,7 @@ const HorizontalList = ({ style, data, width, height, onSelect }) => (
           },
           index !== 0 && _.ml.md
         ]}
-        onPress={() => onSelect(item.id)}
+        onPress={() => onPress(item.id)}
       >
         <Image
           size={width}
@@ -51,7 +51,7 @@ HorizontalList.defaultProps = {
   data: [],
   width: 72,
   height: 72,
-  onSelect: () => {}
+  onPress: Function.prototype
 }
 
 export default observer(HorizontalList)
@@ -59,6 +59,6 @@ export default observer(HorizontalList)
 const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingVertical: 4,
-    paddingHorizontal: wind
+    paddingHorizontal: _.wind
   }
 })

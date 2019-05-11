@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 14:48:33
+ * @Last Modified time: 2019-05-11 02:40:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import {
   RenderHtml,
   Divider
 } from '@components'
+import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
 import { IOS } from '@constants'
 import _, { colorBorder } from '@styles'
@@ -39,25 +40,24 @@ const Top = (props, { $, navigation }) => {
         <Text type='title' size={20} bold>
           {title}
         </Text>
-        <Flex style={_.mt.sm}>
-          <Flex>
-            <Image size={16} src={groupThumb} radius border={colorBorder} />
-            <Text style={_.ml.sm} size={13} underline>
+        <Flex style={_.mt.sm} align='start'>
+          <Image size={16} src={groupThumb} radius border={colorBorder} />
+          <Text style={_.ml.sm}>
+            <Text size={13} underline numberOfLines={1}>
               {group}
             </Text>
-          </Flex>
-          {!!time && (
-            <>
-              <Text style={_.ml.sm} type='sub' size={13}>
-                /
-              </Text>
-              <Flex.Item style={_.ml.sm}>
-                <Text type='sub' size={13}>
-                  {time}
+            {!!time && (
+              <>
+                <Text style={_.ml.sm} type='sub' size={13}>
+                  {' '}
+                  /{' '}
                 </Text>
-              </Flex.Item>
-            </>
-          )}
+                <Text type='sub' size={13}>
+                  {simpleTime(time)}
+                </Text>
+              </>
+            )}
+          </Text>
         </Flex>
         {!!message && (
           <>

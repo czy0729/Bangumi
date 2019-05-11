@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-07 01:55:34
+ * @Last Modified time: 2019-05-11 21:58:47
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { observer } from 'mobx-react'
-import { Popover, Menu, Icon } from '@components'
+import PropTypes from 'prop-types'
+import { Popover, Menu, Iconfont } from '@components'
 import { StatusBar } from '@screens/_'
 import { gradientColor } from '@utils'
 import { IOS } from '@constants'
@@ -18,6 +18,7 @@ import {
   colorTitleRaw,
   colorBorder
 } from '@styles'
+import observer from './observer'
 
 /**
  * @param {*} headerTransition 过渡头高度
@@ -62,7 +63,7 @@ const withTransitionHeader = ({
                 />
               }
             >
-              <Icon size={32} name='ios-more' color={headerTintColor} />
+              <Iconfont size={24} name='more' color={headerTintColor} />
             </Popover>
           )
         }
@@ -76,6 +77,10 @@ const withTransitionHeader = ({
           headerRight,
           ...ComposedComponent.navigationOptions
         }
+      }
+
+      static contextTypes = {
+        navigation: PropTypes.object
       }
 
       state = {
@@ -97,7 +102,7 @@ const withTransitionHeader = ({
           return
         }
 
-        const { navigation } = this.props
+        const { navigation } = this.context
         let title = ''
         let opacity = y / (headerHeight + headerTransition)
         if (opacity < 0) {
@@ -156,10 +161,7 @@ const withTransitionHeader = ({
         return (
           <>
             <StatusBar barStyle={barStyle} />
-            <ComposedComponent
-              onScroll={this.headerTransitionCallback}
-              {...this.props}
-            />
+            <ComposedComponent onScroll={this.headerTransitionCallback} />
           </>
         )
       }

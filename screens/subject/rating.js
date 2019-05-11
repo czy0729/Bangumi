@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 15:48:20
+ * @Last Modified time: 2019-05-10 19:31:48
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -43,7 +43,7 @@ const getHeight = (total, current) => {
 
 const Ranting = ({ style }, { $ }) => {
   const { subjectId } = $.params
-  const { rating = initialRating, rank } = $.subject
+  const { rating = initialRating, rank = '-' } = $.subject
   const { friend = {} } = $.subjectFormHTML
   return (
     <View style={[_.container.wind, style]}>

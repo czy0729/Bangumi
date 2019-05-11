@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 19:45:47
+ * @Last Modified time: 2019-05-10 19:29:51
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
@@ -27,8 +27,10 @@ export default class Expand extends React.Component {
     const { height } = nativeEvent.layout
     if (height < maxHeight) {
       this.setState({
+        maxHeight: new Animated.Value(height),
         height,
-        layouted: true
+        layouted: true,
+        expand: true
       })
       return
     }
