@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 19:44:53
+ * @Last Modified time: 2019-05-12 20:47:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading } from '@components'
+import { Loading, Iconfont, Touchable } from '@components'
 import { SectionTitle } from '@screens/_'
-import _, { window, wind, colorPlain } from '@styles'
+import _ from '@styles'
 import Head from './head'
 import Box from './box'
 import Ep from './ep'
@@ -45,7 +45,16 @@ const Header = (props, { $ }) => {
             <Relations style={_.mt.lg} />
             <Blog style={_.mt.lg} />
             <Topic style={_.mt.lg} />
-            <SectionTitle style={[styles.title, _.mt.lg]}>吐槽</SectionTitle>
+            <SectionTitle
+              style={[styles.title, _.mt.lg]}
+              right={
+                <Touchable style={styles.sort}>
+                  <Iconfont name='sort' size={16} />
+                </Touchable>
+              }
+            >
+              吐槽箱
+            </SectionTitle>
           </>
         ) : (
           <Loading />
@@ -63,10 +72,13 @@ export default observer(Header)
 
 const styles = StyleSheet.create({
   content: {
-    minHeight: window.height * 0.5,
-    backgroundColor: colorPlain
+    minHeight: _.window.height * 0.5,
+    backgroundColor: _.colorPlain
   },
   title: {
-    paddingLeft: wind
+    paddingHorizontal: _.wind
+  },
+  sort: {
+    padding: _.sm
   }
 })

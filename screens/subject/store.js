@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 05:47:06
+ * @Last Modified time: 2019-05-13 04:38:02
  */
 import { observable, computed } from 'mobx'
 import { WebBrowser } from 'expo'
@@ -15,10 +15,12 @@ import store from '@utils/store'
 export default class Store extends store {
   state = observable({
     visible: false,
+    reverse: false,
     bangumiInfo: {
       sites: [], // 动画在线地址
       type: '' // 动画类型
-    }
+    },
+    _loaded: false
   })
 
   init = async () => {
@@ -43,6 +45,12 @@ export default class Store extends store {
       () => this.fetchSubjectComments(true)
     ])
     return res
+  }
+
+  // -------------------- fetch --------------------
+  fetchSubjectComments = refresh => {
+    const { subjectId } = this.params
+    return subjectStore.fetchSubjectComments({ subjectId }, refresh)
   }
 
   // -------------------- get --------------------
@@ -80,12 +88,6 @@ export default class Store extends store {
     return userStore.userProgress(subjectId)
   }
 
-  // -------------------- fetch --------------------
-  fetchSubjectComments = refresh => {
-    const { subjectId } = this.params
-    return subjectStore.fetchSubjectComments({ subjectId }, refresh)
-  }
-
   // -------------------- page --------------------
   showManageModel = () => {
     this.setState({
@@ -98,6 +100,8 @@ export default class Store extends store {
       visible: false
     })
   }
+
+  sortComments = (reverse = true) => {}
 
   // -------------------- action --------------------
   /**

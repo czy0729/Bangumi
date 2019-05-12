@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:35:29
+ * @Last Modified time: 2019-05-12 04:06:50
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -152,8 +152,7 @@ export default class RenderHtml extends React.Component {
       span: ({ style = '' }, children, convertedCSSStyles, passProps) => {
         // @todo 暂时没有对样式混合的情况作出正确的判断
         // 防剧透字
-        console.log(style)
-        if (style.indexOf(spanMark.mask) !== -1) {
+        if (style.includes(spanMark.mask)) {
           const text =
             (passProps.rawChildren[0] && passProps.rawChildren[0].data) || ''
           return (
@@ -164,7 +163,7 @@ export default class RenderHtml extends React.Component {
         }
 
         // 删除字
-        if (style.indexOf(spanMark.lineThrough) !== -1) {
+        if (style.includes(spanMark.lineThrough)) {
           const text =
             (passProps.rawChildren[0] &&
               passProps.rawChildren[0].parent &&
@@ -182,7 +181,7 @@ export default class RenderHtml extends React.Component {
         }
 
         // 隐藏字
-        if (style.indexOf(spanMark.hidden) !== -1) {
+        if (style.includes(spanMark.hidden)) {
           const text =
             (passProps.rawChildren[0] && passProps.rawChildren[0].data) || ''
           return (
@@ -233,7 +232,7 @@ export default class RenderHtml extends React.Component {
     //     _html = _html.replace(item, `><span${item}/span><`)
     //   })
     // }
-console.log(html)
+
     return (
       <View style={style}>
         <HTML

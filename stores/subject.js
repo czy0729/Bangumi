@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:14:03
+ * @Last Modified time: 2019-05-13 04:38:07
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
@@ -314,8 +314,9 @@ class Subject extends store {
    * 分析网页获取留言 (高流量, 30k左右1次)
    * @param {*} subjectId
    * @param {*} refresh 是否重新获取
+   * @param {*} reverse 是否倒序
    */
-  async fetchSubjectComments({ subjectId }, refresh) {
+  async fetchSubjectComments({ subjectId }, refresh, reverse = false) {
     const { list, pagination } = this.subjectComments(subjectId)
 
     // 计算下一页的页码

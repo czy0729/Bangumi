@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:00:45
+ * @Last Modified time: 2019-05-12 04:17:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -387,7 +387,6 @@ export function analysisComments(commentHTML) {
           const message = subMessageHTML[index].match(
             /<div class="cmt_sub_content">(.+?)<\/div><\/div>/
           )[1]
-          // log(message)
           sub.push({
             ...getCommentAttrs(item),
             message
@@ -399,17 +398,20 @@ export function analysisComments(commentHTML) {
     // 楼层回复内容
     let message
     if (sub.length) {
+      // 某些界面class="message clearit"不一致, 抹平差异
       message =
         messageHTML[index] &&
-        messageHTML[index].match(
-          /<div class="message.*">(.+?)<\/div><div class="topic_sub_reply"/
-        )[1]
+        messageHTML[index]
+          .replace('class="message clearit"', 'class="message"')
+          .match(
+            /<div class="message.*">(.+?)<\/div><div class="topic_sub_reply"/
+          )[1]
     } else {
       message =
         messageHTML[index] &&
-        messageHTML[index].match(
-          /<div class="message.*">(.+?)<\/div><\/div>/
-        )[1]
+        messageHTML[index]
+          .replace('class="message clearit"', 'class="message"')
+          .match(/<div class="message">(.+?)<\/div><\/div>/)[1]
     }
     comments.push({
       ...getCommentAttrs(item),
