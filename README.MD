@@ -14,11 +14,13 @@
 
 #### 条目
 
-<img src="./preview/subject_1.png" width="280" alt="subject_1" style="vertical-align: top" /> <img src="./preview/subject_2.png" width="280" alt="subject_2" style="vertical-align: top" /> <img src="./preview/subject_3.png" width="280" alt="subject_3" style="vertical-align: top" />
+<img src="./preview/subject_2.png" width="280" alt="subject_2" /> <img src="./preview/subject_1.png" width="280" alt="subject_1" />
+
+<img src="./preview/subject_3.png" width="280" alt="subject_3" />
 
 #### 人物
 
-<img src="./preview/mono_1.png" width="280" alt="mono_1" style="vertical-align: top" /> <img src="./preview/mono_2.png" width="280" alt="mono_2" style="vertical-align: top" />
+<img src="./preview/mono_1.png" width="280" alt="mono_1" /> <img src="./preview/mono_2.png" width="280" alt="mono_2" />
 
 #### 时间胶囊
 
@@ -26,7 +28,9 @@
 
 #### 超展开
 
-<img src="./preview/rakuen_1.png" width="280" alt="rakuen_1" style="vertical-align: top" /> <img src="./preview/topic_1.png" width="280" alt="topic_1" style="vertical-align: top" /> <img src="./preview/topic_2.png" width="280" alt="topic_2" style="vertical-align: top" />
+<img src="./preview/rakuen_1.png" width="280" alt="rakuen_1" /> <img src="./preview/topic_1.png" width="280" alt="topic_1" />
+
+<img src="./preview/topic_2.png" width="280" alt="topic_2" />
 
 #### 用户空间
 
