@@ -4,5 +4,8 @@
 
 ---
 
-| ![home_1](./preview/home_1.png) | ![login](./preview/login.png) | |
-| -------------------------- | -------------------------- | -------------------------- | ![home_2](./preview/home_2.png) | ![home_3](./preview/home_3.png) | ![home_4](./preview/home_4.png) |
+<img src="./preview/home_1.png" width="300" alt="home_1" />
+<img src="./preview/login.png" width="300" alt="login" />
+<img src="./preview/home_2.png" width="300" alt="home_2" />
+<img src="./preview/home_3.png" width="300" alt="home_3" />
+<img src="./preview/home_4.png" width="300" alt="home_4" />
