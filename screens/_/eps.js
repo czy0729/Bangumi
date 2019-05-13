@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 16:37:06
+ * @Last Modified time: 2019-05-13 21:34:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,8 +10,8 @@ import { Carousel } from '@ant-design/react-native'
 import { Flex, Popover, Menu, Button, Text } from '@components'
 import { IOS } from '@constants'
 import { MODEL_EP_TYPE } from '@constants/model'
-import { arrGroup, pad } from '@utils'
-import { colorPlain, colorDesc, colorSub } from '@styles'
+import { arrGroup } from '@utils'
+import _ from '@styles'
 
 export default class Eps extends React.Component {
   static defaultProps = {
@@ -196,8 +196,8 @@ export default class Eps extends React.Component {
         infinite
       >
         {epsGroup
-          // @todo 暂时只取前10页
-          .filter((item, index) => index < 10)
+          // @todo 渲染过多会卡顿, 暂时只取前5页
+          .filter((item, index) => index < 5)
           .map((eps, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <View key={index}>{this.renderNormal(eps)}</View>
@@ -209,19 +209,27 @@ export default class Eps extends React.Component {
   render() {
     const { numbersOfLine, advance, eps = [] } = this.props
     let _eps = eps
+    let hasSp = false // 是否有SP
     if (!advance) {
-      _eps = _eps.filter(item => MODEL_EP_TYPE.getLabel(item.type) !== '普通')
+      _eps = _eps.filter(item => {
+        const isNormal = MODEL_EP_TYPE.getLabel(item.type) !== '普通'
+        if (!isNormal) {
+          hasSp = true
+        }
+        return isNormal
+      })
     }
     _eps = _eps
       // 保证SP排在普通章节后面
       .sort((a, b) => {
-        const normalA = MODEL_EP_TYPE.getLabel(a.type) === '普通' ? 1 : 0
-        const normalB = MODEL_EP_TYPE.getLabel(b.type) === '普通' ? 1 : 0
-        return normalA - normalB
+        const sortA = MODEL_EP_TYPE.getLabel(a.type) === '普通' ? 1 : 0
+        const sortB = MODEL_EP_TYPE.getLabel(b.type) === '普通' ? 1 : 0
+        return sortA - sortB
       })
 
-    // SP可能会占用一格, 所以减1避免换行
-    const pages = arrGroup(_eps, numbersOfLine * 4 - 1)
+    // SP可能会占用一格, 若eps当中存在sp, 每组要减1项避免换行
+    const arrNum = numbersOfLine * 4 - (hasSp ? 1 : 0)
+    const pages = arrGroup(_eps, arrNum)
     if (!pages.length) {
       return null
     }
@@ -259,20 +267,20 @@ export default class Eps extends React.Component {
 
 const styles = StyleSheet.create({
   carousel: {
-    height: 200
+    height: 224
   },
   dotStyle: {
-    backgroundColor: colorPlain,
+    backgroundColor: _.colorPlain,
     borderWidth: 1,
-    borderColor: colorDesc
+    borderColor: _.colorDesc
   },
   dotActiveStyle: {
-    backgroundColor: colorDesc
+    backgroundColor: _.colorDesc
   },
   sp: {
     marginTop: 2,
     borderLeftWidth: 2,
-    borderColor: colorSub
+    borderColor: _.colorSub
   }
 })
 

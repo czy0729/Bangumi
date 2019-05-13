@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 17:52:54
+ * @Last Modified time: 2019-05-13 12:12:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -72,7 +72,10 @@ class Item extends React.Component {
 
     const { doing } = $.$Item(subjectId)
     return (
-      <Touchable onPress={() => $.doWatchedNextEp(subjectId)}>
+      <Touchable
+        style={styles.touchable}
+        onPress={() => $.doWatchedNextEp(subjectId)}
+      >
         <Flex justify='center'>
           <Iconfont style={styles.icon} name='check' size={16} />
           <View style={[styles.placeholder, _.ml.sm]}>
@@ -97,12 +100,15 @@ class Item extends React.Component {
     return (
       <Flex>
         {this.renderBtnNextEp()}
-        <Touchable style={_.ml.md} onPress={() => $.showManageModal(subjectId)}>
+        <Touchable
+          style={[styles.touchable, _.ml.sm]}
+          onPress={() => $.showManageModal(subjectId)}
+        >
           <Iconfont name='star' size={16} />
         </Touchable>
         {!isBook && (
           <Touchable
-            style={_.ml.md}
+            style={[styles.touchable, _.ml.sm]}
             onPress={() => $.itemToggleExpand(subjectId)}
           >
             <Iconfont
@@ -152,7 +158,7 @@ class Item extends React.Component {
                   )}
                 </Flex>
               </Touchable>
-              <View style={_.mt.sm}>
+              <View>
                 <Flex>
                   <Flex.Item>
                     {!expand && (
@@ -224,7 +230,6 @@ const styles = StyleSheet.create({
     marginBottom: -1
   },
   progress: {
-    marginTop: 6,
     backgroundColor: _.colorBg
   },
   bar: {
@@ -241,5 +246,8 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
     borderRightColor: 'transparent',
     transform: [{ rotate: '-45deg' }]
+  },
+  touchable: {
+    padding: _.sm
   }
 })

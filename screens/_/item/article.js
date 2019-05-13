@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 03:01:15
+ * @Last Modified time: 2019-05-13 19:24:13
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -41,7 +41,7 @@ const ArticleItem = ({
           border={_.colorBorder}
         />
         <Flex.Item style={[styles.item, !isFirst && styles.border, _.ml.sm]}>
-          <Text size={16}>{title}</Text>
+          <Text size={16}>{HTMLDecode(title)}</Text>
           <Flex style={_.mt.xs}>
             <Text type='sub' size={12}>
               by

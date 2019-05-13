@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 04:38:07
+ * @Last Modified time: 2019-05-13 18:29:34
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
@@ -316,12 +316,25 @@ class Subject extends store {
    * @param {*} refresh 是否重新获取
    * @param {*} reverse 是否倒序
    */
-  async fetchSubjectComments({ subjectId }, refresh, reverse = false) {
-    const { list, pagination } = this.subjectComments(subjectId)
+  async fetchSubjectComments({ subjectId }, refresh, reverse) {
+    const { list, pagination, _reverse } = this.subjectComments(subjectId)
+    let page // 下一页的页码
 
-    // 计算下一页的页码
-    let page
-    if (refresh) {
+    // @notice 倒序的实现逻辑: 默认第一次是顺序, 所以能拿到总页数
+    // 点击倒序根据上次数据的总页数开始递减请求, 处理数据时再反转入库
+    let isReverse = reverse
+    if (!isReverse && !refresh) {
+      isReverse = _reverse
+    }
+
+    if (isReverse) {
+      if (refresh) {
+        // @issue 官网某些条目留言不知道为什么会多出一页空白
+        page = pagination.pageTotal - 1
+      } else {
+        page = pagination.page - 1
+      }
+    } else if (refresh) {
       page = 1
     } else {
       page = pagination.page + 1
@@ -366,8 +379,12 @@ class Subject extends store {
       }
 
       // 留言
-      const items = commentsHTML[1].split('<divclass="itemclearit">')
+      let items = commentsHTML[1].split('<divclass="itemclearit">')
       items.shift()
+
+      if (isReverse) {
+        items = items.reverse()
+      }
       items.forEach((item, index) => {
         const userId = item.match(
           /<divclass="text"><ahref="\/user\/(.+?)"class="l">/
@@ -394,12 +411,13 @@ class Subject extends store {
     this.setState({
       [key]: {
         [subjectId]: {
-          list: page === 1 ? comments : [...list, ...comments],
+          list: refresh ? comments : [...list, ...comments],
           pagination: {
             page,
             pageTotal: parseInt(pageTotal)
           },
-          _loaded: getTimestamp()
+          _loaded: getTimestamp(),
+          _reverse: isReverse
         }
       }
     })

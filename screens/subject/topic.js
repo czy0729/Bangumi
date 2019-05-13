@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 02:59:26
+ * @Last Modified time: 2019-05-13 19:23:28
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { Expand } from '@components'
 import { SectionTitle, ArticleItem } from '@screens/_'
 import _ from '@styles'
 
@@ -18,7 +19,7 @@ const Topic = ({ style }, { $, navigation }) => {
   }
 
   return (
-    <View style={style}>
+    <Expand style={style} ratio={2}>
       <SectionTitle style={{ paddingLeft: _.wind }}>讨论版</SectionTitle>
       <View style={_.mt.sm}>
         {topic.map((item, index) => (
@@ -37,7 +38,7 @@ const Topic = ({ style }, { $, navigation }) => {
           />
         ))}
       </View>
-    </View>
+    </Expand>
   )
 }
 

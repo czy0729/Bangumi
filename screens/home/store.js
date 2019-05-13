@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 19:26:53
+ * @Last Modified time: 2019-05-13 21:25:11
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -33,7 +33,7 @@ const initItem = {
   doing: false
 }
 
-export default class ScreenHome extends store {
+export default class HomeScreen extends store {
   state = observable({
     visible: false, // <Modal>可见性
     subjectId: 0, // <Modal>当前条目Id

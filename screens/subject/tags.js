@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 02:00:40
+ * @Last Modified time: 2019-05-13 19:21:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,7 +18,7 @@ const Tags = ({ style }, { $ }) => {
   return (
     <View style={[_.container.wind, style]}>
       <SectionTitle>标签</SectionTitle>
-      <Expand style={_.mt.sm} maxHeight={154}>
+      <Expand style={_.mt.sm}>
         <Flex wrap='wrap'>
           {tags
             .filter(item => !!item.name)

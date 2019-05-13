@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 03:08:14
+ * @Last Modified time: 2019-05-13 21:16:41
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -17,6 +17,18 @@ import { getBangumiUrl } from '@utils/app'
 import _ from '@styles'
 import Header from './header'
 import Store from './store'
+
+const sitesDS = [
+  'bangumi',
+  'bilibili',
+  'iqiyi',
+  'pptv',
+  'youku',
+  'acfun',
+  'nicovideo',
+  'qq',
+  'mgtv'
+]
 
 export default
 @inject(Store)
@@ -48,7 +60,7 @@ class Subject extends React.Component {
           data: [
             '分享',
             ...sites
-              .filter(item => ['tudou', 'acfun'].indexOf(item.site) === -1)
+              .filter(item => sitesDS.includes(item.site))
               .map(item => item.site)
           ],
           onSelect: key => {
@@ -77,8 +89,12 @@ class Subject extends React.Component {
 
   render() {
     const { $, navigation } = this.context
+    const { visible, _loaded } = $.state
+    if (!_loaded) {
+      return null
+    }
+
     const { onScroll } = this.props
-    const { visible } = $.state
     const { name_cn: nameCn, name, images = {} } = $.subject
     const { _image } = $.params
     const image = images.medium || _image

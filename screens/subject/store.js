@@ -2,28 +2,35 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 04:38:02
+ * @Last Modified time: 2019-05-13 21:54:03
  */
 import { observable, computed } from 'mobx'
-import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
 import { subjectStore, userStore, collectionStore } from '@stores'
 import { MODEL_EP_STATUS } from '@constants/model'
 import { queue } from '@utils/fetch'
+import { appNavigate } from '@utils/app'
 import store from '@utils/store'
 
-export default class Store extends store {
+export default class SubjectScreen extends store {
   state = observable({
-    visible: false,
-    reverse: false,
+    visible: false, // 是否显示管理模态框
+    epsReverse: false, // 章节是否倒序
     bangumiInfo: {
       sites: [], // 动画在线地址
       type: '' // 动画类型
     },
-    _loaded: false
+    _loaded: true
   })
 
   init = async () => {
+    const state = await this.getStorage()
+    this.setState({
+      ...state,
+      visible: false,
+      _loaded: true
+    })
+
     const { subjectId } = this.params
     const res = subjectStore.fetchSubject(subjectId)
     const data = await res
@@ -48,9 +55,9 @@ export default class Store extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchSubjectComments = refresh => {
+  fetchSubjectComments = (refresh, reverse) => {
     const { subjectId } = this.params
-    return subjectStore.fetchSubjectComments({ subjectId }, refresh)
+    return subjectStore.fetchSubjectComments({ subjectId }, refresh, reverse)
   }
 
   // -------------------- get --------------------
@@ -101,13 +108,30 @@ export default class Store extends store {
     })
   }
 
-  sortComments = (reverse = true) => {}
+  /**
+   * 章节倒序
+   */
+  toggleReverseEps = () => {
+    const { epsReverse } = this.state
+    this.setState({
+      epsReverse: !epsReverse
+    })
+    this.setStorage()
+  }
+
+  /**
+   * 吐槽箱倒序
+   */
+  toggleReverseComments = () => {
+    const { _reverse } = this.subjectComments
+    this.fetchSubjectComments(true, !_reverse)
+  }
 
   // -------------------- action --------------------
   /**
    * 章节菜单操作
    */
-  doEpsSelect = async (value, item) => {
+  doEpsSelect = async (value, item, navigation) => {
     const { subjectId } = this.params
     const status = MODEL_EP_STATUS.getValue(value)
     if (status) {
@@ -131,7 +155,7 @@ export default class Store extends store {
     }
 
     if (value === '本集讨论') {
-      WebBrowser.openBrowserAsync(item.url)
+      appNavigate(item.url, navigation)
     }
   }
 

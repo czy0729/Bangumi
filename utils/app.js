@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 02:28:41
+ * @Last Modified time: 2019-05-13 21:48:17
  */
 import { WebBrowser } from 'expo'
 import { HOST, HOST_NAME } from '@constants'
@@ -28,8 +28,8 @@ export function appNavigate(url = '', navigation) {
 
   log(_url)
 
-  // 非本站
-  if (!_url.includes(HOST)) {
+  // 没路由对象或者非本站
+  if (!navigation || !_url.includes(HOST)) {
     WebBrowser.openBrowserAsync(_url)
     return
   }
@@ -143,6 +143,10 @@ export function getBangumiUrl(item) {
       return url || `http://www.acfun.cn/v/ab${id}`
     case 'nicovideo':
       return url || `https://ch.nicovideo.jp/${id}`
+    case 'qq':
+      return url || `https://v.qq.com/detail/${id}.html`
+    case 'mgtv':
+      return url || `https://www.mgtv.com/h/${id}.html`
     default:
       return ''
   }

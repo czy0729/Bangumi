@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 19:29:51
+ * @Last Modified time: 2019-05-13 19:22:27
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
+import { LinearGradient } from 'expo'
 import _ from '@styles'
 import Touchable from './touchable'
 import Iconfont from './iconfont'
 
+const size = 216
+
 export default class Expand extends React.Component {
   static defaultProps = {
-    maxHeight: 0
+    ratio: 1
   }
 
   state = {
@@ -23,7 +26,8 @@ export default class Expand extends React.Component {
   }
 
   onLayout = ({ nativeEvent }) => {
-    const { maxHeight } = this.props
+    const { ratio } = this.props
+    const maxHeight = ratio * size
     const { height } = nativeEvent.layout
     if (height < maxHeight) {
       this.setState({
@@ -78,9 +82,19 @@ export default class Expand extends React.Component {
       >
         <View style={{ height }}>{children}</View>
         {!expand && (
-          <Touchable style={styles.more} onPress={this.onExpand}>
-            <Iconfont name='down' size={16} />
-          </Touchable>
+          <>
+            <LinearGradient
+              style={styles.linear}
+              colors={[
+                'rgba(255, 255, 255, 0.16)',
+                'rgba(255, 255, 255, 1)',
+                'rgba(255, 255, 255, 1)'
+              ]}
+            />
+            <Touchable style={styles.more} onPress={this.onExpand}>
+              <Iconfont name='down' size={20} />
+            </Touchable>
+          </>
         )}
       </Animated.View>
     )
@@ -98,12 +112,18 @@ const styles = StyleSheet.create({
   container: {
     overflow: 'hidden'
   },
-  more: {
+  linear: {
     position: 'absolute',
     right: 0,
     bottom: 0,
-    paddingVertical: _.sm,
-    paddingLeft: _.sm,
-    backgroundColor: _.colorPlain
+    left: 0,
+    height: 64
+  },
+  more: {
+    position: 'absolute',
+    left: '50%',
+    bottom: 0,
+    padding: _.sm,
+    marginLeft: -16
   }
 })

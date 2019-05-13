@@ -3,22 +3,17 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:58:19
+ * @Last Modified time: 2019-05-13 12:24:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { BlurView } from 'expo'
 import { IconMenu, IconSearch, Logo } from '@screens/_'
 import { IOS } from '@constants'
-import _, {
-  window,
-  logoWidth,
-  headerHeight,
-  tabsHeaderHeight,
-  tabsHeight,
-  colorPlain
-} from '@styles'
+import _ from '@styles'
 import observer from './observer'
+
+const correctHeight = 16 // @issue IOS端头部高度误差修正值
 
 // (1) 装饰器
 const withTabsHeader = () => ComposedComponent =>
@@ -29,7 +24,7 @@ const withTabsHeader = () => ComposedComponent =>
       static navigationOptions = ({ navigation }) => {
         const withTabsHeaderOptions = {
           headerStyle: {
-            height: headerHeight
+            height: _.headerHeight - correctHeight
           },
           headerLeft: () => <IconMenu navigation={navigation} />,
           headerRight: <IconSearch navigation={navigation} />,
@@ -44,7 +39,7 @@ const withTabsHeader = () => ComposedComponent =>
           withTabsHeaderOptions.headerTitle = (
             <View>
               <Logo />
-              <View style={{ height: tabsHeight }}>
+              <View style={{ height: _.tabsHeight }}>
                 <View style={styles.headerTabs}>
                   {navigation.getParam('headerTabs')}
                 </View>
@@ -87,17 +82,17 @@ withTabsHeader.tabBarStyle = IOS
       display: 'none'
     }
   : {
-      backgroundColor: colorPlain
+      backgroundColor: _.colorPlain
     }
 
 // (4) ListView设置参数
 withTabsHeader.listViewProps = IOS
   ? {
       contentInset: {
-        top: tabsHeaderHeight
+        top: _.tabsHeaderHeight - correctHeight
       },
       contentOffset: {
-        y: -tabsHeaderHeight
+        y: -(_.tabsHeaderHeight - correctHeight)
       }
     }
   : {}
@@ -107,7 +102,7 @@ export default withTabsHeader
 const styles = StyleSheet.create({
   header: {
     flex: 1,
-    backgroundColor: colorPlain
+    backgroundColor: _.colorPlain
   },
   headerTabs: {
     position: 'absolute',
@@ -115,10 +110,10 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 1,
-    width: window.width,
-    transform: [{ translateX: window.width * -0.5 + logoWidth * 0.5 }]
+    width: _.window.width,
+    transform: [{ translateX: _.window.width * -0.5 + _.logoWidth * 0.5 }]
   },
   icon: {
-    marginBottom: tabsHeight
+    marginBottom: _.tabsHeight
   }
 })

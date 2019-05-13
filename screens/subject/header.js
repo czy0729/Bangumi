@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-12 20:47:18
+ * @Last Modified time: 2019-05-13 20:42:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading, Iconfont, Touchable } from '@components'
-import { SectionTitle } from '@screens/_'
+import { Loading } from '@components'
+import { SectionTitle, IconReverse } from '@screens/_'
 import _ from '@styles'
 import Head from './head'
 import Box from './box'
@@ -29,6 +29,7 @@ const Header = (props, { $ }) => {
     $.subjectEp._loaded &&
     $.userProgress._loaded &&
     $.subjectFormHTML._loaded
+  const { _reverse } = $.subjectComments
   return (
     <>
       <Head />
@@ -48,9 +49,11 @@ const Header = (props, { $ }) => {
             <SectionTitle
               style={[styles.title, _.mt.lg]}
               right={
-                <Touchable style={styles.sort}>
-                  <Iconfont name='sort' size={16} />
-                </Touchable>
+                <IconReverse
+                  style={styles.sort}
+                  color={_reverse ? _.colorMain : _.colorIcon}
+                  onPress={$.toggleReverseComments}
+                />
               }
             >
               吐槽箱
@@ -79,6 +82,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: _.wind
   },
   sort: {
-    padding: _.sm
+    marginRight: -_.sm
   }
 })

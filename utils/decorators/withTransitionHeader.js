@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:58:47
+ * @Last Modified time: 2019-05-13 21:23:23
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Popover, Menu, Iconfont } from '@components'
-import { StatusBar } from '@screens/_'
+import { StatusBar, IconBack } from '@screens/_'
 import { gradientColor } from '@utils'
 import { IOS } from '@constants'
 import {
@@ -50,6 +50,7 @@ const withTransitionHeader = ({
           data: [],
           onSelect: () => {}
         })
+
         let headerRight
         if (popover.data.length) {
           headerRight = (
@@ -74,6 +75,9 @@ const withTransitionHeader = ({
           headerTransparent: true,
           headerStyle,
           headerTintColor,
+          headerLeft: (
+            <IconBack navigation={navigation} color={headerTintColor} />
+          ),
           headerRight,
           ...ComposedComponent.navigationOptions
         }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 16:49:27
+ * @Last Modified time: 2019-05-13 18:42:54
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -125,15 +125,21 @@ class ManageModal extends React.Component {
     this.setState({
       doing: true
     })
-    console.log(typeof comment, comment)
-    await onSubmit({
+
+    const values = {
       subjectId,
       rating,
       tags,
-      comment,
       status,
       privacy
-    })
+    }
+
+    // 避免评论为undefined
+    if (comment) {
+      values.comment = comment
+    }
+    await onSubmit(values)
+
     this.setState({
       doing: false
     })
