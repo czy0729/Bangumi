@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": "A React Native App for https://bangumi.tv . Developing with Expo",
+    "description": "A React Native App for https://bangumi.tv ",
     "githubUrl": "https://github.com/czy0729/Bangumi"
   }
 }

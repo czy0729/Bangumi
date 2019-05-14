@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 18:42:54
+ * @Last Modified time: 2019-05-14 22:09:55
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -32,8 +32,8 @@ class ManageModal extends React.Component {
     subjectId: 0,
     title: '',
     desc: '',
-    onSubmit: () => {},
-    onClose: () => {}
+    onSubmit: Function.prototype,
+    onClose: Function.prototype
   }
 
   state = initState
@@ -125,20 +125,14 @@ class ManageModal extends React.Component {
     this.setState({
       doing: true
     })
-
-    const values = {
+    await onSubmit({
       subjectId,
       rating,
       tags,
       status,
-      privacy
-    }
-
-    // 避免评论为undefined
-    if (comment) {
-      values.comment = comment
-    }
-    await onSubmit(values)
+      privacy,
+      comment: comment || ''
+    })
 
     this.setState({
       doing: false

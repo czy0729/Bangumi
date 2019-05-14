@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 21:23:23
+ * @Last Modified time: 2019-05-14 19:34:41
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -48,7 +48,7 @@ const withTransitionHeader = ({
 
         const popover = navigation.getParam('popover', {
           data: [],
-          onSelect: () => {}
+          onSelect: Function.prototype
         })
 
         let headerRight

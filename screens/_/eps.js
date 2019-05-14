@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 21:34:53
+ * @Last Modified time: 2019-05-14 20:00:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,15 +15,17 @@ import _ from '@styles'
 
 export default class Eps extends React.Component {
   static defaultProps = {
-    numbersOfLine: 8, // 一行多少个, 为了美观, 通过计算按钮占满一行
+    numbersOfLine: 8, // 1行多少个, 为了美观, 通过计算按钮占满1行
     pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
     advance: false, // 详情页模式, 显示SP和更多的操作按钮
     login: false,
     subjectId: 0,
     eps: [],
     userProgress: {},
-    onSelect: () => {}
+    onSelect: Function.prototype
   }
+
+  static pageLimit = 32 // 1页32个
 
   state = {
     width: 0

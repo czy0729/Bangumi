@@ -4,10 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 21:25:11
+ * @Last Modified time: 2019-05-14 19:57:47
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
+import { Eps } from '@screens/_'
 import { MODEL_EP_STATUS } from '@constants/model'
 import { sleep } from '@utils'
 import { appNavigate } from '@utils/app'
@@ -136,7 +137,27 @@ export default class HomeScreen extends store {
    * 条目章节数据
    */
   eps(subjectId) {
-    return computed(() => subjectStore.subjectEp(subjectId).eps || []).get()
+    return computed(() => {
+      const eps = subjectStore.subjectEp(subjectId).eps || []
+      const { length } = eps
+
+      // 集数超过了1页的显示个数
+      if (length > Eps.pageLimit) {
+        const userProgress = this.userProgress(subjectId)
+        const index = eps.findIndex(
+          item => item.type === 0 && userProgress[item.id] !== '看过'
+        )
+
+        // 找不到未看集数, 返回最后的数据
+        if (index === -1) {
+          return eps.slice(length - Eps.pageLimit - 1, length - 1)
+        }
+
+        // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
+        return eps.slice(index - 1, index + Eps.pageLimit - 1)
+      }
+      return eps
+    }).get()
   }
 
   /**

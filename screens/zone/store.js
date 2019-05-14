@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 14:54:36
+ * @Last Modified time: 2019-05-14 19:34:37
  */
 import { observable, computed } from 'mobx'
 import { userStore, timelineStore } from '@stores'
@@ -84,7 +84,7 @@ export default class Store extends store {
     return timelineStore.fetchUsersTimeline({ userId })
   }
 
-  fetchUsersDesc = () => {}
+  fetchUsersDesc = Function.prototype
 
   // -------------------- page --------------------
   onTabClick = (item, page) => {

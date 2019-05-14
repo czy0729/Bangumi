@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:31:09
+ * @Last Modified time: 2019-05-14 19:34:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -45,7 +45,7 @@ const Character = ({ style, data }) => (
 
 Character.defaultProps = {
   data: [],
-  onSelect: () => {}
+  onSelect: Function.prototype
 }
 
 export default observer(Character)

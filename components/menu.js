@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 20:58:01
+ * @Last Modified time: 2019-05-14 19:33:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -60,7 +60,7 @@ Menu.defaultProps = {
   style: undefined,
   title: [], // ['a', 'b'] | ['a', { title: <Text>b</Text>, disabled: true }]
   data: [],
-  onSelect: () => {}
+  onSelect: Function.prototype
 }
 
 export default Menu

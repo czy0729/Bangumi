@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 16:45:02
+ * @Last Modified time: 2019-05-14 19:34:26
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,7 +13,7 @@ import _ from '@styles'
 export default class StarGroup extends React.Component {
   static defaultProps = {
     value: 0,
-    onChange: () => {}
+    onChange: Function.prototype
   }
 
   state = {

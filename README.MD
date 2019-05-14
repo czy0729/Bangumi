@@ -1,5 +1,43 @@
 # Bangumi
 
+
+
+#### Features
+
+---
+
+* 番组进度管理
+* 条目详情
+* 时间胶囊
+* 超展开
+* 用户空间
+
+
+#### Getting Started：
+
+---
+
+** 下载 **
+
+```bash
+git clone https://github.com/czy0729/Bangumi
+cd ./Bangumi
+yarn // or npm i
+```
+
+** 前置操作 **
+
+把 assets/iconfont/ 下的目录 vector-icons 替换掉 node_modules/@expo/ 下的 vector-icons
+
+** 启动 **
+
+```bash
+npm start
+Run on iOS simulator
+```
+
+
+
 #### Page Preview
 
 ---

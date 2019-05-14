@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-20 00:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:31:17
+ * @Last Modified time: 2019-05-14 19:34:32
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -33,7 +33,7 @@ const StatusBtnGroup = ({ style, value, onSelect }) => (
 
 StatusBtnGroup.defaultProps = {
   value: 0,
-  onSelect: () => {}
+  onSelect: Function.prototype
 }
 
 export default StatusBtnGroup
