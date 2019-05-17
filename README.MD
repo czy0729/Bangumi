@@ -1,9 +1,9 @@
 # Bangumi
 
 > 这是一个基于`React-Native` 的 `Expo`写的 [Bangumi](https://bangumi.tv) 客户端
-
+>
 > 开发上对安卓和 iOS 都写了兼容, 开发环境是 iOS
-
+>
 > (暂时还没开发完毕, 项目里面还存在大量废弃文件. 还没打过包, 安卓实机效果有不少差异, 持续开发中...)
 
 #### Features
