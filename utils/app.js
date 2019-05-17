@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 21:48:17
+ * @Last Modified time: 2019-05-17 22:34:31
  */
 import { WebBrowser } from 'expo'
 import { HOST, HOST_NAME } from '@constants'
@@ -76,6 +76,15 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes('/ep/')) {
     navigation.push('Topic', {
       topicId: _url.replace(`${HOST}/`, ''),
+      _url
+    })
+    return
+  }
+
+  // 人物 [/character/\d+, /person/\d+]
+  if (_url.includes('/character/') || _url.includes('/person/')) {
+    navigation.push('Mono', {
+      monoId: _url.replace(`${HOST}/`, ''),
       _url
     })
     return

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:54:17
+ * @Last Modified time: 2019-05-18 01:00:58
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -16,7 +16,9 @@ import Store from './store'
 
 export default
 @inject(Store)
-@withTransitionHeader()
+@withTransitionHeader({
+  colorStart: _.colorTitleRaw
+})
 @observer
 class Mono extends React.Component {
   static contextTypes = {

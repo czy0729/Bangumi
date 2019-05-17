@@ -1,7 +1,9 @@
 # Bangumi
 
 > 这是一个基于`React-Native` 的 `Expo`写的 [Bangumi](https://bangumi.tv) 客户端
+
 > 开发上对安卓和 iOS 都写了兼容, 开发环境是 iOS
+
 > (暂时还没开发完毕, 项目里面还存在大量废弃文件. 还没打过包, 安卓实机效果有不少差异, 持续开发中...)
 
 #### Features
@@ -13,9 +15,9 @@
 - 时间胶囊
 - 超展开
 - 用户空间
-- 时光机 (官方的API貌似不能显示全自己的所有收藏, 看来要改为网页解析)
+- 搜索
+- 时光机 (官方的 API 貌似不能显示全自己的所有收藏, 看来要改为网页解析)
 - 每日放送 (优化中)
-- 搜索 (开发中)
 - 热门 (开发中)
 
 #### Getting Started
@@ -60,6 +62,10 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 <img src="./preview/subject_2.png" width="280" alt="subject_2" /> <img src="./preview/subject_1.png" width="280" alt="subject_1" />
 
 <img src="./preview/subject_3.png" width="280" alt="subject_3" />
+
+#### 搜索
+
+<img src="./preview/search_1.png" width="280" alt="search_1" /> <img src="./preview/search_2.png" width="280" alt="search_2" /> <img src="./preview/search_3.png" width="280" alt="search_3" />
 
 #### 人物
 

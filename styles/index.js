@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 12:20:56
+ * @Last Modified time: 2019-05-17 05:23:27
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import { Constants } from 'expo'
@@ -38,11 +38,16 @@ export const colorPlainRaw = [255, 255, 255]
 export const colorPlain = `rgb(${colorPlainRaw.join()})`
 export const colorMain = 'rgb(252, 127, 138)' // #FC7F8A
 export const colorMainLight = 'rgb(255, 243, 244)'
+export const colorMainBorder = 'rgb(252, 128, 138)'
 export const colorPrimary = 'rgb(68, 207, 252)'
 export const colorPrimaryLight = 'rgb(248, 253, 255)'
 export const colorPrimaryBorder = 'rgb(159, 230, 254)'
 export const colorSuccess = 'rgb(50, 200, 64)'
+export const colorSuccessLight = 'rgb(236, 255, 236)'
+export const colorSuccessBorder = 'rgb(115, 241, 115)'
 export const colorWarning = 'rgb(254, 190, 88)'
+export const colorWarningLight = 'rgb(255, 248, 238)'
+export const colorWarningBorder = 'rgb(254, 190, 88)'
 export const colorWait = 'rgb(200, 200, 200)'
 export const colorDisabled = 'rgb(150, 150, 150)'
 export const colorBorder = 'rgb(222, 222, 222)'

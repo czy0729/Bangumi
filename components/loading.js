@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-03 13:26:48
+ * @Last Modified time: 2019-05-15 22:07:24
  */
 import React from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
@@ -66,9 +66,9 @@ class Raw extends React.Component {
   }
 }
 
-const Loading = ({ style }) => (
+const Loading = ({ style, color }) => (
   <View style={[_.container.row, style]}>
-    <Raw />
+    <Raw color={color} />
   </View>
 )
 

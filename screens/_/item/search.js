@@ -1,0 +1,140 @@
+/*
+ * @Author: czy0729
+ * @Date: 2019-05-15 16:26:34
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2019-05-17 22:13:44
+ */
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
+import { observer } from 'mobx-react'
+import { Flex, Text, Image, Touchable } from '@components'
+import { appNavigate } from '@utils/app'
+import { HTMLDecode } from '@utils/html'
+import { IMG_DEFAULT } from '@constants'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import _ from '@styles'
+import Tag from '../tag'
+import Stars from '../stars'
+
+const imgWidth = 96
+const imgHeight = 1.28 * imgWidth
+
+const ItemSearch = ({
+  navigation,
+  index,
+  id,
+  cover,
+  name,
+  nameCn,
+  tip,
+  score,
+  total,
+  rank,
+  type,
+  collected,
+  comments
+}) => {
+  const isFirst = index === 0
+
+  // 人物高清图不是正方形的图, 所以要特殊处理
+  const isMono = !id.includes('/subject/')
+  return (
+    <Touchable
+      style={styles.container}
+      highlight
+      onPress={() => appNavigate(id, navigation)}
+    >
+      <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
+        <View style={styles.imgContainer}>
+          <Image
+            style={styles.image}
+            src={cover || IMG_DEFAULT}
+            resizeMode={isMono ? 'contain' : undefined}
+            placeholder={!isMono}
+            width={imgWidth}
+            height={imgHeight}
+            radius
+            shadow
+          />
+        </View>
+        <Flex.Item style={[styles.item, _.ml.wind]}>
+          <Flex
+            style={styles.content}
+            direction='column'
+            justify='between'
+            align='start'
+          >
+            <View>
+              <Flex align='start' style={{ width: '100%' }}>
+                <Flex.Item>
+                  {!!name && (
+                    <Text size={15} numberOfLines={2}>
+                      {collected && <Text type='main'>[已收藏] </Text>}
+                      {HTMLDecode(name)}
+                      {!!comments && <Text type='main'> {comments}</Text>}
+                    </Text>
+                  )}
+                  {!!nameCn && nameCn !== name && (
+                    <Text
+                      style={_.mt.xs}
+                      type='sub'
+                      size={12}
+                      numberOfLines={1}
+                    >
+                      {HTMLDecode(nameCn)}
+                    </Text>
+                  )}
+                </Flex.Item>
+                {!!type && (
+                  <Tag
+                    style={_.ml.sm}
+                    value={MODEL_SUBJECT_TYPE.getTitle(type)}
+                  />
+                )}
+              </Flex>
+              {!!tip && (
+                <Text style={_.mt.md} numberOfLines={2}>
+                  {HTMLDecode(tip)}
+                </Text>
+              )}
+            </View>
+            <Flex style={_.mt.sm}>
+              <Stars style={_.mr.xs} value={score} color='warning' />
+              <Text style={_.mr.sm} type='sub' size={12}>
+                {total}
+              </Text>
+              {!!rank && (
+                <Text type='primary' size={12}>
+                  #{rank}
+                </Text>
+              )}
+            </Flex>
+          </Flex>
+        </Flex.Item>
+      </Flex>
+    </Touchable>
+  )
+}
+
+export default observer(ItemSearch)
+
+const styles = StyleSheet.create({
+  container: {
+    paddingLeft: _.wind,
+    backgroundColor: _.colorPlain
+  },
+  imgContainer: {
+    width: imgWidth
+  },
+  wrap: {
+    paddingVertical: _.wind,
+    paddingRight: _.wind
+  },
+  border: {
+    borderTopColor: _.colorBorder,
+    borderTopWidth: StyleSheet.hairlineWidth
+  },
+  content: {
+    height: imgHeight
+  }
+})

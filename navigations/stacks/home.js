@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:03:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 21:19:44
+ * @Last Modified time: 2019-05-18 00:17:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,16 @@ import {
 } from 'react-navigation'
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs'
 import { BlurView } from 'expo'
-import { Login, Subject, Mono, Rakuen, Timeline, Topic, Zone } from '@screens'
+import {
+  Login,
+  Subject,
+  Search,
+  Mono,
+  Rakuen,
+  Timeline,
+  Topic,
+  Zone
+} from '@screens'
 import { IOS } from '@constants'
 import { colorMain, colorPlain, colorDesc, colorBorder } from '@styles'
 import HomeScreen from '../screens/home'
@@ -54,8 +63,9 @@ const HomeStack = createStackNavigator(
   {
     HomeTab,
     Login,
-    Subject,
     Mono,
+    Search,
+    Subject,
     Topic,
     Zone
   },

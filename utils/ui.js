@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-07 19:56:16
+ * @Last Modified time: 2019-05-16 23:25:54
  */
 import { Toast } from '@ant-design/react-native'
 
@@ -12,7 +12,7 @@ import { Toast } from '@ant-design/react-native'
  * @param {*} duration
  */
 export function info(
-  content,
+  content = '网络错误',
   duration = 4,
   onClose = Function.prototype,
   mask = false

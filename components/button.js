@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 12:19:05
+ * @Last Modified time: 2019-05-17 05:18:00
  */
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -122,16 +122,16 @@ const styles = StyleSheet.create({
     borderColor: _.colorBorder
   },
   ghostMain: {
-    backgroundColor: 'rgba(255, 243, 244, 0.8)',
-    borderColor: 'rgb(252, 128, 138)'
+    backgroundColor: _.colorMainLight,
+    borderColor: _.colorMainBorder
   },
   ghostPrimary: {
-    backgroundColor: 'rgba(248, 253, 255, 0.8)',
+    backgroundColor: _.colorPrimaryLight,
     borderColor: _.colorPrimaryBorder
   },
   ghostSuccess: {
-    backgroundColor: 'rgba(236, 255, 236, 0.8)',
-    borderColor: 'rgb(115, 241, 115)'
+    backgroundColor: _.colorSuccessLight,
+    borderColor: _.colorSuccessBorder
   },
 
   // size

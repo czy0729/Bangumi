@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 16:53:56
+ * @Last Modified time: 2019-05-16 21:38:38
  */
 import { APP_ID } from '@constants'
 import { urlStringify, sleep, getTimestamp } from './index'
@@ -125,9 +125,9 @@ export default async function _fetch({
  * @version 190323 1.0
  * @param {*} param
  */
-export async function fetchHTML({ url } = {}) {
+export async function fetchHTML({ url, headers = {}, cookie } = {}) {
   const userStore = require('../stores/user').default
-  const { userAgent, cookie } = userStore.userCookie
+  const { userAgent, cookie: userCookie } = userStore.userCookie
   const data = {
     method: 'GET'
   }
@@ -138,8 +138,9 @@ export async function fetchHTML({ url } = {}) {
       'User-Agent': userAgent,
 
       // 前面这个分号很重要, CDN那边经常给我加一堆乱七八糟的会搞坏cookie
-      Cookie: `; ${cookie}`,
-      ...cacheHeaders
+      Cookie: `; ${userCookie}; ${cookie}`,
+      ...cacheHeaders,
+      ...headers
     }
   }
 
@@ -150,7 +151,7 @@ export async function fetchHTML({ url } = {}) {
   } else {
     _url = `${_url}&state=${state}`
   }
-  log(_url)
+  log(_url, data)
 
   return fetch(_url, data).then(res => Promise.resolve(res._bodyInit))
 }

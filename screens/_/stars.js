@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-21 18:36:45
+ * @Last Modified time: 2019-05-15 19:44:47
  */
 import React from 'react'
 import { Flex, Icon, Text } from '@components'
 import _, { colorWarning, colorIcon } from '@styles'
 
-const Stars = ({ style, simple, value }) => {
+const Stars = ({ style, simple, value, color }) => {
   if (!value) {
     return null
   }
@@ -17,7 +17,7 @@ const Stars = ({ style, simple, value }) => {
     return (
       <Flex style={style}>
         <Icon name='ios-star' size={12} color={colorWarning} />
-        <Text style={_.ml.xs} type='sub' size={12} lineHeight={12}>
+        <Text style={_.ml.xs} type={color} size={12} lineHeight={12}>
           {value}
         </Text>
       </Flex>
@@ -51,7 +51,8 @@ const Stars = ({ style, simple, value }) => {
 Stars.defaultProps = {
   style: undefined,
   simple: true,
-  value: 0
+  value: 0,
+  color: 'sub'
 }
 
 export default Stars

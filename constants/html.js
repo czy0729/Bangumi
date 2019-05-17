@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 18:43:32
+ * @Last Modified time: 2019-05-16 12:55:34
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { HOST } from './index'
@@ -64,3 +64,13 @@ export const HTML_RAKUEN = (scope, type) =>
  * @param {*} topicId eg. group/12345, subject/12345, ep/12345, prsn/123456
  */
 export const HTML_TOPIC = topicId => `${HOST}/rakuen/topic/${topicId}`
+
+/**
+ * 搜索
+ * @param {*} text
+ * @param {*} cat
+ */
+export const HTML_SEARCH = (text, cat = '', page = 1) => {
+  const [type, _cat] = cat.split('_')
+  return `${HOST}/${type}_search/${text}?cat=${_cat}&page=${page}`
+}

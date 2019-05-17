@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-27 14:02:29
+ * @Last Modified time: 2019-05-16 01:45:36
  */
 class Modal {
   constructor(data) {
@@ -280,4 +280,44 @@ export const MODEL_RAKUEN_TYPE = new Modal([
   //   label: '现实人物',
   //   value: 'mono&filter=person'
   // }
+])
+
+// 搜索类型
+export const MODEL_SEARCH_CAT = new Modal([
+  {
+    label: '条目',
+    value: 'subject_all'
+  },
+  {
+    label: '动画',
+    value: 'subject_2'
+  },
+  {
+    label: '书籍',
+    value: 'subject_1'
+  },
+  {
+    label: '音乐',
+    value: 'subject_3'
+  },
+  {
+    label: '游戏',
+    value: 'subject_4'
+  },
+  {
+    label: '三次元',
+    value: 'subject_5'
+  },
+  {
+    label: '人物',
+    value: 'mono_all'
+  },
+  {
+    label: '虚拟角色',
+    value: 'mono_crt'
+  },
+  {
+    label: '现实人物',
+    value: 'mono_prsn'
+  }
 ])

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-14 19:33:45
+ * @Last Modified time: 2019-05-18 00:41:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import _, { window, colorPlain, colorBorder } from '@styles'
+import _ from '@styles'
 import Text from './text'
 import Touchable from './touchable'
 
 const Menu = ({ style, title, data, onSelect }) => (
-  <View style={[styles.container, style]}>
+  <View style={[styles.container, style]} tint='default' intensity={100}>
     {title.length !== 0 && (
       <View style={styles.title}>
         {title.map((item, index) => (
@@ -67,22 +67,20 @@ export default Menu
 
 const styles = StyleSheet.create({
   container: {
-    width: window.width * 0.5
+    width: _.window.width * 0.5
   },
   title: {
     width: '100%',
     paddingVertical: 12,
-    paddingHorizontal: 24,
-    backgroundColor: colorPlain
+    paddingHorizontal: 24
   },
   item: {
     width: '100%',
     paddingVertical: 12,
-    paddingHorizontal: 24,
-    backgroundColor: colorPlain
+    paddingHorizontal: 24
   },
   divider: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colorBorder
+    borderTopColor: _.colorBorder
   }
 })

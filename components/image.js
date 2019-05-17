@@ -5,19 +5,17 @@
  * 3. 图片缓存到本地, @todo 安卓
  * 4. 远端图片自动获取高度
  * 5. 错误处理
- * 6. @todo 自动选择Bangumi图片质量
+ * 6. 自动选择Bangumi图片质量
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 20:13:32
+ * @Last Modified time: 2019-05-17 22:12:22
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
-import {
-  CacheManager,
-  Image as AnimateImage
-} from 'react-native-expo-image-cache'
-import { IOS, IMG_EMPTY, IMG_ERROR } from '@constants'
+import { CacheManager } from 'react-native-expo-image-cache'
+import { systemStore } from '@stores'
+import { IOS, IMG_ERROR } from '@constants'
 import { colorBg, radiusXs, shadow } from '@styles'
 import Touchable from './touchable'
 
@@ -32,7 +30,6 @@ export default class Image extends React.Component {
     radius: false, // 圆角
     shadow: false, // 阴影
     placeholder: true, // 是否有底色
-    quality: false, // 是否根据设置改变图片质量
     autoSize: 0, // 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例
     onPress: undefined,
     onLongPress: undefined
@@ -44,6 +41,8 @@ export default class Image extends React.Component {
     width: 0,
     height: 0
   }
+
+  errorCount = 0
 
   async componentDidMount() {
     const { src, autoSize } = this.props
@@ -60,9 +59,12 @@ export default class Image extends React.Component {
   }
 
   cache = async src => {
-    const { quality } = this.props
     let res
     let uri
+    let quality = false
+    if (systemStore.isWifi) {
+      quality = true
+    }
 
     // @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存?
     if (IOS) {
@@ -73,9 +75,9 @@ export default class Image extends React.Component {
             _src = `https:${_src}`
           }
 
-          // @todo 做一个全局控制图片质量的设置
+          // 全局控制图片质量的设置
           if (quality) {
-            _src = _src.replace('/m/', '/l/')
+            _src = _src.replace(/\/m\/|\/g\/|\/s\//, '/l/')
           }
 
           res = CacheManager.get(_src).getPath()
@@ -90,9 +92,17 @@ export default class Image extends React.Component {
           })
         }
       } catch (e) {
-        this.setState({
-          error: true
-        })
+        // 图片是不是会下载失败, 当错误次数大于3就认为是错误
+        if (this.errorCount < 3) {
+          setTimeout(() => {
+            this.errorCount += 1
+            this.cache(src)
+          }, 1600)
+        } else {
+          this.setState({
+            error: true
+          })
+        }
       }
     } else {
       uri = src
@@ -147,7 +157,6 @@ export default class Image extends React.Component {
       radius,
       shadow,
       placeholder,
-      quality,
       autoSize,
       onPress,
       onLongPress,
@@ -204,16 +213,16 @@ export default class Image extends React.Component {
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
-        image = (
-          <AnimateImage
-            style={_image}
-            tint='light'
-            preview={IMG_EMPTY}
-            uri={uri}
-            {...other}
-          />
-        )
-        // image = <RNImage style={_image} source={{ uri }} {...other} />
+        // image = (
+        //   <AnimateImage
+        //     style={_image}
+        //     tint='light'
+        //     preview={IMG_EMPTY}
+        //     uri={uri}
+        //     {...other}
+        //   />
+        // )
+        image = <RNImage style={_image} source={{ uri }} {...other} />
       } else {
         image = <View style={_image} />
       }

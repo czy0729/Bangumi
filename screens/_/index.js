@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 20:42:55
+ * @Last Modified time: 2019-05-17 05:11:08
  */
 export { default as ArticleItem } from './item/article'
 export { default as BangumiListItem } from './bangumi-list-item'
@@ -18,6 +18,7 @@ export { default as IconMenu } from './icon/menu'
 export { default as IconSearch } from './icon/search'
 export { default as IconTabBar } from './icon-tab-bar'
 export { default as IconReverse } from './icon/reverse'
+export { default as ItemSearch } from './item/search'
 export { default as Logo } from './logo'
 export { default as ManageModal } from './manage-modal'
 export { default as ScoreTag } from './score-tag'
@@ -30,3 +31,4 @@ export { default as StatusBarPlaceholder } from './status-bar-placeholder'
 export { default as StatusBtnGroup } from './status-btn-group'
 export { default as TimelineItem } from './item/timeline'
 export { default as TopicItem } from './item/topic'
+export { default as Tag } from './tag'

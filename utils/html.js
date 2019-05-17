@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-07 18:56:16
+ * @Last Modified time: 2019-05-16 22:08:46
  */
 import HTMLParser from './thirdParty/html-parser'
 
@@ -46,14 +46,17 @@ export function HTMLTrim(str = '') {
 /**
  * html字符串转对象 (很好的利用js的引用特性, hhh)
  * @param {*} html
+ * @param {*} cmd  是否生成cmd字符串(开发用)
  */
-export function HTMLToTree(html) {
+export function HTMLToTree(html, cmd = true) {
   const tree = {
     tag: 'root',
     attrs: {},
     text: [],
-    children: [],
-    cmd: 'root'
+    children: []
+  }
+  if (cmd) {
+    tree.cmd = 'root'
   }
   let ref = tree
 
@@ -68,8 +71,10 @@ export function HTMLToTree(html) {
       })
       const item = {
         tag,
-        attrs: attrsMap,
-        cmd: `${ref.cmd} > ${tag}`
+        attrs: attrsMap
+      }
+      if (cmd) {
+        item.cmd = `${ref.cmd} > ${tag}`
       }
       if (!unary) {
         item.parent = ref

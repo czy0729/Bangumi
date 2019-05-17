@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 15:12:28
+ * @Last Modified time: 2019-05-16 01:54:02
  */
 module.exports = {
   root: true,
   globals: {
     require: true,
     fetch: true, // react-native的fetch
-    log: true, // 测试打印函数, 能规避循环引用
-    _: true // 全局样式导出
+    log: true // 测试打印函数, 能规避循环引用
   },
   env: {
     commonjs: true,

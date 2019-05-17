@@ -1,13 +1,17 @@
 /*
+ * 系统Store
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 22:35:04
+ * @Last Modified time: 2019-05-17 21:55:24
  */
+import { observable } from 'mobx'
+import systemStore from './system'
 import calendarStore from './calendar'
 import collectionStore from './collection'
 import rakuenStore from './rakuen'
 import subjectStore from './subject'
+import searchStore from './search'
 import timelineStore from './timeline'
 import userStore from './user'
 
@@ -15,6 +19,10 @@ import userStore from './user'
 let inited = false
 
 class Stores {
+  state = observable({
+    wifi: false
+  })
+
   /**
    * 保证所有子Store初始化和加载缓存
    */
@@ -24,14 +32,23 @@ class Stores {
     }
     inited = true
 
+    // 以下是APP最重要Stores, 同步加载
     const res = Promise.all([
-      calendarStore.init(),
+      systemStore.init(),
       collectionStore.init(),
-      rakuenStore.init(),
       subjectStore.init(),
-      timelineStore.init(),
       userStore.init()
     ])
+    await res
+
+    // 非重要Stores, 异步加载
+    Promise.all([
+      calendarStore.init(),
+      rakuenStore.init(),
+      timelineStore.init(),
+      searchStore.init()
+    ])
+
     return res
   }
 
@@ -51,10 +68,12 @@ Store.init()
 
 export default Store
 export {
+  systemStore,
   calendarStore,
   collectionStore,
   rakuenStore,
   subjectStore,
+  searchStore,
   timelineStore,
   userStore
 }

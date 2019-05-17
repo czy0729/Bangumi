@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 17:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-29 18:43:59
+ * @Last Modified time: 2019-05-18 00:21:35
  */
 import React from 'react'
 import {
@@ -37,19 +37,3 @@ const HomeScreen = {
 }
 
 export default HomeScreen
-
-// navigationOptions: {
-//   headerTitle: '进度',
-//   tabBarIcon: ({ tintColor }) => (
-//     <Image
-//       size={22}
-//       placeholder={false}
-//       src={
-//         tintColor === colorMain
-//           ? require('@assets/images/icon/heart-active.png')
-//           : require('@assets/images/icon/heart.png')
-//       }
-//     />
-//   ),
-//   tabBarLabel: '进度'
-// }
