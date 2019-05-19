@@ -8,7 +8,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView, Flex, Touchable, Iconfont } from '@components'
-import { SectionHeader, BangumiListItem } from '@screens/_'
+import { SectionHeader, ItemBangumiList } from '@screens/_'
 import { colorBg, colorIcon } from '@styles'
 
 const List = (props, { $, navigation }) => {
@@ -59,7 +59,7 @@ const List = (props, { $, navigation }) => {
         return (
           <Flex wrap='wrap' align='start'>
             {item.list.map(item => (
-              <BangumiListItem
+              <ItemBangumiList
                 key={item.id}
                 navigation={navigation}
                 subjectId={item.id}

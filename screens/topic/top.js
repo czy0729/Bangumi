@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 02:40:31
+ * @Last Modified time: 2019-05-19 18:58:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ const Top = (props, { $, navigation }) => {
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
-      <View style={_.container.wind}>
+      <View style={_.container.inner}>
         <Text type='title' size={20} bold>
           {title}
         </Text>

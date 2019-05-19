@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 04:42:02
+ * @Last Modified time: 2019-05-19 17:26:32
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text, RenderHtml } from '@components'
+import { Avatar } from '@screens/_'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
 import _ from '@styles'
@@ -37,12 +38,11 @@ const Item = (
   const isAuthor = authorId === userId
   return (
     <Flex style={[styles.item, isOdd && styles.itemOdd]} align='start'>
-      <Image
+      <Avatar
         style={styles.image}
-        size={avatarWidth}
+        navigation={navigation}
+        userId={userId}
         src={avatar}
-        radius
-        border={_.colorBorder}
       />
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>

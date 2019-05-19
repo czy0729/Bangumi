@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:23:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 21:18:57
+ * @Last Modified time: 2019-05-19 17:45:01
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ const IconBack = ({ style, navigation, color }) => (
     style={[styles.container, style]}
     onPress={() => navigation.goBack()}
   >
-    <Iconfont name='left' size={24} color={color} />
+    <Iconfont name='left' size={20} color={color} />
   </Touchable>
 )
 

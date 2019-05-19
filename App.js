@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 21:46:45
+ * @Last Modified time: 2019-05-19 19:46:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { AppLoading, Asset } from 'expo'
+import {
+  AppLoading
+  // Asset
+} from 'expo'
 import { Provider } from '@ant-design/react-native'
 import Stores from '@stores'
 import _ from '@styles'
@@ -40,10 +43,10 @@ export default class App extends React.Component {
 
   loadResourcesAsync = async () =>
     Promise.all([
-      Asset.loadAsync([
-        require('@assets/images/logo.png'),
-        require('@assets/components/activity/loading.gif')
-      ]),
+      // Asset.loadAsync([
+      //   require('@assets/images/logo.png'),
+      //   require('@assets/components/activity/loading.gif')
+      // ]),
       Stores.init()
     ])
 

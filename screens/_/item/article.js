@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 19:24:13
+ * @Last Modified time: 2019-05-19 18:19:10
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,7 +13,7 @@ import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import _ from '@styles'
 
-const ArticleItem = ({
+const ItemArticle = ({
   navigation,
   style,
   index,
@@ -64,7 +64,7 @@ const ArticleItem = ({
   )
 }
 
-export default observer(ArticleItem)
+export default observer(ItemArticle)
 
 const styles = StyleSheet.create({
   container: {

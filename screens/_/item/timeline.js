@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 03:16:40
+ * @Last Modified time: 2019-05-19 18:19:37
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image } from '@components'
 import { appNavigate } from '@utils/app'
-import _, { wind, md, colorPlain, colorBorder } from '@styles'
+import _ from '@styles'
 import Stars from '../stars'
 
 const avatarWidth = 28
@@ -140,7 +140,7 @@ class TimelineItem extends React.Component {
         src={item}
         size={48}
         radius
-        border={colorBorder}
+        border={_.colorBorder}
         onPress={() => this.appNavigate(p3.url[index])}
       />
     ))
@@ -170,7 +170,7 @@ class TimelineItem extends React.Component {
               src={avatar.src}
               size={avatarWidth}
               radius
-              border={colorBorder}
+              border={_.colorBorder}
               onPress={() => this.appNavigate(avatar.url)}
             />
           )}
@@ -201,7 +201,7 @@ class TimelineItem extends React.Component {
                 src={image[0]}
                 size={48}
                 radius
-                border={colorBorder}
+                border={_.colorBorder}
                 onPress={() => this.appNavigate(p3.url[0])}
               />
             )}
@@ -216,19 +216,19 @@ export default observer(TimelineItem)
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: colorPlain
+    backgroundColor: _.colorPlain
   },
   image: {
     width: avatarWidth,
-    marginTop: md,
-    marginLeft: wind
+    marginTop: _.md,
+    marginLeft: _.wind
   },
   content: {
-    paddingVertical: md,
-    paddingRight: wind
+    paddingVertical: _.md,
+    paddingRight: _.wind
   },
   border: {
-    borderTopColor: colorBorder,
+    borderTopColor: _.colorBorder,
     borderTopWidth: StyleSheet.hairlineWidth
   }
 })

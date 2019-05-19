@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 21:04:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 22:17:01
+ * @Last Modified time: 2019-05-19 19:51:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,15 +10,16 @@ import { SafeAreaView, DrawerItems } from 'react-navigation'
 import { DrawerActions } from 'react-navigation-drawer'
 import { observer } from 'mobx-react'
 import { BlurView, Flex, Image, Text, Touchable } from '@components'
+import { IconDrawer } from '@screens/_'
 import { userStore } from '@stores'
-import _, { colorMain, colorPlain, colorDesc, colorBorder } from '@styles'
+import _ from '@styles'
 import StatusBarPlaceholder from './status-bar-placeholder'
 
 const contentOptions = {
-  activeTintColor: colorMain,
-  activeBackgroundColor: colorPlain,
-  inactiveTintColor: colorDesc,
-  inactiveBackgroundColor: colorPlain,
+  activeTintColor: _.colorMain,
+  activeBackgroundColor: _.colorPlain,
+  inactiveTintColor: _.colorDesc,
+  inactiveBackgroundColor: _.colorPlain,
   labelStyle: {
     marginLeft: 0,
     fontWeight: 'normal'
@@ -40,7 +41,7 @@ const Drawer = ({ navigation, ...otherProps }) => {
             }}
           />
           <View style={{ width: 80 }}>
-            <Image src={avatar.large} size={80} radius border={colorBorder} />
+            <Image src={avatar.large} size={80} radius border={_.colorBorder} />
           </View>
           <Text style={_.mt.sm} size={16}>
             {nickname}
@@ -57,11 +58,7 @@ const Drawer = ({ navigation, ...otherProps }) => {
         <Flex.Item>
           <Touchable>
             <Flex style={styles.bottom}>
-              <Image
-                size={20}
-                placeholder={false}
-                src={require('@assets/images/icon/setting.png')}
-              />
+              <IconDrawer name='setting' />
               <Text style={styles.bottomText}>设置</Text>
             </Flex>
           </Touchable>
@@ -75,11 +72,7 @@ const Drawer = ({ navigation, ...otherProps }) => {
             }}
           >
             <Flex style={styles.bottom}>
-              <Image
-                size={20}
-                placeholder={false}
-                src={require('@assets/images/icon/logout.png')}
-              />
+              <IconDrawer name='logout' />
               <Text style={styles.bottomText}>注销</Text>
             </Flex>
           </Touchable>
@@ -96,7 +89,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingLeft: 17,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colorBorder
+    borderTopColor: _.colorBorder
   },
   bottomText: {
     marginLeft: 18

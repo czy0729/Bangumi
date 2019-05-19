@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 00:08:32
+ * @Last Modified time: 2019-05-19 17:29:10
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,14 +11,16 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { inject, withTransitionHeader } from '@utils/decorators'
-import { space, colorPlain } from '@styles'
+import _ from '@styles'
 import Top from './top'
 import Item from './item'
 import Store from './store'
 
 export default
 @inject(Store)
-@withTransitionHeader()
+@withTransitionHeader({
+  colorStart: _.colorTitleRaw
+})
 @observer
 class Topic extends React.Component {
   static contextTypes = {
@@ -64,9 +66,9 @@ class Topic extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colorPlain
+    backgroundColor: _.colorPlain
   },
   contentContainerStyle: {
-    paddingBottom: space
+    paddingBottom: _.space
   }
 })

@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 22:12:22
+ * @Last Modified time: 2019-05-18 02:25:03
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -108,6 +108,12 @@ export default class Image extends React.Component {
       uri = src
       if (typeof uri === 'string') {
         uri = src.replace('http://', 'https://')
+
+        // 全局控制图片质量的设置
+        if (quality) {
+          uri = uri.replace(/\/m\/|\/g\/|\/s\//, '/l/')
+        }
+
         if (uri.indexOf('https:') === -1) {
           uri = `https:${uri}`
         }

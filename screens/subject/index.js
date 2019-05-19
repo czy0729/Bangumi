@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { WebBrowser } from 'expo'
 import { ActionSheet } from '@ant-design/react-native'
 import { BlurView, ListView } from '@components'
-import { ManageModal, CommentItem } from '@screens/_'
+import { ManageModal, ItemComment } from '@screens/_'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
 import _ from '@styles'
@@ -113,7 +113,7 @@ class Subject extends React.Component {
           }}
           ListHeaderComponent={<Header />}
           renderItem={({ item, index }) => (
-            <CommentItem
+            <ItemComment
               navigation={navigation}
               index={index}
               time={item.time}

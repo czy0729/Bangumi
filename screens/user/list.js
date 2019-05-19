@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-26 20:31:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-27 01:32:15
+ * @Last Modified time: 2019-05-19 19:52:22
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { ListView, Flex, Touchable, Image } from '@components'
+import { ListView, Flex, Touchable, Iconfont } from '@components'
 import { SectionHeader } from '@screens/_'
 import { colorBg } from '@styles'
 import Item from './item'
@@ -39,15 +39,7 @@ const List = (props, { $ }) => {
           size={14}
           right={
             <Touchable onPress={() => $.toggleSection(title)}>
-              <Image
-                src={
-                  expand[title]
-                    ? require('@assets/images/icon/down-default.png')
-                    : require('@assets/images/icon/up-default.png')
-                }
-                size={18}
-                placeholder={false}
-              />
+              <Iconfont name={expand[title] ? 'down' : 'up'} size={18} />
             </Touchable>
           }
         >

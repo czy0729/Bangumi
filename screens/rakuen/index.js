@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-05 00:02:10
+ * @Last Modified time: 2019-05-19 19:33:34
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
@@ -22,7 +22,7 @@ export default
 class Rakuen extends React.Component {
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
-      <IconTabBar name='planet' tintColor={tintColor} />
+      <IconTabBar name='planet' color={tintColor} />
     ),
     tabBarLabel: '超展开'
   }

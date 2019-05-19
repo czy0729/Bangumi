@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 20:12:35
+ * @Last Modified time: 2019-05-19 18:19:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,12 +10,18 @@ import { observer } from 'mobx-react'
 import { Touchable, Text, Image } from '@components'
 import { IMG_DEFAULT } from '@constants'
 import { HTMLDecode } from '@utils/html'
-import _, { window, sm } from '@styles'
+import _ from '@styles'
 
-const imageWidth = window.width * 0.16
-const marginLeft = (window.width - 5 * imageWidth) / 6
+const imageWidth = _.window.width * 0.16
+const marginLeft = (_.window.width - 5 * imageWidth) / 6
 
-const Item = ({ navigation, style, subjectId, images = {}, name }) => {
+const ItemBangumiList = ({
+  navigation,
+  style,
+  subjectId,
+  images = {},
+  name
+}) => {
   const onPress = () => {
     navigation.push('Subject', {
       subjectId
@@ -40,12 +46,12 @@ const Item = ({ navigation, style, subjectId, images = {}, name }) => {
   )
 }
 
-export default observer(Item)
+export default observer(ItemBangumiList)
 
 const styles = StyleSheet.create({
   item: {
     width: imageWidth,
-    marginBottom: sm,
+    marginBottom: _.sm,
     marginLeft
   }
 })

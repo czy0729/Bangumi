@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:03:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-18 00:17:46
+ * @Last Modified time: 2019-05-19 19:28:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,7 +23,7 @@ import {
   Zone
 } from '@screens'
 import { IOS } from '@constants'
-import { colorMain, colorPlain, colorDesc, colorBorder } from '@styles'
+import _ from '@styles'
 import HomeScreen from '../screens/home'
 import config from './config'
 
@@ -51,8 +51,8 @@ const HomeTab = createBottomTabNavigator(
       )
     },
     tabBarOptions: {
-      activeTintColor: colorMain,
-      inactiveTintColor: colorDesc
+      activeTintColor: _.colorMain,
+      inactiveTintColor: _.colorDesc
     },
     navigationOptions: ({ navigation, screenProps }) =>
       getActiveChildNavigationOptions(navigation, screenProps)
@@ -95,11 +95,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: colorPlain
+    backgroundColor: _.colorPlain
   },
   tabBarComponent: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colorBorder,
+    borderTopColor: _.colorBorder,
     backgroundColor: 'transparent'
   }
 })

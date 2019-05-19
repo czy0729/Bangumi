@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 03:08:58
+ * @Last Modified time: 2019-05-19 18:19:25
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Image } from '@components'
+import { Flex, Text } from '@components'
 import _ from '@styles'
+import Avatar from '../avatar'
 import Stars from '../stars'
 
-const CommentItem = ({
+const ItemComment = ({
   style,
   navigation,
   index,
@@ -25,17 +26,11 @@ const CommentItem = ({
   const isTop = index === 0
   return (
     <Flex style={[styles.item, style]} align='start'>
-      <Image
+      <Avatar
         style={styles.image}
-        size={28}
+        navigation={navigation}
+        userId={userId}
         src={avatar}
-        radius
-        border={_.colorBorder}
-        onPress={() =>
-          navigation.push('Zone', {
-            userId
-          })
-        }
       />
       <Flex.Item style={[styles.content, !isTop && styles.border, _.ml.sm]}>
         <Flex>
@@ -57,7 +52,7 @@ const CommentItem = ({
   )
 }
 
-export default observer(CommentItem)
+export default observer(ItemComment)
 
 const styles = StyleSheet.create({
   item: {

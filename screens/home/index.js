@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-18 00:30:34
+ * @Last Modified time: 2019-05-19 19:35:58
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -21,9 +21,7 @@ export default
 @observer
 class Home extends React.Component {
   static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-      <IconTabBar name='heart' tintColor={tintColor} />
-    ),
+    tabBarIcon: ({ tintColor }) => <IconTabBar name='star' color={tintColor} />,
     tabBarLabel: '进度'
   }
 

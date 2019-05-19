@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand } from '@components'
-import { SectionTitle, ArticleItem } from '@screens/_'
+import { SectionTitle, ItemArticle } from '@screens/_'
 import _ from '@styles'
 
 const Blog = ({ style }, { $, navigation }) => {
@@ -23,7 +23,7 @@ const Blog = ({ style }, { $, navigation }) => {
       <SectionTitle style={{ paddingLeft: _.wind }}>评论</SectionTitle>
       <View style={_.mt.sm}>
         {blog.map((item, index) => (
-          <ArticleItem
+          <ItemArticle
             // eslint-disable-next-line react/no-array-index-key
             key={index}
             style={{ paddingLeft: _.wind }}
