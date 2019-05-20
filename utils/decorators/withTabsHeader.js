@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-18 00:30:39
+ * @Last Modified time: 2019-05-20 02:43:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { BlurView } from 'expo'
-import { IconMenu, IconSearch, Logo } from '@screens/_'
+import { Logo } from '@screens/_'
 import { IOS } from '@constants'
 import _ from '@styles'
 import observer from './observer'
@@ -26,8 +26,7 @@ const withTabsHeader = () => ComposedComponent =>
           headerStyle: {
             height: _.headerHeight - correctHeight
           },
-          headerLeft: () => <IconMenu navigation={navigation} />,
-          headerRight: <IconSearch navigation={navigation} />,
+          headerLeft: navigation.getParam('headerLeft'),
           headerTitle: <Logo />
         }
 
@@ -46,17 +45,13 @@ const withTabsHeader = () => ComposedComponent =>
               </View>
             </View>
           )
-          withTabsHeaderOptions.headerLeft = () => (
-            <IconMenu style={styles.icon} navigation={navigation} />
-          )
-          withTabsHeaderOptions.headerRight = (
-            <IconSearch style={styles.icon} navigation={navigation} />
-          )
         }
 
         return {
           ...withTabsHeaderOptions,
-          ...ComposedComponent.navigationOptions
+          ...(typeof ComposedComponent.navigationOptions === 'function'
+            ? ComposedComponent.navigationOptions({ navigation })
+            : ComposedComponent.navigationOptions)
         }
       }
 
@@ -112,8 +107,5 @@ const styles = StyleSheet.create({
     zIndex: 1,
     width: _.window.width,
     transform: [{ translateX: _.window.width * -0.5 + _.logoWidth * 0.5 }]
-  },
-  icon: {
-    marginBottom: _.tabsHeight
   }
 })

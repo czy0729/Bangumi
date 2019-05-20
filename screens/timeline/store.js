@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 22:18:36
+ * @Last Modified time: 2019-05-20 22:39:19
  */
 import { observable, computed } from 'mobx'
-import { timelineStore } from '@stores'
+import { userStore, timelineStore } from '@stores'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import store from '@utils/store'
 
@@ -34,6 +34,10 @@ export default class ScreenTimeline extends store {
   }
 
   // -------------------- get --------------------
+  @computed get isWebLogin() {
+    return userStore.isWebLogin
+  }
+
   timeline(scope, type) {
     return computed(() => timelineStore.timeline(scope, type)).get()
   }

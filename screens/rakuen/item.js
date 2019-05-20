@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 14:57:42
+ * @Last Modified time: 2019-05-19 22:09:24
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Image, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
+import { Avatar } from '@screens/_'
 import { appNavigate } from '@utils/app'
-import _, { md, wind, colorPlain, colorBg, colorBorder } from '@styles'
+import _ from '@styles'
 
 const Item = (
   { style, index, href = '', avatar, title, replies, group, time },
@@ -26,13 +27,7 @@ const Item = (
       onPress={() => appNavigate(href, navigation)}
     >
       <Flex align='start'>
-        <Image
-          style={styles.image}
-          size={28}
-          src={avatar}
-          radius
-          border={colorBorder}
-        />
+        <Avatar style={styles.image} src={avatar} />
         <Flex.Item style={[styles.item, !isTop && styles.border, _.ml.sm]}>
           <Text size={16}>
             {title}
@@ -61,21 +56,21 @@ export default observer(Item)
 
 const styles = StyleSheet.create({
   container: {
-    paddingLeft: wind,
-    backgroundColor: colorPlain
+    paddingLeft: _.wind,
+    backgroundColor: _.colorPlain
   },
   readed: {
-    backgroundColor: colorBg
+    backgroundColor: _.colorBg
   },
   image: {
-    marginTop: md
+    marginTop: _.md
   },
   item: {
-    paddingVertical: md,
-    paddingRight: wind
+    paddingVertical: _.md,
+    paddingRight: _.wind
   },
   border: {
-    borderTopColor: colorBorder,
+    borderTopColor: _.colorBorder,
     borderTopWidth: StyleSheet.hairlineWidth
   }
 })

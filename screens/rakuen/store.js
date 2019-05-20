@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 15:05:15
+ * @Last Modified time: 2019-05-20 03:18:53
  */
 import { observable, computed } from 'mobx'
-import { rakuenStore } from '@stores'
+import { rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -34,6 +34,11 @@ export default class RakuenStore extends store {
     const { _loaded, list } = this.rakuen(type)
     if (!_loaded || list.length === 0) {
       this.fetchRakuen(true)
+    }
+
+    // 查询电波提醒
+    if (userStore.isLogin) {
+      rakuenStore.fetchNotify()
     }
 
     return res

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-04 16:19:09
+ * @Last Modified time: 2019-05-20 22:47:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { userStore } from '@stores'
 import _ from '@styles'
 
 const Auth = ({ navigation }) => (
-  <View style={_.container.column}>
+  <View style={[_.container.column, { backgroundColor: _.colorBg }]}>
     <NavigationEvents
       onWillFocus={() => {
         if (userStore.isLogin) {
@@ -27,7 +27,8 @@ const Auth = ({ navigation }) => (
     <Button
       style={[
         {
-          width: 160
+          width: 160,
+          marginBottom: _.lg
         },
         _.mt.md
       ]}

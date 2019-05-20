@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 22:22:10
+ * @Last Modified time: 2019-05-20 22:43:26
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,8 +10,9 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { SectionHeader, TimelineItem } from '@screens/_'
 import { withTabsHeader } from '@utils/decorators'
-import { MODEL_TIMELINE_TYPE } from '@constants/model'
+import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import _ from '@styles'
+import Login from './login'
 
 class List extends React.Component {
   static contextTypes = {
@@ -39,13 +40,18 @@ class List extends React.Component {
   }
 
   render() {
+    const { $, navigation } = this.context
+    const { scope, title } = this.props
+    const label = MODEL_TIMELINE_SCOPE.getLabel(scope)
+    if (!$.isWebLogin && ['好友', '自己'].includes(label)) {
+      return <Login />
+    }
+
     const { hide } = this.state
     if (hide) {
       return null
     }
 
-    const { $, navigation } = this.context
-    const { scope, title } = this.props
     const timeline = $.timeline(scope, MODEL_TIMELINE_TYPE.getValue(title))
     if (!timeline._loaded) {
       return <Loading />

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 05:23:27
+ * @Last Modified time: 2019-05-19 21:15:39
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import { Constants } from 'expo'
@@ -16,7 +16,7 @@ export const window = {
   maxWidth: width, // @todo 以后兼容IPAD
   height
 }
-export const logoWidth = 123 // logo宽度
+export const logoWidth = 124 // logo宽度
 export const statusBarHeight = IOS ? Constants.statusBarHeight : 0 // 状态栏高度
 export const appBarHeight = IOS ? 44 : 56 // 单独头部高度
 export const headerHeight = appBarHeight + statusBarHeight // 整个头部高度

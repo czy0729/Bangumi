@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-14 19:57:47
+ * @Last Modified time: 2019-05-19 20:29:33
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -98,6 +98,13 @@ export default class HomeScreen extends store {
    */
   @computed get isLogin() {
     return userStore.isLogin
+  }
+
+  /**
+   * 用户信息
+   */
+  @computed get userInfo() {
+    return userStore.userInfo
   }
 
   /**

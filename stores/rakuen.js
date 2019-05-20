@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-12 04:17:54
+ * @Last Modified time: 2019-05-20 03:16:37
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import { LIST_EMPTY, LIST_LIMIT } from '@constants'
-import { HTML_RAKUEN, HTML_TOPIC } from '@constants/html'
+import { HTML_RAKUEN, HTML_TOPIC, HTML_NOTIFY } from '@constants/html'
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 import store from '@utils/store'
 
@@ -60,6 +60,12 @@ class Rakuen extends store {
     // 帖子回复
     comments: {
       // [topicId]: LIST_EMPTY | INIT_COMMENTS_ITEM
+    },
+
+    // 电波提醒
+    notify: {
+      unread: 0,
+      list: LIST_EMPTY
     }
   })
 
@@ -220,6 +226,17 @@ class Rakuen extends store {
     }
 
     return res
+  }
+
+  async fetchNotify() {
+    const res = fetchHTML({
+      url: HTML_NOTIFY()
+    })
+    const raw = await res
+    const HTML = HTMLTrim(raw)
+
+    // 未读数
+    console.log(HTML)
   }
 
   // -------------------- action --------------------

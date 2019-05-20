@@ -1,12 +1,18 @@
 /*
  * 用户
+ * accessToken和登陆时在webview里获取cookie是两套登陆状态, 暂时只能分开维护
+ * 一般cookie没多久就过期了
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 17:09:26
+ * @Last Modified time: 2019-05-20 22:26:57
  */
 import { AsyncStorage } from 'react-native'
 import { observable, computed } from 'mobx'
+import { getTimestamp } from '@utils'
+import store from '@utils/store'
+import fetch, { fetchHTML } from '@utils/fetch'
+import { HTMLTrim } from '@utils/html'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL, LIST_EMPTY } from '@constants'
 import {
   API_ACCESS_TOKEN,
@@ -17,10 +23,8 @@ import {
   API_SUBJECT_UPDATE_WATCHED,
   API_USER_COLLECTIONS
 } from '@constants/api'
+import { HTML_SETTING } from '@constants/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { getTimestamp } from '@utils'
-import store from '@utils/store'
-import fetch from '@utils/fetch'
 
 const initAccessToken = {
   access_token: '',
@@ -101,6 +105,8 @@ class User extends store {
       if (!_loaded || getTimestamp() - _loaded > 86400) {
         this.fetchUserInfo()
       }
+
+      this.doCheckCookie()
     }
     return res
   }
@@ -118,20 +124,6 @@ class User extends store {
    */
   @computed get userInfo() {
     return this.state.userInfo
-  }
-
-  /**
-   * 取自己用户Id
-   */
-  @computed get myUserId() {
-    return this.userInfo.id || this.accessToken.user_id
-  }
-
-  /**
-   * 取是否登录
-   */
-  @computed get isLogin() {
-    return !!this.accessToken.access_token
   }
 
   /**
@@ -174,6 +166,27 @@ class User extends store {
    */
   usersInfo(userId = this.myUserId) {
     return computed(() => this.state.usersInfo[userId] || initUserInfo).get()
+  }
+
+  /**
+   * 取自己用户Id
+   */
+  @computed get myUserId() {
+    return this.userInfo.id || this.accessToken.user_id
+  }
+
+  /**
+   * 取API是否登录
+   */
+  @computed get isLogin() {
+    return !!this.accessToken.access_token
+  }
+
+  /**
+   * 取Web是否登录
+   */
+  @computed get isWebLogin() {
+    return !!this.userCookie.cookie
   }
 
   // -------------------- fetch --------------------
@@ -398,6 +411,24 @@ class User extends store {
         watched_eps: sort
       }
     })
+  }
+
+  /**
+   * 检测cookie有没有过期
+   * 访问任意个人中心的页面就可以判断
+   */
+  async doCheckCookie() {
+    const res = fetchHTML({
+      url: HTML_SETTING()
+    })
+    const raw = await res
+    const HTML = HTMLTrim(raw)
+
+    if (HTML.includes('抱歉，当前操作需要您')) {
+      this.updateUserCookie()
+    }
+
+    return res
   }
 }
 

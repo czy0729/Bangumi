@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 13:45:57
+ * @Last Modified time: 2019-05-20 00:09:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -137,6 +137,7 @@ export default class Login extends React.Component {
     const { navigation } = this.props
     const code = href.replace(`${HOST}/?code=`, '')
     try {
+      info('获取token中, 请稍等...')
       await userStore.fetchAccessToken(code)
     } catch (ex) {
       this.setState({

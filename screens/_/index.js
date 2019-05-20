@@ -3,19 +3,19 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 19:30:05
+ * @Last Modified time: 2019-05-19 21:05:51
  */
 export { default as Avatar } from './avatar'
 export { default as Characters } from './characters'
-export { default as Drawer } from './drawer'
+// export { default as Drawer } from './drawer'
 export { default as Eps } from './eps'
 export { default as HorizontalList } from './horizontal-list'
 export { default as IconBack } from './icon/back'
 export { default as IconDrawer } from './icon/drawer'
 export { default as IconMenu } from './icon/menu'
 export { default as IconReverse } from './icon/reverse'
-export { default as IconSearch } from './icon/search'
 export { default as IconTabBar } from './icon/tab-bar'
+export { default as IconTabsHeader } from './icon/tabs-header'
 export { default as ItemArticle } from './item/article'
 export { default as ItemBangumiList } from './item/bangumi-list'
 export { default as ItemComment } from './item/comment'

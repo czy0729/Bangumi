@@ -3,10 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-16 12:55:34
+ * @Last Modified time: 2019-05-20 21:51:59
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { HOST } from './index'
+
+/**
+ * 个人设置
+ */
+export const HTML_SETTING = () => `${HOST}/settings`
 
 /**
  * 条目
@@ -74,3 +79,8 @@ export const HTML_SEARCH = (text, cat = '', page = 1) => {
   const [type, _cat] = cat.split('_')
   return `${HOST}/${type}_search/${text}?cat=${_cat}&page=${page}`
 }
+
+/**
+ * 电波提醒
+ */
+export const HTML_NOTIFY = () => `${HOST}/notify/all`

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 17:19:33
+ * @Last Modified time: 2019-05-19 22:09:48
  */
 import React from 'react'
 import { Image } from '@components'
@@ -15,6 +15,7 @@ const Avatar = ({ style, navigation, userId, src }) => (
     src={src}
     radius
     border={_.colorBorder}
+    quality={false}
     onPress={
       navigation
         ? () => {

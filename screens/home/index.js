@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 19:35:58
+ * @Last Modified time: 2019-05-19 21:29:37
  */
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { IconTabBar, ManageModal } from '@screens/_'
+import { Image } from '@components'
+import { ManageModal } from '@screens/_'
 import { inject, withTabsHeader } from '@utils/decorators'
 import _ from '@styles'
 import Tabs from './tabs'
@@ -20,11 +22,6 @@ export default
 @withTabsHeader()
 @observer
 class Home extends React.Component {
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => <IconTabBar name='star' color={tintColor} />,
-    tabBarLabel: '进度'
-  }
-
   static contextTypes = {
     $: PropTypes.object,
     navigation: PropTypes.object
@@ -36,6 +33,22 @@ class Home extends React.Component {
 
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
+
+    if ($.isLogin) {
+      const { avatar } = $.userInfo
+      navigation.setParams({
+        headerLeft: (
+          <Image
+            style={styles.avatar}
+            size={28}
+            src={avatar.medium}
+            onPress={() => {
+              navigation.push('User')
+            }}
+          />
+        )
+      })
+    }
   }
 
   render() {
@@ -75,3 +88,12 @@ class Home extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  avatar: {
+    marginLeft: _.sm,
+    marginBottom: _.tabsHeight,
+    borderRadius: 32,
+    overflow: 'hidden'
+  }
+})

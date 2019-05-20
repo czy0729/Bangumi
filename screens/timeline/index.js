@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 19:35:02
+ * @Last Modified time: 2019-05-19 22:43:39
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
@@ -22,7 +22,7 @@ export default
 class Timeline extends React.Component {
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
-      <IconTabBar name='shijian' color={tintColor} />
+      <IconTabBar name='time' color={tintColor} />
     ),
     tabBarLabel: '时间胶囊'
   }

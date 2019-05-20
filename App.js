@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 19:46:18
+ * @Last Modified time: 2019-05-20 21:38:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -43,10 +43,7 @@ export default class App extends React.Component {
 
   loadResourcesAsync = async () =>
     Promise.all([
-      // Asset.loadAsync([
-      //   require('@assets/images/logo.png'),
-      //   require('@assets/components/activity/loading.gif')
-      // ]),
+      // Asset.loadAsync([]),
       Stores.init()
     ])
 

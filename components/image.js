@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-18 02:25:03
+ * @Last Modified time: 2019-05-19 22:10:39
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -31,6 +31,7 @@ export default class Image extends React.Component {
     shadow: false, // 阴影
     placeholder: true, // 是否有底色
     autoSize: 0, // 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例
+    quality: true, // 是否自动选择Bangumi图片质量
     onPress: undefined,
     onLongPress: undefined
   }
@@ -62,7 +63,7 @@ export default class Image extends React.Component {
     let res
     let uri
     let quality = false
-    if (systemStore.isWifi) {
+    if (this.props.quality && systemStore.isWifi) {
       quality = true
     }
 
@@ -164,6 +165,7 @@ export default class Image extends React.Component {
       shadow,
       placeholder,
       autoSize,
+      quality,
       onPress,
       onLongPress,
       ...other
