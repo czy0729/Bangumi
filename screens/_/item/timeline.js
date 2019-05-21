@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 18:19:37
+ * @Last Modified time: 2019-05-21 20:34:09
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Image } from '@components'
+import { Modal } from '@ant-design/react-native'
+import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { appNavigate } from '@utils/app'
 import _ from '@styles'
 import Stars from '../stars'
@@ -161,7 +162,18 @@ class TimelineItem extends React.Component {
   }
 
   render() {
-    const { style, index, avatar, p3, star, reply, time, image } = this.props
+    const {
+      style,
+      index,
+      avatar,
+      p3,
+      star,
+      reply,
+      time,
+      image,
+      clearHref,
+      onDelete
+    } = this.props
     return (
       <Flex style={[styles.item, style]} align='start'>
         <View style={styles.image}>
@@ -195,21 +207,55 @@ class TimelineItem extends React.Component {
                 <Stars value={star} />
               </Flex>
             </Flex.Item>
-            {image.length === 1 && (
-              <Image
-                style={_.ml.sm}
-                src={image[0]}
-                size={48}
-                radius
-                border={_.colorBorder}
-                onPress={() => this.appNavigate(p3.url[0])}
-              />
-            )}
+            <Flex align='start'>
+              {image.length === 1 && (
+                <Image
+                  style={_.ml.sm}
+                  src={image[0]}
+                  size={48}
+                  radius
+                  border={_.colorBorder}
+                  onPress={() => this.appNavigate(p3.url[0])}
+                />
+              )}
+              {!!clearHref && (
+                <Touchable
+                  style={_.ml.sm}
+                  onPress={() => {
+                    Modal.alert(
+                      '确定删除?',
+                      <Text style={{ marginTop: -16 }} />, // 缩短一下这个描述的高度
+                      [
+                        {
+                          text: '取消',
+                          style: {
+                            color: _.colorSub
+                          }
+                        },
+                        {
+                          text: '确定',
+                          style: {
+                            color: _.colorDanger
+                          },
+                          onPress: () => onDelete(clearHref)
+                        }
+                      ]
+                    )
+                  }}
+                >
+                  <Iconfont style={styles.del} name='close' size={12} />
+                </Touchable>
+              )}
+            </Flex>
           </Flex>
         </Flex.Item>
       </Flex>
     )
   }
+}
+
+TimelineItem.defaultProps = {
+  onDelete: Function.prototype
 }
 
 export default observer(TimelineItem)
@@ -230,5 +276,12 @@ const styles = StyleSheet.create({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: StyleSheet.hairlineWidth
+  },
+  del: {
+    padding: _.sm,
+    marginTop: -_.sm,
+    marginRight: -_.sm,
+    width: 12 + _.sm * 2,
+    height: 12 + _.sm * 2
   }
 })

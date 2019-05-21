@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 22:39:19
+ * @Last Modified time: 2019-05-21 20:05:38
  */
 import { observable, computed } from 'mobx'
 import { userStore, timelineStore } from '@stores'
-import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
+import { fetchHTML } from '@utils/fetch'
 import store from '@utils/store'
+import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 
 export const tabs = MODEL_TIMELINE_TYPE.data.map(item => ({
   title: item.label
@@ -99,4 +100,21 @@ export default class ScreenTimeline extends store {
   }
 
   // -------------------- action --------------------
+  /**
+   * 删除时间线
+   */
+  doDelete = async href => {
+    if (!href) {
+      return false
+    }
+
+    const res = fetchHTML({
+      method: 'POST',
+      url: href
+    })
+    await res
+    this.fetchTimeline(true)
+
+    return res
+  }
 }

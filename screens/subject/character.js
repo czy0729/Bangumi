@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:22:27
+ * @Last Modified time: 2019-05-21 17:28:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,6 +38,7 @@ const Character = ({ style }, { $, navigation }) => {
       <HorizontalList
         style={_.mt.sm}
         data={data}
+        quality={false}
         onPress={id =>
           navigation.push('Mono', {
             monoId: `character/${id}`

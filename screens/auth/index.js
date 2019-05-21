@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 22:47:11
+ * @Last Modified time: 2019-05-21 17:44:34
  */
 import React from 'react'
 import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
 import { Text, Button } from '@components'
+import { IconTabBar } from '@screens/_'
 import { userStore } from '@stores'
 import _ from '@styles'
 
@@ -41,7 +42,9 @@ const Auth = ({ navigation }) => (
 )
 
 Auth.navigationOptions = {
-  header: null
+  header: null,
+  tabBarIcon: ({ tintColor }) => <IconTabBar name='star' color={tintColor} />,
+  tabBarLabel: '进度'
 }
 
 export default observer(Auth)

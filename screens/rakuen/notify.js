@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 04:49:02
+ * @Last Modified time: 2019-05-21 17:21:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,16 +10,10 @@ import { IconTabsHeader } from '@screens/_'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 
-const Notify = ({ navigation }) => (
+const Notify = ({ onPress }) => (
   <View>
     <View style={styles.dot} />
-    <IconTabsHeader
-      style={_.ml.sm}
-      name='mail'
-      onPress={() => {
-        navigation.push('Notify')
-      }}
-    />
+    <IconTabsHeader name='mail' onPress={onPress} />
   </View>
 )
 

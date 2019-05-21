@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 22:43:26
+ * @Last Modified time: 2019-05-21 19:47:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -68,7 +68,12 @@ class List extends React.Component {
           <SectionHeader>{title}</SectionHeader>
         )}
         renderItem={({ item, index }) => (
-          <TimelineItem navigation={navigation} index={index} {...item} />
+          <TimelineItem
+            navigation={navigation}
+            index={index}
+            {...item}
+            onDelete={$.doDelete}
+          />
         )}
         onHeaderRefresh={() => $.fetchTimeline(true)}
         onFooterRefresh={$.fetchTimeline}

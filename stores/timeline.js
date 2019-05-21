@@ -1,24 +1,23 @@
 /* eslint-disable prefer-destructuring */
-/* eslint-disable indent */
 /*
  * 时间胶囊
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 16:58:24
+ * @Last Modified time: 2019-05-21 20:24:04
  */
 import { observable, computed } from 'mobx'
-import { HOST, HOST_NAME, LIST_EMPTY } from '@constants'
-import { HTML_TIMELINE } from '@constants/html'
-import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import { trim, getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
+import { HOST, HOST_NAME, LIST_EMPTY } from '@constants'
+import { HTML_TIMELINE } from '@constants/html'
+import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import userStore from './user'
 
-const initScope = MODEL_TIMELINE_SCOPE.getValue('好友')
-const initType = MODEL_TIMELINE_TYPE.getValue('全部')
+const defaultScope = MODEL_TIMELINE_SCOPE.getValue('好友')
+const defaultType = MODEL_TIMELINE_TYPE.getValue('全部')
 
 class Timeline extends store {
   state = observable({
@@ -49,7 +48,7 @@ class Timeline extends store {
    * @param {*} scope 范围
    * @param {*} type 类型
    */
-  timeline(scope = initScope, type = initType) {
+  timeline(scope = defaultScope, type = defaultType) {
     return computed(
       () => this.state.timeline[`${scope}|${type}`] || LIST_EMPTY
     ).get()
@@ -68,7 +67,10 @@ class Timeline extends store {
    * 获取自己的时间胶囊
    * @todo 10个种类, 每个种类都有差别, 甚至出现分不清种类的情况, 影响较大时再优化
    */
-  async fetchTimeline({ scope = initScope, type = initType } = {}, refresh) {
+  async fetchTimeline(
+    { scope = defaultScope, type = defaultType } = {},
+    refresh
+  ) {
     const timeline = this.timeline(scope, type)
     const res = _fetchTimeline(
       { scope, type, userId: userStore.myUserId },
@@ -98,7 +100,7 @@ class Timeline extends store {
   async fetchUsersTimeline({ userId = userStore.myUserId } = {}, refresh) {
     // 范围是自己返回的是某个人的请求地址
     const scope = MODEL_TIMELINE_SCOPE.getValue('自己')
-    const type = initType
+    const type = defaultType
     const timeline = this.usersTimeline(userId)
     const res = _fetchTimeline(
       { scope, type, userId },
@@ -161,12 +163,12 @@ async function _fetchTimeline(
     const tree = HTMLToTree(HTML[1])
     let node
 
-    // ---------- 日期分组
+    // 日期分组
     const dates = findTreeNode(tree.children, 'h4', []).map(
       item => item.text[0]
     )
 
-    // ---------- 项
+    // 项
     findTreeNode(tree.children, 'ul', []).forEach((item, index) => {
       findTreeNode(item.children, 'li', []).forEach((i, idx) => {
         const { children } = i
@@ -175,7 +177,7 @@ async function _fetchTimeline(
          * @issue 所有人的场景下, 数据变化非常快, 而且又没有任何手段去保证数据唯一
          * 所以每次获取id时, 先跟历史比较, 假如发现存在, 直接return
          */
-        // ---------- id
+        // id
         // @todo 暂时用把page也作为key的一部分排除相同的列
         const id = `${page}|${i.attrs.id.replace('tml_', '')}`
 
@@ -198,7 +200,7 @@ async function _fetchTimeline(
           text: ''
         }
 
-        // ---------- 头像
+        // 头像
         const avatar = {
           src: '',
           url: ''
@@ -222,7 +224,7 @@ async function _fetchTimeline(
           avatar.url = node ? node[0].attrs.href : ''
         }
 
-        // ---------- 位置1
+        // 位置1
         if (!isSelf) {
           node = findTreeNode(
             children,
@@ -234,7 +236,7 @@ async function _fetchTimeline(
           }
         }
 
-        // ---------- 位置2, 位置4
+        // 位置2, 位置4
         node = findTreeNode(children, 'span|text&class=info_full clearit')
         if (node) {
           p2.text = trim(node[0].text[0])
@@ -245,7 +247,7 @@ async function _fetchTimeline(
           p4.text = trim(text[1])
         }
 
-        // ---------- 位置3: case 1 (条目, 角色, 人物, 小组, 目录, 天窗)
+        // 位置3: case 1 (条目, 角色, 人物, 小组, 目录, 天窗)
         node =
           findTreeNode(
             children,
@@ -293,7 +295,7 @@ async function _fetchTimeline(
           }
         }
 
-        // ---------- 条目
+        // 条目
         node = findTreeNode(
           children,
           `div > a|text&class=tip&href~://${HOST_NAME}/subject/`
@@ -303,23 +305,23 @@ async function _fetchTimeline(
           ? node[0].attrs.href.replace(`${HOST}/subject/`, '')
           : 0
 
-        // ---------- 时间
+        // 时间
         node = findTreeNode(children, 'p|text&class=date')
         const time = node ? node[0].text[0] : ''
 
-        // ---------- 评分
+        // 评分
         node = findTreeNode(children, 'div > span|class~sstars')
         const star = node
           ? node[0].attrs.class.replace(/sstars| starsinfo/g, '')
           : ''
 
-        // ---------- 评论 | 小组描述
+        // 评论 | 小组描述
         node =
           findTreeNode(children, 'div > div > q|text') ||
           findTreeNode(children, 'div > span|text&class=tip_j')
         const comment = node ? HTMLDecode(node[0].text[0]) : ''
 
-        // ---------- 留言
+        // 留言
         const reply = {
           content: '',
           count: '',
@@ -346,12 +348,16 @@ async function _fetchTimeline(
           reply.url = node[0].attrs.href
         }
 
-        // ---------- 图片
+        // 图片
         const image = (
           findTreeNode(children, 'a > img|class=rr') ||
           findTreeNode(children, 'div > a > img|class=grid') ||
           []
         ).map(item => item.attrs.src)
+
+        // 删除动作
+        node = findTreeNode(children, 'a|href&title=删除这条时间线')
+        const clearHref = node ? node[0].attrs.href : ''
 
         const data = {
           date: dates[index],
@@ -367,7 +373,8 @@ async function _fetchTimeline(
           star,
           comment,
           reply,
-          image
+          image,
+          clearHref
         }
         timeline.push(data)
       })

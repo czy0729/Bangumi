@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 02:43:50
+ * @Last Modified time: 2019-05-21 17:34:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { IOS } from '@constants'
 import _ from '@styles'
 import observer from './observer'
 
-const correctHeight = 16 // @issue IOS端头部高度误差修正值
+const correctHeight = 14 // @issue IOS端头部高度误差修正值
 
 // (1) 装饰器
 const withTabsHeader = () => ComposedComponent =>
@@ -27,6 +27,7 @@ const withTabsHeader = () => ComposedComponent =>
             height: _.headerHeight - correctHeight
           },
           headerLeft: navigation.getParam('headerLeft'),
+          headerRight: navigation.getParam('headerRight'),
           headerTitle: <Logo />
         }
 

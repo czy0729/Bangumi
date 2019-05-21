@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 21:29:37
+ * @Last Modified time: 2019-05-21 17:16:38
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,7 +10,7 @@ import { NavigationEvents, SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
-import { ManageModal } from '@screens/_'
+import { IconTabBar, IconTabsHeader, ManageModal } from '@screens/_'
 import { inject, withTabsHeader } from '@utils/decorators'
 import _ from '@styles'
 import Tabs from './tabs'
@@ -22,6 +22,14 @@ export default
 @withTabsHeader()
 @observer
 class Home extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <IconTabsHeader name='search' onPress={() => navigation.push('Search')} />
+    ),
+    tabBarIcon: ({ tintColor }) => <IconTabBar name='star' color={tintColor} />,
+    tabBarLabel: '进度'
+  })
+
   static contextTypes = {
     $: PropTypes.object,
     navigation: PropTypes.object

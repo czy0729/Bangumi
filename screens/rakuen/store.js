@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 04:01:12
+ * @Last Modified time: 2019-05-21 16:55:44
  */
 import { observable, computed } from 'mobx'
-import { rakuenStore } from '@stores'
+import { rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -51,6 +51,10 @@ export default class RakuenStore extends store {
 
   @computed get notifyUnread() {
     return rakuenStore.notify.unread
+  }
+
+  @computed get isWebLogin() {
+    return userStore.isWebLogin
   }
 
   // -------------------- fetch --------------------

@@ -3,8 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 03:19:44
+ * @Last Modified time: 2019-05-21 20:38:59
  */
+import { Portal, Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
 import { urlStringify, sleep, getTimestamp } from './index'
 import { log } from './dev'
@@ -41,9 +42,9 @@ const cacheHeaders = {
  */
 const retryCount = {}
 export default async function _fetch({
+  method = 'GET',
   url,
   data = {},
-  method = 'GET',
   retryCb,
   info = ''
 } = {}) {
@@ -75,8 +76,17 @@ export default async function _fetch({
   }
   log(info, _url)
 
+  let key
+  if (method === 'POST') {
+    key = Toast.loading('Loading...', 0)
+  }
   return fetch(_url, _config)
-    .then(response => response.json())
+    .then(response => {
+      if (key) {
+        Portal.remove(key)
+      }
+      return response.json()
+    })
     .then(res => {
       // 成功后清除失败计数
       if (isGet) {
@@ -102,6 +112,10 @@ export default async function _fetch({
       return Promise.resolve(safe(res))
     })
     .catch(async err => {
+      if (key) {
+        Portal.remove(key)
+      }
+
       // @issue Bangumi提供的API的代理经常报错, 我也就只能一直请求到成功为止了hhh
       if (isGet && typeof retryCb === 'function') {
         await sleep()
@@ -125,11 +139,16 @@ export default async function _fetch({
  * @version 190323 1.0
  * @param {*} param
  */
-export async function fetchHTML({ url, headers = {}, cookie } = {}) {
+export async function fetchHTML({
+  method = 'GET',
+  url,
+  headers = {},
+  cookie
+} = {}) {
   const userStore = require('../stores/user').default
   const { userAgent, cookie: userCookie } = userStore.userCookie
   const data = {
-    method: 'GET'
+    method
   }
 
   let _url = url.replace('!', '') // 叹号代表不携带cookie
@@ -153,7 +172,22 @@ export async function fetchHTML({ url, headers = {}, cookie } = {}) {
   }
   log(_url, data)
 
-  return fetch(_url, data).then(res => Promise.resolve(res._bodyInit))
+  let key
+  if (method === 'POST') {
+    key = Toast.loading('Loading...', 0)
+  }
+  return fetch(_url, data)
+    .then(res => {
+      if (key) {
+        Portal.remove(key)
+      }
+      return Promise.resolve(res._bodyInit)
+    })
+    .catch(() => {
+      if (key) {
+        Portal.remove(key)
+      }
+    })
 }
 
 /**

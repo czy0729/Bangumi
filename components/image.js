@@ -9,13 +9,16 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 22:10:39
+ * @Last Modified time: 2019-05-21 17:35:52
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
-import { CacheManager } from 'react-native-expo-image-cache'
+import {
+  Image as AnimateImage,
+  CacheManager
+} from 'react-native-expo-image-cache'
 import { systemStore } from '@stores'
-import { IOS, IMG_ERROR } from '@constants'
+import { IOS, IMG_EMPTY, IMG_ERROR } from '@constants'
 import { colorBg, radiusXs, shadow } from '@styles'
 import Touchable from './touchable'
 
@@ -221,16 +224,16 @@ export default class Image extends React.Component {
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
-        // image = (
-        //   <AnimateImage
-        //     style={_image}
-        //     tint='light'
-        //     preview={IMG_EMPTY}
-        //     uri={uri}
-        //     {...other}
-        //   />
-        // )
-        image = <RNImage style={_image} source={{ uri }} {...other} />
+        image = (
+          <AnimateImage
+            style={_image}
+            tint='light'
+            preview={IMG_EMPTY}
+            uri={uri}
+            {...other}
+          />
+        )
+        // image = <RNImage style={_image} source={{ uri }} {...other} />
       } else {
         image = <View style={_image} />
       }

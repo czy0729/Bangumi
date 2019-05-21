@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:21:43
+ * @Last Modified time: 2019-05-21 17:28:33
  */
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
@@ -11,7 +11,7 @@ import { Image, Text, Touchable } from '@components'
 import { IMG_DEFAULT } from '@constants'
 import _ from '@styles'
 
-const HorizontalList = ({ style, data, width, height, onPress }) => (
+const HorizontalList = ({ style, data, width, height, quality, onPress }) => (
   <ScrollView
     style={style}
     contentContainerStyle={styles.contentContainerStyle}
@@ -35,6 +35,7 @@ const HorizontalList = ({ style, data, width, height, onPress }) => (
           radius
           border
           shadow
+          quality={quality}
         />
         <Text style={_.mt.sm} numberOfLines={2}>
           {item.name}

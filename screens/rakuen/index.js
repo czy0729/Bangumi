@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 14:50:16
+ * @Last Modified time: 2019-05-21 17:21:01
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
@@ -22,23 +22,12 @@ export default
 @withTabsHeader()
 @observer
 class Rakuen extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <IconTabsHeader
-        name='add'
-        onPress={() => {
-          navigation.push('WebView', {
-            uri: HTML_NEW_TOPIC(),
-            title: '添加新讨论'
-          })
-        }}
-      />
-    ),
+  static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
       <IconTabBar name='planet' color={tintColor} />
     ),
     tabBarLabel: '超展开'
-  })
+  }
 
   static contextTypes = {
     $: PropTypes.object,
@@ -51,15 +40,33 @@ class Rakuen extends React.Component {
 
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
+
+    const onPress = () => {
+      if ($.isWebLogin) {
+        navigation.push('Notify')
+      } else {
+        navigation.push('Login')
+      }
+    }
     navigation.setParams({
       headerLeft: $.notifyUnread ? (
-        <Notify navigation={navigation} />
+        <Notify onPress={onPress} />
       ) : (
+        <IconTabsHeader name='mail' onPress={onPress} />
+      ),
+      headerRight: (
         <IconTabsHeader
-          style={_.ml.sm}
-          name='mail'
+          name='add'
+          position='right'
           onPress={() => {
-            navigation.push('Notify')
+            if ($.isWebLogin) {
+              navigation.push('WebView', {
+                uri: HTML_NEW_TOPIC(),
+                title: '添加新讨论'
+              })
+            } else {
+              navigation.push('Login')
+            }
           }}
         />
       )

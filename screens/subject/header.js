@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 20:42:29
+ * @Last Modified time: 2019-05-21 17:33:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading } from '@components'
+import { Loading, Text } from '@components'
 import { SectionTitle, IconReverse } from '@screens/_'
 import _ from '@styles'
 import Head from './head'
@@ -29,7 +29,7 @@ const Header = (props, { $ }) => {
     $.subjectEp._loaded &&
     $.userProgress._loaded &&
     $.subjectFormHTML._loaded
-  const { _reverse } = $.subjectComments
+  const { list, _reverse } = $.subjectComments
   return (
     <>
       <Head />
@@ -56,7 +56,10 @@ const Header = (props, { $ }) => {
                 />
               }
             >
-              吐槽箱
+              吐槽箱{' '}
+              <Text size={12} type='sub'>
+                ({list.length})
+              </Text>
             </SectionTitle>
           </>
         ) : (
