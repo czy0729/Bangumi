@@ -5,13 +5,13 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 22:26:57
+ * @Last Modified time: 2019-05-21 04:08:27
  */
 import { AsyncStorage } from 'react-native'
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
-import fetch, { fetchHTML } from '@utils/fetch'
+import fetch from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL, LIST_EMPTY } from '@constants'
 import {
@@ -23,8 +23,8 @@ import {
   API_SUBJECT_UPDATE_WATCHED,
   API_USER_COLLECTIONS
 } from '@constants/api'
-import { HTML_SETTING } from '@constants/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import RakuenStore from './rakuen'
 
 const initAccessToken = {
   access_token: '',
@@ -106,7 +106,11 @@ class User extends store {
         this.fetchUserInfo()
       }
 
-      this.doCheckCookie()
+      try {
+        await this.doCheckCookie()
+      } catch (e) {
+        // do nothing
+      }
     }
     return res
   }
@@ -418,9 +422,7 @@ class User extends store {
    * 访问任意个人中心的页面就可以判断
    */
   async doCheckCookie() {
-    const res = fetchHTML({
-      url: HTML_SETTING()
-    })
+    const res = RakuenStore.fetchNotify()
     const raw = await res
     const HTML = HTMLTrim(raw)
 

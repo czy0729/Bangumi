@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-16 21:38:38
+ * @Last Modified time: 2019-05-21 03:19:44
  */
 import { APP_ID } from '@constants'
 import { urlStringify, sleep, getTimestamp } from './index'
@@ -138,7 +138,7 @@ export async function fetchHTML({ url, headers = {}, cookie } = {}) {
       'User-Agent': userAgent,
 
       // 前面这个分号很重要, CDN那边经常给我加一堆乱七八糟的会搞坏cookie
-      Cookie: `; ${userCookie}; ${cookie}`,
+      Cookie: cookie ? `; ${userCookie}; ${cookie};` : `; ${userCookie};`,
       ...cacheHeaders,
       ...headers
     }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 22:34:31
+ * @Last Modified time: 2019-05-21 14:12:15
  */
 import { WebBrowser } from 'expo'
 import { HOST, HOST_NAME } from '@constants'
@@ -66,6 +66,14 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes('/rakuen/topic/')) {
     navigation.push('Topic', {
       topicId: _url.replace(`${HOST}/rakuen/topic/`, ''),
+      _url
+    })
+    return
+  }
+
+  if (_url.includes('/group/topic/')) {
+    navigation.push('Topic', {
+      topicId: `group/${_url.replace(`${HOST}/group/topic/`, '')}`,
       _url
     })
     return

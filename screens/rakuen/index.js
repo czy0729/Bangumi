@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 02:40:43
+ * @Last Modified time: 2019-05-21 14:50:16
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
@@ -10,9 +10,10 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
 import { inject, withTabsHeader } from '@utils/decorators'
-import { HOST } from '@constants'
+import { HTML_NEW_TOPIC } from '@constants/html'
 import _ from '@styles'
 import Tabs from './tabs'
+import Notify from './notify'
 import List from './list'
 import Store, { tabs } from './store'
 
@@ -22,13 +23,12 @@ export default
 @observer
 class Rakuen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    headerLeft: <IconTabsHeader style={_.ml.sm} name='mail' />,
     headerRight: (
       <IconTabsHeader
         name='add'
         onPress={() => {
           navigation.push('WebView', {
-            uri: `${HOST}/rakuen/new_topic`,
+            uri: HTML_NEW_TOPIC(),
             title: '添加新讨论'
           })
         }}
@@ -51,6 +51,19 @@ class Rakuen extends React.Component {
 
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
+    navigation.setParams({
+      headerLeft: $.notifyUnread ? (
+        <Notify navigation={navigation} />
+      ) : (
+        <IconTabsHeader
+          style={_.ml.sm}
+          name='mail'
+          onPress={() => {
+            navigation.push('Notify')
+          }}
+        />
+      )
+    })
   }
 
   render() {

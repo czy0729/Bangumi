@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 03:18:53
+ * @Last Modified time: 2019-05-21 04:01:12
  */
 import { observable, computed } from 'mobx'
-import { rakuenStore, userStore } from '@stores'
+import { rakuenStore } from '@stores'
 import store from '@utils/store'
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -36,11 +36,6 @@ export default class RakuenStore extends store {
       this.fetchRakuen(true)
     }
 
-    // 查询电波提醒
-    if (userStore.isLogin) {
-      rakuenStore.fetchNotify()
-    }
-
     return res
   }
 
@@ -52,6 +47,10 @@ export default class RakuenStore extends store {
 
   comments(topidId) {
     return computed(() => rakuenStore.comments(topidId)).get()
+  }
+
+  @computed get notifyUnread() {
+    return rakuenStore.notify.unread
   }
 
   // -------------------- fetch --------------------

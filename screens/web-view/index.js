@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 02:46:51
+ * @Last Modified time: 2019-05-21 14:31:31
  */
 import React from 'react'
 import { HOST_NAME } from '@constants'
@@ -27,11 +27,6 @@ class WebView extends React.Component {
     navigation.goBack()
   }
 
-  onMessage = async event => {
-    const { type, data } = JSON.parse(event.nativeEvent.data)
-    console.log(type, data)
-  }
-
   render() {
     const { navigation } = this.props
     const uri = navigation.getParam('uri')
@@ -46,7 +41,6 @@ class WebView extends React.Component {
           document.cookie = '${cookie}';
         }())`}
         onError={this.onError}
-        onMessage={this.onMessage}
       />
     )
   }

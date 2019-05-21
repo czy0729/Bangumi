@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 21:38:38
+ * @Last Modified time: 2019-05-21 14:53:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,8 @@ import {
   // Asset
 } from 'expo'
 import { Provider } from '@ant-design/react-native'
-import Stores from '@stores'
+import { WebView } from '@components'
+import Stores, { userStore } from '@stores'
 import _ from '@styles'
 import theme from '@styles/theme'
 import Navigations from './navigations'
@@ -57,6 +58,14 @@ export default class App extends React.Component {
     })
   }
 
+  // renderWebViewToPassCookie() {
+  //   if (!userStore.isWebLogin) {
+  //     return null
+  //   }
+
+  //   return <WebView uri />
+  // }
+
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -73,6 +82,7 @@ export default class App extends React.Component {
         <Provider theme={theme}>
           <Navigations />
         </Provider>
+        {/* {this.renderWebViewToPassCookie()} */}
       </View>
     )
   }

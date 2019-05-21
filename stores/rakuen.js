@@ -4,13 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 03:16:37
+ * @Last Modified time: 2019-05-21 14:25:24
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
-import { LIST_EMPTY, LIST_LIMIT } from '@constants'
+import { HOST, LIST_EMPTY, LIST_LIMIT } from '@constants'
 import { HTML_RAKUEN, HTML_TOPIC, HTML_NOTIFY } from '@constants/html'
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 import store from '@utils/store'
@@ -65,7 +65,8 @@ class Rakuen extends store {
     // 电波提醒
     notify: {
       unread: 0,
-      list: LIST_EMPTY
+      clearHref: '',
+      list: []
     }
   })
 
@@ -73,13 +74,15 @@ class Rakuen extends store {
     const res = Promise.all([
       this.getStorage('rakuen'),
       this.getStorage('topic'),
-      this.getStorage('comments')
+      this.getStorage('comments'),
+      this.getStorage('notify')
     ])
     const state = await res
     this.setState({
       rakuen: state[0],
       topic: state[1],
-      comments: state[2]
+      comments: state[2],
+      notify: state[3]
     })
 
     return res
@@ -111,6 +114,13 @@ class Rakuen extends store {
    */
   comments(topicId = 0) {
     return computed(() => this.state.comments[topicId] || LIST_EMPTY).get()
+  }
+
+  /**
+   * 电波提醒
+   */
+  @computed get notify() {
+    return this.state.notify
   }
 
   // -------------------- fetch --------------------
@@ -228,18 +238,114 @@ class Rakuen extends store {
     return res
   }
 
-  async fetchNotify() {
+  /**
+   * 电波提醒
+   */
+  async fetchNotify(analysis = false) {
     const res = fetchHTML({
       url: HTML_NOTIFY()
     })
     const raw = await res
     const HTML = HTMLTrim(raw)
+    let { unread, clearHref, list } = this.notify
+
+    // 清除动作
+    const clearHTML = HTML.match(
+      /<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/
+    )
+    if (clearHTML) {
+      clearHref = clearHTML[1]
+    }
 
     // 未读数
-    console.log(HTML)
+    const countHTML = HTML.match(/<span id="notify_count">(.+?)<\/span>/)
+    if (countHTML) {
+      unread = parseInt(countHTML[1])
+    }
+
+    // 回复内容
+    if (analysis) {
+      const listHTML = HTML.match(
+        /<div id="comment_list">(.+?)<\/div><\/div><\/div><div id="footer"/
+      )
+      if (listHTML) {
+        list = []
+        const tree = HTMLToTree(listHTML[1])
+        tree.children.forEach((item, index) => {
+          if (index > 40) {
+            return
+          }
+
+          const { children } = item
+          let node
+
+          node = findTreeNode(children, 'a > span|style')
+          const avatar = node
+            ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
+            : ''
+
+          node = findTreeNode(children, 'div > a|text&href')
+          const userName = node ? node[0].text[0] : ''
+          const userId = node
+            ? node[0].attrs.href.replace(`${HOST}/user/`, '')
+            : ''
+
+          node = findTreeNode(children, 'div > div > a|text&href')
+          const title = node ? node[0].text[0] : ''
+          const href = node ? node[0].attrs.href.replace(/#post_\d+/, '') : ''
+
+          node = findTreeNode(children, 'div > div|text')
+          const message = node ? node[0].text[0] : ''
+          const message2 = node ? node[0].text[1] : ''
+
+          list.push({
+            avatar,
+            userName,
+            userId,
+            title,
+            href,
+            message,
+            message2
+          })
+        })
+      }
+    }
+
+    const key = 'notify'
+    this.setState({
+      [key]: {
+        unread,
+        clearHref,
+        list
+      }
+    })
+    this.setStorage(key)
+
+    return res
   }
 
   // -------------------- action --------------------
+  /**
+   * 清除电波提醒未读
+   */
+  doClearNotify = async () => {
+    const { clearHref } = this.notify
+    if (clearHref) {
+      await fetchHTML({
+        url: `${HOST}${clearHref}`
+      })
+
+      const key = 'notify'
+      this.setState({
+        [key]: {
+          ...this.notify,
+          unread: 0,
+          clearHTML: ''
+        }
+      })
+      this.setStorage(key)
+    }
+  }
 }
 
 export default new Rakuen()

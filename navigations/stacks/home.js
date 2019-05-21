@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:03:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 22:49:34
+ * @Last Modified time: 2019-05-21 14:53:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,6 +20,7 @@ import {
   Rakuen,
   Timeline,
   Topic,
+  Notify,
   User,
   Zone,
   WebView
@@ -71,7 +72,8 @@ const HomeStack = createStackNavigator(
     Topic,
     User,
     WebView,
-    Zone
+    Zone,
+    Notify
   },
   {
     initialRouteName: 'HomeTab',

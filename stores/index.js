@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 21:55:24
+ * @Last Modified time: 2019-05-21 04:09:24
  */
 import { observable } from 'mobx'
 import systemStore from './system'
@@ -64,7 +64,6 @@ class Stores {
 }
 
 const Store = new Stores()
-Store.init()
 
 export default Store
 export {
