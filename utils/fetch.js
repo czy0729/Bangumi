@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 20:38:59
+ * @Last Modified time: 2019-05-22 22:54:05
  */
 import { Portal, Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
@@ -19,6 +19,7 @@ import { info as UIInfo } from './ui'
 // const STATUS_NOT_FOUND = 404
 // const STATUS_METHOD_NOT_ALLOWED = 405
 
+const OFFLINE = false
 const ERR_RETRY_COUNT = 5 // GET请求失败重试次数
 
 // 防止cookie过期
@@ -48,6 +49,10 @@ export default async function _fetch({
   retryCb,
   info = ''
 } = {}) {
+  if (OFFLINE) {
+    return false
+  }
+
   // 避免userStore循环引用
   const userStore = require('../stores/user').default
   const {
@@ -145,6 +150,10 @@ export async function fetchHTML({
   headers = {},
   cookie
 } = {}) {
+  if (OFFLINE) {
+    return false
+  }
+
   const userStore = require('../stores/user').default
   const { userAgent, cookie: userCookie } = userStore.userCookie
   const data = {

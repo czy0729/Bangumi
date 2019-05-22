@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 21:54:03
+ * @Last Modified time: 2019-05-22 05:05:15
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -154,7 +154,7 @@ export default class SubjectScreen extends store {
       userStore.fetchUserProgress()
     }
 
-    if (value === '本集讨论') {
+    if (value.includes('本集讨论')) {
       appNavigate(item.url, navigation)
     }
   }

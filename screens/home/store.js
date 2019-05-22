@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 20:29:33
+ * @Last Modified time: 2019-05-22 05:05:03
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -405,7 +405,7 @@ export default class HomeScreen extends store {
       userStore.fetchUserProgress()
     }
 
-    if (value === '本集讨论') {
+    if (value.includes('本集讨论')) {
       appNavigate(item.url, navigation)
     }
   }

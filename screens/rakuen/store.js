@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 16:55:44
+ * @Last Modified time: 2019-05-22 15:49:18
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
@@ -29,12 +29,7 @@ export default class RakuenStore extends store {
       _loaded: true
     })
 
-    const { page } = this.state
-    const type = MODEL_RAKUEN_TYPE.getValue(tabs[page].title)
-    const { _loaded, list } = this.rakuen(type)
-    if (!_loaded || list.length === 0) {
-      this.fetchRakuen(true)
-    }
+    this.fetchRakuen(true)
 
     return res
   }

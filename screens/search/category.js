@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-16 02:07:42
+ * @Last Modified time: 2019-05-22 23:58:47
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -25,7 +25,7 @@ const Category = (props, { $ }) => {
       }
   return (
     <Popover placement='bottom' {...popoverProps}>
-      <Button style={styles.btn} type='ghostMain'>
+      <Button style={styles.btn} size='sm' type='ghostMain'>
         {MODEL_SEARCH_CAT.getLabel(cat)}
       </Button>
     </Popover>

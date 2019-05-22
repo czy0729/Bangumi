@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-16 01:57:09
+ * @Last Modified time: 2019-05-22 23:58:43
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -33,7 +33,9 @@ export default observer(SearchBar)
 
 const styles = StyleSheet.create({
   searchIpt: {
+    height: 34,
     paddingHorizontal: _.wind,
+    fontSize: 12,
     backgroundColor: _.colorBg,
     borderRadius: 64
   }

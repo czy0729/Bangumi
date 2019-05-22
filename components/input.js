@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-07 03:28:28
+ * @Last Modified time: 2019-05-23 00:39:45
  */
 import React from 'react'
 import {
@@ -11,7 +11,10 @@ import {
   TextInput,
   TouchableWithoutFeedback
 } from 'react-native'
-import { fontSize, colorBorder, colorDesc, colorPlain, radiusXs } from '@styles'
+import { IOS } from '@constants'
+import _ from '@styles'
+import Touchable from './touchable'
+import Iconfont from './iconfont'
 
 const initInputHeight = 18
 
@@ -19,44 +22,104 @@ export default class Input extends React.Component {
   static defaultProps = {
     style: undefined,
     multiline: false,
-    numberOfLines: 1
+    numberOfLines: 1,
+    onChange: Function.prototype
   }
 
-  TextInput
+  state = {
+    value: this.props.value
+  }
+
+  componentWillReceiveProps({ value }) {
+    this.setState({
+      value
+    })
+  }
+
+  ref
+
+  onChange = evt => {
+    const { onChange } = this.props
+    const { nativeEvent } = evt
+    const { text } = nativeEvent
+    this.setState({
+      value: text
+    })
+    onChange(evt)
+  }
+
+  clear = () => {
+    const { onChange } = this.props
+    onChange({
+      nativeEvent: {
+        text: ''
+      }
+    })
+  }
+
+  renderClear() {
+    if (IOS) {
+      return null
+    }
+
+    const { value } = this.state
+    if (value === '') {
+      return null
+    }
+
+    return (
+      <Touchable style={styles.close} onPress={this.clear}>
+        <Iconfont name='close' size={12} />
+      </Touchable>
+    )
+  }
 
   render() {
     const { style, multiline, numberOfLines, ...other } = this.props
-
     if (multiline) {
       const containerHeight = initInputHeight * numberOfLines + 18
       return (
-        <TouchableWithoutFeedback onPress={() => this.TextInput.focus()}>
-          <View
-            style={[styles.multiContainer, { height: containerHeight }, style]}
-          >
-            <TextInput
-              ref={ref => (this.TextInput = ref)}
-              style={styles.multiInput}
-              multiline
-              numberOfLines={numberOfLines}
-              underlineColorAndroid='transparent'
-              autoCorrect={false}
-              {...other}
-            />
-          </View>
-        </TouchableWithoutFeedback>
+        <View>
+          <TouchableWithoutFeedback onPress={() => this.ref.focus()}>
+            <View
+              style={[
+                styles.multiContainer,
+                { height: containerHeight },
+                style
+              ]}
+            >
+              <TextInput
+                ref={ref => (this.ref = ref)}
+                style={styles.multiInput}
+                multiline
+                textAlignVertical='top'
+                numberOfLines={numberOfLines}
+                underlineColorAndroid='transparent'
+                autoCorrect={false}
+                {...other}
+                onChange={this.onChange}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+          {this.renderClear()}
+        </View>
       )
     }
 
     return (
-      <TextInput
-        style={[styles.input, style]}
-        numberOfLines={numberOfLines}
-        underlineColorAndroid='transparent'
-        autoCorrect={false}
-        clearButtonMode='while-editing'
-        {...other}
-      />
+      <View>
+        <TextInput
+          ref={ref => (this.ref = ref)}
+          style={[styles.input, style]}
+          numberOfLines={numberOfLines}
+          underlineColorAndroid='transparent'
+          autoCorrect={false}
+          clearButtonMode='while-editing'
+          {...other}
+          onChange={this.onChange}
+        />
+        {this.renderClear()}
+      </View>
     )
   }
 }
@@ -65,28 +128,37 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     padding: 8,
-    color: colorDesc,
-    ...fontSize(14),
-    backgroundColor: colorPlain,
+    color: _.colorDesc,
+    ..._.fontSize(14),
+    backgroundColor: _.colorPlain,
     borderWidth: StyleSheet.hairlineWidth,
     borderStyle: 'solid',
-    borderColor: colorBorder,
-    borderRadius: radiusXs,
+    borderColor: _.colorBorder,
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   multiContainer: {
     width: '100%',
     padding: 8,
-    backgroundColor: colorPlain,
+    backgroundColor: _.colorPlain,
     borderWidth: StyleSheet.hairlineWidth,
     borderStyle: 'solid',
-    borderColor: colorBorder,
-    borderRadius: radiusXs,
+    borderColor: _.colorBorder,
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   multiInput: {
     width: '100%',
     paddingTop: 0,
-    ...fontSize(14)
+    ..._.fontSize(14)
+  },
+  close: {
+    position: 'absolute',
+    zIndex: 1,
+    top: '50%',
+    right: 0,
+    paddingVertical: _.sm,
+    paddingHorizontal: _.wind,
+    marginTop: -(6 + _.sm)
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-18 00:51:29
+ * @Last Modified time: 2019-05-23 00:32:23
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -65,6 +65,7 @@ class Search extends React.Component {
 
 const styles = StyleSheet.create({
   searchBar: {
-    padding: _.wind
+    paddingTop: _.wind,
+    paddingHorizontal: _.wind
   }
 })

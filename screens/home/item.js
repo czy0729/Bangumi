@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 12:12:13
+ * @Last Modified time: 2019-05-22 23:38:48
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -82,7 +82,7 @@ class Item extends React.Component {
             {doing ? (
               <ActivityIndicator size='small' />
             ) : (
-              <Text type='sub' size={13}>
+              <Text type='sub' size={12}>
                 {sort}
               </Text>
             )}

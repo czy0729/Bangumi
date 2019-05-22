@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-26 20:31:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-27 01:33:27
+ * @Last Modified time: 2019-05-22 18:20:43
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
 import store from '@utils/store'
 
-export default class Store extends store {
+export default class UserScreen extends store {
   state = observable({
     expand: {
       在看: true,

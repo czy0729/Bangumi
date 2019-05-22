@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 17:16:38
+ * @Last Modified time: 2019-05-23 00:47:46
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
 import { IconTabBar, IconTabsHeader, ManageModal } from '@screens/_'
 import { inject, withTabsHeader } from '@utils/decorators'
+import { IOS } from '@constants'
 import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
@@ -46,14 +47,16 @@ class Home extends React.Component {
       const { avatar } = $.userInfo
       navigation.setParams({
         headerLeft: (
-          <Image
-            style={styles.avatar}
-            size={28}
-            src={avatar.medium}
-            onPress={() => {
-              navigation.push('User')
-            }}
-          />
+          <View style={!IOS && styles.avatarAndroid}>
+            <Image
+              style={styles.avatar}
+              size={28}
+              src={avatar.medium}
+              onPress={() => {
+                navigation.push('User')
+              }}
+            />
+          </View>
         )
       })
     }
@@ -99,9 +102,14 @@ class Home extends React.Component {
 
 const styles = StyleSheet.create({
   avatar: {
+    width: 28,
+    height: 28,
     marginLeft: _.sm,
     marginBottom: _.tabsHeight,
     borderRadius: 32,
     overflow: 'hidden'
+  },
+  avatarAndroid: {
+    paddingTop: _.statusBarHeight + _.md
   }
 })

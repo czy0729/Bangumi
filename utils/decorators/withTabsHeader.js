@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 17:34:26
+ * @Last Modified time: 2019-05-23 00:45:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { IOS } from '@constants'
 import _ from '@styles'
 import observer from './observer'
 
-const correctHeight = 14 // @issue IOS端头部高度误差修正值
+const correctHeightIOS = 14 // @issue iOS端头部高度误差修正值
 
 // (1) 装饰器
 const withTabsHeader = () => ComposedComponent =>
@@ -22,30 +22,49 @@ const withTabsHeader = () => ComposedComponent =>
       // @notice 把tabbar通过某些手段放进去header里面, 才能实现比较好的毛玻璃效果
       // 安卓没有毛玻璃效果, 不设置
       static navigationOptions = ({ navigation }) => {
-        const withTabsHeaderOptions = {
-          headerStyle: {
-            height: _.headerHeight - correctHeight
-          },
-          headerLeft: navigation.getParam('headerLeft'),
-          headerRight: navigation.getParam('headerRight'),
-          headerTitle: <Logo />
-        }
-
+        let withTabsHeaderOptions
         if (IOS) {
-          withTabsHeaderOptions.headerTransparent = true
-          withTabsHeaderOptions.headerBackground = (
-            <BlurView style={_.container.flex} tint='default' intensity={100} />
-          )
-          withTabsHeaderOptions.headerTitle = (
-            <View>
-              <Logo />
-              <View style={{ height: _.tabsHeight }}>
-                <View style={styles.headerTabs}>
-                  {navigation.getParam('headerTabs')}
+          withTabsHeaderOptions = {
+            headerTransparent: true,
+            headerStyle: {
+              height: _.headerHeight - correctHeightIOS
+            },
+            headerTitle: (
+              <View>
+                <Logo />
+                <View style={{ height: _.tabsHeight }}>
+                  <View style={styles.headerTabsIOS}>
+                    {navigation.getParam('headerTabs')}
+                  </View>
                 </View>
               </View>
-            </View>
-          )
+            ),
+            headerLeft: navigation.getParam('headerLeft'),
+            headerRight: navigation.getParam('headerRight'),
+            headerBackground: (
+              <BlurView
+                style={_.container.flex}
+                tint='default'
+                intensity={100}
+              />
+            )
+          }
+        } else {
+          withTabsHeaderOptions = {
+            headerStyle: {
+              height: _.headerHeight - _.statusBarHeight,
+              elevation: 0
+            },
+            headerTitle: <Logo />,
+            headerLeft: navigation.getParam('headerLeft'),
+            headerRight: navigation.getParam('headerRight'),
+            headerLeftContainerStyle: {
+              paddingLeft: _.xs
+            },
+            headerRightContainerStyle: {
+              marginRight: _.wind - _.sm
+            }
+          }
         }
 
         return {
@@ -78,6 +97,7 @@ withTabsHeader.tabBarStyle = IOS
       display: 'none'
     }
   : {
+      marginTop: -_.sm,
       backgroundColor: _.colorPlain
     }
 
@@ -85,10 +105,10 @@ withTabsHeader.tabBarStyle = IOS
 withTabsHeader.listViewProps = IOS
   ? {
       contentInset: {
-        top: _.tabsHeaderHeight - correctHeight
+        top: _.tabsHeaderHeight - correctHeightIOS
       },
       contentOffset: {
-        y: -(_.tabsHeaderHeight - correctHeight)
+        y: -(_.tabsHeaderHeight - correctHeightIOS)
       }
     }
   : {}
@@ -100,7 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: _.colorPlain
   },
-  headerTabs: {
+  headerTabsIOS: {
     position: 'absolute',
     left: 0,
     right: 0,

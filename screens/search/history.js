@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 20:30:43
+ * @Last Modified time: 2019-05-23 00:33:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -31,7 +31,7 @@ const History = (props, { $ }) => {
               style={[styles.close, _.ml.md]}
               onPress={() => $.deleteHistory(item)}
             >
-              <Iconfont name='close' size={15} />
+              <Iconfont name='close' size={12} />
             </Touchable>
           </Flex>
         </View>

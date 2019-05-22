@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-14 22:09:55
+ * @Last Modified time: 2019-05-22 22:45:07
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -16,6 +16,7 @@ import StarGroup from './star-group'
 import StatusBtnGroup from './status-btn-group'
 
 const initState = {
+  focus: false,
   loading: true,
   doing: false,
   fetching: false,
@@ -42,6 +43,10 @@ class ManageModal extends React.Component {
     const { visible, subjectId } = nextProps
     if (visible) {
       if (!this.props.visible) {
+        this.setState({
+          loading: false
+        })
+
         const {
           rating,
           tag = [],
@@ -50,7 +55,6 @@ class ManageModal extends React.Component {
           status = {}
         } = await collectionStore.fetchCollection(subjectId)
         this.setState({
-          loading: false,
           rating,
           tags: tag.join(' '),
           comment,
@@ -116,6 +120,18 @@ class ManageModal extends React.Component {
 
     this.setState({
       fetching: false
+    })
+  }
+
+  onFocus = () => {
+    this.setState({
+      focus: true
+    })
+  }
+
+  onBlur = () => {
+    this.setState({
+      focus: false
     })
   }
 
@@ -190,6 +206,7 @@ class ManageModal extends React.Component {
   render() {
     const { visible, title, desc, onClose } = this.props
     const {
+      focus,
       loading,
       doing,
       rating,
@@ -200,7 +217,7 @@ class ManageModal extends React.Component {
     } = this.state
     return (
       <Modal
-        style={styles.modal}
+        style={[styles.modal, focus && styles.focus]}
         visible={visible}
         title={
           <Text type='title' size={16}>
@@ -234,6 +251,8 @@ class ManageModal extends React.Component {
                 placeholder='吐槽点什么'
                 multiline
                 numberOfLines={4}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
                 onChangeText={text => this.changeText('comment', text)}
               />
               <StatusBtnGroup
@@ -270,23 +289,26 @@ const styles = StyleSheet.create({
     width: _.window.width - 2 * _.wind,
     backgroundColor: _.colorBg
   },
+  focus: {
+    marginTop: -_.window.height * 0.32
+  },
   wrap: {
     height: 380
   },
   content: {
     width: '100%',
     maxWidth: _.window.maxWidth,
-    paddingBottom: 8
+    paddingBottom: _.sm
   },
   tags: {
     width: '100%',
-    height: 52,
+    height: 54,
     paddingVertical: 12
   },
   tag: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    marginRight: 8,
+    paddingVertical: _.xs,
+    paddingHorizontal: _.sm,
+    marginRight: _.sm,
     backgroundColor: _.colorBg,
     borderWidth: 1,
     borderColor: _.colorBorder,

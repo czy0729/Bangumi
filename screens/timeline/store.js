@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 20:05:38
+ * @Last Modified time: 2019-05-22 05:06:38
  */
 import { observable, computed } from 'mobx'
 import { userStore, timelineStore } from '@stores'
@@ -59,12 +59,20 @@ export default class ScreenTimeline extends store {
     if (page === this.state.page) {
       return
     }
+
     this.setState({
       page
     })
+    // @issue onTabClick与onChange在用受控模式的时候有冲突, 暂时这样解决
+    setTimeout(() => {
+      this.setState({
+        _page: page
+      })
+      this.setStorage()
+    }, 400)
     this.fetchTimeline(true)
-    this.setStorage()
   }
+
   onChange = (item, page) => {
     if (page === this.state.page) {
       return
