@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 05:18:00
+ * @Last Modified time: 2019-05-23 04:48:14
  */
 import React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { titleCase } from '@utils'
+import { IOS } from '@constants'
 import _ from '@styles'
 import Touchable from './touchable'
 import Flex from './flex'
@@ -184,18 +185,17 @@ const styles = StyleSheet.create({
   },
 
   // other
-  shadow: Platform.select({
-    ios: {
-      shadowColor: _.colorShadow,
-      shadowOffset: { height: 3 },
-      shadowOpacity: 0.16,
-      shadowRadius: 3
-    },
-    android: {
-      backgroundColor: _.colorPlain,
-      elevation: 3
-    }
-  }),
+  shadow: IOS
+    ? {
+        shadowColor: _.colorShadow,
+        shadowOffset: { height: 3 },
+        shadowOpacity: 0.16,
+        shadowRadius: 3
+      }
+    : {
+        backgroundColor: _.colorPlain,
+        elevation: 2
+      },
   radius: {
     borderRadius: _.radiusXs
   }

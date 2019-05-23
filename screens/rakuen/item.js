@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 22:09:24
+ * @Last Modified time: 2019-05-23 05:21:53
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,11 +10,14 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar } from '@screens/_'
+import { open } from '@utils'
 import { appNavigate } from '@utils/app'
+import { info } from '@utils/ui'
+import { HOST } from '@constants'
 import _ from '@styles'
 
 const Item = (
-  { style, index, href = '', avatar, title, replies, group, time },
+  { style, index, href = '', avatar, title, replies = '', group, time },
   { $, navigation }
 ) => {
   const isTop = index === 0
@@ -24,7 +27,18 @@ const Item = (
     <Touchable
       style={[styles.container, _loaded && styles.readed, style]}
       highlight
-      onPress={() => appNavigate(href, navigation)}
+      onPress={() => {
+        // 对评论大于200的帖子进行网页跳转
+        const _replies = parseInt(replies.match(/\d+/g))
+        if (_replies > 200) {
+          info('该帖评论多, 自动使用浏览器打开')
+          setTimeout(() => {
+            open(`${HOST}${href}`)
+          }, 2000)
+        } else {
+          appNavigate(href, navigation)
+        }
+      }}
     >
       <Flex align='start'>
         <Avatar style={styles.image} src={avatar} />

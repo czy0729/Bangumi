@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Bangumi番组计划",
-    "slug": "bangumi",
+    "name": "Bangumi番组计划001",
+    "slug": "bangumi001",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -14,7 +14,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#f8f8f8"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

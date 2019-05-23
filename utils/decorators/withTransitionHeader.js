@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-14 19:34:41
+ * @Last Modified time: 2019-05-23 04:51:24
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -46,12 +46,11 @@ const withTransitionHeader = ({
           gradientColorSteps[0]
         )
 
+        let headerRight
         const popover = navigation.getParam('popover', {
           data: [],
           onSelect: Function.prototype
         })
-
-        let headerRight
         if (popover.data.length) {
           headerRight = (
             <Popover
@@ -164,7 +163,7 @@ const withTransitionHeader = ({
         const { barStyle } = this.state
         return (
           <>
-            <StatusBar barStyle={barStyle} />
+            <StatusBar barStyle={barStyle} forceBarStyle={barStyle} />
             <ComposedComponent onScroll={this.headerTransitionCallback} />
           </>
         )

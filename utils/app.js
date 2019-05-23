@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 14:12:15
+ * @Last Modified time: 2019-05-23 05:13:29
  */
 import { WebBrowser } from 'expo'
 import { HOST, HOST_NAME } from '@constants'
@@ -34,6 +34,23 @@ export function appNavigate(url = '', navigation) {
     return
   }
 
+  // 超展开内容 [/rakuen/topic/{topicId}]
+  if (_url.includes('/rakuen/topic/')) {
+    navigation.push('Topic', {
+      topicId: _url.replace(`${HOST}/rakuen/topic/`, ''),
+      _url
+    })
+    return
+  }
+
+  if (_url.includes('/group/topic/')) {
+    navigation.push('Topic', {
+      topicId: `group/${_url.replace(`${HOST}/group/topic/`, '')}`,
+      _url
+    })
+    return
+  }
+
   // 条目 > 讨论版
   if (_url.includes('/subject/topic/')) {
     const id = _url.replace(`${HOST}/subject/topic/`, '')
@@ -57,23 +74,6 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes('/user/')) {
     navigation.push('Zone', {
       userId: _url.replace(`${HOST}/user/`, ''),
-      _url
-    })
-    return
-  }
-
-  // 超展开内容 [/rakuen/topic/{topicId}]
-  if (_url.includes('/rakuen/topic/')) {
-    navigation.push('Topic', {
-      topicId: _url.replace(`${HOST}/rakuen/topic/`, ''),
-      _url
-    })
-    return
-  }
-
-  if (_url.includes('/group/topic/')) {
-    navigation.push('Topic', {
-      topicId: `group/${_url.replace(`${HOST}/group/topic/`, '')}`,
       _url
     })
     return

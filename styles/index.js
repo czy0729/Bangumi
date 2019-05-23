@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 22:06:13
+ * @Last Modified time: 2019-05-23 00:59:18
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import { Constants } from 'expo'

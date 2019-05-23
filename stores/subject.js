@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 21:52:08
+ * @Last Modified time: 2019-05-23 19:58:48
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
@@ -396,12 +396,12 @@ class Subject extends store {
         const comment = item.match(/<p>(.+?)<\/p>/)
         comments.push({
           id: `${page}|${index}`,
-          userId: userId[1],
-          userName: HTMLDecode(userName[1]),
-          avatar: avatar[1],
-          time: time[1],
+          userId: userId ? userId[1] : '',
+          userName: userName ? HTMLDecode(userName[1]) : '',
+          avatar: avatar ? avatar[1] : '',
+          time: time ? time[1] : '',
           star: star ? star[1] : '',
-          comment: HTMLDecode(comment[1])
+          comment: comment ? HTMLDecode(comment[1]) : ''
         })
       })
     }

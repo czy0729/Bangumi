@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 16:16:31
+ * @Last Modified time: 2019-05-23 19:13:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,10 @@ import {
   // Asset
 } from 'expo'
 import { Provider } from '@ant-design/react-native'
-import Stores from '@stores'
+import { ImageViewer } from '@components'
+import { StatusBar } from '@screens/_'
+import Stores, { systemStore } from '@stores'
+import { observer } from '@utils/decorators'
 import _ from '@styles'
 import theme from '@styles/theme'
 import Navigations from './navigations'
@@ -36,7 +39,9 @@ global.log = (value, space) => {
   console.log(JSON.stringify(value, handleCircular(), space))
 }
 
-export default class App extends React.Component {
+export default
+@observer
+class App extends React.Component {
   state = {
     isLoadingComplete: false
   }
@@ -57,8 +62,14 @@ export default class App extends React.Component {
     })
   }
 
+  closeImageViewer = () => {
+    systemStore.closeImageViewer()
+  }
+
   render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+    const { skipLoadingScreen } = this.props
+    const { isLoadingComplete } = this.state
+    if (!isLoadingComplete && !skipLoadingScreen) {
       return (
         <AppLoading
           startAsync={this.loadResourcesAsync}
@@ -68,11 +79,18 @@ export default class App extends React.Component {
       )
     }
 
+    const { visible, imageUrls } = systemStore.imageViewer
     return (
       <View style={styles.container}>
+        <StatusBar />
         <Provider theme={theme}>
           <Navigations />
         </Provider>
+        <ImageViewer
+          visible={visible}
+          imageUrls={imageUrls}
+          onCancel={this.closeImageViewer}
+        />
       </View>
     )
   }
@@ -81,6 +99,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: _.colorPlain
+    backgroundColor: _.colorBg
   }
 })

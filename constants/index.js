@@ -3,11 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 20:35:01
+ * @Last Modified time: 2019-05-23 01:01:02
  */
 import { Platform } from 'react-native'
+import { Constants } from 'expo'
 
 export const IOS = Platform.OS === 'ios'
+export const MI = Constants.deviceName.includes('MI') // 小米MIUI
 
 // APP
 export const APP_ID = 'bgm8885c4d524cd61fc'

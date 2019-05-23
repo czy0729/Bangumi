@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 00:32:23
+ * @Last Modified time: 2019-05-23 05:19:46
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Touchable, Iconfont } from '@components'
-import { appNavigate } from '@utils/app'
+import { Flex } from '@components'
+import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { HOST } from '@constants'
 import _ from '@styles'
@@ -24,21 +24,32 @@ export default
 @observer
 class Search extends React.Component {
   static navigationOptions = {
-    title: '搜索',
-    headerRight: (
-      <Touchable onPress={() => appNavigate(`${HOST}/subject_search`)}>
-        <Iconfont size={24} name='navigation' color={_.colorTitle} />
-      </Touchable>
-    )
+    title: '搜索'
   }
 
   static contextTypes = {
-    $: PropTypes.object
+    $: PropTypes.object,
+    navigation: PropTypes.object
   }
 
-  componentDidMount() {
-    const { $ } = this.context
-    $.init()
+  async componentDidMount() {
+    const { $, navigation } = this.context
+    await $.init()
+
+    navigation.setParams({
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          switch (key) {
+            case '浏览器查看':
+              open(`${HOST}/subject_search`)
+              break
+            default:
+              break
+          }
+        }
+      }
+    })
   }
 
   render() {

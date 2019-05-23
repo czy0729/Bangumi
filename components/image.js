@@ -6,10 +6,11 @@
  * 4. 远端图片自动获取高度
  * 5. 错误处理
  * 6. 自动选择Bangumi图片质量
+ * 7. 联动ImageViewer
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 17:35:52
+ * @Last Modified time: 2019-05-23 20:17:55
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -18,6 +19,7 @@ import {
   CacheManager
 } from 'react-native-expo-image-cache'
 import { systemStore } from '@stores'
+import { showImageViewer } from '@utils/ui'
 import { IOS, IMG_EMPTY, IMG_ERROR } from '@constants'
 import { colorBg, radiusXs, shadow } from '@styles'
 import Touchable from './touchable'
@@ -35,6 +37,7 @@ export default class Image extends React.Component {
     placeholder: true, // 是否有底色
     autoSize: 0, // 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例
     quality: true, // 是否自动选择Bangumi图片质量
+    imageViewer: false, // 是否点击显示全局的ImageViewer, 此值打开会覆盖onPress
     onPress: undefined,
     onLongPress: undefined
   }
@@ -169,6 +172,7 @@ export default class Image extends React.Component {
       placeholder,
       autoSize,
       quality,
+      imageViewer,
       onPress,
       onLongPress,
       ...other
@@ -241,12 +245,23 @@ export default class Image extends React.Component {
       image = <RNImage style={_image} source={src} {...other} />
     }
 
-    if (onPress || onLongPress) {
+    let _onPress = onPress
+    if (imageViewer) {
+      _onPress = () => {
+        showImageViewer([
+          {
+            url: uri,
+            _url: src
+          }
+        ])
+      }
+    }
+    if (_onPress || onLongPress) {
       return (
         <Touchable
           style={_wrap}
           highlight={IOS}
-          onPress={onPress}
+          onPress={_onPress}
           onLongPress={onLongPress}
         >
           {image}

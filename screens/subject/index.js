@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 21:16:41
+ * @Last Modified time: 2019-05-23 20:57:00
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { WebBrowser } from 'expo'
-import { ActionSheet } from '@ant-design/react-native'
 import { BlurView, ListView } from '@components'
 import { ManageModal, ItemComment } from '@screens/_'
+import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
 import _ from '@styles'
@@ -19,7 +18,6 @@ import Header from './header'
 import Store from './store'
 
 const sitesDS = [
-  'bangumi',
   'bilibili',
   'iqiyi',
   'pptv',
@@ -52,13 +50,12 @@ class Subject extends React.Component {
     const data = await $.init()
     if (data) {
       const { sites = [] } = $.state.bangumiInfo
-      const title = data.name_cn || data.name
       const url = String(data.url).replace('http://', 'https://')
       navigation.setParams({
         headerTransitionTitle: data.name_cn || data.name,
         popover: {
           data: [
-            '分享',
+            '浏览器查看',
             ...sites
               .filter(item => sitesDS.includes(item.site))
               .map(item => item.site)
@@ -66,18 +63,14 @@ class Subject extends React.Component {
           onSelect: key => {
             let item
             switch (key) {
-              case '分享':
-                ActionSheet.showShareActionSheetWithOptions({
-                  message: `${title}\n${url}`,
-                  title: '分享',
-                  url
-                })
+              case '浏览器查看':
+                open(url)
                 break
               default:
                 item = sites.find(item => item.site === key)
                 if (item) {
                   const url = getBangumiUrl(item)
-                  WebBrowser.openBrowserAsync(url)
+                  open(url)
                 }
                 break
             }

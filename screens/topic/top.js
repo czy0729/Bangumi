@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 18:58:31
+ * @Last Modified time: 2019-05-23 20:41:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import {
   RenderHtml,
   Divider
 } from '@components'
+import { Avatar } from '@screens/_'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
 import { IOS } from '@constants'
@@ -62,7 +63,12 @@ const Top = (props, { $, navigation }) => {
         {!!message && (
           <>
             <Flex style={_.mt.md}>
-              <Image size={40} src={avatar} radius border={colorBorder} />
+              <Avatar
+                navigation={navigation}
+                size={40}
+                src={avatar}
+                userId={userId}
+              />
               <Flex.Item style={_.ml.sm}>
                 <Text numberOfLines={2}>
                   {userName}

@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-12 04:06:50
+ * @Last Modified time: 2019-05-23 20:58:41
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
 import HTML from 'react-native-render-html'
-import { WebBrowser } from 'expo'
+import { open } from '@utils'
 import { HOST } from '@constants'
 import _ from '@styles'
 import Image from './image'
@@ -147,6 +147,7 @@ export default class RenderHtml extends React.Component {
         props.autoSize = imagesMaxWidth
         props.border = _.colorBorder
         props.placeholder = false
+        props.imageViewer = true
         return <Image {...props} />
       },
       span: ({ style = '' }, children, convertedCSSStyles, passProps) => {
@@ -212,7 +213,7 @@ export default class RenderHtml extends React.Component {
     if (onLinkPress) {
       onLinkPress(href)
     } else {
-      WebBrowser.openBrowserAsync(href)
+      open(href)
     }
   }
 
@@ -225,6 +226,7 @@ export default class RenderHtml extends React.Component {
       onLinkPress,
       ...other
     } = this.props
+    // @todo 给纯文字包上span
     // let _html = `<div>${html}</div>`
     // const match = _html.match(/>[^<>]+?</g)
     // if (match) {

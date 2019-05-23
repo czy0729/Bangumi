@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 00:39:45
+ * @Last Modified time: 2019-05-23 04:28:47
  */
 import React from 'react'
 import {
@@ -79,7 +79,7 @@ export default class Input extends React.Component {
     if (multiline) {
       const containerHeight = initInputHeight * numberOfLines + 18
       return (
-        <View>
+        <View style={styles.container}>
           <TouchableWithoutFeedback onPress={() => this.ref.focus()}>
             <View
               style={[
@@ -107,7 +107,7 @@ export default class Input extends React.Component {
     }
 
     return (
-      <View>
+      <View style={styles.container}>
         <TextInput
           ref={ref => (this.ref = ref)}
           style={[styles.input, style]}
@@ -125,6 +125,9 @@ export default class Input extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    width: '100%'
+  },
   input: {
     width: '100%',
     padding: 8,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 16:56:27
+ * @Last Modified time: 2019-05-23 19:07:04
  */
 export { default as BlurView } from './blur-view'
 export { default as Button } from './button'
@@ -13,6 +13,7 @@ export { default as HeaderPlaceholder } from './header-placeholder'
 export { default as Icon } from './icon'
 export { default as Iconfont } from './iconfont'
 export { default as Image } from './image'
+export { default as ImageViewer } from './image-viewer'
 export { default as Input } from './input'
 export { default as ListView } from './list-view'
 export { default as Loading } from './loading'

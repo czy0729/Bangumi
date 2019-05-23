@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 03:03:30
+ * @Last Modified time: 2019-05-23 15:50:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -51,6 +51,7 @@ const Head = ({ style }, { $ }) => {
           radius
           border
           shadow
+          imageViewer
         />
       </View>
       <Flex

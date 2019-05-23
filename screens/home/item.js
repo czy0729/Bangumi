@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 23:38:48
+ * @Last Modified time: 2019-05-23 04:27:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -137,6 +137,7 @@ class Item extends React.Component {
               size={72}
               src={subject.images.medium}
               radius
+              border={_.colorBorder}
               onPress={this.onPress}
               onLongPress={this.onLongPress}
             />

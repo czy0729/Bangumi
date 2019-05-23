@@ -23,6 +23,7 @@
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-expo-image-cache": "^3.2.0",
+    "react-native-image-zoom-viewer": "^2.2.26",
     "react-native-modal-popover": "0.0.12",
     "react-native-paper": "^2.15.2",
     "react-native-render-html": "4.1.1",

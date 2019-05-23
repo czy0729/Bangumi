@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 17:29:10
+ * @Last Modified time: 2019-05-23 20:57:40
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
+import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import _ from '@styles'
 import Top from './top'
@@ -19,7 +20,8 @@ import Store from './store'
 export default
 @inject(Store)
 @withTransitionHeader({
-  colorStart: _.colorTitleRaw
+  colorStart: _.colorTitleRaw,
+  barStyle: 'dark-content'
 })
 @observer
 class Topic extends React.Component {
@@ -34,6 +36,22 @@ class Topic extends React.Component {
 
     const { title } = $.topic
     withTransitionHeader.setTitle(navigation, title)
+
+    const url = navigation.getParam('_url')
+    navigation.setParams({
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          switch (key) {
+            case '浏览器查看':
+              open(url)
+              break
+            default:
+              break
+          }
+        }
+      }
+    })
   }
 
   render() {

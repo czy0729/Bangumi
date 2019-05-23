@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:37:17
+ * @Last Modified time: 2019-05-23 20:18:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -34,6 +34,7 @@ const Info = (props, { $ }) => {
               border
               shadow
               placholder={false}
+              imageViewer
             />
           </Flex>
         )}

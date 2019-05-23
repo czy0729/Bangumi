@@ -2,9 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 17:05:15
+ * @Last Modified time: 2019-05-23 17:12:27
  */
 import { AsyncStorage } from 'react-native'
+import { WebBrowser } from 'expo'
+import { info } from './ui'
+
+/**
+ * 浏览器打开网页
+ * @param {*} url
+ */
+export function open(url) {
+  if (!url || typeof url !== 'string') {
+    info('地址不合法')
+    return false
+  }
+
+  WebBrowser.openBrowserAsync(url)
+  return true
+}
 
 /**
  * 保存数据

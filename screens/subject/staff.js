@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:22:14
+ * @Last Modified time: 2019-05-23 20:22:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ const Staff = ({ style }, { $, navigation }) => {
       <HorizontalList
         style={_.mt.sm}
         data={data}
+        quality={false}
         onPress={id =>
           navigation.push('Mono', {
             monoId: `person/${id}`

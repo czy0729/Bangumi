@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 17:33:47
+ * @Last Modified time: 2019-05-23 04:46:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -24,11 +24,18 @@ import Blog from './blog'
 import Topic from './topic'
 
 const Header = (props, { $ }) => {
-  const loaded =
-    $.collection._loaded &&
-    $.subjectEp._loaded &&
-    $.userProgress._loaded &&
-    $.subjectFormHTML._loaded
+  let loaded = false
+  if ($.isLogin) {
+    loaded =
+      $.collection._loaded &&
+      $.subjectEp._loaded &&
+      $.userProgress._loaded &&
+      $.subjectFormHTML._loaded
+  } else {
+    loaded =
+      $.collection._loaded && $.subjectEp._loaded && $.subjectFormHTML._loaded
+  }
+
   const { list, _reverse } = $.subjectComments
   return (
     <>
@@ -57,7 +64,7 @@ const Header = (props, { $ }) => {
               }
             >
               吐槽箱{' '}
-              <Text size={12} type='sub'>
+              <Text size={12} type='sub' lineHeight={24}>
                 ({list.length})
               </Text>
             </SectionTitle>
