@@ -2,23 +2,32 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 17:28:33
+ * @Last Modified time: 2019-05-24 19:01:46
  */
 import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image, Text, Touchable } from '@components'
+import { findBangumiCn } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
 import _ from '@styles'
 
-const HorizontalList = ({ style, data, width, height, quality, onPress }) => (
+const HorizontalList = ({
+  style,
+  data,
+  width,
+  height,
+  quality,
+  findCn,
+  onPress
+}) => (
   <ScrollView
     style={style}
     contentContainerStyle={styles.contentContainerStyle}
     horizontal
   >
     {data.map((item, index) => (
-      <Touchable
+      <View
         key={item.id}
         style={[
           {
@@ -26,7 +35,6 @@ const HorizontalList = ({ style, data, width, height, quality, onPress }) => (
           },
           index !== 0 && _.ml.md
         ]}
-        onPress={() => onPress(item.id)}
       >
         <Image
           size={width}
@@ -36,14 +44,17 @@ const HorizontalList = ({ style, data, width, height, quality, onPress }) => (
           border
           shadow
           quality={quality}
+          onPress={() => onPress(item)}
         />
-        <Text style={_.mt.sm} numberOfLines={2}>
-          {item.name}
-        </Text>
-        <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
-          {item.desc}
-        </Text>
-      </Touchable>
+        <Touchable onPress={() => onPress(item)}>
+          <Text style={_.mt.sm} numberOfLines={2}>
+            {findCn ? findBangumiCn(item.name) : item.name}
+          </Text>
+          <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
+            {item.desc}
+          </Text>
+        </Touchable>
+      </View>
     ))}
   </ScrollView>
 )
@@ -52,6 +63,8 @@ HorizontalList.defaultProps = {
   data: [],
   width: 72,
   height: 72,
+  quality: false,
+  findCn: false,
   onPress: Function.prototype
 }
 

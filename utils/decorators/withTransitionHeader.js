@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 04:51:24
+ * @Last Modified time: 2019-05-24 22:48:20
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -160,11 +160,15 @@ const withTransitionHeader = ({
       }
 
       render() {
+        const { navigation } = this.props
         const { barStyle } = this.state
         return (
           <>
             <StatusBar barStyle={barStyle} forceBarStyle={barStyle} />
-            <ComposedComponent onScroll={this.headerTransitionCallback} />
+            <ComposedComponent
+              navigation={navigation}
+              onScroll={this.headerTransitionCallback}
+            />
           </>
         )
       }

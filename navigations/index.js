@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 04:56:49
+ * @Last Modified time: 2019-05-24 23:36:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,16 +15,18 @@ import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs'
 import { BlurView } from 'expo'
 import {
   Login,
-  Subject,
-  Search,
   Mono,
+  Notify,
+  Popular,
   Rakuen,
+  Search,
+  Setting,
+  Subject,
   Timeline,
   Topic,
-  Notify,
   User,
-  Zone,
-  WebView
+  WebView,
+  Zone
 } from '@screens'
 import { IOS } from '@constants'
 import _ from '@styles'
@@ -34,9 +36,10 @@ import config from './stacks/config'
 const TabBarComponent = props => <BottomTabBar {...props} />
 const HomeTab = createBottomTabNavigator(
   {
-    Timeline,
     Home: HomeScreen,
-    Rakuen
+    Timeline,
+    Rakuen,
+    User
   },
   {
     initialRouteName: 'Home',
@@ -68,22 +71,23 @@ const HomeStack = createStackNavigator(
     HomeTab,
     Login,
     Mono,
+    Notify,
     Search,
+    Setting,
     Subject,
     Topic,
     User,
     WebView,
-    Zone,
-    Notify
+    Zone
   },
   {
     initialRouteName: 'HomeTab',
-    initialRouteParams: {
-      // subjectId: 100444, // 100444 204135 评论数 [43]248175 [6]204135 [1]18007 [0]273437
-      // topicId: 'ep/805584',
-      // userId: 419012,
-      // monoId: 'person/538' // character/706 person/538
-    },
+    // initialRouteParams: {
+    //   subjectId: 100444, // 100444 204135 评论数 [43]248175 [6]204135 [1]18007 [0]273437
+    //   topicId: 'ep/805584',
+    //   userId: 419012,
+    //   monoId: 'person/538' // character/706 person/538
+    // },
     ...config
   }
 )

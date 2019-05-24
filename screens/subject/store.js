@@ -1,8 +1,10 @@
 /*
+ * 条目
+ * params { _jp, _cn, _image }
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 05:05:15
+ * @Last Modified time: 2019-05-24 22:03:20
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'

@@ -26,6 +26,12 @@
 
 ** 下载 **
 
+注意, 某个依赖包在淘宝源里面 404, 要切换为 npm 官方源
+
+```bash
+npm config set registry https://registry.npmjs.org
+```
+
 ```bash
 git clone https://github.com/czy0729/Bangumi
 cd ./Bangumi

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-16 01:45:36
+ * @Last Modified time: 2019-05-24 03:10:02
  */
 class Modal {
   constructor(data) {
@@ -319,5 +319,25 @@ export const MODEL_SEARCH_CAT = new Modal([
   {
     label: '现实人物',
     value: 'mono_prsn'
+  }
+])
+
+// 设置 - 图片质量
+export const MODEL_SETTING_QUALITY = new Modal([
+  {
+    label: '默认',
+    value: 'default'
+  },
+  {
+    label: 'WiFi下高质量',
+    value: 'wifi-best'
+  },
+  {
+    label: '高质量',
+    value: 'best'
+  },
+  {
+    label: '低质量',
+    value: 'mini'
   }
 ])

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 17:12:27
+ * @Last Modified time: 2019-05-24 00:30:31
  */
 import { AsyncStorage } from 'react-native'
 import { WebBrowser } from 'expo'
@@ -341,6 +341,10 @@ export function getTimestamp(date) {
  */
 const _y = date('y', getTimestamp())
 export function simpleTime(time = '') {
+  if (!time) {
+    return '-'
+  }
+
   const _time = getTimestamp(time)
   const ymd = date('y-m-d', _time)
     .split('-')

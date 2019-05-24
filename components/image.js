@@ -10,17 +10,15 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 20:17:55
+ * @Last Modified time: 2019-05-24 23:29:31
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
-import {
-  Image as AnimateImage,
-  CacheManager
-} from 'react-native-expo-image-cache'
+import { CacheManager } from 'react-native-expo-image-cache'
 import { systemStore } from '@stores'
 import { showImageViewer } from '@utils/ui'
-import { IOS, IMG_EMPTY, IMG_ERROR } from '@constants'
+import { IOS, IMG_ERROR } from '@constants'
+import { MODEL_SETTING_QUALITY } from '@constants/model'
 import { colorBg, radiusXs, shadow } from '@styles'
 import Touchable from './touchable'
 
@@ -68,9 +66,25 @@ export default class Image extends React.Component {
   cache = async src => {
     let res
     let uri
-    let quality = false
-    if (this.props.quality && systemStore.isWifi) {
-      quality = true
+    let qualityLevel
+    if (this.props.quality) {
+      // systemStore.isWifi
+      const label = MODEL_SETTING_QUALITY.getLabel(systemStore.setting.quality)
+      switch (label) {
+        case 'WiFi下高质量':
+          if (systemStore.wifi) {
+            qualityLevel = 'best'
+          }
+          break
+        case '高质量':
+          qualityLevel = 'best'
+          break
+        case '低质量':
+          qualityLevel = 'low'
+          break
+        default:
+          break
+      }
     }
 
     // @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存?
@@ -81,12 +95,9 @@ export default class Image extends React.Component {
           if (_src.indexOf('https:') === -1) {
             _src = `https:${_src}`
           }
+          _src = this.getQuality(_src, qualityLevel)
 
-          // 全局控制图片质量的设置
-          if (quality) {
-            _src = _src.replace(/\/m\/|\/g\/|\/s\//, '/l/')
-          }
-
+          // 检查本地有没有图片缓存
           res = CacheManager.get(_src).getPath()
           const path = await res
           if (path) {
@@ -115,12 +126,7 @@ export default class Image extends React.Component {
       uri = src
       if (typeof uri === 'string') {
         uri = src.replace('http://', 'https://')
-
-        // 全局控制图片质量的设置
-        if (quality) {
-          uri = uri.replace(/\/m\/|\/g\/|\/s\//, '/l/')
-        }
-
+        uri = this.getQuality(uri, qualityLevel)
         if (uri.indexOf('https:') === -1) {
           uri = `https:${uri}`
         }
@@ -131,6 +137,22 @@ export default class Image extends React.Component {
     }
 
     return res
+  }
+
+  getQuality = (uri, qualityLevel = 'default') => {
+    if (!uri) {
+      return ''
+    }
+    if (qualityLevel === 'default') {
+      return uri
+    }
+    if (qualityLevel === 'best') {
+      return uri.replace(/\/m\/|\/g\/|\/s\//, '/l/')
+    }
+    if (qualityLevel === 'low') {
+      return uri.replace(/\/m\/|\/g\/|\/l\//, '/s/')
+    }
+    return uri
   }
 
   getSize = () => {
@@ -228,16 +250,16 @@ export default class Image extends React.Component {
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
-        image = (
-          <AnimateImage
-            style={_image}
-            tint='light'
-            preview={IMG_EMPTY}
-            uri={uri}
-            {...other}
-          />
-        )
-        // image = <RNImage style={_image} source={{ uri }} {...other} />
+        // image = (
+        //   <AnimateImage
+        //     style={_image}
+        //     tint='light'
+        //     preview={IMG_EMPTY}
+        //     uri={uri}
+        //     {...other}
+        //   />
+        // )
+        image = <RNImage style={_image} source={{ uri }} {...other} />
       } else {
         image = <View style={_image} />
       }

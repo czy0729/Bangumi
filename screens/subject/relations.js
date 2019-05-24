@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-12 04:21:20
+ * @Last Modified time: 2019-05-24 18:58:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,9 +31,12 @@ const Relations = ({ style }, { $, navigation }) => {
         data={data}
         width={80}
         height={106}
-        onPress={id => {
+        findCn
+        onPress={({ id, name, image }) => {
           navigation.push('Subject', {
-            subjectId: id
+            subjectId: id,
+            _jp: name,
+            _image: image
           })
         }}
       />

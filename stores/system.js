@@ -2,12 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 15:55:12
+ * @Last Modified time: 2019-05-24 04:24:20
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
+import { MODEL_SETTING_QUALITY } from '@constants/model'
 
+const initSetting = {
+  quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
+  cnFirst: false, // 是否中文优先
+  autoFetch: true // 切换页面自动请求
+}
 const initImageViewer = {
   visible: false,
   imageUrls: []
@@ -15,12 +21,20 @@ const initImageViewer = {
 
 class SystemStore extends store {
   state = observable({
+    setting: initSetting,
     wifi: false,
     imageViewer: initImageViewer
   })
 
   async init() {
-    const res = NetInfo.getConnectionInfo()
+    let res
+    res = Promise.all([this.getStorage('setting')])
+    const state = await res
+    this.setState({
+      setting: state[0] || initSetting
+    })
+
+    res = NetInfo.getConnectionInfo()
     const { type } = await res
     if (type === 'wifi') {
       this.setState({
@@ -32,6 +46,10 @@ class SystemStore extends store {
   }
 
   // -------------------- get --------------------
+  @computed get setting() {
+    return this.state.setting
+  }
+
   @computed get isWifi() {
     return this.state.wifi
   }
@@ -43,6 +61,53 @@ class SystemStore extends store {
   // -------------------- fetch --------------------
 
   // -------------------- page --------------------
+  /**
+   * 设置``
+   */
+  setQuality = label => {
+    const quality = MODEL_SETTING_QUALITY.getValue(label)
+    if (quality) {
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          quality
+        }
+      })
+      this.setStorage(key)
+    }
+  }
+
+  /**
+   * 切换`中文优先`
+   */
+  switchCnFirst = () => {
+    const { cnFirst } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        cnFirst: !cnFirst
+      }
+    })
+    this.setStorage(key)
+  }
+
+  /**
+   * 切换`切换页面自动请求`
+   */
+  switchAutoFetch = () => {
+    const { autoFetch } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        autoFetch: !autoFetch
+      }
+    })
+    this.setStorage(key)
+  }
+
   /**
    * 显示ImageViewer
    * @param {*} imageUrls Image Source

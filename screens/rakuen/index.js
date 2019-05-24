@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 17:21:01
+ * @Last Modified time: 2019-05-23 23:21:55
  */
 import React from 'react'
+import { View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
@@ -77,7 +78,7 @@ class Rakuen extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     if (!_loaded) {
-      return null
+      return <View style={_.container.screen} />
     }
 
     return (

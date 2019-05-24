@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 21:05:51
+ * @Last Modified time: 2019-05-24 04:35:16
  */
 export { default as Avatar } from './avatar'
 export { default as Characters } from './characters'
@@ -12,6 +12,7 @@ export { default as Eps } from './eps'
 export { default as HorizontalList } from './horizontal-list'
 export { default as IconBack } from './icon/back'
 export { default as IconDrawer } from './icon/drawer'
+export { default as IconHeader } from './icon/header'
 export { default as IconMenu } from './icon/menu'
 export { default as IconReverse } from './icon/reverse'
 export { default as IconTabBar } from './icon/tab-bar'

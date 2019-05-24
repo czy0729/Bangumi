@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 00:45:14
+ * @Last Modified time: 2019-05-24 22:48:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -76,7 +76,8 @@ const withTabsHeader = () => ComposedComponent =>
       }
 
       render() {
-        return <ComposedComponent />
+        const { navigation } = this.props
+        return <ComposedComponent navigation={navigation} />
       }
     }
   )

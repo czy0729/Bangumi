@@ -3,17 +3,43 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 05:13:29
+ * @Last Modified time: 2019-05-24 21:50:56
  */
 import { WebBrowser } from 'expo'
+import bangumiData from 'bangumi-data'
 import { HOST, HOST_NAME } from '@constants'
 
 /**
- * 根据Bangumi的url判断路由跳转方式
- * @param {*} url
- * @param {*} navigation
+ * 查找番剧中文名
  */
-export function appNavigate(url = '', navigation) {
+const _bangumiFindHistory = {}
+export function findBangumiCn(jp = '') {
+  if (_bangumiFindHistory[jp]) {
+    return _bangumiFindHistory[jp]
+  }
+
+  const item = bangumiData.items.find(item => item.title === jp)
+  if (item) {
+    const cn =
+      (item.titleTranslate &&
+        item.titleTranslate['zh-Hans'] &&
+        item.titleTranslate['zh-Hans'][0]) ||
+      jp
+    _bangumiFindHistory[jp] = cn
+    return cn
+  }
+
+  _bangumiFindHistory[jp] = jp
+  return jp
+}
+
+/**
+ * 根据Bangumi的url判断路由跳转方式
+ * @param {*} url 链接
+ * @param {*} navigation
+ * @param {*} passParams 传递的参数
+ */
+export function appNavigate(url = '', navigation, passParams = {}) {
   let _url = url
 
   // 补全协议
@@ -38,7 +64,8 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes('/rakuen/topic/')) {
     navigation.push('Topic', {
       topicId: _url.replace(`${HOST}/rakuen/topic/`, ''),
-      _url
+      _url,
+      ...passParams
     })
     return
   }
@@ -46,7 +73,8 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes('/group/topic/')) {
     navigation.push('Topic', {
       topicId: `group/${_url.replace(`${HOST}/group/topic/`, '')}`,
-      _url
+      _url,
+      ...passParams
     })
     return
   }
@@ -56,7 +84,8 @@ export function appNavigate(url = '', navigation) {
     const id = _url.replace(`${HOST}/subject/topic/`, '')
     navigation.push('Topic', {
       topicId: `subject/${id}`,
-      _url
+      _url,
+      ...passParams
     })
     return
   }
@@ -65,7 +94,8 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes('/subject/')) {
     navigation.push('Subject', {
       subjectId: _url.replace(`${HOST}/subject/`, ''),
-      _url
+      _url,
+      ...passParams
     })
     return
   }
@@ -74,7 +104,8 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes('/user/')) {
     navigation.push('Zone', {
       userId: _url.replace(`${HOST}/user/`, ''),
-      _url
+      _url,
+      ...passParams
     })
     return
   }
@@ -84,7 +115,8 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes('/ep/')) {
     navigation.push('Topic', {
       topicId: _url.replace(`${HOST}/`, ''),
-      _url
+      _url,
+      ...passParams
     })
     return
   }
@@ -93,7 +125,8 @@ export function appNavigate(url = '', navigation) {
   if (_url.includes('/character/') || _url.includes('/person/')) {
     navigation.push('Mono', {
       monoId: _url.replace(`${HOST}/`, ''),
-      _url
+      _url,
+      ...passParams
     })
     return
   }

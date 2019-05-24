@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 20:34:09
+ * @Last Modified time: 2019-05-24 22:09:21
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Modal } from '@ant-design/react-native'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
-import { appNavigate } from '@utils/app'
+import { appNavigate, findBangumiCn } from '@utils/app'
 import _ from '@styles'
 import Stars from '../stars'
 
@@ -31,13 +31,13 @@ class TimelineItem extends React.Component {
     image: []
   }
 
-  appNavigate = url => {
+  appNavigate = (url, passParams) => {
     const { navigation } = this.props
-    appNavigate(url, navigation)
+    appNavigate(url, navigation, passParams)
   }
 
   renderP3() {
-    const { p3 } = this.props
+    const { p3, image } = this.props
 
     // 位置3: 多个条目信息
     let $p3
@@ -52,9 +52,18 @@ class TimelineItem extends React.Component {
             type={isSubject ? undefined : 'main'}
             underline={isSubject}
             size={12}
-            onPress={() => this.appNavigate(url)}
+            onPress={() =>
+              this.appNavigate(
+                url,
+                isSubject && {
+                  _jp: item,
+                  _cn: findBangumiCn(item),
+                  _image: image[index] || ''
+                }
+              )
+            }
           >
-            {item}
+            {isSubject ? findBangumiCn(item) : item}
           </Text>,
           <Text key={`${item}.`} size={12}>
             、
@@ -69,9 +78,18 @@ class TimelineItem extends React.Component {
           type={isSubject ? undefined : 'main'}
           underline={isSubject}
           size={12}
-          onPress={() => this.appNavigate(p3.url[0])}
+          onPress={() =>
+            this.appNavigate(
+              p3.url[0],
+              isSubject && {
+                _jp: p3.text[0],
+                _cn: findBangumiCn(p3.text[0]),
+                _image: image[0] || ''
+              }
+            )
+          }
         >
-          {p3.text[0]}
+          {isSubject ? findBangumiCn(p3.text[0]) : p3.text[0]}
         </Text>
       )
     }
@@ -80,7 +98,7 @@ class TimelineItem extends React.Component {
   }
 
   renderP() {
-    const { p1, p2, p3, p4 } = this.props
+    const { p1, p2, p3, p4, avatar } = this.props
 
     // 是否渲染第一行
     const hasPosition = !!(p1.text || p2.text || p3.text.length || p4.text)
@@ -91,7 +109,16 @@ class TimelineItem extends React.Component {
     return (
       <Text>
         {!!p1.text && (
-          <Text type='main' size={12} onPress={() => this.appNavigate(p1.url)}>
+          <Text
+            type='main'
+            size={12}
+            onPress={() =>
+              this.appNavigate(p1.url, {
+                _name: p1.text,
+                _image: avatar.src
+              })
+            }
+          >
             {p1.text}{' '}
           </Text>
         )}
@@ -103,7 +130,7 @@ class TimelineItem extends React.Component {
   }
 
   renderDesc() {
-    const { navigation, subject, subjectId, comment, reply } = this.props
+    const { navigation, subject, image, subjectId, comment, reply } = this.props
     return (
       <>
         {!!subject && (
@@ -112,11 +139,14 @@ class TimelineItem extends React.Component {
             underline
             onPress={() => {
               navigation.push('Subject', {
-                subjectId
+                subjectId,
+                _cn: findBangumiCn(subject),
+                _jp: subject,
+                _image: image ? image[0] : ''
               })
             }}
           >
-            {subject}
+            {findBangumiCn(subject)}
           </Text>
         )}
         {!!(comment || reply.content) && (
@@ -142,7 +172,11 @@ class TimelineItem extends React.Component {
         size={48}
         radius
         border={_.colorBorder}
-        onPress={() => this.appNavigate(p3.url[index])}
+        onPress={() =>
+          this.appNavigate(p3.url[index], {
+            _image: item
+          })
+        }
       />
     ))
     if (image.length <= 5) {
@@ -183,7 +217,11 @@ class TimelineItem extends React.Component {
               size={avatarWidth}
               radius
               border={_.colorBorder}
-              onPress={() => this.appNavigate(avatar.url)}
+              onPress={() =>
+                this.appNavigate(avatar.url, {
+                  _image: avatar.src
+                })
+              }
             />
           )}
         </View>
@@ -215,7 +253,11 @@ class TimelineItem extends React.Component {
                   size={48}
                   radius
                   border={_.colorBorder}
-                  onPress={() => this.appNavigate(p3.url[0])}
+                  onPress={() =>
+                    this.appNavigate(p3.url[0], {
+                      _image: image[0]
+                    })
+                  }
                 />
               )}
               {!!clearHref && (

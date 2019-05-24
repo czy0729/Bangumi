@@ -5,9 +5,8 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 04:08:27
+ * @Last Modified time: 2019-05-24 04:28:31
  */
-import { AsyncStorage } from 'react-native'
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
@@ -371,15 +370,15 @@ class User extends store {
   /**
    * 登出
    */
-  async logout() {
-    const res = AsyncStorage.clear()
-    await res
+  logout() {
     this.setState({
       accessToken: initAccessToken,
+      userCookie: initUserCookie,
       userInfo: initUserInfo
     })
-
-    return res
+    this.setStorage('accessToken')
+    this.setStorage('userCookie')
+    this.setStorage('userInfo')
   }
 
   /**

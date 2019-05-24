@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 15:49:18
+ * @Last Modified time: 2019-05-24 22:16:36
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
@@ -35,6 +35,14 @@ export default class RakuenStore extends store {
   }
 
   // -------------------- get --------------------
+  @computed get notifyUnread() {
+    return rakuenStore.notify.unread
+  }
+
+  @computed get isWebLogin() {
+    return userStore.isWebLogin
+  }
+
   rakuen(type) {
     const { scope } = this.state
     return computed(() => rakuenStore.rakuen(scope, type)).get()
@@ -42,14 +50,6 @@ export default class RakuenStore extends store {
 
   comments(topidId) {
     return computed(() => rakuenStore.comments(topidId)).get()
-  }
-
-  @computed get notifyUnread() {
-    return rakuenStore.notify.unread
-  }
-
-  @computed get isWebLogin() {
-    return userStore.isWebLogin
   }
 
   // -------------------- fetch --------------------

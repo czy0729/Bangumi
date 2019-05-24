@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 05:06:38
+ * @Last Modified time: 2019-05-24 22:17:35
  */
 import { observable, computed } from 'mobx'
-import { userStore, timelineStore } from '@stores'
+import { systemStore, userStore, timelineStore } from '@stores'
 import { fetchHTML } from '@utils/fetch'
 import store from '@utils/store'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
@@ -30,13 +30,24 @@ export default class ScreenTimeline extends store {
       _loaded: true
     })
 
-    this.fetchTimeline(true)
+    if (this.autoFetch) {
+      this.fetchTimeline(true)
+    }
+
     return res
   }
 
   // -------------------- get --------------------
+  @computed get autoFetch() {
+    return systemStore.setting.autoFetch
+  }
+
   @computed get isWebLogin() {
     return userStore.isWebLogin
+  }
+
+  @computed get myUserId() {
+    return userStore.myUserId
   }
 
   timeline(scope, type) {

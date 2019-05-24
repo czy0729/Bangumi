@@ -4,21 +4,23 @@
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 16:44:09
+ * @Last Modified time: 2019-05-24 22:53:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Loading, WebView as CompWebView } from '@components'
 import { IconBack } from '@screens/_'
-import { observer } from '@utils/decorators'
+import { open } from '@utils'
+import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { HOST_NAME } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
 
-const redirectMaxCount = 8
+const redirectMaxCount = 8 // 最大跳转次数
 
 export default
+@withHeader()
 @observer
 class WebView extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -30,7 +32,27 @@ class WebView extends React.Component {
     loading: true
   }
 
-  redirectCount = 0
+  loaded = false // 是否已到达目的页面
+  redirectCount = 0 // 跳转次数
+
+  componentDidMount() {
+    const { navigation } = this.props
+    const uri = navigation.getParam('uri')
+    navigation.setParams({
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          switch (key) {
+            case '浏览器查看':
+              open(uri)
+              break
+            default:
+              break
+          }
+        }
+      }
+    })
+  }
 
   onError = () => {
     const { navigation } = this.props
@@ -52,6 +74,7 @@ class WebView extends React.Component {
                 this.onError()
               }
             } else {
+              this.loaded = true
               this.setState({
                 loading: false
               })
@@ -88,7 +111,8 @@ class WebView extends React.Component {
           }));
 
           setTimeout(() => {
-            if (window.location.href !== '${uri}') {
+            const loaded = ${this.loaded};
+            if (!loaded && window.location.href !== '${uri}') {
               if (${this.redirectCount} < ${redirectMaxCount}) {
                 window.location = '${uri}';
               }
@@ -96,7 +120,7 @@ class WebView extends React.Component {
           }, 0);
         }
       }
-      setTimeout(() => { 
+      setTimeout(() => {
         waitForBridge();
       }, 0);
     }());`

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 20:41:51
+ * @Last Modified time: 2019-05-23 23:35:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ const Top = (props, { $, navigation }) => {
     title,
     groupThumb,
     group,
+    groupHref,
     time,
     avatar,
     userName,
@@ -34,6 +35,7 @@ const Top = (props, { $, navigation }) => {
     userSign,
     message
   } = $.topic
+  log($.topic)
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -44,7 +46,12 @@ const Top = (props, { $, navigation }) => {
         <Flex style={_.mt.sm} align='start'>
           <Image size={16} src={groupThumb} radius border={colorBorder} />
           <Text style={_.ml.sm}>
-            <Text size={13} underline numberOfLines={1}>
+            <Text
+              size={13}
+              underline
+              numberOfLines={1}
+              onPress={() => appNavigate(groupHref, navigation)}
+            >
               {group}
             </Text>
             {!!time && (

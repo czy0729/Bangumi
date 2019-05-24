@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 14:49:49
+ * @Last Modified time: 2019-05-24 22:19:11
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { HOST } from './index'
@@ -79,6 +79,12 @@ export const HTML_SEARCH = (text, cat = '', page = 1) => {
  * 添加新讨论 (需登录)
  */
 export const HTML_NEW_TOPIC = () => `${HOST}/rakuen/new_topic`
+
+/**
+ * 添加新时间线 (需登录)
+ */
+export const HTML_NEW_TIMELINE = userId =>
+  `${HOST}/user/${userId}/timeline?type=say`
 
 /**
  * 电波提醒 (需登录)
