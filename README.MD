@@ -97,6 +97,6 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 
 <img src="./preview/user_1.png" width="220" alt="user_1" /> <img src="./preview/user_2.png" width="220" alt="user_2" />
 
-#### 每日放送, 电波提醒
+#### 每日放送, 电波提醒, 设置
 
-<img src="./preview/calendar_1.png" width="220" alt="calendar_1" /> <img src="./preview/notify_1.png" width="220" alt="notify_1" />
+<img src="./preview/calendar_1.png" width="220" alt="calendar_1" /> <img src="./preview/notify_1.png" width="220" alt="notify_1" /> <img src="./preview/setting_1.png" width="220" alt="setting_1" />
