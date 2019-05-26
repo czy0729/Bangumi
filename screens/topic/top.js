@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 23:35:13
+ * @Last Modified time: 2019-05-26 21:57:41
  */
 import React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import {
@@ -16,7 +16,7 @@ import {
   RenderHtml,
   Divider
 } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar, SectionTitle, IconReverse } from '@screens/_'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
 import { IOS } from '@constants'
@@ -35,7 +35,7 @@ const Top = (props, { $, navigation }) => {
     userSign,
     message
   } = $.topic
-  log($.topic)
+  const { _reverse } = $.comments
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -97,6 +97,18 @@ const Top = (props, { $, navigation }) => {
         )}
       </View>
       <Divider />
+      <SectionTitle
+        style={[styles.title, _.mt.lg, _.mb.md]}
+        right={
+          <IconReverse
+            style={styles.sort}
+            color={_reverse ? _.colorMain : _.colorIcon}
+            onPress={$.toggleReverseComments}
+          />
+        }
+      >
+        吐槽箱
+      </SectionTitle>
     </>
   )
 }
@@ -107,3 +119,12 @@ Top.contextTypes = {
 }
 
 export default observer(Top)
+
+const styles = StyleSheet.create({
+  title: {
+    paddingHorizontal: _.wind
+  },
+  sort: {
+    marginRight: -_.sm
+  }
+})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 14:38:07
+ * @Last Modified time: 2019-05-26 20:29:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -25,7 +25,16 @@ export default
 class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
-      <IconTabsHeader name='search' onPress={() => navigation.push('Search')} />
+      <>
+        <IconTabsHeader
+          name='calendar'
+          onPress={() => navigation.push('Calendar')}
+        />
+        <IconTabsHeader
+          name='search'
+          onPress={() => navigation.push('Search')}
+        />
+      </>
     ),
     tabBarIcon: ({ tintColor }) => <IconTabBar name='star' color={tintColor} />,
     tabBarLabel: '进度'

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 01:01:02
+ * @Last Modified time: 2019-05-26 02:04:06
  */
 import { Platform } from 'react-native'
 import { Constants } from 'expo'
@@ -22,6 +22,7 @@ export const HOST_2 = 'https://bangumi.tv'
 export const HOST_MIRRO = 'https://mirror.bgm.rin.cat'
 export const OAUTH_URL = `${HOST}/oauth/authorize`
 export const OAUTH_REDIRECT_URL = HOST
+export const GITHUB_URL = 'https://github.com/czy0729/Bangumi'
 // export const OAUTH_REDIRECT_URL = Constants.linkingUri
 
 // 图片

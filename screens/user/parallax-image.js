@@ -1,23 +1,23 @@
 /*
  * @Author: czy0729
- * @Date: 2019-05-08 19:32:34
+ * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 21:21:06
+ * @Last Modified time: 2019-05-26 21:23:47
  */
 import React from 'react'
-import { StyleSheet, Animated, View } from 'react-native'
+import { StyleSheet, Alert, Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { Popover, Menu, Iconfont, Text } from '@components'
-import { IconBack } from '@screens/_'
-import { open } from '@utils'
-import { IOS, HOST } from '@constants'
+import { Text } from '@components'
+import { IconBack, IconHeader } from '@screens/_'
+import { observer } from '@utils/decorators'
+import { IOS } from '@constants'
 import _ from '@styles'
 import Head from './head'
 import { height, headerHeight } from './store'
 
 const ParallaxImage = ({ scrollY }, { $, navigation }) => {
   const { id, avatar, nickname } = $.usersInfo
+  const isMe = $.myUserId === id
   const parallaxStyle = {
     transform: [
       {
@@ -43,27 +43,6 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
     ]
   }
 
-  const data = ['浏览器查看', '详细收藏信息']
-  const onSelect = label => {
-    if (label === '详细收藏信息') {
-      navigation.push('User', {
-        userId: id,
-        _name: nickname,
-        _image: avatar.large
-      })
-    } else {
-      open(`${HOST}/user/${id}`)
-    }
-  }
-  const popoverProps = IOS
-    ? {
-        overlay: <Menu data={data} onSelect={onSelect} />
-      }
-    : {
-        data,
-        onSelect
-      }
-
   return (
     <>
       <View style={styles.parallax}>
@@ -71,7 +50,7 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
           pointerEvents='none'
           style={[styles.parallaxImage, parallaxStyle]}
           source={{ uri: avatar.large }}
-          blurRadius={2}
+          blurRadius={IOS ? 2 : 1}
         />
         <Animated.View
           style={[
@@ -121,20 +100,38 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
           ]}
         >
           <Head style={styles.head} />
+          {isMe && (
+            <IconHeader
+              style={[_.header.right, styles.information]}
+              name='information'
+              color={_.colorIconPlain}
+              onPress={() =>
+                Alert.alert(
+                  '提示',
+                  '因隐藏条目受登陆状态影响, 若条目没找到, 可以尝试重新登陆',
+                  [
+                    {
+                      text: '好的'
+                    }
+                  ]
+                )
+              }
+            />
+          )}
         </Animated.View>
-        <IconBack style={_.header.left} navigation={navigation} />
-        <Popover
-          style={[
-            _.header.right,
-            {
-              padding: _.sm
-            }
-          ]}
-          placement='bottom'
-          {...popoverProps}
-        >
-          <Iconfont size={24} name='more' color={_.colorPlain} />
-        </Popover>
+        <IconBack
+          style={_.header.left}
+          navigation={navigation}
+          color={_.colorPlain}
+        />
+        {isMe && (
+          <IconHeader
+            style={_.header.right}
+            name='setting'
+            color={_.colorPlain}
+            onPress={() => navigation.push('Setting')}
+          />
+        )}
       </View>
     </>
   )
@@ -179,10 +176,9 @@ const styles = StyleSheet.create({
       }
     ]
   },
-  tabs: {
+  information: {
     position: 'absolute',
-    zIndex: 2,
-    left: 0,
-    right: 0
+    top: undefined,
+    bottom: _.sm
   }
 })

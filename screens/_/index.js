@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 04:35:16
+ * @Last Modified time: 2019-05-26 14:45:03
  */
 export { default as Avatar } from './avatar'
 export { default as Characters } from './characters'
@@ -19,6 +19,8 @@ export { default as IconTabBar } from './icon/tab-bar'
 export { default as IconTabsHeader } from './icon/tabs-header'
 export { default as ItemArticle } from './item/article'
 export { default as ItemBangumiList } from './item/bangumi-list'
+export { default as ItemCollections } from './item/collections'
+export { default as ItemCollectionsGrid } from './item/collections-grid'
 export { default as ItemComment } from './item/comment'
 export { default as ItemSearch } from './item/search'
 export { default as Logo } from './logo'

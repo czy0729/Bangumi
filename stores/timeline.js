@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 20:24:04
+ * @Last Modified time: 2019-05-26 20:57:20
  */
 import { observable, computed } from 'mobx'
 import { trim, getTimestamp } from '@utils'
@@ -36,7 +36,7 @@ class Timeline extends store {
     const res = Promise.all([this.getStorage('timeline')])
     const state = await res
     this.setState({
-      timeline: state[0]
+      timeline: state[0] || {}
     })
 
     return res

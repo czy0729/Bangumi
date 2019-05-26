@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 05:24:48
+ * @Last Modified time: 2019-05-26 21:53:28
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -178,7 +178,7 @@ class Rakuen extends store {
    * @issue 官网没有分页, 某些帖子一次性返回几千回复, 不分页容易导致奔溃
    * 为了提高体验, 做模拟分页加载效果
    */
-  async fetchTopic({ topicId = 0 }, refresh) {
+  async fetchTopic({ topicId = 0 }, refresh, reverse) {
     let res
     const topicKey = 'topic'
     const commentsKey = 'comments'
@@ -186,7 +186,7 @@ class Rakuen extends store {
 
     if (refresh) {
       // 重新请求
-      res = _fetchTopic({ topicId })
+      res = _fetchTopic({ topicId }, reverse)
       const { topic, comments } = await res
       const _loaded = getTimestamp()
 
@@ -211,7 +211,8 @@ class Rakuen extends store {
               pageTotal: Math.ceil(comments.length / LIST_LIMIT_COMMENTS)
             },
             _list: comments,
-            _loaded
+            _loaded,
+            _reverse: reverse
           }
         }
       })
@@ -403,7 +404,7 @@ async function _fetchRakuen({ scope, type } = {}) {
   return Promise.resolve(rakuen)
 }
 
-async function _fetchTopic({ topicId = 0 }) {
+async function _fetchTopic({ topicId = 0 }, reverse) {
   // -------------------- 请求HTML --------------------
   const raw = await fetchHTML({
     url: `!${HTML_TOPIC(topicId)}`
@@ -457,7 +458,7 @@ async function _fetchTopic({ topicId = 0 }) {
   const commentHTML = HTML.match(
     /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><div style="margin-top/
   )
-  const comments = analysisComments(commentHTML)
+  const comments = analysisComments(commentHTML, reverse)
 
   return Promise.resolve({
     topic,
@@ -469,19 +470,31 @@ async function _fetchTopic({ topicId = 0 }) {
  * 分析留言层信息
  * @param {*} commentHTML
  */
-export function analysisComments(commentHTML) {
+export function analysisComments(commentHTML, reverse) {
   const comments = []
   if (!commentHTML) {
     return comments
   }
 
   // 回复内容需要渲染html就不能使用node查找了, 而且子回复也在里面
-  const messageHTML = commentHTML[1]
+  let messageHTML = commentHTML[1]
     .match(/<div class="reply_content">(.+?)<\/div><\/div><\/div><\/div>/g)
     .map(item => item.replace(/^<div class="reply_content">|<\/div>$/g, ''))
+  if (reverse && messageHTML.length) {
+    messageHTML = messageHTML.reverse()
+  }
 
   const tree = HTMLToTree(commentHTML[1])
-  tree.children.forEach((item, index) => {
+  let { children } = tree
+  if (reverse && children.length) {
+    children = children.reverse()
+
+    // 会有一个评论被折叠的提示
+    if (children.length > messageHTML.length) {
+      children.shift()
+    }
+  }
+  children.forEach((item, index) => {
     // @todo 暂时只显示前100楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
     if (index >= 100) {
       return

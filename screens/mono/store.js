@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:04:54
+ * @Last Modified time: 2019-05-26 20:41:57
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
 import store from '@utils/store'
 
-export default class MonoStore extends store {
+export default class ScreenMono extends store {
   init = () => this.fetchMono(true)
 
   // -------------------- fetch --------------------

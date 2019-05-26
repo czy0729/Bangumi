@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 20:36:46
+ * @Last Modified time: 2019-05-26 21:05:26
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -40,7 +40,15 @@ class Zone extends React.Component {
 
   onScroll = e => {
     const { scrollY } = this.state
-    Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }])(e)
+    Animated.event([
+      {
+        nativeEvent: {
+          contentOffset: {
+            y: scrollY
+          }
+        }
+      }
+    ])(e)
   }
 
   render() {
@@ -59,13 +67,7 @@ class Zone extends React.Component {
       <>
         <StatusBar barStyle='light-content' />
         <ParallaxImage scrollY={scrollY} />
-        <Tabs
-          $={$}
-          style={_.container.screen}
-          tabBarStyle={{
-            display: 'none'
-          }}
-        >
+        <Tabs style={_.container.screen} $={$} scrollY={scrollY}>
           <BangumiList {...listViewProps} />
           <TimelineList {...listViewProps} />
           <View />

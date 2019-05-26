@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 00:09:36
+ * @Last Modified time: 2019-05-26 19:24:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { WebView, Flex, Image, Button, Loading } from '@components'
+import { WebView, Flex, Image, Button, Loading, Text } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { urlStringify } from '@utils'
@@ -217,6 +217,10 @@ export default class Login extends React.Component {
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}
         </View>
+        <Text style={styles.ps} size={12} type='sub'>
+          PS: 若登陆过程中出现问题, 请手动把授权网页里面的Bangumi账号登出,
+          不然可能会出现cookie过期的情况.
+        </Text>
       </View>
     )
   }
@@ -233,5 +237,11 @@ const styles = StyleSheet.create({
   },
   gray: {
     backgroundColor: 'rgb(251, 251, 251)'
+  },
+  ps: {
+    position: 'absolute',
+    right: _.wind * 2,
+    bottom: _.bottom,
+    left: _.wind * 2
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 04:24:20
+ * @Last Modified time: 2019-05-26 22:00:26
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -11,7 +11,7 @@ import { MODEL_SETTING_QUALITY } from '@constants/model'
 
 const initSetting = {
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
-  cnFirst: false, // 是否中文优先
+  cnFirst: true, // 是否中文优先
   autoFetch: true // 切换页面自动请求
 }
 const initImageViewer = {
@@ -19,7 +19,7 @@ const initImageViewer = {
   imageUrls: []
 }
 
-class SystemStore extends store {
+class System extends store {
   state = observable({
     setting: initSetting,
     wifi: false,
@@ -131,4 +131,4 @@ class SystemStore extends store {
   }
 }
 
-export default new SystemStore()
+export default new System()

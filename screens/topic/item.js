@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 17:26:32
+ * @Last Modified time: 2019-05-26 19:44:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text, RenderHtml } from '@components'
+import { Flex, Text, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
@@ -82,12 +82,11 @@ const Item = (
             const isLayer = !isAuthor && userId === item.userId
             return (
               <Flex key={item.id} align='start'>
-                <Image
+                <Avatar
                   style={styles.subImage}
-                  size={avatarWidth}
+                  navigation={navigation}
+                  userId={item.userId}
                   src={item.avatar}
-                  radius
-                  border={_.colorBorder}
                 />
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>

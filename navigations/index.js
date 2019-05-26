@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 23:36:36
+ * @Last Modified time: 2019-05-26 21:58:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,10 +14,10 @@ import {
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs'
 import { BlurView } from 'expo'
 import {
+  Calendar,
   Login,
   Mono,
   Notify,
-  Popular,
   Rakuen,
   Search,
   Setting,
@@ -36,10 +36,9 @@ import config from './stacks/config'
 const TabBarComponent = props => <BottomTabBar {...props} />
 const HomeTab = createBottomTabNavigator(
   {
-    Home: HomeScreen,
     Timeline,
-    Rakuen,
-    User
+    Home: HomeScreen,
+    Rakuen
   },
   {
     initialRouteName: 'Home',
@@ -68,6 +67,7 @@ const HomeTab = createBottomTabNavigator(
 
 const HomeStack = createStackNavigator(
   {
+    Calendar,
     HomeTab,
     Login,
     Mono,

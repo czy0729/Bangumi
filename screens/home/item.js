@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 04:27:55
+ * @Last Modified time: 2019-05-26 19:26:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { ActivityIndicator, Progress, Modal } from '@ant-design/react-native'
+import { Progress, Modal } from '@ant-design/react-native'
 import { Flex, Iconfont, Image, Shadow, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -70,7 +70,6 @@ class Item extends React.Component {
       return null
     }
 
-    const { doing } = $.$Item(subjectId)
     return (
       <Touchable
         style={styles.touchable}
@@ -79,13 +78,9 @@ class Item extends React.Component {
         <Flex justify='center'>
           <Iconfont style={styles.icon} name='check' size={16} />
           <View style={[styles.placeholder, _.ml.sm]}>
-            {doing ? (
-              <ActivityIndicator size='small' />
-            ) : (
-              <Text type='sub' size={12}>
-                {sort}
-              </Text>
-            )}
+            <Text type='sub' size={12}>
+              {sort}
+            </Text>
           </View>
         </Flex>
       </Touchable>

@@ -1,74 +1,92 @@
 /*
  * @Author: czy0729
- * @Date: 2019-04-26 20:31:49
+ * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 19:52:22
+ * @Last Modified time: 2019-05-26 19:06:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { ListView, Flex, Touchable, Iconfont } from '@components'
-import { SectionHeader } from '@screens/_'
-import { colorBg } from '@styles'
-import Item from './item'
+import { Loading, ListView } from '@components'
+import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
+import { MODEL_COLLECTION_STATUS } from '@constants/model'
+import _ from '@styles'
 
-const List = (props, { $ }) => {
-  const { expand } = $.state
-  const sections = []
-  $.userCollections.list.forEach(item => {
-    sections.push({
-      title: item.status,
-      count: item.count,
-      data: [
-        {
-          list: item.list
-        }
-      ]
-    })
-  })
-  return (
-    <ListView
-      style={{
-        backgroundColor: colorBg
-      }}
-      keyExtractor={item => item.id}
-      sections={sections}
-      renderSectionHeader={({ section: { title, count } }) => (
-        <SectionHeader
-          style={{ backgroundColor: colorBg }}
-          size={14}
-          right={
-            <Touchable onPress={() => $.toggleSection(title)}>
-              <Iconfont name={expand[title] ? 'down' : 'up'} size={18} />
-            </Touchable>
-          }
-        >
-          {title} ({count})
-        </SectionHeader>
-      )}
-      renderItem={({ item, section: { title } }) => {
-        if (!expand[title]) {
-          return null
-        }
-        return (
-          <Flex wrap='wrap' align='start'>
-            {item.list.map(item => (
-              <Item
-                key={item.id}
-                subjectId={item.id}
-                images={item.images}
-                name={item.name_cn || item.name}
+class List extends React.Component {
+  static contextTypes = {
+    $: PropTypes.object,
+    navigation: PropTypes.object
+  }
+
+  state = {
+    // @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
+    // 暂时使用重新渲染的办法解决列表变换置顶问题
+    hide: false
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.scope !== this.props.scope) {
+      this.setState({
+        hide: true
+      })
+      setTimeout(() => {
+        this.setState({
+          hide: false
+        })
+      }, 0)
+    }
+  }
+
+  render() {
+    const { $, navigation } = this.context
+    const { subjectType, title, ...other } = this.props
+    const { hide } = this.state
+    if (hide) {
+      return null
+    }
+
+    const userCollections = $.userCollections(
+      subjectType,
+      MODEL_COLLECTION_STATUS.getValue(title)
+    )
+    if (!userCollections._loaded) {
+      return <Loading />
+    }
+
+    const { list } = $.state
+    const numColumns = list ? undefined : 4
+    return (
+      <ListView
+        key={String(numColumns)}
+        numColumns={numColumns}
+        contentContainerStyle={_.container.bottom}
+        keyExtractor={item => item.id}
+        data={userCollections}
+        renderItem={({ item, index }) => {
+          if (list) {
+            return (
+              <ItemCollections
+                navigation={navigation}
+                index={index}
+                {...item}
               />
-            ))}
-          </Flex>
-        )
-      }}
-    />
-  )
-}
+            )
+          }
 
-List.contextTypes = {
-  $: PropTypes.object
+          return (
+            <ItemCollectionsGrid
+              navigation={navigation}
+              index={index}
+              {...item}
+            />
+          )
+        }}
+        onHeaderRefresh={() => $.fetchUserCollections(true)}
+        onFooterRefresh={$.fetchUserCollections}
+        {...other}
+      />
+    )
+  }
 }
 
 export default observer(List)

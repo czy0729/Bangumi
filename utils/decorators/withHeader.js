@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 22:48:22
+ * @Last Modified time: 2019-05-26 19:57:54
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -22,16 +22,28 @@ const withHeader = () => ComposedComponent =>
           onSelect: Function.prototype
         })
         if (popover.data.length) {
+          const popoverProps = IOS
+            ? {
+                overlay: (
+                  <Menu
+                    title={popover.title}
+                    data={popover.data}
+                    onSelect={popover.onSelect}
+                  />
+                )
+              }
+            : {
+                data: popover.data,
+                onSelect: popover.onSelect
+              }
           headerRight = (
             <Popover
+              style={{
+                padding: _.sm,
+                marginRight: -_.sm
+              }}
               placement='bottom'
-              overlay={
-                <Menu
-                  title={popover.title}
-                  data={popover.data}
-                  onSelect={popover.onSelect}
-                />
-              }
+              {...popoverProps}
             >
               <Iconfont size={24} name='more' color={_.colorTitle} />
             </Popover>

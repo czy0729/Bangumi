@@ -8,7 +8,7 @@ import { computed } from 'mobx'
 import { calendarStore } from '@stores'
 import store from '@utils/store'
 
-export default class Store extends store {
+export default class ScreenPopular extends store {
   // -------------------- get --------------------
   @computed get calendar() {
     return calendarStore.calendar

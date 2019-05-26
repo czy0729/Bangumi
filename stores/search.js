@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 22:02:16
+ * @Last Modified time: 2019-05-25 15:07:54
  */
 import { observable, computed } from 'mobx'
-import { LIST_EMPTY } from '@constants'
-import { MODEL_SEARCH_CAT } from '@constants/model'
-import { HTML_SEARCH } from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
+import { LIST_EMPTY } from '@constants'
+import { MODEL_SEARCH_CAT } from '@constants/model'
+import { HTML_SEARCH } from '@constants/html'
 
 const initCat = MODEL_SEARCH_CAT.getValue('条目')
 const initSearchItem = {

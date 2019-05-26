@@ -236,7 +236,7 @@ export class Tabs extends React.PureComponent {
       <WithTheme styles={this.props.styles} themeStyles={TabsStyles}>
         {styles => {
           const content = [
-            <View
+            <Animated.View // @add View -> Animated.View
               key='$tabbar'
               style={[
                 tabBarPosition === 'top'
@@ -246,7 +246,7 @@ export class Tabs extends React.PureComponent {
               ]}
             >
               {this.renderTabBar(tabBarProps, DefaultTabBar)}
-            </View>,
+            </Animated.View>,
             !noRenderContent && this.renderContent()
           ]
 
@@ -265,6 +265,7 @@ export class Tabs extends React.PureComponent {
       </WithTheme>
     )
   }
+
   getTabIndex(props) {
     const { page, initialPage, tabs } = props
     const param = (page !== undefined ? page : initialPage) || 0

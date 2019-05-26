@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 17:28:38
+ * @Last Modified time: 2019-05-26 20:03:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,11 +39,13 @@ const Character = ({ style }, { $, navigation }) => {
         style={_.mt.sm}
         data={data}
         quality={false}
-        onPress={id =>
+        onPress={({ id, name, image }) => {
           navigation.push('Mono', {
-            monoId: `character/${id}`
+            monoId: `character/${id}`,
+            _name: name,
+            _image: image
           })
-        }
+        }}
       />
     </View>
   )

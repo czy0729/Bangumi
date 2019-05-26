@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 05:32:23
+ * @Last Modified time: 2019-05-26 20:06:52
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Loading, ListView } from '@components'
+import { ListView } from '@components'
 import { TopicItem } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
@@ -55,10 +55,6 @@ class Mono extends React.Component {
 
   render() {
     const { $, navigation } = this.context
-    if (!$.mono._loaded) {
-      return <Loading />
-    }
-
     const { onScroll } = this.props
     return (
       <ListView

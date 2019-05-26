@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 04:28:31
+ * @Last Modified time: 2019-05-26 17:24:06
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -20,7 +20,8 @@ import {
   API_USER_PROGRESS,
   API_EP_STATUS,
   API_SUBJECT_UPDATE_WATCHED,
-  API_USER_COLLECTIONS
+  API_USER_COLLECTIONS,
+  API_USER_COLLECTIONS_STATUS
 } from '@constants/api'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import RakuenStore from './rakuen'
@@ -77,6 +78,11 @@ class User extends store {
     // 某用户信息
     usersInfo: {
       // [userId]: initUserInfo
+    },
+
+    // 用户收藏统计
+    userCollectionsStatus: {
+      // [userId]: initUserCollectionsStatus
     }
   })
 
@@ -86,7 +92,8 @@ class User extends store {
       this.getStorage('userInfo'),
       this.getStorage('userCookie'),
       this.getStorage('userCollection'),
-      this.getStorage('userProgress')
+      this.getStorage('userProgress'),
+      this.getStorage('userCollectionsStatus')
     ])
     const state = await res
     this.setState({
@@ -94,7 +101,8 @@ class User extends store {
       userInfo: state[1] || initUserInfo,
       userCookie: state[2] || initUserCookie,
       userCollection: state[3] || LIST_EMPTY,
-      userProgress: state[4]
+      userProgress: state[4] || {},
+      userCollectionsStatus: state[5] || {}
     })
 
     if (this.isLogin) {
@@ -169,6 +177,14 @@ class User extends store {
    */
   usersInfo(userId = this.myUserId) {
     return computed(() => this.state.usersInfo[userId] || initUserInfo).get()
+  }
+
+  /**
+   * 取某用户收藏统计
+   * @param {*} userId
+   */
+  userCollectionsStatus(userId = this.myUserId) {
+    return computed(() => this.state.userCollectionsStatus[userId] || {}).get()
   }
 
   /**
@@ -363,6 +379,23 @@ class User extends store {
         info: '某用户信息'
       },
       ['usersInfo', userId]
+    )
+  }
+
+  /**
+   * 获取用户收藏统计
+   * @param {*} userId
+   */
+  fetchUserCollectionsStatus(userId = this.myUserId) {
+    return this.fetch(
+      {
+        url: API_USER_COLLECTIONS_STATUS(userId),
+        info: '用户收藏统计'
+      },
+      ['userCollectionsStatus', userId],
+      {
+        storage: true
+      }
     )
   }
 

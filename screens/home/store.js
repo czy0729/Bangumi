@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 05:05:03
+ * @Last Modified time: 2019-05-26 20:41:46
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -34,7 +34,7 @@ const initItem = {
   doing: false
 }
 
-export default class HomeScreen extends store {
+export default class ScreenHome extends store {
   state = observable({
     visible: false, // <Modal>可见性
     subjectId: 0, // <Modal>当前条目Id
@@ -231,6 +231,7 @@ export default class HomeScreen extends store {
     this.setState({
       page
     })
+
     // @issue onTabClick与onChange在用受控模式的时候有冲突, 暂时这样解决
     setTimeout(() => {
       this.setState({

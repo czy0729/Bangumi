@@ -4,14 +4,17 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 22:03:21
+ * @Last Modified time: 2019-05-26 21:04:17
  */
 import { observable, computed } from 'mobx'
 import { userStore, timelineStore } from '@stores'
 import store from '@utils/store'
-import { window } from '@styles'
+import _ from '@styles'
 
-export const height = window.width * 0.64
+export const height = _.window.width * 0.64
+
+// @todo 偏差了6pt, 有空再纠正
+export const headerHeight = _.headerHeight + 6
 export const tabs = [
   {
     title: '番剧'
@@ -24,7 +27,7 @@ export const tabs = [
   }
 ]
 
-export default class Store extends store {
+export default class ScreenZone extends store {
   state = observable({
     expand: {
       在看: true,

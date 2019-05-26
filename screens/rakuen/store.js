@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 22:16:36
+ * @Last Modified time: 2019-05-26 20:42:27
  */
 import { observable, computed } from 'mobx'
-import { rakuenStore, userStore } from '@stores'
+import { systemStore, rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -13,7 +13,7 @@ export const tabs = MODEL_RAKUEN_TYPE.data.map(item => ({
   title: item.label
 }))
 
-export default class RakuenStore extends store {
+export default class ScreenRakuen extends store {
   state = observable({
     scope: MODEL_RAKUEN_SCOPE.getValue('全局聚合'),
     page: 0, // <Tabs>当前页数
@@ -29,12 +29,21 @@ export default class RakuenStore extends store {
       _loaded: true
     })
 
-    this.fetchRakuen(true)
+    const { page } = this.state
+    const type = tabs[page].title
+    const { _loaded } = this.rakuen(MODEL_RAKUEN_TYPE.getValue(type))
+    if (!_loaded || this.autoFetch) {
+      this.fetchRakuen(true)
+    }
 
     return res
   }
 
   // -------------------- get --------------------
+  @computed get autoFetch() {
+    return systemStore.setting.autoFetch
+  }
+
   @computed get notifyUnread() {
     return rakuenStore.notify.unread
   }

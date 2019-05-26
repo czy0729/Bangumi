@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 00:59:18
+ * @Last Modified time: 2019-05-26 16:42:49
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import { Constants } from 'expo'
@@ -63,6 +63,7 @@ export const colorTitle = `rgb(${colorTitleRaw.join()})`
 export const colorDesc = 'rgb(40, 40, 40)' // #282828
 export const colorSub = 'rgb(142, 142, 147)' // #8E8E93
 export const colorIcon = 'rgb(200, 200, 200)' // #C8C8C8
+export const colorIconPlain = `rgba(${colorPlainRaw.join()}, 0.88)`
 export const lineHeightRatio = 1.28
 
 // -------------------- 圆角 --------------------
@@ -251,8 +252,13 @@ export const input = StyleSheet.create({
 export const header = StyleSheet.create({
   left: {
     position: 'absolute',
-    top: statusBarHeight + 8,
+    top: IOS ? statusBarHeight + 8 : statusBarHeight + 12,
     left: 4
+  },
+  right: {
+    position: 'absolute',
+    top: IOS ? statusBarHeight + 8 : statusBarHeight + 12,
+    right: 8
   }
 })
 

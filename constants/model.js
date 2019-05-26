@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 03:10:02
+ * @Last Modified time: 2019-05-26 15:39:42
  */
 class Modal {
   constructor(data) {
@@ -339,5 +339,24 @@ export const MODEL_SETTING_QUALITY = new Modal([
   {
     label: '低质量',
     value: 'mini'
+  }
+])
+
+export const MODEL_ORDERBY = new Modal([
+  {
+    label: '收藏时间',
+    value: ''
+  },
+  {
+    label: '评价',
+    value: 'rate'
+  },
+  {
+    label: '发售日',
+    value: 'date'
+  },
+  {
+    label: '名称',
+    value: 'title'
   }
 ])

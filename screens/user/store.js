@@ -1,45 +1,206 @@
 /*
  * @Author: czy0729
- * @Date: 2019-04-26 20:31:54
+ * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 18:20:43
+ * @Last Modified time: 2019-05-26 21:22:45
  */
 import { observable, computed } from 'mobx'
-import { userStore } from '@stores'
+import { userStore, collectionStore } from '@stores'
 import store from '@utils/store'
+import {
+  MODEL_SUBJECT_TYPE,
+  MODEL_COLLECTION_STATUS,
+  MODEL_ORDERBY
+} from '@constants/model'
+import _ from '@styles'
 
-export default class UserScreen extends store {
+export const height = _.window.width * 0.64
+
+// @todo 偏差了6pt, 有空再纠正
+export const headerHeight = _.headerHeight + 6
+export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
+  title: item.label
+}))
+tabs.push({
+  title: ' '
+})
+
+const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
+const defaultOrder = MODEL_ORDERBY.getValue('收藏时间')
+
+export default class ScreenUser extends store {
   state = observable({
-    expand: {
-      在看: true,
-      看过: false,
-      想看: false,
-      搁置: false,
-      抛弃: false
-    }
+    subjectType: defaultSubjectType,
+    order: defaultOrder,
+    list: true, // list | grid
+    tag: '',
+    page: 1, // <Tabs>当前页数
+    _page: 1, // header上的假<Tabs>当前页数,
+    _loaded: false
   })
-
-  // -------------------- get --------------------
-  @computed get userCollections() {
-    return userStore.userCollections()
-  }
 
   init = async () => {
     const state = await this.getStorage()
-    if (state) {
-      this.setState(state)
+    this.setState({
+      ...state,
+      _loaded: true
+    })
+
+    let res
+
+    // 用户信息
+    if (!this.usersInfo._loaded) {
+      res = this.fetchUsersInfo()
+      await res
     }
-    userStore.fetchUserCollections()
+
+    // 用户收藏概览统计
+    if (!this.userCollectionsStatus._loaded) {
+      const { userId } = this.params
+      userStore.fetchUserCollectionsStatus(userId)
+    }
+
+    // 用户收藏记录
+    this.fetchUserCollections(true)
+    return res
+  }
+
+  // -------------------- get --------------------
+  @computed get usersInfo() {
+    const { userId } = this.params
+    return userStore.usersInfo(userId)
+  }
+
+  @computed get userCollectionsStatus() {
+    const { userId } = this.params
+    return userStore.userCollectionsStatus(userId)
+  }
+
+  @computed get myUserId() {
+    return userStore.myUserId
+  }
+
+  userCollections(subjectType, type) {
+    const { userId } = this.params
+    return computed(() =>
+      collectionStore.userCollections(userId, subjectType, type)
+    ).get()
+  }
+
+  userCollectionsTags(subjectType, type) {
+    const { userId } = this.params
+    return computed(() =>
+      collectionStore.userCollectionsTags(userId, subjectType, type)
+    ).get()
+  }
+
+  // -------------------- fetch --------------------
+  fetchUsersInfo = () => {
+    const { userId } = this.params
+    return userStore.fetchUsersInfo(userId)
+  }
+
+  fetchUserCollections = refresh => {
+    const { userId } = this.params
+    const { subjectType, order, tag, page } = this.state
+    return collectionStore.fetchUserCollections(
+      {
+        subjectType,
+        type: MODEL_COLLECTION_STATUS.getValue(tabs[page].title),
+        order,
+        tag,
+        userId
+      },
+      refresh
+    )
   }
 
   // -------------------- page --------------------
-  toggleSection = title => {
-    const { expand } = this.state
+  onTabClick = (item, page) => {
+    if (page === this.state.page) {
+      return
+    }
+
     this.setState({
-      expand: {
-        ...expand,
-        [title]: !expand[title]
-      }
+      page,
+      tag: ''
+    })
+
+    // @issue onTabClick与onChange在用受控模式的时候有冲突, 暂时这样解决
+    setTimeout(() => {
+      this.setState({
+        _page: page
+      })
+      this.setStorage()
+    }, 400)
+    this.fetchUserCollections(true)
+  }
+
+  onChange = (item, page) => {
+    if (page === this.state.page) {
+      return
+    }
+
+    // 这里最后一个tab是假占位, 跳回到第一个tab
+    if (page + 1 === tabs.length) {
+      setTimeout(() => {
+        this.setState({
+          page: 0,
+          _page: 0,
+          tag: ''
+        })
+      }, 400)
+    } else {
+      this.setState({
+        page,
+        _page: page,
+        tag: ''
+      })
+      this.fetchUserCollections(true)
+    }
+    this.setStorage()
+  }
+
+  onSelectSubjectType = title => {
+    const { subjectType } = this.state
+    const nextSubjectType = MODEL_SUBJECT_TYPE.getLabel(title)
+    if (nextSubjectType !== subjectType) {
+      this.setState({
+        subjectType: nextSubjectType,
+        tag: ''
+      })
+      this.fetchUserCollections(true)
+      this.setStorage()
+    }
+  }
+
+  onSortSelect = label => {
+    this.setState({
+      order: MODEL_ORDERBY.getValue(label)
+    })
+    this.fetchUserCollections(true)
+    this.setStorage()
+  }
+
+  onFilterSelect = label => {
+    let tag
+    if (label === '重置') {
+      tag = ''
+    } else {
+      tag = label.replace(/ \(\d+\)/, '')
+    }
+
+    this.setState({
+      tag
+    })
+    this.fetchUserCollections(true)
+    this.setStorage()
+  }
+
+  toggleList = () => {
+    const { list } = this.state
+    this.setState({
+      list: !list
     })
     this.setStorage()
   }

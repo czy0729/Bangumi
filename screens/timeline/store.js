@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 22:17:35
+ * @Last Modified time: 2019-05-26 20:58:24
  */
 import { observable, computed } from 'mobx'
 import { systemStore, userStore, timelineStore } from '@stores'
@@ -16,7 +16,7 @@ export const tabs = MODEL_TIMELINE_TYPE.data.map(item => ({
 
 export default class ScreenTimeline extends store {
   state = observable({
-    scope: MODEL_TIMELINE_SCOPE.getValue('好友'),
+    scope: MODEL_TIMELINE_SCOPE.getValue('全站'),
     page: 0, // <Tabs>当前页数
     _page: 0, // header上的假<Tabs>当前页数,
     _loaded: false
@@ -30,7 +30,10 @@ export default class ScreenTimeline extends store {
       _loaded: true
     })
 
-    if (this.autoFetch) {
+    const { scope, page } = this.state
+    const type = tabs[page].title
+    const { _loaded } = this.timeline(scope, MODEL_TIMELINE_TYPE.getValue(type))
+    if (!_loaded || this.autoFetch) {
       this.fetchTimeline(true)
     }
 
@@ -74,6 +77,7 @@ export default class ScreenTimeline extends store {
     this.setState({
       page
     })
+
     // @issue onTabClick与onChange在用受控模式的时候有冲突, 暂时这样解决
     setTimeout(() => {
       this.setState({
@@ -91,18 +95,19 @@ export default class ScreenTimeline extends store {
 
     // 这里最后一个tab是假占位, 跳回到第一个tab
     if (page + 1 === tabs.length) {
-      this.setState({
-        page: 0,
-        _page: 0
-      })
+      setTimeout(() => {
+        this.setState({
+          page: 0,
+          _page: 0
+        })
+      }, 400)
     } else {
       this.setState({
         page,
         _page: page
       })
+      this.fetchTimeline(true)
     }
-
-    this.fetchTimeline(true)
     this.setStorage()
   }
 

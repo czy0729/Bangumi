@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 22:00:15
+ * @Last Modified time: 2019-05-26 20:42:37
  */
 import { observable, computed } from 'mobx'
 import { searchStore } from '@stores'
@@ -12,7 +12,7 @@ import { MODEL_SEARCH_CAT } from '@constants/model'
 
 const initCat = MODEL_SEARCH_CAT.getValue('条目')
 
-export default class SearchScreen extends store {
+export default class ScreenSearch extends store {
   state = observable({
     history: [],
     cat: initCat,

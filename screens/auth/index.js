@@ -2,19 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 17:44:34
+ * @Last Modified time: 2019-05-26 20:38:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
 import { Text, Button } from '@components'
-import { IconTabBar } from '@screens/_'
+import { IconTabsHeader, IconTabBar } from '@screens/_'
 import { userStore } from '@stores'
 import _ from '@styles'
 
 const Auth = ({ navigation }) => (
   <View style={[_.container.column, { backgroundColor: _.colorBg }]}>
+    <IconTabsHeader
+      style={_.header.right}
+      name='setting'
+      color={_.colorSub}
+      onPress={() => navigation.push('Setting')}
+    />
     <NavigationEvents
       onWillFocus={() => {
         if (userStore.isLogin) {

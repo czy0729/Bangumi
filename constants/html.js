@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 22:19:11
+ * @Last Modified time: 2019-05-26 16:25:34
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { HOST } from './index'
@@ -90,3 +90,24 @@ export const HTML_NEW_TIMELINE = userId =>
  * 电波提醒 (需登录)
  */
 export const HTML_NOTIFY = () => `${HOST}/notify/all`
+
+/**
+ * 每日放送
+ */
+export const HTML_CALENDAR = () => `${HOST}/calendar`
+
+/**
+ * 时光机
+ * @param {*} userId
+ * @param {*} type
+ * @param {*} order
+ */
+export const HTML_USER_COLLECTIONS = (
+  userId,
+  scope = 'anime',
+  type,
+  order,
+  tag,
+  page
+) =>
+  `${HOST}/${scope}/list/${userId}/${type}?orderby=${order}&tag=${tag}&page=${page}`

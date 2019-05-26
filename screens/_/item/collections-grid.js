@@ -1,56 +1,54 @@
 /*
  * @Author: czy0729
- * @Date: 2019-04-26 20:31:44
+ * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-26 23:34:22
+ * @Last Modified time: 2019-05-26 15:02:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Text, Image } from '@components'
-import { IMG_DEFAULT } from '@constants'
 import { HTMLDecode } from '@utils/html'
-import _, { window, sm } from '@styles'
+import { IMG_DEFAULT } from '@constants'
+import _ from '@styles'
 
-const imageWidth = window.width * 0.16
-const marginLeft = (window.width - 5 * imageWidth) / 6
+const imageWidth = _.window.width * 0.2
+const marginLeft = (_.window.width - 4 * imageWidth) / 5
 
-const Item = ({ style, subjectId, images = {}, name }, { navigation }) => {
+const CollectionsGrid = ({ style, navigation, id, cover, name, nameCn }) => {
   const onPress = () => {
     navigation.push('Subject', {
-      subjectId
+      subjectId: id,
+      _jp: name,
+      _cn: nameCn,
+      _image: cover
     })
   }
   return (
     <View style={[styles.item, style]}>
       <Image
         size={imageWidth}
-        src={images.medium || IMG_DEFAULT}
+        src={cover || IMG_DEFAULT}
         border
         radius
         shadow
         onPress={onPress}
       />
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} size={11} numberOfLines={2}>
-          {HTMLDecode(name)}
+        <Text style={_.mt.sm} size={12} numberOfLines={2}>
+          {HTMLDecode(nameCn || name)}
         </Text>
       </Touchable>
     </View>
   )
 }
 
-Item.contextTypes = {
-  navigation: PropTypes.object
-}
-
-export default observer(Item)
+export default observer(CollectionsGrid)
 
 const styles = StyleSheet.create({
   item: {
     width: imageWidth,
-    marginBottom: sm,
-    marginLeft
+    marginLeft,
+    marginBottom: _.wind
   }
 })

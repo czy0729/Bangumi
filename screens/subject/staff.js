@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 20:22:12
+ * @Last Modified time: 2019-05-26 20:04:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,11 +32,13 @@ const Staff = ({ style }, { $, navigation }) => {
         style={_.mt.sm}
         data={data}
         quality={false}
-        onPress={id =>
+        onPress={({ id, name, image }) => {
           navigation.push('Mono', {
-            monoId: `person/${id}`
+            monoId: `person/${id}`,
+            _name: name,
+            _image: image
           })
-        }
+        }}
       />
     </View>
   )

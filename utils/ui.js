@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 16:23:46
+ * @Last Modified time: 2019-05-26 19:24:21
  */
 import { Toast, ActionSheet } from '@ant-design/react-native'
 
@@ -13,7 +13,7 @@ import { Toast, ActionSheet } from '@ant-design/react-native'
  */
 export function info(
   content = '网络错误',
-  duration = 4,
+  duration = 3,
   onClose = Function.prototype,
   mask = false
 ) {

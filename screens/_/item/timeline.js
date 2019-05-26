@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 22:09:21
+ * @Last Modified time: 2019-05-26 19:37:45
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { StyleSheet, ScrollView, View, Alert } from 'react-native'
 import { observer } from 'mobx-react'
-import { Modal } from '@ant-design/react-native'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { appNavigate, findBangumiCn } from '@utils/app'
 import _ from '@styles'
@@ -264,25 +263,16 @@ class TimelineItem extends React.Component {
                 <Touchable
                   style={_.ml.sm}
                   onPress={() => {
-                    Modal.alert(
-                      '确定删除?',
-                      <Text style={{ marginTop: -16 }} />, // 缩短一下这个描述的高度
-                      [
-                        {
-                          text: '取消',
-                          style: {
-                            color: _.colorSub
-                          }
-                        },
-                        {
-                          text: '确定',
-                          style: {
-                            color: _.colorDanger
-                          },
-                          onPress: () => onDelete(clearHref)
-                        }
-                      ]
-                    )
+                    Alert.alert('警告', '确定删除?', [
+                      {
+                        text: '取消',
+                        style: 'cancel'
+                      },
+                      {
+                        text: '确定',
+                        onPress: () => onDelete(clearHref)
+                      }
+                    ])
                   }}
                 >
                   <Iconfont style={styles.del} name='close' size={12} />

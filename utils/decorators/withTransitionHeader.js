@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 22:48:20
+ * @Last Modified time: 2019-05-26 19:58:07
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -12,12 +12,7 @@ import { Popover, Menu, Iconfont } from '@components'
 import { StatusBar, IconBack } from '@screens/_'
 import { gradientColor } from '@utils'
 import { IOS } from '@constants'
-import {
-  headerHeight,
-  colorPlainRaw,
-  colorTitleRaw,
-  colorBorder
-} from '@styles'
+import _ from '@styles'
 import observer from './observer'
 
 /**
@@ -25,8 +20,8 @@ import observer from './observer'
  */
 const withTransitionHeader = ({
   headerTransition = 48,
-  colorStart = colorPlainRaw,
-  colorEnd = colorTitleRaw,
+  colorStart = _.colorPlainRaw,
+  colorEnd = _.colorTitleRaw,
   transparent = false,
   barStyle
 } = {}) => ComposedComponent => {
@@ -52,16 +47,28 @@ const withTransitionHeader = ({
           onSelect: Function.prototype
         })
         if (popover.data.length) {
+          const popoverProps = IOS
+            ? {
+                overlay: (
+                  <Menu
+                    title={popover.title}
+                    data={popover.data}
+                    onSelect={popover.onSelect}
+                  />
+                )
+              }
+            : {
+                data: popover.data,
+                onSelect: popover.onSelect
+              }
           headerRight = (
             <Popover
+              style={{
+                padding: _.sm,
+                marginRight: -_.sm
+              }}
               placement='bottom'
-              overlay={
-                <Menu
-                  title={popover.title}
-                  data={popover.data}
-                  onSelect={popover.onSelect}
-                />
-              }
+              {...popoverProps}
             >
               <Iconfont size={24} name='more' color={headerTintColor} />
             </Popover>
@@ -99,7 +106,7 @@ const withTransitionHeader = ({
       headerTransitionCallback = ({ nativeEvent }) => {
         const { y } = nativeEvent.contentOffset
         if (
-          (this.headerTransitioned && y > headerHeight + headerTransition) ||
+          (this.headerTransitioned && y > _.headerHeight + headerTransition) ||
           (this.headerTransitioned && y < 0)
         ) {
           return
@@ -107,7 +114,7 @@ const withTransitionHeader = ({
 
         const { navigation } = this.context
         let title = ''
-        let opacity = y / (headerHeight + headerTransition)
+        let opacity = y / (_.headerHeight + headerTransition)
         if (opacity < 0) {
           opacity = 0
           this.headerTransitioned = true
@@ -153,7 +160,7 @@ const withTransitionHeader = ({
             headerStyle: {
               backgroundColor: `rgba(255, 255, 255, ${opacity})`,
               borderBottomWidth: isTransitioned ? StyleSheet.hairlineWidth : 0,
-              borderBottomColor: colorBorder
+              borderBottomColor: _.colorBorder
             }
           })
         }
@@ -184,14 +191,14 @@ withTransitionHeader.setTitle = (navigation, title) =>
 withTransitionHeader.listViewProps = IOS
   ? {
       contentInset: {
-        top: headerHeight
+        top: _.headerHeight
       },
       contentOffset: {
-        y: -headerHeight
+        y: -_.headerHeight
       }
     }
   : {
-      progressViewOffset: headerHeight
+      progressViewOffset: _.headerHeight
     }
 
 export default withTransitionHeader

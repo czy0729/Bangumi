@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 22:03:20
+ * @Last Modified time: 2019-05-26 20:42:51
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -14,7 +14,7 @@ import { queue } from '@utils/fetch'
 import { appNavigate } from '@utils/app'
 import store from '@utils/store'
 
-export default class SubjectScreen extends store {
+export default class ScreenSubject extends store {
   state = observable({
     visible: false, // 是否显示管理模态框
     epsReverse: false, // 章节是否倒序
