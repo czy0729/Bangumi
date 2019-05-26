@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 21:05:26
+ * @Last Modified time: 2019-05-26 23:01:06
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -70,7 +70,6 @@ class Zone extends React.Component {
         <Tabs style={_.container.screen} $={$} scrollY={scrollY}>
           <BangumiList {...listViewProps} />
           <TimelineList {...listViewProps} />
-          <View />
         </Tabs>
       </>
     )

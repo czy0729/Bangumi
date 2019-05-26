@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 21:21:06
+ * @Last Modified time: 2019-05-26 22:47:04
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
@@ -123,18 +123,18 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
           <Head style={styles.head} />
         </Animated.View>
         <IconBack style={_.header.left} navigation={navigation} />
-        <Popover
+        <View
           style={[
             _.header.right,
             {
               padding: _.sm
             }
           ]}
-          placement='bottom'
-          {...popoverProps}
         >
-          <Iconfont size={24} name='more' color={_.colorPlain} />
-        </Popover>
+          <Popover placement='bottom' {...popoverProps}>
+            <Iconfont size={24} name='more' color={_.colorPlain} />
+          </Popover>
+        </View>
       </View>
     </>
   )

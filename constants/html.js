@@ -3,9 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 16:25:34
+ * @Last Modified time: 2019-05-26 22:53:40
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
+import { urlStringify } from '@utils'
 import { HOST } from './index'
 
 /**
@@ -110,4 +111,8 @@ export const HTML_USER_COLLECTIONS = (
   tag,
   page
 ) =>
-  `${HOST}/${scope}/list/${userId}/${type}?orderby=${order}&tag=${tag}&page=${page}`
+  `${HOST}/${scope}/list/${userId}/${type}?${urlStringify({
+    orderby: order,
+    tag,
+    page
+  })}`

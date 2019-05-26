@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 21:04:17
+ * @Last Modified time: 2019-05-26 23:01:01
  */
 import { observable, computed } from 'mobx'
 import { userStore, timelineStore } from '@stores'
@@ -21,10 +21,10 @@ export const tabs = [
   },
   {
     title: '时间胶囊'
-  },
-  {
-    title: '关于TA'
   }
+  // {
+  //   title: '关于TA'
+  // }
 ]
 
 export default class ScreenZone extends store {

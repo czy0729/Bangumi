@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 22:54:05
+ * @Last Modified time: 2019-05-27 00:39:38
  */
 import { Portal, Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
