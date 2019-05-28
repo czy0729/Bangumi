@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 20:42:27
+ * @Last Modified time: 2019-05-28 20:26:21
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore } from '@stores'
@@ -12,6 +12,7 @@ import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 export const tabs = MODEL_RAKUEN_TYPE.data.map(item => ({
   title: item.label
 }))
+const namespace = 'ScreenRakuen'
 
 export default class ScreenRakuen extends store {
   state = observable({
@@ -22,7 +23,7 @@ export default class ScreenRakuen extends store {
   })
 
   init = async () => {
-    const res = this.getStorage()
+    const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
       ...state,
@@ -104,7 +105,7 @@ export default class ScreenRakuen extends store {
     if (!_loaded || list.length === 0) {
       this.fetchRakuen(true)
     }
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   // -------------------- action --------------------

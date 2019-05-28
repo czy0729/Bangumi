@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 19:58:48
+ * @Last Modified time: 2019-05-28 20:18:05
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
@@ -16,6 +16,7 @@ import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { analysisComments } from './rakuen'
 
+const namespace = 'Subject'
 const initSubjectItem = {
   air_date: '',
   air_weekday: '',
@@ -94,21 +95,21 @@ class Subject extends store {
 
   async init() {
     const res = Promise.all([
-      this.getStorage('subject'),
-      this.getStorage('subjectFormHTML'),
-      this.getStorage('subjectEp'),
-      this.getStorage('subjectComments'),
-      this.getStorage('mono'),
-      this.getStorage('monoComments')
+      this.getStorage('subject', namespace),
+      this.getStorage('subjectFormHTML', namespace),
+      this.getStorage('subjectEp', namespace),
+      this.getStorage('subjectComments', namespace),
+      this.getStorage('mono', namespace),
+      this.getStorage('monoComments', namespace)
     ])
     const state = await res
     this.setState({
-      subject: state[0],
-      subjectFormHTML: state[1],
-      subjectEp: state[2],
-      subjectComments: state[3],
-      mono: state[4],
-      monoComments: state[5]
+      subject: state[0] || {},
+      subjectFormHTML: state[1] || {},
+      subjectEp: state[2] || {},
+      subjectComments: state[3] || {},
+      mono: state[4] || {},
+      monoComments: state[5] || {}
     })
 
     return res
@@ -289,7 +290,7 @@ class Subject extends store {
         }
       }
     })
-    this.setStorage(key)
+    this.setStorage(key, undefined, namespace)
     return res
   }
 
@@ -421,8 +422,7 @@ class Subject extends store {
         }
       }
     })
-    this.setStorage(key)
-
+    this.setStorage(key, undefined, namespace)
     return res
   }
 
@@ -452,7 +452,7 @@ class Subject extends store {
           }
         }
       })
-      this.setStorage(monoKey)
+      this.setStorage(monoKey, undefined, namespace)
 
       // 缓存吐槽箱
       this.setState({
@@ -468,7 +468,7 @@ class Subject extends store {
           }
         }
       })
-      this.setStorage(commentsKey)
+      this.setStorage(commentsKey, undefined, namespace)
     } else {
       // 加载下一页留言
       const monoComments = this.monoComments(monoId)
@@ -485,9 +485,8 @@ class Subject extends store {
           }
         }
       })
-      this.setStorage(commentsKey)
+      this.setStorage(commentsKey, undefined, namespace)
     }
-
     return res
   }
 }

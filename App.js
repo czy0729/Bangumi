@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 19:13:26
+ * @Last Modified time: 2019-05-27 14:18:18
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { YellowBox, StyleSheet, View } from 'react-native'
 import {
   AppLoading
   // Asset
@@ -20,6 +20,8 @@ import theme from '@styles/theme'
 import Navigations from './navigations'
 
 console.disableYellowBox = true
+YellowBox.ignoreWarnings(['[Unhandled promise rejection: ...'])
+
 global.log = (value, space) => {
   const handleCircular = () => {
     const cache = []

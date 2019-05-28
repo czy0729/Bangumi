@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 23:03:34
+ * @Last Modified time: 2019-05-28 20:13:47
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -15,6 +15,7 @@ import { HTML_RAKUEN, HTML_TOPIC, HTML_NOTIFY } from '@constants/html'
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 import store from '@utils/store'
 
+const namespace = 'Rakuen'
 const LIST_LIMIT_COMMENTS = 6
 const initScope = MODEL_RAKUEN_SCOPE.getValue('全局聚合')
 const initType = MODEL_RAKUEN_TYPE.getValue('全部')
@@ -72,17 +73,17 @@ class Rakuen extends store {
 
   async init() {
     const res = Promise.all([
-      this.getStorage('rakuen'),
-      this.getStorage('topic'),
-      this.getStorage('comments'),
-      this.getStorage('notify')
+      this.getStorage('rakuen', namespace),
+      this.getStorage('topic', namespace),
+      this.getStorage('comments', namespace),
+      this.getStorage('notify', namespace)
     ])
     const state = await res
     this.setState({
-      rakuen: state[0],
-      topic: state[1],
-      comments: state[2],
-      notify: state[3]
+      rakuen: state[0] || {},
+      topic: state[1] || {},
+      comments: state[2] || {},
+      notify: state[3] || {}
     })
 
     return res
@@ -168,7 +169,7 @@ class Rakuen extends store {
         }
       })
     }
-    this.setStorage(key)
+    this.setStorage(key, undefined, namespace)
 
     return res
   }
@@ -199,7 +200,7 @@ class Rakuen extends store {
           }
         }
       })
-      this.setStorage(topicKey)
+      this.setStorage(topicKey, undefined, namespace)
 
       // 缓存帖子回复
       this.setState({
@@ -216,7 +217,7 @@ class Rakuen extends store {
           }
         }
       })
-      this.setStorage(commentsKey)
+      this.setStorage(commentsKey, undefined, namespace)
     } else {
       // 加载下一页留言
       const comments = this.comments(topicId)
@@ -233,7 +234,7 @@ class Rakuen extends store {
           }
         }
       })
-      this.setStorage(commentsKey)
+      this.setStorage(commentsKey, undefined, namespace)
     }
 
     return res
@@ -320,7 +321,7 @@ class Rakuen extends store {
         list
       }
     })
-    this.setStorage(key)
+    this.setStorage(key, undefined, namespace)
 
     return res
   }
@@ -344,7 +345,7 @@ class Rakuen extends store {
           clearHTML: ''
         }
       })
-      this.setStorage(key)
+      this.setStorage(key, undefined, namespace)
     }
   }
 }

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 22:00:26
+ * @Last Modified time: 2019-05-28 20:18:14
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 
+const namespace = 'System'
 const initSetting = {
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   cnFirst: true, // 是否中文优先
@@ -23,12 +24,13 @@ class System extends store {
   state = observable({
     setting: initSetting,
     wifi: false,
-    imageViewer: initImageViewer
+    imageViewer: initImageViewer,
+    dev: false
   })
 
   async init() {
     let res
-    res = Promise.all([this.getStorage('setting')])
+    res = Promise.all([this.getStorage('setting', namespace)])
     const state = await res
     this.setState({
       setting: state[0] || initSetting
@@ -74,7 +76,7 @@ class System extends store {
           quality
         }
       })
-      this.setStorage(key)
+      this.setStorage(key, undefined, namespace)
     }
   }
 
@@ -90,7 +92,7 @@ class System extends store {
         cnFirst: !cnFirst
       }
     })
-    this.setStorage(key)
+    this.setStorage(key, undefined, namespace)
   }
 
   /**
@@ -105,7 +107,7 @@ class System extends store {
         autoFetch: !autoFetch
       }
     })
-    this.setStorage(key)
+    this.setStorage(key, undefined, namespace)
   }
 
   /**
@@ -127,6 +129,13 @@ class System extends store {
   closeImageViewer = () => {
     this.setState({
       imageViewer: initImageViewer
+    })
+  }
+
+  toggleDev = () => {
+    const { dev } = this.state
+    this.setState({
+      dev: !dev
     })
   }
 }

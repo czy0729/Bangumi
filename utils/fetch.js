@@ -3,8 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-27 00:39:38
+ * @Last Modified time: 2019-05-27 04:28:48
  */
+import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
 import { APP_ID } from '@constants'
 import { urlStringify, sleep, getTimestamp } from './index'
@@ -185,14 +186,28 @@ export async function fetchHTML({
   if (method === 'POST') {
     key = Toast.loading('Loading...', 0)
   }
+
+  const systemStore = require('../stores/system').default
   return fetch(_url, data)
     .then(res => {
+      if (systemStore.state.dev) {
+        Alert.alert(
+          'dev',
+          `${JSON.stringify(_url)} ${JSON.stringify(data)} ${res._bodyInit}`
+        )
+      }
       if (key) {
         Portal.remove(key)
       }
+
       return Promise.resolve(res._bodyInit)
     })
-    .catch(() => {
+    .catch(e => {
+      if (systemStore.state.dev) {
+        Alert.alert(
+          `${JSON.stringify(_url)} ${JSON.stringify(data)} ${JSON.stringify(e)}`
+        )
+      }
       if (key) {
         Portal.remove(key)
       }

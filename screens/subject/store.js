@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 20:42:51
+ * @Last Modified time: 2019-05-28 20:29:33
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -13,6 +13,8 @@ import { MODEL_EP_STATUS } from '@constants/model'
 import { queue } from '@utils/fetch'
 import { appNavigate } from '@utils/app'
 import store from '@utils/store'
+
+const namespace = 'ScreenSubject'
 
 export default class ScreenSubject extends store {
   state = observable({
@@ -26,7 +28,7 @@ export default class ScreenSubject extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage()
+    const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
       visible: false,
@@ -118,7 +120,7 @@ export default class ScreenSubject extends store {
     this.setState({
       epsReverse: !epsReverse
     })
-    this.setStorage()
+    this.setStorage(undefined, undefined, ScreenSubject)
   }
 
   /**

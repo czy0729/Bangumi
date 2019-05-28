@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 17:10:11
+ * @Last Modified time: 2019-05-28 20:10:36
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -20,6 +20,7 @@ import {
 } from '@constants/model'
 import userStore from './user'
 
+const namespace = 'Collection'
 const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
 const defaultType = MODEL_COLLECTION_STATUS.getValue('在看')
 const defaultOrder = MODEL_ORDERBY.getValue('收藏时间')
@@ -44,9 +45,9 @@ class Collection extends store {
 
   async init() {
     const res = Promise.all([
-      this.getStorage('collection'),
-      this.getStorage('userCollections'),
-      this.getStorage('userCollectionsTags')
+      this.getStorage('collection', namespace),
+      this.getStorage('userCollections', namespace),
+      this.getStorage('userCollectionsTags', namespace)
     ])
     const state = await res
     this.setState({
@@ -284,7 +285,7 @@ class Collection extends store {
         data[key] = userCollections[key]
       }
     })
-    this.setStorage('userCollections', data)
+    this.setStorage('userCollections', data, namespace)
   }
 
   /**
@@ -298,7 +299,7 @@ class Collection extends store {
         data[key] = userCollectionsTags[key]
       }
     })
-    this.setStorage('userCollectionsTags', data)
+    this.setStorage('userCollectionsTags', data, namespace)
   }
 
   // -------------------- action --------------------

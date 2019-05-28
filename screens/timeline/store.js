@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 20:58:24
+ * @Last Modified time: 2019-05-28 20:30:01
  */
 import { observable, computed } from 'mobx'
 import { systemStore, userStore, timelineStore } from '@stores'
@@ -13,6 +13,7 @@ import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 export const tabs = MODEL_TIMELINE_TYPE.data.map(item => ({
   title: item.label
 }))
+const namespace = 'ScreenTimeline'
 
 export default class ScreenTimeline extends store {
   state = observable({
@@ -23,7 +24,7 @@ export default class ScreenTimeline extends store {
   })
 
   init = async () => {
-    const res = this.getStorage()
+    const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
       ...state,
@@ -83,7 +84,7 @@ export default class ScreenTimeline extends store {
       this.setState({
         _page: page
       })
-      this.setStorage()
+      this.setStorage(undefined, undefined, namespace)
     }, 400)
     this.fetchTimeline(true)
   }
@@ -108,7 +109,7 @@ export default class ScreenTimeline extends store {
       })
       this.fetchTimeline(true)
     }
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   onSelectScope = label => {
@@ -119,7 +120,7 @@ export default class ScreenTimeline extends store {
         scope: nextScope
       })
       this.fetchTimeline(true)
-      this.setStorage()
+      this.setStorage(undefined, undefined, namespace)
     }
   }
 

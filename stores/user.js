@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 17:24:06
+ * @Last Modified time: 2019-05-28 20:18:24
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -26,6 +26,7 @@ import {
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import RakuenStore from './rakuen'
 
+const namespace = 'User'
 const initAccessToken = {
   access_token: '',
   expires_in: 604800,
@@ -88,12 +89,12 @@ class User extends store {
 
   async init() {
     const res = Promise.all([
-      this.getStorage('accessToken'),
-      this.getStorage('userInfo'),
-      this.getStorage('userCookie'),
-      this.getStorage('userCollection'),
-      this.getStorage('userProgress'),
-      this.getStorage('userCollectionsStatus')
+      this.getStorage('accessToken', namespace),
+      this.getStorage('userInfo', namespace),
+      this.getStorage('userCookie', namespace),
+      this.getStorage('userCollection', namespace),
+      this.getStorage('userProgress', namespace),
+      this.getStorage('userCollectionsStatus', namespace)
     ])
     const state = await res
     this.setState({
@@ -319,8 +320,7 @@ class User extends store {
         }
       })
     }
-    this.setStorage('userProgress')
-
+    this.setStorage('userProgress', undefined, namespace)
     return res
   }
 
@@ -409,9 +409,9 @@ class User extends store {
       userCookie: initUserCookie,
       userInfo: initUserInfo
     })
-    this.setStorage('accessToken')
-    this.setStorage('userCookie')
-    this.setStorage('userInfo')
+    this.setStorage('accessToken', undefined, namespace)
+    this.setStorage('userCookie', undefined, namespace)
+    this.setStorage('userInfo', undefined, namespace)
   }
 
   /**
@@ -422,7 +422,7 @@ class User extends store {
     this.setState({
       userCookie: data
     })
-    this.setStorage('userCookie')
+    this.setStorage('userCookie', undefined, namespace)
   }
 
   // -------------------- action --------------------

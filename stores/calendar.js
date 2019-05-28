@@ -3,12 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 13:21:42
+ * @Last Modified time: 2019-05-28 20:11:03
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
 import { API_CALENDAR } from '@constants/api'
 import store from '@utils/store'
+
+const namespace = 'Calendar'
 
 class Calendar extends store {
   state = observable({
@@ -16,7 +18,7 @@ class Calendar extends store {
   })
 
   async init() {
-    const res = Promise.all([this.getStorage('calendar')])
+    const res = Promise.all([this.getStorage('calendar', namespace)])
     const state = await res
     this.setState({
       calendar: state[3] || LIST_EMPTY

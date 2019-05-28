@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 20:41:46
+ * @Last Modified time: 2019-05-28 20:25:57
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -28,7 +28,7 @@ export const tabs = [
     title: '三次元'
   }
 ]
-
+const namespace = 'ScreenHome'
 const initItem = {
   expand: false,
   doing: false
@@ -50,7 +50,7 @@ export default class ScreenHome extends store {
   init = async () => {
     let res
     if (this.isLogin) {
-      res = this.getStorage()
+      res = this.getStorage(undefined, namespace)
       const state = await res
       this.setState({
         ...state,
@@ -237,7 +237,7 @@ export default class ScreenHome extends store {
       this.setState({
         _page: page
       })
-      this.setStorage()
+      this.setStorage(undefined, undefined, namespace)
     }, 400)
   }
 
@@ -250,7 +250,7 @@ export default class ScreenHome extends store {
       page,
       _page: page
     })
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   /**
@@ -311,7 +311,7 @@ export default class ScreenHome extends store {
         }
       }
     })
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   /**
@@ -334,7 +334,7 @@ export default class ScreenHome extends store {
     this.setState({
       top: _top
     })
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   // -------------------- action --------------------

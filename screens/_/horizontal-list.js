@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 19:01:46
+ * @Last Modified time: 2019-05-27 05:03:28
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -46,7 +46,7 @@ const HorizontalList = ({
           quality={quality}
           onPress={() => onPress(item)}
         />
-        <Touchable onPress={() => onPress(item)}>
+        <Touchable withoutFeedback onPress={() => onPress(item)}>
           <Text style={_.mt.sm} numberOfLines={2}>
             {findCn ? findBangumiCn(item.name) : item.name}
           </Text>

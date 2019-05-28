@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-25 15:07:54
+ * @Last Modified time: 2019-05-28 20:17:48
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -13,6 +13,7 @@ import { LIST_EMPTY } from '@constants'
 import { MODEL_SEARCH_CAT } from '@constants/model'
 import { HTML_SEARCH } from '@constants/html'
 
+const namespace = 'Search'
 const initCat = MODEL_SEARCH_CAT.getValue('条目')
 const initSearchItem = {
   id: '',
@@ -36,7 +37,7 @@ class Search extends store {
   })
 
   async init() {
-    const res = Promise.all([this.getStorage('search')])
+    const res = Promise.all([this.getStorage('search', namespace)])
     const state = await res
     this.setState({
       search: state[0] || {}
@@ -258,8 +259,8 @@ class Search extends store {
         }
       }
     })
+    this.setStorage(key, undefined, namespace)
 
-    this.setStorage(key)
     return res
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 21:22:45
+ * @Last Modified time: 2019-05-28 20:30:15
  */
 import { observable, computed } from 'mobx'
 import { userStore, collectionStore } from '@stores'
@@ -24,7 +24,7 @@ export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
 tabs.push({
   title: ' '
 })
-
+const namespace = 'ScreenUser'
 const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
 const defaultOrder = MODEL_ORDERBY.getValue('收藏时间')
 
@@ -40,7 +40,7 @@ export default class ScreenUser extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage()
+    const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
       _loaded: true
@@ -131,7 +131,7 @@ export default class ScreenUser extends store {
       this.setState({
         _page: page
       })
-      this.setStorage()
+      this.setStorage(undefined, undefined, namespace)
     }, 400)
     this.fetchUserCollections(true)
   }
@@ -158,7 +158,7 @@ export default class ScreenUser extends store {
       })
       this.fetchUserCollections(true)
     }
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   onSelectSubjectType = title => {
@@ -170,7 +170,7 @@ export default class ScreenUser extends store {
         tag: ''
       })
       this.fetchUserCollections(true)
-      this.setStorage()
+      this.setStorage(undefined, undefined, namespace)
     }
   }
 
@@ -179,7 +179,7 @@ export default class ScreenUser extends store {
       order: MODEL_ORDERBY.getValue(label)
     })
     this.fetchUserCollections(true)
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   onFilterSelect = label => {
@@ -194,7 +194,7 @@ export default class ScreenUser extends store {
       tag
     })
     this.fetchUserCollections(true)
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   toggleList = () => {
@@ -202,7 +202,7 @@ export default class ScreenUser extends store {
     this.setState({
       list: !list
     })
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   // -------------------- action --------------------

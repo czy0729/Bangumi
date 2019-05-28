@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 23:01:01
+ * @Last Modified time: 2019-05-28 20:30:25
  */
 import { observable, computed } from 'mobx'
 import { userStore, timelineStore } from '@stores'
@@ -26,6 +26,7 @@ export const tabs = [
   //   title: '关于TA'
   // }
 ]
+const namespace = 'ScreenZone'
 
 export default class ScreenZone extends store {
   state = observable({
@@ -42,7 +43,7 @@ export default class ScreenZone extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage()
+    const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
       page: 0,
@@ -138,7 +139,7 @@ export default class ScreenZone extends store {
         [title]: !expand[title]
       }
     })
-    this.setStorage()
+    this.setStorage(undefined, undefined, namespace)
   }
 
   // -------------------- action --------------------

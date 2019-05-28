@@ -3,9 +3,8 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-25 18:17:19
+ * @Last Modified time: 2019-05-27 03:22:47
  */
-import { observable } from 'mobx'
 import calendarStore from './calendar'
 import collectionStore from './collection'
 import rakuenStore from './rakuen'
@@ -19,10 +18,6 @@ import userStore from './user'
 let inited = false
 
 class Stores {
-  state = observable({
-    wifi: false
-  })
-
   /**
    * 保证所有子Store初始化和加载缓存
    */

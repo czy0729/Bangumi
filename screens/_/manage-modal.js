@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 22:45:07
+ * @Last Modified time: 2019-05-27 05:00:54
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -185,7 +185,11 @@ class ManageModal extends React.Component {
     return (
       <ScrollView horizontal>
         {tags.map(({ name, count }) => (
-          <Touchable key={name} onPress={() => this.toggleTag(name)}>
+          <Touchable
+            key={name}
+            withoutFeedback
+            onPress={() => this.toggleTag(name)}
+          >
             <Flex
               style={[
                 styles.tag,

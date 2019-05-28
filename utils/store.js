@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 16:58:59
+ * @Last Modified time: 2019-05-28 20:05:34
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, action, toJS } from 'mobx'
@@ -105,17 +105,18 @@ export default class Store {
    * AsyncStorage.setItem
    * @param {*} *key
    * @param {*} value
+   * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
-  setStorage(key, value) {
+  setStorage(key, value, namesapce) {
     if (!key) {
       return AsyncStorage.setItem(
-        `${this.getName()}|state`,
+        `${namesapce || this.getName()}|state`,
         JSON.stringify(this.state)
       )
     }
 
     return AsyncStorage.setItem(
-      `${this.getName()}|${key}|state`,
+      `${namesapce || this.getName()}|${key}|state`,
       JSON.stringify(value || this.state[key])
     )
   }
@@ -124,13 +125,16 @@ export default class Store {
    * AsyncStorage.getItem
    * @param {*} key
    */
-  async getStorage(key) {
+  async getStorage(key, namesapce) {
+    // @issue 打包压缩后貌似不安全, this.getName类名字会丢失?
     if (!key) {
-      return JSON.parse(await AsyncStorage.getItem(`${this.getName()}|state`))
+      return JSON.parse(
+        await AsyncStorage.getItem(`${namesapce || this.getName()}|state`)
+      )
     }
 
     return JSON.parse(
-      await AsyncStorage.getItem(`${this.getName()}|${key}|state`)
+      await AsyncStorage.getItem(`${namesapce || this.getName()}|${key}|state`)
     )
   }
 
@@ -153,34 +157,10 @@ export default class Store {
     if (s.indexOf('function') == -1) {
       return null
     }
-
     s = s.replace('function', '')
     const idx = s.indexOf('(')
     s = s.substring(0, idx)
     s = s.replace(' ', '')
     return s
   }
-}
-
-/**
- * h5测试
- * 190228 v1.0
- * @param {*} config
- * @param {*} stateKey
- * @return {Promise}
- */
-export function dev() {
-  // if (!window.Stores) {
-  //   window.Stores = {
-  //     toJS: () => {
-  //       const stores = {}
-  //       Object.keys(window.Stores).forEach(storeKey => {
-  //         if (window.Stores[storeKey].toJS) {
-  //           stores[storeKey] = window.Stores[storeKey].toJS()
-  //         }
-  //       })
-  //     }
-  //   }
-  // }
-  // window.Stores[key] = store
 }

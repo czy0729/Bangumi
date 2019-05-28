@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 20:57:20
+ * @Last Modified time: 2019-05-28 20:18:22
  */
 import { observable, computed } from 'mobx'
 import { trim, getTimestamp } from '@utils'
@@ -16,6 +16,7 @@ import { HTML_TIMELINE } from '@constants/html'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import userStore from './user'
 
+const namespace = 'Timeline'
 const defaultScope = MODEL_TIMELINE_SCOPE.getValue('好友')
 const defaultType = MODEL_TIMELINE_TYPE.getValue('全部')
 
@@ -33,7 +34,7 @@ class Timeline extends store {
   })
 
   async init() {
-    const res = Promise.all([this.getStorage('timeline')])
+    const res = Promise.all([this.getStorage('timeline', namespace)])
     const state = await res
     this.setState({
       timeline: state[0] || {}
@@ -88,8 +89,7 @@ class Timeline extends store {
         [stateKey]: data
       }
     })
-    this.setStorage(key)
-
+    this.setStorage(key, undefined, namespace)
     return res
   }
 
