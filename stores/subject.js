@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:18:05
+ * @Last Modified time: 2019-05-28 20:49:12
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
@@ -186,7 +186,8 @@ class Subject extends store {
       },
       ['subject', subjectId],
       {
-        storage: true
+        storage: true,
+        namespace
       }
     )
   }
@@ -306,7 +307,8 @@ class Subject extends store {
       },
       ['subjectEp', subjectId],
       {
-        storage: true
+        storage: true,
+        namespace
       }
     )
   }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:05:34
+ * @Last Modified time: 2019-05-28 20:48:43
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, action, toJS } from 'mobx'
@@ -48,7 +48,7 @@ export default class Store {
    * @return {Promise}
    */
   async fetch(fetchConfig, stateKey, otherConfig = {}) {
-    const { list, storage } = otherConfig
+    const { list, storage, namespace } = otherConfig
     let _fetchConfig = {}
     if (typeof fetchConfig === 'object') {
       _fetchConfig = {
@@ -95,7 +95,7 @@ export default class Store {
 
     if (storage) {
       const key = Array.isArray(stateKey) ? stateKey[0] : stateKey
-      this.setStorage(key)
+      this.setStorage(key, undefined, namespace)
     }
 
     return res

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:18:24
+ * @Last Modified time: 2019-05-28 20:49:19
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -230,7 +230,8 @@ class User extends store {
       },
       'accessToken',
       {
-        storage: true
+        storage: true,
+        namespace
       }
     )
   }
@@ -247,7 +248,8 @@ class User extends store {
       },
       'userInfo',
       {
-        storage: true
+        storage: true,
+        namespace
       }
     )
   }
@@ -265,7 +267,8 @@ class User extends store {
       'userCollection',
       {
         list: true,
-        storage: true
+        storage: true,
+        namespace
       }
     )
   }
@@ -394,7 +397,8 @@ class User extends store {
       },
       ['userCollectionsStatus', userId],
       {
-        storage: true
+        storage: true,
+        namespace
       }
     )
   }

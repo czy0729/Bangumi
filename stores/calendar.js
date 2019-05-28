@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:11:03
+ * @Last Modified time: 2019-05-28 20:49:04
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
@@ -48,7 +48,8 @@ class Calendar extends store {
       'calendar',
       {
         list: true,
-        storage: true
+        storage: true,
+        namespace
       }
     )
   }
