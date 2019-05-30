@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:18:14
+ * @Last Modified time: 2019-05-30 18:39:22
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
+import { info } from '@utils/ui'
+import { log } from '@utils/dev'
+import { GITHUB_RELEASE_REPOS_URL, GITHUB_RELEASE_VERSION } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 
 const namespace = 'System'
@@ -14,6 +17,10 @@ const initSetting = {
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   cnFirst: true, // 是否中文优先
   autoFetch: true // 切换页面自动请求
+}
+const initRelease = {
+  name: GITHUB_RELEASE_VERSION,
+  downloadUrl: ''
 }
 const initImageViewer = {
   visible: false,
@@ -23,6 +30,7 @@ const initImageViewer = {
 class System extends store {
   state = observable({
     setting: initSetting,
+    release: initRelease,
     wifi: false,
     imageViewer: initImageViewer,
     dev: false
@@ -30,10 +38,14 @@ class System extends store {
 
   async init() {
     let res
-    res = Promise.all([this.getStorage('setting', namespace)])
+    res = Promise.all([
+      this.getStorage('setting', namespace),
+      this.getStorage('release', namespace)
+    ])
     const state = await res
     this.setState({
-      setting: state[0] || initSetting
+      setting: state[0] || initSetting,
+      release: state[1] || initRelease
     })
 
     res = NetInfo.getConnectionInfo()
@@ -44,12 +56,19 @@ class System extends store {
       })
     }
 
+    // 检查新版本
+    this.fetchRelease()
+
     return res
   }
 
   // -------------------- get --------------------
   @computed get setting() {
     return this.state.setting
+  }
+
+  @computed get release() {
+    return this.state.release
   }
 
   @computed get isWifi() {
@@ -61,10 +80,52 @@ class System extends store {
   }
 
   // -------------------- fetch --------------------
+  /*
+   * 检查新版本
+   */
+  fetchRelease = async () => {
+    let res
+    try {
+      log('检查新版本', GITHUB_RELEASE_REPOS_URL)
+      res = fetch(GITHUB_RELEASE_REPOS_URL).then(response => response.json())
+      const data = await res
+
+      const { name: githubVersion, assets = [] } = data[0]
+      const { browser_download_url: downloadUrl } = assets[0]
+      const { name: currentVersion } = this.state.release
+      if (githubVersion !== (currentVersion || GITHUB_RELEASE_VERSION)) {
+        setTimeout(() => {
+          // Alert.alert('发现新版本', '是否下载', [
+          //   {
+          //     text: '取消',
+          //     style: 'cancel'
+          //   },
+          //   {
+          //     text: '确定',
+          //     onPress: () => appNavigate(GITHUB_RELEASE_URL)
+          //   }
+          // ])
+          info('有新版本, 可到设置里下载')
+        }, 1600)
+
+        const release = {
+          name: githubVersion,
+          downloadUrl
+        }
+        this.setState({
+          release
+        })
+        this.setStorage('release', undefined, namespace)
+      }
+    } catch (error) {
+      // do nothing
+    }
+    return res
+  }
 
   // -------------------- page --------------------
   /**
-   * 设置``
+   * 设置`图片质量`
    */
   setQuality = label => {
     const quality = MODEL_SETTING_QUALITY.getValue(label)

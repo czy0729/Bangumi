@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 05:21:53
+ * @Last Modified time: 2019-05-30 15:51:39
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar } from '@screens/_'
 import { open } from '@utils'
-import { appNavigate } from '@utils/app'
+import { findBangumiCn, appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
 import _ from '@styles'
@@ -34,7 +34,7 @@ const Item = (
           info('该帖评论多, 自动使用浏览器打开')
           setTimeout(() => {
             open(`${HOST}${href}`)
-          }, 2000)
+          }, 1600)
         } else {
           appNavigate(href, navigation)
         }
@@ -53,7 +53,7 @@ const Item = (
           <Text style={_.mt.xs} type='sub' size={12}>
             {correctTime(time)}
             {group ? ' / ' : ''}
-            <Text size={12}>{group}</Text>
+            <Text size={12}>{findBangumiCn(group)}</Text>
           </Text>
         </Flex.Item>
       </Flex>

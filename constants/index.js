@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 02:04:06
+ * @Last Modified time: 2019-05-30 18:44:56
  */
 import { Platform } from 'react-native'
 import { Constants } from 'expo'
@@ -22,8 +22,15 @@ export const HOST_2 = 'https://bangumi.tv'
 export const HOST_MIRRO = 'https://mirror.bgm.rin.cat'
 export const OAUTH_URL = `${HOST}/oauth/authorize`
 export const OAUTH_REDIRECT_URL = HOST
-export const GITHUB_URL = 'https://github.com/czy0729/Bangumi'
 // export const OAUTH_REDIRECT_URL = Constants.linkingUri
+
+// GITHUB
+export const FEEDBACK_URL = `${HOST}/group/topic/350677`
+export const GITHUB_URL = 'https://github.com/czy0729/Bangumi'
+export const GITHUB_RELEASE_URL = `${GITHUB_URL}/releases`
+export const GITHUB_RELEASE_REPOS_URL =
+  'https://api.github.com/repos/czy0729/Bangumi/releases'
+export const GITHUB_RELEASE_VERSION = '0.4-alpha' // since 20190503
 
 // 图片
 // 白

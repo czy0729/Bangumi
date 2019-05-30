@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:28:40
+ * @Last Modified time: 2019-05-30 18:47:01
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
@@ -13,7 +13,12 @@ import { systemStore, userStore } from '@stores'
 import { open } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { IOS, GITHUB_URL } from '@constants'
+import {
+  IOS,
+  FEEDBACK_URL,
+  GITHUB_RELEASE_URL,
+  GITHUB_RELEASE_VERSION
+} from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
 import Item from './item'
@@ -77,7 +82,6 @@ class Setting extends React.Component {
 
   render() {
     const { quality, cnFirst, autoFetch } = systemStore.setting
-
     const data = MODEL_SETTING_QUALITY.data.map(({ label }) => label)
     const popoverProps = IOS
       ? {
@@ -87,6 +91,9 @@ class Setting extends React.Component {
           data,
           onSelect: this.setQuality
         }
+
+    const { name } = systemStore.release
+    const hasNewVersion = name !== GITHUB_RELEASE_VERSION
     return (
       <ScrollView
         style={_.container.screen}
@@ -122,16 +129,28 @@ class Setting extends React.Component {
           }
           withoutFeedback
         />
-
-        <Item style={_.mt.md} hd='检测更新' ft='开发中' />
+        <Item
+          style={_.mt.md}
+          hd='检测更新'
+          ft={
+            hasNewVersion ? (
+              <Text type='success' size={16}>
+                有新版本({name})
+              </Text>
+            ) : (
+              `当前版本(${GITHUB_RELEASE_VERSION})`
+            )
+          }
+          arrow
+          onPress={() => open(GITHUB_RELEASE_URL)}
+        />
         <Item
           border
-          hd='项目主页'
+          hd='问题反馈'
           arrow
           highlight
-          onPress={() => open(GITHUB_URL)}
+          onPress={() => open(FEEDBACK_URL)}
         />
-
         <Item
           style={_.mt.md}
           hd='清除缓存'
@@ -139,7 +158,6 @@ class Setting extends React.Component {
           highlight
           onPress={this.clearStorage}
         />
-
         <Item
           style={_.mt.md}
           hd='退出登录'
@@ -147,12 +165,11 @@ class Setting extends React.Component {
           highlight
           onPress={this.logout}
         />
-
         <Item
           style={{
             position: 'absolute',
             right: 0,
-            bottom: 0,
+            bottom: 40,
             left: 0,
             opacity: 0
           }}
