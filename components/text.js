@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-02 19:50:44
+ * @Last Modified time: 2019-05-29 04:48:51
  */
 import React from 'react'
 import { StyleSheet, Text as RNText } from 'react-native'
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
   20: fontSize(20),
   22: fontSize(22),
   24: fontSize(24),
+  26: fontSize(26),
   plain: {
     color: 'rgba(255, 255, 255, 0.92)'
   },

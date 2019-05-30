@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 20:29:26
+ * @Last Modified time: 2019-05-30 06:12:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -26,6 +26,10 @@ class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
       <>
+        <IconTabsHeader
+          name='star-list'
+          onPress={() => navigation.push('Discovery')}
+        />
         <IconTabsHeader
           name='calendar'
           onPress={() => navigation.push('Calendar')}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 04:34:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 02:31:48
+ * @Last Modified time: 2019-05-30 15:33:56
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -16,7 +16,7 @@ const IconHeader = ({ style, size, name, color, onPress }) => (
 )
 
 IconHeader.defaultProps = {
-  size: 22,
+  size: 20,
   color: _.colorTitle
 }
 

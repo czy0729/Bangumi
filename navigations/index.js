@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 21:58:16
+ * @Last Modified time: 2019-05-30 04:23:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,6 +15,7 @@ import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs'
 import { BlurView } from 'expo'
 import {
   Calendar,
+  Discovery,
   Login,
   Mono,
   Notify,
@@ -26,6 +27,7 @@ import {
   Topic,
   User,
   WebView,
+  Award,
   Zone
 } from '@screens'
 import { IOS } from '@constants'
@@ -68,6 +70,7 @@ const HomeTab = createBottomTabNavigator(
 const HomeStack = createStackNavigator(
   {
     Calendar,
+    Discovery,
     HomeTab,
     Login,
     Mono,
@@ -78,6 +81,7 @@ const HomeStack = createStackNavigator(
     Topic,
     User,
     WebView,
+    Award,
     Zone
   },
   {

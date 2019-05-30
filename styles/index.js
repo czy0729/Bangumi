@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 16:42:49
+ * @Last Modified time: 2019-05-30 03:27:18
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import { Constants } from 'expo'
@@ -48,7 +48,7 @@ export const colorSuccessBorder = 'rgb(115, 241, 115)'
 export const colorWarning = 'rgb(254, 190, 88)'
 export const colorWarningLight = 'rgb(255, 248, 238)'
 export const colorWarningBorder = 'rgb(254, 190, 88)'
-export const colorDanger = 'rgb(208, 2, 27)'
+export const colorDanger = 'rgb(232, 8, 13)'
 export const colorWait = 'rgb(200, 200, 200)'
 export const colorDisabled = 'rgb(150, 150, 150)'
 export const colorBorder = 'rgb(222, 222, 222)'

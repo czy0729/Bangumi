@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-22 19:02:46
+ * @Last Modified time: 2019-05-29 04:05:18
  */
 import { computed } from 'mobx'
 import { calendarStore } from '@stores'
 import store from '@utils/store'
 
-export default class ScreenPopular extends store {
-  // -------------------- get --------------------
-  @computed get calendar() {
-    return calendarStore.calendar
-  }
+export default class ScreenDiscovery extends store {
+  init = async () => calendarStore.fetchHome()
 
-  init = async () => calendarStore.fetchCalendar()
+  // -------------------- get --------------------
+  @computed get home() {
+    return calendarStore.home
+  }
 
   // -------------------- page --------------------
 

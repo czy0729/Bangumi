@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 21:50:56
+ * @Last Modified time: 2019-05-30 15:32:46
  */
 import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
@@ -57,7 +57,7 @@ export function appNavigate(url = '', navigation, passParams = {}) {
   // 没路由对象或者非本站
   if (!navigation || !_url.includes(HOST)) {
     WebBrowser.openBrowserAsync(_url)
-    return
+    return false
   }
 
   // 超展开内容 [/rakuen/topic/{topicId}]
@@ -67,7 +67,7 @@ export function appNavigate(url = '', navigation, passParams = {}) {
       _url,
       ...passParams
     })
-    return
+    return true
   }
 
   if (_url.includes('/group/topic/')) {
@@ -76,7 +76,7 @@ export function appNavigate(url = '', navigation, passParams = {}) {
       _url,
       ...passParams
     })
-    return
+    return true
   }
 
   // 条目 > 讨论版
@@ -87,7 +87,7 @@ export function appNavigate(url = '', navigation, passParams = {}) {
       _url,
       ...passParams
     })
-    return
+    return true
   }
 
   // 条目 [/subject/{subjectId}]
@@ -97,17 +97,18 @@ export function appNavigate(url = '', navigation, passParams = {}) {
       _url,
       ...passParams
     })
-    return
+    return true
   }
 
   // 个人中心 [/user/{userId}]
-  if (_url.includes('/user/')) {
+  // 排除时间线回复 [user/{userId}/timeline/status/{timelineId}]
+  if (_url.includes('/user/') && _url.split('/').length <= 6) {
     navigation.push('Zone', {
       userId: _url.replace(`${HOST}/user/`, ''),
       _url,
       ...passParams
     })
-    return
+    return true
   }
 
   // 本集讨论 [/ep/\d+]
@@ -118,7 +119,7 @@ export function appNavigate(url = '', navigation, passParams = {}) {
       _url,
       ...passParams
     })
-    return
+    return true
   }
 
   // 人物 [/character/\d+, /person/\d+]
@@ -128,10 +129,11 @@ export function appNavigate(url = '', navigation, passParams = {}) {
       _url,
       ...passParams
     })
-    return
+    return true
   }
 
   WebBrowser.openBrowserAsync(_url)
+  return false
 }
 
 /**
@@ -141,9 +143,17 @@ export function appNavigate(url = '', navigation, passParams = {}) {
 export function getType(label) {
   const typeMap = {
     想看: 'main',
+    想玩: 'main',
+    想读: 'main',
+    想听: 'main',
     看过: 'warning',
+    玩过: 'warning',
+    读过: 'warning',
+    听过: 'warning',
     在看: 'primary',
+    在玩: 'primary',
     在读: 'primary',
+    在听: 'primary',
     搁置: 'wait',
     抛弃: 'disabled'
   }

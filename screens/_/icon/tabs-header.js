@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 22:42:17
+ * @Last Modified time: 2019-05-30 15:33:33
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -15,7 +15,7 @@ const IconTabsHeader = ({ style, name, color, position, onPress }) => (
     style={[styles.icon, styles[position], IOS && styles.ios, style]}
     onPress={onPress}
   >
-    <Iconfont size={22} name={name} color={color} />
+    <Iconfont size={20} name={name} color={color} />
   </Touchable>
 )
 

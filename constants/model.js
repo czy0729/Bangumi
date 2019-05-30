@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 15:39:42
+ * @Last Modified time: 2019-05-30 06:01:49
  */
 class Modal {
   constructor(data) {

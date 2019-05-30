@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 23:29:31
+ * @Last Modified time: 2019-05-29 04:35:55
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -19,7 +19,7 @@ import { systemStore } from '@stores'
 import { showImageViewer } from '@utils/ui'
 import { IOS, IMG_ERROR } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
-import { colorBg, radiusXs, shadow } from '@styles'
+import _ from '@styles'
 import Touchable from './touchable'
 
 export default class Image extends React.Component {
@@ -30,7 +30,7 @@ export default class Image extends React.Component {
     size: 40, // 大小|宽度
     height: undefined, // 高度
     border: false, // 边框
-    radius: false, // 圆角
+    radius: undefined, // 圆角
     shadow: false, // 阴影
     placeholder: true, // 是否有底色
     autoSize: 0, // 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例
@@ -226,8 +226,13 @@ export default class Image extends React.Component {
       }
     }
     if (radius) {
-      _wrap.push(styles.radius)
-      _image.push(styles.radius)
+      if (typeof radius === 'boolean') {
+        _wrap.push({ borderRadius: _.radiusXs })
+        _image.push({ borderRadius: _.radiusXs })
+      } else {
+        _wrap.push({ borderRadius: radius })
+        _image.push({ borderRadius: radius })
+      }
     }
     if (shadow) {
       _wrap.push(styles.shadow)
@@ -300,12 +305,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.8)'
   },
-  radius: {
-    borderRadius: radiusXs
-  },
-  shadow,
+  shadow: _.shadow,
   placeholder: {
-    backgroundColor: colorBg
+    backgroundColor: _.colorBg
   },
   error: {
     padding: 4

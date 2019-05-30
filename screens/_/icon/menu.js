@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 13:41:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 19:43:24
+ * @Last Modified time: 2019-05-30 15:33:56
  */
 import React from 'react'
 import { DrawerActions } from 'react-navigation-drawer'
@@ -18,7 +18,7 @@ const IconMenu = ({ style, navigation }) => (
       style={{ marginLeft: 10 }}
       name='menu'
       color={_.colorTitle}
-      size={24}
+      size={22}
     />
   </Touchable>
 )

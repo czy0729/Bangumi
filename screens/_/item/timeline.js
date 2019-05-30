@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 19:37:45
+ * @Last Modified time: 2019-05-30 15:25:01
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
@@ -234,7 +234,11 @@ class TimelineItem extends React.Component {
               {this.renderImages()}
               <Flex style={_.mt.md} align='baseline'>
                 {!!reply.count && (
-                  <Text type='primary' size={12}>
+                  <Text
+                    type='primary'
+                    size={12}
+                    onPress={() => this.appNavigate(reply.url)}
+                  >
                     {reply.count}
                   </Text>
                 )}
