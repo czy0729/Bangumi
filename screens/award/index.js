@@ -1,9 +1,10 @@
 /* eslint-disable max-len */
 /*
+ * 更沉浸的Bgm年鉴
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 05:54:52
+ * @Last Modified time: 2019-05-30 19:57:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -77,20 +78,36 @@ class Award extends React.Component {
     const { navigation } = this.props
     const uri = navigation.getParam('uri')
     const { loading } = this.state
-    const width = parseInt((_.window.width - 24) / 3)
+    const widthSubject = parseInt((_.window.width - 24) / 3)
+    const widthMono = parseInt((_.window.width - 48) / 4)
+    const heightMono = widthMono * 1.2
     const injectedJavaScript = `(function(){
       // 注入cookie
       document.cookie = '${cookie}';
 
-      // 为了美观, 若屏幕宽度小于3个条目的宽度和, 缩小每个条目的大小
-      if (420 > ${_.window.width}) {
-        var style = document.createElement("style");
-        try {
-          style.appendChild(document.createTextNode(".channelStatsWrapper .columnGrid ul.grid li span.cover,.channelStatsWrapper .columnGrid ul.grid li span.cover span.overlay{width:${width}px !important;height:${width}px !important;}"));
-        } catch(ex){
-        }
-        document.body.append(style);
+      // 为了美观, 修改条目宽度, 每行达到3个
+      var styleSubject = document.createElement("style");
+      try {
+        styleSubject.appendChild(document.createTextNode(".channelStatsWrapper .columnGrid ul.grid li span.cover,.channelStatsWrapper .columnGrid ul.grid li span.cover span.overlay{width:${widthSubject}px !important;height:${widthSubject}px !important;}"));
+      } catch(ex){
       }
+      document.body.append(styleSubject);
+
+      // 为了美观, 修改人物宽度, 每行达到4个
+      var styleSubject = document.createElement("style");
+      try {
+        styleSubject.appendChild(document.createTextNode(".columnGrid ul.grid li.avatar{width:${widthMono}px !important;height:${heightMono}px !important;}"));
+      } catch(ex){
+      }
+      document.body.append(styleSubject);
+
+      // 隐藏部分样式, 使页面更沉浸
+      var styleDeep = document.createElement("style");
+      try {
+        styleDeep.appendChild(document.createTextNode("#headerNeue2, #personalTabStats, .shareBtn, #dock{display:none !important}"));
+      } catch(ex){
+      }
+      document.body.append(styleDeep);
 
       // webview的postMessage不是马上生效的
       var __isBridgeOk = false
