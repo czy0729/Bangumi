@@ -6,11 +6,11 @@
 >
 > (安卓实机样式效果会有部分差异, 尽量保持一致, 功能持续开发中...)
 
+---
+
 ### Download
 
 [APK下载地址](https://github.com/czy0729/Bangumi/releases)
-
----
 
 #### Features
 
