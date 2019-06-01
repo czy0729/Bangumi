@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:13:47
+ * @Last Modified time: 2019-06-01 17:55:44
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -355,7 +355,7 @@ export default new Rakuen()
 async function _fetchRakuen({ scope, type } = {}) {
   // -------------------- 请求HTML --------------------
   const res = fetchHTML({
-    url: `!${HTML_RAKUEN(scope, type)}`
+    url: HTML_RAKUEN(scope, type)
   })
   const raw = await res
   const HTML = HTMLTrim(raw).match(

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-09 16:06:55
+ * @Last Modified time: 2019-06-01 15:21:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,7 @@ import { getType, getRating } from '@utils/app'
 import _, { colorPlain, shadow } from '@styles'
 
 const Box = ({ style }, { $, navigation }) => {
-  const { typeNum } = $.subjectFormHTML
+  const { typeNum = '' } = $.subjectFormHTML
   const { status = { name: '未收藏' }, rating = 0 } = $.collection
   const leftStyle = []
   const rightStyle = []
@@ -25,7 +25,7 @@ const Box = ({ style }, { $, navigation }) => {
     rightStyle.push(styles.right)
   }
   return (
-    <View style={[_.container.wind, style]}>
+    <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle>收藏盒</SectionTitle>
       <View style={[shadow, _.mt.md]}>
         <Touchable onPress={onPress}>
@@ -63,11 +63,9 @@ const Box = ({ style }, { $, navigation }) => {
           </Flex>
         </Touchable>
       </View>
-      {!!typeNum && (
-        <Text style={_.mt.md} size={12} type='sub'>
-          {typeNum}
-        </Text>
-      )}
+      <Text style={_.mt.md} size={12} type='sub'>
+        {typeNum}
+      </Text>
     </View>
   )
 }
@@ -80,6 +78,9 @@ Box.contextTypes = {
 export default observer(Box)
 
 const styles = StyleSheet.create({
+  container: {
+    minHeight: 120
+  },
   touchable: {
     ...shadow
   },

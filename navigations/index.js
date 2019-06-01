@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 18:46:08
+ * @Last Modified time: 2019-06-01 18:42:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -87,7 +87,7 @@ const HomeStack = createStackNavigator(
   {
     initialRouteName: 'HomeTab',
     // initialRouteParams: {
-    //   subjectId: 100444, // 100444 204135 评论数 [43]248175 [6]204135 [1]18007 [0]273437
+    //   subjectId: 238006, // 100444 204135 评论数 [43]248175 [6]204135 [1]18007 [0]273437
     //   topicId: 'ep/805584',
     //   userId: 419012,
     //   monoId: 'person/538' // character/706 person/538

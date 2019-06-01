@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 23:21:55
+ * @Last Modified time: 2019-06-01 17:57:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import _ from '@styles'
 import Tabs from './tabs'
 import Notify from './notify'
 import List from './list'
-import Store, { tabs } from './store'
+import Store from './store'
 
 export default
 @inject(Store)
@@ -84,8 +84,8 @@ class Rakuen extends React.Component {
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
         <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
-          {tabs.map(item => (
-            <List key={item.title} type={item.title} />
+          {$.tabs.map((item, index) => (
+            <List key={item._title} index={index} />
           ))}
         </Tabs>
       </SafeAreaView>

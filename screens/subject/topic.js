@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 19:23:28
+ * @Last Modified time: 2019-06-01 02:32:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import _ from '@styles'
 
 const Topic = ({ style }, { $, navigation }) => {
   const { topic } = $.subject
-  if (!topic) {
+  if (!(topic || []).length) {
     return null
   }
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 06:01:49
+ * @Last Modified time: 2019-06-01 17:31:29
  */
 class Modal {
   constructor(data) {
@@ -248,18 +248,6 @@ export const MODEL_RAKUEN_TYPE = new Modal([
     label: '小组',
     value: 'group'
   },
-  // {
-  //   label: '已加入小组话题',
-  //   value: 'my_group'
-  // },
-  // {
-  //   label: '我发表的话题',
-  //   value: 'my_group&filter=topic'
-  // },
-  // {
-  //   label: '我回复的话题',
-  //   value: 'my_group&filter=reply'
-  // },
   {
     label: '条目',
     value: 'subject'
@@ -272,14 +260,40 @@ export const MODEL_RAKUEN_TYPE = new Modal([
     label: '人物',
     value: 'mono'
   }
-  // {
-  //   label: '虚拟角色',
-  //   value: 'mono&filter=character'
-  // },
-  // {
-  //   label: '现实人物',
-  //   value: 'mono&filter=person'
-  // }
+])
+
+export const MODEL_RAKUEN_TYPE_GROUP = new Modal([
+  {
+    label: '全部', // 全部小组
+    value: 'group'
+  },
+  {
+    label: '已加入', // 小组话题
+    value: 'my_group'
+  },
+  {
+    label: '发表的', // 我发表的话题
+    value: 'my_group&filter=topic'
+  },
+  {
+    label: '回复的', // 我回复的话题
+    value: 'my_group&filter=reply'
+  }
+])
+
+export const MODEL_RAKUEN_TYPE_MONO = new Modal([
+  {
+    label: '全部', // 全部人物
+    value: 'mono'
+  },
+  {
+    label: '虚拟', // 虚拟角色
+    value: 'mono&filter=character'
+  },
+  {
+    label: '现实', // 现实人物
+    value: 'mono&filter=person'
+  }
 ])
 
 // 搜索类型

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 15:51:39
+ * @Last Modified time: 2019-06-01 16:19:01
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -50,7 +50,7 @@ const Item = (
               {replies}
             </Text>
           </Text>
-          <Text style={_.mt.xs} type='sub' size={12}>
+          <Text style={_.mt.sm} type='sub' size={12}>
             {correctTime(time)}
             {group ? ' / ' : ''}
             <Text size={12}>{findBangumiCn(group)}</Text>

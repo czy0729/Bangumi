@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 19:22:03
+ * @Last Modified time: 2019-06-01 02:32:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,8 +13,8 @@ import { SectionTitle, ItemArticle } from '@screens/_'
 import _ from '@styles'
 
 const Blog = ({ style }, { $, navigation }) => {
-  const { blog = [] } = $.subject
-  if (!blog) {
+  const { blog } = $.subject
+  if (!(blog || []).length) {
     return null
   }
 

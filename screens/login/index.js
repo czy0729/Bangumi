@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 19:24:00
+ * @Last Modified time: 2019-06-01 18:33:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -217,10 +217,12 @@ export default class Login extends React.Component {
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}
         </View>
-        <Text style={styles.ps} size={12} type='sub'>
-          PS: 若登陆过程中出现问题, 请手动把授权网页里面的Bangumi账号登出,
-          不然可能会出现cookie过期的情况.
-        </Text>
+        {!clicked && (
+          <Text style={styles.ps} size={12} type='sub'>
+            PS: 若登陆过程中出现问题, 请手动把授权网页里面的Bangumi账号登出,
+            不然可能会出现cookie过期的情况.
+          </Text>
+        )}
       </View>
     )
   }

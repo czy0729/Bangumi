@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:29:33
+ * @Last Modified time: 2019-06-01 15:09:59
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
 import { subjectStore, userStore, collectionStore } from '@stores'
-import { MODEL_EP_STATUS } from '@constants/model'
+import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { queue } from '@utils/fetch'
 import { appNavigate } from '@utils/app'
 import store from '@utils/store'
@@ -97,6 +97,15 @@ export default class ScreenSubject extends store {
   @computed get userProgress() {
     const { subjectId } = this.params
     return userStore.userProgress(subjectId)
+  }
+
+  @computed get type() {
+    const { _loaded, type: _type } = this.subject
+    if (!_loaded) {
+      return ''
+    }
+
+    return MODEL_SUBJECT_TYPE.getTitle(_type)
   }
 
   // -------------------- page --------------------
