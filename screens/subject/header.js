@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 02:20:43
+ * @Last Modified time: 2019-06-01 20:31:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -24,7 +24,10 @@ import Blog from './blog'
 import Topic from './topic'
 
 const Header = (props, { $ }) => {
-  const { list, _reverse } = $.subjectComments
+  const {
+    pagination: { pageTotal = 0 },
+    _reverse
+  } = $.subjectComments
   return (
     <>
       <Head />
@@ -51,7 +54,7 @@ const Header = (props, { $ }) => {
         >
           吐槽箱{' '}
           <Text size={12} type='sub' lineHeight={24}>
-            ({list.length})
+            ({20 * pageTotal})
           </Text>
         </SectionTitle>
       </View>

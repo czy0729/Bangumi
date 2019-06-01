@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 20:57:40
+ * @Last Modified time: 2019-06-01 19:06:43
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading, ListView } from '@components'
+import { ListView } from '@components'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import _ from '@styles'
@@ -56,10 +56,6 @@ class Topic extends React.Component {
 
   render() {
     const { $ } = this.context
-    if (!$.topic._loaded) {
-      return <Loading style={styles.container} />
-    }
-
     const { onScroll } = this.props
     return (
       <ListView

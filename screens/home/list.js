@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-04 22:55:26
+ * @Last Modified time: 2019-06-01 19:55:07
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -46,7 +46,7 @@ const List = ({ title }, { $ }) => {
           epStatus={item.ep_status}
         />
       )}
-      ListFooterComponent={null}
+      footerNoMoreDataText=''
       onHeaderRefresh={() => $.initFetch(true)}
       {...withTabsHeader.listViewProps}
     />

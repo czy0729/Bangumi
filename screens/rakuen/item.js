@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 16:19:01
+ * @Last Modified time: 2019-06-01 18:52:41
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -36,7 +36,13 @@ const Item = (
             open(`${HOST}${href}`)
           }, 1600)
         } else {
-          appNavigate(href, navigation)
+          appNavigate(href, navigation, {
+            _title: title,
+            _replies: replies,
+            _group: group,
+            _time: time,
+            _avatar: avatar
+          })
         }
       }}
     >

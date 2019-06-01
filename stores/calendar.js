@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-29 20:16:06
+ * @Last Modified time: 2019-06-01 18:58:00
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -104,7 +104,6 @@ class Calendar extends store {
 
       let node
       const tree = HTMLToTree(itemsHTML[1])
-      log
       tree.children.forEach((item, index) => {
         const list = []
 

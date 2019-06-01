@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 17:05:41
+ * @Last Modified time: 2019-06-01 20:33:03
  */
 import React from 'react'
 import {
@@ -18,6 +18,8 @@ import { LIST_EMPTY } from '@constants'
 import { sleep, date, simpleTime } from '@utils'
 import _ from '@styles'
 import Text from './text'
+import Flex from './flex'
+import Mesume from './mesume'
 
 const RefreshState = {
   Idle: 0,
@@ -39,9 +41,9 @@ export default class ListView extends React.Component {
     refreshControlProps: {},
     renderItem: undefined,
     footerRefreshingText: '玩命加载中 >.<',
-    footerFailureText: '我擦嘞，居然失败了 =.=!',
-    footerNoMoreDataText: '- 没有更多啦 -',
-    footerEmptyDataText: '- 好像什么东西都没有 -',
+    footerFailureText: '居然失败了 =.=!',
+    footerNoMoreDataText: '到底啦',
+    footerEmptyDataText: '好像什么都没有',
     onHeaderRefresh: undefined,
     onFooterRefresh: undefined
   }
@@ -125,7 +127,7 @@ export default class ListView extends React.Component {
       data,
       footerRefreshingText,
       footerFailureText,
-      footerNoMoreDataText,
+      // footerNoMoreDataText,
       footerEmptyDataText,
       footerRefreshingComponent,
       footerFailureComponent,
@@ -169,9 +171,16 @@ export default class ListView extends React.Component {
             }}
           >
             {footerEmptyDataComponent || (
-              <View style={styles.footerContainer}>
-                <Text style={styles.footerText}>{footerEmptyDataText}</Text>
-              </View>
+              <Flex
+                style={styles.footerEmpty}
+                direction='column'
+                justify='center'
+              >
+                <Mesume />
+                <Text style={[styles.footerText, _.mt.sm]}>
+                  {footerEmptyDataText}
+                </Text>
+              </Flex>
             )}
           </TouchableOpacity>
         )
@@ -188,9 +197,12 @@ export default class ListView extends React.Component {
         break
       case RefreshState.NoMoreData:
         footer = footerNoMoreDataComponent || (
-          <View style={styles.footerContainer}>
-            <Text style={styles.footerText}>{footerNoMoreDataText}</Text>
-          </View>
+          <Flex style={styles.footerNoMore} justify='center'>
+            <Mesume size={80} placeholder={false} />
+            {/* <Text style={[styles.footerText, _.ml.sm]}>
+              {footerNoMoreDataText}
+            </Text> */}
+          </Flex>
         )
         break
       default:
@@ -280,5 +292,11 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 14,
     color: _.colorSub
+  },
+  footerEmpty: {
+    minHeight: 320
+  },
+  footerNoMore: {
+    padding: 8
   }
 })

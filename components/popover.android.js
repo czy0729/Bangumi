@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 04:59:21
+ * @Last Modified time: 2019-06-01 18:57:40
  */
 import React from 'react'
 import { StyleSheet, UIManager, findNodeHandle, View } from 'react-native'
@@ -18,7 +18,6 @@ export default class Popover extends React.Component {
 
   showPopupAndroid = () => {
     const { data } = this.props
-    console.log(data)
     UIManager.showPopupMenu(
       findNodeHandle(this.ref),
       data,

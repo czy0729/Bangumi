@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 15:21:02
+ * @Last Modified time: 2019-06-01 18:48:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -64,7 +64,7 @@ const Box = ({ style }, { $, navigation }) => {
         </Touchable>
       </View>
       <Text style={_.mt.md} size={12} type='sub'>
-        {typeNum}
+        {typeNum || '-人想看 / -人看过 / -人在看 / -人搁置 / -人抛弃'}
       </Text>
     </View>
   )

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 15:09:59
+ * @Last Modified time: 2019-06-01 20:18:46
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -13,6 +13,7 @@ import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { queue } from '@utils/fetch'
 import { appNavigate } from '@utils/app'
 import store from '@utils/store'
+import { info } from '@utils/ui'
 
 const namespace = 'ScreenSubject'
 
@@ -145,31 +146,40 @@ export default class ScreenSubject extends store {
    * 章节菜单操作
    */
   doEpsSelect = async (value, item, navigation) => {
-    const { subjectId } = this.params
-    const status = MODEL_EP_STATUS.getValue(value)
-    if (status) {
-      // 更新收视进度
-      await userStore.doUpdateEpStatus({
-        id: item.id,
-        status
-      })
-      userStore.fetchUserCollection()
-      userStore.fetchUserProgress()
-    }
-
-    if (value === '看到') {
-      // 批量更新收视进度
-      await userStore.doUpdateSubjectWatched({
-        subjectId,
-        sort: item.sort
-      })
-      userStore.fetchUserCollection()
-      userStore.fetchUserProgress()
-    }
-
     if (value.includes('本集讨论')) {
       appNavigate(item.url, navigation)
+      return
     }
+
+    // 未收藏不能更改进度
+    const { status = { name: '未收藏' } } = this.collection
+    if (status.name !== '未收藏') {
+      const status = MODEL_EP_STATUS.getValue(value)
+      if (status) {
+        // 更新收视进度
+        await userStore.doUpdateEpStatus({
+          id: item.id,
+          status
+        })
+        userStore.fetchUserCollection()
+        userStore.fetchUserProgress()
+      }
+
+      if (value === '看到') {
+        const { subjectId } = this.params
+
+        // 批量更新收视进度
+        await userStore.doUpdateSubjectWatched({
+          subjectId,
+          sort: item.sort
+        })
+        userStore.fetchUserCollection()
+        userStore.fetchUserProgress()
+      }
+      return
+    }
+
+    info('收藏了才能管理哦')
   }
 
   /**
