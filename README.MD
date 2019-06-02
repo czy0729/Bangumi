@@ -8,13 +8,23 @@
 
 ---
 
-#### Download
+#### Demo 在线演示
+
+[expo 项目主页](https://expo.io/@a402731062/bangumi)
+
+<img src="./preview/expo-qr.png" width="240" alt="expo-qr" />
+
+请先安装 [expo app](https://expo.io/tools)
+
+---
+
+#### Download 下载
 
 [APK 下载地址](https://github.com/czy0729/Bangumi/releases)
 
 ---
 
-#### Features
+#### Features 功能
 
 ---
 
@@ -35,7 +45,7 @@
 - 各板块直接回复 (#todo)
 - 排行榜 (?)
 
-#### Getting Started
+#### Getting Started 开始
 
 ---
 
@@ -66,50 +76,50 @@ Run on iOS simulator
 
 window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档
 
-#### Page Preview
+#### Page Preview 预览
 
 ---
 
-#### 登陆
+#### Login 登陆
 
 <img src="./preview/home_1.png" width="200" alt="home_1" /> <img src="./preview/login_1.png" width="200" alt="login_1" /> <img src="./preview/login_2.png" width="200" alt="login_2" />
 
-#### 进度
+#### Home 进度
 
 <img src="./preview/home_2.png" width="200" alt="home_2" /> <img src="./preview/home_3.png" width="200" alt="home_3" /> <img src="./preview/home_4.png" width="200" alt="home_4" />
 
-#### 条目
+#### Subject 条目
 
 <img src="./preview/subject_1.png" width="200" alt="subject_1" /> <img src="./preview/subject_2.png" width="200" alt="subject_2" /> <img src="./preview/subject_3.png" width="200" alt="subject_3" /> <img src="./preview/subject_4.png" width="200" alt="subject_4" />
 
-#### 首页聚合 / 更沉浸的年鉴
+#### Discovery 首页聚合 / 更沉浸的年鉴
 
 <img src="./preview/discovery_1.png" width="200" alt="discovery_1" /> <img src="./preview/award_1.png" width="200" alt="award_1" /> <img src="./preview/award_2.png" width="200" alt="award_2" />
 
-#### 搜索
+#### Search 搜索
 
 <img src="./preview/search_1.png" width="200" alt="search_1" /> <img src="./preview/search_2.png" width="200" alt="search_2" /> <img src="./preview/search_3.png" width="200" alt="search_3" />
 
-#### 人物
+#### Mono 人物
 
 <img src="./preview/mono_1.png" width="200" alt="mono_1" /> <img src="./preview/mono_2.png" width="200" alt="mono_2" /> <img src="./preview/mono_3.png" width="200" alt="mono_3" /> <img src="./preview/mono_4.png" width="200" alt="mono_4" />
 
-#### 时间胶囊
+#### Timeline 时间胶囊
 
 <img src="./preview/timeline_1.png" width="200" alt="timeline_1" /> <img src="./preview/timeline_2.png" width="200" alt="timeline_2" /> <img src="./preview/timeline_3.png" width="200" alt="timeline_3" />
 
-#### 超展开
+#### Rakuen 超展开
 
 <img src="./preview/rakuen_1.png" width="200" alt="rakuen_1" /> <img src="./preview/topic_1.png" width="200" alt="topic_1" /> <img src="./preview/topic_2.png" width="200" alt="topic_2" /> <img src="./preview/topic_3.png" width="200" alt="topic_3" />
 
-#### 用户空间
+#### Zone 用户空间
 
 <img src="./preview/zone_1.png" width="200" alt="zone_1" /> <img src="./preview/zone_2.png" width="200" alt="zone_2" />
 
-#### 个人时光机
+#### User 个人时光机
 
 <img src="./preview/user_1.png" width="200" alt="user_1" /> <img src="./preview/user_2.png" width="200" alt="user_2" />
 
-#### 每日放送 / 电波提醒 / 设置
+#### Other 每日放送 / 电波提醒 / 设置
 
 <img src="./preview/calendar_1.png" width="200" alt="calendar_1" /> <img src="./preview/notify_1.png" width="200" alt="notify_1" /> <img src="./preview/setting_1.png" width="200" alt="setting_1" />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 14:30:32
+ * @Last Modified time: 2019-06-03 01:48:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -58,7 +58,7 @@ const Top = (props, { $, navigation }) => {
         <Text type='title' size={20} bold>
           {title || _title}
           {!!_replies && (
-            <Text type='main' size={12}>
+            <Text type='main' size={12} lineHeight={26}>
               {' '}
               {_replies}
             </Text>
@@ -136,7 +136,7 @@ const Top = (props, { $, navigation }) => {
       >
         吐槽箱{' '}
         {_list.length != 0 && (
-          <Text size={12} type='sub'>
+          <Text size={12} type='sub' lineHeight={24}>
             ({_list.length}
             {_list.length == 100 && '+'})
           </Text>
