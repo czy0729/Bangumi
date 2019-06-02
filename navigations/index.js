@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 19:39:47
+ * @Last Modified time: 2019-06-03 01:09:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -32,6 +32,7 @@ import {
 } from '@screens'
 import { IOS } from '@constants'
 import _ from '@styles'
+import navigationsParams from '../navigations'
 import HomeScreen from './screens/home'
 import config from './stacks/config'
 
@@ -85,13 +86,7 @@ const HomeStack = createStackNavigator(
     Zone
   },
   {
-    initialRouteName: 'HomeTab',
-    // initialRouteParams: {
-    //   subjectId: 238006, // 100444 204135 评论数 [43]248175 [6]204135 [1]18007 [0]273437
-    //   topicId: 'ep/805584',
-    //   userId: 419012,
-    //   monoId: 'person/538' // character/706 person/538
-    // },
+    ...navigationsParams,
     ...config
   }
 )

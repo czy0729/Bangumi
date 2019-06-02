@@ -1,9 +1,10 @@
 /*
+ * 渲染HTML
  * @Doc https://github.com/archriss/react-native-render-html
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 20:58:41
+ * @Last Modified time: 2019-06-02 21:06:36
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -103,6 +104,7 @@ export default class RenderHtml extends React.Component {
         }
 
         // bgm表情
+        // @todo 表情调用本地资源
         if (alt.indexOf('(bgm') !== -1) {
           props.source = { uri: `${HOST}/${src}` }
           props.style = {
@@ -131,8 +133,12 @@ export default class RenderHtml extends React.Component {
           }
 
           return (
-            <Text key={passProps.key}>
-              {!!text && <Text style={baseFontStyle}>{text}</Text>}
+            <Text key={passProps.key} allowFontScaling={false}>
+              {!!text && (
+                <Text style={baseFontStyle} allowFontScaling={false}>
+                  {text}
+                </Text>
+              )}
               {_bgmImagesTemp}
               <RNImage {...props} />
             </Text>
@@ -151,7 +157,7 @@ export default class RenderHtml extends React.Component {
         return <Image {...props} />
       },
       span: ({ style = '' }, children, convertedCSSStyles, passProps) => {
-        // @todo 暂时没有对样式混合的情况作出正确的判断
+        // @todo 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
         // 防剧透字
         if (style.includes(spanMark.mask)) {
           const text =
@@ -175,6 +181,7 @@ export default class RenderHtml extends React.Component {
             <Text
               key={passProps.key}
               style={[passProps.baseFontStyle, styles.lineThrought]}
+              allowFontScaling={false}
             >
               {text}
             </Text>
@@ -189,6 +196,7 @@ export default class RenderHtml extends React.Component {
             <Text
               key={passProps.key}
               style={[passProps.baseFontStyle, styles.hidden]}
+              allowFontScaling={false}
             >
               {text}
             </Text>
@@ -226,7 +234,7 @@ export default class RenderHtml extends React.Component {
       onLinkPress,
       ...other
     } = this.props
-    // @todo 给纯文字包上span
+    // @todo 给纯文字包上span, 可能可以解决连续表情问题?
     // let _html = `<div>${html}</div>`
     // const match = _html.match(/>[^<>]+?</g)
     // if (match) {
@@ -267,6 +275,7 @@ class MaskText extends React.Component {
     return (
       <Text
         style={[style, show ? styles.blockTextShow : styles.blockText]}
+        allowFontScaling={false}
         onPress={this.toggle}
       >
         {children}
@@ -290,12 +299,20 @@ class QuoteText extends React.Component {
     const { show } = this.state
     if (!show) {
       return (
-        <Text style={styles.quoteTextPlaceholder} onPress={this.show}>
+        <Text
+          style={styles.quoteTextPlaceholder}
+          allowFontScaling={false}
+          onPress={this.show}
+        >
           ...
         </Text>
       )
     }
-    return <Text style={styles.quoteText}>{children}</Text>
+    return (
+      <Text style={styles.quoteText} allowFontScaling={false}>
+        {children}
+      </Text>
+    )
   }
 }
 

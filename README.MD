@@ -18,22 +18,22 @@
 
 ---
 
-- 图标和启动图使用了网站上素材 (bgm38 求大佬贡献)
+- 素材使用了主站上能找到的 (bgm38 求大佬贡献)
 - 番组进度管理
 - 条目详情 (支持 Ep 倒序)
+- 人物详情 (最近出演角色, 最近参与, 出演)
 - 时间胶囊
-- 超展开列表
-- 帖子内容 (支持留言倒序)
+- 超展开 (带电波提醒)
+- 超展开帖子 (支持留言倒序, 整合章节内容)
 - 搜索
 - 其他用户空间
 - 个人时光机 (完整的, 可筛选标签, 可排序的收藏记录)
-- 每日放送
-- 电波提醒
-- 热门聚合
+- 热门聚合, 每日放送
 - 18 年鉴 (网页更沉浸, 内链接, 隐藏不关注内容, 调整条目和人物宽度使各机型铺满一行)
-- 每月番组索引 (todo)
+- 站内各板块直接回复 (#todo)
+- 每月番组索引 (#todo)
+- 各板块直接回复 (#todo)
 - 排行榜 (?)
-- 各板块直接回复 (todo)
 
 #### Getting Started
 
@@ -92,7 +92,7 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 
 #### 人物
 
-<img src="./preview/mono_1.png" width="200" alt="mono_1" /> <img src="./preview/mono_2.png" width="200" alt="mono_2" />
+<img src="./preview/mono_1.png" width="200" alt="mono_1" /> <img src="./preview/mono_2.png" width="200" alt="mono_2" /> <img src="./preview/mono_3.png" width="200" alt="mono_3" /> <img src="./preview/mono_4.png" width="200" alt="mono_4" />
 
 #### 时间胶囊
 
@@ -100,7 +100,7 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 
 #### 超展开
 
-<img src="./preview/rakuen_1.png" width="200" alt="rakuen_1" /> <img src="./preview/topic_1.png" width="200" alt="topic_1" /> <img src="./preview/topic_2.png" width="200" alt="topic_2" />
+<img src="./preview/rakuen_1.png" width="200" alt="rakuen_1" /> <img src="./preview/topic_1.png" width="200" alt="topic_1" /> <img src="./preview/topic_2.png" width="200" alt="topic_2" /> <img src="./preview/topic_3.png" width="200" alt="topic_3" />
 
 #### 用户空间
 

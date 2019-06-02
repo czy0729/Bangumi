@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 20:33:03
+ * @Last Modified time: 2019-06-02 02:57:33
  */
 import React from 'react'
 import {
@@ -198,7 +198,7 @@ export default class ListView extends React.Component {
       case RefreshState.NoMoreData:
         footer = footerNoMoreDataComponent || (
           <Flex style={styles.footerNoMore} justify='center'>
-            <Mesume size={80} placeholder={false} />
+            <Mesume size={80} />
             {/* <Text style={[styles.footerText, _.ml.sm]}>
               {footerNoMoreDataText}
             </Text> */}
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     color: _.colorSub
   },
   footerEmpty: {
-    minHeight: 320
+    minHeight: 240
   },
   footerNoMore: {
     padding: 8

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 20:25:10
+ * @Last Modified time: 2019-06-02 02:56:43
  */
 import React from 'react'
 import Image from './image'
@@ -20,7 +20,15 @@ const musume = {
 const Musume = ({ style, size, ...other }) => {
   // 获取1-7之间的随机数
   const key = Math.floor(Math.random() * 7) + 1
-  return <Image src={musume[key]} resizeMode='contain' size={size} {...other} />
+  return (
+    <Image
+      src={musume[key]}
+      resizeMode='contain'
+      size={size}
+      placeholder={false}
+      {...other}
+    />
+  )
 }
 
 Musume.defaultProps = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 21:57:27
+ * @Last Modified time: 2019-06-03 01:00:07
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,6 +19,9 @@ import {
 import { SectionTitle } from '@screens/_'
 import { IOS } from '@constants'
 import _ from '@styles'
+import Voice from './voice'
+import Works from './works'
+import Jobs from './jobs'
 
 const maxSize = _.window.width - _.wind * 2
 
@@ -28,7 +31,7 @@ const Info = (props, { $ }) => {
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
-      <View style={_.container.inner}>
+      <View style={[_.container.inner, styles.container]}>
         <Flex align='baseline'>
           <Text size={20} bold>
             {name}
@@ -53,6 +56,9 @@ const Info = (props, { $ }) => {
         {!!detail && <RenderHtml style={_.mt.lg} html={detail} />}
       </View>
       <Divider />
+      <Voice style={_.mt.md} />
+      <Works style={_.mt.md} />
+      <Jobs style={_.mt.md} />
       <SectionTitle style={[styles.title, _.mt.lg, _.mb.md]}>
         吐槽箱
       </SectionTitle>
@@ -67,6 +73,9 @@ Info.contextTypes = {
 export default observer(Info)
 
 const styles = StyleSheet.create({
+  container: {
+    minHeight: _.window.height * 0.64
+  },
   info: {
     paddingHorizontal: _.wind
   },

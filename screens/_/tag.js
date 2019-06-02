@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-17 05:21:35
+ * @Last Modified time: 2019-06-03 01:05:14
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -17,20 +17,26 @@ const Tag = ({ style, type, value }) => {
   let _type = type
   if (!_type) {
     switch (value) {
+      case '动画':
+      case '主角':
+        _type = 'main'
+        break
       case '书籍':
+      case '配角':
         _type = 'primary'
         break
       case '游戏':
         _type = 'success'
         break
       case '音乐':
+      case '客串':
         _type = 'warning'
         break
       case '三次元':
         _type = 'plain'
         break
       default:
-        _type = 'main'
+        _type = 'plain'
         break
     }
   }

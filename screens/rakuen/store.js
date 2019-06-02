@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 18:31:54
+ * @Last Modified time: 2019-06-02 14:31:21
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -127,7 +127,7 @@ export default class ScreenRakuen extends store {
             onSelect={this.onMonoMenuClick}
           >
             <Text size={10} type='sub' lineHeight={14}>
-              <Text size={14}>小组</Text>{' '}
+              <Text size={14}>人物</Text>{' '}
               {MODEL_RAKUEN_TYPE_MONO.getLabel(mono)}
             </Text>
           </Popover>

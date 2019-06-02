@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 04:28:47
+ * @Last Modified time: 2019-06-02 21:24:12
  */
 import React from 'react'
 import {
@@ -96,6 +96,7 @@ export default class Input extends React.Component {
                 numberOfLines={numberOfLines}
                 underlineColorAndroid='transparent'
                 autoCorrect={false}
+                allowFontScaling={false}
                 {...other}
                 onChange={this.onChange}
               />
@@ -115,6 +116,7 @@ export default class Input extends React.Component {
           underlineColorAndroid='transparent'
           autoCorrect={false}
           clearButtonMode='while-editing'
+          allowFontScaling={false}
           {...other}
           onChange={this.onChange}
         />

@@ -129,7 +129,9 @@ export default class Button extends React.Component {
                     size='small'
                   />
                 ) : null}
-                <Text style={_textStyle}>{this.props.children}</Text>
+                <Text style={_textStyle} allowFontScaling={false}>
+                  {this.props.children}
+                </Text>
               </View>
             </TouchableHighlight>
           )

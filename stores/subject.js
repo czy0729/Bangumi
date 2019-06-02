@@ -4,12 +4,17 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 15:26:32
+ * @Last Modified time: 2019-06-03 00:52:34
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
-import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_MONO } from '@constants/html'
+import {
+  HTML_SUBJECT,
+  HTML_SUBJECT_COMMENTS,
+  HTML_EP,
+  HTML_MONO
+} from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
@@ -50,14 +55,18 @@ const initSubjectFormHTMLItem = {
     total: 0
   },
   typeNum: '', // eg. 291人想看 / 21人看过 / 744人在看 / 49人搁置 / 83人抛弃
+  disc: [], // 曲目列表
   _loaded: false
 }
 const initMono = {
-  name: '',
-  nameCn: '',
+  name: '', // 日文名
+  nameCn: '', // 中文名
   cover: '', // 封面
   info: '', // 简介
-  detail: ''
+  detail: '', // 内容详情
+  voice: [], // 最近演出角色
+  workes: [], // 最近参与
+  jobs: [] // 出演
 }
 
 class Subject extends store {
@@ -80,6 +89,11 @@ class Subject extends store {
     // 条目吐槽箱
     subjectComments: {
       // [subjectId]: LIST_EMPTY
+    },
+
+    // 章节内容
+    epFormHTML: {
+      // [epId]: ''
     },
 
     // 人物
@@ -152,6 +166,14 @@ class Subject extends store {
     return computed(
       () => this.state.subjectComments[subjectId] || LIST_EMPTY
     ).get()
+  }
+
+  /**
+   * 取章节内容
+   * @param {*} epId
+   */
+  epFormHTML(epId) {
+    return computed(() => this.state.epFormHTML[epId] || '').get()
   }
 
   /**
@@ -279,6 +301,33 @@ class Subject extends store {
         .join(' / ')
     }
 
+    // 曲目列表(音乐)
+    const disc = []
+    const discHTML = HTML.match(
+      /<ul class="line_list line_list_music">(.+?)<\/ul>/
+    )
+    if (discHTML) {
+      try {
+        const tree = HTMLToTree(discHTML[1])
+        tree.children.forEach(item => {
+          if (item.attrs.class === 'cat') {
+            disc.push({
+              title: item.text[0],
+              disc: []
+            })
+          } else {
+            const i = item.children[2].children[0]
+            disc[disc.length - 1].disc.push({
+              href: i.attrs.href,
+              title: i.text[0]
+            })
+          }
+        })
+      } catch (e) {
+        // do nothing
+      }
+    }
+
     const key = 'subjectFormHTML'
     this.setState({
       [key]: {
@@ -287,6 +336,7 @@ class Subject extends store {
           relations,
           friend,
           typeNum,
+          disc,
           _loaded: getTimestamp()
         }
       }
@@ -429,6 +479,31 @@ class Subject extends store {
   }
 
   /**
+   * 章节内容
+   * @param {*} epId
+   */
+  async fetchEpFormHTML(epId) {
+    // -------------------- 请求HTML --------------------
+    const res = fetchHTML({
+      url: `!${HTML_EP(epId)}`
+    })
+    const raw = await res
+    const HTML = HTMLTrim(raw)
+
+    // -------------------- 分析HTML --------------------
+    const contentHTML = HTML.match(/<div class="epDesc">(.+?)<\/div>/)
+    if (contentHTML) {
+      this.setState({
+        epFormHTML: {
+          [epId]: contentHTML[0]
+        }
+      })
+    }
+
+    return res
+  }
+
+  /**
    * 人物信息和吐槽箱
    * 为了提高体验, 吐槽箱做模拟分页加载效果, 逻辑与超展开回复一致
    * @param {*} monoId
@@ -504,6 +579,7 @@ async function _fetchMono({ monoId = 0 }) {
 
   // -------------------- 分析内容 --------------------
   let node
+  let matchHTML
 
   // 人物信息
   const mono = {
@@ -512,9 +588,10 @@ async function _fetchMono({ monoId = 0 }) {
   let monoComments = [] // 人物吐槽箱
 
   if (HTML) {
-    const titleHTML = HTML.match(/<h1 class="nameSingle">(.+?)<\/h1>/)
-    if (titleHTML) {
-      const tree = HTMLToTree(titleHTML[1])
+    // 标题
+    matchHTML = HTML.match(/<h1 class="nameSingle">(.+?)<\/h1>/)
+    if (matchHTML) {
+      const tree = HTMLToTree(matchHTML[1])
       node = findTreeNode(tree.children, 'a|text&title')
       if (node) {
         mono.name = node[0].text[0]
@@ -522,26 +599,152 @@ async function _fetchMono({ monoId = 0 }) {
       }
     }
 
-    const coverHTML = HTML.match(/<img src="(.+?)" class="cover" \/>/)
-    if (coverHTML) {
-      mono.cover = coverHTML[1]
+    // 封面
+    matchHTML = HTML.match(/<img src="(.+?)" class="cover" \/>/)
+    if (matchHTML) {
+      mono.cover = matchHTML[1]
     }
 
-    const infoHTML = HTML.match(/<ul id="infobox">(.+?)<\/ul>/)
-    if (infoHTML) {
-      mono.info = infoHTML[1]
+    // 各种详细
+    matchHTML = HTML.match(/<ul id="infobox">(.+?)<\/ul>/)
+    if (matchHTML) {
+      mono.info = matchHTML[1]
     }
 
-    const detailHTML = HTML.match(/<div class="detail">(.+?)<\/div>/)
-    if (detailHTML) {
-      mono.detail = detailHTML[1]
+    // 详情
+    matchHTML = HTML.match(/<div class="detail">(.+?)<\/div>/)
+    if (matchHTML) {
+      mono.detail = matchHTML[1]
+    }
+
+    // 最近演出角色
+    mono.voice = []
+    matchHTML = HTML.match(
+      /<h2 class="subtitle">最近演出角色<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
+    )
+    if (matchHTML) {
+      const tree = HTMLToTree(matchHTML[1])
+      tree.children.forEach(item => {
+        const { children } = item
+
+        node = findTreeNode(children, 'div > a|href&title')
+        const href = node ? node[0].attrs.href : ''
+        const name = node ? node[0].attrs.title : ''
+
+        node = findTreeNode(children, 'div > div > h3 > p')
+        const nameCn = node ? node[0].text[0] : ''
+
+        node = findTreeNode(children, 'div > a > img')
+        const cover = node ? node[0].attrs.src : ''
+
+        node = findTreeNode(children, 'ul > li > div > h3 > a|text&href')
+        const subjectHref = node ? node[0].attrs.href : ''
+        const subjectName = node ? node[0].text[0] : ''
+
+        node = findTreeNode(children, 'ul > li > div > small')
+        const subjectNameCn = node ? node[0].text[0] : ''
+
+        node = findTreeNode(children, 'ul > li > div > span')
+        const staff = node ? node[0].text[0] : ''
+
+        node = findTreeNode(children, 'ul > li > a > img')
+        const subjectCover = node ? node[0].attrs.src : ''
+
+        mono.voice.push({
+          href,
+          name: HTMLDecode(name),
+          nameCn: HTMLDecode(nameCn),
+          cover,
+          subjectHref,
+          subjectName: HTMLDecode(subjectName),
+          subjectNameCn: HTMLDecode(subjectNameCn),
+          staff,
+          subjectCover
+        })
+      })
+    }
+
+    // 最近参与
+    mono.works = []
+    matchHTML = HTML.match(
+      /<h2 class="subtitle">最近参与<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
+    )
+    if (matchHTML) {
+      const tree = HTMLToTree(matchHTML[1])
+      tree.children.forEach(item => {
+        const { children } = item
+
+        node = findTreeNode(children, 'div > a|href&title')
+        const href = node ? node[0].attrs.href : ''
+        const name = node ? node[0].attrs.title : ''
+
+        node = findTreeNode(children, 'div > a > img')
+        const cover = node ? node[0].attrs.src : ''
+
+        node = findTreeNode(children, 'div > div > span')
+        const staff = node ? node[0].text[0] : ''
+
+        mono.works.push({
+          href,
+          name: HTMLDecode(name),
+          cover,
+          staff
+        })
+      })
+    }
+
+    // 出演
+    mono.jobs = []
+    matchHTML = HTML.match(
+      /<h2 class="subtitle">出演<\/h2><ul class="browserList">(.+?)<\/ul><div class="section_line clear">/
+    )
+    if (matchHTML) {
+      const tree = HTMLToTree(matchHTML[1])
+      tree.children.forEach(item => {
+        const { children } = item
+
+        node = findTreeNode(children, 'div > div > h3 > a')
+        const href = node ? node[0].attrs.href : ''
+        const name = node ? node[0].text[0] : ''
+
+        node = findTreeNode(children, 'div > div > small')
+        const nameCn = node ? node[0].text[0] : ''
+
+        node = findTreeNode(children, 'div > a > img')
+        const cover = node ? node[0].attrs.src : ''
+
+        node = findTreeNode(children, 'div > div > span')
+        const staff = node ? node[0].text[0] : ''
+
+        node = findTreeNode(children, 'ul > li > a')
+        const cast = node ? node[0].attrs.title : ''
+        const castHref = node ? node[0].attrs.href : ''
+
+        node = findTreeNode(children, 'ul > li > div > small')
+        const castTag = node ? node[0].text[0] : ''
+
+        node = findTreeNode(children, 'ul > li > a > img')
+        const castCover = node ? node[0].attrs.src : ''
+
+        mono.jobs.push({
+          href,
+          name: HTMLDecode(name),
+          nameCn,
+          cover,
+          staff,
+          cast,
+          castHref,
+          castTag,
+          castCover
+        })
+      })
     }
 
     // 吐槽箱
-    const commentHTML = HTML.match(
+    matchHTML = HTML.match(
       /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><\/div><\/div><div/
     )
-    monoComments = analysisComments(commentHTML)
+    monoComments = analysisComments(matchHTML)
   }
 
   return Promise.resolve({

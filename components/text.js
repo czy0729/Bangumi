@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-29 04:48:51
+ * @Last Modified time: 2019-06-02 20:45:31
  */
 import React from 'react'
 import { StyleSheet, Text as RNText } from 'react-native'
@@ -58,7 +58,7 @@ const Text = ({
   }
 
   return (
-    <RNText style={_style} {...other}>
+    <RNText style={_style} allowFontScaling={false} {...other}>
       {children}
     </RNText>
   )

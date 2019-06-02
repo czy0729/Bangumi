@@ -184,6 +184,7 @@ export class DefaultTabBar extends React.PureComponent {
                 },
                 textStyle
               ]}
+              allowFontScaling={false}
             >
               {tab.title}
             </Text>

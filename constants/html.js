@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 22:53:40
+ * @Last Modified time: 2019-06-02 04:37:38
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -22,6 +22,12 @@ export const HTML_SUBJECT = subjectId => `${HOST}/subject/${subjectId}`
  */
 export const HTML_SUBJECT_COMMENTS = (subjectId, page = 1) =>
   `${HOST}/subject/${subjectId}/comments?page=${page}`
+
+/**
+ * 章节信息
+ * @param {*} epId
+ */
+export const HTML_EP = epId => `${HOST}/ep/${epId}`
 
 /**
  * 人物
