@@ -82,11 +82,11 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 
 #### Login 登陆
 
-<img src="./preview/home_1.png" width="200" alt="home_1" /> <img src="./preview/login_1.png" width="200" alt="login_1" /> <img src="./preview/login_2.png" width="200" alt="login_2" />
+<img src="./preview/login_1.png" width="200" alt="login_1" /> <img src="./preview/login_2.png" width="200" alt="login_2" />
 
 #### Home 进度
 
-<img src="./preview/home_2.png" width="200" alt="home_2" /> <img src="./preview/home_3.png" width="200" alt="home_3" /> <img src="./preview/home_4.png" width="200" alt="home_4" />
+<img src="./preview/home_3.png" width="200" alt="home_3" /> <img src="./preview/home_4.png" width="200" alt="home_4" />
 
 #### Subject 条目
 
@@ -102,15 +102,15 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 
 #### Mono 人物
 
-<img src="./preview/mono_1.png" width="200" alt="mono_1" /> <img src="./preview/mono_2.png" width="200" alt="mono_2" /> <img src="./preview/mono_3.png" width="200" alt="mono_3" /> <img src="./preview/mono_4.png" width="200" alt="mono_4" />
+<img src="./preview/mono_2.png" width="200" alt="mono_2" /> <img src="./preview/mono_3.png" width="200" alt="mono_3" /> <img src="./preview/mono_4.png" width="200" alt="mono_4" />
 
 #### Timeline 时间胶囊
 
-<img src="./preview/timeline_1.png" width="200" alt="timeline_1" /> <img src="./preview/timeline_2.png" width="200" alt="timeline_2" /> <img src="./preview/timeline_3.png" width="200" alt="timeline_3" />
+<img src="./preview/timeline_2.png" width="200" alt="timeline_2" /> <img src="./preview/timeline_3.png" width="200" alt="timeline_3" />
 
 #### Rakuen 超展开
 
-<img src="./preview/rakuen_1.png" width="200" alt="rakuen_1" /> <img src="./preview/topic_1.png" width="200" alt="topic_1" /> <img src="./preview/topic_2.png" width="200" alt="topic_2" /> <img src="./preview/topic_3.png" width="200" alt="topic_3" />
+<img src="./preview/rakuen_1.png" width="200" alt="rakuen_1" /> <img src="./preview/topic_1.png" width="200" alt="topic_1" /> <img src="./preview/topic_3.png" width="200" alt="topic_3" />
 
 #### Zone 用户空间
 
