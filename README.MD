@@ -61,9 +61,9 @@ v0.6-alpha
 - 各板块直接回复 (#todo)
 - 排行榜 (?)
 
-#### Getting Started 开始
-
 ---
+
+#### Getting Started 开始
 
 ** 下载 **
 
@@ -92,9 +92,9 @@ Run on iOS simulator
 
 window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档
 
-#### Page Preview 预览
-
 ---
+
+#### Page Preview 预览
 
 #### Login 登陆
 
