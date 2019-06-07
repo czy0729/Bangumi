@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 04:24:32
+ * @Last Modified time: 2019-06-08 03:14:51
  */
 export { default as Auth } from './auth'
 export { default as Award } from './award'
@@ -16,6 +16,7 @@ export { default as Rakuen } from './rakuen'
 export { default as Search } from './search'
 export { default as Setting } from './setting'
 export { default as Subject } from './subject'
+export { default as Tag } from './tag'
 export { default as Timeline } from './timeline'
 export { default as Topic } from './topic'
 export { default as User } from './user'

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 18:58:00
+ * @Last Modified time: 2019-06-08 03:31:19
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -83,8 +83,7 @@ class Calendar extends store {
   async fetchHome() {
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
-      url: `!${HOST}`,
-      cookie: 'chii_searchDateLine=0;' // 搜索不加这个会无条件返回错误
+      url: `!${HOST}`
     })
     const raw = await res
     const HTML = HTMLTrim(raw)

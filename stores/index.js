@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 16:28:02
+ * @Last Modified time: 2019-06-08 03:27:31
  */
 import calendarStore from './calendar'
 import collectionStore from './collection'
@@ -11,6 +11,7 @@ import rakuenStore from './rakuen'
 import searchStore from './search'
 import subjectStore from './subject'
 import systemStore from './system'
+import tagStore from './tag'
 import timelineStore from './timeline'
 import userStore from './user'
 
@@ -41,7 +42,8 @@ class Stores {
       calendarStore.init(),
       rakuenStore.init(),
       searchStore.init(),
-      timelineStore.init()
+      timelineStore.init(),
+      tagStore.init()
     ])
 
     return res
@@ -77,6 +79,7 @@ export {
   searchStore,
   subjectStore,
   systemStore,
+  tagStore,
   timelineStore,
   userStore
 }

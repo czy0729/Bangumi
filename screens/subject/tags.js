@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 15:01:21
+ * @Last Modified time: 2019-06-08 05:14:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Expand, Flex, Text } from '@components'
+import { Expand, Flex, Text, Touchable } from '@components'
 import { SectionTitle } from '@screens/_'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 
-const Tags = ({ style }, { $ }) => {
+const Tags = ({ style }, { $, navigation }) => {
+  const { type } = $.subject
   const { tags = [] } = $.subjectFormHTML
   const { tag = [] } = $.collection
   return (
@@ -24,15 +26,23 @@ const Tags = ({ style }, { $ }) => {
             {tags
               .filter(item => !!item.name)
               .map(({ name, count }) => (
-                <Flex
+                <Touchable
                   key={name}
                   style={[styles.item, tag.includes(name) && styles.selected]}
+                  onPress={() => {
+                    navigation.push('Tag', {
+                      type: MODEL_SUBJECT_TYPE.getLabel(type),
+                      tag: name
+                    })
+                  }}
                 >
-                  <Text size={13}>{name}</Text>
-                  <Text style={_.ml.xs} type='sub' size={13}>
-                    {count}
-                  </Text>
-                </Flex>
+                  <Flex>
+                    <Text size={13}>{name}</Text>
+                    <Text style={_.ml.xs} type='sub' size={13}>
+                      {count}
+                    </Text>
+                  </Flex>
+                </Touchable>
               ))}
           </Flex>
         </Expand>
@@ -42,7 +52,8 @@ const Tags = ({ style }, { $ }) => {
 }
 
 Tags.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(Tags)

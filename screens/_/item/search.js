@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 18:19:30
+ * @Last Modified time: 2019-06-08 04:44:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -93,12 +93,12 @@ const ItemSearch = ({
                 )}
               </Flex>
               {!!tip && (
-                <Text style={_.mt.md} numberOfLines={2}>
+                <Text style={_.mt.md} size={12} numberOfLines={2}>
                   {HTMLDecode(tip)}
                 </Text>
               )}
             </View>
-            <Flex style={_.mt.sm}>
+            <Flex style={_.mt.xs}>
               <Stars style={_.mr.xs} value={score} color='warning' />
               <Text style={_.mr.sm} type='sub' size={12}>
                 {total}

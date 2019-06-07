@@ -35,7 +35,7 @@
 - 时间胶囊
 - 超展开 (带电波提醒)
 - 超展开帖子 (支持留言倒序, 整合章节内容)
-- 搜索
+- 搜索 / 标签
 - 其他用户空间
 - 个人时光机 (完整的, 可筛选标签, 可排序的收藏记录)
 - 热门聚合, 每日放送
@@ -96,9 +96,9 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 
 <img src="./preview/discovery_1.png" width="200" alt="discovery_1" /> <img src="./preview/award_1.png" width="200" alt="award_1" /> <img src="./preview/award_2.png" width="200" alt="award_2" />
 
-#### Search 搜索
+#### Search 搜索 / 标签
 
-<img src="./preview/search_1.png" width="200" alt="search_1" /> <img src="./preview/search_2.png" width="200" alt="search_2" /> <img src="./preview/search_3.png" width="200" alt="search_3" />
+<img src="./preview/search_1.png" width="200" alt="search_1" /> <img src="./preview/search_2.png" width="200" alt="search_2" /> <img src="./preview/search_3.png" width="200" alt="search_3" /> <img src="./preview/tag_1.png" width="200" alt="tag_1" />
 
 #### Mono 人物
 

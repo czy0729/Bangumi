@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-05-26 02:46:44
+ * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 16:04:37
+ * @Last Modified time: 2019-06-08 04:41:44
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,16 +10,13 @@ import PropTypes from 'prop-types'
 import { Flex, Popover, Menu, Iconfont, Text, Touchable } from '@components'
 import { observer } from '@utils/decorators'
 import { IOS } from '@constants'
-import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY } from '@constants/model'
+import { MODEL_TAG_ORDERBY } from '@constants/model'
 import _ from '@styles'
-import { tabs } from './store'
 
-const orderData = MODEL_COLLECTIONS_ORDERBY.data.map(item => item.label)
+const orderData = MODEL_TAG_ORDERBY.data.map(item => item.label)
 
 const ToolBar = (props, { $ }) => {
-  const { subjectType, list, order, tag, page } = $.state
-  const type = MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
-  const userCollectionsTags = $.userCollectionsTags(subjectType, type)
+  const { order, list } = $.state
   const orderPopoverProps = IOS
     ? {
         overlay: <Menu data={orderData} onSelect={$.onOrderSelect} />
@@ -27,18 +24,6 @@ const ToolBar = (props, { $ }) => {
     : {
         data: orderData,
         onSelect: $.onOrderSelect
-      }
-  const filterData = ['重置']
-  userCollectionsTags.forEach(item =>
-    filterData.push(`${item.tag} (${item.count})`)
-  )
-  const filterPopoverProps = IOS
-    ? {
-        overlay: <Menu data={filterData} onSelect={$.onFilterSelect} />
-      }
-    : {
-        data: filterData,
-        onSelect: $.onFilterSelect
       }
   return (
     <Flex style={styles.container}>
@@ -55,21 +40,7 @@ const ToolBar = (props, { $ }) => {
               type={order ? 'main' : 'sub'}
               numberOfLines={1}
             >
-              {order ? MODEL_COLLECTIONS_ORDERBY.getLabel(order) : '收藏时间'}
-            </Text>
-          </Flex>
-        </Popover>
-      </Flex.Item>
-      <Flex.Item>
-        <Popover placement='bottom' {...filterPopoverProps}>
-          <Flex style={styles.item} justify='center'>
-            <Iconfont
-              name='filter'
-              size={14}
-              color={tag ? _.colorMain : undefined}
-            />
-            <Text style={_.ml.sm} type={tag ? 'main' : 'sub'} numberOfLines={1}>
-              {tag ? tag.replace(/ \(\d+\)/, '') : '标签'}
+              {order ? MODEL_TAG_ORDERBY.getLabel(order) : '名称'}
             </Text>
           </Flex>
         </Popover>

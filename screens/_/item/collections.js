@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 16:44:33
+ * @Last Modified time: 2019-06-08 04:10:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -26,7 +26,7 @@ const ItemCollections = ({
   tip,
   score,
   time,
-  tags,
+  tags = '',
   comments
 }) => (
   <Touchable

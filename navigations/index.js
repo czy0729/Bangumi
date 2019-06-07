@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-03 01:09:17
+ * @Last Modified time: 2019-06-08 03:15:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,6 +23,7 @@ import {
   Search,
   Setting,
   Subject,
+  Tag,
   Timeline,
   Topic,
   User,
@@ -79,6 +80,7 @@ const HomeStack = createStackNavigator(
     Search,
     Setting,
     Subject,
+    Tag,
     Topic,
     User,
     WebView,

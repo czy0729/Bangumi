@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 17:31:29
+ * @Last Modified time: 2019-06-08 04:19:33
  */
 class Modal {
   constructor(data) {
@@ -356,7 +356,7 @@ export const MODEL_SETTING_QUALITY = new Modal([
   }
 ])
 
-export const MODEL_ORDERBY = new Modal([
+export const MODEL_COLLECTIONS_ORDERBY = new Modal([
   {
     label: '收藏时间',
     value: ''
@@ -372,5 +372,20 @@ export const MODEL_ORDERBY = new Modal([
   {
     label: '名称',
     value: 'title'
+  }
+])
+
+export const MODEL_TAG_ORDERBY = new Modal([
+  {
+    label: '名称',
+    value: ''
+  },
+  {
+    label: '排名',
+    value: 'rank'
+  },
+  {
+    label: '日期',
+    value: 'date'
   }
 ])

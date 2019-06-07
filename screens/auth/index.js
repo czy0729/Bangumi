@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 20:38:45
+ * @Last Modified time: 2019-06-08 02:34:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,10 +16,38 @@ import _ from '@styles'
 const Auth = ({ navigation }) => (
   <View style={[_.container.column, { backgroundColor: _.colorBg }]}>
     <IconTabsHeader
-      style={_.header.right}
+      style={_.header.left}
       name='setting'
       color={_.colorSub}
       onPress={() => navigation.push('Setting')}
+    />
+    <IconTabsHeader
+      style={[
+        _.header.right,
+        {
+          right: 80
+        }
+      ]}
+      name='star-list'
+      color={_.colorSub}
+      onPress={() => navigation.push('Discovery')}
+    />
+    <IconTabsHeader
+      style={[
+        _.header.right,
+        {
+          right: 44
+        }
+      ]}
+      name='calendar'
+      color={_.colorSub}
+      onPress={() => navigation.push('Calendar')}
+    />
+    <IconTabsHeader
+      style={_.header.right}
+      name='search'
+      color={_.colorSub}
+      onPress={() => navigation.push('Search')}
     />
     <NavigationEvents
       onWillFocus={() => {

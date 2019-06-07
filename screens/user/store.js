@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:30:15
+ * @Last Modified time: 2019-06-08 05:10:03
  */
 import { observable, computed } from 'mobx'
 import { userStore, collectionStore } from '@stores'
@@ -10,7 +10,7 @@ import store from '@utils/store'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_COLLECTION_STATUS,
-  MODEL_ORDERBY
+  MODEL_COLLECTIONS_ORDERBY
 } from '@constants/model'
 import _ from '@styles'
 
@@ -26,7 +26,7 @@ tabs.push({
 })
 const namespace = 'ScreenUser'
 const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
-const defaultOrder = MODEL_ORDERBY.getValue('收藏时间')
+const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
 
 export default class ScreenUser extends store {
   state = observable({
@@ -174,9 +174,9 @@ export default class ScreenUser extends store {
     }
   }
 
-  onSortSelect = label => {
+  onOrderSelect = label => {
     this.setState({
-      order: MODEL_ORDERBY.getValue(label)
+      order: MODEL_COLLECTIONS_ORDERBY.getValue(label)
     })
     this.fetchUserCollections(true)
     this.setStorage(undefined, undefined, namespace)

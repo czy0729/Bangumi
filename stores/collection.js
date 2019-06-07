@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:49:11
+ * @Last Modified time: 2019-06-08 03:20:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -16,14 +16,14 @@ import { HTML_USER_COLLECTIONS } from '@constants/html'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_COLLECTION_STATUS,
-  MODEL_ORDERBY
+  MODEL_COLLECTIONS_ORDERBY
 } from '@constants/model'
 import userStore from './user'
 
 const namespace = 'Collection'
 const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
 const defaultType = MODEL_COLLECTION_STATUS.getValue('在看')
-const defaultOrder = MODEL_ORDERBY.getValue('收藏时间')
+const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
 
 class Collection extends store {
   state = observable({
@@ -109,7 +109,7 @@ class Collection extends store {
   }
 
   /**
-   * 每日放送
+   * HTML用户收藏概览(全部)
    */
   async fetchUserCollections(
     {
