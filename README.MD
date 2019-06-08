@@ -109,9 +109,9 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 
 #### Subject 条目
 
-<img src="./preview/subject_1.png" width="200" alt="subject_1" /> <img src="./preview/subject_2.png" width="200" alt="subject_2" /> <img src="./preview/subject_3.png" width="200" alt="subject_3" />
+<img src="./preview/s_1.png" width="200" alt="s_1" /> <img src="./preview/s_2.png" width="200" alt="s_2" /> <img src="./preview/s_3.png" width="200" alt="s_3" />
 
-<img src="./preview/subject_4.png" width="200" alt="subject_4" /> <img src="./preview/subject_5.png" width="200" alt="subject_5" />
+<img src="./preview/s_4.png" width="200" alt="s_4" /> <img src="./preview/s_5.png" width="200" alt="s_5" />
 
 #### Discovery 首页聚合 / 更沉浸的年鉴
 
