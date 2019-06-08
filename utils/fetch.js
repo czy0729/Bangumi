@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-27 04:28:48
+ * @Last Modified time: 2019-06-08 23:57:02
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -85,6 +85,9 @@ export default async function _fetch({
   let key
   if (method === 'POST') {
     key = Toast.loading('Loading...', 0)
+    log(info, _url, _config)
+  } else {
+    log(info, _url)
   }
   return fetch(_url, _config)
     .then(response => {

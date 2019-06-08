@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 03:20:54
+ * @Last Modified time: 2019-06-09 02:31:24
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -11,7 +11,11 @@ import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import fetch, { fetchHTML } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
-import { API_COLLECTION, API_COLLECTION_ACTION } from '@constants/api'
+import {
+  API_COLLECTION,
+  API_COLLECTION_ACTION,
+  API_SUBJECT_UPDATE_WATCHED
+} from '@constants/api'
 import { HTML_USER_COLLECTIONS } from '@constants/html'
 import {
   MODEL_SUBJECT_TYPE,
@@ -317,6 +321,20 @@ class Collection extends store {
         comment,
         rating,
         privacy
+      }
+    })
+  }
+
+  /**
+   * 更新书籍章节
+   */
+  doUpdateBookEp({ subjectId, chap, vol }) {
+    return fetch({
+      url: API_SUBJECT_UPDATE_WATCHED(subjectId),
+      method: 'POST',
+      data: {
+        watched_eps: chap,
+        watched_vols: vol
       }
     })
   }

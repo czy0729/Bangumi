@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 19:59:10
+ * @Last Modified time: 2019-06-09 03:05:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -117,9 +117,63 @@ class Item extends React.Component {
     )
   }
 
+  renderCount() {
+    const { $ } = this.context
+    const { subjectId, subject, epStatus } = this.props
+    const { expand } = $.$Item(subjectId)
+    if (expand) {
+      return null
+    }
+
+    const label = MODEL_SUBJECT_TYPE.getTitle(subject.type)
+    if (label === '书籍') {
+      const { list = [] } = $.userCollection
+      const { ep_status: epStatus, vol_status: volStatus } = list.find(
+        item => item.subject_id === subjectId
+      )
+      return (
+        <Flex>
+          <Flex align='baseline'>
+            <Text type='primary' size={10} lineHeight={1}>
+              Chap.
+            </Text>
+            <Text style={_.ml.xs} type='primary' size={18} lineHeight={1}>
+              {epStatus}
+            </Text>
+            <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
+              / ?
+            </Text>
+          </Flex>
+          <Flex style={_.ml.md} align='baseline'>
+            <Text type='primary' size={10} lineHeight={1}>
+              Vol.
+            </Text>
+            <Text style={_.ml.xs} type='primary' size={18} lineHeight={1}>
+              {volStatus}
+            </Text>
+            <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
+              / ?
+            </Text>
+          </Flex>
+        </Flex>
+      )
+    }
+
+    return (
+      <Flex align='baseline'>
+        <Text type='primary' size={18} lineHeight={1}>
+          {epStatus}
+        </Text>
+        <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
+          / {subject.eps_count || '?'}
+        </Text>
+      </Flex>
+    )
+  }
+
   render() {
     const { $, navigation } = this.context
-    const { top, subjectId, subject, epStatus } = this.props
+    const { top, subjectId, subject } = this.props
     const { expand } = $.$Item(subjectId)
     const isToday = $.isToday(subjectId)
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
@@ -156,23 +210,7 @@ class Item extends React.Component {
               </Touchable>
               <View>
                 <Flex>
-                  <Flex.Item>
-                    {!expand && (
-                      <Flex align='baseline'>
-                        <Text type='primary' size={18} lineHeight={1}>
-                          {epStatus}
-                        </Text>
-                        <Text
-                          style={_.ml.xs}
-                          type='sub'
-                          size={10}
-                          lineHeight={1}
-                        >
-                          / {subject.eps_count || '-'}
-                        </Text>
-                      </Flex>
-                    )}
-                  </Flex.Item>
+                  <Flex.Item>{this.renderCount()}</Flex.Item>
                   {this.renderToolBar()}
                 </Flex>
                 <Progress

@@ -28,6 +28,10 @@
 
 v0.6-alpha
 
+- [x] [首页收藏] 书籍类显示加入 Vol、Chap
+- [x] [条目] 书籍可以管理 Vol、Chap
+- [ ] [条目] 书籍单行本列表
+- [ ] [条目] 书籍喜欢 XXX 的会员大概会喜欢
 - [x] [标签条目] 页面
 - [ ] [超展开] 回复功能
 - [ ] [章节] 回复功能
@@ -101,11 +105,13 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 
 #### Home 进度
 
-<img src="./preview/home_3.png" width="200" alt="home_3" /> <img src="./preview/home_4.png" width="200" alt="home_4" />
+<img src="./preview/home_3.png" width="200" alt="home_3" /> <img src="./preview/home_4.png" width="200" alt="home_4" /> <img src="./preview/home_5.png" width="200" alt="home_5" />
 
 #### Subject 条目
 
-<img src="./preview/subject_1.png" width="200" alt="subject_1" /> <img src="./preview/subject_2.png" width="200" alt="subject_2" /> <img src="./preview/subject_3.png" width="200" alt="subject_3" /> <img src="./preview/subject_4.png" width="200" alt="subject_4" />
+<img src="./preview/subject_1.png" width="200" alt="subject_1" /> <img src="./preview/subject_2.png" width="200" alt="subject_2" /> <img src="./preview/subject_3.png" width="200" alt="subject_3" />
+
+<img src="./preview/subject_4.png" width="200" alt="subject_4" /> <img src="./preview/subject_5.png" width="200" alt="subject_5" />
 
 #### Discovery 首页聚合 / 更沉浸的年鉴
 

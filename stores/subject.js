@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-03 00:52:34
+ * @Last Modified time: 2019-06-09 02:28:48
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
@@ -56,6 +56,7 @@ const initSubjectFormHTMLItem = {
   },
   typeNum: '', // eg. 291人想看 / 21人看过 / 744人在看 / 49人搁置 / 83人抛弃
   disc: [], // 曲目列表
+  book: {}, // 书籍章节信息
   _loaded: false
 }
 const initMono = {
@@ -227,13 +228,15 @@ class Subject extends store {
     const HTML = HTMLTrim(raw)
 
     // -------------------- 分析HTML --------------------
+    let matchHTML
+
     // 标签
     const tags = []
-    const tagsHTML = HTML.match(
+    matchHTML = HTML.match(
       /<\/h2><div class="inner">(.+?)<\/div><\/div><\/div><div id="panelInterestWrapper">/
     )
-    if (tagsHTML) {
-      const tree = HTMLToTree(tagsHTML[1])
+    if (matchHTML) {
+      const tree = HTMLToTree(matchHTML[1])
       findTreeNode(tree.children, 'a > span', []).forEach(item => {
         tags.push({
           name: item.text[0]
@@ -249,11 +252,11 @@ class Subject extends store {
 
     // 关联条目
     const relations = []
-    const relationsHTML = HTML.match(
+    matchHTML = HTML.match(
       /<ul class="browserCoverMedium clearit">(.+?)<\/ul><\/div><\/div><div class="subject_section">/
     )
-    if (relationsHTML) {
-      const tree = HTMLToTree(relationsHTML[1])
+    if (matchHTML) {
+      const tree = HTMLToTree(matchHTML[1])
       let typeIndex
       tree.children.forEach((item, index) => {
         // HTML项目是平铺的, 取前一个class=sub的type
@@ -282,20 +285,20 @@ class Subject extends store {
     const friend = {
       ...initSubjectFormHTMLItem.friend
     }
-    const friendHTML = HTML.match(/<div class="frdScore">(.+?)<\/div>/)
-    if (friendHTML) {
-      const tree = HTMLToTree(friendHTML[1])
+    matchHTML = HTML.match(/<div class="frdScore">(.+?)<\/div>/)
+    if (matchHTML) {
+      const tree = HTMLToTree(matchHTML[1])
       friend.score = tree.children[0].text[0]
       friend.total = tree.children[2].text[0].replace(' 人评分', '')
     }
 
     // 观看状态人数
     let typeNum = ''
-    const typeNumHTML = HTML.match(
+    matchHTML = HTML.match(
       /<span class="tip_i">\/(.+?)<\/span><\/div><\/div><div id="columnSubjectHomeB"/
     )
-    if (typeNumHTML) {
-      const tree = HTMLToTree(typeNumHTML[1])
+    if (matchHTML) {
+      const tree = HTMLToTree(matchHTML[1])
       typeNum = findTreeNode(tree.children, 'div > a|text&class=l', [])
         .map(item => item.text[0])
         .join(' / ')
@@ -303,12 +306,10 @@ class Subject extends store {
 
     // 曲目列表(音乐)
     const disc = []
-    const discHTML = HTML.match(
-      /<ul class="line_list line_list_music">(.+?)<\/ul>/
-    )
-    if (discHTML) {
+    matchHTML = HTML.match(/<ul class="line_list line_list_music">(.+?)<\/ul>/)
+    if (matchHTML) {
       try {
-        const tree = HTMLToTree(discHTML[1])
+        const tree = HTMLToTree(matchHTML[1])
         tree.children.forEach(item => {
           if (item.attrs.class === 'cat') {
             disc.push({
@@ -328,21 +329,50 @@ class Subject extends store {
       }
     }
 
+    // 书籍vol. chap.(需登录)
+    const book = {}
+    matchHTML = HTML.match(
+      /<div class="panelProgress book clearit">(.+?)<\/div><div rel="v:rating">/
+    )
+    if (matchHTML) {
+      const tree = HTMLToTree(matchHTML[1])
+      const { children } = tree
+
+      let node = findTreeNode(
+        children,
+        'div > form > div > input|name=watchedeps'
+      )
+      if (node) {
+        book.chap = node[0].attrs.value
+      }
+
+      node = findTreeNode(
+        children,
+        'div > form > div > input|name=watched_vols'
+      )
+      if (node) {
+        book.vol = node[0].attrs.value
+      }
+    }
+
     const key = 'subjectFormHTML'
+    const data = {
+      tags,
+      relations,
+      friend,
+      typeNum,
+      disc,
+      book,
+      _loaded: getTimestamp()
+    }
     this.setState({
       [key]: {
-        [subjectId]: {
-          tags,
-          relations,
-          friend,
-          typeNum,
-          disc,
-          _loaded: getTimestamp()
-        }
+        [subjectId]: data
       }
     })
     this.setStorage(key, undefined, namespace)
-    return res
+
+    return Promise.resolve(data)
   }
 
   /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-14 20:00:02
+ * @Last Modified time: 2019-06-08 22:12:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -209,8 +209,8 @@ export default class Eps extends React.Component {
   }
 
   render() {
-    const { numbersOfLine, advance, eps = [] } = this.props
-    let _eps = eps
+    const { numbersOfLine, advance, eps } = this.props
+    let _eps = eps || []
     let hasSp = false // 是否有SP
     if (!advance) {
       _eps = _eps.filter(item => {

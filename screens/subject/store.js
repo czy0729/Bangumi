@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 20:18:46
+ * @Last Modified time: 2019-06-09 02:43:05
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -21,6 +21,8 @@ export default class ScreenSubject extends store {
   state = observable({
     visible: false, // 是否显示管理模态框
     epsReverse: false, // 章节是否倒序
+    chap: '', // 书籍
+    vol: '',
     bangumiInfo: {
       sites: [], // 动画在线地址
       type: '' // 动画类型
@@ -33,6 +35,8 @@ export default class ScreenSubject extends store {
     this.setState({
       ...state,
       visible: false,
+      chap: '',
+      vol: '',
       _loaded: true
     })
 
@@ -53,7 +57,15 @@ export default class ScreenSubject extends store {
       () => subjectStore.fetchSubjectEp(subjectId),
       () => collectionStore.fetchCollection(subjectId),
       () => userStore.fetchUserProgress(subjectId),
-      () => subjectStore.fetchSubjectFormHTML(subjectId),
+      async () => {
+        const res = subjectStore.fetchSubjectFormHTML(subjectId)
+        const { book } = await res
+        this.setState({
+          chap: book.chap || '0',
+          vol: book.vol || '0'
+        })
+        return res
+      },
       () => this.fetchSubjectComments(true)
     ])
     return res
@@ -141,6 +153,15 @@ export default class ScreenSubject extends store {
     this.fetchSubjectComments(true, !_reverse)
   }
 
+  /**
+   * 书籍章节输入框改变
+   */
+  changeText = (name, text) => {
+    this.setState({
+      [name]: String(text)
+    })
+  }
+
   // -------------------- action --------------------
   /**
    * 章节菜单操作
@@ -190,5 +211,41 @@ export default class ScreenSubject extends store {
     await collectionStore.doUpdateCollection(values)
     collectionStore.fetchCollection(subjectId)
     this.closeManageModal()
+  }
+
+  /**
+   * 更新书籍下一个章节
+   */
+  doUpdateNext = async name => {
+    const { subjectId } = this.params
+    const { chap, vol } = this.state
+
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    const next = String(parseInt(this.state[name] || 0) + 1)
+    await collectionStore.doUpdateBookEp({
+      subjectId,
+      chap,
+      vol,
+      [name]: next
+    })
+
+    this.setState({
+      [name]: next
+    })
+    info('更新成功')
+  }
+
+  /**
+   * 更新书籍章节
+   */
+  doUpdateBookEp = async () => {
+    const { chap, vol } = this.state
+    const { subjectId } = this.params
+    await collectionStore.doUpdateBookEp({
+      subjectId,
+      chap,
+      vol
+    })
+    info('更新成功')
   }
 }
