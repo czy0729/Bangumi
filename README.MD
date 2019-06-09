@@ -105,7 +105,7 @@ window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文
 
 #### Home 进度
 
-<img src="./preview/home_3.png" width="200" alt="home_3" /> <img src="./preview/home_4.png" width="200" alt="home_4" /> <img src="./preview/home_6.png" width="200" alt="home_6" />
+<img src="./preview/home_3.png" width="200" alt="home_3" /> <img src="./preview/home_4.png" width="200" alt="home_4" /> <img src="./preview/home_7.png" width="200" alt="home_7" />
 
 #### Subject 条目
 
