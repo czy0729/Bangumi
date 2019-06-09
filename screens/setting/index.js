@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 18:47:01
+ * @Last Modified time: 2019-06-09 21:15:42
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
@@ -81,7 +81,7 @@ class Setting extends React.Component {
   }
 
   render() {
-    const { quality, cnFirst, autoFetch } = systemStore.setting
+    const { quality, cnFirst, autoFetch, speech } = systemStore.setting
     const data = MODEL_SETTING_QUALITY.data.map(({ label }) => label)
     const popoverProps = IOS
       ? {
@@ -130,6 +130,13 @@ class Setting extends React.Component {
           withoutFeedback
         />
         <Item
+          border
+          hd='Bangumi娘话语'
+          ft={<Switch checked={speech} onChange={systemStore.switchSpeech} />}
+          withoutFeedback
+        />
+
+        <Item
           style={_.mt.md}
           hd='检测更新'
           ft={
@@ -151,6 +158,7 @@ class Setting extends React.Component {
           highlight
           onPress={() => open(FEEDBACK_URL)}
         />
+
         <Item
           style={_.mt.md}
           hd='清除缓存'
@@ -158,6 +166,7 @@ class Setting extends React.Component {
           highlight
           onPress={this.clearStorage}
         />
+
         <Item
           style={_.mt.md}
           hd='退出登录'
@@ -165,6 +174,7 @@ class Setting extends React.Component {
           highlight
           onPress={this.logout}
         />
+
         <Item
           style={{
             position: 'absolute',

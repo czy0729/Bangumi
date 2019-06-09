@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 02:57:33
+ * @Last Modified time: 2019-06-09 21:16:46
  */
 import React from 'react'
 import {
@@ -14,8 +14,10 @@ import {
   View
 } from 'react-native'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { LIST_EMPTY } from '@constants'
+import { systemStore } from '@stores'
 import { sleep, date, simpleTime } from '@utils'
+import { randomSpeech } from '@constants/speech'
+import { LIST_EMPTY } from '@constants'
 import _ from '@styles'
 import Text from './text'
 import Flex from './flex'
@@ -187,21 +189,31 @@ export default class ListView extends React.Component {
         break
       case RefreshState.FooterRefreshing:
         footer = footerRefreshingComponent || (
-          <View style={styles.footerContainer}>
+          <Flex
+            style={[styles.footerNoMore, _.container.wind]}
+            justify='center'
+            direction='column'
+          >
             <ActivityIndicator size='small' />
-            <Text style={[styles.footerText, { marginLeft: 8 }]}>
+            <Text style={_.mt.sm} type='sub' size={14} align='center'>
               {footerRefreshingText}
             </Text>
-          </View>
+          </Flex>
         )
         break
       case RefreshState.NoMoreData:
         footer = footerNoMoreDataComponent || (
-          <Flex style={styles.footerNoMore} justify='center'>
+          <Flex
+            style={[styles.footerNoMore, _.container.wind]}
+            justify='center'
+            direction='column'
+          >
             <Mesume size={80} />
-            {/* <Text style={[styles.footerText, _.ml.sm]}>
-              {footerNoMoreDataText}
-            </Text> */}
+            {systemStore.setting.speech && (
+              <Text style={_.mt.sm} type='sub' size={14} align='center'>
+                {randomSpeech()}
+              </Text>
+            )}
           </Flex>
         )
         break
