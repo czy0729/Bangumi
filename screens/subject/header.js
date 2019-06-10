@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 20:31:13
+ * @Last Modified time: 2019-06-10 22:05:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,6 +20,8 @@ import Rating from './rating'
 import Character from './character'
 import Staff from './staff'
 import Relations from './relations'
+import Comic from './comic'
+import Like from './like'
 import Blog from './blog'
 import Topic from './topic'
 
@@ -40,6 +42,8 @@ const Header = (props, { $ }) => {
         <Character style={_.mt.lg} />
         <Staff style={_.mt.lg} />
         <Relations style={_.mt.lg} />
+        <Comic style={_.mt.lg} />
+        <Like style={_.mt.lg} />
         <Blog style={_.mt.lg} />
         <Topic style={_.mt.lg} />
         <SectionTitle

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-27 05:03:28
+ * @Last Modified time: 2019-06-10 22:07:08
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -50,9 +50,11 @@ const HorizontalList = ({
           <Text style={_.mt.sm} numberOfLines={2}>
             {findCn ? findBangumiCn(item.name) : item.name}
           </Text>
-          <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
-            {item.desc}
-          </Text>
+          {!!item.desc && (
+            <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
+              {item.desc}
+            </Text>
+          )}
         </Touchable>
       </View>
     ))}

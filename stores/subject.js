@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-09 02:28:48
+ * @Last Modified time: 2019-06-10 22:15:21
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
@@ -57,6 +57,8 @@ const initSubjectFormHTMLItem = {
   typeNum: '', // eg. 291人想看 / 21人看过 / 744人在看 / 49人搁置 / 83人抛弃
   disc: [], // 曲目列表
   book: {}, // 书籍章节信息
+  comit: [], // 单行本
+  like: [], // 猜你喜欢
   _loaded: false
 }
 const initMono = {
@@ -256,29 +258,33 @@ class Subject extends store {
       /<ul class="browserCoverMedium clearit">(.+?)<\/ul><\/div><\/div><div class="subject_section">/
     )
     if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      let typeIndex
-      tree.children.forEach((item, index) => {
-        // HTML项目是平铺的, 取前一个class=sub的type
-        if (item.attrs.class === 'sep') {
-          typeIndex = index
-        }
-        const type = tree.children[typeIndex].children[0].text[0]
-        const id = item.children[2].attrs.href.replace('/subject/', '')
-        const image = item.children[1].children[0].attrs.style.replace(
-          /background-image:url\('|'\)/g,
-          ''
-        )
-        relations.push({
-          type,
-          id,
-          title: item.children[2].text[0],
+      try {
+        const tree = HTMLToTree(matchHTML[1])
+        let typeIndex
+        tree.children.forEach((item, index) => {
+          // HTML项目是平铺的, 取前一个class=sub的type
+          if (item.attrs.class === 'sep') {
+            typeIndex = index
+          }
+          const type = tree.children[typeIndex].children[0].text[0]
+          const id = item.children[2].attrs.href.replace('/subject/', '')
+          const image = item.children[1].children[0].attrs.style.replace(
+            /background-image:url\('|'\)/g,
+            ''
+          )
+          relations.push({
+            type,
+            id,
+            title: item.children[2].text[0],
 
-          // 排除空白占位图片
-          image: image === '/img/no_icon_subject.png' ? '' : image,
-          url: `${HOST}/subject/${id}`
+            // 排除空白占位图片
+            image: image === '/img/no_icon_subject.png' ? '' : image,
+            url: `${HOST}/subject/${id}`
+          })
         })
-      })
+      } catch (error) {
+        // do nothing
+      }
     }
 
     // 好友评分
@@ -355,6 +361,52 @@ class Subject extends store {
       }
     }
 
+    // 单行本
+    const comic = []
+    matchHTML = HTML.match(
+      /<h2 class="subtitle">单行本<\/h2><ul class="browserCoverSmall clearit">(.+?)<\/ul>/
+    )
+    if (matchHTML) {
+      try {
+        const tree = HTMLToTree(matchHTML[1])
+        tree.children.forEach(item => {
+          const { children } = item
+          comic.push({
+            id: children[0].attrs.href.replace('/subject/', ''),
+            name: children[0].attrs.title,
+            image: children[0].children[0].attrs.style
+              .replace(/background-image:url\('|'\)/g, '')
+              .replace('/g/', '/c/')
+          })
+        })
+      } catch (error) {
+        // do nothing
+      }
+    }
+
+    // 猜你喜欢
+    const like = []
+    matchHTML = HTML.match(
+      /的会员大概会喜欢<\/h2><div class="content_inner clearit" align="left"><ul class="coversSmall">(.+?)<\/ul>/
+    )
+    if (matchHTML) {
+      try {
+        const tree = HTMLToTree(matchHTML[1])
+        tree.children.forEach(item => {
+          const { children } = item
+          like.push({
+            id: children[0].attrs.href.replace('/subject/', ''),
+            name: children[0].attrs.title || children[1].children[0].text[0],
+            image: children[0].children[0].attrs.style
+              .replace(/background-image:url\('|'\)/g, '')
+              .replace('/g/', '/c/')
+          })
+        })
+      } catch (error) {
+        // do nothing
+      }
+    }
+
     const key = 'subjectFormHTML'
     const data = {
       tags,
@@ -363,6 +415,8 @@ class Subject extends store {
       typeNum,
       disc,
       book,
+      comic,
+      like,
       _loaded: getTimestamp()
     }
     this.setState({

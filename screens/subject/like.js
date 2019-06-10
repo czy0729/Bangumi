@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-04-08 10:38:04
+ * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-10 22:04:14
+ * @Last Modified time: 2019-06-10 22:03:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,27 +11,20 @@ import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import _ from '@styles'
 
-const Relations = ({ style }, { $, navigation }) => {
-  const { relations = [] } = $.subjectFormHTML
-  if (!relations.length) {
+const Like = ({ style }, { $, navigation }) => {
+  const { like = [] } = $.subjectFormHTML
+  if (!like.length) {
     return null
   }
 
-  const data = relations.map(({ id, image, title, type }) => ({
-    id,
-    image,
-    name: title,
-    desc: type
-  }))
   return (
     <View style={style}>
-      <SectionTitle style={_.container.wind}>关联条目</SectionTitle>
+      <SectionTitle style={_.container.wind}>猜你喜欢</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
-        data={data}
+        data={like}
         width={80}
         height={106}
-        findCn
         onPress={({ id, name, image }) =>
           navigation.push('Subject', {
             subjectId: id,
@@ -44,9 +37,9 @@ const Relations = ({ style }, { $, navigation }) => {
   )
 }
 
-Relations.contextTypes = {
+Like.contextTypes = {
   $: PropTypes.object,
   navigation: PropTypes.object
 }
 
-export default observer(Relations)
+export default observer(Like)
