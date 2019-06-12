@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 19:06:43
+ * @Last Modified time: 2019-06-10 22:34:45
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
+import FixedTextarea from '@components/fixed-textarea'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import _ from '@styles'
@@ -58,21 +59,24 @@ class Topic extends React.Component {
     const { $ } = this.context
     const { onScroll } = this.props
     return (
-      <ListView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainerStyle}
-        keyExtractor={item => String(item.id)}
-        data={$.comments}
-        scrollEventThrottle={32}
-        ListHeaderComponent={<Top />}
-        renderItem={({ item, index }) => (
-          <Item index={index} authorId={$.topic.userId} {...item} />
-        )}
-        onScroll={onScroll}
-        onHeaderRefresh={() => $.fetchTopic(true)}
-        onFooterRefresh={$.fetchTopic}
-        {...withTransitionHeader.listViewProps}
-      />
+      <>
+        <ListView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainerStyle}
+          keyExtractor={item => String(item.id)}
+          data={$.comments}
+          scrollEventThrottle={32}
+          ListHeaderComponent={<Top />}
+          renderItem={({ item, index }) => (
+            <Item index={index} authorId={$.topic.userId} {...item} />
+          )}
+          onScroll={onScroll}
+          onHeaderRefresh={() => $.fetchTopic(true)}
+          onFooterRefresh={$.fetchTopic}
+          {...withTransitionHeader.listViewProps}
+        />
+        <FixedTextarea />
+      </>
     )
   }
 }

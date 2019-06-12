@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 19:36:39
+ * @Last Modified time: 2019-06-13 00:09:11
  */
 export { default as BlurView } from './blur-view'
 export { default as Button } from './button'
@@ -15,6 +15,7 @@ export { default as Iconfont } from './iconfont'
 export { default as Image } from './image'
 export { default as ImageViewer } from './image-viewer'
 export { default as Input } from './input'
+export { default as KeyboardSpacer } from './keyboard-spacer'
 export { default as ListView } from './list-view'
 export { default as Loading } from './loading'
 export { default as Menu } from './menu'
