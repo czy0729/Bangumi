@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 23:57:02
+ * @Last Modified time: 2019-06-14 21:48:31
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -202,8 +202,7 @@ export async function fetchHTML({
       if (key) {
         Portal.remove(key)
       }
-
-      return Promise.resolve(res._bodyInit)
+      return Promise.resolve(res.text())
     })
     .catch(e => {
       if (systemStore.state.dev) {

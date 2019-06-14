@@ -10,16 +10,16 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-29 04:35:55
+ * @Last Modified time: 2019-06-14 22:03:39
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
-import { CacheManager } from 'react-native-expo-image-cache'
 import { systemStore } from '@stores'
 import { showImageViewer } from '@utils/ui'
 import { IOS, IMG_ERROR } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
+import CacheManager from './@react-native-expo-image-cache/src/CacheManager'
 import Touchable from './touchable'
 
 export default class Image extends React.Component {

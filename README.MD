@@ -14,7 +14,8 @@
 
 <img src="./preview/expo-qr.png" width="240" alt="expo-qr" />
 
-请先安装 [expo app](https://expo.io/tools)
+[请先安装 expo app](https://expo.io/tools)
+[这个貌似不用梯子](https://apkpure.com/expo/host.exp.exponent)
 
 ---
 
@@ -28,16 +29,17 @@
 
 v0.6-alpha
 
-- [x] [首页收藏] 书籍类显示加入Vol、Chap
-- [x] [条目] 书籍可以管理Vol、Chap
+- [x] Expo 升级到了 SDK 33.0, 图片加载貌似会快点
+- [x] [首页收藏] 书籍类显示加入 Vol、Chap
+- [x] [条目] 书籍可以管理 Vol、Chap
 - [x] [条目] 书籍单行本列表
-- [x] [条目] 书籍喜欢XXX的会员大概会喜欢
+- [x] [条目] 书籍喜欢 XXX 的会员大概会喜欢
 - [x] [标签条目] 页面
 - [ ] [超展开] 回复功能(不带表情)
 - [ ] [章节] 回复功能(不带表情)
 - [ ] [人物] 回复功能(不带表情)
 - [ ] [用户] 同步率
-- [ ] [用户] 关于TA
+- [ ] [用户] 关于 TA
 - [ ] [每日放送] 添加播放时间
 - [ ] [索引] 页面
 - [ ] [目录] 页面
@@ -81,6 +83,9 @@ npm config set registry https://registry.npmjs.org
 git clone https://github.com/czy0729/Bangumi
 cd ./Bangumi
 yarn // or npm i
+
+// SDK 33.0 第一次可能还要
+expo install @expo/vector-icons expo-blur expo-constants expo-file-system
 ```
 
 ** 前置操作 **

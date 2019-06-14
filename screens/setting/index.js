@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-09 21:15:42
+ * @Last Modified time: 2019-06-14 22:08:23
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
-import { CacheManager } from 'react-native-expo-image-cache'
 import { Switch } from '@ant-design/react-native'
 import { Popover, Menu, Text } from '@components'
+import CacheManager from '@components/@react-native-expo-image-cache/src/CacheManager'
 import { systemStore, userStore } from '@stores'
 import { open } from '@utils'
 import { withHeader, observer } from '@utils/decorators'

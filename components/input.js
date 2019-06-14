@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 21:24:12
+ * @Last Modified time: 2019-06-13 22:07:39
  */
 import React from 'react'
 import {
@@ -36,7 +36,7 @@ export default class Input extends React.Component {
     })
   }
 
-  ref
+  inputRef
 
   onChange = evt => {
     const { onChange } = this.props
@@ -80,7 +80,7 @@ export default class Input extends React.Component {
       const containerHeight = initInputHeight * numberOfLines + 18
       return (
         <View style={styles.container}>
-          <TouchableWithoutFeedback onPress={() => this.ref.focus()}>
+          <TouchableWithoutFeedback onPress={() => this.inputRef.focus()}>
             <View
               style={[
                 styles.multiContainer,
@@ -89,7 +89,7 @@ export default class Input extends React.Component {
               ]}
             >
               <TextInput
-                ref={ref => (this.ref = ref)}
+                ref={ref => (this.inputRef = ref)}
                 style={styles.multiInput}
                 multiline
                 textAlignVertical='top'
@@ -110,7 +110,7 @@ export default class Input extends React.Component {
     return (
       <View style={styles.container}>
         <TextInput
-          ref={ref => (this.ref = ref)}
+          ref={ref => (this.inputRef = ref)}
           style={[styles.input, style]}
           numberOfLines={numberOfLines}
           underlineColorAndroid='transparent'

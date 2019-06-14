@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-13 00:10:42
+ * @Last Modified time: 2019-06-13 23:17:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,15 +16,25 @@ import KeyboardSpacer from './keyboard-spacer'
 
 export default class FixedTextarea extends React.Component {
   static defaultProps = {
-    onCancel: Function.prototype
+    value: '',
+    onSubmit: Function.prototype // value => {}
   }
 
   state = {
-    value: '',
+    value: this.props.value,
     focus: false
   }
 
   ref
+
+  componentWillReceiveProps(nextProps) {
+    const { value } = nextProps
+    if (value !== this.state.value) {
+      this.setState({
+        value
+      })
+    }
+  }
 
   onFocus = () => {
     this.setState({
@@ -49,6 +59,7 @@ export default class FixedTextarea extends React.Component {
     })
   }
 
+  // @todo 暂时没有对选择了一段文字的情况做判断
   addSymbolText = symbol => {
     const ref = this.ref.textAreaRef
     ref.focus()
@@ -79,6 +90,35 @@ export default class FixedTextarea extends React.Component {
     })
   }
 
+  onSubmit = () => {
+    const { value } = this.state
+    if (value === '') {
+      return
+    }
+
+    const { onSubmit } = this.props
+    onSubmit(value)
+    this.clear()
+  }
+
+  clear = () => {
+    this.setState({
+      value: '',
+      focus: false
+    })
+  }
+
+  renderBtn(text, symbol) {
+    return (
+      <Touchable
+        style={styles.toolBarBtn}
+        onPress={() => this.addSymbolText(symbol)}
+      >
+        <Text type='sub'>{text}</Text>
+      </Touchable>
+    )
+  }
+
   renderToolBar() {
     const { focus } = this.state
     if (!focus) {
@@ -87,42 +127,18 @@ export default class FixedTextarea extends React.Component {
 
     return (
       <Flex style={styles.toolBar}>
-        <Touchable
-          style={styles.toolBarBtn}
-          onPress={() => this.addSymbolText('b')}
-        >
-          <Text type='sub'>加粗</Text>
-        </Touchable>
-        <Touchable
-          style={styles.toolBarBtn}
-          onPress={() => this.addSymbolText('i')}
-        >
-          <Text type='sub'>斜体</Text>
-        </Touchable>
-        <Touchable
-          style={styles.toolBarBtn}
-          onPress={() => this.addSymbolText('u')}
-        >
-          <Text type='sub'>下划线</Text>
-        </Touchable>
-        <Touchable
-          style={styles.toolBarBtn}
-          onPress={() => this.addSymbolText('s')}
-        >
-          <Text type='sub'>删除线</Text>
-        </Touchable>
-        <Touchable
-          style={styles.toolBarBtn}
-          onPress={() => this.addSymbolText('mask')}
-        >
-          <Text type='sub'>防剧透</Text>
-        </Touchable>
+        {this.renderBtn('加粗', 'b')}
+        {this.renderBtn('斜体', 'i')}
+        {this.renderBtn('下划线', 'u')}
+        {this.renderBtn('删除线', 's')}
+        {this.renderBtn('防剧透', 'mask')}
       </Flex>
     )
   }
 
   renderTextarea() {
     const { value, focus } = this.state
+    const canSend = value !== ''
     return (
       <Flex align='start'>
         <Flex.Item>
@@ -131,15 +147,18 @@ export default class FixedTextarea extends React.Component {
             style={styles.textarea}
             value={value}
             placeholder='不吐槽一下吗'
-            rows={focus ? 4 : 1}
+            rows={focus ? 6 : 1}
             selectionColor={_.colorMain}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             onChange={this.onChange}
           />
         </Flex.Item>
-        <Touchable style={styles.send}>
-          <Iconfont name='navigation' />
+        <Touchable style={styles.send} onPress={this.onSubmit}>
+          <Iconfont
+            name='navigation'
+            color={canSend ? _.colorMain : _.colorIcon}
+          />
         </Touchable>
       </Flex>
     )
@@ -181,23 +200,27 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     zIndex: 1,
-    paddingVertical: _.sm,
     paddingHorizontal: _.wind,
+    marginBottom: -4,
     backgroundColor: _.colorPlain,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: _.colorBorder
   },
   toolBar: {
-    marginBottom: _.sm
+    paddingVertical: _.sm,
+    marginLeft: -_.sm
   },
   toolBarBtn: {
     padding: _.sm,
     marginRight: _.sm
   },
   textarea: {
-    borderWidth: 0
+    paddingVertical: _.sm,
+    paddingHorizontal: 0,
+    ..._.fontSize(14)
   },
   send: {
-    padding: _.sm
+    padding: _.sm,
+    marginTop: 3
   }
 })

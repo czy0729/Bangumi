@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 02:42:41
+ * @Last Modified time: 2019-06-14 21:09:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { BlurView as ExpoBlurView, LinearGradient } from 'expo'
+import { LinearGradient } from 'expo'
+import { BlurView as ExpoBlurView } from 'expo-blur'
 import { IOS } from '@constants'
 import Image from './image'
 
