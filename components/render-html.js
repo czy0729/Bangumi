@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 21:06:36
+ * @Last Modified time: 2019-06-17 01:10:05
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -12,6 +12,7 @@ import HTML from 'react-native-render-html'
 import { open } from '@utils'
 import { HOST } from '@constants'
 import _ from '@styles'
+import { bgm } from './bgm'
 import Image from './image'
 
 // 一些超展开内容文本样式的标记
@@ -103,10 +104,11 @@ export default class RenderHtml extends React.Component {
           key: passProps.key
         }
 
-        // bgm表情
-        // @todo 表情调用本地资源
+        // bgm表情, 表情调用本地资源
         if (alt.indexOf('(bgm') !== -1) {
-          props.source = { uri: `${HOST}/${src}` }
+          const index = parseInt(alt.replace(/\(bgm|\)/g, '')) - 23 // 偏移量
+          props.source =
+            parseInt(index) <= 100 ? bgm[index] : { uri: `${HOST}/${src}` }
           props.style = {
             width: 20,
             height: 20,

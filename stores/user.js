@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:49:19
+ * @Last Modified time: 2019-06-16 21:29:15
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -427,6 +427,18 @@ class User extends store {
       userCookie: data
     })
     this.setStorage('userCookie', undefined, namespace)
+  }
+
+  updateChiiSid(chiiSid) {
+    const { cookie } = this.userCookie
+    if (cookie) {
+      this.setState({
+        userCookie: {
+          cookie: cookie.replace(/chii_sid=.*;/, `chii_sid=${chiiSid};`)
+        }
+      })
+      this.setStorage('userCookie', undefined, namespace)
+    }
   }
 
   // -------------------- action --------------------

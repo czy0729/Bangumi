@@ -2,23 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 20:45:31
+ * @Last Modified time: 2019-06-17 01:28:52
  */
 import React from 'react'
 import { StyleSheet, Text as RNText } from 'react-native'
-import {
-  lineHeightRatio,
-  colorMain,
-  colorPrimary,
-  colorSuccess,
-  colorWarning,
-  colorDanger,
-  colorTitle,
-  colorDesc,
-  colorSub,
-  colorBorder,
-  fontSize
-} from '@styles'
+import _ from '@styles'
 
 const Text = ({
   style,
@@ -44,7 +32,7 @@ const Text = ({
   if (lineHeight !== undefined) {
     _style.push({
       lineHeight:
-        lineHeight <= 2 ? lineHeight * size : lineHeight * lineHeightRatio
+        lineHeight <= 2 ? lineHeight * size : lineHeight * _.lineHeightRatio
     })
   }
   if (align) {
@@ -90,50 +78,53 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: 'bold'
   },
-  10: fontSize(10),
-  11: fontSize(11),
-  12: fontSize(12),
-  13: fontSize(13),
-  14: fontSize(14),
-  15: fontSize(15),
-  16: fontSize(16),
-  18: fontSize(18),
-  20: fontSize(20),
-  22: fontSize(22),
-  24: fontSize(24),
-  26: fontSize(26),
+  10: _.fontSize(10),
+  11: _.fontSize(11),
+  12: _.fontSize(12),
+  13: _.fontSize(13),
+  14: _.fontSize(14),
+  15: _.fontSize(15),
+  16: _.fontSize(16),
+  18: _.fontSize(18),
+  20: _.fontSize(20),
+  22: _.fontSize(22),
+  24: _.fontSize(24),
+  26: _.fontSize(26),
   plain: {
     color: 'rgba(255, 255, 255, 0.92)'
   },
   main: {
-    color: colorMain
+    color: _.colorMain
   },
   primary: {
-    color: colorPrimary
+    color: _.colorPrimary
   },
   success: {
-    color: colorSuccess
+    color: _.colorSuccess
   },
   warning: {
-    color: colorWarning
+    color: _.colorWarning
   },
   danger: {
-    color: colorDanger
+    color: _.colorDanger
   },
   title: {
-    color: colorTitle
+    color: _.colorTitle
   },
   desc: {
-    color: colorDesc
+    color: _.colorDesc
   },
   sub: {
-    color: colorSub
+    color: _.colorSub
+  },
+  icon: {
+    color: _.colorIcon
   },
   border: {
-    color: colorBorder
+    color: _.colorBorder
   },
   underline: {
     textDecorationLine: 'underline',
-    textDecorationColor: colorMain
+    textDecorationColor: _.colorMain
   }
 })

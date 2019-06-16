@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 14:27:54
+ * @Last Modified time: 2019-06-17 01:35:25
  */
 import { computed } from 'mobx'
-import { rakuenStore, subjectStore } from '@stores'
 import store from '@utils/store'
+import { rakuenStore, subjectStore } from '@stores'
 
 export default class ScreenTopic extends store {
   init = () => {
@@ -80,4 +80,26 @@ export default class ScreenTopic extends store {
   }
 
   // -------------------- action --------------------
+  /**
+   * 回复主楼
+   */
+  doSubmit = content => {
+    const { topicId } = this.params
+    const { formhash } = this.topic
+    const { _reverse } = this.comments
+    rakuenStore.doReply(
+      {
+        topicId: topicId.match(/\d+/g)[0],
+        content,
+        formhash
+      },
+      () => {
+        this.fetchTopic(true, _reverse)
+      }
+    )
+  }
+
+  doReplySub = (id, userId, nickname) => {
+    console.log(id, userId, nickname)
+  }
 }

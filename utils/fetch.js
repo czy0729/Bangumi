@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-14 21:48:31
+ * @Last Modified time: 2019-06-17 00:15:25
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -23,23 +23,9 @@ import { info as UIInfo } from './ui'
 const OFFLINE = false
 const ERR_RETRY_COUNT = 5 // GET请求失败重试次数
 
-// 防止cookie过期
-const cacheHeaders = {
-  // Accept:
-  //   'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-  // 'Accept-Encoding': 'gzip, deflate, br',
-  // 'Accept-Language': 'zh-CN,zh;q=0.9',
-  'Cache-Control': 'max-age=0',
-  Connection: 'keep-alive'
-  // Host: HOST_NAME,
-  // Referer: `${HOST}/`,
-  // 'Upgrade-Insecure-Requests': 1
-}
-
 /**
  * 统一请求方法
  * 若GET请求异常, 默认一段时间后重试retryCb, 直到成功
- * @version 190303 1.2
  * @param {*} param
  */
 const retryCount = {}
@@ -72,27 +58,25 @@ export default async function _fetch({
   }
 
   let _url = url
-  if (!isGet) {
-    _config.method = 'POST'
-    _config.headers['content-type'] = 'application/x-www-form-urlencoded'
-    _config.body = urlStringify(body)
-  } else {
+  let toastKey
+  if (isGet) {
     body.state = getTimestamp() // 随机数防止接口CDN缓存
     _url = `${url}?${urlStringify(body)}`
-  }
-  log(info, _url)
 
-  let key
-  if (method === 'POST') {
-    key = Toast.loading('Loading...', 0)
-    log(info, _url, _config)
-  } else {
     log(info, _url)
+  } else {
+    _config.method = 'POST'
+    _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    _config.body = urlStringify(body)
+
+    toastKey = Toast.loading('Loading...', 0)
+    log(info, _url, _config)
   }
+
   return fetch(_url, _config)
     .then(response => {
-      if (key) {
-        Portal.remove(key)
+      if (toastKey) {
+        Portal.remove(toastKey)
       }
       return response.json()
     })
@@ -104,7 +88,7 @@ export default async function _fetch({
           retryCount[key] = 0
         }
       } else {
-        log(method, 'success', url, data, info, res)
+        log(method, 'success', url, _config, info, res)
       }
 
       // @issue 由于Bangumi提供的API没有统一返回数据
@@ -121,8 +105,8 @@ export default async function _fetch({
       return Promise.resolve(safe(res))
     })
     .catch(async err => {
-      if (key) {
-        Portal.remove(key)
+      if (toastKey) {
+        Portal.remove(toastKey)
       }
 
       // @issue Bangumi提供的API的代理经常报错, 我也就只能一直请求到成功为止了hhh
@@ -145,12 +129,12 @@ export default async function _fetch({
 
 /**
  * 请求获取HTML
- * @version 190323 1.0
  * @param {*} param
  */
 export async function fetchHTML({
   method = 'GET',
   url,
+  data = {},
   headers = {},
   cookie
 } = {}) {
@@ -158,62 +142,123 @@ export async function fetchHTML({
     return false
   }
 
+  // 避免userStore循环引用
   const userStore = require('../stores/user').default
   const { userAgent, cookie: userCookie } = userStore.userCookie
-  const data = {
-    method
+  const _config = {
+    method,
+    headers: {}
+  }
+  const isGet = method === 'GET'
+  const body = {
+    ...data
   }
 
   let _url = url.replace('!', '') // 叹号代表不携带cookie
   if (url.indexOf('!') !== 0) {
-    data.headers = {
+    _config.headers = {
       'User-Agent': userAgent,
 
       // 前面这个分号很重要, CDN那边经常给我加一堆乱七八糟的会搞坏cookie
       Cookie: cookie ? `; ${userCookie}; ${cookie};` : `; ${userCookie};`,
-      ...cacheHeaders,
       ...headers
     }
   }
 
-  // 加上时间戳防止缓存
-  const state = getTimestamp()
-  if (_url.indexOf('?') === -1) {
-    _url = `${_url}?state=${state}`
+  let toastKey
+  if (isGet) {
+    _config.headers['Cache-Control'] = 'max-age=0'
+    _config.headers.Connection = 'keep-alive'
+    body.state = getTimestamp() // 随机数防止接口CDN缓存
+    _url = `${_url}?${urlStringify(body)}`
   } else {
-    _url = `${_url}&state=${state}`
+    _config.method = 'POST'
+    _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    // _config.credentials ='includes'
+    _config.body = urlStringify(body)
+    toastKey = Toast.loading('Loading...', 0)
   }
-  log(_url, data)
-
-  let key
-  if (method === 'POST') {
-    key = Toast.loading('Loading...', 0)
-  }
+  log(_url, _config)
 
   const systemStore = require('../stores/system').default
-  return fetch(_url, data)
+  return fetch(_url, _config)
     .then(res => {
+      // if (res.headers) {
+      //   const setCookie = res.headers.get('set-cookie')
+      //   log(setCookie)
+
+      //   if (setCookie) {
+      //     const match = setCookie.match(/chii_sid=(.+?);/)
+      //     if (match) {
+      //       userStore.updateChiiSid(match[1])
+      //     }
+      //   }
+      // }
+
+      // 开发模式
       if (systemStore.state.dev) {
         Alert.alert(
           'dev',
-          `${JSON.stringify(_url)} ${JSON.stringify(data)} ${res._bodyInit}`
+          `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${res._bodyInit}`
         )
       }
-      if (key) {
-        Portal.remove(key)
+
+      // POST打印结果
+      if (!isGet) {
+        log(method, 'success', _url, _config, res)
+      }
+
+      // 清除Toast
+      if (toastKey) {
+        Portal.remove(toastKey)
       }
       return Promise.resolve(res.text())
     })
-    .catch(e => {
+    .catch(err => {
       if (systemStore.state.dev) {
         Alert.alert(
-          `${JSON.stringify(_url)} ${JSON.stringify(data)} ${JSON.stringify(e)}`
+          `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${JSON.stringify(
+            err
+          )}`
         )
       }
-      if (key) {
-        Portal.remove(key)
+      if (toastKey) {
+        Portal.remove(toastKey)
       }
+
+      return Promise.reject(err)
     })
+}
+
+/**
+ * 原始XMLHttpRequest
+ */
+export function xhr({ url, data = {} } = {}, success = Function.prototype) {
+  // 避免userStore循环引用
+  const userStore = require('../stores/user').default
+  const { userAgent, cookie: userCookie } = userStore.userCookie
+
+  // eslint-disable-next-line no-undef
+  const xhr = new XMLHttpRequest()
+  const toastKey = Toast.loading('Loading...', 0)
+
+  function callback() {
+    if (this.readyState === 4) {
+      if (toastKey) {
+        Portal.remove(toastKey)
+      }
+      success(this.responseText)
+      xhr.removeEventListener(callback)
+    }
+  }
+  xhr.addEventListener('readystatechange', callback)
+  xhr.open('POST', url)
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.setRequestHeader('Cookie', userCookie)
+  xhr.setRequestHeader('User-Agent', userAgent)
+  xhr.setRequestHeader('Host', 'bgm.tv')
+  xhr.setRequestHeader('accept-encoding', 'gzip, deflate')
+  xhr.send(urlStringify(data))
 }
 
 /**

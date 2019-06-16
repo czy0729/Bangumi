@@ -8,6 +8,7 @@
       {
         "alias": {
           "@assets": "./assets",
+          "@bgm": "./assets/images/bgm",
           "@components": "./components",
           "@constants": "./constants",
           "@screens": "./screens",

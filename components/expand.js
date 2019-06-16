@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-13 19:22:27
+ * @Last Modified time: 2019-06-17 00:38:55
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import _ from '@styles'
 import Touchable from './touchable'
 import Iconfont from './iconfont'

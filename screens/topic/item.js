@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 19:44:36
+ * @Last Modified time: 2019-06-17 01:34:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, RenderHtml } from '@components'
+import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
@@ -22,6 +22,7 @@ const imagesMaxWidthSub =
 const Item = (
   {
     index,
+    id,
     authorId,
     avatar,
     userId,
@@ -32,7 +33,7 @@ const Item = (
     time,
     sub = []
   },
-  { navigation }
+  { $, navigation }
 ) => {
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
@@ -76,6 +77,16 @@ const Item = (
           html={message}
           onLinkPress={href => appNavigate(href, navigation)}
         />
+        <Flex justify='end'>
+          <Touchable
+            style={styles.reply}
+            onPress={() => $.doReplySub(id, userId, userName)}
+          >
+            <Text type='icon' size={12}>
+              回复
+            </Text>
+          </Touchable>
+        </Flex>
         <View style={styles.sub}>
           {sub.map(item => {
             const isAuthor = authorId === item.userId
@@ -121,6 +132,13 @@ const Item = (
                     html={item.message}
                     onLinkPress={href => appNavigate(href, navigation)}
                   />
+                  <Flex justify='end'>
+                    <Touchable style={styles.reply}>
+                      <Text type='icon' size={12}>
+                        回复
+                      </Text>
+                    </Touchable>
+                  </Flex>
                 </Flex.Item>
               </Flex>
             )
@@ -130,7 +148,9 @@ const Item = (
     </Flex>
   )
 }
+
 Item.contextTypes = {
+  $: PropTypes.object,
   navigation: PropTypes.object
 }
 
@@ -164,5 +184,9 @@ const styles = StyleSheet.create({
   },
   subContent: {
     paddingVertical: _.md
+  },
+  reply: {
+    padding: _.sm,
+    marginRight: -_.sm
   }
 })

@@ -16,11 +16,6 @@ import { info } from '@utils/ui'
 import { userStore } from '@stores'
 import _, { colorMain } from '@styles'
 
-// 1. https://bgm.tv/login?chii_referer=%2Foauth%2Fauthorize%3Fclient_id%3Dbgm8885c4d524cd61fc%26response_type%3Dcode
-// 2. https://bgm.tv/oauth/authorize?client_id=bgm8885c4d524cd61fc&response_type=code
-// 3. https://bgm.tv/oauth/authorize?response_type=code&client_id=bgm8885c4d524cd61fc&redirect_uri=https%3A%2F%2Fbgm.tv
-// 4. https://bgm.tv/?code=5c5423da2ba2d14b2a86de7adbf5f4a29d26d313
-
 const uri = `${OAUTH_URL}?${urlStringify({
   response_type: 'code',
   client_id: APP_ID,

@@ -2,17 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-13 23:17:09
+ * @Last Modified time: 2019-06-16 17:20:01
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, ScrollView, View } from 'react-native'
 import { TextareaItem } from '@ant-design/react-native'
 import { Text } from '@components'
+import { getStorage, setStorage } from '@utils'
 import _ from '@styles'
 import Flex from './flex'
 import Touchable from './touchable'
 import Iconfont from './iconfont'
 import KeyboardSpacer from './keyboard-spacer'
+import Bgm from './bgm'
+
+const namespace = 'c-fixed-textarea'
+const maxHistoryCount = 7
 
 export default class FixedTextarea extends React.Component {
   static defaultProps = {
@@ -22,10 +27,25 @@ export default class FixedTextarea extends React.Component {
 
   state = {
     value: this.props.value,
-    focus: false
+    showTextarea: false,
+    showBgm: false,
+    showKeyboardSpacer: false,
+    keyboardHeight: 0,
+    history: []
   }
 
   ref
+
+  async componentDidMount() {
+    const storage = (await getStorage(namespace)) || '15'
+    const history = storage
+      .split(',')
+      .filter(item => item !== '')
+      .map(item => parseInt(item))
+    this.setState({
+      history
+    })
+  }
 
   componentWillReceiveProps(nextProps) {
     const { value } = nextProps
@@ -36,9 +56,19 @@ export default class FixedTextarea extends React.Component {
     }
   }
 
+  onToggle = (open, keyboardHeight) => {
+    if (open) {
+      this.setState({
+        showKeyboardSpacer: true,
+        keyboardHeight
+      })
+    }
+  }
+
   onFocus = () => {
     this.setState({
-      focus: true
+      showTextarea: true,
+      showBgm: false
     })
 
     setTimeout(() => {
@@ -49,8 +79,15 @@ export default class FixedTextarea extends React.Component {
 
   onBlur = () => {
     this.setState({
-      focus: false
+      showTextarea: false,
+      showBgm: false,
+      showKeyboardSpacer: false
     })
+
+    setTimeout(() => {
+      const ref = this.ref.textAreaRef
+      ref.blur()
+    }, 0)
   }
 
   onChange = value => {
@@ -60,34 +97,37 @@ export default class FixedTextarea extends React.Component {
   }
 
   // @todo 暂时没有对选择了一段文字的情况做判断
-  addSymbolText = symbol => {
+  onAddSymbolText = symbol => {
     const ref = this.ref.textAreaRef
     ref.focus()
 
-    // 获取光标位置
-    const selection = ref._lastNativeSelection || null
     const { value } = this.state
-    let index = value.length
-    if (selection) {
-      index = selection.start
-    }
+    const index = this.getSelection()
 
-    // 插入值
+    // 插入值, 如[s]光标位置[/s]
     const left = `${value.slice(0, index)}[${symbol}]`
     const right = `[/${symbol}]${value.slice(index)}`
     this.setState({
       value: `${left}${right}`
     })
 
-    // 重新设定光标位置
-    setTimeout(() => {
-      ref.setNativeProps({
-        selection: {
-          start: left.length,
-          end: left.length
-        }
-      })
+    this.setSelection(left.length)
+  }
+
+  // 选择bgm表情
+  onSelectBgm = bgmIndex => {
+    const { value } = this.state
+    const index = this.getSelection()
+
+    // 插入值, 如(bgm38), bgm名称跟文件名偏移量是23
+    const left = `${value.slice(0, index)}(bgm${parseInt(bgmIndex) + 23})`
+    const right = `${value.slice(index)}`
+    this.setState({
+      value: `${left}${right}`
     })
+
+    this.setSelection(left.length)
+    this.setRecentUseBgm(bgmIndex)
   }
 
   onSubmit = () => {
@@ -99,20 +139,106 @@ export default class FixedTextarea extends React.Component {
     const { onSubmit } = this.props
     onSubmit(value)
     this.clear()
+    this.onBlur()
   }
 
   clear = () => {
     this.setState({
       value: '',
-      focus: false
+      showTextarea: false
     })
   }
 
+  // 获取光标位置
+  getSelection = () => {
+    const ref = this.ref.textAreaRef
+    const selection = ref._lastNativeSelection || null
+    const { value } = this.state
+    let index = value.length
+    if (selection) {
+      index = selection.start
+    }
+    return index
+  }
+
+  // 设定光标位置
+  setSelection = start => {
+    const ref = this.ref.textAreaRef
+    setTimeout(() => {
+      ref.setNativeProps({
+        selection: {
+          start,
+          end: start
+        }
+      })
+    })
+  }
+
+  showBgm = () => {
+    this.setState({
+      showBgm: true
+    })
+
+    setTimeout(() => {
+      const ref = this.ref.textAreaRef
+      ref.blur()
+    }, 0)
+  }
+
+  hideBgm = () => {
+    this.setState({
+      showBgm: false
+    })
+
+    setTimeout(() => {
+      const ref = this.ref.textAreaRef
+      ref.focus()
+    }, 0)
+  }
+
+  // 本地化最近使用bgm, 最多7个
+  setRecentUseBgm = async bgmIndex => {
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    let history = [...this.state.history]
+    if (history.includes(bgmIndex)) {
+      history = history.filter(item => item !== bgmIndex)
+      history.unshift(bgmIndex)
+    } else {
+      history.unshift(bgmIndex)
+    }
+    if (history.length > maxHistoryCount) {
+      history = history.filter((item, index) => index < maxHistoryCount)
+    }
+
+    this.setState({
+      history
+    })
+    setStorage(namespace, history.join())
+  }
+
   renderBtn(text, symbol) {
+    if (text === 'BGM') {
+      const { showBgm } = this.state
+      return (
+        <Touchable
+          style={styles.toolBarBtn}
+          onPress={() => {
+            if (showBgm) {
+              this.hideBgm()
+            } else {
+              this.showBgm()
+            }
+          }}
+        >
+          <Text type={showBgm ? 'main' : 'sub'}>{text}</Text>
+        </Touchable>
+      )
+    }
+
     return (
       <Touchable
         style={styles.toolBarBtn}
-        onPress={() => this.addSymbolText(symbol)}
+        onPress={() => this.onAddSymbolText(symbol)}
       >
         <Text type='sub'>{text}</Text>
       </Touchable>
@@ -120,13 +246,14 @@ export default class FixedTextarea extends React.Component {
   }
 
   renderToolBar() {
-    const { focus } = this.state
-    if (!focus) {
+    const { showTextarea, showBgm } = this.state
+    if (!(showTextarea || showBgm)) {
       return null
     }
 
     return (
       <Flex style={styles.toolBar}>
+        {this.renderBtn('BGM')}
         {this.renderBtn('加粗', 'b')}
         {this.renderBtn('斜体', 'i')}
         {this.renderBtn('下划线', 'u')}
@@ -137,38 +264,90 @@ export default class FixedTextarea extends React.Component {
   }
 
   renderTextarea() {
-    const { value, focus } = this.state
+    const { value, showTextarea, showBgm } = this.state
     const canSend = value !== ''
     return (
-      <Flex align='start'>
-        <Flex.Item>
-          <TextareaItem
-            ref={ref => (this.ref = ref)}
-            style={styles.textarea}
-            value={value}
-            placeholder='不吐槽一下吗'
-            rows={focus ? 6 : 1}
-            selectionColor={_.colorMain}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
-            onChange={this.onChange}
-          />
-        </Flex.Item>
-        <Touchable style={styles.send} onPress={this.onSubmit}>
-          <Iconfont
-            name='navigation'
-            color={canSend ? _.colorMain : _.colorIcon}
-          />
-        </Touchable>
-      </Flex>
+      <View style={_.container.wind}>
+        <Flex style={styles.textareaContainer} align='start'>
+          <Flex.Item>
+            <TextareaItem
+              ref={ref => (this.ref = ref)}
+              style={styles.textarea}
+              value={value}
+              placeholder='不吐槽一下吗'
+              rows={showTextarea || showBgm ? 6 : 1}
+              selectionColor={_.colorMain}
+              clear
+              onFocus={this.onFocus}
+              onChange={this.onChange}
+            />
+          </Flex.Item>
+          <Touchable style={styles.send} onPress={this.onSubmit}>
+            <Iconfont
+              name='navigation'
+              color={canSend ? _.colorMain : _.colorIcon}
+            />
+          </Touchable>
+        </Flex>
+      </View>
+    )
+  }
+
+  renderBgm() {
+    const { showTextarea, keyboardHeight, history } = this.state
+    if (!showTextarea || !keyboardHeight) {
+      return null
+    }
+
+    return (
+      <ScrollView
+        style={{
+          height: keyboardHeight - 2
+        }}
+        contentContainerStyle={styles.bgmContainer}
+      >
+        <Text style={_.container.wind} size={12} type='sub'>
+          常用
+        </Text>
+        <Flex wrap='wrap'>
+          {history.map(item => (
+            <Touchable
+              key={item}
+              style={styles.bgm}
+              onPress={() => this.onSelectBgm(item)}
+            >
+              <Flex justify='center'>
+                <Bgm index={item} />
+              </Flex>
+            </Touchable>
+          ))}
+        </Flex>
+        <Text style={[_.container.wind, _.mt.sm]} size={12} type='sub'>
+          全部
+        </Text>
+        <Flex wrap='wrap'>
+          {Array.from(new Array(100)).map((item, index) => (
+            <Touchable
+              // eslint-disable-next-line react/no-array-index-key
+              key={index + 1}
+              style={styles.bgm}
+              onPress={() => this.onSelectBgm(index + 1)}
+            >
+              <Flex justify='center'>
+                <Bgm index={index + 1} />
+              </Flex>
+            </Touchable>
+          ))}
+        </Flex>
+      </ScrollView>
     )
   }
 
   render() {
-    const { focus } = this.state
+    const { showTextarea, showBgm, showKeyboardSpacer } = this.state
     return (
       <>
-        {focus && (
+        {(showTextarea || showBgm) && (
           <Touchable
             style={styles.mask}
             withoutFeedback
@@ -178,8 +357,13 @@ export default class FixedTextarea extends React.Component {
         <View style={styles.container}>
           {this.renderToolBar()}
           {this.renderTextarea()}
-          <KeyboardSpacer />
+          {this.renderBgm()}
         </View>
+        {!showKeyboardSpacer && (
+          <View style={{ display: 'none' }}>
+            <KeyboardSpacer onToggle={this.onToggle} />
+          </View>
+        )}
       </>
     )
   }
@@ -200,7 +384,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     zIndex: 1,
-    paddingHorizontal: _.wind,
     marginBottom: -4,
     backgroundColor: _.colorPlain,
     borderTopWidth: StyleSheet.hairlineWidth,
@@ -208,16 +391,30 @@ const styles = StyleSheet.create({
   },
   toolBar: {
     paddingVertical: _.sm,
+    paddingHorizontal: _.wind,
     marginLeft: -_.sm
   },
   toolBarBtn: {
     padding: _.sm,
     marginRight: _.sm
   },
+  bgmContainer: {
+    paddingVertical: _.sm
+  },
+  bgm: {
+    width: '14.28%',
+    paddingVertical: _.md
+  },
+  textareaContainer: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: _.colorBorder
+  },
   textarea: {
     paddingVertical: _.sm,
     paddingHorizontal: 0,
-    ..._.fontSize(14)
+    marginBottom: -StyleSheet.hairlineWidth,
+    fontSize: 14,
+    lineHeight: 22
   },
   send: {
     padding: _.sm,

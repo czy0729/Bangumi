@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-14 22:03:39
+ * @Last Modified time: 2019-06-16 17:01:46
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -255,15 +255,6 @@ export default class Image extends React.Component {
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
-        // image = (
-        //   <AnimateImage
-        //     style={_image}
-        //     tint='light'
-        //     preview={IMG_EMPTY}
-        //     uri={uri}
-        //     {...other}
-        //   />
-        // )
         image = <RNImage style={_image} source={{ uri }} {...other} />
       } else {
         image = <View style={_image} />

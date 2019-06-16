@@ -8,6 +8,12 @@
 
 ---
 
+#### Download 下载
+
+[APK 下载地址](https://github.com/czy0729/Bangumi/releases)
+
+---
+
 #### Demo 在线演示
 
 [expo 项目主页](https://expo.io/@a402731062/bangumi)
@@ -15,13 +21,8 @@
 <img src="./preview/expo-qr.png" width="240" alt="expo-qr" />
 
 [请先安装 expo app](https://expo.io/tools)
-[这个貌似不用梯子](https://apkpure.com/expo/host.exp.exponent)
 
----
-
-#### Download 下载
-
-[APK 下载地址](https://github.com/czy0729/Bangumi/releases)
+[这个貌似不用梯子, 但有可能不是最新](https://apkpure.com/expo/host.exp.exponent)
 
 ---
 

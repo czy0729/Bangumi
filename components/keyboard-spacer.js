@@ -4,7 +4,7 @@
  * @Doc https://github.com/Andr3wHur5t/react-native-keyboard-spacer/blob/master/KeyboardSpacer.js
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-13 00:14:35
+ * @Last Modified time: 2019-06-16 05:49:34
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -42,7 +42,7 @@ export default class KeyboardSpacer extends React.Component {
 
   static defaultProps = {
     topSpacing: 0,
-    onToggle: () => null
+    onToggle: Function.prototype
   }
 
   constructor(props, context) {
@@ -93,6 +93,7 @@ export default class KeyboardSpacer extends React.Component {
     // however only the keyboard toolbar is showing if there should be one
     const keyboardSpace =
       screenHeight - event.endCoordinates.screenY + this.props.topSpacing
+
     this.setState(
       {
         keyboardSpace,

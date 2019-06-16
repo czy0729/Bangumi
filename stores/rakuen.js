@@ -4,14 +4,19 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 17:55:44
+ * @Last Modified time: 2019-06-17 00:54:46
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
-import { HOST, LIST_EMPTY, LIST_LIMIT } from '@constants'
-import { HTML_RAKUEN, HTML_TOPIC, HTML_NOTIFY } from '@constants/html'
+import { IOS, HOST, LIST_EMPTY, LIST_LIMIT } from '@constants'
+import {
+  HTML_RAKUEN,
+  HTML_TOPIC,
+  HTML_NOTIFY,
+  HTML_ACTION_RAKUEN_REPLY
+} from '@constants/html'
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 import store from '@utils/store'
 
@@ -39,7 +44,9 @@ const INIT_TOPIC = {
   userSign: '', // 作者签名
   time: '', // 发帖时间
   title: '', // 帖子标题
-  message: '' // 帖子内容
+  message: '', // 帖子内容
+  formhash: '', // 回复表单凭据
+  lastview: '' // 回复表单时间戳
 }
 // const INIT_COMMENTS_ITEM = {}
 
@@ -348,6 +355,21 @@ class Rakuen extends store {
       this.setStorage(key, undefined, namespace)
     }
   }
+
+  doReply = async ({ topicId, type = 'group/topic', ...other }, success) => {
+    xhr(
+      {
+        url: HTML_ACTION_RAKUEN_REPLY(topicId, type),
+        data: {
+          ...other,
+          related_photo: 0,
+          lastview: getTimestamp(),
+          submit: 'submit'
+        }
+      },
+      success
+    )
+  }
 }
 
 export default new Rakuen()
@@ -408,7 +430,8 @@ async function _fetchRakuen({ scope, type } = {}) {
 async function _fetchTopic({ topicId = 0 }, reverse) {
   // -------------------- 请求HTML --------------------
   const raw = await fetchHTML({
-    url: `!${HTML_TOPIC(topicId)}`
+    // @todo 这统一帖子内容的接口IOS带cookie访问直接掉线, 蛋疼
+    url: IOS ? `!${HTML_TOPIC(topicId)}` : HTML_TOPIC(topicId)
   })
   const HTML = HTMLTrim(raw)
 
@@ -417,11 +440,19 @@ async function _fetchTopic({ topicId = 0 }, reverse) {
 
   // 帖子
   let topic = {}
+
+  // 回复表单凭据
+  const matchHTML = HTML.match(
+    /<input type="hidden" name="formhash" value="(.+?)" \/>/
+  )
+  if (matchHTML) {
+    topic.formhash = matchHTML[1]
+  }
+
+  // 分组信息
   const groupHTML = HTML.match(
     /<div id="pageHeader">(.+?)<\/div><hr class="board" \/>/
   )
-
-  // 分组信息
   if (groupHTML) {
     const tree = HTMLToTree(groupHTML[1])
     topic.title = tree.children[0].text[1] || ''
@@ -572,8 +603,7 @@ function getTopFloorAttrs(tree) {
   const id = ''
 
   node = findTreeNode(children, 'div > small|text')
-  const time = node ? node[0].text[0].replace('#1 - ', '') : ''
-
+  const time = node ? node[0].text[0].replace(/#1 - | \/ /, '') : ''
   const floor = '#1'
 
   node = findTreeNode(children, 'a > span|style~background-image')
@@ -609,7 +639,7 @@ function getCommentAttrs(tree) {
   const id = tree.attrs.id.replace('post_', '')
 
   node = findTreeNode(children, 'div|text&class=re_info')
-  const time = node ? node[0].text[0].replace(' - ', '') : ''
+  const time = node ? node[0].text[0].replace(/ - | \/ /g, '') : ''
 
   node = findTreeNode(children, 'div > a|class=floor-anchor')
   const floor = node ? node[0].text[0] : ''

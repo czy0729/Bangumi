@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-10 22:34:45
+ * @Last Modified time: 2019-06-16 17:55:10
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -75,7 +75,7 @@ class Topic extends React.Component {
           onFooterRefresh={$.fetchTopic}
           {...withTransitionHeader.listViewProps}
         />
-        <FixedTextarea />
+        <FixedTextarea onSubmit={$.doSubmit} />
       </>
     )
   }
@@ -87,6 +87,6 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorPlain
   },
   contentContainerStyle: {
-    paddingBottom: _.space
+    paddingBottom: _.bottom
   }
 })

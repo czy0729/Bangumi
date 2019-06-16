@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-14 21:20:27
+ * @Last Modified time: 2019-06-16 20:16:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -45,7 +45,7 @@ const HomeTab = createBottomTabNavigator(
     Rakuen
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Rakuen',
     tabBarComponent: props => {
       if (IOS) {
         return (
