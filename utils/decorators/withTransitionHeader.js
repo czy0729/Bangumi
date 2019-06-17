@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 19:58:07
+ * @Last Modified time: 2019-06-17 12:41:50
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Popover, Menu, Iconfont } from '@components'
 import { StatusBar, IconBack } from '@screens/_'
@@ -72,6 +72,17 @@ const withTransitionHeader = ({
             >
               <Iconfont size={24} name='more' color={headerTintColor} />
             </Popover>
+          )
+        } else {
+          headerRight = (
+            <View
+              style={{
+                padding: _.sm,
+                marginRight: -_.sm
+              }}
+            >
+              <Iconfont size={24} name='more' color={headerTintColor} />
+            </View>
           )
         }
 

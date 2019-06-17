@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-14 21:09:55
+ * @Last Modified time: 2019-06-18 01:11:33
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -30,7 +30,7 @@ export const GITHUB_URL = 'https://github.com/czy0729/Bangumi'
 export const GITHUB_RELEASE_URL = `${GITHUB_URL}/releases`
 export const GITHUB_RELEASE_REPOS_URL =
   'https://api.github.com/repos/czy0729/Bangumi/releases'
-export const GITHUB_RELEASE_VERSION = '0.5-alpha' // since 20190602
+export const GITHUB_RELEASE_VERSION = '0.6-alpha' // since 20190618
 
 // 图片
 // 白

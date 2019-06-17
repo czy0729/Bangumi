@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-16 17:55:10
+ * @Last Modified time: 2019-06-17 23:32:16
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -31,6 +31,8 @@ class Topic extends React.Component {
     navigation: PropTypes.object
   }
 
+  fixedTextarea
+
   async componentDidMount() {
     const { $, navigation } = this.context
     await $.init()
@@ -55,8 +57,13 @@ class Topic extends React.Component {
     })
   }
 
+  showFixedTextare = () => {
+    this.fixedTextarea.onFocus()
+  }
+
   render() {
     const { $ } = this.context
+    const { placeholder } = $.state
     const { onScroll } = this.props
     return (
       <>
@@ -68,14 +75,26 @@ class Topic extends React.Component {
           scrollEventThrottle={32}
           ListHeaderComponent={<Top />}
           renderItem={({ item, index }) => (
-            <Item index={index} authorId={$.topic.userId} {...item} />
+            <Item
+              index={index}
+              authorId={$.topic.userId}
+              {...item}
+              showFixedTextare={this.showFixedTextare}
+            />
           )}
           onScroll={onScroll}
           onHeaderRefresh={() => $.fetchTopic(true)}
           onFooterRefresh={$.fetchTopic}
           {...withTransitionHeader.listViewProps}
         />
-        <FixedTextarea onSubmit={$.doSubmit} />
+        {$.isWebLogin && (
+          <FixedTextarea
+            ref={ref => (this.fixedTextarea = ref)}
+            placeholder={placeholder ? `回复 ${placeholder}` : undefined}
+            onClose={$.closeFixedTextarea}
+            onSubmit={$.doSubmit}
+          />
+        )}
       </>
     )
   }

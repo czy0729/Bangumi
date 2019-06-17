@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 01:34:39
+ * @Last Modified time: 2019-06-18 00:38:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,7 +22,6 @@ const imagesMaxWidthSub =
 const Item = (
   {
     index,
-    id,
     authorId,
     avatar,
     userId,
@@ -31,7 +30,9 @@ const Item = (
     message,
     floor,
     time,
-    sub = []
+    sub = [],
+    replySub,
+    showFixedTextare
   },
   { $, navigation }
 ) => {
@@ -77,16 +78,21 @@ const Item = (
           html={message}
           onLinkPress={href => appNavigate(href, navigation)}
         />
-        <Flex justify='end'>
-          <Touchable
-            style={styles.reply}
-            onPress={() => $.doReplySub(id, userId, userName)}
-          >
-            <Text type='icon' size={12}>
-              回复
-            </Text>
-          </Touchable>
-        </Flex>
+        {!!replySub && (
+          <Flex justify='end'>
+            <Touchable
+              style={styles.reply}
+              onPress={() => {
+                $.showFixedTextarea(userName, replySub)
+                showFixedTextare()
+              }}
+            >
+              <Text type='icon' size={12}>
+                回复
+              </Text>
+            </Touchable>
+          </Flex>
+        )}
         <View style={styles.sub}>
           {sub.map(item => {
             const isAuthor = authorId === item.userId
@@ -132,13 +138,25 @@ const Item = (
                     html={item.message}
                     onLinkPress={href => appNavigate(href, navigation)}
                   />
-                  <Flex justify='end'>
-                    <Touchable style={styles.reply}>
-                      <Text type='icon' size={12}>
-                        回复
-                      </Text>
-                    </Touchable>
-                  </Flex>
+                  {!!item.replySub && (
+                    <Flex justify='end'>
+                      <Touchable
+                        style={styles.reply}
+                        onPress={() => {
+                          $.showFixedTextarea(
+                            item.userName,
+                            item.replySub,
+                            item.message
+                          )
+                          showFixedTextare()
+                        }}
+                      >
+                        <Text type='icon' size={12}>
+                          回复
+                        </Text>
+                      </Touchable>
+                    </Flex>
+                  )}
                 </Flex.Item>
               </Flex>
             )
@@ -187,6 +205,7 @@ const styles = StyleSheet.create({
   },
   reply: {
     padding: _.sm,
-    marginRight: -_.sm
+    marginRight: -_.sm,
+    marginBottom: -_.sm
   }
 })

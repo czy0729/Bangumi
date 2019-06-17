@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 00:30:31
+ * @Last Modified time: 2019-06-18 00:41:25
  */
 import { AsyncStorage } from 'react-native'
 import { WebBrowser } from 'expo'
@@ -77,7 +77,7 @@ export function pad(n) {
  * @version 180417 1.0
  * @return {Promise}
  */
-export function sleep(ms = 1600) {
+export function sleep(ms = 800) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
@@ -327,9 +327,10 @@ export function parseIOS8601(isostr, format = 'Y-m-d') {
  * @param  {String} date  指定时间，例2018/11/11 00:00:00
  * @return {Int}    时间戳
  */
-export function getTimestamp(date) {
-  if (date) {
-    return Math.floor(new Date(date.replace(/-/g, '/')).valueOf() / 1000)
+export function getTimestamp(date = '') {
+  const _date = date.trim()
+  if (_date) {
+    return Math.floor(new Date(_date.replace(/-/g, '/')).valueOf() / 1000)
   }
   return Math.floor(new Date().valueOf() / 1000)
 }

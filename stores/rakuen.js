@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 00:54:46
+ * @Last Modified time: 2019-06-18 01:07:25
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -21,9 +21,9 @@ import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 import store from '@utils/store'
 
 const namespace = 'Rakuen'
+const defaultScope = MODEL_RAKUEN_SCOPE.getValue('全局聚合')
+const defaultType = MODEL_RAKUEN_TYPE.getValue('全部')
 const LIST_LIMIT_COMMENTS = 6
-const initScope = MODEL_RAKUEN_SCOPE.getValue('全局聚合')
-const initType = MODEL_RAKUEN_TYPE.getValue('全部')
 
 // const INIT_RAKUEN_ITEM = {
 //   group: '', // 小组名称
@@ -102,7 +102,7 @@ class Rakuen extends store {
    * @param {*} scope 范围
    * @param {*} type 类型
    */
-  rakuen(scope = initScope, type = initType) {
+  rakuen(scope = defaultScope, type = defaultType) {
     return computed(
       () => this.state.rakuen[`${scope}|${type}`] || LIST_EMPTY
     ).get()
@@ -137,7 +137,10 @@ class Rakuen extends store {
    * @issue 官网没有分页, 这接口居然一次返回250项
    * 为了提高体验, 做模拟分页加载效果
    */
-  async fetchRakuen({ scope = initScope, type = initType } = {}, refresh) {
+  async fetchRakuen(
+    { scope = defaultScope, type = defaultType } = {},
+    refresh
+  ) {
     let res
     const key = 'rakuen'
     const stateKey = `${scope}|${type}`
@@ -356,6 +359,9 @@ class Rakuen extends store {
     }
   }
 
+  /**
+   * 回复帖子 | 回复帖子子回复
+   */
   doReply = async ({ topicId, type = 'group/topic', ...other }, success) => {
     xhr(
       {
@@ -430,19 +436,20 @@ async function _fetchRakuen({ scope, type } = {}) {
 async function _fetchTopic({ topicId = 0 }, reverse) {
   // -------------------- 请求HTML --------------------
   const raw = await fetchHTML({
-    // @todo 这统一帖子内容的接口IOS带cookie访问直接掉线, 蛋疼
+    // @todo 这统一帖子内容的接口IOS带cookie访问直接掉线, 需解决
     url: IOS ? `!${HTML_TOPIC(topicId)}` : HTML_TOPIC(topicId)
   })
   const HTML = HTMLTrim(raw)
 
   // -------------------- 分析内容 --------------------
   let node
+  let matchHTML
 
   // 帖子
   let topic = {}
 
   // 回复表单凭据
-  const matchHTML = HTML.match(
+  matchHTML = HTML.match(
     /<input type="hidden" name="formhash" value="(.+?)" \/>/
   )
   if (matchHTML) {
@@ -450,11 +457,11 @@ async function _fetchTopic({ topicId = 0 }, reverse) {
   }
 
   // 分组信息
-  const groupHTML = HTML.match(
+  matchHTML = HTML.match(
     /<div id="pageHeader">(.+?)<\/div><hr class="board" \/>/
   )
-  if (groupHTML) {
-    const tree = HTMLToTree(groupHTML[1])
+  if (matchHTML) {
+    const tree = HTMLToTree(matchHTML[1])
     topic.title = tree.children[0].text[1] || ''
 
     node = findTreeNode(tree.children, 'h1 > a > img')
@@ -466,11 +473,11 @@ async function _fetchTopic({ topicId = 0 }, reverse) {
   }
 
   // 楼主层信息
-  const topFloorHTML = HTML.match(
+  matchHTML = HTML.match(
     /<div id="post_\d+" class="postTopic light_odd clearit">(.+?)<\/div><div id="sliderContainer"/
   )
-  if (topFloorHTML) {
-    const tree = HTMLToTree(topFloorHTML[1])
+  if (matchHTML) {
+    const tree = HTMLToTree(matchHTML[1])
     topic = {
       ...topic,
       ...getTopFloorAttrs(tree)
@@ -478,19 +485,26 @@ async function _fetchTopic({ topicId = 0 }, reverse) {
   }
 
   // 帖子内容
-  const topicHTML = HTML.match(
+  matchHTML = HTML.match(
     /<div class="topic_content">(.+?)<\/div><\/div><\/div><div id="sliderContainer"/
   )
-  if (topicHTML) {
-    topic.message = topicHTML[1]
+  if (matchHTML) {
+    topic.message = matchHTML[1]
   }
 
   // -------------------- 分析留言 --------------------
   // 留言层信息
-  const commentHTML = HTML.match(
-    /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><div style="margin-top/
-  )
-  const comments = analysisComments(commentHTML, reverse)
+  matchHTML =
+    // 登陆的情况
+    HTML.match(
+      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><hr/
+    ) ||
+    // 没登陆的情况
+    HTML.match(
+      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><div style="margin-top/
+    )
+
+  const comments = analysisComments(matchHTML, reverse)
 
   return Promise.resolve({
     topic,
@@ -500,23 +514,23 @@ async function _fetchTopic({ topicId = 0 }, reverse) {
 
 /**
  * 分析留言层信息
- * @param {*} commentHTML
+ * @param {*} HTML
  */
-export function analysisComments(commentHTML, reverse) {
+export function analysisComments(HTML, reverse) {
   const comments = []
-  if (!commentHTML) {
+  if (!HTML) {
     return comments
   }
 
   // 回复内容需要渲染html就不能使用node查找了, 而且子回复也在里面
-  let messageHTML = commentHTML[1]
+  let messageHTML = HTML[1]
     .match(/<div class="reply_content">(.+?)<\/div><\/div><\/div><\/div>/g)
     .map(item => item.replace(/^<div class="reply_content">|<\/div>$/g, ''))
   if (reverse && messageHTML.length) {
     messageHTML = messageHTML.reverse()
   }
 
-  const tree = HTMLToTree(commentHTML[1])
+  const tree = HTMLToTree(HTML[1])
   let { children } = tree
   if (reverse && children.length) {
     children = children.reverse()
@@ -583,6 +597,7 @@ export function analysisComments(commentHTML, reverse) {
           .match(/<div class="message">(.+?)<\/div><\/div>/)
       message = match ? match[1] : ''
     }
+
     comments.push({
       ...getCommentAttrs(item),
       message,
@@ -598,34 +613,48 @@ export function analysisComments(commentHTML, reverse) {
  * @param {*} tree
  */
 function getTopFloorAttrs(tree) {
-  let node
-  const { children } = tree
-  const id = ''
+  try {
+    let node
+    const { children } = tree
+    const id = ''
 
-  node = findTreeNode(children, 'div > small|text')
-  const time = node ? node[0].text[0].replace(/#1 - | \/ /, '') : ''
-  const floor = '#1'
+    node = findTreeNode(children, 'div > small|text')
+    const time = node ? node[0].text[0].replace(/#1 - | \/ /g, '') : ''
+    const floor = '#1'
 
-  node = findTreeNode(children, 'a > span|style~background-image')
-  const avatar = node
-    ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
-    : ''
+    node = findTreeNode(children, 'a > span|style~background-image')
+    const avatar = node
+      ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
+      : ''
 
-  node = findTreeNode(children, 'div > a|text&class~l&href~/user/')
-  const userId = node ? node[0].attrs.href.replace('/user/', '') : ''
-  const userName = node ? node[0].text[0] : ''
+    node = findTreeNode(children, 'div > a|text&class~l&href~/user/')
+    const userId = node ? node[0].attrs.href.replace('/user/', '') : ''
+    const userName = node ? node[0].text[0] : ''
 
-  node = findTreeNode(children, 'div > span|text&class=tip_j')
-  const userSign = node ? node[0].text[0] : ''
+    node = findTreeNode(children, 'div > span|text&class=tip_j')
+    const userSign = node ? node[0].text[0] : ''
+
+    return {
+      id,
+      time,
+      floor,
+      avatar,
+      userId,
+      userName: HTMLDecode(userName),
+      userSign: HTMLDecode(userSign)
+    }
+  } catch (error) {
+    // do nothing
+  }
 
   return {
-    id,
-    time,
-    floor,
-    avatar,
-    userId,
-    userName: HTMLDecode(userName),
-    userSign: HTMLDecode(userSign)
+    id: '',
+    time: '',
+    floor: '',
+    avatar: '',
+    userId: '',
+    userName: '',
+    userSign: ''
   }
 }
 
@@ -634,35 +663,55 @@ function getTopFloorAttrs(tree) {
  * @param {*} tree
  */
 function getCommentAttrs(tree) {
-  let node
-  const { children } = tree
-  const id = tree.attrs.id.replace('post_', '')
+  try {
+    let node
+    const { children } = tree
+    const id = tree.attrs.id.replace('post_', '')
 
-  node = findTreeNode(children, 'div|text&class=re_info')
-  const time = node ? node[0].text[0].replace(/ - | \/ /g, '') : ''
+    node = findTreeNode(children, 'div|text&class=re_info')
+    const time = node ? node[0].text[0].replace(/ - |\/ /g, '') : ''
 
-  node = findTreeNode(children, 'div > a|class=floor-anchor')
-  const floor = node ? node[0].text[0] : ''
+    node = findTreeNode(children, 'div > a|class=floor-anchor')
+    const floor = node ? node[0].text[0] : ''
 
-  node = findTreeNode(children, 'a > span|style~background-image')
-  const avatar = node
-    ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
-    : ''
+    node = findTreeNode(children, 'a > span|style~background-image')
+    const avatar = node
+      ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
+      : ''
 
-  node = findTreeNode(children, 'div > a|text&class~l&href~/user/')
-  const userId = node ? node[0].attrs.href.replace('/user/', '') : ''
-  const userName = node ? node[0].text[0] : ''
+    node = findTreeNode(children, 'div > a|text&class~l&href~/user/')
+    const userId = node ? node[0].attrs.href.replace('/user/', '') : ''
+    const userName = node ? node[0].text[0] : ''
 
-  node = findTreeNode(children, 'div > span|text&class=tip_j')
-  const userSign = node ? node[0].text[0] : ''
+    node = findTreeNode(children, 'div > span|text&class=tip_j')
+    const userSign = node ? node[0].text[0] : ''
+
+    // sub reply
+    node = findTreeNode(children, 'div > a|onclick')
+    const replySub = node ? node[0].attrs.onclick : ''
+
+    return {
+      id,
+      time,
+      floor,
+      avatar,
+      userId,
+      userName: HTMLDecode(userName),
+      userSign: HTMLDecode(userSign),
+      replySub
+    }
+  } catch (error) {
+    // do nothing
+  }
 
   return {
-    id,
-    time,
-    floor,
-    avatar,
-    userId,
-    userName: HTMLDecode(userName),
-    userSign: HTMLDecode(userSign)
+    id: '',
+    time: '',
+    floor: '',
+    avatar: '',
+    userId: '',
+    userName: '',
+    userSign: '',
+    replySub: ''
   }
 }

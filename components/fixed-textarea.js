@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-16 17:20:01
+ * @Last Modified time: 2019-06-17 22:53:07
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -22,6 +22,8 @@ const maxHistoryCount = 7
 export default class FixedTextarea extends React.Component {
   static defaultProps = {
     value: '',
+    placeholder: '',
+    onClose: Function.prototype,
     onSubmit: Function.prototype // value => {}
   }
 
@@ -78,6 +80,9 @@ export default class FixedTextarea extends React.Component {
   }
 
   onBlur = () => {
+    const { onClose } = this.props
+    onClose()
+
     this.setState({
       showTextarea: false,
       showBgm: false,
@@ -143,6 +148,9 @@ export default class FixedTextarea extends React.Component {
   }
 
   clear = () => {
+    const { onClose } = this.props
+    onClose()
+
     this.setState({
       value: '',
       showTextarea: false
@@ -264,6 +272,7 @@ export default class FixedTextarea extends React.Component {
   }
 
   renderTextarea() {
+    const { placeholder } = this.props
     const { value, showTextarea, showBgm } = this.state
     const canSend = value !== ''
     return (
@@ -274,7 +283,7 @@ export default class FixedTextarea extends React.Component {
               ref={ref => (this.ref = ref)}
               style={styles.textarea}
               value={value}
-              placeholder='不吐槽一下吗'
+              placeholder={placeholder || '不吐槽一下吗'}
               rows={showTextarea || showBgm ? 6 : 1}
               selectionColor={_.colorMain}
               clear
@@ -310,9 +319,10 @@ export default class FixedTextarea extends React.Component {
           常用
         </Text>
         <Flex wrap='wrap'>
-          {history.map(item => (
+          {history.map((item, index) => (
             <Touchable
-              key={item}
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
               style={styles.bgm}
               onPress={() => this.onSelectBgm(item)}
             >

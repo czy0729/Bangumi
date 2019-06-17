@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 01:10:05
+ * @Last Modified time: 2019-06-17 14:19:06
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -107,13 +107,13 @@ export default class RenderHtml extends React.Component {
         // bgm表情, 表情调用本地资源
         if (alt.indexOf('(bgm') !== -1) {
           const index = parseInt(alt.replace(/\(bgm|\)/g, '')) - 23 // 偏移量
-          props.source =
-            parseInt(index) <= 100 ? bgm[index] : { uri: `${HOST}/${src}` }
           props.style = {
             width: 20,
-            height: 20,
-            resizeMode: 'contain'
+            height: 20
           }
+          props.source =
+            parseInt(index) <= 100 ? bgm[index] : { uri: `${HOST}/${src}` }
+          props.resizeMode = 'stretch'
 
           // 当后面还有连续表情的时候
           if (this.continuousBgmImagesCount) {
@@ -245,10 +245,12 @@ export default class RenderHtml extends React.Component {
     //   })
     // }
 
+    // 鬼知道CDN那边加了什么
+    const _html = html.replace(/data-cfsrc=/g, 'src=')
     return (
       <View style={style}>
         <HTML
-          html={html}
+          html={_html}
           baseFontStyle={baseFontStyle}
           onLinkPress={this.onLinkPress}
           {...this.generateConfig(imagesMaxWidth, baseFontStyle)}

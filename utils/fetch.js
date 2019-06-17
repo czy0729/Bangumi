@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 00:15:25
+ * @Last Modified time: 2019-06-17 12:04:35
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
-import { APP_ID } from '@constants'
+import { APP_ID, HOST_NAME } from '@constants'
 import { urlStringify, sleep, getTimestamp } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
@@ -231,34 +231,45 @@ export async function fetchHTML({
 }
 
 /**
- * 原始XMLHttpRequest
+ * XMLHttpRequest
+ * @param {*} params
+ * @param {*} success
+ * @param {*} fail
  */
-export function xhr({ url, data = {} } = {}, success = Function.prototype) {
+export function xhr(
+  { method = 'POST', url, data = {} } = {},
+  success = Function.prototype,
+  fail = Function.prototype
+) {
   // 避免userStore循环引用
   const userStore = require('../stores/user').default
   const { userAgent, cookie: userCookie } = userStore.userCookie
 
-  // eslint-disable-next-line no-undef
-  const xhr = new XMLHttpRequest()
   const toastKey = Toast.loading('Loading...', 0)
+  const request = new XMLHttpRequest()
+  request.onreadystatechange = () => {
+    if (request.readyState !== 4) {
+      return
+    }
 
-  function callback() {
-    if (this.readyState === 4) {
-      if (toastKey) {
-        Portal.remove(toastKey)
-      }
+    if (toastKey) {
+      Portal.remove(toastKey)
+    }
+
+    if (request.status === 200) {
       success(this.responseText)
-      xhr.removeEventListener(callback)
+    } else {
+      fail()
     }
   }
-  xhr.addEventListener('readystatechange', callback)
-  xhr.open('POST', url)
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-  xhr.setRequestHeader('Cookie', userCookie)
-  xhr.setRequestHeader('User-Agent', userAgent)
-  xhr.setRequestHeader('Host', 'bgm.tv')
-  xhr.setRequestHeader('accept-encoding', 'gzip, deflate')
-  xhr.send(urlStringify(data))
+
+  request.open(method, url)
+  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  request.setRequestHeader('Cookie', userCookie)
+  request.setRequestHeader('User-Agent', userAgent)
+  request.setRequestHeader('Host', HOST_NAME)
+  request.setRequestHeader('accept-encoding', 'gzip, deflate')
+  request.send(urlStringify(data))
 }
 
 /**

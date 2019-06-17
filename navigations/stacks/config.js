@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 00:33:26
+ * @Last Modified time: 2019-06-17 09:48:15
  */
 import { StyleSheet, Platform } from 'react-native'
+import StackViewStyleInterpolator from '@components/@react-navigation-stack/StackViewStyleInterpolator'
 import { IOS } from '@constants'
 import { wind, colorTitle, colorBorder } from '@styles'
-import StackViewStyleInterpolator from './StackViewStyleInterpolator'
 
 const config = {
   headerMode: 'screen',

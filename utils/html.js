@@ -3,9 +3,23 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-22 21:50:26
+ * @Last Modified time: 2019-06-17 22:07:09
  */
 import HTMLParser from './thirdParty/html-parser'
+
+/**
+ * 去除HTML
+ * @version 170905 1.0
+ * @param  {String} *str
+ * @return {String}
+ */
+export function removeHTMLTag(str) {
+  return String(str)
+    .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
+    .replace(/[ | ]*\n/g, '\n') // 去除行尾空白
+    .replace(/\n[\s| | ]*\r/g, '\n') // 去除多余空行
+    .replace(/ /gi, '') // 去掉
+}
 
 /**
  * HTML反转义

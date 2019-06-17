@@ -28,24 +28,32 @@
 
 #### Todo 下个版本预定功能
 
-v0.6-alpha
+已知问题
+- [ ] 楼层内容某些情况偏移
+- [ ] 复杂的楼层内容显示不全
+- [ ] IOS端不能回复, 可能要用新方法获取和管理cookie
 
-- [x] Expo 升级到了 SDK 33.0, 图片加载貌似会快点
-- [x] [首页收藏] 书籍类显示加入 Vol、Chap
-- [x] [条目] 书籍可以管理 Vol、Chap
-- [x] [条目] 书籍单行本列表
-- [x] [条目] 书籍喜欢 XXX 的会员大概会喜欢
-- [x] [标签条目] 页面
-- [ ] [超展开] 回复功能(不带表情)
-- [ ] [章节] 回复功能(不带表情)
-- [ ] [人物] 回复功能(不带表情)
+v0.x
+- [ ] [登陆] 不使用webview, 尝试新的方式登陆
+- [ ] [条目] 尝试播放外源视频, 比如柠萌
 - [ ] [用户] 同步率
-- [ ] [用户] 关于 TA
+- [ ] [用户] 关于TA
 - [ ] [每日放送] 添加播放时间
 - [ ] [索引] 页面
 - [ ] [目录] 页面
+
+v0.6
+- [x] Expo 升级到了 SDK 33.0, 图片加载貌似会快点
+- [x] [首页收藏] 书籍类显示加入Vol、Chap
+- [x] [条目] 书籍可以管理Vol、Chap
+- [x] [条目] 书籍单行本列表
+- [x] [条目] 书籍喜欢XXX的会员大概会喜欢
+- [x] [标签条目] 页面
+- [x] [超展开] 回复功能
+- [x] [章节] 回复功能
+- [x] [人物] 回复功能
 - [x] 加入了春菜骚话
-- [ ] 输入时键盘位置占位
+- [x] 输入时键盘位置占位
 
 ---
 
@@ -83,10 +91,7 @@ npm config set registry https://registry.npmjs.org
 ```bash
 git clone https://github.com/czy0729/Bangumi
 cd ./Bangumi
-yarn // or npm i
-
-// SDK 33.0 第一次可能还要
-expo install @expo/vector-icons expo-blur expo-constants expo-file-system
+npm install // or yarn 因为后全面会替换掉node_modules的icon, 使用yarn可能会出现回退的现象
 ```
 
 ** 前置操作 **
@@ -97,10 +102,11 @@ expo install @expo/vector-icons expo-blur expo-constants expo-file-system
 
 ```bash
 npm start
-Run on iOS simulator
+// 之后点击在浏览器打开的Expo Developer Tools, 点击 Run on iOS simulator
 ```
 
 window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档
+可以选择同一局域网真机扫码调试, 需先下载Expo App
 
 ---
 

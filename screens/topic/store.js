@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 01:35:25
+ * @Last Modified time: 2019-06-18 00:20:33
  */
-import { computed } from 'mobx'
+import { observable, computed } from 'mobx'
+import { userStore, rakuenStore, subjectStore } from '@stores'
 import store from '@utils/store'
-import { rakuenStore, subjectStore } from '@stores'
+import { removeHTMLTag } from '@utils/html'
 
 export default class ScreenTopic extends store {
+  state = observable({
+    placeholder: '',
+    replySub: '',
+    message: ''
+  })
+
   init = () => {
     // 章节需要请求章节详情
     if (this.isEp) {
@@ -70,6 +77,10 @@ export default class ScreenTopic extends store {
     return subjectStore.epFormHTML(epId)
   }
 
+  @computed get isWebLogin() {
+    return userStore.isWebLogin
+  }
+
   // -------------------- page --------------------
   /**
    * 吐槽箱倒序
@@ -79,27 +90,91 @@ export default class ScreenTopic extends store {
     this.fetchTopic(true, !_reverse)
   }
 
+  /**
+   * 显示评论框
+   */
+  showFixedTextarea = (placeholder, replySub, message) => {
+    this.setState({
+      placeholder,
+      replySub,
+      message
+    })
+  }
+
+  /**
+   * 收起评论框
+   */
+  closeFixedTextarea = () => {
+    this.setState({
+      placeholder: '',
+      replySub: '',
+      message: ''
+    })
+  }
+
   // -------------------- action --------------------
   /**
-   * 回复主楼
+   * 回复
    */
   doSubmit = content => {
     const { topicId } = this.params
+    const { placeholder, replySub, message } = this.state
     const { formhash } = this.topic
     const { _reverse } = this.comments
-    rakuenStore.doReply(
-      {
-        topicId: topicId.match(/\d+/g)[0],
-        content,
-        formhash
-      },
-      () => {
-        this.fetchTopic(true, _reverse)
-      }
-    )
-  }
 
-  doReplySub = (id, userId, nickname) => {
-    console.log(id, userId, nickname)
+    let type
+    if (topicId.includes('group/')) {
+      type = 'group/topic'
+    } else if (topicId.includes('subject/')) {
+      type = 'subject/topic'
+    } else if (topicId.includes('ep/')) {
+      type = 'subject/ep'
+    } else if (topicId.includes('crt/')) {
+      type = 'character'
+    } else if (topicId.includes('prsn/')) {
+      type = 'person'
+    } else {
+      return
+    }
+
+    if (replySub) {
+      const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
+      let _content = content
+      if (message) {
+        const _message = message.replace(
+          /<div class="quote"><q>.*<\/q><\/div>/,
+          ''
+        )
+        _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(
+          _message
+        )}[/quote]\n${content}`
+      }
+      rakuenStore.doReply(
+        {
+          type,
+          content: _content,
+          formhash,
+          topicId,
+          related,
+          sub_reply_uid: subReplyUid,
+          post_uid: postUid
+        },
+        () => {
+          this.fetchTopic(true, _reverse)
+        }
+      )
+    } else {
+      rakuenStore.doReply(
+        {
+          type,
+          topicId: topicId.match(/\d+/g)[0],
+          content,
+          formhash
+        },
+        () => {
+          this.fetchTopic(true, _reverse)
+        }
+      )
+    }
   }
 }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-16 21:57:58
+ * @Last Modified time: 2019-06-18 00:11:30
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -138,7 +138,7 @@ export const HTML_USER_COLLECTIONS = (
 /**
  * 回复帖子
  * @param {*} topicId       351116
- * @param {*} type          group/topic | subject/topic | subject/ep | person
+ * @param {*} type          group/topic | subject/topic | subject/ep | person | character
  * ---------- config ----------
  * @param {*} content       (bgm38) 来一个38
  * @param {*} related_photo 0
