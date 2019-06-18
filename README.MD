@@ -1,20 +1,18 @@
 # Bangumi
 
-> 这是一个基于`React-Native` 的 `Expo`写的 [Bangumi](https://bangumi.tv) 客户端
+> 这是一个基于`React-Native`写的 [Bangumi](https://bgm.tv) 客户端
 >
-> 开发上对安卓和 iOS 都做到兼容, 开发环境是 iOS
->
-> (安卓实机样式效果会有部分差异, 尽量保持一致, 功能持续开发中...)
+> 开发环境是 iOS, 对安卓和 iOS 都做到兼容, 安卓实机样式效果会有部分差异, 尽量保持一致, 功能持续开发中...
 
 ---
 
-#### Download 下载
+#### Download
 
 [APK 下载地址](https://github.com/czy0729/Bangumi/releases)
 
 ---
 
-#### Demo 在线演示
+#### Demo
 
 [expo 项目主页](https://expo.io/@a402731062/bangumi)
 
@@ -22,32 +20,35 @@
 
 [请先安装 expo app](https://expo.io/tools)
 
-[这个貌似不用梯子, 但有可能不是最新](https://apkpure.com/expo/host.exp.exponent)
+[这个 expo app 貌似不用梯子](https://apkpure.com/expo/host.exp.exponent)
 
 ---
 
-#### Todo 下个版本预定功能
+#### Todos
 
 已知问题
+
 - [ ] 楼层内容某些情况偏移
 - [ ] 复杂的楼层内容显示不全
-- [ ] IOS端不能回复, 可能要用新方法获取和管理cookie
+- [ ] IOS 端不能回复, 可能要用新方法获取和管理 cookie
 
 v0.x
-- [ ] [登陆] 不使用webview, 尝试新的方式登陆
+
+- [ ] [登陆] 不使用 webview, 尝试新的方式登陆
 - [ ] [条目] 尝试播放外源视频, 比如柠萌
 - [ ] [用户] 同步率
-- [ ] [用户] 关于TA
+- [ ] [用户] 关于 TA
 - [ ] [每日放送] 添加播放时间
 - [ ] [索引] 页面
 - [ ] [目录] 页面
 
-v0.6
+v0.6 - 2019/06/18
+
 - [x] Expo 升级到了 SDK 33.0, 图片加载貌似会快点
-- [x] [首页收藏] 书籍类显示加入Vol、Chap
-- [x] [条目] 书籍可以管理Vol、Chap
+- [x] [首页收藏] 书籍类显示加入 Vol、Chap
+- [x] [条目] 书籍可以管理 Vol、Chap
 - [x] [条目] 书籍单行本列表
-- [x] [条目] 书籍喜欢XXX的会员大概会喜欢
+- [x] [条目] 书籍喜欢 XXX 的会员大概会喜欢
 - [x] [标签条目] 页面
 - [x] [超展开] 回复功能
 - [x] [章节] 回复功能
@@ -57,7 +58,7 @@ v0.6
 
 ---
 
-#### Features 功能
+#### Features
 
 - 素材使用了主站上能找到的 (bgm38 求大佬贡献)
 - 番组进度管理
@@ -65,20 +66,18 @@ v0.6
 - 人物详情 (最近出演角色, 最近参与, 出演)
 - 时间胶囊
 - 超展开 (带电波提醒)
-- 超展开帖子 (支持留言倒序, 整合章节内容)
+- 超展开帖子 (直接回复, 支持留言倒序, 整合章节内容)
 - 搜索 / 标签
 - 其他用户空间
 - 个人时光机 (完整的, 可筛选标签, 可排序的收藏记录)
 - 热门聚合, 每日放送
-- 18 年鉴 (网页更沉浸, 内链接, 隐藏不关注内容, 调整条目和人物宽度使各机型铺满一行)
-- 站内各板块直接回复 (#todo)
+- 18 年鉴 (更沉浸, 内链接, 隐藏非必要内容, 调整宽度使各机型铺满一行)
 - 每月番组索引 (#todo)
-- 各板块直接回复 (#todo)
 - 排行榜 (?)
 
 ---
 
-#### Getting Started 开始
+#### Getting Started
 
 ** 下载 **
 
@@ -87,6 +86,8 @@ v0.6
 ```bash
 npm config set registry https://registry.npmjs.org
 ```
+
+国内环境, 首次下载包有可能会异常地慢
 
 ```bash
 git clone https://github.com/czy0729/Bangumi
@@ -101,16 +102,14 @@ npm install // or yarn 因为后全面会替换掉node_modules的icon, 使用yar
 ** 启动 **
 
 ```bash
-npm start
-// 之后点击在浏览器打开的Expo Developer Tools, 点击 Run on iOS simulator
+npm start // 之后点击在浏览器打开的Expo Developer Tools, 点击 Run on iOS simulator
 ```
 
-window 用法不详, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档
-可以选择同一局域网真机扫码调试, 需先下载Expo App
+window 用法不详, 也不清楚到底能不能运行, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档. 可以选择同一局域网真机扫码调试, 需先下载 Expo App
 
 ---
 
-#### Page Preview 预览
+#### Page Preview
 
 #### Login 登陆
 
