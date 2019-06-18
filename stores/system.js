@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-09 21:45:28
+ * @Last Modified time: 2019-06-18 11:04:08
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -17,7 +17,7 @@ const initSetting = {
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   cnFirst: true, // 是否中文优先
   autoFetch: true, // 切换页面自动请求
-  speech: false // Bangumi娘话语
+  speech: true // Bangumi娘话语
 }
 const initRelease = {
   name: GITHUB_RELEASE_VERSION,

@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-04-13 10:38:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-11 09:38:00
+ * @Last Modified time: 2019-06-18 11:02:42
  */
 import React from 'react'
 import { WebView as RNWebView } from 'react-native'
+import KeyboardSpacer from './keyboard-spacer'
 
 export default class WebView extends React.Component {
   ref
@@ -21,19 +22,22 @@ export default class WebView extends React.Component {
     }
 
     return (
-      <RNWebView
-        ref={ref => {
-          if (ref) {
-            this.stopLoading = ref.stopLoading
-            this.reload = ref.reload
-            this.goBack = ref.goBack
-          }
-        }}
-        useWebKit
-        thirdPartyCookiesEnabled={false}
-        source={{ uri }}
-        {...other}
-      />
+      <>
+        <RNWebView
+          ref={ref => {
+            if (ref) {
+              this.stopLoading = ref.stopLoading
+              this.reload = ref.reload
+              this.goBack = ref.goBack
+            }
+          }}
+          useWebKit
+          thirdPartyCookiesEnabled={false}
+          source={{ uri }}
+          {...other}
+        />
+        <KeyboardSpacer />
+      </>
     )
   }
 }

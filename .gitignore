@@ -2,6 +2,5 @@ node_modules
 .vscode
 .expo
 .expo-shared
-example
 bangumi.jks
 KEYSTORE.MD

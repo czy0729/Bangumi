@@ -42,19 +42,7 @@ v0.x
 - [ ] [索引] 页面
 - [ ] [目录] 页面
 
-v0.6 - 2019/06/18
-
-- [x] Expo 升级到了 SDK 33.0, 图片加载貌似会快点
-- [x] [首页收藏] 书籍类显示加入 Vol、Chap
-- [x] [条目] 书籍可以管理 Vol、Chap
-- [x] [条目] 书籍单行本列表
-- [x] [条目] 书籍喜欢 XXX 的会员大概会喜欢
-- [x] [标签条目] 页面
-- [x] [超展开] 回复功能
-- [x] [章节] 回复功能
-- [x] [人物] 回复功能
-- [x] 加入了春菜骚话
-- [x] 输入时键盘位置占位
+[CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
 ---
 
@@ -143,7 +131,7 @@ window 用法不详, 也不清楚到底能不能运行, 可以查阅 [Expo](http
 
 #### Rakuen 超展开
 
-<img src="./preview/rakuen_1.png" width="200" alt="rakuen_1" /> <img src="./preview/topic_1.png" width="200" alt="topic_1" /> <img src="./preview/topic_3.png" width="200" alt="topic_3" />
+<img src="./preview/rakuen_1.png" width="200" alt="rakuen_1" /> <img src="./preview/topic_1.png" width="200" alt="topic_1" /> <img src="./preview/topic_4.png" width="200" alt="topic_4" />
 
 #### Zone 用户空间
 
