@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 21:05:24
+ * @Last Modified time: 2019-06-18 20:53:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -54,7 +54,17 @@ const _Button = ({
           <ActivityIndicator color='white' size='small' />
         </View>
       )}
-      <Text style={_text}>{children}</Text>
+      <Text
+        style={[
+          _text,
+          size === 'sm' && {
+            width: 32
+          }
+        ]}
+        align='center'
+      >
+        {children}
+      </Text>
     </Flex>
   )
   if (onPress) {

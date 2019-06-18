@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-14 22:08:23
+ * @Last Modified time: 2019-06-18 20:05:04
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
@@ -81,7 +81,7 @@ class Setting extends React.Component {
   }
 
   render() {
-    const { quality, cnFirst, autoFetch, speech } = systemStore.setting
+    const { quality, cnFirst, autoFetch, quote, speech } = systemStore.setting
     const data = MODEL_SETTING_QUALITY.data.map(({ label }) => label)
     const popoverProps = IOS
       ? {
@@ -127,6 +127,12 @@ class Setting extends React.Component {
               onChange={systemStore.switchAutoFetch}
             />
           }
+          withoutFeedback
+        />
+        <Item
+          border
+          hd='帖子展开引用'
+          ft={<Switch checked={quote} onChange={systemStore.switchQuote} />}
           withoutFeedback
         />
         <Item

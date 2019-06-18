@@ -4,11 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 14:19:06
+ * @Last Modified time: 2019-06-18 20:22:32
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
 import HTML from 'react-native-render-html'
+import { systemStore } from '@stores'
 import { open } from '@utils'
 import { HOST } from '@constants'
 import _ from '@styles'
@@ -108,8 +109,8 @@ export default class RenderHtml extends React.Component {
         if (alt.indexOf('(bgm') !== -1) {
           const index = parseInt(alt.replace(/\(bgm|\)/g, '')) - 23 // 偏移量
           props.style = {
-            width: 20,
-            height: 20
+            width: 16,
+            height: 16
           }
           props.source =
             parseInt(index) <= 100 ? bgm[index] : { uri: `${HOST}/${src}` }
@@ -142,7 +143,7 @@ export default class RenderHtml extends React.Component {
                 </Text>
               )}
               {_bgmImagesTemp}
-              <RNImage {...props} />
+              <RNImage {...props} />{' '}
             </Text>
           )
         }
@@ -290,7 +291,7 @@ class MaskText extends React.Component {
 
 class QuoteText extends React.Component {
   state = {
-    show: false
+    show: systemStore.setting.quote || false
   }
 
   show = () =>
@@ -330,8 +331,8 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorDesc
   },
   quoteTextPlaceholder: {
-    paddingBottom: 8,
-    marginTop: -8,
+    paddingBottom: 10,
+    marginTop: -6,
     color: _.colorSub,
     textAlign: 'center'
   },

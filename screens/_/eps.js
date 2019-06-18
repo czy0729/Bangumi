@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 22:12:22
+ * @Last Modified time: 2019-06-18 19:41:48
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -256,7 +256,7 @@ export default class Eps extends React.Component {
         style={[
           _style,
           {
-            marginBottom: -this.style.margin // 抵消最后一行的marginBottom
+            marginBottom: this.style.margin ? -this.style.margin : 0 // 抵消最后一行的marginBottom
           }
         ]}
         onLayout={this.onLayout}

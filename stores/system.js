@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 11:04:08
+ * @Last Modified time: 2019-06-18 20:04:59
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -17,6 +17,7 @@ const initSetting = {
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   cnFirst: true, // 是否中文优先
   autoFetch: true, // 切换页面自动请求
+  quote: true, // 帖子展开引用
   speech: true // Bangumi娘话语
 }
 const initRelease = {
@@ -167,6 +168,21 @@ class System extends store {
       [key]: {
         ...this.setting,
         autoFetch: !autoFetch
+      }
+    })
+    this.setStorage(key, undefined, namespace)
+  }
+
+  /**
+   * 切换`帖子展开引用`
+   */
+  switchQuote = () => {
+    const { quote } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        quote: !quote
       }
     })
     this.setStorage(key, undefined, namespace)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-09 02:34:38
+ * @Last Modified time: 2019-06-18 20:31:33
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
     width: 40
   },
   input: {
-    width: 80
+    width: 80,
+    height: 34
   },
   btn: {
     width: 80,

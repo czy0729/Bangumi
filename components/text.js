@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 01:28:52
+ * @Last Modified time: 2019-06-18 19:49:08
  */
 import React from 'react'
 import { StyleSheet, Text as RNText } from 'react-native'
+import { IOS } from '@constants'
 import _ from '@styles'
 
 const Text = ({
@@ -66,18 +67,22 @@ Text.defaultProps = {
 export default Text
 
 const styles = StyleSheet.create({
-  text: {
-    fontWeight: 'normal'
-  },
+  text: IOS
+    ? {
+        fontWeight: 'normal'
+      }
+    : {},
   alignCenter: {
     textAlign: 'center'
   },
   alignRight: {
     textAlign: 'right'
   },
-  bold: {
-    fontWeight: 'bold'
-  },
+  bold: IOS
+    ? {
+        fontWeight: 'bold'
+      }
+    : {},
   10: _.fontSize(10),
   11: _.fontSize(11),
   12: _.fontSize(12),
