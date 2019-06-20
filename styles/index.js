@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 19:53:29
+ * @Last Modified time: 2019-06-19 21:26:09
  */
 import { Dimensions, StyleSheet } from 'react-native'
-import Constants from 'expo-constants'
-
+// import Constants from 'expo-constants'
+import { Constants } from 'expo'
 import { IOS } from '@constants'
 
 // -------------------- 设备 --------------------

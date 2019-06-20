@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 20:26:49
+ * @Last Modified time: 2019-06-19 21:25:04
  */
 import { Platform } from 'react-native'
-import Constants from 'expo-constants'
+// import Constants from 'expo-constants'
+import { Constants } from 'expo'
 
 export const IOS = Platform.OS === 'ios'
 export const MI = Constants.deviceName.includes('MI') // 小米MIUI

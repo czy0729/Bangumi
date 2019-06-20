@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-16 23:21:31
+ * @Last Modified time: 2019-06-19 21:43:08
  */
 import React from 'react'
-import * as Icon from '@expo/vector-icons'
+// import * as Icon from '@expo/vector-icons'
+import { Icon } from 'expo'
 import { colorIcon } from '@styles'
 
 const Iconfont = ({ style, name, size, color, ...other }) => (

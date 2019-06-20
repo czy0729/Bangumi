@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 01:41:51
+ * @Last Modified time: 2019-06-19 21:25:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,8 @@ import {
   getActiveChildNavigationOptions
 } from 'react-navigation'
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs'
-import { BlurView } from 'expo-blur'
+// import { BlurView } from 'expo-blur'
+import { BlurView } from 'expo'
 import {
   Calendar,
   Discovery,
