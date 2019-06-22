@@ -1,15 +1,17 @@
 /*
+ * Ionicons Icons
+ * @Doc: https://docs.expo.io/versions/latest/guides/icons/
  * @Author: czy0729
  * @Date: 2019-03-15 08:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-19 21:24:27
+ * @Last Modified time: 2019-06-22 14:15:38
  */
 import React from 'react'
-// import * as Icon from '@expo/vector-icons'
-import { Icon } from 'expo'
+import { Icon as ExpoIcon } from 'expo'
+// import * as Icon from '@expo/vector-icons' // SDK33
 
-const _Icon = ({ style, name, size, color, ...other }) => (
-  <Icon.Ionicons
+const Icon = ({ style, name, size, color, ...other }) => (
+  <ExpoIcon.Ionicons
     style={[
       {
         height: size,
@@ -24,11 +26,11 @@ const _Icon = ({ style, name, size, color, ...other }) => (
   />
 )
 
-_Icon.defaultProps = {
+Icon.defaultProps = {
   style: undefined,
   name: undefined,
   size: 20,
   color: undefined
 }
 
-export default _Icon
+export default Icon

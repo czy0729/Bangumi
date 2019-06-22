@@ -1,8 +1,9 @@
 /*
+ * bgm表情
  * @Author: czy0729
  * @Date: 2019-06-16 04:41:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 00:58:04
+ * @Last Modified time: 2019-06-22 14:03:14
  */
 import React from 'react'
 import Image from './image'
@@ -121,6 +122,7 @@ const Bgm = ({ index, size, ...other }) => (
 )
 
 Bgm.defaultProps = {
+  index: 1,
   size: 20
 }
 

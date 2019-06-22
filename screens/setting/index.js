@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 20:05:04
+ * @Last Modified time: 2019-06-22 15:15:15
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
 import { Switch } from '@ant-design/react-native'
-import { Popover, Menu, Text } from '@components'
+import { Text } from '@components'
 import CacheManager from '@components/@react-native-expo-image-cache/src/CacheManager'
+import { Popover } from '@screens/_'
 import { systemStore, userStore } from '@stores'
-import { open } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { appNavigate } from '@utils/app'
 import {
-  IOS,
   FEEDBACK_URL,
+  GITHUB_URL,
   GITHUB_RELEASE_URL,
   GITHUB_RELEASE_VERSION
 } from '@constants'
@@ -29,6 +30,10 @@ export default
 class Setting extends React.Component {
   static navigationOptions = {
     title: '设置'
+  }
+
+  state = {
+    showDev: false
   }
 
   setQuality = label => {
@@ -76,22 +81,18 @@ class Setting extends React.Component {
   }
 
   toggleDev = () => {
+    const { showDev } = this.state
+    this.setState({
+      showDev: !showDev
+    })
+    info(`调式模式 ${!showDev ? '开' : '关'}`)
     systemStore.toggleDev()
-    info('调式模式')
   }
 
   render() {
+    const { navigation } = this.props
+    const { showDev } = this.state
     const { quality, cnFirst, autoFetch, quote, speech } = systemStore.setting
-    const data = MODEL_SETTING_QUALITY.data.map(({ label }) => label)
-    const popoverProps = IOS
-      ? {
-          overlay: <Menu data={data} onSelect={this.setQuality} />
-        }
-      : {
-          data,
-          onSelect: this.setQuality
-        }
-
     const { name } = systemStore.release
     const hasNewVersion = name !== GITHUB_RELEASE_VERSION
     return (
@@ -103,7 +104,10 @@ class Setting extends React.Component {
           style={_.mt.md}
           hd='图片质量'
           ft={
-            <Popover placement='bottom' {...popoverProps}>
+            <Popover
+              data={MODEL_SETTING_QUALITY.data.map(({ label }) => label)}
+              onSelect={this.setQuality}
+            >
               <Text size={16} type='sub'>
                 {MODEL_SETTING_QUALITY.getLabel(quality)}
               </Text>
@@ -120,17 +124,6 @@ class Setting extends React.Component {
         />
         <Item
           border
-          hd='优化请求量(部分页面需手动刷新)'
-          ft={
-            <Switch
-              checked={!autoFetch}
-              onChange={systemStore.switchAutoFetch}
-            />
-          }
-          withoutFeedback
-        />
-        <Item
-          border
           hd='帖子展开引用'
           ft={<Switch checked={quote} onChange={systemStore.switchQuote} />}
           withoutFeedback
@@ -141,9 +134,27 @@ class Setting extends React.Component {
           ft={<Switch checked={speech} onChange={systemStore.switchSpeech} />}
           withoutFeedback
         />
+        <Item
+          border
+          hd='优化请求量(部分页面需手动刷新)'
+          ft={
+            <Switch
+              checked={!autoFetch}
+              onChange={systemStore.switchAutoFetch}
+            />
+          }
+          withoutFeedback
+        />
 
         <Item
           style={_.mt.md}
+          hd='问题反馈'
+          arrow
+          highlight
+          onPress={() => appNavigate(FEEDBACK_URL, navigation)}
+        />
+        <Item
+          border
           hd='检测更新'
           ft={
             hasNewVersion ? (
@@ -155,14 +166,15 @@ class Setting extends React.Component {
             )
           }
           arrow
-          onPress={() => open(GITHUB_RELEASE_URL)}
+          onPress={() => appNavigate(GITHUB_RELEASE_URL)}
         />
         <Item
           border
-          hd='问题反馈'
+          hd='项目地址'
+          ft='喜欢可✨'
           arrow
           highlight
-          onPress={() => open(FEEDBACK_URL)}
+          onPress={() => appNavigate(GITHUB_URL)}
         />
 
         <Item
@@ -182,13 +194,12 @@ class Setting extends React.Component {
         />
 
         <Item
-          style={{
-            position: 'absolute',
-            right: 0,
-            bottom: 40,
-            left: 0,
-            opacity: 0
-          }}
+          style={[
+            _.mt.md,
+            {
+              opacity: showDev ? 1 : 0
+            }
+          ]}
           hd='调试模式'
           arrow
           highlight

@@ -1,8 +1,9 @@
 /*
+ * 统一iOS和安卓的阴影效果 (很多问题, 待废弃)
  * @Author: czy0729
  * @Date: 2019-04-01 07:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 21:58:44
+ * @Last Modified time: 2019-06-22 14:24:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'

@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unused-state */
 /*
- * @Author: czy0729
+ * 弹出的键盘占位
  * @Doc https://github.com/Andr3wHur5t/react-native-keyboard-spacer/blob/master/KeyboardSpacer.js
+ * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-16 05:49:34
+ * @Last Modified time: 2019-06-22 14:18:11
  */
 import React from 'react'
 import PropTypes from 'prop-types'

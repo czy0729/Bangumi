@@ -1,8 +1,9 @@
 /*
+ * 带标签的回复框
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 22:53:07
+ * @Last Modified time: 2019-06-22 14:08:07
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -10,14 +11,14 @@ import { TextareaItem } from '@ant-design/react-native'
 import { Text } from '@components'
 import { getStorage, setStorage } from '@utils'
 import _ from '@styles'
+import Bgm from './bgm'
 import Flex from './flex'
-import Touchable from './touchable'
 import Iconfont from './iconfont'
 import KeyboardSpacer from './keyboard-spacer'
-import Bgm from './bgm'
+import Touchable from './touchable'
 
 const namespace = 'c-fixed-textarea'
-const maxHistoryCount = 7
+const maxHistoryCount = 7 // 最大常用bgm表情数量
 
 export default class FixedTextarea extends React.Component {
   static defaultProps = {

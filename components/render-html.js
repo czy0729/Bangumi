@@ -1,10 +1,10 @@
 /*
- * 渲染HTML
+ * RN渲染HTML
  * @Doc https://github.com/archriss/react-native-render-html
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 20:22:32
+ * @Last Modified time: 2019-06-22 15:04:57
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -26,6 +26,7 @@ const spanMark = {
 
 export default class RenderHtml extends React.Component {
   static defaultProps = {
+    style: undefined,
     baseFontStyle: {
       fontSize: 16,
       lineHeight: 26,
@@ -154,7 +155,6 @@ export default class RenderHtml extends React.Component {
           marginTop: 4
         }
         props.autoSize = imagesMaxWidth
-        props.border = _.colorBorder
         props.placeholder = false
         props.imageViewer = true
         return <Image {...props} />

@@ -1,14 +1,16 @@
 /*
+ * 毛玻璃
+ * @Doc: https://docs.expo.io/versions/latest/sdk/blur-view/
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-19 21:24:19
+ * @Last Modified time: 2019-06-22 14:14:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-// import { LinearGradient } from 'expo-linear-gradient'
-// import { BlurView as ExpoBlurView } from 'expo-blur'
 import { BlurView as ExpoBlurView, LinearGradient } from 'expo'
+// import { LinearGradient } from 'expo-linear-gradient' // SDK33
+// import { BlurView as ExpoBlurView } from 'expo-blur' // SDK33
 import { IOS } from '@constants'
 import Image from './image'
 
@@ -58,8 +60,7 @@ BlurView.defaultProps = {
   style: undefined,
   theme: 'default',
   src: undefined,
-  intensity: 100,
-  children: undefined
+  intensity: 100
 }
 
 export default BlurView

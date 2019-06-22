@@ -1,8 +1,10 @@
 /*
+ * 标签页
+ * @Doc: https://rn.mobile.ant.design/components/tabs-cn/
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-28 22:57:20
+ * @Last Modified time: 2019-06-22 14:24:31
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'

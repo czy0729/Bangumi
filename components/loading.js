@@ -1,18 +1,19 @@
 /*
+ * 5个竖条的Loading
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-15 22:07:24
+ * @Last Modified time: 2019-06-22 14:19:51
  */
 import React from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
-import _, { colorDesc, radiusSm } from '@styles'
+import _ from '@styles'
 
 const arr = [1, 2, 3, 4, 5]
 
 class Raw extends React.Component {
   static defaultProps = {
-    color: colorDesc
+    color: _.colorDesc
   }
 
   constructor() {
@@ -79,6 +80,6 @@ const styles = StyleSheet.create({
   line: {
     width: 6,
     marginHorizontal: 2,
-    borderRadius: radiusSm
+    borderRadius: _.radiusSm
   }
 })

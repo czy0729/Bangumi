@@ -1,22 +1,24 @@
 /*
+ * 收缩展开框
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-19 21:30:15
+ * @Last Modified time: 2019-06-22 14:15:13
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
-// import { LinearGradient } from 'expo-linear-gradient'
 import { LinearGradient } from 'expo'
+// import { LinearGradient } from 'expo-linear-gradient' // SDK33
 import _ from '@styles'
-import Touchable from './touchable'
 import Iconfont from './iconfont'
+import Touchable from './touchable'
 
-const size = 216
+const size = 216 // 1个比例的最大高度
 
 export default class Expand extends React.Component {
   static defaultProps = {
-    ratio: 1
+    style: undefined,
+    ratio: 1 // 比例
   }
 
   state = {

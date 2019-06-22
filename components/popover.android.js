@@ -1,8 +1,9 @@
 /*
+ * Android风格的弹出层, 这个官方文档是找不到的
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 18:57:40
+ * @Last Modified time: 2019-06-22 14:21:45
  */
 import React from 'react'
 import { StyleSheet, UIManager, findNodeHandle, View } from 'react-native'

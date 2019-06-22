@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 04:41:44
+ * @Last Modified time: 2019-06-22 14:52:15
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Popover, Menu, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
-import { IOS } from '@constants'
 import { MODEL_TAG_ORDERBY } from '@constants/model'
 import _ from '@styles'
 
@@ -17,18 +17,10 @@ const orderData = MODEL_TAG_ORDERBY.data.map(item => item.label)
 
 const ToolBar = (props, { $ }) => {
   const { order, list } = $.state
-  const orderPopoverProps = IOS
-    ? {
-        overlay: <Menu data={orderData} onSelect={$.onOrderSelect} />
-      }
-    : {
-        data: orderData,
-        onSelect: $.onOrderSelect
-      }
   return (
     <Flex style={styles.container}>
       <Flex.Item>
-        <Popover placement='bottom' {...orderPopoverProps}>
+        <Popover data={orderData} onSelect={$.onOrderSelect}>
           <Flex style={styles.item} justify='center'>
             <Iconfont
               name='sort'

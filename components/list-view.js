@@ -1,8 +1,9 @@
 /*
+ * 整合了FlatList和SectionList的长列表
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-09 21:16:46
+ * @Last Modified time: 2019-06-22 14:19:06
  */
 import React from 'react'
 import {
@@ -19,9 +20,9 @@ import { sleep, date, simpleTime } from '@utils'
 import { randomSpeech } from '@constants/speech'
 import { LIST_EMPTY } from '@constants'
 import _ from '@styles'
-import Text from './text'
 import Flex from './flex'
 import Mesume from './mesume'
+import Text from './text'
 
 const RefreshState = {
   Idle: 0,

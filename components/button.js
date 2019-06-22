@@ -1,8 +1,9 @@
 /*
+ * 自定义按钮
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 20:53:57
+ * @Last Modified time: 2019-06-22 14:14:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,11 +11,11 @@ import { ActivityIndicator } from '@ant-design/react-native'
 import { titleCase } from '@utils'
 import { IOS } from '@constants'
 import _ from '@styles'
-import Touchable from './touchable'
 import Flex from './flex'
 import Text from './text'
+import Touchable from './touchable'
 
-const _Button = ({
+const Button = ({
   style,
   type,
   size,
@@ -28,7 +29,7 @@ const _Button = ({
   const _wrap = [styles.button]
   const _text = [styles.text]
 
-  // 安卓的阴影要保证有背景颜色才能显示, 所以为了不覆盖type的bg, 放在type前面
+  // @notice 安卓的阴影要保证有背景颜色才能显示, 所以为了不覆盖type的bg, 放在type前面
   if (shadow) {
     _wrap.push(styles.shadow)
   }
@@ -56,10 +57,11 @@ const _Button = ({
       )}
       <Text
         style={[
-          _text,
+          // @notice 部分安卓机不写具体width会导致文字显示不全
           size === 'sm' && {
             width: 32
-          }
+          },
+          _text
         ]}
         align='center'
       >
@@ -67,6 +69,7 @@ const _Button = ({
       </Text>
     </Flex>
   )
+
   if (onPress) {
     return (
       <Touchable style={_wrap} onPress={onPress} {...other}>
@@ -82,7 +85,8 @@ const _Button = ({
   )
 }
 
-_Button.defaultProps = {
+Button.defaultProps = {
+  style: undefined,
   type: 'plain',
   size: 'md',
   shadow: false,
@@ -90,7 +94,7 @@ _Button.defaultProps = {
   loading: false
 }
 
-export default _Button
+export default Button
 
 const styles = StyleSheet.create({
   button: {

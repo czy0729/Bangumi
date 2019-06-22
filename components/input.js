@@ -1,8 +1,9 @@
 /*
+ * 输入框
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-13 22:07:39
+ * @Last Modified time: 2019-06-22 14:17:41
  */
 import React from 'react'
 import {
@@ -13,10 +14,10 @@ import {
 } from 'react-native'
 import { IOS } from '@constants'
 import _ from '@styles'
-import Touchable from './touchable'
 import Iconfont from './iconfont'
+import Touchable from './touchable'
 
-const initInputHeight = 18
+const initInputHeight = 18 // 一行的大概高度
 
 export default class Input extends React.Component {
   static defaultProps = {

@@ -1,16 +1,12 @@
-/* eslint-disable quotes */
 /*
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-16 16:27:16
+ * @Last Modified time: 2019-06-22 13:54:53
  */
 import React from 'react'
 import { YellowBox, StyleSheet, View } from 'react-native'
-import {
-  AppLoading
-  // Asset
-} from 'expo'
+import { AppLoading } from 'expo'
 import { Provider } from '@ant-design/react-native'
 import { ImageViewer } from '@components'
 import { StatusBar } from '@screens/_'
@@ -21,11 +17,14 @@ import theme from '@styles/theme'
 import Navigations from './navigations/index'
 
 console.disableYellowBox = true
-YellowBox.ignoreWarnings([
-  '[Unhandled promise rejection:',
-  "Warning: Can't call setState (or forceUpdate)"
-])
+// YellowBox.ignoreWarnings([
+//   '[Unhandled promise rejection:',
+//   'Warning: Can\'t call setState (or forceUpdate)'
+// ])
 
+/**
+ * 能打印循环引用
+ */
 global.log = (value, space) => {
   const handleCircular = () => {
     const cache = []

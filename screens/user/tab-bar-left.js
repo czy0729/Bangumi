@@ -2,30 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 17:37:02
+ * @Last Modified time: 2019-06-22 14:56:32
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Popover, Menu, Flex, Button } from '@components'
+import { Flex, Button } from '@components'
+import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
-import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 
 const TabBarLeft = (props, { $ }) => {
   const { subjectType } = $.state
-  const data = MODEL_SUBJECT_TYPE.data.map(item => item.title)
-  const popoverProps = IOS
-    ? {
-        overlay: <Menu data={data} onSelect={$.onSelectSubjectType} />
-      }
-    : {
-        data,
-        onSelect: $.onSelectSubjectType
-      }
   return (
-    <Popover placement='bottom' {...popoverProps}>
+    <Popover
+      data={MODEL_SUBJECT_TYPE.data.map(item => item.title)}
+      onSelect={$.onSelectSubjectType}
+    >
       <Flex style={styles.tabBarLeft} justify='center'>
         <Button style={styles.btn} type='ghostMain' size='sm'>
           {MODEL_SUBJECT_TYPE.getTitle(subjectType)}

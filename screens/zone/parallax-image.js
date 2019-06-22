@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 22:47:04
+ * @Last Modified time: 2019-06-22 15:00:33
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Popover, Menu, Iconfont, Text } from '@components'
-import { IconBack } from '@screens/_'
+import { Iconfont, Text } from '@components'
+import { Popover, IconBack } from '@screens/_'
 import { open } from '@utils'
 import { IOS, HOST } from '@constants'
 import _ from '@styles'
@@ -42,27 +42,6 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
       }
     ]
   }
-
-  const data = ['浏览器查看', '详细收藏信息']
-  const onSelect = label => {
-    if (label === '详细收藏信息') {
-      navigation.push('User', {
-        userId: id,
-        _name: nickname,
-        _image: avatar.large
-      })
-    } else {
-      open(`${HOST}/user/${id}`)
-    }
-  }
-  const popoverProps = IOS
-    ? {
-        overlay: <Menu data={data} onSelect={onSelect} />
-      }
-    : {
-        data,
-        onSelect
-      }
 
   return (
     <>
@@ -131,7 +110,20 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
             }
           ]}
         >
-          <Popover placement='bottom' {...popoverProps}>
+          <Popover
+            data={['浏览器查看', '详细收藏信息']}
+            onSelect={label => {
+              if (label === '详细收藏信息') {
+                navigation.push('User', {
+                  userId: id,
+                  _name: nickname,
+                  _image: avatar.large
+                })
+              } else {
+                open(`${HOST}/user/${id}`)
+              }
+            }}
+          >
             <Iconfont size={24} name='more' color={_.colorPlain} />
           </Popover>
         </View>

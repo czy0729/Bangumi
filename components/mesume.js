@@ -1,8 +1,9 @@
 /*
+ * Bangumi娘
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 02:56:43
+ * @Last Modified time: 2019-06-22 14:20:49
  */
 import React from 'react'
 import Image from './image'

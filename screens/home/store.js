@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:25:57
+ * @Last Modified time: 2019-06-22 14:31:06
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -265,11 +265,11 @@ export default class ScreenHome extends store {
     return (
       list
         // 上映日期
-        .sort(
-          (a, b) =>
-            String(b.subject.air_date).replace(/-/g, '') -
-            String(a.subject.air_date).replace(/-/g, '')
-        )
+        // .sort(
+        //   (a, b) =>
+        //     String(b.subject.air_date).replace(/-/g, '') -
+        //     String(a.subject.air_date).replace(/-/g, '')
+        // )
         // 放送中
         .sort((a, b) => this.isToday(b.subject_id) - this.isToday(a.subject_id))
         // 置顶, 数组位置越大排越前
