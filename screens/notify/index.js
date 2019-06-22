@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 14:36:45
+ * @Last Modified time: 2019-06-23 00:27:28
  */
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
@@ -11,8 +11,11 @@ import { Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
+import { analysis } from '@utils/fetch'
 import _ from '@styles'
 import Store from './store'
+
+const title = '电波提醒'
 
 export default
 @inject(Store)
@@ -20,7 +23,7 @@ export default
 @observer
 class Notify extends React.Component {
   static navigationOptions = {
-    title: '电波提醒'
+    title
   }
 
   static contextTypes = {
@@ -32,6 +35,8 @@ class Notify extends React.Component {
     const { $ } = this.context
     await $.init()
     $.doClearNotify()
+
+    analysis('notify', title)
   }
 
   render() {

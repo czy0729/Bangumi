@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 11:02:04
+ * @Last Modified time: 2019-06-23 00:44:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,6 +13,7 @@ import { IconBack } from '@screens/_'
 import { open } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { analysis } from '@utils/fetch'
 import { HOST_NAME } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
@@ -53,6 +54,8 @@ class WebView extends React.Component {
       }
     }
     navigation.setParams(params)
+
+    analysis('web-view', `web-view - ${uri}`)
   }
 
   onError = () => {

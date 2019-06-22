@@ -4,18 +4,20 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 18:33:36
+ * @Last Modified time: 2019-06-23 00:24:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { WebView, Flex, Image, Button, Loading, Text } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
-import { APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
+import { analysis } from '@utils/fetch'
+import { APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { userStore } from '@stores'
-import _, { colorMain } from '@styles'
+import _ from '@styles'
 
+const title = '登陆'
 const uri = `${OAUTH_URL}?${urlStringify({
   response_type: 'code',
   client_id: APP_ID,
@@ -49,6 +51,10 @@ export default class Login extends React.Component {
   state = {
     clicked: false,
     refreshed: false
+  }
+
+  componentDidMount() {
+    analysis('login', title)
   }
 
   onTour = () => {
@@ -177,7 +183,7 @@ export default class Login extends React.Component {
         />
         <View style={[styles.bottomContainer, _.mt.md]}>
           <Flex style={styles.loading} justify='center'>
-            <Loading.Raw color={colorMain} />
+            <Loading.Raw color={_.colorMain} />
           </Flex>
         </View>
       </View>

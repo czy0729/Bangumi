@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 03:14:51
+ * @Last Modified time: 2019-06-22 15:40:05
  */
 export { default as Auth } from './auth'
 export { default as Award } from './award'
@@ -12,6 +12,7 @@ export { default as Home } from './home'
 export { default as Login } from './login'
 export { default as Mono } from './mono'
 export { default as Notify } from './notify'
+export { default as Random } from './random'
 export { default as Rakuen } from './rakuen'
 export { default as Search } from './search'
 export { default as Setting } from './setting'

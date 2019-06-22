@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 19:57:21
+ * @Last Modified time: 2019-06-23 00:22:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,9 +13,11 @@ import { StatusBar } from '@screens/_'
 import { withHeader, observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
+import { analysis } from '@utils/fetch'
 import { userStore } from '@stores'
 import _ from '@styles'
 
+const title = '18年鉴'
 const redirectMaxCount = 8 // 最大跳转次数
 
 export default
@@ -32,6 +34,10 @@ class Award extends React.Component {
 
   loaded = false // 是否已到达目的页面
   redirectCount = 0 // 跳转次数
+
+  componentDidMount() {
+    analysis('award', title)
+  }
 
   onError = () => {
     const { navigation } = this.props

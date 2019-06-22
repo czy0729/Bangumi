@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 05:15:20
+ * @Last Modified time: 2019-06-23 00:38:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { inject, withHeader, observer } from '@utils/decorators'
+import { analysis } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
+
+const title = '标签'
 
 export default
 @inject(Store)
@@ -21,9 +24,9 @@ export default
 class Tag extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { type, tag } = navigation.state.params
-    const title = MODEL_SUBJECT_TYPE.getTitle(type)
+    const _type = MODEL_SUBJECT_TYPE.getTitle(type)
     return {
-      title: `${title}标签: ${tag}`
+      title: `${_type}${title}: ${tag}`
     }
   }
 
@@ -32,8 +35,14 @@ class Tag extends React.Component {
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     $.init()
+
+    const { type, tag } = navigation.state.params
+    analysis(
+      `tag?type=${type}&tag=${tag}`,
+      `${title} - ${MODEL_SUBJECT_TYPE.getTitle(type)} | ${tag}`
+    )
   }
 
   render() {

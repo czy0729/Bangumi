@@ -14,13 +14,11 @@
 
 #### Demo
 
-[expo 项目主页](https://expo.io/@a402731062/bangumi)
+[请先安装 expo app](https://expo.io/tools), [这个 expo app 貌似不用梯子](https://apkpure.com/expo/host.exp.exponent)
 
 <img src="./preview/expo-qr.png" width="240" alt="expo-qr" />
 
-[请先安装 expo app](https://expo.io/tools)
-
-[这个 expo app 貌似不用梯子](https://apkpure.com/expo/host.exp.exponent)
+[expo 项目主页](https://expo.io/@a402731062/bangumi)
 
 ---
 
@@ -53,15 +51,11 @@ v0.x
 - 条目详情 (支持 Ep 倒序)
 - 人物详情 (最近出演角色, 最近参与, 出演)
 - 时间胶囊
-- 超展开 (带电波提醒)
-- 超展开帖子 (直接回复, 支持留言倒序, 整合章节内容)
+- 超展开 (直接回复, 支持留言倒序, 整合章节内容, 电波提醒)
 - 搜索 / 标签
-- 其他用户空间
-- 个人时光机 (完整的, 可筛选标签, 可排序的收藏记录)
-- 热门聚合, 每日放送
-- 18 年鉴 (更沉浸, 内链接, 隐藏非必要内容, 调整宽度使各机型铺满一行)
-- 每月番组索引 (#todo)
-- 排行榜 (?)
+- 其他用户空间, 个人时光机 (完整的, 可筛选标签, 可排序的收藏记录)
+- 热门聚合, 每日放送, 18 年鉴 (更沉浸, 内链接, 隐藏非必要内容)
+- 排行榜, 每月番组索引 (#todo)
 
 ---
 

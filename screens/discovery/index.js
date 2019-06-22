@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-29 18:43:02
+ * @Last Modified time: 2019-06-23 00:23:17
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -10,11 +10,14 @@ import PropTypes from 'prop-types'
 import { Loading } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
+import { analysis } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 import Award from './award'
 import List from './list'
 import Store from './store'
+
+const title = '聚合发现'
 
 export default
 @inject(Store)
@@ -31,6 +34,8 @@ class Discovery extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
+
+    analysis('discovery', title)
   }
 
   render() {

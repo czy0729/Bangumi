@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 06:12:09
+ * @Last Modified time: 2019-06-23 00:48:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,11 +12,14 @@ import { observer } from 'mobx-react'
 import { Image } from '@components'
 import { IconTabBar, IconTabsHeader, ManageModal } from '@screens/_'
 import { inject, withTabsHeader } from '@utils/decorators'
+import { analysis } from '@utils/fetch'
 import { IOS } from '@constants'
 import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
+
+const title = '首页'
 
 export default
 @inject(Store)
@@ -73,6 +76,8 @@ class Home extends React.Component {
         )
       })
     }
+
+    analysis('home', `${title} - ${$.userInfo.userId} | ${$.userInfo.nickname}`)
   }
 
   render() {

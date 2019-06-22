@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 22:17:43
+ * @Last Modified time: 2019-06-23 00:39:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,14 @@ import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
+import { analysis } from '@utils/fetch'
 import { HTML_NEW_TIMELINE } from '@constants/html'
 import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
+
+const title = '时间胶囊'
 
 export default
 @inject(Store)
@@ -55,6 +58,8 @@ class Timeline extends React.Component {
         />
       )
     })
+
+    analysis('timeline', title)
   }
 
   render() {

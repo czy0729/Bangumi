@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 00:41:25
+ * @Last Modified time: 2019-06-22 23:39:31
  */
 import { AsyncStorage } from 'react-native'
 import { WebBrowser } from 'expo'
@@ -417,4 +417,16 @@ export function gradientColor(startRGB, endRGB, step) {
  */
 export function trim(str = '') {
   return str.replace(/^\s+|\s+$/gm, '')
+}
+
+/**
+ * 生成n位随机整数
+ * @param {*} n
+ */
+export function randomn(n) {
+  if (n > 21) {
+    return null
+  }
+  // eslint-disable-next-line no-restricted-properties
+  return parseInt((Math.random() + 1) * Math.pow(10, n - 1))
 }

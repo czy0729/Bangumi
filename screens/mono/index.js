@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 20:06:52
+ * @Last Modified time: 2019-06-23 00:26:52
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,10 +11,13 @@ import { ListView } from '@components'
 import { TopicItem } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
+import { analysis } from '@utils/fetch'
 import { HOST } from '@constants'
 import _ from '@styles'
 import Info from './info'
 import Store from './store'
+
+const title = '人物'
 
 export default
 @inject(Store)
@@ -51,6 +54,8 @@ class Mono extends React.Component {
         }
       }
     })
+
+    analysis(`mono?id=${monoId}`, `${title} - ${name}`)
   }
 
   render() {

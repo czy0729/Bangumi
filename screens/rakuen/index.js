@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 17:57:41
+ * @Last Modified time: 2019-06-23 00:28:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,15 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
 import { inject, withTabsHeader } from '@utils/decorators'
+import { analysis } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants/html'
 import _ from '@styles'
 import Tabs from './tabs'
 import Notify from './notify'
 import List from './list'
 import Store from './store'
+
+const title = '超展开'
 
 export default
 @inject(Store)
@@ -72,6 +75,8 @@ class Rakuen extends React.Component {
         />
       )
     })
+
+    analysis('rakuen', title)
   }
 
   render() {

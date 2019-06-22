@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 03:27:31
+ * @Last Modified time: 2019-06-22 15:49:32
  */
 import calendarStore from './calendar'
 import collectionStore from './collection'
+import discoveryStore from './discovery'
 import rakuenStore from './rakuen'
 import searchStore from './search'
 import subjectStore from './subject'
@@ -40,6 +41,7 @@ class Stores {
     // [异步加载]非重要Stores
     Promise.all([
       calendarStore.init(),
+      discoveryStore.init(),
       rakuenStore.init(),
       searchStore.init(),
       timelineStore.init(),
@@ -75,6 +77,7 @@ const GloablStores = new Stores()
 export {
   calendarStore,
   collectionStore,
+  discoveryStore,
   rakuenStore,
   searchStore,
   subjectStore,

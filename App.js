@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 13:54:53
+ * @Last Modified time: 2019-06-22 23:58:35
  */
 import React from 'react'
-import { YellowBox, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { useScreens } from 'react-native-screens'
 import { AppLoading } from 'expo'
 import { Provider } from '@ant-design/react-native'
 import { ImageViewer } from '@components'
@@ -15,6 +16,9 @@ import { observer } from '@utils/decorators'
 import _ from '@styles'
 import theme from '@styles/theme'
 import Navigations from './navigations/index'
+
+// https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
+useScreens()
 
 console.disableYellowBox = true
 // YellowBox.ignoreWarnings([

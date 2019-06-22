@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 23:01:06
+ * @Last Modified time: 2019-06-23 00:50:52
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -10,12 +10,15 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { StatusBar } from '@screens/_'
 import { inject } from '@utils/decorators'
+import { analysis } from '@utils/fetch'
 import _, { tabsHeight } from '@styles'
 import ParallaxImage from './parallax-image'
 import Tabs from './tabs'
 import BangumiList from './bangumi-list'
 import TimelineList from './timeline-list'
 import Store, { height } from './store'
+
+const title = '用户空间'
 
 export default
 @inject(Store)
@@ -36,6 +39,8 @@ class Zone extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
+
+    analysis(`zone?id=${$.params.userId}`, title)
   }
 
   onScroll = e => {

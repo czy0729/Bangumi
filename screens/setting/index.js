@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 15:15:15
+ * @Last Modified time: 2019-06-23 00:29:18
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
@@ -14,6 +14,7 @@ import { systemStore, userStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
+import { analysis } from '@utils/fetch'
 import {
   FEEDBACK_URL,
   GITHUB_URL,
@@ -24,16 +25,22 @@ import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
 import Item from './item'
 
+const title = '设置'
+
 export default
 @withHeader()
 @observer
 class Setting extends React.Component {
   static navigationOptions = {
-    title: '设置'
+    title
   }
 
   state = {
     showDev: false
+  }
+
+  componentDidMount() {
+    analysis('setting', title)
   }
 
   setQuality = label => {

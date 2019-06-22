@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-19 21:25:20
+ * @Last Modified time: 2019-06-22 15:40:32
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,6 +20,7 @@ import {
   Login,
   Mono,
   Notify,
+  Random,
   Rakuen,
   Search,
   Setting,
@@ -72,12 +73,14 @@ const HomeTab = createBottomTabNavigator(
 
 const HomeStack = createStackNavigator(
   {
+    Award,
     Calendar,
     Discovery,
     HomeTab,
     Login,
     Mono,
     Notify,
+    Random,
     Search,
     Setting,
     Subject,
@@ -85,7 +88,6 @@ const HomeStack = createStackNavigator(
     Topic,
     User,
     WebView,
-    Award,
     Zone
   },
   {

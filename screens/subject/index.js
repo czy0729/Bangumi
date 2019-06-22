@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 02:42:12
+ * @Last Modified time: 2019-06-23 00:31:38
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,10 +13,12 @@ import { ManageModal, ItemComment } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
+import { analysis } from '@utils/fetch'
 import _ from '@styles'
 import Header from './header'
 import Store from './store'
 
+const title = '条目'
 const sitesDS = [
   'bilibili',
   'iqiyi',
@@ -41,9 +43,9 @@ class Subject extends React.Component {
   async componentDidMount() {
     const { $, navigation } = this.context
     const { name_cn: nameCn, name } = $.subject
-    const title = nameCn || name
-    if (title) {
-      withTransitionHeader.setTitle(navigation, title)
+    const _title = nameCn || name
+    if (_title) {
+      withTransitionHeader.setTitle(navigation, _title)
     }
 
     // 右上角头部按钮
@@ -78,6 +80,8 @@ class Subject extends React.Component {
         }
       })
     }
+
+    analysis(`subject?id=${$.params.subjectId}`, `${title} - ${_title}`)
   }
 
   render() {

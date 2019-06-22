@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 23:32:16
+ * @Last Modified time: 2019-06-23 00:53:13
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,6 +13,7 @@ import { ListView } from '@components'
 import FixedTextarea from '@components/fixed-textarea'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
+import { analysis } from '@utils/fetch'
 import _ from '@styles'
 import Top from './top'
 import Item from './item'
@@ -55,6 +56,8 @@ class Topic extends React.Component {
         }
       }
     })
+
+    analysis(`topic?id=${$.params.topicId}`, `话题 - ${title}`)
   }
 
   showFixedTextare = () => {
