@@ -5,13 +5,13 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-16 21:29:15
+ * @Last Modified time: 2019-06-23 22:32:55
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
-import fetch from '@utils/fetch'
-import { HTMLTrim } from '@utils/html'
+import fetch, { fetchHTML } from '@utils/fetch'
+import { HTMLTrim, HTMLDecode } from '@utils/html'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL, LIST_EMPTY } from '@constants'
 import {
   API_ACCESS_TOKEN,
@@ -23,6 +23,7 @@ import {
   API_USER_COLLECTIONS,
   API_USER_COLLECTIONS_STATUS
 } from '@constants/api'
+import { HTML_USERS } from '@constants/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import RakuenStore from './rakuen'
 
@@ -84,6 +85,11 @@ class User extends store {
     // 用户收藏统计
     userCollectionsStatus: {
       // [userId]: initUserCollectionsStatus
+    },
+
+    // 用户介绍
+    users: {
+      // [userId]: '
     }
   })
 
@@ -186,6 +192,14 @@ class User extends store {
    */
   userCollectionsStatus(userId = this.myUserId) {
     return computed(() => this.state.userCollectionsStatus[userId] || {}).get()
+  }
+
+  /**
+   * 取某用户介绍
+   * @param {*} userId
+   */
+  users(userId = this.myUserId) {
+    return computed(() => this.state.users[userId] || '').get()
   }
 
   /**
@@ -401,6 +415,34 @@ class User extends store {
         namespace
       }
     )
+  }
+
+  /**
+   * 用户介绍
+   * @param {*} userId
+   */
+  async fetchUsers({ userId }) {
+    // -------------------- 请求HTML --------------------
+    const raw = await fetchHTML({
+      url: `!${HTML_USERS(userId)}`
+    })
+    const HTML = HTMLTrim(raw)
+
+    // -------------------- 分析内容 --------------------
+    let users = ''
+    const matchHTML = HTML.match(
+      /<blockquote class="intro"><div class="bio">(.+?)<\/div><\/blockquote>/
+    )
+    if (matchHTML) {
+      users = HTMLDecode(matchHTML[1])
+      this.setState({
+        users: {
+          [userId]: users
+        }
+      })
+    }
+
+    return Promise.resolve(users)
   }
 
   // -------------------- page --------------------

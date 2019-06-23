@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 03:27:39
+ * @Last Modified time: 2019-06-23 22:07:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,9 +10,6 @@ import PropTypes from 'prop-types'
 import { Touchable, Image } from '@components'
 import { HOST } from '@constants'
 import _ from '@styles'
-
-const srcHero = `${HOST}/img/event/2018/bg_hero.png`
-const srcTitle = `${HOST}/img/event/2018/title.png`
 
 const Award = (props, { navigation }) => (
   <Touchable
@@ -26,14 +23,14 @@ const Award = (props, { navigation }) => (
     <View style={styles.image}>
       <Image
         style={styles.imageHero}
-        src={srcHero}
+        src={require('@assets/images/hero.png')}
         size={160}
         placeholder={false}
       />
     </View>
     <Image
       style={styles.imageTitle}
-      src={srcTitle}
+      src={require('@assets/images/hero_title.png')}
       size={224}
       height={160}
       resizeMode='contain'

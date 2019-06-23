@@ -25,25 +25,27 @@
 #### Todos
 
 已知问题
+
 - [ ] [条目] 部分带偏移的动漫, 在线观看地址没正确偏移 (不太影响使用, 也许无办法解决)
 - [ ] [超展开] 楼层内容某些情况偏移
 - [ ] [超展开] 复杂的楼层内容显示不全
-- [ ] [超展开] IOS端不能回复, 可能要用新方法获取和管理cookie
+- [ ] [超展开] IOS 端不能回复, 可能要用新方法获取和管理 cookie
 
 v0.x
-- [ ] [登陆] 不使用webview, 尝试新的方式登陆
+
+- [ ] [登陆] 不使用 webview, 尝试新的方式登陆
 - [ ] [条目] 匹配更多的在线观看源
 - [ ] [用户] 同步率
-- [ ] [用户] 关于TA
 - [ ] [每日放送] 添加播放时间
-- [ ] [索引] 新增
-- [ ] [目录] 新增
-- [ ] [排行榜] 新增
+- [ ] [索引] 页面
+- [ ] [目录] 页面
 
-v0.6.2
+v0.7
+
 - [x] 调整了首页收藏排列顺序, 规则为置顶 > 放送中 > 上次操作时间 > 其他, 长按收藏的图片可以置顶
 - [x] [随便看看] 新增 (随机动画条目列表)
-- [x] [条目] 若有的话, 动画的ep可以点击去到柠萌在线观看地址
+- [x] [条目] 若有的话, 动画的 ep 可以点击去到柠萌在线观看地址
+- [x] [用户] 关于 TA
 
 [CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
@@ -107,13 +109,11 @@ window 用法不详, 也不清楚到底能不能运行, 可以查阅 [Expo](http
 
 #### Subject 条目
 
-<img src="./preview/s_1.png" width="200" alt="s_1" /> <img src="./preview/s_2.png" width="200" alt="s_2" /> <img src="./preview/s_6.png" width="200" alt="s_6" />
-
-<img src="./preview/s_4.png" width="200" alt="s_4" /> <img src="./preview/s_5.png" width="200" alt="s_5" />
+<img src="./preview/s_1.png" width="200" alt="s_1" /> <img src="./preview/s_2.png" width="200" alt="s_2" /> <img src="./preview/s_6.png" width="200" alt="s_6" /> <img src="./preview/s_4.png" width="200" alt="s_4" /> <img src="./preview/s_5.png" width="200" alt="s_5" />
 
 #### Discovery 首页聚合 / 更沉浸的年鉴
 
-<img src="./preview/discovery_1.png" width="200" alt="discovery_1" /> <img src="./preview/award_1.png" width="200" alt="award_1" /> <img src="./preview/award_2.png" width="200" alt="award_2" />
+<img src="./preview/discovery_2.png" width="200" alt="discovery_2" /> <img src="./preview/discovery_3.png" width="200" alt="discovery_3" /> <img src="./preview/award_1.png" width="200" alt="award_1" /> <img src="./preview/award_2.png" width="200" alt="award_2" />
 
 #### Search 搜索 / 标签
 

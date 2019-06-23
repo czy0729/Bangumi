@@ -9,12 +9,12 @@ import { calendarStore } from '@stores'
 import store from '@utils/store'
 
 export default class ScreenCalendar extends store {
+  init = async () => calendarStore.fetchCalendar()
+
   // -------------------- get --------------------
   @computed get calendar() {
     return calendarStore.calendar
   }
-
-  init = async () => calendarStore.fetchCalendar()
 
   // -------------------- page --------------------
 

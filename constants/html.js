@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 00:11:30
+ * @Last Modified time: 2019-06-23 22:23:39
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -133,6 +133,12 @@ export const HTML_USER_COLLECTIONS = (
     tag,
     page
   })}`
+
+/**
+ * 用户时光机页面
+ * @param {*} userId
+ */
+export const HTML_USERS = userId => `${HOST}/user/${userId}`
 
 // -------------------- action --------------------
 /**

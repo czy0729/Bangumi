@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:30:25
+ * @Last Modified time: 2019-06-23 22:34:21
  */
 import { observable, computed } from 'mobx'
 import { userStore, timelineStore } from '@stores'
@@ -21,10 +21,10 @@ export const tabs = [
   },
   {
     title: '时间胶囊'
+  },
+  {
+    title: '关于TA'
   }
-  // {
-  //   title: '关于TA'
-  // }
 ]
 const namespace = 'ScreenZone'
 
@@ -74,6 +74,11 @@ export default class ScreenZone extends store {
     return timelineStore.usersTimeline(userId)
   }
 
+  @computed get users() {
+    const { userId } = this.params
+    return userStore.users(userId)
+  }
+
   // -------------------- fetch --------------------
   fetchUsersInfo = () => {
     const { userId } = this.params
@@ -90,7 +95,10 @@ export default class ScreenZone extends store {
     return timelineStore.fetchUsersTimeline({ userId })
   }
 
-  fetchUsersDesc = Function.prototype
+  fetchUsers = () => {
+    const { userId } = this.params
+    return userStore.fetchUsers({ userId })
+  }
 
   // -------------------- page --------------------
   onTabClick = (item, page) => {
@@ -127,7 +135,7 @@ export default class ScreenZone extends store {
     if (tabs[page].title === '时间胶囊') {
       this.fetchUsersTimeline()
     } else if (tabs[page].title === '关于TA') {
-      this.fetchUsersDesc()
+      this.fetchUsers()
     }
   }
 

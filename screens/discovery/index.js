@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 11:40:59
+ * @Last Modified time: 2019-06-23 21:50:56
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -14,6 +14,7 @@ import { analysis } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 import Award from './award'
+import Section from './section'
 import List from './list'
 import Store from './store'
 
@@ -55,6 +56,7 @@ class Discovery extends React.Component {
       >
         <StatusBarPlaceholder style={{ backgroundColor: _.colorBg }} />
         <Award />
+        <Section />
         {MODEL_SUBJECT_TYPE.data.map(item => (
           <List key={item.label} type={item.label} />
         ))}

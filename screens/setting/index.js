@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 11:43:08
+ * @Last Modified time: 2019-06-23 22:12:46
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
@@ -178,7 +178,7 @@ class Setting extends React.Component {
         <Item
           border
           hd='项目地址'
-          ft='喜欢可✨'
+          ft='喜欢可Star'
           arrow
           highlight
           onPress={() => appNavigate(GITHUB_URL)}

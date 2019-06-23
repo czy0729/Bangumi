@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 11:46:50
+ * @Last Modified time: 2019-06-23 22:37:31
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -16,6 +16,7 @@ import ParallaxImage from './parallax-image'
 import Tabs from './tabs'
 import BangumiList from './bangumi-list'
 import TimelineList from './timeline-list'
+import About from './about'
 import Store, { height } from './store'
 
 const title = '用户空间'
@@ -75,6 +76,7 @@ class Zone extends React.Component {
         <Tabs style={_.container.screen} $={$} scrollY={scrollY}>
           <BangumiList {...listViewProps} />
           <TimelineList {...listViewProps} />
+          <About {...listViewProps} />
         </Tabs>
       </>
     )

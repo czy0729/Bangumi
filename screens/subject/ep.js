@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 19:48:20
+ * @Last Modified time: 2019-06-23 21:29:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -40,10 +40,13 @@ const Ep = ({ style }, { $, navigation }) => {
           />
         }
       >
-        章节{' '}
-        <Text size={12} type='sub' lineHeight={24}>
-          (可播放)
-        </Text>
+        章节
+        {!!$.ningMoeDetail.id && (
+          <Text size={12} type='sub' lineHeight={24}>
+            {' '}
+            (可播放)
+          </Text>
+        )}
       </SectionTitle>
       <Eps
         style={_.mt.md}
