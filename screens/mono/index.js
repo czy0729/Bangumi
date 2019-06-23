@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:26:52
+ * @Last Modified time: 2019-06-23 11:42:15
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -55,7 +55,7 @@ class Mono extends React.Component {
       }
     })
 
-    analysis(`mono?id=${monoId}`, `${title} - ${name}`)
+    analysis(monoId, `${title} - ${name}`)
   }
 
   render() {

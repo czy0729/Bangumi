@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:54:42
+ * @Last Modified time: 2019-06-23 11:46:55
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -42,7 +42,7 @@ class User extends React.Component {
     const { $ } = this.context
     $.init()
 
-    analysis('user', `${title} - ${$.myUserId}`)
+    analysis(`user/${$.myUserId}?route=user`, `${title} - ${$.myUserId}`)
   }
 
   onScroll = e => {

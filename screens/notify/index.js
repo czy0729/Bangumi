@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:27:28
+ * @Last Modified time: 2019-06-23 11:42:29
  */
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
@@ -36,7 +36,7 @@ class Notify extends React.Component {
     await $.init()
     $.doClearNotify()
 
-    analysis('notify', title)
+    analysis('notify/all', title)
   }
 
   render() {

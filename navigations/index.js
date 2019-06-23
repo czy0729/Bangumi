@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 15:40:32
+ * @Last Modified time: 2019-06-23 17:02:28
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,13 +15,14 @@ import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs'
 // import { BlurView } from 'expo-blur'
 import { BlurView } from 'expo'
 import {
+  Award,
   Calendar,
   Discovery,
   Login,
   Mono,
   Notify,
-  Random,
   Rakuen,
+  Random,
   Search,
   Setting,
   Subject,
@@ -29,8 +30,8 @@ import {
   Timeline,
   Topic,
   User,
+  Video,
   WebView,
-  Award,
   Zone
 } from '@screens'
 import { IOS } from '@constants'
@@ -87,6 +88,7 @@ const HomeStack = createStackNavigator(
     Tag,
     Topic,
     User,
+    Video,
     WebView,
     Zone
   },

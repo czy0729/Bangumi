@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:29:18
+ * @Last Modified time: 2019-06-23 11:43:08
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
@@ -40,7 +40,7 @@ class Setting extends React.Component {
   }
 
   componentDidMount() {
-    analysis('setting', title)
+    analysis('settings', title)
   }
 
   setQuality = label => {

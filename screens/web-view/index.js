@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:44:24
+ * @Last Modified time: 2019-06-23 11:45:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -55,7 +55,7 @@ class WebView extends React.Component {
     }
     navigation.setParams(params)
 
-    analysis('web-view', `web-view - ${uri}`)
+    analysis(uri, `web-view - ${uri}`)
   }
 
   onError = () => {

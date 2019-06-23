@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 03:27:13
+ * @Last Modified time: 2019-06-23 19:23:03
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -61,8 +61,8 @@ class Search extends store {
   // -------------------- fetch --------------------
   /**
    * 搜索
-   * @param {*} text 关键字
-   * @param {*} cat 类型
+   * @param {*} text    关键字
+   * @param {*} cat     类型
    * @param {*} refresh 是否刷新
    */
   async fetchSearch({ text = '', cat = initCat } = {}, refresh) {

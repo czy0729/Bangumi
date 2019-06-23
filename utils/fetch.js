@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:00:27
+ * @Last Modified time: 2019-06-23 14:33:10
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
-import { APP_ID, HOST_NAME } from '@constants'
+import { APP_ID, HOST_NAME, HOST } from '@constants'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
@@ -34,7 +34,8 @@ export default async function _fetch({
   url,
   data = {},
   retryCb,
-  info = ''
+  info = '',
+  noConsole = false
 } = {}) {
   if (OFFLINE) {
     return false
@@ -69,7 +70,9 @@ export default async function _fetch({
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     _config.body = urlStringify(body)
 
-    toastKey = Toast.loading('Loading...', 0)
+    if (!noConsole) {
+      toastKey = Toast.loading('Loading...', 0)
+    }
     log(info, _url, _config)
   }
 
@@ -87,7 +90,7 @@ export default async function _fetch({
         if (retryCount[key]) {
           retryCount[key] = 0
         }
-      } else {
+      } else if (!noConsole) {
         log(method, 'success', url, _config, info, res)
       }
 
@@ -301,7 +304,7 @@ export function analysis(url, title) {
       api: '4_0',
       // sn: 0,
       // ct: '!!',
-      u: `https://czy0729.bangumi/${url}`, // 网址
+      u: `${HOST}/${url}`, // 网址
       tt: title // 标题
     }
 

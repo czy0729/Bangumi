@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:38:39
+ * @Last Modified time: 2019-06-23 11:43:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,7 @@ class Tag extends React.Component {
 
     const { type, tag } = navigation.state.params
     analysis(
-      `tag?type=${type}&tag=${tag}`,
+      `${type}/${tag}`,
       `${title} - ${MODEL_SUBJECT_TYPE.getTitle(type)} | ${tag}`
     )
   }

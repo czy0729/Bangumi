@@ -1,19 +1,26 @@
 /*
  * 条目
- * params { _jp, _cn, _image }
+ * params { _id, _jp, _cn, _image }
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-09 02:43:05
+ * @Last Modified time: 2019-06-23 20:08:51
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
-import { subjectStore, userStore, collectionStore } from '@stores'
-import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
+import {
+  subjectStore,
+  discoveryStore,
+  userStore,
+  collectionStore
+} from '@stores'
+import { open } from '@utils'
 import { queue } from '@utils/fetch'
 import { appNavigate } from '@utils/app'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { NING_MOE_HOST } from '@constants'
+import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 
 const namespace = 'ScreenSubject'
 
@@ -53,6 +60,21 @@ export default class ScreenSubject extends store {
       })
     }
 
+    // 获取其他源头eps在线地址
+    if (this.type === '动画') {
+      const { _ningMoeId } = this.params
+      if (_ningMoeId) {
+        await discoveryStore.fetchNingMoeDetail({
+          id: _ningMoeId,
+          bgmId: subjectId
+        })
+      } else {
+        await discoveryStore.fetchNingMoeDetailBySearch({
+          keyword: data.name_cn || data.name
+        })
+      }
+    }
+
     queue([
       () => subjectStore.fetchSubjectEp(subjectId),
       () => collectionStore.fetchCollection(subjectId),
@@ -87,6 +109,11 @@ export default class ScreenSubject extends store {
     return subjectStore.subject(subjectId)
   }
 
+  @computed get ningMoeDetail() {
+    const { subjectId } = this.params
+    return discoveryStore.ningMoeDetail(subjectId)
+  }
+
   @computed get subjectFormHTML() {
     const { subjectId } = this.params
     return subjectStore.subjectFormHTML(subjectId)
@@ -119,6 +146,15 @@ export default class ScreenSubject extends store {
     }
 
     return MODEL_SUBJECT_TYPE.getTitle(_type)
+  }
+
+  // Ep偏移
+  @computed get ningMoeEpOffset() {
+    return (
+      this.subjectEp.eps
+        .filter(item => item.type === 0)
+        .sort((a, b) => a.sort - b.sort)[0].sort - 1
+    )
   }
 
   // -------------------- page --------------------
@@ -169,6 +205,36 @@ export default class ScreenSubject extends store {
   doEpsSelect = async (value, item, navigation) => {
     if (value.includes('本集讨论')) {
       appNavigate(item.url, navigation)
+      return
+    }
+
+    if (value === '在线播放') {
+      if (item.type === 1) {
+        // SP的地址不可预测, 直接跳到介绍页
+        open(`${NING_MOE_HOST}/bangumi/${this.ningMoeDetail.id}/home`)
+        return
+      }
+
+      // @todo 查找可播放地址
+      // const find = this.ningMoeDetail.eps.find(i => i.sort === item.sort)
+      // if (find && find.bakUrl) {
+      //   const realUrl = await discoveryStore.fetchNingMoeRealYunUrl({
+      //     url: find.bakUrl
+      //   })
+      //   if (realUrl) {
+      //     navigation.push('Video', {
+      //       url: realUrl
+      //     })
+      //     return
+      //   }
+      // }
+
+      // 没有可播放地址
+      // @notice 像一拳超人第二季这种 要处理EP偏移
+      open(
+        `${NING_MOE_HOST}/bangumi/detail/${this.ningMoeDetail.id}/${item.sort -
+          this.ningMoeEpOffset}/home`
+      )
       return
     }
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-19 21:25:04
+ * @Last Modified time: 2019-06-23 15:40:19
  */
 import { Platform } from 'react-native'
 // import Constants from 'expo-constants'
@@ -23,6 +23,7 @@ export const HOST_2 = 'https://bangumi.tv'
 export const HOST_MIRRO = 'https://mirror.bgm.rin.cat'
 export const OAUTH_URL = `${HOST}/oauth/authorize`
 export const OAUTH_REDIRECT_URL = HOST
+export const NING_MOE_HOST = 'https://www.ningmoe.com'
 // export const OAUTH_REDIRECT_URL = Constants.linkingUri
 
 // GITHUB

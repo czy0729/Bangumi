@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:31:06
+ * @Last Modified time: 2019-06-23 01:50:32
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -78,7 +78,7 @@ export default class ScreenHome extends store {
         // 被动请求
         if (refresh || !_loaded) {
           await subjectStore.fetchSubjectEp(subjectId)
-          await sleep()
+          await sleep(400)
         }
       }
     }

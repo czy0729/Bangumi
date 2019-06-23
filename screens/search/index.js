@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:28:37
+ * @Last Modified time: 2019-06-23 11:42:57
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -54,7 +54,7 @@ class Search extends React.Component {
       }
     })
 
-    analysis('search', title)
+    analysis('subject_search', title)
   }
 
   render() {

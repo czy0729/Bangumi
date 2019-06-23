@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:31:38
+ * @Last Modified time: 2019-06-23 19:46:57
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,6 +14,7 @@ import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
 import { analysis } from '@utils/fetch'
+import { NING_MOE_HOST } from '@constants'
 import _ from '@styles'
 import Header from './header'
 import Store from './store'
@@ -53,11 +54,16 @@ class Subject extends React.Component {
     if (data) {
       const { sites = [] } = $.state.bangumiInfo
       const url = String(data.url).replace('http://', 'https://')
+      const _data = ['Bangumi']
+      if ($.ningMoeDetail.id) {
+        _data.push('柠萌瞬间')
+      }
+
       navigation.setParams({
         headerTransitionTitle: data.name_cn || data.name,
         popover: {
           data: [
-            '浏览器查看',
+            ..._data,
             ...sites
               .filter(item => sitesDS.includes(item.site))
               .map(item => item.site)
@@ -65,8 +71,11 @@ class Subject extends React.Component {
           onSelect: key => {
             let item
             switch (key) {
-              case '浏览器查看':
+              case 'Bangumi':
                 open(url)
+                break
+              case '柠萌瞬间':
+                open(`${NING_MOE_HOST}/bangumi/${$.ningMoeDetail.id}/home`)
                 break
               default:
                 item = sites.find(item => item.site === key)
@@ -81,7 +90,7 @@ class Subject extends React.Component {
       })
     }
 
-    analysis(`subject?id=${$.params.subjectId}`, `${title} - ${_title}`)
+    analysis(`subject/${$.params.subjectId}`, `${title} - ${_title}`)
   }
 
   render() {
