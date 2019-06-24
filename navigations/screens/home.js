@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 17:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 17:43:55
+ * @Last Modified time: 2019-06-24 22:13:05
  */
 import {
   createSwitchNavigator,
@@ -16,7 +16,7 @@ const HomeSwitch = createSwitchNavigator(
     Home
   },
   {
-    initialRouteName: 'Auth'
+    initialRouteName: 'Home'
   }
 )
 

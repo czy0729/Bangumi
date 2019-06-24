@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 22:17:03
+ * @Last Modified time: 2019-06-24 21:42:52
  */
 import { Platform } from 'react-native'
 // import Constants from 'expo-constants'
@@ -24,6 +24,7 @@ export const HOST_MIRRO = 'https://mirror.bgm.rin.cat'
 export const OAUTH_URL = `${HOST}/oauth/authorize`
 export const OAUTH_REDIRECT_URL = HOST
 export const NING_MOE_HOST = 'https://www.ningmoe.com'
+export const ANITAMA_HOST = 'https://app.anitama.net/'
 // export const OAUTH_REDIRECT_URL = Constants.linkingUri
 
 // GITHUB
@@ -32,7 +33,7 @@ export const GITHUB_URL = 'https://github.com/czy0729/Bangumi'
 export const GITHUB_RELEASE_URL = `${GITHUB_URL}/releases`
 export const GITHUB_RELEASE_REPOS_URL =
   'https://api.github.com/repos/czy0729/Bangumi/releases'
-export const GITHUB_RELEASE_VERSION = '0.7-alpha' // since 20190623
+export const GITHUB_RELEASE_VERSION = '0.7.1-alpha' // since 20190623
 
 // 图片
 // 白

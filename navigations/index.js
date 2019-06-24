@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 17:02:28
+ * @Last Modified time: 2019-06-24 19:45:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,6 +15,7 @@ import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs'
 // import { BlurView } from 'expo-blur'
 import { BlurView } from 'expo'
 import {
+  Anitama,
   Award,
   Calendar,
   Discovery,
@@ -74,6 +75,7 @@ const HomeTab = createBottomTabNavigator(
 
 const HomeStack = createStackNavigator(
   {
+    Anitama,
     Award,
     Calendar,
     Discovery,

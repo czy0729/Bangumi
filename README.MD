@@ -46,6 +46,7 @@ v0.7
 - [x] [随便看看] 新增 (随机动画条目列表)
 - [x] [条目] 若有的话, 动画的 ep 可以点击去到柠萌在线观看地址
 - [x] [用户] 关于 TA
+- [x] [聚合] 加入了 Anitama 文章列表
 
 [CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 

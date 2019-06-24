@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 14:33:10
+ * @Last Modified time: 2019-06-24 22:15:15
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -304,7 +304,7 @@ export function analysis(url, title) {
       api: '4_0',
       // sn: 0,
       // ct: '!!',
-      u: `${HOST}/${url}`, // 网址
+      u: String(url).indexOf('http' === -1) ? `${HOST}/${url}` : url, // 网址
       tt: title // 标题
     }
 

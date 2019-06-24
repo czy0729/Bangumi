@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 22:11:12
+ * @Last Modified time: 2019-06-24 22:16:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -73,7 +73,10 @@ class Home extends React.Component {
       })
     }
 
-    analysis('', `${title} - ${$.userInfo.userId} | ${$.userInfo.nickname}`)
+    analysis(
+      `?id=${$.userInfo.userId}`,
+      `${title} - ${$.userInfo.userId} | ${$.userInfo.nickname}`
+    )
   }
 
   render() {

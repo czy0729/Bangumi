@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 17:02:03
+ * @Last Modified time: 2019-06-24 19:45:31
  */
+export { default as Anitama } from './anitama'
 export { default as Auth } from './auth'
 export { default as Award } from './award'
 export { default as Calendar } from './calendar'

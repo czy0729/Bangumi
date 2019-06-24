@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 21:40:21
+ * @Last Modified time: 2019-06-24 21:35:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
-import { LIST_EMPTY, NING_MOE_HOST } from '@constants'
+import { LIST_EMPTY, NING_MOE_HOST, ANITAMA_HOST } from '@constants'
 
 const namespace = 'Discovery'
 const initNingMoeDetailItem = {
@@ -16,20 +16,32 @@ const initNingMoeDetailItem = {
   bgmId: '',
   eps: []
 }
+const initAnitamaTimelineItem = {
+  list: []
+}
 
 class Discovery extends store {
   state = observable({
     random: LIST_EMPTY,
     ningMoeDetail: {
       // [bgmId]: initNingMoeDetailItem
+    },
+    anitamaTimeline: {
+      // [page]: anitamaTimelineItem
     }
   })
 
   async init() {
-    const res = Promise.all([this.getStorage('ningMoeDetail', namespace)])
+    const res = Promise.all([
+      this.getStorage('random', namespace),
+      this.getStorage('ningMoeDetail', namespace),
+      this.getStorage('anitamaTimeline', namespace)
+    ])
     const state = await res
     this.setState({
-      ningMoeDetail: state[0] || {}
+      random: state[0] || LIST_EMPTY,
+      ningMoeDetail: state[1] || {},
+      anitamaTimeline: state[2] || {}
     })
 
     return res
@@ -44,6 +56,10 @@ class Discovery extends store {
     return computed(
       () => this.state.ningMoeDetail[bgmId] || initNingMoeDetailItem
     ).get()
+  }
+
+  anitamaTimeline(page = 1) {
+    return this.state.anitamaTimeline[page] || initAnitamaTimelineItem
   }
 
   // -------------------- fetch --------------------
@@ -77,6 +93,7 @@ class Discovery extends store {
           airDate: item.air_date
         }))
 
+        const key = 'random'
         random = {
           list: refresh ? nextList : [...list, ...nextList],
           pagination: {
@@ -86,8 +103,9 @@ class Discovery extends store {
           _loaded: getTimestamp()
         }
         this.setState({
-          random
+          [key]: random
         })
+        this.setStorage(key, undefined, namespace)
       }
 
       return Promise.resolve(random)
@@ -97,7 +115,7 @@ class Discovery extends store {
   }
 
   /**
-   * 搜索柠萌条目信息
+   * 搜索柠萌动漫信息
    * @param {*} keyword 关键字
    */
   async fetchNingMoeDetailBySearch({ keyword }) {
@@ -120,16 +138,18 @@ class Discovery extends store {
       let ningMoeDetail = initNingMoeDetailItem
       if (data.code === 200) {
         if (Array.isArray(data.data)) {
+          const key = 'ningMoeDetail'
           const { id, bgm_id: bgmId } = data.data[0].classification
           ningMoeDetail = {
             id,
             bgmId
           }
           this.setState({
-            ningMoeDetail: {
+            [key]: {
               [bgmId]: ningMoeDetail
             }
           })
+          this.setStorage(key, undefined, namespace)
         }
       }
 
@@ -139,6 +159,11 @@ class Discovery extends store {
     }
   }
 
+  /**
+   * 查询柠萌动漫信息
+   * @param {*} id
+   * @param {*} bgmId
+   */
   async fetchNingMoeDetail({ id, bgmId }) {
     try {
       const data = await fetch(`${NING_MOE_HOST}/api/get_bangumi`, {
@@ -153,6 +178,7 @@ class Discovery extends store {
 
       let ningMoeDetail = initNingMoeDetailItem
       if (data.code === 200) {
+        const key = 'ningMoeDetail'
         ningMoeDetail = {
           id,
           bgmId
@@ -164,10 +190,11 @@ class Discovery extends store {
           // }))
         }
         this.setState({
-          ningMoeDetail: {
+          [key]: {
             [bgmId]: ningMoeDetail
           }
         })
+        this.setStorage(key, undefined, namespace)
       }
 
       return Promise.resolve(ningMoeDetail)
@@ -176,6 +203,10 @@ class Discovery extends store {
     }
   }
 
+  /**
+   * 查询真正的云盘地址
+   * @param {*} url
+   */
   async fetchNingMoeRealYunUrl({ url }) {
     try {
       const data = await fetch(`${NING_MOE_HOST}/api/get_real_yun_url`, {
@@ -187,7 +218,7 @@ class Discovery extends store {
           url
         })
       }).then(response => response.json())
-      console.log(data)
+
       let ningMoeRealYunUrl = ''
       if (data.code === 200) {
         ningMoeRealYunUrl = data.data.yun_url
@@ -197,6 +228,32 @@ class Discovery extends store {
     } catch (error) {
       return Promise.resolve('')
     }
+  }
+
+  /**
+   * Anitama文章列表
+   */
+  async fetchAnitamaTimeline(page = 1) {
+    const data = await fetch(`${ANITAMA_HOST}/timeline?pageNo=${page}`).then(
+      response => response.json()
+    )
+
+    let animataTimeline = initAnitamaTimelineItem
+    if (data.status === 200 && data.success) {
+      const key = 'anitamaTimeline'
+      animataTimeline = {
+        list: data.data.page.list.filter(item => item.entryType === 'article'),
+        _loaded: getTimestamp()
+      }
+      this.setState({
+        [key]: {
+          [page]: animataTimeline
+        }
+      })
+      this.setStorage(key, undefined, namespace)
+    }
+
+    return Promise.resolve(animataTimeline)
   }
 }
 

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 21:50:56
+ * @Last Modified time: 2019-06-24 21:34:01
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Loading } from '@components'
+import { Loading, Flex, Touchable, Image } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { analysis } from '@utils/fetch'
@@ -29,7 +29,8 @@ class Discovery extends React.Component {
   }
 
   static contextTypes = {
-    $: PropTypes.object
+    $: PropTypes.object,
+    navigation: PropTypes.object
   }
 
   componentDidMount() {
@@ -40,26 +41,44 @@ class Discovery extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     const { _loaded } = $.home
     if (!_loaded) {
       return <Loading style={_.container.screen} />
     }
 
-    const { onScroll } = this.props
     return (
       <ScrollView
         style={_.container.screen}
         contentContainerStyle={_.container.bottom}
-        scrollEventThrottle={32}
-        onScroll={onScroll}
       >
         <StatusBarPlaceholder style={{ backgroundColor: _.colorBg }} />
         <Award />
         <Section />
-        {MODEL_SUBJECT_TYPE.data.map(item => (
-          <List key={item.label} type={item.label} />
-        ))}
+        <View style={[_.container.wind, _.mt.lg]}>
+          <Touchable onPress={() => navigation.push('Anitama')}>
+            <Flex
+              style={{
+                height: 160,
+                backgroundColor: '#000',
+                borderRadius: _.radiusMd,
+                overflow: 'hidden'
+              }}
+              justify='center'
+            >
+              <Image
+                src={require('@assets/images/anitama.jpg')}
+                size={80}
+                placeholder={false}
+              />
+            </Flex>
+          </Touchable>
+        </View>
+        <View style={_.mt.sm}>
+          {MODEL_SUBJECT_TYPE.data.map(item => (
+            <List key={item.label} type={item.label} />
+          ))}
+        </View>
       </ScrollView>
     )
   }

@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-16 17:01:46
+ * @Last Modified time: 2019-06-24 22:12:08
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -91,8 +91,9 @@ export default class Image extends React.Component {
     if (IOS) {
       try {
         if (typeof src === 'string') {
-          let _src = src.replace('http://', 'https://')
-          if (_src.indexOf('https:') === -1) {
+          let _src = src
+          // let _src = src.replace('http://', 'https://')
+          if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
             _src = `https:${_src}`
           }
           _src = this.getQuality(_src, qualityLevel)
@@ -125,9 +126,10 @@ export default class Image extends React.Component {
     } else {
       uri = src
       if (typeof uri === 'string') {
-        uri = src.replace('http://', 'https://')
+        uri = src
+        // uri = src.replace('http://', 'https://')
         uri = this.getQuality(uri, qualityLevel)
-        if (uri.indexOf('https:') === -1) {
+        if (uri.indexOf('https:') === -1 && uri.indexOf('http:') === -1) {
           uri = `https:${uri}`
         }
       }
