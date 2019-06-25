@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import { Loading } from '@components'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { HTML_CALENDAR } from '@constants/html'
 import _ from '@styles'
 import List from './list'
@@ -50,7 +50,7 @@ class Calendar extends React.Component {
       }
     })
 
-    analysis('calendar', title)
+    hm('calendar', title)
   }
 
   render() {

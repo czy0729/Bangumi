@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 23:58:35
+ * @Last Modified time: 2019-06-25 19:51:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,10 +21,6 @@ import Navigations from './navigations/index'
 useScreens()
 
 console.disableYellowBox = true
-// YellowBox.ignoreWarnings([
-//   '[Unhandled promise rejection:',
-//   'Warning: Can\'t call setState (or forceUpdate)'
-// ])
 
 /**
  * 能打印循环引用

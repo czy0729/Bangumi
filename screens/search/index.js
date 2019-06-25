@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
 import _ from '@styles'
 import Category from './category'
@@ -54,7 +54,7 @@ class Search extends React.Component {
       }
     })
 
-    analysis('subject_search', title)
+    hm('subject_search', title)
   }
 
   render() {

@@ -13,7 +13,7 @@ import { ListView } from '@components'
 import FixedTextarea from '@components/fixed-textarea'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Top from './top'
 import Item from './item'
@@ -57,7 +57,7 @@ class Topic extends React.Component {
       }
     })
 
-    analysis(`rakuen/topic/${$.params.topicId}`, `话题 - ${title}`)
+    hm(`rakuen/topic/${$.params.topicId}`, `话题 - ${title}`)
   }
 
   showFixedTextare = () => {

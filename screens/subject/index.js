@@ -13,7 +13,7 @@ import { ManageModal, ItemComment } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { NING_MOE_HOST } from '@constants'
 import _ from '@styles'
 import Header from './header'
@@ -90,7 +90,7 @@ class Subject extends React.Component {
       })
     }
 
-    analysis(`subject/${$.params.subjectId}`, `${title} - ${_title}`)
+    hm(`subject/${$.params.subjectId}`, `${title} - ${_title}`)
   }
 
   render() {

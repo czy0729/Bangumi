@@ -9,7 +9,7 @@ import { StyleSheet, Dimensions, View } from 'react-native'
 import { ScreenOrientation, Video as ExpoVideo } from 'expo'
 import VideoPlayer from 'expo-video-player'
 import { Flex, Icon, Touchable } from '@components'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import _ from '@styles'
 
 export default class Video extends React.Component {
@@ -24,7 +24,7 @@ export default class Video extends React.Component {
 
   // Only on this screen, allow landscape orientations
   componentDidMount() {
-    analysis('video', '视频播放')
+    hm('video', '视频播放')
 
     ScreenOrientation.allow(ScreenOrientation.Orientation.ALL)
     Dimensions.addEventListener('change', this.orientationChangeHandler)

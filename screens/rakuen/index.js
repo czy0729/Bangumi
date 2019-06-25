@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
 import { inject, withTabsHeader } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants/html'
 import _ from '@styles'
 import Tabs from './tabs'
@@ -76,7 +76,7 @@ class Rakuen extends React.Component {
       )
     })
 
-    analysis('rakuen', title)
+    hm('rakuen', title)
   }
 
   render() {

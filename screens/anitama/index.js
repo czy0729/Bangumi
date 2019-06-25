@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Touchable, Text, Image, Flex, Input } from '@components'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Store from './store'
 
@@ -51,7 +51,7 @@ class Anitama extends React.Component {
       }
     })
 
-    analysis('anitama', title)
+    hm('anitama', title)
   }
 
   renderPaganation() {
@@ -118,7 +118,7 @@ class Anitama extends React.Component {
                   onPress={() => {
                     const url = `http://m.anitama.cn/article/${item.aid}`
                     open(url)
-                    analysis(url, title)
+                    hm(url, title)
                     // $.pushHistory(item.aid)
                   }}
                 >

@@ -11,7 +11,7 @@ import { ListView } from '@components'
 import { TopicItem } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
 import _ from '@styles'
 import Info from './info'
@@ -55,7 +55,7 @@ class Mono extends React.Component {
       }
     })
 
-    analysis(monoId, `${title} - ${name}`)
+    hm(monoId, `${title} - ${name}`)
   }
 
   render() {

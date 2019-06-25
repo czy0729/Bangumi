@@ -10,7 +10,7 @@ import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBar, IconTabBar } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import _ from '@styles'
 import ParallaxImage from './parallax-image'
 import Tabs from './tabs'
@@ -42,7 +42,7 @@ class User extends React.Component {
     const { $ } = this.context
     $.init()
 
-    analysis(`user/${$.myUserId}?route=user`, `${title} - ${$.myUserId}`)
+    hm(`user/${$.myUserId}?route=user`, `${title} - ${$.myUserId}`)
   }
 
   onScroll = e => {

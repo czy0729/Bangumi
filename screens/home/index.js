@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-24 22:16:34
+ * @Last Modified time: 2019-06-25 19:50:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { observer } from 'mobx-react'
 import { Image } from '@components'
 import { IconTabBar, IconTabsHeader, ManageModal } from '@screens/_'
 import { inject, withTabsHeader } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
 import _ from '@styles'
 import Tabs from './tabs'
@@ -73,10 +73,9 @@ class Home extends React.Component {
       })
     }
 
-    analysis(
-      `?id=${$.userInfo.userId}`,
-      `${title} - ${$.userInfo.userId} | ${$.userInfo.nickname}`
-    )
+    setTimeout(() => {
+      hm(`?id=${$.userInfo.userId}`, title)
+    }, 4000)
   }
 
   render() {

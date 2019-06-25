@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { HTML_NEW_TIMELINE } from '@constants/html'
 import _ from '@styles'
 import Tabs from './tabs'
@@ -59,7 +59,7 @@ class Timeline extends React.Component {
       )
     })
 
-    analysis('timeline', title)
+    hm('timeline', title)
   }
 
   render() {

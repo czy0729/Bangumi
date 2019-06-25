@@ -13,7 +13,7 @@ import { IconBack } from '@screens/_'
 import { open } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { HOST_NAME } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
@@ -55,7 +55,7 @@ class WebView extends React.Component {
     }
     navigation.setParams(params)
 
-    analysis(uri, `web-view - ${uri}`)
+    hm(uri, `web-view - ${uri}`)
   }
 
   onError = () => {

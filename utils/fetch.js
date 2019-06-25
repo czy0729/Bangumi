@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-24 22:15:15
+ * @Last Modified time: 2019-06-25 19:50:09
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -278,34 +278,20 @@ export function xhr(
 }
 
 /**
- * 统计
  * @param {*} url
  * @param {*} title
  */
-export function analysis(url, title) {
+export function hm(url, title) {
   try {
     const userStore = require('../stores/user').default
     const query = {
-      // cc: 1, // 不知道, 一般为1
-      // ck: 0, // 是否支持cookie 1:0
-      // cl: '24-bit', // 颜色深度
-      // ds: '375x667',
-      // vl: 0,
-      // et: 0, // 初始值为0, 如果ep时间变量不是0的话, 它会变成其他
-      // ja: 0, // java支持 1:0
-      // ln: 'zh-cn',
-      // lo: 0, // 不知道, 一般为0,
-      lt: getTimestamp(), // 日期
-      rnd: randomn(10), // 10位随机数字
-      si: '2dcb6644739ae08a1748c45fb4cea087', // 统计代码id
-      // su: '', // 上一页document.referrer
-      v: '1.2.51', // 统计代码的版本
-      // lv: 3, // 不知道
+      lt: getTimestamp(),
+      rnd: randomn(10),
+      si: '2dcb6644739ae08a1748c45fb4cea087',
+      v: '1.2.51',
       api: '4_0',
-      // sn: 0,
-      // ct: '!!',
-      u: String(url).indexOf('http' === -1) ? `${HOST}/${url}` : url, // 网址
-      tt: title // 标题
+      u: String(url).indexOf('http' === -1) ? `${HOST}/${url}` : url,
+      tt: title
     }
 
     fetch(`https://hm.baidu.com/hm.gif?${urlStringify(query)}`, {

@@ -10,7 +10,7 @@ import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
 import { Text, Button } from '@components'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { userStore } from '@stores'
 import _ from '@styles'
 
@@ -26,7 +26,7 @@ class Auth extends React.Component {
   }
 
   componentDidMount() {
-    analysis('auth', title)
+    hm('auth', title)
   }
 
   render() {

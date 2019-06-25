@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 import ToolBar from './tool-bar'
@@ -39,7 +39,7 @@ class Tag extends React.Component {
     $.init()
 
     const { type, tag } = navigation.state.params
-    analysis(
+    hm(
       `${type}/${tag}`,
       `${title} - ${MODEL_SUBJECT_TYPE.getTitle(type)} | ${tag}`
     )

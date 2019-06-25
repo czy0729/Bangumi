@@ -13,7 +13,7 @@ import { StatusBar } from '@screens/_'
 import { withHeader, observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { userStore } from '@stores'
 import _ from '@styles'
 
@@ -36,7 +36,7 @@ class Award extends React.Component {
   redirectCount = 0 // 跳转次数
 
   componentDidMount() {
-    analysis('award/2018', title)
+    hm('award/2018', title)
   }
 
   onError = () => {

@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { StatusBar } from '@screens/_'
 import { inject } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import _, { tabsHeight } from '@styles'
 import ParallaxImage from './parallax-image'
 import Tabs from './tabs'
@@ -41,7 +41,7 @@ class Zone extends React.Component {
     const { $ } = this.context
     $.init()
 
-    analysis(`user/${$.params.userId}?route=zone`, title)
+    hm(`user/${$.params.userId}?route=zone`, title)
   }
 
   onScroll = e => {

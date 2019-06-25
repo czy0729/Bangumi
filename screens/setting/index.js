@@ -14,7 +14,7 @@ import { systemStore, userStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import {
   FEEDBACK_URL,
   GITHUB_URL,
@@ -40,7 +40,7 @@ class Setting extends React.Component {
   }
 
   componentDidMount() {
-    analysis('settings', title)
+    hm('settings', title)
   }
 
   setQuality = label => {

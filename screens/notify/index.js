@@ -11,7 +11,7 @@ import { Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Store from './store'
 
@@ -36,7 +36,7 @@ class Notify extends React.Component {
     await $.init()
     $.doClearNotify()
 
-    analysis('notify/all', title)
+    hm('notify/all', title)
   }
 
   render() {

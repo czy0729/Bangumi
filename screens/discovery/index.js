@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Loading, Flex, Touchable, Image } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 import Award from './award'
@@ -37,7 +37,7 @@ class Discovery extends React.Component {
     const { $ } = this.context
     $.init()
 
-    analysis('discovery', title)
+    hm('discovery', title)
   }
 
   render() {

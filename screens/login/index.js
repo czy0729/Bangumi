@@ -12,7 +12,7 @@ import { WebView, Flex, Image, Button, Loading, Text } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
-import { analysis } from '@utils/fetch'
+import { hm } from '@utils/fetch'
 import { APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
@@ -54,7 +54,7 @@ export default class Login extends React.Component {
   }
 
   componentDidMount() {
-    analysis('login', title)
+    hm('login', title)
   }
 
   onTour = () => {
