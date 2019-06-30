@@ -66,38 +66,6 @@ v0.7
 
 ---
 
-#### Getting Started
-
-** 下载 **
-
-注意, 某个依赖包在淘宝源里面 404, 要切换为 npm 官方源
-
-```bash
-npm config set registry https://registry.npmjs.org
-```
-
-国内环境, 首次下载包有可能会异常地慢
-
-```bash
-git clone https://github.com/czy0729/Bangumi
-cd ./Bangumi
-npm install // or yarn 因为后全面会替换掉node_modules的icon, 使用yarn可能会出现回退的现象
-```
-
-** 前置操作 **
-
-把 assets/iconfont/ 下的目录 vector-icons 替换掉 node_modules/@expo/ 下的 vector-icons
-
-** 启动 **
-
-```bash
-npm start // 之后点击在浏览器打开的Expo Developer Tools, 点击 Run on iOS simulator
-```
-
-window 用法不详, 也不清楚到底能不能运行, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档. 可以选择同一局域网真机扫码调试, 需先下载 Expo App
-
----
-
 #### Page Preview
 
 #### Login 登陆
@@ -145,3 +113,35 @@ window 用法不详, 也不清楚到底能不能运行, 可以查阅 [Expo](http
 #### Other 每日放送 / 电波提醒 / 设置
 
 <img src="./preview/calendar_1.png" width="200" alt="calendar_1" /> <img src="./preview/notify_1.png" width="200" alt="notify_1" /> <img src="./preview/setting_1.png" width="200" alt="setting_1" />
+
+---
+
+#### Getting Started
+
+** 下载 **
+
+注意, 某个依赖包在淘宝源里面 404, 要切换为 npm 官方源
+
+```bash
+npm config set registry https://registry.npmjs.org
+```
+
+国内环境, 首次下载包有可能会异常地慢
+
+```bash
+git clone https://github.com/czy0729/Bangumi
+cd ./Bangumi
+npm install // or yarn 因为后全面会替换掉node_modules的icon, 使用yarn可能会出现回退的现象
+```
+
+** 前置操作 **
+
+把 assets/iconfont/ 下的目录 vector-icons 替换掉 node_modules/@expo/ 下的 vector-icons
+
+** 启动 **
+
+```bash
+npm start // 之后点击在浏览器打开的Expo Developer Tools, 点击 Run on iOS simulator
+```
+
+window 用法不详, 也不清楚到底能不能运行, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档. 可以选择同一局域网真机扫码调试, 需先下载 Expo App
