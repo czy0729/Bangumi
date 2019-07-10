@@ -5,14 +5,15 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-10 23:58:34
+ * @Last Modified time: 2019-07-11 00:41:38
  */
 import React from 'react'
 import { StyleSheet, View, Image } from 'react-native'
 import { Constants } from 'expo'
+import cheerio from 'cheerio-without-node-native'
 import { Input, Button } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
-import { userStore } from '@stores'
+// import { userStore } from '@stores'
 import { urlStringify, getTimestamp } from '@utils'
 import { HOST } from '@constants'
 import _ from '@styles'
@@ -36,6 +37,8 @@ export default class LoginV2 extends React.Component {
 
   userAgent = ''
   formhash = ''
+  code = ''
+  accessToken = ''
   cookie = {
     chiiSid: '',
     chiiAuth: ''
@@ -51,6 +54,7 @@ export default class LoginV2 extends React.Component {
 
   logout = () =>
     new Promise(resolve => {
+      console.log('logout')
       const request = new XMLHttpRequest()
 
       request.onreadystatechange = function() {
@@ -66,6 +70,7 @@ export default class LoginV2 extends React.Component {
 
   getFormHash = () =>
     new Promise(resolve => {
+      console.log('getFormHash')
       const request = new XMLHttpRequest()
       const that = this
 
@@ -100,6 +105,7 @@ export default class LoginV2 extends React.Component {
 
   getCaptcha = () =>
     new Promise(resolve => {
+      console.log('getCaptcha')
       const { state } = this.state
       const request = new XMLHttpRequest()
       const that = this
@@ -122,6 +128,7 @@ export default class LoginV2 extends React.Component {
 
   login = () =>
     new Promise(resolve => {
+      console.log('login')
       const { captcha } = this.state
       const request = new XMLHttpRequest()
       const that = this
@@ -137,7 +144,7 @@ export default class LoginV2 extends React.Component {
             }
           }
 
-          this.oauth()
+          that.oauth()
           resolve()
         }
       }
@@ -164,12 +171,13 @@ export default class LoginV2 extends React.Component {
 
   oauth = () =>
     new Promise(resolve => {
+      console.log('oauth')
       const request = new XMLHttpRequest()
       const that = this
 
       request.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-          log(this)
+          that.updateFormhash(this._response)
           resolve()
         }
       }
@@ -187,6 +195,85 @@ export default class LoginV2 extends React.Component {
       request.send(null)
     })
 
+  updateFormhash = html => {
+    console.log('updateFormhash')
+    this.formhash = cheerio
+      .load(html)('input[name=formhash]')
+      .attr('value')
+    this.authorize()
+  }
+
+  authorize = () =>
+    new Promise(resolve => {
+      console.log('authorize')
+      const request = new XMLHttpRequest()
+      const that = this
+
+      request.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          that.code = this.responseURL
+            .split('=')
+            .slice(1)
+            .join('=')
+          that.getAccessToken()
+          resolve()
+        }
+      }
+      request.withCredentials = false
+      request.open(
+        'POST',
+        `${HOST}/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=code`,
+        true
+      )
+      request.setRequestHeader(
+        'Content-Type',
+        'application/x-www-form-urlencoded'
+      )
+      request.setRequestHeader(
+        'Cookie',
+        `; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`
+      )
+      request.setRequestHeader('User-Agent', this.userAgent)
+      request.send(
+        urlStringify({
+          formhash: this.formhash,
+          redirect_uri: '',
+          client_id: clientId,
+          submit: '授权'
+        })
+      )
+    })
+
+  getAccessToken = () =>
+    new Promise(resolve => {
+      console.log('getAccessToken')
+      const request = new XMLHttpRequest()
+
+      request.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          log(this)
+          resolve()
+        }
+      }
+      request.withCredentials = false
+      request.open('POST', `${HOST}/oauth/access_token`, true)
+      request.setRequestHeader(
+        'Content-Type',
+        'application/x-www-form-urlencoded'
+      )
+      request.setRequestHeader('User-Agent', this.userAgent)
+      request.send(
+        urlStringify({
+          grant_type: 'authorization_code',
+          client_id: clientId,
+          client_secret: clientSecret,
+          code: this.code,
+          redirect_uri: 'code',
+          state: ''
+        })
+      )
+    })
+
   onChange = evt => {
     const { nativeEvent } = evt
     const { text } = nativeEvent
@@ -202,21 +289,6 @@ export default class LoginV2 extends React.Component {
       <View style={[_.container.flex, styles.gray]}>
         <StatusBar />
         <StatusBarPlaceholder style={styles.gray} />
-        {/* {!!state && (
-          <Touchable onPress={this.refresh}>
-            <Image
-              source={{
-                uri: `https://bangumi.tv/signup/captcha?state=${state}`,
-                method: 'POST',
-                credentials: 'include'
-              }}
-              style={{
-                width: 160,
-                height: 60
-              }}
-            />
-          </Touchable>
-        )} */}
         {!!base64 && (
           <Image
             source={{ uri: base64 }}
