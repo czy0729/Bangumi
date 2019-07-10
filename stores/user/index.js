@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-10 16:12:06
+ * @Last Modified time: 2019-07-10 16:23:49
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -24,12 +24,14 @@ import {
   API_USER_COLLECTIONS_STATUS
 } from '@constants/api'
 import { HTML_USERS } from '@constants/html'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { INIT_ACCESS_TOKEN, INIT_USER_INFO, INIT_USER_COOKIE } from './init'
+import {
+  NAMESPACE,
+  DEFAULT_SCOPE,
+  INIT_ACCESS_TOKEN,
+  INIT_USER_INFO,
+  INIT_USER_COOKIE
+} from './init'
 import RakuenStore from '../rakuen'
-
-const namespace = 'User'
-const defaultScope = MODEL_SUBJECT_TYPE.getLabel('动画')
 
 class Store extends store {
   state = observable({
@@ -75,12 +77,12 @@ class Store extends store {
 
   async init() {
     const res = Promise.all([
-      this.getStorage('accessToken', namespace),
-      this.getStorage('userInfo', namespace),
-      this.getStorage('userCookie', namespace),
-      this.getStorage('userCollection', namespace),
-      this.getStorage('userProgress', namespace),
-      this.getStorage('userCollectionsStatus', namespace)
+      this.getStorage('accessToken', NAMESPACE),
+      this.getStorage('userInfo', NAMESPACE),
+      this.getStorage('userCookie', NAMESPACE),
+      this.getStorage('userCollection', NAMESPACE),
+      this.getStorage('userProgress', NAMESPACE),
+      this.getStorage('userCollectionsStatus', NAMESPACE)
     ])
     const state = await res
     this.setState({
@@ -152,7 +154,7 @@ class Store extends store {
    * @param {*} scope
    * @param {*} userId
    */
-  userCollections(scope = defaultScope, userId = this.myUserId) {
+  userCollections(scope = DEFAULT_SCOPE, userId = this.myUserId) {
     return computed(
       () => this.state.userCollections[`${scope}|${userId}`] || LIST_EMPTY
     ).get()
@@ -225,7 +227,7 @@ class Store extends store {
       'accessToken',
       {
         storage: true,
-        namespace
+        namespace: NAMESPACE
       }
     )
   }
@@ -243,7 +245,7 @@ class Store extends store {
       'userInfo',
       {
         storage: true,
-        namespace
+        namespace: NAMESPACE
       }
     )
   }
@@ -262,7 +264,7 @@ class Store extends store {
       {
         list: true,
         storage: true,
-        namespace
+        namespace: NAMESPACE
       }
     )
   }
@@ -317,7 +319,7 @@ class Store extends store {
         }
       })
     }
-    this.setStorage('userProgress', undefined, namespace)
+    this.setStorage('userProgress', undefined, NAMESPACE)
     return res
   }
 
@@ -326,7 +328,7 @@ class Store extends store {
    * @param {*} scope
    * @param {*} userId
    */
-  async fetchUserCollections(scope = defaultScope, userId = this.myUserId) {
+  async fetchUserCollections(scope = DEFAULT_SCOPE, userId = this.myUserId) {
     const config = {
       url: API_USER_COLLECTIONS(scope, userId),
       data: {
@@ -392,7 +394,7 @@ class Store extends store {
       ['userCollectionsStatus', userId],
       {
         storage: true,
-        namespace
+        namespace: NAMESPACE
       }
     )
   }
@@ -435,9 +437,9 @@ class Store extends store {
       userCookie: INIT_USER_COOKIE,
       userInfo: INIT_USER_INFO
     })
-    this.setStorage('accessToken', undefined, namespace)
-    this.setStorage('userCookie', undefined, namespace)
-    this.setStorage('userInfo', undefined, namespace)
+    this.setStorage('accessToken', undefined, NAMESPACE)
+    this.setStorage('userCookie', undefined, NAMESPACE)
+    this.setStorage('userInfo', undefined, NAMESPACE)
   }
 
   /**
@@ -448,7 +450,7 @@ class Store extends store {
     this.setState({
       userCookie: data
     })
-    this.setStorage('userCookie', undefined, namespace)
+    this.setStorage('userCookie', undefined, NAMESPACE)
   }
 
   /**
@@ -463,7 +465,7 @@ class Store extends store {
         userAgent: ''
       }
     })
-    this.setStorage('userCookie', undefined, namespace)
+    this.setStorage('userCookie', undefined, NAMESPACE)
   }
 
   // -------------------- action --------------------
