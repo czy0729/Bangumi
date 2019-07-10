@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/react-native": "^3.1.3",
     "bangumi-data": "^0.2.50",
+    "cheerio-without-node-native": "^0.20.2",
     "crypto-js": "^3.1.9-1",
     "deepmerge": "^3.2.0",
     "expo": "32.0.0",

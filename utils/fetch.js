@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-25 19:50:09
+ * @Last Modified time: 2019-07-09 23:41:12
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -12,15 +12,6 @@ import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
 
-// const STATUS_SUCCESS = 200
-// const STATUS_ACCEPTED = 202
-// const STATUS_NOT_MODIFIED = 304
-// const STATUS_BAD_REQUEST = 400
-// const STATUS_UNAUTHORIZED = 401
-// const STATUS_NOT_FOUND = 404
-// const STATUS_METHOD_NOT_ALLOWED = 405
-
-const OFFLINE = false
 const ERR_RETRY_COUNT = 5 // GET请求失败重试次数
 
 /**
@@ -37,10 +28,6 @@ export default async function _fetch({
   info = '',
   noConsole = false
 } = {}) {
-  if (OFFLINE) {
-    return false
-  }
-
   // 避免userStore循环引用
   const userStore = require('../stores/user').default
   const {
@@ -141,13 +128,8 @@ export async function fetchHTML({
   headers = {},
   cookie
 } = {}) {
-  if (OFFLINE) {
-    return false
-  }
-
-  // 避免userStore循环引用
   const userStore = require('../stores/user').default
-  const { userAgent, cookie: userCookie } = userStore.userCookie
+  const { cookie: userCookie } = userStore.userCookie
   const _config = {
     method,
     headers: {}
@@ -160,7 +142,7 @@ export async function fetchHTML({
   let _url = url.replace('!', '') // 叹号代表不携带cookie
   if (url.indexOf('!') !== 0) {
     _config.headers = {
-      'User-Agent': userAgent,
+      // 'User-Agent': userAgent,
 
       // 前面这个分号很重要, CDN那边经常给我加一堆乱七八糟的会搞坏cookie
       Cookie: cookie ? `; ${userCookie}; ${cookie};` : `; ${userCookie};`,
@@ -186,18 +168,6 @@ export async function fetchHTML({
   const systemStore = require('../stores/system').default
   return fetch(_url, _config)
     .then(res => {
-      // if (res.headers) {
-      //   const setCookie = res.headers.get('set-cookie')
-      //   log(setCookie)
-
-      //   if (setCookie) {
-      //     const match = setCookie.match(/chii_sid=(.+?);/)
-      //     if (match) {
-      //       userStore.updateChiiSid(match[1])
-      //     }
-      //   }
-      // }
-
       // 开发模式
       if (systemStore.state.dev) {
         Alert.alert(
@@ -248,7 +218,7 @@ export function xhr(
 ) {
   // 避免userStore循环引用
   const userStore = require('../stores/user').default
-  const { userAgent, cookie: userCookie } = userStore.userCookie
+  const { cookie: userCookie } = userStore.userCookie
 
   const toastKey = Toast.loading('Loading...', 0)
   const request = new XMLHttpRequest()
@@ -262,7 +232,7 @@ export function xhr(
     }
 
     if (request.status === 200) {
-      success(this.responseText)
+      success(request.responseText)
     } else {
       fail()
     }
@@ -271,7 +241,7 @@ export function xhr(
   request.open(method, url)
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   request.setRequestHeader('Cookie', userCookie)
-  request.setRequestHeader('User-Agent', userAgent)
+  // request.setRequestHeader('User-Agent', userAgent)
   request.setRequestHeader('Host', HOST_NAME)
   request.setRequestHeader('accept-encoding', 'gzip, deflate')
   request.send(urlStringify(data))

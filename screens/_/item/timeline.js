@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 15:25:01
+ * @Last Modified time: 2019-07-09 00:36:18
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
@@ -13,7 +13,7 @@ import _ from '@styles'
 import Stars from '../stars'
 
 const avatarWidth = 28
-const regSubject = /\/\/bgm.tv\/subject\/\d+$/
+const regSubject = /\/\/bangumi.tv\/subject\/\d+$/
 
 class TimelineItem extends React.Component {
   static defaultProps = {

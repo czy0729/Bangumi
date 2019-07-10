@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-24 19:45:31
+ * @Last Modified time: 2019-06-30 15:50:04
  */
 export { default as Anitama } from './anitama'
 export { default as Auth } from './auth'
@@ -11,6 +11,7 @@ export { default as Calendar } from './calendar'
 export { default as Discovery } from './discovery'
 export { default as Home } from './home'
 export { default as Login } from './login'
+export { default as LoginV2 } from './login-v2'
 export { default as Mono } from './mono'
 export { default as Notify } from './notify'
 export { default as Random } from './random'

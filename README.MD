@@ -1,6 +1,6 @@
 # Bangumi
 
-> 这是一个基于`React-Native`的 [Bangumi](https://bgm.tv) 客户端
+> 这是一个基于`React-Native`的 [Bangumi](https://bangumi.tv) 客户端
 >
 > 对安卓和 iOS 都做到兼容, 安卓实机样式效果会有部分差异, 尽量保持一致, 功能持续开发中...
 

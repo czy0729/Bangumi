@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-24 19:45:46
+ * @Last Modified time: 2019-07-08 23:52:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,6 +20,7 @@ import {
   Calendar,
   Discovery,
   Login,
+  LoginV2,
   Mono,
   Notify,
   Rakuen,
@@ -80,7 +81,8 @@ const HomeStack = createStackNavigator(
     Calendar,
     Discovery,
     HomeTab,
-    Login,
+    Login: LoginV2,
+    LoginV2,
     Mono,
     Notify,
     Random,

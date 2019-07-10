@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 22:32:55
+ * @Last Modified time: 2019-07-10 16:12:06
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -25,42 +25,22 @@ import {
 } from '@constants/api'
 import { HTML_USERS } from '@constants/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import RakuenStore from './rakuen'
+import { INIT_ACCESS_TOKEN, INIT_USER_INFO, INIT_USER_COOKIE } from './init'
+import RakuenStore from '../rakuen'
 
 const namespace = 'User'
-const initAccessToken = {
-  access_token: '',
-  expires_in: 604800,
-  token_type: 'Bearer',
-  scope: null,
-  user_id: 0,
-  refresh_token: ''
-}
-const initUserInfo = {
-  avatar: {},
-  id: 0,
-  nickname: '',
-  sign: '',
-  url: '',
-  usergroup: '',
-  username: ''
-}
-const initUserCookie = {
-  cookie: '',
-  userAgent: ''
-}
-const initScope = MODEL_SUBJECT_TYPE.getLabel('动画')
+const defaultScope = MODEL_SUBJECT_TYPE.getLabel('动画')
 
-class User extends store {
+class Store extends store {
   state = observable({
     // 授权信息
-    accessToken: initAccessToken,
+    accessToken: INIT_ACCESS_TOKEN,
 
     // 自己用户信息
-    userInfo: initUserInfo,
+    userInfo: INIT_USER_INFO,
 
     // 用户cookie
-    userCookie: initUserCookie,
+    userCookie: INIT_USER_COOKIE,
 
     // 在看收藏
     userCollection: LIST_EMPTY,
@@ -79,7 +59,7 @@ class User extends store {
 
     // 某用户信息
     usersInfo: {
-      // [userId]: initUserInfo
+      // [userId]: INIT_USER_INFO
     },
 
     // 用户收藏统计
@@ -104,16 +84,16 @@ class User extends store {
     ])
     const state = await res
     this.setState({
-      accessToken: state[0] || initAccessToken,
-      userInfo: state[1] || initUserInfo,
-      userCookie: state[2] || initUserCookie,
+      accessToken: state[0] || INIT_ACCESS_TOKEN,
+      userInfo: state[1] || INIT_USER_INFO,
+      userCookie: state[2] || INIT_USER_COOKIE,
       userCollection: state[3] || LIST_EMPTY,
       userProgress: state[4] || {},
       userCollectionsStatus: state[5] || {}
     })
 
     if (this.isLogin) {
-      const { _loaded } = state[1] || initUserInfo
+      const { _loaded } = state[1] || INIT_USER_INFO
 
       // 用户信息被动刷新, 距离上次24小时候后才请求
       if (!_loaded || getTimestamp() - _loaded > 86400) {
@@ -172,7 +152,7 @@ class User extends store {
    * @param {*} scope
    * @param {*} userId
    */
-  userCollections(scope = initScope, userId = this.myUserId) {
+  userCollections(scope = defaultScope, userId = this.myUserId) {
     return computed(
       () => this.state.userCollections[`${scope}|${userId}`] || LIST_EMPTY
     ).get()
@@ -183,7 +163,7 @@ class User extends store {
    * @param {*} userId
    */
   usersInfo(userId = this.myUserId) {
-    return computed(() => this.state.usersInfo[userId] || initUserInfo).get()
+    return computed(() => this.state.usersInfo[userId] || INIT_USER_INFO).get()
   }
 
   /**
@@ -346,7 +326,7 @@ class User extends store {
    * @param {*} scope
    * @param {*} userId
    */
-  async fetchUserCollections(scope = initScope, userId = this.myUserId) {
+  async fetchUserCollections(scope = defaultScope, userId = this.myUserId) {
     const config = {
       url: API_USER_COLLECTIONS(scope, userId),
       data: {
@@ -451,9 +431,9 @@ class User extends store {
    */
   logout() {
     this.setState({
-      accessToken: initAccessToken,
-      userCookie: initUserCookie,
-      userInfo: initUserInfo
+      accessToken: INIT_ACCESS_TOKEN,
+      userCookie: INIT_USER_COOKIE,
+      userInfo: INIT_USER_INFO
     })
     this.setStorage('accessToken', undefined, namespace)
     this.setStorage('userCookie', undefined, namespace)
@@ -464,23 +444,26 @@ class User extends store {
    * 更新用户cookie
    * @param {*} data
    */
-  updateUserCookie(data = initUserCookie) {
+  updateUserCookie(data = INIT_USER_COOKIE) {
     this.setState({
       userCookie: data
     })
     this.setStorage('userCookie', undefined, namespace)
   }
 
-  updateChiiSid(chiiSid) {
-    const { cookie } = this.userCookie
-    if (cookie) {
-      this.setState({
-        userCookie: {
-          cookie: cookie.replace(/chii_sid=.*;/, `chii_sid=${chiiSid};`)
-        }
-      })
-      this.setStorage('userCookie', undefined, namespace)
-    }
+  /**
+   * 替换用户cookie
+   * @param {*} chiiSid
+   * @param {*} chiiAuth
+   */
+  replaceUserCookie(chiiSid, chiiAuth) {
+    this.setState({
+      userCookie: {
+        cookie: `chii_sid=${chiiSid}; chii_auth=${chiiAuth};`,
+        userAgent: ''
+      }
+    })
+    this.setStorage('userCookie', undefined, namespace)
   }
 
   // -------------------- action --------------------
@@ -524,4 +507,4 @@ class User extends store {
   }
 }
 
-export default new User()
+export default new Store()
