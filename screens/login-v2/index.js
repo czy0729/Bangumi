@@ -5,24 +5,59 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-11 00:41:38
+ * @Last Modified time: 2019-07-12 01:00:36
  */
 import React from 'react'
-import { StyleSheet, View, Image } from 'react-native'
+import { StyleSheet, View, Image as RNImage } from 'react-native'
 import { Constants } from 'expo'
 import cheerio from 'cheerio-without-node-native'
-import { Input, Button } from '@components'
+import {
+  Flex,
+  Text,
+  Touchable,
+  Image,
+  Input,
+  Button,
+  KeyboardSpacer
+} from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
-// import { userStore } from '@stores'
+import { userStore } from '@stores'
 import { urlStringify, getTimestamp } from '@utils'
-import { HOST } from '@constants'
+import { info } from '@utils/ui'
+import { HOST, APP_ID, OAUTH_REDIRECT_URL } from '@constants'
 import _ from '@styles'
 
-// config
-const email = '402731062@qq.com'
-const password = '84783019'
-const clientId = 'bgm8885c4d524cd61fc'
-const clientSecret = '1da52e7834bbb73cca90302f9ddbc8dd'
+function xhr({ method = 'GET', url, data, headers = {}, responseType } = {}) {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest()
+    request.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        resolve(this)
+      }
+    }
+    xhr.onerror = function() {
+      reject(new TypeError('Network request failed'))
+    }
+    xhr.ontimeout = function() {
+      reject(new TypeError('Network request failed'))
+    }
+    xhr.onabort = function() {
+      reject(new TypeError('AbortError'))
+    }
+
+    request.open(method, url, true)
+    request.withCredentials = false
+    if (responseType) {
+      request.responseType = responseType
+    }
+    Object.keys(headers).forEach(key => {
+      request.setRequestHeader(key, headers[key])
+    })
+
+    const body = data ? urlStringify(data) : null
+    request.send(body)
+  })
+}
 
 export default class LoginV2 extends React.Component {
   static navigationOptions = {
@@ -30,19 +65,23 @@ export default class LoginV2 extends React.Component {
   }
 
   state = {
-    state: getTimestamp(),
+    clicked: false,
+    email: '',
+    password: '',
     captcha: '',
-    base64: ''
+    base64: '',
+    loading: false,
+    info: ''
   }
 
   userAgent = ''
   formhash = ''
-  code = ''
-  accessToken = ''
   cookie = {
     chiiSid: '',
     chiiAuth: ''
   }
+  code = ''
+  accessToken = ''
 
   async componentDidMount() {
     this.userAgent = await Constants.getWebViewUserAgentAsync()
@@ -52,112 +91,95 @@ export default class LoginV2 extends React.Component {
     await this.getCaptcha()
   }
 
+  onTour = () => {
+    const { navigation } = this.props
+    navigation.goBack()
+  }
+
+  onLogin = () => {
+    this.setState({
+      clicked: true
+    })
+  }
+
   logout = () =>
-    new Promise(resolve => {
-      console.log('logout')
-      const request = new XMLHttpRequest()
-
-      request.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          resolve()
-        }
+    xhr({
+      url: `${HOST}/logout/7dd16c5e`,
+      headers: {
+        'User-Agent': this.userAgent
       }
-      request.withCredentials = false
-      request.open('GET', `${HOST}/logout/7dd16c5e`, true)
-      request.setRequestHeader('User-Agent', this.userAgent)
-      request.send()
     })
 
-  getFormHash = () =>
-    new Promise(resolve => {
-      console.log('getFormHash')
-      const request = new XMLHttpRequest()
-      const that = this
-
-      request.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          // set-cookie
-          if (this.responseHeaders['Set-Cookie']) {
-            const match = this.responseHeaders['Set-Cookie'].match(
-              /chii_sid=(.+?);/
-            )
-            if (match) {
-              that.cookie.chiiSid = match[1]
-            }
-          }
-
-          // formhash
-          const match = this._response.match(
-            /<input type="hidden" name="formhash" value="(.+?)">/
-          )
-          if (match) {
-            that.formhash = match[1]
-          }
-
-          resolve()
-        }
+  getFormHash = async () => {
+    const res = xhr({
+      url: `${HOST}/login`,
+      headers: {
+        'User-Agent': this.userAgent
       }
-      request.withCredentials = false
-      request.open('GET', `${HOST}/login`, true)
-      request.setRequestHeader('User-Agent', this.userAgent)
-      request.send()
     })
 
-  getCaptcha = () =>
-    new Promise(resolve => {
-      console.log('getCaptcha')
-      const { state } = this.state
-      const request = new XMLHttpRequest()
-      const that = this
-
-      request.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          that.setState({
-            base64: `data:image/gif;base64,${this._response}`
-          })
-          resolve()
-        }
+    const { responseHeaders, _response } = await res
+    if (responseHeaders['Set-Cookie']) {
+      const match = responseHeaders['Set-Cookie'].match(/chii_sid=(.+?);/)
+      if (match) {
+        this.cookie.chiiSid = match[1]
       }
-      request.withCredentials = false
-      request.responseType = 'arraybuffer'
-      request.open('GET', `${HOST}/signup/captcha?state=${state}`, true)
-      request.setRequestHeader('Cookie', `; chii_sid=${this.cookie.chiiSid};`)
-      request.setRequestHeader('User-Agent', this.userAgent)
-      request.send()
+    }
+
+    const match = _response.match(
+      /<input type="hidden" name="formhash" value="(.+?)">/
+    )
+    if (match) {
+      this.formhash = match[1]
+    }
+
+    return res
+  }
+
+  getCaptcha = async () => {
+    const res = xhr({
+      url: `${HOST}/signup/captcha?state=${getTimestamp()}`,
+      headers: {
+        Cookie: `; chii_sid=${this.cookie.chiiSid};`,
+        'User-Agent': this.userAgent
+      },
+      responseType: 'arraybuffer'
     })
 
-  login = () =>
-    new Promise(resolve => {
-      console.log('login')
-      const { captcha } = this.state
-      const request = new XMLHttpRequest()
-      const that = this
+    const { _response } = await res
+    this.setState({
+      base64: `data:image/gif;base64,${_response}`
+    })
 
-      request.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          if (this.responseHeaders['Set-Cookie']) {
-            const match = this.responseHeaders['Set-Cookie'].match(
-              /chii_auth=(.+?);/
-            )
-            if (match) {
-              that.cookie.chiiAuth = match[1]
-            }
-          }
+    return res
+  }
 
-          that.oauth()
-          resolve()
-        }
-      }
-      request.withCredentials = false
-      request.open('POST', `${HOST}/FollowTheRabbit`, true)
-      request.setRequestHeader(
-        'Content-Type',
-        'application/x-www-form-urlencoded'
-      )
-      request.setRequestHeader('Cookie', `; chii_sid=${this.cookie.chiiSid};`)
-      request.setRequestHeader('User-Agent', this.userAgent)
-      request.send(
-        urlStringify({
+  login = async () => {
+    const { loading, email, password, captcha } = this.state
+    if (loading) {
+      return
+    }
+
+    if (!email || !password || !captcha) {
+      info('请填写以上字段')
+      return
+    }
+
+    this.setState({
+      loading: true,
+      info: '登陆请求中...'
+    })
+
+    try {
+      const { responseHeaders } = await xhr({
+        method: 'POST',
+        url: `${HOST}/FollowTheRabbit`,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Cookie: `; chii_sid=${this.cookie.chiiSid};`,
+          'User-Agent': this.userAgent
+        },
+        data: {
           formhash: this.formhash,
           referer: '',
           dreferer: '',
@@ -165,157 +187,305 @@ export default class LoginV2 extends React.Component {
           password,
           captcha_challenge_field: captcha,
           loginsubmit: '登录'
-        })
-      )
-    })
+        }
+      })
 
-  oauth = () =>
-    new Promise(resolve => {
-      console.log('oauth')
-      const request = new XMLHttpRequest()
-      const that = this
-
-      request.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          that.updateFormhash(this._response)
-          resolve()
+      if (responseHeaders['Set-Cookie']) {
+        const match = responseHeaders['Set-Cookie'].match(/chii_auth=(.+?);/)
+        if (match) {
+          this.cookie.chiiAuth = match[1]
         }
       }
-      request.withCredentials = false
-      request.open(
-        'GET',
-        `${HOST}/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=code`,
-        true
-      )
-      request.setRequestHeader(
-        'Cookie',
-        `; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`
-      )
-      request.setRequestHeader('User-Agent', this.userAgent)
-      request.send(null)
-    })
 
-  updateFormhash = html => {
-    console.log('updateFormhash')
-    this.formhash = cheerio
-      .load(html)('input[name=formhash]')
-      .attr('value')
-    this.authorize()
+      if (!this.cookie.chiiAuth) {
+        this.setState({
+          loading: false,
+          info: '登陆失败, 请重试或点击这里前往旧版登陆 >'
+        })
+        return
+      }
+
+      this.setState({
+        info: '获取授权表单码...'
+      })
+      await this.oauth()
+
+      this.setState({
+        info: '授权中...'
+      })
+      await this.authorize()
+
+      this.setState({
+        info: '授权成功, 获取token中...'
+      })
+      await userStore.fetchAccessToken(this.code)
+
+      this.setState({
+        loading: false,
+        info: '登陆成功, 正在请求个人信息...'
+      })
+      this.inStore()
+    } catch (ex) {
+      this.setState({
+        loading: false,
+        info: '登陆失败, 请重试或点击这里前往旧版登陆 >'
+      })
+    }
   }
 
-  authorize = () =>
-    new Promise(resolve => {
-      console.log('authorize')
-      const request = new XMLHttpRequest()
-      const that = this
-
-      request.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          that.code = this.responseURL
-            .split('=')
-            .slice(1)
-            .join('=')
-          that.getAccessToken()
-          resolve()
-        }
+  oauth = async () => {
+    const res = xhr({
+      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+      headers: {
+        Cookie: `; chii_sid=${this.cookie.chiiSid}; chii_auth=${
+          this.cookie.chiiAuth
+        };`,
+        'User-Agent': this.userAgent
       }
-      request.withCredentials = false
-      request.open(
-        'POST',
-        `${HOST}/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=code`,
-        true
-      )
-      request.setRequestHeader(
-        'Content-Type',
-        'application/x-www-form-urlencoded'
-      )
-      request.setRequestHeader(
-        'Cookie',
-        `; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`
-      )
-      request.setRequestHeader('User-Agent', this.userAgent)
-      request.send(
-        urlStringify({
-          formhash: this.formhash,
-          redirect_uri: '',
-          client_id: clientId,
-          submit: '授权'
-        })
-      )
     })
 
-  getAccessToken = () =>
-    new Promise(resolve => {
-      console.log('getAccessToken')
-      const request = new XMLHttpRequest()
+    const { _response } = await res
+    this.formhash = cheerio
+      .load(_response)('input[name=formhash]')
+      .attr('value')
+    return res
+  }
 
-      request.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          log(this)
-          resolve()
-        }
+  authorize = async () => {
+    const res = xhr({
+      method: 'POST',
+      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Cookie: `; chii_sid=${this.cookie.chiiSid}; chii_auth=${
+          this.cookie.chiiAuth
+        };`,
+        'User-Agent': this.userAgent
+      },
+      data: {
+        formhash: this.formhash,
+        redirect_uri: '',
+        client_id: APP_ID,
+        submit: '授权'
       }
-      request.withCredentials = false
-      request.open('POST', `${HOST}/oauth/access_token`, true)
-      request.setRequestHeader(
-        'Content-Type',
-        'application/x-www-form-urlencoded'
-      )
-      request.setRequestHeader('User-Agent', this.userAgent)
-      request.send(
-        urlStringify({
-          grant_type: 'authorization_code',
-          client_id: clientId,
-          client_secret: clientSecret,
-          code: this.code,
-          redirect_uri: 'code',
-          state: ''
-        })
-      )
     })
 
-  onChange = evt => {
+    const { responseURL } = await res
+    this.code = responseURL
+      .split('=')
+      .slice(1)
+      .join('=')
+    return res
+  }
+
+  // getAccessToken = () =>
+  //   xhr({
+  //     method: 'POST',
+  //     url: `${HOST}/oauth/access_token`,
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //       'User-Agent': this.userAgent
+  //     },
+  //     data: {
+  //       grant_type: 'authorization_code',
+  //       client_id: APP_ID,
+  //       client_secret: clientSecret,
+  //       code: this.code,
+  //       redirect_uri: 'code',
+  //       state: ''
+  //     }
+  //   })
+
+  inStore = async () => {
+    const { navigation } = this.props
+    userStore.updateUserCookie({
+      cookie: `; chii_sid=${this.cookie.chiiSid}; chii_auth=${
+        this.cookie.chiiAuth
+      };`,
+      userAgent: this.userAgent
+    })
+    await userStore.fetchUserInfo()
+    navigation.popToTop()
+  }
+
+  onChange = (evt, type) => {
     const { nativeEvent } = evt
     const { text } = nativeEvent
     this.setState({
-      captcha: text
+      [type]: text,
+      info: ''
     })
   }
 
+  renderPreview() {
+    return (
+      <View style={[_.container.column, styles.gray]}>
+        <Image
+          style={styles.gray}
+          width={160}
+          height={128}
+          src={require('@assets/screens/login/login.png')}
+        />
+        <View style={[styles.bottomContainer, _.mt.md]}>
+          <Button type='main' shadow onPress={this.onLogin}>
+            账号登录
+          </Button>
+          <Button style={_.mt.md} type='plain' shadow onPress={this.onTour}>
+            游客访问
+          </Button>
+        </View>
+      </View>
+    )
+  }
+
+  renderForm() {
+    const { email, password, captcha, base64, loading, info } = this.state
+    return (
+      <View style={[_.container.column, styles.gray]}>
+        <View style={styles.form}>
+          <Flex justify='center'>
+            <Image
+              style={styles.gray}
+              width={160}
+              height={128}
+              src={require('@assets/screens/login/login.png')}
+            />
+          </Flex>
+          <Flex style={_.mt.md}>
+            <Flex.Item>
+              <Input
+                style={styles.input}
+                value={email}
+                placeholder='Email'
+                onChange={evt => this.onChange(evt, 'email')}
+              />
+            </Flex.Item>
+          </Flex>
+          <Flex style={_.mt.md}>
+            <Flex.Item>
+              <Input
+                style={styles.input}
+                value={password}
+                placeholder='密码'
+                onChange={evt => this.onChange(evt, 'password')}
+              />
+            </Flex.Item>
+          </Flex>
+          <Flex style={_.mt.md}>
+            <Flex.Item>
+              <Input
+                style={styles.input}
+                value={captcha}
+                placeholder='验证'
+                onChange={evt => this.onChange(evt, 'captcha')}
+              />
+            </Flex.Item>
+            <Touchable
+              style={styles.captchaContainer}
+              onPress={this.getCaptcha}
+            >
+              {!!base64 && (
+                <RNImage style={styles.captcha} source={{ uri: base64 }} />
+              )}
+            </Touchable>
+          </Flex>
+          <Button
+            style={_.mt.lg}
+            type='main'
+            shadow
+            loading={loading}
+            onPress={this.login}
+          >
+            登陆
+          </Button>
+          <Text
+            style={[
+              _.mt.md,
+              {
+                height: 16
+              }
+            ]}
+            size={12}
+            type='sub'
+            onPress={() => {
+              if (info.includes('登陆失败')) {
+                const { navigation } = this.props
+                navigation.push('Login')
+              }
+            }}
+          >
+            {info}
+          </Text>
+        </View>
+      </View>
+    )
+  }
+
   render() {
-    const { captcha, base64 } = this.state
-    console.log(base64)
+    const { clicked } = this.state
     return (
       <View style={[_.container.flex, styles.gray]}>
         <StatusBar />
         <StatusBarPlaceholder style={styles.gray} />
-        {!!base64 && (
-          <Image
-            source={{ uri: base64 }}
-            style={{
-              width: 160,
-              height: 60
+        <View style={_.container.flex}>
+          {clicked ? this.renderForm() : this.renderPreview()}
+        </View>
+        {clicked ? (
+          <Text style={styles.ps} size={12} type='sub'>
+            隐私策略: 我们十分尊重您的个人隐私, 这些信息仅存储于您的设备中,
+            我们不会收集上述信息.
+          </Text>
+        ) : (
+          <Text
+            style={styles.old}
+            type='sub'
+            onPress={() => {
+              const { navigation } = this.props
+              navigation.push('Login')
             }}
-          />
+          >
+            旧版授权登陆
+          </Text>
         )}
-        <Input value={captcha} onChange={this.onChange} />
-        <Button onPress={this.login}>登陆</Button>
+        <KeyboardSpacer />
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  bottomContainer: {
-    width: 200,
-    height: 200
-  },
-  loading: {
-    width: 200,
-    height: 64
-  },
   gray: {
     backgroundColor: 'rgb(251, 251, 251)'
+  },
+  old: {
+    position: 'absolute',
+    zIndex: 1,
+    bottom: _.bottom,
+    left: 0,
+    width: '100%',
+    padding: _.sm,
+    textAlign: 'center'
+  },
+  bottomContainer: {
+    width: 280,
+    height: 420
+  },
+  form: {
+    width: 280,
+    paddingBottom: 152
+  },
+  input: {
+    height: 44
+  },
+  captchaContainer: {
+    width: 118,
+    height: 44,
+    marginLeft: _.sm,
+    backgroundColor: _.colorBg
+  },
+  captcha: {
+    width: 118,
+    height: 44
   },
   ps: {
     position: 'absolute',

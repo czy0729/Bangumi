@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:24:39
+ * @Last Modified time: 2019-07-12 00:49:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -162,7 +162,7 @@ export default class Login extends React.Component {
         />
         <View style={[styles.bottomContainer, _.mt.md]}>
           <Button type='main' shadow onPress={this.onLogin}>
-            登录
+            授权登录
           </Button>
           <Button style={_.mt.md} type='plain' shadow onPress={this.onTour}>
             游客访问
@@ -230,16 +230,16 @@ export default class Login extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  gray: {
+    backgroundColor: 'rgb(251, 251, 251)'
+  },
   bottomContainer: {
-    width: 200,
-    height: 200
+    width: 280,
+    height: 420
   },
   loading: {
     width: 200,
     height: 64
-  },
-  gray: {
-    backgroundColor: 'rgb(251, 251, 251)'
   },
   ps: {
     position: 'absolute',

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-09 23:41:12
+ * @Last Modified time: 2019-07-11 09:42:44
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -295,9 +295,9 @@ export async function queue(fetchs = []) {
 }
 
 /**
- * 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串
- * @param {*} res
+ * 接口某些字段为空返回null, 影响到es6函数初始值的正常使用, 统一处理成空字符串
+ * @param {*} data
  */
-function safe(res) {
-  return JSON.parse(JSON.stringify(res).replace(/:null/g, ':""'))
+function safe(data) {
+  return JSON.parse(JSON.stringify(data).replace(/:null/g, ':""'))
 }

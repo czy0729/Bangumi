@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-25 19:50:56
+ * @Last Modified time: 2019-07-12 00:42:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
 import { IconTabBar, IconTabsHeader, ManageModal } from '@screens/_'
+import { userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -74,7 +75,7 @@ class Home extends React.Component {
     }
 
     setTimeout(() => {
-      hm(`?id=${$.userInfo.userId}`, title)
+      hm(`?id=${userStore.myUserId}`, title)
     }, 4000)
   }
 
