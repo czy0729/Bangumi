@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 19:23:03
+ * @Last Modified time: 2019-07-12 23:35:51
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -98,7 +98,7 @@ class Search extends store {
     // 条目
     if (cat.includes('subject')) {
       searchHTML = HTML.match(
-        /<ul id="browserItemList" class="browserFull">(.+?)<\/ul> <div id="multipage"/
+        /<ul id="browserItemList" class="browserFull">(.+?)<\/ul><div id="multipage"/
       )
       if (searchHTML) {
         // 总页数

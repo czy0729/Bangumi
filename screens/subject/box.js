@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 14:00:57
+ * @Last Modified time: 2019-07-12 23:57:33
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Button, Icon, Text, Touchable } from '@components'
 import { SectionTitle } from '@screens/_'
 import { getType, getRating } from '@utils/app'
+import { IOS } from '@constants'
 import _, { colorPlain, shadow } from '@styles'
 
 const Box = ({ style }, { $, navigation }) => {
@@ -19,7 +20,9 @@ const Box = ({ style }, { $, navigation }) => {
   const leftStyle = []
   const rightStyle = []
   const btnText = $.isLogin ? status.name : '登陆管理'
-  const onPress = $.isLogin ? $.showManageModel : () => navigation.push('LoginV2')
+  const onPress = $.isLogin
+    ? $.showManageModel
+    : () => navigation.push(IOS ? 'Login' : 'LoginV2')
   if (rating) {
     leftStyle.push(styles.left)
     rightStyle.push(styles.right)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 00:37:52
+ * @Last Modified time: 2019-07-12 23:55:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Text, Button } from '@components'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
 import { hm } from '@utils/fetch'
+import { IOS } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
 
@@ -75,7 +76,7 @@ class Auth extends React.Component {
             _.mt.md
           ]}
           shadow
-          onPress={() => navigation.push('LoginV2')}
+          onPress={() => navigation.push(IOS ? 'Login' : 'LoginV2')}
         >
           现在登录
         </Button>

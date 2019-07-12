@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-25 19:51:58
+ * @Last Modified time: 2019-07-13 00:32:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -49,6 +49,10 @@ export default
 class App extends React.Component {
   state = {
     isLoadingComplete: false
+  }
+
+  componentDidCatch(error, info) {
+    console.log(error, info)
   }
 
   loadResourcesAsync = async () =>
