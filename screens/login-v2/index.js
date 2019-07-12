@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 01:00:36
+ * @Last Modified time: 2019-07-12 20:53:41
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -24,7 +24,7 @@ import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { userStore } from '@stores'
 import { urlStringify, getTimestamp } from '@utils'
 import { info } from '@utils/ui'
-import { HOST, APP_ID, OAUTH_REDIRECT_URL } from '@constants'
+import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import _ from '@styles'
 
 function xhr({ method = 'GET', url, data, headers = {}, responseType } = {}) {
@@ -140,7 +140,7 @@ export default class LoginV2 extends React.Component {
     const res = xhr({
       url: `${HOST}/signup/captcha?state=${getTimestamp()}`,
       headers: {
-        Cookie: `; chii_sid=${this.cookie.chiiSid};`,
+        Cookie: `chii_sid=${this.cookie.chiiSid}`,
         'User-Agent': this.userAgent
       },
       responseType: 'arraybuffer'
@@ -176,8 +176,10 @@ export default class LoginV2 extends React.Component {
         url: `${HOST}/FollowTheRabbit`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Cookie: `; chii_sid=${this.cookie.chiiSid};`,
-          'User-Agent': this.userAgent
+          Cookie: `chii_sid=${this.cookie.chiiSid}`,
+          'User-Agent': this.userAgent,
+          'Cache-Control': 'max-age=0',
+          Connection: 'keep-alive'
         },
         data: {
           formhash: this.formhash,
@@ -218,13 +220,15 @@ export default class LoginV2 extends React.Component {
       this.setState({
         info: '授权成功, 获取token中...'
       })
-      await userStore.fetchAccessToken(this.code)
+      const { _response } = await this.getAccessToken()
 
+      const accessToken = JSON.parse(_response)
+      userStore.updateAccessToken(accessToken)
+      this.inStore()
       this.setState({
         loading: false,
         info: '登陆成功, 正在请求个人信息...'
       })
-      this.inStore()
     } catch (ex) {
       this.setState({
         loading: false,
@@ -237,9 +241,9 @@ export default class LoginV2 extends React.Component {
     const res = xhr({
       url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
       headers: {
-        Cookie: `; chii_sid=${this.cookie.chiiSid}; chii_auth=${
+        Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${
           this.cookie.chiiAuth
-        };`,
+        }`,
         'User-Agent': this.userAgent
       }
     })
@@ -257,9 +261,9 @@ export default class LoginV2 extends React.Component {
       url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: `; chii_sid=${this.cookie.chiiSid}; chii_auth=${
+        Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${
           this.cookie.chiiAuth
-        };`,
+        }`,
         'User-Agent': this.userAgent
       },
       data: {
@@ -278,30 +282,30 @@ export default class LoginV2 extends React.Component {
     return res
   }
 
-  // getAccessToken = () =>
-  //   xhr({
-  //     method: 'POST',
-  //     url: `${HOST}/oauth/access_token`,
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //       'User-Agent': this.userAgent
-  //     },
-  //     data: {
-  //       grant_type: 'authorization_code',
-  //       client_id: APP_ID,
-  //       client_secret: clientSecret,
-  //       code: this.code,
-  //       redirect_uri: 'code',
-  //       state: ''
-  //     }
-  //   })
+  getAccessToken = () =>
+    xhr({
+      method: 'POST',
+      url: `${HOST}/oauth/access_token`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': this.userAgent
+      },
+      data: {
+        grant_type: 'authorization_code',
+        client_id: APP_ID,
+        client_secret: APP_SECRET,
+        code: this.code,
+        redirect_uri: OAUTH_REDIRECT_URL,
+        state: getTimestamp()
+      }
+    })
 
   inStore = async () => {
     const { navigation } = this.props
     userStore.updateUserCookie({
-      cookie: `; chii_sid=${this.cookie.chiiSid}; chii_auth=${
+      cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${
         this.cookie.chiiAuth
-      };`,
+      }`,
       userAgent: this.userAgent
     })
     await userStore.fetchUserInfo()
@@ -468,11 +472,11 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     width: 280,
-    height: 420
+    height: 350
   },
   form: {
     width: 280,
-    paddingBottom: 152
+    paddingBottom: 82
   },
   input: {
     height: 44

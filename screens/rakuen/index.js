@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:28:04
+ * @Last Modified time: 2019-07-12 14:00:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,7 +49,7 @@ class Rakuen extends React.Component {
       if ($.isWebLogin) {
         navigation.push('Notify')
       } else {
-        navigation.push('Login')
+        navigation.push('LoginV2')
       }
     }
     navigation.setParams({
@@ -69,7 +69,7 @@ class Rakuen extends React.Component {
                 title: '添加新讨论'
               })
             } else {
-              navigation.push('Login')
+              navigation.push('LoginV2')
             }
           }}
         />

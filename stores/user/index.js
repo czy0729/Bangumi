@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-10 16:23:49
+ * @Last Modified time: 2019-07-12 15:38:53
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -454,18 +454,14 @@ class Store extends store {
   }
 
   /**
-   * 替换用户cookie
-   * @param {*} chiiSid
-   * @param {*} chiiAuth
+   * 更新accessToken
+   * @param {*} accessToken
    */
-  replaceUserCookie(chiiSid, chiiAuth) {
+  updateAccessToken(accessToken) {
     this.setState({
-      userCookie: {
-        cookie: `chii_sid=${chiiSid}; chii_auth=${chiiAuth};`,
-        userAgent: ''
-      }
+      accessToken
     })
-    this.setStorage('userCookie', undefined, NAMESPACE)
+    this.setStorage('accessToken', undefined, NAMESPACE)
   }
 
   // -------------------- action --------------------

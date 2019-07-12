@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 18:48:17
+ * @Last Modified time: 2019-07-12 14:00:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,7 +19,7 @@ const Box = ({ style }, { $, navigation }) => {
   const leftStyle = []
   const rightStyle = []
   const btnText = $.isLogin ? status.name : '登陆管理'
-  const onPress = $.isLogin ? $.showManageModel : () => navigation.push('Login')
+  const onPress = $.isLogin ? $.showManageModel : () => navigation.push('LoginV2')
   if (rating) {
     leftStyle.push(styles.left)
     rightStyle.push(styles.right)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-20 22:29:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-20 22:39:18
+ * @Last Modified time: 2019-07-12 14:01:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ const Login = (props, { navigation }) => (
         _.mt.md
       ]}
       shadow
-      onPress={() => navigation.push('Login')}
+      onPress={() => navigation.push('LoginV2')}
     >
       重新登录
     </Button>

@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-11 09:42:44
+ * @Last Modified time: 2019-07-12 20:53:31
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
-import { APP_ID, HOST_NAME, HOST } from '@constants'
+import { APP_ID, HOST_NAME, HOST, GITHUB_RELEASE_VERSION } from '@constants'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
@@ -129,7 +129,7 @@ export async function fetchHTML({
   cookie
 } = {}) {
   const userStore = require('../stores/user').default
-  const { cookie: userCookie } = userStore.userCookie
+  const { cookie: userCookie, userAgent } = userStore.userCookie
   const _config = {
     method,
     headers: {}
@@ -142,10 +142,8 @@ export async function fetchHTML({
   let _url = url.replace('!', '') // 叹号代表不携带cookie
   if (url.indexOf('!') !== 0) {
     _config.headers = {
-      // 'User-Agent': userAgent,
-
-      // 前面这个分号很重要, CDN那边经常给我加一堆乱七八糟的会搞坏cookie
-      Cookie: cookie ? `; ${userCookie}; ${cookie};` : `; ${userCookie};`,
+      'User-Agent': userAgent,
+      Cookie: cookie ? `${userCookie}; ${cookie}` : userCookie,
       ...headers
     }
   }
@@ -264,11 +262,17 @@ export function hm(url, title) {
       tt: title
     }
 
-    fetch(`https://hm.baidu.com/hm.gif?${urlStringify(query)}`, {
-      headers: {
-        'User-Agent': userStore.userCookie.userAgent
+    fetch(
+      `https://hm.baidu.com/hm.gif?${urlStringify({
+        ...query,
+        v: GITHUB_RELEASE_VERSION
+      })}`,
+      {
+        headers: {
+          'User-Agent': userStore.userCookie.userAgent
+        }
       }
-    })
+    )
   } catch (error) {
     // do nothing
   }
@@ -293,6 +297,13 @@ export async function queue(fetchs = []) {
   await sleep()
   return Promise.all([f5(), f6()])
 }
+
+// async function queue(fetchs = [], resolved = []) {
+//   if (!fetchs.length) return resolved
+//   resolved.push(...(await Promise.all(fetchs.slice(0, 2))))
+//   await sleep()
+//   return queue(fetchs.slice(2), resolved)
+// }
 
 /**
  * 接口某些字段为空返回null, 影响到es6函数初始值的正常使用, 统一处理成空字符串

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 01:07:25
+ * @Last Modified time: 2019-07-12 21:58:44
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -23,7 +23,7 @@ import store from '@utils/store'
 const namespace = 'Rakuen'
 const defaultScope = MODEL_RAKUEN_SCOPE.getValue('全局聚合')
 const defaultType = MODEL_RAKUEN_TYPE.getValue('全部')
-const LIST_LIMIT_COMMENTS = 6
+const LIST_LIMIT_COMMENTS = 20
 
 // const INIT_RAKUEN_ITEM = {
 //   group: '', // 小组名称

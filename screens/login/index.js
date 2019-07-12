@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 00:49:08
+ * @Last Modified time: 2019-07-12 14:03:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -235,10 +235,10 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     width: 280,
-    height: 420
+    height: 350
   },
   loading: {
-    width: 200,
+    width: 280,
     height: 64
   },
   ps: {
