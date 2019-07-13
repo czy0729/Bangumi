@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 18:26:21
+ * @Last Modified time: 2019-07-13 21:06:07
  */
 export { default as Avatar } from './avatar'
 export { default as Characters } from './characters'
@@ -25,6 +25,7 @@ export { default as ItemComment } from './item/comment'
 export { default as ItemSearch } from './item/search'
 export { default as Logo } from './logo'
 export { default as ManageModal } from './manage-modal'
+export { default as Pagination } from './pagination'
 export { default as Popover } from './popover'
 export { default as ScoreTag } from './score-tag'
 export { default as SectionHeader } from './section-header'

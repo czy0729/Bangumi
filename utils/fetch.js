@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 01:49:51
+ * @Last Modified time: 2019-07-14 00:01:05
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -154,7 +154,9 @@ export async function fetchHTML({
         }
       : {
           'User-Agent': userAgent,
-          Cookie: cookie ? `${userCookie}; ${cookie}` : userCookie,
+          Cookie: cookie
+            ? `${userCookie}; chii_cookietime=2592000; ${cookie}`
+            : `${userCookie}; chii_cookietime=2592000`,
           ...headers
         }
   }
@@ -163,8 +165,10 @@ export async function fetchHTML({
   if (isGet) {
     _config.headers['Cache-Control'] = 'max-age=0'
     _config.headers.Connection = 'keep-alive'
-    body.state = getTimestamp() // 随机数防止接口CDN缓存
-    _url = `${_url}?${urlStringify(body)}`
+
+    if (Object.keys(body).length) {
+      _url += `${_url.includes('?') ? '&' : '?'}${urlStringify(body)}`
+    }
   } else {
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 17:28:16
+ * @Last Modified time: 2019-07-13 22:51:35
  */
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -44,7 +44,16 @@ export const INIT_TOPIC = {
   lastview: '' // 回复表单时间戳
 }
 
-export const INIT_COMMENTS_ITEM = {}
+export const INIT_COMMENTS_ITEM = {
+  id: '',
+  time: '',
+  floor: '',
+  avatar: '',
+  userId: '',
+  userName: '',
+  userSign: '',
+  replySub: ''
+}
 
 export const INIT_NOTIFY = {
   unread: 0,
@@ -55,4 +64,14 @@ export const INIT_NOTIFY = {
 export const INIT_SETTING = {
   isBlockDefaultUser: true, // 是否屏蔽默认头像用户帖子
   blockGroups: [] // 屏蔽的小组
+}
+
+export const INIT_GROUP_INFO = {
+  title: '',
+  cover: '',
+  content: ''
+}
+
+export const INIT_GROUP_ITEM = {
+  list: []
 }

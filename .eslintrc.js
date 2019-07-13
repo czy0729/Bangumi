@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 12:01:10
+ * @Last Modified time: 2019-07-13 19:01:40
  */
 module.exports = {
   root: true,
@@ -78,6 +78,7 @@ module.exports = {
     quotes: ['error', 'single'],
     radix: 0,
     semi: 0,
+    'prefer-destructuring': 0,
 
     // https://github.com/yannickcr/eslint-plugin-react
     'react/destructuring-assignment': 0,

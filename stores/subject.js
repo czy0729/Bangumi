@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-10 22:15:21
+ * @Last Modified time: 2019-07-13 19:04:19
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
@@ -19,7 +19,7 @@ import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
-import { analysisComments } from './rakuen'
+import { analysisComments } from './rakuen/common'
 
 const namespace = 'Subject'
 const initSubjectItem = {

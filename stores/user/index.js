@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 15:38:53
+ * @Last Modified time: 2019-07-13 20:09:17
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -443,25 +443,25 @@ class Store extends store {
   }
 
   /**
-   * 更新用户cookie
-   * @param {*} data
-   */
-  updateUserCookie(data = INIT_USER_COOKIE) {
-    this.setState({
-      userCookie: data
-    })
-    this.setStorage('userCookie', undefined, NAMESPACE)
-  }
-
-  /**
    * 更新accessToken
    * @param {*} accessToken
    */
-  updateAccessToken(accessToken) {
+  updateAccessToken(accessToken = INIT_ACCESS_TOKEN) {
     this.setState({
       accessToken
     })
     this.setStorage('accessToken', undefined, NAMESPACE)
+  }
+
+  /**
+   * 更新用户cookie
+   * @param {*} data
+   */
+  updateUserCookie(userCookie = INIT_USER_COOKIE) {
+    this.setState({
+      userCookie
+    })
+    this.setStorage('userCookie', undefined, NAMESPACE)
   }
 
   // -------------------- action --------------------

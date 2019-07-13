@@ -1,17 +1,17 @@
 /*
  * @Author: czy0729
- * @Date: 2019-06-24 19:35:33
+ * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 21:39:55
+ * @Last Modified time: 2019-07-13 23:57:02
  */
 import { observable, computed } from 'mobx'
-import { discoveryStore } from '@stores'
+import { rakuenStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 
-const namespace = 'ScreenAnitama'
+const namespace = 'ScreenGroup'
 
-export default class ScreenAnitama extends store {
+export default class ScreenGroup extends store {
   state = observable({
     page: 1,
     show: true,
@@ -21,27 +21,52 @@ export default class ScreenAnitama extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, namespace)
+    const res = this.getStorage(undefined, this.key)
     const state = await res
     this.setState({
       ...state,
       _loaded: true
     })
 
-    discoveryStore.fetchAnitamaTimeline()
+    this.fetchGroupInfo()
+    this.fetchGroup()
     return res
   }
 
   // -------------------- fetch --------------------
-  fetchAnitamaTimeline = () => {
+  fetchGroupInfo = () => {
+    const { groupId } = this.params
+    return rakuenStore.fetchGroupInfo({ groupId })
+  }
+
+  fetchGroup = () => {
+    const { groupId } = this.params
     const { page } = this.state
-    return discoveryStore.fetchAnitamaTimeline(page)
+    return rakuenStore.fetchGroup({ groupId, page })
   }
 
   // -------------------- get --------------------
-  @computed get anitamaTimeline() {
+  @computed get key() {
+    const { groupId } = this.params
+    return `${namespace}|${groupId}`
+  }
+
+  @computed get groupInfo() {
+    const { groupId } = this.params
+    return rakuenStore.groupInfo(groupId)
+  }
+
+  @computed get group() {
+    const { groupId } = this.params
     const { page } = this.state
-    return discoveryStore.anitamaTimeline(page)
+    return rakuenStore.group(groupId, page)
+  }
+
+  /**
+   * 帖子历史查看记录
+   */
+  readed(topicId) {
+    return computed(() => rakuenStore.readed(topicId)).get()
   }
 
   // -------------------- page --------------------
@@ -56,13 +81,13 @@ export default class ScreenAnitama extends store {
       show: false,
       ipt: String(page - 1)
     })
-    this.fetchAnitamaTimeline()
+    this.fetchGroup()
 
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(undefined, undefined, this.key)
     }, 400)
   }
 
@@ -73,13 +98,13 @@ export default class ScreenAnitama extends store {
       show: false,
       ipt: String(page + 1)
     })
-    this.fetchAnitamaTimeline()
+    this.fetchGroup()
 
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(undefined, undefined, this.key)
     }, 400)
   }
 
@@ -90,14 +115,8 @@ export default class ScreenAnitama extends store {
     })
   }
 
-  pushHistory = aid => {
-    const { history } = this.state
-    if (!history.includes(aid)) {
-      this.setState({
-        history: [...history, aid]
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }
+  onItemPress = (topicId, replies) => {
+    rakuenStore.updateTopicReaded(topicId, replies)
   }
 
   // -------------------- action --------------------
@@ -114,13 +133,13 @@ export default class ScreenAnitama extends store {
       show: false,
       ipt: String(_ipt)
     })
-    this.fetchAnitamaTimeline()
+    this.fetchGroup()
 
     setTimeout(() => {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, namespace)
+      this.setStorage(undefined, undefined, this.key)
     }, 400)
   }
 }

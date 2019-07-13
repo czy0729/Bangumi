@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-24 21:42:18
+ * @Last Modified time: 2019-07-13 23:51:10
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Touchable, Text, Image, Flex, Input } from '@components'
+import { Touchable, Text, Image } from '@components'
+import { Pagination } from '@screens/_'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -58,36 +59,14 @@ class Anitama extends React.Component {
     const { $ } = this.context
     const { ipt } = $.state
     return (
-      <Flex style={[_.container.wind, _.mt.lg]}>
-        <Flex.Item>
-          <Touchable onPress={$.prev}>
-            <Flex style={styles.paganation} justify='center'>
-              <Text>上一页</Text>
-            </Flex>
-          </Touchable>
-        </Flex.Item>
-        <Flex.Item style={_.ml.md}>
-          <Input
-            style={{
-              height: 34,
-              textAlign: 'center'
-            }}
-            value={ipt}
-            keyboardType='number-pad'
-            placeholder='页'
-            returnKeyType='search'
-            onChange={$.onChange}
-            onSubmitEditing={$.doSearch}
-          />
-        </Flex.Item>
-        <Flex.Item style={_.ml.md}>
-          <Touchable onPress={$.next}>
-            <Flex style={styles.paganation} justify='center'>
-              <Text>下一页</Text>
-            </Flex>
-          </Touchable>
-        </Flex.Item>
-      </Flex>
+      <Pagination
+        style={_.mt.lg}
+        input={ipt}
+        onPrev={$.prev}
+        onNext={$.next}
+        onChange={$.onChange}
+        onSearch={$.doSearch}
+      />
     )
   }
 
@@ -162,17 +141,7 @@ const styles = StyleSheet.create({
     marginTop: _.lg,
     backgroundColor: _.colorPlain
   },
-  readed: {
-    backgroundColor: _.colorBorder
-  },
   info: {
     paddingVertical: _.wind
-  },
-  paganation: {
-    height: 34,
-    backgroundColor: _.colorPlain,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusXs
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 18:12:42
+ * @Last Modified time: 2019-07-13 23:30:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -25,7 +25,6 @@ const Item = (
     title,
     replies = '',
     group,
-    groupHref,
     time
   },
   { $, navigation }

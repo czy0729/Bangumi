@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 22:23:39
+ * @Last Modified time: 2019-07-13 21:37:56
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -71,6 +71,20 @@ export const HTML_RAKUEN = (scope, type) =>
  * @param {*} topicId eg. group/12345, subject/12345, ep/12345, prsn/123456
  */
 export const HTML_TOPIC = topicId => `${HOST}/rakuen/topic/${topicId}`
+
+/**
+ * 小组详情
+ * @param {*} groupId eg. fillgrids 补旧番
+ */
+export const HTML_GROUP_INFO = groupId => `${HOST}/group/${groupId}`
+
+/**
+ * 小组帖子列表
+ * @param {*} groupId
+ * @param {*} page
+ */
+export const HTML_GROUP = (groupId, page = 1) =>
+  `${HOST}/group/${groupId}/forum?page=${page}`
 
 /**
  * 搜索

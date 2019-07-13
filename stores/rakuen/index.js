@@ -1,21 +1,20 @@
-/* eslint-disable prefer-destructuring */
 /*
  * 超展开
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 17:28:31
+ * @Last Modified time: 2019-07-13 23:10:48
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML, xhr } from '@utils/fetch'
-import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
-import { IOS, HOST, LIST_EMPTY, LIST_LIMIT } from '@constants'
+import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
+import { HOST, LIST_EMPTY, LIST_LIMIT } from '@constants'
 import {
-  HTML_RAKUEN,
-  HTML_TOPIC,
   HTML_NOTIFY,
-  HTML_ACTION_RAKUEN_REPLY
+  HTML_ACTION_RAKUEN_REPLY,
+  HTML_GROUP_INFO,
+  HTML_GROUP
 } from '@constants/html'
 import store from '@utils/store'
 import {
@@ -26,8 +25,16 @@ import {
   INIT_READED_ITEM,
   INIT_TOPIC,
   INIT_NOTIFY,
-  INIT_SETTING
+  INIT_SETTING,
+  INIT_GROUP_INFO,
+  INIT_GROUP_ITEM
 } from './init'
+import {
+  fetchRakuen,
+  fetchTopic,
+  analysisGroupInfo,
+  analysisGroup
+} from './common'
 
 class Rakuen extends store {
   state = observable({
@@ -55,7 +62,17 @@ class Rakuen extends store {
     notify: INIT_NOTIFY,
 
     // 超展开设置
-    setting: INIT_SETTING
+    setting: INIT_SETTING,
+
+    // 小组信息
+    groupInfo: {
+      // [groupId]: INIT_GROUP_INFO
+    },
+
+    // 小组帖子列表
+    group: {
+      // [groupId|page]: [] | INIT_GROUP_ITEM
+    }
   })
 
   async init() {
@@ -65,7 +82,8 @@ class Rakuen extends store {
       this.getStorage('topic', NAMESPACE),
       this.getStorage('comments', NAMESPACE),
       this.getStorage('notify', NAMESPACE),
-      this.getStorage('setting', NAMESPACE)
+      this.getStorage('setting', NAMESPACE),
+      this.getStorage('groupInfo', NAMESPACE)
     ])
     const state = await res
     this.setState({
@@ -74,7 +92,8 @@ class Rakuen extends store {
       topic: state[2] || {},
       comments: state[3] || {},
       notify: state[4] || INIT_NOTIFY,
-      setting: state[5] || INIT_SETTING
+      setting: state[5] || INIT_SETTING,
+      groupInfo: state[6] || {}
     })
 
     return res
@@ -130,6 +149,27 @@ class Rakuen extends store {
     return this.state.setting
   }
 
+  /**
+   * 小组信息
+   * @param {*} groupId
+   */
+  groupInfo(groupId) {
+    return computed(
+      () => this.state.groupInfo[groupId] || INIT_GROUP_INFO
+    ).get()
+  }
+
+  /**
+   * 小组帖子列表
+   * @param {*} groupId
+   * @param {*} page
+   */
+  group(groupId, page = 1) {
+    return computed(
+      () => this.state.group[`${groupId}|${page}`] || INIT_GROUP_ITEM
+    ).get()
+  }
+
   // -------------------- fetch --------------------
   /**
    * 获取超展开聚合列表 (高流量, 20k左右1次)
@@ -146,7 +186,7 @@ class Rakuen extends store {
 
     // 制造分页数据
     if (refresh) {
-      const res = _fetchRakuen({ scope, type })
+      const res = fetchRakuen({ scope, type })
       const rakuen = await res
       this.setState({
         [key]: {
@@ -196,7 +236,7 @@ class Rakuen extends store {
 
     if (refresh) {
       // 重新请求
-      res = _fetchTopic({ topicId }, reverse)
+      res = fetchTopic({ topicId }, reverse)
       const { topic, comments } = await res
       const _loaded = getTimestamp()
 
@@ -336,6 +376,49 @@ class Rakuen extends store {
     return res
   }
 
+  /**
+   * 小组信息
+   */
+  fetchGroupInfo = async ({ groupId = 0 }) => {
+    const html = await fetchHTML({
+      url: `!${HTML_GROUP_INFO(groupId)}`
+    })
+    const groupInfo = analysisGroupInfo(html)
+
+    const key = 'groupInfo'
+    this.setState({
+      [key]: {
+        [groupId]: {
+          ...groupInfo,
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(groupInfo)
+  }
+
+  /**
+   * 小组帖子列表
+   */
+  fetchGroup = async ({ groupId, page }) => {
+    const html = await fetchHTML({
+      url: `!${HTML_GROUP(groupId, page)}`
+    })
+    const group = analysisGroup(html)
+    this.setState({
+      group: {
+        [`${groupId}|${page}`]: {
+          list: group || [],
+          _loaded: getTimestamp()
+        }
+      }
+    })
+
+    return Promise.resolve(group)
+  }
+
   // -------------------- action --------------------
   /**
    * 清除电波提醒未读
@@ -418,339 +501,3 @@ class Rakuen extends store {
 }
 
 export default new Rakuen()
-
-async function _fetchRakuen({ scope, type } = {}) {
-  // -------------------- 请求HTML --------------------
-  const res = fetchHTML({
-    url: HTML_RAKUEN(scope, type)
-  })
-  const raw = await res
-  const HTML = HTMLTrim(raw).match(
-    /<div id="eden_tpc_list"><ul>(.+?)<\/ul><\/div>/
-  )
-
-  // -------------------- 分析HTML --------------------
-  const rakuen = []
-  if (HTML) {
-    const tree = HTMLToTree(HTML[1])
-    tree.children.forEach(item => {
-      const avatar = item.children[0].children[0].attrs.style.replace(
-        /background-image:url\('|'\)/g,
-        ''
-      )
-
-      const { children } = item.children[1]
-      const title = children[0].text[0]
-      const { href = '' } = children[0].attrs
-      const replies = children[1].text[0]
-
-      // 小组有可能是没有的
-      let group = ''
-      let groupHref = ''
-      let time = ''
-      if (children.length === 3) {
-        time = children[2].children[0].text[0]
-      } else {
-        group = children[3].text[0]
-        groupHref = children[3].attrs.href
-        time = children[4] ? children[4].text[0] : children[3].text[0]
-      }
-
-      const data = {
-        title: HTMLDecode(title),
-        avatar,
-        href,
-        replies,
-        group: HTMLDecode(group),
-        groupHref,
-        time
-      }
-      rakuen.push(data)
-    })
-  }
-
-  return Promise.resolve(rakuen)
-}
-
-async function _fetchTopic({ topicId = 0 }, reverse) {
-  // -------------------- 请求HTML --------------------
-  const raw = await fetchHTML({
-    // @todo 这统一帖子内容的接口IOS带cookie访问直接掉线, 需解决
-    url: IOS ? `!${HTML_TOPIC(topicId)}` : HTML_TOPIC(topicId)
-  })
-  const HTML = HTMLTrim(raw)
-
-  // -------------------- 分析内容 --------------------
-  let node
-  let matchHTML
-
-  // 帖子
-  let topic = {}
-
-  // 回复表单凭据
-  matchHTML = HTML.match(
-    /<input type="hidden" name="formhash" value="(.+?)" \/>/
-  )
-  if (matchHTML) {
-    topic.formhash = matchHTML[1]
-  }
-
-  // 分组信息
-  matchHTML = HTML.match(
-    /<div id="pageHeader">(.+?)<\/div><hr class="board" \/>/
-  )
-  if (matchHTML) {
-    const tree = HTMLToTree(matchHTML[1])
-    topic.title = tree.children[0].text[1] || ''
-
-    node = findTreeNode(tree.children, 'h1 > a > img')
-    topic.groupThumb = node ? node[0].attrs.src : ''
-
-    node = findTreeNode(tree.children, 'h1 > a|class=avatar')
-    topic.group = node ? node[0].text[0] : ''
-    topic.groupHref = node ? node[0].attrs.href : ''
-  }
-
-  // 楼主层信息
-  matchHTML = HTML.match(
-    /<div id="post_\d+" class="postTopic light_odd clearit">(.+?)<\/div><div id="sliderContainer"/
-  )
-  if (matchHTML) {
-    const tree = HTMLToTree(matchHTML[1])
-    topic = {
-      ...topic,
-      ...getTopFloorAttrs(tree)
-    }
-  }
-
-  // 帖子内容
-  matchHTML = HTML.match(
-    /<div class="topic_content">(.+?)<\/div><\/div><\/div><div id="sliderContainer"/
-  )
-  if (matchHTML) {
-    topic.message = matchHTML[1]
-  }
-
-  // -------------------- 分析留言 --------------------
-  // 留言层信息
-  matchHTML =
-    // 登陆的情况
-    HTML.match(
-      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><hr/
-    ) ||
-    // 没登陆的情况
-    HTML.match(
-      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><div style="margin-top/
-    )
-
-  const comments = analysisComments(matchHTML, reverse)
-
-  return Promise.resolve({
-    topic,
-    comments
-  })
-}
-
-/**
- * 分析留言层信息
- * @param {*} HTML
- */
-export function analysisComments(HTML, reverse) {
-  const comments = []
-  if (!HTML) {
-    return comments
-  }
-
-  // 回复内容需要渲染html就不能使用node查找了, 而且子回复也在里面
-  let messageHTML = HTML[1]
-    .match(/<div class="reply_content">(.+?)<\/div><\/div><\/div><\/div>/g)
-    .map(item => item.replace(/^<div class="reply_content">|<\/div>$/g, ''))
-  if (reverse && messageHTML.length) {
-    messageHTML = messageHTML.reverse()
-  }
-
-  const tree = HTMLToTree(HTML[1])
-  let { children } = tree
-  if (reverse && children.length) {
-    children = children.reverse()
-
-    // 会有一个评论被折叠的提示
-    if (children.length > messageHTML.length) {
-      children.shift()
-    }
-  }
-  children.forEach((item, index) => {
-    // @todo 暂时只显示前100楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
-    if (index >= 100) {
-      return
-    }
-
-    const sub = [] // 存放子回复
-    const subHTML =
-      messageHTML[index] &&
-      messageHTML[index].match(
-        /<div class="topic_sub_reply" id="topic_reply_\d+">(.+?)$/
-      )
-    if (subHTML) {
-      const subMessageHTML = subHTML[1]
-        .match(/<div id="post_\d+"(.+?)<\/div><\/div><\/div>/g)
-        .map(item =>
-          item.replace(
-            /<div id="post_\d+" class="sub_reply_bgclearit">|<\/div>$/g,
-            ''
-          )
-        )
-
-      const subTree = HTMLToTree(subHTML[1])
-      subTree.children.forEach((item, index) => {
-        // 子楼层回复内容
-        if (subMessageHTML[index]) {
-          const message = subMessageHTML[index].match(
-            /<div class="cmt_sub_content">(.+?)<\/div><\/div>/
-          )[1]
-          sub.push({
-            ...getCommentAttrs(item),
-            message
-          })
-        }
-      })
-    }
-
-    // 楼层回复内容
-    let message
-    if (sub.length) {
-      // 某些界面class="message clearit"不一致, 抹平差异
-      const match =
-        messageHTML[index] &&
-        messageHTML[index]
-          .replace('class="message clearit"', 'class="message"')
-          .match(
-            /<div class="message.*">(.+?)<\/div><div class="topic_sub_reply"/
-          )
-      message = match ? match[1] : ''
-    } else {
-      const match =
-        messageHTML[index] &&
-        messageHTML[index]
-          .replace('class="message clearit"', 'class="message"')
-          .match(/<div class="message">(.+?)<\/div><\/div>/)
-      message = match ? match[1] : ''
-    }
-
-    comments.push({
-      ...getCommentAttrs(item),
-      message,
-      sub
-    })
-  })
-
-  return comments
-}
-
-/**
- * 分析楼主层信息
- * @param {*} tree
- */
-function getTopFloorAttrs(tree) {
-  try {
-    let node
-    const { children } = tree
-    const id = ''
-
-    node = findTreeNode(children, 'div > small|text')
-    const time = node ? node[0].text[0].replace(/#1 - | \/ /g, '') : ''
-    const floor = '#1'
-
-    node = findTreeNode(children, 'a > span|style~background-image')
-    const avatar = node
-      ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
-      : ''
-
-    node = findTreeNode(children, 'div > a|text&class~l&href~/user/')
-    const userId = node ? node[0].attrs.href.replace('/user/', '') : ''
-    const userName = node ? node[0].text[0] : ''
-
-    node = findTreeNode(children, 'div > span|text&class=tip_j')
-    const userSign = node ? node[0].text[0] : ''
-
-    return {
-      id,
-      time,
-      floor,
-      avatar,
-      userId,
-      userName: HTMLDecode(userName),
-      userSign: HTMLDecode(userSign)
-    }
-  } catch (error) {
-    // do nothing
-  }
-
-  return {
-    id: '',
-    time: '',
-    floor: '',
-    avatar: '',
-    userId: '',
-    userName: '',
-    userSign: ''
-  }
-}
-
-/**
- * 分析留言层信息
- * @param {*} tree
- */
-function getCommentAttrs(tree) {
-  try {
-    let node
-    const { children } = tree
-    const id = tree.attrs.id.replace('post_', '')
-
-    node = findTreeNode(children, 'div|text&class=re_info')
-    const time = node ? node[0].text[0].replace(/ - |\/ /g, '') : ''
-
-    node = findTreeNode(children, 'div > a|class=floor-anchor')
-    const floor = node ? node[0].text[0] : ''
-
-    node = findTreeNode(children, 'a > span|style~background-image')
-    const avatar = node
-      ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
-      : ''
-
-    node = findTreeNode(children, 'div > a|text&class~l&href~/user/')
-    const userId = node ? node[0].attrs.href.replace('/user/', '') : ''
-    const userName = node ? node[0].text[0] : ''
-
-    node = findTreeNode(children, 'div > span|text&class=tip_j')
-    const userSign = node ? node[0].text[0] : ''
-
-    // sub reply
-    node = findTreeNode(children, 'div > a|onclick')
-    const replySub = node ? node[0].attrs.onclick : ''
-
-    return {
-      id,
-      time,
-      floor,
-      avatar,
-      userId,
-      userName: HTMLDecode(userName),
-      userSign: HTMLDecode(userSign),
-      replySub
-    }
-  } catch (error) {
-    // do nothing
-  }
-
-  return {
-    id: '',
-    time: '',
-    floor: '',
-    avatar: '',
-    userId: '',
-    userName: '',
-    userSign: '',
-    replySub: ''
-  }
-}

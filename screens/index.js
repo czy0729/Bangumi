@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-30 15:50:04
+ * @Last Modified time: 2019-07-13 18:51:19
  */
 export { default as Anitama } from './anitama'
 export { default as Auth } from './auth'
 export { default as Award } from './award'
 export { default as Calendar } from './calendar'
 export { default as Discovery } from './discovery'
+export { default as Group } from './group'
 export { default as Home } from './home'
 export { default as Login } from './login'
 export { default as LoginV2 } from './login-v2'

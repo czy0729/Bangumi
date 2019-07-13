@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-24 21:35:54
+ * @Last Modified time: 2019-07-13 21:31:10
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -34,14 +34,12 @@ class Discovery extends store {
   async init() {
     const res = Promise.all([
       this.getStorage('random', namespace),
-      this.getStorage('ningMoeDetail', namespace),
-      this.getStorage('anitamaTimeline', namespace)
+      this.getStorage('ningMoeDetail', namespace)
     ])
     const state = await res
     this.setState({
       random: state[0] || LIST_EMPTY,
-      ningMoeDetail: state[1] || {},
-      anitamaTimeline: state[2] || {}
+      ningMoeDetail: state[1] || {}
     })
 
     return res
@@ -250,7 +248,6 @@ class Discovery extends store {
           [page]: animataTimeline
         }
       })
-      this.setStorage(key, undefined, namespace)
     }
 
     return Promise.resolve(animataTimeline)
