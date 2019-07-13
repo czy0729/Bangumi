@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 21:58:44
+ * @Last Modified time: 2019-07-13 03:11:26
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -17,47 +17,26 @@ import {
   HTML_NOTIFY,
   HTML_ACTION_RAKUEN_REPLY
 } from '@constants/html'
-import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 import store from '@utils/store'
-
-const namespace = 'Rakuen'
-const defaultScope = MODEL_RAKUEN_SCOPE.getValue('全局聚合')
-const defaultType = MODEL_RAKUEN_TYPE.getValue('全部')
-const LIST_LIMIT_COMMENTS = 20
-
-// const INIT_RAKUEN_ITEM = {
-//   group: '', // 小组名称
-//   groupHref: '', // 小组地址
-//   avatar: '', // 作者头像
-//   title: '', // 超展开标题
-//   href: '', // 链接
-//   replies: '', // 回复数
-//   time: '' // 发帖时间
-// }
-const INIT_TOPIC = {
-  groupThumb: '', // 小组图片
-  group: '', // 小组名称
-  groupHref: '', // 小组地址
-  avatar: '', // 作者头像
-  userName: '', // 作者名称
-  userId: '', // 作者Id
-  userSign: '', // 作者签名
-  time: '', // 发帖时间
-  title: '', // 帖子标题
-  message: '', // 帖子内容
-  formhash: '', // 回复表单凭据
-  lastview: '' // 回复表单时间戳
-}
-// const INIT_COMMENTS_ITEM = {}
+import {
+  NAMESPACE,
+  DEFAULT_SCOPE,
+  DEFAULT_TYPE,
+  LIST_LIMIT_COMMENTS,
+  INIT_READED_ITEM,
+  INIT_TOPIC
+} from './init'
 
 class Rakuen extends store {
   state = observable({
-    // @todo 屏蔽用, 广告姫关键词
-    adBlock: [],
-
     // 超展开列表
     rakuen: {
       // [`${scope}|${type}`]: LIST_EMPTY | INIT_RAKUEN_ITEM
+    },
+
+    // 帖子历史查看信息
+    readed: {
+      // [topicId]: INIT_READED_ITEM
     },
 
     // 帖子内容
@@ -80,17 +59,19 @@ class Rakuen extends store {
 
   async init() {
     const res = Promise.all([
-      this.getStorage('rakuen', namespace),
-      this.getStorage('topic', namespace),
-      this.getStorage('comments', namespace),
-      this.getStorage('notify', namespace)
+      this.getStorage('rakuen', NAMESPACE),
+      this.getStorage('readed', NAMESPACE),
+      this.getStorage('topic', NAMESPACE),
+      this.getStorage('comments', NAMESPACE),
+      this.getStorage('notify', NAMESPACE)
     ])
     const state = await res
     this.setState({
       rakuen: state[0] || {},
-      topic: state[1] || {},
-      comments: state[2] || {},
-      notify: state[3] || {}
+      readed: state[1] || {},
+      topic: state[2] || {},
+      comments: state[3] || {},
+      notify: state[4] || {}
     })
 
     return res
@@ -102,10 +83,18 @@ class Rakuen extends store {
    * @param {*} scope 范围
    * @param {*} type 类型
    */
-  rakuen(scope = defaultScope, type = defaultType) {
+  rakuen(scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) {
     return computed(
       () => this.state.rakuen[`${scope}|${type}`] || LIST_EMPTY
     ).get()
+  }
+
+  /**
+   * 帖子历史查看信息
+   * @param {*} topicId
+   */
+  readed(topicId = 0) {
+    return computed(() => this.state.readed[topicId] || INIT_READED_ITEM).get()
   }
 
   /**
@@ -138,7 +127,7 @@ class Rakuen extends store {
    * 为了提高体验, 做模拟分页加载效果
    */
   async fetchRakuen(
-    { scope = defaultScope, type = defaultType } = {},
+    { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE } = {},
     refresh
   ) {
     let res
@@ -179,7 +168,7 @@ class Rakuen extends store {
         }
       })
     }
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
 
     return res
   }
@@ -210,7 +199,7 @@ class Rakuen extends store {
           }
         }
       })
-      this.setStorage(topicKey, undefined, namespace)
+      this.setStorage(topicKey, undefined, NAMESPACE)
 
       // 缓存帖子回复
       this.setState({
@@ -227,7 +216,7 @@ class Rakuen extends store {
           }
         }
       })
-      this.setStorage(commentsKey, undefined, namespace)
+      this.setStorage(commentsKey, undefined, NAMESPACE)
     } else {
       // 加载下一页留言
       const comments = this.comments(topicId)
@@ -244,7 +233,7 @@ class Rakuen extends store {
           }
         }
       })
-      this.setStorage(commentsKey, undefined, namespace)
+      this.setStorage(commentsKey, undefined, NAMESPACE)
     }
 
     return res
@@ -252,6 +241,7 @@ class Rakuen extends store {
 
   /**
    * 电波提醒
+   * @param {*} analysis 是否分析回复内容
    */
   async fetchNotify(analysis = false) {
     const res = fetchHTML({
@@ -331,7 +321,7 @@ class Rakuen extends store {
         list
       }
     })
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
 
     return res
   }
@@ -355,7 +345,7 @@ class Rakuen extends store {
           clearHTML: ''
         }
       })
-      this.setStorage(key, undefined, namespace)
+      this.setStorage(key, undefined, NAMESPACE)
     }
   }
 
@@ -375,6 +365,23 @@ class Rakuen extends store {
       },
       success
     )
+  }
+
+  // -------------------- page --------------------
+  /**
+   * 更新帖子历史查看信息
+   */
+  updateTopicReaded = (topicId, replies) => {
+    const key = 'readed'
+    this.setState({
+      [key]: {
+        [topicId]: {
+          time: getTimestamp(),
+          replies
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
   }
 }
 

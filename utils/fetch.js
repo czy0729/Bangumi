@@ -3,11 +3,17 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 20:53:31
+ * @Last Modified time: 2019-07-13 01:49:51
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
-import { APP_ID, HOST_NAME, HOST, GITHUB_RELEASE_VERSION } from '@constants'
+import {
+  APP_ID,
+  HOST_NAME,
+  HOST,
+  IOS,
+  GITHUB_RELEASE_VERSION
+} from '@constants'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
@@ -141,11 +147,16 @@ export async function fetchHTML({
 
   let _url = url.replace('!', '') // 叹号代表不携带cookie
   if (url.indexOf('!') !== 0) {
-    _config.headers = {
-      'User-Agent': userAgent,
-      Cookie: cookie ? `${userCookie}; ${cookie}` : userCookie,
-      ...headers
-    }
+    _config.headers = IOS
+      ? {
+          Cookie: cookie ? `; ${userCookie}; ${cookie};` : `; ${userCookie};`,
+          ...headers
+        }
+      : {
+          'User-Agent': userAgent,
+          Cookie: cookie ? `${userCookie}; ${cookie}` : userCookie,
+          ...headers
+        }
   }
 
   let toastKey
@@ -250,29 +261,27 @@ export function xhr(
  * @param {*} title
  */
 export function hm(url, title) {
+  // GITHUB_RELEASE_VERSION
   try {
     const userStore = require('../stores/user').default
+    const { userAgent } = userStore.userCookie
+    let u = String(url).indexOf('http' === -1) ? `${HOST}/${url}` : url
+    u += `${u.includes('?') ? '&' : '?'}v=${GITHUB_RELEASE_VERSION}`
     const query = {
       lt: getTimestamp(),
       rnd: randomn(10),
       si: '2dcb6644739ae08a1748c45fb4cea087',
       v: '1.2.51',
       api: '4_0',
-      u: String(url).indexOf('http' === -1) ? `${HOST}/${url}` : url,
+      u,
       tt: title
     }
 
-    fetch(
-      `https://hm.baidu.com/hm.gif?${urlStringify({
-        ...query,
-        v: GITHUB_RELEASE_VERSION
-      })}`,
-      {
-        headers: {
-          'User-Agent': userStore.userCookie.userAgent
-        }
+    fetch(`https://hm.baidu.com/hm.gif?${urlStringify(query)}`, {
+      headers: {
+        'User-Agent': userAgent
       }
-    )
+    })
   } catch (error) {
     // do nothing
   }

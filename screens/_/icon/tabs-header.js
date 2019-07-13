@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 15:33:33
+ * @Last Modified time: 2019-07-13 01:55:14
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     padding: _.sm
   },
   right: {
-    marginRight: -_.sm
+    marginRight: IOS ? -_.sm : 0
   },
   ios: {
     marginBottom: _.tabsHeight

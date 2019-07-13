@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 20:04:59
+ * @Last Modified time: 2019-07-13 14:01:42
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -11,8 +11,8 @@ import { info } from '@utils/ui'
 import { log } from '@utils/dev'
 import { GITHUB_RELEASE_REPOS_URL, GITHUB_RELEASE_VERSION } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
+import { NAMESPACE } from './init'
 
-const namespace = 'System'
 const initSetting = {
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   cnFirst: true, // 是否中文优先
@@ -41,8 +41,8 @@ class System extends store {
   async init() {
     let res
     res = Promise.all([
-      this.getStorage('setting', namespace),
-      this.getStorage('release', namespace)
+      this.getStorage('setting', NAMESPACE),
+      this.getStorage('release', NAMESPACE)
     ])
     const state = await res
     this.setState({
@@ -117,7 +117,7 @@ class System extends store {
         this.setState({
           release
         })
-        this.setStorage('release', undefined, namespace)
+        this.setStorage('release', undefined, NAMESPACE)
       }
     } catch (error) {
       // do nothing
@@ -139,7 +139,7 @@ class System extends store {
           quality
         }
       })
-      this.setStorage(key, undefined, namespace)
+      this.setStorage(key, undefined, NAMESPACE)
     }
   }
 
@@ -155,7 +155,7 @@ class System extends store {
         cnFirst: !cnFirst
       }
     })
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
   }
 
   /**
@@ -170,7 +170,7 @@ class System extends store {
         autoFetch: !autoFetch
       }
     })
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
   }
 
   /**
@@ -185,7 +185,7 @@ class System extends store {
         quote: !quote
       }
     })
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
   }
 
   /**
@@ -200,7 +200,7 @@ class System extends store {
         speech: !speech
       }
     })
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
   }
 
   /**

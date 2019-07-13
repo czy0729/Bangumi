@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 00:42:09
+ * @Last Modified time: 2019-07-13 01:54:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -36,6 +36,7 @@ class Home extends React.Component {
         />
         <IconTabsHeader
           name='search'
+          position='right'
           onPress={() => navigation.push('Search')}
         />
       </>

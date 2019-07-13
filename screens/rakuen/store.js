@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 14:31:21
+ * @Last Modified time: 2019-07-13 03:17:03
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -69,8 +69,8 @@ export default class ScreenRakuen extends store {
     return computed(() => rakuenStore.rakuen(scope, type)).get()
   }
 
-  comments(topidId) {
-    return computed(() => rakuenStore.comments(topidId)).get()
+  readed(topicId) {
+    return computed(() => rakuenStore.readed(topicId)).get()
   }
 
   /**
@@ -111,7 +111,7 @@ export default class ScreenRakuen extends store {
         _tabs[index].title = (
           <Popover
             data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
-            onSelect={this.onGroupMenuClick}
+            onSelect={this.onGroupMenuPress}
           >
             <Text size={10} type='sub' lineHeight={14}>
               <Text size={14}>小组</Text>{' '}
@@ -124,7 +124,7 @@ export default class ScreenRakuen extends store {
         _tabs[index].title = (
           <Popover
             data={MODEL_RAKUEN_TYPE_MONO.data.map(item => item.label)}
-            onSelect={this.onMonoMenuClick}
+            onSelect={this.onMonoMenuPress}
           >
             <Text size={10} type='sub' lineHeight={14}>
               <Text size={14}>人物</Text>{' '}
@@ -189,7 +189,7 @@ export default class ScreenRakuen extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
-  onGroupMenuClick = title => {
+  onGroupMenuPress = title => {
     this.setState({
       group: MODEL_RAKUEN_TYPE_GROUP.getValue(title)
     })
@@ -197,7 +197,7 @@ export default class ScreenRakuen extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
-  onMonoMenuClick = title => {
+  onMonoMenuPress = title => {
     this.setState({
       mono: MODEL_RAKUEN_TYPE_MONO.getValue(title)
     })
@@ -205,5 +205,7 @@ export default class ScreenRakuen extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
-  // -------------------- action --------------------
+  onItemPress = (topicId, replies) => {
+    rakuenStore.updateTopicReaded(topicId, replies)
+  }
 }
