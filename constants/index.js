@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 15:14:25
+ * @Last Modified time: 2019-07-13 14:35:57
  */
 import { Platform } from 'react-native'
 // import Constants from 'expo-constants'
@@ -37,6 +37,7 @@ export const GITHUB_RELEASE_VERSION = '0.8' // since 20190623
 
 // 图片
 // 白
+export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
 export const IMG_EMPTY = {
   uri:
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP4////GQAJyAPKSOz6nwAAAABJRU5ErkJggg=='

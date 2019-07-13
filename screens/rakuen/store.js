@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 14:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 03:17:03
+ * @Last Modified time: 2019-07-13 18:09:32
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -11,6 +11,7 @@ import { Text } from '@components'
 import { Popover } from '@screens/_'
 import { systemStore, rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
+import { info } from '@utils/ui'
 import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE,
@@ -69,6 +70,9 @@ export default class ScreenRakuen extends store {
     return computed(() => rakuenStore.rakuen(scope, type)).get()
   }
 
+  /**
+   * 帖子历史查看记录
+   */
   readed(topicId) {
     return computed(() => rakuenStore.readed(topicId)).get()
   }
@@ -143,6 +147,13 @@ export default class ScreenRakuen extends store {
     return _tabs
   }
 
+  /**
+   * 是否屏蔽默认头像用户帖子
+   */
+  @computed get setting() {
+    return rakuenStore.setting
+  }
+
   // -------------------- fetch --------------------
   fetchRakuen = refresh => {
     const { scope, page } = this.state
@@ -207,5 +218,17 @@ export default class ScreenRakuen extends store {
 
   onItemPress = (topicId, replies) => {
     rakuenStore.updateTopicReaded(topicId, replies)
+  }
+
+  onExtraSelect = (title, value, navigation) => {
+    switch (title) {
+      case '屏蔽小组':
+        rakuenStore.addBlockGroup(value)
+        info(`已屏蔽 ${value}`)
+        break
+      default:
+        console.log(title, value)
+        break
+    }
   }
 }

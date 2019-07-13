@@ -1,6 +1,6 @@
 /* eslint-disable */
 const path = require('path')
-const oldPath = path.resolve(__dirname, 'Iconfont.css')
+const oldPath = path.resolve(__dirname, 'iconfont.css')
 const newPath = path.resolve(__dirname, 'iconfont.json')
 
 var gen = (module.exports = function() {

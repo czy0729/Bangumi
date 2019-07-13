@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 14:01:42
+ * @Last Modified time: 2019-07-13 14:16:55
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -11,30 +11,19 @@ import { info } from '@utils/ui'
 import { log } from '@utils/dev'
 import { GITHUB_RELEASE_REPOS_URL, GITHUB_RELEASE_VERSION } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
-import { NAMESPACE } from './init'
-
-const initSetting = {
-  quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
-  cnFirst: true, // 是否中文优先
-  autoFetch: true, // 切换页面自动请求
-  quote: true, // 帖子展开引用
-  speech: true // Bangumi娘话语
-}
-const initRelease = {
-  name: GITHUB_RELEASE_VERSION,
-  downloadUrl: ''
-}
-const initImageViewer = {
-  visible: false,
-  imageUrls: []
-}
+import {
+  NAMESPACE,
+  INIT_SETTING,
+  INIT_RELEASE,
+  INIT_IMAGE_VIEWER
+} from './init'
 
 class System extends store {
   state = observable({
-    setting: initSetting,
-    release: initRelease,
+    setting: INIT_SETTING,
+    release: INIT_RELEASE,
+    imageViewer: INIT_IMAGE_VIEWER,
     wifi: false,
-    imageViewer: initImageViewer,
     dev: false
   })
 
@@ -46,8 +35,8 @@ class System extends store {
     ])
     const state = await res
     this.setState({
-      setting: state[0] || initSetting,
-      release: state[1] || initRelease
+      setting: state[0] || INIT_SETTING,
+      release: state[1] || INIT_RELEASE
     })
 
     res = NetInfo.getConnectionInfo()
@@ -221,7 +210,7 @@ class System extends store {
    */
   closeImageViewer = () => {
     this.setState({
-      imageViewer: initImageViewer
+      imageViewer: INIT_IMAGE_VIEWER
     })
   }
 

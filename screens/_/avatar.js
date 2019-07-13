@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 05:23:43
+ * @Last Modified time: 2019-07-13 16:10:06
  */
 import React from 'react'
 import { Image } from '@components'
@@ -17,7 +17,7 @@ const Avatar = ({ style, navigation, userId, src, size }) => (
     border={_.colorBorder}
     quality={false}
     onPress={
-      navigation
+      navigation && userId
         ? () => {
             navigation.push('Zone', {
               userId
@@ -27,7 +27,6 @@ const Avatar = ({ style, navigation, userId, src, size }) => (
     }
   />
 )
-
 Avatar.defaultProps = {
   size: 28
 }

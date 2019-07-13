@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 03:11:26
+ * @Last Modified time: 2019-07-13 17:28:31
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -24,7 +24,9 @@ import {
   DEFAULT_TYPE,
   LIST_LIMIT_COMMENTS,
   INIT_READED_ITEM,
-  INIT_TOPIC
+  INIT_TOPIC,
+  INIT_NOTIFY,
+  INIT_SETTING
 } from './init'
 
 class Rakuen extends store {
@@ -50,11 +52,10 @@ class Rakuen extends store {
     },
 
     // 电波提醒
-    notify: {
-      unread: 0,
-      clearHref: '',
-      list: []
-    }
+    notify: INIT_NOTIFY,
+
+    // 超展开设置
+    setting: INIT_SETTING
   })
 
   async init() {
@@ -63,7 +64,8 @@ class Rakuen extends store {
       this.getStorage('readed', NAMESPACE),
       this.getStorage('topic', NAMESPACE),
       this.getStorage('comments', NAMESPACE),
-      this.getStorage('notify', NAMESPACE)
+      this.getStorage('notify', NAMESPACE),
+      this.getStorage('setting', NAMESPACE)
     ])
     const state = await res
     this.setState({
@@ -71,7 +73,8 @@ class Rakuen extends store {
       readed: state[1] || {},
       topic: state[2] || {},
       comments: state[3] || {},
-      notify: state[4] || {}
+      notify: state[4] || INIT_NOTIFY,
+      setting: state[5] || INIT_SETTING
     })
 
     return res
@@ -118,6 +121,13 @@ class Rakuen extends store {
    */
   @computed get notify() {
     return this.state.notify
+  }
+
+  /**
+   * 超展开设置
+   */
+  @computed get setting() {
+    return this.state.setting
   }
 
   // -------------------- fetch --------------------
@@ -370,6 +380,8 @@ class Rakuen extends store {
   // -------------------- page --------------------
   /**
    * 更新帖子历史查看信息
+   * @param {*} topicId 帖子Id
+   * @param {Int} replies 回复数
    */
   updateTopicReaded = (topicId, replies) => {
     const key = 'readed'
@@ -379,6 +391,26 @@ class Rakuen extends store {
           time: getTimestamp(),
           replies
         }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 添加屏蔽小组
+   * @param {string} group 小组名字
+   */
+  addBlockGroup = group => {
+    const { blockGroups } = this.setting
+    if (blockGroups.includes(group)) {
+      return
+    }
+
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        blockGroups: [...blockGroups, group]
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 00:37:34
+ * @Last Modified time: 2019-07-13 14:45:46
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab
@@ -15,3 +15,5 @@ export default {
     //   tag: '水树奈奈'
   }
 }
+
+export const initialHomeTabName = 'Rakuen'

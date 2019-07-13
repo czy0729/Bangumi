@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 02:07:38
+ * @Last Modified time: 2019-07-13 17:28:16
  */
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -45,3 +45,14 @@ export const INIT_TOPIC = {
 }
 
 export const INIT_COMMENTS_ITEM = {}
+
+export const INIT_NOTIFY = {
+  unread: 0,
+  clearHref: '',
+  list: []
+}
+
+export const INIT_SETTING = {
+  isBlockDefaultUser: true, // 是否屏蔽默认头像用户帖子
+  blockGroups: [] // 屏蔽的小组
+}
