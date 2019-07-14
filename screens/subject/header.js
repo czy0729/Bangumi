@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-10 22:05:17
+ * @Last Modified time: 2019-07-14 01:05:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -58,7 +58,7 @@ const Header = (props, { $ }) => {
         >
           吐槽箱{' '}
           <Text size={12} type='sub' lineHeight={24}>
-            ({20 * pageTotal})
+            ({20 * pageTotal}+)
           </Text>
         </SectionTitle>
       </View>

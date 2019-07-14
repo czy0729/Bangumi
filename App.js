@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 00:32:56
+ * @Last Modified time: 2019-07-14 11:34:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,6 +13,7 @@ import { ImageViewer } from '@components'
 import { StatusBar } from '@screens/_'
 import Stores, { systemStore } from '@stores'
 import { observer } from '@utils/decorators'
+import { hm } from '@utils/fetch'
 import _ from '@styles'
 import theme from '@styles/theme'
 import Navigations from './navigations/index'
@@ -51,8 +52,8 @@ class App extends React.Component {
     isLoadingComplete: false
   }
 
-  componentDidCatch(error, info) {
-    console.log(error, info)
+  componentDidCatch(error) {
+    hm(`error?error=${error}`, '错误')
   }
 
   loadResourcesAsync = async () =>
@@ -61,9 +62,9 @@ class App extends React.Component {
       Stores.init()
     ])
 
-  handleLoadingError = error => {
-    console.warn(error)
-  }
+  // handleLoadingError = error => {
+  //   console.warn(error)
+  // }
 
   handleFinishLoading = () => {
     this.setState({
@@ -82,8 +83,8 @@ class App extends React.Component {
       return (
         <AppLoading
           startAsync={this.loadResourcesAsync}
-          onError={this.handleLoadingError}
           onFinish={this.handleFinishLoading}
+          // onError={this.handleLoadingError}
         />
       )
     }

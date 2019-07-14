@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 19:04:19
+ * @Last Modified time: 2019-07-14 12:31:37
  */
 import { observable, computed } from 'mobx'
-import { HOST, LIST_EMPTY, LIST_LIMIT_COMMENTS } from '@constants'
+import { HOST, LIST_EMPTY, LIST_COMMENTS_LIMIT } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import {
   HTML_SUBJECT,
@@ -619,10 +619,10 @@ class Subject extends store {
       this.setState({
         [commentsKey]: {
           [stateKey]: {
-            list: monoComments.slice(0, LIST_LIMIT_COMMENTS),
+            list: monoComments.slice(0, LIST_COMMENTS_LIMIT),
             pagination: {
               page: 1,
-              pageTotal: Math.ceil(monoComments.length / LIST_LIMIT_COMMENTS)
+              pageTotal: Math.ceil(monoComments.length / LIST_COMMENTS_LIMIT)
             },
             _list: monoComments,
             _loaded
@@ -638,7 +638,7 @@ class Subject extends store {
         [commentsKey]: {
           [stateKey]: {
             ...monoComments,
-            list: monoComments._list.slice(0, LIST_LIMIT_COMMENTS * page),
+            list: monoComments._list.slice(0, LIST_COMMENTS_LIMIT * page),
             pagination: {
               ...monoComments.pagination,
               page
@@ -826,7 +826,7 @@ async function _fetchMono({ monoId = 0 }) {
 
     // 吐槽箱
     matchHTML = HTML.match(
-      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><\/div><\/div><div/
+      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><\/div><div id="footer/
     )
     monoComments = analysisComments(matchHTML)
   }

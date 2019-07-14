@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 12:41:50
+ * @Last Modified time: 2019-07-14 11:22:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -29,7 +29,7 @@ const withTransitionHeader = ({
   const gradientColorSteps = gradientColor(colorStart, colorEnd, 101)
 
   return observer(
-    class extends React.Component {
+    class withTransitionHeaderComponent extends React.Component {
       static navigationOptions = ({ navigation }) => {
         const headerStyle = navigation.getParam('headerStyle', {
           backgroundColor: 'transparent'

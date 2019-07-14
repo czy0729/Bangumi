@@ -21,7 +21,7 @@ import {
   NAMESPACE,
   DEFAULT_SCOPE,
   DEFAULT_TYPE,
-  LIST_LIMIT_COMMENTS,
+  LIST_COMMENTS_LIMIT,
   INIT_READED_ITEM,
   INIT_TOPIC,
   INIT_NOTIFY,
@@ -255,10 +255,10 @@ class Rakuen extends store {
       this.setState({
         [commentsKey]: {
           [stateKey]: {
-            list: comments.slice(0, LIST_LIMIT_COMMENTS),
+            list: comments.slice(0, LIST_COMMENTS_LIMIT),
             pagination: {
               page: 1,
-              pageTotal: Math.ceil(comments.length / LIST_LIMIT_COMMENTS)
+              pageTotal: Math.ceil(comments.length / LIST_COMMENTS_LIMIT)
             },
             _list: comments,
             _loaded,
@@ -275,7 +275,7 @@ class Rakuen extends store {
         [commentsKey]: {
           [stateKey]: {
             ...comments,
-            list: comments._list.slice(0, LIST_LIMIT_COMMENTS * page),
+            list: comments._list.slice(0, LIST_COMMENTS_LIMIT * page),
             pagination: {
               ...comments.pagination,
               page

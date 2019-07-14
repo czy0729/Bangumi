@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 20:56:30
+ * @Last Modified time: 2019-07-14 00:54:34
  */
 import React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import {
@@ -24,7 +24,7 @@ const maxSize = _.window.width - _.wind * 2
 const Info = (props, { $ }) => {
   const { title, content, cover } = $.groupInfo
   return (
-    <View style={_.container.inner}>
+    <View style={[_.container.inner, styles.container]}>
       {!IOS && <HeaderPlaceholder />}
       <Text size={20} bold>
         {title}
@@ -55,3 +55,9 @@ Info.contextTypes = {
 }
 
 export default observer(Info)
+
+const styles = StyleSheet.create({
+  container: {
+    minHeight: 328
+  }
+})

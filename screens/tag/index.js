@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 11:43:34
+ * @Last Modified time: 2019-07-14 11:43:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,8 @@ class Tag extends React.Component {
   }
 
   static contextTypes = {
-    $: PropTypes.object
+    $: PropTypes.object,
+    navigation: PropTypes.object
   }
 
   componentDidMount() {

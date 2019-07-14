@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 00:01:05
+ * @Last Modified time: 2019-07-14 04:01:53
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -149,14 +149,17 @@ export async function fetchHTML({
   if (url.indexOf('!') !== 0) {
     _config.headers = IOS
       ? {
+          'User-Agent': userAgent,
+
+          // @issue iOS不知道为什么会有文本乱插在cookie前面, 要加分号防止
           Cookie: cookie ? `; ${userCookie}; ${cookie};` : `; ${userCookie};`,
           ...headers
         }
       : {
           'User-Agent': userAgent,
           Cookie: cookie
-            ? `${userCookie}; chii_cookietime=2592000; ${cookie}`
-            : `${userCookie}; chii_cookietime=2592000`,
+            ? `${userCookie}; chii_cookietime=0; ${cookie}`
+            : `${userCookie}; chii_cookietime=0`,
           ...headers
         }
   }
@@ -231,7 +234,7 @@ export function xhr(
 ) {
   // 避免userStore循环引用
   const userStore = require('../stores/user').default
-  const { cookie: userCookie } = userStore.userCookie
+  const { cookie: userCookie, userAgent } = userStore.userCookie
 
   const toastKey = Toast.loading('Loading...', 0)
   const request = new XMLHttpRequest()
@@ -243,7 +246,6 @@ export function xhr(
     if (toastKey) {
       Portal.remove(toastKey)
     }
-
     if (request.status === 200) {
       success(request.responseText)
     } else {
@@ -252,9 +254,10 @@ export function xhr(
   }
 
   request.open(method, url)
+  request.withCredentials = false
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   request.setRequestHeader('Cookie', userCookie)
-  // request.setRequestHeader('User-Agent', userAgent)
+  request.setRequestHeader('User-Agent', userAgent)
   request.setRequestHeader('Host', HOST_NAME)
   request.setRequestHeader('accept-encoding', 'gzip, deflate')
   request.send(urlStringify(data))

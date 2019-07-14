@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-04-27 14:09:17
+ * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 18:09:32
+ * @Last Modified time: 2019-07-14 13:01:37
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -117,8 +117,8 @@ export default class ScreenRakuen extends store {
             data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
             onSelect={this.onGroupMenuPress}
           >
-            <Text size={10} type='sub' lineHeight={14}>
-              <Text size={14}>小组</Text>{' '}
+            <Text size={10} type='sub' lineHeight={13}>
+              <Text size={13}>小组</Text>{' '}
               {MODEL_RAKUEN_TYPE_GROUP.getLabel(group)}
             </Text>
           </Popover>
@@ -130,16 +130,16 @@ export default class ScreenRakuen extends store {
             data={MODEL_RAKUEN_TYPE_MONO.data.map(item => item.label)}
             onSelect={this.onMonoMenuPress}
           >
-            <Text size={10} type='sub' lineHeight={14}>
-              <Text size={14}>人物</Text>{' '}
+            <Text size={10} type='sub' lineHeight={13}>
+              <Text size={13}>人物</Text>{' '}
               {MODEL_RAKUEN_TYPE_MONO.getLabel(mono)}
             </Text>
           </Popover>
         )
       } else {
         _tabs[index].title = (
-          <Text size={10} type='sub' lineHeight={14}>
-            <Text size={14}>{title}</Text>
+          <Text size={10} type='sub' lineHeight={13}>
+            <Text size={13}>{title}</Text>
           </Text>
         )
       }
@@ -220,14 +220,36 @@ export default class ScreenRakuen extends store {
     rakuenStore.updateTopicReaded(topicId, replies)
   }
 
-  onExtraSelect = (title, value, navigation) => {
+  onExtraSelect = (title, values, navigation) => {
     switch (title) {
-      case '屏蔽小组':
-        rakuenStore.addBlockGroup(value)
-        info(`已屏蔽 ${value}`)
+      case '进入小组':
+        navigation.push('Group', {
+          groupId: values.groupHref.replace('/group/', '')
+        })
         break
+
+      case '进入条目':
+        navigation.push('Subject', {
+          subjectId: values.groupHref.replace('/subject/', '')
+        })
+        break
+
+      case '进入人物':
+        navigation.push('Mono', {
+          monoId: values.topicId
+            .replace('prsn/', 'person/')
+            .replace('crt/', 'character/')
+        })
+        break
+
+      case '屏蔽小组':
+      case '屏蔽条目':
+      case '屏蔽人物':
+        rakuenStore.addBlockGroup(values.groupCn)
+        info(`已屏蔽 ${values.groupCn}`)
+        break
+
       default:
-        console.log(title, value)
         break
     }
   }

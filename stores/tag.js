@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 05:01:49
+ * @Last Modified time: 2019-07-14 11:45:42
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -88,7 +88,7 @@ class Tag extends store {
 
     // 条目
     const matchHTML = HTML.match(
-      /<ul id="browserItemList" class="browserFull">(.+?)<\/ul> <div class="clearit">/
+      /<ul id="browserItemList" class="browserFull">(.+?)<\/ul><div class="clearit">/
     )
     if (matchHTML) {
       // 总页数

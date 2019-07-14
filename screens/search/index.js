@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 11:42:57
+ * @Last Modified time: 2019-07-14 03:10:51
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -72,7 +72,7 @@ class Search extends React.Component {
             <SearchBar />
           </Flex.Item>
         </Flex>
-        <History />
+        <History style={_.mt.sm} />
         <List />
       </>
     )

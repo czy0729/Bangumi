@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 22:51:12
+ * @Last Modified time: 2019-07-14 12:50:43
  */
 import cheerio from 'cheerio-without-node-native'
 import { fetchHTML } from '@utils/fetch'
@@ -139,7 +139,7 @@ export async function fetchTopic({ topicId = 0 }, reverse) {
 
   return Promise.resolve({
     topic,
-    comments
+    comments: comments.filter(item => !!item.userId)
   })
 }
 
@@ -152,11 +152,11 @@ export function analysisComments(HTML, reverse) {
   if (!HTML) {
     return comments
   }
-
   // 回复内容需要渲染html就不能使用node查找了, 而且子回复也在里面
   let messageHTML = HTML[1]
     .match(/<div class="reply_content">(.+?)<\/div><\/div><\/div><\/div>/g)
     .map(item => item.replace(/^<div class="reply_content">|<\/div>$/g, ''))
+
   if (reverse && messageHTML.length) {
     messageHTML = messageHTML.reverse()
   }
@@ -353,16 +353,16 @@ export function analysisGroup(HTML) {
   return cheerio
     .load(HTML)('tr.topic')
     .map((index, element) => {
-      const $ = cheerio(element)
-      const $title = $.find('.subject > a')
-      const $user = $.find('.author > a')
+      const $tr = cheerio(element)
+      const $title = $tr.find('.subject > a')
+      const $user = $tr.find('.author > a')
       return {
         href: $title.attr('href'),
         title: $title.attr('title'),
         userId: $user.attr('href').replace('/user/', ''),
         userName: $user.text(),
-        replies: $.find('.posts').text(),
-        time: $.find('.time').text()
+        replies: $tr.find('.posts').text(),
+        time: $tr.find('.time').text()
       }
     })
     .get()

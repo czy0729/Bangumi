@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 20:09:17
+ * @Last Modified time: 2019-07-14 00:45:44
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -103,7 +103,7 @@ class Store extends store {
       }
 
       try {
-        await this.doCheckCookie()
+        this.doCheckCookie()
       } catch (e) {
         // do nothing
       }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-11 21:59:09
+ * @Last Modified time: 2019-07-14 11:22:28
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -19,7 +19,7 @@ import observer from './observer'
  */
 const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
   observer(
-    class extends React.Component {
+    class InjectComponent extends React.Component {
       static navigationOptions = ComposedComponent.navigationOptions
 
       static childContextTypes = {

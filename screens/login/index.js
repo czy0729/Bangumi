@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 01:26:08
+ * @Last Modified time: 2019-07-14 00:25:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -91,7 +91,9 @@ export default class Login extends React.Component {
               // 得到code之后获取access_token
               this.doLogin(data)
             } else {
-              this.onOtherPage()
+              setTimeout(() => {
+                this.onOtherPage()
+              }, 2000)
             }
           }
           break

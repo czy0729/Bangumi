@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 00:07:43
+ * @Last Modified time: 2019-07-14 12:29:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { open } from '@utils'
 import { appNavigate } from '@utils/app'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { HOST } from '@constants'
+import { HOST, TOPIC_PUSH_LIMIT } from '@constants'
 import _ from '@styles'
 
 const List = ({ style }, { $, navigation }) => {
@@ -32,7 +32,7 @@ const List = ({ style }, { $, navigation }) => {
   return (
     <View style={style}>
       {list.map(({ title, href, replies, time, userName }, index) => {
-        const topicId = href.replace('/rakuen/topic/', '')
+        const topicId = href.replace('/group/topic/', 'group/')
         const readed = $.readed(topicId)
         const isReaded = !!readed.time
 
@@ -50,8 +50,7 @@ const List = ({ style }, { $, navigation }) => {
             style={[styles.item, isReaded && styles.readed]}
             highlight
             onPress={() => {
-              // 对评论大于200的帖子进行网页跳转
-              if (replies > 200) {
+              if (replies > TOPIC_PUSH_LIMIT) {
                 info('该帖评论多, 自动使用浏览器打开')
                 setTimeout(() => {
                   open(`${HOST}${href}`)

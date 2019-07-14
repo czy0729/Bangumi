@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 23:30:04
+ * @Last Modified time: 2019-07-14 12:58:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { Popover, Avatar } from '@screens/_'
 import { open } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
-import { HOST, IMG_DEFAULT_AVATAR } from '@constants'
+import { HOST, IMG_DEFAULT_AVATAR, TOPIC_PUSH_LIMIT } from '@constants'
 import _ from '@styles'
 
 const Item = (
@@ -25,6 +25,7 @@ const Item = (
     title,
     replies = '',
     group,
+    groupHref,
     time
   },
   { $, navigation }
@@ -67,8 +68,7 @@ const Item = (
 
   // 帖子点击
   const onPress = () => {
-    // 对评论大于200的帖子进行网页跳转
-    if (replyCount > 200) {
+    if (replyCount > TOPIC_PUSH_LIMIT) {
       info('该帖评论多, 自动使用浏览器打开')
       setTimeout(() => {
         open(`${HOST}${href}`)
@@ -97,12 +97,10 @@ const Item = (
   }
 
   const popoverData = [`进入${type}`]
-  let selectedValue
   if (type === '小组') {
     popoverData.push('屏蔽小组')
-    selectedValue = groupCn
   } else {
-    selectedValue = topicId
+    popoverData.push(`屏蔽${type}`)
   }
 
   return (
@@ -146,7 +144,16 @@ const Item = (
               style={styles.extra}
               data={popoverData}
               onSelect={title =>
-                $.onExtraSelect(title, selectedValue, navigation)
+                $.onExtraSelect(
+                  title,
+                  {
+                    topicId,
+                    href,
+                    groupCn,
+                    groupHref
+                  },
+                  navigation
+                )
               }
             >
               <Iconfont name='extra' />

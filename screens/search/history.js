@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 00:33:10
+ * @Last Modified time: 2019-07-14 03:10:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,14 +11,14 @@ import { Touchable, Flex, Text, Iconfont } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 
-const History = (props, { $ }) => {
+const History = ({ style }, { $ }) => {
   const { history, value } = $.state
   if (value !== '') {
     return null
   }
 
   return (
-    <View>
+    <View style={style}>
       {history.map(item => (
         <View key={item} style={styles.item}>
           <Flex style={styles.content}>

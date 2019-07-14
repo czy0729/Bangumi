@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 19:57:54
+ * @Last Modified time: 2019-07-14 11:22:50
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ import observer from './observer'
 
 const withHeader = () => ComposedComponent =>
   observer(
-    class extends React.Component {
+    class withHeaderComponent extends React.Component {
       static navigationOptions = ({ navigation }) => {
         let headerRight
         const popover = navigation.getParam('popover', {

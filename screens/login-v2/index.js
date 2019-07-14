@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 20:53:41
+ * @Last Modified time: 2019-07-14 00:41:53
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -23,6 +23,7 @@ import {
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { userStore } from '@stores'
 import { urlStringify, getTimestamp } from '@utils'
+import { hm } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import _ from '@styles'
@@ -59,6 +60,8 @@ function xhr({ method = 'GET', url, data, headers = {}, responseType } = {}) {
   })
 }
 
+const title = '登陆V2'
+
 export default class LoginV2 extends React.Component {
   static navigationOptions = {
     header: null
@@ -89,6 +92,8 @@ export default class LoginV2 extends React.Component {
     // await this.logout()
     await this.getFormHash()
     await this.getCaptcha()
+
+    hm('login?v=2', title)
   }
 
   onTour = () => {

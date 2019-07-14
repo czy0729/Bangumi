@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-03 01:48:21
+ * @Last Modified time: 2019-07-14 13:24:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -36,17 +36,19 @@ const Top = (props, { $, navigation }) => {
     message
   } = $.topic
   const { _list = [], _reverse } = $.comments
-  const { _title, _replies, _group, _time } = $.params
+  const { _title, _replies, _group, _time, _avatar } = $.params
 
   // ep带上章节详情
   const html = $.isEp ? $.epFormHTML : message
+  const userAvatar = avatar || _avatar
 
   // 人物这里不显示详情, 所以要把小组的相关信息替换成人物信息, 跳转到人物页面查看
   let groupName = group || _group
-  let groupPress = () =>
+  let groupPress = () => {
     appNavigate(groupHref, navigation, {
       _jp: group
     })
+  }
   if ($.isMono) {
     groupName = title || _title
     groupPress = () => appNavigate(`${HOST}/${$.monoId}`, navigation)
@@ -64,18 +66,20 @@ const Top = (props, { $, navigation }) => {
             </Text>
           )}
         </Text>
-        <Flex style={_.mt.sm}>
-          {!!groupThumb && (
-            <Image
-              style={_.mr.sm}
-              size={28}
-              src={groupThumb}
-              radius
-              border={_.colorBorder}
-              onPress={groupPress}
-            />
-          )}
-          <Text>
+        <Flex style={[styles.groupWrap, _.mt.sm]}>
+          <View style={styles.groupThumbWrap}>
+            {!!groupThumb && (
+              <Image
+                size={28}
+                src={groupThumb}
+                radius
+                border={_.colorBorder}
+                placeholder={false}
+                onPress={groupPress}
+              />
+            )}
+          </View>
+          <Text style={_.ml.sm}>
             <Text size={13} underline numberOfLines={1} onPress={groupPress}>
               {findBangumiCn(groupName)}
             </Text>
@@ -92,14 +96,18 @@ const Top = (props, { $, navigation }) => {
             )}
           </Text>
         </Flex>
-        {!!avatar && (
-          <Flex style={_.mt.md}>
-            <Avatar
-              navigation={navigation}
-              size={40}
-              src={avatar}
-              userId={userId}
-            />
+        <Flex style={[styles.userWrap, _.mt.md]}>
+          <View style={styles.userAvatarWrap}>
+            {!!userAvatar && (
+              <Avatar
+                navigation={navigation}
+                size={40}
+                src={userAvatar}
+                userId={userId}
+              />
+            )}
+          </View>
+          {!!userId && (
             <Flex.Item style={_.ml.sm}>
               <Text numberOfLines={2}>
                 {userName}
@@ -111,8 +119,8 @@ const Top = (props, { $, navigation }) => {
                 </Text>
               )}
             </Flex.Item>
-          </Flex>
-        )}
+          )}
+        </Flex>
         <View style={styles.html}>
           {!!html && (
             <RenderHtml
@@ -156,6 +164,18 @@ export default observer(Top)
 const styles = StyleSheet.create({
   title: {
     paddingHorizontal: _.wind
+  },
+  groupWrap: {
+    height: 32
+  },
+  groupThumbWrap: {
+    width: 30
+  },
+  userWrap: {
+    height: 42
+  },
+  userAvatarWrap: {
+    width: 40
   },
   html: {
     minHeight: 240

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-09 03:05:24
+ * @Last Modified time: 2019-07-14 04:23:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -44,6 +44,18 @@ class Item extends React.Component {
     const { subjectId } = this.props
     const isTop = top.indexOf(subjectId) !== -1
     const data = [
+      {
+        text: <Text>全部展开</Text>,
+        onPress: () => {
+          $.expandAll()
+        }
+      },
+      {
+        text: <Text>全部收起</Text>,
+        onPress: () => {
+          $.closeAll()
+        }
+      },
       {
         text: <Text>置顶</Text>,
         onPress: () => {

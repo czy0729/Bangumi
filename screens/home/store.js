@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 01:50:32
+ * @Last Modified time: 2019-07-14 04:42:01
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
 import { Eps } from '@screens/_'
-import { MODEL_EP_STATUS } from '@constants/model'
+import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { sleep } from '@utils'
 import { appNavigate } from '@utils/app'
 import store from '@utils/store'
@@ -334,6 +334,31 @@ export default class ScreenHome extends store {
     this.setState({
       top: _top
     })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 全部展开 (书籍不要展开, 展开就收不回去了)
+   */
+  expandAll = () => {
+    const item = {}
+    this.userCollection.list.forEach(({ subject_id: subjectId, subject }) => {
+      const type = MODEL_SUBJECT_TYPE.getTitle(subject.type)
+      if (type !== '书籍') {
+        item[subjectId] = {
+          expand: true,
+          doing: false
+        }
+      }
+    })
+    this.setState({
+      item
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  closeAll = () => {
+    this.clearState('item')
     this.setStorage(undefined, undefined, namespace)
   }
 

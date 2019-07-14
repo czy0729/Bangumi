@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:48:43
+ * @Last Modified time: 2019-07-14 04:38:49
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, action, toJS } from 'mobx'
@@ -35,6 +35,19 @@ export default class Store {
         this.state[key] = data
       }
     })
+  })
+
+  /**
+   * 清除state
+   */
+  clearState = action((key, data = {}) => {
+    if (typeof this.state[key] === 'undefined') {
+      extendObservable(this.state, {
+        [key]: data
+      })
+    } else {
+      this.state[key] = data
+    }
   })
 
   /**
