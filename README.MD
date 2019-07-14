@@ -95,13 +95,9 @@ PS: 这次版本用 0.9 吧, 0.8 在我开发期间不知道什么原因, 被热
 
 #### Page Preview
 
-#### Login 登陆
-
-<img src="./preview/login_1.png" width="200" alt="login_1" /> <img src="./preview/login_2.png" width="200" alt="login_2" />
-
 #### Home 进度
 
-<img src="./preview/home_3.png" width="200" alt="home_3" /> <img src="./preview/home_4.png" width="200" alt="home_4" /> <img src="./preview/home_7.png" width="200" alt="home_7" />
+<img src="./preview/login_3.png" width="200" alt="login_3" /> <img src="./preview/home_3.png" width="200" alt="home_3" /> <img src="./preview/home_4.png" width="200" alt="home_4" /> <img src="./preview/home_7.png" width="200" alt="home_7" />
 
 #### Subject 条目
 
@@ -129,7 +125,7 @@ PS: 这次版本用 0.9 吧, 0.8 在我开发期间不知道什么原因, 被热
 
 <img src="./preview/rakuen_3.png" width="200" alt="rakuen_3" /> <img src="./preview/topic_1.png" width="200" alt="topic_1" /> <img src="./preview/topic_5.png" width="200" alt="topic_5" /> <img src="./preview/topic_4.png" width="200" alt="topic_4" />
 
-<img src="./preview/rakuen_0.png" width="200" alt="rakuen_0" /> <img src="./preview/group_5.png" width="200" alt="group_5" />
+<img src="./preview/rakuen_0.png" width="200" alt="rakuen_0" /> <img src="./preview/group_1.png" width="200" alt="group_1" />
 
 #### Zone 用户空间
 
