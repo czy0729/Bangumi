@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 03:19:43
+ * @Last Modified time: 2019-07-14 20:26:54
  */
 import { observable, computed } from 'mobx'
 import { userStore, rakuenStore, subjectStore } from '@stores'
@@ -79,6 +79,11 @@ export default class ScreenTopic extends store {
 
   @computed get isWebLogin() {
     return userStore.isWebLogin
+  }
+
+  @computed get readed() {
+    const { topicId } = this.params
+    return rakuenStore.readed(topicId)
   }
 
   // -------------------- page --------------------

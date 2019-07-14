@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 15:04:05
+ * @Last Modified time: 2019-07-14 20:53:56
  */
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -26,8 +26,9 @@ export const INIT_RAKUEN_ITEM = {
 }
 
 export const INIT_READED_ITEM = {
+  replies: 0, // 帖子查看时的回复数
   time: 0, // 帖子查看时间
-  replies: 0 // 帖子查看时的回复数
+  _time: 0 // 帖子查看时间, 需要多一个来缓存上一次点击事件, 用于制造页面内标记新楼层效果
 }
 
 export const INIT_TOPIC = {

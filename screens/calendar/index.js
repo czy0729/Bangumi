@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 00:21:49
+ * @Last Modified time: 2019-07-14 19:57:27
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -31,9 +31,9 @@ class Calendar extends React.Component {
     navigation: PropTypes.object
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { $, navigation } = this.context
-    await $.init()
+    $.init()
 
     navigation.setParams({
       popover: {

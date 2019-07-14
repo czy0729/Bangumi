@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 20:25:01
+ * @Last Modified time: 2019-07-14 20:56:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
-import { simpleTime } from '@utils'
+import { getTimestamp, simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
 import _ from '@styles'
 
@@ -38,8 +38,16 @@ const Item = (
 ) => {
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
+  const { _time: readedTime } = $.readed
+  let isNew
+  if (readedTime) {
+    isNew = getTimestamp(time) > readedTime
+  }
   return (
-    <Flex style={[styles.item, isOdd && styles.itemOdd]} align='start'>
+    <Flex
+      style={[styles.item, isOdd && styles.itemOdd, isNew && styles.itemNew]}
+      align='start'
+    >
       <Avatar
         style={styles.image}
         navigation={navigation}
@@ -97,8 +105,12 @@ const Item = (
           {sub.map(item => {
             const isAuthor = authorId === item.userId
             const isLayer = !isAuthor && userId === item.userId
+            let isNew
+            if (readedTime) {
+              isNew = getTimestamp(item.time) > readedTime
+            }
             return (
-              <Flex key={item.id} align='start'>
+              <Flex key={item.id} style={isNew && styles.itemNew} align='start'>
                 <Avatar
                   style={styles.subImage}
                   navigation={navigation}
@@ -180,6 +192,9 @@ const styles = StyleSheet.create({
   },
   itemOdd: {
     backgroundColor: _.colorBg
+  },
+  itemNew: {
+    backgroundColor: _.colorMainLight
   },
   image: {
     marginTop: _.wind,

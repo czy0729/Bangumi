@@ -1,9 +1,12 @@
+/* eslint-disable space-before-function-paren */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable func-names */
 /*
  * 请求相关
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 04:01:53
+ * @Last Modified time: 2019-07-14 19:13:00
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -261,6 +264,47 @@ export function xhr(
   request.setRequestHeader('Host', HOST_NAME)
   request.setRequestHeader('accept-encoding', 'gzip, deflate')
   request.send(urlStringify(data))
+}
+
+/**
+ * 自定义XHR
+ */
+export function xhrCustom({
+  method = 'GET',
+  url,
+  data,
+  headers = {},
+  responseType
+} = {}) {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest()
+    request.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        resolve(this)
+      }
+    }
+    xhr.onerror = function() {
+      reject(new TypeError('Network request failed'))
+    }
+    xhr.ontimeout = function() {
+      reject(new TypeError('Network request failed'))
+    }
+    xhr.onabort = function() {
+      reject(new TypeError('AbortError'))
+    }
+
+    request.open(method, url, true)
+    request.withCredentials = false
+    if (responseType) {
+      request.responseType = responseType
+    }
+    Object.keys(headers).forEach(key => {
+      request.setRequestHeader(key, headers[key])
+    })
+
+    const body = data ? urlStringify(data) : null
+    request.send(body)
+  })
 }
 
 /**

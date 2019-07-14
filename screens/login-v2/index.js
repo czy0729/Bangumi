@@ -1,11 +1,8 @@
-/* eslint-disable space-before-function-paren */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable func-names */
 /*
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 17:34:06
+ * @Last Modified time: 2019-07-14 21:16:37
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -22,43 +19,11 @@ import {
 } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { userStore } from '@stores'
-import { urlStringify, getTimestamp } from '@utils'
-import { hm } from '@utils/fetch'
+import { getTimestamp } from '@utils'
+import { xhrCustom, hm } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import _ from '@styles'
-
-function xhr({ method = 'GET', url, data, headers = {}, responseType } = {}) {
-  return new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest()
-    request.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        resolve(this)
-      }
-    }
-    xhr.onerror = function() {
-      reject(new TypeError('Network request failed'))
-    }
-    xhr.ontimeout = function() {
-      reject(new TypeError('Network request failed'))
-    }
-    xhr.onabort = function() {
-      reject(new TypeError('AbortError'))
-    }
-
-    request.open(method, url, true)
-    request.withCredentials = false
-    if (responseType) {
-      request.responseType = responseType
-    }
-    Object.keys(headers).forEach(key => {
-      request.setRequestHeader(key, headers[key])
-    })
-
-    const body = data ? urlStringify(data) : null
-    request.send(body)
-  })
-}
 
 const title = '登陆V2'
 
@@ -86,6 +51,8 @@ export default class LoginV2 extends React.Component {
   code = ''
   accessToken = ''
 
+  input
+
   async componentDidMount() {
     this.userAgent = await Constants.getWebViewUserAgentAsync()
 
@@ -108,7 +75,7 @@ export default class LoginV2 extends React.Component {
   }
 
   logout = () =>
-    xhr({
+    xhrCustom({
       url: `${HOST}/logout/7dd16c5e`,
       headers: {
         'User-Agent': this.userAgent
@@ -116,7 +83,7 @@ export default class LoginV2 extends React.Component {
     })
 
   getFormHash = async () => {
-    const res = xhr({
+    const res = xhrCustom({
       url: `${HOST}/login`,
       headers: {
         'User-Agent': this.userAgent
@@ -142,7 +109,7 @@ export default class LoginV2 extends React.Component {
   }
 
   getCaptcha = async () => {
-    const res = xhr({
+    const res = xhrCustom({
       url: `${HOST}/signup/captcha?state=${getTimestamp()}`,
       headers: {
         Cookie: `chii_sid=${this.cookie.chiiSid}`,
@@ -175,8 +142,10 @@ export default class LoginV2 extends React.Component {
       info: '登陆请求中...'
     })
 
+    this.input.inputRef.blur()
+
     try {
-      const { responseHeaders } = await xhr({
+      const { responseHeaders } = await xhrCustom({
         method: 'POST',
         url: `${HOST}/FollowTheRabbit`,
         headers: {
@@ -243,7 +212,7 @@ export default class LoginV2 extends React.Component {
   }
 
   oauth = async () => {
-    const res = xhr({
+    const res = xhrCustom({
       url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
       headers: {
         Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${
@@ -261,7 +230,7 @@ export default class LoginV2 extends React.Component {
   }
 
   authorize = async () => {
-    const res = xhr({
+    const res = xhrCustom({
       method: 'POST',
       url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
       headers: {
@@ -288,7 +257,7 @@ export default class LoginV2 extends React.Component {
   }
 
   getAccessToken = () =>
-    xhr({
+    xhrCustom({
       method: 'POST',
       url: `${HOST}/oauth/access_token`,
       headers: {
@@ -376,6 +345,7 @@ export default class LoginV2 extends React.Component {
                 style={styles.input}
                 value={password}
                 placeholder='密码'
+                secureTextEntry
                 onChange={evt => this.onChange(evt, 'password')}
               />
             </Flex.Item>
@@ -383,6 +353,7 @@ export default class LoginV2 extends React.Component {
           <Flex style={_.mt.md}>
             <Flex.Item>
               <Input
+                ref={ref => (this.input = ref)}
                 style={styles.input}
                 value={captcha}
                 placeholder='验证'

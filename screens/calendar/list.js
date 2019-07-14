@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-20 18:05:46
+ * @Last Modified time: 2019-07-14 19:52:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,6 +13,8 @@ import { colorBg } from '@styles'
 import Item from './item'
 
 const List = (props, { $ }) => {
+  const { calendarData } = $.state
+
   // 今天星期几的数据排最前
   let day = new Date().getDay()
   if (day === 0) {
@@ -64,6 +66,8 @@ const List = (props, { $ }) => {
                 subjectId={item.id}
                 images={item.images}
                 name={item.name_cn || item.name}
+                score={item.rating && item.rating.score}
+                air={calendarData[item.id] && calendarData[item.id].air}
               />
             ))}
         </Flex>

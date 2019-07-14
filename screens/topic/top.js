@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 13:24:50
+ * @Last Modified time: 2019-07-14 20:49:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -36,11 +36,21 @@ const Top = (props, { $, navigation }) => {
     message
   } = $.topic
   const { _list = [], _reverse } = $.comments
-  const { _title, _replies, _group, _time, _avatar } = $.params
+  const {
+    _title,
+    _replies,
+    _group,
+    _time,
+    _avatar,
+    _userName,
+    _userId
+  } = $.params
 
   // ep带上章节详情
   const html = $.isEp ? $.epFormHTML : message
   const userAvatar = avatar || _avatar
+  const uname = userName || _userName
+  const uid = userId || _userId
 
   // 人物这里不显示详情, 所以要把小组的相关信息替换成人物信息, 跳转到人物页面查看
   let groupName = group || _group
@@ -107,17 +117,15 @@ const Top = (props, { $, navigation }) => {
               />
             )}
           </View>
-          {!!userId && (
+          {!!uid && (
             <Flex.Item style={_.ml.sm}>
               <Text numberOfLines={2}>
-                {userName}
-                <Text type='sub'> @{userId}</Text>
+                {uname}
+                <Text type='sub'> @{uid}</Text>
               </Text>
-              {!!userSign && (
-                <Text style={_.mt.xs} type='sub' size={12}>
-                  {userSign}
-                </Text>
-              )}
+              <Text style={_.mt.xs} type='sub' size={12}>
+                {userSign || '-'}
+              </Text>
             </Flex.Item>
           )}
         </Flex>

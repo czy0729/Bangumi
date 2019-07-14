@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 15:19:01
+ * @Last Modified time: 2019-07-14 21:07:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -94,7 +94,9 @@ const Item = (
         _replies: `(+${replyCount})`,
         _group: group,
         _time: time,
-        _avatar: avatar
+        _avatar: avatar,
+        _userName: userName,
+        _userId: userId
       })
     }
   }
@@ -148,8 +150,6 @@ const Item = (
                   )}
                 </Text>
                 <Text style={_.mt.sm} type='sub' size={12}>
-                  <Text size={12}>{userName}</Text>
-                  {' / '}
                   {correctTime(time)}
                   {groupCn ? ' / ' : ''}
                   <Text size={12}>{groupCn}</Text>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorBg
   },
   image: {
-    paddingRight: _.xs,
+    marginRight: _.xs,
     marginTop: _.md
   },
   item: {

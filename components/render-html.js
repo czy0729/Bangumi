@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 14:26:15
+ * @Last Modified time: 2019-07-14 20:37:40
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
