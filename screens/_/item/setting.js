@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-24 23:33:33
+ * @Last Modified time: 2019-07-14 14:10:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
-import { observer } from '@utils/decorators'
 import _ from '@styles'
 
-const Item = ({ style, border, hd, ft, arrow, onPress, ...other }) => {
+const ItemSetting = ({ style, border, hd, ft, arrow, onPress, ...other }) => {
   const content = (
     <Flex style={[styles.item, border && styles.border]}>
       <Flex.Item>
@@ -26,6 +26,7 @@ const Item = ({ style, border, hd, ft, arrow, onPress, ...other }) => {
       {arrow && <Iconfont style={_.ml.xs} name='right' size={16} />}
     </Flex>
   )
+
   if (onPress) {
     return (
       <Touchable style={[styles.touchable, style]} onPress={onPress} {...other}>
@@ -41,7 +42,7 @@ const Item = ({ style, border, hd, ft, arrow, onPress, ...other }) => {
   )
 }
 
-export default observer(Item)
+export default observer(ItemSetting)
 
 const styles = StyleSheet.create({
   touchable: {

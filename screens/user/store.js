@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 05:10:03
+ * @Last Modified time: 2019-07-14 17:45:17
  */
 import { observable, computed } from 'mobx'
 import { userStore, collectionStore } from '@stores'
@@ -109,7 +109,7 @@ export default class ScreenUser extends store {
         type: MODEL_COLLECTION_STATUS.getValue(tabs[page].title),
         order,
         tag,
-        userId
+        userId: this.usersInfo.username || userId
       },
       refresh
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 13:01:37
+ * @Last Modified time: 2019-07-14 15:20:13
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -247,6 +247,11 @@ export default class ScreenRakuen extends store {
       case '屏蔽人物':
         rakuenStore.addBlockGroup(values.groupCn)
         info(`已屏蔽 ${values.groupCn}`)
+        break
+
+      case '屏蔽用户':
+        rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
+        info(`已屏蔽 ${values.userName}`)
         break
 
       default:

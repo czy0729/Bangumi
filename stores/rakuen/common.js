@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 12:50:43
+ * @Last Modified time: 2019-07-14 15:05:23
  */
 import cheerio from 'cheerio-without-node-native'
 import { fetchHTML } from '@utils/fetch'
@@ -51,6 +51,7 @@ export async function fetchRakuen({ scope, type } = {}) {
       const data = {
         title: HTMLDecode(title),
         avatar,
+        userName: item.children[0].attrs.title,
         href,
         replies,
         group: HTMLDecode(group),

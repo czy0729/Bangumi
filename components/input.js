@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-11 22:36:08
+ * @Last Modified time: 2019-07-14 14:34:28
  */
 import React from 'react'
 import {
@@ -24,6 +24,7 @@ export default class Input extends React.Component {
     style: undefined,
     multiline: false,
     numberOfLines: 1,
+    showClear: false,
     onChange: Function.prototype
   }
 
@@ -76,7 +77,7 @@ export default class Input extends React.Component {
   }
 
   render() {
-    const { style, multiline, numberOfLines, ...other } = this.props
+    const { style, multiline, numberOfLines, showClear, ...other } = this.props
     if (multiline) {
       const containerHeight = initInputHeight * numberOfLines + 18
       return (
@@ -103,7 +104,7 @@ export default class Input extends React.Component {
               />
             </View>
           </TouchableWithoutFeedback>
-          {this.renderClear()}
+          {showClear && this.renderClear()}
         </View>
       )
     }
@@ -121,7 +122,7 @@ export default class Input extends React.Component {
           {...other}
           onChange={this.onChange}
         />
-        {this.renderClear()}
+        {showClear && this.renderClear()}
       </View>
     )
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 15:00:33
+ * @Last Modified time: 2019-07-14 17:11:41
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
@@ -17,7 +17,7 @@ import Head from './head'
 import { height, headerHeight } from './store'
 
 const ParallaxImage = ({ scrollY }, { $, navigation }) => {
-  const { id, avatar, nickname } = $.usersInfo
+  const { avatar, nickname, username } = $.usersInfo
   const parallaxStyle = {
     transform: [
       {
@@ -115,12 +115,12 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
             onSelect={label => {
               if (label === '详细收藏信息') {
                 navigation.push('User', {
-                  userId: id,
+                  userId: username,
                   _name: nickname,
                   _image: avatar.large
                 })
               } else {
-                open(`${HOST}/user/${id}`)
+                open(`${HOST}/user/${username}`)
               }
             }}
           >

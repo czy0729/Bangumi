@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 18:51:40
+ * @Last Modified time: 2019-07-14 14:13:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -25,6 +25,7 @@ import {
   Mono,
   Notify,
   Rakuen,
+  RakuenSetting,
   Random,
   Search,
   Setting,
@@ -87,6 +88,7 @@ const HomeStack = createStackNavigator(
     LoginV2,
     Mono,
     Notify,
+    RakuenSetting,
     Random,
     Search,
     Setting,

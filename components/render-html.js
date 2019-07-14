@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 15:04:57
+ * @Last Modified time: 2019-07-14 14:26:15
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
 import HTML from 'react-native-render-html'
-import { systemStore } from '@stores'
+import { rakuenStore } from '@stores'
 import { open } from '@utils'
 import { HOST } from '@constants'
 import _ from '@styles'
@@ -291,7 +291,7 @@ class MaskText extends React.Component {
 
 class QuoteText extends React.Component {
   state = {
-    show: systemStore.setting.quote || false
+    show: rakuenStore.setting.quote || false
   }
 
   show = () =>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 12:57:52
+ * @Last Modified time: 2019-07-14 15:24:31
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab
@@ -17,4 +17,4 @@ export default {
   }
 }
 
-export const initialHomeTabName = 'Rakuen'
+export const initialHomeTabName = 'Home'

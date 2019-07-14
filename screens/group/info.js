@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 00:54:34
+ * @Last Modified time: 2019-07-14 15:32:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,8 +19,6 @@ import {
 import { IOS } from '@constants'
 import _ from '@styles'
 
-const maxSize = _.window.width - _.wind * 2
-
 const Info = (props, { $ }) => {
   const { title, content, cover } = $.groupInfo
   return (
@@ -33,7 +31,7 @@ const Info = (props, { $ }) => {
         <Flex style={_.mt.md} justify='center'>
           <Image
             src={cover}
-            autoSize={maxSize}
+            size={80}
             border
             shadow
             placholder={false}

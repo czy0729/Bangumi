@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 12:58:57
+ * @Last Modified time: 2019-07-14 15:19:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,6 +22,7 @@ const Item = (
     index,
     href = '',
     avatar,
+    userName,
     title,
     replies = '',
     group,
@@ -30,11 +31,31 @@ const Item = (
   },
   { $, navigation }
 ) => {
-  const { isBlockDefaultUser, blockGroups } = $.setting
+  const { isBlockDefaultUser, blockGroups, blockUserIds } = $.setting
   const groupCn = findBangumiCn(group)
 
   // 处理屏蔽小组
   if (blockGroups.includes(groupCn)) {
+    return null
+  }
+
+  // 匹配userId, 有userId的头像可以跳转到用户空间
+  let userId
+  const match = avatar.match(/\/(\d+).jpg/)
+  if (match) {
+    // eslint-disable-next-line prefer-destructuring
+    userId = match[1]
+  }
+
+  // 处理屏蔽用户
+  const findIndex = blockUserIds.findIndex(item => {
+    const [itemUserName, itemUserId] = item.split('@')
+    if (itemUserId === 'undefined') {
+      return itemUserName === userName
+    }
+    return itemUserId === userId
+  })
+  if (findIndex !== -1) {
     return null
   }
 
@@ -56,14 +77,6 @@ const Item = (
     if (replyCount > readed.replies) {
       replyAdd = `+${replyCount - readed.replies}`
     }
-  }
-
-  // 匹配userId, 有userId的头像可以跳转到用户空间
-  let userId
-  const match = avatar.match(/\/(\d+).jpg/)
-  if (match) {
-    // eslint-disable-next-line prefer-destructuring
-    userId = match[1]
   }
 
   // 帖子点击
@@ -96,9 +109,10 @@ const Item = (
     type = '人物'
   }
 
+  // 只有小组和条目可以屏蔽用户
   const popoverData = [`进入${type}`]
-  if (type === '小组') {
-    popoverData.push('屏蔽小组')
+  if (topicId.includes('group/') || topicId.includes('subject/')) {
+    popoverData.push(`屏蔽${type}`, '屏蔽用户')
   } else {
     popoverData.push(`屏蔽${type}`)
   }
@@ -134,6 +148,8 @@ const Item = (
                   )}
                 </Text>
                 <Text style={_.mt.sm} type='sub' size={12}>
+                  <Text size={12}>{userName}</Text>
+                  {' / '}
                   {correctTime(time)}
                   {groupCn ? ' / ' : ''}
                   <Text size={12}>{groupCn}</Text>
@@ -150,7 +166,9 @@ const Item = (
                     topicId,
                     href,
                     groupCn,
-                    groupHref
+                    groupHref,
+                    userId,
+                    userName
                   },
                   navigation
                 )

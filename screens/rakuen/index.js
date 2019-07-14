@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 01:56:06
+ * @Last Modified time: 2019-07-14 14:14:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { IconTabsHeader, IconTabBar } from '@screens/_'
+import { Popover, IconTabsHeader, IconTabBar } from '@screens/_'
+import { open } from '@utils'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -60,20 +61,36 @@ class Rakuen extends React.Component {
         <IconTabsHeader name='mail' onPress={onPress} />
       ),
       headerRight: (
-        <IconTabsHeader
-          name='add'
-          position='right'
-          onPress={() => {
-            if ($.isWebLogin) {
-              navigation.push('WebView', {
-                uri: HTML_NEW_TOPIC(),
-                title: '添加新讨论'
-              })
-            } else {
-              navigation.push(IOS ? 'Login' : 'LoginV2')
+        <Popover
+          data={['设置', '新讨论']}
+          onSelect={title => {
+            switch (title) {
+              case '设置':
+                navigation.push('RakuenSetting')
+                break
+              case '新讨论':
+                open(HTML_NEW_TOPIC())
+                break
+              default:
+                break
             }
           }}
-        />
+        >
+          <IconTabsHeader
+            name='more'
+            position='right'
+            // onPress={() => {
+            //   if ($.isWebLogin) {
+            //     navigation.push('WebView', {
+            //       uri: HTML_NEW_TOPIC(),
+            //       title: '添加新讨论'
+            //     })
+            //   } else {
+            //     navigation.push(IOS ? 'Login' : 'LoginV2')
+            //   }
+            // }}
+          />
+        </Popover>
       )
     })
 

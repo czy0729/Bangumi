@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 23:10:48
+ * @Last Modified time: 2019-07-14 14:49:08
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -480,6 +480,36 @@ class Rakuen extends store {
   }
 
   /**
+   * 切换`帖子展开引用`
+   */
+  switchQuote = () => {
+    const { quote } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        quote: !quote
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 切换`屏蔽广告姬`
+   */
+  switchIsBlockDefaultUser = () => {
+    const { isBlockDefaultUser } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        isBlockDefaultUser: !isBlockDefaultUser
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
    * 添加屏蔽小组
    * @param {string} group 小组名字
    */
@@ -494,6 +524,58 @@ class Rakuen extends store {
       [key]: {
         ...this.setting,
         blockGroups: [...blockGroups, group]
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 删除屏蔽小组
+   * @param {string} group 小组名字
+   */
+  deleteBlockGroup = group => {
+    const { blockGroups } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        blockGroups: blockGroups.filter(item => item !== group)
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 添加屏蔽用户
+   * @param {string} userNameSpace `${userName}@${userId}`
+   */
+  addBlockUser = userNameSpace => {
+    const { blockUserIds } = this.setting
+    if (blockUserIds.includes(userNameSpace)) {
+      return
+    }
+
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        blockUserIds: [...blockUserIds, userNameSpace]
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 删除屏蔽用户
+   * @param {string} userNameSpace `${userName}@${userId}`
+   */
+  deleteBlockUser = userNameSpace => {
+    const { blockUserIds } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        blockUserIds: blockUserIds.filter(item => item !== userNameSpace)
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

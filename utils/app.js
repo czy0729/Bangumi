@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-30 15:32:46
+ * @Last Modified time: 2019-07-14 15:30:25
  */
 import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
@@ -126,6 +126,16 @@ export function appNavigate(url = '', navigation, passParams = {}) {
   if (_url.includes('/character/') || _url.includes('/person/')) {
     navigation.push('Mono', {
       monoId: _url.replace(`${HOST}/`, ''),
+      _url,
+      ...passParams
+    })
+    return true
+  }
+
+  // 小组
+  if (_url.includes('/group/')) {
+    navigation.push('Group', {
+      groupId: _url.replace(`${HOST}/group/`, ''),
       _url,
       ...passParams
     })

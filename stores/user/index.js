@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 00:45:44
+ * @Last Modified time: 2019-07-14 17:26:14
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -100,6 +100,7 @@ class Store extends store {
       // 用户信息被动刷新, 距离上次24小时候后才请求
       if (!_loaded || getTimestamp() - _loaded > 86400) {
         this.fetchUserInfo()
+        this.fetchUsersInfo()
       }
 
       try {

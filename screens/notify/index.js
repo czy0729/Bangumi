@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 11:42:29
+ * @Last Modified time: 2019-07-14 15:36:17
  */
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
@@ -54,15 +54,13 @@ class Notify extends React.Component {
             />
             <Flex.Item style={[styles.item, !!index && styles.border, _.ml.sm]}>
               <Text size={13}>{item.userName}</Text>
-              <Text style={_.mt.sm} size={15}>
+              <Text style={_.mt.sm}>
                 {item.message}
                 <Text
                   type='main'
-                  size={15}
                   onPress={() => appNavigate(item.href, navigation)}
                 >
-                  {' '}
-                  {item.title}{' '}
+                  {item.title}
                 </Text>
                 {item.message2}
               </Text>

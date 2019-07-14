@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 21:06:07
+ * @Last Modified time: 2019-07-14 13:54:04
  */
 export { default as Avatar } from './avatar'
 export { default as Characters } from './characters'
@@ -23,6 +23,7 @@ export { default as ItemCollections } from './item/collections'
 export { default as ItemCollectionsGrid } from './item/collections-grid'
 export { default as ItemComment } from './item/comment'
 export { default as ItemSearch } from './item/search'
+export { default as ItemSetting } from './item/setting'
 export { default as Logo } from './logo'
 export { default as ManageModal } from './manage-modal'
 export { default as Pagination } from './pagination'

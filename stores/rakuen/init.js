@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 22:51:35
+ * @Last Modified time: 2019-07-14 15:04:05
  */
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -18,6 +18,7 @@ export const INIT_RAKUEN_ITEM = {
   group: '', // 小组名称
   groupHref: '', // 小组地址
   avatar: '', // 作者头像
+  userName: '', // 作者名字
   title: '', // 超展开标题
   href: '', // 链接
   replies: '', // 回复数
@@ -62,8 +63,10 @@ export const INIT_NOTIFY = {
 }
 
 export const INIT_SETTING = {
-  isBlockDefaultUser: true, // 是否屏蔽默认头像用户帖子
-  blockGroups: [] // 屏蔽的小组
+  quote: true, // 帖子展开引用,
+  isBlockDefaultUser: false, // 是否屏蔽默认头像用户帖子
+  blockGroups: [], // 屏蔽的小组
+  blockUserIds: [] // 屏蔽的用户 `${userName}@${userId}`
 }
 
 export const INIT_GROUP_INFO = {

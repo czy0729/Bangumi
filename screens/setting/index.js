@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 22:12:46
+ * @Last Modified time: 2019-07-14 14:26:43
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
 import { Switch } from '@ant-design/react-native'
 import { Text } from '@components'
 import CacheManager from '@components/@react-native-expo-image-cache/src/CacheManager'
-import { Popover } from '@screens/_'
+import { Popover, ItemSetting } from '@screens/_'
 import { systemStore, userStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
@@ -23,7 +23,6 @@ import {
 } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
-import Item from './item'
 
 const title = '设置'
 
@@ -99,7 +98,7 @@ class Setting extends React.Component {
   render() {
     const { navigation } = this.props
     const { showDev } = this.state
-    const { quality, cnFirst, autoFetch, quote, speech } = systemStore.setting
+    const { quality, cnFirst, autoFetch, speech } = systemStore.setting
     const { name } = systemStore.release
     const hasNewVersion = name !== GITHUB_RELEASE_VERSION
     return (
@@ -107,7 +106,7 @@ class Setting extends React.Component {
         style={_.container.screen}
         contentContainerStyle={_.container.flex}
       >
-        <Item
+        <ItemSetting
           style={_.mt.md}
           hd='图片质量'
           ft={
@@ -123,25 +122,19 @@ class Setting extends React.Component {
           arrow
           highlight
         />
-        <Item
+        <ItemSetting
           border
           hd='优先使用中文'
           ft={<Switch checked={cnFirst} onChange={systemStore.switchCnFirst} />}
           withoutFeedback
         />
-        <Item
-          border
-          hd='帖子展开引用'
-          ft={<Switch checked={quote} onChange={systemStore.switchQuote} />}
-          withoutFeedback
-        />
-        <Item
+        <ItemSetting
           border
           hd='Bangumi娘话语'
           ft={<Switch checked={speech} onChange={systemStore.switchSpeech} />}
           withoutFeedback
         />
-        <Item
+        <ItemSetting
           border
           hd='优化请求量(部分页面需手动刷新)'
           ft={
@@ -153,14 +146,14 @@ class Setting extends React.Component {
           withoutFeedback
         />
 
-        <Item
+        <ItemSetting
           style={_.mt.md}
           hd='问题反馈'
           arrow
           highlight
           onPress={() => appNavigate(FEEDBACK_URL, navigation)}
         />
-        <Item
+        <ItemSetting
           border
           hd='检测更新'
           ft={
@@ -175,7 +168,7 @@ class Setting extends React.Component {
           arrow
           onPress={() => appNavigate(GITHUB_RELEASE_URL)}
         />
-        <Item
+        <ItemSetting
           border
           hd='项目地址'
           ft='喜欢可Star'
@@ -184,7 +177,7 @@ class Setting extends React.Component {
           onPress={() => appNavigate(GITHUB_URL)}
         />
 
-        <Item
+        <ItemSetting
           style={_.mt.md}
           hd='清除缓存'
           arrow
@@ -192,7 +185,7 @@ class Setting extends React.Component {
           onPress={this.clearStorage}
         />
 
-        <Item
+        <ItemSetting
           style={_.mt.md}
           hd='退出登录'
           arrow
@@ -200,7 +193,7 @@ class Setting extends React.Component {
           onPress={this.logout}
         />
 
-        <Item
+        <ItemSetting
           style={[
             _.mt.md,
             {
