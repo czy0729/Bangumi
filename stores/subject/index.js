@@ -1,87 +1,36 @@
-/* eslint-disable prefer-destructuring */
 /*
  * 条目
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 12:31:37
+ * @Last Modified time: 2019-07-15 09:35:25
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_COMMENTS_LIMIT } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
-import {
-  HTML_SUBJECT,
-  HTML_SUBJECT_COMMENTS,
-  HTML_EP,
-  HTML_MONO
-} from '@constants/html'
+import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_EP } from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
-import { analysisComments } from './rakuen/common'
-
-const namespace = 'Subject'
-const initSubjectItem = {
-  air_date: '',
-  air_weekday: '',
-  blog: null,
-  collection: {},
-  crt: [],
-  eps: [],
-  eps_count: '',
-  id: '',
-  images: {},
-  name: '',
-  name_cn: '',
-  rank: '',
-  rating: {
-    count: {},
-    score: '',
-    total: ''
-  },
-  staff: [],
-  summary: '',
-  topic: [],
-  type: '',
-  url: '',
-  _loaded: false
-}
-const initSubjectFormHTMLItem = {
-  tags: [], // 标签
-  relations: [], // 关联条目
-  friend: {
-    score: 0, // 好友评分
-    total: 0
-  },
-  typeNum: '', // eg. 291人想看 / 21人看过 / 744人在看 / 49人搁置 / 83人抛弃
-  disc: [], // 曲目列表
-  book: {}, // 书籍章节信息
-  comit: [], // 单行本
-  like: [], // 猜你喜欢
-  _loaded: false
-}
-const initMono = {
-  name: '', // 日文名
-  nameCn: '', // 中文名
-  cover: '', // 封面
-  info: '', // 简介
-  detail: '', // 内容详情
-  voice: [], // 最近演出角色
-  workes: [], // 最近参与
-  jobs: [] // 出演
-}
+import {
+  NAMESPACE,
+  INIT_SUBJECT_ITEM,
+  INIT_SUBJECT_FROM_HTML_ITEM,
+  INIT_MONO
+} from './init'
+import { fetchMono } from './common'
 
 class Subject extends store {
   state = observable({
     // 条目
     subject: {
-      // [subjectId]: initSubjectItem
+      // [subjectId]: INIT_SUBJECT_ITEM
     },
 
     // 条目HTML
     subjectFormHTML: {
-      // [subjectId]: initSubjectFormHTMLItem
+      // [subjectId]: INIT_SUBJECT_FROM_HTML_ITEM
     },
 
     // 条目章节
@@ -101,23 +50,23 @@ class Subject extends store {
 
     // 人物
     mono: {
-      // [monoId]: initMono
+      // [monoId]: INIT_MONO
     },
 
     // 人物吐槽箱
     monoComments: {
-      // [monoId]: LIST_EMPTY | initMonoCommentsItem
+      // [monoId]: LIST_EMPTY | INIT_MONO_COMMENTS_ITEM
     }
   })
 
   async init() {
     const res = Promise.all([
-      this.getStorage('subject', namespace),
-      this.getStorage('subjectFormHTML', namespace),
-      this.getStorage('subjectEp', namespace),
-      this.getStorage('subjectComments', namespace),
-      this.getStorage('mono', namespace),
-      this.getStorage('monoComments', namespace)
+      this.getStorage('subject', NAMESPACE),
+      this.getStorage('subjectFormHTML', NAMESPACE),
+      this.getStorage('subjectEp', NAMESPACE),
+      this.getStorage('subjectComments', NAMESPACE),
+      this.getStorage('mono', NAMESPACE),
+      this.getStorage('monoComments', NAMESPACE)
     ])
     const state = await res
     this.setState({
@@ -139,7 +88,7 @@ class Subject extends store {
    */
   subject(subjectId) {
     return computed(
-      () => this.state.subject[subjectId] || initSubjectItem
+      () => this.state.subject[subjectId] || INIT_SUBJECT_ITEM
     ).get()
   }
 
@@ -149,7 +98,7 @@ class Subject extends store {
    */
   subjectFormHTML(subjectId) {
     return computed(
-      () => this.state.subjectFormHTML[subjectId] || initSubjectFormHTMLItem
+      () => this.state.subjectFormHTML[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
     ).get()
   }
 
@@ -184,7 +133,7 @@ class Subject extends store {
    * @param {*} monoId
    */
   mono(monoId) {
-    return computed(() => this.state.mono[monoId] || initMono).get()
+    return computed(() => this.state.mono[monoId] || INIT_MONO).get()
   }
 
   /**
@@ -212,7 +161,7 @@ class Subject extends store {
       ['subject', subjectId],
       {
         storage: true,
-        namespace
+        namespace: NAMESPACE
       }
     )
   }
@@ -246,7 +195,6 @@ class Subject extends store {
       })
       findTreeNode(tree.children, 'a > small|text&class=grey', []).forEach(
         (item, index) => {
-          // eslint-disable-next-line prefer-destructuring
           tags[index].count = item.text[0]
         }
       )
@@ -289,7 +237,7 @@ class Subject extends store {
 
     // 好友评分
     const friend = {
-      ...initSubjectFormHTMLItem.friend
+      ...INIT_SUBJECT_FROM_HTML_ITEM.friend
     }
     matchHTML = HTML.match(/<div class="frdScore">(.+?)<\/div>/)
     if (matchHTML) {
@@ -424,7 +372,7 @@ class Subject extends store {
         [subjectId]: data
       }
     })
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }
@@ -442,7 +390,7 @@ class Subject extends store {
       ['subjectEp', subjectId],
       {
         storage: true,
-        namespace
+        namespace: NAMESPACE
       }
     )
   }
@@ -508,7 +456,6 @@ class Subject extends store {
             /<ahref="\?page=\d+"class="p">(\d+)<\/a><ahref="\?page=2"class="p">&rsaquo;&rsaquo;<\/a>/
           )
         if (pageHTML) {
-          // eslint-disable-next-line prefer-destructuring
           pageTotal = pageHTML[1]
         } else {
           pageTotal = 1
@@ -558,7 +505,7 @@ class Subject extends store {
         }
       }
     })
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
     return res
   }
 
@@ -600,7 +547,7 @@ class Subject extends store {
 
     if (refresh) {
       // 重新请求
-      res = _fetchMono({ monoId })
+      res = fetchMono({ monoId })
       const { mono, monoComments } = await res
       const _loaded = getTimestamp()
 
@@ -613,7 +560,7 @@ class Subject extends store {
           }
         }
       })
-      this.setStorage(monoKey, undefined, namespace)
+      this.setStorage(monoKey, undefined, NAMESPACE)
 
       // 缓存吐槽箱
       this.setState({
@@ -629,7 +576,7 @@ class Subject extends store {
           }
         }
       })
-      this.setStorage(commentsKey, undefined, namespace)
+      this.setStorage(commentsKey, undefined, NAMESPACE)
     } else {
       // 加载下一页留言
       const monoComments = this.monoComments(monoId)
@@ -646,193 +593,10 @@ class Subject extends store {
           }
         }
       })
-      this.setStorage(commentsKey, undefined, namespace)
+      this.setStorage(commentsKey, undefined, NAMESPACE)
     }
     return res
   }
 }
 
 export default new Subject()
-
-async function _fetchMono({ monoId = 0 }) {
-  // -------------------- 请求HTML --------------------
-  const raw = await fetchHTML({
-    url: `!${HTML_MONO(monoId)}`
-  })
-  const HTML = HTMLTrim(raw)
-
-  // -------------------- 分析内容 --------------------
-  let node
-  let matchHTML
-
-  // 人物信息
-  const mono = {
-    ...initMono
-  }
-  let monoComments = [] // 人物吐槽箱
-
-  if (HTML) {
-    // 标题
-    matchHTML = HTML.match(/<h1 class="nameSingle">(.+?)<\/h1>/)
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      node = findTreeNode(tree.children, 'a|text&title')
-      if (node) {
-        mono.name = node[0].text[0]
-        mono.nameCn = node[0].attrs.title
-      }
-    }
-
-    // 封面
-    matchHTML = HTML.match(/<img src="(.+?)" class="cover" \/>/)
-    if (matchHTML) {
-      mono.cover = matchHTML[1]
-    }
-
-    // 各种详细
-    matchHTML = HTML.match(/<ul id="infobox">(.+?)<\/ul>/)
-    if (matchHTML) {
-      mono.info = matchHTML[1]
-    }
-
-    // 详情
-    matchHTML = HTML.match(/<div class="detail">(.+?)<\/div>/)
-    if (matchHTML) {
-      mono.detail = matchHTML[1]
-    }
-
-    // 最近演出角色
-    mono.voice = []
-    matchHTML = HTML.match(
-      /<h2 class="subtitle">最近演出角色<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
-    )
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      tree.children.forEach(item => {
-        const { children } = item
-
-        node = findTreeNode(children, 'div > a|href&title')
-        const href = node ? node[0].attrs.href : ''
-        const name = node ? node[0].attrs.title : ''
-
-        node = findTreeNode(children, 'div > div > h3 > p')
-        const nameCn = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'div > a > img')
-        const cover = node ? node[0].attrs.src : ''
-
-        node = findTreeNode(children, 'ul > li > div > h3 > a|text&href')
-        const subjectHref = node ? node[0].attrs.href : ''
-        const subjectName = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > div > small')
-        const subjectNameCn = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > div > span')
-        const staff = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > a > img')
-        const subjectCover = node ? node[0].attrs.src : ''
-
-        mono.voice.push({
-          href,
-          name: HTMLDecode(name),
-          nameCn: HTMLDecode(nameCn),
-          cover,
-          subjectHref,
-          subjectName: HTMLDecode(subjectName),
-          subjectNameCn: HTMLDecode(subjectNameCn),
-          staff,
-          subjectCover
-        })
-      })
-    }
-
-    // 最近参与
-    mono.works = []
-    matchHTML = HTML.match(
-      /<h2 class="subtitle">最近参与<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
-    )
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      tree.children.forEach(item => {
-        const { children } = item
-
-        node = findTreeNode(children, 'div > a|href&title')
-        const href = node ? node[0].attrs.href : ''
-        const name = node ? node[0].attrs.title : ''
-
-        node = findTreeNode(children, 'div > a > img')
-        const cover = node ? node[0].attrs.src : ''
-
-        node = findTreeNode(children, 'div > div > span')
-        const staff = node ? node[0].text[0] : ''
-
-        mono.works.push({
-          href,
-          name: HTMLDecode(name),
-          cover,
-          staff
-        })
-      })
-    }
-
-    // 出演
-    mono.jobs = []
-    matchHTML = HTML.match(
-      /<h2 class="subtitle">出演<\/h2><ul class="browserList">(.+?)<\/ul><div class="section_line clear">/
-    )
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      tree.children.forEach(item => {
-        const { children } = item
-
-        node = findTreeNode(children, 'div > div > h3 > a')
-        const href = node ? node[0].attrs.href : ''
-        const name = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'div > div > small')
-        const nameCn = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'div > a > img')
-        const cover = node ? node[0].attrs.src : ''
-
-        node = findTreeNode(children, 'div > div > span')
-        const staff = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > a')
-        const cast = node ? node[0].attrs.title : ''
-        const castHref = node ? node[0].attrs.href : ''
-
-        node = findTreeNode(children, 'ul > li > div > small')
-        const castTag = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > a > img')
-        const castCover = node ? node[0].attrs.src : ''
-
-        mono.jobs.push({
-          href,
-          name: HTMLDecode(name),
-          nameCn,
-          cover,
-          staff,
-          cast,
-          castHref,
-          castTag,
-          castCover
-        })
-      })
-    }
-
-    // 吐槽箱
-    matchHTML = HTML.match(
-      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><\/div><div id="footer/
-    )
-    monoComments = analysisComments(matchHTML)
-  }
-
-  return Promise.resolve({
-    mono,
-    monoComments
-  })
-}

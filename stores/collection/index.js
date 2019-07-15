@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-09 02:31:24
+ * @Last Modified time: 2019-07-15 10:51:35
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -17,17 +17,13 @@ import {
   API_SUBJECT_UPDATE_WATCHED
 } from '@constants/api'
 import { HTML_USER_COLLECTIONS } from '@constants/html'
+import userStore from '../user'
 import {
-  MODEL_SUBJECT_TYPE,
-  MODEL_COLLECTION_STATUS,
-  MODEL_COLLECTIONS_ORDERBY
-} from '@constants/model'
-import userStore from './user'
-
-const namespace = 'Collection'
-const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
-const defaultType = MODEL_COLLECTION_STATUS.getValue('在看')
-const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
+  NAMESPACE,
+  DEFAULT_SUBJECT_TYPE,
+  DEFAULT_TYPE,
+  DEFAULT_ORDER
+} from './init'
 
 class Collection extends store {
   state = observable({
@@ -49,9 +45,9 @@ class Collection extends store {
 
   async init() {
     const res = Promise.all([
-      this.getStorage('collection', namespace),
-      this.getStorage('userCollections', namespace),
-      this.getStorage('userCollectionsTags', namespace)
+      this.getStorage('collection', NAMESPACE),
+      this.getStorage('userCollections', NAMESPACE),
+      this.getStorage('userCollectionsTags', NAMESPACE)
     ])
     const state = await res
     this.setState({
@@ -107,7 +103,7 @@ class Collection extends store {
       ['collection', subjectId],
       {
         storage: true,
-        namespace
+        namespace: NAMESPACE
       }
     )
   }
@@ -118,9 +114,9 @@ class Collection extends store {
   async fetchUserCollections(
     {
       userId = userStore.myUserId,
-      subjectType = defaultSubjectType,
-      type = defaultType,
-      order = defaultOrder,
+      subjectType = DEFAULT_SUBJECT_TYPE,
+      type = DEFAULT_TYPE,
+      order = DEFAULT_ORDER,
       tag = ''
     } = {},
     refresh
@@ -191,7 +187,6 @@ class Collection extends store {
             /<a href="\? page=\d+" class="p">(\d+)<\/a><a href="\? page=2" class="p">&rsaquo;&rsaquo;<\/a>/
           )
         if (pageHTML) {
-          // eslint-disable-next-line prefer-destructuring
           pageTotal = pageHTML[1]
         } else {
           pageTotal = 1
@@ -290,7 +285,7 @@ class Collection extends store {
         data[key] = userCollections[key]
       }
     })
-    this.setStorage('userCollections', data, namespace)
+    this.setStorage('userCollections', data, NAMESPACE)
   }
 
   /**
@@ -304,7 +299,7 @@ class Collection extends store {
         data[key] = userCollectionsTags[key]
       }
     })
-    this.setStorage('userCollectionsTags', data, namespace)
+    this.setStorage('userCollectionsTags', data, NAMESPACE)
   }
 
   // -------------------- action --------------------

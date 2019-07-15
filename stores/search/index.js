@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 23:35:51
+ * @Last Modified time: 2019-07-15 11:04:12
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -10,34 +10,18 @@ import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
-import { MODEL_SEARCH_CAT } from '@constants/model'
 import { HTML_SEARCH } from '@constants/html'
-
-const namespace = 'Search'
-const initCat = MODEL_SEARCH_CAT.getValue('条目')
-const initSearchItem = {
-  id: '',
-  cover: '',
-  name: '',
-  nameCn: '',
-  tip: '',
-  score: '',
-  total: '',
-  rank: '',
-  type: '',
-  collected: false,
-  comments: ''
-}
+import { NAMESPACE, DEFAULT_CAT, INIT_SEARCH_ITEM } from './init'
 
 class Search extends store {
   state = observable({
     search: {
-      // [`${text}|${cat}`]: LIST_EMPTY | initSearchItem
+      // [`${text}|${cat}`]: LIST_EMPTY | INIT_SEARCH_ITEM
     }
   })
 
   async init() {
-    const res = Promise.all([this.getStorage('search', namespace)])
+    const res = Promise.all([this.getStorage('search', NAMESPACE)])
     const state = await res
     this.setState({
       search: state[0] || {}
@@ -51,7 +35,7 @@ class Search extends store {
    * 取搜索结果
    * @param {*} text 搜索关键字
    */
-  search(text, cat = initCat) {
+  search(text, cat = DEFAULT_CAT) {
     const _text = text.replace(/ /g, '+')
     return computed(
       () => this.state.search[`${_text}|${cat}`] || LIST_EMPTY
@@ -65,7 +49,7 @@ class Search extends store {
    * @param {*} cat     类型
    * @param {*} refresh 是否刷新
    */
-  async fetchSearch({ text = '', cat = initCat } = {}, refresh) {
+  async fetchSearch({ text = '', cat = DEFAULT_CAT } = {}, refresh) {
     const _text = text.replace(/ /g, '+')
 
     const { list, pagination } = this.search(_text, cat)
@@ -111,7 +95,6 @@ class Search extends store {
               /<a href="\? page=\d+" class="p">(\d+)<\/a><a href="\? page=2" class="p">&rsaquo;&rsaquo;<\/a>/
             )
           if (pageHTML) {
-            // eslint-disable-next-line prefer-destructuring
             pageTotal = pageHTML[1]
           } else {
             pageTotal = 1
@@ -171,7 +154,7 @@ class Search extends store {
           const collected = !!node
 
           const data = {
-            ...initSearchItem,
+            ...INIT_SEARCH_ITEM,
             id,
             cover,
             name,
@@ -232,7 +215,7 @@ class Search extends store {
           const comments = node ? node[0].text[0] : ''
 
           const data = {
-            ...initSearchItem,
+            ...INIT_SEARCH_ITEM,
             id,
             cover,
             name,
@@ -259,7 +242,7 @@ class Search extends store {
         }
       }
     })
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
 
     return res
   }

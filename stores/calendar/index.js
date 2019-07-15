@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 03:31:19
+ * @Last Modified time: 2019-07-15 10:42:00
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -12,32 +12,23 @@ import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import { HOST, LIST_EMPTY } from '@constants'
 import { API_CALENDAR } from '@constants/api'
-
-const namespace = 'Calendar'
-const initHome = {
-  anime: [],
-  game: [],
-  book: [],
-  music: [],
-  real: [],
-  _loaded: false
-}
+import { NAMESPACE, INIT_HOME } from './init'
 
 class Calendar extends store {
   state = observable({
     calendar: LIST_EMPTY,
-    home: initHome
+    home: INIT_HOME
   })
 
   async init() {
     const res = Promise.all([
-      this.getStorage('calendar', namespace),
-      this.getStorage('home', namespace)
+      this.getStorage('calendar', NAMESPACE),
+      this.getStorage('home', NAMESPACE)
     ])
     const state = await res
     this.setState({
       calendar: state[0] || LIST_EMPTY,
-      home: state[1] || initHome
+      home: state[1] || INIT_HOME
     })
 
     return res
@@ -72,7 +63,7 @@ class Calendar extends store {
       {
         list: true,
         storage: true,
-        namespace
+        namespace: NAMESPACE
       }
     )
   }
@@ -151,7 +142,7 @@ class Calendar extends store {
           _loaded: getTimestamp()
         }
       })
-      this.setStorage(key, undefined, namespace)
+      this.setStorage(key, undefined, NAMESPACE)
     }
 
     return res

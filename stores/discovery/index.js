@@ -2,39 +2,34 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 21:31:10
+ * @Last Modified time: 2019-07-15 10:59:28
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { LIST_EMPTY, NING_MOE_HOST, ANITAMA_HOST } from '@constants'
-
-const namespace = 'Discovery'
-const initNingMoeDetailItem = {
-  id: '',
-  bgmId: '',
-  eps: []
-}
-const initAnitamaTimelineItem = {
-  list: []
-}
+import {
+  NAMESPACE,
+  INIT_NINGMOE_DETAIL_ITEM,
+  INIT_ANITAMA_TIMELINE_ITEM
+} from './init'
 
 class Discovery extends store {
   state = observable({
     random: LIST_EMPTY,
     ningMoeDetail: {
-      // [bgmId]: initNingMoeDetailItem
+      // [bgmId]: INIT_NINGMOE_DETAIL_ITEM
     },
     anitamaTimeline: {
-      // [page]: anitamaTimelineItem
+      // [page]: INIT_ANITAMA_TIMELINE_ITEM
     }
   })
 
   async init() {
     const res = Promise.all([
-      this.getStorage('random', namespace),
-      this.getStorage('ningMoeDetail', namespace)
+      this.getStorage('random', NAMESPACE),
+      this.getStorage('ningMoeDetail', NAMESPACE)
     ])
     const state = await res
     this.setState({
@@ -52,12 +47,12 @@ class Discovery extends store {
 
   ningMoeDetail(bgmId) {
     return computed(
-      () => this.state.ningMoeDetail[bgmId] || initNingMoeDetailItem
+      () => this.state.ningMoeDetail[bgmId] || INIT_NINGMOE_DETAIL_ITEM
     ).get()
   }
 
   anitamaTimeline(page = 1) {
-    return this.state.anitamaTimeline[page] || initAnitamaTimelineItem
+    return this.state.anitamaTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
   }
 
   // -------------------- fetch --------------------
@@ -103,7 +98,7 @@ class Discovery extends store {
         this.setState({
           [key]: random
         })
-        this.setStorage(key, undefined, namespace)
+        this.setStorage(key, undefined, NAMESPACE)
       }
 
       return Promise.resolve(random)
@@ -133,7 +128,7 @@ class Discovery extends store {
         })
       }).then(response => response.json())
 
-      let ningMoeDetail = initNingMoeDetailItem
+      let ningMoeDetail = INIT_NINGMOE_DETAIL_ITEM
       if (data.code === 200) {
         if (Array.isArray(data.data)) {
           const key = 'ningMoeDetail'
@@ -147,13 +142,13 @@ class Discovery extends store {
               [bgmId]: ningMoeDetail
             }
           })
-          this.setStorage(key, undefined, namespace)
+          this.setStorage(key, undefined, NAMESPACE)
         }
       }
 
       return Promise.resolve(ningMoeDetail)
     } catch (error) {
-      return Promise.resolve(initNingMoeDetailItem)
+      return Promise.resolve(INIT_NINGMOE_DETAIL_ITEM)
     }
   }
 
@@ -174,7 +169,7 @@ class Discovery extends store {
         })
       }).then(response => response.json())
 
-      let ningMoeDetail = initNingMoeDetailItem
+      let ningMoeDetail = INIT_NINGMOE_DETAIL_ITEM
       if (data.code === 200) {
         const key = 'ningMoeDetail'
         ningMoeDetail = {
@@ -192,12 +187,12 @@ class Discovery extends store {
             [bgmId]: ningMoeDetail
           }
         })
-        this.setStorage(key, undefined, namespace)
+        this.setStorage(key, undefined, NAMESPACE)
       }
 
       return Promise.resolve(ningMoeDetail)
     } catch (error) {
-      return Promise.resolve(initNingMoeDetailItem)
+      return Promise.resolve(INIT_NINGMOE_DETAIL_ITEM)
     }
   }
 
@@ -236,7 +231,7 @@ class Discovery extends store {
       response => response.json()
     )
 
-    let animataTimeline = initAnitamaTimelineItem
+    let animataTimeline = INIT_ANITAMA_TIMELINE_ITEM
     if (data.status === 200 && data.success) {
       const key = 'anitamaTimeline'
       animataTimeline = {

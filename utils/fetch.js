@@ -1,12 +1,11 @@
 /* eslint-disable space-before-function-paren */
-/* eslint-disable prefer-destructuring */
 /* eslint-disable func-names */
 /*
  * 请求相关
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 19:13:00
+ * @Last Modified time: 2019-07-15 09:35:54
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'

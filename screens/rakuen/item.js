@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 21:07:29
+ * @Last Modified time: 2019-07-15 09:35:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -43,7 +43,6 @@ const Item = (
   let userId
   const match = avatar.match(/\/(\d+).jpg/)
   if (match) {
-    // eslint-disable-next-line prefer-destructuring
     userId = match[1]
   }
 

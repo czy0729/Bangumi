@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 11:45:42
+ * @Last Modified time: 2019-07-15 11:06:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -11,32 +11,18 @@ import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { HTML_TAG } from '@constants/html'
-
-const namespace = 'Tag'
-const defaultType = MODEL_SUBJECT_TYPE.getLabel('动画')
-const initTagItem = {
-  id: '',
-  cover: '',
-  name: '',
-  nameCn: '',
-  tip: '',
-  score: '',
-  total: '',
-  rank: '',
-  collected: false
-}
+import { NAMESPACE, DEFAULT_TYPE, INIT_TAG_ITEM } from './init'
 
 class Tag extends store {
   state = observable({
     tag: {
-      // [`${text}|${type}`]: LIST_EMPTY | initTagItem
+      // [`${text}|${type}`]: LIST_EMPTY | INIT_TAG_ITEM
     }
   })
 
   async init() {
-    const res = Promise.all([this.getStorage('tag', namespace)])
+    const res = Promise.all([this.getStorage('tag', NAMESPACE)])
     const state = await res
     this.setState({
       tag: state[0] || {}
@@ -49,7 +35,7 @@ class Tag extends store {
    * 取标签结果
    * @param {*} text 标签
    */
-  tag(text = '', type = defaultType) {
+  tag(text = '', type = DEFAULT_TYPE) {
     const _text = text.replace(/ /g, '+')
     return computed(
       () => this.state.tag[`${_text}|${type}`] || LIST_EMPTY
@@ -63,7 +49,7 @@ class Tag extends store {
    * @param {*} type 类型
    * @param {*} refresh 是否刷新
    */
-  async fetchTag({ text = '', type = defaultType, order } = {}, refresh) {
+  async fetchTag({ text = '', type = DEFAULT_TYPE, order } = {}, refresh) {
     const _text = text.replace(/ /g, '+')
 
     const { list, pagination } = this.tag(_text, type)
@@ -101,7 +87,6 @@ class Tag extends store {
             /<a href="\?.*page=\d+" class="p">(\d+)<\/a><a href="\?.*page=2" class="p">&rsaquo;&rsaquo;<\/a>/
           )
         if (pageHTML) {
-          // eslint-disable-next-line prefer-destructuring
           pageTotal = pageHTML[1]
         } else {
           pageTotal = 1
@@ -152,7 +137,7 @@ class Tag extends store {
         const collected = !!node
 
         const data = {
-          ...initTagItem,
+          ...INIT_TAG_ITEM,
           id,
           cover,
           name,
@@ -181,7 +166,7 @@ class Tag extends store {
         }
       }
     })
-    this.setStorage(key, undefined, namespace)
+    this.setStorage(key, undefined, NAMESPACE)
 
     return res
   }
