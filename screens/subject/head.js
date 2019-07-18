@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-23 15:50:59
+ * @Last Modified time: 2019-07-19 00:09:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text } from '@components'
+import { Flex, Text } from '@components'
 import { ScoreTag } from '@screens/_'
 import { HTMLDecode } from '@utils/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
+import Cover from './cover'
 
 const imageWidth = 120
 
@@ -33,7 +34,6 @@ const Head = ({ style }, { $ }) => {
   const { _jp, _cn, _image } = $.params
   const jp = HTMLDecode(name || _jp || '')
   const cn = HTMLDecode(nameCn || name || _cn || '')
-  const image = images.large || _image
 
   // bangumiInfo只有动画的数据
   let label = MODEL_SUBJECT_TYPE.getTitle(type)
@@ -43,17 +43,7 @@ const Head = ({ style }, { $ }) => {
 
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.image}>
-        <Image
-          src={image}
-          size={imageWidth}
-          height={160}
-          radius
-          border
-          shadow
-          imageViewer
-        />
-      </View>
+      <Cover image={images.large} placeholder={_image} />
       <Flex
         style={styles.content}
         direction='column'
@@ -92,12 +82,6 @@ export default observer(Head)
 const styles = StyleSheet.create({
   container: {
     paddingTop: 48
-  },
-  image: {
-    position: 'absolute',
-    zIndex: 1,
-    top: _.wind,
-    left: _.wind
   },
   content: {
     height: 144,
