@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 09:35:54
+ * @Last Modified time: 2019-07-17 10:53:12
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -14,13 +14,14 @@ import {
   HOST_NAME,
   HOST,
   IOS,
-  GITHUB_RELEASE_VERSION
+  GITHUB_RELEASE_VERSION,
+  CODE_PUSH_VERSION
 } from '@constants'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
 
-const ERR_RETRY_COUNT = 5 // GET请求失败重试次数
+const FETCH_ERR_RETRY_COUNT = 5 // GET请求失败重试次数
 
 /**
  * 统一请求方法
@@ -56,10 +57,9 @@ export default async function _fetch({
   let _url = url
   let toastKey
   if (isGet) {
-    body.state = getTimestamp() // 随机数防止接口CDN缓存
+    // 随机数防止接口CDN缓存
+    body.state = getTimestamp()
     _url = `${url}?${urlStringify(body)}`
-
-    log(info, _url)
   } else {
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -68,8 +68,8 @@ export default async function _fetch({
     if (!noConsole) {
       toastKey = Toast.loading('Loading...', 0)
     }
-    log(info, _url, _config)
   }
+  log(info, _url, !isGet && _config)
 
   return fetch(_url, _config)
     .then(response => {
@@ -78,7 +78,7 @@ export default async function _fetch({
       }
       return response.json()
     })
-    .then(res => {
+    .then(json => {
       // 成功后清除失败计数
       if (isGet) {
         const key = `${url}|${urlStringify(data)}`
@@ -86,13 +86,13 @@ export default async function _fetch({
           retryCount[key] = 0
         }
       } else if (!noConsole) {
-        log(method, 'success', url, _config, info, res)
+        log(method, 'success', url, _config, info, json)
       }
 
       // @issue 由于Bangumi提供的API没有统一返回数据
       // 正常情况没有code, 错误情况例如空的时候, 返回 {code: 400, err: '...'}
-      if (res && res.error) {
-        if (res.error === 'invalid_token') {
+      if (json && json.error) {
+        if (json.error === 'invalid_token') {
           UIInfo('登录过期')
           userStore.logout()
         }
@@ -100,21 +100,21 @@ export default async function _fetch({
       }
 
       // 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串
-      return Promise.resolve(safe(res))
+      return Promise.resolve(safe(json))
     })
     .catch(async err => {
       if (toastKey) {
         Portal.remove(toastKey)
       }
 
-      // @issue Bangumi提供的API的代理经常报错, 我也就只能一直请求到成功为止了hhh
+      // @issue Bangumi提供的API频繁请求非常容易报错, 也就只能一直请求到成功为止了
       if (isGet && typeof retryCb === 'function') {
         await sleep()
 
         const key = `${url}|${urlStringify(data)}`
         retryCount[key] = (retryCount[key] || 0) + 1
 
-        if (retryCount[key] < ERR_RETRY_COUNT) {
+        if (retryCount[key] < FETCH_ERR_RETRY_COUNT) {
           log('re-fetch', `fail ${retryCount[key]} time`, url, info, err)
           return retryCb()
         }
@@ -154,7 +154,9 @@ export async function fetchHTML({
           'User-Agent': userAgent,
 
           // @issue iOS不知道为什么会有文本乱插在cookie前面, 要加分号防止
-          Cookie: cookie ? `; ${userCookie}; ${cookie};` : `; ${userCookie};`,
+          Cookie: cookie
+            ? `; ${userCookie}; chii_cookietime=0; ${cookie};`
+            : `; ${userCookie}; chii_cookietime=0;`,
           ...headers
         }
       : {
@@ -204,7 +206,6 @@ export async function fetchHTML({
         Portal.remove(toastKey)
       }
 
-      // return Promise.resolve(res.text())
       return Promise.resolve(res._bodyInit)
     })
     .catch(err => {
@@ -311,12 +312,16 @@ export function xhrCustom({
  * @param {*} title
  */
 export function hm(url, title) {
-  // GITHUB_RELEASE_VERSION
+  let version = GITHUB_RELEASE_VERSION
+  if (CODE_PUSH_VERSION) {
+    version += `-${CODE_PUSH_VERSION}`
+  }
+
   try {
     const userStore = require('../stores/user').default
     const { userAgent } = userStore.userCookie
     let u = String(url).indexOf('http' === -1) ? `${HOST}/${url}` : url
-    u += `${u.includes('?') ? '&' : '?'}v=${GITHUB_RELEASE_VERSION}`
+    u += `${u.includes('?') ? '&' : '?'}v=${version}`
     const query = {
       lt: getTimestamp(),
       rnd: randomn(10),

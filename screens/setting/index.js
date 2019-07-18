@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 14:26:43
+ * @Last Modified time: 2019-07-17 10:24:33
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
@@ -19,7 +19,8 @@ import {
   FEEDBACK_URL,
   GITHUB_URL,
   GITHUB_RELEASE_URL,
-  GITHUB_RELEASE_VERSION
+  GITHUB_RELEASE_VERSION,
+  CODE_PUSH_VERSION
 } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
@@ -101,6 +102,10 @@ class Setting extends React.Component {
     const { quality, cnFirst, autoFetch, speech } = systemStore.setting
     const { name } = systemStore.release
     const hasNewVersion = name !== GITHUB_RELEASE_VERSION
+    let version = GITHUB_RELEASE_VERSION
+    if (CODE_PUSH_VERSION) {
+      version += `-${CODE_PUSH_VERSION}`
+    }
     return (
       <ScrollView
         style={_.container.screen}
@@ -162,7 +167,7 @@ class Setting extends React.Component {
                 有新版本({name})
               </Text>
             ) : (
-              `当前版本(${GITHUB_RELEASE_VERSION})`
+              `当前版本(${version})`
             )
           }
           arrow

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 23:55:12
+ * @Last Modified time: 2019-07-17 10:33:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,7 +76,7 @@ class Auth extends React.Component {
             _.mt.md
           ]}
           shadow
-          onPress={() => navigation.push(IOS ? 'Login' : 'LoginV2')}
+          onPress={() => navigation.push(IOS ? 'LoginV2' : 'LoginV2')}
         >
           现在登录
         </Button>

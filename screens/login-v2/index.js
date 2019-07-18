@@ -2,21 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 21:16:37
+ * @Last Modified time: 2019-07-17 10:12:57
  */
 import React from 'react'
-import { StyleSheet, View, Image as RNImage } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Constants } from 'expo'
 import cheerio from 'cheerio-without-node-native'
-import {
-  Flex,
-  Text,
-  Touchable,
-  Image,
-  Input,
-  Button,
-  KeyboardSpacer
-} from '@components'
+import { Text, KeyboardSpacer } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -24,6 +16,8 @@ import { xhrCustom, hm } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import _ from '@styles'
+import Preview from './preview'
+import Form from './form'
 
 const title = '登陆V2'
 
@@ -51,7 +45,7 @@ export default class LoginV2 extends React.Component {
   code = ''
   accessToken = ''
 
-  input
+  inputRef
 
   async componentDidMount() {
     this.userAgent = await Constants.getWebViewUserAgentAsync()
@@ -142,7 +136,7 @@ export default class LoginV2 extends React.Component {
       info: '登陆请求中...'
     })
 
-    this.input.inputRef.blur()
+    this.inputRef.inputRef.blur()
 
     try {
       const { responseHeaders } = await xhrCustom({
@@ -296,108 +290,26 @@ export default class LoginV2 extends React.Component {
   }
 
   renderPreview() {
-    return (
-      <View style={[_.container.column, styles.gray]}>
-        <Image
-          style={styles.gray}
-          width={160}
-          height={128}
-          src={require('@assets/screens/login/login.png')}
-        />
-        <View style={[styles.bottomContainer, _.mt.md]}>
-          <Button type='main' shadow onPress={this.onLogin}>
-            账号登录
-          </Button>
-          <Button style={_.mt.md} type='plain' shadow onPress={this.onTour}>
-            游客访问
-          </Button>
-        </View>
-      </View>
-    )
+    return <Preview onLogin={this.onLogin} onTour={this.onTour} />
   }
 
   renderForm() {
+    const { navigation } = this.props
     const { email, password, captcha, base64, loading, info } = this.state
     return (
-      <View style={[_.container.column, styles.gray]}>
-        <View style={styles.form}>
-          <Flex justify='center'>
-            <Image
-              style={styles.gray}
-              width={160}
-              height={128}
-              src={require('@assets/screens/login/login.png')}
-            />
-          </Flex>
-          <Flex style={_.mt.md}>
-            <Flex.Item>
-              <Input
-                style={styles.input}
-                value={email}
-                placeholder='Email'
-                onChange={evt => this.onChange(evt, 'email')}
-              />
-            </Flex.Item>
-          </Flex>
-          <Flex style={_.mt.md}>
-            <Flex.Item>
-              <Input
-                style={styles.input}
-                value={password}
-                placeholder='密码'
-                secureTextEntry
-                onChange={evt => this.onChange(evt, 'password')}
-              />
-            </Flex.Item>
-          </Flex>
-          <Flex style={_.mt.md}>
-            <Flex.Item>
-              <Input
-                ref={ref => (this.input = ref)}
-                style={styles.input}
-                value={captcha}
-                placeholder='验证'
-                onChange={evt => this.onChange(evt, 'captcha')}
-              />
-            </Flex.Item>
-            <Touchable
-              style={styles.captchaContainer}
-              onPress={this.getCaptcha}
-            >
-              {!!base64 && (
-                <RNImage style={styles.captcha} source={{ uri: base64 }} />
-              )}
-            </Touchable>
-          </Flex>
-          <Button
-            style={_.mt.lg}
-            type='main'
-            shadow
-            loading={loading}
-            onPress={this.login}
-          >
-            登陆
-          </Button>
-          <Text
-            style={[
-              _.mt.md,
-              {
-                height: 16
-              }
-            ]}
-            size={12}
-            type='sub'
-            onPress={() => {
-              if (info.includes('登陆失败')) {
-                const { navigation } = this.props
-                navigation.push('Login')
-              }
-            }}
-          >
-            {info}
-          </Text>
-        </View>
-      </View>
+      <Form
+        forwardRef={ref => (this.inputRef = ref)}
+        navigation={navigation}
+        email={email}
+        password={password}
+        captcha={captcha}
+        base64={base64}
+        loading={loading}
+        info={info}
+        onGetCaptcha={this.getCaptcha}
+        onChange={this.onChange}
+        onLogin={this.login}
+      />
     )
   }
 
@@ -445,27 +357,6 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: _.sm,
     textAlign: 'center'
-  },
-  bottomContainer: {
-    width: 280,
-    height: 350
-  },
-  form: {
-    width: 280,
-    paddingBottom: 82
-  },
-  input: {
-    height: 44
-  },
-  captchaContainer: {
-    width: 118,
-    height: 44,
-    marginLeft: _.sm,
-    backgroundColor: _.colorBg
-  },
-  captcha: {
-    width: 118,
-    height: 44
   },
   ps: {
     position: 'absolute',
