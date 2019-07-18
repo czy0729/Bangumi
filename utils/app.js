@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 15:30:25
+ * @Last Modified time: 2019-07-18 20:24:14
  */
 import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
-import { HOST, HOST_NAME } from '@constants'
+import { HOST, HOST_NAME, HOST_2 } from '@constants'
 
 /**
  * 查找番剧中文名
@@ -48,11 +48,14 @@ export function appNavigate(url = '', navigation, passParams = {}) {
   }
 
   // HOST纠正为https
-  if (_url.includes(`http://${HOST_NAME}`)) {
-    _url = _url.replace(`http://${HOST_NAME}`, HOST)
+  if (_url.includes('http://')) {
+    _url = _url.replace('http://', 'https://')
   }
 
-  log(_url)
+  // bgm.tv 替换成 bangumi.tv
+  if (_url.includes(HOST_2)) {
+    _url = _url.replace(HOST_2, HOST)
+  }
 
   // 没路由对象或者非本站
   if (!navigation || !_url.includes(HOST)) {
