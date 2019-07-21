@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 04:23:03
+ * @Last Modified time: 2019-07-22 01:17:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -174,7 +174,7 @@ class Item extends React.Component {
     return (
       <Flex align='baseline'>
         <Text type='primary' size={18} lineHeight={1}>
-          {epStatus}
+          {epStatus || 1}
         </Text>
         <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
           / {subject.eps_count || '?'}

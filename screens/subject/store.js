@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 20:08:51
+ * @Last Modified time: 2019-07-22 01:43:50
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -15,10 +15,10 @@ import {
   collectionStore
 } from '@stores'
 import { open } from '@utils'
-import { queue } from '@utils/fetch'
-import { appNavigate } from '@utils/app'
+import { xhrCustom, queue } from '@utils/fetch'
+import { appNavigate, getBangumiUrl } from '@utils/app'
 import store from '@utils/store'
-import { info } from '@utils/ui'
+import { info, showActionSheet } from '@utils/ui'
 import { NING_MOE_HOST } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 
@@ -34,11 +34,18 @@ export default class ScreenSubject extends store {
       sites: [], // 动画在线地址
       type: '' // 动画类型
     },
+
+    // 播放源
+    epsData: {
+      bilibili: {},
+      qq: {},
+      iqiyi: {}
+    },
     _loaded: true
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = await this.getStorage(undefined, this.namespace)
     this.setState({
       ...state,
       visible: false,
@@ -88,6 +95,7 @@ export default class ScreenSubject extends store {
         })
         return res
       },
+      () => this.fetchEpsData(),
       () => this.fetchSubjectComments(true)
     ])
     return res
@@ -99,7 +107,57 @@ export default class ScreenSubject extends store {
     return subjectStore.fetchSubjectComments({ subjectId }, refresh, reverse)
   }
 
+  /**
+   * 获取单集播放源
+   * https://github.com/ekibun/bangumi_onair/blob/master/onair/100/100444.json
+   */
+  fetchEpsData = async () => {
+    if (this.type === '动画') {
+      try {
+        const { subjectId } = this.params
+        const { _response } = await xhrCustom({
+          url: `https://raw.githubusercontent.com/ekibun/bangumi_onair/master/onair/${parseInt(
+            parseInt(subjectId) / 1000
+          )}/${subjectId}.json`
+        })
+        const epsData = {
+          bilibili: {},
+          qq: {},
+          iqiyi: {}
+        }
+        JSON.parse(_response).eps.forEach((item, index) => {
+          item.sites.forEach(i => {
+            switch (i.site) {
+              case 'bilibili':
+                epsData.bilibili[index] = i.url
+                break
+              case 'qq':
+                epsData.qq[index] = i.url
+                break
+              case 'iqiyi':
+                epsData.iqiyi[index] = i.url
+                break
+              default:
+                break
+            }
+          })
+        })
+        this.setState({
+          epsData
+        })
+        this.setStorage(undefined, undefined, this.namespace)
+      } catch (error) {
+        // do nothing
+      }
+    }
+  }
+
   // -------------------- get --------------------
+  @computed get namespace() {
+    const { subjectId } = this.params
+    return `${namespace}|${subjectId}`
+  }
+
   @computed get isLogin() {
     return userStore.isLogin
   }
@@ -157,6 +215,28 @@ export default class ScreenSubject extends store {
     )
   }
 
+  @computed get onlinePlayActionSheetData() {
+    const data = []
+    if (this.ningMoeDetail.id) {
+      data.push('柠萌瞬间')
+    }
+
+    const { epsData } = this.state
+    if (Object.keys(epsData.bilibili).length) {
+      data.push('bilibili')
+    }
+    if (Object.keys(epsData.qq).length) {
+      data.push('qq')
+    }
+    if (Object.keys(epsData.iqiyi).length) {
+      data.push('iqiyi')
+    }
+
+    data.push('取消')
+
+    return data
+  }
+
   // -------------------- page --------------------
   showManageModel = () => {
     this.setState({
@@ -178,7 +258,7 @@ export default class ScreenSubject extends store {
     this.setState({
       epsReverse: !epsReverse
     })
-    this.setStorage(undefined, undefined, ScreenSubject)
+    this.setStorage(undefined, undefined, this.namespace)
   }
 
   /**
@@ -199,6 +279,7 @@ export default class ScreenSubject extends store {
   }
 
   // -------------------- action --------------------
+
   /**
    * 章节菜单操作
    */
@@ -209,13 +290,7 @@ export default class ScreenSubject extends store {
     }
 
     if (value === '在线播放') {
-      if (item.type === 1) {
-        // SP的地址不可预测, 直接跳到介绍页
-        open(`${NING_MOE_HOST}/bangumi/${this.ningMoeDetail.id}/home`)
-        return
-      }
-
-      // @todo 查找可播放地址
+      // @todo 查找视频数据源地址
       // const find = this.ningMoeDetail.eps.find(i => i.sort === item.sort)
       // if (find && find.bakUrl) {
       //   const realUrl = await discoveryStore.fetchNingMoeRealYunUrl({
@@ -229,12 +304,59 @@ export default class ScreenSubject extends store {
       //   }
       // }
 
-      // 没有可播放地址
-      // @notice 像一拳超人第二季这种 要处理EP偏移
-      open(
-        `${NING_MOE_HOST}/bangumi/detail/${this.ningMoeDetail.id}/${item.sort -
-          this.ningMoeEpOffset}/home`
-      )
+      setTimeout(() => {
+        showActionSheet(this.onlinePlayActionSheetData, index => {
+          const isSp = item.type === 1
+          let url
+
+          if (this.onlinePlayActionSheetData[index] === '柠萌瞬间') {
+            // @notice 像一拳超人第二季这种 要处理EP偏移
+            if (isSp) {
+              url = `${NING_MOE_HOST}/bangumi/${this.ningMoeDetail.id}/home`
+            } else {
+              url = `${NING_MOE_HOST}/bangumi/detail/${
+                this.ningMoeDetail.id
+              }/${item.sort - this.ningMoeEpOffset}/home`
+            }
+          } else {
+            // @todo 逻辑比较复杂, 暂时不处理EP偏移
+            const { epsData } = this.state
+            const { eps } = this.subjectEp
+            const site = this.onlinePlayActionSheetData[index]
+            let epIndex
+
+            switch (site) {
+              case 'bilibili':
+              case 'qq':
+              case 'iqiyi':
+                if (isSp) {
+                  url = getBangumiUrl({
+                    id: item.id,
+                    site
+                  })
+                } else {
+                  epIndex = eps
+                    .filter(item => item.type === 0)
+                    .findIndex(i => i.id === item.id)
+                  url =
+                    epsData[site][epIndex] ||
+                    getBangumiUrl({
+                      id: item.id,
+                      site
+                    })
+                }
+                break
+              default:
+                break
+            }
+          }
+
+          if (url) {
+            open(url)
+          }
+        })
+      }, 320)
+
       return
     }
 

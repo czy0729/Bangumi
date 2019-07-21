@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 19:46:57
+ * @Last Modified time: 2019-07-22 01:37:22
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -81,6 +81,7 @@ class Subject extends React.Component {
                 item = sites.find(item => item.site === key)
                 if (item) {
                   const url = getBangumiUrl(item)
+                  console.log(url)
                   open(url)
                 }
                 break

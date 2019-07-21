@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-19 00:19:49
+ * @Last Modified time: 2019-07-21 21:58:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -65,12 +65,13 @@ class Cover extends React.Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
+    zIndex: 10,
     top: _.wind,
     left: _.wind
   },
   placeholder: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 11,
     top: 0,
     left: 0
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 21:29:04
+ * @Last Modified time: 2019-07-22 01:09:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -30,6 +30,7 @@ const Ep = ({ style }, { $, navigation }) => {
 
   const { eps } = $.subjectEp
   const { epsReverse } = $.state
+  const canPlay = $.onlinePlayActionSheetData.length >= 2
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle
@@ -41,7 +42,7 @@ const Ep = ({ style }, { $, navigation }) => {
         }
       >
         章节
-        {!!$.ningMoeDetail.id && (
+        {canPlay && (
           <Text size={12} type='sub' lineHeight={24}>
             {' '}
             (可播放)
@@ -54,9 +55,9 @@ const Ep = ({ style }, { $, navigation }) => {
         pagination
         login={$.isLogin}
         subjectId={$.params.subjectId}
-        ningMoeId={$.ningMoeDetail.id}
         eps={epsReverse ? eps.reverse() : eps}
         userProgress={$.userProgress}
+        canPlay={canPlay}
         onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
       />
     </View>

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-20 22:29:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 01:18:37
+ * @Last Modified time: 2019-07-22 01:14:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Text, Button } from '@components'
 import { observer } from '@utils/decorators'
-import { IOS } from '@constants'
 import _ from '@styles'
 
 const Login = (props, { navigation }) => (
@@ -25,7 +24,7 @@ const Login = (props, { navigation }) => (
         _.mt.md
       ]}
       shadow
-      onPress={() => navigation.push(IOS ? 'Login' : 'LoginV2')}
+      onPress={() => navigation.push('LoginV2')}
     >
       重新登录
     </Button>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-12 23:57:33
+ * @Last Modified time: 2019-07-22 01:14:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,22 +11,23 @@ import { observer } from 'mobx-react'
 import { Flex, Button, Icon, Text, Touchable } from '@components'
 import { SectionTitle } from '@screens/_'
 import { getType, getRating } from '@utils/app'
-import { IOS } from '@constants'
 import _, { colorPlain, shadow } from '@styles'
 
 const Box = ({ style }, { $, navigation }) => {
-  const { typeNum = '' } = $.subjectFormHTML
+  const { collection = {} } = $.subject
+  // const { typeNum = '' } = $.subjectFormHTML
   const { status = { name: '未收藏' }, rating = 0 } = $.collection
   const leftStyle = []
   const rightStyle = []
   const btnText = $.isLogin ? status.name : '登陆管理'
   const onPress = $.isLogin
     ? $.showManageModel
-    : () => navigation.push(IOS ? 'Login' : 'LoginV2')
+    : () => navigation.push('LoginV2')
   if (rating) {
     leftStyle.push(styles.left)
     rightStyle.push(styles.right)
   }
+
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle>收藏盒</SectionTitle>
@@ -67,7 +68,9 @@ const Box = ({ style }, { $, navigation }) => {
         </Touchable>
       </View>
       <Text style={_.mt.md} size={12} type='sub'>
-        {typeNum || '-人想看 / -人看过 / -人在看 / -人搁置 / -人抛弃'}
+        {collection.wish || '-'}人想看 / {collection.collect || '-'}人看过 /{' '}
+        {collection.doing || '-'}人在看 / {collection.on_hold || '-'}人搁置 /{' '}
+        {collection.dropped || '-'}人抛弃
       </Text>
     </View>
   )

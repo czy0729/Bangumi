@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 14:14:03
+ * @Last Modified time: 2019-07-22 01:14:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,6 @@ import { Popover, IconTabsHeader, IconTabBar } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { IOS } from '@constants'
 import { HTML_NEW_TOPIC } from '@constants/html'
 import _ from '@styles'
 import Tabs from './tabs'
@@ -51,7 +50,7 @@ class Rakuen extends React.Component {
       if ($.isWebLogin) {
         navigation.push('Notify')
       } else {
-        navigation.push(IOS ? 'Login' : 'LoginV2')
+        navigation.push('LoginV2')
       }
     }
     navigation.setParams({
@@ -86,7 +85,7 @@ class Rakuen extends React.Component {
             //       title: '添加新讨论'
             //     })
             //   } else {
-            //     navigation.push(IOS ? 'Login' : 'LoginV2')
+            //     navigation.push('LoginV2')
             //   }
             // }}
           />

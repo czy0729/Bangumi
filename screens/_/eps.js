@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-21 13:21:46
+ * @Last Modified time: 2019-07-22 01:09:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,7 +20,7 @@ export default class Eps extends React.Component {
     advance: false, // 详情页模式, 显示SP和更多的操作按钮
     login: false, // 是否已登录
     subjectId: 0, // 条目Id
-    ningMoeId: 0, // 柠萌瞬间条目Id
+    canPlay: false, // 有播放源
     eps: [], // 章节数据
     userProgress: {}, // 用户收藏记录
     onSelect: Function.prototype // 操作选择
@@ -65,7 +65,7 @@ export default class Eps extends React.Component {
   }
 
   getPopoverData = item => {
-    const { ningMoeId, login, advance, userProgress } = this.props
+    const { canPlay, login, advance, userProgress } = this.props
     let discuss
     if (IOS) {
       discuss = '本集讨论'
@@ -84,7 +84,7 @@ export default class Eps extends React.Component {
       data = [discuss]
     }
 
-    if (ningMoeId) {
+    if (canPlay) {
       data.push('在线播放')
     }
 

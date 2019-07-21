@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 12:37:47
+ * @Last Modified time: 2019-07-22 01:14:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,6 @@ import PropTypes from 'prop-types'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { IOS } from '@constants'
 import { HTML_NEW_TIMELINE } from '@constants/html'
 import _ from '@styles'
 import Tabs from './tabs'
@@ -53,7 +52,7 @@ class Timeline extends React.Component {
                 title: '添加新时间线'
               })
             } else {
-              navigation.push(IOS ? 'Login' : 'LoginV2')
+              navigation.push('LoginV2')
             }
           }}
         />

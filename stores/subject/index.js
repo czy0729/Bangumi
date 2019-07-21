@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 09:35:25
+ * @Last Modified time: 2019-07-21 22:05:38
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_COMMENTS_LIMIT } from '@constants'
@@ -247,16 +247,16 @@ class Subject extends store {
     }
 
     // 观看状态人数
-    let typeNum = ''
-    matchHTML = HTML.match(
-      /<span class="tip_i">\/(.+?)<\/span><\/div><\/div><div id="columnSubjectHomeB"/
-    )
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      typeNum = findTreeNode(tree.children, 'div > a|text&class=l', [])
-        .map(item => item.text[0])
-        .join(' / ')
-    }
+    // let typeNum = ''
+    // matchHTML = HTML.match(
+    //   /<span class="tip_i">\/(.+?)<\/span><\/div><\/div><div id="columnSubjectHomeB"/
+    // )
+    // if (matchHTML) {
+    //   const tree = HTMLToTree(matchHTML[1])
+    //   typeNum = findTreeNode(tree.children, 'div > a|text&class=l', [])
+    //     .map(item => item.text[0])
+    //     .join(' / ')
+    // }
 
     // 曲目列表(音乐)
     const disc = []
@@ -360,7 +360,7 @@ class Subject extends store {
       tags,
       relations,
       friend,
-      typeNum,
+      // typeNum,
       disc,
       book,
       comic,
