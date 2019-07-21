@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 20:08:50
+ * @Last Modified time: 2019-07-21 13:21:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,12 +18,12 @@ export default class Eps extends React.Component {
     numbersOfLine: 8, // 1行多少个, 为了美观, 通过计算按钮占满1行
     pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
     advance: false, // 详情页模式, 显示SP和更多的操作按钮
-    login: false,
-    subjectId: 0,
+    login: false, // 是否已登录
+    subjectId: 0, // 条目Id
     ningMoeId: 0, // 柠萌瞬间条目Id
-    eps: [],
-    userProgress: {},
-    onSelect: Function.prototype
+    eps: [], // 章节数据
+    userProgress: {}, // 用户收藏记录
+    onSelect: Function.prototype // 操作选择
   }
 
   static pageLimit = 32 // 1页32个
@@ -66,7 +66,13 @@ export default class Eps extends React.Component {
 
   getPopoverData = item => {
     const { ningMoeId, login, advance, userProgress } = this.props
-    const discuss = IOS ? '本集讨论' : `本集讨论 (+${item.comment})`
+    let discuss
+    if (IOS) {
+      discuss = '本集讨论'
+    } else {
+      discuss = `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
+    }
+
     let data
     if (login) {
       data = [userProgress[item.id] === '看过' ? '撤销' : '看过']
