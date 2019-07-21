@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 19:56:03
+ * @Last Modified time: 2019-07-21 16:46:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,13 +13,21 @@ import { IMG_DEFAULT } from '@constants'
 import { HTMLDecode } from '@utils/html'
 import _, { window, wind } from '@styles'
 
-const imageWidth = window.width * 0.2
-const marginLeft = (window.width - 4 * imageWidth) / 5
+const imageWidth = window.width * 0.288
+const imageHeight = imageWidth * 1.4
+const marginLeft = (window.width - 3 * imageWidth) / 4
 
 const Item = (
-  { style, subjectId, images = {}, name, score, air },
-  { navigation }
+  { style, subjectId, images = {}, name, score },
+  { $, navigation }
 ) => {
+  // 是否已收藏
+  const { list } = $.userCollection
+  const isCollected =
+    list.findIndex(item => item.subject_id === subjectId) !== -1
+
+  const { calendarData } = $.state
+  const { air, timeJP } = calendarData[subjectId] || {}
   const onPress = () => {
     navigation.push('Subject', {
       subjectId
@@ -28,7 +36,8 @@ const Item = (
   return (
     <View style={[styles.item, style]}>
       <Image
-        size={imageWidth}
+        width={imageWidth}
+        height={imageHeight}
         src={images.medium || IMG_DEFAULT}
         border
         radius
@@ -36,20 +45,26 @@ const Item = (
         onPress={onPress}
       />
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} size={12} numberOfLines={2}>
+        <Text
+          style={_.mt.sm}
+          size={15}
+          type={isCollected ? 'main' : 'desc'}
+          numberOfLines={2}
+        >
           {HTMLDecode(name)}
         </Text>
         <Flex style={_.mt.xs}>
           {!!air && (
-            <Text style={_.mr.xs} size={12} type='sub'>
-              {air}集
+            <Text style={_.mr.xs} type='sub'>
+              {air}话 |
             </Text>
           )}
-          {!!score && (
-            <Text size={12} type='sub'>
-              ({score})
+          {!!timeJP && (
+            <Text type='sub'>
+              {`${timeJP.slice(0, 2)}:${timeJP.slice(2)}`}{' '}
             </Text>
           )}
+          {!!score && <Text type='sub'>({score.toFixed(1)})</Text>}
         </Flex>
       </Touchable>
     </View>
@@ -57,6 +72,7 @@ const Item = (
 }
 
 Item.contextTypes = {
+  $: PropTypes.object,
   navigation: PropTypes.object
 }
 

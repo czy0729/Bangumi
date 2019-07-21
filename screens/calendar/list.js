@@ -2,19 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 19:52:00
+ * @Last Modified time: 2019-07-21 16:37:50
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView, Flex } from '@components'
 import { SectionHeader } from '@screens/_'
-import { colorBg } from '@styles'
+import _ from '@styles'
 import Item from './item'
 
 const List = (props, { $ }) => {
-  const { calendarData } = $.state
-
   // 今天星期几的数据排最前
   let day = new Date().getDay()
   if (day === 0) {
@@ -31,14 +29,11 @@ const List = (props, { $ }) => {
 
   return (
     <ListView
-      style={{
-        backgroundColor: colorBg
-      }}
       keyExtractor={item => item.id}
       sections={sections}
       numColumns={3}
       renderSectionHeader={({ section: { title } }) => (
-        <SectionHeader style={{ backgroundColor: colorBg }} size={14}>
+        <SectionHeader style={{ backgroundColor: _.colorPlain }} size={16}>
           {title}
         </SectionHeader>
       )}
@@ -67,7 +62,6 @@ const List = (props, { $ }) => {
                 images={item.images}
                 name={item.name_cn || item.name}
                 score={item.rating && item.rating.score}
-                air={calendarData[item.id] && calendarData[item.id].air}
               />
             ))}
         </Flex>

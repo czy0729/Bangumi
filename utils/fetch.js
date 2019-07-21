@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-17 10:53:12
+ * @Last Modified time: 2019-07-21 13:30:17
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -69,7 +69,7 @@ export default async function _fetch({
       toastKey = Toast.loading('Loading...', 0)
     }
   }
-  log(info, _url, !isGet && _config)
+  // log(info, _url, !isGet && _config)
 
   return fetch(_url, _config)
     .then(response => {
@@ -86,7 +86,7 @@ export default async function _fetch({
           retryCount[key] = 0
         }
       } else if (!noConsole) {
-        log(method, 'success', url, _config, info, json)
+        // log(method, 'success', url, _config, info, json)
       }
 
       // @issue 由于Bangumi提供的API没有统一返回数据
@@ -115,7 +115,7 @@ export default async function _fetch({
         retryCount[key] = (retryCount[key] || 0) + 1
 
         if (retryCount[key] < FETCH_ERR_RETRY_COUNT) {
-          log('re-fetch', `fail ${retryCount[key]} time`, url, info, err)
+          // log('re-fetch', `fail ${retryCount[key]} time`, url, info, err)
           return retryCb()
         }
       }
@@ -183,7 +183,7 @@ export async function fetchHTML({
     _config.body = urlStringify(body)
     toastKey = Toast.loading('Loading...', 0)
   }
-  log(_url, _config)
+  // log(_url, _config)
 
   const systemStore = require('../stores/system').default
   return fetch(_url, _config)

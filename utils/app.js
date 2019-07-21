@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-18 20:24:14
+ * @Last Modified time: 2019-07-21 16:13:38
  */
 import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
-import { HOST, HOST_NAME, HOST_2 } from '@constants'
+import { HOST, HOST_2 } from '@constants'
 
 /**
  * 查找番剧中文名
