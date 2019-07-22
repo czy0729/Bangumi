@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-24 21:34:01
+ * @Last Modified time: 2019-07-22 16:32:09
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Loading, Flex, Touchable, Image } from '@components'
-import { StatusBarPlaceholder } from '@screens/_'
+import { IconTabBar, StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -25,7 +25,11 @@ export default
 @observer
 class Discovery extends React.Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    tabBarIcon: ({ tintColor }) => (
+      <IconTabBar name='star-list' color={tintColor} />
+    ),
+    tabBarLabel: '发现'
   }
 
   static contextTypes = {

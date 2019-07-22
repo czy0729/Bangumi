@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 15:20:13
+ * @Last Modified time: 2019-07-22 20:21:18
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -55,10 +55,6 @@ export default class ScreenRakuen extends store {
   // -------------------- get --------------------
   @computed get autoFetch() {
     return systemStore.setting.autoFetch
-  }
-
-  @computed get notifyUnread() {
-    return rakuenStore.notify.unread
   }
 
   @computed get isWebLogin() {

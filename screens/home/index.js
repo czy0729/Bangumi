@@ -2,19 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 01:54:35
+ * @Last Modified time: 2019-07-22 20:19:18
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Image } from '@components'
-import { IconTabBar, IconTabsHeader, ManageModal } from '@screens/_'
+import { IconTabBar, IconTabsHeader, IconNotify, ManageModal } from '@screens/_'
 import { userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { IOS } from '@constants'
 import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
@@ -31,8 +28,8 @@ class Home extends React.Component {
     headerRight: (
       <>
         <IconTabsHeader
-          name='star-list'
-          onPress={() => navigation.push('Discovery')}
+          name='calendar'
+          onPress={() => navigation.push('Calendar')}
         />
         <IconTabsHeader
           name='search'
@@ -56,27 +53,12 @@ class Home extends React.Component {
 
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
-
-    if ($.isLogin) {
-      const { avatar } = $.userInfo
-      navigation.setParams({
-        headerLeft: (
-          <View style={!IOS && styles.avatarAndroid}>
-            <Image
-              style={styles.avatar}
-              size={28}
-              src={avatar.medium}
-              onPress={() => {
-                navigation.push('User')
-              }}
-            />
-          </View>
-        )
-      })
-    }
+    navigation.setParams({
+      headerLeft: <IconNotify navigation={navigation} />
+    })
 
     setTimeout(() => {
-      hm(`?id=${userStore.myUserId}`, title)
+      hm(`?id=${userStore.userInfo.username || userStore.myUserId}`, title)
     }, 4000)
   }
 
@@ -117,17 +99,3 @@ class Home extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  avatar: {
-    width: 28,
-    height: 28,
-    marginLeft: _.sm,
-    marginBottom: _.tabsHeight,
-    borderRadius: 32,
-    overflow: 'hidden'
-  },
-  avatarAndroid: {
-    paddingTop: _.statusBarHeight + _.md
-  }
-})

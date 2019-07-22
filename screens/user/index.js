@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 17:08:34
+ * @Last Modified time: 2019-07-22 21:20:29
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -79,7 +79,6 @@ class User extends React.Component {
     return (
       <>
         <StatusBar barStyle='light-content' />
-        <ParallaxImage scrollY={scrollY} />
         <Tabs style={_.container.screen} $={$} scrollY={scrollY}>
           {tabs.map(item => (
             <List
@@ -90,6 +89,7 @@ class User extends React.Component {
             />
           ))}
         </Tabs>
+        <ParallaxImage scrollY={scrollY} />
       </>
     )
   }

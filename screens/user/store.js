@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-17 21:04:58
+ * @Last Modified time: 2019-07-22 20:27:26
  */
 import { observable, computed } from 'mobx'
 import { userStore, collectionStore } from '@stores'
@@ -49,10 +49,7 @@ export default class ScreenUser extends store {
     let res
 
     // 用户信息
-    if (!this.usersInfo._loaded) {
-      res = this.fetchUsersInfo()
-      await res
-    }
+    await this.fetchUsersInfo()
 
     // 用户收藏概览统计
     if (!this.userCollectionsStatus._loaded) {

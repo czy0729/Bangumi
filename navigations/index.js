@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 14:13:22
+ * @Last Modified time: 2019-07-22 17:25:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import {
   createStackNavigator,
   getActiveChildNavigationOptions
 } from 'react-navigation'
-import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
 // import { BlurView } from 'expo-blur'
 import { BlurView } from 'expo'
 import {
@@ -38,6 +38,7 @@ import {
   WebView,
   Zone
 } from '@screens'
+import BottomTabBar from '@components/@react-navigation-tabs/BottomTabBar'
 import { IOS } from '@constants'
 import _ from '@styles'
 import navigationsParams, { initialHomeTabName } from '../navigations'
@@ -47,9 +48,11 @@ import config from './stacks/config'
 const TabBarComponent = props => <BottomTabBar {...props} />
 const HomeTab = createBottomTabNavigator(
   {
+    Discovery,
     Timeline,
     Home: HomeScreen,
-    Rakuen
+    Rakuen,
+    User
   },
   {
     initialRouteName: initialHomeTabName,

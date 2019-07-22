@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 19:00:22
+ * @Last Modified time: 2019-07-22 21:25:50
  */
 import React from 'react'
 import { StyleSheet, Alert, Animated, View } from 'react-native'
@@ -162,7 +162,8 @@ const styles = StyleSheet.create({
     left: 0
   },
   parallaxImage: {
-    height
+    height,
+    backgroundColor: _.colorPlain
   },
   parallaxMask: {
     position: 'absolute',

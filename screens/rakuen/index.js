@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 01:14:02
+ * @Last Modified time: 2019-07-22 20:21:13
  */
 import React from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Popover, IconTabsHeader, IconTabBar } from '@screens/_'
+import { Popover, IconTabsHeader, IconTabBar, IconNotify } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants/html'
 import _ from '@styles'
 import Tabs from './tabs'
-import Notify from './notify'
 import List from './list'
 import Store from './store'
 
@@ -46,19 +45,8 @@ class Rakuen extends React.Component {
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
 
-    const onPress = () => {
-      if ($.isWebLogin) {
-        navigation.push('Notify')
-      } else {
-        navigation.push('LoginV2')
-      }
-    }
     navigation.setParams({
-      headerLeft: $.notifyUnread ? (
-        <Notify onPress={onPress} />
-      ) : (
-        <IconTabsHeader name='mail' onPress={onPress} />
-      ),
+      headerLeft: <IconNotify navigation={navigation} />,
       headerRight: (
         <Popover
           data={['设置', '新讨论']}
