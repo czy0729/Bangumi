@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 21:20:29
+ * @Last Modified time: 2019-07-23 10:00:28
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBar, IconTabBar } from '@screens/_'
+import { StatusBar, IconTabBar, Login } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
@@ -60,22 +60,16 @@ class User extends React.Component {
 
   render() {
     const { $ } = this.context
+    if (!$.isLogin) {
+      return <Login />
+    }
+
     if (!$.state._loaded) {
       return <View style={_.container.screen} />
     }
 
     const { subjectType } = $.state
     const { scrollY } = this.state
-    const listViewProps = {
-      ListHeaderComponent: (
-        <>
-          <View style={{ height: height + _.tabsHeight }} />
-          <ToolBar />
-        </>
-      ),
-      scrollEventThrottle: 16,
-      onScroll: this.onScroll
-    }
     return (
       <>
         <StatusBar barStyle='light-content' />
@@ -85,7 +79,14 @@ class User extends React.Component {
               key={item.title}
               title={item.title}
               subjectType={subjectType}
-              {...listViewProps}
+              ListHeaderComponent={
+                <>
+                  <View style={{ height: height + _.tabsHeight }} />
+                  <ToolBar />
+                </>
+              }
+              scrollEventThrottle={16}
+              onScroll={this.onScroll}
             />
           ))}
         </Tabs>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 01:15:07
+ * @Last Modified time: 2019-07-23 10:27:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,17 +38,6 @@ class Auth extends React.Component {
           name='setting'
           color={_.colorSub}
           onPress={() => navigation.push('Setting')}
-        />
-        <IconTabsHeader
-          style={[
-            _.header.right,
-            {
-              right: 44
-            }
-          ]}
-          name='star-list'
-          color={_.colorSub}
-          onPress={() => navigation.push('Discovery')}
         />
         <IconTabsHeader
           style={_.header.right}

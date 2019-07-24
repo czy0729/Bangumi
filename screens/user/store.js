@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 20:27:26
+ * @Last Modified time: 2019-07-23 09:45:26
  */
 import { observable, computed } from 'mobx'
 import { userStore, collectionStore } from '@stores'
@@ -63,6 +63,10 @@ export default class ScreenUser extends store {
   }
 
   // -------------------- get --------------------
+  @computed get isLogin() {
+    return userStore.isLogin
+  }
+
   @computed get usersInfo() {
     const { userId } = this.params
     return userStore.usersInfo(userId)

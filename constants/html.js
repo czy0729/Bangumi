@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 21:37:56
+ * @Last Modified time: 2019-07-24 12:05:05
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -153,6 +153,12 @@ export const HTML_USER_COLLECTIONS = (
  * @param {*} userId
  */
 export const HTML_USERS = userId => `${HOST}/user/${userId}`
+
+/**
+ * 用户好友
+ * @param {*} userId
+ */
+export const HTML_FRIENDS = userId => `${HOST}/user/${userId}/friends`
 
 // -------------------- action --------------------
 /**

@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-21 19:47:57
+ * @Last Modified time: 2019-07-23 10:02:01
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
-import { SectionHeader, TimelineItem } from '@screens/_'
+import { Login, SectionHeader, TimelineItem } from '@screens/_'
 import { withTabsHeader } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import _ from '@styles'
-import Login from './login'
 
 class List extends React.Component {
   static contextTypes = {

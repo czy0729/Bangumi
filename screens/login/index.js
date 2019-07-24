@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 00:25:56
+ * @Last Modified time: 2019-07-23 10:23:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -150,6 +150,7 @@ export default class Login extends React.Component {
     }
 
     await userStore.fetchUserInfo()
+    await userStore.fetchUsersInfo()
     navigation.popToTop()
   }
 

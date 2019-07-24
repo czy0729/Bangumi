@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 15:49:32
+ * @Last Modified time: 2019-07-24 11:05:57
  */
 import calendarStore from './calendar'
 import collectionStore from './collection'
@@ -15,6 +15,7 @@ import systemStore from './system'
 import tagStore from './tag'
 import timelineStore from './timeline'
 import userStore from './user'
+import usersStore from './users'
 
 // @todo 查明init被调用2次的原因
 let inited = false
@@ -45,7 +46,8 @@ class Stores {
       rakuenStore.init(),
       searchStore.init(),
       timelineStore.init(),
-      tagStore.init()
+      tagStore.init(),
+      usersStore.init()
     ])
 
     return res
@@ -84,6 +86,7 @@ export {
   systemStore,
   tagStore,
   timelineStore,
-  userStore
+  userStore,
+  usersStore
 }
 export default GloablStores

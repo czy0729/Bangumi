@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 17:26:14
+ * @Last Modified time: 2019-07-24 10:31:13
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -71,7 +71,7 @@ class Store extends store {
 
     // 用户介绍
     users: {
-      // [userId]: '
+      // [userId]: ''
     }
   })
 
