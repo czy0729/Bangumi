@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-23 10:27:16
+ * @Last Modified time: 2019-07-27 14:21:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -164,7 +164,7 @@ export default class LoginV2 extends React.Component {
           email,
           password,
           captcha_challenge_field: captcha,
-          loginsubmit: '登录'
+          loginsubmit: '登陆'
         }
       })
 

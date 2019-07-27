@@ -20,7 +20,7 @@ function Preview({ onLogin, onTour }) {
       />
       <View style={[styles.bottomContainer, _.mt.md]}>
         <Button type='main' shadow onPress={onLogin}>
-          账号登录
+          账号登陆
         </Button>
         <Button style={_.mt.md} type='plain' shadow onPress={onTour}>
           游客访问

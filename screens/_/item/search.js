@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 04:44:36
+ * @Last Modified time: 2019-07-27 15:55:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,8 +13,8 @@ import { HTMLDecode } from '@utils/html'
 import { IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
-import Tag from '../tag'
-import Stars from '../stars'
+import Tag from '../base/tag'
+import Stars from '../base/stars'
 
 const imgWidth = 96
 const imgHeight = 1.28 * imgWidth

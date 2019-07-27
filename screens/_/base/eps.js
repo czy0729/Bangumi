@@ -18,7 +18,7 @@ export default class Eps extends React.Component {
     numbersOfLine: 8, // 1行多少个, 为了美观, 通过计算按钮占满1行
     pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
     advance: false, // 详情页模式, 显示SP和更多的操作按钮
-    login: false, // 是否已登录
+    login: false, // 是否已登陆
     subjectId: 0, // 条目Id
     canPlay: false, // 有播放源
     eps: [], // 章节数据

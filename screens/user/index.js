@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-23 10:00:28
+ * @Last Modified time: 2019-07-27 16:34:22
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -17,8 +17,6 @@ import Tabs from './tabs'
 import ToolBar from './tool-bar'
 import List from './list'
 import Store, { tabs, height } from './store'
-
-const title = '我的'
 
 export default
 @inject(Store)
@@ -42,7 +40,7 @@ class User extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`user/${$.myUserId}?route=user`, `${title} - ${$.myUserId}`)
+    hm(`user/${$.myUserId}?route=user`)
   }
 
   onScroll = e => {

@@ -14,7 +14,7 @@ import { hm } from '@utils/fetch'
 import { userStore } from '@stores'
 import _ from '@styles'
 
-const title = '首页 (未登录)'
+const title = '首页 (未登陆)'
 
 export default
 @observer
@@ -66,7 +66,7 @@ class Auth extends React.Component {
           shadow
           onPress={() => navigation.push('LoginV2')}
         >
-          现在登录
+          现在登陆
         </Button>
       </View>
     )

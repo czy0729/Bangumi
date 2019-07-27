@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-24 14:06:05
+ * @Last Modified time: 2019-07-27 16:46:27
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
+import { ListView, Text } from '@components'
 import { ItemFriends } from '@screens/_'
-import { inject, observer } from '@utils/decorators'
-// import { hm } from '@utils/fetch'
+import { inject, withHeader, observer } from '@utils/decorators'
+import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Store from './store'
 
@@ -17,11 +17,12 @@ const title = '好友'
 
 export default
 @inject(Store)
+@withHeader()
 @observer
 class Friends extends React.Component {
-  static navigationOptions = {
-    title
-  }
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam('title', title)
+  })
 
   static contextTypes = {
     $: PropTypes.object,
@@ -29,24 +30,42 @@ class Friends extends React.Component {
   }
 
   async componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     await $.init()
 
-    // hm(`user/${$.params.userId}/friends`, title)
+    const { userId } = $.params
+    const { userName } = $.users(userId)
+    navigation.setParams({
+      title: userName ? `${userName}的好友` : '我的好友',
+      popover: {
+        data: ['默认', '同步率', '最近操作'],
+        onSelect: key => {
+          $.sort(key)
+        }
+      },
+      element: <Text size={16}>排序</Text>
+    })
+
+    hm(`user/${$.params.userId}/friends`)
   }
 
   render() {
-    const { $ } = this.context
-    const { list } = $.friends
+    const { $, navigation } = this.context
     return (
-      <ScrollView
+      <ListView
         style={_.container.screen}
-        contentContainerStyle={_.container.bottom}
-      >
-        {list.map(item => (
-          <ItemFriends key={item.userId} {...item} />
-        ))}
-      </ScrollView>
+        data={$.friends}
+        keyExtractor={item => item.userId}
+        renderItem={({ item }) => (
+          <ItemFriends
+            key={item.userId}
+            navigation={navigation}
+            {...$.users(item.userId)}
+            {...item}
+          />
+        )}
+        onHeaderRefresh={$.initFetch}
+      />
     )
   }
 }

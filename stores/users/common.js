@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-24 12:23:06
+ * @Last Modified time: 2019-07-27 16:43:42
  */
 import cheerio from 'cheerio-without-node-native'
 
@@ -23,4 +23,56 @@ export function analysisFriends(HTML) {
       }
     })
     .get()
+}
+
+/**
+ * 分析用户
+ * @param {*} HTML
+ */
+export function analysisUsers(HTML) {
+  const $ = cheerio.load(HTML)
+  const userId = $('.inner small.grey')
+    .text()
+    .replace('@', '')
+  const hobby = $('small.hot')
+    .text()
+    .match(/\d+/g)
+  return {
+    userName: $('.inner > a').text(),
+    sign: $('.bio').html() || '',
+    hobby: hobby ? hobby[0] : '0',
+    percent: parseFloat(
+      $('span.percent_text')
+        .text()
+        .replace('%', '')
+    ),
+    recent: $('.timeline small.time')
+      .first()
+      .text(),
+    doing: parseInt(
+      $(`a[href='/anime/list/${userId}/do']`)
+        .text()
+        .replace('部在看', '')
+    ),
+    collect: parseInt(
+      $(`a[href='/anime/list/${userId}/collect']`)
+        .text()
+        .replace('部看过', '')
+    ),
+    wish: parseInt(
+      $(`a[href='/anime/list/${userId}/wish']`)
+        .text()
+        .replace('部想看', '')
+    ),
+    onHold: parseInt(
+      $(`a[href='/anime/list/${userId}/on_hold']`)
+        .text()
+        .replace('部搁置', '')
+    ),
+    dropped: parseInt(
+      $(`a[href='/anime/list/${userId}/dropped']`)
+        .text()
+        .replace('部抛弃', '')
+    )
+  }
 }

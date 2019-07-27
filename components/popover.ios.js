@@ -4,8 +4,8 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:22:49
+ * @Last Modified time: 2019-07-27 16:00:39
  */
-import Popover from './@ant-design/popover'
+import Popover from './@/ant-design/popover'
 
 export default Popover

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 18:19:25
+ * @Last Modified time: 2019-07-27 15:55:03
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import _ from '@styles'
-import Avatar from '../avatar'
-import Stars from '../stars'
+import Avatar from '../base/avatar'
+import Stars from '../base/stars'
 
 const ItemComment = ({
   style,

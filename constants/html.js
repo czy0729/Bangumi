@@ -41,7 +41,7 @@ export const HTML_MONO = monoId => {
 }
 
 /**
- * 时间胶囊 (需登录)
+ * 时间胶囊 (需登陆)
  * @param {*} scope
  * @param {*} type
  * @param {*} userId
@@ -108,18 +108,18 @@ export const HTML_TAG = (text, type = 'anime', order, page = 1) =>
   `${HOST}/${type}/tag/${text}?sort=${order}&page=${page}`
 
 /**
- * 添加新讨论 (需登录)
+ * 添加新讨论 (需登陆)
  */
 export const HTML_NEW_TOPIC = () => `${HOST}/rakuen/new_topic`
 
 /**
- * 添加新时间线 (需登录)
+ * 添加新时间线 (需登陆)
  */
 export const HTML_NEW_TIMELINE = userId =>
   `${HOST}/user/${userId}/timeline?type=say`
 
 /**
- * 电波提醒 (需登录)
+ * 电波提醒 (需登陆)
  */
 export const HTML_NOTIFY = () => `${HOST}/notify/all`
 

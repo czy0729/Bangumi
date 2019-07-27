@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 11:22:50
+ * @Last Modified time: 2019-07-27 10:50:56
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -21,6 +21,10 @@ const withHeader = () => ComposedComponent =>
           data: [],
           onSelect: Function.prototype
         })
+        const element = navigation.getParam(
+          'element',
+          <Iconfont size={24} name='more' color={_.colorTitle} />
+        )
         if (popover.data.length) {
           const popoverProps = IOS
             ? {
@@ -45,7 +49,7 @@ const withHeader = () => ComposedComponent =>
               placement='bottom'
               {...popoverProps}
             >
-              <Iconfont size={24} name='more' color={_.colorTitle} />
+              {element}
             </Popover>
           )
         }

@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-24 22:12:08
+ * @Last Modified time: 2019-07-27 16:13:41
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -19,7 +19,7 @@ import { showImageViewer } from '@utils/ui'
 import { IOS, IMG_ERROR } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
-import CacheManager from './@react-native-expo-image-cache/src/CacheManager'
+import CacheManager from './@/react-native-expo-image-cache/src/CacheManager'
 import Touchable from './touchable'
 
 export default class Image extends React.Component {

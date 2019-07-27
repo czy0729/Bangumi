@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 21:25:50
+ * @Last Modified time: 2019-07-27 15:29:50
  */
 import React from 'react'
 import { StyleSheet, Alert, Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Text } from '@components'
-import { IconBack, IconHeader } from '@screens/_'
-import { open } from '@utils'
+import { IconHeader } from '@screens/_'
 import { observer } from '@utils/decorators'
-import { IOS, HOST } from '@constants'
+import { IOS } from '@constants'
 import _ from '@styles'
 import Head from './head'
 import { height, headerHeight } from './store'
@@ -120,11 +119,6 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
             />
           )}
         </Animated.View>
-        <IconBack
-          style={_.header.left}
-          navigation={navigation}
-          color={_.colorPlain}
-        />
         {isMe && (
           <IconHeader
             style={_.header.right}
@@ -135,11 +129,9 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
         )}
         <IconHeader
           style={[_.header.right, isMe && styles.friend]}
-          name='me'
+          name='friends'
           color={_.colorPlain}
-          onPress={() => {
-            open(`${HOST}/user/${id}/friends`)
-          }}
+          onPress={() => navigation.push('Friends')}
         />
       </View>
     </>

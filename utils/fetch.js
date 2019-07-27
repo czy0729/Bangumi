@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-21 13:30:17
+ * @Last Modified time: 2019-07-27 15:28:02
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -93,7 +93,7 @@ export default async function _fetch({
       // 正常情况没有code, 错误情况例如空的时候, 返回 {code: 400, err: '...'}
       if (json && json.error) {
         if (json.error === 'invalid_token') {
-          UIInfo('登录过期')
+          UIInfo('登陆过期')
           userStore.logout()
         }
         return Promise.resolve({})
@@ -183,7 +183,7 @@ export async function fetchHTML({
     _config.body = urlStringify(body)
     toastKey = Toast.loading('Loading...', 0)
   }
-  // log(_url, _config)
+  log(_url)
 
   const systemStore = require('../stores/system').default
   return fetch(_url, _config)
@@ -311,7 +311,7 @@ export function xhrCustom({
  * @param {*} url
  * @param {*} title
  */
-export function hm(url, title) {
+export function hm(url, title = '') {
   let version = GITHUB_RELEASE_VERSION
   if (CODE_PUSH_VERSION) {
     version += `-${CODE_PUSH_VERSION}`

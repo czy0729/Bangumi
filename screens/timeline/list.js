@@ -8,7 +8,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
-import { Login, SectionHeader, TimelineItem } from '@screens/_'
+import { Login, SectionHeader, ItemTimeline } from '@screens/_'
 import { withTabsHeader } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 import _ from '@styles'
@@ -67,7 +67,7 @@ class List extends React.Component {
           <SectionHeader>{title}</SectionHeader>
         )}
         renderItem={({ item, index }) => (
-          <TimelineItem
+          <ItemTimeline
             navigation={navigation}
             index={index}
             {...item}

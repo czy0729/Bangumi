@@ -8,7 +8,7 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
-import { TopicItem } from '@screens/_'
+import { ItemTopic } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -70,7 +70,7 @@ class Mono extends React.Component {
         scrollEventThrottle={32}
         ListHeaderComponent={<Info />}
         renderItem={({ item, index }) => (
-          <TopicItem navigation={navigation} index={index} {...item} />
+          <ItemTopic navigation={navigation} index={index} {...item} />
         )}
         onScroll={onScroll}
         onHeaderRefresh={() => $.fetchMono(true)}

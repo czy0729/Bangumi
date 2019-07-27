@@ -94,7 +94,7 @@ export default class ScreenHome extends store {
   }
 
   /**
-   * 用户是否登录
+   * 用户是否登陆
    */
   @computed get isLogin() {
     return userStore.isLogin

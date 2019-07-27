@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-04 15:59:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-16 23:48:52
+ * @Last Modified time: 2019-07-27 15:54:37
  */
 import React from 'react'
 import { StatusBar as RNStatusBar } from 'react-native'
 import { IOS, MI } from '@constants'
 
-const StatusBar = ({ barStyle, forceBarStyle }) => {
+const StatusBar = ({ barStyle }) => {
   let _barStyle = barStyle
   if (!_barStyle) {
     _barStyle = IOS ? 'dark-content' : 'light-content'

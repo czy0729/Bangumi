@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-08 19:21:24
+ * @Last Modified time: 2019-07-27 15:55:58
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
-import { SectionHeader, TimelineItem } from '@screens/_'
+import { SectionHeader, ItemTimeline } from '@screens/_'
 import _ from '@styles'
 
 const TimelineList = (props, { $, navigation }) => {
@@ -27,7 +27,7 @@ const TimelineList = (props, { $, navigation }) => {
         <SectionHeader>{title}</SectionHeader>
       )}
       renderItem={({ item, index }) => (
-        <TimelineItem navigation={navigation} index={index} {...item} />
+        <ItemTimeline navigation={navigation} index={index} {...item} />
       )}
       onFooterRefresh={$.fetchUsersTimeline}
       {...props}

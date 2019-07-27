@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-17 10:24:33
+ * @Last Modified time: 2019-07-27 16:13:47
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
 import { Switch } from '@ant-design/react-native'
 import { Text } from '@components'
-import CacheManager from '@components/@react-native-expo-image-cache/src/CacheManager'
+import CacheManager from '@components/@/react-native-expo-image-cache/src/CacheManager'
 import { Popover, ItemSetting } from '@screens/_'
 import { systemStore, userStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
@@ -72,7 +72,7 @@ class Setting extends React.Component {
 
   logout = () => {
     const { navigation } = this.props
-    Alert.alert('提示', '确定退出登录?', [
+    Alert.alert('提示', '确定退出登陆?', [
       {
         text: '取消',
         style: 'cancel'
@@ -192,7 +192,7 @@ class Setting extends React.Component {
 
         <ItemSetting
           style={_.mt.md}
-          hd='退出登录'
+          hd='退出登陆'
           arrow
           highlight
           onPress={this.logout}

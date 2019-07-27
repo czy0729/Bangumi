@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:24:31
+ * @Last Modified time: 2019-07-27 16:00:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { colorMain, radiusSm } from '@styles'
-import AntdTabs from './@ant-design/tabs'
+import AntdTabs from './@/ant-design/tabs'
 
 const Tabs = ({
   tabs,

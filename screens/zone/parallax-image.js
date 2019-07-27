@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 17:11:41
+ * @Last Modified time: 2019-07-27 16:41:10
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Iconfont, Text } from '@components'
-import { Popover, IconBack } from '@screens/_'
+import { Popover, IconBack, IconHeader } from '@screens/_'
 import { open } from '@utils'
 import { IOS, HOST } from '@constants'
 import _ from '@styles'
@@ -17,7 +17,7 @@ import Head from './head'
 import { height, headerHeight } from './store'
 
 const ParallaxImage = ({ scrollY }, { $, navigation }) => {
-  const { avatar, nickname, username } = $.usersInfo
+  const { avatar, nickname, id, username } = $.usersInfo
   const parallaxStyle = {
     transform: [
       {
@@ -127,6 +127,16 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
             <Iconfont size={24} name='more' color={_.colorPlain} />
           </Popover>
         </View>
+        <IconHeader
+          style={[_.header.right, styles.friends]}
+          name='friends'
+          color={_.colorPlain}
+          onPress={() =>
+            navigation.push('Friends', {
+              userId: username || id
+            })
+          }
+        />
       </View>
     </>
   )
@@ -176,5 +186,8 @@ const styles = StyleSheet.create({
     zIndex: 2,
     left: 0,
     right: 0
+  },
+  friends: {
+    right: 44
   }
 })

@@ -26,7 +26,7 @@ const Login = (props, { navigation }) => (
       shadow
       onPress={() => navigation.push('LoginV2')}
     >
-      重新登录
+      重新登陆
     </Button>
   </View>
 )

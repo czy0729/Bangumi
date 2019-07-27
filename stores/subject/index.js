@@ -283,7 +283,7 @@ class Subject extends store {
       }
     }
 
-    // 书籍vol. chap.(需登录)
+    // 书籍vol. chap.(需登陆)
     const book = {}
     matchHTML = HTML.match(
       /<div class="panelProgress book clearit">(.+?)<\/div><div rel="v:rating">/

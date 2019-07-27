@@ -1,6 +1,6 @@
 /*
  * WebView
- * 某些需要登录的页面会自动跳走, 通过改变页面cookie和重定向, 实现同步cookie
+ * 某些需要登陆的页面会自动跳走, 通过改变页面cookie和重定向, 实现同步cookie
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729

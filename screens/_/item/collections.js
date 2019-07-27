@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 04:10:09
+ * @Last Modified time: 2019-07-27 15:54:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Flex, Text, Image, Touchable } from '@components'
 import { HTMLDecode } from '@utils/html'
 import { IMG_DEFAULT } from '@constants'
 import _ from '@styles'
-import Stars from '../stars'
+import Stars from '../base/stars'
 
 const imgWidth = 80
 const imgHeight = 1.28 * imgWidth

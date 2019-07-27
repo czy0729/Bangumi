@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-09 00:36:18
+ * @Last Modified time: 2019-07-27 15:55:18
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
@@ -10,12 +10,12 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { appNavigate, findBangumiCn } from '@utils/app'
 import _ from '@styles'
-import Stars from '../stars'
+import Stars from '../base/stars'
 
 const avatarWidth = 28
 const regSubject = /\/\/bangumi.tv\/subject\/\d+$/
 
-class TimelineItem extends React.Component {
+class ItemTimeline extends React.Component {
   static defaultProps = {
     navigation: null,
     avatar: {},
@@ -290,11 +290,11 @@ class TimelineItem extends React.Component {
   }
 }
 
-TimelineItem.defaultProps = {
+ItemTimeline.defaultProps = {
   onDelete: Function.prototype
 }
 
-export default observer(TimelineItem)
+export default observer(ItemTimeline)
 
 const styles = StyleSheet.create({
   item: {
