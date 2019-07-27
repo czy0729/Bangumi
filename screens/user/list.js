@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-17 20:56:41
+ * @Last Modified time: 2019-07-27 17:17:20
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -44,11 +44,11 @@ class List extends React.Component {
     if (hide) {
       return null
     }
-
     const userCollections = $.userCollections(
       subjectType,
       MODEL_COLLECTION_STATUS.getValue(title)
     )
+
     if (!userCollections._loaded) {
       return <Loading />
     }

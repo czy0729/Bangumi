@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 16:32:09
+ * @Last Modified time: 2019-07-27 17:18:58
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -27,7 +27,7 @@ class Discovery extends React.Component {
   static navigationOptions = {
     header: null,
     tabBarIcon: ({ tintColor }) => (
-      <IconTabBar name='star-list' color={tintColor} />
+      <IconTabBar name='home' color={tintColor} />
     ),
     tabBarLabel: '发现'
   }

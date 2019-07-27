@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 15:58:59
+ * @Last Modified time: 2019-07-27 17:08:17
  */
 export { default as Bgm } from './bgm'
 export { default as BlurView } from './blur-view'
@@ -11,6 +11,7 @@ export { default as Divider } from './divider'
 export { default as Expand } from './expand'
 export { default as Flex } from './flex'
 export { default as HeaderPlaceholder } from './header-placeholder'
+export { default as Icon } from './icon'
 export { default as Iconfont } from './iconfont'
 export { default as Image } from './image'
 export { default as ImageViewer } from './image-viewer'

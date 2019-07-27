@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-24 10:31:13
+ * @Last Modified time: 2019-07-27 17:10:20
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -193,14 +193,14 @@ class Store extends store {
   }
 
   /**
-   * 取API是否登陆
+   * 取API是否登录
    */
   @computed get isLogin() {
     return !!this.accessToken.access_token
   }
 
   /**
-   * 取Web是否登陆
+   * 取Web是否登录
    */
   @computed get isWebLogin() {
     return !!this.userCookie.cookie

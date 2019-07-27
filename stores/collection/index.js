@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 10:51:35
+ * @Last Modified time: 2019-07-27 17:15:00
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -267,7 +267,11 @@ class Collection extends store {
       }
     })
 
-    if (userId === userStore.myUserId) {
+    // 只本地化自己的收藏概览
+    if (
+      userId === userStore.userInfo.username ||
+      userId === userStore.myUserId
+    ) {
       this.setUserCollectionsStroage()
     }
     return res
@@ -281,10 +285,14 @@ class Collection extends store {
     const { userCollections } = this.state
     const data = {}
     Object.keys(userCollections).forEach(key => {
-      if (key.includes(`${userStore.myUserId}|`)) {
+      if (
+        key.includes(`${userStore.userInfo.username}|`) ||
+        key.includes(`${userStore.myUserId}|`)
+      ) {
         data[key] = userCollections[key]
       }
     })
+
     this.setStorage('userCollections', data, NAMESPACE)
   }
 
