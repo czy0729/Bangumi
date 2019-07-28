@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 01:30:34
+ * @Last Modified time: 2019-07-28 15:01:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -38,6 +38,7 @@ const Item = (
 ) => {
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
+  const isFriend = $.myFriendsMap[userId]
   const { _time: readedTime } = $.readed
   let isNew
   if (readedTime) {
@@ -63,6 +64,12 @@ const Item = (
                 <Text type='main' size={12}>
                   {' '}
                   [作者]
+                </Text>
+              )}
+              {isFriend && (
+                <Text type='warning' size={12}>
+                  {' '}
+                  [好友]
                 </Text>
               )}
             </Text>
@@ -105,6 +112,7 @@ const Item = (
           {sub.map(item => {
             const isAuthor = authorId === item.userId
             const isLayer = !isAuthor && userId === item.userId
+            const isFriend = $.myFriendsMap[item.userId]
             let isNew
             if (readedTime) {
               isNew = getTimestamp(item.time) > readedTime
@@ -132,6 +140,12 @@ const Item = (
                           <Text type='primary' size={12}>
                             {' '}
                             [层主]
+                          </Text>
+                        )}
+                        {isFriend && (
+                          <Text type='warning' size={12}>
+                            {' '}
+                            [好友]
                           </Text>
                         )}
                       </Text>

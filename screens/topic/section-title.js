@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 02:03:56
+ * @Last Modified time: 2019-07-28 14:48:54
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -18,17 +18,25 @@ import _ from '@styles'
 
 const SectionTitle = (props, { $ }) => {
   const { _list = [], _reverse } = $.comments
-  const { filterMe } = $.state
+  const { filterMe, filterFriends } = $.state
+  const hasLogin = !!$.myId
   return (
     <CompSectionTitle
       style={[styles.title, _.mt.lg, _.mb.md]}
       right={
         <>
-          {!!$.myUserId && (
+          {hasLogin && (
             <IconTouchable
               name='me'
               color={filterMe ? _.colorMain : _.colorIcon}
               onPress={$.toggleFilterMe}
+            />
+          )}
+          {hasLogin && (
+            <IconTouchable
+              name='friends'
+              color={filterFriends ? _.colorMain : _.colorIcon}
+              onPress={$.toggleFilterFriends}
             />
           )}
           <IconReverse

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 01:56:27
+ * @Last Modified time: 2019-07-28 14:59:03
  */
 import { observable, computed } from 'mobx'
-import { userStore, rakuenStore, subjectStore } from '@stores'
+import { rakuenStore, subjectStore, userStore, usersStore } from '@stores'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
 
@@ -14,7 +14,8 @@ export default class ScreenTopic extends store {
     placeholder: '',
     replySub: '',
     message: '',
-    filterMe: false
+    filterMe: false,
+    filterFriends: false
   })
 
   init = () => {
@@ -47,17 +48,34 @@ export default class ScreenTopic extends store {
   @computed get comments() {
     const { topicId } = this.params
     const comments = rakuenStore.comments(topicId)
+    const { filterMe, filterFriends } = this.state
 
-    // @notice 只显示自己相关的评论, 需要全部显示(包括子回复), 要从_list中筛选
-    const { filterMe } = this.state
+    // @notice 只显示自己相关评论, 需要全部显示(包括子回复), 要从_list中筛选
     if (filterMe) {
       return {
         ...comments,
         list: comments._list.filter(item => {
-          if (item.sub.findIndex(i => i.userId === this.myUserId) !== -1) {
+          if (item.sub.findIndex(i => i.userId === this.myId) !== -1) {
             return true
           }
-          return item.userId === this.myUserId
+          return item.userId === this.myId
+        }),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        }
+      }
+    }
+
+    // @notice 只显示好友相关评论
+    if (filterFriends) {
+      return {
+        ...comments,
+        list: comments._list.filter(item => {
+          if (item.sub.findIndex(i => this.myFriendsMap[i.userId]) !== -1) {
+            return true
+          }
+          return this.myFriendsMap[item.userId]
         }),
         pagination: {
           page: 1,
@@ -107,8 +125,12 @@ export default class ScreenTopic extends store {
     return rakuenStore.readed(topicId)
   }
 
-  @computed get myUserId() {
-    return userStore.userInfo.username || userStore.myUserId
+  @computed get myId() {
+    return userStore.myId
+  }
+
+  @computed get myFriendsMap() {
+    return usersStore.myFriendsMap
   }
 
   // -------------------- page --------------------
@@ -126,7 +148,19 @@ export default class ScreenTopic extends store {
   toggleFilterMe = () => {
     const { filterMe } = this.state
     this.setState({
-      filterMe: !filterMe
+      filterMe: !filterMe,
+      filterFriends: false
+    })
+  }
+
+  /**
+   * 显示好友相关的回复
+   */
+  toggleFilterFriends = () => {
+    const { filterFriends } = this.state
+    this.setState({
+      filterMe: false,
+      filterFriends: !filterFriends
     })
   }
 

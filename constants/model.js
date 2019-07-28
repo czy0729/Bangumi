@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 04:19:33
+ * @Last Modified time: 2019-07-28 17:08:59
  */
 class Modal {
   constructor(data) {
@@ -387,5 +387,161 @@ export const MODEL_TAG_ORDERBY = new Modal([
   {
     label: '日期',
     value: 'date'
+  }
+])
+
+export const MODEL_RANK_ANIME_FILTER = new Modal([
+  {
+    label: '全部',
+    value: ''
+  },
+  {
+    label: 'TV',
+    value: 'tv'
+  },
+  {
+    label: 'WEB',
+    value: 'web'
+  },
+  {
+    label: 'OVA',
+    value: 'ova'
+  },
+  {
+    label: '剧场版',
+    value: 'movie'
+  },
+  {
+    label: '其他',
+    value: 'misc'
+  }
+])
+
+export const MODEL_RANK_BOOK_FILTER = new Modal([
+  {
+    label: '全部',
+    value: ''
+  },
+  {
+    label: '漫画',
+    value: 'comic'
+  },
+  {
+    label: '小说',
+    value: 'novel'
+  },
+  {
+    label: '画集',
+    value: 'illustration'
+  },
+  {
+    label: '其他',
+    value: 'misc'
+  }
+])
+
+export const MODEL_RANK_GAME_FILTER = new Modal([
+  {
+    label: '全部',
+    value: ''
+  },
+  {
+    label: 'PC',
+    value: 'pc'
+  },
+  {
+    label: 'PS4',
+    value: 'ps4'
+  },
+  {
+    label: 'NS',
+    value: 'ns'
+  },
+  {
+    label: 'Xbox One',
+    value: 'xbox_one'
+  },
+  {
+    label: 'PSV',
+    value: 'psv'
+  },
+  {
+    label: 'Wii U',
+    value: 'will_u'
+  },
+  {
+    label: 'PS3',
+    value: 'ps3'
+  },
+  {
+    label: 'Xbox360',
+    value: 'xbox360'
+  },
+  {
+    label: '3DS',
+    value: '3ds'
+  },
+  {
+    label: 'PSP',
+    value: 'psp'
+  },
+  {
+    label: 'Wii',
+    value: 'wii'
+  },
+  {
+    label: 'NDS',
+    value: 'nds'
+  },
+  {
+    label: 'PS2',
+    value: 'ps2'
+  },
+  {
+    label: 'XBOX',
+    value: 'xbox'
+  },
+  {
+    label: 'MAC',
+    value: 'mac'
+  },
+  {
+    label: 'PS',
+    value: 'ps'
+  },
+  {
+    label: 'GBA',
+    value: 'gba'
+  },
+  {
+    label: 'GB',
+    value: 'gb'
+  },
+  {
+    label: 'FC',
+    value: 'fc'
+  }
+])
+
+export const MODEL_RANK_REAL_FILTER = new Modal([
+  {
+    label: '全部',
+    value: ''
+  },
+  {
+    label: '日剧',
+    value: 'jp'
+  },
+  {
+    label: '欧美剧',
+    value: 'en'
+  },
+  {
+    label: '华语剧',
+    value: 'cn'
+  },
+  {
+    label: '其他',
+    value: 'misc'
   }
 ])
