@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 20:40:56
+ * @Last Modified time: 2019-07-28 19:32:33
  */
 import cheerio from 'cheerio-without-node-native'
 import { fetchHTML } from '@utils/fetch'
@@ -173,8 +173,8 @@ export function analysisComments(HTML, reverse) {
     }
   }
   children.forEach((item, index) => {
-    // @todo 暂时只显示前100楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
-    if (index >= 100) {
+    // @todo 暂时只显示前160楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
+    if (index >= 160) {
       return
     }
 
@@ -218,7 +218,7 @@ export function analysisComments(HTML, reverse) {
         messageHTML[index]
           .replace('class="message clearit"', 'class="message"')
           .match(
-            /<div class="message.*">(.+?)<\/div><div class="topic_sub_reply"/
+            /<div class="message">(.+?)<\/div><div class="topic_sub_reply"/
           )
       message = match ? match[1] : ''
     } else {

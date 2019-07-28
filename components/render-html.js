@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 02:57:35
+ * @Last Modified time: 2019-07-28 19:27:28
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -239,11 +239,11 @@ export default class RenderHtml extends React.Component {
     }
   }
 
-  renderImage(props) {
+  renderImage({ key, ...otherProps } = {}) {
     const { loaded } = this.state
     return (
-      <View>
-        <Image {...props} onLoadEnd={this.onLoadEnd} />
+      <View key={key}>
+        <Image {...otherProps} onLoadEnd={this.onLoadEnd} />
         {!loaded && (
           <Flex style={styles.loadingWrap} justify='center'>
             <RNImage
