@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-23 10:55:16
+ * @Last Modified time: 2019-07-28 14:26:59
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -396,6 +396,19 @@ export default class ScreenHome extends store {
         }
       }
     })
+  }
+
+  /**
+   * 更新书籍下一个章节
+   */
+  doUpdateNext = async (subjectId, epStatus, volStatus) => {
+    await collectionStore.doUpdateBookEp({
+      subjectId,
+      chap: epStatus,
+      vol: volStatus
+    })
+    userStore.fetchUserCollection()
+    userStore.fetchUserProgress()
   }
 
   /**

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 19:01:40
+ * @Last Modified time: 2019-07-28 13:10:55
  */
 module.exports = {
   root: true,
   globals: {
-    require: true,
     XMLHttpRequest: true,
     fetch: true, // react-native的fetch
-    log: true // 测试打印函数, 能规避循环引用
+    log: true, // 测试打印函数, 能规避循环引用
+    require: true
   },
   env: {
     commonjs: true,
@@ -54,15 +54,12 @@ module.exports = {
     'arrow-parens': ['error', 'as-needed'],
     'class-methods-use-this': 0,
     'comma-dangle': ['error', 'never'],
-    eqeqeq: 0,
-    experimentalDecorators: 0,
     'function-paren-newline': 0, // 有时候一行过长, 格式化后括号换行不是预期
     'global-require': 0,
     'implicit-arrow-linebreak': 0,
     'import/extensions': 0,
     'import/no-unresolved': 0,
     'import/prefer-default-export': 0,
-    indent: 0, // 经常与三元表达的自动格式化冲突, 所以关闭
     'linebreak-style': ['error', 'unix'],
     'lines-between-class-members': 0,
     'max-len': ['error', 200],
@@ -70,15 +67,19 @@ module.exports = {
     'no-mixed-operators': 0,
     'no-nested-ternary': 0, // 允许三元
     'no-return-assign': 0, // return 不允许赋值, 与react的ref冲突
+    'no-confusing-arrow': 0, // 允许三元JSX结构
     'no-shadow': 0, // 解构需要, 比如 const { getUser } = this.props
     'no-underscore-dangle': 0,
     'no-use-before-define': 0,
     'object-curly-newline': 0,
     'operator-linebreak': 0,
+    'prefer-destructuring': 0, // 不要求一定要析构
+    eqeqeq: 0, // 不要求使用全等
+    experimentalDecorators: 0,
+    indent: 0, // 经常与三元表达的自动格式化冲突, 所以关闭
     quotes: ['error', 'single'],
-    radix: 0,
-    semi: 0,
-    'prefer-destructuring': 0,
+    radix: 0, // parseInt()不需要写进制
+    semi: 0, // 不要分号
 
     // https://github.com/yannickcr/eslint-plugin-react
     'react/destructuring-assignment': 0,
@@ -107,6 +108,6 @@ module.exports = {
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-ally/interactive-supports-focus': 0,
-    'jsx-quotes': 0
+    'jsx-quotes': 0 // 单引号
   }
 }

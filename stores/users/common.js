@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 16:43:42
+ * @Last Modified time: 2019-07-28 11:51:53
  */
 import cheerio from 'cheerio-without-node-native'
 
@@ -38,6 +38,7 @@ export function analysisUsers(HTML) {
     .text()
     .match(/\d+/g)
   return {
+    userId,
     userName: $('.inner > a').text(),
     sign: $('.bio').html() || '',
     hobby: hobby ? hobby[0] : '0',

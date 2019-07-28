@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 09:35:16
+ * @Last Modified time: 2019-07-28 13:03:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -58,9 +58,9 @@ const Item = (
     return null
   }
 
-  // 设置开启屏蔽默认头像, 且回复数小于2, 鉴定为广告姬
+  // 设置开启屏蔽默认头像, 且回复数小于4, 鉴定为广告姬
   const replyCount = parseInt(replies.match(/\d+/g))
-  if (isBlockDefaultUser && avatar === IMG_DEFAULT_AVATAR && replyCount < 2) {
+  if (isBlockDefaultUser && avatar === IMG_DEFAULT_AVATAR && replyCount < 4) {
     return null
   }
 

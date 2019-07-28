@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 20:37:40
+ * @Last Modified time: 2019-07-28 02:57:35
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -14,6 +14,7 @@ import { open } from '@utils'
 import { HOST } from '@constants'
 import _ from '@styles'
 import { bgm } from './bgm'
+import Flex from './flex'
 import Image from './image'
 
 // 一些超展开内容文本样式的标记
@@ -34,6 +35,10 @@ export default class RenderHtml extends React.Component {
     },
     imagesMaxWidth: _.window.width - 2 * _.wind,
     html: ''
+  }
+
+  state = {
+    loaded: false
   }
 
   /**
@@ -157,7 +162,7 @@ export default class RenderHtml extends React.Component {
         props.autoSize = imagesMaxWidth
         props.placeholder = false
         props.imageViewer = true
-        return <Image {...props} />
+        return this.renderImage(props)
       },
       span: ({ style = '' }, children, convertedCSSStyles, passProps) => {
         // @todo 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
@@ -219,6 +224,12 @@ export default class RenderHtml extends React.Component {
     }
   })
 
+  onLoadEnd = () => {
+    this.setState({
+      loaded: true
+    })
+  }
+
   onLinkPress = (evt, href) => {
     const { onLinkPress } = this.props
     if (onLinkPress) {
@@ -226,6 +237,23 @@ export default class RenderHtml extends React.Component {
     } else {
       open(href)
     }
+  }
+
+  renderImage(props) {
+    const { loaded } = this.state
+    return (
+      <View>
+        <Image {...props} onLoadEnd={this.onLoadEnd} />
+        {!loaded && (
+          <Flex style={styles.loadingWrap} justify='center'>
+            <RNImage
+              style={styles.loading}
+              source={require('@assets/images/icon/loading.gif')}
+            />
+          </Flex>
+        )}
+      </View>
+    )
   }
 
   render() {
@@ -355,5 +383,10 @@ const styles = StyleSheet.create({
     paddingVertical: _.sm,
     borderBottomWidth: 1,
     borderBottomColor: _.colorBg
+  },
+  loadingWrap: StyleSheet.absoluteFill,
+  loading: {
+    width: 32,
+    height: 32
   }
 })

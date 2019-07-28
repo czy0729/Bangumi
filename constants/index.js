@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 01:54:18
+ * @Last Modified time: 2019-07-28 01:38:36
  */
 import { Platform } from 'react-native'
 import { Constants } from 'expo'
@@ -66,5 +66,5 @@ export const LIST_EMPTY = {
 
 // LIMIT
 export const LIST_LIMIT = 40 // 用于制造分页数据
-export const LIST_COMMENTS_LIMIT = 20
+export const LIST_COMMENTS_LIMIT = 25
 export const TOPIC_PUSH_LIMIT = 300 // 对评论大于300的帖子进行网页跳转

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 16:41:52
+ * @Last Modified time: 2019-07-28 12:06:03
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
@@ -31,14 +31,14 @@ export default class ScreenFriends extends store {
 
     const { _loaded } = this.friends
     if (!_loaded) {
-      this.initFetch()
+      this.refresh()
     }
 
     return res
   }
 
   // -------------------- fetch --------------------
-  initFetch = async () => {
+  refresh = async () => {
     const res = this.fetchFriends()
     await res
     this.fetchUsersBatch()

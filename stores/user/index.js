@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 17:10:20
+ * @Last Modified time: 2019-07-28 11:49:32
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -190,6 +190,15 @@ class Store extends store {
    */
   @computed get myUserId() {
     return this.userInfo.id || this.accessToken.user_id
+  }
+
+  /**
+   * 取自己用户Id(改过用户名后)
+   */
+  @computed get myId() {
+    return (
+      this.userInfo.username || this.userInfo.id || this.accessToken.user_id
+    )
   }
 
   /**

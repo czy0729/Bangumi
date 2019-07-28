@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 16:13:47
+ * @Last Modified time: 2019-07-28 02:18:26
  */
 import React from 'react'
 import { ScrollView, AsyncStorage, Alert } from 'react-native'
@@ -60,10 +60,13 @@ class Setting extends React.Component {
         onPress: async () => {
           await AsyncStorage.clear()
           await CacheManager.clearCache()
+
+          // 以下为不需要清除的数据, 再次本地化
           systemStore.setStorage('setting', undefined, 'System')
           userStore.setStorage('accessToken', undefined, 'User')
           userStore.setStorage('userInfo', undefined, 'User')
           userStore.setStorage('userCookie', undefined, 'User')
+
           info('已清除')
         }
       }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 20:49:13
+ * @Last Modified time: 2019-07-28 02:04:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,11 +16,12 @@ import {
   RenderHtml,
   Divider
 } from '@components'
-import { Avatar, SectionTitle, IconReverse } from '@screens/_'
+import { Avatar } from '@screens/_'
 import { simpleTime } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { HOST, IOS } from '@constants'
 import _ from '@styles'
+import SectionTitle from './section-title'
 
 const Top = (props, { $, navigation }) => {
   const {
@@ -35,7 +36,6 @@ const Top = (props, { $, navigation }) => {
     userSign,
     message
   } = $.topic
-  const { _list = [], _reverse } = $.comments
   const {
     _title,
     _replies,
@@ -140,24 +140,7 @@ const Top = (props, { $, navigation }) => {
         </View>
       </View>
       <Divider />
-      <SectionTitle
-        style={[styles.title, _.mt.lg, _.mb.md]}
-        right={
-          <IconReverse
-            style={styles.sort}
-            color={_reverse ? _.colorMain : _.colorIcon}
-            onPress={$.toggleReverseComments}
-          />
-        }
-      >
-        吐槽箱{' '}
-        {_list.length != 0 && (
-          <Text size={12} type='sub' lineHeight={24}>
-            ({_list.length}
-            {_list.length == 100 && '+'})
-          </Text>
-        )}
-      </SectionTitle>
+      <SectionTitle />
     </>
   )
 }
@@ -170,9 +153,6 @@ Top.contextTypes = {
 export default observer(Top)
 
 const styles = StyleSheet.create({
-  title: {
-    paddingHorizontal: _.wind
-  },
   groupWrap: {
     height: 32
   },
@@ -187,8 +167,5 @@ const styles = StyleSheet.create({
   },
   html: {
     minHeight: 240
-  },
-  sort: {
-    marginRight: -_.sm
   }
 })

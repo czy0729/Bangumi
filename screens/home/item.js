@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 01:17:14
+ * @Last Modified time: 2019-07-28 14:24:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -156,6 +156,7 @@ class Item extends React.Component {
               / ?
             </Text>
           </Flex>
+          {this.renderBookNextBtn(subjectId, epStatus + 1, volStatus)}
           <Flex style={_.ml.md} align='baseline'>
             <Text type='primary' size={10} lineHeight={1}>
               Vol.
@@ -167,6 +168,7 @@ class Item extends React.Component {
               / ?
             </Text>
           </Flex>
+          {this.renderBookNextBtn(subjectId, epStatus, volStatus + 1)}
         </Flex>
       )
     }
@@ -183,6 +185,20 @@ class Item extends React.Component {
     )
   }
 
+  renderBookNextBtn(subjectId, epStatus, volStatus) {
+    const { $ } = this.context
+    return (
+      <Touchable
+        style={styles.touchable}
+        onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
+      >
+        <Flex justify='center'>
+          <Iconfont style={styles.icon} name='check' size={16} />
+        </Flex>
+      </Touchable>
+    )
+  }
+
   render() {
     const { $, navigation } = this.context
     const { top, subjectId, subject } = this.props
@@ -195,7 +211,7 @@ class Item extends React.Component {
         <View style={styles.item}>
           <Flex>
             <Image
-              size={72}
+              size={80}
               src={subject.images.medium}
               radius
               border={_.colorBorder}
@@ -220,7 +236,7 @@ class Item extends React.Component {
                   )}
                 </Flex>
               </Touchable>
-              <View>
+              <View style={_.mt.sm}>
                 <Flex>
                   <Flex.Item>{this.renderCount()}</Flex.Item>
                   {this.renderToolBar()}

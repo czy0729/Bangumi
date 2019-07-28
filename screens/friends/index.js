@@ -64,7 +64,7 @@ class Friends extends React.Component {
             {...item}
           />
         )}
-        onHeaderRefresh={$.initFetch}
+        onHeaderRefresh={$.refresh}
       />
     )
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 20:26:54
+ * @Last Modified time: 2019-07-28 01:56:27
  */
 import { observable, computed } from 'mobx'
 import { userStore, rakuenStore, subjectStore } from '@stores'
@@ -13,7 +13,8 @@ export default class ScreenTopic extends store {
   state = observable({
     placeholder: '',
     replySub: '',
-    message: ''
+    message: '',
+    filterMe: false
   })
 
   init = () => {
@@ -45,7 +46,27 @@ export default class ScreenTopic extends store {
 
   @computed get comments() {
     const { topicId } = this.params
-    return rakuenStore.comments(topicId)
+    const comments = rakuenStore.comments(topicId)
+
+    // @notice 只显示自己相关的评论, 需要全部显示(包括子回复), 要从_list中筛选
+    const { filterMe } = this.state
+    if (filterMe) {
+      return {
+        ...comments,
+        list: comments._list.filter(item => {
+          if (item.sub.findIndex(i => i.userId === this.myUserId) !== -1) {
+            return true
+          }
+          return item.userId === this.myUserId
+        }),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        }
+      }
+    }
+
+    return comments
   }
 
   @computed get isEp() {
@@ -86,6 +107,10 @@ export default class ScreenTopic extends store {
     return rakuenStore.readed(topicId)
   }
 
+  @computed get myUserId() {
+    return userStore.userInfo.username || userStore.myUserId
+  }
+
   // -------------------- page --------------------
   /**
    * 吐槽箱倒序
@@ -93,6 +118,16 @@ export default class ScreenTopic extends store {
   toggleReverseComments = () => {
     const { _reverse } = this.comments
     this.fetchTopic(true, !_reverse)
+  }
+
+  /**
+   * 显示与我相关的回复
+   */
+  toggleFilterMe = () => {
+    const { filterMe } = this.state
+    this.setState({
+      filterMe: !filterMe
+    })
   }
 
   /**

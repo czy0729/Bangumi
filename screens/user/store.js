@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 17:17:19
+ * @Last Modified time: 2019-07-28 13:08:23
  */
 import { observable, computed } from 'mobx'
 import { userStore, collectionStore } from '@stores'
@@ -81,6 +81,11 @@ export default class ScreenUser extends store {
     return userStore.myUserId
   }
 
+  @computed get type() {
+    const { page } = this.state
+    return MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
+  }
+
   userCollections(subjectType, type) {
     const { username } = this.usersInfo
     const { userId } = this.params
@@ -104,11 +109,11 @@ export default class ScreenUser extends store {
 
   fetchUserCollections = refresh => {
     const { userId } = this.params
-    const { subjectType, order, tag, page } = this.state
+    const { subjectType, order, tag } = this.state
     return collectionStore.fetchUserCollections(
       {
         subjectType,
-        type: MODEL_COLLECTION_STATUS.getValue(tabs[page].title),
+        type: this.type,
         order,
         tag,
         userId: this.usersInfo.username || userId

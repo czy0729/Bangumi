@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 15:29:50
+ * @Last Modified time: 2019-07-28 12:01:05
  */
 import React from 'react'
 import { StyleSheet, Alert, Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Text } from '@components'
-import { IconHeader } from '@screens/_'
+import { IconHeader, IconBack } from '@screens/_'
 import { observer } from '@utils/decorators'
 import { IOS } from '@constants'
 import _ from '@styles'
@@ -119,6 +119,13 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
             />
           )}
         </Animated.View>
+        {!isMe && (
+          <IconBack
+            style={_.header.left}
+            navigation={navigation}
+            color={_.colorPlain}
+          />
+        )}
         {isMe && (
           <IconHeader
             style={_.header.right}

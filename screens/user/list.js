@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 17:17:20
+ * @Last Modified time: 2019-07-28 13:15:27
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -55,6 +55,7 @@ class List extends React.Component {
 
     const { list } = $.state
     const numColumns = list ? undefined : 4
+    const isOnHold = $.type === 'on_hold'
     return (
       <ListView
         key={String(numColumns)}
@@ -62,25 +63,23 @@ class List extends React.Component {
         contentContainerStyle={_.container.bottom}
         keyExtractor={item => item.id}
         data={userCollections}
-        renderItem={({ item, index }) => {
-          if (list) {
-            return (
-              <ItemCollections
-                navigation={navigation}
-                index={index}
-                {...item}
-              />
-            )
-          }
-
-          return (
+        renderItem={({ item, index }) =>
+          list ? (
+            <ItemCollections
+              navigation={navigation}
+              index={index}
+              isOnHold={isOnHold}
+              {...item}
+            />
+          ) : (
             <ItemCollectionsGrid
               navigation={navigation}
               index={index}
+              isOnHold={isOnHold}
               {...item}
             />
           )
-        }}
+        }
         onHeaderRefresh={() => $.fetchUserCollections(true)}
         onFooterRefresh={$.fetchUserCollections}
         {...other}
