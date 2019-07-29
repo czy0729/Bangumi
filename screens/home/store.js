@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 14:26:59
+ * @Last Modified time: 2019-07-28 21:27:52
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -444,7 +444,7 @@ export default class ScreenHome extends store {
       userStore.fetchUserProgress()
     }
 
-    // iOS是本级讨论, 安卓是(+N)...
+    // iOS是本集讨论, 安卓是(+N)...
     if (value.includes('本集讨论') || value.includes('(+')) {
       appNavigate(item.url, navigation)
     }

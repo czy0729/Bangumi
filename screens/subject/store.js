@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 01:43:50
+ * @Last Modified time: 2019-07-28 21:27:52
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -284,7 +284,8 @@ export default class ScreenSubject extends store {
    * 章节菜单操作
    */
   doEpsSelect = async (value, item, navigation) => {
-    if (value.includes('本集讨论')) {
+    // iOS是本集讨论, 安卓是(+N)...
+    if (value.includes('本集讨论') || value.includes('(+')) {
       appNavigate(item.url, navigation)
       return
     }

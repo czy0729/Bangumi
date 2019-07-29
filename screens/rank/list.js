@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 16:47:13
+ * @Last Modified time: 2019-07-28 21:03:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -35,12 +35,12 @@ const List = (props, { $, navigation }) => {
         if (list) {
           return <ItemSearch navigation={navigation} index={index} {...item} />
         }
-
         return (
           <ItemCollectionsGrid
             navigation={navigation}
             index={index}
             {...item}
+            id={item.id.replace('/subject/', '')}
           />
         )
       }}
