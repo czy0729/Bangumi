@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 19:34:12
+ * @Last Modified time: 2019-08-06 09:51:18
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab

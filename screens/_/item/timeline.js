@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 15:55:18
+ * @Last Modified time: 2019-08-03 14:12:20
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 21:27:52
+ * @Last Modified time: 2019-08-06 09:49:09
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -23,6 +23,7 @@ import { NING_MOE_HOST } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 
 const namespace = 'ScreenSubject'
+const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
 
 export default class ScreenSubject extends store {
   state = observable({
@@ -222,16 +223,12 @@ export default class ScreenSubject extends store {
     }
 
     const { epsData } = this.state
-    if (Object.keys(epsData.bilibili).length) {
-      data.push('bilibili')
-    }
-    if (Object.keys(epsData.qq).length) {
-      data.push('qq')
-    }
-    if (Object.keys(epsData.iqiyi).length) {
-      data.push('iqiyi')
-    }
 
+    sites.forEach(item => {
+      if (epsData[item] && Object.keys(epsData[item]).length) {
+        data.push(item)
+      }
+    })
     data.push('取消')
 
     return data
@@ -325,30 +322,23 @@ export default class ScreenSubject extends store {
             const { eps } = this.subjectEp
             const site = this.onlinePlayActionSheetData[index]
             let epIndex
-
-            switch (site) {
-              case 'bilibili':
-              case 'qq':
-              case 'iqiyi':
-                if (isSp) {
-                  url = getBangumiUrl({
+            if (sites.includes(site)) {
+              if (isSp) {
+                url = getBangumiUrl({
+                  id: item.id,
+                  site
+                })
+              } else {
+                epIndex = eps
+                  .filter(item => item.type === 0)
+                  .findIndex(i => i.id === item.id)
+                url =
+                  epsData[site][epIndex] ||
+                  getBangumiUrl({
                     id: item.id,
                     site
                   })
-                } else {
-                  epIndex = eps
-                    .filter(item => item.type === 0)
-                    .findIndex(i => i.id === item.id)
-                  url =
-                    epsData[site][epIndex] ||
-                    getBangumiUrl({
-                      id: item.id,
-                      site
-                    })
-                }
-                break
-              default:
-                break
+              }
             }
           }
 

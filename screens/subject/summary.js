@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 15:18:34
+ * @Last Modified time: 2019-08-03 14:41:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,7 +23,7 @@ const Summary = ({ style }, { $ }) => {
       <SectionTitle>简介</SectionTitle>
       {!!summary && (
         <Expand>
-          <Text style={_.mt.sm} size={15} lineHeight={22}>
+          <Text style={_.mt.sm} size={15} lineHeight={22} selectable>
             {summary}
           </Text>
         </Expand>

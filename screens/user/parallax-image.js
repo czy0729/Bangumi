@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 12:01:05
+ * @Last Modified time: 2019-08-05 22:59:12
  */
 import React from 'react'
 import { StyleSheet, Alert, Animated, View } from 'react-native'
@@ -126,16 +126,14 @@ const ParallaxImage = ({ scrollY }, { $, navigation }) => {
             color={_.colorPlain}
           />
         )}
-        {isMe && (
-          <IconHeader
-            style={_.header.right}
-            name='setting'
-            color={_.colorPlain}
-            onPress={() => navigation.push('Setting')}
-          />
-        )}
         <IconHeader
-          style={[_.header.right, isMe && styles.friend]}
+          style={_.header.right}
+          name='setting'
+          color={_.colorPlain}
+          onPress={() => navigation.push('Setting')}
+        />
+        <IconHeader
+          style={[_.header.right, styles.friend]}
           name='friends'
           color={_.colorPlain}
           onPress={() => navigation.push('Friends')}

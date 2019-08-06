@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-19 00:09:54
+ * @Last Modified time: 2019-08-03 11:45:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -52,11 +52,15 @@ const Head = ({ style }, { $ }) => {
       >
         <View>
           {!!jp && (
-            <Text type='sub' size={jp.length > 16 ? 11 : 13}>
+            <Text type='sub' size={jp.length > 16 ? 11 : 13} selectable>
               {jp} · {label}
             </Text>
           )}
-          <Text style={!!cn && _.mt.xs} size={cn.length > 16 ? 16 : 20}>
+          <Text
+            style={!!cn && _.mt.xs}
+            size={cn.length > 16 ? 16 : 20}
+            selectable
+          >
             {cn}
           </Text>
         </View>

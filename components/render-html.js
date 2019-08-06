@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 19:27:28
+ * @Last Modified time: 2019-08-03 14:45:49
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
@@ -142,9 +142,9 @@ export default class RenderHtml extends React.Component {
           }
 
           return (
-            <Text key={passProps.key} allowFontScaling={false}>
+            <Text key={passProps.key} allowFontScaling={false} selectable>
               {!!text && (
-                <Text style={baseFontStyle} allowFontScaling={false}>
+                <Text style={baseFontStyle} allowFontScaling={false} selectable>
                   {text}
                 </Text>
               )}
@@ -190,6 +190,7 @@ export default class RenderHtml extends React.Component {
               key={passProps.key}
               style={[passProps.baseFontStyle, styles.lineThrought]}
               allowFontScaling={false}
+              selectable
             >
               {text}
             </Text>
@@ -205,6 +206,7 @@ export default class RenderHtml extends React.Component {
               key={passProps.key}
               style={[passProps.baseFontStyle, styles.hidden]}
               allowFontScaling={false}
+              selectable
             >
               {text}
             </Text>
@@ -309,6 +311,7 @@ class MaskText extends React.Component {
       <Text
         style={[style, show ? styles.blockTextShow : styles.blockText]}
         allowFontScaling={false}
+        selectable
         onPress={this.toggle}
       >
         {children}
@@ -335,6 +338,7 @@ class QuoteText extends React.Component {
         <Text
           style={styles.quoteTextPlaceholder}
           allowFontScaling={false}
+          selectable
           onPress={this.show}
         >
           ...
@@ -342,7 +346,7 @@ class QuoteText extends React.Component {
       )
     }
     return (
-      <Text style={styles.quoteText} allowFontScaling={false}>
+      <Text style={styles.quoteText} allowFontScaling={false} selectable>
         {children}
       </Text>
     )

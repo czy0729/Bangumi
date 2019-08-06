@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 02:07:28
+ * @Last Modified time: 2019-08-03 14:07:51
  */
 import { Dimensions, StyleSheet } from 'react-native'
 // import Constants from 'expo-constants'
@@ -38,7 +38,7 @@ export const lg = 32
 export const colorPlainRaw = [255, 255, 255]
 export const colorPlain = `rgb(${colorPlainRaw.join()})`
 export const colorMain = 'rgb(252, 127, 138)' // #FC7F8A
-export const colorMainLight = 'rgb(255, 243, 244)'
+export const colorMainLight = 'rgb(255, 243, 244)' // #FFF3F4
 export const colorMainBorder = 'rgb(252, 128, 138)'
 export const colorPrimary = 'rgb(68, 207, 252)'
 export const colorPrimaryLight = 'rgb(248, 253, 255)'

@@ -1,9 +1,9 @@
 /*
- * 我的(时光机)
+ * 我的时光机
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 12:02:27
+ * @Last Modified time: 2019-08-05 23:06:38
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -60,10 +60,13 @@ class User extends React.Component {
     const { $ } = this.context
     const { id } = $.usersInfo
     const isMe = $.myUserId === id
+
+    // 自己并且没登陆
     if (isMe && !$.isLogin) {
       return <Login />
     }
 
+    // 页面状态没加载完成
     if (!$.state._loaded) {
       return <View style={_.container.screen} />
     }

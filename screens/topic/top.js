@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 02:04:26
+ * @Last Modified time: 2019-08-03 15:03:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -67,7 +67,7 @@ const Top = (props, { $, navigation }) => {
     <>
       {!IOS && <HeaderPlaceholder />}
       <View style={_.container.inner}>
-        <Text type='title' size={20} bold>
+        <Text type='title' size={20} bold selectable>
           {title || _title}
           {!!_replies && (
             <Text type='main' size={12} lineHeight={26}>
@@ -119,11 +119,14 @@ const Top = (props, { $, navigation }) => {
           </View>
           {!!uid && (
             <Flex.Item style={_.ml.sm}>
-              <Text numberOfLines={2}>
+              <Text numberOfLines={2} selectable>
                 {uname}
-                <Text type='sub'> @{uid}</Text>
+                <Text type='sub'>
+                  {' '}
+                  @{uid}
+                </Text>
               </Text>
-              <Text style={_.mt.xs} type='sub' size={12}>
+              <Text style={_.mt.xs} type='sub' size={12} selectable>
                 {userSign || '-'}
               </Text>
             </Flex.Item>
