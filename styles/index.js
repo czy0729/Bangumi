@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-03 14:07:51
+ * @Last Modified time: 2019-08-08 10:26:54
  */
 import { Dimensions, StyleSheet } from 'react-native'
 // import Constants from 'expo-constants'
@@ -63,7 +63,8 @@ export const colorMask = 'rgba(0, 0, 0, 0.4)'
 export const colorTitleRaw = [12, 12, 12]
 export const colorTitle = `rgb(${colorTitleRaw.join()})`
 export const colorDesc = 'rgb(40, 40, 40)' // #282828
-export const colorSub = 'rgb(142, 142, 147)' // #8E8E93
+export const colorAvatar = 'rgb(116, 116, 116)' // #747474
+export const colorSub = 'rgb(142, 142, 142)' // #8E8E8E
 export const colorIcon = 'rgb(200, 200, 200)' // #C8C8C8
 export const colorIconPlain = `rgba(${colorPlainRaw.join()}, 0.88)`
 export const lineHeightRatio = 1.28

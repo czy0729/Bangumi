@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 20:55:31
+ * @Last Modified time: 2019-08-08 12:20:16
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML, xhr } from '@utils/fetch'
-import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
+import { HTMLTrim } from '@utils/html'
 import { HOST, LIST_EMPTY, LIST_LIMIT } from '@constants'
 import {
   HTML_NOTIFY,
@@ -33,7 +33,8 @@ import {
   fetchRakuen,
   fetchTopic,
   analysisGroupInfo,
-  analysisGroup
+  analysisGroup,
+  cheerioNotify
 } from './common'
 
 class Rakuen extends store {
@@ -299,6 +300,7 @@ class Rakuen extends store {
     })
     const raw = await res
     const HTML = HTMLTrim(raw)
+    const { _loaded } = this.notify
     let { unread, clearHref, list } = this.notify
 
     // 清除动作
@@ -321,45 +323,7 @@ class Rakuen extends store {
         /<div id="comment_list">(.+?)<\/div><\/div><\/div><div id="footer"/
       )
       if (listHTML) {
-        list = []
-        const tree = HTMLToTree(listHTML[1])
-        tree.children.forEach((item, index) => {
-          if (index > 40) {
-            return
-          }
-
-          const { children } = item
-          let node
-
-          node = findTreeNode(children, 'a > span|style')
-          const avatar = node
-            ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
-            : ''
-
-          node = findTreeNode(children, 'div > a|text&href')
-          const userName = node ? node[0].text[0] : ''
-          const userId = node
-            ? node[0].attrs.href.replace(`${HOST}/user/`, '')
-            : ''
-
-          node = findTreeNode(children, 'div > div > a|text&href')
-          const title = node ? node[0].text[0] : ''
-          const href = node ? node[0].attrs.href.replace(/#post_\d+/, '') : ''
-
-          node = findTreeNode(children, 'div > div|text')
-          const message = node ? node[0].text[0] : ''
-          const message2 = node ? node[0].text[1] : ''
-
-          list.push({
-            avatar,
-            userName,
-            userId,
-            title,
-            href,
-            message,
-            message2
-          })
-        })
+        list = cheerioNotify(listHTML[1])
       }
     }
 
@@ -368,7 +332,8 @@ class Rakuen extends store {
       [key]: {
         unread,
         clearHref,
-        list
+        list,
+        _loaded: analysis ? getTimestamp() : _loaded
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

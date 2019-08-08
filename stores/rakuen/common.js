@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 19:32:33
+ * @Last Modified time: 2019-08-08 12:11:53
  */
 import cheerio from 'cheerio-without-node-native'
 import { fetchHTML } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
+import { matchAvatar, matchUserId } from '@utils/match'
 import { IOS } from '@constants'
 import { HTML_RAKUEN, HTML_TOPIC } from '@constants/html'
 import { INIT_COMMENTS_ITEM } from './init'
@@ -364,6 +365,44 @@ export function analysisGroup(HTML) {
         userName: $user.text(),
         replies: $tr.find('.posts').text(),
         time: $tr.find('.time').text()
+      }
+    })
+    .get()
+}
+
+/**
+ * 分析电波提醒列表
+ * @param {*} HTML
+ */
+export function cheerioNotify(HTML) {
+  return cheerio
+    .load(HTML)('div.tml_item')
+    .map((index, element) => {
+      const $tr = cheerio(element)
+      const $name = $tr.find('a.l')
+      const $title = $tr.find('a.nt_link')
+      const title = $title.text()
+      let message
+      let message2
+
+      if (title) {
+        // eslint-disable-next-line no-extra-semi
+        ;[message, message2] = $tr
+          .find('div.reply_content')
+          .text()
+          .split(title)
+      } else {
+        message = $tr.find('div.reply_content').text()
+      }
+
+      return {
+        avatar: matchAvatar($tr.find('span.avatarNeue').attr('style')) || '',
+        userName: $name.text() || '',
+        userId: matchUserId($name.attr('href')) || '',
+        title: title || '',
+        href: $title.attr('href') || '',
+        message: message || '',
+        message2: message2 || ''
       }
     })
     .get()

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 01:25:08
+ * @Last Modified time: 2019-08-08 10:03:03
  */
 // base
 // export { default as Drawer } from './base/drawer'
@@ -44,6 +44,7 @@ export { default as ItemCollections } from './item/collections'
 export { default as ItemCollectionsGrid } from './item/collections-grid'
 export { default as ItemComment } from './item/comment'
 export { default as ItemFriends } from './item/friends'
+export { default as ItemNotify } from './item/notify'
 export { default as ItemSearch } from './item/search'
 export { default as ItemSetting } from './item/setting'
 export { default as ItemTimeline } from './item/timeline'

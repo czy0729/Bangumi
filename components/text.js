@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-03 14:11:33
+ * @Last Modified time: 2019-08-08 10:27:34
  */
 import React from 'react'
 import { StyleSheet, Text as RNText } from 'react-native'
@@ -119,6 +119,9 @@ const styles = StyleSheet.create({
   },
   desc: {
     color: _.colorDesc
+  },
+  avatar: {
+    color: _.colorAvatar
   },
   sub: {
     color: _.colorSub

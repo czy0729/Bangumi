@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 15:36:17
+ * @Last Modified time: 2019-08-08 10:38:19
  */
 import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text } from '@components'
-import { Avatar } from '@screens/_'
+import { ListView } from '@components'
+import { ItemNotify } from '@screens/_'
+import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
 import { hm } from '@utils/fetch'
+import { HTML_NOTIFY } from '@constants/html'
 import _ from '@styles'
 import Store from './store'
 
@@ -32,7 +32,22 @@ class Notify extends React.Component {
   }
 
   async componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
+    navigation.setParams({
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          switch (key) {
+            case '浏览器查看':
+              open(HTML_NOTIFY())
+              break
+            default:
+              break
+          }
+        }
+      }
+    })
+
     await $.init()
     $.doClearNotify()
 
@@ -42,50 +57,20 @@ class Notify extends React.Component {
   render() {
     const { $, navigation } = this.context
     return (
-      <ScrollView style={_.container.screen}>
-        {$.notify.list.map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <Flex key={index} style={styles.container} align='start'>
-            <Avatar
-              style={styles.image}
-              navigation={navigation}
-              src={item.avatar}
-              userId={item.userId}
-            />
-            <Flex.Item style={[styles.item, !!index && styles.border, _.ml.sm]}>
-              <Text size={13}>{item.userName}</Text>
-              <Text style={_.mt.sm}>
-                {item.message}
-                <Text
-                  type='main'
-                  onPress={() => appNavigate(item.href, navigation)}
-                >
-                  {item.title}
-                </Text>
-                {item.message2}
-              </Text>
-            </Flex.Item>
-          </Flex>
-        ))}
-      </ScrollView>
+      <ListView
+        style={_.container.screen}
+        keyExtractor={(item, index) => String(index)}
+        data={$.notify}
+        renderItem={({ item, index }) => (
+          <ItemNotify
+            key={item.userId}
+            navigation={navigation}
+            index={index}
+            {...item}
+          />
+        )}
+        onHeaderRefresh={$.fetchNotify}
+      />
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
-  },
-  image: {
-    marginTop: _.md
-  },
-  item: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
-  }
-})
