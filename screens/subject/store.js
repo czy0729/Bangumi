@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-06 09:49:09
+ * @Last Modified time: 2019-08-09 10:46:02
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -235,12 +235,18 @@ export default class ScreenSubject extends store {
   }
 
   // -------------------- page --------------------
+  /**
+   * 显示管理进度信息弹窗
+   */
   showManageModel = () => {
     this.setState({
       visible: true
     })
   }
 
+  /**
+   * 隐藏管理进度信息弹窗
+   */
   closeManageModal = () => {
     this.setState({
       visible: false
@@ -268,6 +274,8 @@ export default class ScreenSubject extends store {
 
   /**
    * 书籍章节输入框改变
+   * @params {*} name 字段
+   * @params {*} text 文字
    */
   changeText = (name, text) => {
     this.setState({
@@ -276,7 +284,6 @@ export default class ScreenSubject extends store {
   }
 
   // -------------------- action --------------------
-
   /**
    * 章节菜单操作
    */

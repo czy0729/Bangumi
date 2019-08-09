@@ -1,4 +1,11 @@
+/*
+ * @Author: czy0729
+ * @Date: 2019-08-09 10:53:47
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2019-08-09 11:15:40
+ */
 import { StyleSheet } from 'react-native'
+import _ from '@styles'
 
 export default theme =>
   StyleSheet.create({
@@ -7,29 +14,30 @@ export default theme =>
     },
     wrap: {
       position: 'absolute',
-      left: 0,
+      top: 0,
       right: 0,
-      top: 0
+      left: 0
     },
     content: {
       position: 'absolute',
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: theme.fill_base
+      right: _.sm,
+      bottom: _.sm,
+      left: _.sm,
+      backgroundColor: theme.fill_base,
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
     },
     mask: {
       position: 'absolute',
       top: 0,
+      right: 0,
       bottom: 0,
       left: 0,
-      right: 0,
       backgroundColor: theme.fill_mask
     },
     title: {
       flex: 1,
       alignItems: 'center',
-      // justifyContent: 'center',
       marginTop: theme.h_spacing_lg,
       marginBottom: theme.h_spacing_lg
     },
@@ -39,7 +47,6 @@ export default theme =>
     message: {
       flex: 1,
       alignItems: 'center',
-      // justifyContent: 'center',
       marginBottom: theme.h_spacing_lg
     },
     btn: {
@@ -47,24 +54,25 @@ export default theme =>
       alignItems: 'center',
       justifyContent: 'center',
       height: theme.actionsheet_item_height,
-      borderStyle: 'solid',
-      borderTopWidth: 1,
-      borderTopColor: theme.border_color_base,
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: _.colorBorder,
       backgroundColor: 'white'
     },
+    btnText: {
+      color: '#007AFF'
+    },
     cancelBtn: {
-      marginTop: theme.v_spacing_md,
-      position: 'relative'
+      position: 'relative',
+      marginTop: theme.v_spacing_md
     },
     cancelBtnMask: {
       position: 'absolute',
       top: -theme.v_spacing_md,
-      left: 0,
       right: 0,
+      left: 0,
       height: theme.v_spacing_md,
       backgroundColor: theme.fill_grey,
-      borderStyle: 'solid',
-      borderTopWidth: 1,
+      borderTopWidth: StyleSheet.hairlineWidth,
       borderTopColor: theme.border_color_base
     },
     destructiveBtn: {

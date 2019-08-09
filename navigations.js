@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-08 09:37:11
+ * @Last Modified time: 2019-08-09 11:25:05
  */
 export default {
-  initialRouteName: 'Notify', // HomeTab
+  initialRouteName: 'HomeTab', // HomeTab
   initialRouteParams: {
     //   subjectId: 100444 // 238923 100444 204135
     //   topicId: 'group/350677' // ep/768491

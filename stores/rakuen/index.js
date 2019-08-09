@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-08 12:20:16
+ * @Last Modified time: 2019-08-08 20:45:09
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -431,7 +431,7 @@ class Rakuen extends store {
    * @param {*} topicId 帖子Id
    * @param {Int} replies 回复数
    */
-  updateTopicReaded = (topicId, replies) => {
+  updateTopicReaded = (topicId, replies = 0) => {
     const readed = this.readed(topicId)
     const key = 'readed'
     const time = getTimestamp()

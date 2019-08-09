@@ -60,7 +60,7 @@ class ActionSheetAndroid extends React.PureComponent {
                   style={[
                     destructiveButtonIndex === index
                       ? styles.destructiveBtn
-                      : undefined
+                      : styles.btnText
                   ]}
                 >
                   {item}

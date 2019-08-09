@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-06 09:51:09
+ * @Last Modified time: 2019-08-09 10:51:53
  */
-import { Toast, ActionSheet } from '@ant-design/react-native'
-// import ActionSheet from '@components/@/ant-design/action-sheet'
+import { Toast } from '@ant-design/react-native'
+import ActionSheet from '@components/@/ant-design/action-sheet'
 
 /**
  * 轻提示
