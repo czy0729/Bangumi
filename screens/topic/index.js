@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 15:55:01
+ * @Last Modified time: 2019-08-10 22:14:04
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -88,6 +88,7 @@ class Topic extends React.Component {
           onScroll={onScroll}
           onHeaderRefresh={() => $.fetchTopic(true)}
           onFooterRefresh={$.fetchTopic}
+          onEndReachedThreshold={0.5}
           {...withTransitionHeader.listViewProps}
         />
         {$.isWebLogin && (

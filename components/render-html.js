@@ -4,10 +4,16 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-03 14:45:49
+ * @Last Modified time: 2019-08-10 22:48:17
  */
 import React from 'react'
-import { StyleSheet, View, Image as RNImage, Text } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Image as RNImage,
+  Text as RNText
+} from 'react-native'
+import { ActivityIndicator } from '@ant-design/react-native'
 import HTML from 'react-native-render-html'
 import { rakuenStore } from '@stores'
 import { open } from '@utils'
@@ -16,6 +22,9 @@ import _ from '@styles'
 import { bgm } from './bgm'
 import Flex from './flex'
 import Image from './image'
+import Touchable from './touchable'
+import Iconfont from './iconfont'
+import Text from './text'
 
 // 一些超展开内容文本样式的标记
 const spanMark = {
@@ -34,11 +43,8 @@ export default class RenderHtml extends React.Component {
       color: _.colorTitle
     },
     imagesMaxWidth: _.window.width - 2 * _.wind,
-    html: ''
-  }
-
-  state = {
-    loaded: false
+    html: '',
+    autoShowImage: false
   }
 
   /**
@@ -142,19 +148,24 @@ export default class RenderHtml extends React.Component {
           }
 
           return (
-            <Text key={passProps.key} allowFontScaling={false} selectable>
+            <RNText key={passProps.key} allowFontScaling={false} selectable>
               {!!text && (
-                <Text style={baseFontStyle} allowFontScaling={false} selectable>
+                <RNText
+                  style={baseFontStyle}
+                  allowFontScaling={false}
+                  selectable
+                >
                   {text}
-                </Text>
+                </RNText>
               )}
               {_bgmImagesTemp}
               <RNImage {...props} />{' '}
-            </Text>
+            </RNText>
           )
         }
 
         // 普通图片
+        const { autoShowImage } = this.props
         props.src = src
         props.style = {
           marginTop: 4
@@ -162,7 +173,7 @@ export default class RenderHtml extends React.Component {
         props.autoSize = imagesMaxWidth
         props.placeholder = false
         props.imageViewer = true
-        return this.renderImage(props)
+        return <ToggleImage {...props} show={autoShowImage} />
       },
       span: ({ style = '' }, children, convertedCSSStyles, passProps) => {
         // @todo 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
@@ -186,14 +197,14 @@ export default class RenderHtml extends React.Component {
               passProps.rawChildren[0].parent.children[0].data) ||
             ''
           return (
-            <Text
+            <RNText
               key={passProps.key}
               style={[passProps.baseFontStyle, styles.lineThrought]}
               allowFontScaling={false}
               selectable
             >
               {text}
-            </Text>
+            </RNText>
           )
         }
 
@@ -202,14 +213,14 @@ export default class RenderHtml extends React.Component {
           const text =
             (passProps.rawChildren[0] && passProps.rawChildren[0].data) || ''
           return (
-            <Text
+            <RNText
               key={passProps.key}
               style={[passProps.baseFontStyle, styles.hidden]}
               allowFontScaling={false}
               selectable
             >
               {text}
-            </Text>
+            </RNText>
           )
         }
 
@@ -226,12 +237,6 @@ export default class RenderHtml extends React.Component {
     }
   })
 
-  onLoadEnd = () => {
-    this.setState({
-      loaded: true
-    })
-  }
-
   onLinkPress = (evt, href) => {
     const { onLinkPress } = this.props
     if (onLinkPress) {
@@ -239,23 +244,6 @@ export default class RenderHtml extends React.Component {
     } else {
       open(href)
     }
-  }
-
-  renderImage({ key, ...otherProps } = {}) {
-    const { loaded } = this.state
-    return (
-      <View key={key}>
-        <Image {...otherProps} onLoadEnd={this.onLoadEnd} />
-        {!loaded && (
-          <Flex style={styles.loadingWrap} justify='center'>
-            <RNImage
-              style={styles.loading}
-              source={require('@assets/images/icon/loading.gif')}
-            />
-          </Flex>
-        )}
-      </View>
-    )
   }
 
   render() {
@@ -308,14 +296,14 @@ class MaskText extends React.Component {
     const { style, children } = this.props
     const { show } = this.state
     return (
-      <Text
+      <RNText
         style={[style, show ? styles.blockTextShow : styles.blockText]}
         allowFontScaling={false}
         selectable
         onPress={this.toggle}
       >
         {children}
-      </Text>
+      </RNText>
     )
   }
 }
@@ -335,20 +323,71 @@ class QuoteText extends React.Component {
     const { show } = this.state
     if (!show) {
       return (
-        <Text
+        <RNText
           style={styles.quoteTextPlaceholder}
           allowFontScaling={false}
           selectable
           onPress={this.show}
         >
           ...
-        </Text>
+        </RNText>
       )
     }
     return (
-      <Text style={styles.quoteText} allowFontScaling={false} selectable>
+      <RNText style={styles.quoteText} allowFontScaling={false} selectable>
         {children}
-      </Text>
+      </RNText>
+    )
+  }
+}
+
+class ToggleImage extends React.Component {
+  state = {
+    show: this.props.show || false,
+    loaded: false
+  }
+
+  toggleShow = () => {
+    const { show } = this.state
+    this.setState({
+      show: !show
+    })
+  }
+
+  onLoadEnd = () =>
+    this.setState({
+      loaded: true
+    })
+
+  render() {
+    const { show, loaded } = this.state
+    if (!show) {
+      return (
+        <Touchable onPress={this.toggleShow}>
+          <Flex style={styles.imagePlaceholder} justify='center'>
+            <Text size={12} type='sub'>
+              点击显示图片
+            </Text>
+          </Flex>
+        </Touchable>
+      )
+    }
+    return (
+      <View>
+        {!loaded && (
+          <Flex style={styles.loadingWrap} justify='center'>
+            <ActivityIndicator size='small' color={_.colorIcon} />
+          </Flex>
+        )}
+        <Image {...this.props} onLoadEnd={this.onLoadEnd} />
+        {!this.props.show && (
+          <Touchable style={styles.closeImageWrap} onPress={this.toggleShow}>
+            <Flex style={styles.closeImage} justify='center'>
+              <Iconfont size={12} name='close' color={_.colorPlain} />
+            </Flex>
+          </Touchable>
+        )}
+      </View>
     )
   }
 }
@@ -388,9 +427,31 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: _.colorBg
   },
-  loadingWrap: StyleSheet.absoluteFill,
+  loadingWrap: {
+    width: '100%',
+    height: 120
+  },
   loading: {
     width: 32,
     height: 32
+  },
+  imagePlaceholder: {
+    width: '100%',
+    height: 120,
+    borderWidth: 1,
+    borderColor: _.colorBorder
+  },
+  closeImageWrap: {
+    position: 'absolute',
+    zIndex: 1,
+    top: _.sm,
+    right: _.sm
+  },
+  closeImage: {
+    width: 32,
+    height: 32,
+    borderRadius: 32,
+    backgroundColor: 'rgba(0, 0, 0, 0.12)',
+    overflow: 'hidden'
   }
 })

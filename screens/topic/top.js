@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-03 15:03:14
+ * @Last Modified time: 2019-08-10 22:02:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -121,10 +121,7 @@ const Top = (props, { $, navigation }) => {
             <Flex.Item style={_.ml.sm}>
               <Text numberOfLines={2} selectable>
                 {uname}
-                <Text type='sub'>
-                  {' '}
-                  @{uid}
-                </Text>
+                <Text type='sub'> @{uid}</Text>
               </Text>
               <Text style={_.mt.xs} type='sub' size={12} selectable>
                 {userSign || '-'}
@@ -137,6 +134,7 @@ const Top = (props, { $, navigation }) => {
             <RenderHtml
               style={_.mt.lg}
               html={html}
+              autoShowImage
               onLinkPress={href => appNavigate(href, navigation)}
             />
           )}
