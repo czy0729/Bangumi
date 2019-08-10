@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-09 10:46:02
+ * @Last Modified time: 2019-08-10 20:45:20
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -14,7 +14,7 @@ import {
   userStore,
   collectionStore
 } from '@stores'
-import { open } from '@utils'
+import { open, getTimestamp } from '@utils'
 import { xhrCustom, queue } from '@utils/fetch'
 import { appNavigate, getBangumiUrl } from '@utils/app'
 import store from '@utils/store'
@@ -38,9 +38,7 @@ export default class ScreenSubject extends store {
 
     // 播放源
     epsData: {
-      bilibili: {},
-      qq: {},
-      iqiyi: {}
+      _loaded: false
     },
     _loaded: true
   })
@@ -103,6 +101,9 @@ export default class ScreenSubject extends store {
   }
 
   // -------------------- fetch --------------------
+  /**
+   * 条目留言
+   */
   fetchSubjectComments = (refresh, reverse) => {
     const { subjectId } = this.params
     return subjectStore.fetchSubjectComments({ subjectId }, refresh, reverse)
@@ -121,25 +122,15 @@ export default class ScreenSubject extends store {
             parseInt(subjectId) / 1000
           )}/${subjectId}.json`
         })
+
         const epsData = {
-          bilibili: {},
-          qq: {},
-          iqiyi: {}
+          _loaded: getTimestamp()
         }
+        sites.forEach(item => (epsData[item] = {}))
         JSON.parse(_response).eps.forEach((item, index) => {
           item.sites.forEach(i => {
-            switch (i.site) {
-              case 'bilibili':
-                epsData.bilibili[index] = i.url
-                break
-              case 'qq':
-                epsData.qq[index] = i.url
-                break
-              case 'iqiyi':
-                epsData.iqiyi[index] = i.url
-                break
-              default:
-                break
+            if (sites.includes(i.site)) {
+              epsData[i.site][index] = i.url
             }
           })
         })
@@ -154,56 +145,85 @@ export default class ScreenSubject extends store {
   }
 
   // -------------------- get --------------------
+  /**
+   * 命名空间
+   */
   @computed get namespace() {
     const { subjectId } = this.params
     return `${namespace}|${subjectId}`
   }
 
+  /**
+   * 是否登录(token)
+   */
   @computed get isLogin() {
     return userStore.isLogin
   }
 
+  /**
+   * 条目信息
+   */
   @computed get subject() {
     const { subjectId } = this.params
     return subjectStore.subject(subjectId)
   }
 
+  /**
+   * 柠萌瞬间ep数据
+   */
   @computed get ningMoeDetail() {
     const { subjectId } = this.params
     return discoveryStore.ningMoeDetail(subjectId)
   }
 
+  /**
+   * 条目信息(来自网页)
+   */
   @computed get subjectFormHTML() {
     const { subjectId } = this.params
     return subjectStore.subjectFormHTML(subjectId)
   }
 
+  /**
+   * 章节信息
+   */
   @computed get subjectEp() {
     const { subjectId } = this.params
     return subjectStore.subjectEp(subjectId)
   }
 
+  /**
+   * 条目留言
+   */
   @computed get subjectComments() {
     const { subjectId } = this.params
     return subjectStore.subjectComments(subjectId)
   }
 
+  /**
+   * 条目收藏信息
+   */
   @computed get collection() {
     const { subjectId } = this.params
     return collectionStore.collection(subjectId)
   }
 
+  /**
+   * 用户章节记录
+   */
   @computed get userProgress() {
     const { subjectId } = this.params
     return userStore.userProgress(subjectId)
   }
 
+  /**
+   * 条目类型中文
+   */
   @computed get type() {
     const { _loaded, type: _type } = this.subject
     if (!_loaded) {
       return ''
     }
-
     return MODEL_SUBJECT_TYPE.getTitle(_type)
   }
 
@@ -216,6 +236,9 @@ export default class ScreenSubject extends store {
     )
   }
 
+  /**
+   * 章节在线播放源
+   */
   @computed get onlinePlayActionSheetData() {
     const data = []
     if (this.ningMoeDetail.id) {
@@ -223,7 +246,6 @@ export default class ScreenSubject extends store {
     }
 
     const { epsData } = this.state
-
     sites.forEach(item => {
       if (epsData[item] && Object.keys(epsData[item]).length) {
         data.push(item)
@@ -232,6 +254,20 @@ export default class ScreenSubject extends store {
     data.push('取消')
 
     return data
+  }
+
+  /**
+   * 条目动作
+   */
+  @computed get action() {
+    switch (this.type) {
+      case '音乐':
+        return '听'
+      case '游戏':
+        return '玩'
+      default:
+        return '看'
+    }
   }
 
   // -------------------- page --------------------

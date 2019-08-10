@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 01:14:24
+ * @Last Modified time: 2019-08-10 20:58:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,11 +11,10 @@ import { observer } from 'mobx-react'
 import { Flex, Button, Icon, Text, Touchable } from '@components'
 import { SectionTitle } from '@screens/_'
 import { getType, getRating } from '@utils/app'
-import _, { colorPlain, shadow } from '@styles'
+import _ from '@styles'
 
-const Box = ({ style }, { $, navigation }) => {
+function Box({ style }, { $, navigation }) {
   const { collection = {} } = $.subject
-  // const { typeNum = '' } = $.subjectFormHTML
   const { status = { name: '未收藏' }, rating = 0 } = $.collection
   const leftStyle = []
   const rightStyle = []
@@ -31,7 +30,7 @@ const Box = ({ style }, { $, navigation }) => {
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle>收藏盒</SectionTitle>
-      <View style={[shadow, _.mt.md]}>
+      <View style={[_.shadow, _.mt.md]}>
         <Touchable onPress={onPress}>
           <Flex justify='center'>
             <Flex.Item>
@@ -57,7 +56,7 @@ const Box = ({ style }, { $, navigation }) => {
                         key={item}
                         name={type}
                         size={16}
-                        color={colorPlain}
+                        color={_.colorPlain}
                       />
                     )
                   })}
@@ -68,9 +67,9 @@ const Box = ({ style }, { $, navigation }) => {
         </Touchable>
       </View>
       <Text style={_.mt.md} size={12} type='sub'>
-        {collection.wish || '-'}人想看 / {collection.collect || '-'}人看过 /{' '}
-        {collection.doing || '-'}人在看 / {collection.on_hold || '-'}人搁置 /{' '}
-        {collection.dropped || '-'}人抛弃
+        {collection.wish || '-'}人想{$.action} / {collection.collect || '-'}人
+        {$.action}过 / {collection.doing || '-'}人在{$.action} /{' '}
+        {collection.on_hold || '-'}人搁置 / {collection.dropped || '-'}人抛弃
       </Text>
     </View>
   )
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     minHeight: 120
   },
   touchable: {
-    ...shadow
+    ..._.shadow
   },
   left: {
     borderTopRightRadius: 0,

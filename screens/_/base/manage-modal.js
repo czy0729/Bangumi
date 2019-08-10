@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-27 05:00:54
+ * @Last Modified time: 2019-08-10 21:05:32
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -33,6 +33,7 @@ class ManageModal extends React.Component {
     subjectId: 0,
     title: '',
     desc: '',
+    action: '看',
     onSubmit: Function.prototype,
     onClose: Function.prototype
   }
@@ -208,7 +209,7 @@ class ManageModal extends React.Component {
   }
 
   render() {
-    const { visible, title, desc, onClose } = this.props
+    const { visible, title, desc, action, onClose } = this.props
     const {
       focus,
       loading,
@@ -262,6 +263,7 @@ class ManageModal extends React.Component {
               <StatusBtnGroup
                 style={_.mt.md}
                 value={status}
+                action={action}
                 onSelect={this.changeStatus}
               />
               <Flex style={_.mt.md}>
@@ -323,6 +325,6 @@ const styles = StyleSheet.create({
     borderColor: _.colorPrimaryBorder
   },
   btnEye: {
-    width: 56
+    width: 70
   }
 })
