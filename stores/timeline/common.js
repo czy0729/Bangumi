@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 11:12:03
+ * @Last Modified time: 2019-08-11 00:08:37
  */
 import { trim, getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
@@ -194,9 +194,9 @@ export async function fetchTimeline(
         const time = node ? node[0].text[0] : ''
 
         // 评分
-        node = findTreeNode(children, 'div > span|class~sstars')
+        node = findTreeNode(children, 'div > span|class=starstop-s > span')
         const star = node
-          ? node[0].attrs.class.replace(/sstars| starsinfo/g, '')
+          ? node[0].attrs.class.replace(/starlight stars/g, '')
           : ''
 
         // 评论 | 小组描述

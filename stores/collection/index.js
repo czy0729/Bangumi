@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 17:15:00
+ * @Last Modified time: 2019-08-11 00:01:08
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -230,9 +230,9 @@ class Collection extends store {
         const comments = node ? node[0].text[0] : ''
 
         // 评分
-        node = findTreeNode(children, 'div > p > span|class~sstars')
+        node = findTreeNode(children, 'div > p > span|class=starstop-s > span')
         const score = node
-          ? node[0].attrs.class.replace(/sstars| starsinfo/g, '')
+          ? node[0].attrs.class.replace(/starlight stars/g, '')
           : ''
 
         node = findTreeNode(children, 'div > p > span|class=tip_j')

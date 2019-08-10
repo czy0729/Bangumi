@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 22:14:04
+ * @Last Modified time: 2019-08-10 23:00:50
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,6 +14,7 @@ import FixedTextarea from '@components/fixed-textarea'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { HOST } from '@constants'
 import _ from '@styles'
 import Top from './top'
 import Item from './item'
@@ -41,7 +42,8 @@ class Topic extends React.Component {
     const { title } = $.topic
     withTransitionHeader.setTitle(navigation, title)
 
-    const url = navigation.getParam('_url')
+    const { topicId } = $.params
+    const url = navigation.getParam('_url') || `${HOST}/rakuen/topic/${topicId}`
     navigation.setParams({
       popover: {
         data: ['浏览器查看'],
@@ -57,7 +59,7 @@ class Topic extends React.Component {
       }
     })
 
-    hm(`rakuen/topic/${$.params.topicId}`, `话题 - ${title}`)
+    hm(`rakuen/topic/${topicId}`, `话题 - ${title}`)
   }
 
   showFixedTextare = () => {

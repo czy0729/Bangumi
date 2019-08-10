@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-21 22:05:38
+ * @Last Modified time: 2019-08-11 00:06:59
  */
 import { observable, computed } from 'mobx'
 import { HOST, LIST_EMPTY, LIST_COMMENTS_LIMIT } from '@constants'
@@ -476,7 +476,7 @@ class Subject extends store {
         const userName = item.match(/"class="l">(.+?)<\/a><smallclass="grey"/)
         const avatar = item.match(/background-image:url\('(.+?)'\)"><\/span>/)
         const time = item.match(/<smallclass="grey">@(.+?)<\/small>/)
-        const star = item.match(/sstars(.+?)starsinfo/)
+        const star = item.match(/starlightstars(.+?)"/)
         const comment = item.match(/<p>(.+?)<\/p>/)
         comments.push({
           id: `${page}|${index}`,

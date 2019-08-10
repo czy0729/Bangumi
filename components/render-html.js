@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 22:48:17
+ * @Last Modified time: 2019-08-10 23:29:32
  */
 import React from 'react'
 import {
@@ -179,8 +179,28 @@ export default class RenderHtml extends React.Component {
         // @todo 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
         // 防剧透字
         if (style.includes(spanMark.mask)) {
-          const text =
-            (passProps.rawChildren[0] && passProps.rawChildren[0].data) || ''
+          let text = ''
+          const target = passProps.rawChildren[0]
+          if (target) {
+            // 当mask里面有bgm标签的时候, 结构不一样
+            // @issue 暂时只处理了mask里面有一个bgm的情况
+            if (target.attribs.alt) {
+              if (target.parent && target.parent.children[0]) {
+                const currentTarget = target.parent.children[0]
+                text = currentTarget.data || ''
+
+                if (
+                  currentTarget.next &&
+                  currentTarget.next.next &&
+                  currentTarget.next.next.data
+                ) {
+                  text += currentTarget.next.next.data
+                }
+              }
+            } else {
+              text = target.data || ''
+            }
+          }
           return (
             <MaskText key={passProps.key} style={passProps.baseFontStyle}>
               {text}
