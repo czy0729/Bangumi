@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-08 10:26:54
+ * @Last Modified time: 2019-08-10 19:13:30
  */
 import { Dimensions, StyleSheet } from 'react-native'
 // import Constants from 'expo-constants'
@@ -26,13 +26,13 @@ export const tabsHeaderHeight = headerHeight + tabsHeight // 带标签栏的头�
 export const tabBarHeight = 50 // 标签栏高度
 
 // -------------------- 统一布局单位 --------------------
-export const space = 20 // 上下
-export const wind = 16 // 两翼
-export const bottom = tabBarHeight + space // 底部留空
 export const xs = 4
 export const sm = 8
 export const md = 16
 export const lg = 32
+export const space = 20 // 上下
+export const wind = 16 // 两翼
+export const bottom = tabBarHeight + lg // 底部留空
 
 // -------------------- 主题色 --------------------
 export const colorPlainRaw = [255, 255, 255]
@@ -57,7 +57,7 @@ export const colorBg = 'rgb(244, 244, 244)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
 export const colorShadow = 'rgb(0, 0, 0)'
-export const colorMask = 'rgba(0, 0, 0, 0.4)'
+export const colorMask = 'rgba(0, 0, 0, 0.64)'
 
 // -------------------- 文字 --------------------
 export const colorTitleRaw = [12, 12, 12]

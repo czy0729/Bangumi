@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-19 21:30:37
+ * @Last Modified time: 2019-08-10 17:44:02
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-// import { LinearGradient } from 'expo-linear-gradient'
 import { LinearGradient } from 'expo'
 import { Image, Text } from '@components'
 import { SectionTitle, IconHeader } from '@screens/_'
-import { findBangumiCn } from '@utils/app'
+import { findBangumiCn, getCoverLarge, getCoverMedium } from '@utils/app'
 import { HOST, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
@@ -21,14 +20,25 @@ const imageBigWidth = _.window.width - _.wind * 2
 const imageBigHeight = imageBigWidth * 1.28
 const imageWidth = _.window.width * 0.32
 const imageHeight = imageWidth * 1.28
+const linearColorLg = [
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0.8)'
+]
+const linearColorSm = [
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0.8)'
+]
 
-const List = ({ style, type }, { $, navigation }) => {
+function List({ style, type }, { $, navigation }) {
   if (!$.home[type].length) {
     return null
   }
+
   const data = $.home[type].sort(() => 0.5 - Math.random())
   const title = MODEL_SUBJECT_TYPE.getTitle(type)
-
   return (
     <>
       <SectionTitle
@@ -49,8 +59,7 @@ const List = ({ style, type }, { $, navigation }) => {
         {title}
       </SectionTitle>
       {[0].map(item => {
-        const src =
-          data[item].cover.replace(/\/c\/|\/g\//, '/l/') || IMG_DEFAULT
+        const src = getCoverLarge(data[item].cover) || IMG_DEFAULT
         return (
           <View key={item} style={styles.big}>
             <Image
@@ -67,12 +76,7 @@ const List = ({ style, type }, { $, navigation }) => {
               }
             />
             <LinearGradient
-              colors={[
-                'rgba(0, 0, 0, 0)',
-                'rgba(0, 0, 0, 0)',
-                'rgba(0, 0, 0, 0)',
-                'rgba(0, 0, 0, 0.8)'
-              ]}
+              colors={linearColorLg}
               pointerEvents='none'
               style={StyleSheet.absoluteFill}
             />
@@ -95,7 +99,7 @@ const List = ({ style, type }, { $, navigation }) => {
         {data
           .filter((item, index) => index > 0)
           .map(item => {
-            const src = item.cover.replace(/\/c\/|\/g\//, '/l/') || IMG_DEFAULT
+            const src = getCoverMedium(item.cover) || IMG_DEFAULT
             return (
               <View key={item.subjectId} style={styles.image}>
                 <Image
@@ -112,11 +116,7 @@ const List = ({ style, type }, { $, navigation }) => {
                   }
                 />
                 <LinearGradient
-                  colors={[
-                    'rgba(0, 0, 0, 0)',
-                    'rgba(0, 0, 0, 0)',
-                    'rgba(0, 0, 0, 0.8)'
-                  ]}
+                  colors={linearColorSm}
                   pointerEvents='none'
                   style={StyleSheet.absoluteFill}
                 />
@@ -131,7 +131,6 @@ const List = ({ style, type }, { $, navigation }) => {
                   </Text>
                   <Text
                     style={[styles.title, _.mt.xs]}
-                    size={14}
                     type='plain'
                     numberOfLines={1}
                     bold
@@ -181,10 +180,10 @@ const styles = StyleSheet.create({
     left: _.wind
   },
   info: {
-    opacity: 0.8
+    opacity: 0.88
   },
   title: {
-    opacity: 0.88
+    opacity: 0.92
   },
   image: {
     marginRight: _.wind,

@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-07-28 18:16:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 18:38:05
+ * @Last Modified time: 2019-08-10 17:43:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Image, Touchable } from '@components'
 import { observer } from '@utils/decorators'
+import { getCoverMedium } from '@utils/app'
 import _ from '@styles'
+import { sectionWidth, sectionHeight } from './store'
 
-const width = (_.window.width - _.wind * 3) / 2
-const height = width
-
-const Section = (props, { $, navigation }) => {
+function Section2(props, { $, navigation }) {
   let randomCover = ''
   if ($.random._loaded) {
     randomCover = $.random.list.length && $.random.list[0].cover
@@ -25,20 +24,20 @@ const Section = (props, { $, navigation }) => {
         <View style={styles.image}>
           {!!randomCover && (
             <Image
-              src={randomCover}
-              size={width}
-              height={height}
+              src={getCoverMedium(randomCover)}
+              size={sectionWidth}
+              height={sectionHeight}
               radius={_.radiusSm}
+              quality={false}
             />
           )}
           <Flex style={styles.desc} justify='center'>
-            <Text size={26} type='plain' bold>
+            <Text size={20} type='plain' bold>
               随便看看
             </Text>
           </Flex>
         </View>
       </Touchable>
-
       <Touchable onPress={() => navigation.push('Anitama')}>
         <Flex
           justify='center'
@@ -51,8 +50,9 @@ const Section = (props, { $, navigation }) => {
         >
           <Image
             src={require('@assets/images/anitama.jpg')}
-            size={80}
+            size={64}
             placeholder={false}
+            quality={false}
           />
         </Flex>
       </Touchable>
@@ -60,12 +60,12 @@ const Section = (props, { $, navigation }) => {
   )
 }
 
-Section.contextTypes = {
+Section2.contextTypes = {
   $: PropTypes.object,
   navigation: PropTypes.object
 }
 
-export default observer(Section)
+export default observer(Section2)
 
 const styles = StyleSheet.create({
   section: {
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorMask
   },
   image: {
-    width,
-    height,
+    width: sectionWidth,
+    height: sectionHeight,
     marginRight: _.wind,
     borderRadius: _.radiusSm,
     overflow: 'hidden'

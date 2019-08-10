@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-06-23 21:34:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 18:38:05
+ * @Last Modified time: 2019-08-10 17:43:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Image, Touchable } from '@components'
 import { observer } from '@utils/decorators'
+import { getCoverMedium } from '@utils/app'
 import _ from '@styles'
+import { sectionWidth, sectionHeight } from './store'
 
-const width = (_.window.width - _.wind * 3) / 2
-const height = width
-
-const Section = (props, { $, navigation }) => {
+function Section(props, { $, navigation }) {
   let rankCover = ''
   if ($.rank._loaded) {
     rankCover = $.rank.list.length && $.rank.list[0].cover
@@ -36,14 +35,15 @@ const Section = (props, { $, navigation }) => {
         <View style={styles.image}>
           {!!rankCover && (
             <Image
-              src={rankCover.replace('/s/', '/l/')}
-              size={width}
-              height={height}
+              src={getCoverMedium(rankCover)}
+              size={sectionWidth}
+              height={sectionHeight}
               radius={_.radiusSm}
+              quality={false}
             />
           )}
           <Flex style={styles.desc} justify='center'>
-            <Text size={26} type='plain' bold>
+            <Text size={20} type='plain' bold>
               排行榜
             </Text>
           </Flex>
@@ -53,14 +53,15 @@ const Section = (props, { $, navigation }) => {
         <View style={styles.image}>
           {!!calendarCover && (
             <Image
-              src={calendarCover}
-              size={width}
-              height={height}
+              src={getCoverMedium(calendarCover)}
+              size={sectionWidth}
+              height={sectionHeight}
               radius={_.radiusSm}
+              quality={false}
             />
           )}
           <Flex style={styles.desc} justify='center'>
-            <Text size={26} type='plain' bold>
+            <Text size={20} type='plain' bold>
               每日放送
             </Text>
           </Flex>
@@ -88,8 +89,8 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorMask
   },
   image: {
-    width,
-    height,
+    width: sectionWidth,
+    height: sectionHeight,
     marginRight: _.wind,
     borderRadius: _.radiusSm,
     overflow: 'hidden'

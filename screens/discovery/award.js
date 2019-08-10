@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 22:07:03
+ * @Last Modified time: 2019-08-09 11:43:28
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,33 +11,35 @@ import { Touchable, Image } from '@components'
 import { HOST } from '@constants'
 import _ from '@styles'
 
-const Award = (props, { navigation }) => (
-  <Touchable
-    style={styles.container}
-    onPress={() =>
-      navigation.push('Award', {
-        uri: `${HOST}/award/2018`
-      })
-    }
-  >
-    <View style={styles.image}>
+function Award(props, { navigation }) {
+  return (
+    <Touchable
+      style={styles.container}
+      onPress={() =>
+        navigation.push('Award', {
+          uri: `${HOST}/award/2018`
+        })
+      }
+    >
+      <View style={styles.image}>
+        <Image
+          style={styles.imageHero}
+          src={require('@assets/images/hero.png')}
+          size={160}
+          placeholder={false}
+        />
+      </View>
       <Image
-        style={styles.imageHero}
-        src={require('@assets/images/hero.png')}
-        size={160}
+        style={styles.imageTitle}
+        src={require('@assets/images/hero_title.png')}
+        size={224}
+        height={160}
+        resizeMode='contain'
         placeholder={false}
       />
-    </View>
-    <Image
-      style={styles.imageTitle}
-      src={require('@assets/images/hero_title.png')}
-      size={224}
-      height={160}
-      resizeMode='contain'
-      placeholder={false}
-    />
-  </Touchable>
-)
+    </Touchable>
+  )
+}
 
 Award.contextTypes = {
   navigation: PropTypes.object

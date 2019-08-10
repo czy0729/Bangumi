@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-21 16:13:38
+ * @Last Modified time: 2019-08-10 17:41:28
  */
 import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
@@ -237,4 +237,32 @@ export function getCookie(cookies = '', name) {
     if (arr[0] == name) return decodeURIComponent(arr[1])
   }
   return ''
+}
+
+// bgm图片质量 g < s < m < c < l, 只用s, m(c), l
+/**
+ * 获取低质量bgm图片
+ * @param {*} src
+ */
+export function getCoverSmall(src = '') {
+  return src.replace(/\/g\/|\/m\/|\/c\/|\/l\//, '/s/')
+}
+
+/**
+ * 获取中质量bgm图片
+ * @param {*} src
+ */
+export function getCoverMedium(src = '', mini = false) {
+  if (mini) {
+    return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
+  }
+  return src.replace(/\/g\/|\/s\/|\/m\/|\/l\//, '/c/')
+}
+
+/**
+ * 获取高质量bgm图片
+ * @param {*} src
+ */
+export function getCoverLarge(src = '') {
+  return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
 }
