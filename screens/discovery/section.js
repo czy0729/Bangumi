@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 21:34:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 17:43:01
+ * @Last Modified time: 2019-08-11 00:36:19
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -26,7 +26,8 @@ function Section(props, { $, navigation }) {
     if (day === 0) {
       day = 7
     }
-    calendarCover = $.calendar.list.slice(day - 1)[0].items[0].images.large
+    calendarCover =
+      $.calendar.list.slice(day - 1)[0].items[0].images.large || ''
   }
 
   return (

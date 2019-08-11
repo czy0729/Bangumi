@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-08 10:03:03
+ * @Last Modified time: 2019-08-11 14:10:15
  */
 // base
 // export { default as Drawer } from './base/drawer'
@@ -22,6 +22,7 @@ export { default as SectionTitle } from './base/section-title'
 export { default as StarGroup } from './base/star-group'
 export { default as Stars } from './base/stars'
 export { default as StatusBar } from './base/status-bar'
+export { default as StatusBarEvents } from './base/status-bar-events'
 export { default as StatusBarPlaceholder } from './base/status-bar-placeholder'
 export { default as StatusBtnGroup } from './base/status-btn-group'
 export { default as Tag } from './base/tag'

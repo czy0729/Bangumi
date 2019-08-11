@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-04 15:59:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-03 11:04:44
+ * @Last Modified time: 2019-08-11 14:23:45
  */
 import React from 'react'
 import { StatusBar as RNStatusBar } from 'react-native'
@@ -12,13 +12,14 @@ const StatusBar = ({ barStyle }) => {
   let _barStyle = barStyle
   if (!_barStyle) {
     _barStyle = IOS ? 'dark-content' : 'light-content'
+    _barStyle = MI ? 'dark-content' : 'light-content'
   }
 
   // 小米的MIUI的头部在不开启沉浸模式的情况下永远都是白色
   // @issue 由于暂时安卓端不能沉浸, MIUI使用dark, 其他用light
-  if (!IOS) {
-    _barStyle = MI ? 'dark-content' : 'light-content'
-  }
+  // if (!IOS) {
+  //   _barStyle = MI ? 'dark-content' : 'light-content'
+  // }
   return <RNStatusBar animated translucent={!IOS} barStyle={_barStyle} />
 }
 

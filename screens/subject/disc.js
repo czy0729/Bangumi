@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 03:05:34
+ * @Last Modified time: 2019-08-11 04:30:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -30,7 +30,6 @@ const Disc = ({ style }, { $, navigation }) => {
                   <Text
                     key={i.href}
                     style={idx % 2 === 0 && styles.odd}
-                    size={14}
                     lineHeight={2}
                     onPress={() => appNavigate(i.href, navigation)}
                   >

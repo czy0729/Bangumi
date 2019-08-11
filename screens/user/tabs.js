@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 19:01:06
+ * @Last Modified time: 2019-08-11 04:45:41
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -41,7 +41,7 @@ const Tabs = ({ scrollY, children, ...other }, { $ }) => {
         <Text>
           {item.title}
           {!!count && (
-            <Text size={12} type='sub'>
+            <Text size={12} lineHeight={14} type='sub'>
               {' '}
               {count}
             </Text>

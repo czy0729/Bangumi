@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 19:12:34
+ * @Last Modified time: 2019-08-11 14:12:40
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Loading, ListView } from '@components'
-import { IconTabBar } from '@screens/_'
+import { StatusBarEvents, IconTabBar } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
@@ -46,16 +46,19 @@ class Discovery extends React.Component {
     }
 
     return (
-      <ListView
-        style={_.container.screen}
-        contentContainerStyle={_.container.bottom}
-        keyExtractor={item => item.type}
-        data={$.state.home}
-        ListHeaderComponent={<Header />}
-        renderItem={({ item }) => <List {...item} />}
-        onHeaderRefresh={$.init}
-        onFooterRefresh={$.fetchHome}
-      />
+      <>
+        <StatusBarEvents />
+        <ListView
+          style={_.container.screen}
+          contentContainerStyle={_.container.bottom}
+          keyExtractor={item => item.type}
+          data={$.state.home}
+          ListHeaderComponent={<Header />}
+          renderItem={({ item }) => <List {...item} />}
+          onHeaderRefresh={$.init}
+          onFooterRefresh={$.fetchHome}
+        />
+      </>
     )
   }
 }

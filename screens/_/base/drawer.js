@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 21:04:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 19:51:03
+ * @Last Modified time: 2019-08-11 04:33:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -27,7 +27,7 @@ const contentOptions = {
 }
 
 const Drawer = ({ navigation, ...otherProps }) => {
-  const { avatar, nickname, id } = userStore.userInfo
+  const { avatar = {}, nickname, id } = userStore.userInfo
   return (
     <SafeAreaView
       style={_.container.flex}
@@ -45,7 +45,10 @@ const Drawer = ({ navigation, ...otherProps }) => {
           </View>
           <Text style={_.mt.sm} size={16}>
             {nickname}
-            <Text type='sub'> @{id}</Text>
+            <Text type='sub' lineHeight={16}>
+              {' '}
+              @{id}
+            </Text>
           </Text>
         </BlurView>
         <DrawerItems

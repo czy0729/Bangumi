@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-03 14:12:20
+ * @Last Modified time: 2019-08-11 04:38:50
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
@@ -106,7 +106,7 @@ class ItemTimeline extends React.Component {
     }
 
     return (
-      <Text>
+      <Text size={12}>
         {!!p1.text && (
           <Text
             type='main'

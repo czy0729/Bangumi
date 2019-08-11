@@ -3,8 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-24 11:05:57
+ * @Last Modified time: 2019-08-11 04:18:45
  */
+import { AsyncStorage, Alert } from 'react-native'
+import CacheManager from '@components/@/react-native-expo-image-cache/src/CacheManager'
+import { info } from '@utils/ui'
 import calendarStore from './calendar'
 import collectionStore from './collection'
 import discoveryStore from './discovery'
@@ -71,6 +74,53 @@ class Stores {
    */
   get(key) {
     return this[key]
+  }
+
+  /**
+   * 清除缓存
+   */
+  clearStorage() {
+    Alert.alert('提示', '确定清除缓存? 包括图片缓存和页面接口的数据缓存', [
+      {
+        text: '取消',
+        style: 'cancel'
+      },
+      {
+        text: '确定',
+        onPress: async () => {
+          await AsyncStorage.clear()
+          await CacheManager.clearCache()
+
+          // 以下为不需要清除的数据, 再次本地化
+          systemStore.setStorage('setting', undefined, 'System')
+          rakuenStore.setStorage('setting', undefined, 'Rakuen')
+          userStore.setStorage('accessToken', undefined, 'User')
+          userStore.setStorage('userInfo', undefined, 'User')
+          userStore.setStorage('userCookie', undefined, 'User')
+
+          info('已清除')
+        }
+      }
+    ])
+  }
+
+  /**
+   * 登出
+   */
+  logout(navigation) {
+    Alert.alert('提示', '确定退出登陆?', [
+      {
+        text: '取消',
+        style: 'cancel'
+      },
+      {
+        text: '确定',
+        onPress: async () => {
+          await userStore.logout()
+          navigation.popToTop()
+        }
+      }
+    ])
   }
 }
 

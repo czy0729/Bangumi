@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-03 13:58:42
+ * @Last Modified time: 2019-08-11 04:31:21
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -12,13 +12,18 @@ import { Flex, Image, Text } from '@components'
 import _ from '@styles'
 
 const Head = ({ style }, { $ }) => {
-  const { avatar, nickname, id } = $.usersInfo
+  const { avatar = {}, nickname, id } = $.usersInfo
   return (
-    <Flex style={style} justify='center' direction='column'>
+    <Flex
+      style={style}
+      justify='center'
+      direction='column'
+      pointerEvents='none'
+    >
       <Image style={[styles.avatar, _.mt.md]} size={80} src={avatar.large} />
       <Text style={_.mt.md} type='plain' size={16}>
         {nickname}
-        <Text style={styles.id} type='plain' size={14} lineHeight={22}>
+        <Text style={styles.id} type='plain' lineHeight={16}>
           {' '}
           {id ? `@${id}` : ''}
         </Text>

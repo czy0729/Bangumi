@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 22:14:04
+ * @Last Modified time: 2019-08-11 04:30:05
  */
 import React from 'react'
 import {
@@ -196,7 +196,7 @@ export default class ListView extends React.Component {
             direction='column'
           >
             <ActivityIndicator size='small' />
-            <Text style={_.mt.sm} type='sub' size={14} align='center'>
+            <Text style={_.mt.sm} type='sub' align='center'>
               {footerRefreshingText}
             </Text>
           </Flex>
@@ -211,7 +211,7 @@ export default class ListView extends React.Component {
           >
             <Mesume size={80} />
             {systemStore.setting.speech && (
-              <Text style={_.mt.sm} type='sub' size={14} align='center'>
+              <Text style={_.mt.sm} type='sub' align='center'>
                 {randomSpeech()}
               </Text>
             )}

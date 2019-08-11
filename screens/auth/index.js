@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-23 10:27:53
+ * @Last Modified time: 2019-08-11 14:25:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
 import { Text, Button } from '@components'
-import { IconTabsHeader, IconTabBar } from '@screens/_'
+import { StatusBarEvents, IconTabsHeader, IconTabBar } from '@screens/_'
 import { hm } from '@utils/fetch'
 import { userStore } from '@stores'
 import _ from '@styles'
@@ -33,6 +33,7 @@ class Auth extends React.Component {
     const { navigation } = this.props
     return (
       <View style={[_.container.column, { backgroundColor: _.colorBg }]}>
+        <StatusBarEvents />
         <IconTabsHeader
           style={_.header.left}
           name='setting'

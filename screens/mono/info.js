@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 00:34:38
+ * @Last Modified time: 2019-08-11 13:05:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,7 +16,8 @@ import {
   RenderHtml,
   Divider,
   Touchable,
-  Iconfont
+  Iconfont,
+  Loading
 } from '@components'
 import { SectionTitle } from '@screens/_'
 import { IOS } from '@constants'
@@ -27,8 +28,8 @@ import Jobs from './jobs'
 
 const maxSize = _.window.width - _.wind * 2
 
-const Info = (props, { $, navigation }) => {
-  const { name, nameCn, cover, info, detail } = $.mono
+function Info(props, { $, navigation }) {
+  const { name, nameCn, cover, info, detail, _loaded } = $.mono
   const { monoId, _name, _image } = $.params
   return (
     <>
@@ -42,6 +43,11 @@ const Info = (props, { $, navigation }) => {
             {nameCn || _name}
           </Text>
         </Flex>
+        {!_loaded && (
+          <Flex style={styles.loading} justify='center'>
+            <Loading />
+          </Flex>
+        )}
         {!!cover && (
           <Flex style={_.mt.md} justify='center'>
             <Image
@@ -94,7 +100,10 @@ export default observer(Info)
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: _.window.height * 0.64
+    minHeight: _.window.height * 0.56
+  },
+  loading: {
+    minHeight: _.window.height * 0.48
   },
   info: {
     paddingHorizontal: _.wind

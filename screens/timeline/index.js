@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 01:14:37
+ * @Last Modified time: 2019-08-11 14:13:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { IconTabsHeader, IconTabBar } from '@screens/_'
+import { StatusBarEvents, IconTabsHeader, IconTabBar } from '@screens/_'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HTML_NEW_TIMELINE } from '@constants/html'
@@ -71,6 +71,7 @@ class Timeline extends React.Component {
 
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
+        <StatusBarEvents />
         <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
           {tabs.map(item => (
             <List key={item.title} title={item.title} scope={scope} />

@@ -2,13 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 20:19:18
+ * @Last Modified time: 2019-08-11 14:12:09
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { IconTabBar, IconTabsHeader, IconNotify, ManageModal } from '@screens/_'
+import {
+  StatusBarEvents,
+  IconTabBar,
+  IconTabsHeader,
+  IconNotify,
+  ManageModal
+} from '@screens/_'
 import { userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -82,6 +88,7 @@ class Home extends React.Component {
     const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
+        <StatusBarEvents />
         <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
           {tabs.map(item => (
             <List key={item.title} title={item.title} />

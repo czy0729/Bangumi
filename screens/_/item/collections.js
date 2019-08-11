@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 14:00:05
+ * @Last Modified time: 2019-08-11 04:27:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -75,7 +75,7 @@ const ItemCollections = ({
             <Text numberOfLines={2}>
               {HTMLDecode(nameCn)}
               {hasName && name !== nameCn && (
-                <Text type='sub' size={12}>
+                <Text type='sub' size={12} lineHeight={14}>
                   {' '}
                   {HTMLDecode(name)}
                 </Text>
@@ -86,7 +86,7 @@ const ItemCollections = ({
                 {HTMLDecode(tip)}
               </Text>
             )}
-            <Flex style={_.mt.sm}>
+            <Flex style={_.mt.sm} align='start'>
               {hasScore && (
                 <Stars style={_.mr.xs} value={score} color='warning' />
               )}

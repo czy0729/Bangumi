@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 12:29:26
+ * @Last Modified time: 2019-08-11 04:30:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,7 +22,7 @@ const List = ({ style }, { $, navigation }) => {
     return (
       <Flex style={styles.empty} direction='column' justify='center'>
         <Mesume />
-        <Text style={_.mt.sm} type='sub' size={14}>
+        <Text style={_.mt.sm} type='sub'>
           好像什么都没有
         </Text>
       </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 22:02:04
+ * @Last Modified time: 2019-08-11 12:59:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,8 @@ import {
   Image,
   Text,
   RenderHtml,
-  Divider
+  Divider,
+  Loading
 } from '@components'
 import { Avatar } from '@screens/_'
 import { simpleTime } from '@utils'
@@ -23,7 +24,7 @@ import { HOST, IOS } from '@constants'
 import _ from '@styles'
 import SectionTitle from './section-title'
 
-const Top = (props, { $, navigation }) => {
+function Top(props, { $, navigation }) {
   const {
     title,
     groupThumb,
@@ -34,7 +35,8 @@ const Top = (props, { $, navigation }) => {
     userName,
     userId,
     userSign,
-    message
+    message,
+    _loaded
   } = $.topic
   const {
     _title,
@@ -129,7 +131,8 @@ const Top = (props, { $, navigation }) => {
             </Flex.Item>
           )}
         </Flex>
-        <View style={styles.html}>
+        <Flex style={styles.html} justify='center'>
+          {!_loaded && <Loading />}
           {!!html && (
             <RenderHtml
               style={_.mt.lg}
@@ -138,7 +141,7 @@ const Top = (props, { $, navigation }) => {
               onLinkPress={href => appNavigate(href, navigation)}
             />
           )}
-        </View>
+        </Flex>
       </View>
       <Divider />
       <SectionTitle />

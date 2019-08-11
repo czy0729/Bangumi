@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-10 19:31:48
+ * @Last Modified time: 2019-08-11 13:15:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { SectionTitle } from '@screens/_'
-import { appNavigate } from '@utils/app'
+import { open } from '@utils'
 import _, { colorBg, colorWait } from '@styles'
 
 const initialRating = {
@@ -30,7 +30,7 @@ const initialRating = {
   total: 0
 }
 
-const getHeight = (total, current) => {
+function getHeight(total, current) {
   if (!total) {
     return 0
   }
@@ -41,7 +41,7 @@ const getHeight = (total, current) => {
   return `${percent * 100}%`
 }
 
-const Ranting = ({ style }, { $ }) => {
+function Ranting({ style }, { $ }) {
   const { subjectId } = $.params
   const { rating = initialRating, rank = '-' } = $.subject
   const { friend = {} } = $.subjectFormHTML
@@ -50,9 +50,7 @@ const Ranting = ({ style }, { $ }) => {
       <SectionTitle
         right={
           <Touchable
-            onPress={() =>
-              appNavigate(`https://netaba.re/subject/${subjectId}`)
-            }
+            onPress={() => open(`https://netaba.re/subject/${subjectId}`)}
           >
             <Flex>
               <Text type='sub'>netabare</Text>
@@ -68,13 +66,16 @@ const Ranting = ({ style }, { $ }) => {
           .reverse()
           .map((item, index) => (
             <Flex.Item key={item} style={index > 0 && _.ml.xs}>
-              <Flex style={styles.item} align='end'>
+              <Flex style={styles.item} justify='center' align='end'>
                 <View
                   style={[
                     styles.itemFill,
                     { height: getHeight(rating.total, rating.count[item]) }
                   ]}
                 />
+                <Text size={10} type='sub'>
+                  {rating.count[item]}
+                </Text>
               </Flex>
               <Text style={_.mt.xs} size={12} align='center'>
                 {item}
@@ -112,12 +113,14 @@ export default observer(Ranting)
 
 const styles = StyleSheet.create({
   item: {
-    height: 96,
+    height: 80,
+    paddingBottom: _.xs,
     backgroundColor: colorBg
   },
   itemFill: {
-    width: '100%',
-    height: 0,
+    position: 'absolute',
+    right: 0,
+    left: 0,
     backgroundColor: colorWait
   }
 })

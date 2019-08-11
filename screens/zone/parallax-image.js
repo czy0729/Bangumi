@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 16:41:10
+ * @Last Modified time: 2019-08-11 00:38:18
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
@@ -17,7 +17,7 @@ import Head from './head'
 import { height, headerHeight } from './store'
 
 const ParallaxImage = ({ scrollY }, { $, navigation }) => {
-  const { avatar, nickname, id, username } = $.usersInfo
+  const { avatar = {}, nickname, id, username } = $.usersInfo
   const parallaxStyle = {
     transform: [
       {
