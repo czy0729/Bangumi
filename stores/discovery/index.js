@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 10:59:28
+ * @Last Modified time: 2019-08-11 20:56:27
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -18,9 +18,11 @@ import {
 class Discovery extends store {
   state = observable({
     random: LIST_EMPTY,
+
     ningMoeDetail: {
       // [bgmId]: INIT_NINGMOE_DETAIL_ITEM
     },
+
     anitamaTimeline: {
       // [page]: INIT_ANITAMA_TIMELINE_ITEM
     }

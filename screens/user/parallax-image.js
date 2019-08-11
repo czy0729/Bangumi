@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 01:17:48
+ * @Last Modified time: 2019-08-11 21:52:16
  */
 import React from 'react'
 import { StyleSheet, Alert, Animated, View } from 'react-native'
@@ -42,6 +42,13 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
         })
       }
     ]
+  }
+
+  let data
+  if (isMe) {
+    data = ['我的好友', 'netabare', '缺少收藏?']
+  } else {
+    data = ['TA的好友', 'TA的netabare']
   }
 
   return (
@@ -102,50 +109,59 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
           <Head style={styles.head} />
         </Animated.View>
       </View>
-      {!isMe && (
+      {!!$.params.userId && (
         <IconBack
           style={[_.header.left, styles.btn]}
           navigation={navigation}
           color={_.colorPlain}
         />
       )}
-      <Popover
-        style={[_.header.right, styles.btn, styles.more]}
-        data={['好友', 'netabare', '缺少收藏?']}
-        onSelect={title => {
-          switch (title) {
-            case '好友':
-              navigation.push('Friends')
-              break
-            case 'netabare':
-              open(`https://netaba.re/user/${id}`)
-              break
-            case '缺少收藏?':
-              setTimeout(() => {
-                Alert.alert(
-                  '提示',
-                  '因隐藏条目受登陆状态影响, 若条目没找到, 可以尝试重新登陆',
-                  [
-                    {
-                      text: '好的'
-                    }
-                  ]
-                )
-              }, 400)
-              break
-            default:
-              break
-          }
-        }}
-      >
-        <Iconfont name='more' color={_.colorPlain} />
-      </Popover>
-      <IconHeader
-        style={[_.header.right, styles.btn, styles.setting]}
-        name='setting'
-        color={_.colorPlain}
-        onPress={() => navigation.push('Setting')}
-      />
+      <View style={[_.header.right, styles.btn, styles.more]}>
+        <Popover
+          data={data}
+          onSelect={title => {
+            switch (title) {
+              case '我的好友':
+                navigation.push('Friends')
+                break
+              case 'TA的好友':
+                navigation.push('Friends', {
+                  userId: id
+                })
+                break
+              case 'netabare':
+              case 'TA的netabare':
+                open(`https://netaba.re/user/${id}`)
+                break
+              case '缺少收藏?':
+                setTimeout(() => {
+                  Alert.alert(
+                    '提示',
+                    '因隐藏条目受登陆状态影响, 若条目没找到, 可以尝试重新登陆',
+                    [
+                      {
+                        text: '好的'
+                      }
+                    ]
+                  )
+                }, 400)
+                break
+              default:
+                break
+            }
+          }}
+        >
+          <Iconfont name='more' color={_.colorPlain} />
+        </Popover>
+      </View>
+      {!$.params.userId && (
+        <IconHeader
+          style={[_.header.right, styles.btn, styles.setting]}
+          name='setting'
+          color={_.colorPlain}
+          onPress={() => navigation.push('Setting')}
+        />
+      )}
     </>
   )
 }

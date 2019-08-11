@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 10:42:00
+ * @Last Modified time: 2019-08-11 21:05:43
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -13,6 +13,7 @@ import store from '@utils/store'
 import { HOST, LIST_EMPTY } from '@constants'
 import { API_CALENDAR } from '@constants/api'
 import { NAMESPACE, INIT_HOME } from './init'
+import { cheerioToday } from './common'
 
 class Calendar extends store {
   state = observable({
@@ -79,17 +80,18 @@ class Calendar extends store {
     const raw = await res
     const HTML = HTMLTrim(raw)
 
+    const data = {
+      anime: [],
+      game: [],
+      book: [],
+      music: [],
+      real: [],
+      today: '今日上映 - 部。共 - 人收看今日番组。'
+    }
     const itemsHTML = HTML.match(
       /<ul id="featuredItems" class="featuredItems">(.+?)<\/ul>/
     )
     if (itemsHTML) {
-      const data = {
-        anime: [],
-        game: [],
-        book: [],
-        music: [],
-        real: []
-      }
       const type = ['anime', 'game', 'book', 'music', 'real']
 
       let node
@@ -134,16 +136,23 @@ class Calendar extends store {
 
         data[type[index]] = list
       })
-
-      const key = 'home'
-      this.setState({
-        [key]: {
-          ...data,
-          _loaded: getTimestamp()
-        }
-      })
-      this.setStorage(key, undefined, NAMESPACE)
     }
+
+    const todayHTML = HTML.match('<li class="tip">(.+?)</li>')
+    if (todayHTML) {
+      data.today = cheerioToday(`<li>${todayHTML[1]}</li>`)
+    }
+
+    console.log(data)
+
+    const key = 'home'
+    this.setState({
+      [key]: {
+        ...data,
+        _loaded: getTimestamp()
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
 
     return res
   }

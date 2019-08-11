@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 18:19:17
+ * @Last Modified time: 2019-08-11 18:27:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -31,7 +31,7 @@ const ItemBangumiList = ({
     <View style={[styles.item, style]}>
       <Image
         size={imageWidth}
-        src={images.medium || IMG_DEFAULT}
+        src={images.small || IMG_DEFAULT}
         border
         radius
         shadow

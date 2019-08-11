@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 12:59:00
+ * @Last Modified time: 2019-08-11 22:03:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -69,7 +69,7 @@ function Top(props, { $, navigation }) {
     <>
       {!IOS && <HeaderPlaceholder />}
       <View style={_.container.inner}>
-        <Text type='title' size={20} bold selectable>
+        <Text type='title' size={20} bold>
           {title || _title}
           {!!_replies && (
             <Text type='main' size={12} lineHeight={26}>
@@ -121,18 +121,25 @@ function Top(props, { $, navigation }) {
           </View>
           {!!uid && (
             <Flex.Item style={_.ml.sm}>
-              <Text numberOfLines={2} selectable>
+              <Text numberOfLines={2}>
                 {uname}
-                <Text type='sub'> @{uid}</Text>
+                <Text type='sub'>
+                  {' '}
+                  @{uid}
+                </Text>
               </Text>
-              <Text style={_.mt.xs} type='sub' size={12} selectable>
+              <Text style={_.mt.xs} type='sub' size={12}>
                 {userSign || '-'}
               </Text>
             </Flex.Item>
           )}
         </Flex>
-        <Flex style={styles.html} justify='center'>
-          {!_loaded && <Loading />}
+        <View style={styles.html}>
+          {!_loaded && (
+            <Flex style={styles.loading} justify='center'>
+              <Loading />
+            </Flex>
+          )}
           {!!html && (
             <RenderHtml
               style={_.mt.lg}
@@ -141,7 +148,7 @@ function Top(props, { $, navigation }) {
               onLinkPress={href => appNavigate(href, navigation)}
             />
           )}
-        </Flex>
+        </View>
       </View>
       <Divider />
       <SectionTitle />
@@ -171,5 +178,8 @@ const styles = StyleSheet.create({
   },
   html: {
     minHeight: 240
+  },
+  loading: {
+    height: 240
   }
 })

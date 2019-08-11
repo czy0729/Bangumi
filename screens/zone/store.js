@@ -4,11 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 22:34:21
+ * @Last Modified time: 2019-08-11 20:06:36
  */
 import { observable, computed } from 'mobx'
-import { userStore, timelineStore } from '@stores'
+import { userStore, usersStore, timelineStore } from '@stores'
 import store from '@utils/store'
+import { fetchHTML } from '@utils/fetch'
+import { info } from '@utils/ui'
+import { HOST } from '@constants'
 import _ from '@styles'
 
 export const height = _.window.width * 0.64
@@ -55,6 +58,7 @@ export default class ScreenZone extends store {
     await res
 
     this.fetchUserCollections()
+    this.fetchUsers()
     return res
   }
 
@@ -76,7 +80,7 @@ export default class ScreenZone extends store {
 
   @computed get users() {
     const { userId } = this.params
-    return userStore.users(userId)
+    return usersStore.users(userId)
   }
 
   // -------------------- fetch --------------------
@@ -97,7 +101,7 @@ export default class ScreenZone extends store {
 
   fetchUsers = () => {
     const { userId } = this.params
-    return userStore.fetchUsers({ userId })
+    return usersStore.fetchUsers({ userId })
   }
 
   // -------------------- page --------------------
@@ -131,11 +135,9 @@ export default class ScreenZone extends store {
   }
 
   tabChangeCallback = page => {
-    // 后2个tab是延迟请求的
+    // 延迟请求
     if (tabs[page].title === '时间胶囊') {
       this.fetchUsersTimeline()
-    } else if (tabs[page].title === '关于TA') {
-      this.fetchUsers()
     }
   }
 
@@ -151,4 +153,31 @@ export default class ScreenZone extends store {
   }
 
   // -------------------- action --------------------
+  /**
+   * 添加好友
+   */
+  async doConnectFriend() {
+    const { connectUrl } = this.users
+    if (connectUrl) {
+      await fetchHTML({
+        url: `${HOST}${connectUrl}`
+      })
+      info('已添加好友')
+      this.fetchUsers()
+    }
+  }
+
+  /**
+   * 解除好友
+   */
+  async doDisconnectFriend() {
+    const { disconnectUrl } = this.users
+    if (disconnectUrl) {
+      await fetchHTML({
+        url: `${HOST}${disconnectUrl}`
+      })
+      info('已解除好友')
+      this.fetchUsers()
+    }
+  }
 }

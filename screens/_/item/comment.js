@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-03 14:42:18
+ * @Last Modified time: 2019-08-11 22:03:09
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -36,7 +36,7 @@ const ItemComment = ({
         <Flex>
           <Flex.Item>
             <Flex>
-              <Text size={12} selectable>
+              <Text size={12}>
                 {userName}
               </Text>
               <Text style={_.ml.xs} type='sub' size={12}>
@@ -46,7 +46,7 @@ const ItemComment = ({
           </Flex.Item>
           <Stars value={star} />
         </Flex>
-        <Text style={_.mt.xs} size={15} lineHeight={20} selectable>
+        <Text style={_.mt.xs} size={15} lineHeight={20}>
           {comment}
         </Text>
       </Flex.Item>

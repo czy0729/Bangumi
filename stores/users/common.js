@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 11:51:53
+ * @Last Modified time: 2019-08-11 20:30:56
  */
 import cheerio from 'cheerio-without-node-native'
 
@@ -37,10 +37,24 @@ export function analysisUsers(HTML) {
   const hobby = $('small.hot')
     .text()
     .match(/\d+/g)
+
+  let disconnectUrl = ''
+  const matchDisconnect = $('a.chiiBtn[onclick]').attr('onclick')
+  if (matchDisconnect) {
+    const [idPath, , , hash] = matchDisconnect.split("'")
+    if (idPath) {
+      const id = idPath.split('(')[1].replace(', ', '')
+      disconnectUrl = `/disconnect/${id}?gh=${hash}`
+    }
+  }
+
   return {
     userId,
     userName: $('.inner > a').text(),
     sign: $('.bio').html() || '',
+    join: $('span.tip')
+      .first()
+      .text(),
     hobby: hobby ? hobby[0] : '0',
     percent: parseFloat(
       $('span.percent_text')
@@ -74,6 +88,8 @@ export function analysisUsers(HTML) {
       $(`a[href='/anime/list/${userId}/dropped']`)
         .text()
         .replace('部抛弃', '')
-    )
+    ),
+    connectUrl: $('#connectFrd').attr('href'),
+    disconnectUrl
   }
 }
