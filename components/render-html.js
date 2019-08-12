@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 23:29:32
+ * @Last Modified time: 2019-08-12 09:57:19
  */
 import React from 'react'
 import {
@@ -148,7 +148,7 @@ export default class RenderHtml extends React.Component {
           }
 
           return (
-            <RNText key={passProps.key} allowFontScaling={false} selectable>
+            <RNText key={passProps.key} allowFontScaling={false}>
               {!!text && (
                 <RNText
                   style={baseFontStyle}
@@ -210,11 +210,12 @@ export default class RenderHtml extends React.Component {
 
         // 删除字
         if (style.includes(spanMark.lineThrough)) {
+          const target = passProps.rawChildren[0]
           const text =
-            (passProps.rawChildren[0] &&
-              passProps.rawChildren[0].parent &&
-              passProps.rawChildren[0].parent.children[0] &&
-              passProps.rawChildren[0].parent.children[0].data) ||
+            (target &&
+              target.parent &&
+              target.parent.children[0] &&
+              target.parent.children[0].data) ||
             ''
           return (
             <RNText
@@ -230,8 +231,8 @@ export default class RenderHtml extends React.Component {
 
         // 隐藏字
         if (style.includes(spanMark.hidden)) {
-          const text =
-            (passProps.rawChildren[0] && passProps.rawChildren[0].data) || ''
+          const target = passProps.rawChildren[0]
+          const text = (target && target.data) || ''
           return (
             <RNText
               key={passProps.key}

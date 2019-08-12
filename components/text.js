@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 22:00:45
+ * @Last Modified time: 2019-08-12 09:24:37
  */
 import React from 'react'
 import { StyleSheet, Text as RNText } from 'react-native'
