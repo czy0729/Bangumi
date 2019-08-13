@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 00:06:59
+ * @Last Modified time: 2019-08-13 16:41:10
  */
 import { observable, computed } from 'mobx'
-import { HOST, LIST_EMPTY, LIST_COMMENTS_LIMIT } from '@constants'
+import { LIST_EMPTY, LIST_COMMENTS_LIMIT } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_EP } from '@constants/html'
 import { getTimestamp } from '@utils'
-import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
+import { HTMLTrim, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import {
@@ -19,7 +19,7 @@ import {
   INIT_SUBJECT_FROM_HTML_ITEM,
   INIT_MONO
 } from './init'
-import { fetchMono } from './common'
+import { fetchMono, cheerioSubjectFormHTML } from './common'
 
 class Subject extends store {
   state = observable({
@@ -167,204 +167,16 @@ class Subject extends store {
   }
 
   /**
-   * 分析网页获取条目信息 (高流量, 80k左右1次)
+   * 网页获取条目信息
    * @param {*} subjectId
    */
   async fetchSubjectFormHTML(subjectId) {
-    // -------------------- 请求HTML --------------------
-    const res = fetchHTML({
+    const HTML = await fetchHTML({
       url: HTML_SUBJECT(subjectId)
     })
-    const raw = await res
-    const HTML = HTMLTrim(raw)
-
-    // -------------------- 分析HTML --------------------
-    let matchHTML
-
-    // 标签
-    const tags = []
-    matchHTML = HTML.match(
-      /<\/h2><div class="inner">(.+?)<\/div><\/div><\/div><div id="panelInterestWrapper">/
-    )
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      findTreeNode(tree.children, 'a > span', []).forEach(item => {
-        tags.push({
-          name: item.text[0]
-        })
-      })
-      findTreeNode(tree.children, 'a > small|text&class=grey', []).forEach(
-        (item, index) => {
-          tags[index].count = item.text[0]
-        }
-      )
-    }
-
-    // 关联条目
-    const relations = []
-    matchHTML = HTML.match(
-      /<ul class="browserCoverMedium clearit">(.+?)<\/ul><\/div><\/div><div class="subject_section">/
-    )
-    if (matchHTML) {
-      try {
-        const tree = HTMLToTree(matchHTML[1])
-        let typeIndex
-        tree.children.forEach((item, index) => {
-          // HTML项目是平铺的, 取前一个class=sub的type
-          if (item.attrs.class === 'sep') {
-            typeIndex = index
-          }
-          const type = tree.children[typeIndex].children[0].text[0]
-          const id = item.children[2].attrs.href.replace('/subject/', '')
-          const image = item.children[1].children[0].attrs.style.replace(
-            /background-image:url\('|'\)/g,
-            ''
-          )
-          relations.push({
-            type,
-            id,
-            title: item.children[2].text[0],
-
-            // 排除空白占位图片
-            image: image === '/img/no_icon_subject.png' ? '' : image,
-            url: `${HOST}/subject/${id}`
-          })
-        })
-      } catch (error) {
-        // do nothing
-      }
-    }
-
-    // 好友评分
-    const friend = {
-      ...INIT_SUBJECT_FROM_HTML_ITEM.friend
-    }
-    matchHTML = HTML.match(/<div class="frdScore">(.+?)<\/div>/)
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      friend.score = tree.children[0].text[0]
-      friend.total = tree.children[2].text[0].replace(' 人评分', '')
-    }
-
-    // 观看状态人数
-    // let typeNum = ''
-    // matchHTML = HTML.match(
-    //   /<span class="tip_i">\/(.+?)<\/span><\/div><\/div><div id="columnSubjectHomeB"/
-    // )
-    // if (matchHTML) {
-    //   const tree = HTMLToTree(matchHTML[1])
-    //   typeNum = findTreeNode(tree.children, 'div > a|text&class=l', [])
-    //     .map(item => item.text[0])
-    //     .join(' / ')
-    // }
-
-    // 曲目列表(音乐)
-    const disc = []
-    matchHTML = HTML.match(/<ul class="line_list line_list_music">(.+?)<\/ul>/)
-    if (matchHTML) {
-      try {
-        const tree = HTMLToTree(matchHTML[1])
-        tree.children.forEach(item => {
-          if (item.attrs.class === 'cat') {
-            disc.push({
-              title: item.text[0],
-              disc: []
-            })
-          } else {
-            const i = item.children[2].children[0]
-            disc[disc.length - 1].disc.push({
-              href: i.attrs.href,
-              title: i.text[0]
-            })
-          }
-        })
-      } catch (e) {
-        // do nothing
-      }
-    }
-
-    // 书籍vol. chap.(需登陆)
-    const book = {}
-    matchHTML = HTML.match(
-      /<div class="panelProgress book clearit">(.+?)<\/div><div rel="v:rating">/
-    )
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      const { children } = tree
-
-      let node = findTreeNode(
-        children,
-        'div > form > div > input|name=watchedeps'
-      )
-      if (node) {
-        book.chap = node[0].attrs.value
-      }
-
-      node = findTreeNode(
-        children,
-        'div > form > div > input|name=watched_vols'
-      )
-      if (node) {
-        book.vol = node[0].attrs.value
-      }
-    }
-
-    // 单行本
-    const comic = []
-    matchHTML = HTML.match(
-      /<h2 class="subtitle">单行本<\/h2><ul class="browserCoverSmall clearit">(.+?)<\/ul>/
-    )
-    if (matchHTML) {
-      try {
-        const tree = HTMLToTree(matchHTML[1])
-        tree.children.forEach(item => {
-          const { children } = item
-          comic.push({
-            id: children[0].attrs.href.replace('/subject/', ''),
-            name: children[0].attrs.title,
-            image: children[0].children[0].attrs.style
-              .replace(/background-image:url\('|'\)/g, '')
-              .replace('/g/', '/c/')
-          })
-        })
-      } catch (error) {
-        // do nothing
-      }
-    }
-
-    // 猜你喜欢
-    const like = []
-    matchHTML = HTML.match(
-      /的会员大概会喜欢<\/h2><div class="content_inner clearit" align="left"><ul class="coversSmall">(.+?)<\/ul>/
-    )
-    if (matchHTML) {
-      try {
-        const tree = HTMLToTree(matchHTML[1])
-        tree.children.forEach(item => {
-          const { children } = item
-          like.push({
-            id: children[0].attrs.href.replace('/subject/', ''),
-            name: children[0].attrs.title || children[1].children[0].text[0],
-            image: children[0].children[0].attrs.style
-              .replace(/background-image:url\('|'\)/g, '')
-              .replace('/g/', '/c/')
-          })
-        })
-      } catch (error) {
-        // do nothing
-      }
-    }
-
     const key = 'subjectFormHTML'
     const data = {
-      tags,
-      relations,
-      friend,
-      // typeNum,
-      disc,
-      book,
-      comic,
-      like,
+      ...cheerioSubjectFormHTML(HTML),
       _loaded: getTimestamp()
     }
     this.setState({
@@ -373,7 +185,6 @@ class Subject extends store {
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
-
     return Promise.resolve(data)
   }
 
@@ -396,7 +207,7 @@ class Subject extends store {
   }
 
   /**
-   * 分析网页获取留言 (高流量, 30k左右1次)
+   * 网页获取留言
    * @param {*} subjectId
    * @param {*} refresh 是否重新获取
    * @param {*} reverse 是否倒序

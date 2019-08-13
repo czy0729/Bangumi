@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 09:34:26
+ * @Last Modified time: 2019-08-13 16:41:11
  */
-import { HTML_MONO } from '@constants/html'
+import cheerio from 'cheerio-without-node-native'
+import { getCoverMedium } from '@utils/app'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import { fetchHTML } from '@utils/fetch'
+import { matchSubjectId, matchCover } from '@utils/match'
+import { HOST } from '@constants'
+import { HTML_MONO } from '@constants/html'
 import { analysisComments } from '../rakuen/common'
 import { INIT_MONO } from './init'
 
@@ -191,4 +195,112 @@ export async function fetchMono({ monoId = 0 }) {
     mono,
     monoComments
   })
+}
+
+/**
+ * 条目信息
+ * @param {*} HTML
+ */
+export function cheerioSubjectFormHTML(HTML) {
+  const $ = cheerio.load(HTML)
+  let relationsType = ''
+
+  // 曲目列表
+  const disc = []
+  $('div.line_detail > ul.line_list_music > li').each((index, element) => {
+    const $li = cheerio(element)
+    if ($li.attr('class') === 'cat') {
+      disc.push({
+        title: $li.text() || '',
+        disc: []
+      })
+    } else {
+      const $a = $li.find('h6 > a')
+      disc[disc.length - 1].disc.push({
+        title: $a.text() || '',
+        href: $a.attr('href') || ''
+      })
+    }
+  })
+
+  return {
+    // 标签
+    tags:
+      $('div.subject_tag_section > div.inner > a.l')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          return {
+            name: $li.find('span').text() || '',
+            count: $li.find('small').text() || ''
+          }
+        })
+        .get() || [],
+
+    // 关联条目
+    relations:
+      $('div.content_inner > ul.browserCoverMedium > li')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $title = $li.find('a.title')
+          const id = matchSubjectId($title.attr('href')) || ''
+          const type = $li.find('span.sub').text()
+          if (type) {
+            relationsType = type
+          }
+          return {
+            id,
+            image: matchCover($li.find('span.avatarNeue').attr('style')) || '',
+            title: $title.text() || '',
+            type: relationsType,
+            url: `${HOST}/subject/${id}`
+          }
+        })
+        .get() || [],
+
+    // 好友评分
+    friend: {
+      score: $('div.frdScore > span.num').text() || 0,
+      total:
+        $('div.frdScore > a.l')
+          .text()
+          .replace(' 人评分', '') || 0
+    },
+    disc,
+
+    // 书籍章节信息
+    book: {
+      chap: $('#watchedeps').attr('value') || 0,
+      vol: $('#watched_vols').attr('value') || 0
+    },
+
+    // 单行本
+    comic:
+      $('div.subject_section > ul.browserCoverSmall > li')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $a = $li.find('a')
+          return {
+            id: matchSubjectId($a.attr('href')) || '',
+            name: $a.attr('title') || $li.find('a.title').text() || '',
+            image: getCoverMedium(
+              matchCover($li.find('span').attr('style')) || ''
+            )
+          }
+        })
+        .get() || [],
+
+    // 猜你喜欢
+    like:
+      $('div.content_inner > ul.coversSmall > li.clearit')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $a = $li.find('a')
+          return {
+            id: matchSubjectId($a.attr('href')) || '',
+            name: $a.attr('title') || $li.find('a.l').text() || '',
+            image: matchCover($li.find('span').attr('style'))
+          }
+        })
+        .get() || []
+  }
 }

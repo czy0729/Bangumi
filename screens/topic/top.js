@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 22:03:34
+ * @Last Modified time: 2019-08-12 16:34:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -123,10 +123,7 @@ function Top(props, { $, navigation }) {
             <Flex.Item style={_.ml.sm}>
               <Text numberOfLines={2}>
                 {uname}
-                <Text type='sub'>
-                  {' '}
-                  @{uid}
-                </Text>
+                <Text type='sub'> @{uid}</Text>
               </Text>
               <Text style={_.mt.xs} type='sub' size={12}>
                 {userSign || '-'}

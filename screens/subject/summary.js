@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 22:03:24
+ * @Last Modified time: 2019-08-13 15:09:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -24,7 +24,7 @@ const Summary = ({ style }, { $ }) => {
       {!!summary && (
         <Expand>
           <Text style={_.mt.sm} size={15} lineHeight={22}>
-            {summary}
+            {summary.replace('\r\n\r\n', '\r\n')}
           </Text>
         </Expand>
       )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 11:34:26
+ * @Last Modified time: 2019-08-12 16:33:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -58,13 +58,16 @@ class App extends React.Component {
 
   loadResourcesAsync = async () =>
     Promise.all([
-      // Asset.loadAsync([]),
       Stores.init()
+      // Asset.loadAsync([]),
+      // Font.loadAsync({
+      //   bgm: require('./assets/fonts/NotoColorEmoji.ttf')
+      // })
     ])
 
-  // handleLoadingError = error => {
-  //   console.warn(error)
-  // }
+  handleLoadingError = error => {
+    console.warn(error)
+  }
 
   handleFinishLoading = () => {
     this.setState({
@@ -84,7 +87,7 @@ class App extends React.Component {
         <AppLoading
           startAsync={this.loadResourcesAsync}
           onFinish={this.handleFinishLoading}
-          // onError={this.handleLoadingError}
+          onError={this.handleLoadingError}
         />
       )
     }

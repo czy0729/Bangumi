@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 20:30:56
+ * @Last Modified time: 2019-08-12 16:55:56
  */
 import cheerio from 'cheerio-without-node-native'
 
@@ -41,7 +41,7 @@ export function analysisUsers(HTML) {
   let disconnectUrl = ''
   const matchDisconnect = $('a.chiiBtn[onclick]').attr('onclick')
   if (matchDisconnect) {
-    const [idPath, , , hash] = matchDisconnect.split("'")
+    const [idPath, , , hash] = matchDisconnect.split('\'')
     if (idPath) {
       const id = idPath.split('(')[1].replace(', ', '')
       disconnectUrl = `/disconnect/${id}?gh=${hash}`
