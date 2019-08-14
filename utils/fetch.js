@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 15:28:02
+ * @Last Modified time: 2019-08-13 17:48:49
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -15,7 +15,8 @@ import {
   HOST,
   IOS,
   GITHUB_RELEASE_VERSION,
-  CODE_PUSH_VERSION
+  CODE_PUSH_VERSION,
+  DEV
 } from '@constants'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
@@ -312,6 +313,10 @@ export function xhrCustom({
  * @param {*} title
  */
 export function hm(url, title = '') {
+  if (DEV) {
+    return
+  }
+
   let version = GITHUB_RELEASE_VERSION
   if (CODE_PUSH_VERSION) {
     version += `-${CODE_PUSH_VERSION}`

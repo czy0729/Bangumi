@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-12 16:34:06
+ * @Last Modified time: 2019-08-14 00:02:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,6 +22,7 @@ import { simpleTime } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { HOST, IOS } from '@constants'
 import _ from '@styles'
+import { bgmMap } from '@components/bgm-text'
 import SectionTitle from './section-title'
 
 function Top(props, { $, navigation }) {

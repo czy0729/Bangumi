@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 02:57:34
+ * @Last Modified time: 2019-08-13 17:44:39
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -21,6 +21,8 @@ import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
 import CacheManager from './@/react-native-expo-image-cache/src/CacheManager'
 import Touchable from './touchable'
+
+const maxErrorCount = 2
 
 export default class Image extends React.Component {
   static defaultProps = {
@@ -37,7 +39,8 @@ export default class Image extends React.Component {
     quality: true, // 是否自动选择Bangumi图片质量
     imageViewer: false, // 是否点击显示全局的ImageViewer, 此值打开会覆盖onPress
     onPress: undefined,
-    onLongPress: undefined
+    onLongPress: undefined,
+    onError: undefined
   }
 
   state = {
@@ -92,7 +95,6 @@ export default class Image extends React.Component {
       try {
         if (typeof src === 'string') {
           let _src = src
-          // let _src = src.replace('http://', 'https://')
           if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
             _src = `https:${_src}`
           }
@@ -111,23 +113,19 @@ export default class Image extends React.Component {
           })
         }
       } catch (e) {
-        // 图片是不是会下载失败, 当错误次数大于3就认为是错误
-        if (this.errorCount < 3) {
+        // 图片是不是会下载失败, 当错误次数大于maxErrorCount就认为是错误
+        if (this.errorCount < maxErrorCount) {
           setTimeout(() => {
             this.errorCount += 1
             this.cache(src)
-          }, 1600)
+          }, 800)
         } else {
-          this.setState({
-            error: true
-          })
+          this.onError()
         }
       }
     } else {
       uri = src
       if (typeof uri === 'string') {
-        uri = src
-        // uri = src.replace('http://', 'https://')
         uri = this.getQuality(uri, qualityLevel)
         if (uri.indexOf('https:') === -1 && uri.indexOf('http:') === -1) {
           uri = `https:${uri}`
@@ -183,6 +181,15 @@ export default class Image extends React.Component {
     })
   }
 
+  onError = () => {
+    if (this.props.onError) {
+      this.props.onError()
+    }
+    this.setState({
+      error: true
+    })
+  }
+
   render() {
     const {
       style,
@@ -199,6 +206,7 @@ export default class Image extends React.Component {
       imageViewer,
       onPress,
       onLongPress,
+      onError,
       ...other
     } = this.props
     const { error, uri, width: _width, height: _height } = this.state
@@ -257,12 +265,26 @@ export default class Image extends React.Component {
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
-        image = <RNImage style={_image} source={{ uri }} {...other} />
+        image = (
+          <RNImage
+            style={_image}
+            source={{ uri }}
+            onError={this.onError}
+            {...other}
+          />
+        )
       } else {
         image = <View style={_image} />
       }
     } else {
-      image = <RNImage style={_image} source={src} {...other} />
+      image = (
+        <RNImage
+          style={_image}
+          source={src}
+          onError={this.onError}
+          {...other}
+        />
+      )
     }
 
     let _onPress = onPress

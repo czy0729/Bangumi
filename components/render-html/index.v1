@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-12 09:57:19
+ * @Last Modified time: 2019-08-13 23:41:41
  */
 import React from 'react'
 import {
@@ -92,7 +92,6 @@ export default class RenderHtml extends React.Component {
     // 渲染文字前的回调
     alterData: node => {
       const { type, next = {}, data } = node
-
       if (type === 'text') {
         // 检测下一个节点是不是表情
         if (!this.textWithBgmImage && this.checkNextIsBgmImage(next)) {
@@ -130,7 +129,7 @@ export default class RenderHtml extends React.Component {
 
           // 当后面还有连续表情的时候
           if (this.continuousBgmImagesCount) {
-            this.bgmImagesTemp.push(<RNImage {...props} />)
+            this.bgmImagesTemp.push(<RNImage selectable {...props} />)
             this.continuousBgmImagesCount -= 1
             return null
           }
@@ -148,7 +147,7 @@ export default class RenderHtml extends React.Component {
           }
 
           return (
-            <RNText key={passProps.key} allowFontScaling={false}>
+            <RNText key={passProps.key} allowFontScaling={false} selectable>
               {!!text && (
                 <RNText
                   style={baseFontStyle}
@@ -159,7 +158,7 @@ export default class RenderHtml extends React.Component {
                 </RNText>
               )}
               {_bgmImagesTemp}
-              <RNImage {...props} />{' '}
+              <RNImage selectable {...props} />{' '}
             </RNText>
           )
         }
@@ -400,7 +399,11 @@ class ToggleImage extends React.Component {
             <ActivityIndicator size='small' color={_.colorIcon} />
           </Flex>
         )}
-        <Image {...this.props} onLoadEnd={this.onLoadEnd} />
+        <Image
+          {...this.props}
+          onLoadEnd={this.onLoadEnd}
+          onError={this.onLoadEnd}
+        />
         {!this.props.show && (
           <Touchable style={styles.closeImageWrap} onPress={this.toggleShow}>
             <Flex style={styles.closeImage} justify='center'>

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-12 16:33:46
+ * @Last Modified time: 2019-08-14 10:41:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useScreens } from 'react-native-screens'
-import { AppLoading } from 'expo'
+import { AppLoading, Font } from 'expo'
 import { Provider } from '@ant-design/react-native'
 import { ImageViewer } from '@components'
 import { StatusBar } from '@screens/_'
@@ -58,11 +58,11 @@ class App extends React.Component {
 
   loadResourcesAsync = async () =>
     Promise.all([
-      Stores.init()
+      Stores.init(),
       // Asset.loadAsync([]),
-      // Font.loadAsync({
-      //   bgm: require('./assets/fonts/NotoColorEmoji.ttf')
-      // })
+      Font.loadAsync({
+        bgm: require('./assets/fonts/AppleColorEmoji.ttf')
+      })
     ])
 
   handleLoadingError = error => {

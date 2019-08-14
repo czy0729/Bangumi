@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 17:08:17
+ * @Last Modified time: 2019-08-13 20:25:46
  */
 export { default as Bgm } from './bgm'
+export { default as BgmText } from './bgm-text'
 export { default as BlurView } from './blur-view'
 export { default as Button } from './button'
 export { default as Divider } from './divider'
