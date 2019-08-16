@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 10:18:33
+ * @Last Modified time: 2019-08-16 10:26:18
  */
 import cheerio from 'cheerio-without-node-native'
 import { safeObject, trim } from '@utils'
@@ -387,7 +387,6 @@ export function cheerioTopic(HTML) {
         .get() || []
   } catch (ex) {
     // do nothing
-    console.log(ex)
   }
 
   return {
