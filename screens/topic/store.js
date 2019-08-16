@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-15 19:52:00
+ * @Last Modified time: 2019-08-16 21:27:59
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, subjectStore, userStore, usersStore } from '@stores'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
+import decoder from '@utils/thirdParty/html-entities-decoder'
 
 const namespace = 'ScreenTopic'
 
@@ -240,7 +241,7 @@ export default class ScreenTopic extends store {
       const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
       let _content = content
       if (message) {
-        const _message = message.replace(
+        const _message = decoder(message).replace(
           /<div class="quote"><q>.*<\/q><\/div>/,
           ''
         )

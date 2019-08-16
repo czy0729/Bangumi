@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 00:01:08
+ * @Last Modified time: 2019-08-16 21:57:27
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -175,7 +175,6 @@ class Collection extends store {
     const userCollectionsHTML = HTML.match(
       /<ul id="browserItemList" class="browserFull">(.+?)<\/ul><div id="multipage"/
     )
-
     if (userCollectionsHTML) {
       // 总页数
       if (page === 1) {
@@ -184,7 +183,7 @@ class Collection extends store {
             /<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
           ) ||
           HTML.match(
-            /<a href="\? page=\d+" class="p">(\d+)<\/a><a href="\? page=2" class="p">&rsaquo;&rsaquo;<\/a>/
+            /\?page=\d+" class="p">(\d+)<\/a><a href="(.*)page=2" class="p">&rsaquo;&rsaquo;<\/a>/
           )
         if (pageHTML) {
           pageTotal = pageHTML[1]

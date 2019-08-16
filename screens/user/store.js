@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 13:08:23
+ * @Last Modified time: 2019-08-16 21:30:56
  */
 import { observable, computed } from 'mobx'
 import { userStore, collectionStore } from '@stores'
@@ -52,10 +52,8 @@ export default class ScreenUser extends store {
     await this.fetchUsersInfo()
 
     // 用户收藏概览统计
-    if (!this.userCollectionsStatus._loaded) {
-      const { userId } = this.params
-      userStore.fetchUserCollectionsStatus(userId)
-    }
+    const { userId } = this.params
+    userStore.fetchUserCollectionsStatus(userId)
 
     // 用户收藏记录
     this.fetchUserCollections(true)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 10:26:18
+ * @Last Modified time: 2019-08-16 21:25:20
  */
 import cheerio from 'cheerio-without-node-native'
 import { safeObject, trim } from '@utils'
@@ -331,7 +331,9 @@ export function cheerioTopic(HTML) {
     comments =
       $('#comment_list > div.row_reply')
         .map((index, element) => {
-          const $row = cheerio(element)
+          const $row = cheerio(element, {
+            decodeEntities: false
+          })
           const [floor, time] = (
             $row.find('> div.re_info > small').text() || ''
           )
@@ -362,7 +364,9 @@ export function cheerioTopic(HTML) {
               $row
                 .find('div.sub_reply_bg')
                 .map((index, element) => {
-                  const $row = cheerio(element)
+                  const $row = cheerio(element, {
+                    decodeEntities: false
+                  })
                   const [floor, time] = ($row.find('small').text() || '')
                     .replace(' / del / edit', '')
                     .split(' - ')
