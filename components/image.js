@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-13 17:44:39
+ * @Last Modified time: 2019-08-16 09:47:26
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -162,7 +162,7 @@ export default class Image extends React.Component {
       return
     }
 
-    RNImage.getSize(uri, (width, height) => {
+    const cb = (width, height) => {
       let _width
       let _height
 
@@ -178,7 +178,9 @@ export default class Image extends React.Component {
         width: _width,
         height: _height
       })
-    })
+    }
+
+    RNImage.getSize(uri, cb)
   }
 
   onError = () => {
@@ -204,6 +206,7 @@ export default class Image extends React.Component {
       autoSize,
       quality,
       imageViewer,
+      headers,
       onPress,
       onLongPress,
       onError,
@@ -268,7 +271,7 @@ export default class Image extends React.Component {
         image = (
           <RNImage
             style={_image}
-            source={{ uri }}
+            source={headers ? { uri, headers } : { uri }}
             onError={this.onError}
             {...other}
           />
@@ -280,7 +283,7 @@ export default class Image extends React.Component {
       image = (
         <RNImage
           style={_image}
-          source={src}
+          source={headers ? { ...src, headers } : src}
           onError={this.onError}
           {...other}
         />
@@ -293,7 +296,8 @@ export default class Image extends React.Component {
         showImageViewer([
           {
             url: uri,
-            _url: src
+            _url: src,
+            headers
           }
         ])
       }

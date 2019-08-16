@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 17:41:28
+ * @Last Modified time: 2019-08-15 19:11:05
  */
 import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
@@ -245,7 +245,7 @@ export function getCookie(cookies = '', name) {
  * @param {*} src
  */
 export function getCoverSmall(src = '') {
-  return src.replace(/\/g\/|\/m\/|\/c\/|\/l\//, '/s/')
+  return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
 }
 
 /**

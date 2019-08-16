@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-08 20:45:09
+ * @Last Modified time: 2019-08-15 20:26:08
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -12,6 +12,7 @@ import { HTMLTrim } from '@utils/html'
 import { HOST, LIST_EMPTY, LIST_LIMIT } from '@constants'
 import {
   HTML_NOTIFY,
+  HTML_TOPIC,
   HTML_ACTION_RAKUEN_REPLY,
   HTML_GROUP_INFO,
   HTML_GROUP
@@ -21,7 +22,7 @@ import {
   NAMESPACE,
   DEFAULT_SCOPE,
   DEFAULT_TYPE,
-  LIST_COMMENTS_LIMIT,
+  // LIST_COMMENTS_LIMIT,
   INIT_READED_ITEM,
   INIT_TOPIC,
   INIT_NOTIFY,
@@ -31,10 +32,10 @@ import {
 } from './init'
 import {
   fetchRakuen,
-  fetchTopic,
   analysisGroupInfo,
   analysisGroup,
-  cheerioNotify
+  cheerioNotify,
+  cheerioTopic
 } from './common'
 
 class Rakuen extends store {
@@ -225,69 +226,49 @@ class Rakuen extends store {
   }
 
   /**
-   * 获取帖子内容和留言 (高流量, 200楼回复的大概180k / gzip25k左右一次)
-   * @issue 官网没有分页, 某些帖子一次性返回几千回复, 不分页容易导致奔溃
-   * 为了提高体验, 做模拟分页加载效果
+   * 获取帖子内容和留言
    */
-  async fetchTopic({ topicId = 0 }, refresh, reverse) {
-    let res
-    const topicKey = 'topic'
-    const commentsKey = 'comments'
+  async fetchTopic({ topicId = 0 }) {
+    const HTML = await fetchHTML({
+      url: HTML_TOPIC(topicId)
+    })
+    const { topic, comments } = cheerioTopic(HTML)
+    const _loaded = getTimestamp()
+
+    // 缓存帖子内容
     const stateKey = topicId
-
-    if (refresh) {
-      // 重新请求
-      res = fetchTopic({ topicId }, reverse)
-      const { topic, comments } = await res
-      const _loaded = getTimestamp()
-
-      // 缓存帖子内容
-      this.setState({
-        [topicKey]: {
-          [stateKey]: {
-            ...topic,
-            _loaded
-          }
+    const topicKey = 'topic'
+    this.setState({
+      [topicKey]: {
+        [stateKey]: {
+          ...topic,
+          _loaded
         }
-      })
-      this.setStorage(topicKey, undefined, NAMESPACE)
+      }
+    })
+    this.setStorage(topicKey, undefined, NAMESPACE)
 
-      // 缓存帖子回复
-      this.setState({
-        [commentsKey]: {
-          [stateKey]: {
-            list: comments.slice(0, LIST_COMMENTS_LIMIT),
-            pagination: {
-              page: 1,
-              pageTotal: Math.ceil(comments.length / LIST_COMMENTS_LIMIT)
-            },
-            _list: comments,
-            _loaded,
-            _reverse: reverse
-          }
+    // 缓存帖子回复
+    const commentsKey = 'comments'
+    this.setState({
+      [commentsKey]: {
+        [stateKey]: {
+          list: comments,
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _list: [],
+          _loaded
         }
-      })
-      this.setStorage(commentsKey, undefined, NAMESPACE)
-    } else {
-      // 加载下一页留言
-      const comments = this.comments(topicId)
-      const page = comments.pagination.page + 1
-      this.setState({
-        [commentsKey]: {
-          [stateKey]: {
-            ...comments,
-            list: comments._list.slice(0, LIST_COMMENTS_LIMIT * page),
-            pagination: {
-              ...comments.pagination,
-              page
-            }
-          }
-        }
-      })
-      this.setStorage(commentsKey, undefined, NAMESPACE)
-    }
+      }
+    })
+    this.setStorage(commentsKey, undefined, NAMESPACE)
 
-    return res
+    return Promise.resolve({
+      topic,
+      comments
+    })
   }
 
   /**

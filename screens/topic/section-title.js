@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 14:48:54
+ * @Last Modified time: 2019-08-15 19:37:50
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -17,8 +17,8 @@ import {
 import _ from '@styles'
 
 const SectionTitle = (props, { $ }) => {
-  const { _list = [], _reverse } = $.comments
-  const { filterMe, filterFriends } = $.state
+  const { list = [] } = $.comments
+  const { filterMe, filterFriends, reverse } = $.state
   const hasLogin = !!$.myId
   return (
     <CompSectionTitle
@@ -41,17 +41,17 @@ const SectionTitle = (props, { $ }) => {
           )}
           <IconReverse
             style={styles.sort}
-            color={_reverse ? _.colorMain : _.colorIcon}
+            color={reverse ? _.colorMain : _.colorIcon}
             onPress={$.toggleReverseComments}
           />
         </>
       }
     >
       吐槽箱{' '}
-      {_list.length != 0 && (
+      {list.length !== 0 && (
         <Text size={12} type='sub' lineHeight={24}>
-          ({_list.length}
-          {_list.length == 100 && '+'})
+          ({list.length}
+          {list.length >= 100 && '+'})
         </Text>
       )}
     </CompSectionTitle>

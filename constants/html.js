@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 18:04:01
+ * @Last Modified time: 2019-08-15 20:25:48
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -195,6 +195,5 @@ export const HTML_FRIENDS = userId => `${HOST}/user/${userId}/friends`
  * @param {*} sub_reply_uid 456208
  * @param {*} post_uid      456208
  */
-export const HTML_ACTION_RAKUEN_REPLY = (topicId, type = 'group/topic') => `
-  ${HOST}/${type}/${topicId}/new_reply?ajax=1
-`
+export const HTML_ACTION_RAKUEN_REPLY = (topicId, type = 'group/topic') =>
+  `${HOST}/${type}/${topicId}/new_reply?ajax=1`

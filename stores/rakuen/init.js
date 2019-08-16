@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 20:53:56
+ * @Last Modified time: 2019-08-15 20:02:10
  */
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -32,29 +32,30 @@ export const INIT_READED_ITEM = {
 }
 
 export const INIT_TOPIC = {
-  groupThumb: '', // 小组图片
+  avatar: '', // 作者头像
+  floor: '', // 楼层
+  formhash: '', // 回复表单凭据
   group: '', // 小组名称
   groupHref: '', // 小组地址
-  avatar: '', // 作者头像
-  userName: '', // 作者名称
-  userId: '', // 作者Id
-  userSign: '', // 作者签名
+  groupThumb: '', // 小组图片
+  lastview: '', // 回复表单时间戳
+  message: '', // 帖子内容
   time: '', // 发帖时间
   title: '', // 帖子标题
-  message: '', // 帖子内容
-  formhash: '', // 回复表单凭据
-  lastview: '' // 回复表单时间戳
+  userId: '', // 作者Id
+  userName: '', // 作者名称
+  userSign: '' // 作者签名
 }
 
 export const INIT_COMMENTS_ITEM = {
-  id: '',
-  time: '',
-  floor: '',
-  avatar: '',
-  userId: '',
-  userName: '',
-  userSign: '',
-  replySub: ''
+  avatar: '', // 用户头像
+  floor: '', // 楼层
+  id: '', // 楼层id
+  replySub: '', // 回复参数
+  time: '', // 发帖时间
+  userId: '', // 用户Id
+  userName: '', // 用户名称
+  userSign: '' // 用户签名
 }
 
 export const INIT_NOTIFY = {

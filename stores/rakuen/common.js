@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-08 12:11:53
+ * @Last Modified time: 2019-08-16 10:18:33
  */
 import cheerio from 'cheerio-without-node-native'
+import { safeObject, trim } from '@utils'
+import { getCoverSmall } from '@utils/app'
 import { fetchHTML } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import { matchAvatar, matchUserId } from '@utils/match'
-import { IOS } from '@constants'
-import { HTML_RAKUEN, HTML_TOPIC } from '@constants/html'
-import { INIT_COMMENTS_ITEM } from './init'
+import { HTML_RAKUEN } from '@constants/html'
+import { INIT_TOPIC, INIT_COMMENTS_ITEM } from './init'
 
 export async function fetchRakuen({ scope, type } = {}) {
   // -------------------- 请求HTML --------------------
@@ -64,85 +65,6 @@ export async function fetchRakuen({ scope, type } = {}) {
   }
 
   return Promise.resolve(rakuen)
-}
-
-export async function fetchTopic({ topicId = 0 }, reverse) {
-  // -------------------- 请求HTML --------------------
-  const raw = await fetchHTML({
-    // @todo 这统一帖子内容的接口IOS带cookie访问直接掉线, 需解决
-    url: IOS ? `!${HTML_TOPIC(topicId)}` : HTML_TOPIC(topicId)
-  })
-  const HTML = HTMLTrim(raw)
-
-  // -------------------- 分析内容 --------------------
-  let node
-  let matchHTML
-
-  // 帖子
-  let topic = {}
-
-  // 回复表单凭据
-  matchHTML = HTML.match(
-    /<input type="hidden" name="formhash" value="(.+?)" \/>/
-  )
-  if (matchHTML) {
-    topic.formhash = matchHTML[1]
-  }
-
-  // 分组信息
-  matchHTML = HTML.match(
-    /<div id="pageHeader">(.+?)<\/div><hr class="board" \/>/
-  )
-  if (matchHTML) {
-    const tree = HTMLToTree(matchHTML[1])
-    topic.title = tree.children[0].text[1] || ''
-
-    node = findTreeNode(tree.children, 'h1 > a > img')
-    topic.groupThumb = node ? node[0].attrs.src : ''
-
-    node = findTreeNode(tree.children, 'h1 > a|class=avatar')
-    topic.group = node ? node[0].text[0] : ''
-    topic.groupHref = node ? node[0].attrs.href : ''
-  }
-
-  // 楼主层信息
-  matchHTML = HTML.match(
-    /<div id="post_\d+" class="postTopic light_odd clearit">(.+?)<\/div><div id="sliderContainer"/
-  )
-  if (matchHTML) {
-    const tree = HTMLToTree(matchHTML[1])
-    topic = {
-      ...topic,
-      ...getTopFloorAttrs(tree)
-    }
-  }
-
-  // 帖子内容
-  matchHTML = HTML.match(
-    /<div class="topic_content">(.+?)<\/div><\/div><\/div><div id="sliderContainer"/
-  )
-  if (matchHTML) {
-    topic.message = matchHTML[1]
-  }
-
-  // -------------------- 分析留言 --------------------
-  // 留言层信息
-  matchHTML =
-    // 登陆的情况
-    HTML.match(
-      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><hr/
-    ) ||
-    // 没登陆的情况
-    HTML.match(
-      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><div style="margin-top/
-    )
-
-  const comments = analysisComments(matchHTML, reverse)
-
-  return Promise.resolve({
-    topic,
-    comments: comments.filter(item => !!item.userId)
-  })
 }
 
 /**
@@ -239,48 +161,6 @@ export function analysisComments(HTML, reverse) {
   })
 
   return comments
-}
-
-/**
- * 分析楼主层信息
- * @param {*} tree
- */
-function getTopFloorAttrs(tree) {
-  try {
-    let node
-    const { children } = tree
-    const id = ''
-
-    node = findTreeNode(children, 'div > small|text')
-    const time = node ? node[0].text[0].replace(/#1 - | \/ /g, '') : ''
-    const floor = '#1'
-
-    node = findTreeNode(children, 'a > span|style~background-image')
-    const avatar = node
-      ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
-      : ''
-
-    node = findTreeNode(children, 'div > a|text&class~l&href~/user/')
-    const userId = node ? node[0].attrs.href.replace('/user/', '') : ''
-    const userName = node ? node[0].text[0] : ''
-
-    node = findTreeNode(children, 'div > span|text&class=tip_j')
-    const userSign = node ? node[0].text[0] : ''
-
-    return {
-      id,
-      time,
-      floor,
-      avatar,
-      userId,
-      userName: HTMLDecode(userName),
-      userSign: HTMLDecode(userSign)
-    }
-  } catch (error) {
-    // do nothing
-  }
-
-  return INIT_COMMENTS_ITEM
 }
 
 /**
@@ -406,4 +286,112 @@ export function cheerioNotify(HTML) {
       }
     })
     .get()
+}
+
+/**
+ * 分析帖子和留言
+ * @param {*} HTML
+ */
+export function cheerioTopic(HTML) {
+  let topic = INIT_TOPIC
+  let comments = []
+
+  try {
+    const $ = cheerio.load(HTML)
+
+    // 主楼
+    const $group = $('#pageHeader a.avatar')
+    const $user = $('div.postTopic strong > a.l')
+    const [floor, time] = ($('div.postTopic div.re_info > small').text() || '')
+      .replace(' / del / edit', '')
+      .split(' - ')
+    const titleText = $('#pageHeader > h1').text() || ''
+    const groupText = $('#pageHeader > h1 > span').text() || ''
+    const title = titleText.replace(groupText, '')
+
+    topic = safeObject({
+      avatar: getCoverSmall(
+        matchAvatar($('div.postTopic span.avatarNeue').attr('style'))
+      ),
+      floor,
+      formhash: $('input[name=formhash]').attr('value'),
+      group: $group.text(),
+      groupHref: $group.attr('href'),
+      groupThumb: getCoverSmall($('a.avatar > img.avatar').attr('src')),
+      lastview: '',
+      message: HTMLTrim($('div.topic_content').html()),
+      time,
+      title,
+      userId: matchUserId($user.attr('href')),
+      userName: $user.text(),
+      userSign: $('div.postTopic span.tip_j').text()
+    })
+
+    // 回复
+    comments =
+      $('#comment_list > div.row_reply')
+        .map((index, element) => {
+          const $row = cheerio(element)
+          const [floor, time] = (
+            $row.find('> div.re_info > small').text() || ''
+          )
+            .replace(' / del / edit', '')
+            .split(' - ')
+          return safeObject({
+            ...INIT_COMMENTS_ITEM,
+            avatar: getCoverSmall(
+              matchAvatar($row.find('span.avatarNeue').attr('style'))
+            ),
+            floor,
+            id: $row.attr('id').substring(5),
+            message: HTMLTrim(
+              $row.find('> div.inner > div.reply_content > div.message').html()
+            ),
+            replySub: $row
+              .find('> div.inner > span.userInfo > a.icons_cmt')
+              .attr('onclick'),
+            time,
+            userId: matchUserId($row.find('a.avatar').attr('href')),
+            userName:
+              $row.find('> div.inner > span.userInfo > strong > a.l').text() ||
+              $row.find('> div.inner > strong > a.l').text(),
+            userSign: $row.find('span.tip_j').text(),
+
+            // 子回复
+            sub:
+              $row
+                .find('div.sub_reply_bg')
+                .map((index, element) => {
+                  const $row = cheerio(element)
+                  const [floor, time] = ($row.find('small').text() || '')
+                    .replace(' / del / edit', '')
+                    .split(' - ')
+                  return safeObject({
+                    ...INIT_COMMENTS_ITEM,
+                    avatar: getCoverSmall(
+                      matchAvatar($row.find('span.avatarNeue').attr('style'))
+                    ),
+                    floor,
+                    id: $row.attr('id').substring(5),
+                    message: HTMLTrim($row.find('div.cmt_sub_content').html()),
+                    replySub: $row.find('a.icons_cmt').attr('onclick'),
+                    time: trim(time),
+                    userId: matchUserId($row.find('a.avatar').attr('href')),
+                    userName: $row.find('strong > a.l').text(),
+                    userSign: $row.find('span.tip_j').text()
+                  })
+                })
+                .get() || []
+          })
+        })
+        .get() || []
+  } catch (ex) {
+    // do nothing
+    console.log(ex)
+  }
+
+  return {
+    topic,
+    comments
+  }
 }

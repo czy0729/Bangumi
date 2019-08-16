@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-17 22:07:09
+ * @Last Modified time: 2019-08-16 09:37:07
  */
 import HTMLParser from './thirdParty/html-parser'
 
@@ -46,6 +46,9 @@ export function HTMLDecode(str = '') {
  * @param {*} str
  */
 export function HTMLTrim(str = '') {
+  if (typeof str !== 'string') {
+    return str
+  }
   return (
     str
       // .replace(/<!--.*?-->/gi, '')

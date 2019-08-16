@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 23:00:50
+ * @Last Modified time: 2019-08-15 19:48:25
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -88,7 +88,7 @@ class Topic extends React.Component {
             />
           )}
           onScroll={onScroll}
-          onHeaderRefresh={() => $.fetchTopic(true)}
+          onHeaderRefresh={$.fetchTopic}
           onFooterRefresh={$.fetchTopic}
           onEndReachedThreshold={0.5}
           {...withTransitionHeader.listViewProps}

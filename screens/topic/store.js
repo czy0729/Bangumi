@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 14:59:03
+ * @Last Modified time: 2019-08-15 19:52:00
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, subjectStore, userStore, usersStore } from '@stores'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
+
+const namespace = 'ScreenTopic'
 
 export default class ScreenTopic extends store {
   state = observable({
@@ -15,22 +17,33 @@ export default class ScreenTopic extends store {
     replySub: '',
     message: '',
     filterMe: false,
-    filterFriends: false
+    filterFriends: false,
+    reverse: false,
+    _loaded: false
   })
 
-  init = () => {
+  init = async () => {
+    const state = await this.getStorage(undefined, this.namespace)
+    this.setState({
+      ...state,
+      placeholder: '',
+      replySub: '',
+      message: '',
+      _loaded: true
+    })
+
     // 章节需要请求章节详情
     if (this.isEp) {
       this.fetchEpFormHTML()
     }
 
-    return this.fetchTopic(true)
+    return this.fetchTopic()
   }
 
   // -------------------- fetch --------------------
-  fetchTopic = (refresh, reverse) => {
+  fetchTopic = () => {
     const { topicId } = this.params
-    return rakuenStore.fetchTopic({ topicId }, refresh, reverse)
+    return rakuenStore.fetchTopic({ topicId })
   }
 
   fetchEpFormHTML = () => {
@@ -40,6 +53,11 @@ export default class ScreenTopic extends store {
   }
 
   // -------------------- get --------------------
+  @computed get namespace() {
+    const { topicId } = this.params
+    return `${namespace}|${topicId}`
+  }
+
   @computed get topic() {
     const { topicId } = this.params
     return rakuenStore.topic(topicId)
@@ -48,13 +66,13 @@ export default class ScreenTopic extends store {
   @computed get comments() {
     const { topicId } = this.params
     const comments = rakuenStore.comments(topicId)
-    const { filterMe, filterFriends } = this.state
+    const { filterMe, filterFriends, reverse } = this.state
 
-    // @notice 只显示自己相关评论, 需要全部显示(包括子回复), 要从_list中筛选
+    const list = reverse ? comments.list.reverse() : comments.list
     if (filterMe) {
       return {
         ...comments,
-        list: comments._list.filter(item => {
+        list: list.filter(item => {
           if (item.sub.findIndex(i => i.userId === this.myId) !== -1) {
             return true
           }
@@ -71,7 +89,7 @@ export default class ScreenTopic extends store {
     if (filterFriends) {
       return {
         ...comments,
-        list: comments._list.filter(item => {
+        list: list.filter(item => {
           if (item.sub.findIndex(i => this.myFriendsMap[i.userId]) !== -1) {
             return true
           }
@@ -84,7 +102,10 @@ export default class ScreenTopic extends store {
       }
     }
 
-    return comments
+    return {
+      ...comments,
+      list
+    }
   }
 
   @computed get isEp() {
@@ -138,8 +159,11 @@ export default class ScreenTopic extends store {
    * 吐槽箱倒序
    */
   toggleReverseComments = () => {
-    const { _reverse } = this.comments
-    this.fetchTopic(true, !_reverse)
+    const { reverse } = this.state
+    this.setState({
+      reverse: !reverse
+    })
+    this.setStorage(undefined, undefined, this.namespace)
   }
 
   /**
@@ -151,6 +175,7 @@ export default class ScreenTopic extends store {
       filterMe: !filterMe,
       filterFriends: false
     })
+    this.setStorage(undefined, undefined, this.namespace)
   }
 
   /**
@@ -162,6 +187,7 @@ export default class ScreenTopic extends store {
       filterMe: false,
       filterFriends: !filterFriends
     })
+    this.setStorage(undefined, undefined, this.namespace)
   }
 
   /**
@@ -194,7 +220,6 @@ export default class ScreenTopic extends store {
     const { topicId } = this.params
     const { placeholder, replySub, message } = this.state
     const { formhash } = this.topic
-    const { _reverse } = this.comments
 
     let type
     if (topicId.includes('group/')) {
@@ -233,9 +258,7 @@ export default class ScreenTopic extends store {
           sub_reply_uid: subReplyUid,
           post_uid: postUid
         },
-        () => {
-          this.fetchTopic(true, _reverse)
-        }
+        () => this.fetchTopic()
       )
     } else {
       rakuenStore.doReply(
@@ -245,9 +268,7 @@ export default class ScreenTopic extends store {
           content,
           formhash
         },
-        () => {
-          this.fetchTopic(true, _reverse)
-        }
+        () => this.fetchTopic()
       )
     }
   }

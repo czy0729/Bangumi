@@ -2,11 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 23:01:11
+ * @Last Modified time: 2019-08-15 19:09:36
  */
 import { AsyncStorage } from 'react-native'
 import { WebBrowser } from 'expo'
 import { info } from './ui'
+
+/**
+ * 安全对象
+ * @param {*} url
+ */
+export function safeObject(object = {}) {
+  Object.keys(object).forEach(key => {
+    if (object[key] === undefined) {
+      // eslint-disable-next-line no-param-reassign
+      object[key] = ''
+    }
+  })
+  return object
+}
 
 /**
  * 浏览器打开网页
@@ -328,7 +342,7 @@ export function parseIOS8601(isostr, format = 'Y-m-d') {
  * @return {Int}    时间戳
  */
 export function getTimestamp(date = '') {
-  const _date = date.trim()
+  const _date = trim(date)
   if (_date) {
     return Math.floor(new Date(_date.replace(/-/g, '/')).valueOf() / 1000)
   }

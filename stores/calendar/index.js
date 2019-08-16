@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 21:05:43
+ * @Last Modified time: 2019-08-15 20:36:06
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -142,8 +142,6 @@ class Calendar extends store {
     if (todayHTML) {
       data.today = cheerioToday(`<li>${todayHTML[1]}</li>`)
     }
-
-    console.log(data)
 
     const key = 'home'
     this.setState({

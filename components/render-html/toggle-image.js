@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-14 10:31:21
+ * @Last Modified time: 2019-08-15 20:52:58
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { ActivityIndicator } from '@ant-design/react-native'
+import { HOST } from '@constants'
 import _ from '@styles'
 import Flex from '../flex'
 import Image from '../image'
@@ -45,15 +46,14 @@ export default class ToggleImage extends React.Component {
         </Touchable>
       )
     }
+
     return (
-      <View>
-        {!loaded && (
-          <Flex style={styles.loadingWrap} justify='center'>
-            <ActivityIndicator size='small' color={_.colorIcon} />
-          </Flex>
-        )}
+      <Flex justify='center'>
         <Image
           {...this.props}
+          headers={{
+            Referer: HOST
+          }}
           onLoadEnd={this.onLoadEnd}
           onError={this.onLoadEnd}
         />
@@ -64,16 +64,25 @@ export default class ToggleImage extends React.Component {
             </Flex>
           </Touchable>
         )}
-      </View>
+        {!loaded && (
+          <Flex
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                width: this.props.autoSize
+              }
+            ]}
+            justify='center'
+          >
+            <ActivityIndicator size='small' color={_.colorIcon} />
+          </Flex>
+        )}
+      </Flex>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  loadingWrap: {
-    width: '100%',
-    height: 120
-  },
   loading: {
     width: 32,
     height: 32

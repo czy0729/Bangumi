@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-14 13:58:28
+ * @Last Modified time: 2019-08-15 17:55:22
  */
 
 /**
  * 匹配头像地址
+ * background-image:url('//lain.bgm.tv/pic/user/m/000/47/44/474489.jpg?r=1563699148')
  * @test https://jsperf.com/czy0729-001
  * @param {*} str
  */
 export function matchAvatar(str = '') {
-  return str.substring(22, str.indexOf('?'))
+  const index = str.indexOf('?')
+  return str.substring(22, index === -1 ? str.length - 2 : index)
 }
 
 /**
