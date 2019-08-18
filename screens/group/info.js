@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 15:32:57
+ * @Last Modified time: 2019-08-18 14:10:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,13 +14,14 @@ import {
   Expand,
   Flex,
   Image,
-  Text
+  Text,
+  Loading
 } from '@components'
 import { IOS } from '@constants'
 import _ from '@styles'
 
-const Info = (props, { $ }) => {
-  const { title, content, cover } = $.groupInfo
+function Info(props, { $ }) {
+  const { title, content, cover, _loaded } = $.groupInfo
   return (
     <View style={[_.container.inner, styles.container]}>
       {!IOS && <HeaderPlaceholder />}
@@ -44,6 +45,11 @@ const Info = (props, { $ }) => {
           <RenderHtml html={content} />
         </Expand>
       )}
+      {!_loaded && (
+        <Flex style={styles.loading} justify='center'>
+          <Loading />
+        </Flex>
+      )}
     </View>
   )
 }
@@ -57,5 +63,8 @@ export default observer(Info)
 const styles = StyleSheet.create({
   container: {
     minHeight: 328
+  },
+  loading: {
+    height: 200
   }
 })

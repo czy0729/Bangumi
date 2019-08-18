@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:19:51
+ * @Last Modified time: 2019-08-18 14:03:19
  */
 import React from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
@@ -78,7 +78,7 @@ export default Loading
 
 const styles = StyleSheet.create({
   line: {
-    width: 6,
+    width: 4,
     marginHorizontal: 2,
     borderRadius: _.radiusSm
   }

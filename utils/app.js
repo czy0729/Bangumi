@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-15 19:11:05
+ * @Last Modified time: 2019-08-17 17:14:25
  */
 import { WebBrowser } from 'expo'
 import bangumiData from 'bangumi-data'
@@ -205,7 +205,7 @@ export function getBangumiUrl(item) {
     case 'bangumi':
       return url || `${HOST}/subject/${id}`
     case 'bilibili':
-      return url || `https://bangumi.bilibili.com/anime/${id}`
+      return url || `https://www.bilibili.com/bangumi/media/md${id}`
     case 'iqiyi':
       return url || `https://www.iqiyi.com/${id}.html`
     case 'pptv':

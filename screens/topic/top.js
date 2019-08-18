@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-14 00:02:43
+ * @Last Modified time: 2019-08-18 14:06:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,7 +22,6 @@ import { simpleTime } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { HOST, IOS } from '@constants'
 import _ from '@styles'
-import { bgmMap } from '@components/bgm-text'
 import SectionTitle from './section-title'
 
 function Top(props, { $, navigation }) {
@@ -126,9 +125,11 @@ function Top(props, { $, navigation }) {
                 {uname}
                 <Text type='sub'> @{uid}</Text>
               </Text>
-              <Text style={_.mt.xs} type='sub' size={12}>
-                {userSign || '-'}
-              </Text>
+              {!!_loaded && !userSign ? null : (
+                <Text style={_.mt.xs} type='sub' size={12}>
+                  {userSign || '-'}
+                </Text>
+              )}
             </Flex.Item>
           )}
         </Flex>
@@ -175,9 +176,9 @@ const styles = StyleSheet.create({
     width: 40
   },
   html: {
-    minHeight: 240
+    minHeight: 160
   },
   loading: {
-    height: 240
+    height: 160
   }
 })
