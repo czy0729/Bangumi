@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-15 20:02:10
+ * @Last Modified time: 2019-08-18 14:23:42
  */
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -68,7 +68,8 @@ export const INIT_SETTING = {
   quote: true, // 帖子展开引用,
   isBlockDefaultUser: false, // 是否屏蔽默认头像用户帖子
   blockGroups: [], // 屏蔽的小组
-  blockUserIds: [] // 屏蔽的用户 `${userName}@${userId}`
+  blockUserIds: [], // 屏蔽的用户 `${userName}@${userId}`
+  isMarkOldTopic: true // 标记坟贴
 }
 
 export const INIT_GROUP_INFO = {

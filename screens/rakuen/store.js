@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 20:21:18
+ * @Last Modified time: 2019-08-18 21:00:27
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -148,6 +148,14 @@ export default class ScreenRakuen extends store {
    */
   @computed get setting() {
     return rakuenStore.setting
+  }
+
+  /**
+   * 导航栏标题
+   */
+  @computed get title() {
+    const { page } = this.state
+    return tabs[page].title
   }
 
   // -------------------- fetch --------------------

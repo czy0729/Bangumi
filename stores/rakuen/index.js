@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-15 20:26:08
+ * @Last Modified time: 2019-08-18 14:24:59
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -525,6 +525,21 @@ class Rakuen extends store {
       [key]: {
         ...this.setting,
         blockUserIds: blockUserIds.filter(item => item !== userNameSpace)
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 切换`标记坟贴`
+   */
+  switchIsMarkOldTopic = () => {
+    const { isMarkOldTopic } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        isMarkOldTopic: !isMarkOldTopic
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

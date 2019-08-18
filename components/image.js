@@ -10,11 +10,12 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 09:47:26
+ * @Last Modified time: 2019-08-18 14:49:10
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
 import { systemStore } from '@stores'
+import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { IOS, IMG_ERROR } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
@@ -22,7 +23,7 @@ import _ from '@styles'
 import CacheManager from './@/react-native-expo-image-cache/src/CacheManager'
 import Touchable from './touchable'
 
-const maxErrorCount = 2
+const maxErrorCount = 2 // 最大失败重试次数
 
 export default class Image extends React.Component {
   static defaultProps = {
@@ -51,6 +52,7 @@ export default class Image extends React.Component {
   }
 
   errorCount = 0
+  timeoutId = null
 
   async componentDidMount() {
     const { src, autoSize } = this.props
@@ -63,6 +65,12 @@ export default class Image extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
       this.cache(nextProps.src)
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId)
     }
   }
 
@@ -115,11 +123,12 @@ export default class Image extends React.Component {
       } catch (e) {
         // 图片是不是会下载失败, 当错误次数大于maxErrorCount就认为是错误
         if (this.errorCount < maxErrorCount) {
-          setTimeout(() => {
+          this.timeoutId = setTimeout(() => {
             this.errorCount += 1
             this.cache(src)
           }, 800)
         } else {
+          this.timeoutId = null
           this.onError()
         }
       }
@@ -147,10 +156,10 @@ export default class Image extends React.Component {
       return uri
     }
     if (qualityLevel === 'best') {
-      return uri.replace(/\/m\/|\/g\/|\/s\//, '/l/')
+      return getCoverLarge(uri)
     }
     if (qualityLevel === 'low') {
-      return uri.replace(/\/m\/|\/g\/|\/l\//, '/s/')
+      return getCoverSmall(uri)
     }
     return uri
   }
@@ -184,12 +193,17 @@ export default class Image extends React.Component {
   }
 
   onError = () => {
-    if (this.props.onError) {
-      this.props.onError()
-    }
-    this.setState({
-      error: true
-    })
+    this.setState(
+      {
+        error: true
+      },
+      () => {
+        const { onError } = this.props
+        if (onError) {
+          onError()
+        }
+      }
+    )
   }
 
   render() {
@@ -228,6 +242,7 @@ export default class Image extends React.Component {
         height: height || size
       })
     }
+
     if (border) {
       if (typeof border === 'string') {
         _image.push({
@@ -238,6 +253,7 @@ export default class Image extends React.Component {
         _image.push(styles.border)
       }
     }
+
     if (radius) {
       if (typeof radius === 'boolean') {
         _wrap.push({ borderRadius: _.radiusXs })
@@ -247,15 +263,19 @@ export default class Image extends React.Component {
         _image.push({ borderRadius: radius })
       }
     }
+
     if (shadow) {
       _wrap.push(styles.shadow)
     }
+
     if (placeholder) {
       _wrap.push(styles.placeholder)
     }
+
     if (style) {
       _wrap.push(style)
     }
+
     if (imageStyle) {
       _wrap.push(imageStyle)
       _image.push(imageStyle)
@@ -302,6 +322,7 @@ export default class Image extends React.Component {
         ])
       }
     }
+
     if (_onPress || onLongPress) {
       return (
         <Touchable

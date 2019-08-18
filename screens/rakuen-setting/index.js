@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 15:21:49
+ * @Last Modified time: 2019-08-18 14:27:53
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -29,7 +29,7 @@ class Setting extends React.Component {
   }
 
   render() {
-    const { quote, isBlockDefaultUser } = rakuenStore.setting
+    const { quote, isBlockDefaultUser, isMarkOldTopic } = rakuenStore.setting
     return (
       <ScrollView
         style={_.container.screen}
@@ -49,6 +49,17 @@ class Setting extends React.Component {
             <Switch
               checked={isBlockDefaultUser}
               onChange={rakuenStore.switchIsBlockDefaultUser}
+            />
+          }
+          withoutFeedback
+        />
+        <ItemSetting
+          border
+          hd='标记坟贴'
+          ft={
+            <Switch
+              checked={isMarkOldTopic}
+              onChange={rakuenStore.switchIsMarkOldTopic}
             />
           }
           withoutFeedback

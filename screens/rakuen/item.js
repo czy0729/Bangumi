@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-09 10:28:03
+ * @Last Modified time: 2019-08-18 21:13:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,7 +16,10 @@ import { info } from '@utils/ui'
 import { HOST, IMG_DEFAULT_AVATAR, TOPIC_PUSH_LIMIT } from '@constants'
 import _ from '@styles'
 
-const Item = (
+const adRepliesCount = 4 // 回复数少于的数字, 判断为广告姬
+const oldGroupId = 346568 // 少于这个数字的, 为坟贴
+
+function Item(
   {
     style,
     index,
@@ -30,7 +33,7 @@ const Item = (
     time
   },
   { $, navigation }
-) => {
+) {
   const { isBlockDefaultUser, blockGroups, blockUserIds } = $.setting
   const groupCn = findBangumiCn(group)
 
@@ -60,7 +63,11 @@ const Item = (
 
   // 设置开启屏蔽默认头像, 且回复数小于4, 鉴定为广告姬
   const replyCount = parseInt(replies.match(/\d+/g))
-  if (isBlockDefaultUser && avatar === IMG_DEFAULT_AVATAR && replyCount < 4) {
+  if (
+    isBlockDefaultUser &&
+    avatar === IMG_DEFAULT_AVATAR &&
+    replyCount < adRepliesCount
+  ) {
     return null
   }
 
@@ -100,11 +107,14 @@ const Item = (
     }
   }
 
+  const isGroup = topicId.includes('group/')
+  const isSubject = topicId.includes('subject/')
+
   // 类别进入点击
   let type
-  if (topicId.includes('group/')) {
+  if (isGroup) {
     type = '小组'
-  } else if (topicId.includes('subject/') || topicId.includes('ep/')) {
+  } else if (isSubject || topicId.includes('ep/')) {
     type = '条目'
   } else {
     type = '人物'
@@ -112,10 +122,19 @@ const Item = (
 
   // 只有小组和条目可以屏蔽用户
   const popoverData = [`进入${type}`]
-  if (topicId.includes('group/') || topicId.includes('subject/')) {
+  if (isGroup || isSubject) {
     popoverData.push(`屏蔽${type}`, '屏蔽用户')
   } else {
     popoverData.push(`屏蔽${type}`)
+  }
+
+  // 标记坟贴
+  let isOldTopic = false
+  if (isGroup) {
+    const id = parseInt(topicId.substring(6))
+    if (id < oldGroupId) {
+      isOldTopic = true
+    }
   }
 
   return (
@@ -145,6 +164,12 @@ const Item = (
                     <Text type='main' size={12} lineHeight={16}>
                       {' '}
                       {replyAdd}
+                    </Text>
+                  )}
+                  {isOldTopic && (
+                    <Text size={12} lineHeight={16} type='sub'>
+                      {' '}
+                      (旧帖)
                     </Text>
                   )}
                 </Text>

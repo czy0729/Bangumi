@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-15 17:55:22
+ * @Last Modified time: 2019-08-18 14:53:55
  */
 
 /**
  * 匹配头像地址
- * background-image:url('//lain.bgm.tv/pic/user/m/000/47/44/474489.jpg?r=1563699148')
- * @test https://jsperf.com/czy0729-001
+ * @eg background-image:url('//lain.bgm.tv/pic/user/m/000/47/44/474489.jpg?r=1563699148')
+ * @url https://jsperf.com/czy0729-001
  * @param {*} str
  */
 export function matchAvatar(str = '') {
@@ -18,8 +18,8 @@ export function matchAvatar(str = '') {
 
 /**
  * 匹配用户Id
- * /user/123
- * @test https://jsperf.com/czy0729-002
+ * @eg /user/123
+ * @url https://jsperf.com/czy0729-002
  * @param {*} str
  */
 export function matchUserId(str = '') {
@@ -28,8 +28,8 @@ export function matchUserId(str = '') {
 
 /**
  * 匹配条目Id
- * /subject/123
- * @test https://jsperf.com/czy0729-003
+ * @eg /subject/123
+ * @url https://jsperf.com/czy0729-003
  * @param {*} str
  */
 export function matchSubjectId(str = '') {
@@ -38,8 +38,8 @@ export function matchSubjectId(str = '') {
 
 /**
  * 匹配图片
- * background-image:url('//lain.bgm.tv/pic/cover/m/4b/92/144482_nII3d.jpg')
- * @test https://jsperf.com/czy0729-004
+ * @eg background-image:url('//lain.bgm.tv/pic/cover/m/4b/92/144482_nII3d.jpg')
+ * @url https://jsperf.com/czy0729-004
  * @param {*} str
  */
 export function matchCover(str = '') {
