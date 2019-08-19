@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 13:14:16
+ * @Last Modified time: 2019-08-18 21:27:49
  */
 import { Dimensions, StyleSheet } from 'react-native'
 // import Constants from 'expo-constants'
@@ -57,7 +57,7 @@ export const colorBg = 'rgb(244, 244, 244)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
 export const colorShadow = 'rgb(0, 0, 0)'
-export const colorMask = 'rgba(0, 0, 0, 0.64)'
+export const colorMask = 'rgba(0, 0, 0, 0.5)'
 
 // -------------------- 文字 --------------------
 export const colorTitleRaw = [12, 12, 12]

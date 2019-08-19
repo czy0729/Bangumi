@@ -4,21 +4,23 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 11:41:04
+ * @Last Modified time: 2019-08-19 22:24:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Loading, WebView as CompWebView } from '@components'
 import { StatusBar } from '@screens/_'
+import { Loading, WebView as CompWebView } from '@components'
 import { withHeader, observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
+import { HTMLTrim } from '@utils/html'
 import { userStore } from '@stores'
 import _ from '@styles'
+import resetStyle from './reset-style'
 
-const title = '18年鉴'
-const redirectMaxCount = 8 // 最大跳转次数
+const title = '年鉴'
+const redirectMaxCount = 3 // 最大跳转次数
 
 export default
 @withHeader()
@@ -36,7 +38,7 @@ class Award extends React.Component {
   redirectCount = 0 // 跳转次数
 
   componentDidMount() {
-    hm('award/2018', title)
+    hm(`award/${this.year}`, title)
   }
 
   onError = () => {
@@ -79,14 +81,19 @@ class Award extends React.Component {
     }
   }
 
+  get year() {
+    const { navigation } = this.props
+    const uri = navigation.getParam('uri')
+    const uris = uri.split('/')
+    return uris[uris.length - 1]
+  }
+
   render() {
     const { cookie } = userStore.userCookie
     const { navigation } = this.props
     const uri = navigation.getParam('uri')
     const { loading } = this.state
-    const widthSubject = parseInt((_.window.width - 24) / 3)
-    const widthMono = parseInt((_.window.width - 48) / 4)
-    const heightMono = widthMono * 1.2
+
     const injectedJavaScript = `(function(){
       // 注入cookie
       document.cookie = '${cookie}';
@@ -94,7 +101,9 @@ class Award extends React.Component {
       // 为了美观, 修改条目宽度, 每行达到3个
       var styleSubject = document.createElement("style");
       try {
-        styleSubject.appendChild(document.createTextNode(".channelStatsWrapper .columnGrid ul.grid li span.cover,.channelStatsWrapper .columnGrid ul.grid li span.cover span.overlay{width:${widthSubject}px !important;height:${widthSubject}px !important;}"));
+        styleSubject.appendChild(document.createTextNode("${HTMLTrim(
+          resetStyle[this.year].subject
+        )}"));
       } catch(ex){
       }
       document.body.append(styleSubject);
@@ -102,7 +111,9 @@ class Award extends React.Component {
       // 为了美观, 修改人物宽度, 每行达到4个
       var styleSubject = document.createElement("style");
       try {
-        styleSubject.appendChild(document.createTextNode(".columnGrid ul.grid li.avatar{width:${widthMono}px !important;height:${heightMono}px !important;}"));
+        styleSubject.appendChild(document.createTextNode("${HTMLTrim(
+          resetStyle[this.year].mono
+        )}"));
       } catch(ex){
       }
       document.body.append(styleSubject);
@@ -110,7 +121,9 @@ class Award extends React.Component {
       // 隐藏部分样式, 使页面更沉浸
       var styleDeep = document.createElement("style");
       try {
-        styleDeep.appendChild(document.createTextNode("#headerNeue2, #personalTabStats, .shareBtn, #dock{display:none !important}"));
+        styleDeep.appendChild(document.createTextNode("${HTMLTrim(
+          resetStyle[this.year].hidden
+        )}"));
       } catch(ex){
       }
       document.body.append(styleDeep);

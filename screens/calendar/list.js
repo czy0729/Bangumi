@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-21 16:37:50
+ * @Last Modified time: 2019-08-18 21:48:29
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,7 +12,7 @@ import { SectionHeader } from '@screens/_'
 import _ from '@styles'
 import Item from './item'
 
-const List = (props, { $ }) => {
+function List(props, { $ }) {
   // 今天星期几的数据排最前
   let day = new Date().getDay()
   if (day === 0) {
@@ -29,13 +29,12 @@ const List = (props, { $ }) => {
 
   return (
     <ListView
+      style={_.container.screen}
       keyExtractor={item => item.id}
       sections={sections}
       numColumns={3}
       renderSectionHeader={({ section: { title } }) => (
-        <SectionHeader style={{ backgroundColor: _.colorPlain }} size={16}>
-          {title}
-        </SectionHeader>
+        <SectionHeader size={16}>{title}</SectionHeader>
       )}
       renderItem={({ item, title }) => (
         <Flex key={title} wrap='wrap' align='start'>

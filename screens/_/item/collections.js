@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:27:35
+ * @Last Modified time: 2019-08-19 22:27:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Touchable } from '@components'
 import { getTimestamp } from '@utils'
+import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { IMG_DEFAULT } from '@constants'
 import _ from '@styles'
@@ -31,6 +32,7 @@ const ItemCollections = ({
   comments,
   isOnHold
 }) => {
+  const _cover = getCoverMedium(cover)
   const isFirst = index === 0
   const hasName = !!name
   const hasTip = !!tip
@@ -50,7 +52,7 @@ const ItemCollections = ({
           subjectId: id,
           _jp: name,
           _cn: nameCn,
-          _image: cover
+          _image: _cover
         })
       }
     >
@@ -58,7 +60,7 @@ const ItemCollections = ({
         <View style={styles.imgContainer}>
           <Image
             style={styles.image}
-            src={cover || IMG_DEFAULT}
+            src={_cover || IMG_DEFAULT}
             width={imgWidth}
             height={imgHeight}
             radius

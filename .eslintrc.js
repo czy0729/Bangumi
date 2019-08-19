@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 13:10:55
+ * @Last Modified time: 2019-08-19 22:23:58
  */
 module.exports = {
   root: true,
@@ -59,6 +59,7 @@ module.exports = {
     'implicit-arrow-linebreak': 0,
     'import/extensions': 0,
     'import/no-unresolved': 0,
+    'import/order': 0,
     'import/prefer-default-export': 0,
     'linebreak-style': ['error', 'unix'],
     'lines-between-class-members': 0,

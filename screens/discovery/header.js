@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 21:10:16
+ * @Last Modified time: 2019-08-18 21:40:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,9 +24,7 @@ function Header(props, { $ }) {
       <Section />
       <Section2 />
       <View style={[_.container.wind, _.mt.lg]}>
-        <Text size={12} align='right'>
-          {today}
-        </Text>
+        <Text align='right'>{today}</Text>
       </View>
     </>
   )

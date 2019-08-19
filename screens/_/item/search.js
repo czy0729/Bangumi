@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:36:56
+ * @Last Modified time: 2019-08-19 22:33:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Touchable } from '@components'
-import { appNavigate } from '@utils/app'
+import { appNavigate, getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -19,7 +19,7 @@ import Stars from '../base/stars'
 const imgWidth = 96
 const imgHeight = 1.28 * imgWidth
 
-const ItemSearch = ({
+function ItemSearch({
   navigation,
   index,
   id,
@@ -33,11 +33,10 @@ const ItemSearch = ({
   type,
   collected,
   comments
-}) => {
-  const isFirst = index === 0
-
+}) {
   // 人物高清图不是正方形的图, 所以要特殊处理
   const isMono = !id.includes('/subject/')
+  const isFirst = index === 0
   return (
     <Touchable
       style={styles.container}
@@ -48,7 +47,7 @@ const ItemSearch = ({
         <View style={styles.imgContainer}>
           <Image
             style={styles.image}
-            src={cover || IMG_DEFAULT}
+            src={getCoverMedium(cover) || IMG_DEFAULT}
             resizeMode={isMono ? 'contain' : undefined}
             placeholder={!isMono}
             width={imgWidth}

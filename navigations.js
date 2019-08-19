@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 21:59:39
+ * @Last Modified time: 2019-08-19 22:21:59
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab
@@ -14,6 +14,7 @@ export default {
     // groupId: 'fillgrids',
     // type: 'anime',
     // tag: '水树奈奈',
+    // uri: 'https://bangumi.tv/award/2017'
   }
 }
 

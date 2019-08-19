@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 03:10:51
+ * @Last Modified time: 2019-08-19 22:32:15
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import { open } from '@utils'
@@ -65,7 +65,7 @@ class Search extends React.Component {
     }
 
     return (
-      <>
+      <View style={_.container.screen}>
         <Flex style={styles.searchBar}>
           <Category />
           <Flex.Item style={_.ml.sm}>
@@ -74,14 +74,13 @@ class Search extends React.Component {
         </Flex>
         <History style={_.mt.sm} />
         <List />
-      </>
+      </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
   searchBar: {
-    paddingTop: _.wind,
-    paddingHorizontal: _.wind
+    padding: _.wind
   }
 })

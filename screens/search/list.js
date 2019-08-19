@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-16 23:17:26
+ * @Last Modified time: 2019-08-19 22:31:29
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,6 +24,7 @@ const List = (props, { $, navigation }) => {
 
   return (
     <ListView
+      style={_.container.screen}
       contentContainerStyle={_.container.bottom}
       keyExtractor={item => String(item.id)}
       data={search}
