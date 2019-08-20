@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 15:35:55
+ * @Last Modified time: 2019-08-20 20:17:40
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import { Image, Text } from '@components'
 import { SectionTitle, IconHeader } from '@screens/_'
 import { findBangumiCn, getCoverLarge, getCoverMedium } from '@utils/app'

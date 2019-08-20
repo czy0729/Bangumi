@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-13 17:48:49
+ * @Last Modified time: 2019-08-20 20:01:03
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -207,7 +207,8 @@ export async function fetchHTML({
         Portal.remove(toastKey)
       }
 
-      return Promise.resolve(res._bodyInit)
+      // return Promise.resolve(res._bodyInit)
+      return Promise.resolve(res.text())
     })
     .catch(err => {
       if (systemStore.state.dev) {

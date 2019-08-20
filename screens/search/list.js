@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-19 22:31:29
+ * @Last Modified time: 2019-08-20 20:27:03
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,7 +14,7 @@ import _ from '@styles'
 const List = (props, { $, navigation }) => {
   const { searching } = $.state
   if (searching) {
-    return <Loading style={_.container.flex} color={_.colorMain} />
+    return <Loading style={_.container.flex} />
   }
 
   const search = $.search()

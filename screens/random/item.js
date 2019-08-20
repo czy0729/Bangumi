@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:47:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 15:12:02
+ * @Last Modified time: 2019-08-20 20:18:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import { Image, Text } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'

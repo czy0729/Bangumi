@@ -3,12 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 14:56:19
+ * @Last Modified time: 2019-08-20 20:18:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { BlurView } from 'expo'
-// import { BlurView } from 'expo-blur' // SDK33
+import { BlurView } from 'expo-blur'
 import { Logo } from '@screens/_'
 import { IOS } from '@constants'
 import _ from '@styles'

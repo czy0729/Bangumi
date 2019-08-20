@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 14:21:56
+ * @Last Modified time: 2019-08-20 19:03:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Constants } from 'expo'
+import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import { Text, KeyboardSpacer } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
