@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-10 22:07:08
+ * @Last Modified time: 2019-08-20 15:35:10
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -25,6 +25,7 @@ const HorizontalList = ({
     style={style}
     contentContainerStyle={styles.contentContainerStyle}
     horizontal
+    showsHorizontalScrollIndicator={false}
   >
     {data.map((item, index) => (
       <View

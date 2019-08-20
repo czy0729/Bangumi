@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-19 22:24:21
+ * @Last Modified time: 2019-08-20 15:45:51
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -13,9 +13,14 @@ import _ from '@styles'
 
 function Award(props, { navigation }) {
   return (
-    <ScrollView contentContainerStyle={styles.container} horizontal>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+    >
       <Touchable
         style={styles.item}
+        withoutFeedback
         onPress={() =>
           navigation.push('Award', {
             uri: `${HOST}/award/2018`
@@ -43,6 +48,7 @@ function Award(props, { navigation }) {
         <Touchable
           key={item}
           style={_.ml.md}
+          withoutFeedback
           onPress={() =>
             navigation.push('Award', {
               uri: `${HOST}/award/${item}`
