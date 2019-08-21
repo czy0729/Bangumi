@@ -3,7 +3,7 @@
     "name": "Bangumi",
     "slug": "bangumi",
     "privacy": "public",
-    "sdkVersion": "34.0.0",
+    "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
       "android"
@@ -17,7 +17,6 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "enabled": false,
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
