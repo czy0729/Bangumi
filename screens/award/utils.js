@@ -2,10 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-08-20 15:05:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 15:54:21
+ * @Last Modified time: 2019-08-21 23:50:00
  */
 import { HTMLTrim } from '@utils/html'
+import { IOS } from '@constants'
 import resetStyle from './reset-style'
+
+const IOSPostMessageInjected = `
+  (function () {
+    try {
+      var originalPostMessage = window.postMessage;
+      var patchedPostMessage = function(message, targetOrigin, transfer) {
+        originalPostMessage(message, targetOrigin, transfer);
+      };
+
+      patchedPostMessage.toString = function() {
+        return String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage');
+      };
+
+      window.postMessage = patchedPostMessage;
+    } catch (ex) {}
+  })();
+`
 
 export function injectedJavaScript({
   uri,
@@ -15,7 +33,7 @@ export function injectedJavaScript({
 }) {
   return `(function(){
     // 注入cookie
-    document.cookie = "${cookie}";
+    // document.cookie = "${cookie}";
 
     // 注入优化样式
     var resetStyle = document.createElement("style");
@@ -23,8 +41,7 @@ export function injectedJavaScript({
       resetStyle.appendChild(document.createTextNode("${HTMLTrim(
         resetStyle[year]
       )}"));
-    } catch(ex){
-    }
+    } catch (ex) {}
     document.body.append(resetStyle);
 
     // webview的postMessage不是马上生效的
@@ -34,6 +51,8 @@ export function injectedJavaScript({
       if (!__isBridgeOk && window.postMessage.length !== 1) {
         __timeoutId = setTimeout(waitForBridge, 400);
       } else {
+        ${IOS ? IOSPostMessageInjected : ''}
+
         __isBridgeOk = true;
 
         clearTimeout(__timeoutId);
@@ -83,3 +102,44 @@ export function injectedJavaScript({
     }, 0);
   }());`
 }
+
+export const injectedStaticJavaScript = HTMLTrim(`(function(){
+  setTimeout(() => {
+    /* webview的postMessage不是马上生效的 */
+    var __timeoutId = null;
+    var __isBridgeOk = false;
+    function waitForBridge() {
+      if (!__isBridgeOk && window.postMessage.length !== 1) {
+        __timeoutId = setTimeout(waitForBridge, 400);
+      } else {
+        ${IOS ? IOSPostMessageInjected : ''}
+
+        clearTimeout(__timeoutId);
+        __timeoutId = null;
+        __isBridgeOk = true;
+
+        setTimeout(() => {
+          /* 由于现在安卓的webview没有能阻止跳转的办法, 把href抹掉后加postMessage解决 */
+          var aNodes = document.getElementsByTagName("a");
+          for (let i = 0; i < aNodes.length; i++) {
+            let href = aNodes[i].href;
+            if (href) {
+              aNodes[i].setAttribute("data-href", aNodes[i].href);
+              aNodes[i].removeAttribute("href");
+              aNodes[i].addEventListener("click", function () {
+                window.postMessage(JSON.stringify({
+                  type: "onclick",
+                  data: {
+                    href: href,
+                  }
+                }));
+              })
+            }
+          }
+        }, 0);
+      }
+    }
+
+    waitForBridge();
+  }, 1000)
+}());`)

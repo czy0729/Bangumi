@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-18 22:44:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-21 10:44:19
+ * @Last Modified time: 2019-08-22 00:40:55
  */
 import _ from '@styles'
 
@@ -161,6 +161,186 @@ export default {
       width: 80%;
     }
     #awardSpecial p.sign {
+      width: 100%;
+    }
+
+    ${hiddenStyle}
+  `),
+
+  2015: important(`
+    /* 文档 */
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+    #awardWrapper,
+    #chl_community {
+      background: #f3f2ee;
+    }
+
+    /* 大标题 */
+    #headerAward {
+      display: none;
+    }
+    #headerVertical {
+      width: 100%;
+    }
+    #headerAward h1 {
+      width: 100%;
+      background-size: contain;
+    }
+
+    /* 频道 */
+    .channelStatsWrapper {
+      padding-top: 20px;
+      border: 10px solid #f3f2ee;
+    }
+    .channelStatsWrapper .columns {
+      width: 100%;
+      padding: 0;
+    }
+    h2.channelSbjTitle {
+      display: none;
+    }
+    .channelStatsWrapper .columnGrid div.inner {
+      margin: 8px;
+    }
+    .channelStatsWrapper .columnGrid h3.chl {
+      font-size: 28px;
+    }
+    .channelStatsWrapper .columnGrid ul.grid li span.cover {
+      width: ${widthSubject - 12}px;
+      height: ${widthSubject - 12}px;
+      background-size: ${widthSubject - 12}px;
+      border: 0;
+    }
+    .channelStatsWrapper .columnGrid h3,
+    .channelStatsWrapper ul.listRank li dl dt {
+      animation: initial;
+    }
+
+    /* 章节 */
+    .channelStatsWrapper div.topicRank h3 {
+      padding: 0 5px;
+    }
+    .channelStatsWrapper div.topicRank ul li {
+      width: 100%;
+      padding: 0 8px;
+    }
+    .channelStatsWrapper div.topicRank ul li span.cover {
+      margin-right: 8px;
+      border: 0;
+    }
+
+    /* 标签 */
+    .tags {
+      display: block;
+      padding: 0 8px;
+    }
+
+    /* 人物 */
+    .columnGrid ul.grid li.avatar {
+      width: ${widthMono - 10}px;
+      height: ${widthMono + 16}px;
+    }
+    .columnGrid ul.grid li span.avatar {
+      width: ${widthMono - 10}px;
+      height: ${widthMono - 10}px;
+      background-size: contain;
+    }
+    .columnGrid ul.grid li.avatar span.title,
+    .columnGrid ul.grid li.avatar small.fade {
+      width: 100%;
+    }
+    .columnGrid ul.grid li span.avatar {
+      border: 0;
+    }
+
+    /* 条目创建 */
+    .columnGrid ul.grid li.avatar span.title {
+      color: #444;
+    }
+    #chl_community a,
+    #chl_community span.tip_i {
+      color: #444;
+    }
+
+    #headerAward div.musume,
+    #awardFooter {
+      display: none;
+    }
+
+    ${hiddenStyle}
+  `),
+
+  2014: important(`
+    /* 文档 */
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+    #headerVertical {
+      width: 100%;
+      padding: 40px 0;
+    }
+    #personalStatsWrapper {
+      display: none;
+    }
+
+    /* 章节 */
+    .channelStatsWrapper .columns {
+      width: 100%;
+    }
+    h2.channelSbjTitle {
+      display: none;
+    }
+    .channelStatsWrapper .columnGrid div.inner {
+      margin: 8px;
+    }
+    .channelStatsWrapper div.topicRank ul li span.cover {
+      margin-right: 8px;
+    }
+    .channelStatsWrapper .columnGrid ul.grid li span.cover {
+      width: ${widthSubject - 8}px;
+      height: ${widthSubject - 8}px;
+      background-size: ${widthSubject - 8}px;
+    }
+
+    /* 关注榜 */
+    .channelStatsWrapper ul.listRank li,
+    .channelStatsWrapper ul.listRank li dl dd {
+      width: 100%;
+    }
+
+    /* 年度章节 */
+    .channelStatsWrapper div.topicRank h3 {
+      padding: 0 8px;
+    }
+    .channelStatsWrapper div.topicRank ul li {
+      width: 100%;
+      padding: 0 8px;
+    }
+
+    /* 标签 */
+    .tags {
+      display: block;
+      padding: 0 8px;
+    }
+
+    /* 人物 */
+    .columnGrid ul.grid li.avatar {
+      width: ${widthMono - 10}px;
+      height: ${widthMono + 16}px;
+    }
+    .columnGrid ul.grid li span.avatar {
+      width: ${widthMono - 10}px;
+      height: ${widthMono - 10}px;
+      background-size: contain;
+    }
+    .columnGrid ul.grid li.avatar span.title,
+    .columnGrid ul.grid li.avatar small.fade {
       width: 100%;
     }
 

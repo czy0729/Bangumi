@@ -3,22 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 16:22:53
+ * @Last Modified time: 2019-08-22 00:31:31
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, WebView } from 'react-native'
 import { StatusBar } from '@screens/_'
-import { Loading, WebView as CompWebView, Text } from '@components'
+import { Loading, Text } from '@components'
+import { open } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
-import { userStore } from '@stores'
+import { HOST } from '@constants'
 import _ from '@styles'
-import { injectedJavaScript } from './utils'
+import HTML from './html'
 
 const title = '年鉴'
-const redirectMaxCount = 2 // 最大失败跳转次数
 
 export default
 @withHeader()
@@ -46,35 +46,17 @@ class Award extends React.Component {
     navigation.goBack()
   }
 
-  onMessage = async event => {
+  onOpen = () => {
     const { navigation } = this.props
     const uri = navigation.getParam('uri')
+    open(uri)
+  }
+
+  onMessage = async event => {
+    const { navigation } = this.props
     try {
       const { type, data } = JSON.parse(event.nativeEvent.data)
       switch (type) {
-        case 'onload':
-          if (data) {
-            if (data.href !== uri) {
-              const { redirectCount } = this.state
-              this.setState(
-                {
-                  redirectCount: redirectCount + 1
-                },
-                () => {
-                  const { redirectCount } = this.state
-                  if (redirectCount > redirectMaxCount) {
-                    this.onError()
-                  }
-                }
-              )
-            } else {
-              this.loaded = true
-              this.setState({
-                loading: false
-              })
-            }
-          }
-          break
         case 'onclick':
           if (data && data.href) {
             appNavigate(data.href, navigation)
@@ -88,6 +70,12 @@ class Award extends React.Component {
     }
   }
 
+  onLoad = () => {
+    this.setState({
+      loading: false
+    })
+  }
+
   get year() {
     const { navigation } = this.props
     const uri = navigation.getParam('uri')
@@ -95,14 +83,19 @@ class Award extends React.Component {
     return uris[uris.length - 1]
   }
 
+  get barStyle() {
+    const { loading } = this.state
+    if (!loading && ['2016', '2015'].includes(this.year)) {
+      return 'dark-content'
+    }
+    return 'light-content'
+  }
+
   render() {
-    const { cookie } = userStore.userCookie
-    const { navigation } = this.props
     const { loading, redirectCount } = this.state
-    const uri = navigation.getParam('uri')
     return (
       <View style={[_.container.flex, styles.dark]}>
-        <StatusBar barStyle='light-content' />
+        <StatusBar barStyle={this.barStyle} />
         {loading && (
           <Loading
             style={[
@@ -114,29 +107,38 @@ class Award extends React.Component {
             ]}
             color={_.colorPlain}
           >
-            {!!redirectCount && (
-              <Text style={_.mt.sm} size={12} type='plain'>
-                第 {redirectCount}次 重试
-              </Text>
-            )}
+            <Text style={_.mt.md} size={12} type='plain'>
+              {redirectCount
+                ? `第${redirectCount}次重试`
+                : '网页加载中, 请稍等'}
+            </Text>
+            <Text
+              style={[
+                _.mt.sm,
+                {
+                  opacity: 0.6
+                }
+              ]}
+              size={10}
+              type='plain'
+              onPress={this.onOpen}
+            >
+              点这里使用浏览器打开
+            </Text>
           </Loading>
         )}
-        <CompWebView
-          ref={ref => (this.WebView = ref)}
+        <WebView
           style={[
             styles.dark,
             {
               paddingTop: _.statusBarHeight
             }
           ]}
-          uri={uri}
-          thirdPartyCookiesEnabled
-          injectedJavaScript={injectedJavaScript({
-            uri,
-            cookie,
-            redirectMaxCount,
-            year: this.year
-          })}
+          useWebKit
+          thirdPartyCookiesEnabled={false}
+          originWhitelist={['*']}
+          source={{ html: HTML[this.year], baseUrl: HOST }}
+          onLoad={this.onLoad}
           onError={this.onError}
           onMessage={this.onMessage}
         />
