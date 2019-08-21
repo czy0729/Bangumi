@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 15:45:51
+ * @Last Modified time: 2019-08-21 11:24:42
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -44,7 +44,7 @@ function Award(props, { navigation }) {
           placeholder={false}
         />
       </Touchable>
-      {[2017].map((item, index) => (
+      {[2017, 2016].map((item, index) => (
         <Touchable
           key={item}
           style={_.ml.md}
