@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-15 20:25:48
+ * @Last Modified time: 2019-08-22 20:06:51
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -103,9 +103,14 @@ export const HTML_SEARCH = (text, cat = '', page = 1) => {
  * @param {*} type
  * @param {*} order
  * @param {*} page
+ * @param {*} airtime
  */
-export const HTML_TAG = (text, type = 'anime', order, page = 1) =>
-  `${HOST}/${type}/tag/${text}?sort=${order}&page=${page}`
+export const HTML_TAG = (text, type = 'anime', order, page = 1, airtime) => {
+  if (airtime) {
+    return `${HOST}/${type}/tag/${text}/airtime/${airtime}?sort=${order}&page=${page}`
+  }
+  return `${HOST}/${type}/tag/${text}?sort=${order}&page=${page}`
+}
 
 /**
  * 排行榜

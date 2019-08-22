@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 18:04:13
+ * @Last Modified time: 2019-08-22 20:22:15
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -45,10 +45,10 @@ class Tag extends store {
    * 取标签结果
    * @param {*} text 标签
    */
-  tag(text = '', type = DEFAULT_TYPE) {
+  tag(text = '', type = DEFAULT_TYPE, airtime = '') {
     const _text = text.replace(/ /g, '+')
     return computed(
-      () => this.state.tag[`${_text}|${type}`] || LIST_EMPTY
+      () => this.state.tag[`${_text}|${type}|${airtime}`] || LIST_EMPTY
     ).get()
   }
 
@@ -68,7 +68,10 @@ class Tag extends store {
    * @param {*} order 排序
    * @param {*} refresh 是否刷新
    */
-  async fetchTag({ text = '', type = DEFAULT_TYPE, order } = {}, refresh) {
+  async fetchTag(
+    { text = '', type = DEFAULT_TYPE, order, airtime = '' } = {},
+    refresh
+  ) {
     const _text = text.replace(/ /g, '+')
 
     const { list, pagination } = this.tag(_text, type)
@@ -81,13 +84,13 @@ class Tag extends store {
 
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
-      url: HTML_TAG(_text, type, order, page)
+      url: HTML_TAG(_text, type, order, page, airtime)
     })
     const raw = await res
     const { pageTotal, tag } = analysisTags(raw, page, pagination)
 
     const key = 'tag'
-    const stateKey = `${_text}|${type}`
+    const stateKey = `${_text}|${type}|${airtime}`
     this.setState({
       [key]: {
         [stateKey]: {

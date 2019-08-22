@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-18 22:44:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 00:40:55
+ * @Last Modified time: 2019-08-22 16:51:30
  */
 import _ from '@styles'
 
@@ -342,6 +342,237 @@ export default {
     .columnGrid ul.grid li.avatar span.title,
     .columnGrid ul.grid li.avatar small.fade {
       width: 100%;
+    }
+
+    ${hiddenStyle}
+  `),
+
+  2013: important(`
+    /* 文档 */
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* 章节 */
+    .channelStatsWrapper {
+      padding-top: 40px;
+    }
+    .channelStatsWrapper .columns {
+      width: 100%;
+      padding: 0;
+    }
+    h2.channelSbjTitle {
+      display: none;
+    }
+    .channelStatsWrapper .columnGrid div.inner {
+      margin: 8px;
+    }
+    .channelStatsWrapper .columnGrid ul.grid li span.cover {
+      width: ${widthSubject - 8}px;
+      height: ${widthSubject - 8}px;
+      background-size: ${widthSubject - 8}px;
+      border: 0;
+    }
+
+    /* 榜单 */
+    .channelStatsWrapper ul.listRank li {
+      width: 100%;
+    }
+    .channelStatsWrapper ul.listRank li dl dd {
+      width: 100%;
+    }
+
+    /* 标签 */
+    .tags {
+      display: block;
+      padding: 0 8px;
+    }
+
+    /* 人物 */
+    .columnGrid ul.grid li.avatar {
+      width: ${widthMono - 10}px;
+      height: ${widthMono + 16}px;
+    }
+    .columnGrid ul.grid li span.avatar {
+      width: ${widthMono - 10}px;
+      height: ${widthMono - 10}px;
+      background-size: contain;
+    }
+    .columnGrid ul.grid li.avatar span.title,
+    .columnGrid ul.grid li.avatar small.fade {
+      width: 100%;
+    }
+    .columnGrid ul.grid li span.avatar {
+      border: 0;
+    }
+
+    ${hiddenStyle}
+  `),
+
+  2012: important(`
+    /* 文档 */
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+    #headerAward h1 {
+      padding: 20px 0;
+      background-size: contain;
+    }
+    #awardNav {
+      display: none;
+    }
+
+    /* 章节 */
+    .channelStatsWrapper .columns {
+      width: 100%;
+      padding: 0;
+    }
+    .channelStatsWrapper .columnGrid {
+      margin: 8px;
+    }
+    .channelStatsWrapper .columnGrid ul.grid li span.cover {
+      width: ${widthSubject - 8}px;
+      height: ${widthSubject - 8}px;
+      background-size: ${widthSubject - 8}px;
+    }
+
+    /* 榜单 */
+    .channelStatsWrapper ul.listRank li {
+      width: 100%;
+    }
+    .channelStatsWrapper ul.listRank li dl dd {
+      width: 100%;
+    }
+
+    /* 标签 */
+    .tags {
+      display: block;
+      padding: 0 8px;
+    }
+
+    /* 人物 */
+    .columnGrid ul.grid li.avatar {
+      width: ${widthMono - 6}px;
+      height: ${widthMono + 20}px;
+    }
+    .columnGrid ul.grid li span.avatar {
+      width: ${widthMono - 6}px;
+      height: ${widthMono - 6}px;
+      background-size: contain;
+    }
+    .columnGrid ul.grid li.avatar span.title,
+    .columnGrid ul.grid li.avatar small.fade {
+      width: 100%;
+    }
+
+    ${hiddenStyle}
+  `),
+
+  2011: important(`
+    /* 文档 */
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* 榜单 */
+    .channelStatsWrapper .columns {
+      padding: 0;
+      width: 100%;
+    }
+    .channelStatsWrapper .columnGrid {
+      width: 100%;
+      margin: 0;
+    }
+    .channelStatsWrapper .columnGrid h3 {
+      margin: 0;
+      padding: 8px;
+    }
+    .channelStatsWrapper .columnGrid ul.grid {
+      padding: 0 8px;
+    }
+    .channelStatsWrapper .columnGrid ul.grid li span.cover {
+      width: ${widthSubject - 4}px;
+      height: ${widthSubject - 4}px;
+      background-size: ${widthSubject - 4}px;
+    }
+
+    /* 章节 */
+    .channelStatsWrapper ul.listRank li {
+      width: 100%;
+    }
+    .channelStatsWrapper ul.listRank li dl dd {
+      width: 100%;
+    }
+
+    /* 标签 */
+    .tip_i {
+      display: block;
+      padding: 8px;
+    }
+
+    /* 人物 */
+    .channelStatsWrapper .columnGrid ul.grid li span.avatar {
+      width: ${widthMono - 2}px;
+      height: ${widthMono - 2}px;
+      background-size: ${widthMono - 2}px;
+    }
+    .channelStatsWrapper .columnGrid ul.grid li span.avatar span.overlay {
+      width: 100%;
+      height: 100%;
+    }
+
+    ${hiddenStyle}
+  `),
+
+  2010: important(`
+    /* 文档 */
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+    #headerAward div.inner {
+      width: 100%;
+    }
+
+    /* 榜单 */
+    .columnsAward {
+      width: 100%;
+    }
+    #columnChartSubject {
+      width: 100%;
+      padding: 8px;
+    }
+    ul.chartTopList li {
+      padding-right: 0;
+      margin-right: 20px;
+    }
+    ul.chartTopList li img.cover {
+      width: ${widthSubject - 16}px;
+      height: ${(widthSubject - 16) * 1.42}px;
+    }
+    ul.chartSecList li {
+      width: 50%;
+    }
+    #columnChartSubject a.outerlink {
+      display: none;
+    }
+
+    /* 章节 */
+    #columnChartUser {
+      width: 100%;
+    }
+
+    /* 标签 */
+    .tip_i {
+      display: block;
+      padding: 8px;
     }
 
     ${hiddenStyle}

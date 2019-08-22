@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 20:19:48
+ * @Last Modified time: 2019-08-22 16:59:14
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -36,6 +36,7 @@ export const bottom = tabBarHeight + lg // 底部留空
 // -------------------- 主题色 --------------------
 export const colorPlainRaw = [255, 255, 255]
 export const colorPlain = `rgb(${colorPlainRaw.join()})`
+export const colorDark = 'rgb(0, 0, 0)'
 export const colorMain = 'rgb(252, 127, 138)' // #FC7F8A
 export const colorMainLight = 'rgb(255, 243, 244)' // #FFF3F4
 export const colorMainBorder = 'rgb(252, 128, 138)'

@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-17 17:14:25
+ * @Last Modified time: 2019-08-22 20:25:14
  */
-import { WebBrowser } from 'expo'
+import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
 import { HOST, HOST_2 } from '@constants'
 
@@ -140,6 +140,19 @@ export function appNavigate(url = '', navigation, passParams = {}) {
     navigation.push('Group', {
       groupId: _url.replace(`${HOST}/group/`, ''),
       _url,
+      ...passParams
+    })
+    return true
+  }
+
+  // 标签
+  if (_url.includes('/tag/')) {
+    // ['https:', ', 'bangumi.tv', 'anime', 'tag', '剧场版', 'airtime', '2018']
+    const params = _url.split('/')
+    navigation.push('Tag', {
+      type: params[3],
+      tag: decodeURIComponent(params[5]),
+      airtime: params[7],
       ...passParams
     })
     return true

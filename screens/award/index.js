@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 00:31:31
+ * @Last Modified time: 2019-08-22 19:30:48
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -16,7 +16,7 @@ import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
 import _ from '@styles'
-import HTML from './html'
+import staticHTML from './static-html'
 
 const title = '年鉴'
 
@@ -85,7 +85,7 @@ class Award extends React.Component {
 
   get barStyle() {
     const { loading } = this.state
-    if (!loading && ['2016', '2015'].includes(this.year)) {
+    if (!loading && ['2016', '2015', '2012', '2011'].includes(this.year)) {
       return 'dark-content'
     }
     return 'light-content'
@@ -123,7 +123,7 @@ class Award extends React.Component {
               type='plain'
               onPress={this.onOpen}
             >
-              点这里使用浏览器打开
+              或点这里使用浏览器打开
             </Text>
           </Loading>
         )}
@@ -137,7 +137,7 @@ class Award extends React.Component {
           useWebKit
           thirdPartyCookiesEnabled={false}
           originWhitelist={['*']}
-          source={{ html: HTML[this.year], baseUrl: HOST }}
+          source={{ html: staticHTML(this.year), baseUrl: HOST }}
           onLoad={this.onLoad}
           onError={this.onError}
           onMessage={this.onMessage}

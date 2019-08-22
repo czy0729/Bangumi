@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 22:21:00
+ * @Last Modified time: 2019-08-22 20:25:46
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -34,7 +34,7 @@ export const GITHUB_RELEASE_REPOS_URL =
   'https://api.github.com/repos/czy0729/Bangumi/releases'
 export const GITHUB_RELEASE_VERSION = '0.12.0'
 export const CODE_PUSH_VERSION = ''
-export const DEV = true
+export const DEV = false
 
 // 图片
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
@@ -68,3 +68,48 @@ export const LIST_EMPTY = {
 export const LIST_LIMIT = 40 // 用于制造分页数据
 export const LIST_COMMENTS_LIMIT = 25
 export const TOPIC_PUSH_LIMIT = 300 // 对评论大于300的帖子进行网页跳转
+
+export const airtimeData = [
+  '全部',
+  '2020',
+  '2019',
+  '2018',
+  '2017',
+  '2016',
+  '2015',
+  '2014',
+  '2013',
+  '2012',
+  '2011',
+  '2010',
+  '2009',
+  '2008',
+  '2007',
+  '2006',
+  '2005',
+  '2004',
+  '2003',
+  '2002',
+  '2001',
+  '2000',
+  '1999',
+  '1998',
+  '1997',
+  '1996',
+  '1995',
+  '1994',
+  '1993',
+  '1992',
+  '1991',
+  '1990',
+  '1989',
+  '1988',
+  '1987',
+  '1986',
+  '1985',
+  '1984',
+  '1983',
+  '1982',
+  '1981',
+  '1980'
+]

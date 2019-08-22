@@ -24,6 +24,7 @@
     "expo-font": "~5.0.1",
     "expo-linear-gradient": "~5.0.1",
     "expo-video-player": "^1.2.0",
+    "expo-web-browser": "~5.0.1",
     "hoist-non-react-statics": "^2.5.0",
     "mobx": "4.9.2",
     "mobx-react": "5.4.3",

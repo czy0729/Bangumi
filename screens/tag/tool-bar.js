@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:52:15
+ * @Last Modified time: 2019-08-22 20:14:16
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,13 +10,16 @@ import PropTypes from 'prop-types'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
+import { airtimeData } from '@constants'
 import { MODEL_TAG_ORDERBY } from '@constants/model'
 import _ from '@styles'
 
 const orderData = MODEL_TAG_ORDERBY.data.map(item => item.label)
 
 const ToolBar = (props, { $ }) => {
-  const { order, list } = $.state
+  const { order, list, airtime } = $.state
+  console.log(airtime)
+  const isEmptyAirdate = airtime === ''
   return (
     <Flex style={styles.container}>
       <Flex.Item>
@@ -33,6 +36,20 @@ const ToolBar = (props, { $ }) => {
               numberOfLines={1}
             >
               {order ? MODEL_TAG_ORDERBY.getLabel(order) : '名称'}
+            </Text>
+          </Flex>
+        </Popover>
+      </Flex.Item>
+      <Flex.Item>
+        <Popover data={airtimeData} onSelect={$.onAirdateSelect}>
+          <Flex style={styles.item} justify='center'>
+            <Iconfont
+              name='calendar'
+              size={14}
+              color={isEmptyAirdate ? _.colorSub : _.colorMain}
+            />
+            <Text style={_.ml.sm} type={isEmptyAirdate ? 'sub' : 'main'}>
+              {airtime || '年份'}
             </Text>
           </Flex>
         </Popover>

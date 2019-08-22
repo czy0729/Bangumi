@@ -2,12 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-20 15:05:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-21 23:50:00
+ * @Last Modified time: 2019-08-22 12:22:00
  */
 import { HTMLTrim } from '@utils/html'
 import { IOS } from '@constants'
 import resetStyle from './reset-style'
 
+/**
+ * iOS需要注入这段代码, 防止 postMessage 报错
+ * Setting onMessage on a WebView overrides existing values of window.postMessage
+ */
 const IOSPostMessageInjected = `
   (function () {
     try {
@@ -25,6 +29,53 @@ const IOSPostMessageInjected = `
   })();
 `
 
+/**
+ * 访问静态html年鉴注入代码
+ */
+export const injectedStaticJavaScript = HTMLTrim(`(function(){
+  setTimeout(() => {
+    /* webview的postMessage不是马上生效的 */
+    var __timeoutId = null;
+    var __isBridgeOk = false;
+    function waitForBridge() {
+      if (!__isBridgeOk && window.postMessage.length !== 1) {
+        __timeoutId = setTimeout(waitForBridge, 400);
+      } else {
+        ${IOS ? IOSPostMessageInjected : ''}
+
+        clearTimeout(__timeoutId);
+        __timeoutId = null;
+        __isBridgeOk = true;
+
+        setTimeout(() => {
+          /* 由于现在安卓的webview没有能阻止跳转的办法, 把href抹掉后加postMessage解决 */
+          var aNodes = document.getElementsByTagName("a");
+          for (let i = 0; i < aNodes.length; i++) {
+            let href = aNodes[i].href;
+            if (href) {
+              aNodes[i].setAttribute("data-href", aNodes[i].href);
+              aNodes[i].removeAttribute("href");
+              aNodes[i].addEventListener("click", function () {
+                window.postMessage(JSON.stringify({
+                  type: "onclick",
+                  data: {
+                    href: href,
+                  }
+                }));
+              })
+            }
+          }
+        }, 0);
+      }
+    }
+
+    waitForBridge();
+  }, 1000)
+}());`)
+
+/**
+ * 直接访问年鉴网址注入代码
+ */
 export function injectedJavaScript({
   uri,
   cookie = '',
@@ -102,44 +153,3 @@ export function injectedJavaScript({
     }, 0);
   }());`
 }
-
-export const injectedStaticJavaScript = HTMLTrim(`(function(){
-  setTimeout(() => {
-    /* webview的postMessage不是马上生效的 */
-    var __timeoutId = null;
-    var __isBridgeOk = false;
-    function waitForBridge() {
-      if (!__isBridgeOk && window.postMessage.length !== 1) {
-        __timeoutId = setTimeout(waitForBridge, 400);
-      } else {
-        ${IOS ? IOSPostMessageInjected : ''}
-
-        clearTimeout(__timeoutId);
-        __timeoutId = null;
-        __isBridgeOk = true;
-
-        setTimeout(() => {
-          /* 由于现在安卓的webview没有能阻止跳转的办法, 把href抹掉后加postMessage解决 */
-          var aNodes = document.getElementsByTagName("a");
-          for (let i = 0; i < aNodes.length; i++) {
-            let href = aNodes[i].href;
-            if (href) {
-              aNodes[i].setAttribute("data-href", aNodes[i].href);
-              aNodes[i].removeAttribute("href");
-              aNodes[i].addEventListener("click", function () {
-                window.postMessage(JSON.stringify({
-                  type: "onclick",
-                  data: {
-                    href: href,
-                  }
-                }));
-              })
-            }
-          }
-        }, 0);
-      }
-    }
-
-    waitForBridge();
-  }, 1000)
-}());`)
