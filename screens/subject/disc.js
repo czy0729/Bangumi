@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-12 23:55:09
+ * @Last Modified time: 2019-08-23 00:33:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { SectionTitle } from '@screens/_'
 import { appNavigate } from '@utils/app'
 import _ from '@styles'
 
-const Disc = ({ style }, { $, navigation }) => {
+function Disc({ style }, { $, navigation }) {
   const { disc = [] } = $.subjectFormHTML
   return (
     <View style={[_.container.wind, styles.container, style]}>

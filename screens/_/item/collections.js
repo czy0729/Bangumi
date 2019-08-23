@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-19 22:27:26
+ * @Last Modified time: 2019-08-23 00:43:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,10 +15,10 @@ import { IMG_DEFAULT } from '@constants'
 import _ from '@styles'
 import Stars from '../base/stars'
 
-const imgWidth = 80
+const imgWidth = 88
 const imgHeight = 1.28 * imgWidth
 
-const ItemCollections = ({
+function ItemCollections({
   navigation,
   index,
   id,
@@ -31,7 +31,7 @@ const ItemCollections = ({
   tags = '',
   comments,
   isOnHold
-}) => {
+}) {
   const _cover = getCoverMedium(cover)
   const isFirst = index === 0
   const hasName = !!name
@@ -67,7 +67,7 @@ const ItemCollections = ({
             shadow
           />
         </View>
-        <Flex.Item style={[styles.item, _.ml.wind]}>
+        <Flex.Item style={_.ml.wind}>
           <Flex
             style={styles.content}
             direction='column'
@@ -120,9 +120,6 @@ const styles = StyleSheet.create({
   },
   wrap: {
     paddingVertical: _.wind,
-    paddingRight: _.wind
-  },
-  item: {
     paddingRight: _.wind
   },
   border: {

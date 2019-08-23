@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-13 00:54:37
+ * @Last Modified time: 2019-08-23 11:58:16
  */
 export const NAMESPACE = 'Subject'
 
@@ -37,12 +37,14 @@ export const INIT_SUBJECT_FROM_HTML_ITEM = {
   relations: [], // 关联条目
   friend: {
     score: 0, // 好友评分
-    total: 0
+    total: 0 // 总共多少人评分
   },
   disc: [], // 曲目列表
   book: {}, // 书籍章节信息
   comic: [], // 单行本
-  like: [] // 猜你喜欢
+  like: [], // 猜你喜欢
+  who: [], // 谁在看
+  info: '' // 详情
 }
 
 export const INIT_MONO = {

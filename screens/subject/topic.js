@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 02:32:16
+ * @Last Modified time: 2019-08-23 00:34:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Expand } from '@components'
 import { SectionTitle, ItemArticle } from '@screens/_'
 import _ from '@styles'
 
-const Topic = ({ style }, { $, navigation }) => {
+function Topic({ style }, { $, navigation }) {
   const { topic } = $.subject
   if (!(topic || []).length) {
     return null

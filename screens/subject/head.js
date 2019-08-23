@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 22:03:18
+ * @Last Modified time: 2019-08-23 00:33:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -17,7 +17,7 @@ import Cover from './cover'
 
 const imageWidth = 120
 
-const Head = ({ style }, { $ }) => {
+function Head({ style }, { $ }) {
   const {
     images = {},
     name = '',

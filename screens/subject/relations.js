@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-10 22:04:14
+ * @Last Modified time: 2019-08-23 00:34:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import _ from '@styles'
 
-const Relations = ({ style }, { $, navigation }) => {
+function Relations({ style }, { $, navigation }) {
   const { relations = [] } = $.subjectFormHTML
   if (!relations.length) {
     return null

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-18 20:31:33
+ * @Last Modified time: 2019-08-23 00:33:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { SectionTitle } from '@screens/_'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 
-const BookEp = ({ style }, { $ }) => {
+function BookEp({ style }, { $ }) {
   const { chap, vol } = $.state
   const { book = {} } = $.subjectFormHTML
   const { status = { name: '未收藏' } } = $.collection

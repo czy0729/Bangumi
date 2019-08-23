@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 19:20:14
+ * @Last Modified time: 2019-08-24 01:53:08
  */
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
@@ -15,11 +15,7 @@ import { height } from './store'
 
 function About(props, { $, navigation }) {
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainerStyle}
-      {...props}
-    >
+    <ScrollView contentContainerStyle={styles.contentContainerStyle} {...props}>
       <RenderHtml
         style={_.mt.lg}
         html={$.users.sign || '(什么都没有)'}
@@ -37,9 +33,6 @@ About.contextTypes = {
 export default observer(About)
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: _.colorPlain
-  },
   contentContainerStyle: {
     paddingTop: height + _.wind * 2,
     paddingHorizontal: _.wind,

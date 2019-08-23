@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 20:04:04
+ * @Last Modified time: 2019-08-23 00:34:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import _ from '@styles'
 
-const Staff = ({ style }, { $, navigation }) => {
+function Staff({ style }, { $, navigation }) {
   const { staff = [] } = $.subject
   if (!staff.length) {
     return null

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 16:14:13
+ * @Last Modified time: 2019-08-23 00:47:13
  */
 import { StyleSheet, Platform } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'

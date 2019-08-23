@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-10 22:03:40
+ * @Last Modified time: 2019-08-23 00:33:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import _ from '@styles'
 
-const Like = ({ style }, { $, navigation }) => {
+function Like({ style }, { $, navigation }) {
   const { like = [] } = $.subjectFormHTML
   if (!like.length) {
     return null

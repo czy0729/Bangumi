@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-10 22:03:55
+ * @Last Modified time: 2019-08-23 00:33:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import _ from '@styles'
 
-const Character = ({ style }, { $, navigation }) => {
+function Character({ style }, { $, navigation }) {
   const { crt = [] } = $.subject
   if (!crt.length) {
     return null

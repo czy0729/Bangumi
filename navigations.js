@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 16:52:14
+ * @Last Modified time: 2019-08-24 01:28:48
  */
 export default {
-  initialRouteName: 'HomeTab', // HomeTab
+  initialRouteName: 'Subject', // HomeTab
   initialRouteParams: {
-    // subjectId: 352067 // 238923 100444 204135
+    subjectId: 238923 // 238923 100444 204135
     // topicId: 'ep/565023' // ep/768491
     // userId: '419012'
     // monoId: 'character/7454', // character/70323 person/5745
@@ -18,4 +18,4 @@ export default {
   }
 }
 
-export const initialHomeTabName = 'Home'
+export const initialHomeTabName = 'Rakuen'

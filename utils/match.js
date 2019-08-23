@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 14:53:55
+ * @Last Modified time: 2019-08-24 01:39:17
  */
 
 /**
@@ -43,8 +43,17 @@ export function matchSubjectId(str = '') {
  * @param {*} str
  */
 export function matchCover(str = '') {
-  if (str === 'background-image:url(\'/img/no_icon_subject.png\')') {
+  if (str === "background-image:url('/img/no_icon_subject.png')") {
     return ''
   }
   return str.substring(22, str.length - 2)
+}
+
+/**
+ * 匹配评分
+ * @eg starlight stars8
+ * @param {*} str
+ */
+export function matchStar(str = '') {
+  return str.substring(15)
 }

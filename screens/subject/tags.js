@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-12 17:18:23
+ * @Last Modified time: 2019-08-23 00:34:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { SectionTitle } from '@screens/_'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 
-const Tags = ({ style }, { $, navigation }) => {
+function Tags({ style }, { $, navigation }) {
   const { type } = $.subject
   const { tags = [] } = $.subjectFormHTML
   const { tag = [] } = $.collection

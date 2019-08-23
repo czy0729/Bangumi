@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 21:13:42
+ * @Last Modified time: 2019-08-23 00:39:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -167,7 +167,7 @@ function Item(
                     </Text>
                   )}
                   {isOldTopic && (
-                    <Text size={12} lineHeight={16} type='sub'>
+                    <Text size={12} lineHeight={16} type='warning'>
                       {' '}
                       (旧帖)
                     </Text>

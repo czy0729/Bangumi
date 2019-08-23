@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-13 16:41:11
+ * @Last Modified time: 2019-08-24 01:39:23
  */
 import cheerio from 'cheerio-without-node-native'
+import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
 import { fetchHTML } from '@utils/fetch'
-import { matchSubjectId, matchCover } from '@utils/match'
+import {
+  matchSubjectId,
+  matchCover,
+  matchAvatar,
+  matchUserId,
+  matchStar
+} from '@utils/match'
 import { HOST } from '@constants'
 import { HTML_MONO } from '@constants/html'
 import { analysisComments } from '../rakuen/common'
@@ -203,23 +210,27 @@ export async function fetchMono({ monoId = 0 }) {
  */
 export function cheerioSubjectFormHTML(HTML) {
   const $ = cheerio.load(HTML)
-  let relationsType = ''
+  let relationsType
 
   // 曲目列表
   const disc = []
   $('div.line_detail > ul.line_list_music > li').each((index, element) => {
-    const $li = cheerio(element)
-    if ($li.attr('class') === 'cat') {
-      disc.push({
-        title: $li.text() || '',
-        disc: []
-      })
+    const $row = cheerio(element)
+    if ($row.attr('class') === 'cat') {
+      disc.push(
+        safeObject({
+          title: $row.text(),
+          disc: []
+        })
+      )
     } else {
-      const $a = $li.find('h6 > a')
-      disc[disc.length - 1].disc.push({
-        title: $a.text() || '',
-        href: $a.attr('href') || ''
-      })
+      const $a = $row.find('h6 > a')
+      disc[disc.length - 1].disc.push(
+        safeObject({
+          title: $a.text(),
+          href: $a.attr('href')
+        })
+      )
     }
   })
 
@@ -228,11 +239,11 @@ export function cheerioSubjectFormHTML(HTML) {
     tags:
       $('div.subject_tag_section > div.inner > a.l')
         .map((index, element) => {
-          const $li = cheerio(element)
-          return {
-            name: $li.find('span').text() || '',
-            count: $li.find('small').text() || ''
-          }
+          const $row = cheerio(element)
+          return safeObject({
+            name: $row.find('span').text(),
+            count: $row.find('small').text()
+          })
         })
         .get() || [],
 
@@ -240,20 +251,20 @@ export function cheerioSubjectFormHTML(HTML) {
     relations:
       $('div.content_inner > ul.browserCoverMedium > li')
         .map((index, element) => {
-          const $li = cheerio(element)
-          const $title = $li.find('a.title')
-          const id = matchSubjectId($title.attr('href')) || ''
-          const type = $li.find('span.sub').text()
+          const $row = cheerio(element)
+          const $title = $row.find('a.title')
+          const id = matchSubjectId($title.attr('href'))
+          const type = $row.find('span.sub').text()
           if (type) {
             relationsType = type
           }
-          return {
+          return safeObject({
             id,
-            image: matchCover($li.find('span.avatarNeue').attr('style')) || '',
-            title: $title.text() || '',
+            image: matchCover($row.find('span.avatarNeue').attr('style')),
+            title: $title.text(),
             type: relationsType,
             url: `${HOST}/subject/${id}`
-          }
+          })
         })
         .get() || [],
 
@@ -277,15 +288,13 @@ export function cheerioSubjectFormHTML(HTML) {
     comic:
       $('div.subject_section > ul.browserCoverSmall > li')
         .map((index, element) => {
-          const $li = cheerio(element)
-          const $a = $li.find('a')
-          return {
-            id: matchSubjectId($a.attr('href')) || '',
-            name: $a.attr('title') || $li.find('a.title').text() || '',
-            image: getCoverMedium(
-              matchCover($li.find('span').attr('style')) || ''
-            )
-          }
+          const $row = cheerio(element)
+          const $a = $row.find('a')
+          return safeObject({
+            id: matchSubjectId($a.attr('href')),
+            name: $a.attr('title') || $row.find('a.title').text(),
+            image: getCoverMedium(matchCover($row.find('span').attr('style')))
+          })
         })
         .get() || [],
 
@@ -293,14 +302,32 @@ export function cheerioSubjectFormHTML(HTML) {
     like:
       $('div.content_inner > ul.coversSmall > li.clearit')
         .map((index, element) => {
-          const $li = cheerio(element)
-          const $a = $li.find('a')
-          return {
-            id: matchSubjectId($a.attr('href')) || '',
-            name: $a.attr('title') || $li.find('a.l').text() || '',
-            image: matchCover($li.find('span').attr('style'))
-          }
+          const $row = cheerio(element)
+          const $a = $row.find('a')
+          return safeObject({
+            id: matchSubjectId($a.attr('href')),
+            name: $a.attr('title') || $row.find('a.l').text(),
+            image: matchCover($row.find('span').attr('style'))
+          })
         })
-        .get() || []
+        .get() || [],
+
+    who:
+      $('#subjectPanelCollect li.clearit')
+        .map((index, element) => {
+          const $row = cheerio(element)
+          const $a = $row.find('a.avatar')
+          return safeObject({
+            avatar: matchAvatar($row.find('span.avatarNeue').attr('style')),
+            name: $a.text(),
+            userId: matchUserId($a.attr('href')),
+            star: matchStar($row.find('span.starlight').attr('class')),
+            status: $row.find('small.grey').text()
+          })
+        })
+        .get() || [],
+
+    // 详情
+    info: $('#infobox').html()
   }
 }
