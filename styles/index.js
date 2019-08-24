@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 16:59:14
+ * @Last Modified time: 2019-08-24 17:52:53
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -37,7 +37,8 @@ export const bottom = tabBarHeight + lg // 底部留空
 export const colorPlainRaw = [255, 255, 255]
 export const colorPlain = `rgb(${colorPlainRaw.join()})`
 export const colorDark = 'rgb(0, 0, 0)'
-export const colorMain = 'rgb(252, 127, 138)' // #FC7F8A
+// export const colorMain = 'rgb(252, 127, 138)' // #FC7F8A
+export const colorMain = 'rgb(254, 138, 149)'
 export const colorMainLight = 'rgb(255, 243, 244)' // #FFF3F4
 export const colorMainBorder = 'rgb(252, 128, 138)'
 export const colorPrimary = 'rgb(68, 207, 252)'
@@ -52,7 +53,8 @@ export const colorWarningBorder = 'rgb(254, 190, 88)'
 export const colorDanger = 'rgb(232, 8, 13)'
 export const colorDisabled = 'rgb(150, 150, 150)'
 export const colorWait = 'rgb(200, 200, 200)'
-export const colorBorder = 'rgb(222, 222, 222)'
+// export const colorBorder = 'rgb(222, 222, 222)'
+export const colorBorder = 'rgb(225, 225, 232)'
 export const colorBg = 'rgb(244, 244, 244)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
@@ -60,9 +62,11 @@ export const colorShadow = 'rgb(0, 0, 0)'
 export const colorMask = 'rgba(0, 0, 0, 0.5)'
 
 // -------------------- 文字 --------------------
-export const colorTitleRaw = [12, 12, 12]
+// export const colorTitleRaw = [12, 12, 12]
+export const colorTitleRaw = [0, 0, 0]
 export const colorTitle = `rgb(${colorTitleRaw.join()})`
-export const colorDesc = 'rgb(40, 40, 40)' // #282828
+// export const colorDesc = 'rgb(40, 40, 40)' // #282828
+export const colorDesc = 'rgb(12, 12, 12)' // #282828
 export const colorAvatar = 'rgb(116, 116, 116)' // #747474
 export const colorSub = 'rgb(142, 142, 142)' // #8E8E8E
 export const colorIcon = 'rgb(200, 200, 200)' // #C8C8C8

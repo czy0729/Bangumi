@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 10:17:43
+ * @Last Modified time: 2019-08-24 14:58:12
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -23,16 +23,14 @@ export default class ScreenGroup extends store {
   })
 
   init = async () => {
-    const res = this.getStorage(undefined, this.key)
-    const state = await res
+    const state = await this.getStorage(undefined, this.key)
     this.setState({
       ...state,
       _loaded: true
     })
 
-    this.fetchGroupInfo()
     this.fetchGroup()
-    return res
+    return this.fetchGroupInfo()
   }
 
   // -------------------- fetch --------------------
@@ -155,7 +153,11 @@ export default class ScreenGroup extends store {
     }
 
     await fetchHTML({
-      url: `${HOST}${joinUrl}`
+      method: 'POST',
+      url: `${HOST}${joinUrl}`,
+      data: {
+        action: 'join-bye'
+      }
     })
     info('已加入小组')
 
@@ -172,7 +174,11 @@ export default class ScreenGroup extends store {
     }
 
     await fetchHTML({
-      url: `${HOST}${byeUrl}`
+      method: 'POST',
+      url: `${HOST}${byeUrl}`,
+      data: {
+        action: 'join-bye'
+      }
     })
     info('已退出小组')
 

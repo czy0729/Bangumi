@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 01:52:04
+ * @Last Modified time: 2019-08-24 14:37:16
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -14,6 +14,9 @@ import _ from '@styles'
 
 function Recent({ style }, { $, navigation }) {
   const { who } = $.subjectFormHTML
+  if (!who || !who.length) {
+    return null
+  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>用户动态</SectionTitle>
