@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 12:00:08
+ * @Last Modified time: 2019-08-24 14:20:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Text, KeyboardSpacer } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
-import { xhrCustom, hm } from '@utils/fetch'
+import { xhrCustom, hm, iOSUrlFixed } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import _ from '@styles'
@@ -165,9 +165,7 @@ export default class LoginV2 extends React.Component {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           Cookie: `chii_sid=${this.cookie.chiiSid}`,
-          'User-Agent': this.userAgent,
-          'Cache-Control': 'max-age=0',
-          Connection: 'keep-alive'
+          'User-Agent': this.userAgent
         },
         data: {
           formhash: this.formhash,
@@ -230,11 +228,11 @@ export default class LoginV2 extends React.Component {
    */
   oauth = async () => {
     const res = xhrCustom({
-      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${iOSUrlFixed(
+        OAUTH_REDIRECT_URL
+      )}`,
       headers: {
-        Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${
-          this.cookie.chiiAuth
-        }`,
+        Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
         'User-Agent': this.userAgent
       }
     })
@@ -252,12 +250,12 @@ export default class LoginV2 extends React.Component {
   authorize = async () => {
     const res = xhrCustom({
       method: 'POST',
-      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${iOSUrlFixed(
+        OAUTH_REDIRECT_URL
+      )}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${
-          this.cookie.chiiAuth
-        }`,
+        Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
         'User-Agent': this.userAgent
       },
       data: {
@@ -292,7 +290,7 @@ export default class LoginV2 extends React.Component {
         client_id: APP_ID,
         client_secret: APP_SECRET,
         code: this.code,
-        redirect_uri: OAUTH_REDIRECT_URL,
+        redirect_uri: iOSUrlFixed(OAUTH_REDIRECT_URL),
         state: getTimestamp()
       }
     })
@@ -306,10 +304,9 @@ export default class LoginV2 extends React.Component {
 
     setStorage(`${namespace}|email`, email)
     userStore.updateUserCookie({
-      cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${
-        this.cookie.chiiAuth
-      }`,
-      userAgent: this.userAgent
+      cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
+      userAgent: this.userAgent,
+      v: 2
     })
     await userStore.fetchUserInfo()
     await userStore.fetchUsersInfo()
@@ -363,7 +360,8 @@ export default class LoginV2 extends React.Component {
           <Text style={styles.ps} size={12} type='sub'>
             隐私策略: 我们十分尊重您的个人隐私, 这些信息仅存储于您的设备中,
             我们不会收集上述信息. (多次尝试登陆后,
-            可能会导致一段时间内不能再次登陆)
+            可能会导致一段时间内不能再次登陆; 又或者完全退出,
+            之后清除数据再尝试)
           </Text>
         ) : (
           <Text

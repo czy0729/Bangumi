@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 10:55:52
+ * @Last Modified time: 2019-08-24 13:36:48
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -184,22 +184,24 @@ export async function fetchHTML({
     _config.body = urlStringify(body)
     toastKey = Toast.loading('Loading...', 0)
   }
-  log(_url)
+  log(iOSUrlFixed(_url))
 
   const systemStore = require('../stores/system').default
-  return fetch(_url, _config)
+  return fetch(iOSUrlFixed(_url), _config)
     .then(res => {
       // 开发模式
       if (systemStore.state.dev) {
         Alert.alert(
           'dev',
-          `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${res._bodyInit}`
+          `${JSON.stringify(iOSUrlFixed(_url))} ${JSON.stringify(_config)} ${
+            res._bodyInit
+          }`
         )
       }
 
       // POST打印结果
       if (!isGet) {
-        log(method, 'success', _url, _config, res)
+        log(method, 'success', iOSUrlFixed(_url), _config, res)
       }
 
       // 清除Toast
@@ -258,7 +260,7 @@ export function xhr(
     }
   }
 
-  request.open(method, url)
+  request.open(method, iOSUrlFixed(url))
   request.withCredentials = false
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   request.setRequestHeader('Cookie', userCookie)
@@ -295,7 +297,7 @@ export function xhrCustom({
       reject(new TypeError('AbortError'))
     }
 
-    request.open(method, url, true)
+    request.open(method, iOSUrlFixed(url), true)
     request.withCredentials = false
     if (responseType) {
       request.responseType = responseType
@@ -381,4 +383,22 @@ export async function queue(fetchs = []) {
  */
 function safe(data) {
   return JSON.parse(JSON.stringify(data).replace(/:null/g, ':""'))
+}
+
+/**
+ * SDK33开始, iOS这里使用https去登陆, 不知道为什么不行
+ * 使用cookie的v区分版本, 当iOS端v=2的时候, html都不使用https
+ * @param {*} url
+ */
+export function iOSUrlFixed(url) {
+  if (!IOS) {
+    return url
+  }
+
+  const userStore = require('../stores/user').default
+  const { v } = userStore.userCookie
+  if (v === 2) {
+    return url.replace('https://', 'http://')
+  }
+  return url
 }
