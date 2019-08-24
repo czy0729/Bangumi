@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 14:20:17
+ * @Last Modified time: 2019-08-24 19:58:40
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
-import { Text, KeyboardSpacer } from '@components'
+import { Text, Flex, KeyboardSpacer } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
@@ -357,23 +357,40 @@ export default class LoginV2 extends React.Component {
           {clicked ? this.renderForm() : this.renderPreview()}
         </View>
         {clicked ? (
-          <Text style={styles.ps} size={12} type='sub'>
-            隐私策略: 我们十分尊重您的个人隐私, 这些信息仅存储于您的设备中,
-            我们不会收集上述信息. (多次尝试登陆后,
-            可能会导致一段时间内不能再次登陆; 又或者完全退出,
-            之后清除数据再尝试)
-          </Text>
+          <View style={styles.ps}>
+            <Text size={12} lineHeight={14} type='sub'>
+              隐私策略: 我们十分尊重您的个人隐私, 信息仅存储于您的设备中,
+              我们不会收集上述信息. (多次尝试登陆后, 会导致一段时间不能再次登陆,
+              可者完全退出后清除应用数据再尝试)
+            </Text>
+          </View>
         ) : (
-          <Text
-            style={styles.old}
-            type='sub'
-            onPress={() => {
-              const { navigation } = this.props
-              navigation.push('Login')
-            }}
-          >
-            旧版授权登陆
-          </Text>
+          <Flex style={styles.old}>
+            <Flex.Item>
+              <Text
+                type='sub'
+                align='center'
+                onPress={() => {
+                  const { navigation } = this.props
+                  navigation.push('Login')
+                }}
+              >
+                旧版授权登陆
+              </Text>
+            </Flex.Item>
+            <Flex.Item style={styles.border}>
+              <Text
+                type='sub'
+                align='center'
+                onPress={() => {
+                  const { navigation } = this.props
+                  navigation.push('LoginAssist')
+                }}
+              >
+                电脑辅助登陆
+              </Text>
+            </Flex.Item>
+          </Flex>
         )}
         <KeyboardSpacer />
       </View>
@@ -389,15 +406,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     bottom: _.bottom,
-    left: 0,
-    width: '100%',
-    padding: _.sm,
-    textAlign: 'center'
+    left: _.wind,
+    right: _.wind,
+    padding: _.sm
   },
   ps: {
     position: 'absolute',
     right: _.wind * 2,
     bottom: _.bottom,
     left: _.wind * 2
+  },
+  border: {
+    borderLeftWidth: 1,
+    borderColor: _.colorBorder
   }
 })

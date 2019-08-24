@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-17 10:02:11
+ * @Last Modified time: 2019-08-24 18:39:34
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -31,6 +31,7 @@ export default class Form extends React.Component {
       onChange,
       onLogin
     } = this.props
+    const isError = info.includes('登陆失败')
     return (
       <View style={[_.container.column, styles.gray]}>
         <View style={styles.form}>
@@ -89,22 +90,30 @@ export default class Form extends React.Component {
             登陆
           </Button>
           <Text
-            style={[
-              _.mt.md,
-              {
-                height: 16
-              }
-            ]}
+            style={_.mt.md}
             size={12}
+            lineHeight={16}
             type='sub'
             onPress={() => {
-              if (info.includes('登陆失败')) {
+              if (isError) {
                 navigation.push('Login')
               }
             }}
           >
             {info}
           </Text>
+          {isError && (
+            <Text
+              style={_.mt.md}
+              size={12}
+              lineHeight={16}
+              type='sub'
+              onPress={() => navigation.push('LoginAssist')}
+            >
+              部分设备实在没办法走通登陆流程的, 可点击这里前往辅助登陆
+              (需要使用PC) &gt;
+            </Text>
+          )}
         </View>
       </View>
     )
