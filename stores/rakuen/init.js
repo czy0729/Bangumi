@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 14:23:42
+ * @Last Modified time: 2019-08-24 02:28:31
  */
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -73,9 +73,12 @@ export const INIT_SETTING = {
 }
 
 export const INIT_GROUP_INFO = {
-  title: '',
-  cover: '',
-  content: ''
+  title: '', // 小组名字
+  cover: '', // 小组封面
+  content: '', // 小组介绍
+  create: '', // 创建于
+  joinUrl: '', // 加入小组
+  byeUrl: '' // 退出小组
 }
 
 export const INIT_GROUP_ITEM = {

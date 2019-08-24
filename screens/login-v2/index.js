@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 19:03:14
+ * @Last Modified time: 2019-08-24 12:00:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -76,6 +76,9 @@ export default class LoginV2 extends React.Component {
     })
   }
 
+  /**
+   * 登出
+   */
   logout = () =>
     xhrCustom({
       url: `${HOST}/logout/7dd16c5e`,
@@ -84,6 +87,9 @@ export default class LoginV2 extends React.Component {
       }
     })
 
+  /**
+   * 获取表单hash
+   */
   getFormHash = async () => {
     const res = xhrCustom({
       url: `${HOST}/login`,
@@ -110,6 +116,9 @@ export default class LoginV2 extends React.Component {
     return res
   }
 
+  /**
+   * 获取验证码
+   */
   getCaptcha = async () => {
     const res = xhrCustom({
       url: `${HOST}/signup/captcha?state=${getTimestamp()}`,
@@ -128,6 +137,9 @@ export default class LoginV2 extends React.Component {
     return res
   }
 
+  /**
+   * 登陆
+   */
   login = async () => {
     const { loading, email, password, captcha } = this.state
     if (loading) {
@@ -213,6 +225,9 @@ export default class LoginV2 extends React.Component {
     }
   }
 
+  /**
+   * 获取授权表单码
+   */
   oauth = async () => {
     const res = xhrCustom({
       url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
@@ -231,6 +246,9 @@ export default class LoginV2 extends React.Component {
     return res
   }
 
+  /**
+   * 授权获取code
+   */
   authorize = async () => {
     const res = xhrCustom({
       method: 'POST',
@@ -258,6 +276,9 @@ export default class LoginV2 extends React.Component {
     return res
   }
 
+  /**
+   * code获取access_token
+   */
   getAccessToken = () =>
     xhrCustom({
       method: 'POST',
@@ -276,6 +297,9 @@ export default class LoginV2 extends React.Component {
       }
     })
 
+  /**
+   * 入库
+   */
   inStore = async () => {
     const { navigation } = this.props
     const { email } = this.state

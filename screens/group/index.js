@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 00:10:12
+ * @Last Modified time: 2019-08-24 10:15:48
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -38,12 +38,27 @@ class Group extends React.Component {
 
     const { title: _title } = $.groupInfo
     withTransitionHeader.setTitle(navigation, _title)
+    this.updatePopover()
 
     const { groupId } = $.params
+    hm(`group/${groupId}`, title)
+  }
+
+  updatePopover = () => {
+    const { $, navigation } = this.context
+    const { joinUrl, byeUrl } = $.groupInfo
+    const { groupId } = $.params
+    const data = ['浏览器查看', '小组成员']
+    if (joinUrl) {
+      data.push('加入小组')
+    }
+    if (byeUrl) {
+      data.push('退出小组')
+    }
     navigation.setParams({
       popover: {
-        data: ['浏览器查看', '小组成员'],
-        onSelect: key => {
+        data,
+        onSelect: async key => {
           switch (key) {
             case '浏览器查看':
               open(`${HOST}/group/${groupId}`)
@@ -51,14 +66,20 @@ class Group extends React.Component {
             case '小组成员':
               open(`${HOST}/group/${groupId}/members`)
               break
+            case '加入小组':
+              await $.doJoin()
+              this.updatePopover()
+              break
+            case '退出小组':
+              await $.doBye()
+              this.updatePopover()
+              break
             default:
               break
           }
         }
       }
     })
-
-    hm(`group/${groupId}`, title)
   }
 
   renderPagination() {

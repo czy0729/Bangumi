@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 14:10:23
+ * @Last Modified time: 2019-08-24 02:55:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,7 +21,7 @@ import { IOS } from '@constants'
 import _ from '@styles'
 
 function Info(props, { $ }) {
-  const { title, content, cover, _loaded } = $.groupInfo
+  const { title, content, cover, create, _loaded } = $.groupInfo
   return (
     <View style={[_.container.inner, styles.container]}>
       {!IOS && <HeaderPlaceholder />}
@@ -42,7 +42,9 @@ function Info(props, { $ }) {
       )}
       {!!content && (
         <Expand style={_.mt.lg} ratio={0.64}>
-          <RenderHtml html={content} />
+          <RenderHtml
+            html={`${content}<p style="text-align:right;font-size:12px;line-height:16px;color:#999">${create}</p><br/>`}
+          />
         </Expand>
       )}
       {!_loaded && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 21:25:20
+ * @Last Modified time: 2019-08-24 02:46:50
  */
 import cheerio from 'cheerio-without-node-native'
 import { safeObject, trim } from '@utils'
@@ -216,15 +216,28 @@ function getCommentAttrs(tree) {
  * 分析小组信息
  * @param {*} HTML
  */
-export function analysisGroupInfo(HTML) {
-  const el = cheerio.load(HTML)
-  return {
-    title: el('.SecondaryNavTitle').text(),
-    cover: el('.port.ll').attr('src'),
-    content: el('.line_detail .tip')
-      .text()
-      .replace(/\r\n\r\n|\r\n\r\n\r\n/g, '\r\n')
+export function cheerioGroupInfo(HTML) {
+  const $ = cheerio.load(HTML)
+
+  let joinUrl
+  let byeUrl
+  const url = $('#groupJoinAction > a.chiiBtn').attr('href') || ''
+  if (url.includes('/join?')) {
+    joinUrl = url
+  } else if (url.includes('/bye?')) {
+    byeUrl = url
   }
+
+  return safeObject({
+    title: $('.SecondaryNavTitle').text(),
+    cover: $('.port.ll').attr('src'),
+    content: $('.line_detail .tip')
+      .text()
+      .replace(/\r\n\r\n|\r\n\r\n\r\n/g, '\r\n'),
+    create: $('div.grp_box > span.tip').text(),
+    joinUrl,
+    byeUrl
+  })
 }
 
 /**

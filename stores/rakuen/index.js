@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 14:24:59
+ * @Last Modified time: 2019-08-24 02:41:04
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -32,7 +32,7 @@ import {
 } from './init'
 import {
   fetchRakuen,
-  analysisGroupInfo,
+  cheerioGroupInfo,
   analysisGroup,
   cheerioNotify,
   cheerioTopic
@@ -327,9 +327,9 @@ class Rakuen extends store {
    */
   fetchGroupInfo = async ({ groupId = 0 }) => {
     const html = await fetchHTML({
-      url: `!${HTML_GROUP_INFO(groupId)}`
+      url: HTML_GROUP_INFO(groupId)
     })
-    const groupInfo = analysisGroupInfo(html)
+    const groupInfo = cheerioGroupInfo(html)
 
     const key = 'groupInfo'
     this.setState({

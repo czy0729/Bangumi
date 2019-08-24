@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 20:06:36
+ * @Last Modified time: 2019-08-24 10:16:09
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore, timelineStore } from '@stores'
@@ -156,7 +156,7 @@ export default class ScreenZone extends store {
   /**
    * 添加好友
    */
-  async doConnectFriend() {
+  doConnectFriend = async () => {
     const { connectUrl } = this.users
     if (connectUrl) {
       await fetchHTML({
@@ -170,7 +170,7 @@ export default class ScreenZone extends store {
   /**
    * 解除好友
    */
-  async doDisconnectFriend() {
+  doDisconnectFriend = async () => {
     const { disconnectUrl } = this.users
     if (disconnectUrl) {
       await fetchHTML({

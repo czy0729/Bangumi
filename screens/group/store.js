@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 23:57:02
+ * @Last Modified time: 2019-08-24 10:17:43
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
 import store from '@utils/store'
+import { fetchHTML } from '@utils/fetch'
 import { info } from '@utils/ui'
+import { HOST } from '@constants'
 
 const namespace = 'ScreenGroup'
 
@@ -141,5 +143,39 @@ export default class ScreenGroup extends store {
       })
       this.setStorage(undefined, undefined, this.key)
     }, 400)
+  }
+
+  /**
+   * 加入小组
+   */
+  doJoin = async () => {
+    const { joinUrl } = this.groupInfo
+    if (!joinUrl) {
+      return false
+    }
+
+    await fetchHTML({
+      url: `${HOST}${joinUrl}`
+    })
+    info('已加入小组')
+
+    return this.fetchGroupInfo()
+  }
+
+  /**
+   * 退出小组
+   */
+  doBye = async () => {
+    const { byeUrl } = this.groupInfo
+    if (!byeUrl) {
+      return false
+    }
+
+    await fetchHTML({
+      url: `${HOST}${byeUrl}`
+    })
+    info('已退出小组')
+
+    return this.fetchGroupInfo()
   }
 }
