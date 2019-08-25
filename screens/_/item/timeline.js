@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:38:50
+ * @Last Modified time: 2019-08-25 18:24:39
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { appNavigate, findBangumiCn } from '@utils/app'
+import { matchUserId } from '@utils/match'
+import { HOST } from '@constants'
 import _ from '@styles'
+import Avatar from '../base/avatar'
 import Stars from '../base/stars'
 
 const avatarWidth = 28
@@ -196,6 +199,7 @@ class ItemTimeline extends React.Component {
 
   render() {
     const {
+      navigation,
       style,
       index,
       avatar,
@@ -211,16 +215,11 @@ class ItemTimeline extends React.Component {
       <Flex style={[styles.item, style]} align='start'>
         <View style={styles.image}>
           {!!avatar.src && (
-            <Image
+            <Avatar
+              navigation={navigation}
               src={avatar.src}
               size={avatarWidth}
-              radius
-              border={_.colorBorder}
-              onPress={() =>
-                this.appNavigate(avatar.url, {
-                  _image: avatar.src
-                })
-              }
+              userId={matchUserId(String(avatar.url).replace(HOST, ''))}
             />
           )}
         </View>

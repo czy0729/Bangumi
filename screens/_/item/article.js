@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 18:19:10
+ * @Last Modified time: 2019-08-25 18:35:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Image, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { date } from '@utils'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import _ from '@styles'
+import Avatar from '../base/avatar'
 
-const ItemArticle = ({
+function ItemArticle({
   navigation,
   style,
   index,
@@ -24,7 +25,7 @@ const ItemArticle = ({
   timestamp,
   replies,
   url
-}) => {
+}) {
   const isFirst = index === 0
   return (
     <Touchable
@@ -33,13 +34,7 @@ const ItemArticle = ({
       onPress={() => appNavigate(url, navigation)}
     >
       <Flex align='start'>
-        <Image
-          style={styles.image}
-          size={28}
-          src={avatar}
-          radius
-          border={_.colorBorder}
-        />
+        <Avatar style={styles.image} src={avatar} />
         <Flex.Item style={[styles.item, !isFirst && styles.border, _.ml.sm]}>
           <Text size={16}>{HTMLDecode(title)}</Text>
           <Flex style={_.mt.xs}>

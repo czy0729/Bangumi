@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 01:39:23
+ * @Last Modified time: 2019-08-25 17:07:53
  */
 import cheerio from 'cheerio-without-node-native'
 import { safeObject } from '@utils'
@@ -24,7 +24,7 @@ import { INIT_MONO } from './init'
 export async function fetchMono({ monoId = 0 }) {
   // -------------------- 请求HTML --------------------
   const raw = await fetchHTML({
-    url: `!${HTML_MONO(monoId)}`
+    url: HTML_MONO(monoId)
   })
   const HTML = HTMLTrim(raw)
 
@@ -39,6 +39,13 @@ export async function fetchMono({ monoId = 0 }) {
   let monoComments = [] // 人物吐槽箱
 
   if (HTML) {
+    const $ = cheerio.load(raw)
+    mono.eraseCollectUrl =
+      $('li.collect > span.collect > a.break').attr('href') || ''
+    if (!mono.eraseCollectUrl) {
+      mono.collectUrl = $('li.collect > span.collect > a').attr('href') || ''
+    }
+
     // 标题
     matchHTML = HTML.match(/<h1 class="nameSingle">(.+?)<\/h1>/)
     if (matchHTML) {

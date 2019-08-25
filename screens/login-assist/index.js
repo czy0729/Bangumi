@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 20:32:13
+ * @Last Modified time: 2019-08-25 16:32:34
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Clipboard } from 'react-native'
@@ -280,8 +280,8 @@ class LoginAssist extends React.Component {
       >
         <StatusBar />
         <Text type='danger' size={12}>
-          此为登陆最后的手段, 流程相对复杂, 请先尝试新版和旧版登陆,
-          不行再试这个.
+          此为登陆最后的手段, 流程相对复杂 (其实也没多复杂,
+          熟悉的话比正常登录还要快和稳), 请先尝试新版和旧版登陆, 不行再试这个.
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
           第三方登陆失败受很多因素影响, 如网络不佳、运营商劫持、手机系统特异,

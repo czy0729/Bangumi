@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-19 18:19:43
+ * @Last Modified time: 2019-08-25 18:42:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,13 +11,14 @@ import { Flex, Image, Text, RenderHtml } from '@components'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
 import _ from '@styles'
+import Avatar from '../base/avatar'
 
 const avatarWidth = 28
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
-const Item = ({
+function Item({
   navigation,
   index,
   authorId,
@@ -29,17 +30,21 @@ const Item = ({
   floor,
   time,
   sub = []
-}) => {
+}) {
+  if (!userId) {
+    return null
+  }
+
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   return (
     <Flex style={[styles.item, isOdd && styles.itemOdd]} align='start'>
-      <Image
+      <Avatar
         style={styles.image}
+        navigation={navigation}
         size={avatarWidth}
         src={avatar}
-        radius
-        border={_.colorBorder}
+        userId={userId}
       />
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>

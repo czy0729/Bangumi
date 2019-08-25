@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 15:29:09
+ * @Last Modified time: 2019-08-25 18:00:08
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { Switch } from '@ant-design/react-native'
 import { Text } from '@components'
 import { StatusBar, Popover, ItemSetting } from '@screens/_'
@@ -39,6 +39,30 @@ class Setting extends React.Component {
   }
 
   componentDidMount() {
+    const { navigation } = this.props
+    navigation.setParams({
+      popover: {
+        data: ['开发模式'],
+        onSelect: key => {
+          switch (key) {
+            case '开发模式':
+              this.toggleDev()
+              break
+            default:
+              break
+          }
+        }
+      },
+      element: (
+        <View
+          style={{
+            width: 32,
+            height: 32
+          }}
+        />
+      )
+    })
+
     hm('settings', title)
   }
 
@@ -59,13 +83,13 @@ class Setting extends React.Component {
 
   render() {
     const { navigation } = this.props
-    const { showDev } = this.state
     const {
       quality,
       cnFirst,
       autoFetch,
       speech,
-      tinygrail
+      tinygrail,
+      avatarRound
     } = systemStore.setting
     const { name } = systemStore.release
     const hasNewVersion = name !== GITHUB_RELEASE_VERSION
@@ -80,8 +104,11 @@ class Setting extends React.Component {
           style={_.container.screen}
           contentContainerStyle={_.container.flex}
         >
+          <Text style={[_.container.wind, _.mt.md]} type='sub'>
+            基本
+          </Text>
           <ItemSetting
-            style={_.mt.md}
+            style={_.mt.sm}
             hd='图片质量'
             ft={
               <Popover
@@ -98,21 +125,16 @@ class Setting extends React.Component {
           />
           <ItemSetting
             border
-            hd='优先使用中文'
+            hd='优先中文'
             ft={
               <Switch checked={cnFirst} onChange={systemStore.switchCnFirst} />
             }
             withoutFeedback
           />
+
           <ItemSetting
             border
-            hd='Bangumi娘话语'
-            ft={<Switch checked={speech} onChange={systemStore.switchSpeech} />}
-            withoutFeedback
-          />
-          <ItemSetting
-            border
-            hd='优化请求量(部分页面需手动刷新)'
+            hd='优化请求量 (实验性)'
             ft={
               <Switch
                 checked={!autoFetch}
@@ -123,7 +145,7 @@ class Setting extends React.Component {
           />
           <ItemSetting
             border
-            hd='展示小圣杯信息'
+            hd='小圣杯信息'
             ft={
               <Switch
                 checked={tinygrail}
@@ -133,23 +155,44 @@ class Setting extends React.Component {
             withoutFeedback
           />
 
+          <Text style={[_.container.wind, _.mt.md]} type='sub'>
+            界面
+          </Text>
           <ItemSetting
-            style={_.mt.md}
-            hd='问题反馈'
-            arrow
-            highlight
-            onPress={() => appNavigate(FEEDBACK_URL, navigation)}
+            style={_.mt.sm}
+            hd='Bangumi娘话语'
+            ft={<Switch checked={speech} onChange={systemStore.switchSpeech} />}
+            withoutFeedback
           />
           <ItemSetting
             border
+            hd='圆形头像'
+            ft={
+              <Switch
+                checked={avatarRound}
+                onChange={systemStore.switchAvatarRound}
+              />
+            }
+            withoutFeedback
+          />
+
+          <Text style={[_.container.wind, _.mt.md]} type='sub'>
+            联系
+          </Text>
+          <ItemSetting
+            style={_.mt.sm}
             hd='检测更新'
             ft={
               hasNewVersion ? (
                 <Text type='success' size={16}>
-                  有新版本({name})
+                  有新版本{name}
+                  <Text type='sub' size={16}>
+                    {' '}
+                    / 当前{version}
+                  </Text>
                 </Text>
               ) : (
-                `当前版本(${version})`
+                `当前版本${version}`
               )
             }
             arrow
@@ -157,40 +200,37 @@ class Setting extends React.Component {
           />
           <ItemSetting
             border
+            hd='问题反馈'
+            arrow
+            highlight
+            onPress={() => appNavigate(FEEDBACK_URL, navigation)}
+          />
+
+          <ItemSetting
+            border
             hd='项目地址'
-            ft='喜欢可Star'
+            ft='喜欢的话求个Star'
             arrow
             highlight
             onPress={() => appNavigate(GITHUB_URL)}
           />
 
+          <Text style={[_.container.wind, _.mt.md]} type='sub'>
+            其他
+          </Text>
           <ItemSetting
-            style={_.mt.md}
+            style={_.mt.sm}
             hd='清除缓存'
             arrow
             highlight
             onPress={Stores.clearStorage}
           />
-
           <ItemSetting
-            style={_.mt.md}
+            border
             hd='退出登陆'
             arrow
             highlight
             onPress={() => Stores.logout(navigation)}
-          />
-
-          <ItemSetting
-            style={[
-              _.mt.md,
-              {
-                opacity: showDev ? 1 : 0
-              }
-            ]}
-            hd='调试模式'
-            arrow
-            highlight
-            onPress={this.toggleDev}
           />
         </ScrollView>
       </>

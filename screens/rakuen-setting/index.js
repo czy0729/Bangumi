@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 14:27:53
+ * @Last Modified time: 2019-08-25 18:06:46
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { Switch } from '@ant-design/react-native'
+import { Text } from '@components'
 import { ItemSetting } from '@screens/_'
 import { rakuenStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
@@ -35,9 +36,11 @@ class Setting extends React.Component {
         style={_.container.screen}
         contentContainerStyle={_.container.flex}
       >
+        <Text style={[_.container.wind, _.mt.md]} type='sub'>
+          基本
+        </Text>
         <ItemSetting
-          style={_.mt.md}
-          border
+          style={_.mt.sm}
           hd='帖子展开引用'
           ft={<Switch checked={quote} onChange={rakuenStore.switchQuote} />}
           withoutFeedback
@@ -65,14 +68,20 @@ class Setting extends React.Component {
           withoutFeedback
         />
 
-        <ItemSetting style={_.mt.md} hd='屏蔽中的关键字' withoutFeedback />
+        <Text style={[_.container.wind, _.mt.md]} type='sub'>
+          屏蔽中的关键字
+        </Text>
         <History
+          style={_.mt.sm}
           data={rakuenStore.setting.blockGroups}
           onDelete={rakuenStore.deleteBlockGroup}
         />
 
-        <ItemSetting style={_.mt.md} hd='屏蔽中的用户' withoutFeedback />
+        <Text style={[_.container.wind, _.mt.md]} type='sub'>
+          屏蔽中的用户
+        </Text>
         <History
+          style={_.mt.sm}
           data={rakuenStore.setting.blockUserIds}
           onDelete={rakuenStore.deleteBlockUser}
         />

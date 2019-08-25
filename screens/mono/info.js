@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 13:05:36
+ * @Last Modified time: 2019-08-25 17:15:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -29,19 +29,53 @@ import Jobs from './jobs'
 const maxSize = _.window.width - _.wind * 2
 
 function Info(props, { $, navigation }) {
-  const { name, nameCn, cover, info, detail, _loaded } = $.mono
+  const {
+    name,
+    nameCn,
+    cover,
+    info,
+    detail,
+    collectUrl,
+    eraseCollectUrl,
+    _loaded
+  } = $.mono
   const { monoId, _name, _image } = $.params
+
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
       <View style={[_.container.inner, styles.container]}>
-        <Flex align='baseline'>
-          <Text size={20} bold>
-            {name}
-          </Text>
-          <Text style={_.ml.xs} type='sub'>
-            {nameCn || _name}
-          </Text>
+        <Flex>
+          <Flex.Item>
+            <Flex align='baseline'>
+              <Text size={20} bold>
+                {name}
+              </Text>
+              <Text style={_.ml.xs} type='sub'>
+                {nameCn || _name}
+              </Text>
+            </Flex>
+          </Flex.Item>
+          {!!collectUrl && (
+            <Touchable style={_.ml.sm} onPress={$.doCollect}>
+              <Flex>
+                <Iconfont size={14} name='like' color={_.colorMain} />
+                <Text style={_.ml.xs} type='sub'>
+                  加入收藏
+                </Text>
+              </Flex>
+            </Touchable>
+          )}
+          {!!eraseCollectUrl && (
+            <Touchable style={_.ml.sm} onPress={$.doEraseCollect}>
+              <Flex>
+                <Iconfont size={14} name='like-full' color={_.colorDanger} />
+                <Text style={_.ml.xs} type='danger'>
+                  已收藏
+                </Text>
+              </Flex>
+            </Touchable>
+          )}
         </Flex>
         {!_loaded && (
           <Flex style={styles.loading} justify='center'>

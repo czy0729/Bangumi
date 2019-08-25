@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 15:29:01
+ * @Last Modified time: 2019-08-25 17:46:39
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -180,15 +180,15 @@ class System extends store {
   }
 
   /**
-   * 切换`帖子展开引用`
+   * 切换`圆形头像`
    */
-  switchQuote = () => {
-    const { quote } = this.setting
+  switchAvatarRound = () => {
+    const { avatarRound } = this.setting
     const key = 'setting'
     this.setState({
       [key]: {
         ...this.setting,
-        quote: !quote
+        avatarRound: !avatarRound
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

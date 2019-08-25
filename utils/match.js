@@ -43,7 +43,7 @@ export function matchSubjectId(str = '') {
  * @param {*} str
  */
 export function matchCover(str = '') {
-  if (str === "background-image:url('/img/no_icon_subject.png')") {
+  if (str === 'background-image:url(\'/img/no_icon_subject.png\')') {
     return ''
   }
   return str.substring(22, str.length - 2)

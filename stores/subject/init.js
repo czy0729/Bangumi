@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 11:58:16
+ * @Last Modified time: 2019-08-25 17:01:43
  */
 export const NAMESPACE = 'Subject'
 
@@ -55,7 +55,9 @@ export const INIT_MONO = {
   detail: '', // 内容详情
   voice: [], // 最近演出角色
   workes: [], // 最近参与
-  jobs: [] // 出演
+  jobs: [], // 出演
+  collectUrl: '', // 加入收藏
+  eraseCollectUrl: '' // 取消收藏
 }
 
 export const INIT_MONO_COMMENTS_ITEM = {}
