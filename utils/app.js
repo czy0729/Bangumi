@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 20:25:14
+ * @Last Modified time: 2019-08-25 23:21:03
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -278,4 +278,44 @@ export function getCoverMedium(src = '', mini = false) {
  */
 export function getCoverLarge(src = '') {
   return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
+}
+
+/**
+ * 小圣杯时间格式化
+ * @param {*} time
+ */
+export function formatTime(time) {
+  const _time = new Date(time)
+  const now = new Date()
+  let times = (_time - now) / 1000
+  let day = 0
+  let hour = 0
+  if (times > 0) {
+    day = Math.floor(times / (60 * 60 * 24))
+    hour = Math.floor(times / (60 * 60)) - day * 24
+    if (day > 0) {
+      return `${day}天${hour}小时`
+    }
+    if (hour > 12) {
+      return `剩余${hour}小时`
+    }
+    return '即将结束'
+  }
+
+  times = Math.abs(times)
+  day = Math.floor(times / (60 * 60 * 24))
+  hour = Math.floor(times / (60 * 60))
+  const miniute = Math.floor(times / 60)
+  const second = Math.floor(times)
+  if (miniute < 1) {
+    return `${second}s ago`
+  }
+  if (miniute < 60) {
+    return `${miniute}m ago`
+  }
+  if (hour < 24) {
+    return `${hour}h ago`
+  }
+  return `${day}d ago`
+  // return '已结束'
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 14:25:03
+ * @Last Modified time: 2019-08-26 01:02:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,6 +45,17 @@ class Auth extends React.Component {
           name='search'
           color={_.colorSub}
           onPress={() => navigation.push('Search')}
+        />
+        <IconTabsHeader
+          style={[
+            _.header.right,
+            {
+              right: 44
+            }
+          ]}
+          name='trophy-full'
+          color='rgb(255, 202, 40)'
+          onPress={() => navigation.push('Tinygrail')}
         />
         <NavigationEvents
           onWillFocus={() => {

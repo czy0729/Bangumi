@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 14:12:09
+ * @Last Modified time: 2019-08-26 00:56:48
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -34,8 +34,9 @@ class Home extends React.Component {
     headerRight: (
       <>
         <IconTabsHeader
-          name='calendar'
-          onPress={() => navigation.push('Calendar')}
+          name='trophy-full'
+          color='rgb(255, 202, 40)'
+          onPress={() => navigation.push('Tinygrail')}
         />
         <IconTabsHeader
           name='search'

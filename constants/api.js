@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 23:02:17
+ * @Last Modified time: 2019-08-26 01:05:54
  */
 import { HOST_NAME } from './index'
 
@@ -127,9 +127,52 @@ export const API_COLLECTION_ACTION = (subjectId, action = 'update') =>
   `${API_HOST}/collection/${subjectId}/${action}`
 
 // -------------------- 小圣杯 --------------------
+const TINYGRAIL_LIMIT = 100
+
 /**
  * 指定人物的数据
- * https://www.tinygrail.com/api/chara/list
  * @param {*} *body 人物ids [1, 2, 3]
  */
 export const API_TINYGRAIL_CHARAS = () => `${API_HOST_TINYGRAIL}/api/chara/list`
+
+/**
+ * 最高市值
+ */
+export const API_TINYGRAIL_MVC = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/mvc/${page}/${limit}`
+
+/**
+ * 最大涨幅
+ */
+export const API_TINYGRAIL_MRC = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/mrc/${page}/${limit}`
+
+/**
+ * 最大跌幅
+ */
+export const API_TINYGRAIL_MFC = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/mfc/${page}/${limit}`
+
+/**
+ * ICO最多资金
+ */
+export const API_TINYGRAIL_MVI = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/mvi/${page}/${limit}`
+
+/**
+ * ICO最高人气
+ */
+export const API_TINYGRAIL_MPI = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/mpi/${page}/${limit}`
+
+/**
+ * ICO最近活跃
+ */
+export const API_TINYGRAIL_RAI = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/rai/${page}/${limit}`
+
+/**
+ * 最近活跃
+ */
+export const API_TINYGRAIL_RECENT = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/recent/${page}/${limit}`

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 15:13:50
+ * @Last Modified time: 2019-08-26 00:49:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -35,6 +35,56 @@ export default class StockPreview extends React.Component {
     })
   }
 
+  renderICO() {
+    const { total } = this.props
+    const { level, next } = caculateICO(this.props)
+    const percent = ((total / next) * 100).toFixed(0)
+
+    let backgroundColor
+    switch (level) {
+      case 0:
+        backgroundColor = '#aaa'
+        break
+      case 1:
+        backgroundColor = _.colorSuccess
+        break
+      case 2:
+        backgroundColor = _.colorPrimary
+        break
+      case 3:
+        backgroundColor = '#ffdc51'
+        break
+      case 4:
+        backgroundColor = _.colorWarning
+        break
+      case 5:
+        backgroundColor = _.colorMain
+        break
+      default:
+        backgroundColor = _.colorDanger
+        break
+    }
+
+    return (
+      <Flex style={styles.ico}>
+        <Text style={styles.iconText} size={10} align='center'>
+          lv.{level} {percent}%
+        </Text>
+        <View style={styles.icoBar}>
+          <View
+            style={[
+              styles.icoProcess,
+              {
+                width: `${percent}%`,
+                backgroundColor
+              }
+            ]}
+          />
+        </View>
+      </Flex>
+    )
+  }
+
   render() {
     const {
       style,
@@ -43,10 +93,15 @@ export default class StockPreview extends React.Component {
       change,
       bids,
       asks,
+      users,
       _loaded
     } = this.props
     if (!_loaded) {
       return null
+    }
+
+    if (users) {
+      return this.renderICO()
     }
 
     const { showDetail } = this.state
@@ -91,13 +146,20 @@ export default class StockPreview extends React.Component {
       fluctuationText = `${fluctuation.toFixed(2)}%`
     }
 
+    let fluctuationSize = 13
+    if (fluctuationText.length > 8) {
+      fluctuationSize = 10
+    } else if (fluctuationText.length > 7) {
+      fluctuationSize = 12
+    }
+
     return (
       <Touchable style={[styles.container, style]} onPress={this.toggleNum}>
         <Flex justify='end'>
           <Text lineHeight={16}>₵{current.toFixed(2)}</Text>
           <Text
             style={fluctuationStyle}
-            size={13}
+            size={fluctuationSize}
             lineHeight={16}
             type='plain'
             align='center'
@@ -199,5 +261,48 @@ const styles = StyleSheet.create({
   },
   small: {
     opacity: 0.72
+  },
+  ico: {
+    height: '100%',
+    paddingRight: _.wind
+  },
+  icoBar: {
+    width: 96,
+    height: 16,
+    backgroundColor: _.colorBorder,
+    borderRadius: 8,
+    overflow: 'hidden',
+    opacity: 0.8
+  },
+  icoProcess: {
+    height: 16,
+    borderRadius: 8,
+    overflow: 'hidden'
+  },
+  iconText: {
+    position: 'absolute',
+    zIndex: 1,
+    left: 0,
+    right: _.sm
   }
 })
+
+function caculateICO(ico) {
+  let level = 0
+  let price = 10
+  let amount = 10000
+  // let total = 0
+  let next = 100000
+
+  if (ico.total < 100000 || ico.users < 10) {
+    return { level, next, price: 0, amount: 0 }
+  }
+
+  level = Math.floor(Math.sqrt(ico.total / 100000))
+  amount = 10000 + (level - 1) * 7500
+  price = ico.total / amount
+  // eslint-disable-next-line no-restricted-properties
+  next = Math.pow(level + 1, 2) * 100000
+
+  return { level, next, price, amount }
+}
