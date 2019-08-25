@@ -8,8 +8,7 @@ export default () =>
       backgroundColor: 'transparent'
     },
     topTabBarSplitLine: {
-      borderBottomColor: colorBorder,
-      borderBottomWidth: StyleSheet.hairlineWidth
+      borderBottomWidth: 0
     },
     bottomTabBarSplitLine: {
       borderTopColor: colorBorder,

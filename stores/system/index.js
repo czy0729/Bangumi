@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 23:12:49
+ * @Last Modified time: 2019-08-25 15:29:01
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -159,6 +159,21 @@ class System extends store {
       [key]: {
         ...this.setting,
         autoFetch: !autoFetch
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 切换`小圣杯`
+   */
+  switchTinygrail = () => {
+    const { tinygrail } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        tinygrail: !tinygrail
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

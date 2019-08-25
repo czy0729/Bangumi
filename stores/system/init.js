@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 11:07:14
+ * @Last Modified time: 2019-08-25 15:20:38
  */
 import { GITHUB_RELEASE_VERSION } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
@@ -15,7 +15,8 @@ export const INIT_SETTING = {
   cnFirst: true, // 是否中文优先
   autoFetch: true, // 切换页面自动请求
   quote: true, // 帖子展开引用
-  speech: true // Bangumi娘话语
+  speech: true, // Bangumi娘话语
+  tinygrail: true // 小圣杯是否开启
 }
 
 export const INIT_RELEASE = {

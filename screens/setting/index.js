@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 13:20:45
+ * @Last Modified time: 2019-08-25 15:29:09
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -60,7 +60,13 @@ class Setting extends React.Component {
   render() {
     const { navigation } = this.props
     const { showDev } = this.state
-    const { quality, cnFirst, autoFetch, speech } = systemStore.setting
+    const {
+      quality,
+      cnFirst,
+      autoFetch,
+      speech,
+      tinygrail
+    } = systemStore.setting
     const { name } = systemStore.release
     const hasNewVersion = name !== GITHUB_RELEASE_VERSION
     let version = GITHUB_RELEASE_VERSION
@@ -111,6 +117,17 @@ class Setting extends React.Component {
               <Switch
                 checked={!autoFetch}
                 onChange={systemStore.switchAutoFetch}
+              />
+            }
+            withoutFeedback
+          />
+          <ItemSetting
+            border
+            hd='展示小圣杯信息'
+            ft={
+              <Switch
+                checked={tinygrail}
+                onChange={systemStore.switchTinygrail}
               />
             }
             withoutFeedback

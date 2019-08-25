@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 20:15:58
+ * @Last Modified time: 2019-08-24 20:32:13
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Clipboard } from 'react-native'
@@ -289,7 +289,8 @@ class LoginAssist extends React.Component {
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
           本人能力有限, 部分设备无论如何都不能走通新版和旧版的登陆流程,
-          若您实在很喜欢本应用, 可以尝试下面流程登陆.
+          若您实在很喜欢本应用, 可以尝试下面的登陆流程 (假如还走不通,
+          请过来干我).
         </Text>
         <Text style={_.mt.lg}>1. 复制框里的代码.</Text>
         <View style={_.mt.sm}>

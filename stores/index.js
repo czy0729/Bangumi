@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:18:45
+ * @Last Modified time: 2019-08-24 23:35:38
  */
 import { AsyncStorage, Alert } from 'react-native'
 import CacheManager from '@components/@/react-native-expo-image-cache/src/CacheManager'
@@ -17,6 +17,7 @@ import subjectStore from './subject'
 import systemStore from './system'
 import tagStore from './tag'
 import timelineStore from './timeline'
+import tinygrailStore from './tinygrail'
 import userStore from './user'
 import usersStore from './users'
 
@@ -49,6 +50,7 @@ class Stores {
       rakuenStore.init(),
       searchStore.init(),
       timelineStore.init(),
+      tinygrailStore.init(),
       tagStore.init(),
       usersStore.init()
     ])
@@ -136,7 +138,9 @@ export {
   systemStore,
   tagStore,
   timelineStore,
+  tinygrailStore,
   userStore,
   usersStore
 }
+
 export default GloablStores

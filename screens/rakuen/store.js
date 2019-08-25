@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 21:00:27
+ * @Last Modified time: 2019-08-25 15:21:36
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
 import deepmerge from 'deepmerge'
 import { Text } from '@components'
 import { Popover } from '@screens/_'
-import { systemStore, rakuenStore, userStore } from '@stores'
+import { systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import {
@@ -50,6 +50,46 @@ export default class ScreenRakuen extends store {
     }
 
     return res
+  }
+
+  // -------------------- fetch --------------------
+  /**
+   * 超展开列表
+   */
+  fetchRakuen = async refresh => {
+    const { scope, page } = this.state
+    const type = this.type(page)
+    const res = rakuenStore.fetchRakuen({ scope, type }, refresh)
+    await res
+
+    if (this.tinygrail) {
+      this.fetchCharacters()
+    }
+
+    return res
+  }
+
+  /**
+   * 小圣杯 - 人物数据
+   */
+  fetchCharacters = () => {
+    const { page } = this.state
+    const type = this.type(page)
+    if (['group', 'mono', 'mono&filter=character'].includes(type)) {
+      const rakuen = this.rakuen(type)
+      const ids = []
+      rakuen.list.forEach(item => {
+        const id = this.characterId(item.href)
+        if (id) {
+          ids.push(id)
+        }
+      })
+
+      if (ids.length) {
+        return tinygrailStore.fetchCharacters(ids)
+      }
+    }
+    return false
   }
 
   // -------------------- get --------------------
@@ -158,11 +198,36 @@ export default class ScreenRakuen extends store {
     return tabs[page].title
   }
 
-  // -------------------- fetch --------------------
-  fetchRakuen = refresh => {
-    const { scope, page } = this.state
-    const type = this.type(page)
-    return rakuenStore.fetchRakuen({ scope, type }, refresh)
+  /**
+   * 是否中文优先
+   */
+  @computed get cnFirst() {
+    return systemStore.setting.cnFirst
+  }
+
+  /**
+   * 是否开启小圣杯
+   */
+  @computed get tinygrail() {
+    return systemStore.setting.tinygrail
+  }
+
+  /**
+   * 获取虚拟人物Id
+   */
+  characterId(href) {
+    if (href.includes('/crt/')) {
+      return href.split('/crt/')[1]
+    }
+    return 0
+  }
+
+  /**
+   * 小圣杯人物信息
+   * @param {*} topicId
+   */
+  characters(id) {
+    return computed(() => tinygrailStore.characters(id)).get()
   }
 
   // -------------------- page --------------------

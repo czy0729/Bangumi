@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 14:10:15
+ * @Last Modified time: 2019-08-25 01:10:50
  */
 // base
 // export { default as Drawer } from './base/drawer'
@@ -25,6 +25,7 @@ export { default as StatusBar } from './base/status-bar'
 export { default as StatusBarEvents } from './base/status-bar-events'
 export { default as StatusBarPlaceholder } from './base/status-bar-placeholder'
 export { default as StatusBtnGroup } from './base/status-btn-group'
+export { default as StockPreview } from './base/stock-preview'
 export { default as Tag } from './base/tag'
 
 // icon

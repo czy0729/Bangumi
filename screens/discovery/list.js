@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 20:17:40
+ * @Last Modified time: 2019-08-25 14:29:08
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -67,6 +67,7 @@ function List({ style, type }, { $, navigation }) {
               size={imageBigWidth}
               height={imageBigHeight}
               radius={_.radiusMd}
+              placeholder={false}
               onPress={() =>
                 navigation.push('Subject', {
                   subjectId: data[item].subjectId,
@@ -108,6 +109,7 @@ function List({ style, type }, { $, navigation }) {
                   size={imageWidth}
                   height={imageHeight}
                   radius={_.radiusSm}
+                  placeholder={false}
                   onPress={() =>
                     navigation.push('Subject', {
                       subjectId: item.subjectId,
@@ -170,6 +172,7 @@ const styles = StyleSheet.create({
   big: {
     marginTop: _.wind,
     marginHorizontal: _.wind,
+    backgroundColor: _.colorIcon,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
   },
@@ -188,6 +191,7 @@ const styles = StyleSheet.create({
   },
   image: {
     marginRight: _.wind,
+    backgroundColor: _.colorIcon,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }

@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-09 00:34:42
+ * @Last Modified time: 2019-08-24 23:02:17
  */
 import { HOST_NAME } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
+export const API_HOST_TINYGRAIL = 'https://www.tinygrail.com'
 
 /**
  * oauth获取access_token
@@ -124,3 +125,11 @@ export const API_COLLECTION = subjectId => `${API_HOST}/collection/${subjectId}`
  */
 export const API_COLLECTION_ACTION = (subjectId, action = 'update') =>
   `${API_HOST}/collection/${subjectId}/${action}`
+
+// -------------------- 小圣杯 --------------------
+/**
+ * 指定人物的数据
+ * https://www.tinygrail.com/api/chara/list
+ * @param {*} *body 人物ids [1, 2, 3]
+ */
+export const API_TINYGRAIL_CHARAS = () => `${API_HOST_TINYGRAIL}/api/chara/list`
