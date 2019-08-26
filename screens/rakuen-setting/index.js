@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 18:06:46
+ * @Last Modified time: 2019-08-26 11:10:44
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -34,7 +34,7 @@ class Setting extends React.Component {
     return (
       <ScrollView
         style={_.container.screen}
-        contentContainerStyle={_.container.flex}
+        contentContainerStyle={_.container.bottom}
       >
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
           基本

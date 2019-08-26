@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 19:58:40
+ * @Last Modified time: 2019-08-26 11:20:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -151,9 +151,10 @@ export default class LoginV2 extends React.Component {
       return
     }
 
+    setStorage(`${namespace}|email`, email)
     this.setState({
       loading: true,
-      info: '登陆请求中...'
+      info: '登陆请求中...(1/5)'
     })
 
     this.inputRef.inputRef.blur()
@@ -194,17 +195,17 @@ export default class LoginV2 extends React.Component {
       }
 
       this.setState({
-        info: '获取授权表单码...'
+        info: '获取授权表单码...(2/5)'
       })
       await this.oauth()
 
       this.setState({
-        info: '授权中...'
+        info: '授权中...(3/5)'
       })
       await this.authorize()
 
       this.setState({
-        info: '授权成功, 获取token中...'
+        info: '授权成功, 获取token中...(4/5)'
       })
       const { _response } = await this.getAccessToken()
 
@@ -213,7 +214,7 @@ export default class LoginV2 extends React.Component {
       this.inStore()
       this.setState({
         loading: false,
-        info: '登陆成功, 正在请求个人信息...'
+        info: '登陆成功, 正在请求个人信息...(5/5)'
       })
     } catch (ex) {
       this.setState({
@@ -300,9 +301,6 @@ export default class LoginV2 extends React.Component {
    */
   inStore = async () => {
     const { navigation } = this.props
-    const { email } = this.state
-
-    setStorage(`${namespace}|email`, email)
     userStore.updateUserCookie({
       cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
       userAgent: this.userAgent,

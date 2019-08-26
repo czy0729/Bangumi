@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 18:00:08
+ * @Last Modified time: 2019-08-26 11:05:03
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -102,7 +102,7 @@ class Setting extends React.Component {
         <StatusBar />
         <ScrollView
           style={_.container.screen}
-          contentContainerStyle={_.container.flex}
+          contentContainerStyle={_.container.bottom}
         >
           <Text style={[_.container.wind, _.mt.md]} type='sub'>
             基本

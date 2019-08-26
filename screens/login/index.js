@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 19:56:14
+ * @Last Modified time: 2019-08-26 11:39:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
-import { IOS, APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
+import { APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
 
@@ -131,7 +131,7 @@ export default class Login extends React.Component {
   }
 
   /**
-   * 要传递v=1区分版本, 当iOS端v=1的时候, html都不使用https
+   * 要传递v=1区分版本, 当iOS端v=2的时候, html都不使用https
    */
   updateUserCookie = ({ userAgent, cookie }) =>
     userStore.updateUserCookie({
@@ -212,7 +212,6 @@ export default class Login extends React.Component {
         javaScriptEnabled
         injectedJavaScript={injectedJavaScript}
         startInLoadingState
-        thirdPartyCookiesEnabled={!IOS}
         mixedContentMode='always'
         renderLoading={() => this.renderLoading()}
         onError={this.onError}
