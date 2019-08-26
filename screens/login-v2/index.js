@@ -1,18 +1,22 @@
 /*
+ * v2.1 为了应付多种特异的情况
+ * [0]正常登陆 -> 不行 -> [1]换成http -> 不行 -> [2]withCredentials = true -> 不行 -> 失败
+ * 假如最终是[2]成功登陆, 接下来所有请求html都不能带https
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 11:20:12
+ * @Last Modified time: 2019-08-27 00:37:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
+import deepmerge from 'deepmerge'
 import { Text, Flex, KeyboardSpacer } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'
 import { userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
-import { xhrCustom, hm, iOSUrlFixed } from '@utils/fetch'
+import { xhrCustom, hm } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import _ from '@styles'
@@ -34,7 +38,8 @@ export default class LoginV2 extends React.Component {
     captcha: '',
     base64: '',
     loading: false,
-    info: ''
+    info: '',
+    retry: 0
   }
 
   userAgent = ''
@@ -65,12 +70,18 @@ export default class LoginV2 extends React.Component {
     hm('login?v=2', title)
   }
 
+  /**
+   * 游客访问
+   */
   onTour = () => {
     const { navigation } = this.props
     navigation.goBack()
   }
 
-  onLogin = () => {
+  /**
+   * 显示登陆表单
+   */
+  onPreviewLogin = () => {
     this.setState({
       clicked: true
     })
@@ -138,9 +149,59 @@ export default class LoginV2 extends React.Component {
   }
 
   /**
-   * 登陆
+   * 构造再登录请求数据
    */
-  login = async () => {
+  getRetryData = data => {
+    const { retry } = this.state
+    if (retry <= 1) {
+      return data
+    }
+
+    const _data = deepmerge({}, data)
+    if (retry === 2) {
+      _data.withCredentials = true
+    }
+    return _data
+  }
+
+  /**
+   * 尝试再登陆
+   */
+  retryLogin = info => {
+    this.finalLoginFail(info)
+
+    // @todo 有问题, 待处理
+    // const { retry } = this.state
+    // if (retry <= 2) {
+    //   this.setState(
+    //     {
+    //       retry: retry + 1
+    //     },
+    //     () => {
+    //       this.login()
+    //     }
+    //   )
+    // } else {
+    //   this.finalLoginFail(info)
+    // }
+  }
+
+  /**
+   * 登陆最终失败
+   */
+  finalLoginFail = info => {
+    this.setState({
+      loading: false,
+      info,
+      retry: 0
+    })
+    this.getCaptcha()
+  }
+
+  /**
+   * 登陆流程
+   */
+  onLogin = async () => {
     const { loading, email, password, captcha } = this.state
     if (loading) {
       return
@@ -151,16 +212,40 @@ export default class LoginV2 extends React.Component {
       return
     }
 
-    setStorage(`${namespace}|email`, email)
-    this.setState({
-      loading: true,
-      info: '登陆请求中...(1/5)'
-    })
-
     this.inputRef.inputRef.blur()
+    setStorage(`${namespace}|email`, email)
 
     try {
-      const { responseHeaders } = await xhrCustom({
+      await this.login()
+      if (!this.cookie.chiiAuth) {
+        this.retryLogin('登陆失败, 请重试或点击这里前往旧版授权登陆 >')
+        return
+      }
+
+      await this.oauth()
+      await this.authorize()
+
+      const { _response } = await this.getAccessToken()
+      const accessToken = JSON.parse(_response)
+      userStore.updateAccessToken(accessToken)
+      this.inStore()
+    } catch (ex) {
+      this.retryLogin('登陆失败, 请重试或点击这里前往旧版授权登陆 >')
+    }
+  }
+
+  /**
+   * 密码登陆
+   */
+  login = async () => {
+    this.setState({
+      loading: true,
+      info: `${this.retryText}登陆请求中...(1/5)`
+    })
+
+    const { email, password, captcha } = this.state
+    const res = xhrCustom(
+      this.getRetryData({
         method: 'POST',
         url: `${HOST}/FollowTheRabbit`,
         headers: {
@@ -178,70 +263,42 @@ export default class LoginV2 extends React.Component {
           loginsubmit: '登陆'
         }
       })
+    )
 
-      if (responseHeaders['Set-Cookie']) {
-        const match = responseHeaders['Set-Cookie'].match(/chii_auth=(.+?);/)
-        if (match) {
-          this.cookie.chiiAuth = match[1]
-        }
+    const { responseHeaders } = await res
+    if (responseHeaders['Set-Cookie']) {
+      const match = responseHeaders['Set-Cookie'].match(/chii_auth=(.+?);/)
+      if (match) {
+        this.cookie.chiiAuth = match[1]
       }
-
-      if (!this.cookie.chiiAuth) {
-        this.setState({
-          loading: false,
-          info: '登陆失败, 请重试或点击这里前往旧版登陆 >'
-        })
-        return
-      }
-
-      this.setState({
-        info: '获取授权表单码...(2/5)'
-      })
-      await this.oauth()
-
-      this.setState({
-        info: '授权中...(3/5)'
-      })
-      await this.authorize()
-
-      this.setState({
-        info: '授权成功, 获取token中...(4/5)'
-      })
-      const { _response } = await this.getAccessToken()
-
-      const accessToken = JSON.parse(_response)
-      userStore.updateAccessToken(accessToken)
-      this.inStore()
-      this.setState({
-        loading: false,
-        info: '登陆成功, 正在请求个人信息...(5/5)'
-      })
-    } catch (ex) {
-      this.setState({
-        loading: false,
-        info: '登陆失败, 请重试或点击这里前往旧版登陆 >'
-      })
     }
+
+    return res
   }
 
   /**
    * 获取授权表单码
    */
   oauth = async () => {
-    const res = xhrCustom({
-      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${iOSUrlFixed(
-        OAUTH_REDIRECT_URL
-      )}`,
-      headers: {
-        Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
-        'User-Agent': this.userAgent
-      }
+    this.setState({
+      info: `${this.retryText}获取授权表单码...(2/5)`
     })
+
+    const res = xhrCustom(
+      this.getRetryData({
+        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        headers: {
+          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
+          'User-Agent': this.userAgent
+        }
+      })
+    )
 
     const { _response } = await res
     this.formhash = cheerio
       .load(_response)('input[name=formhash]')
       .attr('value')
+
     return res
   }
 
@@ -249,69 +306,90 @@ export default class LoginV2 extends React.Component {
    * 授权获取code
    */
   authorize = async () => {
-    const res = xhrCustom({
-      method: 'POST',
-      url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${iOSUrlFixed(
-        OAUTH_REDIRECT_URL
-      )}`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
-        'User-Agent': this.userAgent
-      },
-      data: {
-        formhash: this.formhash,
-        redirect_uri: '',
-        client_id: APP_ID,
-        submit: '授权'
-      }
+    this.setState({
+      info: `${this.retryText}授权中...(3/5)`
     })
+
+    const res = xhrCustom(
+      this.getRetryData({
+        method: 'POST',
+        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
+          'User-Agent': this.userAgent
+        },
+        data: {
+          formhash: this.formhash,
+          redirect_uri: '',
+          client_id: APP_ID,
+          submit: '授权'
+        }
+      })
+    )
 
     const { responseURL } = await res
     this.code = responseURL
       .split('=')
       .slice(1)
       .join('=')
+
     return res
   }
 
   /**
    * code获取access_token
    */
-  getAccessToken = () =>
-    xhrCustom({
-      method: 'POST',
-      url: `${HOST}/oauth/access_token`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': this.userAgent
-      },
-      data: {
-        grant_type: 'authorization_code',
-        client_id: APP_ID,
-        client_secret: APP_SECRET,
-        code: this.code,
-        redirect_uri: iOSUrlFixed(OAUTH_REDIRECT_URL),
-        state: getTimestamp()
-      }
+  getAccessToken = () => {
+    this.setState({
+      info: `${this.retryText}授权成功, 获取token中...(4/5)`
     })
+
+    return xhrCustom(
+      this.getRetryData({
+        method: 'POST',
+        url: `${HOST}/oauth/access_token`,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'User-Agent': this.userAgent
+        },
+        data: {
+          grant_type: 'authorization_code',
+          client_id: APP_ID,
+          client_secret: APP_SECRET,
+          code: this.code,
+          redirect_uri: OAUTH_REDIRECT_URL,
+          state: getTimestamp()
+        }
+      })
+    )
+  }
 
   /**
    * 入库
    */
   inStore = async () => {
+    this.setState({
+      info: `${this.retryText}登陆成功, 正在请求个人信息...(5/5)`
+    })
+
     const { navigation } = this.props
+    const { retry } = this.state
     userStore.updateUserCookie({
       cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
       userAgent: this.userAgent,
-      v: 2
+      v: retry // retry约定用于标记登陆版本
     })
+
     await userStore.fetchUserInfo()
     await userStore.fetchUsersInfo()
 
     navigation.popToTop()
   }
 
+  /**
+   * 输入框变化
+   */
   onChange = (evt, type) => {
     const { nativeEvent } = evt
     const { text } = nativeEvent
@@ -321,8 +399,19 @@ export default class LoginV2 extends React.Component {
     })
   }
 
+  /**
+   * 重试登陆文案
+   */
+  get retryText() {
+    const { retry } = this.state
+    if (!retry) {
+      return ''
+    }
+    return `第${retry}次重试, `
+  }
+
   renderPreview() {
-    return <Preview onLogin={this.onLogin} onTour={this.onTour} />
+    return <Preview onLogin={this.onPreviewLogin} onTour={this.onTour} />
   }
 
   renderForm() {
@@ -340,7 +429,7 @@ export default class LoginV2 extends React.Component {
         info={info}
         onGetCaptcha={this.getCaptcha}
         onChange={this.onChange}
-        onLogin={this.login}
+        onLogin={this.onLogin}
       />
     )
   }

@@ -1,2 +1,3 @@
 babel.config.js
 /components/@/*
+/node_modules

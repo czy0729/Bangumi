@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 16:32:34
+ * @Last Modified time: 2019-08-27 00:42:34
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Clipboard } from 'react-native'
@@ -61,7 +61,11 @@ class LoginAssist extends React.Component {
   }
 
   submit = () => {
-    const { result } = this.state
+    const { loading, result } = this.state
+    if (loading) {
+      return
+    }
+
     if (result === '') {
       info('请粘贴结果')
       return
@@ -117,7 +121,7 @@ class LoginAssist extends React.Component {
         }
       }
 
-      this.login()
+      this.onLogin()
     } catch (error) {
       this.setState({
         loading: false,
@@ -129,30 +133,15 @@ class LoginAssist extends React.Component {
   /**
    * 登陆
    */
-  login = async () => {
+  onLogin = async () => {
     try {
-      this.setState({
-        info: '获取授权表单码...'
-      })
       await this.oauth()
-
-      this.setState({
-        info: '授权中...'
-      })
       await this.authorize()
 
-      this.setState({
-        info: '授权成功, 获取token中...'
-      })
       const { _response } = await this.getAccessToken()
-
       const accessToken = JSON.parse(_response)
       userStore.updateAccessToken(accessToken)
       this.inStore()
-      this.setState({
-        loading: false,
-        info: '登陆成功, 正在请求个人信息...'
-      })
     } catch (ex) {
       this.setState({
         loading: false,
@@ -165,6 +154,10 @@ class LoginAssist extends React.Component {
    * 获取授权表单码
    */
   oauth = async () => {
+    this.setState({
+      info: '获取授权表单码...(1/4)'
+    })
+
     try {
       const res = xhrCustom({
         url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
@@ -192,6 +185,10 @@ class LoginAssist extends React.Component {
    * 授权获取code
    */
   authorize = async () => {
+    this.setState({
+      info: '授权中...(2/4)'
+    })
+
     try {
       const res = xhrCustom({
         method: 'POST',
@@ -228,6 +225,10 @@ class LoginAssist extends React.Component {
    * code获取access_token
    */
   getAccessToken = () => {
+    this.setState({
+      info: '授权成功, 获取token中...(3/4)'
+    })
+
     try {
       const res = xhrCustom({
         method: 'POST',
@@ -259,11 +260,15 @@ class LoginAssist extends React.Component {
    * 入库
    */
   inStore = async () => {
+    this.setState({
+      info: '登陆成功, 正在请求个人信息...(4/4)'
+    })
+
     const { navigation } = this.props
     userStore.updateUserCookie({
       cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
       userAgent: this.userAgent,
-      v: 3
+      v: 0
     })
     await userStore.fetchUserInfo()
     await userStore.fetchUsersInfo()
@@ -280,17 +285,17 @@ class LoginAssist extends React.Component {
       >
         <StatusBar />
         <Text type='danger' size={12}>
-          此为登陆最后的手段, 流程相对复杂 (其实也没多复杂,
+          此为登陆最后的手段, 流程相对较多 (其实不复杂,
           熟悉的话比正常登录还要快和稳), 请先尝试新版和旧版登陆, 不行再试这个.
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
           第三方登陆失败受很多因素影响, 如网络不佳、运营商劫持、手机系统特异,
-          又或者碰上bgm网站速度不佳 (当然还有本人代码有bug).
+          又或者碰上bgm速度不佳 (当然还有代码有bug).
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
           本人能力有限, 部分设备无论如何都不能走通新版和旧版的登陆流程,
-          若您实在很喜欢本应用, 可以尝试下面的登陆流程 (假如还走不通,
-          请过来干我).
+          若您实在很喜欢本应用, 可以尝试下面的方法 (假如还走不通, 请多尝试,
+          又或者过来干我).
         </Text>
         <Text style={_.mt.lg}>1. 复制框里的代码.</Text>
         <View style={_.mt.sm}>

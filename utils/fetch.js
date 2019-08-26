@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 14:54:23
+ * @Last Modified time: 2019-08-27 00:55:26
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -184,24 +184,24 @@ export async function fetchHTML({
     _config.body = urlStringify(body)
     toastKey = Toast.loading('Loading...', 0)
   }
-  log(iOSUrlFixed(_url))
+  log(urlVersionFixed(_url))
 
   const systemStore = require('../stores/system').default
-  return fetch(iOSUrlFixed(_url), _config)
+  return fetch(urlVersionFixed(_url), _config)
     .then(res => {
       // 开发模式
       if (systemStore.state.dev) {
         Alert.alert(
           'dev',
-          `${JSON.stringify(iOSUrlFixed(_url))} ${JSON.stringify(_config)} ${
-            res._bodyInit
-          }`
+          `${JSON.stringify(urlVersionFixed(_url))} ${JSON.stringify(
+            _config
+          )} ${res._bodyInit}`
         )
       }
 
       // POST打印结果
       if (!isGet) {
-        log(method, 'success', iOSUrlFixed(_url), _config, res)
+        log(method, 'success', urlVersionFixed(_url), _config, res)
       }
 
       // 清除Toast
@@ -260,7 +260,7 @@ export function xhr(
     }
   }
 
-  request.open(method, iOSUrlFixed(url))
+  request.open(method, urlVersionFixed(url))
   request.withCredentials = false
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   request.setRequestHeader('Cookie', userCookie)
@@ -278,7 +278,8 @@ export function xhrCustom({
   url,
   data,
   headers = {},
-  responseType
+  responseType,
+  withCredentials = false
 } = {}) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
@@ -297,8 +298,8 @@ export function xhrCustom({
       reject(new TypeError('AbortError'))
     }
 
-    request.open(method, iOSUrlFixed(url), true)
-    request.withCredentials = false
+    request.open(method, urlVersionFixed(url), true)
+    request.withCredentials = withCredentials
     if (responseType) {
       request.responseType = responseType
     }
@@ -387,17 +388,13 @@ function safe(data) {
 
 /**
  * SDK33开始, iOS这里使用https去登陆, 不知道为什么不行
- * 使用cookie的v区分版本, 当iOS端v=2的时候, html都不使用https
+ * 使用cookie的v区分版本, v=1的时候, html都不使用https
  * @param {*} url
  */
-export function iOSUrlFixed(url) {
-  if (!IOS) {
-    return url
-  }
-
+export function urlVersionFixed(url) {
   const userStore = require('../stores/user').default
   const { v } = userStore.userCookie
-  if (v === 2) {
+  if (v === 1) {
     return url.replace('https://', 'http://')
   }
   return url

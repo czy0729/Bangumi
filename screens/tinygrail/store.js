@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 00:21:39
+ * @Last Modified time: 2019-08-27 01:05:32
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -106,8 +106,11 @@ export default class ScreenTinygrail extends store {
   }
 
   tabChangeCallback = page => {
-    const { key } = tabs[page]
-    this.fetchList(key)
+    const { title, key } = tabs[page]
+    const { _loaded } = this.list(key)
+    if (!_loaded || title === '最近活跃') {
+      this.fetchList(key)
+    }
   }
 
   // -------------------- action --------------------

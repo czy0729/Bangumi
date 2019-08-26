@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 11:39:46
+ * @Last Modified time: 2019-08-27 00:22:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -137,7 +137,7 @@ export default class Login extends React.Component {
     userStore.updateUserCookie({
       userAgent,
       cookie,
-      v: 1
+      v: 0
     })
 
   doLogin = async ({ href = '' } = {}) => {

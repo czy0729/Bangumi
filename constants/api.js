@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 01:05:54
+ * @Last Modified time: 2019-08-26 18:02:26
  */
 import { HOST_NAME } from './index'
 
@@ -176,3 +176,13 @@ export const API_TINYGRAIL_RAI = (page = 1, limit = TINYGRAIL_LIMIT) =>
  */
 export const API_TINYGRAIL_RECENT = (page = 1, limit = TINYGRAIL_LIMIT) =>
   `${API_HOST_TINYGRAIL}/api/chara/recent/${page}/${limit}`
+
+/**
+ * 交易记录
+ * @param {*} monoId
+ * @param {*} date
+ */
+export const API_TINYGRAIL_CHARTS = (
+  monoId = 0,
+  date = '2019-08-01T00:00:00+08:00'
+) => `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/${date}`
