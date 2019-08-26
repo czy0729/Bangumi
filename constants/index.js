@@ -3,11 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 12:04:42
+ * @Last Modified time: 2019-08-26 01:07:53
  */
 import { Platform } from 'react-native'
-import { Constants } from 'expo'
-// import Constants from 'expo-constants'
+import Constants from 'expo-constants'
 
 export const IOS = Platform.OS === 'ios'
 export const MI = Constants.deviceName.includes('MI') // 小米MIUI
@@ -35,7 +34,7 @@ export const GITHUB_RELEASE_REPOS_URL =
   'https://api.github.com/repos/czy0729/Bangumi/releases'
 export const GITHUB_RELEASE_VERSION = '0.13.0'
 export const CODE_PUSH_VERSION = ''
-export const DEV = true
+export const DEV = false
 
 // 图片
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'

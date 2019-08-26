@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 12:07:46
+ * @Last Modified time: 2019-08-20 19:33:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useScreens } from 'react-native-screens'
-import { AppLoading, Font } from 'expo'
-// import * as Font from 'expo-font'
+import { AppLoading } from 'expo'
+import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
 import { ImageViewer } from '@components'
 import { StatusBar } from '@screens/_'

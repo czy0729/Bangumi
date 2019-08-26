@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 12:34:57
+ * @Last Modified time: 2019-08-24 14:54:23
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -209,8 +209,8 @@ export async function fetchHTML({
         Portal.remove(toastKey)
       }
 
-      return Promise.resolve(res._bodyInit)
-      // return Promise.resolve(res.text())
+      // return Promise.resolve(res._bodyInit)
+      return Promise.resolve(res.text())
     })
     .catch(err => {
       if (systemStore.state.dev) {
@@ -391,17 +391,14 @@ function safe(data) {
  * @param {*} url
  */
 export function iOSUrlFixed(url) {
+  if (!IOS) {
+    return url
+  }
+
+  const userStore = require('../stores/user').default
+  const { v } = userStore.userCookie
+  if (v === 2) {
+    return url.replace('https://', 'http://')
+  }
   return url
-
-  // @notice 暂时切回来32, 应该不存在这个问题
-  // if (!IOS) {
-  //   return url
-  // }
-
-  // const userStore = require('../stores/user').default
-  // const { v } = userStore.userCookie
-  // if (v === 2) {
-  //   return url.replace('https://', 'http://')
-  // }
-  // return url
 }
