@@ -6,7 +6,8 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import Constants from 'expo-constants'
+import { Constants } from 'expo'
+// import Constants from 'expo-constants'
 import { colorPlain } from '@styles'
 
 const StatusBarPlaceholder = ({ style }) => (

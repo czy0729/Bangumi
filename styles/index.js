@@ -6,7 +6,8 @@
  * @Last Modified time: 2019-08-24 17:52:53
  */
 import { Dimensions, StyleSheet } from 'react-native'
-import Constants from 'expo-constants'
+import { Constants } from 'expo'
+// import Constants from 'expo-constants'
 import { IOS } from '@constants'
 
 // -------------------- 设备 --------------------

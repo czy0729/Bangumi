@@ -6,7 +6,8 @@
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import Constants from 'expo-constants'
+import { Constants } from 'expo'
+// import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import { Text, Flex, KeyboardSpacer } from '@components'
 import { StatusBar, StatusBarPlaceholder } from '@screens/_'

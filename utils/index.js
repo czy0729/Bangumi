@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 19:35:52
+ * @Last Modified time: 2019-08-26 12:08:41
  */
 import { AsyncStorage } from 'react-native'
-import * as WebBrowser from 'expo-web-browser'
+import { WebBrowser } from 'expo'
+// import * as WebBrowser from 'expo-web-browser'
 import { info } from './ui'
 
 /**

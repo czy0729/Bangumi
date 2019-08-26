@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 19:56:07
+ * @Last Modified time: 2019-08-26 12:07:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,8 @@ import {
   getActiveChildNavigationOptions
 } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { BlurView } from 'expo-blur'
+import { BlurView } from 'expo'
+// import { BlurView } from 'expo-blur'
 import {
   Anitama,
   Award,

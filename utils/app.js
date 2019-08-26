@@ -3,9 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 23:21:03
+ * @Last Modified time: 2019-08-26 12:08:25
  */
-import * as WebBrowser from 'expo-web-browser'
+import { WebBrowser } from 'expo'
+// import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
 import { HOST, HOST_2 } from '@constants'
 

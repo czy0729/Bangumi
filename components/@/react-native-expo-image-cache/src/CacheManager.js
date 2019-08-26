@@ -1,7 +1,8 @@
 /* eslint-disable */
 // https://github.com/wcandillon/react-native-expo-image-cache/blob/master/src/CacheManager.js
 import * as _ from 'lodash'
-import * as FileSystem from 'expo-file-system'
+import { FileSystem } from 'expo'
+// import * as FileSystem from 'expo-file-system'
 import SHA1 from 'crypto-js/sha1'
 
 const BASE_DIR = `${FileSystem.cacheDirectory}expo-image-cache/`

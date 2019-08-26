@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 11:39:46
+ * @Last Modified time: 2019-08-26 12:46:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -212,7 +212,6 @@ export default class Login extends React.Component {
         javaScriptEnabled
         injectedJavaScript={injectedJavaScript}
         startInLoadingState
-        mixedContentMode='always'
         renderLoading={() => this.renderLoading()}
         onError={this.onError}
         onMessage={this.onMessage}

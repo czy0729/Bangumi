@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 16:32:34
+ * @Last Modified time: 2019-08-26 12:35:45
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Clipboard } from 'react-native'
@@ -132,17 +132,17 @@ class LoginAssist extends React.Component {
   login = async () => {
     try {
       this.setState({
-        info: '获取授权表单码...'
+        info: '获取授权表单码...(1/4)'
       })
       await this.oauth()
 
       this.setState({
-        info: '授权中...'
+        info: '授权中...(2/4)'
       })
       await this.authorize()
 
       this.setState({
-        info: '授权成功, 获取token中...'
+        info: '授权成功, 获取token中...(3/4)'
       })
       const { _response } = await this.getAccessToken()
 
@@ -151,7 +151,7 @@ class LoginAssist extends React.Component {
       this.inStore()
       this.setState({
         loading: false,
-        info: '登陆成功, 正在请求个人信息...'
+        info: '登陆成功, 正在请求个人信息...(4/4)'
       })
     } catch (ex) {
       this.setState({
