@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:55:47
+ * @Last Modified time: 2019-08-27 16:16:23
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -12,7 +12,7 @@ import { Popover } from '@screens/_'
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { wind, sm } from '@styles'
 
-const TabBarLeft = ({ $ }) => {
+function TabBarLeft({ $ }) {
   const { scope } = $.state
   return (
     <Popover

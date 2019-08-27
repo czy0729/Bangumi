@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:56:32
+ * @Last Modified time: 2019-08-27 16:17:56
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,7 +13,7 @@ import { observer } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 
-const TabBarLeft = (props, { $ }) => {
+function TabBarLeft(props, { $ }) {
   const { subjectType } = $.state
   return (
     <Popover

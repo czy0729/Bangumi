@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-01 17:54:46
+ * @Last Modified time: 2019-08-27 16:16:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,7 +12,7 @@ import { withTabsHeader } from '@utils/decorators'
 import _ from '@styles'
 import Item from './item'
 
-const List = ({ index }, { $ }) => {
+function List({ index }, { $ }) {
   const type = $.type(index)
   const rakuen = $.rakuen(type)
   if (!rakuen._loaded) {

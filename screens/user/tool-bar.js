@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:58:52
+ * @Last Modified time: 2019-08-27 16:18:04
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -17,7 +17,7 @@ import {
 import _ from '@styles'
 import { tabs } from './store'
 
-const ToolBar = (props, { $ }) => {
+function ToolBar(props, { $ }) {
   const { subjectType, list, order, tag, page } = $.state
   const type = MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
   const userCollectionsTags = $.userCollectionsTags(subjectType, type)

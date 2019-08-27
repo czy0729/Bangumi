@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:45:41
+ * @Last Modified time: 2019-08-27 16:18:03
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ import _ from '@styles'
 import TabBarLeft from './tab-bar-left'
 import { tabs, height, headerHeight } from './store'
 
-const Tabs = ({ scrollY, children, ...other }, { $ }) => {
+function Tabs({ scrollY, children, ...other }, { $ }) {
   const { subjectType, _page } = $.state
   const counts = {
     动画: {},

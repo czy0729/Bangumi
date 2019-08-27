@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:31:21
+ * @Last Modified time: 2019-08-27 16:17:43
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import _ from '@styles'
 
-const Head = ({ style }, { $ }) => {
+function Head({ style }, { $ }) {
   const { avatar = {}, nickname, id } = $.usersInfo
   return (
     <Flex

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 14:12:03
+ * @Last Modified time: 2019-08-27 16:42:25
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -59,10 +59,9 @@ class User extends React.Component {
   render() {
     const { $ } = this.context
     const { id } = $.usersInfo
-    const isMe = $.myUserId === id
 
     // 自己并且没登陆
-    if (isMe && !$.isLogin) {
+    if (!id && !$.isLogin) {
       return <Login />
     }
 

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { IOS } from '@constants'
 import { colorBorder } from '@styles'
 
 export default () =>
@@ -7,10 +8,14 @@ export default () =>
       flex: 1,
       backgroundColor: 'transparent'
     },
-    topTabBarSplitLine: {
-      borderBottomColor: colorBorder,
-      borderBottomWidth: StyleSheet.hairlineWidth
-    },
+    topTabBarSplitLine: IOS
+      ? {
+          borderBottomWidth: 0
+        }
+      : {
+          borderBottomColor: colorBorder,
+          borderBottomWidth: StyleSheet.hairlineWidth
+        },
     bottomTabBarSplitLine: {
       borderTopColor: colorBorder,
       borderTopWidth: StyleSheet.hairlineWidth

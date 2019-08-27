@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 00:49:02
+ * @Last Modified time: 2019-08-27 16:26:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
+import { caculateICO } from '@utils/app'
 import _ from '@styles'
 
 export default class StockPreview extends React.Component {
@@ -176,7 +177,7 @@ export default class StockPreview extends React.Component {
           {showFloor ? (
             <Flex style={_.ml.sm}>
               {showDetail && (
-                <Text styles={styles.small} size={12} type='success'>
+                <Text size={12} type='success'>
                   {bids}
                 </Text>
               )}
@@ -244,8 +245,7 @@ const styles = StyleSheet.create({
     height: 16
   },
   floor: {
-    width: 72,
-    opacity: 0.72
+    width: 72
   },
   bids: {
     height: 2,
@@ -259,9 +259,6 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden'
   },
-  small: {
-    opacity: 0.72
-  },
   ico: {
     height: '100%',
     paddingRight: _.wind
@@ -271,8 +268,7 @@ const styles = StyleSheet.create({
     height: 16,
     backgroundColor: _.colorBorder,
     borderRadius: 8,
-    overflow: 'hidden',
-    opacity: 0.8
+    overflow: 'hidden'
   },
   icoProcess: {
     height: 16,
@@ -286,23 +282,3 @@ const styles = StyleSheet.create({
     right: _.sm
   }
 })
-
-function caculateICO(ico) {
-  let level = 0
-  let price = 10
-  let amount = 10000
-  // let total = 0
-  let next = 100000
-
-  if (ico.total < 100000 || ico.users < 10) {
-    return { level, next, price: 0, amount: 0 }
-  }
-
-  level = Math.floor(Math.sqrt(ico.total / 100000))
-  amount = 10000 + (level - 1) * 7500
-  price = ico.total / amount
-  // eslint-disable-next-line no-restricted-properties
-  next = Math.pow(level + 1, 2) * 100000
-
-  return { level, next, price, amount }
-}

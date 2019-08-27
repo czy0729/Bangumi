@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 16:12:04
+ * @Last Modified time: 2019-08-27 16:35:37
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
@@ -14,7 +14,7 @@ function Raw({ color, size }) {
 }
 
 Raw.defaultProps = {
-  color: _.colorDesc,
+  color: _.colorSub,
   size: 'small'
 }
 
@@ -28,7 +28,7 @@ function Loading({ style, color, size, children }) {
 }
 
 Loading.defaultProps = {
-  color: _.colorDesc,
+  color: _.colorSub,
   size: 'small'
 }
 

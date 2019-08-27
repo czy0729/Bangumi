@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 13:20:14
+ * @Last Modified time: 2019-08-27 17:09:01
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -344,7 +344,7 @@ export default class Image extends React.Component {
 const styles = StyleSheet.create({
   border: {
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.8)'
+    borderColor: _.colorBorder
   },
   shadow: _.shadow,
   placeholder: {

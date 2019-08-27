@@ -1,7 +1,7 @@
 /*
  * v2.1 为了应付多种特异的情况
  * [0]正常登陆 -> 不行 -> [1]换成http -> 不行 -> [2]withCredentials = true -> 不行 -> 失败
- * 假如最终是[2]成功登陆, 接下来所有请求html都不能带https
+ * 假如最终是[1]成功登陆, 接下来所有请求html都不能带https
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729

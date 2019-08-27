@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-09 01:47:24
+ * @Last Modified time: 2019-08-27 16:10:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,7 +13,7 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 import Item from './item'
 
-const List = ({ title }, { $ }) => {
+function List({ title }, { $ }) {
   if (!$.userCollection._loaded) {
     return <Loading />
   }
