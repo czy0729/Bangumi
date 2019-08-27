@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:26:24
+ * @Last Modified time: 2019-08-27 19:40:51
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -258,6 +258,10 @@ export function getCookie(cookies = '', name) {
  * @param {*} src
  */
 export function getCoverSmall(src = '') {
+  if (typeof src !== 'string') {
+    return ''
+  }
+
   return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
 }
 
@@ -266,9 +270,20 @@ export function getCoverSmall(src = '') {
  * @param {*} src
  */
 export function getCoverMedium(src = '', mini = false) {
-  if (mini) {
+  if (typeof src !== 'string') {
+    return ''
+  }
+
+  // 角色图片不要处理
+  if (src.includes('/crt/')) {
+    return src
+  }
+
+  // 用户头像和小组图标没有/c/类型
+  if (mini || src.includes('/user/') || src.includes('/icon/')) {
     return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
   }
+
   return src.replace(/\/g\/|\/s\/|\/m\/|\/l\//, '/c/')
 }
 
@@ -277,6 +292,10 @@ export function getCoverMedium(src = '', mini = false) {
  * @param {*} src
  */
 export function getCoverLarge(src = '') {
+  if (typeof src !== 'string') {
+    return ''
+  }
+
   return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
 }
 

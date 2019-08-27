@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 22:03:09
+ * @Last Modified time: 2019-08-27 19:42:55
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -12,7 +12,7 @@ import _ from '@styles'
 import Avatar from '../base/avatar'
 import Stars from '../base/stars'
 
-const ItemComment = ({
+function ItemComment({
   style,
   navigation,
   index,
@@ -22,7 +22,7 @@ const ItemComment = ({
   userName,
   star,
   comment
-}) => {
+}) {
   const isTop = index === 0
   return (
     <Flex style={[styles.item, style]} align='start'>
@@ -36,9 +36,7 @@ const ItemComment = ({
         <Flex>
           <Flex.Item>
             <Flex>
-              <Text size={12}>
-                {userName}
-              </Text>
+              <Text size={12}>{userName}</Text>
               <Text style={_.ml.xs} type='sub' size={12}>
                 / {formatTime(time)}
               </Text>

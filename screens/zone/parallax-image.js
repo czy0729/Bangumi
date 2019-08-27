@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 20:06:32
+ * @Last Modified time: 2019-08-27 19:28:20
  */
 import React from 'react'
 import { StyleSheet, Animated, View, Alert } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Iconfont, Text } from '@components'
 import { Popover, IconBack } from '@screens/_'
 import { open } from '@utils'
+import { HTMLDecode } from '@utils/html'
 import { IOS, HOST } from '@constants'
 import _ from '@styles'
 import Head from './head'
@@ -88,7 +89,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             align='center'
             numberOfLines={1}
           >
-            {nickname}
+            {HTMLDecode(nickname)}
           </Text>
         </Animated.View>
         <Animated.View
@@ -131,7 +132,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
               case 'TA的收藏信息':
                 navigation.push('User', {
                   userId: username,
-                  _name: nickname,
+                  _name: HTMLDecode(nickname),
                   _image: avatar.large
                 })
                 break

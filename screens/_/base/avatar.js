@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 17:30:48
+ * @Last Modified time: 2019-08-27 19:01:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
+import { getCoverMedium } from '@utils/app'
 import { IOS } from '@constants'
 import { systemStore } from '@stores'
 import _ from '@styles'
@@ -50,7 +51,7 @@ function Avatar({ style, navigation, userId, src, size, onPress }) {
       <View style={_style}>
         <Image
           size={size}
-          src={src}
+          src={getCoverMedium(src, true)}
           radius={avatarRound ? size / 2 : true}
           quality={false}
           onPress={_onPress}
@@ -63,7 +64,7 @@ function Avatar({ style, navigation, userId, src, size, onPress }) {
     <Image
       style={style}
       size={size}
-      src={src}
+      src={getCoverMedium(src, true)}
       radius={avatarRound ? size / 2 : true}
       border={_.colorBorder}
       quality={false}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 11:11:14
+ * @Last Modified time: 2019-08-27 18:40:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,6 @@ import { observer } from 'mobx-react'
 import { open } from '@utils'
 import { inject, withHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { HOST } from '@constants'
 import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
@@ -43,7 +42,7 @@ class Tinygrail extends React.Component {
         onSelect: key => {
           switch (key) {
             case '浏览器查看':
-              open(`${HOST}/rakuen`)
+              open('https://bgm.tv/rakuen')
               break
             default:
               break

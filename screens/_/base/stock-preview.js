@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:26:35
+ * @Last Modified time: 2019-08-27 18:43:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -226,8 +226,7 @@ const styles = StyleSheet.create({
     minWidth: 72,
     paddingHorizontal: _.sm,
     borderRadius: 2,
-    overflow: 'hidden',
-    opacity: 0.72
+    overflow: 'hidden'
   },
   danger: {
     backgroundColor: _.colorDanger
@@ -242,7 +241,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: _.sm,
     bottom: _.wind,
-    height: 16
+    height: 16,
+    backgroundColor: _.colorPlain
   },
   floor: {
     width: 72

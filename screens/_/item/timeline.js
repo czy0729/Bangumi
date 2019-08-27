@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 17:02:08
+ * @Last Modified time: 2019-08-27 19:43:18
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
-import { appNavigate, findBangumiCn } from '@utils/app'
+import { appNavigate, findBangumiCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
 import { HOST } from '@constants'
 import _ from '@styles'
@@ -60,7 +60,7 @@ class ItemTimeline extends React.Component {
                 isSubject && {
                   _jp: item,
                   _cn: findBangumiCn(item),
-                  _image: image[index] || ''
+                  _image: getCoverMedium(image[index] || '')
                 }
               )
             }
@@ -74,7 +74,7 @@ class ItemTimeline extends React.Component {
       })
       $p3.pop()
     } else if (p3.text.length === 1) {
-      const isSubject = !!String(p3.url[0]).match(regSubject)
+      const isSubject = !!String(p3.url && p3.url[0]).match(regSubject)
       $p3 = (
         <Text
           type={isSubject ? undefined : 'main'}
@@ -82,16 +82,18 @@ class ItemTimeline extends React.Component {
           size={12}
           onPress={() =>
             this.appNavigate(
-              p3.url[0],
+              p3.url && p3.url[0],
               isSubject && {
-                _jp: p3.text[0],
-                _cn: findBangumiCn(p3.text[0]),
-                _image: image[0] || ''
+                _jp: p3.text && p3.text[0],
+                _cn: findBangumiCn(p3.text && p3.text[0]),
+                _image: getCoverMedium((image && image[0]) || '')
               }
             )
           }
         >
-          {isSubject ? findBangumiCn(p3.text[0]) : p3.text[0]}
+          {isSubject
+            ? findBangumiCn(p3.text && p3.text[0])
+            : p3.text && p3.text[0]}
         </Text>
       )
     }
@@ -144,7 +146,7 @@ class ItemTimeline extends React.Component {
                 subjectId,
                 _cn: findBangumiCn(subject),
                 _jp: subject,
-                _image: image ? image[0] : ''
+                _image: getCoverMedium(image ? image[0] : '')
               })
             }}
           >
@@ -166,21 +168,24 @@ class ItemTimeline extends React.Component {
       return null
     }
 
-    const images = image.map((item, index) => (
-      <Image
-        key={item}
-        style={_.mr.sm}
-        src={item}
-        size={48}
-        radius
-        border={_.colorBorder}
-        onPress={() =>
-          this.appNavigate(p3.url[index], {
-            _image: item
-          })
-        }
-      />
-    ))
+    const images = image.map((item, index) => {
+      const image = getCoverMedium(item)
+      return (
+        <Image
+          key={item}
+          style={_.mr.sm}
+          src={image}
+          size={48}
+          radius
+          border={_.colorBorder}
+          onPress={() =>
+            this.appNavigate(p3.url[index], {
+              _image: image
+            })
+          }
+        />
+      )
+    })
     if (image.length <= 5) {
       return (
         <Flex style={_.mt.sm} wrap='wrap'>
@@ -211,6 +216,7 @@ class ItemTimeline extends React.Component {
       clearHref,
       onDelete
     } = this.props
+    const _image = getCoverMedium(image && image[0])
     return (
       <Flex style={[styles.item, style]} align='start'>
         <View style={styles.image}>
@@ -251,13 +257,13 @@ class ItemTimeline extends React.Component {
               {image.length === 1 && (
                 <Image
                   style={_.ml.sm}
-                  src={image[0]}
+                  src={_image}
                   size={48}
                   radius
                   border={_.colorBorder}
                   onPress={() =>
-                    this.appNavigate(p3.url[0], {
-                      _image: image[0]
+                    this.appNavigate(p3.url && p3.url[0], {
+                      _image
                     })
                   }
                 />

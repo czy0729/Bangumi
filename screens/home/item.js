@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 14:24:55
+ * @Last Modified time: 2019-08-27 19:47:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Progress, Modal } from '@ant-design/react-native'
 import { Flex, Iconfont, Image, Shadow, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
+import { getCoverMedium } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 
@@ -34,7 +35,7 @@ class Item extends React.Component {
       subjectId,
       _jp: subject.name,
       _cn: subject.name_cn || subject.name,
-      _image: subject.images.medium
+      _image: getCoverMedium(subject.images.medium)
     })
   }
 
@@ -212,7 +213,7 @@ class Item extends React.Component {
           <Flex>
             <Image
               size={80}
-              src={subject.images.medium}
+              src={getCoverMedium(subject.images.medium)}
               radius
               border={_.colorBorder}
               onPress={this.onPress}

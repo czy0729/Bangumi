@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:36:00
+ * @Last Modified time: 2019-08-27 17:44:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -24,7 +24,7 @@ function Info({ style }, { $, navigation }) {
             style={[styles.info, _.mt.sm]}
             html={info}
             baseFontStyle={{
-              fontSize: 15,
+              fontSize: 13,
               lineHeight: 22,
               color: _.colorTitle
             }}

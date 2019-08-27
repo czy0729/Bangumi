@@ -1,14 +1,16 @@
+/* eslint-disable no-restricted-globals */
 /*
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 20:39:10
+ * @Last Modified time: 2019-08-27 19:31:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
+import { HTMLDecode } from '@utils/html'
 import _, { colorPlain } from '@styles'
 
 function Head({ style }, { $ }) {
@@ -23,7 +25,7 @@ function Head({ style }, { $ }) {
           {join || '- 加入'}
         </Text>
         <Text style={styles.percent} type='plain' size={12}>
-          同步率{percent}%
+          同步率{isNaN(percent) ? '-' : percent}%
         </Text>
         {isFriend && (
           <Text style={styles.friend} type='plain' size={12}>
@@ -32,7 +34,7 @@ function Head({ style }, { $ }) {
         )}
       </View>
       <Text style={_.mt.md} type='plain' size={16}>
-        {nickname}
+        {HTMLDecode(nickname)}
         {!!id && ` @${id}`}
       </Text>
     </Flex>

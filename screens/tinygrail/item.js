@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 00:01:12
+ * @Last Modified time: 2019-08-27 18:46:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,6 @@ import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
 import { open } from '@utils'
 import { formatTime } from '@utils/app'
-import { HOST } from '@constants'
 import _ from '@styles'
 
 let timezone = new Date().getTimezoneOffset() / -60
@@ -37,7 +36,9 @@ function Item(props, { navigation }) {
 
   let marketValueText
   let totalText
-  if (marketValue > 1000) {
+  if (marketValue > 100000000) {
+    marketValueText = `${(marketValue / 100000000).toFixed(1)}亿`
+  } else if (marketValue > 1000) {
     marketValueText = `${(marketValue / 10000).toFixed(1)}万`
   }
   if (total > 1000) {
@@ -71,7 +72,7 @@ function Item(props, { navigation }) {
               <Touchable
                 style={styles.item}
                 highlight
-                onPress={() => open(`${HOST}/character/${id}`)}
+                onPress={() => open(`https://bgm.tv/character/${id}`)}
               >
                 <Flex align='start'>
                   <Flex.Item>

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 13:59:01
+ * @Last Modified time: 2019-08-27 19:42:37
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable, Text, Image } from '@components'
 import { getTimestamp } from '@utils'
+import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { IMG_DEFAULT } from '@constants'
 import _ from '@styles'
@@ -16,7 +17,7 @@ import _ from '@styles'
 const imageWidth = _.window.width * 0.2
 const marginLeft = (_.window.width - 4 * imageWidth) / 5
 
-const CollectionsGrid = ({
+function CollectionsGrid({
   style,
   navigation,
   id,
@@ -25,24 +26,25 @@ const CollectionsGrid = ({
   nameCn,
   time,
   isOnHold
-}) => {
+}) {
   let holdDays
   if (isOnHold) {
     holdDays = Math.ceil((getTimestamp() - getTimestamp(time)) / 86400)
   }
+  const _image = getCoverMedium(cover, false)
   const onPress = () => {
     navigation.push('Subject', {
       subjectId: id,
       _jp: name,
       _cn: nameCn,
-      _image: cover
+      _image
     })
   }
   return (
     <View style={[styles.item, style]}>
       <Image
         size={imageWidth}
-        src={cover || IMG_DEFAULT}
+        src={_image || IMG_DEFAULT}
         border
         radius
         shadow
