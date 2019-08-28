@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:43:18
+ * @Last Modified time: 2019-08-28 10:17:40
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
@@ -10,13 +10,12 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { appNavigate, findBangumiCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
-import { HOST } from '@constants'
+import { HOST, HOST_NAME } from '@constants'
 import _ from '@styles'
 import Avatar from '../base/avatar'
 import Stars from '../base/stars'
 
 const avatarWidth = 28
-const regSubject = /\/\/bangumi.tv\/subject\/\d+$/
 
 class ItemTimeline extends React.Component {
   static defaultProps = {
@@ -47,7 +46,7 @@ class ItemTimeline extends React.Component {
       $p3 = []
       p3.text.forEach((item, index) => {
         const url = String(p3.url[index])
-        const isSubject = !!url.match(regSubject)
+        const isSubject = url.includes(`${HOST_NAME}/subject/`)
         $p3.push(
           <Text
             key={item}
@@ -74,7 +73,9 @@ class ItemTimeline extends React.Component {
       })
       $p3.pop()
     } else if (p3.text.length === 1) {
-      const isSubject = !!String(p3.url && p3.url[0]).match(regSubject)
+      const isSubject = !!String(p3.url && p3.url[0]).includes(
+        `${HOST_NAME}/subject/`
+      )
       $p3 = (
         <Text
           type={isSubject ? undefined : 'main'}
