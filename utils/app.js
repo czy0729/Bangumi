@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:40:51
+ * @Last Modified time: 2019-08-29 01:22:32
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -93,6 +93,17 @@ export function appNavigate(url = '', navigation, passParams = {}) {
     return true
   }
 
+  // 本集讨论 [/ep/\d+]
+  // 结构与超展开内容类似, 跳转到超展开内容
+  if (_url.includes('/ep/')) {
+    navigation.push('Topic', {
+      topicId: _url.replace(`${HOST}/`, '').replace('subject/', ''),
+      _url,
+      ...passParams
+    })
+    return true
+  }
+
   // 条目 [/subject/{subjectId}]
   if (_url.includes('/subject/')) {
     navigation.push('Subject', {
@@ -108,17 +119,6 @@ export function appNavigate(url = '', navigation, passParams = {}) {
   if (_url.includes('/user/') && _url.split('/').length <= 6) {
     navigation.push('Zone', {
       userId: _url.replace(`${HOST}/user/`, ''),
-      _url,
-      ...passParams
-    })
-    return true
-  }
-
-  // 本集讨论 [/ep/\d+]
-  // 结构与超展开内容类似, 跳转到超展开内容
-  if (_url.includes('/ep/')) {
-    navigation.push('Topic', {
-      topicId: _url.replace(`${HOST}/`, ''),
       _url,
       ...passParams
     })

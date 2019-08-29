@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 15:22:19
+ * @Last Modified time: 2019-08-29 01:04:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -58,7 +58,7 @@ class Item extends React.Component {
   }
 
   // 是否已读
-  get isRead() {
+  get isReaded() {
     const { $ } = this.context
     const readed = $.readed(this.topicId)
     return !!readed.time

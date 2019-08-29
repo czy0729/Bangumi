@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 21:04:45
+ * @Last Modified time: 2019-08-29 17:29:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import cheerio from 'cheerio-without-node-native'
 import { open } from '@utils'
+import { cheerio } from '@utils/html'
 import _ from '@styles'
 import HTML from '../@/react-native-render-html'
 import BgmText, { bgmMap } from '../bgm-text'
@@ -172,19 +172,16 @@ export default class RenderHtml extends React.Component {
     const { html, baseFontStyle } = this.props
 
     // 给纯文字包上span
-    let _html = `<div>${html}</div>`
-    const match = _html.match(/>[^<>]+?</g)
-    if (match) {
-      match.forEach(
-        item => (_html = _html.replace(item, `><span${item}/span><`))
-      )
-    }
-
-    // 防止CDN乱改结构
-    _html = html.replace(/data-cfsrc=/g, 'src=')
+    // let _html = `<div>${html}</div>`
+    // const match = _html.match(/>[^<>]+?</g)
+    // if (match) {
+    //   match.forEach(
+    //     item => (_html = _html.replace(item, `><span${item}/span><`))
+    //   )
+    // }
 
     // 把bgm表情替换成bgm字体文字
-    const $ = cheerio.load(_html)
+    const $ = cheerio(html)
     $('img[smileid]').replaceWith((index, element) => {
       const $img = cheerio(element)
       const alt = $img.attr('alt') || ''
@@ -192,11 +189,7 @@ export default class RenderHtml extends React.Component {
         // bgm偏移量24
         const index = parseInt(alt.replace(/\(bgm|\)/g, '')) - 24
         if (bgmMap[index]) {
-          return `<span style="font-family:bgm;font-size:${
-            baseFontStyle.fontSize
-          }px;line-height:${baseFontStyle.lineHeight}px;user-select:all">${
-            bgmMap[index]
-          }</span>`
+          return `<span style="font-family:bgm;font-size:${baseFontStyle.fontSize}px;line-height:${baseFontStyle.lineHeight}px;user-select:all">${bgmMap[index]}</span>`
         }
         return alt
       }

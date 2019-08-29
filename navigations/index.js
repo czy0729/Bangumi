@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 19:56:07
+ * @Last Modified time: 2019-08-29 17:24:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -133,8 +133,13 @@ const styles = StyleSheet.create({
     left: 0,
     backgroundColor: _.colorPlain
   },
-  tabBarComponent: {
-    borderTopWidth: 0,
-    backgroundColor: 'transparent'
-  }
+  tabBarComponent: IOS
+    ? {
+        borderTopWidth: 0,
+        backgroundColor: 'transparent'
+      }
+    : {
+        borderTopWidth: StyleSheet.hairlineWidth,
+        borderTopColor: _.colorBorder
+      }
 })

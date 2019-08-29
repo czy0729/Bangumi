@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 14:44:28
+ * @Last Modified time: 2019-08-29 01:00:58
  */
-import cheerio from 'cheerio-without-node-native'
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
 import { fetchHTML } from '@utils/fetch'
-import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
+import {
+  HTMLTrim,
+  HTMLToTree,
+  findTreeNode,
+  HTMLDecode,
+  cheerio
+} from '@utils/html'
 import { matchAvatar, matchUserId } from '@utils/match'
 import { HTML_RAKUEN } from '@constants/html'
 import { INIT_TOPIC, INIT_COMMENTS_ITEM } from './init'
@@ -217,7 +222,7 @@ function getCommentAttrs(tree) {
  * @param {*} HTML
  */
 export function cheerioGroupInfo(HTML) {
-  const $ = cheerio.load(HTML)
+  const $ = cheerio(HTML)
 
   let joinUrl
   let byeUrl
@@ -245,8 +250,7 @@ export function cheerioGroupInfo(HTML) {
  * @param {*} HTML
  */
 export function analysisGroup(HTML) {
-  return cheerio
-    .load(HTML)('tr.topic')
+  return cheerio(HTML)('tr.topic')
     .map((index, element) => {
       const $tr = cheerio(element)
       const $title = $tr.find('.subject > a')
@@ -268,8 +272,7 @@ export function analysisGroup(HTML) {
  * @param {*} HTML
  */
 export function cheerioNotify(HTML) {
-  return cheerio
-    .load(HTML)('div.tml_item')
+  return cheerio(HTML)('div.tml_item')
     .map((index, element) => {
       const $tr = cheerio(element)
       const $name = $tr.find('a.l')
@@ -310,7 +313,7 @@ export function cheerioTopic(HTML) {
   let comments = []
 
   try {
-    const $ = cheerio.load(HTML)
+    const $ = cheerio(HTML)
 
     // 主楼
     const $group = $('#pageHeader a.avatar')
@@ -319,16 +322,19 @@ export function cheerioTopic(HTML) {
       .replace(' / del / edit', '')
       .split(' - ')
     const titleText = $('#pageHeader > h1').text() || ''
-    const groupText = $('#pageHeader > h1 > span').text() || ''
-    const title = titleText.replace(groupText, '')
-
+    let title
+    if (titleText.includes(' » ')) {
+      title = String(titleText.split(' » ')[1]).replace(/讨论|章节/, '')
+    } else {
+      title = String(titleText.split(' / ')[1])
+    }
     topic = safeObject({
       avatar: getCoverSmall(
         matchAvatar($('div.postTopic span.avatarNeue').attr('style'))
       ),
       floor,
       formhash: $('input[name=formhash]').attr('value'),
-      group: $group.text(),
+      group: String($group.text()).replace(/\n/g, ''),
       groupHref: $group.attr('href'),
       groupThumb: getCoverSmall($('a.avatar > img.avatar').attr('src')),
       lastview: '',
@@ -344,9 +350,7 @@ export function cheerioTopic(HTML) {
     comments =
       $('#comment_list > div.row_reply')
         .map((index, element) => {
-          const $row = cheerio(element, {
-            decodeEntities: false
-          })
+          const $row = cheerio(element)
           const [floor, time] = (
             $row.find('> div.re_info > small').text() || ''
           )

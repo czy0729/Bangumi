@@ -1,12 +1,10 @@
-/* eslint-disable max-len */
-/* eslint-disable quotes */
-/* eslint-disable quote-props */
+/* eslint-disable max-len, quotes, quote-props */
 /*
  * Mock数据
  * @Author: czy0729
  * @Date: 2019-04-14 21:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 22:58:15
+ * @Last Modified time: 2019-08-29 16:03:16
  */
 export const DATA_USER_INFO = {
   id: 456208,

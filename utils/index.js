@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 19:35:52
+ * @Last Modified time: 2019-08-29 16:40:15
  */
 import { AsyncStorage } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -443,4 +443,13 @@ export function randomn(n) {
   }
   // eslint-disable-next-line no-restricted-properties
   return parseInt((Math.random() + 1) * Math.pow(10, n - 1))
+}
+
+/**
+ * 区间随机
+ * @param {*} start
+ * @param {*} end
+ */
+export function random(start, end) {
+  return Math.floor(Math.random() * (end - start + 1) + start)
 }

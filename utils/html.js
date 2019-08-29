@@ -3,8 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:29:24
+ * @Last Modified time: 2019-08-29 17:09:41
  */
+import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './thirdParty/html-parser'
 
 /**
@@ -50,13 +51,15 @@ export function HTMLTrim(str = '') {
     return str
   }
   return (
-    str
+    removeCF(str)
       // .replace(/<!--.*?-->/gi, '')
       // .replace(/\/\*.*?\*\//gi, '')
       // .replace(/[ ]+</gi, '<')
-      // eslint-disable-next-line no-control-regex, no-tabs
       .replace(/\n+|\s\s\s*|\t/g, '')
       .replace(/"class="/g, '" class="')
+
+      // 补充 190829
+      .replace(/> </g, '><')
   )
 }
 
@@ -195,4 +198,26 @@ export function findTreeNode(children, cmd = '', defaultValue) {
     return undefined || defaultValue
   }
   return _find
+}
+
+/**
+ * 干掉cloudfare乱插的dom
+ * @param {*} HTML
+ */
+export function removeCF(HTML = '') {
+  return HTML.replace(
+    /<script[^>]*>([\s\S](?!<script))*?<\/script>|<noscript[^>]*>([\s\S](?!<script))*?<\/noscript>|style="display:none;visibility:hidden;"/g,
+    ''
+  ).replace(/data-cfsrc/g, 'src')
+}
+
+/**
+ * cheerio.load
+ * @param {*} HTML
+ */
+export function cheerio(target) {
+  if (typeof target === 'string') {
+    return cheerioRN.load(removeCF(target))
+  }
+  return cheerioRN(target)
 }

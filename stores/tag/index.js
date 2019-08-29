@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 20:22:15
+ * @Last Modified time: 2019-08-29 15:44:16
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -115,7 +115,8 @@ class Tag extends store {
    * 动画: tv | web | ova | movie | misc
    * 书籍: comic | novel | illustration | misc
    * 音乐: [null]
-   * 游戏: pc | mac | ps4 | xbox_one | ns | will_u | ps3 | xbox360 | wii | psv | 3ds | nds | psp | ps2 | xbox | ps | fc | gba | gb |
+   * 游戏: pc | mac | ps4 | xbox_one | ns | will_u | ps3 | xbox360
+   * | wii | psv | 3ds | nds | psp | ps2 | xbox | ps | fc | gba | gb |
    * 三次元: jp | en | cn | misc
    * @param {*} airtime 2020-1960
    * @param {*} refresh 是否刷新

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 00:37:17
+ * @Last Modified time: 2019-08-28 23:40:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,13 +18,14 @@ import { userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
 import { xhrCustom, hm } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
+import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import _ from '@styles'
 import Preview from './preview'
 import Form from './form'
 
 const title = '登陆V2'
 const namespace = 'LoginV2'
+const HOST_BANGUMI = 'https://bangumi.tv'
 
 export default class LoginV2 extends React.Component {
   static navigationOptions = {
@@ -92,7 +93,7 @@ export default class LoginV2 extends React.Component {
    */
   logout = () =>
     xhrCustom({
-      url: `${HOST}/logout/7dd16c5e`,
+      url: `${HOST_BANGUMI}/logout/7dd16c5e`,
       headers: {
         'User-Agent': this.userAgent
       }
@@ -103,7 +104,8 @@ export default class LoginV2 extends React.Component {
    */
   getFormHash = async () => {
     const res = xhrCustom({
-      url: `${HOST}/login`,
+      // @notice 尝试过很多遍bgm.tv就是不能登陆
+      url: `${HOST_BANGUMI}/login`,
       headers: {
         'User-Agent': this.userAgent
       }
@@ -132,9 +134,10 @@ export default class LoginV2 extends React.Component {
    */
   getCaptcha = async () => {
     const res = xhrCustom({
-      url: `${HOST}/signup/captcha?state=${getTimestamp()}`,
+      // @notice 尝试过很多遍bgm.tv就是不能登陆
+      url: `${HOST_BANGUMI}/signup/captcha`,
       headers: {
-        Cookie: `chii_sid=${this.cookie.chiiSid}`,
+        Cookie: `chii_sid=${this.cookie.chiiSid};`,
         'User-Agent': this.userAgent
       },
       responseType: 'arraybuffer'
@@ -218,7 +221,7 @@ export default class LoginV2 extends React.Component {
     try {
       await this.login()
       if (!this.cookie.chiiAuth) {
-        this.retryLogin('登陆失败, 请重试或点击这里前往旧版授权登陆 >')
+        this.retryLogin('验证码错误, 请重试或点击这里前往旧版授权登陆 >')
         return
       }
 
@@ -247,10 +250,12 @@ export default class LoginV2 extends React.Component {
     const res = xhrCustom(
       this.getRetryData({
         method: 'POST',
-        url: `${HOST}/FollowTheRabbit`,
+
+        // @notice 尝试过很多遍bgm.tv就是不能登陆
+        url: `${HOST_BANGUMI}/FollowTheRabbit`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Cookie: `chii_sid=${this.cookie.chiiSid}`,
+          Cookie: `chii_sid=${this.cookie.chiiSid};`,
           'User-Agent': this.userAgent
         },
         data: {
@@ -286,9 +291,9 @@ export default class LoginV2 extends React.Component {
 
     const res = xhrCustom(
       this.getRetryData({
-        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        url: `${HOST_BANGUMI}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
         headers: {
-          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
+          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
           'User-Agent': this.userAgent
         }
       })
@@ -313,10 +318,10 @@ export default class LoginV2 extends React.Component {
     const res = xhrCustom(
       this.getRetryData({
         method: 'POST',
-        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        url: `${HOST_BANGUMI}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
+          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
           'User-Agent': this.userAgent
         },
         data: {
@@ -348,7 +353,7 @@ export default class LoginV2 extends React.Component {
     return xhrCustom(
       this.getRetryData({
         method: 'POST',
-        url: `${HOST}/oauth/access_token`,
+        url: `${HOST_BANGUMI}/oauth/access_token`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'User-Agent': this.userAgent
@@ -376,7 +381,7 @@ export default class LoginV2 extends React.Component {
     const { navigation } = this.props
     const { retry } = this.state
     userStore.updateUserCookie({
-      cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
+      cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
       userAgent: this.userAgent,
       v: retry // retry约定用于标记登陆版本
     })

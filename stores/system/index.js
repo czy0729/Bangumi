@@ -2,14 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 17:46:39
+ * @Last Modified time: 2019-08-29 17:23:03
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { log } from '@utils/dev'
-import { GITHUB_RELEASE_REPOS_URL, GITHUB_RELEASE_VERSION } from '@constants'
+import {
+  IOS,
+  GITHUB_RELEASE_REPOS_URL,
+  GITHUB_RELEASE_VERSION
+} from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import {
   NAMESPACE,
@@ -88,17 +92,11 @@ class System extends store {
       const { name: currentVersion } = this.state.release
       if (githubVersion !== (currentVersion || GITHUB_RELEASE_VERSION)) {
         setTimeout(() => {
-          // Alert.alert('发现新版本', '是否下载', [
-          //   {
-          //     text: '取消',
-          //     style: 'cancel'
-          //   },
-          //   {
-          //     text: '确定',
-          //     onPress: () => appNavigate(GITHUB_RELEASE_URL)
-          //   }
-          // ])
-          info('有新版本, 可到设置里下载')
+          info(
+            IOS
+              ? '有新版本, iOS版本上线会有延迟, 请关注商店动态'
+              : '有新版本, 可到设置里下载'
+          )
         }, 1600)
 
         const release = {

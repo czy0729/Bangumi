@@ -2,12 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 17:07:53
+ * @Last Modified time: 2019-08-29 16:53:25
  */
-import cheerio from 'cheerio-without-node-native'
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
-import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
+import {
+  HTMLTrim,
+  HTMLToTree,
+  findTreeNode,
+  HTMLDecode,
+  cheerio
+} from '@utils/html'
 import { fetchHTML } from '@utils/fetch'
 import {
   matchSubjectId,
@@ -39,7 +44,7 @@ export async function fetchMono({ monoId = 0 }) {
   let monoComments = [] // 人物吐槽箱
 
   if (HTML) {
-    const $ = cheerio.load(raw)
+    const $ = cheerio(raw)
     mono.eraseCollectUrl =
       $('li.collect > span.collect > a.break').attr('href') || ''
     if (!mono.eraseCollectUrl) {
@@ -58,7 +63,7 @@ export async function fetchMono({ monoId = 0 }) {
     }
 
     // 封面
-    matchHTML = HTML.match(/<img src="(.+?)" class="cover" \/>/)
+    matchHTML = HTML.match(/<img src="(.+?)" class="cover"\/>/)
     if (matchHTML) {
       mono.cover = matchHTML[1]
     }
@@ -216,7 +221,7 @@ export async function fetchMono({ monoId = 0 }) {
  * @param {*} HTML
  */
 export function cheerioSubjectFormHTML(HTML) {
-  const $ = cheerio.load(HTML)
+  const $ = cheerio(HTML)
   let relationsType
 
   // 曲目列表

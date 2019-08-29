@@ -1,9 +1,8 @@
-/* eslint-disable no-param-reassign */
 /*
  * @Author: czy0729
  * @Date: 2019-04-28 18:38:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:17:07
+ * @Last Modified time: 2019-08-29 16:08:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'

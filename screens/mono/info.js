@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 17:15:36
+ * @Last Modified time: 2019-08-29 16:43:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -40,7 +40,6 @@ function Info(props, { $, navigation }) {
     _loaded
   } = $.mono
   const { monoId, _name, _image } = $.params
-
   return (
     <>
       {!IOS && <HeaderPlaceholder />}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-28 10:17:40
+ * @Last Modified time: 2019-08-29 01:16:09
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
@@ -46,7 +46,8 @@ class ItemTimeline extends React.Component {
       $p3 = []
       p3.text.forEach((item, index) => {
         const url = String(p3.url[index])
-        const isSubject = url.includes(`${HOST_NAME}/subject/`)
+        const isSubject =
+          url.includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
         $p3.push(
           <Text
             key={item}
@@ -73,9 +74,10 @@ class ItemTimeline extends React.Component {
       })
       $p3.pop()
     } else if (p3.text.length === 1) {
-      const isSubject = !!String(p3.url && p3.url[0]).includes(
-        `${HOST_NAME}/subject/`
-      )
+      const isSubject =
+        !!String(p3.url.length && p3.url[0]).includes(
+          `${HOST_NAME}/subject/`
+        ) && !p3.url[0].includes('/ep/')
       $p3 = (
         <Text
           type={isSubject ? undefined : 'main'}
@@ -83,18 +85,18 @@ class ItemTimeline extends React.Component {
           size={12}
           onPress={() =>
             this.appNavigate(
-              p3.url && p3.url[0],
+              p3.url.length && p3.url[0],
               isSubject && {
-                _jp: p3.text && p3.text[0],
-                _cn: findBangumiCn(p3.text && p3.text[0]),
-                _image: getCoverMedium((image && image[0]) || '')
+                _jp: p3.text.length && p3.text[0],
+                _cn: findBangumiCn(p3.text.length && p3.text[0]),
+                _image: getCoverMedium((image.length && image[0]) || '')
               }
             )
           }
         >
           {isSubject
-            ? findBangumiCn(p3.text && p3.text[0])
-            : p3.text && p3.text[0]}
+            ? findBangumiCn(p3.text.length && p3.text[0])
+            : p3.text.length && p3.text[0]}
         </Text>
       )
     }
@@ -147,7 +149,7 @@ class ItemTimeline extends React.Component {
                 subjectId,
                 _cn: findBangumiCn(subject),
                 _jp: subject,
-                _image: getCoverMedium(image ? image[0] : '')
+                _image: getCoverMedium(image.length ? image[0] : '')
               })
             }}
           >
@@ -217,7 +219,7 @@ class ItemTimeline extends React.Component {
       clearHref,
       onDelete
     } = this.props
-    const _image = getCoverMedium(image && image[0])
+    const _image = getCoverMedium(image.length && image[0])
     return (
       <Flex style={[styles.item, style]} align='start'>
         <View style={styles.image}>
@@ -263,7 +265,7 @@ class ItemTimeline extends React.Component {
                   radius
                   border={_.colorBorder}
                   onPress={() =>
-                    this.appNavigate(p3.url && p3.url[0], {
+                    this.appNavigate(p3.url.length && p3.url[0], {
                       _image
                     })
                   }

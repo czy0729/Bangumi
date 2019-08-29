@@ -1,10 +1,9 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax, no-await-in-loop */
 /*
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 12:06:03
+ * @Last Modified time: 2019-08-29 16:08:01
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'

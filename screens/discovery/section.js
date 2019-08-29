@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-23 21:34:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 20:51:42
+ * @Last Modified time: 2019-08-29 16:40:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Image, Touchable } from '@components'
+import { random } from '@utils'
 import { observer } from '@utils/decorators'
 import { getCoverMedium } from '@utils/app'
 import _ from '@styles'
@@ -16,7 +17,8 @@ import { sectionWidth, sectionHeight } from './store'
 function Section(props, { $, navigation }) {
   let rankCover = ''
   if ($.rank._loaded) {
-    rankCover = $.rank.list.length && $.rank.list[0].cover
+    rankCover =
+      $.rank.list.length && $.rank.list[random(0, $.rank.list.length - 1)].cover
   }
 
   let calendarCover = ''

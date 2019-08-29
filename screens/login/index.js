@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 00:22:59
+ * @Last Modified time: 2019-08-28 21:26:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -40,7 +40,7 @@ const injectedJavaScript = `(function(){
       }));
     }
   }
-  setTimeout(() => { waitForBridge() }, 0);
+  setTimeout(() => { waitForBridge() }, 800);
 }());`
 
 export default class Login extends React.Component {
@@ -86,7 +86,7 @@ export default class Login extends React.Component {
                 this.refreshWebView()
               }
             } else if (
-              data.href.indexOf(`${OAUTH_REDIRECT_URL}/?code=`) !== -1
+              data.href.indexOf(`${OAUTH_REDIRECT_URL}?code=`) !== -1
             ) {
               // 得到code之后获取access_token
               this.doLogin(data)
@@ -142,9 +142,9 @@ export default class Login extends React.Component {
 
   doLogin = async ({ href = '' } = {}) => {
     const { navigation } = this.props
-    const code = href.replace(`${HOST}/?code=`, '')
+    const code = href.replace(`${OAUTH_REDIRECT_URL}?code=`, '')
     try {
-      info('获取token中, 请稍等...')
+      info('获取token中, 请稍等...', 6)
       await userStore.fetchAccessToken(code)
     } catch (ex) {
       this.setState({
