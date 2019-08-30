@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 16:08:14
+ * @Last Modified time: 2019-08-31 00:48:21
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -160,7 +160,8 @@ export default class ScreenHome extends store {
         }
 
         // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
-        return eps.slice(index - 1, index + Eps.pageLimit - 1)
+        // @notice 注意这里第一个值不能小于0, 不然会返回空
+        return eps.slice(index < 1 ? 0 : index - 1, index + Eps.pageLimit - 1)
       }
       return eps
     }).get()
