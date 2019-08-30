@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 01:00:58
+ * @Last Modified time: 2019-08-31 01:23:20
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -351,10 +351,11 @@ export function cheerioTopic(HTML) {
       $('#comment_list > div.row_reply')
         .map((index, element) => {
           const $row = cheerio(element)
+
           const [floor, time] = (
             $row.find('> div.re_info > small').text() || ''
           )
-            .replace(' / del / edit', '')
+            .replace('\n/ del / edit', '')
             .split(' - ')
           return safeObject({
             ...INIT_COMMENTS_ITEM,
@@ -385,7 +386,7 @@ export function cheerioTopic(HTML) {
                     decodeEntities: false
                   })
                   const [floor, time] = ($row.find('small').text() || '')
-                    .replace(' / del / edit', '')
+                    .replace('\n/ del / edit', '')
                     .split(' - ')
                   return safeObject({
                     ...INIT_COMMENTS_ITEM,

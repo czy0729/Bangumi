@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-15 19:37:50
+ * @Last Modified time: 2019-08-31 01:32:58
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -16,10 +16,18 @@ import {
 } from '@screens/_'
 import _ from '@styles'
 
-const SectionTitle = (props, { $ }) => {
+function SectionTitle(props, { $ }) {
   const { list = [] } = $.comments
   const { filterMe, filterFriends, reverse } = $.state
   const hasLogin = !!$.myId
+  let commentsCount = 0
+  list.forEach(item => {
+    commentsCount += 1
+    if (item.sub) {
+      commentsCount += item.sub.length
+    }
+  })
+
   return (
     <CompSectionTitle
       style={[styles.title, _.mt.lg, _.mb.md]}
@@ -34,13 +42,14 @@ const SectionTitle = (props, { $ }) => {
           )}
           {hasLogin && (
             <IconTouchable
+              style={_.ml.sm}
               name='friends'
               color={filterFriends ? _.colorMain : _.colorIcon}
               onPress={$.toggleFilterFriends}
             />
           )}
           <IconReverse
-            style={styles.sort}
+            style={[styles.sort, _.ml.xs]}
             color={reverse ? _.colorMain : _.colorIcon}
             onPress={$.toggleReverseComments}
           />
@@ -48,10 +57,9 @@ const SectionTitle = (props, { $ }) => {
       }
     >
       吐槽箱{' '}
-      {list.length !== 0 && (
+      {commentsCount !== 0 && (
         <Text size={12} type='sub' lineHeight={24}>
-          ({list.length}
-          {list.length >= 100 && '+'})
+          ({commentsCount})
         </Text>
       )}
     </CompSectionTitle>

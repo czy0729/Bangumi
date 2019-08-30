@@ -76,6 +76,7 @@ export default class Popover extends React.PureComponent {
   render() {
     const {
       style,
+      contentStyle, // @add
       children,
       disabled,
       triggerStyle,
@@ -105,7 +106,7 @@ export default class Popover extends React.PureComponent {
                 </TouchableOpacity>
                 <Pop
                   popoverStyle={s.popover}
-                  contentStyle={s.content}
+                  contentStyle={[s.content, contentStyle]}
                   arrowStyle={Platform.OS === 'ios' ? s.arrow : s.arrowAndroid}
                   backgroundStyle={s.background}
                   visible={popoverVisible}

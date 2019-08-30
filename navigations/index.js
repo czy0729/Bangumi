@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 17:24:23
+ * @Last Modified time: 2019-08-31 01:06:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -97,6 +97,7 @@ const HomeStack = createStackNavigator(
     LoginV2,
     Mono,
     Notify,
+    Rakuen,
     RakuenSetting,
     Random,
     Rank,
@@ -104,6 +105,7 @@ const HomeStack = createStackNavigator(
     Setting,
     Subject,
     Tag,
+    Timeline,
     Tinygrail,
     Topic,
     User,

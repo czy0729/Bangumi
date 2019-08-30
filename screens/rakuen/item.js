@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 01:04:30
+ * @Last Modified time: 2019-08-31 01:17:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -220,6 +220,9 @@ class Item extends React.Component {
     return (
       <Popover
         style={styles.extra}
+        contentStyle={{
+          borderTopRightRadius: 0
+        }}
         data={popoverData}
         onSelect={title =>
           $.onExtraSelect(

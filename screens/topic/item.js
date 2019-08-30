@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 15:01:57
+ * @Last Modified time: 2019-08-31 01:28:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,7 +19,7 @@ const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
-const Item = (
+function Item(
   {
     index,
     authorId,
@@ -35,7 +35,7 @@ const Item = (
     showFixedTextare
   },
   { $, navigation }
-) => {
+) {
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   const isFriend = $.myFriendsMap[userId]
@@ -79,7 +79,7 @@ const Item = (
           </Text>
         </Flex>
         {!!userSign && (
-          <Text style={_.mt.xs} type='sub' size={12}>
+          <Text style={styles.sign} type='sub' size={12} numberOfLines={2}>
             {userSign}
           </Text>
         )}
@@ -217,6 +217,9 @@ const styles = StyleSheet.create({
   content: {
     paddingVertical: _.wind,
     paddingRight: _.wind
+  },
+  sign: {
+    marginTop: 6
   },
   border: {
     borderTopColor: _.colorBorder,
