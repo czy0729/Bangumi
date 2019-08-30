@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-16 04:41:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:03:14
+ * @Last Modified time: 2019-08-30 18:08:38
  */
 import React from 'react'
 import Image from './image'
@@ -111,15 +111,17 @@ export const bgm = {
   100: require('@bgm/100.gif')
 }
 
-const Bgm = ({ index, size, ...other }) => (
-  <Image
-    src={bgm[index]}
-    resizeMode='contain'
-    size={size}
-    placeholder={false}
-    {...other}
-  />
-)
+function Bgm({ index, size, ...other }) {
+  return (
+    <Image
+      src={bgm[index]}
+      resizeMode='contain'
+      size={size}
+      placeholder={false}
+      {...other}
+    />
+  )
+}
 
 Bgm.defaultProps = {
   index: 1,

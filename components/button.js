@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:14:42
+ * @Last Modified time: 2019-08-30 18:09:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import Flex from './flex'
 import Text from './text'
 import Touchable from './touchable'
 
-const Button = ({
+function Button({
   style,
   type,
   size,
@@ -25,7 +25,7 @@ const Button = ({
   children,
   onPress,
   ...other
-}) => {
+}) {
   const _wrap = [styles.button]
   const _text = [styles.text]
 

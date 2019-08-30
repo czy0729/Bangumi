@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 11:05:03
+ * @Last Modified time: 2019-08-31 00:21:54
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -89,7 +89,8 @@ class Setting extends React.Component {
       autoFetch,
       speech,
       tinygrail,
-      avatarRound
+      avatarRound,
+      heatMap
     } = systemStore.setting
     const { name } = systemStore.release
     const hasNewVersion = name !== GITHUB_RELEASE_VERSION
@@ -171,6 +172,17 @@ class Setting extends React.Component {
               <Switch
                 checked={avatarRound}
                 onChange={systemStore.switchAvatarRound}
+              />
+            }
+            withoutFeedback
+          />
+          <ItemSetting
+            border
+            hd='章节讨论热力图'
+            ft={
+              <Switch
+                checked={heatMap}
+                onChange={systemStore.switchHeatMap}
               />
             }
             withoutFeedback

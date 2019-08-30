@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 01:16:09
+ * @Last Modified time: 2019-08-30 23:19:01
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
@@ -240,7 +240,7 @@ class ItemTimeline extends React.Component {
               {this.renderP()}
               {this.renderDesc()}
               {this.renderImages()}
-              <Flex style={_.mt.md} align='baseline'>
+              <Flex style={_.mt.md}>
                 {!!reply.count && (
                   <Text
                     type='primary'

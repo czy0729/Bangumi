@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-12 09:24:37
+ * @Last Modified time: 2019-08-30 18:08:10
  */
 import React from 'react'
 import { StyleSheet, Text as RNText } from 'react-native'
 import { IOS } from '@constants'
 import _ from '@styles'
 
-const Text = ({
+function Text({
   style,
   type,
   underline,
@@ -20,7 +20,7 @@ const Text = ({
   bold,
   children,
   ...other
-}) => {
+}) {
   const _style = [styles.text]
   if (type) {
     _style.push(styles[type])

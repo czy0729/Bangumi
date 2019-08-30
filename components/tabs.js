@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 16:00:34
+ * @Last Modified time: 2019-08-30 18:11:10
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { colorMain, radiusSm } from '@styles'
 import AntdTabs from './@/ant-design/tabs'
 
-const Tabs = ({
+function Tabs({
   tabs,
   tabBarBackgroundColor,
   tabBarUnderlineStyle,
@@ -19,18 +19,20 @@ const Tabs = ({
   renderTabBarLeft,
   children,
   ...other
-}) => (
-  <AntdTabs
-    tabs={tabs}
-    tabBarBackgroundColor={tabBarBackgroundColor}
-    tabBarUnderlineStyle={[styles.tabBarUnderline, tabBarUnderlineStyle]}
-    prerenderingSiblingsNumber={prerenderingSiblingsNumber}
-    renderTabBarLeft={renderTabBarLeft}
-    {...other}
-  >
-    {children}
-  </AntdTabs>
-)
+}) {
+  return (
+    <AntdTabs
+      tabs={tabs}
+      tabBarBackgroundColor={tabBarBackgroundColor}
+      tabBarUnderlineStyle={[styles.tabBarUnderline, tabBarUnderlineStyle]}
+      prerenderingSiblingsNumber={prerenderingSiblingsNumber}
+      renderTabBarLeft={renderTabBarLeft}
+      {...other}
+    >
+      {children}
+    </AntdTabs>
+  )
+}
 
 Tabs.defaultProps = {
   tabs: [],

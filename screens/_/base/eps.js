@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-22 01:09:16
+ * @Last Modified time: 2019-08-31 00:23:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Carousel } from '@ant-design/react-native'
 import { Flex, Popover, Menu, Button, Text } from '@components'
+import { systemStore } from '@stores'
+import { arrGroup } from '@utils'
 import { IOS } from '@constants'
 import { MODEL_EP_TYPE } from '@constants/model'
-import { arrGroup } from '@utils'
 import _ from '@styles'
 
-export default class Eps extends React.Component {
+export default
+@observer
+class Eps extends React.Component {
   static defaultProps = {
     numbersOfLine: 8, // 1行多少个, 为了美观, 通过计算按钮占满1行
     pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
@@ -62,6 +66,16 @@ export default class Eps extends React.Component {
       width: Math.floor(widthSum / numbersOfLine),
       margin: Math.floor(marginSum / marginNumbers)
     }
+  }
+
+  get commentMin() {
+    const { eps } = this.props
+    return Math.min(...eps.map(item => item.comment).filter(item => !!item))
+  }
+
+  get commentMax() {
+    const { eps } = this.props
+    return Math.max(...eps.map(item => item.comment))
   }
 
   getPopoverData = item => {
@@ -139,6 +153,17 @@ export default class Eps extends React.Component {
         >
           {item.sort}
         </Button>
+        {systemStore.setting.heatMap && (
+          <View
+            style={[
+              styles.hotBar,
+              {
+                opacity:
+                  (item.comment - this.commentMin / 1.68) / this.commentMax
+              }
+            ]}
+          />
+        )}
       </Popover>
     )
   }
@@ -295,6 +320,16 @@ const styles = StyleSheet.create({
     marginTop: 2,
     borderLeftWidth: 2,
     borderColor: _.colorSub
+  },
+  hotBar: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    left: 0,
+    height: 4,
+    marginBottom: -4,
+    backgroundColor: _.colorWarning,
+    borderRadius: 4
   }
 })
 

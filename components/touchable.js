@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:25:29
+ * @Last Modified time: 2019-08-30 18:11:21
  */
 import React from 'react'
 import {
@@ -16,13 +16,7 @@ import {
 import { IOS } from '@constants'
 import _ from '@styles'
 
-const Touchable = ({
-  style,
-  withoutFeedback,
-  highlight,
-  children,
-  ...other
-}) => {
+function Touchable({ style, withoutFeedback, highlight, children, ...other }) {
   if (withoutFeedback) {
     return (
       <TouchableOpacity style={style} activeOpacity={1} {...other}>

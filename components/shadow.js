@@ -3,16 +3,20 @@
  * @Author: czy0729
  * @Date: 2019-04-01 07:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:24:02
+ * @Last Modified time: 2019-08-30 18:10:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { IOS } from '@constants'
 import _ from '@styles'
 
-const Shadow = ({ style, children }) => (
-  <View style={[IOS ? styles.ios : styles.todoAndroid, style]}>{children}</View>
-)
+function Shadow({ style, children }) {
+  return (
+    <View style={[IOS ? styles.ios : styles.todoAndroid, style]}>
+      {children}
+    </View>
+  )
+}
 
 export default Shadow
 

@@ -1,11 +1,10 @@
 node_modules
-node_modules33
-node_modules34
-package33.json
-package34.json
 .vscode
 .expo
 .expo-shared
+yarn.lock
 bangumi.jks
 KEYSTORE.MD
-yarn.lock
+bangumi.mobileprovision
+ApplePushServices.p12
+iPhoneDistribution.p12

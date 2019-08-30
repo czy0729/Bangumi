@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-04-28 17:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:15:33
+ * @Last Modified time: 2019-08-30 18:09:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import _ from '@styles'
 
-const HeaderPlaceholder = ({ style, tabs }) => {
+function HeaderPlaceholder({ style, tabs }) {
   let height = _.headerHeight
   if (tabs) {
     height += _.tabsHeight

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 17:23:03
+ * @Last Modified time: 2019-08-31 00:18:11
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -91,13 +91,12 @@ class System extends store {
       const { browser_download_url: downloadUrl } = assets[0]
       const { name: currentVersion } = this.state.release
       if (githubVersion !== (currentVersion || GITHUB_RELEASE_VERSION)) {
-        setTimeout(() => {
-          info(
-            IOS
-              ? '有新版本, iOS版本上线会有延迟, 请关注商店动态'
-              : '有新版本, 可到设置里下载'
-          )
-        }, 1600)
+        // iOS不允许提示更新
+        if (!IOS) {
+          setTimeout(() => {
+            info('有新版本, 可到设置里下载')
+          }, 1600)
+        }
 
         const release = {
           name: githubVersion,
@@ -202,6 +201,21 @@ class System extends store {
       [key]: {
         ...this.setting,
         speech: !speech
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 切换`章节热力图`
+   */
+  switchHeatMap = () => {
+    const { heatMap } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        heatMap: !heatMap
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 20:18:37
+ * @Last Modified time: 2019-08-30 18:08:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,7 +20,7 @@ const backgroundColor = {
   xlight: ['rgba(255, 255, 255, 0.64)', 'rgba(255, 255, 255, 0.8)']
 }
 
-const BlurView = ({ style, src, theme, intensity, children }) => {
+function BlurView({ style, src, theme, intensity, children }) {
   if (!src) {
     return null
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 18:20:34
+ * @Last Modified time: 2019-08-31 00:17:21
  */
 import { GITHUB_RELEASE_VERSION } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
@@ -16,7 +16,8 @@ export const INIT_SETTING = {
   autoFetch: true, // 切换页面自动请求
   speech: true, // Bangumi娘话语
   tinygrail: true, // 小圣杯是否开启
-  avatarRound: true // 头像是否圆形
+  avatarRound: true, // 头像是否圆形
+  heatMap: true // 章节热力图
 }
 
 export const INIT_RELEASE = {

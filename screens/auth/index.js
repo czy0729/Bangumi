@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 01:02:58
+ * @Last Modified time: 2019-08-30 23:50:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,7 +54,7 @@ class Auth extends React.Component {
             }
           ]}
           name='trophy-full'
-          color='rgb(255, 202, 40)'
+          color={_.colorYellow}
           onPress={() => navigation.push('Tinygrail')}
         />
         <NavigationEvents

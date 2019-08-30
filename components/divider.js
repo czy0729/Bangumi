@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 03:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:15:00
+ * @Last Modified time: 2019-08-30 18:09:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,15 +11,17 @@ import _ from '@styles'
 import Flex from './flex'
 import Text from './text'
 
-const Divider = ({ style }) => (
-  <Flex style={[styles.divider, style]}>
-    <View style={styles.line} />
-    <Text style={styles.text} type='border' size={20}>
-      / / /
-    </Text>
-    <View style={styles.line} />
-  </Flex>
-)
+function Divider({ style }) {
+  return (
+    <Flex style={[styles.divider, style]}>
+      <View style={styles.line} />
+      <Text style={styles.text} type='border' size={20}>
+        / / /
+      </Text>
+      <View style={styles.line} />
+    </Flex>
+  )
+}
 
 Divider.defaultProps = {
   style: undefined

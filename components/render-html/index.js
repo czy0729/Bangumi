@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 17:29:56
+ * @Last Modified time: 2019-08-30 18:32:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -170,15 +170,7 @@ export default class RenderHtml extends React.Component {
 
   formatHTML = () => {
     const { html, baseFontStyle } = this.props
-
-    // 给纯文字包上span
-    // let _html = `<div>${html}</div>`
-    // const match = _html.match(/>[^<>]+?</g)
-    // if (match) {
-    //   match.forEach(
-    //     item => (_html = _html.replace(item, `><span${item}/span><`))
-    //   )
-    // }
+    let _html
 
     // 把bgm表情替换成bgm字体文字
     const $ = cheerio(html)
@@ -195,8 +187,18 @@ export default class RenderHtml extends React.Component {
       }
       return $img.html()
     })
+    _html = $.html()
 
-    return $.html()
+    // 给纯文字包上span, 否则安卓不能自由复制
+    _html = `<div>${_html}</div>`
+    const match = _html.match(/>[^<>]+?</g)
+    if (match) {
+      match.forEach(
+        item => (_html = _html.replace(item, `><span${item}/span><`))
+      )
+    }
+
+    return _html
   }
 
   render() {
