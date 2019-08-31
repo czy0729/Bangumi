@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 18:40:40
+ * @Last Modified time: 2019-08-31 15:29:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { IconHeader } from '@screens/_'
 import { open } from '@utils'
 import { inject, withHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -48,7 +49,17 @@ class Tinygrail extends React.Component {
               break
           }
         }
-      }
+      },
+      extra: (
+        <IconHeader
+          name='planet'
+          onPress={() =>
+            navigation.push('Group', {
+              groupId: 'tinygrail'
+            })
+          }
+        />
+      )
     })
 
     hm('tinygrail', title)

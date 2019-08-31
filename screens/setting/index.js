@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 00:21:54
+ * @Last Modified time: 2019-08-31 15:05:18
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -15,6 +15,7 @@ import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
 import { hm } from '@utils/fetch'
 import {
+  IOS,
   FEEDBACK_URL,
   GITHUB_URL,
   GITHUB_RELEASE_URL,
@@ -180,10 +181,7 @@ class Setting extends React.Component {
             border
             hd='章节讨论热力图'
             ft={
-              <Switch
-                checked={heatMap}
-                onChange={systemStore.switchHeatMap}
-              />
+              <Switch checked={heatMap} onChange={systemStore.switchHeatMap} />
             }
             withoutFeedback
           />
@@ -193,9 +191,9 @@ class Setting extends React.Component {
           </Text>
           <ItemSetting
             style={_.mt.sm}
-            hd='检测更新'
+            hd='版本'
             ft={
-              hasNewVersion ? (
+              hasNewVersion && !IOS ? (
                 <Text type='success' size={16}>
                   有新版本{name}
                   <Text type='sub' size={16}>
@@ -239,7 +237,11 @@ class Setting extends React.Component {
           />
           <ItemSetting
             border
-            hd='退出登陆'
+            hd={
+              <Text size={16} type='danger'>
+                退出登陆
+              </Text>
+            }
             arrow
             highlight
             onPress={() => Stores.logout(navigation)}

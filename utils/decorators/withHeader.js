@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 10:50:56
+ * @Last Modified time: 2019-08-31 15:23:38
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { Popover, Menu, Iconfont } from '@components'
+import { Flex, Popover, Menu, Iconfont } from '@components'
 import { IconBack } from '@screens/_'
 import { IOS } from '@constants'
 import _ from '@styles'
@@ -25,6 +25,7 @@ const withHeader = () => ComposedComponent =>
           'element',
           <Iconfont size={24} name='more' color={_.colorTitle} />
         )
+        const extra = navigation.getParam('extra')
         if (popover.data.length) {
           const popoverProps = IOS
             ? {
@@ -41,16 +42,19 @@ const withHeader = () => ComposedComponent =>
                 onSelect: popover.onSelect
               }
           headerRight = (
-            <Popover
-              style={{
-                padding: _.sm,
-                marginRight: -_.sm
-              }}
-              placement='bottom'
-              {...popoverProps}
-            >
-              {element}
-            </Popover>
+            <Flex>
+              {extra}
+              <Popover
+                style={{
+                  padding: _.sm,
+                  marginRight: -_.sm
+                }}
+                placement='bottom'
+                {...popoverProps}
+              >
+                {element}
+              </Popover>
+            </Flex>
           )
         }
 

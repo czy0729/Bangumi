@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 23:50:18
+ * @Last Modified time: 2019-08-31 15:00:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ class Auth extends React.Component {
           ]}
           name='trophy-full'
           color={_.colorYellow}
-          onPress={() => navigation.push('Tinygrail')}
+          onPress={() => navigation.push('TinygrailOverview')}
         />
         <NavigationEvents
           onWillFocus={() => {

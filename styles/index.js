@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 23:51:16
+ * @Last Modified time: 2019-08-31 01:53:32
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -31,7 +31,7 @@ export const md = 16
 export const lg = 32
 export const space = 20 // 上下
 export const wind = 16 // 两翼
-export const bottom = tabBarHeight + lg // 底部留空
+export const bottom = tabBarHeight + lg + md // 底部留空
 
 // -------------------- 主题色 --------------------
 export const colorPlainRaw = [255, 255, 255]

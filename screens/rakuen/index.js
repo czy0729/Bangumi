@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 14:13:29
+ * @Last Modified time: 2019-08-31 16:43:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ class Rakuen extends React.Component {
       headerLeft: <IconNotify navigation={navigation} />,
       headerRight: (
         <Popover
-          data={['设置', '新讨论']}
+          data={['设置', '新讨论', '社区指导原则']}
           onSelect={title => {
             switch (title) {
               case '设置':
@@ -63,6 +63,9 @@ class Rakuen extends React.Component {
                 break
               case '新讨论':
                 open(HTML_NEW_TOPIC())
+                break
+              case '社区指导原则':
+                navigation.push('UGCAgree')
                 break
               default:
                 break

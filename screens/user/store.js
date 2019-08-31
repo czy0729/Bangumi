@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 21:30:56
+ * @Last Modified time: 2019-08-31 01:49:18
  */
 import { observable, computed } from 'mobx'
 import { userStore, collectionStore } from '@stores'
@@ -82,6 +82,21 @@ export default class ScreenUser extends store {
   @computed get type() {
     const { page } = this.state
     return MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
+  }
+
+  /**
+   * 条目动作
+   */
+  @computed get action() {
+    const { subjectType } = this.state
+    switch (MODEL_SUBJECT_TYPE.getTitle(subjectType)) {
+      case '音乐':
+        return '听'
+      case '游戏':
+        return '玩'
+      default:
+        return '看'
+    }
   }
 
   userCollections(subjectType, type) {

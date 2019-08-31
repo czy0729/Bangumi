@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 00:18:11
+ * @Last Modified time: 2019-08-31 16:45:02
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -28,19 +28,22 @@ class System extends store {
     release: INIT_RELEASE,
     imageViewer: INIT_IMAGE_VIEWER,
     wifi: false,
-    dev: false
+    dev: false,
+    iosUGCAgree: false // iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审
   })
 
   async init() {
     let res
     res = Promise.all([
       this.getStorage('setting', NAMESPACE),
-      this.getStorage('release', NAMESPACE)
+      this.getStorage('release', NAMESPACE),
+      this.getStorage('iosUGCAgree', NAMESPACE)
     ])
     const state = await res
     this.setState({
       setting: state[0] || INIT_SETTING,
-      release: state[1] || INIT_RELEASE
+      release: state[1] || INIT_RELEASE,
+      iosUGCAgree: state[2] || false
     })
 
     res = NetInfo.getConnectionInfo()
@@ -74,6 +77,13 @@ class System extends store {
 
   @computed get imageViewer() {
     return this.state.imageViewer
+  }
+
+  @computed get isUGCAgree() {
+    if (!IOS) {
+      return true
+    }
+    return this.state.iosUGCAgree
   }
 
   // -------------------- fetch --------------------
@@ -243,11 +253,25 @@ class System extends store {
     })
   }
 
+  /**
+   * 切换开发模式
+   */
   toggleDev = () => {
     const { dev } = this.state
     this.setState({
       dev: !dev
     })
+  }
+
+  /**
+   * 同意社区指导原则
+   */
+  updateUGCAgree = value => {
+    const key = 'iosUGCAgree'
+    this.setState({
+      [key]: value
+    })
+    this.setStorage(key, undefined, NAMESPACE)
   }
 }
 

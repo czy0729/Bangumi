@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:18:03
+ * @Last Modified time: 2019-08-31 01:44:03
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -39,7 +39,7 @@ function Tabs({ scrollY, children, ...other }, { $ }) {
     return {
       title: (
         <Text>
-          {item.title}
+          {item.title.replace('看', $.action)}
           {!!count && (
             <Text size={12} lineHeight={14} type='sub'>
               {' '}

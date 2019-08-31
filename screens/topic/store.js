@@ -2,10 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 21:27:59
+ * @Last Modified time: 2019-08-31 15:43:07
  */
 import { observable, computed } from 'mobx'
-import { rakuenStore, subjectStore, userStore, usersStore } from '@stores'
+import {
+  systemStore,
+  rakuenStore,
+  subjectStore,
+  userStore,
+  usersStore
+} from '@stores'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
@@ -153,6 +159,10 @@ export default class ScreenTopic extends store {
 
   @computed get myFriendsMap() {
     return usersStore.myFriendsMap
+  }
+
+  @computed get isUGCAgree() {
+    return systemStore.isUGCAgree
   }
 
   // -------------------- page --------------------

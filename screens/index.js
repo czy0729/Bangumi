@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 19:55:41
+ * @Last Modified time: 2019-08-31 16:11:07
  */
 export { default as Anitama } from './anitama'
 export { default as Auth } from './auth'
@@ -26,9 +26,12 @@ export { default as Setting } from './setting'
 export { default as Subject } from './subject'
 export { default as Tag } from './tag'
 export { default as Timeline } from './timeline'
-export { default as Tinygrail } from './tinygrail'
 export { default as Topic } from './topic'
+export { default as UGCAgree } from './ugc-agree'
 export { default as User } from './user'
 export { default as Video } from './video'
 export { default as WebView } from './web-view'
 export { default as Zone } from './zone'
+
+export { default as Tinygrail } from './tinygrail/index'
+export { default as TinygrailOverview } from './tinygrail/overview'

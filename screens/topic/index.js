@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-15 19:48:25
+ * @Last Modified time: 2019-08-31 16:48:48
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
@@ -37,20 +37,46 @@ class Topic extends React.Component {
 
   async componentDidMount() {
     const { $, navigation } = this.context
-    await $.init()
+    const { topicId } = $.params
+    if (!$.isUGCAgree) {
+      Alert.alert(
+        '社区指导原则',
+        '生命有限, Bangumi 是一个纯粹的ACG网络, 请查看社区指导原则并且同意才能继续操作',
+        [
+          {
+            text: '取消',
+            style: 'cancel',
+            onPress: () => navigation.goBack()
+          },
+          {
+            text: '查看',
+            onPress: () => {
+              navigation.goBack()
+              navigation.push('UGCAgree', {
+                topicId
+              })
+            }
+          }
+        ]
+      )
+      return
+    }
 
+    await $.init()
     const { title } = $.topic
     withTransitionHeader.setTitle(navigation, title)
 
-    const { topicId } = $.params
     const url = navigation.getParam('_url') || `${HOST}/rakuen/topic/${topicId}`
     navigation.setParams({
       popover: {
-        data: ['浏览器查看'],
+        data: ['浏览器查看', '举报'],
         onSelect: key => {
           switch (key) {
             case '浏览器查看':
               open(url)
+              break
+            case '举报':
+              open(`${HOST}/group/forum`)
               break
             default:
               break

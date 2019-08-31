@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 18:46:23
+ * @Last Modified time: 2019-08-31 14:39:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -68,7 +68,7 @@ function Item(props, { navigation }) {
         />
         <Flex.Item style={!isTop && styles.border}>
           <Flex align='start'>
-            <Flex.Item>
+            <Flex.Item style={_.mr.sm}>
               <Touchable
                 style={styles.item}
                 highlight

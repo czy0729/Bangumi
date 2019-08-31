@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 23:50:31
+ * @Last Modified time: 2019-08-31 14:59:55
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -36,7 +36,7 @@ class Home extends React.Component {
         <IconTabsHeader
           name='trophy-full'
           color={_.colorYellow}
-          onPress={() => navigation.push('Tinygrail')}
+          onPress={() => navigation.push('TinygrailOverview')}
         />
         <IconTabsHeader
           name='search'
