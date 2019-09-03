@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 18:02:26
+ * @Last Modified time: 2019-09-02 16:12:22
  */
 import { HOST_NAME } from './index'
 
@@ -186,3 +186,17 @@ export const API_TINYGRAIL_CHARTS = (
   monoId = 0,
   date = '2019-08-01T00:00:00+08:00'
 ) => `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/${date}`
+
+/**
+ * 角色详情
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_CHARA = (monoId = 0) =>
+  `${API_HOST_TINYGRAIL}/api/chara/${monoId}`
+
+/**
+ * 角色深度图
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_DEPTH = monoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/depth/${monoId}`

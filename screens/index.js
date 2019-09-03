@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 16:11:07
+ * @Last Modified time: 2019-09-01 13:08:37
  */
 export { default as Anitama } from './anitama'
 export { default as Auth } from './auth'
@@ -35,3 +35,4 @@ export { default as Zone } from './zone'
 
 export { default as Tinygrail } from './tinygrail/index'
 export { default as TinygrailOverview } from './tinygrail/overview'
+export { default as TinygrailTrade } from './tinygrail/trade'

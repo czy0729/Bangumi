@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 16:55:07
+ * @Last Modified time: 2019-09-01 00:35:35
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -33,7 +33,7 @@ export const GITHUB_RELEASE_REPOS_URL =
   'https://api.github.com/repos/czy0729/Bangumi/releases'
 export const GITHUB_RELEASE_VERSION = '1.0.0'
 export const CODE_PUSH_VERSION = ''
-export const DEV = false
+export const DEV = true
 
 // 图片
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'

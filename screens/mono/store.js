@@ -2,22 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 17:12:16
+ * @Last Modified time: 2019-09-02 23:00:43
  */
 import { computed } from 'mobx'
-import { subjectStore } from '@stores'
+import { subjectStore, tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
 
 export default class ScreenMono extends store {
-  init = () => this.fetchMono(true)
+  init = () => Promise.all([this.fetchChara(), this.fetchMono(true)])
 
   // -------------------- fetch --------------------
   fetchMono = refresh => {
     const { monoId } = this.params
     return subjectStore.fetchMono({ monoId }, refresh)
+  }
+
+  fetchChara = () => {
+    const { monoId = '' } = this.params
+    return tinygrailStore.fetchCharacters([monoId.replace('character/', '')])
   }
 
   // -------------------- get --------------------
@@ -29,6 +34,11 @@ export default class ScreenMono extends store {
   @computed get monoComments() {
     const { monoId } = this.params
     return subjectStore.monoComments(monoId)
+  }
+
+  @computed get chara() {
+    const { monoId = '' } = this.params
+    return tinygrailStore.characters(monoId.replace('character/', ''))
   }
 
   // -------------------- action --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 14:39:52
+ * @Last Modified time: 2019-09-02 21:51:07
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
-import { open } from '@utils'
 import { formatTime } from '@utils/app'
 import _ from '@styles'
 
@@ -72,7 +71,11 @@ function Item(props, { navigation }) {
               <Touchable
                 style={styles.item}
                 highlight
-                onPress={() => open(`https://bgm.tv/character/${id}`)}
+                onPress={() =>
+                  navigation.push('TinygrailTrade', {
+                    monoId: `character/${id}`
+                  })
+                }
               >
                 <Flex align='start'>
                   <Flex.Item>

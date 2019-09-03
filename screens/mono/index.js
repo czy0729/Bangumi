@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 11:42:15
+ * @Last Modified time: 2019-09-02 23:02:18
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
-import { ItemTopic } from '@screens/_'
+import { ItemTopic, IconHeader } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -33,9 +33,21 @@ class Mono extends React.Component {
   }
 
   async componentDidMount() {
-    const { $, navigation } = this.context
-    await $.init()
+    const { $ } = this.context
+    if ($.mono._loaded && $.chara._loaded) {
+      this.updateNavigation()
+    }
 
+    await $.init()
+    this.updateNavigation()
+
+    const { monoId } = $.params
+    const { name } = $.mono
+    hm(monoId, `${title} - ${name}`)
+  }
+
+  updateNavigation = () => {
+    const { $, navigation } = this.context
     const { name } = $.mono
     withTransitionHeader.setTitle(navigation, name)
 
@@ -52,10 +64,19 @@ class Mono extends React.Component {
               break
           }
         }
-      }
+      },
+      extra: (
+        <IconHeader
+          name='trophy-full'
+          color={_.colorYellow}
+          onPress={() =>
+            navigation.push('TinygrailTrade', {
+              monoId
+            })
+          }
+        />
+      )
     })
-
-    hm(monoId, `${title} - ${name}`)
   }
 
   render() {

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 11:22:56
+ * @Last Modified time: 2019-09-02 22:56:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Popover, Menu, Iconfont } from '@components'
+import { Popover, Menu, Flex, Iconfont } from '@components'
 import { StatusBar, IconBack } from '@screens/_'
 import { gradientColor } from '@utils'
 import { IOS } from '@constants'
@@ -41,6 +41,7 @@ const withTransitionHeader = ({
         )
 
         let headerRight
+        const extra = navigation.getParam('extra')
         const popover = navigation.getParam('popover', {
           data: [],
           onSelect: Function.prototype
@@ -61,27 +62,33 @@ const withTransitionHeader = ({
                 onSelect: popover.onSelect
               }
           headerRight = (
-            <Popover
-              style={{
-                padding: _.sm,
-                marginRight: -_.sm
-              }}
-              placement='bottom'
-              {...popoverProps}
-            >
-              <Iconfont size={24} name='more' color={headerTintColor} />
-            </Popover>
+            <Flex>
+              {extra}
+              <Popover
+                style={{
+                  padding: _.sm,
+                  marginRight: -_.sm
+                }}
+                placement='bottom'
+                {...popoverProps}
+              >
+                <Iconfont size={24} name='more' color={headerTintColor} />
+              </Popover>
+            </Flex>
           )
         } else {
           headerRight = (
-            <View
-              style={{
-                padding: _.sm,
-                marginRight: -_.sm
-              }}
-            >
-              <Iconfont size={24} name='more' color={headerTintColor} />
-            </View>
+            <Flex>
+              {extra}
+              <View
+                style={{
+                  padding: _.sm,
+                  marginRight: -_.sm
+                }}
+              >
+                <Iconfont size={24} name='more' color={headerTintColor} />
+              </View>
+            </Flex>
           )
         }
 
