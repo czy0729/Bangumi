@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 21:56:44
+ * @Last Modified time: 2019-09-03 20:47:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import _ from '@styles'
 const height = 160
 
 function DepthMap({ style }, { $ }) {
-  const { asks, bids, _loaded } = $.depth
+  const { asks = [], bids = [], _loaded } = $.depth
   if (!_loaded) {
     return null
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 21:51:07
+ * @Last Modified time: 2019-09-03 21:41:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
+import { open } from '@utils'
 import { formatTime } from '@utils/app'
 import _ from '@styles'
 
@@ -28,7 +29,8 @@ function Item(props, { navigation }) {
     end,
     marketValue,
     total,
-    users
+    users,
+    bonus
   } = props
   const isTop = index === 0
   const isICO = !!users
@@ -55,27 +57,40 @@ function Item(props, { navigation }) {
   return (
     <View style={styles.container}>
       <Flex align='start'>
-        <Avatar
-          style={styles.image}
-          src={icon}
-          size={44}
-          onPress={() =>
-            navigation.push('Mono', {
-              monoId: `character/${id}`
-            })
-          }
-        />
+        <View>
+          <Avatar
+            style={styles.image}
+            src={icon}
+            size={44}
+            onPress={() =>
+              navigation.push('Mono', {
+                monoId: `character/${id}`
+              })
+            }
+          />
+          {!!bonus && (
+            <Flex style={styles.bonus} justify='center'>
+              <Text size={12} type='plain'>
+                {bonus}
+              </Text>
+            </Flex>
+          )}
+        </View>
         <Flex.Item style={!isTop && styles.border}>
           <Flex align='start'>
             <Flex.Item style={_.mr.sm}>
               <Touchable
                 style={styles.item}
                 highlight
-                onPress={() =>
-                  navigation.push('TinygrailTrade', {
-                    monoId: `character/${id}`
-                  })
-                }
+                onPress={() => {
+                  if (users) {
+                    open(`https://bgm.tv/character/${id}`)
+                  } else {
+                    navigation.push('TinygrailTrade', {
+                      monoId: `character/${id}`
+                    })
+                  }
+                }}
               >
                 <Flex align='start'>
                   <Flex.Item>
@@ -120,5 +135,16 @@ const styles = StyleSheet.create({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: StyleSheet.hairlineWidth
+  },
+  bonus: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 10,
+    right: 2,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: _.colorWarning,
+    overflow: 'hidden'
   }
 })

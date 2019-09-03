@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 16:51:40
+ * @Last Modified time: 2019-09-03 22:20:49
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -18,6 +18,8 @@ import {
   API_TINYGRAIL_MPI,
   API_TINYGRAIL_RAI,
   API_TINYGRAIL_RECENT,
+  API_TINYGRAIL_TNBC,
+  API_TINYGRAIL_NBC,
   API_TINYGRAIL_CHARTS,
   API_TINYGRAIL_DEPTH
 } from '@constants/api'
@@ -43,6 +45,8 @@ class Tinygrail extends store {
     mpi: LIST_EMPTY,
     rai: LIST_EMPTY,
     recent: LIST_EMPTY,
+    tnbc: LIST_EMPTY,
+    nbc: LIST_EMPTY,
 
     // K线
     kline: {
@@ -58,28 +62,14 @@ class Tinygrail extends store {
   async init() {
     const res = Promise.all([
       this.getStorage('characters', NAMESPACE),
-      this.getStorage('mvc', NAMESPACE),
-      this.getStorage('mrc', NAMESPACE),
-      this.getStorage('mfc', NAMESPACE),
-      this.getStorage('mvi', NAMESPACE),
-      this.getStorage('mpi', NAMESPACE),
-      this.getStorage('rai', NAMESPACE),
-      this.getStorage('recent', NAMESPACE),
       this.getStorage('kline', NAMESPACE),
       this.getStorage('depth', NAMESPACE)
     ])
     const state = await res
     this.setState({
       characters: state[0] || {},
-      mvc: state[1] || LIST_EMPTY,
-      mrc: state[2] || LIST_EMPTY,
-      mfc: state[3] || LIST_EMPTY,
-      mvi: state[4] || LIST_EMPTY,
-      mpi: state[5] || LIST_EMPTY,
-      rai: state[6] || LIST_EMPTY,
-      recent: state[7] || LIST_EMPTY,
-      kline: state[8] || {},
-      depth: state[9] || {}
+      kline: state[1] || {},
+      depth: state[2] || {}
     })
 
     return res
@@ -176,6 +166,12 @@ class Tinygrail extends store {
       case 'rai':
         api = API_TINYGRAIL_RAI()
         break
+      case 'tnbc':
+        api = API_TINYGRAIL_TNBC()
+        break
+      case 'nbc':
+        api = API_TINYGRAIL_NBC()
+        break
       default:
         api = API_TINYGRAIL_RECENT()
         break
@@ -194,7 +190,7 @@ class Tinygrail extends store {
       data = {
         ...LIST_EMPTY,
         list: (result.Value.Items || result.Value).map(item => ({
-          id: item.Id,
+          id: item.CharacterId || item.Id,
           bids: item.Bids,
           asks: item.Asks,
           change: item.Change,
@@ -206,7 +202,8 @@ class Tinygrail extends store {
           end: item.End,
           users: item.Users,
           name: item.Name,
-          icon: item.Icon
+          icon: item.Icon,
+          bonus: item.Bonus
         })),
         pagination: {
           page: 1,
@@ -219,7 +216,7 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    // this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }

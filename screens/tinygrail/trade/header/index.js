@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 22:10:10
+ * @Last Modified time: 2019-09-03 21:49:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,7 +16,7 @@ import Today from './today'
 import BtnChange from './btn-change'
 
 function Header(props, { $, navigation }) {
-  const { icon, name, current, fluctuation } = $.chara
+  const { icon, name, current, fluctuation, bonus } = $.chara
 
   let color = 'rgb(255, 255, 255)'
   if (fluctuation < 0) {
@@ -48,6 +48,12 @@ function Header(props, { $, navigation }) {
             />
             <Text style={_.ml.sm} size={16} type='plain' numberOfLines={1}>
               {name}
+              {!!bonus && (
+                <Text size={12} lineHeight={16} type='warning'>
+                  {' '}
+                  X{bonus}
+                </Text>
+              )}
             </Text>
           </Flex>
           <Flex style={_.mt.md} align='baseline'>

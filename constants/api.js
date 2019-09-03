@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 16:12:22
+ * @Last Modified time: 2019-09-03 22:15:34
  */
 import { HOST_NAME } from './index'
 
@@ -176,6 +176,18 @@ export const API_TINYGRAIL_RAI = (page = 1, limit = TINYGRAIL_LIMIT) =>
  */
 export const API_TINYGRAIL_RECENT = (page = 1, limit = TINYGRAIL_LIMIT) =>
   `${API_HOST_TINYGRAIL}/api/chara/recent/${page}/${limit}`
+
+/**
+ * 新番市值
+ */
+export const API_TINYGRAIL_TNBC = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/tnbc/${page}/${limit}`
+
+/**
+ * 新番活跃
+ */
+export const API_TINYGRAIL_NBC = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/nbc/${page}/${limit}`
 
 /**
  * 交易记录

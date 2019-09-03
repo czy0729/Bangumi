@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 22:23:48
+ * @Last Modified time: 2019-09-03 22:23:45
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -47,10 +47,13 @@ class TinygrailTrade extends React.Component {
     return (
       <View style={[_.container.flex, styles.dark]}>
         <ScrollView
-          style={[_.container.flex, styles.dark]}
-          contentContainerStyle={{
-            marginBottom: 56
-          }}
+          style={[
+            _.container.flex,
+            styles.dark,
+            {
+              marginBottom: 56
+            }
+          ]}
         >
           <StatusBarEvents barStyle='light-content' />
           <StatusBarPlaceholder style={styles.dark} />

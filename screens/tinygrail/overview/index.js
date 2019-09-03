@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 15:29:24
+ * @Last Modified time: 2019-09-03 21:03:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,9 +39,14 @@ class Tinygrail extends React.Component {
 
     navigation.setParams({
       popover: {
-        data: ['浏览器查看'],
+        data: ['进入小组', '浏览器查看'],
         onSelect: key => {
           switch (key) {
+            case '进入小组':
+              navigation.push('Group', {
+                groupId: 'tinygrail'
+              })
+              break
             case '浏览器查看':
               open('https://bgm.tv/rakuen')
               break
@@ -52,12 +57,8 @@ class Tinygrail extends React.Component {
       },
       extra: (
         <IconHeader
-          name='planet'
-          onPress={() =>
-            navigation.push('Group', {
-              groupId: 'tinygrail'
-            })
-          }
+          name='search'
+          onPress={() => navigation.push('TinygrailSearch')}
         />
       )
     })
