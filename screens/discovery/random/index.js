@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:12:31
+ * @Last Modified time: 2019-09-05 18:58:36
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -35,7 +35,7 @@ class Random extends React.Component {
     const { _loaded } = $.random
     return (
       <>
-        <StatusBarEvents backgroundColor={_.colorBg} />
+        <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? <List /> : <Loading style={_.container.screen} />}
       </>
     )

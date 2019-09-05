@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:01:32
+ * @Last Modified time: 2019-09-05 19:29:28
  */
 import React from 'react'
 import { StatusBar } from 'react-native'

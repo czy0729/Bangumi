@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:52:20
+ * @Last Modified time: 2019-09-05 18:59:07
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'

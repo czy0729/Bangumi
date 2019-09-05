@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:15:15
+ * @Last Modified time: 2019-09-05 18:58:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ class Auth extends React.Component {
     const { navigation } = this.props
     return (
       <View style={[_.container.column, { backgroundColor: _.colorBg }]}>
-        <StatusBarEvents backgroundColor={_.colorBg} />
+        <StatusBarEvents backgroundColor='transparent' />
         <IconTabsHeader
           style={_.header.left}
           name='setting'

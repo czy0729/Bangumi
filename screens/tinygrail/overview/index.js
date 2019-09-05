@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 21:03:26
+ * @Last Modified time: 2019-09-05 19:17:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,7 @@ class Tinygrail extends React.Component {
       )
     })
 
-    hm('tinygrail', title)
+    hm('tinygrail/overview', title)
   }
 
   render() {
