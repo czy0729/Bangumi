@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:10:36
+ * @Last Modified time: 2019-09-05 20:10:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -191,6 +191,7 @@ const withTransitionHeader = ({
             <StatusBarEvents
               barStyle={barStyle}
               backgroundColor='transparent'
+              action='onWillFocus'
             />
             <ComposedComponent
               navigation={navigation}

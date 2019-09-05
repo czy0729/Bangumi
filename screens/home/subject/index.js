@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 15:49:00
+ * @Last Modified time: 2019-09-05 20:36:35
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: _.window.height * 0.5
+    height: _.window.height * 0.4
   },
   contentContainerStyle: {
     paddingTop: _.headerHeight,

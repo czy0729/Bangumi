@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:11:34
+ * @Last Modified time: 2019-09-05 20:15:17
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -96,6 +96,7 @@ class Award extends React.Component {
         <StatusBarEvents
           barStyle={this.barStyle}
           backgroundColor='transparent'
+          action='onWillFocus'
         />
         {loading && (
           <Loading
