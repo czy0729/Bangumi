@@ -5,15 +5,15 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-28 23:40:51
+ * @Last Modified time: 2019-09-05 16:18:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import deepmerge from 'deepmerge'
-import { Text, Flex, KeyboardSpacer } from '@components'
-import { StatusBar, StatusBarPlaceholder } from '@screens/_'
+import { StatusBarEvents, Text, Flex, KeyboardSpacer } from '@components'
+import { StatusBarPlaceholder } from '@screens/_'
 import { userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
 import { xhrCustom, hm } from '@utils/fetch'
@@ -25,6 +25,7 @@ import Form from './form'
 
 const title = '登陆V2'
 const namespace = 'LoginV2'
+const backgroundColor = 'rgb(251, 251, 251)'
 const HOST_BANGUMI = 'https://bangumi.tv'
 
 export default class LoginV2 extends React.Component {
@@ -443,7 +444,7 @@ export default class LoginV2 extends React.Component {
     const { clicked } = this.state
     return (
       <View style={[_.container.flex, styles.gray]}>
-        <StatusBar />
+        <StatusBarEvents backgroundColor={backgroundColor} />
         <StatusBarPlaceholder style={styles.gray} />
         <View style={_.container.flex}>
           {clicked ? this.renderForm() : this.renderPreview()}
@@ -492,7 +493,7 @@ export default class LoginV2 extends React.Component {
 
 const styles = StyleSheet.create({
   gray: {
-    backgroundColor: 'rgb(251, 251, 251)'
+    backgroundColor
   },
   old: {
     position: 'absolute',

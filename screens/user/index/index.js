@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:42:25
+ * @Last Modified time: 2019-09-05 16:23:04
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, IconTabBar, Login } from '@screens/_'
+import { StatusBarEvents } from '@components'
+import { IconTabBar, Login } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
@@ -74,7 +75,10 @@ class User extends React.Component {
     const { scrollY } = this.state
     return (
       <>
-        <StatusBarEvents barStyle='light-content' />
+        <StatusBarEvents
+          barStyle='light-content'
+          backgroundColor='transparent'
+        />
         <Tabs style={_.container.screen} $={$} scrollY={scrollY}>
           {tabs.map(item => (
             <List

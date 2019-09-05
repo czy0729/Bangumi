@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 18:08:48
+ * @Last Modified time: 2019-09-05 16:12:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,7 +44,6 @@ class Rank extends React.Component {
     if (!_loaded) {
       return null
     }
-
     return (
       <View style={_.container.screen}>
         <ToolBar />

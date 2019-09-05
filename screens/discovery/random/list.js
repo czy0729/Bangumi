@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 17:09:25
+ * @Last Modified time: 2019-09-05 16:33:43
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,6 +14,7 @@ import Item from './item'
 
 const List = (props, { $ }) => (
   <ListView
+    style={_.container.screen}
     contentContainerStyle={_.container.bottom}
     keyExtractor={item => String(item.id)}
     data={$.random}

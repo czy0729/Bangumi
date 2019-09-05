@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-04 23:10:42
+ * @Last Modified time: 2019-09-05 16:51:33
  */
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
-import { userStore, tinygrailStore } from '@stores'
+import { userStore } from '@stores'
 import store from '@utils/store'
 import { xhrCustom } from '@utils/fetch'
 import {
@@ -18,7 +18,7 @@ import _ from '@styles'
 
 export const sectionWidth = (_.window.width - _.wind * 3) / 2
 export const sectionHeight = sectionWidth / 1.68
-const HOST_BANGUMI = 'https://bangumi.tv'
+// const HOST_BANGUMI = 'https://bangumi.tv'
 
 export default class ScreenTinygrail extends store {
   state = observable({

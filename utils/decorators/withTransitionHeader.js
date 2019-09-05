@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 22:56:00
+ * @Last Modified time: 2019-09-05 16:10:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Popover, Menu, Flex, Iconfont } from '@components'
-import { StatusBar, IconBack } from '@screens/_'
+import { StatusBarEvents, Popover, Menu, Flex, Iconfont } from '@components'
+import { IconBack } from '@screens/_'
 import { gradientColor } from '@utils'
 import { IOS } from '@constants'
 import _ from '@styles'
@@ -188,7 +188,10 @@ const withTransitionHeader = ({
         const { barStyle } = this.state
         return (
           <>
-            <StatusBar barStyle={barStyle} forceBarStyle={barStyle} />
+            <StatusBarEvents
+              barStyle={barStyle}
+              backgroundColor='transparent'
+            />
             <ComposedComponent
               navigation={navigation}
               onScroll={this.headerTransitionCallback}

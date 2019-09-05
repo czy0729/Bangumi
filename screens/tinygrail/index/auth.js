@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-04 22:02:39
+ * @Last Modified time: 2019-09-05 16:51:15
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Text, Button } from '@components'
+import { Flex, Button } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 

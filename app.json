@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "0.14.0",
+    "version": "0.14.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -28,6 +28,10 @@
     },
     "android": {
       "package": "com.czy0729.bangumi"
+    },
+    "androidStatusBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#ffffff"
     },
     "description": "A React Native App for https://bangumi.tv ",
     "githubUrl": "https://github.com/czy0729/Bangumi"

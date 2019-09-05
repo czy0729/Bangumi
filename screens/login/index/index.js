@@ -4,12 +4,20 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-28 21:26:22
+ * @Last Modified time: 2019-09-05 16:17:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { WebView, Flex, Image, Button, Loading, Text } from '@components'
-import { StatusBar, StatusBarPlaceholder } from '@screens/_'
+import {
+  StatusBarEvents,
+  WebView,
+  Flex,
+  Image,
+  Button,
+  Loading,
+  Text
+} from '@components'
+import { StatusBarPlaceholder } from '@screens/_'
 import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
@@ -18,6 +26,7 @@ import { userStore } from '@stores'
 import _ from '@styles'
 
 const title = '登陆'
+const backgroundColor = 'rgb(251, 251, 251)'
 const uri = `${OAUTH_URL}?${urlStringify({
   response_type: 'code',
   client_id: APP_ID,
@@ -205,6 +214,7 @@ export default class Login extends React.Component {
     if (refreshed) {
       return null
     }
+
     return (
       <WebView
         ref={ref => (this.ref = ref)}
@@ -224,7 +234,7 @@ export default class Login extends React.Component {
     const { clicked } = this.state
     return (
       <View style={[_.container.flex, styles.gray]}>
-        <StatusBar />
+        <StatusBarEvents backgroundColor={backgroundColor} />
         <StatusBarPlaceholder style={styles.gray} />
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}
@@ -242,7 +252,7 @@ export default class Login extends React.Component {
 
 const styles = StyleSheet.create({
   gray: {
-    backgroundColor: 'rgb(251, 251, 251)'
+    backgroundColor
   },
   bottomContainer: {
     width: 280,

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-04 21:52:05
+ * @Last Modified time: 2019-09-05 16:22:13
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Button } from '@components'
-import { StatusBarPlaceholder, StatusBarEvents } from '@screens/_'
+import { StatusBarEvents, Button } from '@components'
+import { StatusBarPlaceholder } from '@screens/_'
 import { open } from '@utils'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -19,7 +19,8 @@ import KLine from './k-line'
 import DepthMap from './depth-map'
 import DepthList from './depth-list'
 
-// const title = '小圣杯交易'
+const title = '小圣杯交易'
+const backgroundColor = 'rgb(19, 30, 47)'
 
 export default
 @inject(Store)
@@ -38,7 +39,7 @@ class TinygrailTrade extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`tinygrail/trade?id=${$.monoId}`)
+    hm(`tinygrail/trade?id=${$.monoId}`, title)
   }
 
   jump = () => {
@@ -49,6 +50,10 @@ class TinygrailTrade extends React.Component {
   render() {
     return (
       <View style={[_.container.flex, styles.dark]}>
+        <StatusBarEvents
+          barStyle='light-content'
+          backgroundColor={backgroundColor}
+        />
         <ScrollView
           style={[
             _.container.flex,
@@ -58,7 +63,6 @@ class TinygrailTrade extends React.Component {
             }
           ]}
         >
-          <StatusBarEvents barStyle='light-content' />
           <StatusBarPlaceholder style={styles.dark} />
           <Header />
           <View style={styles.kline}>
@@ -79,7 +83,7 @@ class TinygrailTrade extends React.Component {
 
 const styles = StyleSheet.create({
   dark: {
-    backgroundColor: 'rgb(19, 30, 47)'
+    backgroundColor
   },
   kline: {
     backgroundColor: '#0F1923'
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     padding: _.sm,
-    backgroundColor: 'rgb(19, 30, 46)'
+    backgroundColor
   },
   btn: {
     backgroundColor: 'rgb(0, 173, 146)',

@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 19:30:48
+ * @Last Modified time: 2019-09-05 16:11:34
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
-import { StatusBar } from '@screens/_'
-import { Loading, Text } from '@components'
+import { StatusBarEvents, Loading, Text } from '@components'
 import { open } from '@utils'
-import { withHeader, observer } from '@utils/decorators'
+import { observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
@@ -21,7 +20,6 @@ import staticHTML from './static-html'
 const title = '年鉴'
 
 export default
-@withHeader()
 @observer
 class Award extends React.Component {
   static navigationOptions = {
@@ -95,7 +93,10 @@ class Award extends React.Component {
     const { loading, redirectCount } = this.state
     return (
       <View style={[_.container.flex, styles.dark]}>
-        <StatusBar barStyle={this.barStyle} />
+        <StatusBarEvents
+          barStyle={this.barStyle}
+          backgroundColor='transparent'
+        />
         {loading && (
           <Loading
             style={[

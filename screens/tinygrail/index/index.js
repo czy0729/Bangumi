@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-04 22:01:47
+ * @Last Modified time: 2019-09-05 16:20:16
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, StatusBarPlaceholder } from '@screens/_'
+import { StatusBarEvents } from '@components'
+import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import Auth from './auth'

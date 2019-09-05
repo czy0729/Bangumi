@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 20:18:56
+ * @Last Modified time: 2019-09-05 16:10:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { BlurView } from 'expo-blur'
+import { StatusBarEvents } from '@components'
 import { Logo } from '@screens/_'
 import { IOS } from '@constants'
 import _ from '@styles'
@@ -77,7 +78,12 @@ const withTabsHeader = () => ComposedComponent =>
 
       render() {
         const { navigation } = this.props
-        return <ComposedComponent navigation={navigation} />
+        return (
+          <>
+            <StatusBarEvents />
+            <ComposedComponent navigation={navigation} />
+          </>
+        )
       }
     }
   )

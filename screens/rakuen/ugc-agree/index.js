@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-31 15:45:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 16:46:40
+ * @Last Modified time: 2019-09-05 16:36:21
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -52,7 +52,7 @@ class UGCAgree extends React.Component {
     const { navigation } = this.props
     return (
       <ScrollView
-        style={_.container.outer}
+        style={[_.container.screen, _.container.outer]}
         contentContainerStyle={_.container.bottom}
       >
         <RenderHtml

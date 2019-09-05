@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 15:23:38
+ * @Last Modified time: 2019-09-05 16:09:57
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { Flex, Popover, Menu, Iconfont } from '@components'
+import { StatusBarEvents, Flex, Popover, Menu, Iconfont } from '@components'
 import { IconBack } from '@screens/_'
 import { IOS } from '@constants'
 import _ from '@styles'
@@ -84,7 +84,12 @@ const withHeader = () => ComposedComponent =>
 
       render() {
         const { navigation } = this.props
-        return <ComposedComponent navigation={navigation} />
+        return (
+          <>
+            <StatusBarEvents />
+            <ComposedComponent navigation={navigation} />
+          </>
+        )
       }
     }
   )
