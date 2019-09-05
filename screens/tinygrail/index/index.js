@@ -2,29 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:50:48
+ * @Last Modified time: 2019-09-04 22:01:47
  */
 import React from 'react'
+import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-import { Loading, ListView } from '@components'
-import { StatusBarEvents, IconTabBar } from '@screens/_'
+import { StatusBarEvents, StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
-import Header from './header'
-import List from './list'
+import Auth from './auth'
 import Store from './store'
 
-const title = '发现'
+const title = '小圣杯'
 
 export default
 @inject(Store)
 @observer
-class Discovery extends React.Component {
+class Tinygrail extends React.Component {
   static navigationOptions = {
-    header: null,
-    tabBarIcon: ({ tintColor }) => <IconTabBar name='home' color={tintColor} />,
-    tabBarLabel: '发现'
+    header: null
   }
 
   static contextTypes = {
@@ -35,30 +31,16 @@ class Discovery extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('discovery', title)
+    hm('tinygrail', title)
   }
 
   render() {
-    const { $ } = this.context
-    const { _loaded } = $.home
-    if (!_loaded) {
-      return <Loading style={_.container.screen} />
-    }
-
     return (
-      <>
+      <ScrollView>
         <StatusBarEvents />
-        <ListView
-          style={_.container.screen}
-          contentContainerStyle={_.container.bottom}
-          keyExtractor={item => item.type}
-          data={$.state.home}
-          ListHeaderComponent={<Header />}
-          renderItem={({ item }) => <List {...item} />}
-          onHeaderRefresh={$.init}
-          onFooterRefresh={$.fetchHome}
-        />
-      </>
+        <StatusBarPlaceholder />
+        <Auth />
+      </ScrollView>
     )
   }
 }

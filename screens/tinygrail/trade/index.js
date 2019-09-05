@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 22:23:45
+ * @Last Modified time: 2019-09-04 21:52:05
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -11,6 +11,7 @@ import { Button } from '@components'
 import { StatusBarPlaceholder, StatusBarEvents } from '@screens/_'
 import { open } from '@utils'
 import { inject, observer } from '@utils/decorators'
+import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Store from './store'
 import Header from './header'
@@ -36,6 +37,8 @@ class TinygrailTrade extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
+
+    hm(`tinygrail/trade?id=${$.monoId}`)
   }
 
   jump = () => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 22:03:33
+ * @Last Modified time: 2019-09-04 00:33:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -35,7 +35,7 @@ class TinygrailSearch extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('subject_search', title)
+    hm('tinygrailSearch', title)
   }
 
   render() {

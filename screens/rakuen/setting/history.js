@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 18:08:38
+ * @Last Modified time: 2019-09-05 10:21:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import { Touchable, Flex, Text, Iconfont } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 
-const History = ({ style, data, onDelete }) => {
+function History({ style, data, onDelete }) {
   if (!data.length) {
     return (
       <View style={[styles.container, style]}>

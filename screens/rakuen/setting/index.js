@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 11:10:44
+ * @Last Modified time: 2019-09-05 10:20:37
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -20,7 +20,7 @@ const title = '超展开设置'
 export default
 @withHeader()
 @observer
-class Setting extends React.Component {
+class RakuenSetting extends React.Component {
   static navigationOptions = {
     title
   }

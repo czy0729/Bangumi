@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 22:15:34
+ * @Last Modified time: 2019-09-04 21:35:13
  */
 import { HOST_NAME } from './index'
 
@@ -212,3 +212,9 @@ export const API_TINYGRAIL_CHARA = (monoId = 0) =>
  */
 export const API_TINYGRAIL_DEPTH = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/depth/${monoId}`
+
+/**
+ * 资产信息
+ */
+export const API_TINYGRAIL_ASSETS = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/assets`
