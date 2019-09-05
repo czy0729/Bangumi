@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 00:40:18
+ * @Last Modified time: 2019-09-05 13:54:48
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -260,6 +260,7 @@ class Item extends React.Component {
               onSelect={(value, item, subjectId) =>
                 $.doEpsSelect(value, item, subjectId, navigation)
               }
+              onLongPress={item => $.doEpsLongPress(item, subjectId)}
             />
           )}
           {top && (

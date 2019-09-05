@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 00:48:21
+ * @Last Modified time: 2019-09-05 14:22:14
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -430,8 +430,8 @@ export default class ScreenHome extends store {
         id: item.id,
         status
       })
-      userStore.fetchUserCollection()
-      userStore.fetchUserProgress()
+      userStore.fetchUserCollection(subjectId)
+      userStore.fetchUserProgress(subjectId)
     }
 
     if (value === '看到') {
@@ -440,13 +440,36 @@ export default class ScreenHome extends store {
         subjectId,
         sort: item.sort
       })
-      userStore.fetchUserCollection()
-      userStore.fetchUserProgress()
+      userStore.fetchUserCollection(subjectId)
+      userStore.fetchUserProgress(subjectId)
     }
 
     // iOS是本集讨论, 安卓是(+N)...
     if (value.includes('本集讨论') || value.includes('(+')) {
       appNavigate(item.url, navigation)
     }
+  }
+
+  /**
+   * 章节按钮长按
+   */
+  doEpsLongPress = async ({ id }, subjectId) => {
+    const userProgress = this.userProgress(subjectId)
+
+    let status
+    if (userProgress[id]) {
+      // 已观看 -> 撤销
+      status = MODEL_EP_STATUS.getValue('撤销')
+    } else {
+      // 未观看 -> 看过
+      status = MODEL_EP_STATUS.getValue('看过')
+    }
+
+    await userStore.doUpdateEpStatus({
+      id,
+      status
+    })
+    userStore.fetchUserCollection(subjectId)
+    userStore.fetchUserProgress(subjectId)
   }
 }

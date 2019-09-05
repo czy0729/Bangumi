@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:09:04
+ * @Last Modified time: 2019-09-05 12:10:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -64,6 +64,7 @@ function Button({
           _text
         ]}
         align='center'
+        selectable={false}
       >
         {children}
       </Text>

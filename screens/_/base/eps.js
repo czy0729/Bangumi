@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 00:23:36
+ * @Last Modified time: 2019-09-05 12:17:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -27,7 +27,8 @@ class Eps extends React.Component {
     canPlay: false, // 有播放源
     eps: [], // 章节数据
     userProgress: {}, // 用户收藏记录
-    onSelect: Function.prototype // 操作选择
+    onSelect: Function.prototype, // 操作选择
+    onLongPress: Function.prototype // 按钮长按
   }
 
   static pageLimit = 32 // 1页32个
@@ -109,7 +110,7 @@ class Eps extends React.Component {
     return (
       <Menu
         title={[
-          `ep.${item.sort} ${item.name || item.name_cn}`,
+          `ep.${item.sort} ${item.name_cn || item.name}`,
           `${item.airdate} 讨论数：${item.comment}`
         ]}
         data={this.getPopoverData(item)}
@@ -123,7 +124,7 @@ class Eps extends React.Component {
    * @param {*} num  当前第几个
    */
   renderButton(item, num) {
-    const { numbersOfLine, userProgress } = this.props
+    const { numbersOfLine, userProgress, onLongPress } = this.props
     const { width, margin } = this.style
     const isSide = num % numbersOfLine === 0
     const popoverProps = IOS
@@ -141,6 +142,7 @@ class Eps extends React.Component {
           marginRight: isSide ? 0 : margin,
           marginBottom: margin
         }}
+        onLongPress={() => onLongPress(item)}
         {...popoverProps}
       >
         <Button
@@ -333,7 +335,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const getType = (progress, status) => {
+function getType(progress, status) {
   switch (progress) {
     case '想看':
       return 'main'

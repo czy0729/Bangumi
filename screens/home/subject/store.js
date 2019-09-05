@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 14:21:20
+ * @Last Modified time: 2019-09-05 14:22:07
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -53,8 +53,7 @@ export default class ScreenSubject extends store {
       _loaded: true
     })
 
-    const { subjectId } = this.params
-    const res = subjectStore.fetchSubject(subjectId)
+    const res = subjectStore.fetchSubject(this.subjectId)
     const data = await res
     const item = bangumiData.items.find(item => item.title === data.name)
     if (item) {
@@ -72,7 +71,7 @@ export default class ScreenSubject extends store {
       if (_ningMoeId) {
         await discoveryStore.fetchNingMoeDetail({
           id: _ningMoeId,
-          bgmId: subjectId
+          bgmId: this.subjectId
         })
       } else {
         await discoveryStore.fetchNingMoeDetailBySearch({
@@ -82,11 +81,11 @@ export default class ScreenSubject extends store {
     }
 
     queue([
-      () => subjectStore.fetchSubjectEp(subjectId),
-      () => collectionStore.fetchCollection(subjectId),
-      () => userStore.fetchUserProgress(subjectId),
+      () => subjectStore.fetchSubjectEp(this.subjectId),
+      () => collectionStore.fetchCollection(this.subjectId),
+      () => userStore.fetchUserProgress(this.subjectId),
       async () => {
-        const res = subjectStore.fetchSubjectFormHTML(subjectId)
+        const res = subjectStore.fetchSubjectFormHTML(this.subjectId)
         const { book } = await res
         this.setState({
           chap: book.chap || '0',
@@ -104,10 +103,12 @@ export default class ScreenSubject extends store {
   /**
    * 条目留言
    */
-  fetchSubjectComments = (refresh, reverse) => {
-    const { subjectId } = this.params
-    return subjectStore.fetchSubjectComments({ subjectId }, refresh, reverse)
-  }
+  fetchSubjectComments = (refresh, reverse) =>
+    subjectStore.fetchSubjectComments(
+      { subjectId: this.subjectId },
+      refresh,
+      reverse
+    )
 
   /**
    * 获取单集播放源
@@ -116,11 +117,10 @@ export default class ScreenSubject extends store {
   fetchEpsData = async () => {
     if (this.type === '动画') {
       try {
-        const { subjectId } = this.params
         const { _response } = await xhrCustom({
           url: `https://raw.githubusercontent.com/ekibun/bangumi_onair/master/onair/${parseInt(
-            parseInt(subjectId) / 1000
-          )}/${subjectId}.json`
+            parseInt(this.subjectId) / 1000
+          )}/${this.subjectId}.json`
         })
 
         const epsData = {
@@ -145,12 +145,16 @@ export default class ScreenSubject extends store {
   }
 
   // -------------------- get --------------------
+  @computed get subjectId() {
+    const { subjectId } = this.params
+    return subjectId
+  }
+
   /**
    * 命名空间
    */
   @computed get namespace() {
-    const { subjectId } = this.params
-    return `${namespace}|${subjectId}`
+    return `${namespace}|${this.subjectId}`
   }
 
   /**
@@ -164,56 +168,49 @@ export default class ScreenSubject extends store {
    * 条目信息
    */
   @computed get subject() {
-    const { subjectId } = this.params
-    return subjectStore.subject(subjectId)
+    return subjectStore.subject(this.subjectId)
   }
 
   /**
    * 柠萌瞬间ep数据
    */
   @computed get ningMoeDetail() {
-    const { subjectId } = this.params
-    return discoveryStore.ningMoeDetail(subjectId)
+    return discoveryStore.ningMoeDetail(this.subjectId)
   }
 
   /**
    * 条目信息(来自网页)
    */
   @computed get subjectFormHTML() {
-    const { subjectId } = this.params
-    return subjectStore.subjectFormHTML(subjectId)
+    return subjectStore.subjectFormHTML(this.subjectId)
   }
 
   /**
    * 章节信息
    */
   @computed get subjectEp() {
-    const { subjectId } = this.params
-    return subjectStore.subjectEp(subjectId)
+    return subjectStore.subjectEp(this.subjectId)
   }
 
   /**
    * 条目留言
    */
   @computed get subjectComments() {
-    const { subjectId } = this.params
-    return subjectStore.subjectComments(subjectId)
+    return subjectStore.subjectComments(this.subjectId)
   }
 
   /**
    * 条目收藏信息
    */
   @computed get collection() {
-    const { subjectId } = this.params
-    return collectionStore.collection(subjectId)
+    return collectionStore.collection(this.subjectId)
   }
 
   /**
    * 用户章节记录
    */
   @computed get userProgress() {
-    const { subjectId } = this.params
-    return userStore.userProgress(subjectId)
+    return userStore.userProgress(this.subjectId)
   }
 
   /**
@@ -274,20 +271,18 @@ export default class ScreenSubject extends store {
   /**
    * 显示管理进度信息弹窗
    */
-  showManageModel = () => {
+  showManageModel = () =>
     this.setState({
       visible: true
     })
-  }
 
   /**
    * 隐藏管理进度信息弹窗
    */
-  closeManageModal = () => {
+  closeManageModal = () =>
     this.setState({
       visible: false
     })
-  }
 
   /**
    * 章节倒序
@@ -313,11 +308,10 @@ export default class ScreenSubject extends store {
    * @params {*} name 字段
    * @params {*} text 文字
    */
-  changeText = (name, text) => {
+  changeText = (name, text) =>
     this.setState({
       [name]: String(text)
     })
-  }
 
   // -------------------- action --------------------
   /**
@@ -404,21 +398,20 @@ export default class ScreenSubject extends store {
           id: item.id,
           status
         })
-        userStore.fetchUserCollection()
-        userStore.fetchUserProgress()
+        userStore.fetchUserCollection(this.subjectId)
+        userStore.fetchUserProgress(this.subjectId)
       }
 
       if (value === '看到') {
-        const { subjectId } = this.params
-
         // 批量更新收视进度
         await userStore.doUpdateSubjectWatched({
-          subjectId,
+          subjectId: this.subjectId,
           sort: item.sort
         })
-        userStore.fetchUserCollection()
-        userStore.fetchUserProgress()
+        userStore.fetchUserCollection(this.subjectId)
+        userStore.fetchUserProgress(this.subjectId)
       }
+
       return
     }
 
@@ -429,9 +422,8 @@ export default class ScreenSubject extends store {
    * 管理收藏
    */
   doUpdateCollection = async values => {
-    const { subjectId } = this.params
     await collectionStore.doUpdateCollection(values)
-    collectionStore.fetchCollection(subjectId)
+    collectionStore.fetchCollection(this.subjectId)
     this.closeManageModal()
   }
 
@@ -439,13 +431,12 @@ export default class ScreenSubject extends store {
    * 更新书籍下一个章节
    */
   doUpdateNext = async name => {
-    const { subjectId } = this.params
     const { chap, vol } = this.state
 
     // eslint-disable-next-line react/no-access-state-in-setstate
     const next = String(parseInt(this.state[name] || 0) + 1)
     await collectionStore.doUpdateBookEp({
-      subjectId,
+      subjectId: this.subjectId,
       chap,
       vol,
       [name]: next
@@ -462,12 +453,35 @@ export default class ScreenSubject extends store {
    */
   doUpdateBookEp = async () => {
     const { chap, vol } = this.state
-    const { subjectId } = this.params
     await collectionStore.doUpdateBookEp({
-      subjectId,
+      subjectId: this.subjectId,
       chap,
       vol
     })
     info('更新成功')
+  }
+
+  /**
+   * 章节按钮长按
+   */
+  doEpsLongPress = async ({ id }) => {
+    const userProgress = this.userProgress
+
+    let status
+    if (userProgress[id]) {
+      // 已观看 -> 撤销
+      status = MODEL_EP_STATUS.getValue('撤销')
+    } else {
+      // 未观看 -> 看过
+      status = MODEL_EP_STATUS.getValue('看过')
+    }
+
+    await userStore.doUpdateEpStatus({
+      id,
+      status
+    })
+
+    userStore.fetchUserCollection(this.subjectId)
+    userStore.fetchUserProgress(this.subjectId)
   }
 }

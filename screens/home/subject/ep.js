@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:33:35
+ * @Last Modified time: 2019-09-05 14:04:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -59,6 +59,7 @@ function Ep({ style }, { $, navigation }) {
         userProgress={$.userProgress}
         canPlay={canPlay}
         onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
+        onLongPress={item => $.doEpsLongPress(item)}
       />
     </View>
   )
