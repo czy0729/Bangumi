@@ -3,11 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 11:22:28
+ * @Last Modified time: 2019-09-05 16:30:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StatusBar } from '@screens/_'
 import Stores from '@stores'
 import { urlStringify } from '../index'
 import observer from './observer'
@@ -68,12 +67,7 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
       }
 
       render() {
-        return (
-          <>
-            <StatusBar />
-            <ComposedComponent />
-          </>
-        )
+        return <ComposedComponent />
       }
     }
   )

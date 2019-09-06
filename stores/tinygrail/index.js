@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 23:25:26
+ * @Last Modified time: 2019-09-03 22:20:49
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -17,47 +17,59 @@ import {
   API_TINYGRAIL_MVI,
   API_TINYGRAIL_MPI,
   API_TINYGRAIL_RAI,
-  API_TINYGRAIL_RECENT
+  API_TINYGRAIL_RECENT,
+  API_TINYGRAIL_TNBC,
+  API_TINYGRAIL_NBC,
+  API_TINYGRAIL_CHARTS,
+  API_TINYGRAIL_DEPTH
 } from '@constants/api'
-import { NAMESPACE, INIT_CHARACTERS_ITEM } from './init'
+import {
+  NAMESPACE,
+  INIT_CHARACTERS_ITEM,
+  INIT_KLINE_ITEM,
+  INIT_DEPTH_ITEM
+} from './init'
 
 class Tinygrail extends store {
   state = observable({
     // 人物数据
     characters: {
-      // [characterId]: INIT_CHARACTERS_ITEM
+      // [monoId]: INIT_CHARACTERS_ITEM
     },
 
+    // 总览列表
     mvc: LIST_EMPTY,
     mrc: LIST_EMPTY,
     mfc: LIST_EMPTY,
     mvi: LIST_EMPTY,
     mpi: LIST_EMPTY,
     rai: LIST_EMPTY,
-    recent: LIST_EMPTY
+    recent: LIST_EMPTY,
+    tnbc: LIST_EMPTY,
+    nbc: LIST_EMPTY,
+
+    // K线
+    kline: {
+      // [monoId]: INIT_KLINE_ITEM
+    },
+
+    // 深度图
+    depth: {
+      // [monoId]: INIT_DEPTH_ITEM
+    }
   })
 
   async init() {
     const res = Promise.all([
       this.getStorage('characters', NAMESPACE),
-      this.getStorage('mvc', NAMESPACE),
-      this.getStorage('mrc', NAMESPACE),
-      this.getStorage('mfc', NAMESPACE),
-      this.getStorage('mvi', NAMESPACE),
-      this.getStorage('mpi', NAMESPACE),
-      this.getStorage('rai', NAMESPACE),
-      this.getStorage('recent', NAMESPACE)
+      this.getStorage('kline', NAMESPACE),
+      this.getStorage('depth', NAMESPACE)
     ])
     const state = await res
     this.setState({
       characters: state[0] || {},
-      mvc: state[1] || LIST_EMPTY,
-      mrc: state[2] || LIST_EMPTY,
-      mfc: state[3] || LIST_EMPTY,
-      mvi: state[4] || LIST_EMPTY,
-      mpi: state[5] || LIST_EMPTY,
-      rai: state[6] || LIST_EMPTY,
-      recent: state[7] || LIST_EMPTY
+      kline: state[1] || {},
+      depth: state[2] || {}
     })
 
     return res
@@ -72,6 +84,14 @@ class Tinygrail extends store {
 
   list(key = 'recent') {
     return computed(() => this.state[key]).get() || LIST_EMPTY
+  }
+
+  kline(id) {
+    return computed(() => this.state.kline[id]).get() || INIT_KLINE_ITEM
+  }
+
+  depth(id) {
+    return computed(() => this.state.depth[id]).get() || INIT_DEPTH_ITEM
   }
 
   // -------------------- fetch --------------------
@@ -108,6 +128,7 @@ class Tinygrail extends store {
           users: item.Users,
           name: item.Name,
           icon: item.Icon,
+          bonus: item.Bonus,
           _loaded: getTimestamp()
         }
       })
@@ -122,7 +143,7 @@ class Tinygrail extends store {
   }
 
   /**
-   * 最高市值
+   * 总览列表
    */
   fetchList = async (key = 'recent') => {
     let api = ''
@@ -145,6 +166,12 @@ class Tinygrail extends store {
       case 'rai':
         api = API_TINYGRAIL_RAI()
         break
+      case 'tnbc':
+        api = API_TINYGRAIL_TNBC()
+        break
+      case 'nbc':
+        api = API_TINYGRAIL_NBC()
+        break
       default:
         api = API_TINYGRAIL_RECENT()
         break
@@ -163,7 +190,7 @@ class Tinygrail extends store {
       data = {
         ...LIST_EMPTY,
         list: (result.Value.Items || result.Value).map(item => ({
-          id: item.Id,
+          id: item.CharacterId || item.Id,
           bids: item.Bids,
           asks: item.Asks,
           change: item.Change,
@@ -175,7 +202,8 @@ class Tinygrail extends store {
           end: item.End,
           users: item.Users,
           name: item.Name,
-          icon: item.Icon
+          icon: item.Icon,
+          bonus: item.Bonus
         })),
         pagination: {
           page: 1,
@@ -187,6 +215,82 @@ class Tinygrail extends store {
 
     this.setState({
       [key]: data
+    })
+    // this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * K线原始数据
+   */
+  fetchKline = async monoId => {
+    const result = await fetch(API_TINYGRAIL_CHARTS(monoId), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    }).then(response => response.json())
+
+    const data = {
+      id: monoId,
+      data: []
+    }
+    if (result.State === 0) {
+      data._loaded = getTimestamp()
+      data.data = result.Value.map(item => ({
+        time: item.Time,
+        begin: item.Begin,
+        end: item.End,
+        low: item.Low,
+        high: item.High,
+        amount: item.Amount,
+        price: item.Price
+      }))
+    }
+
+    const key = 'kline'
+    this.setState({
+      [key]: {
+        [monoId]: data
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 深度图
+   */
+  fetchDepth = async monoId => {
+    const result = await fetch(API_TINYGRAIL_DEPTH(monoId), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    }).then(response => response.json())
+
+    const data = {
+      ...INIT_DEPTH_ITEM
+    }
+    if (result.State === 0) {
+      data._loaded = getTimestamp()
+      data.asks = result.Value.Asks.map(item => ({
+        price: item.Price,
+        amount: item.Amount
+      }))
+      data.bids = result.Value.Bids.map(item => ({
+        price: item.Price,
+        amount: item.Amount
+      }))
+    }
+
+    const key = 'depth'
+    this.setState({
+      [key]: {
+        [monoId]: data
+      }
     })
     this.setStorage(key, undefined, NAMESPACE)
 

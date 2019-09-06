@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 01:05:32
+ * @Last Modified time: 2019-09-03 22:16:44
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -12,6 +12,14 @@ export const tabs = [
   {
     title: '最近活跃',
     key: 'recent'
+  },
+  {
+    title: '新番活跃',
+    key: 'nbc'
+  },
+  {
+    title: '新番市值',
+    key: 'tnbc'
   },
   {
     title: '最高市值',

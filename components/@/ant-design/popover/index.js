@@ -81,7 +81,8 @@ export default class Popover extends React.PureComponent {
       disabled,
       triggerStyle,
       styles,
-      placement
+      placement,
+      onLongPress // @add
     } = this.props
     return (
       <WithTheme themeStyles={PopoverStyles} styles={styles}>
@@ -98,6 +99,7 @@ export default class Popover extends React.PureComponent {
                 <TouchableOpacity
                   ref={setPopoverAnchor}
                   onPress={openPopover}
+                  onLongPress={onLongPress} // @add
                   style={triggerStyle}
                   disabled={disabled}
                   activeOpacity={0.75}
@@ -106,7 +108,7 @@ export default class Popover extends React.PureComponent {
                 </TouchableOpacity>
                 <Pop
                   popoverStyle={s.popover}
-                  contentStyle={[s.content, contentStyle]}
+                  contentStyle={[s.content, contentStyle]} // @add
                   arrowStyle={Platform.OS === 'ios' ? s.arrow : s.arrowAndroid}
                   backgroundStyle={s.background}
                   visible={popoverVisible}
