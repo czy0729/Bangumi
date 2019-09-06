@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:14:58
+ * @Last Modified time: 2019-09-06 16:15:37
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -75,8 +75,8 @@ export default class LoginV2 extends React.Component {
    * 游客访问
    */
   onTour = () => {
-    const { navigation } = this.props
-    navigation.goBack()
+    // const { navigation } = this.props
+    // navigation.goBack()
   }
 
   /**

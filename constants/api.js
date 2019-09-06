@@ -3,17 +3,18 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-04 21:35:13
+ * @Last Modified time: 2019-09-06 15:45:39
  */
-import { HOST_NAME } from './index'
+import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://www.tinygrail.com'
+const TINYGRAIL_LIMIT = 100
 
 /**
  * oauth获取access_token
  */
-export const API_ACCESS_TOKEN = () => `https://${HOST_NAME}/oauth/access_token`
+export const API_ACCESS_TOKEN = () => `${HOST}/oauth/access_token`
 
 // -------------------- 用户 --------------------
 /**
@@ -127,8 +128,6 @@ export const API_COLLECTION_ACTION = (subjectId, action = 'update') =>
   `${API_HOST}/collection/${subjectId}/${action}`
 
 // -------------------- 小圣杯 --------------------
-const TINYGRAIL_LIMIT = 100
-
 /**
  * 指定人物的数据
  * @param {*} *body 人物ids [1, 2, 3]
