@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-19 22:32:15
+ * @Last Modified time: 2019-09-06 15:18:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,15 +19,13 @@ import History from './history'
 import List from './list'
 import Store from './store'
 
-const title = '搜索'
-
 export default
 @inject(Store)
 @withHeader()
 @observer
 class Search extends React.Component {
   static navigationOptions = {
-    title
+    title: '搜索'
   }
 
   static contextTypes = {
@@ -54,7 +52,7 @@ class Search extends React.Component {
       }
     })
 
-    hm('subject_search', title)
+    hm('search')
   }
 
   render() {

@@ -1,11 +1,10 @@
-/* eslint-disable space-before-function-paren */
-/* eslint-disable func-names */
+/* eslint-disable space-before-function-paren, func-names */
 /*
  * 请求相关
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 00:55:26
+ * @Last Modified time: 2019-09-06 15:10:12
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -13,7 +12,6 @@ import {
   APP_ID,
   HOST_NAME,
   HOST,
-  IOS,
   GITHUB_RELEASE_VERSION,
   CODE_PUSH_VERSION,
   DEV
@@ -128,6 +126,7 @@ export default async function _fetch({
 
 /**
  * 请求获取HTML
+ * chii_cookietime=2592000
  * @param {*} param
  */
 export async function fetchHTML({
@@ -150,23 +149,23 @@ export async function fetchHTML({
 
   let _url = url.replace('!', '') // 叹号代表不携带cookie
   if (url.indexOf('!') !== 0) {
-    _config.headers = IOS
-      ? {
-          'User-Agent': userAgent,
+    _config.headers = {
+      'User-Agent': userAgent,
 
-          // @issue iOS不知道为什么会有文本乱插在cookie前面, 要加分号防止
-          Cookie: cookie
-            ? `; ${userCookie}; chii_cookietime=0; ${cookie};`
-            : `; ${userCookie}; chii_cookietime=0;`,
-          ...headers
-        }
-      : {
-          'User-Agent': userAgent,
-          Cookie: cookie
-            ? `${userCookie}; chii_cookietime=0; ${cookie}`
-            : `${userCookie}; chii_cookietime=0`,
-          ...headers
-        }
+      // @issue iOS不知道为什么会有文本乱插在cookie前面, 要加分号防止
+      Cookie: cookie ? `; ${userCookie}; ${cookie};` : `; ${userCookie};`,
+      ...headers
+    }
+
+    // @notice 遗留问题, 要把chii_cookietime=0 换成 chii_cookietime=2592000, 而且必带 chii_cookietime
+    if (_config.headers.Cookie.includes('chii_cookietime=0')) {
+      _config.headers.Cookie = _config.headers.Cookie.replace(
+        'chii_cookietime=0',
+        'chii_cookietime=2592000'
+      )
+    } else if (_config.headers.Cookie.includes('chii_cookietime=2592000')) {
+      _config.headers.Cookie = `${_config.headers.Cookie}; chii_cookietime=2592000;`
+    }
   }
 
   let toastKey
@@ -329,7 +328,7 @@ export function hm(url, title = '') {
   try {
     const userStore = require('../stores/user').default
     const { userAgent } = userStore.userCookie
-    let u = String(url).indexOf('http' === -1) ? `${HOST}/${url}` : url
+    let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
     u += `${u.includes('?') ? '&' : '?'}v=${version}`
     const query = {
       lt: getTimestamp(),

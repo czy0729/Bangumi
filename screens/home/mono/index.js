@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:13:34
+ * @Last Modified time: 2019-09-06 15:11:19
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -16,8 +16,6 @@ import { HOST } from '@constants'
 import _ from '@styles'
 import Info from './info'
 import Store from './store'
-
-const title = '人物'
 
 export default
 @inject(Store)
@@ -42,8 +40,7 @@ class Mono extends React.Component {
     this.updateNavigation()
 
     const { monoId } = $.params
-    const { name } = $.mono
-    hm(monoId, `${title} - ${name}`)
+    hm(monoId)
   }
 
   updateNavigation = () => {

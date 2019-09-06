@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:24:41
+ * @Last Modified time: 2019-09-06 15:22:15
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -18,8 +18,6 @@ import BangumiList from './bangumi-list'
 import TimelineList from './timeline-list'
 import About from './about'
 import Store, { height } from './store'
-
-const title = '用户空间'
 
 export default
 @inject(Store)
@@ -41,7 +39,7 @@ class Zone extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`user/${$.params.userId}?route=zone`, title)
+    hm(`user/${$.params.userId}?route=zone`)
   }
 
   onScroll = e => {

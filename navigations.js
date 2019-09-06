@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 14:22:32
+ * @Last Modified time: 2019-09-06 16:15:20
  */
 export default {
-  initialRouteName: 'HomeTab', // HomeTab TinygrailOverview TinygrailTrade
+  initialRouteName: 'LoginV2', // HomeTab TinygrailOverview TinygrailTrade
   initialRouteParams: {
     // subjectId: 100444 // 238923 100444 204135
     // topicId: 'group/352146' // ep/768491

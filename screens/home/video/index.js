@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 16:43:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 19:06:11
+ * @Last Modified time: 2019-09-06 15:13:50
  */
 import React from 'react'
 import { StyleSheet, Dimensions, View } from 'react-native'
@@ -24,7 +24,7 @@ export default class Video extends React.Component {
 
   // Only on this screen, allow landscape orientations
   componentDidMount() {
-    hm('video', '视频播放')
+    hm('video')
 
     ScreenOrientation.allow(ScreenOrientation.Orientation.ALL)
     Dimensions.addEventListener('change', this.orientationChangeHandler)
