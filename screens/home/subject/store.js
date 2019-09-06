@@ -158,7 +158,7 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 是否登录(token)
+   * 是否登陆(token)
    */
   @computed get isLogin() {
     return userStore.isLogin

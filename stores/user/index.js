@@ -202,14 +202,14 @@ class Store extends store {
   }
 
   /**
-   * 取API是否登录
+   * 取API是否登陆
    */
   @computed get isLogin() {
     return !!this.accessToken.access_token
   }
 
   /**
-   * 取Web是否登录
+   * 取Web是否登陆
    */
   @computed get isWebLogin() {
     return !!this.userCookie.cookie
