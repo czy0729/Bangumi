@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 20:15:17
+ * @Last Modified time: 2019-09-06 15:11:48
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -16,8 +16,6 @@ import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
 import _ from '@styles'
 import staticHTML from './static-html'
-
-const title = '年鉴'
 
 export default
 @observer
@@ -35,7 +33,7 @@ class Award extends React.Component {
   redirectCount = 0 // 跳转次数
 
   componentDidMount() {
-    hm(`award/${this.year}`, title)
+    hm(`award/${this.year}`)
   }
 
   onError = () => {

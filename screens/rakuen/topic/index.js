@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 16:48:48
+ * @Last Modified time: 2019-09-06 15:16:13
  */
 import React from 'react'
 import { StyleSheet, Alert } from 'react-native'
@@ -85,7 +85,7 @@ class Topic extends React.Component {
       }
     })
 
-    hm(`rakuen/topic/${topicId}`, `话题 - ${title}`)
+    hm(`rakuen/topic/${topicId}`)
   }
 
   showFixedTextare = () => {

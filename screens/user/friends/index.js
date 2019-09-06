@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 17:16:42
+ * @Last Modified time: 2019-09-06 15:21:41
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,15 +13,13 @@ import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Store from './store'
 
-const title = '好友'
-
 export default
 @inject(Store)
 @withHeader()
 @observer
 class Friends extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('title', title)
+    title: navigation.getParam('title', '好友')
   })
 
   static contextTypes = {

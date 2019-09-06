@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 18:58:51
+ * @Last Modified time: 2019-09-06 15:19:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,6 @@ import { hm } from '@utils/fetch'
 import { userStore } from '@stores'
 import _ from '@styles'
 
-const title = '首页 (未登陆)'
-
 export default
 @observer
 class Auth extends React.Component {
@@ -26,7 +24,7 @@ class Auth extends React.Component {
   }
 
   componentDidMount() {
-    hm('auth', title)
+    hm('auth')
   }
 
   render() {

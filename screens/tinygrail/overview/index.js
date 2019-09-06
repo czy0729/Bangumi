@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 19:17:27
+ * @Last Modified time: 2019-09-06 15:20:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,15 +17,13 @@ import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
-const title = '小圣杯'
-
 export default
 @inject(Store)
 @withHeader()
 @observer
 class Tinygrail extends React.Component {
   static navigationOptions = {
-    title
+    title: '小圣杯'
   }
 
   static contextTypes = {
@@ -63,7 +61,7 @@ class Tinygrail extends React.Component {
       )
     })
 
-    hm('tinygrail/overview', title)
+    hm('tinygrail/overview')
   }
 
   render() {

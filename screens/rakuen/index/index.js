@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:19:12
+ * @Last Modified time: 2019-09-06 15:19:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,8 +18,6 @@ import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Store from './store'
-
-const title = '超展开'
 
 export default
 @inject(Store)
@@ -66,25 +64,12 @@ class Rakuen extends React.Component {
             }
           }}
         >
-          <IconTabsHeader
-            name='more'
-            position='right'
-            // onPress={() => {
-            //   if ($.isWebLogin) {
-            //     navigation.push('WebView', {
-            //       uri: HTML_NEW_TOPIC(),
-            //       title: '添加新讨论'
-            //     })
-            //   } else {
-            //     navigation.push('LoginV2')
-            //   }
-            // }}
-          />
+          <IconTabsHeader name='more' position='right' />
         </Popover>
       )
     })
 
-    hm('rakuen', title)
+    hm('rakuen')
   }
 
   render() {

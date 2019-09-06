@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 20:36:35
+ * @Last Modified time: 2019-09-06 15:13:15
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -19,7 +19,6 @@ import _ from '@styles'
 import Header from './header'
 import Store from './store'
 
-const title = '条目'
 const sitesDS = [
   'bilibili',
   'iqiyi',
@@ -90,7 +89,7 @@ class Subject extends React.Component {
       })
     }
 
-    hm(`subject/${$.params.subjectId}`, `${title} - ${_title}`)
+    hm(`subject/${$.params.subjectId}`)
   }
 
   render() {

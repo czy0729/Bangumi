@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 10:20:37
+ * @Last Modified time: 2019-09-06 15:20:11
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -15,18 +15,16 @@ import { hm } from '@utils/fetch'
 import _ from '@styles'
 import History from './history'
 
-const title = '超展开设置'
-
 export default
 @withHeader()
 @observer
 class RakuenSetting extends React.Component {
   static navigationOptions = {
-    title
+    title: '超展开设置'
   }
 
   componentDidMount() {
-    hm('rakuen-settings', title)
+    hm('rakuen/settings')
   }
 
   render() {

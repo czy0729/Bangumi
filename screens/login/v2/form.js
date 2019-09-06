@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 18:39:34
+ * @Last Modified time: 2019-09-06 14:35:58
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -31,7 +31,7 @@ export default class Form extends React.Component {
       onChange,
       onLogin
     } = this.props
-    const isError = info.includes('登陆失败')
+    const isError = info.includes('错误')
     return (
       <View style={[_.container.column, styles.gray]}>
         <View style={styles.form}>

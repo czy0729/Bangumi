@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:42:25
+ * @Last Modified time: 2019-09-06 15:18:29
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -16,8 +16,6 @@ import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
-
-const title = '首页'
 
 export default
 @inject(Store)
@@ -59,7 +57,7 @@ class Home extends React.Component {
     })
 
     setTimeout(() => {
-      hm(`?id=${userStore.userInfo.username || userStore.myUserId}`, title)
+      hm(`?id=${userStore.userInfo.username || userStore.myUserId}`)
     }, 4000)
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 20:14:42
+ * @Last Modified time: 2019-09-06 15:19:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,6 @@ import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
 
-const title = '标签'
-
 export default
 @inject(Store)
 @withHeader()
@@ -26,7 +24,7 @@ class Tag extends React.Component {
     const { type, tag } = navigation.state.params
     const _type = MODEL_SUBJECT_TYPE.getTitle(type)
     return {
-      title: `${_type}${title}: ${tag}`
+      title: `${_type}标签: ${tag}`
     }
   }
 
@@ -40,10 +38,7 @@ class Tag extends React.Component {
     $.init()
 
     const { type, tag, airtime } = navigation.state.params
-    hm(
-      `${type}/${tag}/${airtime}`,
-      `${title} - ${MODEL_SUBJECT_TYPE.getTitle(type)} | ${tag} | ${airtime}`
-    )
+    hm(`${type}/${tag}/${airtime}`)
   }
 
   render() {

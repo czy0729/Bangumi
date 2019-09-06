@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:51:33
+ * @Last Modified time: 2019-09-06 14:11:51
  */
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
@@ -52,7 +52,7 @@ export default class ScreenTinygrail extends store {
     const res = xhrCustom({
       url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}`,
       headers: {
-        Cookie: `chii_cookietime=2592000; ${cookie}`,
+        Cookie: `; chii_cookietime=2592000; ${cookie}`,
         'User-Agent': userAgent
       }
     })
@@ -79,7 +79,7 @@ export default class ScreenTinygrail extends store {
       url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: `chii_cookietime=2592000; ${cookie}`,
+        Cookie: `; chii_cookietime=2592000; ${cookie}`,
         'User-Agent': userAgent,
         'cache-control': 'no-cache',
         origin: 'https://bgm.tv',

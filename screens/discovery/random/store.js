@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-23 14:25:41
+ * @Last Modified time: 2019-09-06 15:08:14
  */
 import { computed } from 'mobx'
 import { discoveryStore, systemStore } from '@stores'
 import store from '@utils/store'
-import { hm } from '@utils/fetch'
 
 export default class ScreenRandom extends store {
   init = async () => {
@@ -17,10 +16,7 @@ export default class ScreenRandom extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchRandom = refresh => {
-    hm(`random?page=${this.random.pagination.page}`, '随便看看')
-    return discoveryStore.fetchRandom(refresh)
-  }
+  fetchRandom = refresh => discoveryStore.fetchRandom(refresh)
 
   // -------------------- get --------------------
   @computed get random() {

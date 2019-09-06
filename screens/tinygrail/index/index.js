@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:20:16
+ * @Last Modified time: 2019-09-06 15:20:45
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -13,8 +13,6 @@ import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import Auth from './auth'
 import Store from './store'
-
-const title = '小圣杯'
 
 export default
 @inject(Store)
@@ -32,7 +30,7 @@ class Tinygrail extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('tinygrail', title)
+    hm('tinygrail')
   }
 
   render() {

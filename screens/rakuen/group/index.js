@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 10:15:48
+ * @Last Modified time: 2019-09-06 15:15:18
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,8 +16,6 @@ import _ from '@styles'
 import Info from './info'
 import List from './list'
 import Store from './store'
-
-const title = '小组'
 
 export default
 @inject(Store)
@@ -41,7 +39,7 @@ class Group extends React.Component {
     this.updatePopover()
 
     const { groupId } = $.params
-    hm(`group/${groupId}`, title)
+    hm(`group/${groupId}`)
   }
 
   updatePopover = () => {

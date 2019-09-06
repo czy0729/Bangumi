@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:17:44
+ * @Last Modified time: 2019-09-06 15:14:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -25,7 +25,6 @@ import { APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
 
-const title = '登陆'
 const backgroundColor = 'rgb(251, 251, 251)'
 const uri = `${OAUTH_URL}?${urlStringify({
   response_type: 'code',
@@ -63,7 +62,7 @@ export default class Login extends React.Component {
   }
 
   componentDidMount() {
-    hm('login', title)
+    hm('login')
   }
 
   onTour = () => {

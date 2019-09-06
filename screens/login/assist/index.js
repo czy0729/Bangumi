@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 00:42:34
+ * @Last Modified time: 2019-09-06 15:19:16
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Clipboard } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import { Text, Input, Button, KeyboardSpacer } from '@components'
-import { StatusBar } from '@screens/_'
 import { getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
 import { xhrCustom, hm } from '@utils/fetch'
@@ -17,7 +16,6 @@ import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
 
-const title = '电脑辅助登陆'
 const code = `JSON.stringify({
   userAgent: navigator.userAgent,
   cookie: document.cookie
@@ -27,7 +25,7 @@ export default
 @withHeader()
 class LoginAssist extends React.Component {
   static navigationOptions = {
-    title
+    title: '电脑辅助登陆'
   }
 
   state = {
@@ -46,7 +44,7 @@ class LoginAssist extends React.Component {
   accessToken = ''
 
   componentDidMount() {
-    hm('login-assist', title)
+    hm('login/assist')
   }
 
   copy = () => {
@@ -162,7 +160,7 @@ class LoginAssist extends React.Component {
       const res = xhrCustom({
         url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
         headers: {
-          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
+          Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
           'User-Agent': this.userAgent
         }
       })
@@ -195,7 +193,7 @@ class LoginAssist extends React.Component {
         url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
+          Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
           'User-Agent': this.userAgent
         },
         data: {
@@ -266,7 +264,7 @@ class LoginAssist extends React.Component {
 
     const { navigation } = this.props
     userStore.updateUserCookie({
-      cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
+      cookie: `chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth}`,
       userAgent: this.userAgent,
       v: 0
     })
@@ -283,7 +281,6 @@ class LoginAssist extends React.Component {
         style={styles.screen}
         contentContainerStyle={styles.container}
       >
-        <StatusBar />
         <Text type='danger' size={12}>
           此为登陆最后的手段, 流程相对较多 (其实不复杂,
           熟悉的话比正常登录还要快和稳), 请先尝试新版和旧版登陆, 不行再试这个.

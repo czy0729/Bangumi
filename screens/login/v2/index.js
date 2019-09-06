@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:18:39
+ * @Last Modified time: 2019-09-06 15:14:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,7 +23,6 @@ import _ from '@styles'
 import Preview from './preview'
 import Form from './form'
 
-const title = '登陆V2'
 const namespace = 'LoginV2'
 const backgroundColor = 'rgb(251, 251, 251)'
 const HOST_BANGUMI = 'https://bangumi.tv'
@@ -69,7 +68,7 @@ export default class LoginV2 extends React.Component {
     await this.getFormHash()
     await this.getCaptcha()
 
-    hm('login?v=2', title)
+    hm('login/v2')
   }
 
   /**
@@ -92,22 +91,22 @@ export default class LoginV2 extends React.Component {
   /**
    * 登出
    */
-  logout = () =>
-    xhrCustom({
-      url: `${HOST_BANGUMI}/logout/7dd16c5e`,
-      headers: {
-        'User-Agent': this.userAgent
-      }
-    })
+  // logout = () =>
+  //   xhrCustom({
+  //     url: `${HOST_BANGUMI}/logout/7dd16c5e`,
+  //     headers: {
+  //       'User-Agent': this.userAgent
+  //     }
+  //   })
 
   /**
    * 获取表单hash
    */
   getFormHash = async () => {
     const res = xhrCustom({
-      // @notice 尝试过很多遍bgm.tv就是不能登陆
       url: `${HOST_BANGUMI}/login`,
       headers: {
+        // Cookie: '; chii_cookietime=2592000;',
         'User-Agent': this.userAgent
       }
     })
@@ -135,10 +134,9 @@ export default class LoginV2 extends React.Component {
    */
   getCaptcha = async () => {
     const res = xhrCustom({
-      // @notice 尝试过很多遍bgm.tv就是不能登陆
       url: `${HOST_BANGUMI}/signup/captcha`,
       headers: {
-        Cookie: `chii_sid=${this.cookie.chiiSid};`,
+        Cookie: `; chii_sid=${this.cookie.chiiSid};`,
         'User-Agent': this.userAgent
       },
       responseType: 'arraybuffer'
@@ -251,12 +249,10 @@ export default class LoginV2 extends React.Component {
     const res = xhrCustom(
       this.getRetryData({
         method: 'POST',
-
-        // @notice 尝试过很多遍bgm.tv就是不能登陆
         url: `${HOST_BANGUMI}/FollowTheRabbit`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Cookie: `chii_sid=${this.cookie.chiiSid};`,
+          Cookie: `; chii_sid=${this.cookie.chiiSid};`,
           'User-Agent': this.userAgent
         },
         data: {
@@ -294,7 +290,7 @@ export default class LoginV2 extends React.Component {
       this.getRetryData({
         url: `${HOST_BANGUMI}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
         headers: {
-          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
+          Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
           'User-Agent': this.userAgent
         }
       })
@@ -322,7 +318,7 @@ export default class LoginV2 extends React.Component {
         url: `${HOST_BANGUMI}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Cookie: `chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
+          Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
           'User-Agent': this.userAgent
         },
         data: {

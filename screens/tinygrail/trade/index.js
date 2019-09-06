@@ -19,7 +19,6 @@ import KLine from './k-line'
 import DepthMap from './depth-map'
 import DepthList from './depth-list'
 
-const title = '小圣杯交易'
 const backgroundColor = 'rgb(19, 30, 47)'
 
 export default
@@ -39,7 +38,7 @@ class TinygrailTrade extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`tinygrail/trade?id=${$.monoId}`, title)
+    hm(`tinygrail/trade?id=${$.monoId}`)
   }
 
   jump = () => {
