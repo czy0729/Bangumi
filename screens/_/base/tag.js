@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-03 01:05:14
+ * @Last Modified time: 2019-09-09 14:56:04
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Text } from '@components'
 import _ from '@styles'
 
-const Tag = ({ style, type, value }) => {
+function Tag({ style, type, value }) {
   if (!value) {
     return null
   }

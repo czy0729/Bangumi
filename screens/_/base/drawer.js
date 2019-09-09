@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 21:04:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:33:49
+ * @Last Modified time: 2019-09-09 14:52:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -26,7 +26,7 @@ const contentOptions = {
   }
 }
 
-const Drawer = ({ navigation, ...otherProps }) => {
+function Drawer({ navigation, ...otherProps }) {
   const { avatar = {}, nickname, id } = userStore.userInfo
   return (
     <SafeAreaView

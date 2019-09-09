@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:59:20
+ * @Last Modified time: 2019-09-09 11:36:10
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab
   initialRouteParams: {
     // subjectId: 100444 // 238923 100444 204135
-    // topicId: 'group/352146' // ep/768491
+    // topicId: 'group/352477' // ep/768491
     // userId: '421853' // '419012'
     // monoId: 'character/14823' // character/70323 person/5745
     // groupId: 'tinygrail'

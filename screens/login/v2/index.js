@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 16:45:04
+ * @Last Modified time: 2019-09-09 11:25:25
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
@@ -224,11 +224,7 @@ export default class LoginV2 extends React.Component {
    * 登陆流程
    */
   onLogin = async () => {
-    const { loading, email, password, captcha } = this.state
-    if (loading) {
-      return
-    }
-
+    const { email, password, captcha } = this.state
     if (!email || !password || !captcha) {
       info('请填写以上字段')
       return

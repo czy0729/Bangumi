@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 15:35:10
+ * @Last Modified time: 2019-09-09 14:52:19
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -12,7 +12,7 @@ import { findBangumiCn } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
 import _ from '@styles'
 
-const HorizontalList = ({
+function HorizontalList({
   style,
   data,
   width,
@@ -20,47 +20,49 @@ const HorizontalList = ({
   quality,
   findCn,
   onPress
-}) => (
-  <ScrollView
-    style={style}
-    contentContainerStyle={styles.contentContainerStyle}
-    horizontal
-    showsHorizontalScrollIndicator={false}
-  >
-    {data.map((item, index) => (
-      <View
-        key={item.id}
-        style={[
-          {
-            width
-          },
-          index !== 0 && _.ml.md
-        ]}
-      >
-        <Image
-          size={width}
-          height={height}
-          src={item.image || IMG_DEFAULT}
-          radius
-          border
-          shadow
-          quality={quality}
-          onPress={() => onPress(item)}
-        />
-        <Touchable withoutFeedback onPress={() => onPress(item)}>
-          <Text style={_.mt.sm} numberOfLines={2}>
-            {findCn ? findBangumiCn(item.name) : item.name}
-          </Text>
-          {!!item.desc && (
-            <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
-              {item.desc}
+}) {
+  return (
+    <ScrollView
+      style={style}
+      contentContainerStyle={styles.contentContainerStyle}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+    >
+      {data.map((item, index) => (
+        <View
+          key={item.id}
+          style={[
+            {
+              width
+            },
+            index !== 0 && _.ml.md
+          ]}
+        >
+          <Image
+            size={width}
+            height={height}
+            src={item.image || IMG_DEFAULT}
+            radius
+            border
+            shadow
+            quality={quality}
+            onPress={() => onPress(item)}
+          />
+          <Touchable withoutFeedback onPress={() => onPress(item)}>
+            <Text style={_.mt.sm} numberOfLines={2}>
+              {findCn ? findBangumiCn(item.name) : item.name}
             </Text>
-          )}
-        </Touchable>
-      </View>
-    ))}
-  </ScrollView>
-)
+            {!!item.desc && (
+              <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
+                {item.desc}
+              </Text>
+            )}
+          </Touchable>
+        </View>
+      ))}
+    </ScrollView>
+  )
+}
 
 HorizontalList.defaultProps = {
   data: [],
