@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:45:39
+ * @Last Modified time: 2019-09-10 21:01:35
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
-export const API_HOST_TINYGRAIL = 'https://www.tinygrail.com'
+export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
 const TINYGRAIL_LIMIT = 100
 
 /**
@@ -213,7 +213,20 @@ export const API_TINYGRAIL_DEPTH = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/depth/${monoId}`
 
 /**
+ * 登出
+ */
+export const API_TINYGRAIL_LOGOUT = () =>
+  `${API_HOST_TINYGRAIL}/api/account/logout`
+
+/**
  * 资产信息
  */
 export const API_TINYGRAIL_ASSETS = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/assets`
+
+/**
+ * 用户角色挂单信息
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_USER_CHARA = monoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/${monoId}`

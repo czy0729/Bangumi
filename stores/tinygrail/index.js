@@ -3,9 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 22:20:49
+ * @Last Modified time: 2019-09-10 20:42:45
  */
 import { observable, computed } from 'mobx'
+import axios from 'axios'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { LIST_EMPTY } from '@constants'
@@ -21,13 +22,15 @@ import {
   API_TINYGRAIL_TNBC,
   API_TINYGRAIL_NBC,
   API_TINYGRAIL_CHARTS,
-  API_TINYGRAIL_DEPTH
+  API_TINYGRAIL_DEPTH,
+  API_TINYGRAIL_ASSETS
 } from '@constants/api'
 import {
   NAMESPACE,
   INIT_CHARACTERS_ITEM,
   INIT_KLINE_ITEM,
-  INIT_DEPTH_ITEM
+  INIT_DEPTH_ITEM,
+  INIT_ASSETS
 } from './init'
 
 class Tinygrail extends store {
@@ -56,20 +59,24 @@ class Tinygrail extends store {
     // 深度图
     depth: {
       // [monoId]: INIT_DEPTH_ITEM
-    }
+    },
+
+    assets: INIT_ASSETS
   })
 
   async init() {
     const res = Promise.all([
       this.getStorage('characters', NAMESPACE),
       this.getStorage('kline', NAMESPACE),
-      this.getStorage('depth', NAMESPACE)
+      this.getStorage('depth', NAMESPACE),
+      this.getStorage('assets', NAMESPACE)
     ])
     const state = await res
     this.setState({
       characters: state[0] || {},
       kline: state[1] || {},
-      depth: state[2] || {}
+      depth: state[2] || {},
+      assets: state[3] || INIT_ASSETS
     })
 
     return res
@@ -92,6 +99,10 @@ class Tinygrail extends store {
 
   depth(id) {
     return computed(() => this.state.depth[id]).get() || INIT_DEPTH_ITEM
+  }
+
+  @computed get assets() {
+    return this.state.assets
   }
 
   // -------------------- fetch --------------------
@@ -291,6 +302,37 @@ class Tinygrail extends store {
       [key]: {
         [monoId]: data
       }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 我的资产
+   */
+  fetchAssets = async () => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_ASSETS(),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...INIT_ASSETS
+    }
+    if (result.data.State === 0) {
+      data = {
+        id: result.data.Value.Id,
+        balance: result.data.Value.Balance,
+        _loaded: getTimestamp()
+      }
+    }
+log(result)
+    const key = 'assets'
+    this.setState({
+      [key]: data
     })
     this.setStorage(key, undefined, NAMESPACE)
 

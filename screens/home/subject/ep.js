@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 14:04:13
+ * @Last Modified time: 2019-09-11 11:00:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -42,7 +42,7 @@ function Ep({ style }, { $, navigation }) {
         }
       >
         章节
-        {canPlay && (
+        {$.showOnlinePlay && canPlay && (
           <Text size={12} type='sub' lineHeight={24}>
             {' '}
             (可播放)
@@ -57,7 +57,7 @@ function Ep({ style }, { $, navigation }) {
         subjectId={$.params.subjectId}
         eps={epsReverse ? eps.reverse() : eps}
         userProgress={$.userProgress}
-        canPlay={canPlay}
+        canPlay={$.showOnlinePlay && canPlay}
         onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
         onLongPress={item => $.doEpsLongPress(item)}
       />

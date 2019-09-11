@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 20:31:35
+ * @Last Modified time: 2019-09-10 12:17:50
  */
 import React from 'react'
 import { StatusBar } from 'react-native'
@@ -20,9 +20,11 @@ function StatusBarEvents({
   action
 }) {
   const events = () => {
-    StatusBar.setBackgroundColor(backgroundColor, animated)
+    if (!IOS) {
+      StatusBar.setBackgroundColor(backgroundColor, animated)
+      StatusBar.setTranslucent(translucent, animated)
+    }
     StatusBar.setBarStyle(barStyle, animated)
-    StatusBar.setTranslucent(translucent, animated)
   }
   const props = {
     onDidFocus: () => events()
