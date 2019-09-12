@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-11 14:35:30
+ * @Last Modified time: 2019-09-13 02:30:37
  */
 import { observable, computed } from 'mobx'
 import axios from 'axios'
@@ -24,7 +24,11 @@ import {
   API_TINYGRAIL_CHARTS,
   API_TINYGRAIL_DEPTH,
   API_TINYGRAIL_ASSETS,
-  API_TINYGRAIL_USER_CHARA
+  API_TINYGRAIL_USER_CHARA,
+  API_TINYGRAIL_BID,
+  API_TINYGRAIL_ASK,
+  API_TINYGRAIL_CANCEL_BID,
+  API_TINYGRAIL_CANCEL_ASK
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -32,8 +36,7 @@ import {
   INIT_KLINE_ITEM,
   INIT_DEPTH_ITEM,
   INIT_ASSETS,
-  INIT_USER_LOGS,
-  INIT_USER_LOGS_ITEM
+  INIT_USER_LOGS
 } from './init'
 
 class Tinygrail extends store {
@@ -115,7 +118,7 @@ class Tinygrail extends store {
   }
 
   userLogs(id) {
-    return computed(() => this.state.userLogs[id]).get() || INIT_USER_LOGS_ITEM
+    return computed(() => this.state.userLogs[id]).get() || INIT_USER_LOGS
   }
 
   // -------------------- fetch --------------------
@@ -411,6 +414,79 @@ class Tinygrail extends store {
     })
 
     return Promise.resolve(data)
+  }
+
+  // -------------------- action --------------------
+  /**
+   * 买入
+   */
+  doBid = async ({ monoId, price, amount }) => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_BID(monoId, price, amount),
+      responseType: 'json'
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 卖出
+   */
+  doAsk = async ({ monoId, price, amount }) => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_ASK(monoId, price, amount),
+      responseType: 'json'
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 取消买入
+   */
+  doCancelBid = async ({ id }) => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_CANCEL_BID(id),
+      responseType: 'json'
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 取消卖出
+   */
+  doCancelAsk = async ({ id }) => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_CANCEL_ASK(id),
+      responseType: 'json'
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
   }
 }
 

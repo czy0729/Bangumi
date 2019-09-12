@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-12 12:14:59
+ * @Last Modified time: 2019-09-12 20:43:03
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -12,12 +12,13 @@ import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
+import { colorContainer } from '../styles'
 import Header from './header'
 import Form from './form'
 import Depth from './depth'
+import Logs from './logs'
+import Records from './records'
 import Store from './store'
-
-const backgroundColor = 'rgb(19, 30, 47)'
 
 export default
 @inject(Store)
@@ -44,27 +45,26 @@ class Deal extends React.Component {
       <View style={[_.container.flex, styles.dark]}>
         <StatusBarEvents
           barStyle='light-content'
-          backgroundColor={backgroundColor}
+          backgroundColor={colorContainer}
         />
-        <ScrollView
-          style={[
-            _.container.flex,
-            styles.dark,
-            {
-              marginBottom: 56
-            }
-          ]}
-        >
+        <ScrollView style={[_.container.flex, styles.dark]}>
           <StatusBarPlaceholder style={styles.dark} />
           <Header />
           <Flex align='start'>
-            <Flex.Item flex={3}>
+            <Flex.Item>
               <Form />
             </Flex.Item>
-            <Flex.Item style={_.ml.wind} flex={2}>
-              <Depth />
-            </Flex.Item>
+            <Depth
+              style={[
+                _.ml.wind,
+                {
+                  width: 160
+                }
+              ]}
+            />
           </Flex>
+          <Logs />
+          <Records />
         </ScrollView>
       </View>
     )
@@ -73,6 +73,6 @@ class Deal extends React.Component {
 
 const styles = StyleSheet.create({
   dark: {
-    backgroundColor
+    backgroundColor: colorContainer
   }
 })

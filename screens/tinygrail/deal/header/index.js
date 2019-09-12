@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-12 10:38:24
+ * @Last Modified time: 2019-09-13 01:17:51
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,14 +11,15 @@ import { Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
+import { colorBid, colorAsk, colorPlain } from '../../styles'
 
 function Header(props, { $, navigation }) {
   const { icon, name, fluctuation, bonus } = $.chara
-  let color = 'rgb(255, 255, 255)'
+  let color = colorPlain
   if (fluctuation < 0) {
-    color = 'rgb(209, 77, 100)'
+    color = colorAsk
   } else if (fluctuation > 0) {
-    color = 'rgb(0, 173, 146)'
+    color = colorBid
   }
 
   let fluctuationText = '-%'

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-12 14:26:37
+ * @Last Modified time: 2019-09-13 02:06:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorAsk } from '../../styles'
+import { colorBid, colorAsk, colorPlain } from '../../styles'
 
 function Depth({ style }, { $ }) {
   const { current, fluctuation } = $.chara
@@ -23,7 +23,7 @@ function Depth({ style }, { $ }) {
     return null
   }
 
-  let color = _.colorSub
+  let color = colorPlain
   if (fluctuation > 0) {
     color = colorBid
   } else if (fluctuation < 0) {
@@ -117,9 +117,11 @@ function Depth({ style }, { $ }) {
             })}
         </Flex>
         <View style={styles.current}>
-          <Text style={{ color }} size={18} bold>
-            {current.toFixed(2)}
-          </Text>
+          <Touchable onPress={() => $.changeValue(current.toFixed(1))}>
+            <Text style={{ color }} size={18} bold>
+              {current.toFixed(2)}
+            </Text>
+          </Touchable>
         </View>
         <View style={styles.list}>
           {bids

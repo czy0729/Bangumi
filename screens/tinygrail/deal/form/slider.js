@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-12 12:11:44
+ * @Last Modified time: 2019-09-13 02:11:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,13 +12,20 @@ import { Flex, Input, Text } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorBorder } from '../../styles'
+import { colorBid, colorAsk, colorBorder, colorPlain } from '../../styles'
 
 function Slider({ style }, { $ }) {
   const { value, amount } = $.state
   const { balance } = $.assets
+  const { amount: userAmount } = $.userLogs
+
   const min = 0
-  const max = value == 0 ? 0 : parseInt(balance / value)
+  let balanceText
+  if ($.isBid) {
+    balanceText = `可用 ${formatNumber(balance)}`
+  } else {
+    balanceText = `可用 ${userAmount} 股`
+  }
   return (
     <View style={style}>
       <View style={styles.inputWrap}>
@@ -26,21 +33,22 @@ function Slider({ style }, { $ }) {
           style={styles.input}
           keyboardType='numeric'
           value={String(amount)}
+          onChangeText={$.changeAmount}
         />
-        <Text style={styles.placeholder} size={12} type='sub'>
-          数量
+        <Text style={[styles.placeholder, styles.plain]} size={12}>
+          股
         </Text>
       </View>
-      <Text style={styles.balance} size={12} type='sub'>
-        可用 ₵{formatNumber(balance)}
+      <Text style={[styles.balance, styles.plain]} size={12}>
+        {balanceText}
       </Text>
       <View style={[styles.slider, _.mt.sm]}>
         <AntdSlider
           value={amount}
           min={min}
-          max={max}
+          max={$.max}
           maximumTrackTintColor={colorBorder}
-          minimumTrackTintColor={colorBid}
+          minimumTrackTintColor={$.isBid ? colorBid : colorAsk}
           onChange={value => $.changeAmount(value)}
         />
       </View>
@@ -51,7 +59,7 @@ function Slider({ style }, { $ }) {
           </Text>
         </Flex.Item>
         <Text size={12} type='sub'>
-          {max}
+          {$.max}
         </Text>
       </Flex>
       <Flex style={_.mt.md}>
@@ -60,8 +68,8 @@ function Slider({ style }, { $ }) {
             交易额
           </Text>
         </Flex.Item>
-        <Text size={12} type='plain'>
-          ₵{amount == 0 ? '--' : formatNumber(amount * value)}
+        <Text style={styles.plain} size={12}>
+          {amount == 0 ? '--' : formatNumber(amount * value)}
         </Text>
       </Flex>
     </View>
@@ -96,5 +104,8 @@ const styles = StyleSheet.create({
   },
   slider: {
     opacity: 0.8
+  },
+  plain: {
+    color: colorPlain
   }
 })
