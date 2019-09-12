@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-10 18:40:44
+ * @Last Modified time: 2019-09-11 12:15:25
  */
 export const NAMESPACE = 'Tinygrail'
 
@@ -44,4 +44,23 @@ export const INIT_ASSETS = {
   id: 0,
   balance: 0,
   _loaded: 0
+}
+
+export const INIT_USER_LOGS = {
+  id: 0,
+  amount: 0,
+  balance: 0,
+  askHistory: [], // INIT_USER_LOGS_ITEM
+  asks: [],
+  bidHistory: [],
+  bids: [],
+  _loaded: 0
+}
+
+export const INIT_USER_LOGS_ITEM = {
+  id: 0,
+  characterId: 0,
+  amount: 0,
+  price: 0,
+  time: ''
 }

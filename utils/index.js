@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 16:40:15
+ * @Last Modified time: 2019-09-12 12:09:53
  */
 import { AsyncStorage } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -453,3 +453,63 @@ export function randomn(n) {
 export function random(start, end) {
   return Math.floor(Math.random() * (end - start + 1) + start)
 }
+
+/**
+ * 数字分割加逗号
+ * @version 160811 1.0
+ * @version 160902 1.1 添加保留多少位小数
+ * @version 160907 1.2 代码优化，金额少于1000时直接返回
+ * @version 170103 1.3 判断n为0的情况
+ * @param {Number} s 数字
+ * @param {Int} n 保留多少位小数
+ * @return {String}
+ */
+/* eslint-disable */
+export function formatNumber(s, n = 2) {
+  if (s === '') {
+    return Number(s).toFixed(n)
+  }
+
+  if (typeof s === 'undefined') {
+    return Number(0).toFixed(n)
+  }
+
+  s = parseFloat((s + '').replace(/[^\d\.-]/g, '')).toFixed(n) + ''
+
+  if (s == 0) {
+    return Number(s).toFixed(n)
+  }
+
+  if (s < 1000) {
+    return Number(s).toFixed(n)
+  }
+
+  let l = s
+      .split('.')[0]
+      .split('')
+      .reverse(),
+    r = s.split('.')[1]
+
+  let t = ''
+
+  for (let i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 == 0 && i + 1 != l.length ? ',' : '')
+  }
+
+  if (typeof r === 'undefined') {
+    return t
+      .split('')
+      .reverse()
+      .join('')
+  }
+
+  return (
+    t
+      .split('')
+      .reverse()
+      .join('') +
+    '.' +
+    r
+  )
+}
+/* eslint-enable */

@@ -25,6 +25,7 @@ export default class Input extends React.Component {
     multiline: false,
     numberOfLines: 1,
     showClear: false,
+    colorClear: undefined,
     onChange: Function.prototype
   }
 
@@ -69,15 +70,23 @@ export default class Input extends React.Component {
       return null
     }
 
+    const { colorClear } = this.props
     return (
       <Touchable style={styles.close} onPress={this.clear}>
-        <Iconfont name='close' size={12} />
+        <Iconfont name='close' size={12} color={colorClear} />
       </Touchable>
     )
   }
 
   render() {
-    const { style, multiline, numberOfLines, showClear, ...other } = this.props
+    const {
+      style,
+      multiline,
+      numberOfLines,
+      showClear,
+      colorClear,
+      ...other
+    } = this.props
     if (multiline) {
       const containerHeight = initInputHeight * numberOfLines + 18
       return (

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-10 20:42:45
+ * @Last Modified time: 2019-09-11 14:35:30
  */
 import { observable, computed } from 'mobx'
 import axios from 'axios'
@@ -23,14 +23,17 @@ import {
   API_TINYGRAIL_NBC,
   API_TINYGRAIL_CHARTS,
   API_TINYGRAIL_DEPTH,
-  API_TINYGRAIL_ASSETS
+  API_TINYGRAIL_ASSETS,
+  API_TINYGRAIL_USER_CHARA
 } from '@constants/api'
 import {
   NAMESPACE,
   INIT_CHARACTERS_ITEM,
   INIT_KLINE_ITEM,
   INIT_DEPTH_ITEM,
-  INIT_ASSETS
+  INIT_ASSETS,
+  INIT_USER_LOGS,
+  INIT_USER_LOGS_ITEM
 } from './init'
 
 class Tinygrail extends store {
@@ -61,7 +64,13 @@ class Tinygrail extends store {
       // [monoId]: INIT_DEPTH_ITEM
     },
 
-    assets: INIT_ASSETS
+    // 用户资产
+    assets: INIT_ASSETS,
+
+    // 用户挂单和交易记录
+    userLogs: {
+      // [monoId]: INIT_USER_LOGS
+    }
   })
 
   async init() {
@@ -103,6 +112,10 @@ class Tinygrail extends store {
 
   @computed get assets() {
     return this.state.assets
+  }
+
+  userLogs(id) {
+    return computed(() => this.state.userLogs[id]).get() || INIT_USER_LOGS_ITEM
   }
 
   // -------------------- fetch --------------------
@@ -309,7 +322,7 @@ class Tinygrail extends store {
   }
 
   /**
-   * 我的资产
+   * 用户资产
    */
   fetchAssets = async () => {
     axios.defaults.withCredentials = true
@@ -329,12 +342,73 @@ class Tinygrail extends store {
         _loaded: getTimestamp()
       }
     }
-log(result)
+
     const key = 'assets'
     this.setState({
       [key]: data
     })
     this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 用户挂单和交易记录
+   */
+  fetchUserLogs = async monoId => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_USER_CHARA(monoId),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...INIT_USER_LOGS
+    }
+    if (result.data.State === 0) {
+      data = {
+        id: result.data.Value.Id,
+        amount: result.data.Value.Amount,
+        balance: result.data.Value.Balance,
+        askHistory: result.data.Value.AskHistory.map(item => ({
+          id: item.Id,
+          characterId: item.CharacterId,
+          amount: item.Amount,
+          price: item.Price,
+          time: item.TradeTime
+        })),
+        asks: result.data.Value.Asks.map(item => ({
+          id: item.Id,
+          characterId: item.CharacterId,
+          amount: item.Amount,
+          price: item.Price,
+          time: item.Begin
+        })),
+        bidHistory: result.data.Value.BidHistory.map(item => ({
+          id: item.Id,
+          characterId: item.CharacterId,
+          amount: item.Amount,
+          price: item.Price,
+          time: item.TradeTime
+        })),
+        bids: result.data.Value.Bids.map(item => ({
+          id: item.Id,
+          characterId: item.CharacterId,
+          amount: item.Amount,
+          price: item.Price,
+          time: item.Begin
+        })),
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'userLogs'
+    this.setState({
+      [key]: {
+        [monoId]: data
+      }
+    })
 
     return Promise.resolve(data)
   }

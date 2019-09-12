@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-11 10:33:29
+ * @Last Modified time: 2019-09-12 14:10:23
  */
 export default {
-  initialRouteName: 'HomeTab', // HomeTab
+  initialRouteName: 'TinygrailDeal', // HomeTab
   initialRouteParams: {
     // subjectId: 100444 // 238923 100444 204135
     // topicId: 'group/352477' // ep/768491
     // userId: '421853' // '419012'
-    // monoId: 'character/14823' // character/70323 person/5745
+    monoId: 'character/70504' // character/70323 person/5745
     // groupId: 'tinygrail'
     // type: 'anime',
     // tag: '水树奈奈',

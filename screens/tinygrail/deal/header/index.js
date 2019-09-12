@@ -2,16 +2,65 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-11 10:18:17
+ * @Last Modified time: 2019-09-12 10:38:24
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+import { Flex, Text } from '@components'
+import { Avatar } from '@screens/_'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 
 function Header(props, { $, navigation }) {
-  return <View style={styles.container}></View>
+  const { icon, name, fluctuation, bonus } = $.chara
+  let color = 'rgb(255, 255, 255)'
+  if (fluctuation < 0) {
+    color = 'rgb(209, 77, 100)'
+  } else if (fluctuation > 0) {
+    color = 'rgb(0, 173, 146)'
+  }
+
+  let fluctuationText = '-%'
+  if (fluctuation > 0) {
+    fluctuationText = `+${fluctuation.toFixed(2)}%`
+  } else if (fluctuation < 0) {
+    fluctuationText = `${fluctuation.toFixed(2)}%`
+  }
+
+  return (
+    <Flex style={styles.container}>
+      <Avatar
+        src={icon}
+        onPress={() =>
+          navigation.push('Mono', {
+            monoId: `character/${$.monoId}`
+          })
+        }
+      />
+      <Text style={_.ml.sm} size={16} type='plain' numberOfLines={1}>
+        {name}
+        {!!bonus && (
+          <Text size={12} lineHeight={16} type='warning'>
+            {' '}
+            X{bonus}
+          </Text>
+        )}
+      </Text>
+      <Text
+        style={[
+          _.ml.md,
+          {
+            color
+          }
+        ]}
+        lineHeight={17}
+        align='center'
+      >
+        {fluctuationText}
+      </Text>
+    </Flex>
+  )
 }
 
 Header.contextTypes = {
@@ -23,14 +72,7 @@ export default observer(Header)
 
 const styles = StyleSheet.create({
   container: {
-    zIndex: 1,
-    paddingTop: _.wind,
-    paddingHorizontal: _.wind,
-    paddingBottom: _.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgb(25, 36, 53)'
-  },
-  bar: {
-    paddingLeft: 2
+    paddingVertical: _.wind,
+    paddingHorizontal: _.wind
   }
 })
