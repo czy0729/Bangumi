@@ -48,6 +48,7 @@ export { default as Tinygrail } from './tinygrail/index'
 export { default as TinygrailOverview } from './tinygrail/overview'
 export { default as TinygrailSearch } from './tinygrail/search'
 export { default as TinygrailTrade } from './tinygrail/trade'
+export { default as TinygrailDeal } from './tinygrail/deal'
 
 // Other
 export { default as WebView } from './web-view'

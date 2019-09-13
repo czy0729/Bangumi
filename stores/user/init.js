@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-10 16:01:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 00:17:22
+ * @Last Modified time: 2019-09-06 16:35:44
  */
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -34,5 +34,6 @@ export const INIT_USER_INFO = {
 export const INIT_USER_COOKIE = {
   cookie: '',
   userAgent: '',
-  v: 0
+  v: 0,
+  tourist: 0
 }

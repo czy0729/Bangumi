@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 11:46:18
+ * @Last Modified time: 2019-09-11 11:14:27
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -17,7 +17,9 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd' // client_secret
 
 // TINYGRAIL
 export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec' // 小圣杯 client_id
-export const TINYGRAIL_OAUTH_REDIRECT_URL = 'https://www.tinygrail.com/cb' // 小圣杯 授权跳转地址
+export const TINYGRAIL_OAUTH_REDIRECT_URL = 'https://tinygrail.com/cb' // 小圣杯 授权跳转地址
+export const USERID_TOURIST = 476179 // 游客id
+export const USERID_IOS_AUTH = 474489
 
 // URL
 export const HOST_NAME = 'bgm.tv' // 域名
@@ -34,8 +36,8 @@ export const GITHUB_URL = 'https://github.com/czy0729/Bangumi' // github地址
 export const GITHUB_RELEASE_URL = `${GITHUB_URL}/releases` // 版本析出地址
 export const GITHUB_RELEASE_REPOS_URL =
   'https://api.github.com/repos/czy0729/Bangumi/releases' // 版本析出api地址
-export const GITHUB_RELEASE_VERSION = '0.14.2' // 版本号
-export const CODE_PUSH_VERSION = '2' // 热推送副版本号
+export const GITHUB_RELEASE_VERSION = '1.0.3' // 版本号
+export const CODE_PUSH_VERSION = '' // 热推送副版本号
 export const DEV = true // 是否开发模式
 
 // 图片

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:14:34
+ * @Last Modified time: 2019-09-06 16:46:25
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -180,7 +180,7 @@ export default class Login extends React.Component {
             授权登陆
           </Button>
           <Button style={_.mt.md} type='plain' shadow onPress={this.onTour}>
-            游客访问
+            返回
           </Button>
         </View>
       </View>

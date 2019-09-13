@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 14:22:07
+ * @Last Modified time: 2019-09-11 10:46:56
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -19,7 +19,7 @@ import { xhrCustom, queue } from '@utils/fetch'
 import { appNavigate, getBangumiUrl } from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
-import { NING_MOE_HOST } from '@constants'
+import { IOS, USERID_TOURIST, USERID_IOS_AUTH, NING_MOE_HOST } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 
 const namespace = 'ScreenSubject'
@@ -158,10 +158,17 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 是否登录(token)
+   * 是否登陆(token)
    */
   @computed get isLogin() {
     return userStore.isLogin
+  }
+
+  /**
+   * 用户id
+   */
+  @computed get userId() {
+    return userStore.userInfo.id
   }
 
   /**
@@ -265,6 +272,29 @@ export default class ScreenSubject extends store {
       default:
         return '看'
     }
+  }
+
+  /**
+   * 应付iOS审核, iOS且不登陆、游客模式、提供给审核人员的userId不显示
+   */
+  @computed get showOnlinePlay() {
+    if (!IOS) {
+      return true
+    }
+
+    if (!this.isLogin) {
+      return false
+    }
+
+    if (
+      !this.userId ||
+      this.userId == USERID_TOURIST ||
+      this.userId == USERID_IOS_AUTH
+    ) {
+      return false
+    }
+
+    return true
   }
 
   // -------------------- page --------------------

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:19:25
+ * @Last Modified time: 2019-09-07 16:19:31
  */
 import React from 'react'
 import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
 import { StatusBarEvents, Text, Button } from '@components'
-import { IconTabsHeader, IconTabBar } from '@screens/_'
+import { IconTabsHeader, IconTinygrail, IconTabBar } from '@screens/_'
 import { hm } from '@utils/fetch'
 import { userStore } from '@stores'
 import _ from '@styles'
@@ -44,16 +44,15 @@ class Auth extends React.Component {
           color={_.colorSub}
           onPress={() => navigation.push('Search')}
         />
-        <IconTabsHeader
+        <IconTinygrail
           style={[
             _.header.right,
             {
               right: 44
             }
           ]}
-          name='trophy-full'
-          color={_.colorYellow}
-          onPress={() => navigation.push('TinygrailOverview')}
+          color={_.colorSub}
+          navigation={navigation}
         />
         <NavigationEvents
           onWillFocus={() => {

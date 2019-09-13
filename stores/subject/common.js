@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 16:53:25
+ * @Last Modified time: 2019-09-07 16:43:07
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -63,7 +63,10 @@ export async function fetchMono({ monoId = 0 }) {
     }
 
     // 封面
-    matchHTML = HTML.match(/<img src="(.+?)" class="cover"\/>/)
+    // @issue
+    matchHTML =
+      HTML.match(/<img src="(.+?)" class="cover"\/>/) ||
+      HTML.match(/<img src="(.+?)" class="cover" \/>/)
     if (matchHTML) {
       mono.cover = matchHTML[1]
     }

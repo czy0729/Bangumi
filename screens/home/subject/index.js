@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:13:15
+ * @Last Modified time: 2019-09-11 10:49:12
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -54,8 +54,13 @@ class Subject extends React.Component {
       const { sites = [] } = $.state.bangumiInfo
       const url = String(data.url).replace('http://', 'https://')
       const _data = ['Bangumi']
-      if ($.ningMoeDetail.id) {
+      if ($.showOnlinePlay && $.ningMoeDetail.id) {
         _data.push('柠萌瞬间')
+      }
+
+      let _sitesDS = []
+      if ($.showOnlinePlay) {
+        _sitesDS = sitesDS
       }
 
       navigation.setParams({
@@ -64,7 +69,7 @@ class Subject extends React.Component {
           data: [
             ..._data,
             ...sites
-              .filter(item => sitesDS.includes(item.site))
+              .filter(item => _sitesDS.includes(item.site))
               .map(item => item.site)
           ],
           onSelect: key => {

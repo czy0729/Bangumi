@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 01:23:20
+ * @Last Modified time: 2019-09-09 11:35:37
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -319,7 +319,7 @@ export function cheerioTopic(HTML) {
     const $group = $('#pageHeader a.avatar')
     const $user = $('div.postTopic strong > a.l')
     const [floor, time] = ($('div.postTopic div.re_info > small').text() || '')
-      .replace(' / del / edit', '')
+      .split('/')[0]
       .split(' - ')
     const titleText = $('#pageHeader > h1').text() || ''
     let title
@@ -355,7 +355,7 @@ export function cheerioTopic(HTML) {
           const [floor, time] = (
             $row.find('> div.re_info > small').text() || ''
           )
-            .replace('\n/ del / edit', '')
+            .split('/')[0] // 这里其实为了去除 / del / edit
             .split(' - ')
           return safeObject({
             ...INIT_COMMENTS_ITEM,
@@ -386,7 +386,7 @@ export function cheerioTopic(HTML) {
                     decodeEntities: false
                   })
                   const [floor, time] = ($row.find('small').text() || '')
-                    .replace('\n/ del / edit', '')
+                    .split('/')[0] // 这里其实为了去除 / del / edit
                     .split(' - ')
                   return safeObject({
                     ...INIT_COMMENTS_ITEM,

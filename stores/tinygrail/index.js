@@ -3,9 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 22:20:49
+ * @Last Modified time: 2019-09-13 02:30:37
  */
 import { observable, computed } from 'mobx'
+import axios from 'axios'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { LIST_EMPTY } from '@constants'
@@ -21,13 +22,21 @@ import {
   API_TINYGRAIL_TNBC,
   API_TINYGRAIL_NBC,
   API_TINYGRAIL_CHARTS,
-  API_TINYGRAIL_DEPTH
+  API_TINYGRAIL_DEPTH,
+  API_TINYGRAIL_ASSETS,
+  API_TINYGRAIL_USER_CHARA,
+  API_TINYGRAIL_BID,
+  API_TINYGRAIL_ASK,
+  API_TINYGRAIL_CANCEL_BID,
+  API_TINYGRAIL_CANCEL_ASK
 } from '@constants/api'
 import {
   NAMESPACE,
   INIT_CHARACTERS_ITEM,
   INIT_KLINE_ITEM,
-  INIT_DEPTH_ITEM
+  INIT_DEPTH_ITEM,
+  INIT_ASSETS,
+  INIT_USER_LOGS
 } from './init'
 
 class Tinygrail extends store {
@@ -56,6 +65,14 @@ class Tinygrail extends store {
     // 深度图
     depth: {
       // [monoId]: INIT_DEPTH_ITEM
+    },
+
+    // 用户资产
+    assets: INIT_ASSETS,
+
+    // 用户挂单和交易记录
+    userLogs: {
+      // [monoId]: INIT_USER_LOGS
     }
   })
 
@@ -63,13 +80,15 @@ class Tinygrail extends store {
     const res = Promise.all([
       this.getStorage('characters', NAMESPACE),
       this.getStorage('kline', NAMESPACE),
-      this.getStorage('depth', NAMESPACE)
+      this.getStorage('depth', NAMESPACE),
+      this.getStorage('assets', NAMESPACE)
     ])
     const state = await res
     this.setState({
       characters: state[0] || {},
       kline: state[1] || {},
-      depth: state[2] || {}
+      depth: state[2] || {},
+      assets: state[3] || INIT_ASSETS
     })
 
     return res
@@ -92,6 +111,14 @@ class Tinygrail extends store {
 
   depth(id) {
     return computed(() => this.state.depth[id]).get() || INIT_DEPTH_ITEM
+  }
+
+  @computed get assets() {
+    return this.state.assets
+  }
+
+  userLogs(id) {
+    return computed(() => this.state.userLogs[id]).get() || INIT_USER_LOGS
   }
 
   // -------------------- fetch --------------------
@@ -295,6 +322,171 @@ class Tinygrail extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
+  }
+
+  /**
+   * 用户资产
+   */
+  fetchAssets = async () => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_ASSETS(),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...INIT_ASSETS
+    }
+    if (result.data.State === 0) {
+      data = {
+        id: result.data.Value.Id,
+        balance: result.data.Value.Balance,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'assets'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 用户挂单和交易记录
+   */
+  fetchUserLogs = async monoId => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_USER_CHARA(monoId),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...INIT_USER_LOGS
+    }
+    if (result.data.State === 0) {
+      data = {
+        id: result.data.Value.Id,
+        amount: result.data.Value.Amount,
+        balance: result.data.Value.Balance,
+        askHistory: result.data.Value.AskHistory.map(item => ({
+          id: item.Id,
+          characterId: item.CharacterId,
+          amount: item.Amount,
+          price: item.Price,
+          time: item.TradeTime
+        })),
+        asks: result.data.Value.Asks.map(item => ({
+          id: item.Id,
+          characterId: item.CharacterId,
+          amount: item.Amount,
+          price: item.Price,
+          time: item.Begin
+        })),
+        bidHistory: result.data.Value.BidHistory.map(item => ({
+          id: item.Id,
+          characterId: item.CharacterId,
+          amount: item.Amount,
+          price: item.Price,
+          time: item.TradeTime
+        })),
+        bids: result.data.Value.Bids.map(item => ({
+          id: item.Id,
+          characterId: item.CharacterId,
+          amount: item.Amount,
+          price: item.Price,
+          time: item.Begin
+        })),
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'userLogs'
+    this.setState({
+      [key]: {
+        [monoId]: data
+      }
+    })
+
+    return Promise.resolve(data)
+  }
+
+  // -------------------- action --------------------
+  /**
+   * 买入
+   */
+  doBid = async ({ monoId, price, amount }) => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_BID(monoId, price, amount),
+      responseType: 'json'
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 卖出
+   */
+  doAsk = async ({ monoId, price, amount }) => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_ASK(monoId, price, amount),
+      responseType: 'json'
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 取消买入
+   */
+  doCancelBid = async ({ id }) => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_CANCEL_BID(id),
+      responseType: 'json'
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 取消卖出
+   */
+  doCancelAsk = async ({ id }) => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_CANCEL_ASK(id),
+      responseType: 'json'
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
   }
 }
 

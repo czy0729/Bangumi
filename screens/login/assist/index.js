@@ -283,7 +283,7 @@ class LoginAssist extends React.Component {
       >
         <Text type='danger' size={12}>
           此为登陆最后的手段, 流程相对较多 (其实不复杂,
-          熟悉的话比正常登录还要快和稳), 请先尝试新版和旧版登陆, 不行再试这个.
+          熟悉的话比正常登陆还要快和稳), 请先尝试新版和旧版登陆, 不行再试这个.
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
           第三方登陆失败受很多因素影响, 如网络不佳、运营商劫持、手机系统特异,

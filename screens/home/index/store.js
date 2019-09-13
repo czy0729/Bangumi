@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 14:22:14
+ * @Last Modified time: 2019-09-13 21:16:29
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -47,6 +47,8 @@ export default class ScreenHome extends store {
   })
 
   init = async () => {
+    // userStore.logTourist()
+
     let res
     if (this.isLogin) {
       res = this.getStorage(undefined, namespace)

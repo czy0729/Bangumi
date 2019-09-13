@@ -2,13 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:18:29
+ * @Last Modified time: 2019-09-07 16:17:18
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { IconTabBar, IconTabsHeader, IconNotify, ManageModal } from '@screens/_'
+import {
+  IconTabBar,
+  IconTabsHeader,
+  IconTinygrail,
+  IconNotify,
+  ManageModal
+} from '@screens/_'
 import { userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -25,11 +31,7 @@ class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
       <>
-        <IconTabsHeader
-          name='trophy-full'
-          color={_.colorYellow}
-          onPress={() => navigation.push('TinygrailOverview')}
-        />
+        <IconTinygrail navigation={navigation} />
         <IconTabsHeader
           name='search'
           position='right'

@@ -5,10 +5,10 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 16:22:12
+ * @Last Modified time: 2019-09-09 11:25:25
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, Alert, View } from 'react-native'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import deepmerge from 'deepmerge'
@@ -75,15 +75,27 @@ export default class LoginV2 extends React.Component {
    * 游客访问
    */
   onTour = async () => {
-    // const { navigation } = this.props
-    // navigation.goBack()
     try {
       const { _response } = await xhrCustom({
         url: 'https://czy0729.github.io/Bangumi/web/tourist.json'
       })
-      log(_response)
+      const { accessToken, userCookie } = JSON.parse(_response)
+      userStore.updateAccessToken(accessToken)
+
+      const { navigation } = this.props
+      userStore.updateUserCookie({
+        cookie: userCookie.cookie,
+        userAgent: userCookie.userAgent,
+        v: 0,
+        tourist: 1
+      })
+
+      info('登陆成功, 正在请求个人信息...', 6)
+      await userStore.fetchUserInfo()
+      await userStore.fetchUsersInfo()
+      navigation.popToTop()
     } catch (error) {
-      // do nothing
+      info('登陆状态过期, 请稍后再试')
     }
   }
 
@@ -159,7 +171,7 @@ export default class LoginV2 extends React.Component {
   }
 
   /**
-   * 构造再登录请求数据
+   * 构造再登陆请求数据
    */
   getRetryData = data => {
     const { retry } = this.state
@@ -212,11 +224,7 @@ export default class LoginV2 extends React.Component {
    * 登陆流程
    */
   onLogin = async () => {
-    const { loading, email, password, captcha } = this.state
-    if (loading) {
-      return
-    }
-
+    const { email, password, captcha } = this.state
     if (!email || !password || !captcha) {
       info('请填写以上字段')
       return
@@ -421,7 +429,27 @@ export default class LoginV2 extends React.Component {
   }
 
   renderPreview() {
-    return <Preview onLogin={this.onPreviewLogin} onTour={this.onTour} />
+    return (
+      <Preview
+        onLogin={this.onPreviewLogin}
+        onTour={() =>
+          Alert.alert(
+            '提示',
+            '将使用开发者的测试账号, 提供大部分功能预览, 确定登陆? (可以在设置里面退出登陆)',
+            [
+              {
+                text: '取消',
+                style: 'cancel'
+              },
+              {
+                text: '确定',
+                onPress: this.onTour
+              }
+            ]
+          )
+        }
+      />
+    )
   }
 
   renderForm() {

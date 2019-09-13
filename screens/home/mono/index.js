@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:11:19
+ * @Last Modified time: 2019-09-07 16:53:48
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -62,7 +62,7 @@ class Mono extends React.Component {
           }
         }
       },
-      extra: (
+      extra: $.tinygrail && !!$.chara._loaded && (
         <IconHeader
           name='trophy-full'
           color={_.colorYellow}

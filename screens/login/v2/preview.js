@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-17 10:06:19
+ * @Last Modified time: 2019-09-06 16:47:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,7 +23,7 @@ function Preview({ onLogin, onTour }) {
           账号登陆
         </Button>
         <Button style={_.mt.md} type='plain' shadow onPress={onTour}>
-          游客访问
+          游客预览
         </Button>
       </View>
     </View>

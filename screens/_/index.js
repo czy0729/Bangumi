@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:25:06
+ * @Last Modified time: 2019-09-07 16:15:58
  */
 // base
 // export { default as Drawer } from './base/drawer'
@@ -35,6 +35,7 @@ export { default as IconNotify } from './icon/notify'
 export { default as IconReverse } from './icon/reverse'
 export { default as IconTabBar } from './icon/tab-bar'
 export { default as IconTabsHeader } from './icon/tabs-header'
+export { default as IconTinygrail } from './icon/tinygrail'
 export { default as IconTouchable } from './icon/touchable'
 
 // item
