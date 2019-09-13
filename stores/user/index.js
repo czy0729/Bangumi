@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 11:49:32
+ * @Last Modified time: 2019-09-13 21:15:57
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -472,6 +472,17 @@ class Store extends store {
       userCookie
     })
     this.setStorage('userCookie', undefined, NAMESPACE)
+  }
+
+  /**
+   * 打印游客登陆sercet
+   */
+  logTourist = () => {
+    log({
+      tourist: 1,
+      accessToken: this.state.accessToken,
+      userCookie: this.state.userCookie
+    })
   }
 
   // -------------------- action --------------------
