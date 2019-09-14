@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 21:41:15
+ * @Last Modified time: 2019-09-14 05:06:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,6 +12,7 @@ import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
 import { open } from '@utils'
 import { formatTime } from '@utils/app'
+import { HOST } from '@constants'
 import _ from '@styles'
 
 let timezone = new Date().getTimezoneOffset() / -60
@@ -84,7 +85,7 @@ function Item(props, { navigation }) {
                 highlight
                 onPress={() => {
                   if (users) {
-                    open(`https://bgm.tv/character/${id}`)
+                    open(`${HOST}/character/${id}`)
                   } else {
                     navigation.push('TinygrailTrade', {
                       monoId: `character/${id}`

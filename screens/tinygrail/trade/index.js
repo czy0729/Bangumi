@@ -2,24 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-10 20:57:04
+ * @Last Modified time: 2019-09-14 15:39:13
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
+import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, Button } from '@components'
+import { StatusBarEvents, Flex, Button, Touchable } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
-import { open } from '@utils'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
+import { colorBid, colorAsk, colorContainer, colorBg } from '../styles'
 import Store from './store'
 import Header from './header'
 import KLine from './k-line'
 import DepthMap from './depth-map'
 import DepthList from './depth-list'
-
-const backgroundColor = 'rgb(19, 30, 47)'
 
 export default
 @inject(Store)
@@ -34,6 +33,10 @@ class TinygrailTrade extends React.Component {
     navigation: PropTypes.object
   }
 
+  state = {
+    showMask: true
+  }
+
   componentDidMount() {
     const { $ } = this.context
     $.init()
@@ -41,51 +44,86 @@ class TinygrailTrade extends React.Component {
     hm(`tinygrail/trade?id=${$.monoId}`)
   }
 
-  jump = () => {
-    const { $ } = this.context
-    open(`https://bgm.tv/character/${$.monoId}`)
+  hideMask = () => {
+    this.setState({
+      showMask: false
+    })
+  }
+
+  jump = type => {
+    const { $, navigation } = this.context
+    navigation.push('TinygrailDeal', {
+      monoId: $.monoId,
+      type
+    })
   }
 
   render() {
+    const { showMask } = this.state
     return (
-      <View style={[_.container.flex, styles.dark]}>
+      <SafeAreaView
+        style={[_.container.flex, styles.dark]}
+        forceInset={{ top: 'never' }}
+      >
         <StatusBarEvents
           barStyle='light-content'
-          backgroundColor={backgroundColor}
+          backgroundColor={colorContainer}
         />
-        <ScrollView
-          style={[
-            _.container.flex,
-            styles.dark,
-            {
-              marginBottom: 56
-            }
-          ]}
-        >
-          <StatusBarPlaceholder style={styles.dark} />
-          <Header />
-          <View style={styles.kline}>
-            <KLine />
-          </View>
-          <DepthMap />
-          <DepthList style={_.mt.md} />
-        </ScrollView>
-        <View style={styles.fixed}>
-          <Button style={styles.btn} type='main' onPress={this.jump}>
-            交易
-          </Button>
+        <StatusBarPlaceholder style={styles.dark} />
+        <Header />
+        <View style={_.container.flex}>
+          <ScrollView
+            style={[_.container.flex, styles.dark]}
+            contentContainerStyle={styles.contentContainerStyle}
+          >
+            <View style={styles.kline}>
+              <KLine />
+              {showMask && (
+                <Touchable style={styles.mask} onPress={this.hideMask} />
+              )}
+            </View>
+            <DepthMap />
+            <DepthList style={_.mt.md} />
+          </ScrollView>
+          <Flex style={styles.fixed}>
+            <Flex.Item>
+              <Button
+                style={styles.btnBid}
+                type='main'
+                onPress={() => this.jump('bid')}
+              >
+                买入
+              </Button>
+            </Flex.Item>
+            <Flex.Item style={_.ml.sm}>
+              <Button
+                style={styles.btnAsk}
+                type='main'
+                onPress={() => this.jump('ask')}
+              >
+                卖出
+              </Button>
+            </Flex.Item>
+          </Flex>
         </View>
-      </View>
+      </SafeAreaView>
     )
   }
 }
 
 const styles = StyleSheet.create({
   dark: {
-    backgroundColor
+    backgroundColor: colorContainer
+  },
+  contentContainerStyle: {
+    paddingBottom: 56
   },
   kline: {
-    backgroundColor: '#0F1923'
+    backgroundColor: colorBg
+  },
+  mask: {
+    ...StyleSheet.absoluteFill,
+    bottom: 40
   },
   fixed: {
     position: 'absolute',
@@ -93,10 +131,15 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     padding: _.sm,
-    backgroundColor
+    backgroundColor: colorContainer
   },
-  btn: {
-    backgroundColor: 'rgb(0, 173, 146)',
+  btnBid: {
+    backgroundColor: colorBid,
+    borderWidth: 0,
+    borderRadius: 0
+  },
+  btnAsk: {
+    backgroundColor: colorAsk,
     borderWidth: 0,
     borderRadius: 0
   }

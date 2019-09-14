@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-13 02:31:42
+ * @Last Modified time: 2019-09-14 05:35:47
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 
+const defaultType = 'bid'
+
 export default class ScreenDeal extends store {
   state = observable({
     loading: false,
-    type: 'bid', // 买卖类型
+    type: defaultType, // 买卖类型
     value: 0, // 只能到一位小数
     amount: 0 // 只能是整数
   })
@@ -20,6 +22,11 @@ export default class ScreenDeal extends store {
   prev = 0
 
   init = async () => {
+    const { type = defaultType } = this.params
+    this.setState({
+      type
+    })
+
     const res = this.refresh()
     await res
     this.initForm()

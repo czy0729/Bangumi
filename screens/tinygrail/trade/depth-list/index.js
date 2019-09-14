@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 20:47:10
+ * @Last Modified time: 2019-09-14 15:46:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
+import { colorBid, colorDepthBid, colorAsk, colorDepthAsk } from '../../styles'
 
 function DepthList({ style }, { $ }) {
   const { asks = [], bids = [], _loaded } = $.depth
@@ -164,10 +165,10 @@ const styles = StyleSheet.create({
     minWidth: 40
   },
   bids: {
-    color: 'rgb(0, 173, 146)'
+    color: colorBid
   },
   asks: {
-    color: 'rgb(209, 77, 100)'
+    color: colorAsk
   },
   depthBids: {
     position: 'absolute',
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgb(15, 61, 67)'
+    backgroundColor: colorDepthBid
   },
   depthAsks: {
     position: 'absolute',
@@ -183,6 +184,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     bottom: 0,
-    backgroundColor: 'rgb(39, 36, 52)'
+    backgroundColor: colorDepthAsk
   }
 })

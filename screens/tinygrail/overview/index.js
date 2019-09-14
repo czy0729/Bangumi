@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:20:53
+ * @Last Modified time: 2019-09-14 05:07:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { IconHeader } from '@screens/_'
 import { open } from '@utils'
 import { inject, withHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { HOST } from '@constants'
 import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
@@ -46,7 +47,7 @@ class Tinygrail extends React.Component {
               })
               break
             case '浏览器查看':
-              open('https://bgm.tv/rakuen')
+              open(`${HOST}/rakuen`)
               break
             default:
               break

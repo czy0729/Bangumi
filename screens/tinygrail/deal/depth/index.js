@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-13 02:06:10
+ * @Last Modified time: 2019-09-14 15:48:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,10 +11,9 @@ import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorAsk, colorPlain } from '../../styles'
+import { colorBid, colorAsk, colorDepthBid, colorDepthAsk } from '../../styles'
 
 function Depth({ style }, { $ }) {
-  const { current, fluctuation } = $.chara
   const { asks = [], bids = [], _loaded } = $.depth
   if (!_loaded) {
     return null
@@ -23,7 +22,9 @@ function Depth({ style }, { $ }) {
     return null
   }
 
-  let color = colorPlain
+  const { current, fluctuation } = $.chara
+  const { bids: userBids, asks: userAsks } = $.userLogs
+  let color = _.colorPlain
   if (fluctuation > 0) {
     color = colorBid
   } else if (fluctuation < 0) {
@@ -84,17 +85,21 @@ function Depth({ style }, { $ }) {
             })
             .reverse()
             .map((item, index) => {
+              const isMyOrder =
+                userAsks.findIndex(i => i.price === item.price) !== -1
               const width =
                 ((asksAmount - filterCalculateAsks - calculateAsks) /
                   (asksAmount + filterCalculateAsks)) *
                 100
               calculateAsks += item.amount
+
               return (
                 <Touchable
                   key={index}
                   onPress={() => $.changeValue(item.price)}
                 >
                   <Flex style={styles.item}>
+                    {isMyOrder && <View style={styles.dotAsk} />}
                     <Flex.Item>
                       <Text style={styles.asks} size={12}>
                         {item.price.toFixed(2)}
@@ -127,6 +132,8 @@ function Depth({ style }, { $ }) {
           {bids
             .filter((item, index) => index < 5)
             .map((item, index) => {
+              const isMyOrder =
+                userBids.findIndex(i => i.price === item.price) !== -1
               calculateBids += item.amount
               return (
                 <Touchable
@@ -134,6 +141,7 @@ function Depth({ style }, { $ }) {
                   onPress={() => $.changeValue(item.price)}
                 >
                   <Flex style={styles.item}>
+                    {isMyOrder && <View style={styles.dotBid} />}
                     <Flex.Item>
                       <Text style={styles.bids} size={12}>
                         {item.price.toFixed(2)}
@@ -188,11 +196,11 @@ const styles = StyleSheet.create({
   },
   bids: {
     marginLeft: _.sm,
-    color: 'rgb(0, 173, 146)'
+    color: colorBid
   },
   asks: {
     marginLeft: _.sm,
-    color: 'rgb(209, 77, 100)'
+    color: colorAsk
   },
   depthBids: {
     position: 'absolute',
@@ -200,7 +208,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgb(15, 61, 67)'
+    backgroundColor: colorDepthBid
   },
   depthAsks: {
     position: 'absolute',
@@ -208,6 +216,20 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgb(39, 36, 52)'
+    backgroundColor: colorDepthAsk
+  },
+  dotBid: {
+    width: 5,
+    height: 5,
+    marginLeft: -5,
+    borderRadius: 5,
+    backgroundColor: colorBid
+  },
+  dotAsk: {
+    width: 5,
+    height: 5,
+    marginLeft: -5,
+    borderRadius: 5,
+    backgroundColor: colorAsk
   }
 })

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-12 20:43:03
+ * @Last Modified time: 2019-09-14 15:54:26
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Flex } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
@@ -33,6 +33,10 @@ class Deal extends React.Component {
     navigation: PropTypes.object
   }
 
+  state = {
+    refreshing: false
+  }
+
   async componentDidMount() {
     const { $ } = this.context
     await $.init()
@@ -40,16 +44,43 @@ class Deal extends React.Component {
     hm(`tinygrail/deal?id=${$.monoId}`)
   }
 
+  onRefresh = () => {
+    this.setState(
+      {
+        refreshing: true
+      },
+      async () => {
+        const { $ } = this.context
+        await $.refresh()
+
+        setTimeout(() => {
+          this.setState({
+            refreshing: false
+          })
+        }, 1200)
+      }
+    )
+  }
+
   render() {
+    const { refreshing } = this.state
     return (
       <View style={[_.container.flex, styles.dark]}>
         <StatusBarEvents
           barStyle='light-content'
           backgroundColor={colorContainer}
         />
-        <ScrollView style={[_.container.flex, styles.dark]}>
-          <StatusBarPlaceholder style={styles.dark} />
-          <Header />
+        <StatusBarPlaceholder style={styles.dark} />
+        <Header />
+        <ScrollView
+          style={[_.container.flex, styles.dark]}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+        >
           <Flex align='start'>
             <Flex.Item>
               <Form />

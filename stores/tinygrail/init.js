@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-11 12:15:25
+ * @Last Modified time: 2019-09-14 04:32:59
  */
 export const NAMESPACE = 'Tinygrail'
 
@@ -41,7 +41,7 @@ export const INIT_DEPTH_ITEM = {
 }
 
 export const INIT_ASSETS = {
-  id: 0,
+  id: 0, // 当前用户Id
   balance: 0,
   _loaded: 0
 }

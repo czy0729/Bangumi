@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 22:26:47
+ * @Last Modified time: 2019-09-14 15:39:45
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
 import PropTypes from 'prop-types'
-import { Loading, Text } from '@components'
+import { Loading, Flex, Text } from '@components'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import _ from '@styles'
+import { colorContainer, colorBorder, colorBg } from '../../styles'
+import { m15, h1, h4, h12, d1, w1, month1 } from '../store'
+import BtnChange from './btn-change'
 import html from './html'
 import { getKData } from './utils'
 
@@ -48,11 +51,19 @@ class KLine extends React.Component {
     const { loading, distance } = $.state
     return (
       <View style={styles.chart}>
+        <Flex style={styles.bar} justify='around'>
+          <BtnChange value={m15} text='15分钟' />
+          <BtnChange value={h1} text='1小时' />
+          <BtnChange value={h4} text='4小时' />
+          <BtnChange value={h12} text='12小时' />
+          <BtnChange value={d1} text='1日' />
+          <BtnChange value={w1} text='1周' />
+          <BtnChange value={month1} text='1月' />
+        </Flex>
         {!!$.kline._loaded && (
           <WebView
             key={renderCount}
             style={styles.webview}
-            useWebKit
             originWhitelist={['*']}
             source={{
               html: html(JSON.stringify(getKData($.kline.data, distance))),
@@ -80,20 +91,26 @@ class KLine extends React.Component {
 const styles = StyleSheet.create({
   chart: {
     height: _.window.height * 0.64,
-    backgroundColor: '#0F1923',
-    borderTopWidth: _.sm,
-    borderTopColor: 'rgb(14, 25, 36)',
+    backgroundColor: colorBg,
     borderBottomWidth: _.sm,
-    borderBottomColor: 'rgb(14, 25, 36)',
+    borderBottomColor: colorBg,
     overflow: 'hidden'
+  },
+  bar: {
+    paddingVertical: _.sm,
+    paddingLeft: 2,
+    marginBottom: _.sm,
+    backgroundColor: colorContainer,
+    borderBottomWidth: 1,
+    borderBottomColor: colorBorder
   },
   webview: {
     height: _.window.height * 0.64,
-    backgroundColor: '#0F1923'
+    backgroundColor: colorBg
   },
   loading: {
     ...StyleSheet.absoluteFill,
     zIndex: 100,
-    backgroundColor: '#0F1923'
+    backgroundColor: colorBg
   }
 })
