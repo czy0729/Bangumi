@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:09:57
+ * @Last Modified time: 2019-09-15 01:08:35
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -12,7 +12,11 @@ import { IOS } from '@constants'
 import _ from '@styles'
 import observer from './observer'
 
-const withHeader = () => ComposedComponent =>
+const withHeader = ({
+  headerStyle,
+  headerTitleStyle,
+  iconBackColor = _.colorTitle
+} = {}) => ComposedComponent =>
   observer(
     class withHeaderComponent extends React.Component {
       static navigationOptions = ({ navigation }) => {
@@ -59,22 +63,27 @@ const withHeader = () => ComposedComponent =>
         }
 
         return {
-          headerLeft: <IconBack navigation={navigation} color={_.colorTitle} />,
+          headerLeft: (
+            <IconBack navigation={navigation} color={iconBackColor} />
+          ),
           headerRight,
           headerStyle: IOS
             ? {
                 borderBottomColor: _.colorBorder,
-                borderBottomWidth: StyleSheet.hairlineWidth
+                borderBottomWidth: StyleSheet.hairlineWidth,
+                ...headerStyle
               }
             : {
                 borderBottomColor: _.colorBorder,
                 borderBottomWidth: StyleSheet.hairlineWidth,
-                elevation: 0
+                elevation: 0,
+                ...headerStyle
               },
           headerTitleStyle: {
             color: _.colorTitle,
             fontSize: 16,
-            fontWeight: 'normal'
+            fontWeight: 'normal',
+            ...headerTitleStyle
           },
           ...(typeof ComposedComponent.navigationOptions === 'function'
             ? ComposedComponent.navigationOptions({ navigation })

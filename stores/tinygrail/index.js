@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 04:32:51
+ * @Last Modified time: 2019-09-15 02:46:50
  */
 import { observable, computed } from 'mobx'
 import axios from 'axios'
@@ -23,7 +23,9 @@ import {
   API_TINYGRAIL_NBC,
   API_TINYGRAIL_CHARTS,
   API_TINYGRAIL_DEPTH,
+  API_TINYGRAIL_HASH,
   API_TINYGRAIL_ASSETS,
+  API_TINYGRAIL_CHARA_ASSETS,
   API_TINYGRAIL_USER_CHARA,
   API_TINYGRAIL_BID,
   API_TINYGRAIL_ASK,
@@ -36,6 +38,7 @@ import {
   INIT_KLINE_ITEM,
   INIT_DEPTH_ITEM,
   INIT_ASSETS,
+  INIT_CHARA_ASSETS,
   INIT_USER_LOGS
 } from './init'
 
@@ -67,8 +70,16 @@ class Tinygrail extends store {
       // [monoId]: INIT_DEPTH_ITEM
     },
 
+    // 用户唯一标识
+    hash: '',
+
     // 用户资产
     assets: INIT_ASSETS,
+
+    // 用户资产概览信息
+    charaAssets: {
+      // [hash]: INIT_CHARA_ASSETS
+    },
 
     // 用户挂单和交易记录
     userLogs: {
@@ -81,14 +92,18 @@ class Tinygrail extends store {
       this.getStorage('characters', NAMESPACE),
       this.getStorage('kline', NAMESPACE),
       this.getStorage('depth', NAMESPACE),
-      this.getStorage('assets', NAMESPACE)
+      this.getStorage('hash', NAMESPACE),
+      this.getStorage('assets', NAMESPACE),
+      this.getStorage('charaAssets', NAMESPACE)
     ])
     const state = await res
     this.setState({
       characters: state[0] || {},
       kline: state[1] || {},
       depth: state[2] || {},
-      assets: state[3] || INIT_ASSETS
+      hash: state[3] || '',
+      assets: state[4] || INIT_ASSETS,
+      charaAssets: state[5] || {}
     })
 
     return res
@@ -113,8 +128,18 @@ class Tinygrail extends store {
     return computed(() => this.state.depth[id]).get() || INIT_DEPTH_ITEM
   }
 
+  @computed get hash() {
+    return this.state.hash
+  }
+
   @computed get assets() {
     return this.state.assets
+  }
+
+  charaAssets(hash) {
+    return (
+      computed(() => this.state.charaAssets[hash]).get() || INIT_CHARA_ASSETS
+    )
   }
 
   userLogs(id) {
@@ -325,7 +350,32 @@ class Tinygrail extends store {
   }
 
   /**
-   * 用户资产
+   * 用户唯一标识
+   */
+  fetchHash = async () => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_HASH(),
+      responseType: 'json'
+    })
+
+    let data = ''
+    if (result.data.State === 0) {
+      data = result.data.Value.Hash
+    }
+
+    const key = 'hash'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 资产信息
    */
   fetchAssets = async () => {
     axios.defaults.withCredentials = true
@@ -349,6 +399,53 @@ class Tinygrail extends store {
     const key = 'assets'
     this.setState({
       [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 用户资产概览信息
+   */
+  fetchCharaAssets = async hash => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_CHARA_ASSETS(hash),
+      responseType: 'json'
+    })
+
+    const data = {
+      ...INIT_CHARA_ASSETS
+    }
+    if (result.data.State === 0) {
+      data._loaded = getTimestamp()
+      data.id = result.data.Value.Id
+      data.balance = result.data.Value.Balance
+      data.characters = result.data.Value.Characters.map(item => ({
+        id: item.Id,
+        icon: item.Icon,
+        name: item.Name,
+        current: item.Current,
+        state: item.State,
+        total: item.Total
+      }))
+      data.initials = result.data.Value.Initials.map(item => ({
+        id: item.Id,
+        icon: item.Icon,
+        name: item.Name,
+        current: 0,
+        state: item.State,
+        total: item.Total
+      }))
+    }
+
+    const key = 'charaAssets'
+    this.setState({
+      [key]: {
+        [hash]: data
+      }
     })
     this.setStorage(key, undefined, NAMESPACE)
 

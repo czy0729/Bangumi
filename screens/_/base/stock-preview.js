@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 18:43:47
+ * @Last Modified time: 2019-09-15 02:43:32
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { caculateICO } from '@utils/app'
 import _ from '@styles'
+
+const colorDarkText = 'rgb(99, 117, 144)'
 
 export default class StockPreview extends React.Component {
   static defaultProps = {
@@ -22,6 +24,7 @@ export default class StockPreview extends React.Component {
     total: 0,
     marketValue: 0,
     users: 0,
+    theme: 'light',
     _loaded: false
   }
 
@@ -84,6 +87,11 @@ export default class StockPreview extends React.Component {
         </View>
       </Flex>
     )
+  }
+
+  get isDark() {
+    const { theme } = this.props
+    return theme === 'dark'
   }
 
   render() {
@@ -157,7 +165,14 @@ export default class StockPreview extends React.Component {
     return (
       <Touchable style={[styles.container, style]} onPress={this.toggleNum}>
         <Flex justify='end'>
-          <Text lineHeight={16}>₵{current.toFixed(2)}</Text>
+          <Text
+            style={{
+              color: this.isDark ? _.colorPlain : _.colorDesc
+            }}
+            lineHeight={16}
+          >
+            ₵{current.toFixed(2)}
+          </Text>
           <Text
             style={fluctuationStyle}
             size={fluctuationSize}
@@ -170,7 +185,12 @@ export default class StockPreview extends React.Component {
         </Flex>
         <Flex style={styles.wrap} justify='end'>
           {showDetail && (
-            <Text size={12} type='sub'>
+            <Text
+              style={{
+                color: this.isDark ? colorDarkText : _.colorSub
+              }}
+              size={12}
+            >
               量{change}
             </Text>
           )}
@@ -206,7 +226,15 @@ export default class StockPreview extends React.Component {
               )}
             </Flex>
           ) : (
-            <Text style={_.ml.sm} size={12} type='sub'>
+            <Text
+              style={[
+                _.ml.sm,
+                {
+                  color: this.isDark ? colorDarkText : _.colorSub
+                }
+              ]}
+              size={12}
+            >
               (没有挂单)
             </Text>
           )}
@@ -241,8 +269,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: _.sm,
     bottom: _.wind,
-    height: 16,
-    backgroundColor: _.colorPlain
+    height: 16
   },
   floor: {
     width: 72

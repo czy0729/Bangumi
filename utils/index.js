@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-12 12:09:53
+ * @Last Modified time: 2019-09-14 17:33:04
  */
 import { AsyncStorage } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -511,5 +511,72 @@ export function formatNumber(s, n = 2) {
     '.' +
     r
   )
+}
+
+/**
+ * 时间戳距离现在时间的描述
+ * @version 170217 1.0
+ * @version 170605 1.1 修复年份非常小导致的问题
+ * @version 180628 1.2 [+]simple
+ * @param  {String} *timestamp         时间戳
+ * @param  {String} overDaysToShowTime 多少天之后就显示具体时间
+ * @return {String} simple             简单模式
+ */
+export function lastDate(timestamp, overDaysToShowTime = 365, simple = true) {
+  const d = new Date(timestamp * 1000)
+  const _date = `${d.getFullYear()}/${d.getMonth() +
+    1}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+  const dateTime = new Date(_date)
+  const currentTime = new Date()
+
+  if (overDaysToShowTime) {
+    if (
+      Math.floor((currentTime - d) / 1000 / (60 * 60 * 24)) > overDaysToShowTime
+    )
+      return date(timestamp)
+  }
+
+  let totalTime = currentTime.getTime() - dateTime.getTime()
+  let _, years, months, weeks, days, hours, minutes
+  const getNumber = () => Math.floor(totalTime / _)
+  const modTimestamp = () => totalTime % _
+
+  _ = 1000 * 60 * 60 * 24 * 365
+  years = getNumber()
+  totalTime = modTimestamp()
+
+  _ = 1000 * 60 * 60 * 24 * 30
+  months = getNumber()
+  totalTime = modTimestamp()
+
+  if (years > 0) return simple ? `${years}年前` : `${years}年${months}月前`
+
+  _ = 1000 * 60 * 60 * 24 * 7
+  weeks = getNumber()
+  totalTime = modTimestamp()
+
+  if (months > 0) return simple ? `${months}月前` : `${months}月${weeks}周前`
+
+  _ = 1000 * 60 * 60 * 24
+  days = getNumber()
+  totalTime = modTimestamp()
+
+  if (weeks > 0) return simple ? `${weeks}周前` : `${weeks}周${days}天前`
+
+  _ = 1000 * 60 * 60
+  hours = getNumber()
+  totalTime = modTimestamp()
+
+  if (days > 0) return simple ? `${days}天前` : `${days}天${hours}时前`
+
+  _ = 1000 * 60
+  minutes = getNumber()
+  totalTime = modTimestamp()
+
+  if (hours > 0) return simple ? `${hours}时前` : `${hours}时${minutes}分前`
+
+  if (minutes > 0) return `${minutes}分前`
+
+  return '刚刚'
 }
 /* eslint-enable */

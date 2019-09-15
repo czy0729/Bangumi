@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-13 01:42:10
+ * @Last Modified time: 2019-09-15 02:46:59
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
-const TINYGRAIL_LIMIT = 100
+const TINYGRAIL_LIMIT = 50
 
 /**
  * oauth获取access_token
@@ -219,10 +219,22 @@ export const API_TINYGRAIL_LOGOUT = () =>
   `${API_HOST_TINYGRAIL}/api/account/logout`
 
 /**
+ * 用户Hash
+ */
+export const API_TINYGRAIL_HASH = () =>
+  `${API_HOST_TINYGRAIL}/api/account/recommend`
+
+/**
  * 资产信息
  */
 export const API_TINYGRAIL_ASSETS = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/assets`
+
+/**
+ * 用户资产概览信息
+ */
+export const API_TINYGRAIL_CHARA_ASSETS = hash =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/assets/${hash}/true`
 
 /**
  * 用户角色挂单信息

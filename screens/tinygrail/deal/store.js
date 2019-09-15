@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 05:35:47
+ * @Last Modified time: 2019-09-15 12:59:45
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -11,7 +11,7 @@ import { info } from '@utils/ui'
 
 const defaultType = 'bid'
 
-export default class ScreenDeal extends store {
+export default class ScreenTinygrailDeal extends store {
   state = observable({
     loading: false,
     type: defaultType, // 买卖类型

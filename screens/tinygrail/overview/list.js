@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 14:37:17
+ * @Last Modified time: 2019-09-15 02:44:05
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -16,12 +16,12 @@ function List({ index }, { $ }) {
   const { key } = tabs[index]
   const list = $.list(key)
   if (!list._loaded) {
-    return <Loading style={_.container.screen} />
+    return <Loading style={_.container.flex} />
   }
 
   return (
     <ListView
-      style={_.container.screen}
+      style={_.container.flex}
       keyExtractor={item => String(item.id)}
       data={list}
       renderItem={({ item, index }) => <Item index={index} {...item} />}

@@ -2,51 +2,90 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-10 20:42:47
+ * @Last Modified time: 2019-09-14 21:47:32
  */
 import cheerio from 'cheerio-without-node-native'
 import axios from 'axios'
 import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore } from '@stores'
-import { urlStringify } from '@utils'
+import { urlStringify, getTimestamp } from '@utils'
 import store from '@utils/store'
+import { info } from '@utils/ui'
 import {
   HOST,
   TINYGRAIL_APP_ID,
   TINYGRAIL_OAUTH_REDIRECT_URL
 } from '@constants'
 import { API_TINYGRAIL_LOGOUT } from '@constants/api'
-import _ from '@styles'
 
-export const sectionWidth = (_.window.width - _.wind * 3) / 2
-export const sectionHeight = sectionWidth / 1.68
+const namespace = 'ScreenTinygrail'
 
 axios.defaults.withCredentials = true
 
 export default class ScreenTinygrail extends store {
   state = observable({
-    info: ''
+    loading: false,
+    _loaded: false
   })
 
   formhash = ''
 
   init = async () => {
+    const state = await this.getStorage(undefined, namespace)
+    this.setState({
+      ...state,
+      loading: false
+    })
+
     let res = tinygrailStore.fetchAssets()
     const { _loaded } = await res
     if (!_loaded) {
       await this.doAuth()
-      res = tinygrailStore.fetchAssets()
+      res = Promise.all([
+        tinygrailStore.fetchHash(),
+        tinygrailStore.fetchAssets()
+      ])
     }
+
+    if (!this.hash) {
+      await tinygrailStore.fetchHash()
+    }
+    this.fetchCharaAssets()
     return res
   }
+
+  // -------------------- fetch --------------------
+  fetchCharaAssets = () => tinygrailStore.fetchCharaAssets(this.hash)
 
   // -------------------- get --------------------
   @computed get userCookie() {
     return userStore.userCookie
   }
 
+  @computed get userInfo() {
+    return userStore.userInfo
+  }
+
+  @computed get hash() {
+    return tinygrailStore.hash
+  }
+
   @computed get assets() {
     return tinygrailStore.assets
+  }
+
+  @computed get charaAssets() {
+    return tinygrailStore.charaAssets(this.hash)
+  }
+
+  @computed get total() {
+    const { balance } = this.assets
+    const { characters, initials } = this.charaAssets
+    return (
+      characters.reduce((prev, cur) => prev + cur.state * cur.current, 0) +
+      initials.reduce((prev, cur) => prev + cur.state, 0) +
+      balance
+    )
   }
 
   // -------------------- action --------------------
@@ -54,10 +93,33 @@ export default class ScreenTinygrail extends store {
    * 小圣杯授权
    */
   doAuth = async () => {
-    await this.logout()
-    await this.oauth()
-    await this.authorize()
-    return this.getAccessCookie()
+    let res
+    this.setState({
+      loading: true
+    })
+
+    try {
+      await this.logout()
+      await this.oauth()
+      await this.authorize()
+
+      res = this.getAccessCookie()
+      await res
+
+      info('已更新授权')
+      this.setState({
+        loading: false,
+        _loaded: getTimestamp()
+      })
+      this.setStorage(undefined, undefined, namespace)
+    } catch (error) {
+      info('授权失败, 请重试')
+      this.setState({
+        loading: false
+      })
+    }
+
+    return res
   }
 
   /**
@@ -73,10 +135,6 @@ export default class ScreenTinygrail extends store {
    * 获取授权表单码
    */
   oauth = async () => {
-    this.setState({
-      info: `${this.retryText}获取授权表单码...(1/4)`
-    })
-
     const { cookie, userAgent } = this.userCookie
     const res = axios({
       method: 'get',
@@ -107,10 +165,6 @@ export default class ScreenTinygrail extends store {
    * 授权
    */
   authorize = async () => {
-    this.setState({
-      info: `${this.retryText}授权中...(2/4)`
-    })
-
     const { cookie, userAgent } = this.userCookie
     const res = axios({
       method: 'post',
@@ -145,16 +199,11 @@ export default class ScreenTinygrail extends store {
   /**
    * code获取cookie
    */
-  getAccessCookie = async () => {
-    this.setState({
-      info: `${this.retryText}授权成功, 获取token中...(3/4)`
-    })
-
-    return axios({
+  getAccessCookie = async () =>
+    axios({
       method: 'get',
       maxRedirects: 0,
       validateStatus: null,
       url: this.locationUrl
     })
-  }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:01:37
+ * @Last Modified time: 2019-09-15 13:01:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,8 +13,8 @@ import { inject, withHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
 import { colorContainer } from '../styles'
-import Tabs from './tabs'
-import List from './list'
+import Tabs from '../overview/tabs'
+import List from './overview/list'
 import Store, { tabs } from './store'
 
 export default
@@ -30,9 +30,9 @@ export default
   iconBackColor: _.colorPlain
 })
 @observer
-class TinygrailOverview extends React.Component {
+class TinygrailNew extends React.Component {
   static navigationOptions = {
-    title: '交易榜单'
+    title: '新番榜单'
   }
 
   static contextTypes = {
@@ -44,7 +44,7 @@ class TinygrailOverview extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('tinygrail/overview')
+    hm('tinygrail/new')
   }
 
   render() {

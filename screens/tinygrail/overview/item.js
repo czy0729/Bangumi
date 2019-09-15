@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 05:06:57
+ * @Last Modified time: 2019-09-15 02:50:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,6 +14,7 @@ import { open } from '@utils'
 import { formatTime } from '@utils/app'
 import { HOST } from '@constants'
 import _ from '@styles'
+import { colorContainer, colorText, colorBorder } from '../styles'
 
 let timezone = new Date().getTimezoneOffset() / -60
 if (String(timezone).length === 1) {
@@ -69,13 +70,13 @@ function Item(props, { navigation }) {
               })
             }
           />
-          {!!bonus && (
+          {/* {!!bonus && (
             <Flex style={styles.bonus} justify='center'>
               <Text size={12} type='plain'>
                 {bonus}
               </Text>
             </Flex>
-          )}
+          )} */}
         </View>
         <Flex.Item style={!isTop && styles.border}>
           <Flex align='start'>
@@ -95,17 +96,32 @@ function Item(props, { navigation }) {
               >
                 <Flex align='start'>
                   <Flex.Item>
-                    <Text size={16}>
+                    <Text size={16} type='plain'>
                       {index + 1}. {name}
+                      {!!bonus && (
+                        <Text size={12} lineHeight={16} type='warning'>
+                          {' '}
+                          X{bonus}
+                        </Text>
+                      )}
                     </Text>
-                    <Text style={_.mt.sm} type='sub' size={12}>
+                    <Text
+                      style={[
+                        _.mt.sm,
+                        {
+                          color: colorText,
+                          colorBorder
+                        }
+                      ]}
+                      size={12}
+                    >
                       {extra}
                     </Text>
                   </Flex.Item>
                 </Flex>
               </Touchable>
             </Flex.Item>
-            <StockPreview style={_.mr.sm} {...props} _loaded />
+            <StockPreview style={_.mr.sm} {...props} _loaded theme='dark' />
           </Flex>
         </Flex.Item>
       </Flex>
@@ -123,7 +139,7 @@ export default observer(Item)
 const styles = StyleSheet.create({
   container: {
     paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
+    backgroundColor: colorContainer
   },
   image: {
     marginRight: _.xs,
@@ -134,7 +150,7 @@ const styles = StyleSheet.create({
     paddingLeft: _.sm
   },
   border: {
-    borderTopColor: _.colorBorder,
+    borderTopColor: colorBorder,
     borderTopWidth: StyleSheet.hairlineWidth
   },
   bonus: {

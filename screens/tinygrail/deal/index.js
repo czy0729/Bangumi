@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 15:54:26
+ * @Last Modified time: 2019-09-15 13:01:16
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native'
@@ -23,7 +23,7 @@ import Store from './store'
 export default
 @inject(Store)
 @observer
-class Deal extends React.Component {
+class TinygrailDeal extends React.Component {
   static navigationOptions = {
     header: null
   }
