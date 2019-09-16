@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 02:46:59
+ * @Last Modified time: 2019-09-16 16:10:24
  */
 import { HOST } from './index'
 
@@ -135,58 +135,28 @@ export const API_COLLECTION_ACTION = (subjectId, action = 'update') =>
 export const API_TINYGRAIL_CHARAS = () => `${API_HOST_TINYGRAIL}/api/chara/list`
 
 /**
- * 最高市值
+ * 列表
+ * mvc: 最高市值
+ * mrc: 最大涨幅
+ * mfc: 最大跌幅
+ * mvi: ICO最多资金
+ * mpi: ICO最高人气
+ * rai: ICO最近活跃
+ * mri: ICO即将结束
+ * recent: 最近活跃
+ * tnbc: 新番市值
+ * nbc: 新番活跃
  */
-export const API_TINYGRAIL_MVC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mvc/${page}/${limit}`
+export const API_TINYGRAIL_LIST = (type, page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/${type}/${page}/${limit}`
 
 /**
- * 最大涨幅
+ * 番市首富
+ * @param {*} page
+ * @param {*} limit
  */
-export const API_TINYGRAIL_MRC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mrc/${page}/${limit}`
-
-/**
- * 最大跌幅
- */
-export const API_TINYGRAIL_MFC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mfc/${page}/${limit}`
-
-/**
- * ICO最多资金
- */
-export const API_TINYGRAIL_MVI = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mvi/${page}/${limit}`
-
-/**
- * ICO最高人气
- */
-export const API_TINYGRAIL_MPI = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mpi/${page}/${limit}`
-
-/**
- * ICO最近活跃
- */
-export const API_TINYGRAIL_RAI = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/rai/${page}/${limit}`
-
-/**
- * 最近活跃
- */
-export const API_TINYGRAIL_RECENT = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/recent/${page}/${limit}`
-
-/**
- * 新番市值
- */
-export const API_TINYGRAIL_TNBC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/tnbc/${page}/${limit}`
-
-/**
- * 新番活跃
- */
-export const API_TINYGRAIL_NBC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/nbc/${page}/${limit}`
+export const API_TINYGRAIL_RICH = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/top/${page}/${limit}`
 
 /**
  * 交易记录

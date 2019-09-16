@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 14:51:42
+ * @Last Modified time: 2019-09-16 15:56:26
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -71,6 +71,17 @@ export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
 export const colorShadow = 'rgb(0, 0, 0)'
 export const colorMask = 'rgba(0, 0, 0, 0.5)'
+
+// -------------------- 小圣杯 --------------------
+export const colorBid = 'rgb(0, 173, 146)'
+export const colorDepthBid = 'rgb(15, 61, 67)'
+export const colorAsk = 'rgb(209, 77, 100)'
+export const colorDepthAsk = 'rgb(39, 36, 52)'
+export const colorTinygrailPlain = 'rgba(255, 255, 255, 0.8)'
+export const colorTinygrailBg = 'rgb(14, 25, 36)'
+export const colorTinygrailBorder = 'rgb(29, 42, 61)'
+export const colorTinygrailIcon = 'rgb(62, 84, 108)'
+export const colorTinygrailText = 'rgb(99, 117, 144)'
 
 // -------------------- 文字 --------------------
 // export const colorTitleRaw = [12, 12, 12]

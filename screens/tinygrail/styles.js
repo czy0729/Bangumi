@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-11 16:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 02:39:34
+ * @Last Modified time: 2019-09-15 13:13:53
  */
+import _ from '@styles'
+
 export const colorBid = 'rgb(0, 173, 146)'
 export const colorDepthBid = 'rgb(15, 61, 67)'
 export const colorAsk = 'rgb(209, 77, 100)'
@@ -16,3 +18,14 @@ export const colorIcon = 'rgb(62, 84, 108)'
 export const colorText = 'rgb(99, 117, 144)'
 export const colorPlain = 'rgba(255, 255, 255, 0.8)'
 export const colorPrimary = 'rgb(9, 153, 223)'
+
+export const headerStyle = {
+  headerStyle: {
+    backgroundColor: colorContainer,
+    borderBottomColor: colorContainer
+  },
+  headerTitleStyle: {
+    color: _.colorPlain
+  },
+  iconBackColor: _.colorPlain
+}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:14:18
+ * @Last Modified time: 2019-09-15 13:26:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,9 +21,9 @@ export default
 @inject(Store)
 @withHeader(headerStyle)
 @observer
-class TinygrailOverview extends React.Component {
+class TinygrailICO extends React.Component {
   static navigationOptions = {
-    title: '交易榜单'
+    title: 'ICO榜单'
   }
 
   static contextTypes = {
@@ -35,7 +35,7 @@ class TinygrailOverview extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('tinygrail/overview')
+    hm('tinygrail/new')
   }
 
   render() {

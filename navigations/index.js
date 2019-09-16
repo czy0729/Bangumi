@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-10 20:52:18
+ * @Last Modified time: 2019-09-15 13:27:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -36,6 +36,8 @@ import {
   Timeline,
   Tinygrail,
   TinygrailDeal,
+  TinygrailICO,
+  TinygrailNew,
   TinygrailOverview,
   TinygrailSearch,
   TinygrailTrade,
@@ -113,6 +115,8 @@ const HomeStack = createStackNavigator(
     Timeline,
     Tinygrail,
     TinygrailDeal,
+    TinygrailICO,
+    TinygrailNew,
     TinygrailOverview,
     TinygrailSearch,
     TinygrailTrade,

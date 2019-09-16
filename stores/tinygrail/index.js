@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 02:46:50
+ * @Last Modified time: 2019-09-16 18:55:06
  */
 import { observable, computed } from 'mobx'
 import axios from 'axios'
@@ -12,15 +12,8 @@ import store from '@utils/store'
 import { LIST_EMPTY } from '@constants'
 import {
   API_TINYGRAIL_CHARAS,
-  API_TINYGRAIL_MVC,
-  API_TINYGRAIL_MRC,
-  API_TINYGRAIL_MFC,
-  API_TINYGRAIL_MVI,
-  API_TINYGRAIL_MPI,
-  API_TINYGRAIL_RAI,
-  API_TINYGRAIL_RECENT,
-  API_TINYGRAIL_TNBC,
-  API_TINYGRAIL_NBC,
+  API_TINYGRAIL_LIST,
+  API_TINYGRAIL_RICH,
   API_TINYGRAIL_CHARTS,
   API_TINYGRAIL_DEPTH,
   API_TINYGRAIL_HASH,
@@ -59,6 +52,9 @@ class Tinygrail extends store {
     recent: LIST_EMPTY,
     tnbc: LIST_EMPTY,
     nbc: LIST_EMPTY,
+
+    // 番市首富
+    rich: LIST_EMPTY, // INIT_RICH_ITEM
 
     // K线
     kline: {
@@ -118,6 +114,10 @@ class Tinygrail extends store {
 
   list(key = 'recent') {
     return computed(() => this.state[key]).get() || LIST_EMPTY
+  }
+
+  @computed get rich() {
+    return this.state.rich || LIST_EMPTY
   }
 
   kline(id) {
@@ -198,38 +198,7 @@ class Tinygrail extends store {
    * 总览列表
    */
   fetchList = async (key = 'recent') => {
-    let api = ''
-    switch (key) {
-      case 'mvc':
-        api = API_TINYGRAIL_MVC()
-        break
-      case 'mrc':
-        api = API_TINYGRAIL_MRC()
-        break
-      case 'mfc':
-        api = API_TINYGRAIL_MFC()
-        break
-      case 'mvi':
-        api = API_TINYGRAIL_MVI()
-        break
-      case 'mpi':
-        api = API_TINYGRAIL_MPI()
-        break
-      case 'rai':
-        api = API_TINYGRAIL_RAI()
-        break
-      case 'tnbc':
-        api = API_TINYGRAIL_TNBC()
-        break
-      case 'nbc':
-        api = API_TINYGRAIL_NBC()
-        break
-      default:
-        api = API_TINYGRAIL_RECENT()
-        break
-    }
-
-    const result = await fetch(api, {
+    const result = await fetch(API_TINYGRAIL_LIST(key), {
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       }
@@ -269,6 +238,49 @@ class Tinygrail extends store {
       [key]: data
     })
     // this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 番市首富
+   */
+  fetchRich = async () => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_RICH(),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.map(item => ({
+          avatar: item.Avatar,
+          nickname: item.Nickname,
+          userId: item.Name,
+          assets: item.Assets.toFixed(2),
+          total: item.TotalBalance.toFixed(2),
+          principal: item.Principal,
+          lastActiveDate: item.LastActiveDate,
+          lastIndex: item.LastIndex
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'rich'
+    this.setState({
+      [key]: data
+    })
 
     return Promise.resolve(data)
   }

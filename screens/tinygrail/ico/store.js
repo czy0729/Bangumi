@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:30:52
+ * @Last Modified time: 2019-09-15 13:26:37
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,17 +10,25 @@ import store from '@utils/store'
 
 export const tabs = [
   {
-    title: '最近活跃',
-    key: 'nbc'
+    title: '最多资金',
+    key: 'mvi'
   },
   {
-    title: '最高市值',
-    key: 'tnbc'
+    title: '最近活跃',
+    key: 'rai'
+  },
+  {
+    title: '即将结束',
+    key: 'rai'
+  },
+  {
+    title: '最高人气',
+    key: 'mpi'
   }
 ]
-const namespace = 'ScreenTinygrailNew'
+const namespace = 'ScreenTinygrailICO'
 
-export default class ScreenTinygrailNew extends store {
+export default class ScreenTinygrailICO extends store {
   state = observable({
     page: 0, // <Tabs>当前页数
     _page: 0, // header上的假<Tabs>当前页数,

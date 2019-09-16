@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 02:43:32
+ * @Last Modified time: 2019-09-16 15:56:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -50,7 +50,7 @@ export default class StockPreview extends React.Component {
         backgroundColor = '#aaa'
         break
       case 1:
-        backgroundColor = _.colorSuccess
+        backgroundColor = _.colorBid
         break
       case 2:
         backgroundColor = _.colorPrimary
@@ -65,16 +65,20 @@ export default class StockPreview extends React.Component {
         backgroundColor = _.colorMain
         break
       default:
-        backgroundColor = _.colorDanger
+        backgroundColor = _.colorAsk
         break
     }
 
     return (
       <Flex style={styles.ico}>
-        <Text style={styles.iconText} size={10} align='center'>
+        <Text
+          style={[styles.iconText, this.isDark && styles.iconTextDark]}
+          size={10}
+          align='center'
+        >
           lv.{level} {percent}%
         </Text>
-        <View style={styles.icoBar}>
+        <View style={[styles.icoBar, this.isDark && styles.icoBarDark]}>
           <View
             style={[
               styles.icoProcess,
@@ -197,7 +201,12 @@ export default class StockPreview extends React.Component {
           {showFloor ? (
             <Flex style={_.ml.sm}>
               {showDetail && (
-                <Text size={12} type='success'>
+                <Text
+                  style={{
+                    color: _.colorBid
+                  }}
+                  size={12}
+                >
                   {bids}
                 </Text>
               )}
@@ -220,7 +229,16 @@ export default class StockPreview extends React.Component {
                 />
               </Flex>
               {showDetail && (
-                <Text style={[styles.small, _.ml.xs]} size={12} type='danger'>
+                <Text
+                  style={[
+                    styles.small,
+                    _.ml.xs,
+                    {
+                      color: _.colorAsk
+                    }
+                  ]}
+                  size={12}
+                >
                   {asks}
                 </Text>
               )}
@@ -257,13 +275,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   danger: {
-    backgroundColor: _.colorDanger
+    backgroundColor: _.colorAsk
   },
   success: {
-    backgroundColor: _.colorSuccess
+    backgroundColor: _.colorBid
   },
   sub: {
-    backgroundColor: _.colorSub
+    backgroundColor: _.colorTinygrailBorder
   },
   wrap: {
     position: 'absolute',
@@ -276,13 +294,13 @@ const styles = StyleSheet.create({
   },
   bids: {
     height: 2,
-    backgroundColor: _.colorSuccess,
+    backgroundColor: _.colorBid,
     borderRadius: 2,
     overflow: 'hidden'
   },
   asks: {
     height: 2,
-    backgroundColor: _.colorDanger,
+    backgroundColor: _.colorAsk,
     borderRadius: 2,
     overflow: 'hidden'
   },
@@ -297,6 +315,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden'
   },
+  icoBarDark: {
+    backgroundColor: _.colorTinygrailBorder
+  },
   icoProcess: {
     height: 16,
     borderRadius: 8,
@@ -307,5 +328,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
     left: 0,
     right: _.sm
+  },
+  iconTextDark: {
+    color: _.colorTinygrailPlain
   }
 })

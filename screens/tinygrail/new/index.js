@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:01:28
+ * @Last Modified time: 2019-09-15 13:18:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,23 +12,14 @@ import { StatusBarEvents } from '@components'
 import { inject, withHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
-import { colorContainer } from '../styles'
-import Tabs from '../overview/tabs'
-import List from './overview/list'
+import { headerStyle, colorContainer } from '../styles'
+import Tabs from './tabs'
+import List from './list'
 import Store, { tabs } from './store'
 
 export default
 @inject(Store)
-@withHeader({
-  headerStyle: {
-    backgroundColor: colorContainer,
-    borderBottomColor: colorContainer
-  },
-  headerTitleStyle: {
-    color: _.colorPlain
-  },
-  iconBackColor: _.colorPlain
-})
+@withHeader(headerStyle)
 @observer
 class TinygrailNew extends React.Component {
   static navigationOptions = {

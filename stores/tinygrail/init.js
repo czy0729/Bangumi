@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 19:33:13
+ * @Last Modified time: 2019-09-16 18:55:07
  */
 export const NAMESPACE = 'Tinygrail'
 
@@ -17,6 +17,17 @@ export const INIT_CHARACTERS_ITEM = {
   marketValue: 0, // 市值
   users: 0, // ico人数
   name: '' // 人物中文名
+}
+
+export const INIT_RICH_ITEM = {
+  avatar: '',
+  nickname: '',
+  userId: 0,
+  assets: 0, // 余额
+  total: 0, // 总额
+  principal: 0, // 总量
+  lastActiveDate: 0, // 最后操作时间
+  lastIndex: 0 // 上次排名
 }
 
 export const INIT_KLINE_ITEM = {

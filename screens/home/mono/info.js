@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 16:43:54
+ * @Last Modified time: 2019-09-16 18:58:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -44,14 +44,15 @@ function Info(props, { $, navigation }) {
     <>
       {!IOS && <HeaderPlaceholder />}
       <View style={[_.container.inner, styles.container]}>
-        <Flex>
+        <Flex align='start'>
           <Flex.Item>
             <Flex align='baseline'>
               <Text size={20} bold>
                 {name}
-              </Text>
-              <Text style={_.ml.xs} type='sub'>
-                {nameCn || _name}
+                <Text type='sub' lineHeight={20}>
+                  {' '}
+                  {nameCn || _name}
+                </Text>
               </Text>
             </Flex>
           </Flex.Item>
@@ -59,7 +60,7 @@ function Info(props, { $, navigation }) {
             <Touchable style={_.ml.sm} onPress={$.doCollect}>
               <Flex>
                 <Iconfont size={14} name='like' color={_.colorMain} />
-                <Text style={_.ml.xs} type='sub'>
+                <Text style={_.ml.xs} lineHeight={22} type='sub'>
                   加入收藏
                 </Text>
               </Flex>
