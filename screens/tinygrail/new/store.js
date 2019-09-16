@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:30:52
+ * @Last Modified time: 2019-09-17 00:08:58
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -22,8 +22,7 @@ const namespace = 'ScreenTinygrailNew'
 
 export default class ScreenTinygrailNew extends store {
   state = observable({
-    page: 0, // <Tabs>当前页数
-    _page: 0, // header上的假<Tabs>当前页数,
+    page: 0,
     _loaded: false
   })
 
@@ -54,32 +53,13 @@ export default class ScreenTinygrailNew extends store {
   }
 
   // -------------------- page --------------------
-  onTabClick = (item, page) => {
-    if (page === this.state.page) {
-      return
-    }
-
-    this.setState({
-      page
-    })
-    // @issue onTabClick与onChange在用受控模式的时候有冲突, 暂时这样解决
-    setTimeout(() => {
-      this.setState({
-        _page: page
-      })
-      this.setStorage(undefined, undefined, namespace)
-    }, 400)
-    this.tabChangeCallback(page)
-  }
-
   onChange = (item, page) => {
     if (page === this.state.page) {
       return
     }
 
     this.setState({
-      page,
-      _page: page
+      page
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)

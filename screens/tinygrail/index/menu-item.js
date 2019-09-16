@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:09:46
+ * @Last Modified time: 2019-09-16 21:47:25
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -12,12 +12,15 @@ import { observer } from '@utils/decorators'
 import _ from '@styles'
 import { colorBorder, colorPlain } from '../styles'
 
-const sectionWidth = (_.window.width - _.wind * 3) / 2 - 1
+const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
 const sectionHeight = sectionWidth / 2
 
 function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
   return (
-    <Touchable onPress={() => navigation.push(pathname, config)}>
+    <Touchable
+      style={styles.container}
+      onPress={() => navigation.push(pathname, config)}
+    >
       <Flex style={[styles.block, style]}>
         <Text
           style={{
@@ -41,15 +44,17 @@ MenuItem.contextTypes = {
 export default observer(MenuItem)
 
 const styles = StyleSheet.create({
+  container: {
+    marginRight: _.wind,
+    marginBottom: _.wind,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden'
+  },
   block: {
     width: sectionWidth,
     height: sectionHeight,
     paddingLeft: 24,
-    marginRight: _.wind,
-    marginBottom: _.wind,
-    backgroundColor: colorBorder,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
+    backgroundColor: colorBorder
   },
   icon: {
     position: 'absolute',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 21:07:49
+ * @Last Modified time: 2019-09-16 22:24:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -109,13 +109,12 @@ function Item(
                       style={[
                         _.mt.sm,
                         {
-                          color: colorText,
-                          colorBorder
+                          color: colorText
                         }
                       ]}
                       size={12}
                     >
-                      余额 ₵{totalText} / {principalText}股 /{' '}
+                      余额 {totalText} / 初始 {principalText} /{' '}
                       {lastDate(getTimestamp(lastActiveDate.replace('T', ' ')))}
                     </Text>
                   </Flex.Item>

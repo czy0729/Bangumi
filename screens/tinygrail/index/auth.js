@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 22:02:55
+ * @Last Modified time: 2019-09-16 21:51:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,7 +20,7 @@ function Auth(props, { $ }) {
   return (
     <View style={_.container.inner}>
       <Flex>
-        <Avatar size={48} src={avatar && avatar.large} />
+        <Avatar size={40} src={avatar && avatar.large} />
         <Flex.Item style={_.ml.sm}>
           <Text size={18} type='plain'>
             {nickname}
@@ -48,7 +48,7 @@ function Auth(props, { $ }) {
         >
           {loading ? '授权中' : '授权'}
         </Button>
-        <Button
+        {/* <Button
           style={[styles.btn, _.ml.sm]}
           type='warning'
           size='sm'
@@ -56,7 +56,7 @@ function Auth(props, { $ }) {
           onPress={$.doAuth}
         >
           签到
-        </Button>
+        </Button> */}
       </Flex>
     </View>
   )
@@ -71,7 +71,7 @@ export default observer(Auth)
 
 const styles = StyleSheet.create({
   btn: {
-    width: 64,
+    width: 80,
     backgroundColor: colorIcon,
     borderColor: colorIcon
   }

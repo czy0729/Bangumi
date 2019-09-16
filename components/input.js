@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 14:34:28
+ * @Last Modified time: 2019-09-16 21:24:19
  */
 import React from 'react'
 import {
@@ -26,6 +26,7 @@ export default class Input extends React.Component {
     numberOfLines: 1,
     showClear: false,
     colorClear: undefined,
+    autoFocus: false,
     onChange: Function.prototype
   }
 
@@ -37,6 +38,13 @@ export default class Input extends React.Component {
     this.setState({
       value
     })
+  }
+
+  componentDidMount() {
+    const { autoFocus } = this.props
+    if (autoFocus) {
+      this.inputRef.focus()
+    }
   }
 
   inputRef
@@ -85,6 +93,7 @@ export default class Input extends React.Component {
       numberOfLines,
       showClear,
       colorClear,
+      autoFocus,
       ...other
     } = this.props
     if (multiline) {

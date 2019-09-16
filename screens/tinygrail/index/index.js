@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 21:17:05
+ * @Last Modified time: 2019-09-16 21:49:48
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -11,6 +11,7 @@ import { StatusBarEvents } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import _ from '@styles'
 import { colorContainer } from '../styles'
 import Auth from './auth'
 import Menus from './menus'
@@ -38,10 +39,12 @@ class Tinygrail extends React.Component {
   render() {
     return (
       <ScrollView
-        style={{
-          flex: 1,
-          backgroundColor: colorContainer
-        }}
+        style={[
+          _.container.flex,
+          {
+            backgroundColor: colorContainer
+          }
+        ]}
       >
         <StatusBarEvents
           barStyle='light-content'

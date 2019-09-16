@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:03:27
+ * @Last Modified time: 2019-09-16 21:51:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text } from '@components'
+import { Flex, Text, Iconfont } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
@@ -32,9 +32,12 @@ function Menus(props, { $ }) {
         icon='planet'
       />
 
-      <Text style={styles.assets} size={15} type='plain'>
-        我的资产: ₵ {formatNumber(balance)} / {formatNumber($.total)}
-      </Text>
+      <Flex style={styles.assets}>
+        <Iconfont name='licheng' color={_.colorPlain} />
+        <Text style={_.ml.sm} size={15} type='plain'>
+          ₵{formatNumber(balance)} / {formatNumber($.total)}
+        </Text>
+      </Flex>
 
       <MenuItem title='我的收藏' pathname='TinygrailFavor' icon='star' />
       <MenuItem title='我的持仓' pathname='TinygrailBonds' icon='chi-cang' />
@@ -68,11 +71,13 @@ export default observer(Menus)
 
 const styles = StyleSheet.create({
   section: {
+    paddingBottom: _.wind,
+    marginTop: -8,
     marginLeft: _.wind
   },
   assets: {
     width: '100%',
-    marginTop: _.md,
+    marginTop: _.sm,
     marginBottom: _.sm
   }
 })

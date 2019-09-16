@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 18:55:07
+ * @Last Modified time: 2019-09-17 00:22:28
  */
+import { LIST_EMPTY } from '@constants'
+
 export const NAMESPACE = 'Tinygrail'
 
 export const INIT_CHARACTERS_ITEM = {
@@ -17,6 +19,12 @@ export const INIT_CHARACTERS_ITEM = {
   marketValue: 0, // 市值
   users: 0, // ico人数
   name: '' // 人物中文名
+}
+
+export const INIT_RICH = {
+  '1/50': LIST_EMPTY, // INIT_RICH_ITEM
+  '2/50': LIST_EMPTY,
+  '1/100': LIST_EMPTY
 }
 
 export const INIT_RICH_ITEM = {

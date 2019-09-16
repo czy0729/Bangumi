@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 20:39:44
+ * @Last Modified time: 2019-09-16 22:37:16
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -16,6 +16,14 @@ export const tabs = [
   {
     title: '51-100',
     key: '2/50'
+  },
+  {
+    title: '余额最多',
+    key: '1/100'
+  },
+  {
+    title: '初始最多',
+    key: '1/100/2'
   }
 ]
 const namespace = 'ScreenTinygrailRich'
@@ -45,6 +53,10 @@ export default class ScreenTinygrailRich extends store {
   // -------------------- get --------------------
   key(page) {
     return computed(() => tabs[page].key).get()
+  }
+
+  title(page) {
+    return computed(() => tabs[page].title).get()
   }
 
   rich(key) {

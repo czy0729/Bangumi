@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 19:44:19
+ * @Last Modified time: 2019-09-17 00:30:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,10 +41,6 @@ class TinygrailRich extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    if (!_loaded) {
-      return null
-    }
-
     return (
       <View
         style={[
@@ -55,11 +51,13 @@ class TinygrailRich extends React.Component {
         ]}
       >
         <StatusBarEvents />
-        <Tabs tabs={tabs}>
-          {tabs.map((item, index) => (
-            <List key={item.key} index={index} />
-          ))}
-        </Tabs>
+        {!!_loaded && (
+          <Tabs tabs={tabs}>
+            {tabs.map((item, index) => (
+              <List key={item.key} index={index} />
+            ))}
+          </Tabs>
+        )}
       </View>
     )
   }

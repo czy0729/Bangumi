@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:14:18
+ * @Last Modified time: 2019-09-17 00:29:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { StatusBarEvents } from '@components'
 import { inject, withHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
 import { headerStyle, colorContainer } from '../styles'
-import Tabs from './tabs'
+import StatusBarEvents from '../_/status-bar-events'
+import Tabs from '../_/tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
@@ -41,10 +41,6 @@ class TinygrailOverview extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    if (!_loaded) {
-      return null
-    }
-
     return (
       <View
         style={[
@@ -54,15 +50,14 @@ class TinygrailOverview extends React.Component {
           }
         ]}
       >
-        <StatusBarEvents
-          barStyle='light-content'
-          backgroundColor={colorContainer}
-        />
-        <Tabs style={_.container.flex} $={$}>
-          {tabs.map((item, index) => (
-            <List key={item.key} index={index} />
-          ))}
-        </Tabs>
+        <StatusBarEvents />
+        {!!_loaded && (
+          <Tabs tabs={tabs}>
+            {tabs.map((item, index) => (
+              <List key={item.key} index={index} />
+            ))}
+          </Tabs>
+        )}
       </View>
     )
   }

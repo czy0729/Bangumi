@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 20:39:50
+ * @Last Modified time: 2019-09-17 00:24:54
  */
 import { observable, computed } from 'mobx'
 import axios from 'axios'
@@ -28,12 +28,16 @@ import {
 import {
   NAMESPACE,
   INIT_CHARACTERS_ITEM,
+  INIT_RICH,
   INIT_KLINE_ITEM,
   INIT_DEPTH_ITEM,
   INIT_ASSETS,
   INIT_CHARA_ASSETS,
   INIT_USER_LOGS
 } from './init'
+
+const defaultKey = 'recent'
+const defaultSort = '1/50'
 
 class Tinygrail extends store {
   state = observable({
@@ -54,10 +58,7 @@ class Tinygrail extends store {
     nbc: LIST_EMPTY,
 
     // 番市首富
-    rich: {
-      '1/50': LIST_EMPTY, // INIT_RICH_ITEM
-      '2/50': LIST_EMPTY
-    },
+    rich: INIT_RICH,
 
     // K线
     kline: {
@@ -88,21 +89,42 @@ class Tinygrail extends store {
 
   async init() {
     const res = Promise.all([
-      this.getStorage('characters', NAMESPACE),
-      this.getStorage('kline', NAMESPACE),
-      this.getStorage('depth', NAMESPACE),
-      this.getStorage('hash', NAMESPACE),
-      this.getStorage('assets', NAMESPACE),
-      this.getStorage('charaAssets', NAMESPACE)
+      this.getStorage('characters', NAMESPACE), // 0
+      this.getStorage('mvc', NAMESPACE), // 1
+      this.getStorage('mrc', NAMESPACE), // 2
+      this.getStorage('mfc', NAMESPACE), // 3
+      this.getStorage('mvi', NAMESPACE), // 4
+      this.getStorage('mpi', NAMESPACE), // 5
+      this.getStorage('rai', NAMESPACE), // 6
+      this.getStorage('recent', NAMESPACE), // 7
+      this.getStorage('tnbc', NAMESPACE), // 8
+      this.getStorage('nbc', NAMESPACE), // 9
+      this.getStorage('rich', NAMESPACE), // 10
+      this.getStorage('kline', NAMESPACE), // 11
+      this.getStorage('depth', NAMESPACE), // 12
+      this.getStorage('hash', NAMESPACE), // 13
+      this.getStorage('assets', NAMESPACE), // 14
+      this.getStorage('charaAssets', NAMESPACE) // 15
     ])
+
     const state = await res
     this.setState({
       characters: state[0] || {},
-      kline: state[1] || {},
-      depth: state[2] || {},
-      hash: state[3] || '',
-      assets: state[4] || INIT_ASSETS,
-      charaAssets: state[5] || {}
+      mvc: state[1] || LIST_EMPTY,
+      mrc: state[2] || LIST_EMPTY,
+      mfc: state[3] || LIST_EMPTY,
+      mvi: state[4] || LIST_EMPTY,
+      mpi: state[5] || LIST_EMPTY,
+      rai: state[6] || LIST_EMPTY,
+      recent: state[7] || LIST_EMPTY,
+      tnbc: state[8] || LIST_EMPTY,
+      nbc: state[9] || LIST_EMPTY,
+      rich: state[10] || INIT_RICH,
+      kline: state[11] || {},
+      depth: state[12] || {},
+      hash: state[13] || '',
+      assets: state[14] || INIT_ASSETS,
+      charaAssets: state[15] || {}
     })
 
     return res
@@ -115,11 +137,11 @@ class Tinygrail extends store {
     )
   }
 
-  list(key = 'recent') {
+  list(key = defaultKey) {
     return computed(() => this.state[key]).get() || LIST_EMPTY
   }
 
-  rich(sort = '1/50') {
+  rich(sort = defaultSort) {
     return computed(() => this.state.rich[sort]).get() || LIST_EMPTY
   }
 
@@ -200,7 +222,7 @@ class Tinygrail extends store {
   /**
    * 总览列表
    */
-  fetchList = async (key = 'recent') => {
+  fetchList = async (key = defaultKey) => {
     const result = await fetch(API_TINYGRAIL_LIST(key), {
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -240,7 +262,7 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
-    // this.setStorage(key, undefined, NAMESPACE)
+    this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }
@@ -248,7 +270,7 @@ class Tinygrail extends store {
   /**
    * 番市首富
    */
-  fetchRich = async (sort = '1/50') => {
+  fetchRich = async (sort = defaultSort) => {
     axios.defaults.withCredentials = true
     const [page, limit] = sort.split('/')
     const result = await axios({
@@ -289,6 +311,7 @@ class Tinygrail extends store {
         [sort]: data
       }
     })
+    this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }

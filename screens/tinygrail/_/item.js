@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 20:24:54
+ * @Last Modified time: 2019-09-17 00:15:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -59,18 +59,16 @@ function Item(props, { navigation }) {
   return (
     <View style={styles.container}>
       <Flex align='start'>
-        <View>
-          <Avatar
-            style={styles.image}
-            src={icon}
-            size={44}
-            onPress={() =>
-              navigation.push('Mono', {
-                monoId: `character/${id}`
-              })
-            }
-          />
-        </View>
+        <Avatar
+          style={styles.image}
+          src={icon}
+          size={44}
+          onPress={() =>
+            navigation.push('Mono', {
+              monoId: `character/${id}`
+            })
+          }
+        />
         <Flex.Item style={!isTop && styles.border}>
           <Flex align='start'>
             <Flex.Item style={_.mr.sm}>
@@ -102,8 +100,7 @@ function Item(props, { navigation }) {
                       style={[
                         _.mt.sm,
                         {
-                          color: colorText,
-                          colorBorder
+                          color: colorText
                         }
                       ]}
                       size={12}
