@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 18:55:06
+ * @Last Modified time: 2019-09-16 20:39:50
  */
 import { observable, computed } from 'mobx'
 import axios from 'axios'
@@ -54,7 +54,10 @@ class Tinygrail extends store {
     nbc: LIST_EMPTY,
 
     // 番市首富
-    rich: LIST_EMPTY, // INIT_RICH_ITEM
+    rich: {
+      '1/50': LIST_EMPTY, // INIT_RICH_ITEM
+      '2/50': LIST_EMPTY
+    },
 
     // K线
     kline: {
@@ -116,8 +119,8 @@ class Tinygrail extends store {
     return computed(() => this.state[key]).get() || LIST_EMPTY
   }
 
-  @computed get rich() {
-    return this.state.rich || LIST_EMPTY
+  rich(sort = '1/50') {
+    return computed(() => this.state.rich[sort]).get() || LIST_EMPTY
   }
 
   kline(id) {
@@ -245,11 +248,12 @@ class Tinygrail extends store {
   /**
    * 番市首富
    */
-  fetchRich = async () => {
+  fetchRich = async (sort = '1/50') => {
     axios.defaults.withCredentials = true
+    const [page, limit] = sort.split('/')
     const result = await axios({
       method: 'get',
-      url: API_TINYGRAIL_RICH(),
+      url: API_TINYGRAIL_RICH(page, limit),
       responseType: 'json'
     })
 
@@ -278,8 +282,12 @@ class Tinygrail extends store {
     }
 
     const key = 'rich'
+    const { rich } = this.state
     this.setState({
-      [key]: data
+      [key]: {
+        ...rich,
+        [sort]: data
+      }
     })
 
     return Promise.resolve(data)

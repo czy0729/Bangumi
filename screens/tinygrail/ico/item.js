@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 02:50:12
+ * @Last Modified time: 2019-09-16 20:25:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -70,13 +70,6 @@ function Item(props, { navigation }) {
               })
             }
           />
-          {/* {!!bonus && (
-            <Flex style={styles.bonus} justify='center'>
-              <Text size={12} type='plain'>
-                {bonus}
-              </Text>
-            </Flex>
-          )} */}
         </View>
         <Flex.Item style={!isTop && styles.border}>
           <Flex align='start'>
@@ -152,16 +145,5 @@ const styles = StyleSheet.create({
   border: {
     borderTopColor: colorBorder,
     borderTopWidth: StyleSheet.hairlineWidth
-  },
-  bonus: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 10,
-    right: 2,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    backgroundColor: _.colorWarning,
-    overflow: 'hidden'
   }
 })
