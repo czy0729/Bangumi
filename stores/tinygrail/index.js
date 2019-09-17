@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:24:54
+ * @Last Modified time: 2019-09-18 00:16:11
  */
 import { observable, computed } from 'mobx'
 import axios from 'axios'
@@ -23,7 +23,9 @@ import {
   API_TINYGRAIL_BID,
   API_TINYGRAIL_ASK,
   API_TINYGRAIL_CANCEL_BID,
-  API_TINYGRAIL_CANCEL_ASK
+  API_TINYGRAIL_CANCEL_ASK,
+  API_TINYGRAIL_CHARA_BID,
+  API_TINYGRAIL_CHARA_ASKS
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -84,7 +86,13 @@ class Tinygrail extends store {
     // 用户挂单和交易记录
     userLogs: {
       // [monoId]: INIT_USER_LOGS
-    }
+    },
+
+    // 用户买单
+    bid: LIST_EMPTY,
+
+    // 用户卖单
+    asks: LIST_EMPTY
   })
 
   async init() {
@@ -104,7 +112,8 @@ class Tinygrail extends store {
       this.getStorage('depth', NAMESPACE), // 12
       this.getStorage('hash', NAMESPACE), // 13
       this.getStorage('assets', NAMESPACE), // 14
-      this.getStorage('charaAssets', NAMESPACE) // 15
+      this.getStorage('charaAssets', NAMESPACE), // 15
+      this.getStorage('bid', NAMESPACE) // 16
     ])
 
     const state = await res
@@ -124,7 +133,8 @@ class Tinygrail extends store {
       depth: state[12] || {},
       hash: state[13] || '',
       assets: state[14] || INIT_ASSETS,
-      charaAssets: state[15] || {}
+      charaAssets: state[15] || {},
+      bid: state[16] || LIST_EMPTY
     })
 
     return res
@@ -552,6 +562,108 @@ class Tinygrail extends store {
         [monoId]: data
       }
     })
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 我的买单
+   */
+  fetchBid = async () => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_CHARA_BID(),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.Id,
+          bids: item.Bids,
+          asks: item.Asks,
+          change: item.Change,
+          current: item.Current,
+          fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+          total: item.Total,
+          marketValue: item.MarketValue,
+          lastOrder: item.LastOrder,
+          end: item.End,
+          users: item.Users,
+          name: item.Name,
+          icon: item.Icon,
+          bonus: item.Bonus,
+          state: item.State
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'bid'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 我的卖单
+   */
+  fetchAsks = async () => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_CHARA_ASKS(),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.Id,
+          bids: item.Bids,
+          asks: item.Asks,
+          change: item.Change,
+          current: item.Current,
+          fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+          total: item.Total,
+          marketValue: item.MarketValue,
+          lastOrder: item.LastOrder,
+          end: item.End,
+          users: item.Users,
+          name: item.Name,
+          icon: item.Icon,
+          bonus: item.Bonus,
+          state: item.State
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'asks'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }

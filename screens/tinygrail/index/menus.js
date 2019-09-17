@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 21:51:34
+ * @Last Modified time: 2019-09-18 00:14:06
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -47,6 +47,9 @@ function Menus(props, { $ }) {
         }}
         title='我的买单'
         pathname='TinygrailBid'
+        config={{
+          type: 'bid'
+        }}
         icon='bid'
       />
       <MenuItem
@@ -54,7 +57,10 @@ function Menus(props, { $ }) {
           backgroundColor: colorDepthAsk
         }}
         title='我的卖单'
-        pathname='TinygrailAsk'
+        pathname='TinygrailBid'
+        config={{
+          type: 'asks'
+        }}
         icon='ask'
       />
       <MenuItem title='资金日志' pathname='TinygrailLogs' icon='ri-zhi' />

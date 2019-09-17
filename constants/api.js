@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 16:10:24
+ * @Last Modified time: 2019-09-17 00:40:16
  */
 import { HOST } from './index'
 
@@ -244,3 +244,27 @@ export const API_TINYGRAIL_CANCEL_BID = id =>
  */
 export const API_TINYGRAIL_CANCEL_ASK = id =>
   `${API_HOST_TINYGRAIL}/api/chara/ask/cancel/${id}`
+
+/**
+ * 我的买单
+ */
+export const API_TINYGRAIL_CHARA_BID = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/100`
+
+/**
+ * 我的卖单
+ */
+export const API_TINYGRAIL_CHARA_ASKS = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/100`
+
+/**
+ * 我的持仓
+ */
+export const API_TINYGRAIL_CHARA_MY_ASSETS = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/assets/0/true`
+
+/**
+ * 资金日志
+ */
+export const API_TINYGRAIL_BALANCE = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/50`

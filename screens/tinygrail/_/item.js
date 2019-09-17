@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:15:54
+ * @Last Modified time: 2019-09-18 00:41:07
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,11 +10,17 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
-import { open } from '@utils'
+import { open, lastDate, getTimestamp } from '@utils'
 import { formatTime } from '@utils/app'
 import { HOST } from '@constants'
 import _ from '@styles'
-import { colorContainer, colorText, colorBorder } from '../styles'
+import {
+  colorBid,
+  colorAsk,
+  colorContainer,
+  colorText,
+  colorBorder
+} from '../styles'
 
 let timezone = new Date().getTimezoneOffset() / -60
 if (String(timezone).length === 1) {
@@ -31,11 +37,14 @@ function Item(props, { navigation }) {
     end,
     marketValue,
     total,
-    users,
-    bonus
+    bonus,
+    users, // 有此值为ico中
+    type, // 有此值为用户委托单
+    state
   } = props
   const isTop = index === 0
   const isICO = !!users
+  const isDeal = !!type
 
   let marketValueText
   let totalText
@@ -54,7 +63,9 @@ function Item(props, { navigation }) {
   }
   const extra = isICO
     ? `${formatTime(_end)} / ₵${totalText} / ${users}人`
-    : `${formatTime(lastOrder)} / ₵${marketValueText} / ${totalText}`
+    : `${lastDate(
+        getTimestamp(lastOrder.replace('T', ' '))
+      )} / ₵${marketValueText} / ${totalText}`
 
   return (
     <View style={styles.container}>
@@ -76,19 +87,41 @@ function Item(props, { navigation }) {
                 style={styles.item}
                 highlight
                 onPress={() => {
-                  if (users) {
-                    open(`${HOST}/character/${id}`)
-                  } else {
-                    navigation.push('TinygrailTrade', {
-                      monoId: `character/${id}`
+                  if (isDeal) {
+                    navigation.push('TinygrailDeal', {
+                      monoId: `character/${id}`,
+                      type,
+                      form: 'item' // @notice 点击K线图跳转特殊处理
                     })
+                    return
                   }
+
+                  if (isICO) {
+                    open(`${HOST}/character/${id}`)
+                    return
+                  }
+
+                  navigation.push('TinygrailTrade', {
+                    monoId: `character/${id}`
+                  })
                 }}
               >
                 <Flex align='start'>
                   <Flex.Item>
                     <Text size={16} type='plain'>
-                      {index + 1}. {name}
+                      {isDeal ? (
+                        <Text
+                          style={{
+                            color: type === 'bid' ? colorBid : colorAsk
+                          }}
+                          size={16}
+                        >
+                          ({state}股){' '}
+                        </Text>
+                      ) : (
+                        `${index + 1}. `
+                      )}
+                      {name}
                       {!!bonus && (
                         <Text size={12} lineHeight={16} type='warning'>
                           {' '}

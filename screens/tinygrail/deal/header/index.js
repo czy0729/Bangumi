@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 15:50:26
+ * @Last Modified time: 2019-09-18 00:39:09
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -77,7 +77,19 @@ function Header(props, { $, navigation }) {
       <IconHeader
         name='k-line'
         color={_.colorIcon}
-        onPress={() => navigation.goBack()}
+        onPress={() => {
+          const { form, monoId } = $.params
+          if (form === 'item') {
+            navigation.goBack()
+            setTimeout(() => {
+              navigation.push('TinygrailTrade', {
+                monoId
+              })
+            }, 300)
+          }
+
+          navigation.goBack()
+        }}
       />
     </Flex>
   )
