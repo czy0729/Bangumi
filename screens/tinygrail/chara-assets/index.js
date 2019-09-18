@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 22:24:46
+ * @Last Modified time: 2019-09-18 23:51:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,9 +21,9 @@ export default
 @inject(Store)
 @withHeader(headerStyle)
 @observer
-class TinygrailBid extends React.Component {
+class TinygrailCharaAssets extends React.Component {
   static navigationOptions = {
-    title: '我的委托'
+    title: '我的持仓'
   }
 
   static contextTypes = {
@@ -35,8 +35,7 @@ class TinygrailBid extends React.Component {
     const { $ } = this.context
     $.init()
 
-    const { type = 'bid' } = $.params
-    hm(`tinygrail/${type}`)
+    hm('tinygrail/chara-assets')
   }
 
   render() {

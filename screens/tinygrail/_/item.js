@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 00:41:07
+ * @Last Modified time: 2019-09-19 00:18:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -27,6 +27,13 @@ if (String(timezone).length === 1) {
   timezone = `0${timezone}`
 }
 
+const colorMap = {
+  bid: colorBid,
+  ask: colorAsk,
+  chara: _.colorWarning,
+  ico: _.colorPrimary
+}
+
 function Item(props, { navigation }) {
   const {
     index,
@@ -43,7 +50,7 @@ function Item(props, { navigation }) {
     state
   } = props
   const isTop = index === 0
-  const isICO = !!users
+  const isICO = users !== undefined
   const isDeal = !!type
 
   let marketValueText
@@ -61,11 +68,21 @@ function Item(props, { navigation }) {
   if (!String(_end).includes('+')) {
     _end = `${end}+${timezone}:00`
   }
-  const extra = isICO
-    ? `${formatTime(_end)} / ₵${totalText} / ${users}人`
+  let extra = isICO
+    ? `${formatTime(_end)} / ₵${totalText}`
     : `${lastDate(
-        getTimestamp(lastOrder.replace('T', ' '))
+        getTimestamp((lastOrder || '').replace('T', ' '))
       )} / ₵${marketValueText} / ${totalText}`
+  if (users && users !== 'ico') {
+    extra += ` / ${users}人`
+  }
+
+  let prevText
+  if (['bid', 'ask', 'chara'].includes(type)) {
+    prevText = `${state}股`
+  } else if (type === 'ico') {
+    prevText = `注资${state}`
+  }
 
   return (
     <View style={styles.container}>
@@ -109,18 +126,7 @@ function Item(props, { navigation }) {
                 <Flex align='start'>
                   <Flex.Item>
                     <Text size={16} type='plain'>
-                      {isDeal ? (
-                        <Text
-                          style={{
-                            color: type === 'bid' ? colorBid : colorAsk
-                          }}
-                          size={16}
-                        >
-                          ({state}股){' '}
-                        </Text>
-                      ) : (
-                        `${index + 1}. `
-                      )}
+                      {!isDeal && `${index + 1}. `}
                       {name}
                       {!!bonus && (
                         <Text size={12} lineHeight={16} type='warning'>
@@ -138,6 +144,17 @@ function Item(props, { navigation }) {
                       ]}
                       size={12}
                     >
+                      {isDeal && (
+                        <Text
+                          style={{
+                            color: colorMap[type]
+                          }}
+                          size={12}
+                        >
+                          {prevText}
+                        </Text>
+                      )}
+                      {isDeal && ' / '}
                       {extra}
                     </Text>
                   </Flex.Item>

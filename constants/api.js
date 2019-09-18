@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:40:16
+ * @Last Modified time: 2019-09-18 22:16:51
  */
 import { HOST } from './index'
 
@@ -260,7 +260,7 @@ export const API_TINYGRAIL_CHARA_ASKS = () =>
 /**
  * 我的持仓
  */
-export const API_TINYGRAIL_CHARA_MY_ASSETS = () =>
+export const API_TINYGRAIL_MY_CHARA_ASSETS = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/assets/0/true`
 
 /**

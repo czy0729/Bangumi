@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 00:14:06
+ * @Last Modified time: 2019-09-19 00:22:42
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -39,8 +39,6 @@ function Menus(props, { $ }) {
         </Text>
       </Flex>
 
-      <MenuItem title='我的收藏' pathname='TinygrailFavor' icon='star' />
-      <MenuItem title='我的持仓' pathname='TinygrailBonds' icon='chi-cang' />
       <MenuItem
         style={{
           backgroundColor: colorDepthBid
@@ -63,8 +61,14 @@ function Menus(props, { $ }) {
         }}
         icon='ask'
       />
+      {/* <MenuItem title='我的收藏' pathname='TinygrailFavor' icon='star' /> */}
+      <MenuItem
+        title='我的持仓'
+        pathname='TinygrailCharaAssets'
+        icon='chi-cang'
+      />
       <MenuItem title='资金日志' pathname='TinygrailLogs' icon='ri-zhi' />
-      <MenuItem title='资金分布' pathname='TinygrailAnalysis' icon='fen-xi' />
+      {/* <MenuItem title='资金分布' pathname='TinygrailAnalysis' icon='fen-xi' /> */}
     </Flex>
   )
 }

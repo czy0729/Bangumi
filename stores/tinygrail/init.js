@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:22:28
+ * @Last Modified time: 2019-09-18 23:36:52
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -99,4 +99,10 @@ export const INIT_USER_LOGS_ITEM = {
   amount: 0,
   price: 0,
   time: ''
+}
+
+export const INIT_MY_CHARA_ASSETS = {
+  chara: LIST_EMPTY,
+  ico: LIST_EMPTY,
+  _loaded: 0
 }

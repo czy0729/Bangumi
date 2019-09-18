@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 00:16:11
+ * @Last Modified time: 2019-09-18 23:45:02
  */
 import { observable, computed } from 'mobx'
 import axios from 'axios'
@@ -25,7 +25,8 @@ import {
   API_TINYGRAIL_CANCEL_BID,
   API_TINYGRAIL_CANCEL_ASK,
   API_TINYGRAIL_CHARA_BID,
-  API_TINYGRAIL_CHARA_ASKS
+  API_TINYGRAIL_CHARA_ASKS,
+  API_TINYGRAIL_MY_CHARA_ASSETS
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -35,7 +36,8 @@ import {
   INIT_DEPTH_ITEM,
   INIT_ASSETS,
   INIT_CHARA_ASSETS,
-  INIT_USER_LOGS
+  INIT_USER_LOGS,
+  INIT_MY_CHARA_ASSETS
 } from './init'
 
 const defaultKey = 'recent'
@@ -83,58 +85,51 @@ class Tinygrail extends store {
       // [hash]: INIT_CHARA_ASSETS
     },
 
-    // 用户挂单和交易记录
+    // 我的挂单和交易记录
     userLogs: {
       // [monoId]: INIT_USER_LOGS
     },
 
-    // 用户买单
+    // 我的买单
     bid: LIST_EMPTY,
 
-    // 用户卖单
-    asks: LIST_EMPTY
+    // 我的卖单
+    asks: LIST_EMPTY,
+
+    // 我的持仓
+    myCharaAssets: INIT_MY_CHARA_ASSETS
   })
 
   async init() {
     const res = Promise.all([
       this.getStorage('characters', NAMESPACE), // 0
-      this.getStorage('mvc', NAMESPACE), // 1
-      this.getStorage('mrc', NAMESPACE), // 2
-      this.getStorage('mfc', NAMESPACE), // 3
-      this.getStorage('mvi', NAMESPACE), // 4
-      this.getStorage('mpi', NAMESPACE), // 5
-      this.getStorage('rai', NAMESPACE), // 6
-      this.getStorage('recent', NAMESPACE), // 7
-      this.getStorage('tnbc', NAMESPACE), // 8
-      this.getStorage('nbc', NAMESPACE), // 9
-      this.getStorage('rich', NAMESPACE), // 10
-      this.getStorage('kline', NAMESPACE), // 11
-      this.getStorage('depth', NAMESPACE), // 12
-      this.getStorage('hash', NAMESPACE), // 13
-      this.getStorage('assets', NAMESPACE), // 14
-      this.getStorage('charaAssets', NAMESPACE), // 15
-      this.getStorage('bid', NAMESPACE) // 16
+      this.getStorage('mvi', NAMESPACE), // 1
+      this.getStorage('recent', NAMESPACE), // 2
+      this.getStorage('nbc', NAMESPACE), // 3
+      this.getStorage('rich', NAMESPACE), // 4
+      this.getStorage('kline', NAMESPACE), // 5
+      this.getStorage('depth', NAMESPACE), // 6
+      this.getStorage('hash', NAMESPACE), // 7
+      this.getStorage('assets', NAMESPACE), // 8
+      this.getStorage('charaAssets', NAMESPACE), // 9
+      this.getStorage('bid', NAMESPACE), // 10
+      this.getStorage('myCharaAssets', NAMESPACE) // 11
     ])
 
     const state = await res
     this.setState({
       characters: state[0] || {},
-      mvc: state[1] || LIST_EMPTY,
-      mrc: state[2] || LIST_EMPTY,
-      mfc: state[3] || LIST_EMPTY,
-      mvi: state[4] || LIST_EMPTY,
-      mpi: state[5] || LIST_EMPTY,
-      rai: state[6] || LIST_EMPTY,
-      recent: state[7] || LIST_EMPTY,
-      tnbc: state[8] || LIST_EMPTY,
-      nbc: state[9] || LIST_EMPTY,
-      rich: state[10] || INIT_RICH,
-      kline: state[11] || {},
-      depth: state[12] || {},
-      hash: state[13] || '',
-      assets: state[14] || INIT_ASSETS,
-      charaAssets: state[15] || {},
-      bid: state[16] || LIST_EMPTY
+      mvi: state[1] || LIST_EMPTY,
+      recent: state[2] || LIST_EMPTY,
+      nbc: state[3] || LIST_EMPTY,
+      rich: state[4] || INIT_RICH,
+      kline: state[5] || {},
+      depth: state[6] || {},
+      hash: state[7] || '',
+      assets: state[8] || INIT_ASSETS,
+      charaAssets: state[9] || {},
+      bid: state[10] || LIST_EMPTY,
+      myCharaAssets: state[11] || INIT_MY_CHARA_ASSETS
     })
 
     return res
@@ -179,6 +174,10 @@ class Tinygrail extends store {
 
   userLogs(id) {
     return computed(() => this.state.userLogs[id]).get() || INIT_USER_LOGS
+  }
+
+  @computed get myCharaAssets() {
+    return this.state.myCharaAssets
   }
 
   // -------------------- fetch --------------------
@@ -660,6 +659,83 @@ class Tinygrail extends store {
     }
 
     const key = 'asks'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 我的持仓
+   */
+  fetchMyCharaAssets = async () => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_MY_CHARA_ASSETS(),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...INIT_MY_CHARA_ASSETS
+    }
+    if (result.data.State === 0) {
+      data = {
+        chara: {
+          list: result.data.Value.Characters.map(item => ({
+            id: item.Id,
+            bids: item.Bids,
+            asks: item.Asks,
+            change: item.Change,
+            current: item.Current,
+            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+            total: item.Total,
+            marketValue: item.MarketValue,
+            lastOrder: item.LastOrder,
+            end: item.End,
+            users: item.Users,
+            name: item.Name,
+            icon: item.Icon,
+            bonus: item.Bonus,
+            state: item.State
+          })),
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded: getTimestamp()
+        },
+        ico: {
+          list: result.data.Value.Initials.map(item => ({
+            id: item.Id,
+            bids: item.Bids,
+            asks: item.Asks,
+            change: item.Change,
+            current: item.Current,
+            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+            total: item.Total,
+            marketValue: item.MarketValue,
+            lastOrder: item.LastOrder,
+            end: item.End,
+            users: item.Users,
+            name: item.Name,
+            icon: item.Icon,
+            bonus: item.Bonus,
+            state: item.State
+          })),
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded: getTimestamp()
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'myCharaAssets'
     this.setState({
       [key]: data
     })
