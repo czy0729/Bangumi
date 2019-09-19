@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 23:36:52
+ * @Last Modified time: 2019-09-19 00:58:14
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -105,4 +105,13 @@ export const INIT_MY_CHARA_ASSETS = {
   chara: LIST_EMPTY,
   ico: LIST_EMPTY,
   _loaded: 0
+}
+
+export const INIT_BALANCE_ITEM = {
+  id: 0,
+  balance: 0,
+  change: 0,
+  time: '',
+  charaId: 0,
+  desc: ''
 }

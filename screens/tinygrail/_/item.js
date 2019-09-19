@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 00:18:45
+ * @Last Modified time: 2019-09-19 01:00:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -102,7 +102,6 @@ function Item(props, { navigation }) {
             <Flex.Item style={_.mr.sm}>
               <Touchable
                 style={styles.item}
-                highlight
                 onPress={() => {
                   if (isDeal) {
                     navigation.push('TinygrailDeal', {

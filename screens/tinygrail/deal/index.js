@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:01:16
+ * @Last Modified time: 2019-09-19 22:15:55
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native'
@@ -41,7 +41,7 @@ class TinygrailDeal extends React.Component {
     const { $ } = this.context
     await $.init()
 
-    hm(`tinygrail/deal?id=${$.monoId}`)
+    hm(`tinygrail/deal/${$.monoId}`)
   }
 
   onRefresh = () => {

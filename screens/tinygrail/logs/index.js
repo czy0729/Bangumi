@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-09-19 00:35:03
+ * @Date: 2019-09-19 00:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 22:15:40
+ * @Last Modified time: 2019-09-19 00:38:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,9 +21,9 @@ export default
 @inject(Store)
 @withHeader(headerStyle)
 @observer
-class TinygrailCharaAssets extends React.Component {
+class TinygrailLogs extends React.Component {
   static navigationOptions = {
-    title: '我的持仓'
+    title: '资金日志'
   }
 
   static contextTypes = {
@@ -35,7 +35,7 @@ class TinygrailCharaAssets extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('tinygrail/chara/assets')
+    hm('tinygrail/logs')
   }
 
   render() {

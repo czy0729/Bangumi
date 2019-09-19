@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:30:22
+ * @Last Modified time: 2019-09-19 22:16:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,7 @@ class TinygrailICO extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('tinygrail/new')
+    hm('tinygrail/ico')
   }
 
   render() {

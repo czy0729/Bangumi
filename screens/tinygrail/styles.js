@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 16:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 13:13:53
+ * @Last Modified time: 2019-09-19 00:56:47
  */
 import _ from '@styles'
 
@@ -16,7 +16,7 @@ export const colorBg = 'rgb(14, 25, 36)'
 export const colorBorder = 'rgb(29, 42, 61)'
 export const colorIcon = 'rgb(62, 84, 108)'
 export const colorText = 'rgb(99, 117, 144)'
-export const colorPlain = 'rgba(255, 255, 255, 0.8)'
+export const colorPlain = 'rgba(255, 255, 255, 0.64)'
 export const colorPrimary = 'rgb(9, 153, 223)'
 
 export const headerStyle = {

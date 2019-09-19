@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 23:45:02
+ * @Last Modified time: 2019-09-19 00:58:14
  */
 import { observable, computed } from 'mobx'
 import axios from 'axios'
@@ -26,7 +26,8 @@ import {
   API_TINYGRAIL_CANCEL_ASK,
   API_TINYGRAIL_CHARA_BID,
   API_TINYGRAIL_CHARA_ASKS,
-  API_TINYGRAIL_MY_CHARA_ASSETS
+  API_TINYGRAIL_MY_CHARA_ASSETS,
+  API_TINYGRAIL_BALANCE
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -97,7 +98,10 @@ class Tinygrail extends store {
     asks: LIST_EMPTY,
 
     // 我的持仓
-    myCharaAssets: INIT_MY_CHARA_ASSETS
+    myCharaAssets: INIT_MY_CHARA_ASSETS,
+
+    // 资金日志
+    balance: LIST_EMPTY
   })
 
   async init() {
@@ -113,7 +117,8 @@ class Tinygrail extends store {
       this.getStorage('assets', NAMESPACE), // 8
       this.getStorage('charaAssets', NAMESPACE), // 9
       this.getStorage('bid', NAMESPACE), // 10
-      this.getStorage('myCharaAssets', NAMESPACE) // 11
+      this.getStorage('myCharaAssets', NAMESPACE), // 11
+      this.getStorage('balance', NAMESPACE) // 11
     ])
 
     const state = await res
@@ -129,7 +134,8 @@ class Tinygrail extends store {
       assets: state[8] || INIT_ASSETS,
       charaAssets: state[9] || {},
       bid: state[10] || LIST_EMPTY,
-      myCharaAssets: state[11] || INIT_MY_CHARA_ASSETS
+      myCharaAssets: state[11] || INIT_MY_CHARA_ASSETS,
+      balance: state[12] || LIST_EMPTY
     })
 
     return res
@@ -178,6 +184,10 @@ class Tinygrail extends store {
 
   @computed get myCharaAssets() {
     return this.state.myCharaAssets
+  }
+
+  @computed get balance() {
+    return this.state.balance
   }
 
   // -------------------- fetch --------------------
@@ -736,6 +746,48 @@ class Tinygrail extends store {
     }
 
     const key = 'myCharaAssets'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 资金日志
+   */
+  fetchBalance = async () => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_BALANCE(),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.Id,
+          balance: item.Balance,
+          change: item.Change,
+          time: item.LogTime,
+          charaId: item.RelatedId,
+          desc: item.Description
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'balance'
     this.setState({
       [key]: data
     })
