@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 22:27:13
+ * @Last Modified time: 2019-09-19 23:50:27
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -56,6 +56,10 @@ export default class ScreenTinygrailLogs extends store {
   // -------------------- get --------------------
   @computed get balance() {
     return tinygrailStore.balance
+  }
+
+  icons(monoId) {
+    return computed(() => tinygrailStore.iconsCache(monoId)).get()
   }
 
   // -------------------- page --------------------

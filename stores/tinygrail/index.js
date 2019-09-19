@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 00:58:14
+ * @Last Modified time: 2019-09-20 00:14:48
  */
-import { observable, computed } from 'mobx'
+import { observable, computed, toJS } from 'mobx'
 import axios from 'axios'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
@@ -101,7 +101,12 @@ class Tinygrail extends store {
     myCharaAssets: INIT_MY_CHARA_ASSETS,
 
     // 资金日志
-    balance: LIST_EMPTY
+    balance: LIST_EMPTY,
+
+    // 记录所有角色的头像Map (用于没有头像的列表)
+    iconsCache: {
+      // [monoId]: ''
+    }
   })
 
   async init() {
@@ -118,7 +123,8 @@ class Tinygrail extends store {
       this.getStorage('charaAssets', NAMESPACE), // 9
       this.getStorage('bid', NAMESPACE), // 10
       this.getStorage('myCharaAssets', NAMESPACE), // 11
-      this.getStorage('balance', NAMESPACE) // 11
+      this.getStorage('balance', NAMESPACE), // 11
+      this.getStorage('iconsCache', NAMESPACE) // 11
     ])
 
     const state = await res
@@ -135,13 +141,15 @@ class Tinygrail extends store {
       charaAssets: state[9] || {},
       bid: state[10] || LIST_EMPTY,
       myCharaAssets: state[11] || INIT_MY_CHARA_ASSETS,
-      balance: state[12] || LIST_EMPTY
+      balance: state[12] || LIST_EMPTY,
+      iconsCache: state[13] || {}
     })
 
     return res
   }
 
   // -------------------- get --------------------
+
   characters(id) {
     return (
       computed(() => this.state.characters[id]).get() || INIT_CHARACTERS_ITEM
@@ -190,6 +198,10 @@ class Tinygrail extends store {
     return this.state.balance
   }
 
+  iconsCache(id) {
+    return computed(() => this.state.iconsCache[id]).get() || ''
+  }
+
   // -------------------- fetch --------------------
   /**
    * 人物数据
@@ -209,7 +221,11 @@ class Tinygrail extends store {
     }
 
     if (result.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
       result.Value.forEach(item => {
+        if (item.Icon) {
+          iconsCache[item.Id] = item.Icon
+        }
         data[item.Id] = {
           id: item.Id,
           bids: item.Bids,
@@ -228,6 +244,7 @@ class Tinygrail extends store {
           _loaded: getTimestamp()
         }
       })
+      this.updateIconsCache(iconsCache)
     }
     const key = 'characters'
     this.setState({
@@ -252,30 +269,38 @@ class Tinygrail extends store {
       ...LIST_EMPTY
     }
     if (result.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
       data = {
         ...LIST_EMPTY,
-        list: (result.Value.Items || result.Value).map(item => ({
-          id: item.CharacterId || item.Id,
-          bids: item.Bids,
-          asks: item.Asks,
-          change: item.Change,
-          current: item.Current,
-          fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-          total: item.Total,
-          marketValue: item.MarketValue,
-          lastOrder: item.LastOrder,
-          end: item.End,
-          users: item.Users,
-          name: item.Name,
-          icon: item.Icon,
-          bonus: item.Bonus
-        })),
+        list: (result.Value.Items || result.Value).map(item => {
+          const id = item.CharacterId || item.Id
+          if (item.Icon) {
+            iconsCache[id] = item.Icon
+          }
+          return {
+            id,
+            bids: item.Bids,
+            asks: item.Asks,
+            change: item.Change,
+            current: item.Current,
+            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+            total: item.Total,
+            marketValue: item.MarketValue,
+            lastOrder: item.LastOrder,
+            end: item.End,
+            users: item.Users,
+            name: item.Name,
+            icon: item.Icon,
+            bonus: item.Bonus
+          }
+        }),
         pagination: {
           page: 1,
           pageTotal: 1
         },
         _loaded: getTimestamp()
       }
+      this.updateIconsCache(iconsCache)
     }
 
     this.setState({
@@ -482,25 +507,37 @@ class Tinygrail extends store {
       ...INIT_CHARA_ASSETS
     }
     if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
       data._loaded = getTimestamp()
       data.id = result.data.Value.Id
       data.balance = result.data.Value.Balance
-      data.characters = result.data.Value.Characters.map(item => ({
-        id: item.Id,
-        icon: item.Icon,
-        name: item.Name,
-        current: item.Current,
-        state: item.State,
-        total: item.Total
-      }))
-      data.initials = result.data.Value.Initials.map(item => ({
-        id: item.Id,
-        icon: item.Icon,
-        name: item.Name,
-        current: 0,
-        state: item.State,
-        total: item.Total
-      }))
+      data.characters = result.data.Value.Characters.map(item => {
+        if (item.Icon) {
+          iconsCache[item.Id] = item.Icon
+        }
+        return {
+          id: item.Id,
+          icon: item.Icon,
+          name: item.Name,
+          current: item.Current,
+          state: item.State,
+          total: item.Total
+        }
+      })
+      data.initials = result.data.Value.Initials.map(item => {
+        if (item.Icon) {
+          iconsCache[item.Id] = item.Icon
+        }
+        return {
+          id: item.Id,
+          icon: item.Icon,
+          name: item.Name,
+          current: 0,
+          state: item.State,
+          total: item.Total
+        }
+      })
+      this.updateIconsCache(iconsCache)
     }
 
     const key = 'charaAssets'
@@ -590,31 +627,38 @@ class Tinygrail extends store {
       ...LIST_EMPTY
     }
     if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
       data = {
         ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => ({
-          id: item.Id,
-          bids: item.Bids,
-          asks: item.Asks,
-          change: item.Change,
-          current: item.Current,
-          fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-          total: item.Total,
-          marketValue: item.MarketValue,
-          lastOrder: item.LastOrder,
-          end: item.End,
-          users: item.Users,
-          name: item.Name,
-          icon: item.Icon,
-          bonus: item.Bonus,
-          state: item.State
-        })),
+        list: result.data.Value.Items.map(item => {
+          if (item.Icon) {
+            iconsCache[item.Id] = item.Icon
+          }
+          return {
+            id: item.Id,
+            bids: item.Bids,
+            asks: item.Asks,
+            change: item.Change,
+            current: item.Current,
+            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+            total: item.Total,
+            marketValue: item.MarketValue,
+            lastOrder: item.LastOrder,
+            end: item.End,
+            users: item.Users,
+            name: item.Name,
+            icon: item.Icon,
+            bonus: item.Bonus,
+            state: item.State
+          }
+        }),
         pagination: {
           page: 1,
           pageTotal: 1
         },
         _loaded: getTimestamp()
       }
+      this.updateIconsCache(iconsCache)
     }
 
     const key = 'bid'
@@ -641,31 +685,38 @@ class Tinygrail extends store {
       ...LIST_EMPTY
     }
     if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
       data = {
         ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => ({
-          id: item.Id,
-          bids: item.Bids,
-          asks: item.Asks,
-          change: item.Change,
-          current: item.Current,
-          fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-          total: item.Total,
-          marketValue: item.MarketValue,
-          lastOrder: item.LastOrder,
-          end: item.End,
-          users: item.Users,
-          name: item.Name,
-          icon: item.Icon,
-          bonus: item.Bonus,
-          state: item.State
-        })),
+        list: result.data.Value.Items.map(item => {
+          if (item.Icon) {
+            iconsCache[item.Id] = item.Icon
+          }
+          return {
+            id: item.Id,
+            bids: item.Bids,
+            asks: item.Asks,
+            change: item.Change,
+            current: item.Current,
+            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+            total: item.Total,
+            marketValue: item.MarketValue,
+            lastOrder: item.LastOrder,
+            end: item.End,
+            users: item.Users,
+            name: item.Name,
+            icon: item.Icon,
+            bonus: item.Bonus,
+            state: item.State
+          }
+        }),
         pagination: {
           page: 1,
           pageTotal: 1
         },
         _loaded: getTimestamp()
       }
+      this.updateIconsCache(iconsCache)
     }
 
     const key = 'asks'
@@ -692,25 +743,31 @@ class Tinygrail extends store {
       ...INIT_MY_CHARA_ASSETS
     }
     if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
       data = {
         chara: {
-          list: result.data.Value.Characters.map(item => ({
-            id: item.Id,
-            bids: item.Bids,
-            asks: item.Asks,
-            change: item.Change,
-            current: item.Current,
-            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-            total: item.Total,
-            marketValue: item.MarketValue,
-            lastOrder: item.LastOrder,
-            end: item.End,
-            users: item.Users,
-            name: item.Name,
-            icon: item.Icon,
-            bonus: item.Bonus,
-            state: item.State
-          })),
+          list: result.data.Value.Characters.map(item => {
+            if (item.Icon) {
+              iconsCache[item.Id] = item.Icon
+            }
+            return {
+              id: item.Id,
+              bids: item.Bids,
+              asks: item.Asks,
+              change: item.Change,
+              current: item.Current,
+              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+              total: item.Total,
+              marketValue: item.MarketValue,
+              lastOrder: item.LastOrder,
+              end: item.End,
+              users: item.Users,
+              name: item.Name,
+              icon: item.Icon,
+              bonus: item.Bonus,
+              state: item.State
+            }
+          }),
           pagination: {
             page: 1,
             pageTotal: 1
@@ -718,23 +775,28 @@ class Tinygrail extends store {
           _loaded: getTimestamp()
         },
         ico: {
-          list: result.data.Value.Initials.map(item => ({
-            id: item.Id,
-            bids: item.Bids,
-            asks: item.Asks,
-            change: item.Change,
-            current: item.Current,
-            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-            total: item.Total,
-            marketValue: item.MarketValue,
-            lastOrder: item.LastOrder,
-            end: item.End,
-            users: item.Users,
-            name: item.Name,
-            icon: item.Icon,
-            bonus: item.Bonus,
-            state: item.State
-          })),
+          list: result.data.Value.Initials.map(item => {
+            if (item.Icon) {
+              iconsCache[item.Id] = item.Icon
+            }
+            return {
+              id: item.Id,
+              bids: item.Bids,
+              asks: item.Asks,
+              change: item.Change,
+              current: item.Current,
+              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+              total: item.Total,
+              marketValue: item.MarketValue,
+              lastOrder: item.LastOrder,
+              end: item.End,
+              users: item.Users,
+              name: item.Name,
+              icon: item.Icon,
+              bonus: item.Bonus,
+              state: item.State
+            }
+          }),
           pagination: {
             page: 1,
             pageTotal: 1
@@ -743,6 +805,7 @@ class Tinygrail extends store {
         },
         _loaded: getTimestamp()
       }
+      this.updateIconsCache(iconsCache)
     }
 
     const key = 'myCharaAssets'
@@ -794,6 +857,14 @@ class Tinygrail extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
+  }
+
+  // -------------------- page --------------------
+  updateIconsCache = iconsCache => {
+    this.setState({
+      iconsCache
+    })
+    this.setStorage('iconsCache', undefined, NAMESPACE)
   }
 
   // -------------------- action --------------------

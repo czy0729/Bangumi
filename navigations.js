@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 23:15:31
+ * @Last Modified time: 2019-09-20 00:17:37
  */
 export default {
   initialRouteName: 'Tinygrail', // HomeTab

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 22:39:47
+ * @Last Modified time: 2019-09-20 00:12:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Avatar } from '@screens/_'
 import { lastDate, getTimestamp, formatNumber } from '@utils'
 import _ from '@styles'
 import {
@@ -20,7 +21,10 @@ import {
   colorBorder
 } from '../styles'
 
-function Item({ index, balance, desc, change, time, charaId }, { navigation }) {
+function Item(
+  { index, balance, desc, change, time, charaId },
+  { $, navigation }
+) {
   const isTop = index === 0
   let color
   if (change > 0) {
@@ -43,6 +47,8 @@ function Item({ index, balance, desc, change, time, charaId }, { navigation }) {
       })
   }
 
+  const icons = $.icons(charaId)
+
   return (
     <View style={styles.container}>
       <Touchable onPress={onPress}>
@@ -62,20 +68,31 @@ function Item({ index, balance, desc, change, time, charaId }, { navigation }) {
                   {lastDate(getTimestamp((time || '').replace('T', ' ')))}
                 </Text>
               </Text>
-              <Text
-                style={[
-                  _.mt.sm,
-                  {
+              <Flex style={_.mt.sm}>
+                {!!icons && (
+                  <Avatar
+                    style={_.mr.sm}
+                    src={icons}
+                    size={24}
+                    onPress={() =>
+                      navigation.push('Mono', {
+                        monoId: `character/${charaId}`
+                      })
+                    }
+                  />
+                )}
+                <Text
+                  style={{
                     color: colorPlain
-                  }
-                ]}
-                size={12}
-              >
-                {desc}
-              </Text>
+                  }}
+                  size={12}
+                >
+                  {desc}
+                </Text>
+              </Flex>
             </View>
           </Flex.Item>
-          <Flex style={styles.change} justify='end'>
+          <Flex style={[styles.change, _.ml.md]} justify='end'>
             <Text style={[_.ml.sm, { color }]} size={16} align='right'>
               {color === colorBid ? '+' : '-'}
               {formatNumber(Math.abs(change))}
