@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 00:22:42
+ * @Last Modified time: 2019-09-20 00:32:20
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -35,7 +35,7 @@ function Menus(props, { $ }) {
       <Flex style={styles.assets}>
         <Iconfont name='licheng' color={_.colorPlain} />
         <Text style={_.ml.sm} size={15} type='plain'>
-          ₵{formatNumber(balance)} / {formatNumber($.total)}
+          {formatNumber(balance)} / {formatNumber($.total)}
         </Text>
       </Flex>
 

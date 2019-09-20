@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 22:28:41
+ * @Last Modified time: 2019-09-20 22:04:03
  */
 import { HOST } from './index'
 
@@ -268,3 +268,17 @@ export const API_TINYGRAIL_MY_CHARA_ASSETS = () =>
  */
 export const API_TINYGRAIL_BALANCE = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/100`
+
+/**
+ * ICO参与者
+ */
+export const API_TINYGRAIL_INITIAL = icoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/initial/users/${icoId}/1`
+
+/**
+ * 参与ICO
+ * @param {*} icoId
+ * @param {*} amount
+ */
+export const API_TINYGRAIL_JOIN = (icoId, amount) =>
+  `${API_HOST_TINYGRAIL}/api/chara/join/${icoId}/${amount}`

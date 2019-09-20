@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 01:00:00
+ * @Last Modified time: 2019-09-20 00:35:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -29,7 +29,7 @@ if (String(timezone).length === 1) {
 
 const colorMap = {
   bid: colorBid,
-  ask: colorAsk,
+  asks: colorAsk,
   chara: _.colorWarning,
   ico: _.colorPrimary
 }
@@ -69,16 +69,16 @@ function Item(props, { navigation }) {
     _end = `${end}+${timezone}:00`
   }
   let extra = isICO
-    ? `${formatTime(_end)} / ₵${totalText}`
+    ? `${formatTime(_end)} / 已筹集${totalText}`
     : `${lastDate(
         getTimestamp((lastOrder || '').replace('T', ' '))
-      )} / ₵${marketValueText} / ${totalText}`
+      )} / 总${marketValueText} / 量${totalText}`
   if (users && users !== 'ico') {
     extra += ` / ${users}人`
   }
 
   let prevText
-  if (['bid', 'ask', 'chara'].includes(type)) {
+  if (['bid', 'asks', 'chara'].includes(type)) {
     prevText = `${state}股`
   } else if (type === 'ico') {
     prevText = `注资${state}`

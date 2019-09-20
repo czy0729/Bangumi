@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 00:14:48
+ * @Last Modified time: 2019-09-20 22:49:18
  */
 import { observable, computed, toJS } from 'mobx'
 import axios from 'axios'
@@ -27,7 +27,9 @@ import {
   API_TINYGRAIL_CHARA_BID,
   API_TINYGRAIL_CHARA_ASKS,
   API_TINYGRAIL_MY_CHARA_ASSETS,
-  API_TINYGRAIL_BALANCE
+  API_TINYGRAIL_BALANCE,
+  API_TINYGRAIL_INITIAL,
+  API_TINYGRAIL_JOIN
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -106,6 +108,11 @@ class Tinygrail extends store {
     // 记录所有角色的头像Map (用于没有头像的列表)
     iconsCache: {
       // [monoId]: ''
+    },
+
+    // ICO参与者
+    initial: {
+      // [monoId]: {}
     }
   })
 
@@ -202,6 +209,10 @@ class Tinygrail extends store {
     return computed(() => this.state.iconsCache[id]).get() || ''
   }
 
+  initial(id) {
+    return computed(() => this.state.initial[id]).get() || LIST_EMPTY
+  }
+
   // -------------------- fetch --------------------
   /**
    * 人物数据
@@ -222,12 +233,15 @@ class Tinygrail extends store {
 
     if (result.State === 0) {
       const iconsCache = toJS(this.state.iconsCache)
-      result.Value.forEach(item => {
+      const target = Array.isArray(result.Value) ? result.Value : [result.Value]
+      target.forEach(item => {
+        const id = item.CharacterId || item.Id
         if (item.Icon) {
-          iconsCache[item.Id] = item.Icon
+          iconsCache[id] = item.Icon
         }
-        data[item.Id] = {
-          id: item.Id,
+        data[id] = {
+          id,
+          icoId: item.Id,
           bids: item.Bids,
           asks: item.Asks,
           change: item.Change,
@@ -818,6 +832,50 @@ class Tinygrail extends store {
   }
 
   /**
+   * ICO参与者
+   */
+  fetchInitial = async monoId => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_INITIAL(monoId),
+      responseType: 'json'
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.InitialId,
+          avatar: item.Avatar,
+          userId: item.UserId,
+          state: item.State,
+          nickName: item.NickName,
+          name: item.Name,
+          amount: item.Amount
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'initial'
+    this.setState({
+      [key]: {
+        [monoId]: data
+      }
+    })
+
+    return Promise.resolve(data)
+  }
+
+  /**
    * 资金日志
    */
   fetchBalance = async () => {
@@ -930,6 +988,24 @@ class Tinygrail extends store {
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_CANCEL_ASK(id),
+      responseType: 'json'
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 参与ICO
+   */
+  doJoin = async ({ id, amount }) => {
+    axios.defaults.withCredentials = true
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_JOIN(id, amount),
       responseType: 'json'
     })
 

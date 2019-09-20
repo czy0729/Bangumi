@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 22:16:17
+ * @Last Modified time: 2019-09-20 21:55:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
 import { headerStyle, colorContainer } from '../styles'

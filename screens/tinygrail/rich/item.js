@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 22:24:41
+ * @Last Modified time: 2019-09-20 00:32:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -114,12 +114,12 @@ function Item(
                       ]}
                       size={12}
                     >
-                      余额 {totalText} / 初始 {principalText} /{' '}
+                      余额{totalText} / 初始{principalText} /{' '}
                       {lastDate(getTimestamp(lastActiveDate.replace('T', ' ')))}
                     </Text>
                   </Flex.Item>
                   <Text size={16} type='plain'>
-                    ₵{assetsText}
+                    {assetsText}
                   </Text>
                 </Flex>
               </Touchable>

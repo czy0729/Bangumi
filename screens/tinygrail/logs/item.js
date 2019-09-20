@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 00:12:56
+ * @Last Modified time: 2019-09-20 00:32:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -56,7 +56,7 @@ function Item(
           <Flex.Item style={_.mr.sm}>
             <View style={styles.item}>
               <Text type='plain' size={16}>
-                ₵{formatNumber(balance)}{' '}
+                {formatNumber(balance)}{' '}
                 <Text
                   style={{
                     color: colorText
