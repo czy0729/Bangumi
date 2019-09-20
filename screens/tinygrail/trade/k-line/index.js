@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 15:39:45
+ * @Last Modified time: 2019-09-20 23:49:09
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -11,7 +11,7 @@ import { Loading, Flex, Text } from '@components'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import _ from '@styles'
-import { colorContainer, colorBorder, colorBg } from '../../styles'
+import { colorContainer, colorBorder, colorBg, colorText } from '../../styles'
 import { m15, h1, h4, h12, d1, w1, month1 } from '../store'
 import BtnChange from './btn-change'
 import html from './html'
@@ -77,8 +77,8 @@ class KLine extends React.Component {
           />
         )}
         {loading && (
-          <Loading style={styles.loading} color={_.colorSub}>
-            <Text style={_.mt.md} size={12} type='sub'>
+          <Loading style={styles.loading} color={colorText}>
+            <Text style={[styles.text, _.mt.md]} size={12}>
               K线图加载中...
             </Text>
           </Loading>
@@ -112,5 +112,8 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
     zIndex: 100,
     backgroundColor: colorBg
+  },
+  text: {
+    color: colorText
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-12 14:09:06
+ * @Last Modified time: 2019-09-20 23:57:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex, Input, Touchable } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBorder } from '../../styles'
+import { colorBorder, colorText } from '../../styles'
 
 function Stepper({ style }, { $ }) {
   const { value } = $.state
@@ -21,7 +21,7 @@ function Stepper({ style }, { $ }) {
           style={styles.input}
           keyboardType='numeric'
           value={String(value)}
-          colorClear={_.colorSub}
+          colorClear={colorText}
           clearButtonMode='never'
           onChangeText={$.changeValue}
         />
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   minus: {
     width: 14,
     height: 2,
-    backgroundColor: _.colorSub
+    backgroundColor: colorText
   },
   plus: {
     position: 'absolute',
@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
     left: 15,
     width: 2,
     height: 14,
-    backgroundColor: _.colorSub
+    backgroundColor: colorText
   }
 })

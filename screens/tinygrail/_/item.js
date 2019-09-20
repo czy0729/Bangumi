@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 00:35:30
+ * @Last Modified time: 2019-09-20 23:27:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,9 +10,8 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
-import { open, lastDate, getTimestamp } from '@utils'
+import { lastDate, getTimestamp } from '@utils'
 import { formatTime } from '@utils/app'
-import { HOST } from '@constants'
 import _ from '@styles'
 import {
   colorBid,
@@ -91,6 +90,7 @@ function Item(props, { navigation }) {
           style={styles.image}
           src={icon}
           size={44}
+          borderColor='transparent'
           onPress={() =>
             navigation.push('Mono', {
               monoId: `character/${id}`
@@ -113,7 +113,9 @@ function Item(props, { navigation }) {
                   }
 
                   if (isICO) {
-                    open(`${HOST}/character/${id}`)
+                    navigation.push('TinygrailICODeal', {
+                      monoId: `character/${id}`
+                    })
                     return
                   }
 

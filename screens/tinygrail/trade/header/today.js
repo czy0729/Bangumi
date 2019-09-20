@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 15:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 20:28:32
+ * @Last Modified time: 2019-09-20 23:46:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import { Flex, Text } from '@components'
 import { date, getTimestamp } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
+import { colorText } from '../../styles'
 
 function Today({ style }, { $ }) {
   let high = '-'
@@ -34,7 +35,7 @@ function Today({ style }, { $ }) {
   return (
     <View style={style}>
       <Flex justify='between'>
-        <Text type='sub' size={13}>
+        <Text style={styles.text} size={13}>
           高
         </Text>
         <Text style={styles.value} type='plain' align='right' size={13}>
@@ -42,7 +43,7 @@ function Today({ style }, { $ }) {
         </Text>
       </Flex>
       <Flex style={_.mt.sm} justify='between'>
-        <Text type='sub' size={13}>
+        <Text style={styles.text} size={13}>
           低
         </Text>
         <Text style={styles.value} type='plain' align='right' size={13}>
@@ -50,7 +51,7 @@ function Today({ style }, { $ }) {
         </Text>
       </Flex>
       <Flex style={_.mt.sm} justify='between'>
-        <Text type='sub' size={13}>
+        <Text style={styles.text} size={13}>
           量
         </Text>
         <Text style={styles.value} type='plain' align='right' size={13}>
@@ -71,5 +72,8 @@ const styles = StyleSheet.create({
   value: {
     minWidth: 24,
     marginLeft: _.md
+  },
+  text: {
+    color: colorText
   }
 })

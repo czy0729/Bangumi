@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:49:18
+ * @Last Modified time: 2019-09-20 23:30:33
  */
 import { observable, computed, toJS } from 'mobx'
 import axios from 'axios'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
+import { HTMLDecode } from '@utils/html'
 import { LIST_EMPTY } from '@constants'
 import {
   API_TINYGRAIL_CHARAS,
@@ -345,7 +346,7 @@ class Tinygrail extends store {
         ...LIST_EMPTY,
         list: result.data.Value.map(item => ({
           avatar: item.Avatar,
-          nickname: item.Nickname,
+          nickname: HTMLDecode(item.Nickname),
           userId: item.Name,
           assets: item.Assets.toFixed(2),
           total: item.TotalBalance.toFixed(2),
@@ -853,7 +854,7 @@ class Tinygrail extends store {
           avatar: item.Avatar,
           userId: item.UserId,
           state: item.State,
-          nickName: item.NickName,
+          nickName: HTMLDecode(item.NickName),
           name: item.Name,
           amount: item.Amount
         })),

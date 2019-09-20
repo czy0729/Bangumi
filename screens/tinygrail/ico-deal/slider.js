@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:51:28
+ * @Last Modified time: 2019-09-20 23:57:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Input, Text, Button } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorBorder, colorBg } from '../styles'
+import { colorBid, colorBorder, colorBg, colorText } from '../styles'
 
 function Slider({ style }, { $ }) {
   const { loading, amount } = $.state
@@ -61,11 +61,11 @@ function Slider({ style }, { $ }) {
       </View>
       <Flex>
         <Flex.Item>
-          <Text size={12} type='sub'>
+          <Text style={styles.text} size={12}>
             {formatNumber(1000, 0)}
           </Text>
         </Flex.Item>
-        <Text size={12} type='sub'>
+        <Text style={styles.text} size={12}>
           {formatNumber(balance < 1000 ? 1000 : balance, 0)}
         </Text>
       </Flex>
@@ -111,5 +111,8 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     width: 96
+  },
+  text: {
+    color: colorText
   }
 })

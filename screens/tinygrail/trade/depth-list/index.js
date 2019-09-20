@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 15:46:18
+ * @Last Modified time: 2019-09-20 23:44:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,13 @@ import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorDepthBid, colorAsk, colorDepthAsk } from '../../styles'
+import {
+  colorBid,
+  colorDepthBid,
+  colorAsk,
+  colorDepthAsk,
+  colorText
+} from '../../styles'
 
 function DepthList({ style }, { $ }) {
   const { asks = [], bids = [], _loaded } = $.depth
@@ -53,24 +59,23 @@ function DepthList({ style }, { $ }) {
   return (
     <View style={[styles.container, style]}>
       <Flex style={styles.header}>
-        <Text style={[styles.index, _.ml.md]} size={10} type='sub'>
+        <Text style={[styles.index, styles.text, _.ml.md]} size={10}>
           买盘
         </Text>
-        <Text style={styles.amount} size={10} type='sub'>
+        <Text style={[styles.amount, styles.text]} size={10}>
           数量
         </Text>
         <Flex.Item>
-          <Text size={10} type='sub' align='center'>
+          <Text style={styles.text} size={10} align='center'>
             价格
           </Text>
         </Flex.Item>
-        <Text style={styles.amount} size={10} type='sub' align='right'>
+        <Text style={[styles.amount, styles.text]} size={10} align='right'>
           数量
         </Text>
         <Text
-          style={[styles.index, _.mr.md]}
+          style={[styles.index, styles.text, _.mr.md]}
           size={10}
-          type='sub'
           align='right'
         >
           卖盘
@@ -83,11 +88,11 @@ function DepthList({ style }, { $ }) {
             return (
               <Flex key={index} style={styles.item}>
                 <View style={[styles.index, _.ml.md]}>
-                  <Text size={12} type='sub'>
+                  <Text style={styles.text} size={12}>
                     {index + 1}
                   </Text>
                 </View>
-                <Text style={styles.amount} size={12} type='sub'>
+                <Text style={[styles.amount, styles.text]} size={12}>
                   {item.amount}
                 </Text>
                 <Flex.Item style={_.mr.sm}>
@@ -117,11 +122,15 @@ function DepthList({ style }, { $ }) {
                     {item.price.toFixed(2)}
                   </Text>
                 </Flex.Item>
-                <Text style={styles.amount} size={12} type='sub' align='right'>
+                <Text
+                  style={[styles.amount, styles.text]}
+                  size={12}
+                  align='right'
+                >
                   {item.amount}
                 </Text>
                 <View style={[styles.index, _.mr.md]}>
-                  <Text size={12} type='sub' align='right'>
+                  <Text style={styles.text} size={12} align='right'>
                     {index + 1}
                   </Text>
                 </View>
@@ -185,5 +194,8 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     backgroundColor: colorDepthAsk
+  },
+  text: {
+    color: colorText
   }
 })

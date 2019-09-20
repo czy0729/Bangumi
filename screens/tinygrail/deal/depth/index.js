@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 21:27:23
+ * @Last Modified time: 2019-09-20 23:51:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,13 @@ import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorAsk, colorDepthBid, colorDepthAsk } from '../../styles'
+import {
+  colorBid,
+  colorAsk,
+  colorDepthBid,
+  colorDepthAsk,
+  colorText
+} from '../../styles'
 
 function Depth({ style }, { $ }) {
   const { asks = [], bids = [], _loaded } = $.depth
@@ -61,11 +67,11 @@ function Depth({ style }, { $ }) {
     <View style={[styles.container, style]}>
       <Flex style={styles.header}>
         <Flex.Item>
-          <Text size={10} type='sub'>
+          <Text style={styles.text} size={10}>
             价格
           </Text>
         </Flex.Item>
-        <Text size={10} type='sub'>
+        <Text style={styles.text} size={10}>
           数量
         </Text>
       </Flex>
@@ -102,7 +108,7 @@ function Depth({ style }, { $ }) {
                         {item.price.toFixed(2)}
                       </Text>
                     </Flex.Item>
-                    <Text style={_.mr.wind} size={12} type='sub'>
+                    <Text style={[styles.text, _.mr.wind]} size={12}>
                       {item.amount}
                     </Text>
                     <View
@@ -144,7 +150,7 @@ function Depth({ style }, { $ }) {
                         {item.price.toFixed(2)}
                       </Text>
                     </Flex.Item>
-                    <Text style={_.mr.wind} size={12} type='sub'>
+                    <Text style={[styles.text, _.mr.wind]} size={12}>
                       {item.amount}
                     </Text>
                     <View
@@ -228,5 +234,8 @@ const styles = StyleSheet.create({
     marginLeft: -5,
     borderRadius: 5,
     backgroundColor: colorAsk
+  },
+  text: {
+    color: colorText
   }
 })

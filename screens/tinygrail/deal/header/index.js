@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 00:39:09
+ * @Last Modified time: 2019-09-20 23:27:49
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -36,6 +36,7 @@ function Header(props, { $, navigation }) {
           <Avatar
             src={icon}
             size={32}
+            borderColor='transparent'
             onPress={() =>
               navigation.push('Mono', {
                 monoId: `character/${$.monoId}`

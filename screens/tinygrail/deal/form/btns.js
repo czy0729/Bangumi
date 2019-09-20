@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:17:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-12 11:56:19
+ * @Last Modified time: 2019-09-20 23:52:03
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorAsk } from '../../styles'
+import { colorBid, colorAsk, colorText } from '../../styles'
 
 function Btns(props, { $ }) {
   const { type } = $.state
@@ -22,7 +22,12 @@ function Btns(props, { $ }) {
           style={[styles.btn, isBid && styles.btnBid]}
           onPress={() => $.toggleType('bid')}
         >
-          <Text type={isBid ? 'plain' : 'sub'} align='center'>
+          <Text
+            style={{
+              color: isBid ? _.colorPlain : colorText
+            }}
+            align='center'
+          >
             买入
           </Text>
         </Touchable>
@@ -32,7 +37,12 @@ function Btns(props, { $ }) {
           style={[styles.btn, !isBid && styles.btnAsk]}
           onPress={() => $.toggleType('ask')}
         >
-          <Text type={!isBid ? 'plain' : 'sub'} align='center'>
+          <Text
+            style={{
+              color: !isBid ? _.colorPlain : colorText
+            }}
+            align='center'
+          >
             卖出
           </Text>
         </Touchable>

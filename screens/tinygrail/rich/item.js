@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 00:32:31
+ * @Last Modified time: 2019-09-20 23:28:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -78,6 +78,7 @@ function Item(
             style={styles.image}
             src={avatar}
             size={44}
+            borderColor='transparent'
             onPress={() =>
               navigation.push('Zone', {
                 userId

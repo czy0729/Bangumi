@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 15:52:51
+ * @Last Modified time: 2019-09-20 23:54:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Flex, Text, Touchable, Iconfont } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorAsk, colorIcon, colorBg } from '../../styles'
+import { colorBid, colorAsk, colorIcon, colorBg, colorText } from '../../styles'
 
 function Logs({ style }, { $ }) {
   const { bids, asks } = $.userLogs
@@ -21,7 +21,7 @@ function Logs({ style }, { $ }) {
         <Text style={styles.bid} size={16}>
           买入委托
         </Text>
-        {bids.length === 0 && <Text type='sub'>-</Text>}
+        {bids.length === 0 && <Text style={styles.text}>-</Text>}
         {bids
           .sort((a, b) => b.price - a.price)
           .map(item => (
@@ -37,7 +37,7 @@ function Logs({ style }, { $ }) {
                     {formatNumber(item.price)}
                   </Text>
                 </Flex.Item>
-                <Text size={12} type='sub'>
+                <Text style={styles.text} size={12}>
                   {formatNumber(item.amount, 0)}
                 </Text>
                 <Touchable
@@ -54,7 +54,7 @@ function Logs({ style }, { $ }) {
         <Text style={styles.ask} size={16}>
           卖出委托
         </Text>
-        {asks.length === 0 && <Text type='sub'>-</Text>}
+        {asks.length === 0 && <Text style={styles.text}>-</Text>}
         {asks
           .sort((a, b) => a.price - b.price)
           .map(item => (
@@ -70,7 +70,7 @@ function Logs({ style }, { $ }) {
                     {formatNumber(item.price)}
                   </Text>
                 </Flex.Item>
-                <Text size={12} type='sub'>
+                <Text style={styles.text} size={12}>
                   {formatNumber(item.amount, 0)}
                 </Text>
                 <Touchable
@@ -115,5 +115,8 @@ const styles = StyleSheet.create({
   cancel: {
     paddingVertical: _.sm,
     paddingLeft: _.sm
+  },
+  text: {
+    color: colorText
   }
 })

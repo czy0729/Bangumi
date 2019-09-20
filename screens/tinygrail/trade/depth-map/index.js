@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 15:44:33
+ * @Last Modified time: 2019-09-20 23:45:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,7 +16,8 @@ import {
   colorBid,
   colorDepthBid,
   colorAsk,
-  colorDepthAsk
+  colorDepthAsk,
+  colorText
 } from '../../styles'
 
 const height = 160
@@ -67,7 +68,7 @@ function DepthMap({ style }, { $ }) {
   let calculateAsks = 0
   return (
     <View style={[styles.container, style]}>
-      <Text style={styles.title} size={12} type='sub'>
+      <Text style={[styles.title, styles.text]} size={12}>
         深度
       </Text>
       <Flex>
@@ -129,10 +130,10 @@ function DepthMap({ style }, { $ }) {
       <Flex style={styles.info}>
         <Flex.Item>
           <Flex justify='between'>
-            <Text type='sub' size={12}>
+            <Text style={styles.text} size={12}>
               {bidsLow.toFixed(2)}
             </Text>
-            <Text type='sub' size={12}>
+            <Text style={styles.text} size={12}>
               {bidsHigh.toFixed(2)}
             </Text>
           </Flex>
@@ -143,29 +144,29 @@ function DepthMap({ style }, { $ }) {
           }}
         >
           <Flex justify='between'>
-            <Text type='sub' size={12}>
+            <Text style={styles.text} size={12}>
               {asksLow.toFixed(2)}
             </Text>
-            <Text type='sub' size={12}>
+            <Text style={styles.text} size={12}>
               {asksHigh.toFixed(2)}
             </Text>
           </Flex>
         </Flex.Item>
       </Flex>
       <Flex style={styles.rod} direction='column' justify='between' align='end'>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr(amount)}
         </Text>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr((amount * 4) / 5)}
         </Text>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr((amount * 3) / 5)}
         </Text>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr((amount * 2) / 5)}
         </Text>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr((amount * 1) / 5)}
         </Text>
       </Flex>
@@ -224,6 +225,9 @@ const styles = StyleSheet.create({
     top: _.md + _.sm,
     right: _.sm,
     bottom: 56
+  },
+  text: {
+    color: colorText
   }
 })
 

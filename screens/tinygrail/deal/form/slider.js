@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 15:49:47
+ * @Last Modified time: 2019-09-20 23:53:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Input, Text } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorAsk, colorBorder } from '../../styles'
+import { colorBid, colorAsk, colorBorder, colorText } from '../../styles'
 
 function Slider({ style }, { $ }) {
   const { value, amount } = $.state
@@ -35,7 +35,7 @@ function Slider({ style }, { $ }) {
           value={String(amount)}
           onChangeText={$.changeAmount}
         />
-        <Text style={styles.placeholder} size={12} type='sub'>
+        <Text style={[styles.placeholder, styles.text]} size={12}>
           股
         </Text>
       </View>
@@ -54,17 +54,17 @@ function Slider({ style }, { $ }) {
       </View>
       <Flex>
         <Flex.Item>
-          <Text size={12} type='sub'>
+          <Text style={styles.text} size={12}>
             {min}
           </Text>
         </Flex.Item>
-        <Text size={12} type='sub'>
+        <Text style={styles.text} size={12}>
           {$.max}
         </Text>
       </Flex>
       <Flex style={_.mt.md}>
         <Flex.Item>
-          <Text size={12} type='sub'>
+          <Text style={styles.text} size={12}>
             交易额
           </Text>
         </Flex.Item>
@@ -107,5 +107,8 @@ const styles = StyleSheet.create({
   },
   plain: {
     color: _.colorPlain
+  },
+  text: {
+    color: colorText
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 21:51:49
+ * @Last Modified time: 2019-09-20 23:27:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,7 +20,11 @@ function Auth(props, { $ }) {
   return (
     <View style={_.container.inner}>
       <Flex>
-        <Avatar size={40} src={avatar && avatar.large} />
+        <Avatar
+          size={40}
+          src={avatar && avatar.large}
+          borderColor='transparent'
+        />
         <Flex.Item style={_.ml.sm}>
           <Text size={18} type='plain'>
             {nickname}
