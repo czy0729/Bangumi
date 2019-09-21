@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:30:33
+ * @Last Modified time: 2019-09-22 00:34:01
  */
 import { observable, computed, toJS } from 'mobx'
-import axios from 'axios'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
+import axios from '@utils/thirdParty/axios'
 import { LIST_EMPTY } from '@constants'
 import {
   API_TINYGRAIL_CHARAS,
@@ -49,6 +49,8 @@ const defaultSort = '1/50'
 
 class Tinygrail extends store {
   state = observable({
+    cookie: '',
+
     // 人物数据
     characters: {
       // [monoId]: INIT_CHARACTERS_ITEM
@@ -119,44 +121,49 @@ class Tinygrail extends store {
 
   async init() {
     const res = Promise.all([
-      this.getStorage('characters', NAMESPACE), // 0
-      this.getStorage('mvi', NAMESPACE), // 1
-      this.getStorage('recent', NAMESPACE), // 2
-      this.getStorage('nbc', NAMESPACE), // 3
-      this.getStorage('rich', NAMESPACE), // 4
-      this.getStorage('kline', NAMESPACE), // 5
-      this.getStorage('depth', NAMESPACE), // 6
-      this.getStorage('hash', NAMESPACE), // 7
-      this.getStorage('assets', NAMESPACE), // 8
-      this.getStorage('charaAssets', NAMESPACE), // 9
-      this.getStorage('bid', NAMESPACE), // 10
-      this.getStorage('myCharaAssets', NAMESPACE), // 11
-      this.getStorage('balance', NAMESPACE), // 11
-      this.getStorage('iconsCache', NAMESPACE) // 11
+      this.getStorage('cookie', NAMESPACE), // 0
+      this.getStorage('characters', NAMESPACE), // 1
+      this.getStorage('mvi', NAMESPACE), // 2
+      this.getStorage('recent', NAMESPACE), // 3
+      this.getStorage('nbc', NAMESPACE), // 4
+      this.getStorage('rich', NAMESPACE), // 5
+      this.getStorage('kline', NAMESPACE), // 6
+      this.getStorage('depth', NAMESPACE), // 7
+      this.getStorage('hash', NAMESPACE), // 8
+      this.getStorage('assets', NAMESPACE), // 9
+      this.getStorage('charaAssets', NAMESPACE), // 10
+      this.getStorage('bid', NAMESPACE), // 11
+      this.getStorage('myCharaAssets', NAMESPACE), // 12
+      this.getStorage('balance', NAMESPACE), // 13
+      this.getStorage('iconsCache', NAMESPACE) // 14
     ])
 
     const state = await res
     this.setState({
-      characters: state[0] || {},
-      mvi: state[1] || LIST_EMPTY,
-      recent: state[2] || LIST_EMPTY,
-      nbc: state[3] || LIST_EMPTY,
-      rich: state[4] || INIT_RICH,
-      kline: state[5] || {},
-      depth: state[6] || {},
-      hash: state[7] || '',
-      assets: state[8] || INIT_ASSETS,
-      charaAssets: state[9] || {},
-      bid: state[10] || LIST_EMPTY,
-      myCharaAssets: state[11] || INIT_MY_CHARA_ASSETS,
-      balance: state[12] || LIST_EMPTY,
-      iconsCache: state[13] || {}
+      cookie: state[0] || '',
+      characters: state[1] || {},
+      mvi: state[2] || LIST_EMPTY,
+      recent: state[3] || LIST_EMPTY,
+      nbc: state[4] || LIST_EMPTY,
+      rich: state[5] || INIT_RICH,
+      kline: state[6] || {},
+      depth: state[7] || {},
+      hash: state[8] || '',
+      assets: state[9] || INIT_ASSETS,
+      charaAssets: state[10] || {},
+      bid: state[11] || LIST_EMPTY,
+      myCharaAssets: state[12] || INIT_MY_CHARA_ASSETS,
+      balance: state[13] || LIST_EMPTY,
+      iconsCache: state[14] || {}
     })
 
     return res
   }
 
   // -------------------- get --------------------
+  @computed get cookie() {
+    return this.state.cookie
+  }
 
   characters(id) {
     return (
@@ -330,12 +337,15 @@ class Tinygrail extends store {
    * 番市首富
    */
   fetchRich = async (sort = defaultSort) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const [page, limit] = sort.split('/')
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_RICH(page, limit),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -455,11 +465,14 @@ class Tinygrail extends store {
    * 用户唯一标识
    */
   fetchHash = async () => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_HASH(),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = ''
@@ -480,11 +493,14 @@ class Tinygrail extends store {
    * 资产信息
    */
   fetchAssets = async () => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_ASSETS(),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -511,11 +527,14 @@ class Tinygrail extends store {
    * 用户资产概览信息
    */
   fetchCharaAssets = async hash => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_CHARA_ASSETS(hash),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     const data = {
@@ -570,11 +589,14 @@ class Tinygrail extends store {
    * 用户挂单和交易记录
    */
   fetchUserLogs = async monoId => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_USER_CHARA(monoId),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -631,11 +653,14 @@ class Tinygrail extends store {
    * 我的买单
    */
   fetchBid = async () => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_CHARA_BID(),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -689,11 +714,14 @@ class Tinygrail extends store {
    * 我的卖单
    */
   fetchAsks = async () => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_CHARA_ASKS(),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -747,11 +775,14 @@ class Tinygrail extends store {
    * 我的持仓
    */
   fetchMyCharaAssets = async () => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_MY_CHARA_ASSETS(),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -836,11 +867,14 @@ class Tinygrail extends store {
    * ICO参与者
    */
   fetchInitial = async monoId => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_INITIAL(monoId),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -880,11 +914,14 @@ class Tinygrail extends store {
    * 资金日志
    */
   fetchBalance = async () => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_BALANCE(),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -919,6 +956,13 @@ class Tinygrail extends store {
   }
 
   // -------------------- page --------------------
+  updateCookie = cookie => {
+    this.setState({
+      cookie
+    })
+    this.setStorage('cookie', undefined, NAMESPACE)
+  }
+
   updateIconsCache = iconsCache => {
     this.setState({
       iconsCache
@@ -931,11 +975,14 @@ class Tinygrail extends store {
    * 买入
    */
   doBid = async ({ monoId, price, amount }) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_BID(monoId, price, amount),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     if (result.data.State === 0) {
@@ -949,11 +996,14 @@ class Tinygrail extends store {
    * 卖出
    */
   doAsk = async ({ monoId, price, amount }) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_ASK(monoId, price, amount),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     if (result.data.State === 0) {
@@ -967,11 +1017,14 @@ class Tinygrail extends store {
    * 取消买入
    */
   doCancelBid = async ({ id }) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_CANCEL_BID(id),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     if (result.data.State === 0) {
@@ -985,11 +1038,14 @@ class Tinygrail extends store {
    * 取消卖出
    */
   doCancelAsk = async ({ id }) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_CANCEL_ASK(id),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     if (result.data.State === 0) {
@@ -1003,11 +1059,14 @@ class Tinygrail extends store {
    * 参与ICO
    */
   doJoin = async ({ id, amount }) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_JOIN(id, amount),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     if (result.data.State === 0) {

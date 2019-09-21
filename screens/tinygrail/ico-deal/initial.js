@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:54:49
+ * @Last Modified time: 2019-09-21 00:25:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -32,7 +32,8 @@ function Initial({ style }, { $, navigation }) {
           const isTop = index === 0
           const isMe = username === item.name
           return (
-            <Flex key={item.name} style={styles.item}>
+            // eslint-disable-next-line react/no-array-index-key
+            <Flex key={index} style={styles.item}>
               <Avatar
                 navigation={navigation}
                 src={item.avatar}

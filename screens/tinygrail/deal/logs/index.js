@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:54:39
+ * @Last Modified time: 2019-09-21 00:24:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -24,8 +24,9 @@ function Logs({ style }, { $ }) {
         {bids.length === 0 && <Text style={styles.text}>-</Text>}
         {bids
           .sort((a, b) => b.price - a.price)
-          .map(item => (
-            <View key={item.id} style={styles.item}>
+          .map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <View key={index} style={styles.item}>
               <Flex>
                 <Flex.Item>
                   <Text
@@ -57,8 +58,9 @@ function Logs({ style }, { $ }) {
         {asks.length === 0 && <Text style={styles.text}>-</Text>}
         {asks
           .sort((a, b) => a.price - b.price)
-          .map(item => (
-            <View key={item.id} style={styles.item}>
+          .map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <View key={index} style={styles.item}>
               <Flex>
                 <Flex.Item>
                   <Text

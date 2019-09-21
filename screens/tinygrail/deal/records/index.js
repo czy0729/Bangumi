@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:56:34
+ * @Last Modified time: 2019-09-21 00:24:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,8 +22,9 @@ function Records({ style }, { $ }) {
           买入记录
         </Text>
         {bidHistory.length === 0 && <Text style={styles.colorText}>-</Text>}
-        {bidHistory.map(item => (
-          <View key={item.id} style={styles.item}>
+        {bidHistory.map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <View key={index} style={styles.item}>
             <Flex>
               <Flex.Item>
                 <Text
@@ -55,8 +56,9 @@ function Records({ style }, { $ }) {
           卖出记录
         </Text>
         {askHistory.length === 0 && <Text style={styles.colorText}>-</Text>}
-        {askHistory.map(item => (
-          <View key={item.id} style={styles.item}>
+        {askHistory.map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <View key={index} style={styles.item}>
             <Flex>
               <Flex.Item>
                 <Text

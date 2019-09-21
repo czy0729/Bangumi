@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 22:06:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 21:18:54
+ * @Last Modified time: 2019-09-21 00:25:28
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,8 +16,9 @@ function History({ style }, { $, navigation }) {
   const { history } = $.state
   return (
     <View style={style}>
-      {history.map(item => (
-        <View key={item} style={styles.item}>
+      {history.map((item, index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <View key={index} style={styles.item}>
           <Flex style={styles.content}>
             <Flex.Item>
               <Text

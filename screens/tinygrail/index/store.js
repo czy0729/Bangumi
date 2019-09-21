@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 21:47:32
+ * @Last Modified time: 2019-09-22 00:37:32
  */
 import cheerio from 'cheerio-without-node-native'
-import axios from 'axios'
 import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore } from '@stores'
 import { urlStringify, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import axios from '@utils/thirdParty/axios'
 import {
   HOST,
   TINYGRAIL_APP_ID,
@@ -19,8 +19,7 @@ import {
 import { API_TINYGRAIL_LOGOUT } from '@constants/api'
 
 const namespace = 'ScreenTinygrail'
-
-axios.defaults.withCredentials = true
+const maxErrorCount = 8
 
 export default class ScreenTinygrail extends store {
   state = observable({
@@ -29,6 +28,7 @@ export default class ScreenTinygrail extends store {
   })
 
   formhash = ''
+  errorCount = 0
 
   init = async () => {
     const state = await this.getStorage(undefined, namespace)
@@ -136,24 +136,20 @@ export default class ScreenTinygrail extends store {
    */
   oauth = async () => {
     const { cookie, userAgent } = this.userCookie
+
+    axios.defaults.withCredentials = false
     const res = axios({
       method: 'get',
       url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}`,
       headers: {
-        Cookie: cookie,
+        Cookie: `chii_cookietime=2592000; ${cookie}`,
         'User-Agent': userAgent
       }
     })
 
     const data = await res
     const { request } = data
-    const { responseHeaders, _response } = request
-    if (responseHeaders['Set-Cookie']) {
-      const match = responseHeaders['Set-Cookie'].match(/chii_sid=(.+?);/)
-      if (match) {
-        this.chiiSid = match[1]
-      }
-    }
+    const { _response } = request
     this.formhash = cheerio
       .load(_response)('input[name=formhash]')
       .attr('value')
@@ -166,6 +162,8 @@ export default class ScreenTinygrail extends store {
    */
   authorize = async () => {
     const { cookie, userAgent } = this.userCookie
+
+    axios.defaults.withCredentials = false
     const res = axios({
       method: 'post',
       maxRedirects: 0,
@@ -173,7 +171,7 @@ export default class ScreenTinygrail extends store {
       url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: `; chii_cookietime=2592000; ${cookie}`,
+        Cookie: `chii_cookietime=2592000; ${cookie}`,
         'User-Agent': userAgent
       },
       data: urlStringify({
@@ -183,15 +181,20 @@ export default class ScreenTinygrail extends store {
         submit: '授权'
       })
     })
-
     const data = await res
     const { request } = data
     const { responseURL } = request
+
+    // tinygrail服务器那边获取access_token也会失败, 需要重试
+    if (!responseURL.includes('code=')) {
+      this.errorCount += 1
+
+      if (this.errorCount < maxErrorCount) {
+        return this.authorize()
+      }
+      return false
+    }
     this.locationUrl = responseURL
-    this.code = responseURL
-      .split('=')
-      .slice(1)
-      .join('=')
 
     return res
   }
@@ -199,11 +202,20 @@ export default class ScreenTinygrail extends store {
   /**
    * code获取cookie
    */
-  getAccessCookie = async () =>
-    axios({
+  getAccessCookie = async () => {
+    axios.defaults.withCredentials = false
+    const res = axios({
       method: 'get',
       maxRedirects: 0,
       validateStatus: null,
-      url: this.locationUrl
+      url: `${this.locationUrl}&redirect=false`
     })
+
+    const data = await res
+    tinygrailStore.updateCookie(
+      `${data.headers['set-cookie'][0].split(';')[0]};`
+    )
+
+    return res
+  }
 }

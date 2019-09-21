@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 22:16:44
+ * @Last Modified time: 2019-09-21 00:14:23
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -16,6 +16,7 @@ import _ from '@styles'
 import { colorBid, colorAsk, colorContainer, colorBg } from '../styles'
 import Store from './store'
 import Header from './header'
+import Bar from './bar'
 import KLine from './k-line'
 import DepthMap from './depth-map'
 import DepthList from './depth-list'
@@ -71,6 +72,7 @@ class TinygrailTrade extends React.Component {
         />
         <StatusBarPlaceholder style={styles.dark} />
         <Header />
+        <Bar />
         <View style={_.container.flex}>
           <ScrollView
             style={[_.container.flex, styles.dark]}
