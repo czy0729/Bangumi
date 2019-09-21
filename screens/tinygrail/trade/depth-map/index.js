@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:45:56
+ * @Last Modified time: 2019-09-22 00:51:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -131,10 +131,10 @@ function DepthMap({ style }, { $ }) {
         <Flex.Item>
           <Flex justify='between'>
             <Text style={styles.text} size={12}>
-              {bidsLow.toFixed(2)}
+              {bidsLow && bidsLow.toFixed(2)}
             </Text>
             <Text style={styles.text} size={12}>
-              {bidsHigh.toFixed(2)}
+              {bidsHigh && bidsHigh.toFixed(2)}
             </Text>
           </Flex>
         </Flex.Item>
@@ -145,10 +145,10 @@ function DepthMap({ style }, { $ }) {
         >
           <Flex justify='between'>
             <Text style={styles.text} size={12}>
-              {asksLow.toFixed(2)}
+              {asksLow && asksLow.toFixed(2)}
             </Text>
             <Text style={styles.text} size={12}>
-              {asksHigh.toFixed(2)}
+              {asksHigh && asksHigh.toFixed(2)}
             </Text>
           </Flex>
         </Flex.Item>

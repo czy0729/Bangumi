@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:44:38
+ * @Last Modified time: 2019-09-22 00:51:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -97,7 +97,7 @@ function DepthList({ style }, { $ }) {
                 </Text>
                 <Flex.Item style={_.mr.sm}>
                   <Text style={styles.bids} size={12} align='right'>
-                    {item.price.toFixed(2)}
+                    {item.price && item.price.toFixed(2)}
                   </Text>
                 </Flex.Item>
                 <View
@@ -119,7 +119,7 @@ function DepthList({ style }, { $ }) {
               <Flex key={index} style={styles.item}>
                 <Flex.Item style={_.ml.sm}>
                   <Text style={styles.asks} size={12}>
-                    {item.price.toFixed(2)}
+                    {item.price && item.price.toFixed(2)}
                   </Text>
                 </Flex.Item>
                 <Text

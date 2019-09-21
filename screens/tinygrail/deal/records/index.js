@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-21 00:24:47
+ * @Last Modified time: 2019-09-22 01:30:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,7 +21,7 @@ function Records({ style }, { $ }) {
         <Text style={styles.bid} size={16}>
           买入记录
         </Text>
-        {bidHistory.length === 0 && <Text style={styles.colorText}>-</Text>}
+        {bidHistory.length === 0 && <Text style={styles.text}>-</Text>}
         {bidHistory.map((item, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <View key={index} style={styles.item}>
@@ -34,7 +34,7 @@ function Records({ style }, { $ }) {
                   }}
                 >
                   {formatNumber(item.price)} /{' '}
-                  <Text style={styles.colorText} size={12}>
+                  <Text style={styles.text} size={12}>
                     {formatNumber(item.amount, 0)}
                   </Text>
                 </Text>
@@ -55,7 +55,7 @@ function Records({ style }, { $ }) {
         <Text style={styles.ask} size={16}>
           卖出记录
         </Text>
-        {askHistory.length === 0 && <Text style={styles.colorText}>-</Text>}
+        {askHistory.length === 0 && <Text style={styles.text}>-</Text>}
         {askHistory.map((item, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <View key={index} style={styles.item}>
@@ -68,7 +68,7 @@ function Records({ style }, { $ }) {
                   }}
                 >
                   {formatNumber(item.price)} /{' '}
-                  <Text style={styles.colorText} size={12}>
+                  <Text style={styles.text} size={12}>
                     {formatNumber(item.amount, 0)}
                   </Text>
                 </Text>

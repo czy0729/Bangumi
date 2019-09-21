@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:57:10
+ * @Last Modified time: 2019-09-22 01:31:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   input: {
+    height: 34,
     color: _.colorPlain,
     backgroundColor: 'transparent',
     borderWidth: 0,

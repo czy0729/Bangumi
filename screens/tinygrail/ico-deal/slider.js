@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:57:49
+ * @Last Modified time: 2019-09-22 01:36:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -48,17 +48,19 @@ function Slider({ style }, { $ }) {
       <Text style={[styles.balance, styles.plain]} size={12}>
         {balanceText}
       </Text>
-      <View style={[styles.slider, _.mt.sm]}>
-        <AntdSlider
-          value={amount}
-          min={1000}
-          max={balance < 1000 ? 1000 : parseInt(balance)}
-          step={100}
-          maximumTrackTintColor={colorBorder}
-          minimumTrackTintColor={colorBid}
-          onChange={value => $.changeAmount(value < 1000 ? 1000 : value)}
-        />
-      </View>
+      <Flex style={[styles.slider, _.mt.sm]}>
+        <View style={{ width: '100%' }}>
+          <AntdSlider
+            value={amount}
+            min={1000}
+            max={balance < 1000 ? 1000 : parseInt(balance)}
+            step={100}
+            maximumTrackTintColor={colorBorder}
+            minimumTrackTintColor={colorBid}
+            onChange={value => $.changeAmount(value < 1000 ? 1000 : value)}
+          />
+        </View>
+      </Flex>
       <Flex>
         <Flex.Item>
           <Text style={styles.text} size={12}>
@@ -90,6 +92,7 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   input: {
+    height: 34,
     color: _.colorPlain,
     backgroundColor: 'transparent',
     borderWidth: 0,
@@ -104,6 +107,7 @@ const styles = StyleSheet.create({
     marginTop: 16
   },
   slider: {
+    height: 40,
     opacity: 0.8
   },
   plain: {

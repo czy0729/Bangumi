@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 22:15:55
+ * @Last Modified time: 2019-09-22 03:04:50
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native'
@@ -85,14 +85,16 @@ class TinygrailDeal extends React.Component {
             <Flex.Item>
               <Form />
             </Flex.Item>
-            <Depth
+            <View
               style={[
                 _.ml.wind,
                 {
                   width: 160
                 }
               ]}
-            />
+            >
+              <Depth />
+            </View>
           </Flex>
           <Logs />
           <Records />

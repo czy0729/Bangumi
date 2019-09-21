@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 00:32:20
+ * @Last Modified time: 2019-09-22 02:57:30
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,11 +11,36 @@ import { Flex, Text, Iconfont } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorDepthBid, colorDepthAsk } from '../styles'
+import { colorBid, colorAsk, colorDepthBid, colorDepthAsk } from '../styles'
 import MenuItem from './menu-item'
 
 function Menus(props, { $ }) {
+  const { currentBalance, currentTotal, lastBalance, lastTotal } = $.state
   const { balance } = $.assets
+
+  const changeBalance = currentBalance - lastBalance
+  const changeTotal = currentTotal - lastTotal
+
+  let balanceChangeText
+  let balanceTextColor
+  if (changeBalance > 0) {
+    balanceChangeText = `(+${formatNumber(changeBalance, 0)})`
+    balanceTextColor = colorBid
+  } else if (changeBalance < 0) {
+    balanceChangeText = `(${formatNumber(changeBalance, 0)})`
+    balanceTextColor = colorAsk
+  }
+
+  let totalChangeText
+  let totalTextColor
+  if (changeTotal > 0) {
+    totalChangeText = `(+${formatNumber(changeTotal, 0)})`
+    totalTextColor = colorBid
+  } else if (changeTotal < 0) {
+    totalChangeText = `(${formatNumber(changeTotal, 0)})`
+    totalTextColor = colorAsk
+  }
+
   return (
     <Flex style={styles.section} wrap='wrap'>
       <MenuItem title='交易榜单' pathname='TinygrailOverview' icon='bang-dan' />
@@ -35,7 +60,30 @@ function Menus(props, { $ }) {
       <Flex style={styles.assets}>
         <Iconfont name='licheng' color={_.colorPlain} />
         <Text style={_.ml.sm} size={15} type='plain'>
-          {formatNumber(balance)} / {formatNumber($.total)}
+          {formatNumber(balance)}{' '}
+          {balanceChangeText && (
+            <Text
+              style={{
+                color: balanceTextColor
+              }}
+              size={12}
+              lineHeight={15}
+            >
+              {balanceChangeText}
+            </Text>
+          )}{' '}
+          / {formatNumber($.total)}{' '}
+          {totalChangeText && (
+            <Text
+              style={{
+                color: totalTextColor
+              }}
+              size={12}
+              lineHeight={15}
+            >
+              {totalChangeText}
+            </Text>
+          )}
         </Text>
       </Flex>
 

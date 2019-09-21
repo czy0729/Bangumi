@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 00:37:32
+ * @Last Modified time: 2019-09-22 03:02:24
  */
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
@@ -24,6 +24,10 @@ const maxErrorCount = 8
 export default class ScreenTinygrail extends store {
   state = observable({
     loading: false,
+    currentBalance: 0,
+    currentTotal: 0,
+    lastBalance: 0,
+    lastTotal: 0,
     _loaded: false
   })
 
@@ -41,7 +45,7 @@ export default class ScreenTinygrail extends store {
     const { _loaded } = await res
     if (!_loaded) {
       await this.doAuth()
-      res = Promise.all([
+      await Promise.all([
         tinygrailStore.fetchHash(),
         tinygrailStore.fetchAssets()
       ])
@@ -50,12 +54,28 @@ export default class ScreenTinygrail extends store {
     if (!this.hash) {
       await tinygrailStore.fetchHash()
     }
-    this.fetchCharaAssets()
+    res = this.fetchCharaAssets()
+    await res
+
+    this.caculateChange()
+
     return res
   }
 
   // -------------------- fetch --------------------
   fetchCharaAssets = () => tinygrailStore.fetchCharaAssets(this.hash)
+
+  refresh = async () => {
+    const res = Promise.all([
+      tinygrailStore.fetchAssets(),
+      this.fetchCharaAssets()
+    ])
+    await res
+
+    this.caculateChange()
+
+    return res
+  }
 
   // -------------------- get --------------------
   @computed get userCookie() {
@@ -113,7 +133,7 @@ export default class ScreenTinygrail extends store {
       })
       this.setStorage(undefined, undefined, namespace)
     } catch (error) {
-      info('授权失败, 请重试')
+      info('授权失败, 请检查登陆状态')
       this.setState({
         loading: false
       })
@@ -217,5 +237,21 @@ export default class ScreenTinygrail extends store {
     )
 
     return res
+  }
+
+  /**
+   * 计算资金变动
+   */
+  caculateChange = () => {
+    const { currentBalance, currentTotal } = this.state
+    const { balance } = this.assets
+
+    this.setState({
+      currentBalance: balance,
+      currentTotal: this.total,
+      lastBalance: currentBalance,
+      lastTotal: currentTotal
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 }

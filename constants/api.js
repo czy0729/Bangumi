@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:04:03
+ * @Last Modified time: 2019-09-22 02:22:21
  */
 import { HOST } from './index'
 
@@ -282,3 +282,10 @@ export const API_TINYGRAIL_INITIAL = icoId =>
  */
 export const API_TINYGRAIL_JOIN = (icoId, amount) =>
   `${API_HOST_TINYGRAIL}/api/chara/join/${icoId}/${amount}`
+
+/**
+ * 董事会
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_USERS = monoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/10`

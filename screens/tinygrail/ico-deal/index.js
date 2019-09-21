@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:41:08
+ * @Last Modified time: 2019-09-22 03:01:13
  */
 import React from 'react'
 import { StyleSheet, ScrollView, RefreshControl } from 'react-native'
@@ -23,7 +23,7 @@ export default
 @observer
 class TinygrailICODeal extends React.Component {
   static navigationOptions = {
-    title: 'ICO榜单'
+    title: 'ICO'
   }
 
   static contextTypes = {
@@ -35,9 +35,9 @@ class TinygrailICODeal extends React.Component {
     refreshing: false
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { $ } = this.context
-    await $.init()
+    $.init()
 
     hm(`tinygrail/ico/deal/${$.monoId}`)
   }

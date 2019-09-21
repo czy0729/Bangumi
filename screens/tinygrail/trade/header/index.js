@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:28:06
+ * @Last Modified time: 2019-09-22 01:26:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -56,9 +56,9 @@ function Header(props, { $, navigation }) {
               )}
             </Text>
           </Flex>
-          <Flex style={_.mt.md} align='baseline'>
+          <Flex style={_.mt.md}>
             <Text size={24} type='plain'>
-              {current.toFixed(2)}
+              {current && current.toFixed(2)}
             </Text>
             <Text
               style={[

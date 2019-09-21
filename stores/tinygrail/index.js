@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 00:34:01
+ * @Last Modified time: 2019-09-22 02:30:20
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -30,7 +30,8 @@ import {
   API_TINYGRAIL_MY_CHARA_ASSETS,
   API_TINYGRAIL_BALANCE,
   API_TINYGRAIL_INITIAL,
-  API_TINYGRAIL_JOIN
+  API_TINYGRAIL_JOIN,
+  API_TINYGRAIL_USERS
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -116,6 +117,11 @@ class Tinygrail extends store {
     // ICO参与者
     initial: {
       // [monoId]: {}
+    },
+
+    // 董事会
+    users: {
+      // [monoId]: LIST_EMPTY
     }
   })
 
@@ -219,6 +225,10 @@ class Tinygrail extends store {
 
   initial(id) {
     return computed(() => this.state.initial[id]).get() || LIST_EMPTY
+  }
+
+  users(id) {
+    return computed(() => this.state.users[id]).get() || LIST_EMPTY
   }
 
   // -------------------- fetch --------------------
@@ -951,6 +961,47 @@ class Tinygrail extends store {
       [key]: data
     })
     this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 董事会
+   */
+  fetchUsers = async monoId => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_USERS(monoId),
+      responseType: 'json'
+    })
+
+    let data = []
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.Id,
+          nickName: item.Nickname,
+          avatar: item.Avatar,
+          balance: item.Balance,
+          name: item.Name
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        total: result.data.Value.TotalItems,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'users'
+    this.setState({
+      [key]: {
+        [monoId]: data
+      }
+    })
 
     return Promise.resolve(data)
   }

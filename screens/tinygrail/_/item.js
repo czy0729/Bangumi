@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:27:45
+ * @Last Modified time: 2019-09-22 01:25:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -138,7 +138,7 @@ function Item(props, { navigation }) {
                     </Text>
                     <Text
                       style={[
-                        _.mt.sm,
+                        _.mt.xs,
                         {
                           color: colorText
                         }

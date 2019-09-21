@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 18:58:15
+ * @Last Modified time: 2019-09-22 02:27:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,6 +22,7 @@ import {
 import { SectionTitle } from '@screens/_'
 import { IOS } from '@constants'
 import _ from '@styles'
+import TinygrailUsers from './tinygrail-users'
 import Voice from './voice'
 import Works from './works'
 import Jobs from './jobs'
@@ -94,6 +95,7 @@ function Info(props, { $, navigation }) {
             />
           </Flex>
         )}
+        <TinygrailUsers style={_.mt.lg} />
         {!!info && <RenderHtml style={[styles.info, _.mt.md]} html={info} />}
         {!!detail && <RenderHtml style={_.mt.lg} html={detail} />}
       </View>
