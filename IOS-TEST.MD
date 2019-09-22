@@ -4,7 +4,7 @@
 
 ---
 
-#### 你需要有一套能上 app store 下载 app 的 iphone, ipad 应该也可以吧, 我没适配
+#### 你需要有一台能上 app store 下载 app 的 iphone, ipad 应该也可以吧, 我还没适配样式, 应该很丑
 
 #### 步骤 1
 
