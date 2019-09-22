@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:26:09
+ * @Last Modified time: 2019-09-22 18:43:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from '@utils/decorators'
 import { Flex, Text } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar, IconHeader } from '@screens/_'
 import _ from '@styles'
 import { colorBid, colorAsk } from '../../styles'
 import Today from './today'
 
-function Header(props, { $, navigation }) {
+function Header({ goBack }, { $, navigation }) {
   const { icon, name, current, fluctuation, bonus } = $.chara
 
   let color = _.colorPlain
@@ -36,6 +36,14 @@ function Header(props, { $, navigation }) {
       <Flex align='end'>
         <Flex.Item>
           <Flex>
+            <IconHeader
+              style={{
+                marginLeft: -8
+              }}
+              name='left'
+              color={_.colorPlain}
+              onPress={goBack}
+            />
             <Avatar
               src={icon}
               size={32}
@@ -85,6 +93,10 @@ function Header(props, { $, navigation }) {
       </Flex>
     </View>
   )
+}
+
+Header.defaultProps = {
+  goBack: Function.prototype
 }
 
 Header.contextTypes = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 01:08:35
+ * @Last Modified time: 2019-09-22 14:37:38
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -15,7 +15,8 @@ import observer from './observer'
 const withHeader = ({
   headerStyle,
   headerTitleStyle,
-  iconBackColor = _.colorTitle
+  iconBackColor = _.colorTitle,
+  statusBarEvents = true
 } = {}) => ComposedComponent =>
   observer(
     class withHeaderComponent extends React.Component {
@@ -95,7 +96,7 @@ const withHeader = ({
         const { navigation } = this.props
         return (
           <>
-            <StatusBarEvents />
+            {statusBarEvents && <StatusBarEvents />}
             <ComposedComponent navigation={navigation} />
           </>
         )

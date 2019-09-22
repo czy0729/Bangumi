@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:27:49
+ * @Last Modified time: 2019-09-22 18:45:28
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
-import { Avatar, IconHeader } from '@screens/_'
+import { Avatar, IconHeader, IconBack } from '@screens/_'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 import { colorBid, colorAsk } from '../../styles'
@@ -33,6 +33,12 @@ function Header(props, { $, navigation }) {
     <Flex style={styles.container}>
       <Flex.Item>
         <Flex>
+          <IconBack
+            style={{
+              marginLeft: -8
+            }}
+            navigation={navigation}
+          />
           <Avatar
             src={icon}
             size={32}

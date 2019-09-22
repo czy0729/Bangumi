@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 03:04:50
+ * @Last Modified time: 2019-09-22 17:43:36
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, Flex } from '@components'
+import { Flex } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
 import { colorContainer } from '../styles'
+import StatusBarEvents from '../_/status-bar-events'
 import Header from './header'
 import Form from './form'
 import Depth from './depth'
@@ -66,10 +67,7 @@ class TinygrailDeal extends React.Component {
     const { refreshing } = this.state
     return (
       <View style={[_.container.flex, styles.dark]}>
-        <StatusBarEvents
-          barStyle='light-content'
-          backgroundColor={colorContainer}
-        />
+        <StatusBarEvents />
         <StatusBarPlaceholder style={styles.dark} />
         <Header />
         <ScrollView

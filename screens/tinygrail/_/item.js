@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:25:11
+ * @Last Modified time: 2019-09-22 14:35:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -37,6 +37,7 @@ function Item(props, { navigation }) {
   const {
     index,
     id,
+    monoId,
     name,
     icon,
     lastOrder,
@@ -103,18 +104,18 @@ function Item(props, { navigation }) {
               <Touchable
                 style={styles.item}
                 onPress={() => {
+                  if (isICO) {
+                    navigation.push('TinygrailICODeal', {
+                      monoId: `character/${monoId || id}`
+                    })
+                    return
+                  }
+
                   if (isDeal) {
                     navigation.push('TinygrailDeal', {
                       monoId: `character/${id}`,
                       type,
                       form: 'item' // @notice 点击K线图跳转特殊处理
-                    })
-                    return
-                  }
-
-                  if (isICO) {
-                    navigation.push('TinygrailICODeal', {
-                      monoId: `character/${id}`
                     })
                     return
                   }

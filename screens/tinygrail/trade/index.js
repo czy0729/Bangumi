@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-21 00:14:23
+ * @Last Modified time: 2019-09-22 18:42:38
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
-import { SafeAreaView } from 'react-navigation'
+import { SafeAreaView, NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, Flex, Button, Touchable } from '@components'
+import { Flex, Button, Touchable } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { IOS } from '@constants'
 import _ from '@styles'
 import { colorBid, colorAsk, colorContainer, colorBg } from '../styles'
+import StatusBarEvents from '../_/status-bar-events'
 import Store from './store'
 import Header from './header'
 import Bar from './bar'
@@ -35,7 +37,8 @@ class TinygrailTrade extends React.Component {
   }
 
   state = {
-    showMask: true
+    showMask: true,
+    focus: !IOS
   }
 
   componentDidMount() {
@@ -59,19 +62,53 @@ class TinygrailTrade extends React.Component {
     })
   }
 
+  goBack = () => {
+    const { navigation } = this.context
+    if (IOS) {
+      this.setState(
+        {
+          focus: false
+        },
+        () => navigation.goBack()
+      )
+      return
+    }
+
+    navigation.goBack()
+  }
+
+  renderFocus() {
+    if (!IOS) {
+      return null
+    }
+
+    return (
+      <NavigationEvents
+        onWillBlur={() =>
+          this.setState({
+            focus: false
+          })
+        }
+        onWillFocus={() =>
+          this.setState({
+            focus: true
+          })
+        }
+      />
+    )
+  }
+
   render() {
-    const { showMask } = this.state
+    const { showMask, focus } = this.state
     return (
       <SafeAreaView
         style={[_.container.flex, styles.dark]}
         forceInset={{ top: 'never' }}
       >
-        <StatusBarEvents
-          barStyle='light-content'
-          backgroundColor={colorContainer}
-        />
+        {this.renderFocus()}
+        <StatusBarEvents />
         <StatusBarPlaceholder style={styles.dark} />
-        <Header />
+        <Header goBack={this.goBack} />
         <Bar />
         <View style={_.container.flex}>
           <ScrollView
@@ -79,7 +116,7 @@ class TinygrailTrade extends React.Component {
             contentContainerStyle={styles.contentContainerStyle}
           >
             <View style={styles.kline}>
-              <KLine />
+              <KLine focus={focus} />
               {showMask && (
                 <Touchable style={styles.mask} onPress={this.hideMask} />
               )}

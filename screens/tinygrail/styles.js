@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 16:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 21:15:48
+ * @Last Modified time: 2019-09-22 14:37:04
  */
 import _ from '@styles'
 
@@ -27,5 +27,6 @@ export const headerStyle = {
   headerTitleStyle: {
     color: _.colorPlain
   },
-  iconBackColor: _.colorPlain
+  iconBackColor: _.colorPlain,
+  statusBarEvents: false
 }

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 03:01:13
+ * @Last Modified time: 2019-09-22 17:44:13
  */
 import React from 'react'
 import { StyleSheet, ScrollView, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents } from '@components'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
 import { headerStyle, colorContainer } from '../styles'
+import StatusBarEvents from '../_/status-bar-events'
 import Info from './info'
 import Slider from './slider'
 import Initial from './initial'
@@ -68,10 +68,7 @@ class TinygrailICODeal extends React.Component {
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
       >
-        <StatusBarEvents
-          barStyle='light-content'
-          backgroundColor={colorContainer}
-        />
+        <StatusBarEvents />
         <Info />
         <Slider style={_.mt.sm} />
         <Initial style={_.mt.md} />

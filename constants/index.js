@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 03:06:54
+ * @Last Modified time: 2019-09-22 18:47:18
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -36,7 +36,7 @@ export const GITHUB_URL = 'https://github.com/czy0729/Bangumi' // github地址
 export const GITHUB_RELEASE_URL = `${GITHUB_URL}/releases` // 版本析出地址
 export const GITHUB_RELEASE_REPOS_URL =
   'https://api.github.com/repos/czy0729/Bangumi/releases' // 版本析出api地址
-export const GITHUB_RELEASE_VERSION = '1.2.0' // 版本号
+export const GITHUB_RELEASE_VERSION = '1.2.1' // 版本号
 export const CODE_PUSH_VERSION = '' // 热推送副版本号
 export const DEV = false // 是否开发模式
 

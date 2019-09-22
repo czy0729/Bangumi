@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-21 00:15:17
+ * @Last Modified time: 2019-09-22 18:43:10
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -11,6 +11,7 @@ import { Loading, Text } from '@components'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import _ from '@styles'
+import { tinygrailStore } from '@stores'
 import { colorBg, colorText } from '../../styles'
 import html from './html'
 import { getKData } from './utils'
@@ -25,6 +26,10 @@ class KLine extends React.Component {
     navigation: PropTypes.object
   }
 
+  static defaultProps = {
+    focus: false
+  }
+
   componentDidMount() {
     renderCount += 1
   }
@@ -37,11 +42,16 @@ class KLine extends React.Component {
 
   onLoad = () => {
     const { $ } = this.context
-    setTimeout(() => {
-      $.setState({
-        loading: false
-      })
-    }, 400)
+    const { focus } = this.props
+
+    if (focus) {
+      setTimeout(() => {
+        $.setState({
+          loading: false
+        })
+        tinygrailStore.updateWebViewShow(true)
+      }, 400)
+    }
   }
 
   render() {
@@ -53,6 +63,7 @@ class KLine extends React.Component {
           <WebView
             key={renderCount}
             style={styles.webview}
+            useWebKit
             originWhitelist={['*']}
             source={{
               html: html(JSON.stringify(getKData($.kline.data, distance))),
@@ -62,10 +73,9 @@ class KLine extends React.Component {
             scrollEnabled={false}
             onLoad={this.onLoad}
             onError={this.onError}
-            onMessage={this.onMessage}
           />
         )}
-        {loading && (
+        {(!tinygrailStore.state._webview || loading) && (
           <Loading style={styles.loading} color={colorText}>
             <Text style={[styles.text, _.mt.md]} size={12}>
               K线图加载中...

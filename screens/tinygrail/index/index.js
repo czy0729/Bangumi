@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 03:01:12
+ * @Last Modified time: 2019-09-22 14:04:00
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
 import { colorContainer } from '../styles'
+import StatusBarEvents from '../_/status-bar-events'
 import Auth from './auth'
 import Menus from './menus'
 import Store from './store'
@@ -33,6 +33,13 @@ class Tinygrail extends React.Component {
     refreshing: false
   }
 
+  componentDidMount() {
+    const { $ } = this.context
+    $.init()
+
+    hm('tinygrail')
+  }
+
   onRefresh = () => {
     this.setState(
       {
@@ -41,6 +48,7 @@ class Tinygrail extends React.Component {
       async () => {
         const { $ } = this.context
         await $.refresh()
+
         setTimeout(() => {
           this.setState({
             refreshing: false
@@ -48,13 +56,6 @@ class Tinygrail extends React.Component {
         }, 1200)
       }
     )
-  }
-
-  componentDidMount() {
-    const { $ } = this.context
-    $.init()
-
-    hm('tinygrail')
   }
 
   render() {
@@ -71,10 +72,7 @@ class Tinygrail extends React.Component {
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
       >
-        <StatusBarEvents
-          barStyle='light-content'
-          backgroundColor='transparent'
-        />
+        <StatusBarEvents />
         <StatusBarPlaceholder style={{ backgroundColor: colorContainer }} />
         <Auth />
         <Menus />

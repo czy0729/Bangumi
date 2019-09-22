@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 02:30:20
+ * @Last Modified time: 2019-09-22 17:40:11
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -122,7 +122,9 @@ class Tinygrail extends store {
     // 董事会
     users: {
       // [monoId]: LIST_EMPTY
-    }
+    },
+
+    _webview: true
   })
 
   async init() {
@@ -808,6 +810,7 @@ class Tinygrail extends store {
             }
             return {
               id: item.Id,
+              monoId: item.CharacterId,
               bids: item.Bids,
               asks: item.Asks,
               change: item.Change,
@@ -837,6 +840,7 @@ class Tinygrail extends store {
             }
             return {
               id: item.Id,
+              monoId: item.CharacterId,
               bids: item.Bids,
               asks: item.Asks,
               change: item.Change,
@@ -1019,6 +1023,12 @@ class Tinygrail extends store {
       iconsCache
     })
     this.setStorage('iconsCache', undefined, NAMESPACE)
+  }
+
+  updateWebViewShow = show => {
+    this.setState({
+      _webview: show
+    })
   }
 
   // -------------------- action --------------------
