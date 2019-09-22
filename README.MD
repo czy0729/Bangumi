@@ -10,7 +10,11 @@
 
 #### Download
 
+安卓
 [APK 下载地址](https://github.com/czy0729/Bangumi/releases)
+
+苹果还没过审, 有个方法可以试用
+[iOS 试用方法](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
 
 ---
 
