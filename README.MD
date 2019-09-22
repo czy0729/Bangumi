@@ -80,9 +80,7 @@
 #### 小圣杯 (新)
 
 <img src="./preview/01.png" width="200" alt="01" /> <img src="./preview/02.png" width="200" alt="02" /> <img src="./preview/03.png" width="200" alt="03" /> <img src="./preview/04.png" width="200" alt="04" />
-
 <img src="./preview/05.png" width="200" alt="05" /> <img src="./preview/06.png" width="200" alt="06" /> <img src="./preview/07.png" width="200" alt="07" /> <img src="./preview/08.png" width="200" alt="08" />
-
 <img src="./preview/09.png" width="200" alt="09" /> <img src="./preview/10.png" width="200" alt="10" />
 
 #### Demo
