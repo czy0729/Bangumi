@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 18:45:28
+ * @Last Modified time: 2019-09-22 20:55:37
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -87,12 +87,10 @@ function Header(props, { $, navigation }) {
         onPress={() => {
           const { form, monoId } = $.params
           if (form === 'item') {
-            navigation.goBack()
-            setTimeout(() => {
-              navigation.push('TinygrailTrade', {
-                monoId
-              })
-            }, 300)
+            navigation.push('TinygrailTrade', {
+              monoId
+            })
+            return
           }
 
           navigation.goBack()

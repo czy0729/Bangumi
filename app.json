@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Bangumi",
-    "slug": "bangumi",
+    "name": "Bangumi iOS test",
+    "slug": "bangumi-ios-test",
     "privacy": "public",
     "sdkVersion": "33.0.0",
     "platforms": [

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 04:38:49
+ * @Last Modified time: 2019-09-23 11:35:00
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, action, toJS } from 'mobx'
@@ -121,34 +121,54 @@ export default class Store {
    * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
   setStorage(key, value, namesapce) {
-    if (!key) {
-      return AsyncStorage.setItem(
-        `${namesapce || this.getName()}|state`,
-        JSON.stringify(this.state)
-      )
+    let _key = namesapce || this.getName()
+    if (key) {
+      _key += `|${key}`
     }
+    _key += '|state'
 
     return AsyncStorage.setItem(
-      `${namesapce || this.getName()}|${key}|state`,
-      JSON.stringify(value || this.state[key])
+      _key,
+      JSON.stringify(key ? value || this.state[key] : this.state)
     )
   }
 
   /**
    * AsyncStorage.getItem
-   * @param {*} key
+   * @param {*} *key
+   * @param {*} value
+   * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
-  async getStorage(key, namesapce) {
-    // @issue 打包压缩后貌似不安全, this.getName类名字会丢失?
-    if (!key) {
-      return JSON.parse(
-        await AsyncStorage.getItem(`${namesapce || this.getName()}|state`)
-      )
+  async getStorage(key, namesapce, defaultValue) {
+    let _key = namesapce || this.getName()
+    if (key) {
+      _key += `|${key}`
     }
+    _key += '|state'
 
-    return JSON.parse(
-      await AsyncStorage.getItem(`${namesapce || this.getName()}|${key}|state`)
+    return JSON.parse(await AsyncStorage.getItem(_key)) || defaultValue
+  }
+
+  /**
+   * 批量读取缓存并入库
+   * @param {*} config
+   * @param {*} namespace
+   */
+  async readStorageThenSetState(config, namespace) {
+    const keys = Object.keys(config)
+    const data = await Promise.all(
+      keys.map(key => this.getStorage(key, namespace, config[key]))
     )
+
+    const state = Object.assign(
+      {},
+      ...keys.map((key, index) => ({
+        [key]: data[index]
+      }))
+    )
+    this.setState(state)
+
+    return state
   }
 
   /**

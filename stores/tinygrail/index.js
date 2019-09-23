@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 17:40:11
+ * @Last Modified time: 2019-09-23 11:10:11
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -50,6 +50,7 @@ const defaultSort = '1/50'
 
 class Tinygrail extends store {
   state = observable({
+    // 授权cookie
     cookie: '',
 
     // 人物数据
@@ -124,49 +125,36 @@ class Tinygrail extends store {
       // [monoId]: LIST_EMPTY
     },
 
+    /**
+     * iOS此刻是否显示WebView
+     * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
+     * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
+     * 会导致闪白屏, 这个非常不友好, 暂时只想到通过维护一个全局变量去决定是否渲染WebView
+     */
     _webview: true
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('cookie', NAMESPACE), // 0
-      this.getStorage('characters', NAMESPACE), // 1
-      this.getStorage('mvi', NAMESPACE), // 2
-      this.getStorage('recent', NAMESPACE), // 3
-      this.getStorage('nbc', NAMESPACE), // 4
-      this.getStorage('rich', NAMESPACE), // 5
-      this.getStorage('kline', NAMESPACE), // 6
-      this.getStorage('depth', NAMESPACE), // 7
-      this.getStorage('hash', NAMESPACE), // 8
-      this.getStorage('assets', NAMESPACE), // 9
-      this.getStorage('charaAssets', NAMESPACE), // 10
-      this.getStorage('bid', NAMESPACE), // 11
-      this.getStorage('myCharaAssets', NAMESPACE), // 12
-      this.getStorage('balance', NAMESPACE), // 13
-      this.getStorage('iconsCache', NAMESPACE) // 14
-    ])
-
-    const state = await res
-    this.setState({
-      cookie: state[0] || '',
-      characters: state[1] || {},
-      mvi: state[2] || LIST_EMPTY,
-      recent: state[3] || LIST_EMPTY,
-      nbc: state[4] || LIST_EMPTY,
-      rich: state[5] || INIT_RICH,
-      kline: state[6] || {},
-      depth: state[7] || {},
-      hash: state[8] || '',
-      assets: state[9] || INIT_ASSETS,
-      charaAssets: state[10] || {},
-      bid: state[11] || LIST_EMPTY,
-      myCharaAssets: state[12] || INIT_MY_CHARA_ASSETS,
-      balance: state[13] || LIST_EMPTY,
-      iconsCache: state[14] || {}
-    })
-
-    return res
-  }
+  init = () =>
+    this.readStorageThenSetState(
+      {
+        cookie: '',
+        characters: {},
+        mvi: LIST_EMPTY,
+        recent: LIST_EMPTY,
+        nbc: LIST_EMPTY,
+        rich: INIT_RICH,
+        kline: {},
+        depth: {},
+        hash: '',
+        assets: INIT_ASSETS,
+        charaAssets: {},
+        bid: LIST_EMPTY,
+        myCharaAssets: INIT_MY_CHARA_ASSETS,
+        balance: LIST_EMPTY,
+        iconsCache: {}
+      },
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
   @computed get cookie() {
