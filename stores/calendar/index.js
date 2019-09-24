@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-15 20:36:06
+ * @Last Modified time: 2019-09-23 18:09:08
  */
-import { observable, computed } from 'mobx'
+import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
@@ -16,46 +16,37 @@ import { NAMESPACE, INIT_HOME } from './init'
 import { cheerioToday } from './common'
 
 class Calendar extends store {
+  constructor() {
+    super()
+    this.generateComputed()
+  }
+
   state = observable({
+    /**
+     * 每日放送
+     */
     calendar: LIST_EMPTY,
+
+    /**
+     * 首页信息聚合
+     */
     home: INIT_HOME
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('calendar', NAMESPACE),
-      this.getStorage('home', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      calendar: state[0] || LIST_EMPTY,
-      home: state[1] || INIT_HOME
+  init = () =>
+    this.readStorageThenSetState({
+      calendar: LIST_EMPTY,
+      home: INIT_HOME
     })
 
-    return res
-  }
-
-  // -------------------- get --------------------
-  /**
-   * 取每日放送
-   */
-  @computed get calendar() {
-    return this.state.calendar
-  }
-
-  /**
-   * 取首页信息聚合
-   */
-  @computed get home() {
-    return this.state.home
-  }
+  computed = ['calendar', 'home']
 
   // -------------------- fetch --------------------
   /**
    * 每日放送
    */
-  fetchCalendar() {
-    return this.fetch(
+  fetchCalendar = () =>
+    this.fetch(
       {
         url: API_CALENDAR(),
         info: '每日放送'
@@ -67,12 +58,11 @@ class Calendar extends store {
         namespace: NAMESPACE
       }
     )
-  }
 
   /**
    * 首页信息聚合
    */
-  async fetchHome() {
+  fetchHome = async () => {
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
       url: `!${HOST}`

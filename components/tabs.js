@@ -4,11 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:11:10
+ * @Last Modified time: 2019-09-24 17:53:17
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { colorMain, radiusSm } from '@styles'
+import { StyleSheet, View } from 'react-native'
+import { IOS } from '@constants'
+import _ from '@styles'
 import AntdTabs from './@/ant-design/tabs'
 
 function Tabs({
@@ -20,17 +21,21 @@ function Tabs({
   children,
   ...other
 }) {
+  // iOS最左边加入一个块, 使得可以手势退后
   return (
-    <AntdTabs
-      tabs={tabs}
-      tabBarBackgroundColor={tabBarBackgroundColor}
-      tabBarUnderlineStyle={[styles.tabBarUnderline, tabBarUnderlineStyle]}
-      prerenderingSiblingsNumber={prerenderingSiblingsNumber}
-      renderTabBarLeft={renderTabBarLeft}
-      {...other}
-    >
-      {children}
-    </AntdTabs>
+    <>
+      <AntdTabs
+        tabs={tabs}
+        tabBarBackgroundColor={tabBarBackgroundColor}
+        tabBarUnderlineStyle={[styles.tabBarUnderline, tabBarUnderlineStyle]}
+        prerenderingSiblingsNumber={prerenderingSiblingsNumber}
+        renderTabBarLeft={renderTabBarLeft}
+        {...other}
+      >
+        {children}
+      </AntdTabs>
+      {IOS && children && <View style={styles.block} />}
+    </>
   )
 }
 
@@ -46,8 +51,15 @@ export default Tabs
 
 const styles = StyleSheet.create({
   tabBarUnderline: {
-    backgroundColor: colorMain,
-    borderRadius: radiusSm,
+    backgroundColor: _.colorMain,
+    borderRadius: _.radiusSm,
     transform: [{ scaleX: 0.5 }]
+  },
+  block: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    width: _.wind
   }
 })

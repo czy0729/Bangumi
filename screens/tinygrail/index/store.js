@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 14:27:23
+ * @Last Modified time: 2019-09-23 16:05:19
  */
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
@@ -45,20 +45,14 @@ export default class ScreenTinygrail extends store {
     const { _loaded } = await res
     if (!_loaded) {
       await this.doAuth()
-      await Promise.all([
-        tinygrailStore.fetchHash(),
-        tinygrailStore.fetchAssets()
-      ])
+      await Promise.all([tinygrailStore.fetchAssets()])
     }
 
-    if (!this.hash) {
-      await tinygrailStore.fetchHash()
-    }
+    await tinygrailStore.fetchHash()
     res = this.fetchCharaAssets()
     await res
 
     this.caculateChange()
-
     return res
   }
 

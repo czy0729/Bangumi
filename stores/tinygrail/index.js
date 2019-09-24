@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-23 11:10:11
+ * @Last Modified time: 2019-09-23 18:11:28
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -49,16 +49,27 @@ const defaultKey = 'recent'
 const defaultSort = '1/50'
 
 class Tinygrail extends store {
+  constructor() {
+    super()
+    this.generateComputed()
+  }
+
   state = observable({
-    // 授权cookie
+    /**
+     * 授权cookie
+     */
     cookie: '',
 
-    // 人物数据
+    /**
+     * 人物数据
+     */
     characters: {
       // [monoId]: INIT_CHARACTERS_ITEM
     },
 
-    // 总览列表
+    /**
+     * 总览列表
+     */
     mvc: LIST_EMPTY,
     mrc: LIST_EMPTY,
     mfc: LIST_EMPTY,
@@ -69,58 +80,86 @@ class Tinygrail extends store {
     tnbc: LIST_EMPTY,
     nbc: LIST_EMPTY,
 
-    // 番市首富
+    /**
+     * 番市首富
+     */
     rich: INIT_RICH,
 
-    // K线
+    /**
+     * K线
+     */
     kline: {
       // [monoId]: INIT_KLINE_ITEM
     },
 
-    // 深度图
+    /**
+     * 深度图
+     */
     depth: {
       // [monoId]: INIT_DEPTH_ITEM
     },
 
-    // 用户唯一标识
+    /**
+     * 用户唯一标识
+     */
     hash: '',
 
-    // 用户资产
+    /**
+     * 用户资产
+     */
     assets: INIT_ASSETS,
 
-    // 用户资产概览信息
+    /**
+     * 用户资产概览信息
+     */
     charaAssets: {
       // [hash]: INIT_CHARA_ASSETS
     },
 
-    // 我的挂单和交易记录
+    /**
+     * 我的挂单和交易记录
+     */
     userLogs: {
       // [monoId]: INIT_USER_LOGS
     },
 
-    // 我的买单
+    /**
+     * 我的买单
+     */
     bid: LIST_EMPTY,
 
-    // 我的卖单
+    /**
+     * 我的卖单
+     */
     asks: LIST_EMPTY,
 
-    // 我的持仓
+    /**
+     * 我的持仓
+     */
     myCharaAssets: INIT_MY_CHARA_ASSETS,
 
-    // 资金日志
+    /**
+     * 资金日志
+     */
     balance: LIST_EMPTY,
 
-    // 记录所有角色的头像Map (用于没有头像的列表)
+    /**
+     * 记录所有角色的头像Map (用于没有头像的列表)
+     */
     iconsCache: {
       // [monoId]: ''
     },
 
-    // ICO参与者
+    /**
+     * ICO参与者
+     */
     initial: {
       // [monoId]: {}
     },
 
-    // 董事会
+    /**
+     * 董事会
+     */
     users: {
       // [monoId]: LIST_EMPTY
     },
@@ -156,69 +195,25 @@ class Tinygrail extends store {
       NAMESPACE
     )
 
-  // -------------------- get --------------------
-  @computed get cookie() {
-    return this.state.cookie
-  }
-
-  characters(id) {
-    return (
-      computed(() => this.state.characters[id]).get() || INIT_CHARACTERS_ITEM
-    )
-  }
+  computed = [
+    'cookie',
+    ['characters', INIT_CHARACTERS_ITEM],
+    ['rich', LIST_EMPTY, defaultSort],
+    ['kline', INIT_KLINE_ITEM],
+    ['depth', INIT_DEPTH_ITEM],
+    'hash',
+    'assets',
+    ['charaAssets', INIT_CHARA_ASSETS],
+    ['userLogs', INIT_USER_LOGS],
+    'myCharaAssets',
+    'balance',
+    ['iconsCache', ''],
+    ['initial', LIST_EMPTY],
+    ['users', LIST_EMPTY]
+  ]
 
   list(key = defaultKey) {
     return computed(() => this.state[key]).get() || LIST_EMPTY
-  }
-
-  rich(sort = defaultSort) {
-    return computed(() => this.state.rich[sort]).get() || LIST_EMPTY
-  }
-
-  kline(id) {
-    return computed(() => this.state.kline[id]).get() || INIT_KLINE_ITEM
-  }
-
-  depth(id) {
-    return computed(() => this.state.depth[id]).get() || INIT_DEPTH_ITEM
-  }
-
-  @computed get hash() {
-    return this.state.hash
-  }
-
-  @computed get assets() {
-    return this.state.assets
-  }
-
-  charaAssets(hash) {
-    return (
-      computed(() => this.state.charaAssets[hash]).get() || INIT_CHARA_ASSETS
-    )
-  }
-
-  userLogs(id) {
-    return computed(() => this.state.userLogs[id]).get() || INIT_USER_LOGS
-  }
-
-  @computed get myCharaAssets() {
-    return this.state.myCharaAssets
-  }
-
-  @computed get balance() {
-    return this.state.balance
-  }
-
-  iconsCache(id) {
-    return computed(() => this.state.iconsCache[id]).get() || ''
-  }
-
-  initial(id) {
-    return computed(() => this.state.initial[id]).get() || LIST_EMPTY
-  }
-
-  users(id) {
-    return computed(() => this.state.users[id]).get() || LIST_EMPTY
   }
 
   // -------------------- fetch --------------------
