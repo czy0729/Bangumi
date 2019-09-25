@@ -2,24 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:27:56
+ * @Last Modified time: 2019-09-25 21:23:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Button, Text } from '@components'
-import { Avatar } from '@screens/_'
+import { IconBack, Avatar } from '@screens/_'
 import { lastDate } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 import { colorIcon } from '../styles'
 
-function Auth(props, { $ }) {
+function Auth(props, { $, navigation }) {
   const { loading, _loaded } = $.state
   const { nickname, avatar = {} } = $.userInfo
   return (
     <View style={_.container.inner}>
       <Flex>
+        <IconBack
+          style={{
+            marginLeft: -8
+          }}
+          navigation={navigation}
+          color={_.colorPlain}
+        />
         <Avatar
           size={40}
           src={avatar && avatar.large}

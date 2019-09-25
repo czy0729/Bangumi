@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 10:06:34
+ * @Last Modified time: 2019-09-25 21:16:58
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
@@ -66,9 +66,9 @@ export default class Store {
    * @param {*} arg          第一个参数
    * @param {*} defaultValue 默认值
    */
-  // computed = (key, arg, defaultValue = '') =>
-  //   computed(() => (arg ? this.state[key][arg] : this.state[key])).get() ||
-  //   defaultValue
+  computed = (key, arg, defaultValue = '') =>
+    computed(() => (arg ? this.state[key][arg] : this.state[key])).get() ||
+    defaultValue
 
   /**
    * 统一setState方法

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:08:44
+ * @Last Modified time: 2019-09-25 20:47:25
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -19,7 +19,7 @@ export const tabs = [
   },
   {
     title: '即将结束',
-    key: 'rai'
+    key: 'mri'
   },
   {
     title: '最高人气',

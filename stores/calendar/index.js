@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-23 18:09:08
+ * @Last Modified time: 2019-09-25 21:08:46
  */
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
@@ -16,11 +16,6 @@ import { NAMESPACE, INIT_HOME } from './init'
 import { cheerioToday } from './common'
 
 class Calendar extends store {
-  constructor() {
-    super()
-    this.generateComputed()
-  }
-
   state = observable({
     /**
      * 每日放送
@@ -39,7 +34,14 @@ class Calendar extends store {
       home: INIT_HOME
     })
 
-  computed = ['calendar', 'home']
+  // -------------------- get --------------------
+  @computed get calendar() {
+    return this.state.calendar
+  }
+
+  @computed get home() {
+    return this.state.home
+  }
 
   // -------------------- fetch --------------------
   /**

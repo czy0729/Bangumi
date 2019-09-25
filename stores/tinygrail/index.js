@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-23 18:11:28
+ * @Last Modified time: 2019-09-25 21:17:21
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -49,11 +49,6 @@ const defaultKey = 'recent'
 const defaultSort = '1/50'
 
 class Tinygrail extends store {
-  constructor() {
-    super()
-    this.generateComputed()
-  }
-
   state = observable({
     /**
      * 授权cookie
@@ -76,6 +71,7 @@ class Tinygrail extends store {
     mvi: LIST_EMPTY,
     mpi: LIST_EMPTY,
     rai: LIST_EMPTY,
+    mri: LIST_EMPTY,
     recent: LIST_EMPTY,
     tnbc: LIST_EMPTY,
     nbc: LIST_EMPTY,
@@ -195,25 +191,69 @@ class Tinygrail extends store {
       NAMESPACE
     )
 
-  computed = [
-    'cookie',
-    ['characters', INIT_CHARACTERS_ITEM],
-    ['rich', LIST_EMPTY, defaultSort],
-    ['kline', INIT_KLINE_ITEM],
-    ['depth', INIT_DEPTH_ITEM],
-    'hash',
-    'assets',
-    ['charaAssets', INIT_CHARA_ASSETS],
-    ['userLogs', INIT_USER_LOGS],
-    'myCharaAssets',
-    'balance',
-    ['iconsCache', ''],
-    ['initial', LIST_EMPTY],
-    ['users', LIST_EMPTY]
-  ]
+  // -------------------- get --------------------
+  @computed get cookie() {
+    return this.state.cookie
+  }
+
+  characters(id) {
+    return (
+      computed(() => this.state.characters[id]).get() || INIT_CHARACTERS_ITEM
+    )
+  }
 
   list(key = defaultKey) {
     return computed(() => this.state[key]).get() || LIST_EMPTY
+  }
+
+  rich(sort = defaultSort) {
+    return computed(() => this.state.rich[sort]).get() || LIST_EMPTY
+  }
+
+  kline(id) {
+    return computed(() => this.state.kline[id]).get() || INIT_KLINE_ITEM
+  }
+
+  depth(id) {
+    return computed(() => this.state.depth[id]).get() || INIT_DEPTH_ITEM
+  }
+
+  @computed get hash() {
+    return this.state.hash
+  }
+
+  @computed get assets() {
+    return this.state.assets
+  }
+
+  charaAssets(hash) {
+    return (
+      computed(() => this.state.charaAssets[hash]).get() || INIT_CHARA_ASSETS
+    )
+  }
+
+  userLogs(id) {
+    return computed(() => this.state.userLogs[id]).get() || INIT_USER_LOGS
+  }
+
+  @computed get myCharaAssets() {
+    return this.state.myCharaAssets
+  }
+
+  @computed get balance() {
+    return this.state.balance
+  }
+
+  iconsCache(id) {
+    return computed(() => this.state.iconsCache[id]).get() || ''
+  }
+
+  initial(id) {
+    return computed(() => this.state.initial[id]).get() || LIST_EMPTY
+  }
+
+  users(id) {
+    return computed(() => this.state.users[id]).get() || LIST_EMPTY
   }
 
   // -------------------- fetch --------------------
@@ -263,6 +303,7 @@ class Tinygrail extends store {
       })
       this.updateIconsCache(iconsCache)
     }
+
     const key = 'characters'
     this.setState({
       [key]: data

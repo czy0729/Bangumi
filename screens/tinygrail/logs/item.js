@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:34:53
+ * @Last Modified time: 2019-09-25 21:25:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -48,7 +48,6 @@ function Item(
   }
 
   const icons = $.icons(charaId)
-
   return (
     <View style={styles.container}>
       <Touchable onPress={onPress}>
@@ -75,11 +74,16 @@ function Item(
                     src={icons}
                     size={24}
                     borderColor='transparent'
-                    onPress={() =>
+                    onPress={() => {
+                      // ICO的记录没有人物id
+                      if (!onPress) {
+                        return
+                      }
+
                       navigation.push('Mono', {
                         monoId: `character/${charaId}`
                       })
-                    }
+                    }}
                   />
                 )}
                 <Text

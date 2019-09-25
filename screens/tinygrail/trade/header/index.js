@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 18:43:41
+ * @Last Modified time: 2019-09-25 21:07:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,7 +16,6 @@ import Today from './today'
 
 function Header({ goBack }, { $, navigation }) {
   const { icon, name, current, fluctuation, bonus } = $.chara
-
   let color = _.colorPlain
   if (fluctuation < 0) {
     color = colorAsk

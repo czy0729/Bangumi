@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 20:36:37
+ * @Last Modified time: 2019-09-25 21:21:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -94,7 +94,7 @@ function Item(props, { navigation }) {
           borderColor='transparent'
           onPress={() =>
             navigation.push('Mono', {
-              monoId: `character/${id}`
+              monoId: `character/${monoId || id}`
             })
           }
         />

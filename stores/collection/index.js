@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-23 18:48:45
+ * @Last Modified time: 2019-09-25 21:10:01
  */
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
@@ -25,22 +25,7 @@ import {
   DEFAULT_ORDER
 } from './init'
 
-/**
- * 构造收藏概览的stateKey
- * @param {*} userId
- * @param {*} subjectType
- * @param {*} type
- */
-function getStateKey(userId = userStore.myUserId, subjectType, type) {
-  return `${userId}|${subjectType}|${type}`
-}
-
 class Collection extends store {
-  constructor() {
-    super()
-    this.setup()
-  }
-
   state = observable({
     /**
      * API条目收藏信息
@@ -71,11 +56,25 @@ class Collection extends store {
       userCollectionsTags: {}
     })
 
-  computed = [
-    ['collection', {}],
-    ['userCollections', LIST_EMPTY, getStateKey],
-    ['userCollectionsTags', [], getStateKey]
-  ]
+  // -------------------- get --------------------
+  collection(subjectId) {
+    return computed(() => this.state.collection[subjectId] || {}).get()
+  }
+
+  userCollections(userId = userStore.myUserId, subjectType, type) {
+    return computed(
+      () =>
+        this.state.userCollections[`${userId}|${subjectType}|${type}`] ||
+        LIST_EMPTY
+    ).get()
+  }
+
+  userCollectionsTags(userId = userStore.myUserId, subjectType, type) {
+    return computed(
+      () =>
+        this.state.userCollectionsTags[`${userId}|${subjectType}|${type}`] || []
+    ).get()
+  }
 
   // -------------------- fetch --------------------
   /**

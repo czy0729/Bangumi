@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 21:24:26
+ * @Last Modified time: 2019-09-25 20:55:53
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Input } from '@components'
+import { Flex, Input, Touchable, Text } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 import { colorText, colorPlain, colorContainer } from '../styles'
@@ -15,17 +15,37 @@ import { colorText, colorPlain, colorContainer } from '../styles'
 function SearchBar(props, { $, navigation }) {
   const { value } = $.state
   return (
-    <Input
-      style={styles.searchIpt}
-      value={value}
-      keyboardType='numeric'
-      returnKeyType='search'
-      placeholder='输入角色id直达...'
-      placeholderTextColor={colorText}
-      autoFocus
-      onChange={$.onChange}
-      onSubmitEditing={() => $.doSearch(navigation)}
-    />
+    <Flex>
+      <Flex.Item>
+        <Input
+          style={styles.searchIpt}
+          value={value}
+          keyboardType='numeric'
+          returnKeyType='search'
+          placeholder='输入角色id直达...'
+          placeholderTextColor={colorText}
+          autoFocus
+          onChange={$.onChange}
+          onSubmitEditing={() => $.doSearch(navigation)}
+        />
+      </Flex.Item>
+      <Touchable
+        style={_.ml.sm}
+        size='sm'
+        onPress={() => $.doSearch(navigation)}
+      >
+        <Flex style={styles.btn} justify='center'>
+          <Text
+            style={{
+              color: colorText
+            }}
+            size={14}
+          >
+            前往
+          </Text>
+        </Flex>
+      </Touchable>
+    </Flex>
   )
 }
 
@@ -46,5 +66,13 @@ const styles = StyleSheet.create({
     borderColor: colorText,
     borderWidth: 1,
     borderRadius: 64
+  },
+  btn: {
+    width: 80,
+    height: 34,
+    borderRadius: 64,
+    backgroundColor: colorContainer,
+    borderColor: colorText,
+    borderWidth: 1
   }
 })
