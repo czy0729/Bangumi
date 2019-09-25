@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:23:04
+ * @Last Modified time: 2019-09-25 18:13:11
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -37,6 +37,9 @@ class User extends React.Component {
     scrollY: new Animated.Value(0)
   }
 
+  offsetZeroNativeEvent
+  loaded = {}
+
   componentDidMount() {
     const { $ } = this.context
     $.init()
@@ -45,6 +48,12 @@ class User extends React.Component {
   }
 
   onScroll = e => {
+    // 记录一个nativeEvent
+    if (!this.offsetZeroNativeEvent && e.nativeEvent) {
+      this.offsetZeroNativeEvent = e.nativeEvent
+      this.offsetZeroNativeEvent.contentOffset.y = 0
+    }
+
     const { scrollY } = this.state
     Animated.event([
       {
@@ -55,6 +64,40 @@ class User extends React.Component {
         }
       }
     ])(e)
+  }
+
+  onTabsChange = page => {
+    if (!this.loaded[page]) {
+      this.resetPageOffset(page)
+    }
+  }
+
+  onSelectSubjectType = title => {
+    const { $ } = this.context
+    $.onSelectSubjectType(title)
+
+    const { page } = $.state
+    this.resetPageOffset(page)
+  }
+
+  resetPageOffset = page => {
+    if (!this.loaded[page] && this.offsetZeroNativeEvent) {
+      setTimeout(() => {
+        const { scrollY } = this.state
+        Animated.event([
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrollY
+              }
+            }
+          }
+        ])({
+          nativeEvent: this.offsetZeroNativeEvent
+        })
+        this.loaded[page] = true
+      }, 0)
+    }
   }
 
   render() {
@@ -73,13 +116,20 @@ class User extends React.Component {
 
     const { subjectType } = $.state
     const { scrollY } = this.state
+    const offset = height + _.tabsHeight
     return (
       <>
         <StatusBarEvents
           barStyle='light-content'
           backgroundColor='transparent'
         />
-        <Tabs style={_.container.screen} $={$} scrollY={scrollY}>
+        <Tabs
+          style={_.container.screen}
+          $={$}
+          scrollY={scrollY}
+          onSelect={this.onSelectSubjectType}
+          onChange={(item, page) => this.onTabsChange(page)}
+        >
           {tabs.map(item => (
             <List
               key={item.title}
@@ -87,7 +137,7 @@ class User extends React.Component {
               subjectType={subjectType}
               ListHeaderComponent={
                 <>
-                  <View style={{ height: height + _.tabsHeight }} />
+                  <View style={{ height: offset }} />
                   <ToolBar />
                 </>
               }

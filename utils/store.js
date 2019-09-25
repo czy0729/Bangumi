@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-23 18:48:44
+ * @Last Modified time: 2019-09-25 10:06:34
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
@@ -30,8 +30,6 @@ export default class Store {
    *   ['key', defaultValue, funcArg] // case 4
    */
   generateComputed = () => {
-    console.log('generateComputed')
-
     if (!Array.isArray(this.computed)) {
       return
     }
