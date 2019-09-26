@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:21:17
+ * @Last Modified time: 2019-09-26 16:09:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex, Text, Image } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
-import { getCoverLarge, caculateICO } from '@utils/app'
+import { tinygrailOSS, getCoverLarge, caculateICO } from '@utils/app'
 import _ from '@styles'
 import Bar from './bar'
 import { colorPlain } from '../styles'
@@ -25,7 +25,7 @@ function Info(props, { $ }) {
       {!!icon && (
         <Flex justify='center'>
           <Image
-            src={getCoverLarge(icon)}
+            src={tinygrailOSS(getCoverLarge(icon))}
             autoSize={maxSize}
             shadow
             placholder={false}

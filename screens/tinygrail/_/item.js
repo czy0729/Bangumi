@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 21:21:08
+ * @Last Modified time: 2019-09-26 16:05:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
 import { lastDate, getTimestamp } from '@utils'
-import { formatTime } from '@utils/app'
+import { tinygrailOSS, formatTime } from '@utils/app'
 import _ from '@styles'
 import {
   colorBid,
@@ -89,7 +89,7 @@ function Item(props, { navigation }) {
       <Flex align='start'>
         <Avatar
           style={styles.image}
-          src={icon}
+          src={tinygrailOSS(icon)}
           size={44}
           borderColor='transparent'
           onPress={() =>

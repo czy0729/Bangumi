@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:28:00
+ * @Last Modified time: 2019-09-26 16:06:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar } from '@screens/_'
 import { getTimestamp, lastDate } from '@utils'
+import { tinygrailOSS } from '@utils/app'
 import _ from '@styles'
 import { colorContainer, colorText, colorBorder } from '../styles'
 
@@ -76,7 +77,7 @@ function Item(
         <View>
           <Avatar
             style={styles.image}
-            src={avatar}
+            src={tinygrailOSS(avatar)}
             size={44}
             borderColor='transparent'
             onPress={() =>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 21:25:36
+ * @Last Modified time: 2019-09-26 16:06:33
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
 import { lastDate, getTimestamp, formatNumber } from '@utils'
+import { tinygrailOSS } from '@utils/app'
 import _ from '@styles'
 import {
   colorBid,
@@ -71,7 +72,7 @@ function Item(
                 {!!icons && (
                   <Avatar
                     style={_.mr.sm}
-                    src={icons}
+                    src={tinygrailOSS(icons)}
                     size={24}
                     borderColor='transparent'
                     onPress={() => {

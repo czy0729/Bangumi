@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 21:07:51
+ * @Last Modified time: 2019-09-26 16:07:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from '@utils/decorators'
 import { Flex, Text } from '@components'
 import { Avatar, IconHeader } from '@screens/_'
+import { tinygrailOSS } from '@utils/app'
 import _ from '@styles'
 import { colorBid, colorAsk } from '../../styles'
 import Today from './today'
@@ -44,7 +45,7 @@ function Header({ goBack }, { $, navigation }) {
               onPress={goBack}
             />
             <Avatar
-              src={icon}
+              src={tinygrailOSS(icon)}
               size={32}
               borderColor='transparent'
               onPress={() =>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-21 00:25:00
+ * @Last Modified time: 2019-09-26 16:05:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { Text, Flex } from '@components'
 import { formatNumber } from '@utils'
 import { Avatar } from '@screens/_'
+import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 import { colorPlain, colorBid, colorText } from '../styles'
@@ -36,7 +37,7 @@ function Initial({ style }, { $, navigation }) {
             <Flex key={index} style={styles.item}>
               <Avatar
                 navigation={navigation}
-                src={item.avatar}
+                src={tinygrailOSS(item.avatar)}
                 size={isTop ? 56 : 40}
                 userId={item.name}
                 borderColor='transparent'

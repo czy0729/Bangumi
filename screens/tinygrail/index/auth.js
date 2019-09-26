@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 21:23:06
+ * @Last Modified time: 2019-09-26 16:06:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex, Button, Text } from '@components'
 import { IconBack, Avatar } from '@screens/_'
 import { lastDate } from '@utils'
+import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 import { colorIcon } from '../styles'
@@ -29,7 +30,7 @@ function Auth(props, { $, navigation }) {
         />
         <Avatar
           size={40}
-          src={avatar && avatar.large}
+          src={tinygrailOSS(avatar && avatar.large)}
           borderColor='transparent'
         />
         <Flex.Item style={_.ml.sm}>

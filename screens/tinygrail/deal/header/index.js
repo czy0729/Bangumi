@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 20:55:37
+ * @Last Modified time: 2019-09-26 16:05:37
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { Avatar, IconHeader, IconBack } from '@screens/_'
+import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 import { colorBid, colorAsk } from '../../styles'
@@ -40,7 +41,7 @@ function Header(props, { $, navigation }) {
             navigation={navigation}
           />
           <Avatar
-            src={icon}
+            src={tinygrailOSS(icon)}
             size={32}
             borderColor='transparent'
             onPress={() =>

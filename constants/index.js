@@ -38,7 +38,7 @@ export const GITHUB_RELEASE_REPOS_URL =
   'https://api.github.com/repos/czy0729/Bangumi/releases' // 版本析出api地址
 export const GITHUB_RELEASE_VERSION = '1.2.2' // 版本号
 export const CODE_PUSH_VERSION = '' // 热推送副版本号
-export const DEV = false // 是否开发模式
+export const DEV = true // 是否开发模式
 
 // 图片
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg' // 空头像
