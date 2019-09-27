@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 18:46:37
+ * @Last Modified time: 2019-09-26 16:40:10
  */
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
@@ -13,13 +13,15 @@ import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Store from './store'
 
-const title = ''
-
 export default
 @inject(Store)
 @withHeader()
 @observer
 class Character extends React.Component {
+  static navigationOptions = {
+    title: '角色'
+  }
+
   static contextTypes = {
     $: PropTypes.object,
     navigation: PropTypes.object
@@ -29,7 +31,7 @@ class Character extends React.Component {
     const { $ } = this.context
     await $.init()
 
-    hm('Character')
+    hm('character')
   }
 
   render() {

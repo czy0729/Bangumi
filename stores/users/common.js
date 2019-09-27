@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 17:12:08
+ * @Last Modified time: 2019-09-26 19:57:39
  */
 import { cheerio } from '@utils/html'
 
@@ -92,5 +92,32 @@ export function analysisUsers(HTML) {
     ),
     connectUrl: $('#connectFrd').attr('href'),
     disconnectUrl
+  }
+}
+
+export function analysisCharacters(HTML) {
+  const $ = cheerio(HTML)
+  const pagination = {
+    page: 1,
+    pageTotal: $('div.page_inner > a.p').length
+  }
+  const list = $('ul.coversSmall > li.clearit')
+    .map((index, element) => {
+      const $li = cheerio(element)
+      const $a = $li.find('a[title]')
+      return {
+        avatar: $li
+          .find('img')
+          .attr('src')
+          .split('?')[0],
+        id: $a.attr('href'),
+        name: $a.attr('title')
+      }
+    })
+    .get()
+
+  return {
+    pagination,
+    list
   }
 }

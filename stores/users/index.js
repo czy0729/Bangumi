@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:24:25
+ * @Last Modified time: 2019-09-26 23:23:14
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
-import { HTML_FRIENDS, HTML_USERS } from '@constants/html'
+import { HTML_FRIENDS, HTML_USERS, HTML_USERS_CHARCTERS } from '@constants/html'
 import userStore from '../user'
 import { NAMESPACE, INIT_USERS } from './init'
-import { analysisFriends, analysisUsers } from './common'
+import { analysisFriends, analysisUsers, analysisCharacters } from './common'
 
 class Users extends store {
   state = observable({
@@ -27,6 +27,11 @@ class Users extends store {
     // 用户介绍
     users: {
       // [userId]: INIT_USERS
+    },
+
+    // 用户收藏的虚拟角色
+    characters: {
+      // [userId]: LIST_EMPTY
     }
   })
 
@@ -132,6 +137,30 @@ class Users extends store {
 
     return Promise.resolve(users)
   }
+
+  /**
+   * 用户收藏的虚拟角色
+   */
+  // fetchCharacters = async ({ userId } = {}, refresh) => {
+  //   const html = await fetchHTML({
+  //     url: HTML_USERS_CHARCTERS(userId)
+  //   })
+
+  //   const { list, pagination } = analysisCharacters(html)
+  //   let characters
+  //   if (refresh) {
+  //     character = {
+  //       list,
+  //       pagination,
+  //       _loaded: getTimestamp()
+  //     }
+  //   } else {
+  //     const data = this.characters(userId)
+  //     character = {
+  //       ...this.characters(userId)
+  //     }
+  //   }
+  // }
 }
 
 export default new Users()
