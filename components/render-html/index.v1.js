@@ -4,27 +4,21 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-13 23:41:41
+ * @Last Modified time: 2019-09-28 02:41:16
  */
 import React from 'react'
-import {
-  StyleSheet,
-  View,
-  Image as RNImage,
-  Text as RNText
-} from 'react-native'
-import { ActivityIndicator } from '@ant-design/react-native'
+import { View, Image as RNImage, Text as RNText } from 'react-native'
 import HTML from 'react-native-render-html'
-import { rakuenStore } from '@stores'
 import { open } from '@utils'
 import { HOST } from '@constants'
 import _ from '@styles'
-import { bgm } from './bgm'
-import Flex from './flex'
-import Image from './image'
-import Touchable from './touchable'
-import Iconfont from './iconfont'
-import Text from './text'
+import { bgm } from '../bgm'
+import MaskText from './mask-text'
+import QuoteText from './quote-text'
+import LineThroughtText from './line-throught-text'
+import HiddenText from './hidden-text'
+import Li from './li'
+import ToggleImage from './toggle-image'
 
 // 一些超展开内容文本样式的标记
 const spanMark = {
@@ -44,7 +38,8 @@ export default class RenderHtml extends React.Component {
     },
     imagesMaxWidth: _.window.width - 2 * _.wind,
     html: '',
-    autoShowImage: false
+    autoShowImage: false,
+    onLinkPress: Function.prototype
   }
 
   /**
@@ -174,12 +169,17 @@ export default class RenderHtml extends React.Component {
         props.imageViewer = true
         return <ToggleImage {...props} show={autoShowImage} />
       },
-      span: ({ style = '' }, children, convertedCSSStyles, passProps) => {
+      span: (
+        { style = '' },
+        children,
+        convertedCSSStyles,
+        { rawChildren, key, baseFontStyle }
+      ) => {
         // @todo 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
         // 防剧透字
         if (style.includes(spanMark.mask)) {
           let text = ''
-          const target = passProps.rawChildren[0]
+          const target = rawChildren[0]
           if (target) {
             // 当mask里面有bgm标签的时候, 结构不一样
             // @issue 暂时只处理了mask里面有一个bgm的情况
@@ -201,7 +201,7 @@ export default class RenderHtml extends React.Component {
             }
           }
           return (
-            <MaskText key={passProps.key} style={passProps.baseFontStyle}>
+            <MaskText key={key} style={baseFontStyle}>
               {text}
             </MaskText>
           )
@@ -209,7 +209,7 @@ export default class RenderHtml extends React.Component {
 
         // 删除字
         if (style.includes(spanMark.lineThrough)) {
-          const target = passProps.rawChildren[0]
+          const target = rawChildren[0]
           const text =
             (target &&
               target.parent &&
@@ -217,42 +217,30 @@ export default class RenderHtml extends React.Component {
               target.parent.children[0].data) ||
             ''
           return (
-            <RNText
-              key={passProps.key}
-              style={[passProps.baseFontStyle, styles.lineThrought]}
-              allowFontScaling={false}
-              selectable
-            >
+            <LineThroughtText key={key} style={baseFontStyle}>
               {text}
-            </RNText>
+            </LineThroughtText>
           )
         }
 
         // 隐藏字
         if (style.includes(spanMark.hidden)) {
-          const target = passProps.rawChildren[0]
+          const target = rawChildren[0]
           const text = (target && target.data) || ''
           return (
-            <RNText
-              key={passProps.key}
-              style={[passProps.baseFontStyle, styles.hidden]}
-              allowFontScaling={false}
-              selectable
-            >
+            <HiddenText key={key} style={baseFontStyle}>
               {text}
-            </RNText>
+            </HiddenText>
           )
         }
 
         return children
       },
-      q: (attrs, children, convertedCSSStyles, passProps) => (
-        <QuoteText key={passProps.key}>{children}</QuoteText>
+      q: (attrs, children, convertedCSSStyles, { key }) => (
+        <QuoteText key={key}>{children}</QuoteText>
       ),
-      li: (attrs, children, convertedCSSStyles, passProps) => (
-        <View key={passProps.key} style={styles.li}>
-          {children}
-        </View>
+      li: (attrs, children, convertedCSSStyles, { key }) => (
+        <Li key={key}>{children}</Li>
       )
     }
   })
@@ -272,6 +260,7 @@ export default class RenderHtml extends React.Component {
       baseFontStyle,
       imagesMaxWidth,
       html,
+      autoShowImage,
       onLinkPress,
       ...other
     } = this.props
@@ -299,183 +288,3 @@ export default class RenderHtml extends React.Component {
     )
   }
 }
-
-class MaskText extends React.Component {
-  state = {
-    show: false
-  }
-
-  toggle = () => {
-    const { show } = this.state
-    this.setState({
-      show: !show
-    })
-  }
-
-  render() {
-    const { style, children } = this.props
-    const { show } = this.state
-    return (
-      <RNText
-        style={[style, show ? styles.blockTextShow : styles.blockText]}
-        allowFontScaling={false}
-        selectable
-        onPress={this.toggle}
-      >
-        {children}
-      </RNText>
-    )
-  }
-}
-
-class QuoteText extends React.Component {
-  state = {
-    show: rakuenStore.setting.quote || false
-  }
-
-  show = () =>
-    this.setState({
-      show: true
-    })
-
-  render() {
-    const { children } = this.props
-    const { show } = this.state
-    if (!show) {
-      return (
-        <RNText
-          style={styles.quoteTextPlaceholder}
-          allowFontScaling={false}
-          selectable
-          onPress={this.show}
-        >
-          ...
-        </RNText>
-      )
-    }
-    return (
-      <RNText style={styles.quoteText} allowFontScaling={false} selectable>
-        {children}
-      </RNText>
-    )
-  }
-}
-
-class ToggleImage extends React.Component {
-  state = {
-    show: this.props.show || false,
-    loaded: false
-  }
-
-  toggleShow = () => {
-    const { show } = this.state
-    this.setState({
-      show: !show
-    })
-  }
-
-  onLoadEnd = () =>
-    this.setState({
-      loaded: true
-    })
-
-  render() {
-    const { show, loaded } = this.state
-    if (!show) {
-      return (
-        <Touchable onPress={this.toggleShow}>
-          <Flex style={styles.imagePlaceholder} justify='center'>
-            <Text size={12} type='sub'>
-              点击显示图片
-            </Text>
-          </Flex>
-        </Touchable>
-      )
-    }
-    return (
-      <View>
-        {!loaded && (
-          <Flex style={styles.loadingWrap} justify='center'>
-            <ActivityIndicator size='small' color={_.colorIcon} />
-          </Flex>
-        )}
-        <Image
-          {...this.props}
-          onLoadEnd={this.onLoadEnd}
-          onError={this.onLoadEnd}
-        />
-        {!this.props.show && (
-          <Touchable style={styles.closeImageWrap} onPress={this.toggleShow}>
-            <Flex style={styles.closeImage} justify='center'>
-              <Iconfont size={12} name='close' color={_.colorPlain} />
-            </Flex>
-          </Touchable>
-        )}
-      </View>
-    )
-  }
-}
-
-const styles = StyleSheet.create({
-  blockText: {
-    color: _.colorDesc,
-    backgroundColor: _.colorDesc
-  },
-  blockTextShow: {
-    color: _.colorPlain,
-    backgroundColor: _.colorDesc
-  },
-  quoteTextPlaceholder: {
-    paddingBottom: 10,
-    marginTop: -6,
-    color: _.colorSub,
-    textAlign: 'center'
-  },
-  quoteText: {
-    paddingVertical: 4,
-    paddingHorizontal: 12,
-    marginBottom: 4,
-    backgroundColor: _.colorPrimaryLight,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: _.colorBorder,
-    transform: [{ scale: 0.96 }]
-  },
-  lineThrought: {
-    textDecorationLine: 'line-through'
-  },
-  hidden: {
-    opacity: 0
-  },
-  li: {
-    paddingVertical: _.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: _.colorBg
-  },
-  loadingWrap: {
-    width: '100%',
-    height: 120
-  },
-  loading: {
-    width: 32,
-    height: 32
-  },
-  imagePlaceholder: {
-    width: '100%',
-    height: 120,
-    borderWidth: 1,
-    borderColor: _.colorBorder
-  },
-  closeImageWrap: {
-    position: 'absolute',
-    zIndex: 1,
-    top: _.sm,
-    right: _.sm
-  },
-  closeImage: {
-    width: 32,
-    height: 32,
-    borderRadius: 32,
-    backgroundColor: 'rgba(0, 0, 0, 0.12)',
-    overflow: 'hidden'
-  }
-})
