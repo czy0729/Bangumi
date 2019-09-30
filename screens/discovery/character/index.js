@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:40:10
+ * @Last Modified time: 2019-09-30 10:58:39
  */
 import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import { Text } from '@components'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -45,5 +45,3 @@ class Character extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-19 22:31:46
+ * @Last Modified time: 2019-09-30 14:07:20
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,7 +11,7 @@ import { Input } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 
-const SearchBar = (props, { $ }) => {
+function SearchBar(props, { $ }) {
   const { value } = $.state
   return (
     <Input

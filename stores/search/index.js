@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 11:04:12
+ * @Last Modified time: 2019-09-29 11:19:56
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -15,10 +15,21 @@ import { NAMESPACE, DEFAULT_CAT, INIT_SEARCH_ITEM } from './init'
 
 class Search extends store {
   state = observable({
+    /**
+     * 搜索
+     */
     search: {
       // [`${text}|${cat}`]: LIST_EMPTY | INIT_SEARCH_ITEM
     }
   })
+
+  init = () =>
+    this.readStorageThenSetState(
+      {
+        search: {}
+      },
+      NAMESPACE
+    )
 
   async init() {
     const res = Promise.all([this.getStorage('search', NAMESPACE)])

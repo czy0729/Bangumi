@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 18:39:53
+ * @Last Modified time: 2019-09-29 11:19:48
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -17,39 +17,49 @@ import {
 
 class Discovery extends store {
   state = observable({
+    /**
+     * 随机看看
+     */
     random: LIST_EMPTY,
 
+    /**
+     * 柠萌条目信息
+     */
     ningMoeDetail: {
       // [bgmId]: INIT_NINGMOE_DETAIL_ITEM
     },
 
+    /**
+     * Anitama文章列表
+     */
     anitamaTimeline: {
       // [page]: INIT_ANITAMA_TIMELINE_ITEM
     },
 
-    // 收藏的角色
+    /**
+     * 收藏的角色
+     */
     character: LIST_EMPTY,
 
-    // 收藏的人物
+    /**
+     * 收藏的人物
+     */
     person: LIST_EMPTY,
 
-    // 人物的更新
+    /**
+     * 人物的更新
+     */
     characterRecent: LIST_EMPTY
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('random', NAMESPACE),
-      this.getStorage('ningMoeDetail', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      random: state[0] || LIST_EMPTY,
-      ningMoeDetail: state[1] || {}
-    })
-
-    return res
-  }
+  init = () =>
+    this.readStorageThenSetState(
+      {
+        random: LIST_EMPTY,
+        ningMoeDetail: {}
+      },
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
   @computed get random() {

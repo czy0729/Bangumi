@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants'
-import { colorBorder } from '@styles'
+import _ from '@styles'
 
 export default () =>
   StyleSheet.create({
@@ -13,11 +13,11 @@ export default () =>
           borderBottomWidth: 0
         }
       : {
-          borderBottomColor: colorBorder,
+          borderBottomColor: _.colorBorder,
           borderBottomWidth: StyleSheet.hairlineWidth
         },
     bottomTabBarSplitLine: {
-      borderTopColor: colorBorder,
+      borderTopColor: _.colorBorder,
       borderTopWidth: StyleSheet.hairlineWidth
     }
   })

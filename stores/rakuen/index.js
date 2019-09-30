@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 00:17:26
+ * @Last Modified time: 2019-09-29 11:19:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -40,66 +40,72 @@ import {
 
 class Rakuen extends store {
   state = observable({
-    // 超展开列表
+    /**
+     * 超展开列表
+     */
     rakuen: {
       // [`${scope}|${type}`]: LIST_EMPTY | INIT_RAKUEN_ITEM
     },
 
-    // 帖子历史查看信息
+    /**
+     * 帖子历史查看信息
+     */
     readed: {
       // [topicId]: INIT_READED_ITEM
     },
 
-    // 帖子内容
+    /**
+     * 帖子内容
+     */
     topic: {
       // [topicId]: INIT_TOPIC
     },
 
-    // 帖子回复
+    /**
+     * 帖子回复
+     */
     comments: {
       // [topicId]: LIST_EMPTY | INIT_COMMENTS_ITEM
     },
 
-    // 电波提醒
+    /**
+     * 电波提醒
+     */
     notify: INIT_NOTIFY,
 
-    // 超展开设置
+    /**
+     * 超展开设置
+     */
     setting: INIT_SETTING,
 
-    // 小组信息
+    /**
+     * 小组信息
+     */
     groupInfo: {
       // [groupId]: INIT_GROUP_INFO
     },
 
-    // 小组帖子列表
+    /**
+     * 小组帖子列表
+     */
     group: {
       // [groupId|page]: [] | INIT_GROUP_ITEM
     }
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('rakuen', NAMESPACE),
-      this.getStorage('readed', NAMESPACE),
-      this.getStorage('topic', NAMESPACE),
-      this.getStorage('comments', NAMESPACE),
-      this.getStorage('notify', NAMESPACE),
-      this.getStorage('setting', NAMESPACE),
-      this.getStorage('groupInfo', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      rakuen: state[0] || {},
-      readed: state[1] || {},
-      topic: state[2] || {},
-      comments: state[3] || {},
-      notify: state[4] || INIT_NOTIFY,
-      setting: state[5] || INIT_SETTING,
-      groupInfo: state[6] || {}
-    })
-
-    return res
-  }
+  init = () =>
+    this.readStorageThenSetState(
+      {
+        rakuen: {},
+        readed: {},
+        topic: {},
+        comments: {},
+        notify: INIT_NOTIFY,
+        setting: INIT_SETTING,
+        groupInfo: {}
+      },
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
   /**

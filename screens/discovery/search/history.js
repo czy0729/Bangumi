@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 03:10:44
+ * @Last Modified time: 2019-09-30 14:06:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Touchable, Flex, Text, Iconfont } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 
-const History = ({ style }, { $ }) => {
+function History({ style }, { $ }) {
   const { history, value } = $.state
   if (value !== '') {
     return null

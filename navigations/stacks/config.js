@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 16:27:10
+ * @Last Modified time: 2019-09-30 14:14:50
  */
 import { StyleSheet, Platform } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
 import { IOS } from '@constants'
-import { wind, colorTitle, colorBorder } from '@styles'
+import _ from '@styles'
 
 const config = {
   headerMode: 'screen',
@@ -17,9 +17,9 @@ const config = {
   defaultNavigationOptions: {
     headerStyle: {
       borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: colorBorder
+      borderBottomColor: _.colorBorder
     },
-    headerTintColor: colorTitle,
+    headerTintColor: _.colorTitle,
     headerLeftContainerStyle: Platform.select({
       ios: {
         paddingLeft: 8
@@ -31,7 +31,7 @@ const config = {
       }
     }),
     headerRightContainerStyle: {
-      paddingRight: wind
+      paddingRight: _.wind
     }
   }
 }

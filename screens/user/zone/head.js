@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:31:56
+ * @Last Modified time: 2019-09-30 14:15:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { HTMLDecode } from '@utils/html'
-import _, { colorPlain } from '@styles'
+import _ from '@styles'
 
 function Head({ style }, { $ }) {
   const { avatar = {}, nickname, id } = $.usersInfo
@@ -50,7 +50,7 @@ export default observer(Head)
 const styles = StyleSheet.create({
   avatar: {
     borderWidth: 2,
-    borderColor: colorPlain,
+    borderColor: _.colorPlain,
     borderRadius: 80,
     overflow: 'hidden'
   },

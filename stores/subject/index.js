@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 00:43:12
+ * @Last Modified time: 2019-09-29 11:21:07
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIST_COMMENTS_LIMIT } from '@constants'
@@ -23,63 +23,68 @@ import { fetchMono, cheerioSubjectFormHTML } from './common'
 
 class Subject extends store {
   state = observable({
-    // 条目
+    /**
+     * 条目
+     */
     subject: {
       // [subjectId]: INIT_SUBJECT_ITEM
     },
 
-    // 条目HTML
+    /**
+     * 条目HTML
+     */
     subjectFormHTML: {
       // [subjectId]: INIT_SUBJECT_FROM_HTML_ITEM
     },
 
-    // 条目章节
+    /**
+     * 条目章节
+     */
     subjectEp: {
       // [subjectId]: {}
     },
 
-    // 条目吐槽箱
+    /**
+     * 条目吐槽箱
+     */
     subjectComments: {
       // [subjectId]: LIST_EMPTY
     },
 
-    // 章节内容
+    /**
+     * 章节内容
+     */
     epFormHTML: {
       // [epId]: ''
     },
 
-    // 人物
+    /**
+     * 人物
+     */
     mono: {
       // [monoId]: INIT_MONO
     },
 
-    // 人物吐槽箱
+    /**
+     * 人物吐槽箱
+     */
     monoComments: {
       // [monoId]: LIST_EMPTY | INIT_MONO_COMMENTS_ITEM
     }
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('subject', NAMESPACE),
-      this.getStorage('subjectFormHTML', NAMESPACE),
-      this.getStorage('subjectEp', NAMESPACE),
-      this.getStorage('subjectComments', NAMESPACE),
-      this.getStorage('mono', NAMESPACE),
-      this.getStorage('monoComments', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      subject: state[0] || {},
-      subjectFormHTML: state[1] || {},
-      subjectEp: state[2] || {},
-      subjectComments: state[3] || {},
-      mono: state[4] || {},
-      monoComments: state[5] || {}
-    })
-
-    return res
-  }
+  init = () =>
+    this.readStorageThenSetState(
+      {
+        subject: {},
+        subjectFormHTML: {},
+        subjectEp: {},
+        subjectComments: {},
+        mono: {},
+        monoComments: {}
+      },
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
   /**

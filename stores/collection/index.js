@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 21:10:01
+ * @Last Modified time: 2019-09-29 11:19:32
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -50,11 +50,14 @@ class Collection extends store {
   })
 
   init = () =>
-    this.readStorageThenSetState({
-      collection: {},
-      userCollections: {},
-      userCollectionsTags: {}
-    })
+    this.readStorageThenSetState(
+      {
+        collection: {},
+        userCollections: {},
+        userCollectionsTags: {}
+      },
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
   collection(subjectId) {

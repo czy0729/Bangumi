@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 13:15:51
+ * @Last Modified time: 2019-09-30 14:15:19
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { SectionTitle } from '@screens/_'
 import { open } from '@utils'
-import _, { colorBg, colorWait } from '@styles'
+import _ from '@styles'
 
 const initialRating = {
   count: {
@@ -115,12 +115,12 @@ const styles = StyleSheet.create({
   item: {
     height: 80,
     paddingBottom: _.xs,
-    backgroundColor: colorBg
+    backgroundColor: _.colorBg
   },
   itemFill: {
     position: 'absolute',
     right: 0,
     left: 0,
-    backgroundColor: colorWait
+    backgroundColor: _.colorWait
   }
 })

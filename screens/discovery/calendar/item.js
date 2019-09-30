@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 21:46:54
+ * @Last Modified time: 2019-09-30 14:15:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,11 +12,11 @@ import { Touchable, Flex, Text, Image } from '@components'
 import { IMG_DEFAULT } from '@constants'
 import { HTMLDecode } from '@utils/html'
 import { getCoverMedium } from '@utils/app'
-import _, { window, wind } from '@styles'
+import _ from '@styles'
 
-const imageWidth = window.width * 0.288
+const imageWidth = _.window.width * 0.288
 const imageHeight = imageWidth * 1.28
-const marginLeft = (window.width - 3 * imageWidth) / 4
+const marginLeft = (_.window.width - 3 * imageWidth) / 4
 
 function Item(
   { style, subjectId, images = {}, name, score },
@@ -84,7 +84,7 @@ export default observer(Item)
 const styles = StyleSheet.create({
   item: {
     width: imageWidth,
-    marginBottom: wind,
+    marginBottom: _.wind,
     marginLeft
   }
 })

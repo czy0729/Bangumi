@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-13 21:15:57
+ * @Last Modified time: 2019-09-29 11:32:31
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -35,70 +35,82 @@ import RakuenStore from '../rakuen'
 
 class Store extends store {
   state = observable({
-    // 授权信息
+    /**
+     * 授权信息
+     */
     accessToken: INIT_ACCESS_TOKEN,
 
-    // 自己用户信息
+    /**
+     * 自己用户信息
+     */
     userInfo: INIT_USER_INFO,
 
-    // 用户cookie
+    /**
+     * 用户cookie
+     */
     userCookie: INIT_USER_COOKIE,
 
-    // 在看收藏
+    /**
+     * 在看收藏
+     */
     userCollection: LIST_EMPTY,
 
-    // 收视进度
+    /**
+     * 收视进度
+     */
     userProgress: {
       // [subjectId]: {
       //   [epId]: '看过'
       // }
     },
 
-    // 用户收藏概览
+    /**
+     * 用户收藏概览
+     */
     userCollections: {
       // [`${type}|${userId}`]: LIST_EMPTY
     },
 
-    // 某用户信息
+    /**
+     * 某用户信息
+     */
     usersInfo: {
       // [userId]: INIT_USER_INFO
     },
 
-    // 用户收藏统计
+    /**
+     * 用户收藏统计
+     */
     userCollectionsStatus: {
       // [userId]: initUserCollectionsStatus
     },
 
-    // 用户介绍
+    /**
+     * 用户介绍
+     */
     users: {
       // [userId]: ''
     }
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('accessToken', NAMESPACE),
-      this.getStorage('userInfo', NAMESPACE),
-      this.getStorage('userCookie', NAMESPACE),
-      this.getStorage('userCollection', NAMESPACE),
-      this.getStorage('userProgress', NAMESPACE),
-      this.getStorage('userCollectionsStatus', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      accessToken: state[0] || INIT_ACCESS_TOKEN,
-      userInfo: state[1] || INIT_USER_INFO,
-      userCookie: state[2] || INIT_USER_COOKIE,
-      userCollection: state[3] || LIST_EMPTY,
-      userProgress: state[4] || {},
-      userCollectionsStatus: state[5] || {}
-    })
+  init = async () => {
+    await this.readStorageThenSetState(
+      {
+        accessToken: INIT_ACCESS_TOKEN,
+        userInfo: INIT_USER_INFO,
+        userCookie: INIT_USER_COOKIE,
+        userCollection: LIST_EMPTY,
+        userProgress: {},
+        userCollectionsStatus: {}
+      },
+      NAMESPACE
+    )
 
     if (this.isLogin) {
-      const { _loaded } = state[1] || INIT_USER_INFO
+      const { _loaded } = this.userInfo
 
-      // 用户信息被动刷新, 距离上次24小时候后才请求
-      if (!_loaded || getTimestamp() - _loaded > 86400) {
+      // 用户信息被动刷新, 距离上次4小时候后才请求
+      if (!_loaded || getTimestamp() - _loaded > 60 * 60 * 4) {
         this.fetchUserInfo()
         this.fetchUsersInfo()
       }
@@ -109,7 +121,8 @@ class Store extends store {
         // do nothing
       }
     }
-    return res
+
+    return true
   }
 
   // -------------------- get --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-03 00:59:30
+ * @Last Modified time: 2019-09-30 14:08:03
  */
 /*
  * @Author: czy0729
@@ -19,7 +19,7 @@ import { SectionTitle, Tag } from '@screens/_'
 import { appNavigate } from '@utils/app'
 import _ from '@styles'
 
-const Jobs = ({ style }, { $, navigation }) => {
+function Jobs({ style }, { $, navigation }) {
   const { jobs = [] } = $.mono
   if (!jobs.length) {
     return null

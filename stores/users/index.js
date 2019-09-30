@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 23:23:14
+ * @Last Modified time: 2019-09-29 11:35:31
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -16,48 +16,51 @@ import { analysisFriends, analysisUsers, analysisCharacters } from './common'
 
 class Users extends store {
   state = observable({
-    // 好友列表
+    /**
+     * 好友列表
+     */
     friends: {
       // [userId]: LIST_EMPTY | INIT_FRIENDS_ITEM
     },
 
-    // 我的好友userId哈希映射
+    /**
+     * 我的好友userId哈希映射
+     */
     myFriendsMap: {},
 
-    // 用户介绍
+    /**
+     * 用户介绍
+     */
     users: {
       // [userId]: INIT_USERS
     },
 
-    // 用户收藏的虚拟角色
+    /**
+     * 用户收藏的虚拟角色
+     */
     characters: {
       // [userId]: LIST_EMPTY
     }
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('friends', NAMESPACE),
-      this.getStorage('myFriendsMap', NAMESPACE),
-      this.getStorage('users', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      friends: state[0] || {},
-      myFriendsMap: state[1] || {},
-      users: state[2] || {}
-    })
+  init = async () => {
+    await this.readStorageThenSetState(
+      {
+        friends: {},
+        myFriendsMap: {},
+        users: {}
+      },
+      NAMESPACE
+    )
 
     if (userStore.isLogin) {
-      const { _loaded } = state[1] || {}
+      const { _loaded } = this.myFriendsMap
 
       // 若登陆了, 而且在7天内没更新过好友列表, 请求好友列表
-      if (!_loaded || getTimestamp() - _loaded > 7 * 86400) {
+      if (!_loaded || getTimestamp() - _loaded > 7 * 60 * 60 * 24) {
         this.fetchFriends()
       }
     }
-
-    return res
   }
 
   // -------------------- get --------------------

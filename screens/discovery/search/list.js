@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 20:27:03
+ * @Last Modified time: 2019-09-30 14:07:14
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,7 +11,7 @@ import { Loading, ListView } from '@components'
 import { ItemSearch } from '@screens/_'
 import _ from '@styles'
 
-const List = (props, { $, navigation }) => {
+function List(props, { $, navigation }) {
   const { searching } = $.state
   if (searching) {
     return <Loading style={_.container.flex} />

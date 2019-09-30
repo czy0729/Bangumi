@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 13:00:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-26 21:04:22
+ * @Last Modified time: 2019-09-30 14:11:47
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,7 +11,7 @@ import { Tabs as CompTabs } from '@components'
 import _ from '@styles'
 import { tabs, height, headerHeight } from './store'
 
-const Tabs = ({ $, scrollY, children, ...other }) => {
+function Tabs({ $, scrollY, children, ...other }) {
   const { page, _page } = $.state
   return (
     <CompTabs
