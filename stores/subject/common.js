@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:43:07
+ * @Last Modified time: 2019-10-02 00:36:07
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -210,7 +210,7 @@ export async function fetchMono({ monoId = 0 }) {
     matchHTML = HTML.match(
       /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><\/div><div id="footer/
     )
-    monoComments = analysisComments(matchHTML)
+    monoComments = analysisComments(matchHTML, true)
   }
 
   return Promise.resolve({

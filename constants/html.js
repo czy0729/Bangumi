@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:34:58
+ * @Last Modified time: 2019-10-01 18:00:35
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -189,8 +189,23 @@ export const HTML_FRIENDS = userId => `${HOST}/user/${userId}/friends`
  * @param {*} userId
  * @param {*} page
  */
-export const HTML_USERS_CHARCTERS = (userId = 'cts', page = 1) =>
+export const HTML_USERS_CHARCTER = (userId = '', page = 1) =>
   `${HOST}/user/${userId}/mono/character?page=${page}`
+
+/**
+ * 用户收藏的现实人物
+ * @param {*} userId
+ * @param {*} page
+ */
+export const HTML_USERS_PERSON = (userId = '', page = 1) =>
+  `${HOST}/user/${userId}/mono/person?page=${page}`
+
+/**
+ * 我收藏人物的最近作品
+ * @param {*} page
+ */
+export const HTML_USERS_MONO_RECENTS = (page = 1) =>
+  `${HOST}/mono/update?page=${page}`
 
 // -------------------- action --------------------
 /**

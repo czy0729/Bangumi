@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 21:16:58
+ * @Last Modified time: 2019-10-01 22:48:47
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
@@ -222,6 +222,27 @@ export default class Store {
     const state = Object.assign(
       {},
       ...keys.map((key, index) => ({
+        [key]: data[index]
+      }))
+    )
+    this.setState(state)
+
+    return state
+  }
+
+  /**
+   * 批量读取缓存并入库V2
+   * @param {*} *config    约定的配置
+   * @param {*} *namespace 命名空间
+   */
+  async readStorage(config = [], namespace) {
+    const data = await Promise.all(
+      config.map(key => this.getStorage(key, namespace, this.state[key]))
+    )
+
+    const state = Object.assign(
+      {},
+      ...config.map((key, index) => ({
         [key]: data[index]
       }))
     )

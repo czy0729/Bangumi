@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 20:47:25
+ * @Last Modified time: 2019-10-01 15:50:20
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -52,10 +52,6 @@ export default class ScreenTinygrailICO extends store {
   fetchList = key => tinygrailStore.fetchList(key)
 
   // -------------------- get --------------------
-  @computed get mvc() {
-    return tinygrailStore.mvc
-  }
-
   list(key = 'recent') {
     return computed(() => tinygrailStore.list(key)).get()
   }

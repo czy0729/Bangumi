@@ -2,17 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:35:31
+ * @Last Modified time: 2019-10-01 22:53:29
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
-import { HTML_FRIENDS, HTML_USERS, HTML_USERS_CHARCTERS } from '@constants/html'
+import {
+  HTML_FRIENDS,
+  HTML_USERS,
+  HTML_USERS_CHARCTER,
+  HTML_USERS_PERSON,
+  HTML_USERS_MONO_RECENTS
+} from '@constants/html'
 import userStore from '../user'
 import { NAMESPACE, INIT_USERS } from './init'
-import { analysisFriends, analysisUsers, analysisCharacters } from './common'
+import {
+  analysisFriends,
+  analysisUsers,
+  analysisCharacters,
+  analysisRecents
+} from './common'
 
 class Users extends store {
   state = observable({
@@ -20,7 +31,7 @@ class Users extends store {
      * 好友列表
      */
     friends: {
-      // [userId]: LIST_EMPTY | INIT_FRIENDS_ITEM
+      // [userId]: LIST_EMPTY<INIT_FRIENDS_ITEM>
     },
 
     /**
@@ -39,19 +50,28 @@ class Users extends store {
      * 用户收藏的虚拟角色
      */
     characters: {
-      // [userId]: LIST_EMPTY
-    }
+      // [userId]: LIST_EMPTY<INIT_CHARACTER>
+    },
+
+    /**
+     * 用户收藏的现实人物
+     */
+    persons: {
+      // [userId]: LIST_EMPTY<INIT_CHARACTER>
+    },
+
+    /**
+     * 我收藏人物的最近作品
+     */
+    recents: LIST_EMPTY
   })
 
   init = async () => {
-    await this.readStorageThenSetState(
-      {
-        friends: {},
-        myFriendsMap: {},
-        users: {}
-      },
+    const res = this.readStorage(
+      ['friends', 'myFriendsMap', 'users', 'characters', 'persons', 'recents'],
       NAMESPACE
     )
+    await res
 
     if (userStore.isLogin) {
       const { _loaded } = this.myFriendsMap
@@ -61,6 +81,8 @@ class Users extends store {
         this.fetchFriends()
       }
     }
+
+    return res
   }
 
   // -------------------- get --------------------
@@ -74,6 +96,18 @@ class Users extends store {
 
   users(userId = this.myId) {
     return computed(() => this.state.users[userId] || INIT_USERS).get()
+  }
+
+  characters(userId = this.myId) {
+    return computed(() => this.state.characters[userId] || LIST_EMPTY).get()
+  }
+
+  persons(userId = this.myId) {
+    return computed(() => this.state.persons[userId] || LIST_EMPTY).get()
+  }
+
+  @computed get recents() {
+    return this.state.recents
   }
 
   // -------------------- fetch --------------------
@@ -144,26 +178,139 @@ class Users extends store {
   /**
    * 用户收藏的虚拟角色
    */
-  // fetchCharacters = async ({ userId } = {}, refresh) => {
-  //   const html = await fetchHTML({
-  //     url: HTML_USERS_CHARCTERS(userId)
-  //   })
+  fetchCharacters = async ({ userId } = {}, refresh) => {
+    const { list, pagination } = this.characters(userId)
+    let page
+    if (refresh) {
+      page = 1
+    } else {
+      page = pagination.page + 1
+    }
 
-  //   const { list, pagination } = analysisCharacters(html)
-  //   let characters
-  //   if (refresh) {
-  //     character = {
-  //       list,
-  //       pagination,
-  //       _loaded: getTimestamp()
-  //     }
-  //   } else {
-  //     const data = this.characters(userId)
-  //     character = {
-  //       ...this.characters(userId)
-  //     }
-  //   }
-  // }
+    const html = await fetchHTML({
+      url: HTML_USERS_CHARCTER(userId, page)
+    })
+    const data = analysisCharacters(html)
+
+    let characters
+    if (refresh) {
+      characters = {
+        list: data.list,
+        pagination: data.pagination,
+        _loaded: getTimestamp()
+      }
+    } else {
+      characters = {
+        list: [...list, ...data.list],
+        pagination: {
+          ...pagination,
+          page: pagination.page + 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'characters'
+    this.setState({
+      [key]: {
+        [userId]: characters
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return characters
+  }
+
+  /**
+   * 用户收藏的现实人物
+   */
+  fetchPersons = async ({ userId } = {}, refresh) => {
+    const { list, pagination } = this.persons(userId)
+    let page
+    if (refresh) {
+      page = 1
+    } else {
+      page = pagination.page + 1
+    }
+
+    const html = await fetchHTML({
+      url: HTML_USERS_PERSON(userId, page)
+    })
+    const data = analysisCharacters(html)
+
+    let persons
+    if (refresh) {
+      persons = {
+        list: data.list,
+        pagination: data.pagination,
+        _loaded: getTimestamp()
+      }
+    } else {
+      persons = {
+        list: [...list, ...data.list],
+        pagination: {
+          ...pagination,
+          page: pagination.page + 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'persons'
+    this.setState({
+      [key]: {
+        [userId]: persons
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return persons
+  }
+
+  /**
+   * 我收藏人物的最近作品
+   */
+  fetchRecents = async refresh => {
+    const { list, pagination } = this.recents
+    let page
+
+    if (refresh) {
+      page = 1
+    } else {
+      page = pagination.page + 1
+    }
+
+    const html = await fetchHTML({
+      url: HTML_USERS_MONO_RECENTS(page)
+    })
+    const data = analysisRecents(html)
+
+    let recents
+    if (refresh) {
+      recents = {
+        list: data.list,
+        pagination: data.pagination,
+        _loaded: getTimestamp()
+      }
+    } else {
+      recents = {
+        list: [...list, ...data.list],
+        pagination: {
+          ...pagination,
+          page: pagination.page + 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'recents'
+    this.setState({
+      [key]: recents
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return recents
+  }
 }
 
 export default new Users()
