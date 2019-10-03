@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-02 00:29:56
+ * @Last Modified time: 2019-10-02 12:24:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -83,12 +83,16 @@ function Item(
                 </Text>
               )}
             </View>
-            <Flex style={_.mt.md}>
-              {!!star && <Stars style={_.mr.xs} value={star} color='warning' />}
-              <Text style={_.mr.sm} type='sub' size={12}>
-                {starInfo}
-              </Text>
-            </Flex>
+            {!!star && !!starInfo && (
+              <Flex style={_.mt.md}>
+                {!!star && (
+                  <Stars style={_.mr.xs} value={star} color='warning' />
+                )}
+                <Text style={_.mr.sm} type='sub' size={12}>
+                  {starInfo}
+                </Text>
+              </Flex>
+            )}
           </Flex>
         </Touchable>
         <Flex wrap='wrap'>

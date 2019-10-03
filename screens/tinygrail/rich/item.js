@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:06:46
+ * @Last Modified time: 2019-10-03 14:24:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar } from '@screens/_'
-import { getTimestamp, lastDate } from '@utils'
+import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import _ from '@styles'
 import { colorContainer, colorText, colorBorder } from '../styles'
@@ -33,24 +33,30 @@ function Item(
 ) {
   const isTop = index === 0
   let totalText
-  if (total > 100000000) {
-    totalText = `${(total / 100000000).toFixed(1)}亿`
-  } else if (total > 1000) {
-    totalText = `${(total / 10000).toFixed(1)}万`
+  if (Math.abs(total) > 100000000) {
+    totalText = `${formatNumber(total / 100000000, 1)}亿`
+  } else if (Math.abs(total) > 1000) {
+    totalText = `${formatNumber(total / 10000, 1)}万`
+  } else {
+    totalText = formatNumber(Math.abs(total), 1)
   }
 
   let assetsText
   if (assets > 100000000) {
-    assetsText = `${(assets / 100000000).toFixed(1)}亿`
+    assetsText = `${formatNumber(assets / 100000000, 1)}亿`
   } else if (assets > 1000) {
-    assetsText = `${(assets / 10000).toFixed(1)}万`
+    assetsText = `${formatNumber(assets / 10000, 1)}万`
+  } else {
+    assetsText = assets
   }
 
   let principalText
   if (principal > 100000000) {
-    principalText = `${(principal / 100000000).toFixed(1)}亿`
+    principalText = `${formatNumber(principal / 100000000, 0)}亿`
   } else if (principal > 1000) {
-    principalText = `${(principal / 10000).toFixed(1)}万`
+    principalText = `${formatNumber(principal / 10000, 0)}万`
+  } else {
+    principalText = principal
   }
 
   const rank = index + 1 + (page - 1) * limit
@@ -117,7 +123,11 @@ function Item(
                       size={12}
                     >
                       余额{totalText} / 初始{principalText} /{' '}
-                      {lastDate(getTimestamp(lastActiveDate.replace('T', ' ')))}
+                      {lastActiveDate
+                        ? lastDate(
+                            getTimestamp(lastActiveDate.replace('T', ' '))
+                          )
+                        : '-'}
                     </Text>
                   </Flex.Item>
                   <Text size={16} type='plain'>

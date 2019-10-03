@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 16:59:26
+ * @Last Modified time: 2019-10-03 13:59:59
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -27,6 +27,7 @@ function Award(props, { navigation }) {
           })
         }
       >
+        <View style={styles.borderAward} />
         <View style={styles.image}>
           <Image
             style={styles.imageHero}
@@ -55,16 +56,8 @@ function Award(props, { navigation }) {
             })
           }
         >
-          <Flex
-            style={[
-              styles.itemSquare,
-              {
-                backgroundColor: index % 2 === 0 ? _.colorDark : _.colorDanger
-              }
-            ]}
-            justify='center'
-            direction='column'
-          >
+          <View style={styles.border} />
+          <Flex style={styles.itemSquare} justify='center' direction='column'>
             {index === 0 && (
               <Text size={20} type='plain' bold>
                 BEST OF
@@ -96,8 +89,31 @@ const styles = StyleSheet.create({
   itemSquare: {
     width: 148,
     height: 148,
+    backgroundColor: _.colorDark,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
+  },
+  borderAward: {
+    position: 'absolute',
+    zIndex: 0,
+    top: 0,
+    right: 0,
+    width: 48,
+    height: 148,
+    marginRight: -4,
+    backgroundColor: _.colorDark,
+    borderRadius: _.radiusMd
+  },
+  border: {
+    position: 'absolute',
+    zIndex: 0,
+    top: 0,
+    right: 0,
+    width: 48,
+    height: 148,
+    marginRight: -4,
+    backgroundColor: _.colorDanger,
+    borderRadius: _.radiusMd
   },
   image: {
     backgroundColor: _.colorDanger,
