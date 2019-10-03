@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:38:50
+ * @Last Modified time: 2019-10-03 15:39:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -34,6 +34,7 @@ import {
   Setting,
   Subject,
   Tag,
+  Tags,
   Timeline,
   Tinygrail,
   TinygrailBid,
@@ -119,6 +120,7 @@ const HomeStack = createStackNavigator(
     Setting,
     Subject,
     Tag,
+    Tags,
     Timeline,
     Tinygrail,
     TinygrailBid,

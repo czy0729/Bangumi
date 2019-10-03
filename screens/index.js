@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:39:15
+ * @Last Modified time: 2019-10-03 15:38:39
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -19,6 +19,7 @@ export { default as Discovery } from './discovery/index'
 export { default as Random } from './discovery/random'
 export { default as Rank } from './discovery/rank'
 export { default as Search } from './discovery/search'
+export { default as Tags } from './discovery/tags'
 
 // Timeline
 export { default as Timeline } from './timeline'

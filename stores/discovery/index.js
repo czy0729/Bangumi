@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:19:48
+ * @Last Modified time: 2019-10-03 16:22:40
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
+import { fetchHTML } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { LIST_EMPTY, NING_MOE_HOST, ANITAMA_HOST } from '@constants'
+import { HTML_TAGS } from '@constants/html'
 import {
   NAMESPACE,
+  DEFAULT_TYPE,
   INIT_NINGMOE_DETAIL_ITEM,
   INIT_ANITAMA_TIMELINE_ITEM
 } from './init'
+import { analysisTags } from './common'
 
 class Discovery extends store {
   state = observable({
@@ -37,29 +41,14 @@ class Discovery extends store {
     },
 
     /**
-     * 收藏的角色
+     * 标签
      */
-    character: LIST_EMPTY,
-
-    /**
-     * 收藏的人物
-     */
-    person: LIST_EMPTY,
-
-    /**
-     * 人物的更新
-     */
-    characterRecent: LIST_EMPTY
+    tags: {
+      // [type]: LIST_EMPTY<INIT_TAGS_ITEM>
+    }
   })
 
-  init = () =>
-    this.readStorageThenSetState(
-      {
-        random: LIST_EMPTY,
-        ningMoeDetail: {}
-      },
-      NAMESPACE
-    )
+  init = () => this.readStorage(['ningMoeDetail', 'tags'], NAMESPACE)
 
   // -------------------- get --------------------
   @computed get random() {
@@ -76,12 +65,16 @@ class Discovery extends store {
     return this.state.anitamaTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
   }
 
+  tags(type = DEFAULT_TYPE) {
+    return this.state.tags[type] || LIST_EMPTY
+  }
+
   // -------------------- fetch --------------------
   /**
    * 随便看看
    * @param {*} refresh
    */
-  async fetchRandom(refresh) {
+  fetchRandom = async refresh => {
     try {
       const { list, pagination } = this.random
       const data = await fetch(`${NING_MOE_HOST}/api/get_random_bangumi`, {
@@ -132,7 +125,7 @@ class Discovery extends store {
    * 搜索柠萌动漫信息
    * @param {*} keyword 关键字
    */
-  async fetchNingMoeDetailBySearch({ keyword }) {
+  fetchNingMoeDetailBySearch = async ({ keyword }) => {
     try {
       const data = await fetch(`${NING_MOE_HOST}/api/search`, {
         method: 'POST',
@@ -178,7 +171,7 @@ class Discovery extends store {
    * @param {*} id
    * @param {*} bgmId
    */
-  async fetchNingMoeDetail({ id, bgmId }) {
+  fetchNingMoeDetail = async ({ id, bgmId }) => {
     try {
       const data = await fetch(`${NING_MOE_HOST}/api/get_bangumi`, {
         method: 'POST',
@@ -221,7 +214,7 @@ class Discovery extends store {
    * 查询真正的云盘地址
    * @param {*} url
    */
-  async fetchNingMoeRealYunUrl({ url }) {
+  fetchNingMoeRealYunUrl = async ({ url }) => {
     try {
       const data = await fetch(`${NING_MOE_HOST}/api/get_real_yun_url`, {
         method: 'POST',
@@ -247,7 +240,7 @@ class Discovery extends store {
   /**
    * Anitama文章列表
    */
-  async fetchAnitamaTimeline(page = 1) {
+  fetchAnitamaTimeline = async (page = 1) => {
     const data = await fetch(`${ANITAMA_HOST}/timeline?pageNo=${page}`).then(
       response => response.json()
     )
@@ -267,6 +260,52 @@ class Discovery extends store {
     }
 
     return Promise.resolve(animataTimeline)
+  }
+
+  /**
+   * 标签
+   */
+  fetchTags = async ({ type = DEFAULT_TYPE } = {}, refresh) => {
+    const { list, pagination } = this.tags(type)
+    let page
+    if (refresh) {
+      page = 1
+    } else {
+      page = pagination.page + 1
+    }
+
+    const html = await fetchHTML({
+      url: HTML_TAGS(type, page)
+    })
+    const data = analysisTags(html)
+
+    let characters
+    if (refresh) {
+      characters = {
+        list: data.list,
+        pagination: data.pagination,
+        _loaded: getTimestamp()
+      }
+    } else {
+      characters = {
+        list: [...list, ...data.list],
+        pagination: {
+          ...pagination,
+          page: pagination.page + 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'tags'
+    this.setState({
+      [key]: {
+        [type]: characters
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return characters
   }
 }
 
