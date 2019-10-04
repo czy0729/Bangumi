@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 22:15:40
+ * @Last Modified time: 2019-10-03 22:08:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import _ from '@styles'
 import { headerStyle, colorContainer } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
+import ToolBar from './tool-bar'
 import List from './list'
 import Store, { tabs } from './store'
 
@@ -52,7 +53,7 @@ class TinygrailCharaAssets extends React.Component {
       >
         <StatusBarEvents />
         {!!_loaded && (
-          <Tabs tabs={tabs}>
+          <Tabs tabs={tabs} renderContentHeaderComponent={<ToolBar />}>
             {tabs.map((item, index) => (
               <List key={item.key} index={index} />
             ))}

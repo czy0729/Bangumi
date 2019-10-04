@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:05:20
+ * @Last Modified time: 2019-10-03 21:05:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -90,7 +90,7 @@ function Item(props, { navigation }) {
         <Avatar
           style={styles.image}
           src={tinygrailOSS(icon)}
-          size={44}
+          size={40}
           borderColor='transparent'
           onPress={() =>
             navigation.push('Mono', {

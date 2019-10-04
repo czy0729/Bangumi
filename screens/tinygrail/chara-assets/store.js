@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
- * @Last Modified by:   czy0729
- * @Last Modified time: 2019-09-19 00:35:13
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2019-10-04 03:18:25
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -18,11 +18,47 @@ export const tabs = [
     key: 'ico'
   }
 ]
+export const sortDS = [
+  {
+    label: '持股数',
+    value: 'cgs'
+  },
+  {
+    label: '持仓价值',
+    value: 'ccjz'
+  },
+  {
+    label: '活跃度',
+    value: 'czsj'
+  },
+  {
+    label: '市场价',
+    value: 'fhze'
+  },
+  {
+    label: '发行量',
+    value: 'fhl'
+  },
+  {
+    label: '当前价',
+    value: 'dqj'
+  },
+  {
+    label: '当前涨跌',
+    value: 'dqzd'
+  },
+  {
+    label: '新番奖励',
+    value: 'xfjl'
+  }
+]
 const namespace = 'ScreenTinygrailCharaAssets'
 
 export default class ScreenTinygrailCharaAssets extends store {
   state = observable({
     page: 0,
+    sort: '',
+    direction: '', // void | down | up
     _loaded: false
   })
 
@@ -64,5 +100,31 @@ export default class ScreenTinygrailCharaAssets extends store {
     if (!_loaded) {
       this.fetchMyCharaAssets()
     }
+  }
+
+  onSortPress = item => {
+    const { sort, direction } = this.state
+    if (item === sort) {
+      let nextSort = item
+      let nextDirection = 'down'
+      if (direction === 'down') {
+        nextDirection = 'up'
+      } else if (direction === 'up') {
+        nextSort = ''
+        nextDirection = ''
+      }
+
+      this.setState({
+        sort: nextSort,
+        direction: nextDirection
+      })
+    } else {
+      this.setState({
+        sort: item,
+        direction: 'down'
+      })
+    }
+
+    this.setStorage(undefined, undefined, namespace)
   }
 }

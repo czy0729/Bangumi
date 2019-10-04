@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 00:56:46
+ * @Last Modified time: 2019-10-03 21:16:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -124,7 +124,7 @@ export default class StockPreview extends React.Component {
     } else if (fluctuation > 0) {
       fluctuationStyle.push(styles.success)
     } else {
-      fluctuationStyle.push(styles.sub)
+      fluctuationStyle.push(this.isDark ? styles.defaultDark : styles.sub)
     }
 
     let showFloor = true
@@ -170,10 +170,14 @@ export default class StockPreview extends React.Component {
       <Touchable style={[styles.container, style]} onPress={this.toggleNum}>
         <Flex justify='end'>
           <Text
-            style={{
-              color: this.isDark ? _.colorPlain : _.colorDesc
-            }}
+            style={[
+              styles.current,
+              {
+                color: this.isDark ? _.colorPlain : _.colorDesc
+              }
+            ]}
             lineHeight={16}
+            align='right'
           >
             ₵{current.toFixed(2)}
           </Text>
@@ -268,6 +272,12 @@ const styles = StyleSheet.create({
     paddingVertical: _.wind,
     paddingHorizontal: _.sm
   },
+  current: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    marginRight: 80
+  },
   fluctuation: {
     minWidth: 72,
     paddingHorizontal: _.sm,
@@ -282,6 +292,9 @@ const styles = StyleSheet.create({
   },
   sub: {
     backgroundColor: _.colorSub
+  },
+  defaultDark: {
+    backgroundColor: _.colorTinygrailText
   },
   wrap: {
     position: 'absolute',
