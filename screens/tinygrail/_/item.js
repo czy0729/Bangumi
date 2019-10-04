@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 21:05:54
+ * @Last Modified time: 2019-10-04 14:33:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -33,9 +33,22 @@ const colorMap = {
   ico: _.colorPrimary
 }
 
+/**
+ * 修复时间
+ * 2019-10-04T13:34:03.4243768+08:00 => 2019-10-04 13:34:03
+ * @param {*} time
+ */
+function fixedTime(time) {
+  return (time || '')
+    .replace('T', ' ')
+    .split('+')[0]
+    .split('.')[0]
+}
+
 function Item(props, { navigation }) {
   const {
     index,
+    _index,
     id,
     monoId,
     name,
@@ -71,7 +84,7 @@ function Item(props, { navigation }) {
   let extra = isICO
     ? `${formatTime(_end)} / 已筹集${totalText}`
     : `${lastDate(
-        getTimestamp((lastOrder || '').replace('T', ' '))
+        getTimestamp(fixedTime(lastOrder))
       )} / 总${marketValueText} / 量${totalText}`
   if (users && users !== 'ico') {
     extra += ` / ${users}人`
@@ -128,7 +141,7 @@ function Item(props, { navigation }) {
                 <Flex align='start'>
                   <Flex.Item>
                     <Text size={16} type='plain'>
-                      {!isDeal && `${index + 1}. `}
+                      {!isDeal && `${_index}. `}
                       {name}
                       {!!bonus && (
                         <Text size={12} lineHeight={16} type='warning'>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 22:08:47
+ * @Last Modified time: 2019-10-04 13:48:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,10 @@ import { hm } from '@utils/fetch'
 import _ from '@styles'
 import { headerStyle, colorContainer } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
+import ToolBar from '../_/tool-bar'
 import Tabs from '../_/tabs'
-import ToolBar from './tool-bar'
 import List from './list'
-import Store, { tabs } from './store'
+import Store, { tabs, sortDS } from './store'
 
 export default
 @inject(Store)
@@ -39,6 +39,23 @@ class TinygrailCharaAssets extends React.Component {
     hm('tinygrail/chara/assets')
   }
 
+  renderContentHeaderComponent() {
+    const { $ } = this.context
+    const { page, sort, direction } = $.state
+    if (page !== 0) {
+      return undefined
+    }
+
+    return (
+      <ToolBar
+        data={sortDS}
+        sort={sort}
+        direction={direction}
+        onSortPress={$.onSortPress}
+      />
+    )
+  }
+
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
@@ -53,7 +70,10 @@ class TinygrailCharaAssets extends React.Component {
       >
         <StatusBarEvents />
         {!!_loaded && (
-          <Tabs tabs={tabs} renderContentHeaderComponent={<ToolBar />}>
+          <Tabs
+            tabs={tabs}
+            renderContentHeaderComponent={this.renderContentHeaderComponent()}
+          >
             {tabs.map((item, index) => (
               <List key={item.key} index={index} />
             ))}

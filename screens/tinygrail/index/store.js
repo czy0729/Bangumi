@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 12:55:18
+ * @Last Modified time: 2019-10-04 13:14:28
  */
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
@@ -127,7 +127,7 @@ export default class ScreenTinygrail extends store {
       })
       this.setStorage(undefined, undefined, namespace)
     } catch (error) {
-      info('授权失败, 请重试')
+      info('授权失败, 请重试, 或检查登陆状态')
       this.setState({
         loading: false
       })

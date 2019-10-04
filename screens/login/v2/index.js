@@ -360,7 +360,7 @@ export default class LoginV2 extends React.Component {
    */
   getAccessToken = () => {
     this.setState({
-      info: `${this.retryText}授权成功, 获取token中...(4/5), 若卡住可再次点击登录重试`
+      info: `${this.retryText}授权成功, 获取token中...(4/5), 若卡住可再次点击登陆重试`
     })
 
     return xhrCustom(

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 21:17:21
+ * @Last Modified time: 2019-10-04 14:32:09
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -170,24 +170,24 @@ class Tinygrail extends store {
   })
 
   init = () =>
-    this.readStorageThenSetState(
-      {
-        cookie: '',
-        characters: {},
-        mvi: LIST_EMPTY,
-        recent: LIST_EMPTY,
-        nbc: LIST_EMPTY,
-        rich: INIT_RICH,
-        kline: {},
-        depth: {},
-        hash: '',
-        assets: INIT_ASSETS,
-        charaAssets: {},
-        bid: LIST_EMPTY,
-        myCharaAssets: INIT_MY_CHARA_ASSETS,
-        balance: LIST_EMPTY,
-        iconsCache: {}
-      },
+    this.readStorage(
+      [
+        'cookie',
+        'characters',
+        'mvi',
+        'recent',
+        'nbc',
+        'rich',
+        'kline',
+        'depth',
+        'hash',
+        'assets',
+        'charaAssets',
+        'bid',
+        'myCharaAssets',
+        'balance',
+        'iconsCache'
+      ],
       NAMESPACE
     )
 
@@ -315,6 +315,7 @@ class Tinygrail extends store {
 
   /**
    * 总览列表
+   * @notice 需自行添加顺序index, 以支持二次排序显示
    */
   fetchList = async (key = defaultKey) => {
     const result = await fetch(API_TINYGRAIL_LIST(key), {
@@ -330,12 +331,13 @@ class Tinygrail extends store {
       const iconsCache = toJS(this.state.iconsCache)
       data = {
         ...LIST_EMPTY,
-        list: (result.Value.Items || result.Value).map(item => {
+        list: (result.Value.Items || result.Value).map((item, index) => {
           const id = item.CharacterId || item.Id
           if (item.Icon) {
             iconsCache[id] = item.Icon
           }
           return {
+            _index: index + 1,
             id,
             bids: item.Bids,
             asks: item.Asks,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 16:45:51
+ * @Last Modified time: 2019-10-04 13:09:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -89,7 +89,7 @@ function Menu(props, { $, navigation }) {
       <Touchable
         onPress={() => {
           if (!username && !id) {
-            info('请先登录')
+            info('请先登陆')
             return
           }
           navigation.push('Character', {

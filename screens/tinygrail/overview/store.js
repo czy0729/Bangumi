@@ -2,11 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:09:23
+ * @Last Modified time: 2019-10-04 14:26:35
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import {
+  SORT_HYD,
+  SORT_SCJ,
+  SORT_FHL,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_XFJL
+} from '../_/utils'
 
 export const tabs = [
   {
@@ -26,11 +34,21 @@ export const tabs = [
     key: 'mfc'
   }
 ]
+export const sortDS = [
+  SORT_HYD,
+  SORT_SCJ,
+  SORT_FHL,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_XFJL
+]
 const namespace = 'ScreenTinygrailOverview'
 
 export default class ScreenTinygrailOverview extends store {
   state = observable({
     page: 0,
+    sort: '',
+    direction: '',
     _loaded: false
   })
 
@@ -67,7 +85,9 @@ export default class ScreenTinygrailOverview extends store {
     }
 
     this.setState({
-      page
+      page,
+      sort: '',
+      direction: ''
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)
@@ -81,5 +101,29 @@ export default class ScreenTinygrailOverview extends store {
     }
   }
 
-  // -------------------- action --------------------
+  onSortPress = item => {
+    const { sort, direction } = this.state
+    if (item === sort) {
+      let nextSort = item
+      let nextDirection = 'down'
+      if (direction === 'down') {
+        nextDirection = 'up'
+      } else if (direction === 'up') {
+        nextSort = ''
+        nextDirection = ''
+      }
+
+      this.setState({
+        sort: nextSort,
+        direction: nextDirection
+      })
+    } else {
+      this.setState({
+        sort: item,
+        direction: 'down'
+      })
+    }
+
+    this.setStorage(undefined, undefined, namespace)
+  }
 }

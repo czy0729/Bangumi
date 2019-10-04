@@ -2,11 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 03:18:25
+ * @Last Modified time: 2019-10-04 14:10:47
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import {
+  SORT_CGS,
+  SORT_CCJZ,
+  SORT_HYD,
+  SORT_SCJ,
+  SORT_FHL,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_XFJL
+} from '../_/utils'
 
 export const tabs = [
   {
@@ -19,38 +29,14 @@ export const tabs = [
   }
 ]
 export const sortDS = [
-  {
-    label: '持股数',
-    value: 'cgs'
-  },
-  {
-    label: '持仓价值',
-    value: 'ccjz'
-  },
-  {
-    label: '活跃度',
-    value: 'czsj'
-  },
-  {
-    label: '市场价',
-    value: 'fhze'
-  },
-  {
-    label: '发行量',
-    value: 'fhl'
-  },
-  {
-    label: '当前价',
-    value: 'dqj'
-  },
-  {
-    label: '当前涨跌',
-    value: 'dqzd'
-  },
-  {
-    label: '新番奖励',
-    value: 'xfjl'
-  }
+  SORT_CGS,
+  SORT_CCJZ,
+  SORT_HYD,
+  SORT_SCJ,
+  SORT_FHL,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_XFJL
 ]
 const namespace = 'ScreenTinygrailCharaAssets'
 

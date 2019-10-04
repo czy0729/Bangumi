@@ -2,32 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 12:43:26
+ * @Last Modified time: 2019-10-04 13:45:58
  */
 import React from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Touchable, Text } from '@components'
 import { observer } from '@utils/decorators'
 import { colorText, colorBorder } from '../styles'
 import _ from '@styles'
-import { sortDS } from './store'
 
-function ToolBar(props, { $ }) {
-  const { page, sort, direction } = $.state
-  if (page !== 0) {
-    return null
-  }
+function ToolBar({ data, sort, direction, onSortPress }) {
   return (
     <Flex style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {sortDS.map(item => {
+        {data.map(item => {
           const isActive = sort === item.value
           return (
             <Touchable
               key={item.label}
               withoutFeedback
-              onPress={() => $.onSortPress(item.value)}
+              onPress={() => onSortPress(item.value)}
             >
               <Flex style={styles.item} justify='center'>
                 <Text
@@ -52,8 +46,9 @@ function ToolBar(props, { $ }) {
   )
 }
 
-ToolBar.contextTypes = {
-  $: PropTypes.object
+ToolBar.defaultProps = {
+  data: [],
+  onSortPress: Function.prototype
 }
 
 export default observer(ToolBar)

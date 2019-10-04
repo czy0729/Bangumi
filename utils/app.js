@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:04:57
+ * @Last Modified time: 2019-10-04 13:16:33
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -315,7 +315,7 @@ export function formatTime(time) {
     if (day > 0) {
       return `${day}天${hour}小时`
     }
-    if (hour > 12) {
+    if (hour > 1) {
       return `剩余${hour}小时`
     }
     return '即将结束'

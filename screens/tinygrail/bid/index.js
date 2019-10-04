@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 22:24:46
+ * @Last Modified time: 2019-10-04 15:02:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,9 @@ import _ from '@styles'
 import { headerStyle, colorContainer } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
+import ToolBar from '../_/tool-bar'
 import List from './list'
-import Store, { tabs } from './store'
+import Store, { tabs, sortDS } from './store'
 
 export default
 @inject(Store)
@@ -39,6 +40,19 @@ class TinygrailBid extends React.Component {
     hm(`tinygrail/${type}`)
   }
 
+  renderContentHeaderComponent() {
+    const { $ } = this.context
+    const { sort, direction } = $.state
+    return (
+      <ToolBar
+        data={sortDS}
+        sort={sort}
+        direction={direction}
+        onSortPress={$.onSortPress}
+      />
+    )
+  }
+
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
@@ -53,7 +67,10 @@ class TinygrailBid extends React.Component {
       >
         <StatusBarEvents />
         {!!_loaded && (
-          <Tabs tabs={tabs}>
+          <Tabs
+            tabs={tabs}
+            renderContentHeaderComponent={this.renderContentHeaderComponent()}
+          >
             {tabs.map((item, index) => (
               <List key={item.key} index={index} />
             ))}
