@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 16:45:02
+ * @Last Modified time: 2019-09-29 11:26:51
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -24,29 +24,48 @@ import {
 
 class System extends store {
   state = observable({
+    /**
+     * 基本设置
+     */
     setting: INIT_SETTING,
+
+    /**
+     * 发布版本
+     */
     release: INIT_RELEASE,
+
+    /**
+     * 是否显示图片预览
+     */
     imageViewer: INIT_IMAGE_VIEWER,
+
+    /**
+     * 是否wifi
+     */
     wifi: false,
+
+    /**
+     * 是否开发环境
+     */
     dev: false,
-    iosUGCAgree: false // iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审
+
+    /**
+     * iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审
+     */
+    iosUGCAgree: false
   })
 
-  async init() {
-    let res
-    res = Promise.all([
-      this.getStorage('setting', NAMESPACE),
-      this.getStorage('release', NAMESPACE),
-      this.getStorage('iosUGCAgree', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      setting: state[0] || INIT_SETTING,
-      release: state[1] || INIT_RELEASE,
-      iosUGCAgree: state[2] || false
-    })
+  init = async () => {
+    await this.readStorageThenSetState(
+      {
+        setting: INIT_SETTING,
+        release: INIT_RELEASE,
+        iosUGCAgree: false
+      },
+      NAMESPACE
+    )
 
-    res = NetInfo.getConnectionInfo()
+    const res = NetInfo.getConnectionInfo()
     const { type } = await res
     if (type === 'wifi') {
       this.setState({

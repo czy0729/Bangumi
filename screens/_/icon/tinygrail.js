@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-07 15:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:20:10
+ * @Last Modified time: 2019-09-21 00:05:43
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -19,7 +19,7 @@ function IconTinygrail({ style, navigation, color }) {
         style={style}
         name='trophy-full'
         color={_.colorYellow}
-        onPress={() => navigation.push('TinygrailOverview')}
+        onPress={() => navigation.push('Tinygrail')}
       />
     )
   }

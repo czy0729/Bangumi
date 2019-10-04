@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:16:13
+ * @Last Modified time: 2019-09-25 22:38:00
  */
 import React from 'react'
 import { StyleSheet, Alert } from 'react-native'
@@ -39,26 +39,30 @@ class Topic extends React.Component {
     const { $, navigation } = this.context
     const { topicId } = $.params
     if (!$.isUGCAgree) {
-      Alert.alert(
-        '社区指导原则',
-        '生命有限, Bangumi 是一个纯粹的ACG网络, 请查看社区指导原则并且同意才能继续操作',
-        [
-          {
-            text: '取消',
-            style: 'cancel',
-            onPress: () => navigation.goBack()
-          },
-          {
-            text: '查看',
-            onPress: () => {
-              navigation.goBack()
-              navigation.push('UGCAgree', {
-                topicId
-              })
+      // @notice 这里注意在iOS上面, 一定要延迟,
+      // 不然首页点击讨论跳进来popover + alert直接就不能操作了
+      setTimeout(() => {
+        Alert.alert(
+          '社区指导原则',
+          '生命有限, Bangumi 是一个纯粹的ACG网络, 请查看社区指导原则并且同意才能继续操作',
+          [
+            {
+              text: '取消',
+              style: 'cancel',
+              onPress: () => navigation.goBack()
+            },
+            {
+              text: '查看',
+              onPress: () => {
+                navigation.goBack()
+                navigation.push('UGCAgree', {
+                  topicId
+                })
+              }
             }
-          }
-        ]
-      )
+          ]
+        )
+      }, 800)
       return
     }
 

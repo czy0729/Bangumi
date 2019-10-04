@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 12:17:54
+ * @Last Modified time: 2019-10-02 00:23:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -71,12 +71,14 @@ class Eps extends React.Component {
 
   get commentMin() {
     const { eps } = this.props
-    return Math.min(...eps.map(item => item.comment).filter(item => !!item))
+    return Math.min(
+      ...eps.map(item => item.comment || 1).filter(item => !!item)
+    )
   }
 
   get commentMax() {
     const { eps } = this.props
-    return Math.max(...eps.map(item => item.comment))
+    return Math.max(...eps.map(item => item.comment || 1))
   }
 
   getPopoverData = item => {
@@ -135,6 +137,7 @@ class Eps extends React.Component {
           data: this.getPopoverData(item),
           onSelect: value => this.onSelect(value, item)
         }
+
     return (
       <Popover
         key={item.id}

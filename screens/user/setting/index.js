@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:22:03
+ * @Last Modified time: 2019-09-27 11:22:48
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -95,7 +95,7 @@ class Setting extends React.Component {
     const hasNewVersion = name !== GITHUB_RELEASE_VERSION
     let version = GITHUB_RELEASE_VERSION
     if (CODE_PUSH_VERSION) {
-      version += `-${CODE_PUSH_VERSION}`
+      version += ` (${CODE_PUSH_VERSION})`
     }
     return (
       <ScrollView

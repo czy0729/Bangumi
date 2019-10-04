@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:17:56
+ * @Last Modified time: 2019-09-25 15:24:40
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,12 +13,12 @@ import { observer } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 
-function TabBarLeft(props, { $ }) {
+function TabBarLeft({ onSelect }, { $ }) {
   const { subjectType } = $.state
   return (
     <Popover
       data={MODEL_SUBJECT_TYPE.data.map(item => item.title)}
-      onSelect={$.onSelectSubjectType}
+      onSelect={onSelect}
     >
       <Flex style={styles.tabBarLeft} justify='center'>
         <Button style={styles.btn} type='ghostMain' size='sm'>

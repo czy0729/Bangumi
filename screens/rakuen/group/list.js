@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:30:12
+ * @Last Modified time: 2019-09-30 14:10:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import { info } from '@utils/ui'
 import { HOST, TOPIC_PUSH_LIMIT } from '@constants'
 import _ from '@styles'
 
-const List = ({ style }, { $, navigation }) => {
+function List({ style }, { $, navigation }) {
   const { title: group } = $.groupInfo
   const { list, _loaded } = $.group
   if (_loaded && !list.length) {

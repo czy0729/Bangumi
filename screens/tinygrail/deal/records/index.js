@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-13 02:07:56
+ * @Last Modified time: 2019-09-22 01:30:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Flex, Text } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorAsk, colorBg, colorPlain } from '../../styles'
+import { colorBid, colorAsk, colorBg, colorText } from '../../styles'
 
 function Records({ style }, { $ }) {
   const { bidHistory, askHistory } = $.userLogs
@@ -21,18 +21,20 @@ function Records({ style }, { $ }) {
         <Text style={styles.bid} size={16}>
           买入记录
         </Text>
-        {bidHistory.map(item => (
-          <View key={item.id} style={styles.item}>
+        {bidHistory.length === 0 && <Text style={styles.text}>-</Text>}
+        {bidHistory.map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <View key={index} style={styles.item}>
             <Flex>
               <Flex.Item>
                 <Text
                   size={12}
                   style={{
-                    color: colorPlain
+                    color: _.colorPlain
                   }}
                 >
                   {formatNumber(item.price)} /{' '}
-                  <Text size={12} type='sub'>
+                  <Text style={styles.text} size={12}>
                     {formatNumber(item.amount, 0)}
                   </Text>
                 </Text>
@@ -40,7 +42,7 @@ function Records({ style }, { $ }) {
               <Text
                 size={12}
                 style={{
-                  color: colorPlain
+                  color: _.colorPlain
                 }}
               >
                 -{formatNumber(item.price * item.amount)}
@@ -53,18 +55,20 @@ function Records({ style }, { $ }) {
         <Text style={styles.ask} size={16}>
           卖出记录
         </Text>
-        {askHistory.map(item => (
-          <View key={item.id} style={styles.item}>
+        {askHistory.length === 0 && <Text style={styles.text}>-</Text>}
+        {askHistory.map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <View key={index} style={styles.item}>
             <Flex>
               <Flex.Item>
                 <Text
                   size={12}
                   style={{
-                    color: colorPlain
+                    color: _.colorPlain
                   }}
                 >
                   {formatNumber(item.price)} /{' '}
-                  <Text size={12} type='sub'>
+                  <Text style={styles.text} size={12}>
                     {formatNumber(item.amount, 0)}
                   </Text>
                 </Text>
@@ -72,7 +76,7 @@ function Records({ style }, { $ }) {
               <Text
                 size={12}
                 style={{
-                  color: colorPlain
+                  color: _.colorPlain
                 }}
               >
                 +{formatNumber(item.price * item.amount)}
@@ -114,5 +118,8 @@ const styles = StyleSheet.create({
   cancel: {
     paddingVertical: _.sm,
     paddingLeft: _.sm
+  },
+  text: {
+    color: colorText
   }
 })

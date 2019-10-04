@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-13 01:42:10
+ * @Last Modified time: 2019-09-22 02:22:21
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
-const TINYGRAIL_LIMIT = 100
+const TINYGRAIL_LIMIT = 50
 
 /**
  * oauth获取access_token
@@ -135,58 +135,28 @@ export const API_COLLECTION_ACTION = (subjectId, action = 'update') =>
 export const API_TINYGRAIL_CHARAS = () => `${API_HOST_TINYGRAIL}/api/chara/list`
 
 /**
- * 最高市值
+ * 列表
+ * mvc: 最高市值
+ * mrc: 最大涨幅
+ * mfc: 最大跌幅
+ * mvi: ICO最多资金
+ * mpi: ICO最高人气
+ * rai: ICO最近活跃
+ * mri: ICO即将结束
+ * recent: 最近活跃
+ * tnbc: 新番市值
+ * nbc: 新番活跃
  */
-export const API_TINYGRAIL_MVC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mvc/${page}/${limit}`
+export const API_TINYGRAIL_LIST = (type, page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/${type}/${page}/${limit}`
 
 /**
- * 最大涨幅
+ * 番市首富
+ * @param {*} page
+ * @param {*} limit
  */
-export const API_TINYGRAIL_MRC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mrc/${page}/${limit}`
-
-/**
- * 最大跌幅
- */
-export const API_TINYGRAIL_MFC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mfc/${page}/${limit}`
-
-/**
- * ICO最多资金
- */
-export const API_TINYGRAIL_MVI = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mvi/${page}/${limit}`
-
-/**
- * ICO最高人气
- */
-export const API_TINYGRAIL_MPI = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/mpi/${page}/${limit}`
-
-/**
- * ICO最近活跃
- */
-export const API_TINYGRAIL_RAI = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/rai/${page}/${limit}`
-
-/**
- * 最近活跃
- */
-export const API_TINYGRAIL_RECENT = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/recent/${page}/${limit}`
-
-/**
- * 新番市值
- */
-export const API_TINYGRAIL_TNBC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/tnbc/${page}/${limit}`
-
-/**
- * 新番活跃
- */
-export const API_TINYGRAIL_NBC = (page = 1, limit = TINYGRAIL_LIMIT) =>
-  `${API_HOST_TINYGRAIL}/api/chara/nbc/${page}/${limit}`
+export const API_TINYGRAIL_RICH = (page = 1, limit = TINYGRAIL_LIMIT) =>
+  `${API_HOST_TINYGRAIL}/api/chara/top/${page}/${limit}`
 
 /**
  * 交易记录
@@ -219,10 +189,22 @@ export const API_TINYGRAIL_LOGOUT = () =>
   `${API_HOST_TINYGRAIL}/api/account/logout`
 
 /**
+ * 用户Hash
+ */
+export const API_TINYGRAIL_HASH = () =>
+  `${API_HOST_TINYGRAIL}/api/account/recommend`
+
+/**
  * 资产信息
  */
 export const API_TINYGRAIL_ASSETS = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/assets`
+
+/**
+ * 用户资产概览信息
+ */
+export const API_TINYGRAIL_CHARA_ASSETS = hash =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/assets/${hash}/true`
 
 /**
  * 用户角色挂单信息
@@ -262,3 +244,48 @@ export const API_TINYGRAIL_CANCEL_BID = id =>
  */
 export const API_TINYGRAIL_CANCEL_ASK = id =>
   `${API_HOST_TINYGRAIL}/api/chara/ask/cancel/${id}`
+
+/**
+ * 我的买单
+ */
+export const API_TINYGRAIL_CHARA_BID = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/100`
+
+/**
+ * 我的卖单
+ */
+export const API_TINYGRAIL_CHARA_ASKS = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/100`
+
+/**
+ * 我的持仓
+ */
+export const API_TINYGRAIL_MY_CHARA_ASSETS = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/assets/0/true`
+
+/**
+ * 资金日志
+ */
+export const API_TINYGRAIL_BALANCE = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/100`
+
+/**
+ * ICO参与者
+ */
+export const API_TINYGRAIL_INITIAL = icoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/initial/users/${icoId}/1`
+
+/**
+ * 参与ICO
+ * @param {*} icoId
+ * @param {*} amount
+ */
+export const API_TINYGRAIL_JOIN = (icoId, amount) =>
+  `${API_HOST_TINYGRAIL}/api/chara/join/${icoId}/${amount}`
+
+/**
+ * 董事会
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_USERS = monoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/10`

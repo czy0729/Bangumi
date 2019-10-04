@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 01:22:32
+ * @Last Modified time: 2019-09-26 16:04:57
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -361,4 +361,21 @@ export function caculateICO(ico) {
   next = Math.pow(level + 1, 2) * 100000
 
   return { level, next, price, amount }
+}
+
+/**
+ * 小圣杯OSS修正
+ * @param {*} str
+ */
+export function tinygrailOSS(str) {
+  if (typeof str !== 'string') {
+    return str
+  }
+
+  // https://tinygrail.oss-cn-hangzhou.aliyuncs.com
+  if (str.includes('aliyuncs.com')) {
+    return `${str}!w120`
+  }
+
+  return str
 }

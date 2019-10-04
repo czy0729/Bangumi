@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-08 05:20:30
+ * @Last Modified time: 2019-09-30 14:08:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { SectionTitle, Tag, IconHeader } from '@screens/_'
 import { appNavigate } from '@utils/app'
 import _ from '@styles'
 
-const Voice = ({ style }, { $, navigation }) => {
+function Voice({ style }, { $, navigation }) {
   const { voice = [] } = $.mono
   if (!voice.length) {
     return null

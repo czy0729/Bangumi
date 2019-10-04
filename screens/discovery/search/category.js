@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:51:07
+ * @Last Modified time: 2019-09-30 14:06:51
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,7 +12,7 @@ import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
 import { MODEL_SEARCH_CAT } from '@constants/model'
 
-const Category = (props, { $ }) => {
+function Category(props, { $ }) {
   const { cat } = $.state
   return (
     <Popover

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 21:40:03
+ * @Last Modified time: 2019-10-03 13:41:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,8 +12,7 @@ import { Text } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import _ from '@styles'
 import Award from './award'
-import Section from './section'
-import Section2 from './section2'
+import Menu from './menu'
 
 function Header(props, { $ }) {
   const { today } = $.home
@@ -21,10 +20,11 @@ function Header(props, { $ }) {
     <>
       <StatusBarPlaceholder style={{ backgroundColor: _.colorBg }} />
       <Award />
-      <Section />
-      <Section2 />
+      <Menu />
       <View style={[_.container.wind, _.mt.lg]}>
-        <Text align='right'>{today}</Text>
+        <Text align='right' size={12}>
+          {today}
+        </Text>
       </View>
     </>
   )

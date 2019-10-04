@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-10 20:52:18
+ * @Last Modified time: 2019-10-03 15:39:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -17,6 +17,7 @@ import {
   Anitama,
   Award,
   Calendar,
+  Character,
   Discovery,
   Friends,
   Group,
@@ -33,10 +34,18 @@ import {
   Setting,
   Subject,
   Tag,
+  Tags,
   Timeline,
   Tinygrail,
+  TinygrailBid,
+  TinygrailCharaAssets,
   TinygrailDeal,
+  TinygrailICO,
+  TinygrailICODeal,
+  TinygrailLogs,
+  TinygrailNew,
   TinygrailOverview,
+  TinygrailRich,
   TinygrailSearch,
   TinygrailTrade,
   Topic,
@@ -93,6 +102,7 @@ const HomeStack = createStackNavigator(
     Anitama,
     Award,
     Calendar,
+    Character,
     Discovery,
     Friends,
     Group,
@@ -110,10 +120,18 @@ const HomeStack = createStackNavigator(
     Setting,
     Subject,
     Tag,
+    Tags,
     Timeline,
     Tinygrail,
+    TinygrailBid,
+    TinygrailCharaAssets,
     TinygrailDeal,
+    TinygrailICO,
+    TinygrailICODeal,
+    TinygrailLogs,
+    TinygrailNew,
     TinygrailOverview,
+    TinygrailRich,
     TinygrailSearch,
     TinygrailTrade,
     Topic,

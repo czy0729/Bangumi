@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:53:48
+ * @Last Modified time: 2019-09-22 00:55:14
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -66,11 +66,17 @@ class Mono extends React.Component {
         <IconHeader
           name='trophy-full'
           color={_.colorYellow}
-          onPress={() =>
+          onPress={() => {
+            if ($.chara.users) {
+              navigation.push('TinygrailICODeal', {
+                monoId
+              })
+              return
+            }
             navigation.push('TinygrailTrade', {
               monoId
             })
-          }
+          }}
         />
       )
     })

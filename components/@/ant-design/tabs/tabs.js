@@ -26,6 +26,8 @@ export class Tabs extends React.PureComponent {
     tabDirection: 'horizontal',
     tabs: [],
     usePaged: true,
+    renderHeaderComponent: undefined, // @add
+    renderContentHeaderComponent: undefined, //@add
     renderTabBarLeft: undefined, // @add
     style: {}, // @add
     tabBarStyle: {} // @add
@@ -75,7 +77,8 @@ export class Tabs extends React.PureComponent {
       tabs,
       usePaged,
       destroyInactiveTab,
-      keyboardShouldPersistTaps
+      keyboardShouldPersistTaps,
+      renderContentHeaderComponent
     } = this.props
     const { currentTab = 0, containerWidth = 0 } = this.state
     const content = tabs.map((tab, index) => {
@@ -131,34 +134,41 @@ export class Tabs extends React.PureComponent {
       )
     }
     return (
-      <Animated.ScrollView
-        key='$content'
-        horizontal
-        pagingEnabled={usePaged}
-        automaticallyAdjustContentInsets={false}
-        ref={this.setScrollView}
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: { x: this.state.scrollX }
-              }
-            }
-          ],
-          { useNativeDriver: true } // <-- Add this
+      <>
+        {!!renderContentHeaderComponent && (
+          <View key='$renderContentHeaderComponent'>
+            {renderContentHeaderComponent}
+          </View>
         )}
-        onMomentumScrollEnd={this.onMomentumScrollEnd}
-        scrollEventThrottle={32}
-        scrollsToTop={false}
-        showsHorizontalScrollIndicator={false}
-        scrollEnabled={this.props.swipeable}
-        directionalLockEnabled
-        alwaysBounceVertical={false}
-        keyboardDismissMode='on-drag'
-        keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-      >
-        {content}
-      </Animated.ScrollView>
+        <Animated.ScrollView
+          key='$content'
+          horizontal
+          pagingEnabled={usePaged}
+          automaticallyAdjustContentInsets={false}
+          ref={this.setScrollView}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: { x: this.state.scrollX }
+                }
+              }
+            ],
+            { useNativeDriver: true } // <-- Add this
+          )}
+          onMomentumScrollEnd={this.onMomentumScrollEnd}
+          scrollEventThrottle={32}
+          scrollsToTop={false}
+          showsHorizontalScrollIndicator={false}
+          scrollEnabled={this.props.swipeable}
+          directionalLockEnabled
+          alwaysBounceVertical={false}
+          keyboardDismissMode='on-drag'
+          keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+        >
+          {content}
+        </Animated.ScrollView>
+      </>
     )
   }
 
@@ -216,7 +226,6 @@ export class Tabs extends React.PureComponent {
 
     const tabBarProps = {
       ...this.getTabBarBaseProps(),
-
       keyboardShouldPersistTaps,
       scrollX,
       scrollValue,

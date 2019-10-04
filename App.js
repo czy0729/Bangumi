@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:28:20
+ * @Last Modified time: 2019-09-28 03:23:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -56,7 +56,7 @@ class App extends React.Component {
     hm(`error?error=${error}`, '错误')
   }
 
-  loadResourcesAsync = async () =>
+  loadResourcesAsync = () =>
     Promise.all([
       Stores.init(),
       // Asset.loadAsync([]),

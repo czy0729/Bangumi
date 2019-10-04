@@ -4,11 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:10:12
+ * @Last Modified time: 2019-09-23 10:04:17
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
 import {
+  IOS,
   APP_ID,
   HOST_NAME,
   HOST,
@@ -329,7 +330,7 @@ export function hm(url, title = '') {
     const userStore = require('../stores/user').default
     const { userAgent } = userStore.userCookie
     let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
-    u += `${u.includes('?') ? '&' : '?'}v=${version}`
+    u += `${u.includes('?') ? '&' : '?'}v=${version}${IOS && '&ios=1'}`
     const query = {
       lt: getTimestamp(),
       rnd: randomn(10),

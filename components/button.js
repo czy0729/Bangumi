@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 12:10:10
+ * @Last Modified time: 2019-09-20 22:37:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -131,6 +131,10 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorDisabled,
     borderColor: 'rgb(80, 80, 80)'
   },
+  bid: {
+    backgroundColor: _.colorBid,
+    borderColor: _.colorBid
+  },
 
   // ghost type
   ghostPlain: {
@@ -184,6 +188,9 @@ const styles = StyleSheet.create({
     color: _.colorPlain
   },
   textDisabled: {
+    color: _.colorPlain
+  },
+  textBid: {
     color: _.colorPlain
   },
   textGhostPlain: {

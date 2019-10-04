@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 01:17:00
+ * @Last Modified time: 2019-09-22 01:18:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -217,6 +217,15 @@ class Item extends React.Component {
       popoverData.push(`屏蔽${type}`)
     }
 
+    let monoId
+    if ($.tinygrail && this.characters._loaded) {
+      if (this.characters.users) {
+        popoverData.push('进入ICO')
+      } else {
+        popoverData.push('进入交易')
+      }
+      monoId = String(this.characters.id)
+    }
     return (
       <Popover
         style={styles.extra}
@@ -233,7 +242,8 @@ class Item extends React.Component {
               groupCn: this.groupCn,
               groupHref,
               userId: this.userId,
-              userName
+              userName,
+              monoId
             },
             navigation
           )

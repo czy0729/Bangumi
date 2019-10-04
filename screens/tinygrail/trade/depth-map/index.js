@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 20:47:14
+ * @Last Modified time: 2019-09-22 00:51:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,14 @@ import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
+import {
+  colorBorder,
+  colorBid,
+  colorDepthBid,
+  colorAsk,
+  colorDepthAsk,
+  colorText
+} from '../../styles'
 
 const height = 160
 
@@ -60,7 +68,7 @@ function DepthMap({ style }, { $ }) {
   let calculateAsks = 0
   return (
     <View style={[styles.container, style]}>
-      <Text style={styles.title} size={12} type='sub'>
+      <Text style={[styles.title, styles.text]} size={12}>
         深度
       </Text>
       <Flex>
@@ -122,11 +130,11 @@ function DepthMap({ style }, { $ }) {
       <Flex style={styles.info}>
         <Flex.Item>
           <Flex justify='between'>
-            <Text type='sub' size={12}>
-              {bidsLow.toFixed(2)}
+            <Text style={styles.text} size={12}>
+              {bidsLow && bidsLow.toFixed(2)}
             </Text>
-            <Text type='sub' size={12}>
-              {bidsHigh.toFixed(2)}
+            <Text style={styles.text} size={12}>
+              {bidsHigh && bidsHigh.toFixed(2)}
             </Text>
           </Flex>
         </Flex.Item>
@@ -136,29 +144,29 @@ function DepthMap({ style }, { $ }) {
           }}
         >
           <Flex justify='between'>
-            <Text type='sub' size={12}>
-              {asksLow.toFixed(2)}
+            <Text style={styles.text} size={12}>
+              {asksLow && asksLow.toFixed(2)}
             </Text>
-            <Text type='sub' size={12}>
-              {asksHigh.toFixed(2)}
+            <Text style={styles.text} size={12}>
+              {asksHigh && asksHigh.toFixed(2)}
             </Text>
           </Flex>
         </Flex.Item>
       </Flex>
       <Flex style={styles.rod} direction='column' justify='between' align='end'>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr(amount)}
         </Text>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr((amount * 4) / 5)}
         </Text>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr((amount * 3) / 5)}
         </Text>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr((amount * 2) / 5)}
         </Text>
-        <Text type='sub' size={12} align='right'>
+        <Text style={styles.text} size={12} align='right'>
           {getKStr((amount * 1) / 5)}
         </Text>
       </Flex>
@@ -176,7 +184,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 48,
     borderTopWidth: 1,
-    borderTopColor: 'rgb(25, 36, 53)'
+    borderTopColor: colorBorder
   },
   title: {
     position: 'absolute',
@@ -194,24 +202,22 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    borderTopColor: 'rgb(12, 155, 135)',
+    borderTopColor: colorBid,
     borderTopWidth: 1,
-    borderRightColor: 'rgb(12, 155, 135)',
+    borderRightColor: colorBid,
     borderRightWidth: 1,
-    backgroundColor: 'rgb(15, 61, 67)'
+    backgroundColor: colorDepthBid
   },
   asks: {
     position: 'absolute',
     right: 0,
     bottom: 0,
     width: '100%',
-    borderTopColor: 'rgb(186, 77, 18)',
+    borderTopColor: colorAsk,
     borderTopWidth: 1,
-    // borderRightColor: 'rgb(57, 40, 57)',
-    // borderRightWidth: 1,
-    borderLeftColor: 'rgb(186, 77, 18)',
+    borderLeftColor: colorAsk,
     borderLeftWidth: 1,
-    backgroundColor: 'rgb(57, 40, 57)'
+    backgroundColor: colorDepthAsk
   },
   rod: {
     position: 'absolute',
@@ -219,6 +225,9 @@ const styles = StyleSheet.create({
     top: _.md + _.sm,
     right: _.sm,
     bottom: 56
+  },
+  text: {
+    color: colorText
   }
 })
 

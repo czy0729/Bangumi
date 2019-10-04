@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:01:56
+ * @Last Modified time: 2019-09-20 21:43:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,15 @@ import { IOS } from '@constants'
 import { systemStore } from '@stores'
 import _ from '@styles'
 
-function Avatar({ style, navigation, userId, src, size, onPress }) {
+function Avatar({
+  style,
+  navigation,
+  userId,
+  src,
+  size,
+  borderColor,
+  onPress
+}) {
   const { avatarRound } = systemStore.setting
   const _onPress = () => {
     if (onPress) {
@@ -38,7 +46,8 @@ function Avatar({ style, navigation, userId, src, size, onPress }) {
       styles.avatar,
       {
         width: size,
-        height: size
+        height: size,
+        borderColor
       },
       style
     ]
@@ -66,7 +75,7 @@ function Avatar({ style, navigation, userId, src, size, onPress }) {
       size={size}
       src={getCoverMedium(src, true)}
       radius={avatarRound ? size / 2 : true}
-      border={_.colorBorder}
+      border={borderColor}
       quality={false}
       onPress={_onPress}
     />
@@ -78,6 +87,7 @@ Avatar.defaultProps = {
   userId: undefined,
   src: undefined,
   size: 28,
+  borderColor: _.colorBorder,
   onPress: undefined
 }
 

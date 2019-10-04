@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 21:32:34
+ * @Last Modified time: 2019-09-25 14:45:43
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -25,7 +25,7 @@ class List extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.scope !== this.props.scope) {
+    if (nextProps.subjectType !== this.props.subjectType) {
       this.setState({
         hide: true
       })

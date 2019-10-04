@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 11:25:25
+ * @Last Modified time: 2019-09-27 11:18:59
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
@@ -360,7 +360,7 @@ export default class LoginV2 extends React.Component {
    */
   getAccessToken = () => {
     this.setState({
-      info: `${this.retryText}授权成功, 获取token中...(4/5)`
+      info: `${this.retryText}授权成功, 获取token中...(4/5), 若卡住可再次点击登录重试`
     })
 
     return xhrCustom(

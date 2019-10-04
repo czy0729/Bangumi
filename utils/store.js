@@ -3,20 +3,77 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-14 04:38:49
+ * @Last Modified time: 2019-10-01 22:48:47
  */
 import { AsyncStorage } from 'react-native'
-import { configure, extendObservable, action, toJS } from 'mobx'
+import { configure, extendObservable, computed, action, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants'
 import { getTimestamp } from '@utils'
 import fetch from './fetch'
 
-configure({ enforceActions: 'observed' })
+configure({
+  enforceActions: 'observed'
+})
 
 export default class Store {
+  setup = () => {
+    this.generateComputed()
+  }
+
+  /**
+   * 根据配置[this.computed]自动生成get
+   * @param {*} config
+   * computed = [
+   *   'key', // case 1
+   *   ['key', defaultValue], // case 2
+   *   ['key', defaultValue, stringArg], // case 3
+   *   ['key', defaultValue, funcArg] // case 4
+   */
+  generateComputed = () => {
+    if (!Array.isArray(this.computed)) {
+      return
+    }
+
+    this.computed.forEach(item => {
+      // case 1
+      if (typeof item === 'string') {
+        Object.defineProperty(this, item, {
+          get() {
+            return computed(() => this.state[item]).get()
+          }
+        })
+        return
+      }
+
+      const [key, defaultValue, defaultArg] = item
+
+      // case 4
+      if (typeof defaultArg === 'function') {
+        this[key] = (...arg) =>
+          computed(() => this.state[key][defaultArg(...arg)]).get() ||
+          defaultValue
+      } else {
+        // case 2, 3
+        this[key] = () =>
+          computed(() => this.state[key][defaultArg]).get() || defaultValue
+      }
+    })
+  }
+
+  /**
+   * MobX计算
+   * @param {*} *key         state的键值
+   * @param {*} arg          第一个参数
+   * @param {*} defaultValue 默认值
+   */
+  computed = (key, arg, defaultValue = '') =>
+    computed(() => (arg ? this.state[key][arg] : this.state[key])).get() ||
+    defaultValue
+
   /**
    * 统一setState方法
    * @version 190226 v1.0
+   * @param {*} *state
    */
   setState = action(state => {
     Object.keys(state).forEach(key => {
@@ -38,7 +95,9 @@ export default class Store {
   })
 
   /**
-   * 清除state
+   * 清除一个state
+   * @param {*} *key state的键值
+   * @param {*} data 置换值
    */
   clearState = action((key, data = {}) => {
     if (typeof this.state[key] === 'undefined') {
@@ -54,10 +113,10 @@ export default class Store {
    * 请求并入Store, 入Store成功会设置标志位_loaded=date()
    * 请求失败后会在1秒后递归重试
    * @version 190420 v1.2
-   * @param {String|Object} fetchConfig
-   * @param {String|Array} stateKey 入Store的key (['a', 'b']表示this.state.a.b)
-   * @param {*} otherConfig.list 是否把响应的数组转化为LIST_EMPTY结构
-   * @param {*} otherConfig.storage 是否本地化
+   * @param {String|Object} *fetchConfig
+   * @param {String|Array}  *stateKey           入Store的key (['a', 'b']表示this.state.a.b)
+   * @param {*}             otherConfig.list    是否把响应的数组转化为LIST_EMPTY结构
+   * @param {*}             otherConfig.storage 是否本地化
    * @return {Promise}
    */
   async fetch(fetchConfig, stateKey, otherConfig = {}) {
@@ -115,40 +174,81 @@ export default class Store {
   }
 
   /**
-   * AsyncStorage.setItem
+   * 存入本地缓存
    * @param {*} *key
    * @param {*} value
    * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
   setStorage(key, value, namesapce) {
-    if (!key) {
-      return AsyncStorage.setItem(
-        `${namesapce || this.getName()}|state`,
-        JSON.stringify(this.state)
-      )
+    let _key = namesapce || this.getName()
+    if (key) {
+      _key += `|${key}`
     }
+    _key += '|state'
 
     return AsyncStorage.setItem(
-      `${namesapce || this.getName()}|${key}|state`,
-      JSON.stringify(value || this.state[key])
+      _key,
+      JSON.stringify(key ? value || this.state[key] : this.state)
     )
   }
 
   /**
-   * AsyncStorage.getItem
-   * @param {*} key
+   * 读取本地缓存
+   * @param {*} *key
+   * @param {*} value
+   * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
-  async getStorage(key, namesapce) {
-    // @issue 打包压缩后貌似不安全, this.getName类名字会丢失?
-    if (!key) {
-      return JSON.parse(
-        await AsyncStorage.getItem(`${namesapce || this.getName()}|state`)
-      )
+  async getStorage(key, namesapce, defaultValue) {
+    let _key = namesapce || this.getName()
+    if (key) {
+      _key += `|${key}`
     }
+    _key += '|state'
 
-    return JSON.parse(
-      await AsyncStorage.getItem(`${namesapce || this.getName()}|${key}|state`)
+    return JSON.parse(await AsyncStorage.getItem(_key)) || defaultValue
+  }
+
+  /**
+   * 批量读取缓存并入库
+   * @param {*} *config    约定的配置
+   * @param {*} *namespace 命名空间
+   */
+  async readStorageThenSetState(config, namespace) {
+    const keys = Object.keys(config)
+    const data = await Promise.all(
+      keys.map(key => this.getStorage(key, namespace, config[key]))
     )
+
+    const state = Object.assign(
+      {},
+      ...keys.map((key, index) => ({
+        [key]: data[index]
+      }))
+    )
+    this.setState(state)
+
+    return state
+  }
+
+  /**
+   * 批量读取缓存并入库V2
+   * @param {*} *config    约定的配置
+   * @param {*} *namespace 命名空间
+   */
+  async readStorage(config = [], namespace) {
+    const data = await Promise.all(
+      config.map(key => this.getStorage(key, namespace, this.state[key]))
+    )
+
+    const state = Object.assign(
+      {},
+      ...config.map((key, index) => ({
+        [key]: data[index]
+      }))
+    )
+    this.setState(state)
+
+    return state
   }
 
   /**
@@ -163,7 +263,7 @@ export default class Store {
   }
 
   /**
-   * 取类名
+   * [已废弃]取类名
    */
   getName() {
     let s = this.constructor.toString()

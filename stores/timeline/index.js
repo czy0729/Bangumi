@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-15 11:12:30
+ * @Last Modified time: 2019-09-29 11:28:43
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -15,26 +15,28 @@ import { fetchTimeline } from './common'
 
 class Timeline extends store {
   state = observable({
-    // 自己的时间胶囊
+    /**
+     * 自己的时间胶囊
+     */
     timeline: {
       // [`${scope}|${type}`]: LIST_EMPTY
     },
 
-    // 其他人的时间胶囊
+    /**
+     * 其他人的时间胶囊
+     */
     usersTimeline: {
       // [userId]: LIST_EMPTY
     }
   })
 
-  async init() {
-    const res = Promise.all([this.getStorage('timeline', NAMESPACE)])
-    const state = await res
-    this.setState({
-      timeline: state[0] || {}
-    })
-
-    return res
-  }
+  init = () =>
+    this.readStorageThenSetState(
+      {
+        timeline: {}
+      },
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
   /**

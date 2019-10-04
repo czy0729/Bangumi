@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 15:21:36
+ * @Last Modified time: 2019-09-22 01:18:45
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -321,6 +321,18 @@ export default class ScreenRakuen extends store {
       case '屏蔽用户':
         rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
         info(`已屏蔽 ${values.userName}`)
+        break
+
+      case '进入ICO':
+        navigation.push('TinygrailICODeal', {
+          monoId: values.monoId
+        })
+        break
+
+      case '进入交易':
+        navigation.push('TinygrailTrade', {
+          monoId: values.monoId
+        })
         break
 
       default:

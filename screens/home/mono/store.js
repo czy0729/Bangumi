@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:53:26
+ * @Last Modified time: 2019-09-22 02:16:09
  */
 import { computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -14,7 +14,11 @@ import { HOST } from '@constants'
 export default class ScreenMono extends store {
   init = () => {
     if (this.tinygrail) {
-      return Promise.all([this.fetchChara(), this.fetchMono(true)])
+      return Promise.all([
+        this.fetchMono(true),
+        this.fetchChara(),
+        this.fetchUsers()
+      ])
     }
     return this.fetchMono(true)
   }
@@ -28,6 +32,11 @@ export default class ScreenMono extends store {
   fetchChara = () => {
     const { monoId = '' } = this.params
     return tinygrailStore.fetchCharacters([monoId.replace('character/', '')])
+  }
+
+  fetchUsers = () => {
+    const { monoId = '' } = this.params
+    return tinygrailStore.fetchUsers(monoId.replace('character/', ''))
   }
 
   // -------------------- get --------------------
@@ -48,6 +57,11 @@ export default class ScreenMono extends store {
 
   @computed get tinygrail() {
     return systemStore.setting.tinygrail
+  }
+
+  @computed get users() {
+    const { monoId = '' } = this.params
+    return tinygrailStore.users(monoId.replace('character/', ''))
   }
 
   // -------------------- action --------------------

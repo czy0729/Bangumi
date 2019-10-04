@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 20:30:25
+ * @Last Modified time: 2019-10-01 22:20:18
  */
 export const NAMESPACE = 'Users'
 
@@ -28,4 +28,30 @@ export const INIT_USERS = {
   dropped: '',
   connectUrl: '',
   disconnectUrl: ''
+}
+
+export const INIT_CHARACTERS = {
+  avatar: '',
+  id: '',
+  name: ''
+}
+
+export const INIT_RECENTS_ITEM = {
+  id: '',
+  cover: '',
+  type: '',
+  href: '',
+  name: '',
+  nameJP: '',
+  info: '',
+  star: '',
+  starInfo: '',
+  actors: [] // <INIT_RECENTS_ACTORS_ITEM>
+}
+
+export const INIT_RECENTS_ACTORS_ITEM = {
+  id: '',
+  avatar: '',
+  name: '',
+  info: ''
 }

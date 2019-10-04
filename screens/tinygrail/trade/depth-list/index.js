@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-03 20:47:10
+ * @Last Modified time: 2019-09-22 00:51:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,13 @@ import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
+import {
+  colorBid,
+  colorDepthBid,
+  colorAsk,
+  colorDepthAsk,
+  colorText
+} from '../../styles'
 
 function DepthList({ style }, { $ }) {
   const { asks = [], bids = [], _loaded } = $.depth
@@ -52,24 +59,23 @@ function DepthList({ style }, { $ }) {
   return (
     <View style={[styles.container, style]}>
       <Flex style={styles.header}>
-        <Text style={[styles.index, _.ml.md]} size={10} type='sub'>
+        <Text style={[styles.index, styles.text, _.ml.md]} size={10}>
           买盘
         </Text>
-        <Text style={styles.amount} size={10} type='sub'>
+        <Text style={[styles.amount, styles.text]} size={10}>
           数量
         </Text>
         <Flex.Item>
-          <Text size={10} type='sub' align='center'>
+          <Text style={styles.text} size={10} align='center'>
             价格
           </Text>
         </Flex.Item>
-        <Text style={styles.amount} size={10} type='sub' align='right'>
+        <Text style={[styles.amount, styles.text]} size={10} align='right'>
           数量
         </Text>
         <Text
-          style={[styles.index, _.mr.md]}
+          style={[styles.index, styles.text, _.mr.md]}
           size={10}
-          type='sub'
           align='right'
         >
           卖盘
@@ -82,16 +88,16 @@ function DepthList({ style }, { $ }) {
             return (
               <Flex key={index} style={styles.item}>
                 <View style={[styles.index, _.ml.md]}>
-                  <Text size={12} type='sub'>
+                  <Text style={styles.text} size={12}>
                     {index + 1}
                   </Text>
                 </View>
-                <Text style={styles.amount} size={12} type='sub'>
+                <Text style={[styles.amount, styles.text]} size={12}>
                   {item.amount}
                 </Text>
                 <Flex.Item style={_.mr.sm}>
                   <Text style={styles.bids} size={12} align='right'>
-                    {item.price.toFixed(2)}
+                    {item.price && item.price.toFixed(2)}
                   </Text>
                 </Flex.Item>
                 <View
@@ -113,14 +119,18 @@ function DepthList({ style }, { $ }) {
               <Flex key={index} style={styles.item}>
                 <Flex.Item style={_.ml.sm}>
                   <Text style={styles.asks} size={12}>
-                    {item.price.toFixed(2)}
+                    {item.price && item.price.toFixed(2)}
                   </Text>
                 </Flex.Item>
-                <Text style={styles.amount} size={12} type='sub' align='right'>
+                <Text
+                  style={[styles.amount, styles.text]}
+                  size={12}
+                  align='right'
+                >
                   {item.amount}
                 </Text>
                 <View style={[styles.index, _.mr.md]}>
-                  <Text size={12} type='sub' align='right'>
+                  <Text style={styles.text} size={12} align='right'>
                     {index + 1}
                   </Text>
                 </View>
@@ -164,10 +174,10 @@ const styles = StyleSheet.create({
     minWidth: 40
   },
   bids: {
-    color: 'rgb(0, 173, 146)'
+    color: colorBid
   },
   asks: {
-    color: 'rgb(209, 77, 100)'
+    color: colorAsk
   },
   depthBids: {
     position: 'absolute',
@@ -175,7 +185,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgb(15, 61, 67)'
+    backgroundColor: colorDepthBid
   },
   depthAsks: {
     position: 'absolute',
@@ -183,6 +193,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     bottom: 0,
-    backgroundColor: 'rgb(39, 36, 52)'
+    backgroundColor: colorDepthAsk
+  },
+  text: {
+    color: colorText
   }
 })

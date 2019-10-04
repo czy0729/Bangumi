@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:09:57
+ * @Last Modified time: 2019-09-30 14:14:36
  */
 import React from 'react'
 import * as Icon from '@expo/vector-icons'
-import { colorIcon } from '@styles'
+import _ from '@styles'
 
 function Iconfont({ style, name, size, color, ...other }) {
   return (
@@ -31,7 +31,7 @@ Iconfont.defaultProps = {
   style: undefined,
   name: undefined,
   size: 20,
-  color: colorIcon
+  color: _.colorIcon
 }
 
 export default Iconfont

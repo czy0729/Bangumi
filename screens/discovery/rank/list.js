@@ -11,7 +11,7 @@ import { Loading, ListView } from '@components'
 import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
 import _ from '@styles'
 
-const List = (props, { $, navigation }) => {
+function List(props, { $, navigation }) {
   const { hide } = $.state
   if (hide) {
     return null

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 00:49:51
+ * @Last Modified time: 2019-09-30 14:09:18
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -16,7 +16,7 @@ import _ from '@styles'
 
 const orderData = MODEL_TAG_ORDERBY.data.map(item => item.label)
 
-const ToolBar = (props, { $ }) => {
+function ToolBar(props, { $ }) {
   const { order, list, airtime } = $.state
   const isEmptyAirdate = airtime === ''
   return (

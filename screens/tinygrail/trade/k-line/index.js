@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-02 22:26:47
+ * @Last Modified time: 2019-09-22 18:43:10
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -11,6 +11,8 @@ import { Loading, Text } from '@components'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import _ from '@styles'
+import { tinygrailStore } from '@stores'
+import { colorBg, colorText } from '../../styles'
 import html from './html'
 import { getKData } from './utils'
 
@@ -22,6 +24,10 @@ class KLine extends React.Component {
   static contextTypes = {
     $: PropTypes.object,
     navigation: PropTypes.object
+  }
+
+  static defaultProps = {
+    focus: false
   }
 
   componentDidMount() {
@@ -36,11 +42,16 @@ class KLine extends React.Component {
 
   onLoad = () => {
     const { $ } = this.context
-    setTimeout(() => {
-      $.setState({
-        loading: false
-      })
-    }, 400)
+    const { focus } = this.props
+
+    if (focus) {
+      setTimeout(() => {
+        $.setState({
+          loading: false
+        })
+        tinygrailStore.updateWebViewShow(true)
+      }, 400)
+    }
   }
 
   render() {
@@ -62,12 +73,11 @@ class KLine extends React.Component {
             scrollEnabled={false}
             onLoad={this.onLoad}
             onError={this.onError}
-            onMessage={this.onMessage}
           />
         )}
-        {loading && (
-          <Loading style={styles.loading} color={_.colorSub}>
-            <Text style={_.mt.md} size={12} type='sub'>
+        {(!tinygrailStore.state._webview || loading) && (
+          <Loading style={styles.loading} color={colorText}>
+            <Text style={[styles.text, _.mt.md]} size={12}>
               K线图加载中...
             </Text>
           </Loading>
@@ -80,20 +90,22 @@ class KLine extends React.Component {
 const styles = StyleSheet.create({
   chart: {
     height: _.window.height * 0.64,
-    backgroundColor: '#0F1923',
-    borderTopWidth: _.sm,
-    borderTopColor: 'rgb(14, 25, 36)',
+    paddingTop: _.sm,
+    backgroundColor: colorBg,
     borderBottomWidth: _.sm,
-    borderBottomColor: 'rgb(14, 25, 36)',
+    borderBottomColor: colorBg,
     overflow: 'hidden'
   },
   webview: {
     height: _.window.height * 0.64,
-    backgroundColor: '#0F1923'
+    backgroundColor: colorBg
   },
   loading: {
     ...StyleSheet.absoluteFill,
     zIndex: 100,
-    backgroundColor: '#0F1923'
+    backgroundColor: colorBg
+  },
+  text: {
+    color: colorText
   }
 })

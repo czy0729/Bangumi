@@ -3,106 +3,211 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-13 02:30:37
+ * @Last Modified time: 2019-09-25 21:17:21
  */
-import { observable, computed } from 'mobx'
-import axios from 'axios'
+import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
+import { HTMLDecode } from '@utils/html'
+import axios from '@utils/thirdParty/axios'
 import { LIST_EMPTY } from '@constants'
 import {
   API_TINYGRAIL_CHARAS,
-  API_TINYGRAIL_MVC,
-  API_TINYGRAIL_MRC,
-  API_TINYGRAIL_MFC,
-  API_TINYGRAIL_MVI,
-  API_TINYGRAIL_MPI,
-  API_TINYGRAIL_RAI,
-  API_TINYGRAIL_RECENT,
-  API_TINYGRAIL_TNBC,
-  API_TINYGRAIL_NBC,
+  API_TINYGRAIL_LIST,
+  API_TINYGRAIL_RICH,
   API_TINYGRAIL_CHARTS,
   API_TINYGRAIL_DEPTH,
+  API_TINYGRAIL_HASH,
   API_TINYGRAIL_ASSETS,
+  API_TINYGRAIL_CHARA_ASSETS,
   API_TINYGRAIL_USER_CHARA,
   API_TINYGRAIL_BID,
   API_TINYGRAIL_ASK,
   API_TINYGRAIL_CANCEL_BID,
-  API_TINYGRAIL_CANCEL_ASK
+  API_TINYGRAIL_CANCEL_ASK,
+  API_TINYGRAIL_CHARA_BID,
+  API_TINYGRAIL_CHARA_ASKS,
+  API_TINYGRAIL_MY_CHARA_ASSETS,
+  API_TINYGRAIL_BALANCE,
+  API_TINYGRAIL_INITIAL,
+  API_TINYGRAIL_JOIN,
+  API_TINYGRAIL_USERS
 } from '@constants/api'
 import {
   NAMESPACE,
   INIT_CHARACTERS_ITEM,
+  INIT_RICH,
   INIT_KLINE_ITEM,
   INIT_DEPTH_ITEM,
   INIT_ASSETS,
-  INIT_USER_LOGS
+  INIT_CHARA_ASSETS,
+  INIT_USER_LOGS,
+  INIT_MY_CHARA_ASSETS
 } from './init'
+
+const defaultKey = 'recent'
+const defaultSort = '1/50'
 
 class Tinygrail extends store {
   state = observable({
-    // 人物数据
+    /**
+     * 授权cookie
+     */
+    cookie: '',
+
+    /**
+     * 人物数据
+     */
     characters: {
       // [monoId]: INIT_CHARACTERS_ITEM
     },
 
-    // 总览列表
+    /**
+     * 总览列表
+     */
     mvc: LIST_EMPTY,
     mrc: LIST_EMPTY,
     mfc: LIST_EMPTY,
     mvi: LIST_EMPTY,
     mpi: LIST_EMPTY,
     rai: LIST_EMPTY,
+    mri: LIST_EMPTY,
     recent: LIST_EMPTY,
     tnbc: LIST_EMPTY,
     nbc: LIST_EMPTY,
 
-    // K线
+    /**
+     * 番市首富
+     */
+    rich: INIT_RICH,
+
+    /**
+     * K线
+     */
     kline: {
       // [monoId]: INIT_KLINE_ITEM
     },
 
-    // 深度图
+    /**
+     * 深度图
+     */
     depth: {
       // [monoId]: INIT_DEPTH_ITEM
     },
 
-    // 用户资产
+    /**
+     * 用户唯一标识
+     */
+    hash: '',
+
+    /**
+     * 用户资产
+     */
     assets: INIT_ASSETS,
 
-    // 用户挂单和交易记录
+    /**
+     * 用户资产概览信息
+     */
+    charaAssets: {
+      // [hash]: INIT_CHARA_ASSETS
+    },
+
+    /**
+     * 我的挂单和交易记录
+     */
     userLogs: {
       // [monoId]: INIT_USER_LOGS
-    }
+    },
+
+    /**
+     * 我的买单
+     */
+    bid: LIST_EMPTY,
+
+    /**
+     * 我的卖单
+     */
+    asks: LIST_EMPTY,
+
+    /**
+     * 我的持仓
+     */
+    myCharaAssets: INIT_MY_CHARA_ASSETS,
+
+    /**
+     * 资金日志
+     */
+    balance: LIST_EMPTY,
+
+    /**
+     * 记录所有角色的头像Map (用于没有头像的列表)
+     */
+    iconsCache: {
+      // [monoId]: ''
+    },
+
+    /**
+     * ICO参与者
+     */
+    initial: {
+      // [monoId]: {}
+    },
+
+    /**
+     * 董事会
+     */
+    users: {
+      // [monoId]: LIST_EMPTY
+    },
+
+    /**
+     * iOS此刻是否显示WebView
+     * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
+     * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
+     * 会导致闪白屏, 这个非常不友好, 暂时只想到通过维护一个全局变量去决定是否渲染WebView
+     */
+    _webview: true
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('characters', NAMESPACE),
-      this.getStorage('kline', NAMESPACE),
-      this.getStorage('depth', NAMESPACE),
-      this.getStorage('assets', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      characters: state[0] || {},
-      kline: state[1] || {},
-      depth: state[2] || {},
-      assets: state[3] || INIT_ASSETS
-    })
-
-    return res
-  }
+  init = () =>
+    this.readStorageThenSetState(
+      {
+        cookie: '',
+        characters: {},
+        mvi: LIST_EMPTY,
+        recent: LIST_EMPTY,
+        nbc: LIST_EMPTY,
+        rich: INIT_RICH,
+        kline: {},
+        depth: {},
+        hash: '',
+        assets: INIT_ASSETS,
+        charaAssets: {},
+        bid: LIST_EMPTY,
+        myCharaAssets: INIT_MY_CHARA_ASSETS,
+        balance: LIST_EMPTY,
+        iconsCache: {}
+      },
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
+  @computed get cookie() {
+    return this.state.cookie
+  }
+
   characters(id) {
     return (
       computed(() => this.state.characters[id]).get() || INIT_CHARACTERS_ITEM
     )
   }
 
-  list(key = 'recent') {
+  list(key = defaultKey) {
     return computed(() => this.state[key]).get() || LIST_EMPTY
+  }
+
+  rich(sort = defaultSort) {
+    return computed(() => this.state.rich[sort]).get() || LIST_EMPTY
   }
 
   kline(id) {
@@ -113,12 +218,42 @@ class Tinygrail extends store {
     return computed(() => this.state.depth[id]).get() || INIT_DEPTH_ITEM
   }
 
+  @computed get hash() {
+    return this.state.hash
+  }
+
   @computed get assets() {
     return this.state.assets
   }
 
+  charaAssets(hash) {
+    return (
+      computed(() => this.state.charaAssets[hash]).get() || INIT_CHARA_ASSETS
+    )
+  }
+
   userLogs(id) {
     return computed(() => this.state.userLogs[id]).get() || INIT_USER_LOGS
+  }
+
+  @computed get myCharaAssets() {
+    return this.state.myCharaAssets
+  }
+
+  @computed get balance() {
+    return this.state.balance
+  }
+
+  iconsCache(id) {
+    return computed(() => this.state.iconsCache[id]).get() || ''
+  }
+
+  initial(id) {
+    return computed(() => this.state.initial[id]).get() || LIST_EMPTY
+  }
+
+  users(id) {
+    return computed(() => this.state.users[id]).get() || LIST_EMPTY
   }
 
   // -------------------- fetch --------------------
@@ -140,9 +275,16 @@ class Tinygrail extends store {
     }
 
     if (result.State === 0) {
-      result.Value.forEach(item => {
-        data[item.Id] = {
-          id: item.Id,
+      const iconsCache = toJS(this.state.iconsCache)
+      const target = Array.isArray(result.Value) ? result.Value : [result.Value]
+      target.forEach(item => {
+        const id = item.CharacterId || item.Id
+        if (item.Icon) {
+          iconsCache[id] = item.Icon
+        }
+        data[id] = {
+          id,
+          icoId: item.Id,
           bids: item.Bids,
           asks: item.Asks,
           change: item.Change,
@@ -159,7 +301,9 @@ class Tinygrail extends store {
           _loaded: getTimestamp()
         }
       })
+      this.updateIconsCache(iconsCache)
     }
+
     const key = 'characters'
     this.setState({
       [key]: data
@@ -172,39 +316,8 @@ class Tinygrail extends store {
   /**
    * 总览列表
    */
-  fetchList = async (key = 'recent') => {
-    let api = ''
-    switch (key) {
-      case 'mvc':
-        api = API_TINYGRAIL_MVC()
-        break
-      case 'mrc':
-        api = API_TINYGRAIL_MRC()
-        break
-      case 'mfc':
-        api = API_TINYGRAIL_MFC()
-        break
-      case 'mvi':
-        api = API_TINYGRAIL_MVI()
-        break
-      case 'mpi':
-        api = API_TINYGRAIL_MPI()
-        break
-      case 'rai':
-        api = API_TINYGRAIL_RAI()
-        break
-      case 'tnbc':
-        api = API_TINYGRAIL_TNBC()
-        break
-      case 'nbc':
-        api = API_TINYGRAIL_NBC()
-        break
-      default:
-        api = API_TINYGRAIL_RECENT()
-        break
-    }
-
-    const result = await fetch(api, {
+  fetchList = async (key = defaultKey) => {
+    const result = await fetch(API_TINYGRAIL_LIST(key), {
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       }
@@ -214,23 +327,78 @@ class Tinygrail extends store {
       ...LIST_EMPTY
     }
     if (result.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
       data = {
         ...LIST_EMPTY,
-        list: (result.Value.Items || result.Value).map(item => ({
-          id: item.CharacterId || item.Id,
-          bids: item.Bids,
-          asks: item.Asks,
-          change: item.Change,
-          current: item.Current,
-          fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-          total: item.Total,
-          marketValue: item.MarketValue,
-          lastOrder: item.LastOrder,
-          end: item.End,
-          users: item.Users,
-          name: item.Name,
-          icon: item.Icon,
-          bonus: item.Bonus
+        list: (result.Value.Items || result.Value).map(item => {
+          const id = item.CharacterId || item.Id
+          if (item.Icon) {
+            iconsCache[id] = item.Icon
+          }
+          return {
+            id,
+            bids: item.Bids,
+            asks: item.Asks,
+            change: item.Change,
+            current: item.Current,
+            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+            total: item.Total,
+            marketValue: item.MarketValue,
+            lastOrder: item.LastOrder,
+            end: item.End,
+            users: item.Users,
+            name: item.Name,
+            icon: item.Icon,
+            bonus: item.Bonus
+          }
+        }),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+      this.updateIconsCache(iconsCache)
+    }
+
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 番市首富
+   */
+  fetchRich = async (sort = defaultSort) => {
+    axios.defaults.withCredentials = false
+    const [page, limit] = sort.split('/')
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_RICH(page, limit),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.map(item => ({
+          avatar: item.Avatar,
+          nickname: HTMLDecode(item.Nickname),
+          userId: item.Name,
+          assets: item.Assets.toFixed(2),
+          total: item.TotalBalance.toFixed(2),
+          principal: item.Principal,
+          lastActiveDate: item.LastActiveDate,
+          lastIndex: item.LastIndex
         })),
         pagination: {
           page: 1,
@@ -240,10 +408,15 @@ class Tinygrail extends store {
       }
     }
 
+    const key = 'rich'
+    const { rich } = this.state
     this.setState({
-      [key]: data
+      [key]: {
+        ...rich,
+        [sort]: data
+      }
     })
-    // this.setStorage(key, undefined, NAMESPACE)
+    this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }
@@ -325,14 +498,45 @@ class Tinygrail extends store {
   }
 
   /**
-   * 用户资产
+   * 用户唯一标识
+   */
+  fetchHash = async () => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_HASH(),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = ''
+    if (result.data.State === 0) {
+      data = result.data.Value.Hash
+    }
+
+    const key = 'hash'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 资产信息
    */
   fetchAssets = async () => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_ASSETS(),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -356,14 +560,79 @@ class Tinygrail extends store {
   }
 
   /**
+   * 用户资产概览信息
+   */
+  fetchCharaAssets = async hash => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_CHARA_ASSETS(hash),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    const data = {
+      ...INIT_CHARA_ASSETS
+    }
+    if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
+      data._loaded = getTimestamp()
+      data.id = result.data.Value.Id
+      data.balance = result.data.Value.Balance
+      data.characters = result.data.Value.Characters.map(item => {
+        if (item.Icon) {
+          iconsCache[item.Id] = item.Icon
+        }
+        return {
+          id: item.Id,
+          icon: item.Icon,
+          name: item.Name,
+          current: item.Current,
+          state: item.State,
+          total: item.Total
+        }
+      })
+      data.initials = result.data.Value.Initials.map(item => {
+        if (item.Icon) {
+          iconsCache[item.Id] = item.Icon
+        }
+        return {
+          id: item.Id,
+          icon: item.Icon,
+          name: item.Name,
+          current: 0,
+          state: item.State,
+          total: item.Total
+        }
+      })
+      this.updateIconsCache(iconsCache)
+    }
+
+    const key = 'charaAssets'
+    this.setState({
+      [key]: {
+        [hash]: data
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
    * 用户挂单和交易记录
    */
   fetchUserLogs = async monoId => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',
       url: API_TINYGRAIL_USER_CHARA(monoId),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     let data = {
@@ -416,16 +685,389 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
+  /**
+   * 我的买单
+   */
+  fetchBid = async () => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_CHARA_BID(),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => {
+          if (item.Icon) {
+            iconsCache[item.Id] = item.Icon
+          }
+          return {
+            id: item.Id,
+            bids: item.Bids,
+            asks: item.Asks,
+            change: item.Change,
+            current: item.Current,
+            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+            total: item.Total,
+            marketValue: item.MarketValue,
+            lastOrder: item.LastOrder,
+            end: item.End,
+            users: item.Users,
+            name: item.Name,
+            icon: item.Icon,
+            bonus: item.Bonus,
+            state: item.State
+          }
+        }),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+      this.updateIconsCache(iconsCache)
+    }
+
+    const key = 'bid'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 我的卖单
+   */
+  fetchAsks = async () => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_CHARA_ASKS(),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => {
+          if (item.Icon) {
+            iconsCache[item.Id] = item.Icon
+          }
+          return {
+            id: item.Id,
+            bids: item.Bids,
+            asks: item.Asks,
+            change: item.Change,
+            current: item.Current,
+            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+            total: item.Total,
+            marketValue: item.MarketValue,
+            lastOrder: item.LastOrder,
+            end: item.End,
+            users: item.Users,
+            name: item.Name,
+            icon: item.Icon,
+            bonus: item.Bonus,
+            state: item.State
+          }
+        }),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+      this.updateIconsCache(iconsCache)
+    }
+
+    const key = 'asks'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 我的持仓
+   */
+  fetchMyCharaAssets = async () => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_MY_CHARA_ASSETS(),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...INIT_MY_CHARA_ASSETS
+    }
+    if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
+      data = {
+        chara: {
+          list: result.data.Value.Characters.map(item => {
+            if (item.Icon) {
+              iconsCache[item.Id] = item.Icon
+            }
+            return {
+              id: item.Id,
+              monoId: item.CharacterId,
+              bids: item.Bids,
+              asks: item.Asks,
+              change: item.Change,
+              current: item.Current,
+              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+              total: item.Total,
+              marketValue: item.MarketValue,
+              lastOrder: item.LastOrder,
+              end: item.End,
+              users: item.Users,
+              name: item.Name,
+              icon: item.Icon,
+              bonus: item.Bonus,
+              state: item.State
+            }
+          }),
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded: getTimestamp()
+        },
+        ico: {
+          list: result.data.Value.Initials.map(item => {
+            if (item.Icon) {
+              iconsCache[item.Id] = item.Icon
+            }
+            return {
+              id: item.Id,
+              monoId: item.CharacterId,
+              bids: item.Bids,
+              asks: item.Asks,
+              change: item.Change,
+              current: item.Current,
+              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+              total: item.Total,
+              marketValue: item.MarketValue,
+              lastOrder: item.LastOrder,
+              end: item.End,
+              users: item.Users,
+              name: item.Name,
+              icon: item.Icon,
+              bonus: item.Bonus,
+              state: item.State
+            }
+          }),
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded: getTimestamp()
+        },
+        _loaded: getTimestamp()
+      }
+      this.updateIconsCache(iconsCache)
+    }
+
+    const key = 'myCharaAssets'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * ICO参与者
+   */
+  fetchInitial = async monoId => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_INITIAL(monoId),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.InitialId,
+          avatar: item.Avatar,
+          userId: item.UserId,
+          state: item.State,
+          nickName: HTMLDecode(item.NickName),
+          name: item.Name,
+          amount: item.Amount
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'initial'
+    this.setState({
+      [key]: {
+        [monoId]: data
+      }
+    })
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 资金日志
+   */
+  fetchBalance = async () => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_BALANCE(),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.Id,
+          balance: item.Balance,
+          change: item.Change,
+          time: item.LogTime,
+          charaId: item.RelatedId,
+          desc: item.Description
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'balance'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 董事会
+   */
+  fetchUsers = async monoId => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_USERS(monoId),
+      responseType: 'json'
+    })
+
+    let data = []
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.Id,
+          nickName: item.Nickname,
+          avatar: item.Avatar,
+          balance: item.Balance,
+          name: item.Name
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        total: result.data.Value.TotalItems,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'users'
+    this.setState({
+      [key]: {
+        [monoId]: data
+      }
+    })
+
+    return Promise.resolve(data)
+  }
+
+  // -------------------- page --------------------
+  updateCookie = cookie => {
+    this.setState({
+      cookie
+    })
+    this.setStorage('cookie', undefined, NAMESPACE)
+  }
+
+  updateIconsCache = iconsCache => {
+    this.setState({
+      iconsCache
+    })
+    this.setStorage('iconsCache', undefined, NAMESPACE)
+  }
+
+  updateWebViewShow = show => {
+    this.setState({
+      _webview: show
+    })
+  }
+
   // -------------------- action --------------------
   /**
    * 买入
    */
   doBid = async ({ monoId, price, amount }) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_BID(monoId, price, amount),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     if (result.data.State === 0) {
@@ -439,11 +1081,14 @@ class Tinygrail extends store {
    * 卖出
    */
   doAsk = async ({ monoId, price, amount }) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_ASK(monoId, price, amount),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     if (result.data.State === 0) {
@@ -457,11 +1102,14 @@ class Tinygrail extends store {
    * 取消买入
    */
   doCancelBid = async ({ id }) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_CANCEL_BID(id),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     if (result.data.State === 0) {
@@ -475,11 +1123,35 @@ class Tinygrail extends store {
    * 取消卖出
    */
   doCancelAsk = async ({ id }) => {
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = false
     const result = await axios({
       method: 'post',
       url: API_TINYGRAIL_CANCEL_ASK(id),
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    if (result.data.State === 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 参与ICO
+   */
+  doJoin = async ({ id, amount }) => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_JOIN(id, amount),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
     })
 
     if (result.data.State === 0) {

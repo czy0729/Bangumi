@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 15:44:16
+ * @Last Modified time: 2019-09-29 11:27:46
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -16,29 +16,29 @@ import { analysisTags } from './common'
 
 class Tag extends store {
   state = observable({
-    // 标签列表
+    /**
+     * 标签列表
+     */
     tag: {
       // [`${text}|${type}`]: LIST_EMPTY | INIT_TAG_ITEM
     },
 
-    // 排行榜
+    /**
+     * 排行榜
+     */
     rank: {
       // [type]: LIST_EMPTY | INIT_RANK_ITEM
     }
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('tag', NAMESPACE),
-      this.getStorage('rank', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      tag: state[0] || {},
-      rank: state[1] || {}
-    })
-    return res
-  }
+  init = () =>
+    this.readStorageThenSetState(
+      {
+        tag: {},
+        rank: {}
+      },
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
   /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-13 02:11:10
+ * @Last Modified time: 2019-09-22 01:35:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Input, Text } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import { colorBid, colorAsk, colorBorder, colorPlain } from '../../styles'
+import { colorBid, colorAsk, colorBorder, colorText } from '../../styles'
 
 function Slider({ style }, { $ }) {
   const { value, amount } = $.state
@@ -35,36 +35,38 @@ function Slider({ style }, { $ }) {
           value={String(amount)}
           onChangeText={$.changeAmount}
         />
-        <Text style={[styles.placeholder, styles.plain]} size={12}>
+        <Text style={[styles.placeholder, styles.text]} size={12}>
           股
         </Text>
       </View>
       <Text style={[styles.balance, styles.plain]} size={12}>
         {balanceText}
       </Text>
-      <View style={[styles.slider, _.mt.sm]}>
-        <AntdSlider
-          value={amount}
-          min={min}
-          max={$.max}
-          maximumTrackTintColor={colorBorder}
-          minimumTrackTintColor={$.isBid ? colorBid : colorAsk}
-          onChange={value => $.changeAmount(value)}
-        />
-      </View>
+      <Flex style={[styles.slider, _.mt.sm]}>
+        <View style={{ width: '100%' }}>
+          <AntdSlider
+            value={amount}
+            min={min}
+            max={$.max}
+            maximumTrackTintColor={colorBorder}
+            minimumTrackTintColor={$.isBid ? colorBid : colorAsk}
+            onChange={value => $.changeAmount(value)}
+          />
+        </View>
+      </Flex>
       <Flex>
         <Flex.Item>
-          <Text size={12} type='sub'>
+          <Text style={styles.text} size={12}>
             {min}
           </Text>
         </Flex.Item>
-        <Text size={12} type='sub'>
+        <Text style={styles.text} size={12}>
           {$.max}
         </Text>
       </Flex>
       <Flex style={_.mt.md}>
         <Flex.Item>
-          <Text size={12} type='sub'>
+          <Text style={styles.text} size={12}>
             交易额
           </Text>
         </Flex.Item>
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   input: {
+    height: 34,
     color: _.colorPlain,
     backgroundColor: 'transparent',
     borderWidth: 0,
@@ -103,9 +106,13 @@ const styles = StyleSheet.create({
     marginTop: 16
   },
   slider: {
+    height: 40,
     opacity: 0.8
   },
   plain: {
-    color: colorPlain
+    color: _.colorPlain
+  },
+  text: {
+    color: colorText
   }
 })

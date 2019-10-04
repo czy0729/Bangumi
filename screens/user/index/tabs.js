@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 01:44:03
+ * @Last Modified time: 2019-09-25 15:24:18
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ import _ from '@styles'
 import TabBarLeft from './tab-bar-left'
 import { tabs, height, headerHeight } from './store'
 
-function Tabs({ scrollY, children, ...other }, { $ }) {
+function Tabs({ scrollY, children, onSelect, onChange, ...other }, { $ }) {
   const { subjectType, _page } = $.state
   const counts = {
     动画: {},
@@ -64,14 +64,22 @@ function Tabs({ scrollY, children, ...other }, { $ }) {
       ]}
       tabs={_tabs}
       page={_page}
-      renderTabBarLeft={<TabBarLeft />}
+      renderTabBarLeft={<TabBarLeft onSelect={onSelect} />}
       onTabClick={$.onTabClick}
-      onChange={$.onChange}
+      onChange={(...arg) => {
+        onChange(...arg)
+        $.onChange(...arg)
+      }}
       {...other}
     >
       {children}
     </CompTabs>
   )
+}
+
+Tabs.defaultProps = {
+  onSelect: Function.prototype,
+  onChange: Function.prototype
 }
 
 Tabs.contextTypes = {

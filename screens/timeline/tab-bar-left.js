@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:16:23
+ * @Last Modified time: 2019-09-30 14:15:28
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Flex, Button } from '@components'
 import { Popover } from '@screens/_'
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
-import { wind, sm } from '@styles'
+import _ from '@styles'
 
 function TabBarLeft({ $ }) {
   const { scope } = $.state
@@ -33,8 +33,8 @@ export default observer(TabBarLeft)
 const styles = StyleSheet.create({
   tabBarLeft: {
     height: 42,
-    paddingLeft: wind,
-    paddingRight: sm
+    paddingLeft: _.wind,
+    paddingRight: _.sm
   },
   btn: {
     width: 48,

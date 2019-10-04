@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 18:43:47
+ * @Last Modified time: 2019-10-03 21:16:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { caculateICO } from '@utils/app'
 import _ from '@styles'
+
+const colorDarkText = 'rgb(99, 117, 144)'
 
 export default class StockPreview extends React.Component {
   static defaultProps = {
@@ -22,6 +24,7 @@ export default class StockPreview extends React.Component {
     total: 0,
     marketValue: 0,
     users: 0,
+    theme: 'light',
     _loaded: false
   }
 
@@ -47,7 +50,7 @@ export default class StockPreview extends React.Component {
         backgroundColor = '#aaa'
         break
       case 1:
-        backgroundColor = _.colorSuccess
+        backgroundColor = _.colorBid
         break
       case 2:
         backgroundColor = _.colorPrimary
@@ -62,16 +65,20 @@ export default class StockPreview extends React.Component {
         backgroundColor = _.colorMain
         break
       default:
-        backgroundColor = _.colorDanger
+        backgroundColor = _.colorAsk
         break
     }
 
     return (
       <Flex style={styles.ico}>
-        <Text style={styles.iconText} size={10} align='center'>
+        <Text
+          style={[styles.iconText, this.isDark && styles.iconTextDark]}
+          size={10}
+          align='center'
+        >
           lv.{level} {percent}%
         </Text>
-        <View style={styles.icoBar}>
+        <View style={[styles.icoBar, this.isDark && styles.icoBarDark]}>
           <View
             style={[
               styles.icoProcess,
@@ -84,6 +91,11 @@ export default class StockPreview extends React.Component {
         </View>
       </Flex>
     )
+  }
+
+  get isDark() {
+    const { theme } = this.props
+    return theme === 'dark'
   }
 
   render() {
@@ -112,7 +124,7 @@ export default class StockPreview extends React.Component {
     } else if (fluctuation > 0) {
       fluctuationStyle.push(styles.success)
     } else {
-      fluctuationStyle.push(styles.sub)
+      fluctuationStyle.push(this.isDark ? styles.defaultDark : styles.sub)
     }
 
     let showFloor = true
@@ -157,7 +169,18 @@ export default class StockPreview extends React.Component {
     return (
       <Touchable style={[styles.container, style]} onPress={this.toggleNum}>
         <Flex justify='end'>
-          <Text lineHeight={16}>₵{current.toFixed(2)}</Text>
+          <Text
+            style={[
+              styles.current,
+              {
+                color: this.isDark ? _.colorPlain : _.colorDesc
+              }
+            ]}
+            lineHeight={16}
+            align='right'
+          >
+            ₵{current.toFixed(2)}
+          </Text>
           <Text
             style={fluctuationStyle}
             size={fluctuationSize}
@@ -170,14 +193,24 @@ export default class StockPreview extends React.Component {
         </Flex>
         <Flex style={styles.wrap} justify='end'>
           {showDetail && (
-            <Text size={12} type='sub'>
+            <Text
+              style={{
+                color: this.isDark ? colorDarkText : _.colorSub
+              }}
+              size={12}
+            >
               量{change}
             </Text>
           )}
           {showFloor ? (
             <Flex style={_.ml.sm}>
               {showDetail && (
-                <Text size={12} type='success'>
+                <Text
+                  style={{
+                    color: _.colorBid
+                  }}
+                  size={12}
+                >
                   {bids}
                 </Text>
               )}
@@ -200,13 +233,30 @@ export default class StockPreview extends React.Component {
                 />
               </Flex>
               {showDetail && (
-                <Text style={[styles.small, _.ml.xs]} size={12} type='danger'>
+                <Text
+                  style={[
+                    styles.small,
+                    _.ml.xs,
+                    {
+                      color: _.colorAsk
+                    }
+                  ]}
+                  size={12}
+                >
                   {asks}
                 </Text>
               )}
             </Flex>
           ) : (
-            <Text style={_.ml.sm} size={12} type='sub'>
+            <Text
+              style={[
+                _.ml.sm,
+                {
+                  color: this.isDark ? colorDarkText : _.colorSub
+                }
+              ]}
+              size={12}
+            >
               (没有挂单)
             </Text>
           )}
@@ -222,6 +272,12 @@ const styles = StyleSheet.create({
     paddingVertical: _.wind,
     paddingHorizontal: _.sm
   },
+  current: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    marginRight: 80
+  },
   fluctuation: {
     minWidth: 72,
     paddingHorizontal: _.sm,
@@ -229,33 +285,35 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   danger: {
-    backgroundColor: _.colorDanger
+    backgroundColor: _.colorAsk
   },
   success: {
-    backgroundColor: _.colorSuccess
+    backgroundColor: _.colorBid
   },
   sub: {
     backgroundColor: _.colorSub
+  },
+  defaultDark: {
+    backgroundColor: _.colorTinygrailText
   },
   wrap: {
     position: 'absolute',
     right: _.sm,
     bottom: _.wind,
-    height: 16,
-    backgroundColor: _.colorPlain
+    height: 16
   },
   floor: {
     width: 72
   },
   bids: {
     height: 2,
-    backgroundColor: _.colorSuccess,
+    backgroundColor: _.colorBid,
     borderRadius: 2,
     overflow: 'hidden'
   },
   asks: {
     height: 2,
-    backgroundColor: _.colorDanger,
+    backgroundColor: _.colorAsk,
     borderRadius: 2,
     overflow: 'hidden'
   },
@@ -270,6 +328,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden'
   },
+  icoBarDark: {
+    backgroundColor: _.colorTinygrailBorder
+  },
   icoProcess: {
     height: 16,
     borderRadius: 8,
@@ -280,5 +341,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
     left: 0,
     right: _.sm
+  },
+  iconTextDark: {
+    color: _.colorTinygrailPlain
   }
 })

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-14 21:27:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-04-14 21:28:24
+ * @Last Modified time: 2019-09-30 14:14:11
  */
 import { StyleSheet, Platform } from 'react-native'
-import { colorPlain, colorShadow } from '@styles'
+import _ from '@styles'
 
 export default theme =>
   StyleSheet.create({
     popover: Platform.select({
       ios: {
-        shadowColor: colorShadow,
+        shadowColor: _.colorShadow,
         shadowOffset: { width: 8, height: 8 },
         shadowOpacity: 0.24,
         shadowRadius: 32
@@ -25,7 +25,7 @@ export default theme =>
       overflow: 'hidden'
     },
     arrow: {
-      borderTopColor: colorPlain
+      borderTopColor: _.colorPlain
     },
     arrowAndroid: {
       borderTopColor: 'transparent'

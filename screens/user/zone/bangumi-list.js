@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 18:25:31
+ * @Last Modified time: 2019-09-30 14:15:40
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView, Flex, Touchable, Iconfont } from '@components'
 import { SectionHeader, ItemBangumiList } from '@screens/_'
-import { colorBg, colorIcon } from '@styles'
+import _ from '@styles'
 
-const List = (props, { $, navigation }) => {
+function List(props, { $, navigation }) {
   if (!$.userCollections._loaded) {
     return <Loading />
   }
@@ -35,7 +35,7 @@ const List = (props, { $, navigation }) => {
       sections={sections}
       renderSectionHeader={({ section: { title, count } }) => (
         <Touchable
-          style={{ backgroundColor: colorBg }}
+          style={{ backgroundColor: _.colorBg }}
           onPress={() => $.toggleSection(title)}
         >
           <SectionHeader
@@ -43,7 +43,7 @@ const List = (props, { $, navigation }) => {
             right={
               <Iconfont
                 name={expand[title] ? 'down' : 'up'}
-                color={colorIcon}
+                color={_.colorIcon}
                 size={18}
               />
             }

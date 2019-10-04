@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-31 15:45:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:20:27
+ * @Last Modified time: 2019-09-18 00:39:58
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -36,9 +36,11 @@ class UGCAgree extends React.Component {
       const topicId = navigation.getParam('topicId')
       if (topicId) {
         navigation.goBack()
-        navigation.push('Topic', {
-          topicId
-        })
+        setTimeout(() => {
+          navigation.push('Topic', {
+            topicId
+          })
+        }, 300)
       } else {
         navigation.goBack()
       }

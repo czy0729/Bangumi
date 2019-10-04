@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 21:57:27
+ * @Last Modified time: 2019-09-29 11:19:32
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -27,50 +27,43 @@ import {
 
 class Collection extends store {
   state = observable({
-    // API条目收藏信息
+    /**
+     * API条目收藏信息
+     */
     collection: {
       // [subjectId]: {}
     },
 
-    // HTML用户收藏概览(全部)
+    /**
+     * HTML用户收藏概览(全部)
+     */
     userCollections: {
       // [${userId}|${subjectType}|${type}]: LIST_EMPTY
     },
 
-    // HTML用户收藏概览的看过的标签
+    /**
+     * HTML用户收藏概览的看过的标签
+     */
     userCollectionsTags: {
       // [${userId}|${subjectType}|${type}]: []
     }
   })
 
-  async init() {
-    const res = Promise.all([
-      this.getStorage('collection', NAMESPACE),
-      this.getStorage('userCollections', NAMESPACE),
-      this.getStorage('userCollectionsTags', NAMESPACE)
-    ])
-    const state = await res
-    this.setState({
-      collection: state[0] || {},
-      userCollections: state[1] || {},
-      userCollectionsTags: state[2] || {}
-    })
-
-    return res
-  }
+  init = () =>
+    this.readStorageThenSetState(
+      {
+        collection: {},
+        userCollections: {},
+        userCollectionsTags: {}
+      },
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
-  /**
-   * 条目收藏信息
-   * @param {*} subjectId
-   */
   collection(subjectId) {
     return computed(() => this.state.collection[subjectId] || {}).get()
   }
 
-  /**
-   * 取用户收藏概览
-   */
   userCollections(userId = userStore.myUserId, subjectType, type) {
     return computed(
       () =>
@@ -79,9 +72,6 @@ class Collection extends store {
     ).get()
   }
 
-  /**
-   * 取用户收藏概览的看过的标签
-   */
   userCollectionsTags(userId = userStore.myUserId, subjectType, type) {
     return computed(
       () =>
