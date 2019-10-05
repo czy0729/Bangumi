@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-11 10:46:56
+ * @Last Modified time: 2019-10-06 01:21:00
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -69,12 +69,12 @@ export default class ScreenSubject extends store {
     if (this.type === '动画') {
       const { _ningMoeId } = this.params
       if (_ningMoeId) {
-        await discoveryStore.fetchNingMoeDetail({
+        discoveryStore.fetchNingMoeDetail({
           id: _ningMoeId,
           bgmId: this.subjectId
         })
       } else {
-        await discoveryStore.fetchNingMoeDetailBySearch({
+        discoveryStore.fetchNingMoeDetailBySearch({
           keyword: data.name_cn || data.name
         })
       }
