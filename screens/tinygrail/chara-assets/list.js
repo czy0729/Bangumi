@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 14:14:47
+ * @Last Modified time: 2019-10-05 16:33:40
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import _ from '@styles'
 import Item from '../_/item'
+import ItemTemple from './item-temple'
 import { sortList } from '../_/utils'
 
 function List({ index }, { $ }) {
@@ -20,30 +21,52 @@ function List({ index }, { $ }) {
 
   const type = index === 0 ? 'chara' : 'ico'
   const isChara = type === 'chara'
+  const isTemple = index === 2
+
+  let data
+  if (isChara) {
+    data = chara
+  } else if (isTemple) {
+    data = $.temple
+  } else {
+    data = ico
+  }
 
   const { sort, direction } = $.state
-  let _chara = chara
   if (isChara && sort) {
-    _chara = {
+    data = {
       ...chara,
       list: sortList(sort, direction, chara.list)
     }
   }
 
+  const numColumns = isTemple ? 3 : undefined
   return (
     <ListView
+      key={String(numColumns)}
       style={_.container.flex}
       keyExtractor={(item, index) => String(index)}
-      data={isChara ? _chara : ico}
-      renderItem={({ item, index }) => (
-        <Item
-          index={index}
-          {...item}
-          type={type}
-          users={type === 'ico' ? 'ico' : undefined} // 这里api有bug
-        />
-      )}
-      onHeaderRefresh={() => $.fetchMyCharaAssets()}
+      data={data}
+      numColumns={numColumns}
+      renderItem={({ item, index }) => {
+        if (isTemple) {
+          return <ItemTemple index={index} {...item} />
+        }
+        return (
+          <Item
+            index={index}
+            {...item}
+            type={type}
+            users={type === 'ico' ? 'ico' : undefined} // 这里api有bug
+          />
+        )
+      }}
+      onHeaderRefresh={() => {
+        if (isTemple) {
+          return $.fetchTemple()
+        }
+        return $.fetchMyCharaAssets()
+      }}
     />
   )
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 13:45:58
+ * @Last Modified time: 2019-10-05 15:30:45
  */
 import React from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
@@ -60,10 +60,17 @@ const styles = StyleSheet.create({
     borderBottomColor: colorBorder
   },
   tips: {
-    marginHorizontal: 8,
+    width: 6,
+    height: 6,
+    marginLeft: 12,
     borderWidth: 6,
     borderColor: 'transparent',
-    borderLeftColor: colorText
+    borderBottomColor: colorText,
+    transform: [
+      {
+        rotate: '90deg'
+      }
+    ]
   },
   item: {
     paddingLeft: 8,

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 13:14:26
+ * @Last Modified time: 2019-10-05 16:02:53
  */
 import { HOST } from './index'
 
@@ -295,3 +295,9 @@ export const API_TINYGRAIL_USERS = monoId =>
  */
 export const API_TINYGRAIL_TEST = () =>
   `${API_HOST_TINYGRAIL}/api/event/share/bonus/test`
+
+/**
+ * 用户圣殿信息
+ */
+export const API_TINYGRAIL_TEMPLE = hash =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/50`

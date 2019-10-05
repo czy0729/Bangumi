@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 14:45:43
+ * @Last Modified time: 2019-10-05 15:08:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -55,7 +55,9 @@ class List extends React.Component {
 
     const { list } = $.state
     const numColumns = list ? undefined : 4
+    const isDo = $.type === 'do'
     const isOnHold = $.type === 'on_hold'
+    const isDropped = $.type === 'dropped'
     return (
       <ListView
         key={String(numColumns)}
@@ -68,7 +70,9 @@ class List extends React.Component {
             <ItemCollections
               navigation={navigation}
               index={index}
+              isDo={isDo}
               isOnHold={isOnHold}
+              isDropped={isDropped}
               {...item}
             />
           ) : (

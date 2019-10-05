@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 14:10:47
+ * @Last Modified time: 2019-10-05 16:27:20
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -26,6 +26,10 @@ export const tabs = [
   {
     title: 'ICO',
     key: 'ico'
+  },
+  {
+    title: '圣殿',
+    key: 'temple'
   }
 ]
 export const sortDS = [
@@ -63,9 +67,15 @@ export default class ScreenTinygrailCharaAssets extends store {
   // -------------------- fetch --------------------
   fetchMyCharaAssets = () => tinygrailStore.fetchMyCharaAssets()
 
+  fetchTemple = () => tinygrailStore.fetchTemple()
+
   // -------------------- get --------------------
   @computed get myCharaAssets() {
     return tinygrailStore.myCharaAssets
+  }
+
+  @computed get temple() {
+    return tinygrailStore.temple()
   }
 
   // -------------------- page --------------------
@@ -81,10 +91,14 @@ export default class ScreenTinygrailCharaAssets extends store {
     this.tabChangeCallback(page)
   }
 
-  tabChangeCallback = () => {
+  tabChangeCallback = page => {
     const { _loaded } = this.myCharaAssets
     if (!_loaded) {
       this.fetchMyCharaAssets()
+    }
+
+    if (page === 2) {
+      this.fetchTemple()
     }
   }
 

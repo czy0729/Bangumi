@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:43:27
+ * @Last Modified time: 2019-10-05 15:07:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -30,7 +30,9 @@ function ItemCollections({
   time,
   tags = '',
   comments,
-  isOnHold
+  isDo,
+  isOnHold,
+  isDropped
 }) {
   const _cover = getCoverMedium(cover)
   const isFirst = index === 0
@@ -39,9 +41,9 @@ function ItemCollections({
   const hasScore = !!score
   const hasTags = !!tags
   const hasComment = !!comments
-  let holdDays
-  if (isOnHold) {
-    holdDays = Math.ceil((getTimestamp() - getTimestamp(time)) / 86400)
+  let days
+  if (isDo || isOnHold || isDropped) {
+    days = Math.ceil((getTimestamp() - getTimestamp(time)) / 86400)
   }
   return (
     <Touchable
@@ -94,7 +96,9 @@ function ItemCollections({
               )}
               <Text style={_.mr.sm} type='sub' size={12} numberOfLines={2}>
                 {hasScore && '/ '}
-                {isOnHold && `搁置${holdDays}天 / `}
+                {isDo && `${days}天 / `}
+                {isOnHold && `搁置${days}天 / `}
+                {isDropped && `抛弃${days}天 / `}
                 {time} {hasTags && '/'} {tags.replace(' ', '')}
               </Text>
             </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 13:36:45
+ * @Last Modified time: 2019-10-05 15:57:01
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -33,7 +33,7 @@ function Menus(props, { $ }) {
     balanceChangeText = `(+${formatNumber(changeBalance, 0)})`
     balanceTextColor = colorBid
   } else if (changeBalance < 0) {
-    balanceChangeText = `(${formatNumber(changeBalance, 0)})`
+    balanceChangeText = `(-${formatNumber(Math.abs(changeBalance), 0)})`
     balanceTextColor = colorAsk
   }
 
@@ -43,7 +43,7 @@ function Menus(props, { $ }) {
     totalChangeText = `(+${formatNumber(changeTotal, 0)})`
     totalTextColor = colorBid
   } else if (changeTotal < 0) {
-    totalChangeText = `(${formatNumber(changeTotal, 0)})`
+    totalChangeText = `(-${formatNumber(Math.abs(changeTotal), 0)})`
     totalTextColor = colorAsk
   }
 

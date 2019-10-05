@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 14:32:09
+ * @Last Modified time: 2019-10-05 16:27:09
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -31,7 +31,8 @@ import {
   API_TINYGRAIL_BALANCE,
   API_TINYGRAIL_INITIAL,
   API_TINYGRAIL_JOIN,
-  API_TINYGRAIL_USERS
+  API_TINYGRAIL_USERS,
+  API_TINYGRAIL_TEMPLE
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -161,6 +162,13 @@ class Tinygrail extends store {
     },
 
     /**
+     * 用户圣殿
+     */
+    temple: {
+      // [hash]: LIST_EMPTY<INIT_TEMPLE_ITEM>
+    },
+
+    /**
      * iOS此刻是否显示WebView
      * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
@@ -186,7 +194,8 @@ class Tinygrail extends store {
         'bid',
         'myCharaAssets',
         'balance',
-        'iconsCache'
+        'iconsCache',
+        'temple'
       ],
       NAMESPACE
     )
@@ -254,6 +263,10 @@ class Tinygrail extends store {
 
   users(id) {
     return computed(() => this.state.users[id]).get() || LIST_EMPTY
+  }
+
+  temple(hash = this.hash) {
+    return computed(() => this.state.temple[hash]).get() || LIST_EMPTY
   }
 
   // -------------------- fetch --------------------
@@ -1032,6 +1045,47 @@ class Tinygrail extends store {
         [monoId]: data
       }
     })
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 用户圣殿
+   */
+  fetchTemple = async (hash = this.hash) => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_TEMPLE(hash),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.CharacterId,
+          cover: item.Cover,
+          name: item.Name,
+          sacrifices: item.Sacrifices
+        })),
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'temple'
+    this.setState({
+      [key]: {
+        [hash]: data
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }

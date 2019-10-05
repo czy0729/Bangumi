@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-01 15:10:05
+ * @Last Modified time: 2019-10-05 15:19:40
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -24,6 +24,7 @@ export const USERID_IOS_AUTH = 474489
 // URL
 export const HOST_NAME = 'bgm.tv' // 域名
 export const HOST = `https://${HOST_NAME}`
+export const HOST_WITHOUT_HTTPS = `http://${HOST_NAME}`
 export const HOST_2 = 'https://bangumi.tv' // 备用域名
 export const OAUTH_URL = `${HOST}/oauth/authorize` // 登陆v1.0 oauth地址
 export const OAUTH_REDIRECT_URL = `${HOST}/dev/app` // 登陆v1.0 授权跳转地址

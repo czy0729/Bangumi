@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 13:56:47
+ * @Last Modified time: 2019-10-05 15:58:51
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -128,7 +128,7 @@ export default class ScreenTinygrail extends store {
       })
       this.setStorage(undefined, undefined, namespace)
     } catch (error) {
-      info('授权失败, 请重试, 或检查登陆状态')
+      info('授权失败请重试, 或检查登陆状态')
       this.setState({
         loading: false
       })

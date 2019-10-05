@@ -101,36 +101,44 @@ export class Tabs extends React.PureComponent {
         </View>
       )
     })
+
     if (Platform.OS === 'android') {
       return (
-        <ViewPagerAndroid
-          key='$content'
-          keyboardDismissMode='on-drag'
-          initialPage={currentTab}
-          scrollEnabled={this.props.swipeable || usePaged}
-          onPageScroll={e => {
-            this.state.scrollX.setValue(
-              e.nativeEvent.position * this.state.containerWidth
-            )
-          }}
-          style={{ flex: 1 }}
-          onPageSelected={e => {
-            const index = e.nativeEvent.position
-            this.setState(
-              {
-                currentTab: index
-              },
-              () => {
-                // tslint:disable-next-line:no-unused-expression
-                this.props.onChange && this.props.onChange(tabs[index], index)
-              }
-            )
-            this.nextCurrentTab = index
-          }}
-          ref={ref => (this.viewPager = ref)}
-        >
-          {content}
-        </ViewPagerAndroid>
+        <>
+          {!!renderContentHeaderComponent && (
+            <View key='$renderContentHeaderComponent'>
+              {renderContentHeaderComponent}
+            </View>
+          )}
+          <ViewPagerAndroid
+            key='$content'
+            keyboardDismissMode='on-drag'
+            initialPage={currentTab}
+            scrollEnabled={this.props.swipeable || usePaged}
+            onPageScroll={e => {
+              this.state.scrollX.setValue(
+                e.nativeEvent.position * this.state.containerWidth
+              )
+            }}
+            style={{ flex: 1 }}
+            onPageSelected={e => {
+              const index = e.nativeEvent.position
+              this.setState(
+                {
+                  currentTab: index
+                },
+                () => {
+                  // tslint:disable-next-line:no-unused-expression
+                  this.props.onChange && this.props.onChange(tabs[index], index)
+                }
+              )
+              this.nextCurrentTab = index
+            }}
+            ref={ref => (this.viewPager = ref)}
+          >
+            {content}
+          </ViewPagerAndroid>
+        </>
       )
     }
     return (

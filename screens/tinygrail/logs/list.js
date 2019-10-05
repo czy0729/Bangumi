@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 22:28:25
+ * @Last Modified time: 2019-10-05 15:53:50
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -33,6 +33,12 @@ function List({ index }, { $ }) {
         list: $.balance.list.filter(
           item => item.desc.includes('买入委托') && item.change < 0
         )
+      }
+      break
+    case '圣殿':
+      data = {
+        ...$.balance,
+        list: $.balance.list.filter(item => item.desc.includes('融资'))
       }
       break
     case 'ICO':

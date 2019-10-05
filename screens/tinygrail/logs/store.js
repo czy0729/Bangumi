@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 23:50:27
+ * @Last Modified time: 2019-10-05 15:53:01
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -20,6 +20,10 @@ export const tabs = [
   {
     title: '买入',
     key: 'bid'
+  },
+  {
+    title: '圣殿',
+    key: 'temple'
   },
   {
     title: 'ICO',

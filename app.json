@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.2.5",
+    "version": "1.3.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -28,7 +28,7 @@
     },
     "android": {
       "package": "com.czy0729.bangumi",
-      "versionCode": 3
+      "versionCode": 4
     },
     "androidStatusBar": {
       "barStyle": "dark-content",
