@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-27 11:22:48
+ * @Last Modified time: 2019-10-05 17:28:55
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Switch } from '@ant-design/react-native'
 import { Text } from '@components'
 import { Popover, ItemSetting } from '@screens/_'
-import Stores, { systemStore } from '@stores'
+import Stores, { userStore, systemStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
@@ -20,7 +20,9 @@ import {
   GITHUB_URL,
   GITHUB_RELEASE_URL,
   GITHUB_RELEASE_VERSION,
-  CODE_PUSH_VERSION
+  CODE_PUSH_VERSION,
+  USERID_TOURIST,
+  USERID_IOS_AUTH
 } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
@@ -39,28 +41,34 @@ class Setting extends React.Component {
 
   componentDidMount() {
     const { navigation } = this.props
-    navigation.setParams({
-      popover: {
-        data: ['开发模式'],
-        onSelect: key => {
-          switch (key) {
-            case '开发模式':
-              this.toggleDev()
-              break
-            default:
-              break
+
+    if (this.showQiafan) {
+      navigation.setParams({
+        popover: {
+          data: ['鼓励(恰饭)'],
+          onSelect: key => {
+            switch (key) {
+              case '鼓励(恰饭)':
+                navigation.push('Qiafan')
+                break
+              case '开发模式':
+                this.toggleDev()
+                break
+              default:
+                break
+            }
           }
         }
-      },
-      element: (
-        <View
-          style={{
-            width: 32,
-            height: 32
-          }}
-        />
-      )
-    })
+        // element: (
+        //   <View
+        //     style={{
+        //       width: 32,
+        //       height: 32
+        //     }}
+        //   />
+        // )
+      })
+    }
 
     hm('settings')
   }
@@ -78,6 +86,34 @@ class Setting extends React.Component {
     })
     info(`调式模式 ${!showDev ? '开' : '关'}`)
     systemStore.toggleDev()
+  }
+
+  get userId() {
+    return userStore.userInfo.id
+  }
+
+  get isLogin() {
+    return userStore.isLogin
+  }
+
+  get showQiafan() {
+    if (!IOS) {
+      return true
+    }
+
+    if (!this.isLogin) {
+      return false
+    }
+
+    if (
+      !this.userId ||
+      this.userId == USERID_TOURIST ||
+      this.userId == USERID_IOS_AUTH
+    ) {
+      return false
+    }
+
+    return true
   }
 
   render() {

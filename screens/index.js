@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 15:38:39
+ * @Last Modified time: 2019-10-05 16:47:56
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -41,6 +41,7 @@ export { default as UGCAgree } from './rakuen/ugc-agree'
 
 // User
 export { default as Friends } from './user/friends'
+export { default as Qiafan } from './user/qiafan'
 export { default as Setting } from './user/setting'
 export { default as User } from './user/index'
 export { default as Zone } from './user/zone'
