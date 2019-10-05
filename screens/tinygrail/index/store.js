@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 13:14:28
+ * @Last Modified time: 2019-10-05 13:56:47
  */
+import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore } from '@stores'
-import { urlStringify, getTimestamp } from '@utils'
+import { urlStringify, getTimestamp, formatNumber } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
@@ -16,7 +17,7 @@ import {
   TINYGRAIL_APP_ID,
   TINYGRAIL_OAUTH_REDIRECT_URL
 } from '@constants'
-import { API_TINYGRAIL_LOGOUT } from '@constants/api'
+import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 
 const namespace = 'ScreenTinygrail'
 const maxErrorCount = 8
@@ -134,6 +135,46 @@ export default class ScreenTinygrail extends store {
     }
 
     return res
+  }
+
+  /**
+   * 预测股息
+   */
+  doTest = async () => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    try {
+      axios.defaults.withCredentials = false
+      const res = axios({
+        method: 'get',
+        url: API_TINYGRAIL_TEST(),
+        headers: {
+          Cookie: tinygrailStore.cookie
+        }
+      })
+
+      const data = await res
+      const { Total, Share } = data.data.Value
+      Alert.alert(
+        '股息预测',
+        `本期计息股份共${formatNumber(Total, 0)}股, 预期股息₵${formatNumber(
+          Share
+        )}`,
+        [
+          {
+            text: '取消'
+          },
+          {
+            text: '确定'
+          }
+        ]
+      )
+    } catch (error) {
+      info('获取股息预测失败')
+    }
   }
 
   /**

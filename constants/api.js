@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 02:22:21
+ * @Last Modified time: 2019-10-05 13:14:26
  */
 import { HOST } from './index'
 
@@ -183,13 +183,13 @@ export const API_TINYGRAIL_DEPTH = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/depth/${monoId}`
 
 /**
- * 登出
+ * 登出 (需登陆)
  */
 export const API_TINYGRAIL_LOGOUT = () =>
   `${API_HOST_TINYGRAIL}/api/account/logout`
 
 /**
- * 用户Hash
+ * 用户Hash (需登陆)
  */
 export const API_TINYGRAIL_HASH = () =>
   `${API_HOST_TINYGRAIL}/api/account/recommend`
@@ -214,7 +214,7 @@ export const API_TINYGRAIL_USER_CHARA = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/user/${monoId}`
 
 /**
- * 买入
+ * 买入 (需登陆)
  * @param {*} monoId
  * @param {*} price
  * @param {*} amount
@@ -223,7 +223,7 @@ export const API_TINYGRAIL_BID = (monoId, price, amount) =>
   `${API_HOST_TINYGRAIL}/api/chara/bid/${monoId}/${price}/${amount}`
 
 /**
- * 卖出
+ * 卖出 (需登陆)
  * @param {*} monoId
  * @param {*} price
  * @param {*} amount
@@ -232,39 +232,39 @@ export const API_TINYGRAIL_ASK = (monoId, price, amount) =>
   `${API_HOST_TINYGRAIL}/api/chara/ask/${monoId}/${price}/${amount}`
 
 /**
- * 取消买入
+ * 取消买入 (需登陆)
  * @param {*} id
  */
 export const API_TINYGRAIL_CANCEL_BID = id =>
   `${API_HOST_TINYGRAIL}/api/chara/bid/cancel/${id}`
 
 /**
- * 取消卖出
+ * 取消卖出 (需登陆)
  * @param {*} id
  */
 export const API_TINYGRAIL_CANCEL_ASK = id =>
   `${API_HOST_TINYGRAIL}/api/chara/ask/cancel/${id}`
 
 /**
- * 我的买单
+ * 我的买单 (需登陆)
  */
 export const API_TINYGRAIL_CHARA_BID = () =>
   `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/100`
 
 /**
- * 我的卖单
+ * 我的卖单 (需登陆)
  */
 export const API_TINYGRAIL_CHARA_ASKS = () =>
   `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/100`
 
 /**
- * 我的持仓
+ * 我的持仓 (需登陆)
  */
 export const API_TINYGRAIL_MY_CHARA_ASSETS = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/assets/0/true`
 
 /**
- * 资金日志
+ * 资金日志 (需登陆)
  */
 export const API_TINYGRAIL_BALANCE = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/100`
@@ -276,7 +276,7 @@ export const API_TINYGRAIL_INITIAL = icoId =>
   `${API_HOST_TINYGRAIL}/api/chara/initial/users/${icoId}/1`
 
 /**
- * 参与ICO
+ * 参与ICO (需登陆)
  * @param {*} icoId
  * @param {*} amount
  */
@@ -289,3 +289,9 @@ export const API_TINYGRAIL_JOIN = (icoId, amount) =>
  */
 export const API_TINYGRAIL_USERS = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/10`
+
+/**
+ * 股息预测 (需登陆)
+ */
+export const API_TINYGRAIL_TEST = () =>
+  `${API_HOST_TINYGRAIL}/api/event/share/bonus/test`
