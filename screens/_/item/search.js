@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-19 22:33:45
+ * @Last Modified time: 2019-10-05 18:54:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Image, Touchable } from '@components'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { IMG_DEFAULT } from '@constants'
+import { IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 import Tag from '../base/tag'
@@ -53,7 +53,7 @@ function ItemSearch({
             width={imgWidth}
             height={imgHeight}
             radius
-            shadow
+            shadow={IOS}
           />
         </View>
         <Flex.Item style={[styles.item, _.ml.wind]}>

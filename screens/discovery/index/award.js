@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 13:59:59
+ * @Last Modified time: 2019-10-05 18:08:06
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -84,14 +84,15 @@ const styles = StyleSheet.create({
     padding: _.wind
   },
   item: {
-    width: 312
+    width: 312,
+    paddingRight: 4
   },
   itemSquare: {
     width: 148,
     height: 148,
+    marginRight: 4,
     backgroundColor: _.colorDark,
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
+    borderRadius: _.radiusMd
   },
   borderAward: {
     position: 'absolute',
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
     right: 0,
     width: 48,
     height: 148,
-    marginRight: -4,
     backgroundColor: _.colorDark,
     borderRadius: _.radiusMd
   },
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     right: 0,
     width: 48,
     height: 148,
-    marginRight: -4,
     backgroundColor: _.colorDanger,
     borderRadius: _.radiusMd
   },

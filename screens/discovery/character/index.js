@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-01 17:29:45
+ * @Last Modified time: 2019-10-05 18:56:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,7 @@ class Character extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.flex}>
+      <View style={_.container.screen}>
         {!!_loaded && (
           <Tabs tabs={tabs}>
             {tabs.map((item, index) => (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-01 22:33:57
+ * @Last Modified time: 2019-10-05 18:56:12
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -17,7 +17,7 @@ function List({ index }, { $ }) {
   const { key } = tabs[index]
   const list = $.list(key)
   if (!list._loaded) {
-    return <Loading style={_.container.flex} />
+    return <Loading style={_.container.screen} />
   }
 
   const isRecents = key === 'recents'
@@ -25,7 +25,7 @@ function List({ index }, { $ }) {
   return (
     <ListView
       key={String(numColumns)}
-      style={_.container.flex}
+      style={_.container.screen}
       keyExtractor={item => String(item.id)}
       data={list}
       numColumns={numColumns}

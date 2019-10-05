@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-02 12:24:14
+ * @Last Modified time: 2019-10-05 18:54:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Touchable, Flex, Text, Image } from '@components'
 import { Tag, Stars } from '@screens/_'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { IMG_DEFAULT } from '@constants'
+import { IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import _ from '@styles'
 
@@ -43,7 +43,7 @@ function Item(
             resizeMode='contain'
             placeholder={false}
             radius
-            shadow
+            shadow={IOS}
             onPress={onPress}
           />
         )}

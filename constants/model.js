@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 17:08:59
+ * @Last Modified time: 2019-10-05 18:52:23
  */
 class Modal {
   constructor(data) {
@@ -325,15 +325,15 @@ export const MODEL_SEARCH_CAT = new Modal([
   {
     label: '人物',
     value: 'mono_all'
-  },
-  {
-    label: '虚拟角色',
-    value: 'mono_crt'
-  },
-  {
-    label: '现实人物',
-    value: 'mono_prsn'
   }
+  // {
+  //   label: '虚拟角色',
+  //   value: 'mono_crt'
+  // },
+  // {
+  //   label: '现实人物',
+  //   value: 'mono_prsn'
+  // }
 ])
 
 // 设置 - 图片质量
