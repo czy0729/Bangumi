@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:07:20
+ * @Last Modified time: 2019-10-05 14:35:51
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     height: 34,
     paddingHorizontal: _.wind,
     fontSize: 12,
+    lineHeight: 14,
     backgroundColor: _.colorPlain,
     borderRadius: 64
   }

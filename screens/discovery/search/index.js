@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:18:16
+ * @Last Modified time: 2019-10-05 14:12:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex } from '@components'
+import { Flex, Button } from '@components'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -69,6 +69,13 @@ class Search extends React.Component {
           <Flex.Item style={_.ml.sm}>
             <SearchBar />
           </Flex.Item>
+          <Button
+            style={[styles.btn, _.ml.sm]}
+            size='sm'
+            onPress={() => $.doSearch(true)}
+          >
+            查询
+          </Button>
         </Flex>
         <History style={_.mt.sm} />
         <List />
@@ -80,5 +87,10 @@ class Search extends React.Component {
 const styles = StyleSheet.create({
   searchBar: {
     padding: _.wind
+  },
+  btn: {
+    width: 64,
+    height: 34,
+    borderRadius: 64
   }
 })

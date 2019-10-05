@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:37:20
+ * @Last Modified time: 2019-10-05 14:07:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -17,6 +17,7 @@ import Touchable from './touchable'
 
 function Button({
   style,
+  styleText,
   type,
   size,
   shadow,
@@ -61,7 +62,8 @@ function Button({
           size === 'sm' && {
             width: 32
           },
-          _text
+          _text,
+          styleText
         ]}
         align='center'
         selectable={false}
@@ -88,6 +90,7 @@ function Button({
 
 Button.defaultProps = {
   style: undefined,
+  styleText: undefined,
   type: 'plain',
   size: 'md',
   shadow: false,

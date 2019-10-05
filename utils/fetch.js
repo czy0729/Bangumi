@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-23 10:04:17
+ * @Last Modified time: 2019-10-05 14:37:46
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -154,7 +154,7 @@ export async function fetchHTML({
       'User-Agent': userAgent,
 
       // @issue iOS不知道为什么会有文本乱插在cookie前面, 要加分号防止
-      Cookie: cookie ? `; ${userCookie}; ${cookie};` : `; ${userCookie};`,
+      Cookie: cookie ? `${userCookie} ${cookie}` : `; ${userCookie};`,
       ...headers
     }
 
@@ -164,7 +164,7 @@ export async function fetchHTML({
         'chii_cookietime=0',
         'chii_cookietime=2592000'
       )
-    } else if (_config.headers.Cookie.includes('chii_cookietime=2592000')) {
+    } else if (!_config.headers.Cookie.includes('chii_cookietime=2592000')) {
       _config.headers.Cookie = `${_config.headers.Cookie}; chii_cookietime=2592000;`
     }
   }

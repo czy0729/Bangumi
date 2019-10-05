@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:19:56
+ * @Last Modified time: 2019-10-05 14:34:46
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -74,7 +74,7 @@ class Search extends store {
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
       url: HTML_SEARCH(_text, cat, page),
-      cookie: 'chii_searchDateLine=0;' // 搜索不加这个会无条件返回错误
+      cookie: `chii_searchDateLine=${getTimestamp()};` // 搜索不加这个会无条件返回错误
     })
     const raw = await res
     const HTML = HTMLTrim(raw)
@@ -212,14 +212,14 @@ class Search extends store {
 
           // 标题
           node = findTreeNode(children, 'div > h2 > a')
-          const name = node ? node[0].text[0].replace(' / ', '') : ''
+          const name = node ? (node[0].text[0] || '').replace(' / ', '') : ''
 
           node = findTreeNode(children, 'div > h2 > a > span')
           const nameCn = node ? node[0].text[0] : ''
 
           // 描述
           node = findTreeNode(children, 'div > div > span')
-          const tip = node ? node[0].text[0].replace(' ', '') : ''
+          const tip = node ? (node[0].text[0] || '').replace(' ', '') : ''
 
           // 讨论数
           node = findTreeNode(children, 'div > small')
