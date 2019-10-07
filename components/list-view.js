@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:30:05
+ * @Last Modified time: 2019-10-07 15:19:37
  */
 import React from 'react'
 import {
@@ -77,8 +77,9 @@ export default class ListView extends React.Component {
     }
   }
 
-  scrollTo = Function.prototype
-  scrollToLocation = Function.prototype
+  scrollToIndex = Function.prototype
+  scrollToItem = Function.prototype
+  scrollToOffset = Function.prototype
 
   onHeaderRefresh = async () => {
     const { onHeaderRefresh } = this.props
@@ -238,7 +239,9 @@ export default class ListView extends React.Component {
     const commonProps = {
       ref: ref => {
         if (ref) {
-          this.scrollToLocation = params => ref.scrollToLocation(params)
+          this.scrollToIndex = params => ref.scrollToIndex(params)
+          this.scrollToItem = params => ref.scrollToItem(params)
+          this.scrollToOffset = params => ref.scrollToOffset(params)
         }
       },
       style: [styles.container, style],

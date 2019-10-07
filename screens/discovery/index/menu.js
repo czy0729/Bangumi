@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 13:09:24
+ * @Last Modified time: 2019-10-07 02:46:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -42,7 +42,7 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
-      <Touchable onPress={() => navigation.push('Random')}>
+      {/* <Touchable onPress={() => navigation.push('Random')}>
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
@@ -54,7 +54,7 @@ function Menu(props, { $, navigation }) {
             </Text>
           </Flex>
         </Flex>
-      </Touchable>
+      </Touchable> */}
       <Touchable onPress={() => navigation.push('Anitama')}>
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: _.wind
   },
   wrap: {
-    width: (_.window.width - 2 * _.wind) * 0.33333,
+    width: (_.window.width - 2 * _.wind) * 0.2,
     marginTop: _.md
   },
   item: {

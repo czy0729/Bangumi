@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 22:38:00
+ * @Last Modified time: 2019-10-07 20:13:34
  */
 import React from 'react'
 import { StyleSheet, Alert } from 'react-native'
@@ -34,10 +34,10 @@ class Topic extends React.Component {
   }
 
   fixedTextarea
+  scrollFailCount = 0
 
   async componentDidMount() {
     const { $, navigation } = this.context
-    const { topicId } = $.params
     if (!$.isUGCAgree) {
       // @notice 这里注意在iOS上面, 一定要延迟,
       // 不然首页点击讨论跳进来popover + alert直接就不能操作了
@@ -56,7 +56,7 @@ class Topic extends React.Component {
               onPress: () => {
                 navigation.goBack()
                 navigation.push('UGCAgree', {
-                  topicId
+                  topicId: $.topicId
                 })
               }
             }
@@ -70,7 +70,8 @@ class Topic extends React.Component {
     const { title } = $.topic
     withTransitionHeader.setTitle(navigation, title)
 
-    const url = navigation.getParam('_url') || `${HOST}/rakuen/topic/${topicId}`
+    const url =
+      navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
     navigation.setParams({
       popover: {
         data: ['浏览器查看', '举报'],
@@ -89,7 +90,54 @@ class Topic extends React.Component {
       }
     })
 
-    hm(`rakuen/topic/${topicId}`)
+    if ($.postId) {
+      this.jump()
+    }
+
+    hm(`rakuen/topic/${$.topicId}`)
+  }
+
+  jump = () => {
+    const { $ } = this.context
+    if (!$.postId) {
+      return
+    }
+
+    const { list, _loaded } = $.comments
+    if (_loaded) {
+      try {
+        let scrollIndex = 0
+        list.forEach((item, index) => {
+          if (scrollIndex) {
+            return
+          }
+
+          if (item.id === $.postId) {
+            scrollIndex = index
+          } else if (item.sub) {
+            item.sub.forEach(i => {
+              if (i.id === $.postId) {
+                scrollIndex = index
+              }
+            })
+          }
+        })
+
+        if (scrollIndex) {
+          this.scrollTo(scrollIndex)
+        }
+      } catch (error) {
+        // do nothing
+      }
+    }
+  }
+
+  scrollTo = (index = 0) => {
+    this.listView.scrollToIndex({
+      animated: false,
+      index,
+      viewOffset: 0
+    })
   }
 
   showFixedTextare = () => {
@@ -103,21 +151,34 @@ class Topic extends React.Component {
     return (
       <>
         <ListView
+          ref={ref => (this.listView = ref)}
           style={styles.container}
           contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={item => String(item.id)}
           data={$.comments}
           scrollEventThrottle={32}
+          initialNumToRender={$.postId ? 50 : undefined} // 为了可以更快地到达目标楼层
           ListHeaderComponent={<Top />}
           renderItem={({ item, index }) => (
             <Item
               index={index}
+              postId={$.postId}
               authorId={$.topic.userId}
               {...item}
               showFixedTextare={this.showFixedTextare}
             />
           )}
           onScroll={onScroll}
+          onScrollToIndexFailed={({ highestMeasuredFrameIndex, index }) => {
+            this.scrollTo(highestMeasuredFrameIndex)
+            setTimeout(() => {
+              if (this.scrollFailCount > 10) {
+                return
+              }
+              this.scrollFailCount += 1
+              this.scrollTo(index)
+            }, 100)
+          }}
           onHeaderRefresh={$.fetchTopic}
           onFooterRefresh={$.fetchTopic}
           onEndReachedThreshold={0.5}

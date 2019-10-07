@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 15:43:07
+ * @Last Modified time: 2019-10-07 20:12:10
  */
 import { observable, computed } from 'mobx'
 import {
@@ -48,31 +48,44 @@ export default class ScreenTopic extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchTopic = () => {
-    const { topicId } = this.params
-    return rakuenStore.fetchTopic({ topicId })
-  }
+  fetchTopic = () =>
+    rakuenStore.fetchTopic({
+      topicId: this.topicId
+    })
 
   fetchEpFormHTML = () => {
-    const { topicId } = this.params
-    const epId = topicId.replace('ep/', '')
+    const epId = this.topicId.replace('ep/', '')
     return subjectStore.fetchEpFormHTML(epId)
   }
 
   // -------------------- get --------------------
+  @computed get topicId() {
+    const { topicId = '' } = this.params
+    if (!topicId) {
+      return '0'
+    }
+    return topicId.split('#')[0]
+  }
+
+  /**
+   * 需要跳转到的楼层id
+   */
+  @computed get postId() {
+    const { topicId = '' } = this.params
+    const [, postId] = topicId.split('#post_')
+    return postId
+  }
+
   @computed get namespace() {
-    const { topicId } = this.params
-    return `${namespace}|${topicId}`
+    return `${namespace}|${this.topicId}`
   }
 
   @computed get topic() {
-    const { topicId } = this.params
-    return rakuenStore.topic(topicId)
+    return rakuenStore.topic(this.topicId)
   }
 
   @computed get comments() {
-    const { topicId } = this.params
-    const comments = rakuenStore.comments(topicId)
+    const comments = rakuenStore.comments(this.topicId)
     const { filterMe, filterFriends, reverse } = this.state
 
     const list = reverse ? comments.list.reverse() : comments.list
@@ -116,31 +129,29 @@ export default class ScreenTopic extends store {
   }
 
   @computed get isEp() {
-    const { topicId } = this.params
-    return topicId.indexOf('ep/') === 0
+    return this.topicId.indexOf('ep/') === 0
   }
 
   @computed get isMono() {
-    const { topicId } = this.params
-    return topicId.indexOf('prsn/') === 0 || topicId.indexOf('crt/') === 0
+    return (
+      this.topicId.indexOf('prsn/') === 0 || this.topicId.indexOf('crt/') === 0
+    )
   }
 
   @computed get monoId() {
-    const { topicId } = this.params
-    if (topicId.indexOf('prsn/') === 0) {
-      return topicId.replace('prsn/', 'person/')
+    if (this.topicId.indexOf('prsn/') === 0) {
+      return this.topicId.replace('prsn/', 'person/')
     }
 
-    if (topicId.indexOf('crt/') === 0) {
-      return topicId.replace('crt/', 'character/')
+    if (this.topicId.indexOf('crt/') === 0) {
+      return this.topicId.replace('crt/', 'character/')
     }
 
-    return topicId
+    return this.topicId
   }
 
   @computed get epFormHTML() {
-    const { topicId } = this.params
-    const epId = topicId.replace('ep/', '')
+    const epId = this.topicId.replace('ep/', '')
     return subjectStore.epFormHTML(epId)
   }
 
@@ -149,8 +160,7 @@ export default class ScreenTopic extends store {
   }
 
   @computed get readed() {
-    const { topicId } = this.params
-    return rakuenStore.readed(topicId)
+    return rakuenStore.readed(this.topicId)
   }
 
   @computed get myId() {
@@ -228,20 +238,19 @@ export default class ScreenTopic extends store {
    * 回复
    */
   doSubmit = content => {
-    const { topicId } = this.params
     const { placeholder, replySub, message } = this.state
     const { formhash } = this.topic
 
     let type
-    if (topicId.includes('group/')) {
+    if (this.topicId.includes('group/')) {
       type = 'group/topic'
-    } else if (topicId.includes('subject/')) {
+    } else if (this.topicId.includes('subject/')) {
       type = 'subject/topic'
-    } else if (topicId.includes('ep/')) {
+    } else if (this.topicId.includes('ep/')) {
       type = 'subject/ep'
-    } else if (topicId.includes('crt/')) {
+    } else if (this.topicId.includes('crt/')) {
       type = 'character'
-    } else if (topicId.includes('prsn/')) {
+    } else if (this.topicId.includes('prsn/')) {
       type = 'person'
     } else {
       return
@@ -275,7 +284,7 @@ export default class ScreenTopic extends store {
       rakuenStore.doReply(
         {
           type,
-          topicId: topicId.match(/\d+/g)[0],
+          topicId: this.topicId.match(/\d+/g)[0],
           content,
           formhash
         },

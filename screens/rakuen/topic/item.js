@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 01:28:18
+ * @Last Modified time: 2019-10-07 20:14:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,6 +22,8 @@ const imagesMaxWidthSub =
 function Item(
   {
     index,
+    id,
+    postId,
     authorId,
     avatar,
     userId,
@@ -44,9 +46,16 @@ function Item(
   if (readedTime) {
     isNew = getTimestamp(time) > readedTime
   }
+
+  const isJump = !!postId && postId === id
   return (
     <Flex
-      style={[styles.item, isOdd && styles.itemOdd, isNew && styles.itemNew]}
+      style={[
+        styles.item,
+        isOdd && styles.itemOdd,
+        isNew && styles.itemNew,
+        isJump && styles.itemJump
+      ]}
       align='start'
     >
       <Avatar
@@ -117,8 +126,14 @@ function Item(
             if (readedTime) {
               isNew = getTimestamp(item.time) > readedTime
             }
+
+            const isJump = !!postId && postId === item.id
             return (
-              <Flex key={item.id} style={isNew && styles.itemNew} align='start'>
+              <Flex
+                key={item.id}
+                style={[isNew && styles.itemNew, isJump && styles.itemJump]}
+                align='start'
+              >
                 <Avatar
                   style={styles.subImage}
                   navigation={navigation}
@@ -209,6 +224,10 @@ const styles = StyleSheet.create({
   },
   itemNew: {
     backgroundColor: _.colorMainLight
+  },
+  itemJump: {
+    borderWidth: 2,
+    borderColor: _.colorWarning
   },
   image: {
     marginTop: _.wind,

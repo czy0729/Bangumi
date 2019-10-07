@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 17:28:55
+ * @Last Modified time: 2019-10-07 02:45:08
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -233,8 +233,8 @@ class Setting extends React.Component {
               `当前版本${version}`
             )
           }
-          arrow
-          onPress={() => appNavigate(GITHUB_RELEASE_URL)}
+          arrow={!IOS}
+          onPress={IOS ? undefined : () => appNavigate(GITHUB_RELEASE_URL)}
         />
         <ItemSetting
           border

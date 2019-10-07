@@ -10,17 +10,20 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 23:17:27
+ * @Last Modified time: 2019-10-07 19:55:49
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
+import {
+  CacheManager,
+  Image as AnimatedImage
+} from 'react-native-expo-image-cache'
 import { systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
-import { IOS, IMG_ERROR } from '@constants'
+import { IOS, DEV, IMG_EMPTY, IMG_ERROR } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
-import CacheManager from './@/react-native-expo-image-cache/src/CacheManager'
 import Touchable from './touchable'
 
 const maxErrorCount = 2 // 最大失败重试次数
@@ -300,14 +303,29 @@ export default class Image extends React.Component {
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
-        image = (
-          <RNImage
-            style={_image}
-            source={headers ? { uri, headers } : { uri }}
-            onError={this.onError}
-            {...other}
-          />
-        )
+        if (IOS && !DEV) {
+          image = (
+            <AnimatedImage
+              style={_image}
+              // source={headers ? { uri, headers } : { uri }}
+              headers={headers}
+              tint='light'
+              preview={IMG_EMPTY}
+              uri={uri}
+              onError={this.onError}
+              {...other}
+            />
+          )
+        } else {
+          image = (
+            <RNImage
+              style={_image}
+              source={headers ? { uri, headers } : { uri }}
+              onError={this.onError}
+              {...other}
+            />
+          )
+        }
       } else {
         image = <View style={_image} />
       }
