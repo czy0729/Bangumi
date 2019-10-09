@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 16:24:37
+ * @Last Modified time: 2019-10-09 22:05:01
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -212,6 +212,14 @@ export const HTML_USERS_MONO_RECENTS = (page = 1) =>
  */
 export const HTML_TAGS = (type, page = 1) => `${HOST}/${type}/tag?page=${page}`
 
+/**
+ * 吐槽
+ * @param {*} userId
+ * @param {*} id
+ */
+export const HTML_SAY = (userId, id) =>
+  `${HOST}/user/${userId}/timeline/status/${id}`
+
 // -------------------- action --------------------
 /**
  * 回复帖子
@@ -230,3 +238,10 @@ export const HTML_TAGS = (type, page = 1) => `${HOST}/${type}/tag?page=${page}`
  */
 export const HTML_ACTION_RAKUEN_REPLY = (topicId, type = 'group/topic') =>
   `${HOST}/${type}/${topicId}/new_reply?ajax=1`
+
+/**
+ * 回复吐槽
+ * @param {*} id
+ */
+export const HTML_ACTION_TIMELINE_REPLY = id =>
+  `${HOST}/timeline/${id}/new_reply?ajax=1`

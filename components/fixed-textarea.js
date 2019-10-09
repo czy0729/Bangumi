@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:08:07
+ * @Last Modified time: 2019-10-09 22:26:41
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { TextareaItem } from '@ant-design/react-native'
-import { Text } from '@components'
 import { getStorage, setStorage } from '@utils'
 import _ from '@styles'
+import Text from './text'
 import Bgm from './bgm'
 import Flex from './flex'
 import Iconfont from './iconfont'
@@ -24,7 +24,9 @@ export default class FixedTextarea extends React.Component {
   static defaultProps = {
     value: '',
     placeholder: '',
+    simple: false,
     onClose: Function.prototype,
+    onChange: Function.prototype,
     onSubmit: Function.prototype // value => {}
   }
 
@@ -97,6 +99,9 @@ export default class FixedTextarea extends React.Component {
   }
 
   onChange = value => {
+    const { onChange } = this.props
+    onChange(value)
+
     this.setState({
       value
     })
@@ -260,14 +265,15 @@ export default class FixedTextarea extends React.Component {
       return null
     }
 
+    const { simple } = this.props
     return (
       <Flex style={styles.toolBar}>
         {this.renderBtn('BGM')}
-        {this.renderBtn('加粗', 'b')}
-        {this.renderBtn('斜体', 'i')}
-        {this.renderBtn('下划线', 'u')}
-        {this.renderBtn('删除线', 's')}
-        {this.renderBtn('防剧透', 'mask')}
+        {!simple && this.renderBtn('加粗', 'b')}
+        {!simple && this.renderBtn('斜体', 'i')}
+        {!simple && this.renderBtn('下划线', 'u')}
+        {!simple && this.renderBtn('删除线', 's')}
+        {!simple && this.renderBtn('防剧透', 'mask')}
       </Flex>
     )
   }

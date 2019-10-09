@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:32:31
+ * @Last Modified time: 2019-10-09 23:06:42
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -101,6 +101,7 @@ class Store extends store {
         userCookie: INIT_USER_COOKIE,
         userCollection: LIST_EMPTY,
         userProgress: {},
+        usersInfo: {},
         userCollectionsStatus: {}
       },
       NAMESPACE
@@ -400,7 +401,11 @@ class Store extends store {
         url: API_USER_INFO(userId),
         info: '某用户信息'
       },
-      ['usersInfo', userId]
+      ['usersInfo', userId],
+      {
+        storage: true,
+        namespace: NAMESPACE
+      }
     )
   }
 

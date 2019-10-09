@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-07 20:13:34
+ * @Last Modified time: 2019-10-09 22:00:06
  */
 import React from 'react'
 import { StyleSheet, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { ListView } from '@components'
-import FixedTextarea from '@components/fixed-textarea'
+import { ListView, FixedTextarea } from '@components'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'

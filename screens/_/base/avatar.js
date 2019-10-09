@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 21:43:35
+ * @Last Modified time: 2019-10-09 22:43:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,7 +21,8 @@ function Avatar({
   src,
   size,
   borderColor,
-  onPress
+  onPress,
+  onLongPress
 }) {
   const { avatarRound } = systemStore.setting
   const _onPress = () => {
@@ -64,6 +65,7 @@ function Avatar({
           radius={avatarRound ? size / 2 : true}
           quality={false}
           onPress={_onPress}
+          onLongPress={onLongPress}
         />
       </View>
     )
@@ -78,6 +80,7 @@ function Avatar({
       border={borderColor}
       quality={false}
       onPress={_onPress}
+      onLongPress={onLongPress}
     />
   )
 }
@@ -88,7 +91,8 @@ Avatar.defaultProps = {
   src: undefined,
   size: 28,
   borderColor: _.colorBorder,
-  onPress: undefined
+  onPress: undefined,
+  onLongPress: undefined
 }
 
 export default observer(Avatar)

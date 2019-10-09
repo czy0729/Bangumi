@@ -2,10 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 00:08:37
+ * @Last Modified time: 2019-10-09 22:18:34
  */
-import { trim, getTimestamp } from '@utils'
-import { HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
+import { trim, getTimestamp, safeObject } from '@utils'
+import {
+  cheerio,
+  HTMLTrim,
+  HTMLToTree,
+  findTreeNode,
+  HTMLDecode
+} from '@utils/html'
 import { fetchHTML } from '@utils/fetch'
 import { HOST, HOST_NAME } from '@constants'
 import { HTML_TIMELINE } from '@constants/html'
@@ -273,4 +279,35 @@ export async function fetchTimeline(
     },
     _loaded: getTimestamp()
   })
+}
+
+/**
+ * 分析吐槽
+ * @param {*} HTML
+ */
+export function analysisSay(HTML) {
+  const $ = cheerio(HTML)
+  const id = ($('div.statusHeader p.tip').text() || '').replace('@', '')
+  const avatar = $('img.avatar').attr('src')
+  const main = safeObject({
+    id,
+    avatar,
+    name: $('div.statusHeader h3 > a').text(),
+    text: trim($('div.statusContent > p.text').html()),
+    date: $('p.date,tip_j').text(),
+    formhash: $('input[name=formhash]').attr('value')
+  })
+  const sub = $('ul.subReply > li.reply_item')
+    .map((index, element) => {
+      const $tr = cheerio(element)
+      const subId = ($tr.find('a.cmt_reply').text() || '').replace('@', '')
+      return safeObject({
+        id: subId,
+        avatar: id === subId ? avatar : '',
+        name: $tr.find('a.cmt_reply + a.l').text(),
+        text: trim($tr.html()).split('-')[1]
+      })
+    })
+    .get()
+  return [main, ...sub]
 }

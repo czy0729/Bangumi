@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:32:57
+ * @Last Modified time: 2019-10-09 22:57:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,6 +36,7 @@ export default class RenderHtml extends React.Component {
       lineHeight: 26,
       color: _.colorTitle
     },
+    linkStyle: {},
     imagesMaxWidth: _.window.width - 2 * _.wind,
     html: '',
     autoShowImage: false,
@@ -45,14 +46,15 @@ export default class RenderHtml extends React.Component {
   /**
    * 生成render-html配置
    */
-  generateConfig = (imagesMaxWidth, baseFontStyle) => ({
+  generateConfig = (imagesMaxWidth, baseFontStyle, linkStyle) => ({
     imagesMaxWidth: _.window.width,
     baseFontStyle,
     tagsStyles: {
       a: {
         paddingRight: _.sm,
         color: _.colorMain,
-        textDecorationColor: _.colorMain
+        textDecorationColor: _.colorMain,
+        ...linkStyle
       }
     },
     textSelectable: true,
@@ -205,6 +207,7 @@ export default class RenderHtml extends React.Component {
     const {
       style,
       baseFontStyle,
+      linkStyle,
       imagesMaxWidth,
       html,
       autoShowImage,
@@ -217,7 +220,7 @@ export default class RenderHtml extends React.Component {
           html={this.formatHTML()}
           baseFontStyle={baseFontStyle}
           onLinkPress={this.onLinkPress}
-          {...this.generateConfig(imagesMaxWidth, baseFontStyle)}
+          {...this.generateConfig(imagesMaxWidth, baseFontStyle, linkStyle)}
           {...other}
         />
       </View>
