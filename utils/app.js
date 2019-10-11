@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 13:16:33
+ * @Last Modified time: 2019-10-11 17:03:25
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -153,6 +153,16 @@ export function appNavigate(url = '', navigation, passParams = {}) {
       type: params[3],
       tag: decodeURIComponent(params[5]),
       airtime: params[7],
+      ...passParams
+    })
+    return true
+  }
+
+  // 吐槽
+  if (_url.includes('/timeline/status/')) {
+    const id = _url.split('/timeline/status/')[1]
+    navigation.push('Say', {
+      id,
       ...passParams
     })
     return true

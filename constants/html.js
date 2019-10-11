@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 22:05:01
+ * @Last Modified time: 2019-10-11 14:30:12
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -245,3 +245,8 @@ export const HTML_ACTION_RAKUEN_REPLY = (topicId, type = 'group/topic') =>
  */
 export const HTML_ACTION_TIMELINE_REPLY = id =>
   `${HOST}/timeline/${id}/new_reply?ajax=1`
+
+/**
+ * 发新吐槽
+ */
+export const HTML_ACTION_TIMELINE_SAY = () => `${HOST}/update/user/say?ajax=1`

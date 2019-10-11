@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 22:59:45
+ * @Last Modified time: 2019-10-11 14:26:37
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { ActivityIndicator } from '@ant-design/react-native'
 import { Flex, Text, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
 import { observer } from '@utils/decorators'
@@ -15,16 +14,7 @@ import { appNavigate } from '@utils/app'
 import _ from '@styles'
 
 function Chat(props, { $, navigation }) {
-  const { _loaded, list } = $.say
-
-  if (!_loaded) {
-    return (
-      <Flex style={styles.loading} justify='center'>
-        <ActivityIndicator />
-      </Flex>
-    )
-  }
-
+  const { list } = $.say
   return (
     <View style={styles.container}>
       <Text size={12} type='sub' align='center'>

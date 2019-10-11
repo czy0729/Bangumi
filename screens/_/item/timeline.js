@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 23:19:01
+ * @Last Modified time: 2019-10-11 17:24:27
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
@@ -29,7 +29,9 @@ class ItemTimeline extends React.Component {
     },
     p4: {},
     reply: {},
-    image: []
+    image: [],
+    clearHref: '',
+    onDelete: Function.prototype
   }
 
   appNavigate = (url, passParams) => {

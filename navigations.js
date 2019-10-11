@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 22:38:35
+ * @Last Modified time: 2019-10-11 17:03:37
  */
 export default {
-  initialRouteName: 'Say', // HomeTab
+  initialRouteName: 'HomeTab', // HomeTab
   initialRouteParams: {
-    id: 19402913
+    // id: 19402913
     // subjectId: 100444 // 238923 100444 204135
     // topicId: 'group/352477' // ep/768491
     // userId: '456208' // 456208, 419012

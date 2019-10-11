@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 22:49:05
+ * @Last Modified time: 2019-10-11 17:26:01
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -39,12 +39,17 @@ class Say extends React.Component {
     $.init(this.scrollView)
 
     navigation.setParams({
+      title: $.isNew ? '新吐槽' : '吐槽',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
           switch (key) {
             case '浏览器查看':
-              open(`${HOST}/user/${userId}/timeline/status/${id}`)
+              open(
+                $.isNew
+                  ? `${HOST}/timeline?type=say`
+                  : `${HOST}/user/${userId}/timeline/status/${id}`
+              )
               break
             default:
               break
@@ -53,7 +58,12 @@ class Say extends React.Component {
       }
     })
 
-    hm(`/user/${userId}/timeline/status/${id}`)
+    hm(
+      $.isNew
+        ? `${HOST}/timeline?type=say`
+        : `/user/${userId}/timeline/status/${id}`,
+      'TimelineSay'
+    )
   }
 
   showFixedTextare = () => {
@@ -61,7 +71,7 @@ class Say extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     const { value } = $.state
     return (
       <>
@@ -75,12 +85,12 @@ class Say extends React.Component {
         {$.isWebLogin && (
           <FixedTextarea
             ref={ref => (this.fixedTextarea = ref)}
-            placeholder='回复吐槽'
+            placeholder={$.isNew ? '新吐槽' : '回复吐槽, 长按头像@某人'}
             simple
             value={value}
             onClose={$.closeFixedTextarea}
             onChange={$.onChange}
-            onSubmit={value => $.doSubmit(value, this.scrollView)}
+            onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
           />
         )}
       </>

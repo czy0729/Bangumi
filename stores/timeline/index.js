@@ -3,18 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 23:07:13
+ * @Last Modified time: 2019-10-11 16:36:32
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhr } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
+import { HOST, LIST_EMPTY } from '@constants'
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
-import { HTML_SAY, HTML_ACTION_TIMELINE_REPLY } from '@constants/html'
+import {
+  HTML_SAY,
+  HTML_ACTION_TIMELINE_REPLY,
+  HTML_ACTION_TIMELINE_SAY
+} from '@constants/html'
 import userStore from '../user'
 import { NAMESPACE, DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
-import { fetchTimeline, analysisSay } from './common'
+import { fetchTimeline, analysisSay, analysisFormHash } from './common'
 
 class Timeline extends store {
   state = observable({
@@ -37,7 +41,12 @@ class Timeline extends store {
      */
     say: {
       // [id]: LIST_EMPTY<INIT_SAY_ITEM>
-    }
+    },
+
+    /**
+     * 吐槽表单授权码
+     */
+    formhash: ''
   })
 
   init = () => this.readStorage(['timeline', 'say'], NAMESPACE)
@@ -55,6 +64,10 @@ class Timeline extends store {
 
   say(id = 0) {
     return computed(() => this.state.say[id] || LIST_EMPTY).get()
+  }
+
+  @computed get formhash() {
+    return this.state.formhash
   }
 
   // -------------------- fetch --------------------
@@ -149,6 +162,23 @@ class Timeline extends store {
     return data
   }
 
+  /**
+   * 吐槽表单授权码
+   * https://bgm.tv/timeline?type=say
+   */
+  fetchFormHash = async () => {
+    const html = await fetchHTML({
+      url: `${HOST}/timeline?type=say`
+    })
+
+    const formhash = analysisFormHash(html)
+    this.setState({
+      formhash
+    })
+
+    return formhash
+  }
+
   // -------------------- action --------------------
   /**
    * 回复吐槽
@@ -159,6 +189,23 @@ class Timeline extends store {
         url: HTML_ACTION_TIMELINE_REPLY(id),
         data: {
           content,
+          formhash,
+          submit: 'submit'
+        }
+      },
+      success
+    )
+  }
+
+  /**
+   * 新吐槽
+   */
+  doSay = async ({ content, formhash }, success) => {
+    xhr(
+      {
+        url: HTML_ACTION_TIMELINE_SAY(),
+        data: {
+          say_input: content,
           formhash,
           submit: 'submit'
         }

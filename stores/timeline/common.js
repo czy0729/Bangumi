@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 22:18:34
+ * @Last Modified time: 2019-10-11 15:57:10
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import {
@@ -310,4 +310,13 @@ export function analysisSay(HTML) {
     })
     .get()
   return [main, ...sub]
+}
+
+/**
+ * 分析吐槽表单授权码
+ * @param {*} HTML
+ */
+export function analysisFormHash(HTML) {
+  const $ = cheerio(HTML)
+  return $('input[name=formhash]').attr('value') || ''
 }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 23:05:37
+ * @Last Modified time: 2019-10-11 17:25:39
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -18,6 +18,10 @@ export default class ScreenSay extends store {
   })
 
   init = async scrollView => {
+    if (this.isNew) {
+      return timelineStore.fetchFormHash()
+    }
+
     const res = this.fetchSay()
     await res
 
@@ -51,6 +55,11 @@ export default class ScreenSay extends store {
   }
 
   // -------------------- get --------------------
+  @computed get isNew() {
+    const { id } = this.params
+    return !id
+  }
+
   @computed get say() {
     const { id } = this.params
     return timelineStore.say(id)
@@ -96,6 +105,10 @@ export default class ScreenSay extends store {
     return userStore.isWebLogin
   }
 
+  @computed get formhash() {
+    return timelineStore.formhash
+  }
+
   // -------------------- page --------------------
   /**
    * 显示评论框
@@ -136,10 +149,37 @@ export default class ScreenSay extends store {
   /**
    * 回复
    */
-  doSubmit = (content, scrollView) => {
+  doSubmit = (content, scrollView, navigation) => {
+    if (this.isNew) {
+      if (!this.formhash) {
+        info('获取表单授权码失败, 请检查登陆状态')
+        return
+      }
+
+      timelineStore.doSay(
+        {
+          content,
+          formhash: this.formhash
+        },
+        () => {
+          const { onNavigationCallback } = this.params
+          if (onNavigationCallback) {
+            onNavigationCallback(true)
+          }
+
+          this.setState({
+            value: ''
+          })
+          info('吐槽成功')
+          navigation.goBack()
+        }
+      )
+      return
+    }
+
     const { list = [] } = this.say
     if (!list.length && !list[0].formhash) {
-      info('获取表单提交授权码失败')
+      info('获取表单授权码失败')
       return
     }
 
