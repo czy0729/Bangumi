@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 16:46:25
+ * @Last Modified time: 2019-10-13 16:01:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,8 @@ import {
   Image,
   Button,
   Loading,
-  Text
+  Text,
+  Mesume
 } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { urlStringify } from '@utils'
@@ -169,12 +170,13 @@ export default class Login extends React.Component {
   renderPreview() {
     return (
       <View style={[_.container.column, styles.gray]}>
-        <Image
+        {/* <Image
           style={styles.gray}
           width={160}
           height={128}
-          src={require('@assets/screens/login/login.png')}
-        />
+          src={require('@assets/images/musume3.png')}
+        /> */}
+        <Mesume />
         <View style={[styles.bottomContainer, _.mt.md]}>
           <Button type='main' shadow onPress={this.onLogin}>
             授权登陆

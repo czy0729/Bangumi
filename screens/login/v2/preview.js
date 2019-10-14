@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 16:47:04
+ * @Last Modified time: 2019-10-13 16:06:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Image, Button } from '@components'
+import { Button, Mesume } from '@components'
 import _ from '@styles'
 
 function Preview({ onLogin, onTour }) {
   return (
     <View style={[_.container.column, styles.gray]}>
-      <Image
+      {/* <Image
         style={styles.gray}
         width={160}
         height={128}
         src={require('@assets/screens/login/login.png')}
-      />
+      /> */}
+      <Mesume />
       <View style={[styles.bottomContainer, _.mt.md]}>
         <Button type='main' shadow onPress={onLogin}>
           账号登陆

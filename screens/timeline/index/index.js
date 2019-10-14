@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-11 17:25:12
+ * @Last Modified time: 2019-10-13 15:54:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
+import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Tabs from './tabs'
@@ -42,11 +43,16 @@ class Timeline extends React.Component {
         <IconTabsHeader
           name='add'
           position='right'
-          onPress={() =>
+          onPress={() => {
+            if (!$.isWebLogin) {
+              info('请先登录')
+              return
+            }
+
             navigation.push('Say', {
               onNavigationCallback: $.fetchTimeline
             })
-          }
+          }}
         />
       )
     })

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-06 14:16:26
+ * @Last Modified time: 2019-10-11 16:22:19
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -229,7 +229,7 @@ export async function fetchHTML({
 }
 
 /**
- * XMLHttpRequest
+ * [待废弃] XMLHttpRequest
  * @param {*} params
  * @param {*} success
  * @param {*} fail
@@ -313,10 +313,11 @@ export function xhrCustom({
 }
 
 /**
+ * hm v2.0
  * @param {*} url
- * @param {*} title
+ * @param {*} screen
  */
-export function hm(url, title = '') {
+export function hm(url, screen) {
   if (DEV) {
     return
   }
@@ -331,15 +332,17 @@ export function hm(url, title = '') {
     const { userAgent } = userStore.userCookie
 
     let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
-    u += `${u.includes('?') ? '&' : '?'}v=${version}${IOS ? '&ios=1' : ''}`
+    u += `${u.includes('?') ? '&' : '?'}v=${version}`
+    u += `${IOS ? '&ios=1' : ''}`
+    u += `${screen ? `&s=${screen}` : ''}`
+
     const query = {
       lt: getTimestamp(),
       rnd: randomn(10),
       si: '2dcb6644739ae08a1748c45fb4cea087',
       v: '1.2.51',
       api: '4_0',
-      u,
-      tt: title
+      u
     }
 
     fetch(`https://hm.baidu.com/hm.gif?${urlStringify(query)}`, {
@@ -388,7 +391,7 @@ function safe(data) {
 }
 
 /**
- * SDK33开始, iOS这里使用https去登陆, 不知道为什么不行
+ * [待废弃] SDK33开始, iOS这里使用https去登陆, 不知道为什么不行
  * 使用cookie的v区分版本, v=1的时候, html都不使用https
  * @param {*} url
  */

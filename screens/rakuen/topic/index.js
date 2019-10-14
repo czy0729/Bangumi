@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 22:00:06
+ * @Last Modified time: 2019-10-15 00:14:39
  */
 import React from 'react'
 import { StyleSheet, Alert } from 'react-native'
@@ -13,10 +13,12 @@ import { ListView, FixedTextarea } from '@components'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { info } from '@utils/ui'
 import { HOST } from '@constants'
 import _ from '@styles'
 import Top from './top'
 import Item from './item'
+import TouchScroll from './touch-scroll'
 import Store from './store'
 
 export default
@@ -132,10 +134,33 @@ class Topic extends React.Component {
   }
 
   scrollTo = (index = 0) => {
+    const { $ } = this.context
+    const { list } = $.comments
+    info(list[index].floor, 0.8)
     this.listView.scrollToIndex({
       animated: false,
       index,
       viewOffset: 0
+    })
+  }
+
+  scrollToThenFeedback = (index = 0) => {
+    const { $ } = this.context
+    if (index === -1) {
+      info('#1', 0.8)
+      this.listView.scrollToOffset({
+        animated: true,
+        offset: 0 - _.headerHeight
+      })
+      return
+    }
+
+    const { list } = $.comments
+    info(list[index].floor, 0.8)
+    this.listView.scrollToIndex({
+      animated: true,
+      index,
+      viewOffset: 0 + _.headerHeight
     })
   }
 
@@ -191,6 +216,7 @@ class Topic extends React.Component {
             onSubmit={$.doSubmit}
           />
         )}
+        <TouchScroll onPress={index => this.scrollToThenFeedback(index)} />
       </>
     )
   }
