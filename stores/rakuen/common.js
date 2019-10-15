@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 11:35:37
+ * @Last Modified time: 2019-10-15 20:50:13
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -101,8 +101,8 @@ export function analysisComments(HTML, reverse) {
     }
   }
   children.forEach((item, index) => {
-    // @todo 暂时只显示前160楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
-    if (index >= 160) {
+    // @todo 暂时只显示前200楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
+    if (index >= 200) {
       return
     }
 

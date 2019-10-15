@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 22:57:02
+ * @Last Modified time: 2019-10-15 21:01:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -131,6 +131,7 @@ export default class RenderHtml extends React.Component {
               target.parent &&
               target.parent.children[0] &&
               target.parent.children[0].data) ||
+            (target.children[0] && target.children[0].data) ||
             ''
           return (
             <LineThroughtText key={key} style={baseFontStyle}>
