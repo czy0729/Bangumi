@@ -12,10 +12,27 @@
 
 安卓
 [APK 下载地址](https://github.com/czy0729/Bangumi/releases)
+
 [酷安](https://www.coolapk.com/apk/235642)
 
 苹果还没过审, 有方法可以试用
 [iOS 试用方法](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
+
+---
+
+#### PowerBy
+
+[bangumi-api](https://github.com/bangumi/api) 官方接口
+
+[bangumi-onair](https://github.com/ekibun/bangumi_onair) 单集播放数据源
+
+[bangumi-data](https://github.com/bangumi-data/bangumi-data) 番组数据索引
+
+[https://tinygrail.com](https://tinygrail.com) 小圣杯接口
+
+[https://www.ningmoe.com](https://www.ningmoe.com) 柠萌瞬间接口
+
+[https://app.anitama.net](https://app.anitama.net) Anitama 接口
 
 ---
 
