@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-13 16:01:20
+ * @Last Modified time: 2019-10-16 09:45:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,7 +22,7 @@ import { StatusBarPlaceholder } from '@screens/_'
 import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
-import { APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
+import { IOS, APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
 
@@ -170,13 +170,16 @@ export default class Login extends React.Component {
   renderPreview() {
     return (
       <View style={[_.container.column, styles.gray]}>
-        {/* <Image
-          style={styles.gray}
-          width={160}
-          height={128}
-          src={require('@assets/images/musume3.png')}
-        /> */}
-        <Mesume />
+        {IOS ? (
+          <Mesume />
+        ) : (
+          <Image
+            style={styles.gray}
+            width={160}
+            height={128}
+            src={require('@assets/screens/login/login.png')}
+          />
+        )}
         <View style={[styles.bottomContainer, _.mt.md]}>
           <Button type='main' shadow onPress={this.onLogin}>
             授权登陆
@@ -192,12 +195,16 @@ export default class Login extends React.Component {
   renderLoading() {
     return (
       <View style={[_.container.column, styles.gray]}>
-        <Image
-          style={styles.gray}
-          width={160}
-          height={128}
-          src={require('@assets/screens/login/login.png')}
-        />
+        {IOS ? (
+          <Mesume />
+        ) : (
+          <Image
+            style={styles.gray}
+            width={160}
+            height={128}
+            src={require('@assets/screens/login/login.png')}
+          />
+        )}
         <View style={[styles.bottomContainer, _.mt.md]}>
           <Flex style={styles.loading} direction='column' justify='center'>
             <Loading.Raw color={_.colorMain} />

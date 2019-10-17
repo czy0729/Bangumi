@@ -2,11 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-13 16:00:02
+ * @Last Modified time: 2019-10-16 09:43:43
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
-import { Flex, Text, Touchable, Input, Button, Mesume } from '@components'
+import {
+  Flex,
+  Text,
+  Touchable,
+  Input,
+  Button,
+  Image,
+  Mesume
+} from '@components'
+import { IOS } from '@constants'
 import _ from '@styles'
 
 export default class Form extends React.Component {
@@ -36,13 +45,16 @@ export default class Form extends React.Component {
       <View style={[_.container.column, styles.gray]}>
         <View style={styles.form}>
           <Flex justify='center'>
-            {/* <Image
-              style={styles.gray}
-              width={160}
-              height={128}
-              src={require('@assets/screens/login/login.png')}
-            /> */}
-            <Mesume />
+            {IOS ? (
+              <Mesume />
+            ) : (
+              <Image
+                style={styles.gray}
+                width={160}
+                height={128}
+                src={require('@assets/screens/login/login.png')}
+              />
+            )}
           </Flex>
           <Flex style={_.mt.md}>
             <Flex.Item>
