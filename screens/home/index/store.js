@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 15:07:52
+ * @Last Modified time: 2019-10-19 19:53:46
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -209,13 +209,21 @@ export default class ScreenHome extends store {
       // 排除SP章节
       let watchedCount = 0
       const userProgress = this.userProgress(subjectId)
-      eps
-        .filter(item => item.type === 0)
-        .forEach(item => {
-          if (userProgress[item.id] === '看过') {
-            watchedCount += 1
-          }
-        })
+      try {
+        eps
+          .filter(item => item.type === 0)
+          .forEach(item => {
+            if (userProgress[item.id] === '看过') {
+              if (watchedCount === 0) {
+                watchedCount += parseInt(item.sort)
+              } else {
+                watchedCount += 1
+              }
+            }
+          })
+      } catch (error) {
+        // do nothing
+      }
       return (watchedCount / subject.eps_count) * 100
     }).get()
   }

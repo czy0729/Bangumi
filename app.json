@@ -25,7 +25,7 @@
     },
     "android": {
       "package": "com.czy0729.bangumi",
-      "versionCode": 8
+      "versionCode": 9
     },
     "androidStatusBar": {
       "barStyle": "dark-content",
