@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 18:16:21
+ * @Last Modified time: 2019-10-20 20:34:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -37,12 +37,16 @@ class List extends React.Component {
 
   componentDidMount() {
     // @notice iOS端不知道原因, 初次渲染会看见下拉刷新的文字
-    if (IOS) {
-      this.listView.scrollToIndex({
-        animated: false,
-        index: 0,
-        viewOffset: 0
-      })
+    if (IOS && this.listView) {
+      try {
+        this.listView.scrollToIndex({
+          animated: false,
+          index: 0,
+          viewOffset: 0
+        })
+      } catch (error) {
+        // do nothing
+      }
     }
   }
 

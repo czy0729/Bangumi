@@ -1,15 +1,18 @@
+/* eslint-disable no-await-in-loop */
 /*
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:18:45
+ * @Last Modified time: 2019-10-20 21:23:03
  */
 import React from 'react'
+import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import deepmerge from 'deepmerge'
 import { Text } from '@components'
 import { Popover } from '@screens/_'
 import { systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
+import { sleep } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import {
@@ -23,6 +26,11 @@ export const tabs = MODEL_RAKUEN_TYPE.data.map(item => ({
   title: item.label
 }))
 const namespace = 'ScreenRakuen'
+const initPrefetchState = {
+  prefetching: false,
+  prefetchTotal: 0,
+  prefetchCurrent: 0
+}
 
 export default class ScreenRakuen extends store {
   state = observable({
@@ -30,6 +38,12 @@ export default class ScreenRakuen extends store {
     page: 0, // <Tabs>当前页数
     group: MODEL_RAKUEN_TYPE_GROUP.getValue('全部'), // 小组菜单
     mono: MODEL_RAKUEN_TYPE_MONO.getValue('全部'), // 人物菜单
+
+    /**
+     * Prefetch
+     */
+    ...initPrefetchState,
+
     _page: 0, // header上的假<Tabs>当前页数
     _loaded: false
   })
@@ -39,6 +53,7 @@ export default class ScreenRakuen extends store {
     const state = await res
     this.setState({
       ...state,
+      ...initPrefetchState,
       _loaded: true
     })
 
@@ -338,5 +353,97 @@ export default class ScreenRakuen extends store {
       default:
         break
     }
+  }
+
+  /**
+   * 获取未读帖子的id
+   */
+  getUnreadTopicIds = (list = []) => {
+    const { topic } = rakuenStore.state
+    const ids = []
+    list.forEach(item => {
+      const id = String(item.href).replace('/rakuen/topic/', '')
+      if (!topic[id]) {
+        ids.push(id)
+      }
+    })
+    return ids
+  }
+
+  /**
+   * 预读取未读帖子内容
+   */
+  prefetchConfirm = () => {
+    const { page } = this.state
+    const type = this.type(page)
+    const { list } = this.rakuen(type)
+    const ids = this.getUnreadTopicIds(list)
+
+    if (!ids.length) {
+      info('当前没有未读取数据的帖子')
+      return
+    }
+
+    Alert.alert(
+      '预读取未读帖子(实验性)',
+      `当前 (${ids.length}) 个未读帖子, 1次操作最多预读前 (40) 个, 建议在WIFI下进行, 确定?`,
+      [
+        {
+          text: '取消',
+          style: 'cancel'
+        },
+        {
+          text: '确定',
+          onPress: () => this.prefetch(ids)
+        }
+      ]
+    )
+  }
+
+  /**
+   * 预读取帖子内容
+   */
+  prefetch = async (ids = []) => {
+    if (!ids.length) {
+      return
+    }
+
+    const _ids = ids.filter((item, index) => index < 40)
+    let prefetchCurrent = 0
+    this.setState({
+      prefetching: true,
+      prefetchTotal: _ids.length,
+      prefetchCurrent
+    })
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const topicId of _ids) {
+      const { prefetching } = this.state
+      if (prefetching) {
+        await rakuenStore.fetchTopic({
+          topicId
+        })
+        await sleep(200)
+
+        prefetchCurrent += 1
+        this.setState({
+          prefetchCurrent
+        })
+      }
+    }
+
+    this.setState({
+      ...initPrefetchState
+    })
+    info('预读取完毕')
+  }
+
+  /**
+   * 取消预读取
+   */
+  cancelPrefetch = () => {
+    this.setState({
+      ...initPrefetchState
+    })
   }
 }

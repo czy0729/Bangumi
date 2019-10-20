@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:19:51
+ * @Last Modified time: 2019-10-20 20:44:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { Flex } from '@components'
 import { Popover, IconTabsHeader, IconTabBar, IconNotify } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants/html'
 import _ from '@styles'
+import Prefetch from './prefetch'
 import Tabs from './tabs'
 import List from './list'
 import Store from './store'
@@ -46,26 +48,30 @@ class Rakuen extends React.Component {
     navigation.setParams({
       headerLeft: <IconNotify navigation={navigation} />,
       headerRight: (
-        <Popover
-          data={['设置', '新讨论', '社区指导原则']}
-          onSelect={title => {
-            switch (title) {
-              case '设置':
-                navigation.push('RakuenSetting')
-                break
-              case '新讨论':
-                open(HTML_NEW_TOPIC())
-                break
-              case '社区指导原则':
-                navigation.push('UGCAgree')
-                break
-              default:
-                break
-            }
-          }}
-        >
-          <IconTabsHeader name='more' position='right' />
-        </Popover>
+        <Flex>
+          <Prefetch $={$} />
+          <Popover
+            style={_.ml.sm}
+            data={['设置', '新讨论', '社区指导原则']}
+            onSelect={title => {
+              switch (title) {
+                case '设置':
+                  navigation.push('RakuenSetting')
+                  break
+                case '新讨论':
+                  open(HTML_NEW_TOPIC())
+                  break
+                case '社区指导原则':
+                  navigation.push('UGCAgree')
+                  break
+                default:
+                  break
+              }
+            }}
+          >
+            <IconTabsHeader name='more' position='right' />
+          </Popover>
+        </Flex>
       )
     })
 
