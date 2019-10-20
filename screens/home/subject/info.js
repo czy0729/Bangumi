@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 17:44:52
+ * @Last Modified time: 2019-10-20 17:37:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,10 +21,10 @@ function Info({ style }, { $, navigation }) {
       {!!info && (
         <Expand>
           <RenderHtml
-            style={[styles.info, _.mt.sm]}
+            style={styles.info}
             html={info}
             baseFontStyle={{
-              fontSize: 13,
+              fontSize: 13 + _.fontSizeAdjust,
               lineHeight: 22,
               color: _.colorTitle
             }}

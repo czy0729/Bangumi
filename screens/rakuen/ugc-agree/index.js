@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-31 15:45:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 00:39:58
+ * @Last Modified time: 2019-10-20 17:33:46
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -59,7 +59,7 @@ class UGCAgree extends React.Component {
         <RenderHtml
           html={html}
           baseFontStyle={{
-            fontSize: 13,
+            fontSize: 13 + _.fontSizeAdjust,
             lineHeight: 22,
             color: _.colorTitle
           }}

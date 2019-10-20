@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 15:56:26
+ * @Last Modified time: 2019-10-20 18:13:11
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -66,7 +66,7 @@ export const colorDisabled = 'rgb(150, 150, 150)'
 export const colorWait = 'rgb(200, 200, 200)'
 // export const colorBorder = 'rgb(222, 222, 222)'
 export const colorBorder = 'rgb(225, 225, 232)'
-export const colorBg = 'rgb(244, 244, 244)'
+export const colorBg = 'rgb(243, 243, 243)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
 export const colorShadow = 'rgb(0, 0, 0)'
@@ -97,7 +97,7 @@ export const lineHeightRatio = 1.28
 
 // -------------------- 圆角 --------------------
 export const radiusXs = 4
-export const radiusSm = 8
+export const radiusSm = 10
 export const radiusMd = 16
 export const radiusLg = 32
 
@@ -117,10 +117,11 @@ export const shadow = IOS
     }
 
 // --------------------  函数 --------------------
+export const fontSizeAdjust = 0
 export function fontSize(pt) {
   return {
-    fontSize: pt,
-    lineHeight: pt * lineHeightRatio
+    fontSize: pt + fontSizeAdjust,
+    lineHeight: (pt + fontSizeAdjust) * lineHeightRatio
   }
 }
 

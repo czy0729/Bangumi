@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-07 15:19:37
+ * @Last Modified time: 2019-10-20 17:33:13
  */
 import React from 'react'
 import {
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
     height: 40
   },
   footerText: {
-    fontSize: 14,
+    fontSize: 14 + _.fontSizeAdjust,
     color: _.colorSub
   },
   footerEmpty: {

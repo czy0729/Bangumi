@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-07 19:55:49
+ * @Last Modified time: 2019-10-20 18:23:32
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -36,12 +36,14 @@ export default class Image extends React.Component {
     size: 40, // 大小|宽度
     height: undefined, // 高度
     border: false, // 边框
+    borderWidth: StyleSheet.hairlineWidth,
     radius: undefined, // 圆角
     shadow: false, // 阴影
     placeholder: true, // 是否有底色
     autoSize: 0, // 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例
     quality: true, // 是否自动选择Bangumi图片质量
     imageViewer: false, // 是否点击显示全局的ImageViewer, 此值打开会覆盖onPress
+    delay: true,
     onPress: undefined,
     onLongPress: undefined,
     onError: undefined
@@ -229,6 +231,7 @@ export default class Image extends React.Component {
       size,
       height,
       border,
+      borderWidth,
       radius,
       shadow,
       placeholder,
@@ -236,6 +239,7 @@ export default class Image extends React.Component {
       quality,
       imageViewer,
       headers,
+      delay,
       onPress,
       onLongPress,
       onError,
@@ -261,7 +265,7 @@ export default class Image extends React.Component {
     if (border) {
       if (typeof border === 'string') {
         _image.push({
-          borderWidth: StyleSheet.hairlineWidth,
+          borderWidth,
           borderColor: border
         })
       } else {
@@ -358,6 +362,7 @@ export default class Image extends React.Component {
         <Touchable
           style={_wrap}
           highlight={IOS}
+          delay={delay}
           onPress={_onPress}
           onLongPress={onLongPress}
         >

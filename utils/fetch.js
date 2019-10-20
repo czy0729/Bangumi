@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-11 16:22:19
+ * @Last Modified time: 2019-10-20 15:44:15
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -171,37 +171,42 @@ export async function fetchHTML({
 
   let toastKey
   if (isGet) {
-    _config.headers['Cache-Control'] = 'max-age=0'
-    _config.headers.Connection = 'keep-alive'
-
+    _config.headers = {
+      ..._config.headers,
+      Accept:
+        'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+      'Accept-Encoding': 'gzip, deflate',
+      'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+      Pragma: 'no-cache',
+      Referer: HOST
+    }
     if (Object.keys(body).length) {
       _url += `${_url.includes('?') ? '&' : '?'}${urlStringify(body)}`
     }
   } else {
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    // _config.credentials ='includes'
     _config.body = urlStringify(body)
-    toastKey = Toast.loading('Loading...', 0)
+    toastKey = Toast.loading('Loading...', 8)
   }
-  log(urlVersionFixed(_url))
+  log(_url)
 
   const systemStore = require('../stores/system').default
-  return fetch(urlVersionFixed(_url), _config)
+  return fetch(_url, _config)
     .then(res => {
       // 开发模式
       if (systemStore.state.dev) {
         Alert.alert(
           'dev',
-          `${JSON.stringify(urlVersionFixed(_url))} ${JSON.stringify(
-            _config
-          )} ${res._bodyInit}`
+          `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${res._bodyInit}`
         )
       }
 
       // POST打印结果
       if (!isGet) {
-        log(method, 'success', urlVersionFixed(_url), _config, res)
+        log(method, 'success', _url, _config, res)
       }
 
       // 清除Toast
@@ -260,7 +265,7 @@ export function xhr(
     }
   }
 
-  request.open(method, urlVersionFixed(url))
+  request.open(method, url)
   request.withCredentials = false
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   request.setRequestHeader('Cookie', userCookie)
@@ -298,7 +303,7 @@ export function xhrCustom({
       reject(new TypeError('AbortError'))
     }
 
-    request.open(method, urlVersionFixed(url), true)
+    request.open(method, url, true)
     request.withCredentials = withCredentials
     if (responseType) {
       request.responseType = responseType
@@ -388,18 +393,4 @@ export async function queue(fetchs = []) {
  */
 function safe(data) {
   return JSON.parse(JSON.stringify(data).replace(/:null/g, ':""'))
-}
-
-/**
- * [待废弃] SDK33开始, iOS这里使用https去登陆, 不知道为什么不行
- * 使用cookie的v区分版本, v=1的时候, html都不使用https
- * @param {*} url
- */
-export function urlVersionFixed(url) {
-  const userStore = require('../stores/user').default
-  const { v } = userStore.userCookie
-  if (v === 1) {
-    return url.replace('https://', 'http://')
-  }
-  return url
 }

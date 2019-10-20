@@ -29,6 +29,7 @@ export class Tabs extends React.PureComponent {
     renderHeaderComponent: undefined, // @add
     renderContentHeaderComponent: undefined, //@add
     renderTabBarLeft: undefined, // @add
+    renderTabBarRight: undefined, // @add
     style: {}, // @add
     tabBarStyle: {} // @add
   }
@@ -407,7 +408,7 @@ export class Tabs extends React.PureComponent {
 
   // tslint:disable-next-line:no-shadowed-variable
   renderTabBar(tabBarProps, DefaultTabBar) {
-    const { renderTabBar, renderTabBarLeft } = this.props
+    const { renderTabBar, renderTabBarLeft, renderTabBarRight } = this.props
     if (renderTabBar === false) {
       return null
     } else if (renderTabBar) {
@@ -419,6 +420,18 @@ export class Tabs extends React.PureComponent {
           <Flex>
             {renderTabBarLeft}
             <DefaultTabBar {...tabBarProps} />
+          </Flex>
+        )
+      }
+
+      // @add
+      if (renderTabBarRight) {
+        return (
+          <Flex>
+            <Flex.Item>
+              <DefaultTabBar {...tabBarProps} />
+            </Flex.Item>
+            {renderTabBarRight}
           </Flex>
         )
       }

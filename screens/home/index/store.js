@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-19 19:53:46
+ * @Last Modified time: 2019-10-20 19:00:44
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
 import { Eps } from '@screens/_'
+import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { sleep } from '@utils'
 import { appNavigate } from '@utils/app'
@@ -35,6 +36,11 @@ const initItem = {
 
 export default class ScreenHome extends store {
   state = observable({
+    _loaded: false, // 本地数据读取完成
+
+    /**
+     * base
+     */
     visible: false, // <Modal>可见性
     subjectId: 0, // <Modal>当前条目Id
     page: 0, // <Tabs>当前页数
@@ -43,7 +49,12 @@ export default class ScreenHome extends store {
     item: {
       // [subjectId]: initItem // 每个<Item>的状态
     },
-    _loaded: false // 本地数据读取完成
+
+    /**
+     * layout
+     */
+    grid: IOS, // 是否格子布局, iOS默认使用格子
+    current: 0
   })
 
   init = async () => {
@@ -367,8 +378,31 @@ export default class ScreenHome extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
+  /**
+   * 全部关闭
+   */
   closeAll = () => {
     this.clearState('item')
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 选择布局
+   */
+  selectLayout = title => {
+    this.setState({
+      grid: title === '方格布局'
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 格子布局条目选择
+   */
+  selectGirdSubject = subjectId => {
+    this.setState({
+      current: subjectId
+    })
     this.setStorage(undefined, undefined, namespace)
   }
 

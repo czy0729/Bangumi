@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:17:18
+ * @Last Modified time: 2019-10-20 18:35:59
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -21,6 +21,7 @@ import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
+import Grid from './grid'
 import Store, { tabs } from './store'
 
 export default
@@ -75,7 +76,7 @@ class Home extends React.Component {
       )
     }
 
-    const { visible, subjectId, _loaded } = $.state
+    const { grid, visible, subjectId, _loaded } = $.state
     if (!_loaded) {
       return null
     }
@@ -84,9 +85,13 @@ class Home extends React.Component {
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
         <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
-          {tabs.map(item => (
-            <List key={item.title} title={item.title} />
-          ))}
+          {tabs.map(item =>
+            grid ? (
+              <Grid key={item.title} title={item.title} />
+            ) : (
+              <List key={item.title} title={item.title} />
+            )
+          )}
         </Tabs>
         <ManageModal
           visible={visible}

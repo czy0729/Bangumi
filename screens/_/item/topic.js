@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:44:47
+ * @Last Modified time: 2019-10-20 17:33:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -71,7 +71,7 @@ function Item({
         <RenderHtml
           style={_.mt.sm}
           baseFontStyle={{
-            fontSize: 14,
+            fontSize: 14 + _.fontSizeAdjust,
             lineHeight: 22
           }}
           imagesMaxWidth={imagesMaxWidth}
@@ -117,7 +117,7 @@ function Item({
                   <RenderHtml
                     style={_.mt.xs}
                     baseFontStyle={{
-                      fontSize: 13,
+                      fontSize: 13 + _.fontSizeAdjust,
                       lineHeight: 20
                     }}
                     imagesMaxWidth={imagesMaxWidthSub}

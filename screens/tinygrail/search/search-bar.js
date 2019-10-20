@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 20:55:53
+ * @Last Modified time: 2019-10-20 17:33:58
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   searchIpt: {
     height: 34,
     paddingHorizontal: _.wind,
-    fontSize: 14,
+    fontSize: 14 + _.fontSizeAdjust,
     color: colorPlain,
     backgroundColor: colorContainer,
     borderColor: colorText,

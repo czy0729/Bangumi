@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 14:37:38
+ * @Last Modified time: 2019-10-20 17:34:12
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -82,7 +82,7 @@ const withHeader = ({
               },
           headerTitleStyle: {
             color: _.colorTitle,
-            fontSize: 16,
+            fontSize: 16 + _.fontSizeAdjust,
             fontWeight: 'normal',
             ...headerTitleStyle
           },

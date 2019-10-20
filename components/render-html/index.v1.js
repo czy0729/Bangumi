@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-28 02:41:16
+ * @Last Modified time: 2019-10-20 17:33:23
  */
 import React from 'react'
 import { View, Image as RNImage, Text as RNText } from 'react-native'
@@ -32,7 +32,7 @@ export default class RenderHtml extends React.Component {
   static defaultProps = {
     style: undefined,
     baseFontStyle: {
-      fontSize: 16,
+      fontSize: 16 + _.fontSizeAdjust,
       lineHeight: 26,
       color: _.colorTitle
     },

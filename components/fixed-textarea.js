@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 22:26:41
+ * @Last Modified time: 2019-10-20 17:33:11
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
     paddingVertical: _.sm,
     paddingHorizontal: 0,
     marginBottom: -StyleSheet.hairlineWidth,
-    fontSize: 14,
+    fontSize: 14 + _.fontSizeAdjust,
     lineHeight: 22
   },
   send: {

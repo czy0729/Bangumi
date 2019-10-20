@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-11 14:26:37
+ * @Last Modified time: 2019-10-20 17:33:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -35,7 +35,7 @@ function Chat(props, { $, navigation }) {
                   <View style={[styles.text, styles.textActive, _.mt.sm]}>
                     <RenderHtml
                       baseFontStyle={{
-                        fontSize: 14,
+                        fontSize: 14 + _.fontSizeAdjust,
                         lineHeight: 22,
                         color: _.colorPlain
                       }}
@@ -79,7 +79,7 @@ function Chat(props, { $, navigation }) {
                 <View style={[styles.text, _.mt.sm]}>
                   <RenderHtml
                     baseFontStyle={{
-                      fontSize: 14,
+                      fontSize: 14 + _.fontSizeAdjust,
                       lineHeight: 22
                     }}
                     html={getBgmHtml(item.text)}

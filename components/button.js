@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 14:07:03
+ * @Last Modified time: 2019-10-20 17:32:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -169,10 +169,10 @@ const styles = StyleSheet.create({
 
   // text
   text: {
-    fontSize: 14
+    fontSize: 14 + _.fontSizeAdjust
   },
   textSm: {
-    fontSize: 11,
+    fontSize: 11 + _.fontSizeAdjust,
     fontWeight: 'bold'
   },
   textPlain: {
