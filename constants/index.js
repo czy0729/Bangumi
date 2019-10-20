@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 21:24:13
+ * @Last Modified time: 2019-10-21 01:42:00
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -65,7 +65,7 @@ export const LIST_EMPTY = {
 // LIMIT
 export const LIST_LIMIT = 40 // 用于制造分页数据
 export const LIST_COMMENTS_LIMIT = 25
-export const TOPIC_PUSH_LIMIT = 300 // 对评论大于300的帖子进行网页跳转
+export const TOPIC_PUSH_LIMIT = 400 // 对评论大于400的帖子进行网页跳转
 
 // 时间数组
 export const airtimeData = [

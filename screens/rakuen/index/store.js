@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 21:23:03
+ * @Last Modified time: 2019-10-21 01:38:27
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -15,6 +15,7 @@ import { systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
 import { sleep } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { TOPIC_PUSH_LIMIT } from '@constants'
 import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE,
@@ -362,9 +363,20 @@ export default class ScreenRakuen extends store {
     const { topic } = rakuenStore.state
     const ids = []
     list.forEach(item => {
-      const id = String(item.href).replace('/rakuen/topic/', '')
-      if (!topic[id]) {
-        ids.push(id)
+      try {
+        // 需要检查回复数是否小于TOPIC_PUSH_LIMIT
+        // replies: (+1)
+        const count = parseInt(
+          String(item.replies || '0').replace(/\(\+|\)/g, '')
+        )
+        if (count <= TOPIC_PUSH_LIMIT) {
+          const id = String(item.href).replace('/rakuen/topic/', '')
+          if (!topic[id]) {
+            ids.push(id)
+          }
+        }
+      } catch (error) {
+        // do nothing
       }
     })
     return ids
@@ -386,7 +398,7 @@ export default class ScreenRakuen extends store {
 
     Alert.alert(
       '预读取未读帖子(实验性)',
-      `当前 (${ids.length}) 个未读帖子, 1次操作最多预读前 (40) 个, 建议在WIFI下进行, 确定?`,
+      `当前 (${ids.length}) 个未读帖子, 1次操作最多预读前40个, 建议在WIFI下进行, 确定?`,
       [
         {
           text: '取消',
