@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-21 00:21:33
+ * @Last Modified time: 2019-10-21 09:47:00
  */
 import React from 'react'
 import { StyleSheet, View, NativeModules } from 'react-native'
 import { useScreens } from 'react-native-screens'
-// import { AppLoading } from 'expo'
+import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
 import { ImageViewer } from '@components'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 15:58:51
+ * @Last Modified time: 2019-10-24 10:37:55
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -20,7 +20,8 @@ import {
 import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 
 const namespace = 'ScreenTinygrail'
-const maxErrorCount = 8
+const errorStr = '/false'
+const maxErrorCount = 3
 
 export default class ScreenTinygrail extends store {
   state = observable({
@@ -116,9 +117,9 @@ export default class ScreenTinygrail extends store {
     try {
       await this.logout()
       await this.oauth()
-      await this.authorize()
+      res = this.authorize()
 
-      res = this.getAccessCookie()
+      // res = this.getAccessCookie()
       await res
 
       info('已更新授权')
@@ -223,7 +224,7 @@ export default class ScreenTinygrail extends store {
       method: 'post',
       maxRedirects: 0,
       validateStatus: null,
-      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}`,
+      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}${errorStr}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Cookie: `chii_cookietime=2592000; ${cookie}`,
@@ -249,30 +250,34 @@ export default class ScreenTinygrail extends store {
       }
       return false
     }
-    this.locationUrl = responseURL
 
+    tinygrailStore.updateCookie(
+      `${data.headers['set-cookie'][0].split(';')[0]};`
+    )
+
+    // this.locationUrl = responseURL
     return res
   }
 
   /**
    * code获取cookie
    */
-  getAccessCookie = async () => {
-    axios.defaults.withCredentials = false
-    const res = axios({
-      method: 'get',
-      maxRedirects: 0,
-      validateStatus: null,
-      url: `${this.locationUrl}&redirect=false`
-    })
+  // getAccessCookie = async () => {
+  //   axios.defaults.withCredentials = false
+  //   const res = axios({
+  //     method: 'get',
+  //     maxRedirects: 0,
+  //     validateStatus: null,
+  //     url: `${this.locationUrl.replace(errorStr, '')}&redirect=false`
+  //   })
 
-    const data = await res
-    tinygrailStore.updateCookie(
-      `${data.headers['set-cookie'][0].split(';')[0]};`
-    )
+  //   const data = await res
+  //   tinygrailStore.updateCookie(
+  //     `${data.headers['set-cookie'][0].split(';')[0]};`
+  //   )
 
-    return res
-  }
+  //   return res
+  // }
 
   /**
    * 计算资金变动
