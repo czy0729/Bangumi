@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:19:31
+ * @Last Modified time: 2019-10-27 19:36:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
-import { StatusBarEvents, Text, Button } from '@components'
+import { StatusBarEvents, Button, Mesume } from '@components'
 import { IconTabsHeader, IconTinygrail, IconTabBar } from '@screens/_'
 import { hm } from '@utils/fetch'
 import { userStore } from '@stores'
@@ -61,9 +61,7 @@ class Auth extends React.Component {
             }
           }}
         />
-        <Text type='sub' size={16}>
-          使用Bangumi管理观看进度
-        </Text>
+        <Mesume />
         <Button
           style={[
             {
@@ -75,7 +73,7 @@ class Auth extends React.Component {
           shadow
           onPress={() => navigation.push('LoginV2')}
         >
-          现在登陆
+          登陆管理进度
         </Button>
       </View>
     )

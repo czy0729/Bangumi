@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 15:44:15
+ * @Last Modified time: 2019-10-30 20:27:05
  */
 import { Alert } from 'react-native'
 import { Portal, Toast } from '@ant-design/react-native'
@@ -191,7 +191,7 @@ export async function fetchHTML({
     _config.body = urlStringify(body)
     toastKey = Toast.loading('Loading...', 8)
   }
-  log(_url)
+  log(`[fetchHTML] ${_url}`)
 
   const systemStore = require('../stores/system').default
   return fetch(_url, _config)
@@ -373,11 +373,8 @@ export async function queue(fetchs = []) {
     f5 = Function.prototype,
     f6 = Function.prototype
   ] = fetchs
-  await Promise.all([f1(), f2()])
-  await sleep()
-  await Promise.all([f3(), f4()])
-  await sleep()
-  return Promise.all([f5(), f6()])
+  await Promise.all([f1(), f2(), f3()])
+  return Promise.all([f4(), f5(), f6()])
 }
 
 // async function queue(fetchs = [], resolved = []) {

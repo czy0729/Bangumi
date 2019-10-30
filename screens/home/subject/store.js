@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-06 01:21:00
+ * @Last Modified time: 2019-10-30 20:34:32
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -81,9 +81,9 @@ export default class ScreenSubject extends store {
     }
 
     queue([
-      () => subjectStore.fetchSubjectEp(this.subjectId),
       () => collectionStore.fetchCollection(this.subjectId),
       () => userStore.fetchUserProgress(this.subjectId),
+      () => subjectStore.fetchSubjectEp(this.subjectId),
       async () => {
         const res = subjectStore.fetchSubjectFormHTML(this.subjectId)
         const { book } = await res

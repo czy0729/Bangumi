@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 01:55:08
+ * @Last Modified time: 2019-10-30 20:31:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -39,8 +39,8 @@ function Header(props, { $ }) {
       <View style={styles.content}>
         <Box style={_.mt.md} />
         <Ep style={_.mt.lg} />
-        <Tags style={_.mt.lg} />
         <Summary style={_.mt.lg} />
+        <Tags style={_.mt.lg} />
         <Info style={_.mt.lg} />
         <Rating style={_.mt.lg} />
         <Character style={_.mt.lg} />

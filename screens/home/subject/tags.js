@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 15:15:18
+ * @Last Modified time: 2019-10-30 20:28:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { ActivityIndicator } from '@ant-design/react-native'
 import { Expand, Flex, Text, Touchable } from '@components'
 import { SectionTitle } from '@screens/_'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -16,16 +15,11 @@ import _ from '@styles'
 
 function Tags({ style }, { $, navigation }) {
   const { type } = $.subject
-  const { tags = [], _loaded } = $.subjectFormHTML
+  const { tags = [] } = $.subjectFormHTML
   const { tag = [] } = $.collection
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle>标签</SectionTitle>
-      {!_loaded && (
-        <Flex style={styles.loading} justify='center'>
-          <ActivityIndicator />
-        </Flex>
-      )}
       {!!tags.length && (
         <Expand style={_.mt.sm}>
           <Flex wrap='wrap'>
