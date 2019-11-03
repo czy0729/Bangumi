@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-08 17:00:09
+ * @Last Modified time: 2019-11-03 06:06:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,136 +14,136 @@ import {
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { BlurView } from 'expo-blur'
 import {
-  Anitama,
-  Award,
-  Calendar,
-  Character,
-  Discovery,
-  Friends,
-  Group,
-  Login,
-  LoginAssist,
-  LoginV2,
-  Mono,
-  Notify,
-  Qiafan,
-  Rakuen,
-  RakuenSetting,
-  Random,
-  Rank,
-  Say,
-  Search,
-  Setting,
-  Subject,
-  Tag,
-  Tags,
-  Timeline,
-  Tinygrail,
-  TinygrailBid,
-  TinygrailCharaAssets,
-  TinygrailDeal,
-  TinygrailICO,
-  TinygrailICODeal,
-  TinygrailLogs,
-  TinygrailNew,
-  TinygrailOverview,
-  TinygrailRich,
-  TinygrailSearch,
-  TinygrailTrade,
-  Topic,
-  UGCAgree,
-  User,
-  Video,
-  WebView,
-  Zone
+  Anitama
+  // Award,
+  // Calendar,
+  // Character,
+  // Discovery,
+  // Friends,
+  // Group,
+  // Login,
+  // LoginAssist,
+  // LoginV2,
+  // Mono,
+  // Notify,
+  // Qiafan,
+  // Rakuen,
+  // RakuenSetting,
+  // Random,
+  // Rank,
+  // Say,
+  // Search,
+  // Setting,
+  // Subject,
+  // Tag,
+  // Tags,
+  // Timeline,
+  // Tinygrail,
+  // TinygrailBid,
+  // TinygrailCharaAssets,
+  // TinygrailDeal,
+  // TinygrailICO,
+  // TinygrailICODeal,
+  // TinygrailLogs,
+  // TinygrailNew,
+  // TinygrailOverview,
+  // TinygrailRich,
+  // TinygrailSearch,
+  // TinygrailTrade,
+  // Topic,
+  // UGCAgree,
+  // User,
+  // Video,
+  // WebView,
+  // Zone
 } from '@screens'
-import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
+// import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
 import { IOS } from '@constants'
 import _ from '@styles'
 import navigationsParams, { initialHomeTabName } from '../navigations'
-import HomeScreen from './screens/home'
+// import HomeScreen from './screens/home'
 import config from './stacks/config'
 
-const TabBarComponent = props => <BottomTabBar {...props} />
+// const TabBarComponent = props => <BottomTabBar {...props} />
 
-const HomeTab = createBottomTabNavigator(
-  {
-    Discovery,
-    Timeline,
-    Home: HomeScreen,
-    Rakuen,
-    User
-  },
-  {
-    initialRouteName: initialHomeTabName,
-    tabBarComponent: props => {
-      if (IOS) {
-        return (
-          <BlurView tint='default' intensity={100} style={styles.blurView}>
-            <TabBarComponent {...props} style={styles.tabBarComponent} />
-          </BlurView>
-        )
-      }
-      return (
-        <View style={styles.tarBarView}>
-          <TabBarComponent {...props} style={styles.tabBarComponent} />
-        </View>
-      )
-    },
-    tabBarOptions: {
-      activeTintColor: _.colorMain,
-      inactiveTintColor: _.colorDesc
-    },
-    navigationOptions: ({ navigation, screenProps }) =>
-      getActiveChildNavigationOptions(navigation, screenProps)
-  }
-)
+// const HomeTab = createBottomTabNavigator(
+//   {
+//     Discovery,
+//     Timeline,
+//     Home: HomeScreen,
+//     Rakuen,
+//     User
+//   },
+//   {
+//     initialRouteName: initialHomeTabName,
+//     tabBarComponent: props => {
+//       if (IOS) {
+//         return (
+//           <BlurView tint='default' intensity={100} style={styles.blurView}>
+//             <TabBarComponent {...props} style={styles.tabBarComponent} />
+//           </BlurView>
+//         )
+//       }
+//       return (
+//         <View style={styles.tarBarView}>
+//           <TabBarComponent {...props} style={styles.tabBarComponent} />
+//         </View>
+//       )
+//     },
+//     tabBarOptions: {
+//       activeTintColor: _.colorMain,
+//       inactiveTintColor: _.colorDesc
+//     },
+//     navigationOptions: ({ navigation, screenProps }) =>
+//       getActiveChildNavigationOptions(navigation, screenProps)
+//   }
+// )
 
 const HomeStack = createStackNavigator(
   {
-    Anitama,
-    Award,
-    Calendar,
-    Character,
-    Discovery,
-    Friends,
-    Group,
-    HomeTab,
-    Login,
-    LoginAssist,
-    LoginV2,
-    Mono,
-    Notify,
-    Qiafan,
-    Rakuen,
-    RakuenSetting,
-    Random,
-    Rank,
-    Say,
-    Search,
-    Setting,
-    Subject,
-    Tag,
-    Tags,
-    Timeline,
-    Tinygrail,
-    TinygrailBid,
-    TinygrailCharaAssets,
-    TinygrailDeal,
-    TinygrailICO,
-    TinygrailICODeal,
-    TinygrailLogs,
-    TinygrailNew,
-    TinygrailOverview,
-    TinygrailRich,
-    TinygrailSearch,
-    TinygrailTrade,
-    Topic,
-    UGCAgree,
-    User,
-    Video,
-    WebView,
-    Zone
+    Anitama
+    // Award,
+    // Calendar,
+    // Character,
+    // Discovery,
+    // Friends,
+    // Group,
+    // HomeTab,
+    // Login,
+    // LoginAssist,
+    // LoginV2,
+    // Mono,
+    // Notify,
+    // Qiafan,
+    // Rakuen,
+    // RakuenSetting,
+    // Random,
+    // Rank,
+    // Say,
+    // Search,
+    // Setting,
+    // Subject,
+    // Tag,
+    // Tags,
+    // Timeline,
+    // Tinygrail,
+    // TinygrailBid,
+    // TinygrailCharaAssets,
+    // TinygrailDeal,
+    // TinygrailICO,
+    // TinygrailICODeal,
+    // TinygrailLogs,
+    // TinygrailNew,
+    // TinygrailOverview,
+    // TinygrailRich,
+    // TinygrailSearch,
+    // TinygrailTrade,
+    // Topic,
+    // UGCAgree,
+    // User,
+    // Video,
+    // WebView,
+    // Zone
   },
   {
     ...navigationsParams,

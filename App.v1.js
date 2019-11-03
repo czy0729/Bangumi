@@ -1,11 +1,12 @@
+
 /*
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-21 09:47:00
+ * @Last Modified time: 2019-11-03 05:25:44
  */
 import React from 'react'
-import { StyleSheet, View, NativeModules } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { useScreens } from 'react-native-screens'
 import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
@@ -18,9 +19,7 @@ import _ from '@styles'
 import theme from '@styles/theme'
 import Navigations from './navigations/index'
 
-/**
- * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
- */
+// https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
 useScreens()
 
 console.disableYellowBox = true
@@ -47,21 +46,6 @@ global.log = (value, space) => {
   console.log(JSON.stringify(value, handleCircular(), space))
 }
 
-/**
- * 马上隐藏SplashScreen
- */
-const { ExponentSplashScreen: SplashScreen = {} } = NativeModules
-export function preventAutoHide() {
-  if (SplashScreen.preventAutoHide) {
-    SplashScreen.preventAutoHide()
-  }
-}
-export function hide() {
-  if (SplashScreen.hide) {
-    SplashScreen.hide()
-  }
-}
-
 export default
 @observer
 class App extends React.Component {
@@ -69,47 +53,27 @@ class App extends React.Component {
     isLoadingComplete: false
   }
 
-  componentDidMount() {
-    this.loadResourcesAsync()
-  }
-
   componentDidCatch(error) {
     hm(`error?error=${error}`, '错误')
   }
 
-  loadResourcesAsync = async () => {
-    const res = Promise.all([
-      Stores.init()
-      // Asset.loadAsync([]),
-      // Font.loadAsync({
-      //   bgm: require('./assets/fonts/AppleColorEmoji.ttf')
-      // })
-    ])
-    await res
-
-    this.handleFinishLoading()
+  loadResourcesAsync = () =>
     Promise.all([
+      Stores.init(),
+      // Asset.loadAsync([]),
       Font.loadAsync({
         bgm: require('./assets/fonts/AppleColorEmoji.ttf')
       })
     ])
-
-    return res
-  }
 
   handleLoadingError = error => {
     console.warn(error)
   }
 
   handleFinishLoading = () => {
-    this.setState(
-      {
-        isLoadingComplete: true
-      },
-      () => {
-        // hide()
-      }
-    )
+    this.setState({
+      isLoadingComplete: true
+    })
   }
 
   closeImageViewer = () => {
@@ -117,21 +81,17 @@ class App extends React.Component {
   }
 
   render() {
-    // const { skipLoadingScreen } = this.props
+    const { skipLoadingScreen } = this.props
     const { isLoadingComplete } = this.state
-    if (!isLoadingComplete) {
-      return null
+    if (!isLoadingComplete && !skipLoadingScreen) {
+      return (
+        <AppLoading
+          startAsync={this.loadResourcesAsync}
+          onFinish={this.handleFinishLoading}
+          onError={this.handleLoadingError}
+        />
+      )
     }
-
-    // if (!isLoadingComplete && !skipLoadingScreen) {
-    //   return (
-    //     <AppLoading
-    //       startAsync={this.loadResourcesAsync}
-    //       onFinish={this.handleFinishLoading}
-    //       onError={this.handleLoadingError}
-    //     />
-    //   )
-    // }
 
     const { visible, imageUrls } = systemStore.imageViewer
     return (
