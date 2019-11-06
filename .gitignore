@@ -6,6 +6,7 @@ KEYSTORE.MD
 android/
 bangumi.jks
 bangumi.mobileprovision
+dist/
 iPhoneDistribution.p12
 ios/
 node_modules

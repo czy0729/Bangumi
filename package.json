@@ -4,7 +4,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "export": "expo export --public-url https://github.com/czy0729/Bangumi/raw/ota/web/dist",
+    "export": "expo export --public-url https://cdn.jsdelivr.net/gh/czy0729/Bangumi-OTA",
     "eject": "expo eject",
     "test": "node ./node_modules/jest/bin/jest.js --watchAll"
   },
