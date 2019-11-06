@@ -5,7 +5,7 @@
     "privacy": "public",
     "sdkVersion": "33.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.4.3",
+    "version": "1.5.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -15,7 +15,6 @@
     },
     "updates": {
       "enabled": false,
-      "checkAutomatically": "ON_ERROR_RECOVERY",
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
@@ -25,7 +24,11 @@
     },
     "android": {
       "package": "com.czy0729.bangumi",
-      "versionCode": 12
+      "versionCode": 14,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/foreground.png",
+        "backgroundColor": "#000000"
+      }
     },
     "androidStatusBar": {
       "barStyle": "dark-content",
