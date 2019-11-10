@@ -3,7 +3,7 @@
     "name": "Bangumi",
     "slug": "bangumi",
     "privacy": "public",
-    "sdkVersion": "33.0.0",
+    "sdkVersion": "35.0.0",
     "platforms": ["ios", "android"],
     "version": "1.5.0",
     "orientation": "portrait",
@@ -35,6 +35,9 @@
       "backgroundColor": "#ffffff"
     },
     "description": "A React Native App for https://bgm.tv ",
-    "githubUrl": "https://github.com/czy0729/Bangumi"
-  }
+    "githubUrl": "https://github.com/czy0729/Bangumi",
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  },
+  "displayName": "Bangumi",
+  "name": "czy0729.bangumi"
 }

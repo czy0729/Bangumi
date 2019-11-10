@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 20:10:21
+ * @Last Modified time: 2019-11-10 13:52:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,9 +10,17 @@ import PropTypes from 'prop-types'
 import { StatusBarEvents, Popover, Menu, Flex, Iconfont } from '@components'
 import { IconBack } from '@screens/_'
 import { gradientColor } from '@utils'
-import { IOS } from '@constants'
+import { IOS, BARE } from '@constants'
 import _ from '@styles'
 import observer from './observer'
+
+const defaultHeaderStyle = {
+  backgroundColor: 'transparent'
+}
+if (!IOS && BARE) {
+  defaultHeaderStyle.height = _.statusBarHeight + 52
+  defaultHeaderStyle.paddingTop = _.statusBarHeight
+}
 
 /**
  * @param {*} headerTransition 过渡头高度
@@ -30,9 +38,7 @@ const withTransitionHeader = ({
   return observer(
     class withTransitionHeaderComponent extends React.Component {
       static navigationOptions = ({ navigation }) => {
-        const headerStyle = navigation.getParam('headerStyle', {
-          backgroundColor: 'transparent'
-        })
+        const headerStyle = navigation.getParam('headerStyle')
 
         // 透明默认颜色是colorPlain, 非透明是colorTitle
         const headerTintColor = navigation.getParam(
@@ -96,7 +102,10 @@ const withTransitionHeader = ({
           // @todo headerTitle优先级应比title大
           title: navigation.getParam('title'),
           headerTransparent: true,
-          headerStyle,
+          headerStyle: {
+            ...defaultHeaderStyle,
+            ...headerStyle
+          },
           headerTintColor,
           headerLeft: (
             <IconBack navigation={navigation} color={headerTintColor} />
@@ -166,6 +175,7 @@ const withTransitionHeader = ({
             title,
             headerTintColor: gradientColorSteps[parseInt(opacity * 100)],
             headerStyle: {
+              ...defaultHeaderStyle,
               backgroundColor: 'transparent',
               borderBottomWidth: 0
             }
@@ -175,6 +185,7 @@ const withTransitionHeader = ({
             title,
             headerTintColor: gradientColorSteps[parseInt(opacity * 100)],
             headerStyle: {
+              ...defaultHeaderStyle,
               backgroundColor: `rgba(255, 255, 255, ${opacity})`,
               borderBottomWidth: isTransitioned ? StyleSheet.hairlineWidth : 0,
               borderBottomColor: _.colorBorder

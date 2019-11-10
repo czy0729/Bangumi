@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 18:35:59
+ * @Last Modified time: 2019-11-10 12:34:34
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
