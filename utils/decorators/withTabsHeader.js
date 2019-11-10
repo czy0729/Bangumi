@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:10:23
+ * @Last Modified time: 2019-11-10 12:52:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { BlurView } from 'expo-blur'
 import { StatusBarEvents } from '@components'
 import { Logo } from '@screens/_'
-import { IOS } from '@constants'
+import { IOS, BARE } from '@constants'
 import _ from '@styles'
 import observer from './observer'
 
@@ -53,7 +53,8 @@ const withTabsHeader = () => ComposedComponent =>
         } else {
           withTabsHeaderOptions = {
             headerStyle: {
-              height: _.headerHeight - _.statusBarHeight,
+              height: _.headerHeight - (BARE ? 0 : _.statusBarHeight),
+              paddingTop: BARE ? _.statusBarHeight : 0,
               elevation: 0
             },
             headerTitle: <Logo />,

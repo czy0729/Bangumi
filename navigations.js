@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-03 06:06:47
+ * @Last Modified time: 2019-11-10 13:53:12
  */
 export default {
-  initialRouteName: 'Anitama', // HomeTab
+  initialRouteName: 'HomeTab', // HomeTab
   initialRouteParams: {
     // id: 19402913
     // subjectId: 100444 // 238923 100444 204135
