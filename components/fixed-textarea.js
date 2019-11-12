@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:33:11
+ * @Last Modified time: 2019-11-12 20:54:01
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -189,13 +189,15 @@ export default class FixedTextarea extends React.Component {
   }
 
   showBgm = () => {
-    this.setState({
-      showBgm: true
-    })
-
     setTimeout(() => {
       const ref = this.ref.textAreaRef
       ref.blur()
+
+      setTimeout(() => {
+        this.setState({
+          showBgm: true
+        })
+      }, 0)
     }, 0)
   }
 
@@ -310,7 +312,11 @@ export default class FixedTextarea extends React.Component {
   }
 
   renderBgm() {
-    const { showTextarea, keyboardHeight, history } = this.state
+    const { showTextarea, showBgm, keyboardHeight, history } = this.state
+    if (!showBgm) {
+      return null
+    }
+
     if (!showTextarea || !keyboardHeight) {
       return null
     }
