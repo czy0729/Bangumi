@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-03 05:56:45
+ * @Last Modified time: 2019-11-11 01:00:41
  */
 import React from 'react'
 import {
@@ -11,6 +11,7 @@ import {
   // NativeModules
 } from 'react-native'
 import { useScreens } from 'react-native-screens'
+import SplashScreen from 'react-native-splash-screen'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
 import { ImageViewer } from '@components'
@@ -110,7 +111,8 @@ class App extends React.Component {
         isLoadingComplete: true
       },
       () => {
-        // hide()
+        // eslint-disable-next-line no-unused-expressions
+        SplashScreen && SplashScreen.hide && SplashScreen.hide()
       }
     )
   }

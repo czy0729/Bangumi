@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-11 10:49:12
+ * @Last Modified time: 2019-11-10 15:52:24
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -110,7 +110,7 @@ class Subject extends React.Component {
     const image = images.medium || _image
     return (
       <>
-        <BlurView style={styles.blurView} theme='dark' src={image} />
+        <BlurView style={styles.blurView} theme='dark' src={_image || image} />
         <ListView
           style={_.container.flex}
           contentContainerStyle={styles.contentContainerStyle}

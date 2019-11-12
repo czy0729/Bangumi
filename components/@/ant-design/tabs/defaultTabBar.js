@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import _ from '@styles'
 import { WithTheme } from '../style'
 import TabBarStyles from './style'
 
@@ -25,8 +26,8 @@ export class DefaultTabBar extends React.PureComponent {
     page: 5,
     tabBarUnderlineStyle: {},
     tabBarBackgroundColor: 'transparent',
-    tabBarActiveTextColor: '',
-    tabBarInactiveTextColor: '',
+    tabBarActiveTextColor: _.colorDesc,
+    tabBarInactiveTextColor: _.colorDesc,
     tabBarTextStyle: {},
     dynamicTabUnderlineWidth: false
   }
@@ -97,12 +98,14 @@ export class DefaultTabBar extends React.PureComponent {
     newScrollX = newScrollX >= 0 ? newScrollX : 0
 
     if (Platform.OS === 'android') {
-      this._scrollView.scrollTo({ x: newScrollX, y: 0, animated: false })
+      this._scrollView &&
+        this._scrollView.scrollTo({ x: newScrollX, y: 0, animated: false })
     } else {
       const rightBoundScroll =
         this._tabContainerMeasurements.width - this._containerMeasurements.width
       newScrollX = newScrollX > rightBoundScroll ? rightBoundScroll : newScrollX
-      this._scrollView.scrollTo({ x: newScrollX, y: 0, animated: false })
+      this._scrollView &&
+        this._scrollView.scrollTo({ x: newScrollX, y: 0, animated: false })
     }
   }
 

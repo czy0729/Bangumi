@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:33:18
+ * @Last Modified time: 2019-11-10 19:43:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,15 +27,16 @@ const spanMark = {
   lineThrough: 'line-through;',
   hidden: 'visibility:hidden;'
 }
+const defaultBaseFontStyle = {
+  fontSize: 16 + _.fontSizeAdjust,
+  lineHeight: 26,
+  color: _.colorTitle
+}
 
 export default class RenderHtml extends React.Component {
   static defaultProps = {
     style: undefined,
-    baseFontStyle: {
-      fontSize: 16 + _.fontSizeAdjust,
-      lineHeight: 26,
-      color: _.colorTitle
-    },
+    baseFontStyle: defaultBaseFontStyle,
     linkStyle: {},
     imagesMaxWidth: _.window.width - 2 * _.wind,
     html: '',
@@ -48,7 +49,10 @@ export default class RenderHtml extends React.Component {
    */
   generateConfig = (imagesMaxWidth, baseFontStyle, linkStyle) => ({
     imagesMaxWidth: _.window.width,
-    baseFontStyle,
+    baseFontStyle: {
+      ...defaultBaseFontStyle,
+      ...baseFontStyle
+    },
     tagsStyles: {
       a: {
         paddingRight: _.sm,
@@ -117,7 +121,13 @@ export default class RenderHtml extends React.Component {
             }
           }
           return (
-            <MaskText key={key} style={baseFontStyle}>
+            <MaskText
+              key={key}
+              style={{
+                ...defaultBaseFontStyle,
+                ...baseFontStyle
+              }}
+            >
               {text}
             </MaskText>
           )
@@ -134,7 +144,13 @@ export default class RenderHtml extends React.Component {
             (target.children[0] && target.children[0].data) ||
             ''
           return (
-            <LineThroughtText key={key} style={baseFontStyle}>
+            <LineThroughtText
+              key={key}
+              style={{
+                ...defaultBaseFontStyle,
+                ...baseFontStyle
+              }}
+            >
               {text}
             </LineThroughtText>
           )
@@ -145,7 +161,13 @@ export default class RenderHtml extends React.Component {
           const target = rawChildren[0]
           const text = (target && target.data) || ''
           return (
-            <HiddenText key={key} style={baseFontStyle}>
+            <HiddenText
+              key={key}
+              style={{
+                ...defaultBaseFontStyle,
+                ...baseFontStyle
+              }}
+            >
               {text}
             </HiddenText>
           )
@@ -219,7 +241,10 @@ export default class RenderHtml extends React.Component {
       <View style={style}>
         <HTML
           html={this.formatHTML()}
-          baseFontStyle={baseFontStyle}
+          baseFontStyle={{
+            ...defaultBaseFontStyle,
+            ...baseFontStyle
+          }}
           onLinkPress={this.onLinkPress}
           {...this.generateConfig(imagesMaxWidth, baseFontStyle, linkStyle)}
           {...other}

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-21 01:38:27
+ * @Last Modified time: 2019-11-10 15:37:05
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -169,8 +169,8 @@ export default class ScreenRakuen extends store {
             data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
             onSelect={this.onGroupMenuPress}
           >
-            <Text size={10} type='sub' lineHeight={13}>
-              <Text size={13}>小组</Text>{' '}
+            <Text size={11} type='sub' lineHeight={14}>
+              <Text size={14}>小组</Text>{' '}
               {MODEL_RAKUEN_TYPE_GROUP.getLabel(group)}
             </Text>
           </Popover>
@@ -182,16 +182,16 @@ export default class ScreenRakuen extends store {
             data={MODEL_RAKUEN_TYPE_MONO.data.map(item => item.label)}
             onSelect={this.onMonoMenuPress}
           >
-            <Text size={10} type='sub' lineHeight={13}>
-              <Text size={13}>人物</Text>{' '}
+            <Text size={11} type='sub' lineHeight={14}>
+              <Text size={14}>人物</Text>{' '}
               {MODEL_RAKUEN_TYPE_MONO.getLabel(mono)}
             </Text>
           </Popover>
         )
       } else {
         _tabs[index].title = (
-          <Text size={10} type='sub' lineHeight={13}>
-            <Text size={13}>{title}</Text>
+          <Text size={11} type='sub' lineHeight={14}>
+            <Text size={14}>{title}</Text>
           </Text>
         )
       }

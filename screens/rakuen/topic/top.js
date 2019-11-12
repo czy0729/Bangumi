@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 14:06:20
+ * @Last Modified time: 2019-11-10 16:18:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -114,7 +114,7 @@ function Top(props, { $, navigation }) {
               <Avatar
                 navigation={navigation}
                 size={40}
-                src={userAvatar}
+                src={_avatar || userAvatar}
                 userId={userId}
               />
             )}
