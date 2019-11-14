@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-11 01:00:41
+ * @Last Modified time: 2019-11-13 10:03:19
  */
 import React from 'react'
 import {
@@ -26,45 +26,6 @@ import Navigations from './navigations/index'
  * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
  */
 useScreens()
-
-console.disableYellowBox = true
-
-/**
- * 能打印循环引用
- */
-global.log = (value, space) => {
-  const handleCircular = () => {
-    const cache = []
-    const keyCache = []
-    return (key, value) => {
-      if (typeof value === 'object' && value !== null) {
-        const index = cache.indexOf(value)
-        if (index !== -1) {
-          return `[Circular ${keyCache[index]}]`
-        }
-        cache.push(value)
-        keyCache.push(key || 'root')
-      }
-      return value
-    }
-  }
-  console.log(JSON.stringify(value, handleCircular(), space))
-}
-
-/**
- * 马上隐藏SplashScreen
- */
-// const { ExponentSplashScreen: SplashScreen = {} } = NativeModules
-// export function preventAutoHide() {
-//   if (SplashScreen.preventAutoHide) {
-//     SplashScreen.preventAutoHide()
-//   }
-// }
-// export function hide() {
-//   if (SplashScreen.hide) {
-//     SplashScreen.hide()
-//   }
-// }
 
 export default
 @observer

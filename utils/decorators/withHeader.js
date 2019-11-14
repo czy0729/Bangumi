@@ -2,15 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:34:12
+ * @Last Modified time: 2019-11-12 22:52:23
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { StatusBarEvents, Flex, Popover, Menu, Iconfont } from '@components'
 import { IconBack } from '@screens/_'
-import { IOS } from '@constants'
+import { IOS, BARE } from '@constants'
 import _ from '@styles'
 import observer from './observer'
+
+const defaultHeaderStyle = {}
+if (!IOS && BARE) {
+  defaultHeaderStyle.height = _.statusBarHeight + 52
+  defaultHeaderStyle.paddingTop = _.statusBarHeight
+}
 
 const withHeader = ({
   headerStyle,
@@ -78,6 +84,7 @@ const withHeader = ({
                 borderBottomColor: _.colorBorder,
                 borderBottomWidth: StyleSheet.hairlineWidth,
                 elevation: 0,
+                ...defaultHeaderStyle,
                 ...headerStyle
               },
           headerTitleStyle: {

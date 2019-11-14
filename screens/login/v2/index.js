@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-27 11:18:59
+ * @Last Modified time: 2019-11-14 17:33:23
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
@@ -40,7 +40,8 @@ export default class LoginV2 extends React.Component {
     base64: '',
     loading: false,
     info: '',
-    retry: 0
+    retry: 0,
+    focus: false
   }
 
   userAgent = ''
@@ -405,6 +406,20 @@ export default class LoginV2 extends React.Component {
     navigation.popToTop()
   }
 
+  onFocus = () => {
+    this.setState({
+      focus: true
+    })
+    console.log('onFocus')
+  }
+
+  onBlur = () => {
+    this.setState({
+      focus: false
+    })
+    console.log('onBlur')
+  }
+
   /**
    * 输入框变化
    */
@@ -466,6 +481,8 @@ export default class LoginV2 extends React.Component {
         loading={loading}
         info={info}
         onGetCaptcha={this.getCaptcha}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
         onChange={this.onChange}
         onLogin={this.onLogin}
       />
@@ -473,7 +490,7 @@ export default class LoginV2 extends React.Component {
   }
 
   render() {
-    const { clicked } = this.state
+    const { clicked, focus } = this.state
     return (
       <View style={[_.container.flex, styles.gray]}>
         <StatusBarEvents backgroundColor={backgroundColor} />
@@ -482,13 +499,15 @@ export default class LoginV2 extends React.Component {
           {clicked ? this.renderForm() : this.renderPreview()}
         </View>
         {clicked ? (
-          <View style={styles.ps}>
-            <Text size={12} lineHeight={14} type='sub'>
-              隐私策略: 我们十分尊重您的个人隐私, 信息仅存储于您的设备中,
-              我们不会收集上述信息. (多次尝试登陆后, 会导致一段时间不能再次登陆,
-              可者完全退出后清除应用数据再尝试)
-            </Text>
-          </View>
+          !focus && (
+            <View style={styles.ps}>
+              <Text size={12} lineHeight={14} type='sub'>
+                隐私策略: 我们十分尊重您的个人隐私, 信息仅存储于您的设备中,
+                我们不会收集上述信息. (多次尝试登陆后,
+                会导致一段时间不能再次登陆, 可者完全退出后清除应用数据再尝试)
+              </Text>
+            </View>
+          )
         ) : (
           <Flex style={styles.old}>
             <Flex.Item>

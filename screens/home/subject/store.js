@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-30 20:34:32
+ * @Last Modified time: 2019-11-13 23:11:56
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -377,11 +377,10 @@ export default class ScreenSubject extends store {
           if (this.onlinePlayActionSheetData[index] === '柠萌瞬间') {
             // @notice 像一拳超人第二季这种 要处理EP偏移
             if (isSp) {
-              url = `${NING_MOE_HOST}/bangumi/${this.ningMoeDetail.id}/home`
+              url = `${NING_MOE_HOST}/detail?line=1&eps=1&bangumi_id=${this.ningMoeDetail.id}`
             } else {
-              url = `${NING_MOE_HOST}/bangumi/detail/${
-                this.ningMoeDetail.id
-              }/${item.sort - this.ningMoeEpOffset}/home`
+              url = `${NING_MOE_HOST}/detail?line=1&eps=${item.sort -
+                this.ningMoeEpOffset}&bangumi_id=${this.ningMoeDetail.id}`
             }
           } else {
             // @todo 逻辑比较复杂, 暂时不处理EP偏移

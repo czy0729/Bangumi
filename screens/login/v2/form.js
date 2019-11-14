@@ -2,26 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-16 09:43:43
+ * @Last Modified time: 2019-11-14 17:22:10
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
-import {
-  Flex,
-  Text,
-  Touchable,
-  Input,
-  Button,
-  Image,
-  Mesume
-} from '@components'
-import { IOS } from '@constants'
+import { Flex, Text, Touchable, Input, Button, Mesume } from '@components'
 import _ from '@styles'
 
 export default class Form extends React.Component {
   static defaultProps = {
     forwardRef: Function.prototype,
     onGetCaptcha: Function.prototype,
+    onFocus: Function.prototype,
+    onBlur: Function.prototype,
     onChange: Function.prototype,
     onLogin: Function.prototype
   }
@@ -37,6 +30,8 @@ export default class Form extends React.Component {
       info,
       forwardRef,
       onGetCaptcha,
+      onFocus,
+      onBlur,
       onChange,
       onLogin
     } = this.props
@@ -45,16 +40,7 @@ export default class Form extends React.Component {
       <View style={[_.container.column, styles.gray]}>
         <View style={styles.form}>
           <Flex justify='center'>
-            {IOS ? (
-              <Mesume />
-            ) : (
-              <Image
-                style={styles.gray}
-                width={160}
-                height={128}
-                src={require('@assets/screens/login/login.png')}
-              />
-            )}
+            <Mesume />
           </Flex>
           <Flex style={_.mt.md}>
             <Flex.Item>
@@ -62,6 +48,8 @@ export default class Form extends React.Component {
                 style={styles.input}
                 value={email}
                 placeholder='Email'
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onChange={evt => onChange(evt, 'email')}
               />
             </Flex.Item>
@@ -73,6 +61,8 @@ export default class Form extends React.Component {
                 value={password}
                 placeholder='密码'
                 secureTextEntry
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onChange={evt => onChange(evt, 'password')}
               />
             </Flex.Item>
@@ -84,6 +74,8 @@ export default class Form extends React.Component {
                 style={styles.input}
                 value={captcha}
                 placeholder='验证'
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onChange={evt => onChange(evt, 'captcha')}
               />
             </Flex.Item>
