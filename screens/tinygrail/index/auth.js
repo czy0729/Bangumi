@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:06:14
+ * @Last Modified time: 2019-11-16 15:28:45
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Button, Text } from '@components'
 import { IconBack, Avatar } from '@screens/_'
@@ -52,23 +52,32 @@ function Auth(props, { $, navigation }) {
           )}
         </Flex.Item>
         <Button
-          style={styles.btn}
+          style={[styles.btn, _.ml.sm]}
           type='warning'
           size='sm'
-          loading={loading}
-          onPress={$.doAuth}
+          onPress={() => {
+            Alert.alert('刮刮乐', '消费₵1000购买一张司法刮刮乐彩票?', [
+              {
+                text: '取消'
+              },
+              {
+                text: '确定',
+                onPress: () => $.doLottery(navigation)
+              }
+            ])
+          }}
         >
-          {loading ? '授权中' : '授权'}
+          刮刮乐
         </Button>
-        {/* <Button
+        <Button
           style={[styles.btn, _.ml.sm]}
           type='warning'
           size='sm'
           loading={loading}
           onPress={$.doAuth}
         >
-          签到
-        </Button> */}
+          授权
+        </Button>
       </Flex>
     </View>
   )
@@ -83,7 +92,7 @@ export default observer(Auth)
 
 const styles = StyleSheet.create({
   btn: {
-    width: 80,
+    width: 72,
     backgroundColor: colorIcon,
     borderColor: colorIcon
   }

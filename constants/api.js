@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 16:02:53
+ * @Last Modified time: 2019-11-16 12:02:36
  */
 import { HOST } from './index'
 
@@ -301,3 +301,9 @@ export const API_TINYGRAIL_TEST = () =>
  */
 export const API_TINYGRAIL_TEMPLE = hash =>
   `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/50`
+
+/**
+ * 司法刮刮乐
+ */
+export const API_TINYGRAIL_SCRATCH = () =>
+  `${API_HOST_TINYGRAIL}/api/event/scratch/bonus`

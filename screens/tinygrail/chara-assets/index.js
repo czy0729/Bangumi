@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 13:48:45
+ * @Last Modified time: 2019-11-16 13:50:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,9 +32,14 @@ class TinygrailCharaAssets extends React.Component {
     navigation: PropTypes.object
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { $ } = this.context
-    $.init()
+    const { form } = $.params
+    if (form === 'lottery') {
+      $.initFormLottery()
+    } else {
+      $.init()
+    }
 
     hm('tinygrail/chara/assets')
   }

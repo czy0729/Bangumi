@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 14:33:00
+ * @Last Modified time: 2019-11-16 15:31:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -82,12 +82,11 @@ function Item(props, { navigation }) {
     _end = `${end}+${timezone}:00`
   }
   let extra = isICO
-    ? `${formatTime(_end)} / 已筹集${totalText}`
-    : `${lastDate(
-        getTimestamp(fixedTime(lastOrder))
-      )} / 总${marketValueText} / 量${totalText}`
+    ? `${formatTime(_end)} / 已筹集${totalText || '-'}`
+    : `${lastDate(getTimestamp(fixedTime(lastOrder)))} / 总${marketValueText ||
+        '-'} / 量${totalText || '-'}`
   if (users && users !== 'ico') {
-    extra += ` / ${users}人`
+    extra += ` / ${users || '-'}人`
   }
 
   let prevText

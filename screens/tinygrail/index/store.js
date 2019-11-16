@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-24 10:37:55
+ * @Last Modified time: 2019-11-16 14:47:13
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -17,7 +17,11 @@ import {
   TINYGRAIL_APP_ID,
   TINYGRAIL_OAUTH_REDIRECT_URL
 } from '@constants'
-import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
+import {
+  API_TINYGRAIL_TEST,
+  API_TINYGRAIL_SCRATCH,
+  API_TINYGRAIL_LOGOUT
+} from '@constants/api'
 
 const namespace = 'ScreenTinygrail'
 const errorStr = '/false'
@@ -175,6 +179,50 @@ export default class ScreenTinygrail extends store {
       )
     } catch (error) {
       info('获取股息预测失败')
+    }
+  }
+
+  /**
+   * 刮刮乐
+   */
+  doLottery = async navigation => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    try {
+      axios.defaults.withCredentials = false
+      const res = axios({
+        method: 'get',
+        url: API_TINYGRAIL_SCRATCH(),
+        headers: {
+          Cookie: tinygrailStore.cookie
+        }
+      })
+
+      const data = await res
+      const { State, Value, Message } = data.data
+      if (State !== 0) {
+        Alert.alert('操作成功', `${Value}，前往持仓查看吗`, [
+          {
+            text: '取消'
+          },
+          {
+            text: '确定',
+            onPress: () => {
+              navigation.push('TinygrailCharaAssets', {
+                form: 'lottery',
+                message: Value
+              })
+            }
+          }
+        ])
+      } else {
+        info(Message)
+      }
+    } catch (error) {
+      info('操作失败，可能授权过期了')
     }
   }
 
