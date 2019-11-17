@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 16:27:09
+ * @Last Modified time: 2019-11-17 13:38:42
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -32,7 +32,8 @@ import {
   API_TINYGRAIL_INITIAL,
   API_TINYGRAIL_JOIN,
   API_TINYGRAIL_USERS,
-  API_TINYGRAIL_TEMPLE
+  API_TINYGRAIL_TEMPLE,
+  API_TINYGRAIL_CHARA_TEMPLE
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -165,7 +166,14 @@ class Tinygrail extends store {
      * 用户圣殿
      */
     temple: {
-      // [hash]: LIST_EMPTY<INIT_TEMPLE_ITEM>
+      // [monoId]: LIST_EMPTY<INIT_TEMPLE_ITEM>
+    },
+
+    /**
+     * 角色圣殿
+     */
+    charaTemple: {
+      // [monoId]: LIST_EMPTY
     },
 
     /**
@@ -195,7 +203,8 @@ class Tinygrail extends store {
         'myCharaAssets',
         'balance',
         'iconsCache',
-        'temple'
+        'temple',
+        'charaTemple'
       ],
       NAMESPACE
     )
@@ -269,6 +278,10 @@ class Tinygrail extends store {
     return computed(() => this.state.temple[hash]).get() || LIST_EMPTY
   }
 
+  charaTemple(id) {
+    return computed(() => this.state.charaTemple[id]).get() || LIST_EMPTY
+  }
+
   // -------------------- fetch --------------------
   /**
    * 人物数据
@@ -311,6 +324,7 @@ class Tinygrail extends store {
           name: item.Name,
           icon: item.Icon,
           bonus: item.Bonus,
+          rate: item.Rate,
           _loaded: getTimestamp()
         }
       })
@@ -1083,6 +1097,50 @@ class Tinygrail extends store {
     this.setState({
       [key]: {
         [hash]: data
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 角色圣殿
+   */
+  fetchCharaTemple = async (id = 0) => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_CHARA_TEMPLE(id),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.map(item => ({
+          avatar: item.Avatar,
+          id: item.CharacterId,
+          cover: item.Cover,
+          name: item.Name,
+          nickname: item.Nickname,
+          level: item.Level,
+          sacrifices: item.Sacrifices
+        })),
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'charaTemple'
+    this.setState({
+      [key]: {
+        [id]: data
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

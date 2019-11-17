@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:09:50
+ * @Last Modified time: 2019-11-17 12:58:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -30,6 +30,7 @@ function Info(props, { $ }) {
             shadow
             placholder={false}
             imageViewer
+            imageViewerSrc={tinygrailOSS(getCoverLarge(icon), 480)}
           />
         </Flex>
       )}

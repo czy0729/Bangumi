@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 00:58:14
+ * @Last Modified time: 2019-11-17 12:33:58
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -18,7 +18,8 @@ export const INIT_CHARACTERS_ITEM = {
   total: 0, // 发行量
   marketValue: 0, // 市值
   users: 0, // ico人数
-  name: '' // 人物中文名
+  name: '', // 人物中文名
+  rate: ''
 }
 
 export const INIT_RICH = {

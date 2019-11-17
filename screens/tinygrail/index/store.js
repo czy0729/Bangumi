@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-16 14:47:13
+ * @Last Modified time: 2019-11-17 01:35:56
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -30,6 +30,7 @@ const maxErrorCount = 3
 export default class ScreenTinygrail extends store {
   state = observable({
     loading: false,
+    loadingAssets: false,
     currentBalance: 0,
     currentTotal: 0,
     lastBalance: 0,
@@ -63,7 +64,18 @@ export default class ScreenTinygrail extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchCharaAssets = () => tinygrailStore.fetchCharaAssets(this.hash)
+  fetchCharaAssets = async () => {
+    this.setState({
+      loadingAssets: true
+    })
+    const res = tinygrailStore.fetchCharaAssets(this.hash)
+    await res
+    this.setState({
+      loadingAssets: false
+    })
+
+    return res
+  }
 
   refresh = async () => {
     const res = Promise.all([
@@ -203,7 +215,7 @@ export default class ScreenTinygrail extends store {
 
       const data = await res
       const { State, Value, Message } = data.data
-      if (State !== 0) {
+      if (State === 0) {
         Alert.alert('操作成功', `${Value}，前往持仓查看吗`, [
           {
             text: '取消'

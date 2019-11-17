@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:32:17
+ * @Last Modified time: 2019-11-17 05:17:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -138,6 +138,10 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorBid,
     borderColor: _.colorBid
   },
+  ask: {
+    backgroundColor: _.colorAsk,
+    borderColor: _.colorAsk
+  },
 
   // ghost type
   ghostPlain: {
@@ -194,6 +198,9 @@ const styles = StyleSheet.create({
     color: _.colorPlain
   },
   textBid: {
+    color: _.colorPlain
+  },
+  textAsk: {
     color: _.colorPlain
   },
   textGhostPlain: {

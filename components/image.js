@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 18:23:32
+ * @Last Modified time: 2019-11-17 14:09:06
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -43,6 +43,7 @@ export default class Image extends React.Component {
     autoSize: 0, // 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例
     quality: true, // 是否自动选择Bangumi图片质量
     imageViewer: false, // 是否点击显示全局的ImageViewer, 此值打开会覆盖onPress
+    imageViewerSrc: undefined, // 若有值, 打开ImageViewer时使用此src
     delay: true,
     onPress: undefined,
     onLongPress: undefined,
@@ -238,6 +239,7 @@ export default class Image extends React.Component {
       autoSize,
       quality,
       imageViewer,
+      imageViewerSrc,
       headers,
       delay,
       onPress,
@@ -347,10 +349,14 @@ export default class Image extends React.Component {
     let _onPress = onPress
     if (imageViewer) {
       _onPress = () => {
+        let _imageViewerSrc = imageViewerSrc
+        if (_imageViewerSrc.indexOf('http') !== 0) {
+          _imageViewerSrc = undefined
+        }
         showImageViewer([
           {
-            url: uri,
-            _url: src,
+            url: _imageViewerSrc || uri,
+            _url: _imageViewerSrc || src,
             headers
           }
         ])

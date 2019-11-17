@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 21:16:41
+ * @Last Modified time: 2019-11-17 02:21:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -195,7 +195,12 @@ export default class StockPreview extends React.Component {
           {showDetail && (
             <Text
               style={{
-                color: this.isDark ? colorDarkText : _.colorSub
+                paddingLeft: _.wind,
+                paddingRight: _.sm,
+                color: this.isDark ? colorDarkText : _.colorSub,
+                backgroundColor: this.isDark
+                  ? _.colorTinygrailContainer
+                  : _.colorPlain
               }}
               size={12}
             >
@@ -203,7 +208,7 @@ export default class StockPreview extends React.Component {
             </Text>
           )}
           {showFloor ? (
-            <Flex style={_.ml.sm}>
+            <Flex>
               {showDetail && (
                 <Text
                   style={{
@@ -214,7 +219,13 @@ export default class StockPreview extends React.Component {
                   {bids}
                 </Text>
               )}
-              <Flex style={[styles.floor, _.ml.xs]} justify='between'>
+              <Flex
+                style={[
+                  showDetail ? styles.floorShowDetail : styles.floor,
+                  _.ml.xs
+                ]}
+                justify='between'
+              >
                 <View
                   style={[
                     styles.bids,
@@ -304,6 +315,9 @@ const styles = StyleSheet.create({
   },
   floor: {
     width: 72
+  },
+  floorShowDetail: {
+    width: 36
   },
   bids: {
     height: 2,
