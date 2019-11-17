@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 14:26:35
+ * @Last Modified time: 2019-11-17 21:55:54
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -24,6 +24,10 @@ export const tabs = [
   {
     title: '最高市值',
     key: 'mvc'
+  },
+  {
+    title: '最高股息',
+    key: 'msrc'
   },
   {
     title: '最大涨幅',

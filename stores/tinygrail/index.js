@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:05:24
+ * @Last Modified time: 2019-11-17 21:57:02
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -81,6 +81,7 @@ class Tinygrail extends store {
     recent: LIST_EMPTY,
     tnbc: LIST_EMPTY,
     nbc: LIST_EMPTY,
+    msrc: LIST_EMPTY,
 
     /**
      * 番市首富
@@ -1113,7 +1114,9 @@ class Tinygrail extends store {
           id: item.CharacterId,
           cover: item.Cover,
           name: item.Name,
-          sacrifices: item.Sacrifices
+          sacrifices: item.Sacrifices,
+          level: item.Level,
+          rate: item.Rate
         })),
         _loaded: getTimestamp()
       }

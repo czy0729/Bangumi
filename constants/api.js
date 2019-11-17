@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:49:50
+ * @Last Modified time: 2019-11-17 21:54:14
  */
 import { HOST } from './index'
 
@@ -146,6 +146,7 @@ export const API_TINYGRAIL_CHARAS = () => `${API_HOST_TINYGRAIL}/api/chara/list`
  * recent: 最近活跃
  * tnbc: 新番市值
  * nbc: 新番活跃
+ * msrc: 最高股息
  */
 export const API_TINYGRAIL_LIST = (type, page = 1, limit = TINYGRAIL_LIMIT) =>
   `${API_HOST_TINYGRAIL}/api/chara/${type}/${page}/${limit}`

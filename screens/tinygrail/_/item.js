@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:54:14
+ * @Last Modified time: 2019-11-17 21:50:34
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
@@ -20,6 +20,7 @@ import {
   colorText,
   colorBorder
 } from '../styles'
+import Popover from './popover'
 
 let timezone = new Date().getTimezoneOffset() / -60
 if (String(timezone).length === 1) {
@@ -97,88 +98,94 @@ function Item(props, { navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <Flex align='start'>
-        <Avatar
-          style={styles.image}
-          src={tinygrailOSS(icon)}
-          size={40}
-          borderColor='transparent'
-          onPress={() =>
-            navigation.push('Mono', {
-              monoId: `character/${monoId || id}`
-            })
-          }
-        />
-        <Flex.Item style={!isTop && styles.border}>
-          <Flex align='start'>
-            <Flex.Item style={_.mr.sm}>
-              <Touchable
-                style={styles.item}
-                onPress={() => {
-                  if (isICO) {
-                    navigation.push('TinygrailICODeal', {
-                      monoId: `character/${monoId || id}`
-                    })
-                    return
-                  }
-
-                  if (isDeal) {
-                    navigation.push('TinygrailDeal', {
-                      monoId: `character/${id}`,
-                      type
-                    })
-                    return
-                  }
-
-                  navigation.push('TinygrailTrade', {
-                    monoId: `character/${id}`
+    <Flex style={styles.container} align='start'>
+      <Avatar
+        style={styles.image}
+        src={tinygrailOSS(icon)}
+        size={40}
+        borderColor='transparent'
+        onPress={() =>
+          navigation.push('Mono', {
+            monoId: `character/${monoId || id}`
+          })
+        }
+      />
+      <Flex.Item style={!isTop && styles.border}>
+        <Flex align='start'>
+          <Flex.Item style={_.mr.sm}>
+            <Touchable
+              style={styles.item}
+              onPress={() => {
+                if (isICO) {
+                  navigation.push('TinygrailICODeal', {
+                    monoId: `character/${monoId || id}`
                   })
-                }}
-              >
-                <Flex align='start'>
-                  <Flex.Item>
-                    <Text size={16} type='plain'>
-                      {!isDeal && `${_index}. `}
-                      {name}
-                      {!!bonus && (
-                        <Text size={12} lineHeight={16} type='warning'>
-                          {' '}
-                          X{bonus}
-                        </Text>
-                      )}
-                    </Text>
-                    <Text
-                      style={[
-                        _.mt.xs,
-                        {
-                          color: colorText
-                        }
-                      ]}
-                      size={12}
-                    >
-                      {isDeal && (
-                        <Text
-                          style={{
-                            color: colorMap[type]
-                          }}
-                          size={12}
-                        >
-                          {prevText}
-                        </Text>
-                      )}
-                      {isDeal && ' / '}
-                      {extra}
-                    </Text>
-                  </Flex.Item>
-                </Flex>
-              </Touchable>
-            </Flex.Item>
-            <StockPreview style={_.mr.sm} {...props} _loaded theme='dark' />
-          </Flex>
-        </Flex.Item>
-      </Flex>
-    </View>
+                  return
+                }
+
+                if (isDeal) {
+                  navigation.push('TinygrailDeal', {
+                    monoId: `character/${id}`,
+                    type
+                  })
+                  return
+                }
+
+                navigation.push('TinygrailTrade', {
+                  monoId: `character/${id}`
+                })
+              }}
+            >
+              <Flex align='start'>
+                <Flex.Item>
+                  <Text size={16} type='plain'>
+                    {!isDeal && `${_index}. `}
+                    {name}
+                    {!!bonus && (
+                      <Text size={12} lineHeight={16} type='warning'>
+                        {' '}
+                        X{bonus}
+                      </Text>
+                    )}
+                  </Text>
+                  <Text
+                    style={[
+                      _.mt.xs,
+                      {
+                        color: colorText
+                      }
+                    ]}
+                    size={12}
+                  >
+                    {isDeal && (
+                      <Text
+                        style={{
+                          color: colorMap[type]
+                        }}
+                        size={12}
+                      >
+                        {prevText}
+                      </Text>
+                    )}
+                    {isDeal && ' / '}
+                    {extra}
+                  </Text>
+                </Flex.Item>
+              </Flex>
+            </Touchable>
+          </Flex.Item>
+          <StockPreview
+            style={{
+              marginRight: -_.sm
+            }}
+            {...props}
+            _loaded
+            theme='dark'
+          />
+          {!isICO && <Popover id={monoId || id} />}
+        </Flex>
+      </Flex.Item>
+    </Flex>
   )
 }
 

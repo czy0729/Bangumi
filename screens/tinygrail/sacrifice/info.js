@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 20:11:27
+ * @Last Modified time: 2019-11-17 21:00:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text, Image } from '@components'
+import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge } from '@utils/app'
@@ -16,7 +16,7 @@ import { colorText, colorBid, colorAsk } from '../styles'
 
 const maxSize = _.window.width / 2
 
-function Info(props, { $ }) {
+function Info(props, { $, navigation }) {
   const {
     icon,
     id,
@@ -54,15 +54,27 @@ function Info(props, { $ }) {
           />
         </Flex>
       )}
-      <Text style={_.mt.md} size={16} type='plain' align='center'>
-        #{id} - {name}
-        {!!bonus && (
-          <Text size={12} lineHeight={16} type='warning'>
-            {' '}
-            X{bonus}
+      <Touchable
+        style={_.mt.md}
+        onPress={() =>
+          navigation.push('Mono', {
+            monoId: `character/${id}`
+          })
+        }
+      >
+        <Flex justify='center'>
+          <Text size={16} type='plain'>
+            #{id} - {name}
+            {!!bonus && (
+              <Text size={12} lineHeight={16} type='warning'>
+                {' '}
+                X{bonus}
+              </Text>
+            )}
           </Text>
-        )}
-      </Text>
+          <Iconfont style={_.ml.sm} name='right' size={16} color={colorText} />
+        </Flex>
+      </Touchable>
       <Flex style={_.mt.md} justify='center' align='baseline'>
         <Text
           style={{
@@ -89,7 +101,8 @@ function Info(props, { $ }) {
 }
 
 Info.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(Info)

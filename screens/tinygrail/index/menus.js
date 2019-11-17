@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 01:41:28
+ * @Last Modified time: 2019-11-17 21:55:10
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -15,7 +15,7 @@ import Assets from './assets'
 function Menus() {
   return (
     <Flex style={styles.section} wrap='wrap'>
-      <MenuItem title='交易榜单' pathname='TinygrailOverview' icon='bang-dan' />
+      <MenuItem title='热门榜单' pathname='TinygrailOverview' icon='bang-dan' />
       <MenuItem title='新番榜单' pathname='TinygrailNew' icon='xin-fan' />
       <MenuItem title='ICO榜单' pathname='TinygrailICO' icon='ico' />
       <MenuItem title='番市首富' pathname='TinygrailRich' icon='shou-fu' />

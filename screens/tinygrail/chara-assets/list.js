@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 16:33:40
+ * @Last Modified time: 2019-11-17 21:50:50
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,10 +10,10 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import _ from '@styles'
 import Item from '../_/item'
-import ItemTemple from './item-temple'
+import ItemTemple from '../_/item-temple'
 import { sortList } from '../_/utils'
 
-function List({ index }, { $ }) {
+function List({ index }, { $, navigation }) {
   const { chara, ico, _loaded } = $.myCharaAssets
   if (!_loaded) {
     return <Loading style={_.container.flex} />
@@ -50,7 +50,17 @@ function List({ index }, { $ }) {
       numColumns={numColumns}
       renderItem={({ item, index }) => {
         if (isTemple) {
-          return <ItemTemple index={index} {...item} />
+          return (
+            <ItemTemple
+              index={index}
+              {...item}
+              onPress={() =>
+                navigation.push('TinygrailSacrifice', {
+                  monoId: `character/${item.id}`
+                })
+              }
+            />
+          )
         }
         return (
           <Item
@@ -72,7 +82,8 @@ function List({ index }, { $ }) {
 }
 
 List.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(List)

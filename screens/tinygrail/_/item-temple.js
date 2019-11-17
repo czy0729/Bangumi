@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 14:21:36
+ * @Last Modified time: 2019-11-17 22:00:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,17 +19,19 @@ const imageWidth = _.window.width * 0.28
 const marginLeft = (_.window.width - 3 * imageWidth) / 4
 
 function ItemTemple(
-  { cover, avatar, name, nickname, sacrifices, level, onPress },
+  { cover, avatar, name, nickname, sacrifices, level, rate, onPress },
   { navigation }
 ) {
+  const isFormCharaAssets = !!onPress
+
   let colorLevel
-  let rate = 0.2
+  let plusRate = 0.2
   if (level === 3) {
     colorLevel = _.colorDanger
-    rate = 0.8
+    plusRate = 0.8
   } else if (level === 2) {
     colorLevel = _.colorWarning
-    rate = 0.4
+    plusRate = 0.4
   }
   return (
     <View style={styles.item}>
@@ -48,6 +50,7 @@ function ItemTemple(
         <Flex>
           {!!avatar && (
             <Avatar
+              style={_.mr.sm}
               navigation={navigation}
               size={24}
               src={avatar}
@@ -55,8 +58,12 @@ function ItemTemple(
               borderColor='transparent'
             />
           )}
-          <Flex.Item style={_.ml.sm}>
-            <Text type='plain' size={11} numberOfLines={1}>
+          <Flex.Item>
+            <Text
+              type='plain'
+              size={isFormCharaAssets ? 16 : 13}
+              numberOfLines={1}
+            >
               {HTMLDecode(nickname || name)}
             </Text>
             <Text
@@ -64,9 +71,10 @@ function ItemTemple(
                 marginTop: 2,
                 color: colorText
               }}
-              size={10}
+              size={isFormCharaAssets ? 14 : 12}
+              numberOfLines={1}
             >
-              {sacrifices} / +{rate}
+              {sacrifices} / {rate ? `+${rate.toFixed(2)}` : `+${plusRate}`}
             </Text>
           </Flex.Item>
         </Flex>
