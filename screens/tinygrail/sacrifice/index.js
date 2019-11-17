@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 14:26:22
+ * @Last Modified time: 2019-11-17 19:47:08
  */
 import React from 'react'
 import { StyleSheet, ScrollView, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
+import { IconHeader } from '@screens/_'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
@@ -15,6 +16,8 @@ import StatusBarEvents from '../_/status-bar-events'
 import Info from './info'
 import Slider from './slider'
 import Temples from './temples'
+import Auction from './auction'
+import AuctionList from './auction-list'
 import Store from './store'
 
 export default
@@ -36,8 +39,48 @@ class TinygrailSacrifice extends React.Component {
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     $.init()
+
+    navigation.setParams({
+      extra: (
+        <>
+          <IconHeader
+            name='reverse'
+            size={18}
+            color={_.colorIcon}
+            onPress={() => {
+              const { form, monoId } = $.params
+              if (form === 'deal') {
+                navigation.goBack()
+                return
+              }
+
+              navigation.push('TinygrailDeal', {
+                monoId,
+                form: 'sacrifice'
+              })
+            }}
+          />
+          <IconHeader
+            name='k-line'
+            color={_.colorIcon}
+            onPress={() => {
+              const { form, monoId } = $.params
+              if (form === 'trade') {
+                navigation.goBack()
+                return
+              }
+
+              navigation.push('TinygrailTrade', {
+                monoId,
+                form: 'sacrifice'
+              })
+            }}
+          />
+        </>
+      )
+    })
 
     hm(`tinygrail/sacrifice/${$.monoId}`)
   }
@@ -64,6 +107,7 @@ class TinygrailSacrifice extends React.Component {
     return (
       <ScrollView
         style={[_.container.flex, styles.dark]}
+        contentContainerStyle={_.container.bottom}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
@@ -72,6 +116,8 @@ class TinygrailSacrifice extends React.Component {
         <Info />
         <Slider style={_.mt.sm} />
         <Temples style={_.mt.sm} />
+        <Auction style={_.mt.lg} />
+        <AuctionList style={_.mt.md} />
       </ScrollView>
     )
   }

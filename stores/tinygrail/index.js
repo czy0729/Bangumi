@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 13:38:42
+ * @Last Modified time: 2019-11-17 19:05:24
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -33,7 +33,11 @@ import {
   API_TINYGRAIL_JOIN,
   API_TINYGRAIL_USERS,
   API_TINYGRAIL_TEMPLE,
-  API_TINYGRAIL_CHARA_TEMPLE
+  API_TINYGRAIL_CHARA_TEMPLE,
+  API_TINYGRAIL_VALHALL_CHARA,
+  API_TINYGRAIL_AUCTION_LIST,
+  API_TINYGRAIL_AUCTION,
+  API_TINYGRAIL_SACRIFICE
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -177,6 +181,20 @@ class Tinygrail extends store {
     },
 
     /**
+     * 可竞拍信息
+     */
+    valhallChara: {
+      // [monoId]: {}
+    },
+
+    /**
+     * 上周竞拍记录
+     */
+    auctionList: {
+      // [monoId]: LIST_EMPTY
+    },
+
+    /**
      * iOS此刻是否显示WebView
      * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
@@ -280,6 +298,14 @@ class Tinygrail extends store {
 
   charaTemple(id) {
     return computed(() => this.state.charaTemple[id]).get() || LIST_EMPTY
+  }
+
+  valhallChara(id) {
+    return computed(() => this.state.valhallChara[id]).get() || {}
+  }
+
+  auctionList(id) {
+    return computed(() => this.state.auctionList[id]).get() || LIST_EMPTY
   }
 
   // -------------------- fetch --------------------
@@ -1148,6 +1174,83 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
+  /**
+   * 可竞拍信息
+   */
+  fetchValhallChara = async (id = 0) => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_VALHALL_CHARA(id),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {}
+    const { State, Value } = result.data
+    if (State === 0) {
+      data = {
+        amount: Value.Amount,
+        price: Value.Price,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'valhallChara'
+    this.setState({
+      [key]: {
+        [id]: data
+      }
+    })
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 上周竞拍记录
+   */
+  fetchAuctionList = async (id = 0) => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_AUCTION_LIST(id),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.map(item => ({
+          id: item.CharacterId,
+          name: item.Username,
+          nickname: item.Nickname,
+          time: (item.Bid || '').replace('T', ' ').substring(2, 16),
+          price: item.Price,
+          amount: item.Amount,
+          state: item.State
+        })),
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'auctionList'
+    this.setState({
+      [key]: {
+        [id]: data
+      }
+    })
+
+    return Promise.resolve(data)
+  }
+
   // -------------------- page --------------------
   updateCookie = cookie => {
     this.setState({
@@ -1273,6 +1376,40 @@ class Tinygrail extends store {
     }
 
     return false
+  }
+
+  /**
+   * 资产重组
+   */
+  doSacrifice = async ({ monoId, amount }) => {
+    axios.defaults.withCredentials = false
+    const { data } = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_SACRIFICE(monoId, amount),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    return data
+  }
+
+  /**
+   * 竞拍
+   */
+  doAuction = async ({ monoId, price, amount }) => {
+    axios.defaults.withCredentials = false
+    const { data } = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_AUCTION(monoId, price, amount),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    return data
   }
 }
 

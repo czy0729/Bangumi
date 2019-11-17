@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-16 15:31:59
+ * @Last Modified time: 2019-11-17 19:54:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -126,8 +126,7 @@ function Item(props, { navigation }) {
                   if (isDeal) {
                     navigation.push('TinygrailDeal', {
                       monoId: `character/${id}`,
-                      type,
-                      form: 'item' // @notice 点击K线图跳转特殊处理
+                      type
                     })
                     return
                   }

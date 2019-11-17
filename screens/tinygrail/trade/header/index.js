@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:07:02
+ * @Last Modified time: 2019-11-17 20:02:48
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -63,6 +63,23 @@ function Header({ goBack }, { $, navigation }) {
                 </Text>
               )}
             </Text>
+            <IconHeader
+              style={_.ml.sm}
+              name='licheng'
+              color={_.colorIcon}
+              onPress={() => {
+                const { form, monoId } = $.params
+                if (form === 'sacrifice') {
+                  navigation.goBack()
+                  return
+                }
+
+                navigation.push('TinygrailSacrifice', {
+                  monoId,
+                  form: 'kline'
+                })
+              }}
+            />
           </Flex>
           <Flex style={_.mt.md}>
             <Text size={24} type='plain'>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 11:41:46
+ * @Last Modified time: 2019-11-17 19:49:50
  */
 import { HOST } from './index'
 
@@ -165,7 +165,7 @@ export const API_TINYGRAIL_RICH = (page = 1, limit = TINYGRAIL_LIMIT) =>
  */
 export const API_TINYGRAIL_CHARTS = (
   monoId = 0,
-  date = '2019-08-01T00:00:00+08:00'
+  date = '2019-10-01T00:00:00+08:00'
 ) => `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/${date}`
 
 /**
@@ -338,9 +338,18 @@ export const API_TINYGRAIL_AUCTION_LIST = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/auction/list/${monoId}/1`
 
 /**
+ * 竞拍
+ * @param {*} monoId
+ * @param {*} price
+ * @param {*} amount
+ */
+export const API_TINYGRAIL_AUCTION = (monoId, price, amount) =>
+  `${API_HOST_TINYGRAIL}/api/chara/auction/${monoId}/${price}/${amount}`
+
+/**
  * 资产重组 (献祭)
  * @param {*} monoId
  * @param {*} count
  */
-export const API_TINYGRAIL_SACRIFICE = (monoId, count) =>
-  `${API_HOST_TINYGRAIL}/api/chara/sacrifice/${monoId}/${count}`
+export const API_TINYGRAIL_SACRIFICE = (monoId, amount) =>
+  `${API_HOST_TINYGRAIL}/api/chara/sacrifice/${monoId}/${amount}`

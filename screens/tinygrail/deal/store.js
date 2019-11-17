@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 12:59:45
+ * @Last Modified time: 2019-11-17 19:31:34
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -175,7 +175,7 @@ export default class ScreenTinygrailDeal extends store {
    * 金额格式过滤
    */
   moneyNatural = v => {
-    if (v && !/^(([1-9]\d*)|0)(\.\d{0,1}?)?$/.test(v)) {
+    if (v && !/^(([1-9]\d*)|0)(\.\d{0,2}?)?$/.test(v)) {
       if (v === '.') {
         return '0.'
       }
@@ -217,7 +217,7 @@ export default class ScreenTinygrailDeal extends store {
     }
 
     this.setState({
-      value: _value.toFixed(1)
+      value: _value.toFixed(2)
     })
   }
 
@@ -229,7 +229,7 @@ export default class ScreenTinygrailDeal extends store {
     const _value = parseFloat(this.moneyNatural(value)) + 1
 
     this.setState({
-      value: _value.toFixed(1)
+      value: _value.toFixed(2)
     })
   }
 

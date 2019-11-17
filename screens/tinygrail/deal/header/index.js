@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:05:37
+ * @Last Modified time: 2019-11-17 19:47:36
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -83,18 +83,36 @@ function Header(props, { $, navigation }) {
         </Flex>
       </Flex.Item>
       <IconHeader
+        name='licheng'
+        size={22}
+        color={_.colorIcon}
+        onPress={() => {
+          const { form, monoId } = $.params
+          if (form === 'sacrifice') {
+            navigation.goBack()
+            return
+          }
+
+          navigation.push('TinygrailSacrifice', {
+            monoId,
+            form: 'deal'
+          })
+        }}
+      />
+      <IconHeader
         name='k-line'
         color={_.colorIcon}
         onPress={() => {
           const { form, monoId } = $.params
-          if (form === 'item') {
-            navigation.push('TinygrailTrade', {
-              monoId
-            })
+          if (form === 'trade') {
+            navigation.goBack()
             return
           }
 
-          navigation.goBack()
+          navigation.push('TinygrailTrade', {
+            monoId,
+            form: 'deal'
+          })
         }}
       />
     </Flex>

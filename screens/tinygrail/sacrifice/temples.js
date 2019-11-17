@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 14:10:02
+ * @Last Modified time: 2019-11-17 19:09:34
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont } from '@components'
+import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
 import ItemTemple from '../_/item-temple'
@@ -19,7 +20,7 @@ function Temples({ style }, { $ }) {
   const { list } = $.charaTemple
   const { amount } = $.userLogs
   return (
-    <View style={[styles.container, style]}>
+    <View style={style}>
       <Flex style={styles.info}>
         <Flex.Item>
           <Text
@@ -30,7 +31,7 @@ function Temples({ style }, { $ }) {
           >
             固定资产 {list.length || '-'} /{' '}
             <Text size={18} lineHeight={14} type='warning'>
-              +{rate || '-'}
+              +{rate ? formatNumber(rate) : '-'}
             </Text>
           </Text>
         </Flex.Item>
@@ -69,15 +70,17 @@ function Temples({ style }, { $ }) {
             />
           ))}
       </Flex>
-      <Text
-        style={styles.expand}
-        size={14}
-        type='warning'
-        align='center'
-        onPress={$.toggleExpand}
-      >
-        - {expand ? '收起' : '展开'} -
-      </Text>
+      {list.length > 6 && (
+        <Text
+          style={styles.expand}
+          size={14}
+          type='warning'
+          align='center'
+          onPress={$.toggleExpand}
+        >
+          - {expand ? '收起' : '展开'} -
+        </Text>
+      )}
     </View>
   )
 }
@@ -89,15 +92,12 @@ Temples.contextTypes = {
 export default observer(Temples)
 
 const styles = StyleSheet.create({
-  container: {
-    paddingBottom: _.bottom
-  },
   info: {
     paddingTop: _.md,
     paddingLeft: _.wind,
     paddingRight: _.wind - _.sm
   },
   expand: {
-    paddingVertical: _.sm
+    paddingVertical: _.md
   }
 })

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 05:21:54
+ * @Last Modified time: 2019-11-17 19:04:12
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Alert } from 'react-native'
 import { Slider as AntdSlider } from '@ant-design/react-native'
 import PropTypes from 'prop-types'
 import { Flex, Input, Text, Button } from '@components'
@@ -46,7 +46,21 @@ function Slider({ style }, { $ }) {
             type='ask'
             radius={false}
             loading={loading}
-            onPress={$.doSubmit}
+            onPress={() => {
+              if (loading) {
+                return
+              }
+
+              Alert.alert('小圣杯助手', `确定献祭 ${amount}股?`, [
+                {
+                  text: '取消'
+                },
+                {
+                  text: '确定',
+                  onPress: () => $.doSacrifice()
+                }
+              ])
+            }}
           >
             确定
           </Button>

@@ -2,28 +2,78 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 13:57:03
+ * @Last Modified time: 2019-11-17 19:12:48
  */
+import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { setStorage, getTimestamp, formatNumber } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+
+const namespace = 'ScreenTinygrailSacrifice'
 
 export default class ScreenTinygrailSacrifice extends store {
   state = observable({
     loading: false,
     amount: 500, // 只能是整数
-    expand: false // 展开所有圣殿
+    expand: false, // 展开所有圣殿
+
+    auctionLoading: false,
+    auctionAmount: 0,
+    auctionPrice: 0,
+
+    lastAuction: {
+      price: '',
+      amount: '',
+      time: 0
+    }
   })
 
-  init = () => this.refresh()
+  init = async () => {
+    const lastAuction = this.getStorage(
+      undefined,
+      `${namespace}|lastAuction|${this.monoId}`
+    ) || {
+      price: '',
+      amount: '',
+      time: 0
+    }
+    this.setState({
+      lastAuction
+    })
+
+    const res = this.refresh()
+    await res
+
+    this.fetchValhallChara()
+    tinygrailStore.fetchAuctionList(this.monoId) // 上周拍卖信息
+    return res
+  }
 
   refresh = () =>
     Promise.all([
-      tinygrailStore.fetchCharacters([this.monoId]),
-      tinygrailStore.fetchUserLogs(this.monoId),
-      tinygrailStore.fetchCharaTemple(this.monoId)
+      tinygrailStore.fetchCharacters([this.monoId]), // 角色小圣杯信息
+      tinygrailStore.fetchUserLogs(this.monoId), // 本角色我的交易信息
+      tinygrailStore.fetchCharaTemple(this.monoId), // 固定资产
+      tinygrailStore.fetchAssets() // 自己的资产
     ])
+
+  fetchValhallChara = async () => {
+    let res
+    try {
+      res = tinygrailStore.fetchValhallChara(this.monoId) // 本次拍卖信息
+      const { price } = await res
+      if (price) {
+        this.setState({
+          auctionPrice: (price + 0.01).toFixed(2)
+        })
+      }
+    } catch (error) {
+      // do nothing
+    }
+    return res
+  }
 
   // -------------------- get --------------------
   @computed get monoId() {
@@ -47,18 +97,25 @@ export default class ScreenTinygrailSacrifice extends store {
     return tinygrailStore.charaTemple(this.monoId)
   }
 
+  @computed get assets() {
+    return tinygrailStore.assets
+  }
+
+  @computed get valhallChara() {
+    return tinygrailStore.valhallChara(this.monoId)
+  }
+
+  @computed get auctionList() {
+    return tinygrailStore.auctionList(this.monoId)
+  }
+
   // -------------------- action --------------------
   /**
-   * 注资
+   * 资产重组
    */
-  doSubmit = async () => {
-    const { loading, amount } = this.state
+  doSacrifice = async () => {
+    const { loading } = this.state
     if (loading) {
-      return
-    }
-
-    if (!amount || amount < 1000) {
-      info('必须大于1000')
       return
     }
 
@@ -66,24 +123,94 @@ export default class ScreenTinygrailSacrifice extends store {
       loading: true
     })
 
-    const { icoId } = this.chara
-    const result = await tinygrailStore.doJoin({
-      id: icoId,
-      amount
-    })
-
-    if (!result) {
-      info('注资失败')
+    const { amount } = this.state
+    if (!amount) {
+      info('请输入数量')
       this.setState({
         loading: false
       })
       return
     }
 
-    info('注资成功')
+    const { State, Value, Message } = await tinygrailStore.doSacrifice({
+      monoId: this.monoId,
+      amount
+    })
+
+    if (State !== 0) {
+      info(Message)
+      this.setState({
+        loading: false
+      })
+      return
+    }
+
+    Alert.alert(
+      '小圣杯助手',
+      `融资完成！获得资金 ₵${formatNumber(Value.Balance)} ${
+        Value.Items.length ? '掉落道具' : ''
+      } ${Value.Items.map(item => `「${item.Name}」×${item.Count}`).join(' ')}`,
+      [
+        {
+          text: '确定'
+        }
+      ]
+    )
     this.setState({
-      amount: 1000,
       loading: false
+    })
+    this.refresh()
+  }
+
+  /**
+   * 竞拍
+   */
+  doAuction = async () => {
+    const { auctionLoading } = this.state
+    if (auctionLoading) {
+      return
+    }
+
+    this.setState({
+      auctionLoading: true
+    })
+
+    const { auctionAmount, auctionPrice } = this.state
+    if (!auctionPrice) {
+      info('请输入价格')
+      this.setState({
+        auctionLoading: false
+      })
+      return
+    }
+
+    if (!auctionAmount) {
+      info('请输入数量')
+      this.setState({
+        auctionLoading: false
+      })
+      return
+    }
+
+    const { State, Value, Message } = await tinygrailStore.doAuction({
+      monoId: this.monoId,
+      price: auctionPrice,
+      amount: auctionAmount
+    })
+
+    if (State !== 0) {
+      info(Message)
+      this.setState({
+        auctionLoading: false
+      })
+      return
+    }
+
+    info(Value)
+    this.cacheLastAuction(auctionPrice, auctionAmount)
+    this.setState({
+      auctionLoading: false,
+      auctionAmount: 0
     })
     this.refresh()
   }
@@ -93,7 +220,7 @@ export default class ScreenTinygrailSacrifice extends store {
    * 金额格式过滤
    */
   moneyNatural = v => {
-    if (v && !/^(([1-9]\d*)|0)(\.\d{0,1}?)?$/.test(v)) {
+    if (v && !/^(([1-9]\d*)|0)(\.\d{0,2}?)?$/.test(v)) {
       if (v === '.') {
         return '0.'
       }
@@ -126,6 +253,62 @@ export default class ScreenTinygrailSacrifice extends store {
   }
 
   /**
+   * 竞拍价钱改变
+   */
+  changeAuctionPrice = value => {
+    const state = {
+      auctionPrice: this.moneyNatural(value)
+    }
+
+    this.setState(state)
+  }
+
+  /**
+   * 竞拍数量改变
+   */
+  changeAuctionAmount = amount => {
+    let _amount = parseInt(amount)
+
+    // eslint-disable-next-line no-restricted-globals
+    if (isNaN(_amount)) {
+      _amount = 0
+    }
+
+    this.setState({
+      auctionAmount: _amount
+    })
+  }
+
+  /**
+   * 减少
+   */
+  stepMinus = () => {
+    const { auctionPrice } = this.state
+    let _value =
+      parseFloat(this.moneyNatural(auctionPrice) || auctionPrice) - 0.1
+    if (_value < 0) {
+      _value = 1
+    }
+
+    this.setState({
+      auctionPrice: _value.toFixed(2)
+    })
+  }
+
+  /**
+   * 增加
+   */
+  stepPlus = () => {
+    const { auctionPrice } = this.state
+    const _value =
+      parseFloat(this.moneyNatural(auctionPrice) || auctionPrice) + 0.1
+
+    this.setState({
+      auctionPrice: _value.toFixed(2)
+    })
+  }
+
+  /**
    * 展开/收起所有圣殿
    */
   toggleExpand = () => {
@@ -133,5 +316,22 @@ export default class ScreenTinygrailSacrifice extends store {
     this.setState({
       expand: !expand
     })
+  }
+
+  /**
+   * 记忆上次出价
+   */
+  cacheLastAuction = (price, amount) => {
+    const data = {
+      price,
+      amount,
+      time: getTimestamp()
+    }
+    this.setState({
+      lastAuction: data
+    })
+
+    const key = `${namespace}|lastAuction|${this.monoId}`
+    setStorage(key, data)
   }
 }

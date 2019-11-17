@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-12 22:52:23
+ * @Last Modified time: 2019-11-17 19:46:07
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -67,6 +67,8 @@ const withHeader = ({
               </Popover>
             </Flex>
           )
+        } else {
+          headerRight = <Flex>{extra}</Flex>
         }
 
         return {
