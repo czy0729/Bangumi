@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 22:06:14
+ * @Last Modified time: 2019-11-18 11:16:47
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -11,7 +11,7 @@ import Constants from 'expo-constants'
 /* ==================== EDIT ==================== */
 export const DEV = false // 是否开发模式
 export const BARE = true // 裸工作流
-export const GITHUB_RELEASE_VERSION = '1.6.0' // 版本号
+export const GITHUB_RELEASE_VERSION = '1.6.1' // 版本号
 export const CODE_PUSH_VERSION = '' // 热推送副版本号
 
 /* ==================== BASE ==================== */

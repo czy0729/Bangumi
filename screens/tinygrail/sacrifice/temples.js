@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:09:34
+ * @Last Modified time: 2019-11-17 23:06:43
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -44,9 +44,11 @@ function Temples({ style }, { $ }) {
               '小圣杯助手',
               `角色每股每周派息 ₵${rate}，您拥有 ${amount} 股，税前派息 ₵${amount *
                 rate}`,
-              {
-                text: '确定'
-              }
+              [
+                {
+                  text: '确定'
+                }
+              ]
             )
           }
         >

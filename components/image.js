@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 14:09:06
+ * @Last Modified time: 2019-11-18 11:16:07
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -350,7 +350,10 @@ export default class Image extends React.Component {
     if (imageViewer) {
       _onPress = () => {
         let _imageViewerSrc = imageViewerSrc
-        if (_imageViewerSrc.indexOf('http') !== 0) {
+        if (
+          typeof _imageViewerSrc === 'string' &&
+          _imageViewerSrc.indexOf('http') !== 0
+        ) {
           _imageViewerSrc = undefined
         }
         showImageViewer([
