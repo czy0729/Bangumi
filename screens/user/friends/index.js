@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:21:41
+ * @Last Modified time: 2019-11-19 17:33:27
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -44,7 +44,7 @@ class Friends extends React.Component {
       element: <Text size={16}>排序</Text>
     })
 
-    hm(`user/${$.params.userId}/friends`)
+    hm(`user/${$.params.userId}/friends`, 'Friends')
   }
 
   render() {

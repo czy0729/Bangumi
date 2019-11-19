@@ -4,9 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-30 20:27:05
+ * @Last Modified time: 2019-11-19 17:22:09
  */
 import { Alert } from 'react-native'
+import Analytics from 'appcenter-analytics'
 import { Portal, Toast } from '@ant-design/react-native'
 import {
   IOS,
@@ -318,7 +319,7 @@ export function xhrCustom({
 }
 
 /**
- * hm v2.0
+ * hm v3.0
  * @param {*} url
  * @param {*} screen
  */
@@ -335,26 +336,28 @@ export function hm(url, screen) {
   try {
     const userStore = require('../stores/user').default
     const { userAgent } = userStore.userCookie
-
     let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
     u += `${u.includes('?') ? '&' : '?'}v=${version}`
     u += `${IOS ? '&ios=1' : ''}`
+
+    Analytics.trackEvent(`[${screen}]${u}`)
+
     u += `${screen ? `&s=${screen}` : ''}`
-
-    const query = {
-      lt: getTimestamp(),
-      rnd: randomn(10),
-      si: '2dcb6644739ae08a1748c45fb4cea087',
-      v: '1.2.51',
-      api: '4_0',
-      u
-    }
-
-    fetch(`https://hm.baidu.com/hm.gif?${urlStringify(query)}`, {
-      headers: {
-        'User-Agent': userAgent
+    fetch(
+      `https://hm.baidu.com/hm.gif?${urlStringify({
+        // lt: getTimestamp(),
+        rnd: randomn(10),
+        si: '2dcb6644739ae08a1748c45fb4cea087',
+        v: '1.2.51',
+        api: '4_0',
+        u
+      })}`,
+      {
+        headers: {
+          'User-Agent': userAgent
+        }
       }
-    })
+    )
   } catch (error) {
     // do nothing
   }

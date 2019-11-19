@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:15:57
+ * @Last Modified time: 2019-11-19 17:31:29
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -39,7 +39,7 @@ class Zone extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`user/${$.params.userId}?route=zone`)
+    hm(`user/${$.params.userId}?route=zone`, 'Zone')
   }
 
   onScroll = e => {

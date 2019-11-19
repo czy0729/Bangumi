@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 17:44:13
+ * @Last Modified time: 2019-11-19 17:28:21
  */
 import React from 'react'
 import { StyleSheet, ScrollView, RefreshControl } from 'react-native'
@@ -39,7 +39,7 @@ class TinygrailICODeal extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`tinygrail/ico/deal/${$.monoId}`)
+    hm(`tinygrail/ico/deal/${$.monoId}`, 'TinygrailICODeal')
   }
 
   onRefresh = () => {

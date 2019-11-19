@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:05:15
+ * @Last Modified time: 2019-11-19 17:23:45
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -30,7 +30,7 @@ class Random extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('discovery/random')
+    hm('discovery/random', 'Random')
   }
 
   render() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-10 15:52:24
+ * @Last Modified time: 2019-11-19 17:24:55
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -94,7 +94,7 @@ class Subject extends React.Component {
       })
     }
 
-    hm(`subject/${$.params.subjectId}`)
+    hm(`subject/${$.params.subjectId}`, 'Subject')
   }
 
   render() {

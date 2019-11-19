@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 14:12:26
+ * @Last Modified time: 2019-11-19 17:24:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -52,7 +52,7 @@ class Search extends React.Component {
       }
     })
 
-    hm('search')
+    hm('search', 'Search')
   }
 
   render() {

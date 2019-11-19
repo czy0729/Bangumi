@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:18:08
+ * @Last Modified time: 2019-11-19 17:24:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ class Rank extends React.Component {
     await $.init()
 
     const url = $.updateNavigationParams(navigation)
-    hm(url)
+    hm(url, 'Rank')
   }
 
   render() {

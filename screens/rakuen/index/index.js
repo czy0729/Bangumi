@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 20:44:44
+ * @Last Modified time: 2019-11-19 17:26:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -75,7 +75,7 @@ class Rakuen extends React.Component {
       )
     })
 
-    hm('rakuen')
+    hm('rakuen', 'Rakuen')
   }
 
   render() {

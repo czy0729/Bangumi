@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-31 15:45:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:33:46
+ * @Last Modified time: 2019-11-19 17:26:58
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -25,7 +25,7 @@ class UGCAgree extends React.Component {
   }
 
   componentDidMount() {
-    hm('/about/guideline')
+    hm('about/guideline', 'UGCAgree')
   }
 
   updateUGCAgree = value => {

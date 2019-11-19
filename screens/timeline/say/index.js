@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-11 17:26:01
+ * @Last Modified time: 2019-11-19 17:33:15
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -62,7 +62,7 @@ class Say extends React.Component {
       $.isNew
         ? `${HOST}/timeline?type=say`
         : `/user/${userId}/timeline/status/${id}`,
-      'TimelineSay'
+      'Say'
     )
   }
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:11:48
+ * @Last Modified time: 2019-11-19 17:22:56
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -33,7 +33,7 @@ class Award extends React.Component {
   redirectCount = 0 // 跳转次数
 
   componentDidMount() {
-    hm(`award/${this.year}`)
+    hm(`award/${this.year}`, 'Award')
   }
 
   onError = () => {

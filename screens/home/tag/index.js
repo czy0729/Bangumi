@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:19:01
+ * @Last Modified time: 2019-11-19 17:25:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,7 @@ class Tag extends React.Component {
     $.init()
 
     const { type, tag, airtime } = navigation.state.params
-    hm(`${type}/${tag}/${airtime}`)
+    hm(`${type}/${tag}/${airtime}`, 'Tag')
   }
 
   render() {

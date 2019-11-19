@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 14:26:54
+ * @Last Modified time: 2019-11-19 17:28:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ class TinygrailOverview extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('tinygrail/overview')
+    hm('tinygrail/overview', 'TinygrailOverview')
   }
 
   renderContentHeaderComponent() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-02 12:32:16
+ * @Last Modified time: 2019-11-19 17:23:35
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -33,7 +33,7 @@ class Discovery extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('discovery')
+    hm('discovery', 'Discovery')
   }
 
   render() {

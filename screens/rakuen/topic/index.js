@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 16:55:12
+ * @Last Modified time: 2019-11-19 17:26:50
  */
 import React from 'react'
 import { StyleSheet, Alert } from 'react-native'
@@ -96,7 +96,7 @@ class Topic extends React.Component {
       this.jump()
     }
 
-    hm(`rakuen/topic/${$.topicId}`)
+    hm(`rakuen/topic/${$.topicId}`, 'Topic')
   }
 
   jump = () => {

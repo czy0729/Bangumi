@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-14 17:33:23
+ * @Last Modified time: 2019-11-19 17:25:43
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
@@ -69,7 +69,7 @@ export default class LoginV2 extends React.Component {
     await this.getFormHash()
     await this.getCaptcha()
 
-    hm('login/v2')
+    hm('login/v2', 'LoginV2')
   }
 
   /**

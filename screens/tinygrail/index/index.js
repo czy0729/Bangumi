@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 14:04:00
+ * @Last Modified time: 2019-11-19 17:28:31
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -37,7 +37,7 @@ class Tinygrail extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('tinygrail')
+    hm('tinygrail', 'Tinygrail')
   }
 
   onRefresh = () => {

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-16 09:45:58
+ * @Last Modified time: 2019-11-19 17:25:33
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -63,7 +63,7 @@ export default class Login extends React.Component {
   }
 
   componentDidMount() {
-    hm('login')
+    hm('login', 'Login')
   }
 
   onTour = () => {

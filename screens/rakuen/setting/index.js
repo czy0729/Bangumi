@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:20:11
+ * @Last Modified time: 2019-11-19 17:26:40
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -24,7 +24,7 @@ class RakuenSetting extends React.Component {
   }
 
   componentDidMount() {
-    hm('rakuen/settings')
+    hm('rakuen/settings', 'RakuenSetting')
   }
 
   render() {

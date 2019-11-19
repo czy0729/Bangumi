@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:47:08
+ * @Last Modified time: 2019-11-19 17:29:23
  */
 import React from 'react'
 import { StyleSheet, ScrollView, RefreshControl } from 'react-native'
@@ -82,7 +82,7 @@ class TinygrailSacrifice extends React.Component {
       )
     })
 
-    hm(`tinygrail/sacrifice/${$.monoId}`)
+    hm(`tinygrail/sacrifice/${$.monoId}`, 'TinygrailSacrifice')
   }
 
   onRefresh = () => {

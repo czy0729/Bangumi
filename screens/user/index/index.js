@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 18:13:11
+ * @Last Modified time: 2019-11-19 17:30:58
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -44,7 +44,7 @@ class User extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`user/${$.myUserId}?route=user`)
+    hm(`user/${$.myUserId}?route=user`, 'User')
   }
 
   onScroll = e => {

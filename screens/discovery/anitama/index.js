@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:04:52
+ * @Last Modified time: 2019-11-19 17:22:38
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -52,7 +52,7 @@ class Anitama extends React.Component {
       }
     })
 
-    hm('discovery/anitama')
+    hm('discovery/anitama', 'Anitama')
   }
 
   renderPaganation() {

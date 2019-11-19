@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:20:00
+ * @Last Modified time: 2019-11-19 17:26:29
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -49,7 +49,7 @@ class Notify extends React.Component {
     await $.init()
     $.doClearNotify()
 
-    hm('notify/all')
+    hm('notify/all', 'Notify')
   }
 
   render() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:19:16
+ * @Last Modified time: 2019-11-19 17:25:15
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Clipboard } from 'react-native'
@@ -44,7 +44,7 @@ class LoginAssist extends React.Component {
   accessToken = ''
 
   componentDidMount() {
-    hm('login/assist')
+    hm('login/assist', 'LoginAssist')
   }
 
   copy = () => {

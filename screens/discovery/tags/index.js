@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 16:32:20
+ * @Last Modified time: 2019-11-19 17:32:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,7 @@ class Tags extends React.Component {
       }
     })
 
-    hm('discovery/tags')
+    hm('discovery/tags', 'Tags')
   }
 
   render() {

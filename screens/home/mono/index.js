@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 00:55:14
+ * @Last Modified time: 2019-11-19 17:24:43
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -40,7 +40,7 @@ class Mono extends React.Component {
     this.updateNavigation()
 
     const { monoId } = $.params
-    hm(monoId)
+    hm(monoId, 'Mono')
   }
 
   updateNavigation = () => {

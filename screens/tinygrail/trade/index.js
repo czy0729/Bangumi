@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 20:02:20
+ * @Last Modified time: 2019-11-19 17:30:33
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -45,7 +45,7 @@ class TinygrailTrade extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`tinygrail/trade/${$.monoId}`)
+    hm(`tinygrail/trade/${$.monoId}`, 'TinygrailTrade')
   }
 
   hideMask = () => {

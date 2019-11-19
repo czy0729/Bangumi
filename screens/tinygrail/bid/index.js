@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 15:02:50
+ * @Last Modified time: 2019-11-19 17:27:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,7 +37,7 @@ class TinygrailBid extends React.Component {
     $.init()
 
     const { type = 'bid' } = $.params
-    hm(`tinygrail/${type}`)
+    hm(`tinygrail/${type}`, 'TinygrailBid')
   }
 
   renderContentHeaderComponent() {

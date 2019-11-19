@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-13 15:54:29
+ * @Last Modified time: 2019-11-19 17:27:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,7 @@ class Timeline extends React.Component {
       )
     })
 
-    hm('timeline')
+    hm('timeline', 'Timeline')
   }
 
   render() {

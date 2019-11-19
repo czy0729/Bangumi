@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:17:50
+ * @Last Modified time: 2019-11-19 17:23:11
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -48,7 +48,7 @@ class Calendar extends React.Component {
       }
     })
 
-    hm('calendar')
+    hm('calendar', 'Calendar')
   }
 
   render() {

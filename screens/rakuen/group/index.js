@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:15:18
+ * @Last Modified time: 2019-11-19 17:32:56
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -24,7 +24,7 @@ export default
   barStyle: 'dark-content'
 })
 @observer
-class Group extends React.Component {
+class RakuenGroup extends React.Component {
   static contextTypes = {
     $: PropTypes.object,
     navigation: PropTypes.object
@@ -39,7 +39,7 @@ class Group extends React.Component {
     this.updatePopover()
 
     const { groupId } = $.params
-    hm(`group/${groupId}`)
+    hm(`group/${groupId}`, 'Group')
   }
 
   updatePopover = () => {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 17:30:30
+ * @Last Modified time: 2019-11-19 17:31:09
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -15,13 +15,13 @@ import _ from '@styles'
 export default
 @withHeader()
 @observer
-class Setting extends React.Component {
+class Qiafan extends React.Component {
   static navigationOptions = {
     title: '想说点话'
   }
 
   componentDidMount() {
-    hm('qiafan')
+    hm('qiafan', 'Qiafan')
   }
 
   render() {

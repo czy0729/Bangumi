@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-16 13:50:33
+ * @Last Modified time: 2019-11-19 17:27:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,7 @@ class TinygrailCharaAssets extends React.Component {
       $.init()
     }
 
-    hm('tinygrail/chara/assets')
+    hm('tinygrail/chara/assets', 'TinygrailCharaAssets')
   }
 
   renderContentHeaderComponent() {
