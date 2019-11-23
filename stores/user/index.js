@@ -5,14 +5,20 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 23:06:42
+ * @Last Modified time: 2019-11-20 14:45:55
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
-import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL, LIST_EMPTY } from '@constants'
+import {
+  APP_ID,
+  APP_SECRET,
+  OAUTH_REDIRECT_URL,
+  LIST_EMPTY,
+  USERID_TOURIST
+} from '@constants'
 import {
   API_ACCESS_TOKEN,
   API_USER_INFO,
@@ -496,6 +502,10 @@ class Store extends store {
    * 打印游客登陆sercet
    */
   logTourist = () => {
+    if (this.myUserId !== USERID_TOURIST) {
+      return
+    }
+
     log({
       tourist: 1,
       accessToken: this.state.accessToken,

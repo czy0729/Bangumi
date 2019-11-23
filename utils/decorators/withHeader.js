@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:46:07
+ * @Last Modified time: 2019-11-23 22:49:19
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -97,7 +97,8 @@ const withHeader = ({
           },
           ...(typeof ComposedComponent.navigationOptions === 'function'
             ? ComposedComponent.navigationOptions({ navigation })
-            : ComposedComponent.navigationOptions)
+            : ComposedComponent.navigationOptions),
+          title: navigation.getParam('title')
         }
       }
 

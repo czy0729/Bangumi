@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 18:52:23
+ * @Last Modified time: 2019-11-23 19:12:32
  */
 class Modal {
   constructor(data) {
@@ -543,5 +543,82 @@ export const MODEL_RANK_REAL_FILTER = new Modal([
   {
     label: '其他',
     value: 'misc'
+  }
+])
+
+export const MODEL_TINYGRAIL_ASSETS_TYPE = new Modal([
+  {
+    label: '所有',
+    value: 'all'
+  },
+  {
+    label: '流动股',
+    value: 'mono'
+  },
+  {
+    label: '圣殿股',
+    value: 'temple'
+  }
+])
+
+export const MODAL_TINYGRAIL_CACULATE_TYPE = new Modal([
+  {
+    label: '持仓价值',
+    value: 'value'
+  },
+  {
+    label: '周股息',
+    value: 'rateWeek'
+  },
+  {
+    label: '股息',
+    value: 'rate'
+  },
+  {
+    label: '持股数',
+    value: 'amount'
+  },
+  {
+    label: '市场价',
+    value: 'market'
+  },
+  {
+    label: '发行量',
+    value: 'total'
+  },
+  {
+    label: '当前价',
+    value: 'current'
+  },
+  {
+    label: '交易量',
+    value: 'change'
+  },
+  {
+    label: '当前涨跌',
+    value: 'fluctuation'
+  },
+  {
+    label: '新番奖励',
+    value: 'bonus'
+  }
+])
+
+export const MODAL_TINYGRAIL_CACULATE_TEMPLE_TYPE = new Modal([
+  {
+    label: '持仓价值',
+    value: 'value'
+  },
+  {
+    label: '周股息',
+    value: 'rateWeek'
+  },
+  {
+    label: '股息',
+    value: 'rate'
+  },
+  {
+    label: '持股数',
+    value: 'amount'
   }
 ])

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 21:54:14
+ * @Last Modified time: 2019-11-23 20:39:33
  */
 import { HOST } from './index'
 
@@ -305,10 +305,16 @@ export const API_TINYGRAIL_CHARA_TEMPLE = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/temple/${monoId}`
 
 /**
- * 用户圣殿信息
+ * 用户所有角色信息
+ */
+export const API_TINYGRAIL_CHARA_ALL = hash =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/1000`
+
+/**
+ * 用户所有圣殿信息
  */
 export const API_TINYGRAIL_TEMPLE = hash =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/50`
+  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/1000`
 
 /**
  * 司法刮刮乐

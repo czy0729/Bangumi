@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 21:57:02
+ * @Last Modified time: 2019-11-23 21:35:06
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -33,11 +33,13 @@ import {
   API_TINYGRAIL_JOIN,
   API_TINYGRAIL_USERS,
   API_TINYGRAIL_TEMPLE,
+  API_TINYGRAIL_CHARA_ALL,
   API_TINYGRAIL_CHARA_TEMPLE,
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_AUCTION_LIST,
   API_TINYGRAIL_AUCTION,
-  API_TINYGRAIL_SACRIFICE
+  API_TINYGRAIL_SACRIFICE,
+  API_TINYGRAIL_VALHALL_LIST
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -171,7 +173,14 @@ class Tinygrail extends store {
      * 用户圣殿
      */
     temple: {
-      // [monoId]: LIST_EMPTY<INIT_TEMPLE_ITEM>
+      // [hash]: LIST_EMPTY<INIT_TEMPLE_ITEM>
+    },
+
+    /**
+     * 用户所有角色信息
+     */
+    charaAll: {
+      // [hash]: LIST_EMPTY<INIT_CHATACTER_ITEM>
     },
 
     /**
@@ -194,6 +203,11 @@ class Tinygrail extends store {
     auctionList: {
       // [monoId]: LIST_EMPTY
     },
+
+    /**
+     * 英灵殿
+     */
+    valhallList: LIST_EMPTY,
 
     /**
      * iOS此刻是否显示WebView
@@ -223,7 +237,9 @@ class Tinygrail extends store {
         'balance',
         'iconsCache',
         'temple',
-        'charaTemple'
+        'charaAll',
+        'charaTemple',
+        'valhallList'
       ],
       NAMESPACE
     )
@@ -297,6 +313,10 @@ class Tinygrail extends store {
     return computed(() => this.state.temple[hash]).get() || LIST_EMPTY
   }
 
+  charaAll(hash = this.hash) {
+    return computed(() => this.state.charaAll[hash]).get() || LIST_EMPTY
+  }
+
   charaTemple(id) {
     return computed(() => this.state.charaTemple[id]).get() || LIST_EMPTY
   }
@@ -307,6 +327,10 @@ class Tinygrail extends store {
 
   auctionList(id) {
     return computed(() => this.state.auctionList[id]).get() || LIST_EMPTY
+  }
+
+  @computed get valhallList() {
+    return this.state.valhallList
   }
 
   // -------------------- fetch --------------------
@@ -647,7 +671,12 @@ class Tinygrail extends store {
           name: item.Name,
           current: item.Current,
           state: item.State,
-          total: item.Total
+          total: item.Total,
+          bonus: item.Bonus,
+          rate: item.Rate,
+          marketValue: item.MarketValue,
+          change: item.Change,
+          fluctuation: item.Fluctuation
         }
       })
       data.initials = result.data.Value.Initials.map(item => {
@@ -660,7 +689,12 @@ class Tinygrail extends store {
           name: item.Name,
           current: 0,
           state: item.State,
-          total: item.Total
+          total: item.Total,
+          bonus: item.Bonus,
+          rate: item.Rate,
+          marketValue: item.MarketValue,
+          change: item.Change,
+          fluctuation: item.Fluctuation
         }
       })
       this.updateIconsCache(iconsCache)
@@ -671,6 +705,51 @@ class Tinygrail extends store {
       [key]: {
         [hash]: data
       }
+    })
+    // this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 英灵殿
+   */
+  fetchValhallList = async () => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_VALHALL_LIST(1, 100),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    const data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
+      data._loaded = getTimestamp()
+      data.list = result.data.Value.Items.map(item => {
+        if (item.Icon) {
+          iconsCache[item.Id] = item.Icon
+        }
+        return {
+          id: item.Id,
+          icon: item.Icon,
+          name: item.Name,
+          current: item.Current,
+          state: item.State,
+          total: item.Total
+        }
+      })
+      this.updateIconsCache(iconsCache)
+    }
+
+    const key = 'valhallList'
+    this.setState({
+      [key]: data
     })
     this.setStorage(key, undefined, NAMESPACE)
 
@@ -1128,7 +1207,59 @@ class Tinygrail extends store {
         [hash]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    if (hash === this.hash) {
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 用户资产概览信息
+   */
+  fetchCharaAll = async hash => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_CHARA_ALL(hash),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.Id,
+          icon: item.Icon,
+          name: item.Name,
+          current: item.Current,
+          state: item.State,
+          total: item.Total,
+          bonus: item.Bonus,
+          rate: item.Rate,
+          marketValue: item.MarketValue,
+          change: item.Change,
+          fluctuation: item.Fluctuation
+        })),
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'charaAll'
+    this.setState({
+      [key]: {
+        [hash]: data
+      }
+    })
+    if (hash === this.hash) {
+      this.setStorage(key, undefined, NAMESPACE)
+    }
 
     return Promise.resolve(data)
   }
@@ -1172,7 +1303,7 @@ class Tinygrail extends store {
         [id]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    // this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }

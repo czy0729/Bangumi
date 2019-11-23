@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 19:00:44
+ * @Last Modified time: 2019-11-20 14:42:14
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
@@ -58,7 +58,7 @@ export default class ScreenHome extends store {
   })
 
   init = async () => {
-    // userStore.logTourist()
+    userStore.logTourist()
 
     let res
     if (this.isLogin) {

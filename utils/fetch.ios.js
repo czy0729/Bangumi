@@ -4,10 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:22:09
+ * @Last Modified time: 2019-11-21 15:42:17
  */
 import { Alert } from 'react-native'
-import Analytics from 'appcenter-analytics'
 import { Portal, Toast } from '@ant-design/react-native'
 import {
   IOS,
@@ -176,7 +175,7 @@ export async function fetchHTML({
       ..._config.headers,
       Accept:
         'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-      'Accept-Encoding': 'gzip, deflate',
+      'Accept-Encoding': 'br, gzip, deflate',
       'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
       'Cache-Control': 'no-cache',
       Connection: 'keep-alive',
@@ -272,7 +271,7 @@ export function xhr(
   request.setRequestHeader('Cookie', userCookie)
   request.setRequestHeader('User-Agent', userAgent)
   request.setRequestHeader('Host', HOST_NAME)
-  request.setRequestHeader('accept-encoding', 'gzip, deflate')
+  request.setRequestHeader('accept-encoding', 'br, gzip, deflate')
   request.send(urlStringify(data))
 }
 
@@ -339,9 +338,6 @@ export function hm(url, screen) {
     let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
     u += `${u.includes('?') ? '&' : '?'}v=${version}`
     u += `${IOS ? '&ios=1' : ''}`
-
-    Analytics.trackEvent(`[${screen}]${u}`)
-
     u += `${screen ? `&s=${screen}` : ''}`
     fetch(
       `https://hm.baidu.com/hm.gif?${urlStringify({
@@ -364,7 +360,7 @@ export function hm(url, screen) {
 }
 
 /**
- * @todo 接口防并发请求问题严重, 暂时延迟一下, 2个请求一组
+ * @todo 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
  * @param {*} fetchs
  */
 export async function queue(fetchs = []) {
@@ -380,11 +376,12 @@ export async function queue(fetchs = []) {
   return Promise.all([f4(), f5(), f6()])
 }
 
-// async function queue(fetchs = [], resolved = []) {
-//   if (!fetchs.length) return resolved
-//   resolved.push(...(await Promise.all(fetchs.slice(0, 2))))
-//   await sleep()
-//   return queue(fetchs.slice(2), resolved)
+// export async function queue(fetchs, run, num = 2) {
+//   await Promise.all(
+//     new Array(num).fill(0).map(async () => {
+//       while (fetchs.length) await run(fetchs.shift())
+//     })
+//   )
 // }
 
 /**

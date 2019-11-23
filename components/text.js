@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-02 02:43:10
+ * @Last Modified time: 2019-11-21 22:49:33
  */
 import React from 'react'
 import { StyleSheet, Text as RNText } from 'react-native'
@@ -84,6 +84,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
       }
     : {},
+  8: _.fontSize(8),
+  9: _.fontSize(9),
   10: _.fontSize(10),
   11: _.fontSize(11),
   12: _.fontSize(12),
@@ -91,9 +93,13 @@ const styles = StyleSheet.create({
   14: _.fontSize(14),
   15: _.fontSize(15),
   16: _.fontSize(16),
+  17: _.fontSize(17),
   18: _.fontSize(18),
+  19: _.fontSize(19),
   20: _.fontSize(20),
+  21: _.fontSize(21),
   22: _.fontSize(22),
+  23: _.fontSize(23),
   24: _.fontSize(24),
   26: _.fontSize(26),
   28: _.fontSize(28),
