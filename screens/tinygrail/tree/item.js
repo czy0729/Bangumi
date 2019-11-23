@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 22:35:15
+ * @Last Modified time: 2019-11-23 23:57:00
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -109,8 +109,7 @@ function Item({
                 : parseInt(ratioHeight * 240)
             }
             radius={isTemple ? 4 : parseInt(ratioHeight * 120)}
-            border={colorBorder}
-            shadow
+            placeholder={false}
           />
         )}
         <Text size={parseInt(11 * ratio)} type='plain' numberOfLines={1}>

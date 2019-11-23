@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 21:55:10
+ * @Last Modified time: 2019-11-23 23:10:24
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Flex } from '@components'
 import _ from '@styles'
+import { SAY_ID } from '../_/ds'
 import { colorDepthBid, colorDepthAsk } from '../styles'
 import MenuItem from './menu-item'
 import Assets from './assets'
@@ -58,7 +59,15 @@ function Menus() {
         icon='chi-cang'
       />
       <MenuItem title='资金日志' pathname='TinygrailLogs' icon='ri-zhi' />
-      {/* <MenuItem title='资金分布' pathname='TinygrailAnalysis' icon='fen-xi' /> */}
+      <MenuItem title='资金分析' pathname='TinygrailTree' icon='fen-xi' />
+      <MenuItem
+        title='意见反馈'
+        pathname='Say'
+        config={{
+          id: SAY_ID
+        }}
+        icon='mail'
+      />
     </Flex>
   )
 }

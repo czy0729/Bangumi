@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 22:49:58
+ * @Last Modified time: 2019-11-23 23:23:20
  */
 export default {
-  initialRouteName: 'Tinygrail', // HomeTab TinygrailCharaAssets
+  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
   initialRouteParams: {
     // id: 19402913
     // subjectId: 100444 // 238923 100444 204135

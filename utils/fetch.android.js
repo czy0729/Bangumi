@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 02:40:12
+ * @Last Modified time: 2019-11-23 23:38:06
  */
 import { Alert } from 'react-native'
 import Analytics from 'appcenter-analytics'
@@ -176,7 +176,7 @@ export async function fetchHTML({
       ..._config.headers,
       Accept:
         'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-      'Accept-Encoding': 'br, gzip, deflate',
+      'Accept-Encoding': 'gzip, deflate',
       'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
       'Cache-Control': 'no-cache',
       Connection: 'keep-alive',
@@ -272,7 +272,7 @@ export function xhr(
   request.setRequestHeader('Cookie', userCookie)
   request.setRequestHeader('User-Agent', userAgent)
   request.setRequestHeader('Host', HOST_NAME)
-  request.setRequestHeader('accept-encoding', 'br, br, gzip, deflate')
+  request.setRequestHeader('accept-encoding', 'br, gzip, deflate')
   request.send(urlStringify(data))
 }
 
@@ -363,7 +363,7 @@ export function hm(url, screen) {
   }
 }
 
-function trackEvent(u) {
+export function trackEvent(u) {
   try {
     Analytics.trackEvent(u)
   } catch (error) {

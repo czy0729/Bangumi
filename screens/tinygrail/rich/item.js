@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 14:24:05
+ * @Last Modified time: 2019-11-23 23:18:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
 import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
@@ -96,7 +96,16 @@ function Item(
         <Flex.Item style={!isTop && styles.border}>
           <Flex align='start'>
             <Flex.Item style={_.mr.sm}>
-              <Touchable style={styles.item} highlight>
+              <Touchable
+                style={styles.item}
+                highlight
+                onPress={() =>
+                  navigation.push('TinygrailTree', {
+                    userName: userId,
+                    name: nickname
+                  })
+                }
+              >
                 <Flex>
                   <Flex.Item>
                     <Text size={16} type='plain'>
@@ -133,6 +142,12 @@ function Item(
                   <Text size={16} type='plain'>
                     {assetsText}
                   </Text>
+                  <Iconfont
+                    style={_.ml.sm}
+                    size={14}
+                    name='right'
+                    color={colorText}
+                  />
                 </Flex>
               </Touchable>
             </Flex.Item>

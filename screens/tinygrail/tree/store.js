@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 22:31:28
+ * @Last Modified time: 2019-11-23 23:58:01
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { tinygrailOSS } from '@utils/app'
+import { trackEvent } from '@utils/fetch'
+import { info } from '@utils/ui'
 import {
   MODEL_TINYGRAIL_ASSETS_TYPE,
   MODAL_TINYGRAIL_CACULATE_TYPE
@@ -126,37 +128,43 @@ export default class ScreenTinygrailTree extends store {
    * 生成treemap数据
    */
   generateTreeMap = () => {
-    const list = this.charaAssets
-    if (!list.length) {
-      return
-    }
+    try {
+      const list = this.charaAssets
+      if (!list.length) {
+        return
+      }
 
-    const {
-      total = 0,
-      currentTotal,
-      filterCount,
-      filterTotal,
-      nodes
-    } = this.caculate()
-    if (filterCount) {
-      nodes.push({
-        id: 0,
-        icon: '',
-        data: `其他${filterCount}个角色`,
+      const {
+        total = 0,
+        currentTotal,
+        filterCount,
+        filterTotal,
+        nodes
+      } = this.caculate()
+      if (filterCount) {
+        nodes.push({
+          id: 0,
+          icon: '',
+          data: `其他${filterCount}个角色`,
 
-        // 其他的占比不会大于5%
-        weight:
-          filterTotal / currentTotal > 0.056 ? currentTotal * 0.056 : filterTotal,
-        price: filterTotal,
-        percent: filterTotal / total
+          // 其他的占比不会大于5%
+          weight:
+            filterTotal / currentTotal > 0.056
+              ? currentTotal * 0.056
+              : filterTotal,
+          price: filterTotal,
+          percent: filterTotal / total
+        })
+      }
+
+      const data = treemapSquarify(nodes).filter(item => !!item.percent)
+      this.setState({
+        data,
+        total
       })
+    } catch (error) {
+      info('渲染失败, 请刷新')
     }
-
-    const data = treemapSquarify(nodes).filter(item => !!item.percent)
-    this.setState({
-      data,
-      total
-    })
   }
 
   /**
@@ -256,6 +264,7 @@ export default class ScreenTinygrailTree extends store {
     })
     this.generateTreeMap()
     this.setStorage(undefined, undefined, namespace)
+    this.track()
   }
 
   /**
@@ -268,6 +277,12 @@ export default class ScreenTinygrailTree extends store {
     })
     this.generateTreeMap()
     this.setStorage(undefined, undefined, namespace)
+    this.track()
+  }
+
+  track = () => {
+    const { type, caculateType } = this.state
+    trackEvent(`[${namespace}]type=${type}&caculateType=${caculateType}`)
   }
 }
 

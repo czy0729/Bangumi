@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 21:35:06
+ * @Last Modified time: 2019-11-23 23:49:15
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -1217,7 +1217,7 @@ class Tinygrail extends store {
   /**
    * 用户资产概览信息
    */
-  fetchCharaAll = async hash => {
+  fetchCharaAll = async (hash = this.hash) => {
     axios.defaults.withCredentials = false
     const result = await axios({
       method: 'get',

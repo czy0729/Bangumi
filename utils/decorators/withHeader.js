@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 22:49:19
+ * @Last Modified time: 2019-11-23 23:15:05
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -71,7 +71,7 @@ const withHeader = ({
           headerRight = <Flex>{extra}</Flex>
         }
 
-        return {
+        const params = {
           headerLeft: (
             <IconBack navigation={navigation} color={iconBackColor} />
           ),
@@ -97,9 +97,13 @@ const withHeader = ({
           },
           ...(typeof ComposedComponent.navigationOptions === 'function'
             ? ComposedComponent.navigationOptions({ navigation })
-            : ComposedComponent.navigationOptions),
-          title: navigation.getParam('title')
+            : ComposedComponent.navigationOptions)
         }
+        const title = navigation.getParam('title')
+        if (title) {
+          params.title = title
+        }
+        return params
       }
 
       render() {
