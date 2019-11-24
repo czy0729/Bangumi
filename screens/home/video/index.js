@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 16:43:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:09:37
+ * @Last Modified time: 2019-11-24 10:28:42
  */
 import React from 'react'
 import { StyleSheet, Dimensions, View } from 'react-native'
@@ -15,10 +15,10 @@ export default class Video extends React.Component {
     header: navigation.state.params.hideHeader ? null : undefined
   })
 
-  state = {
-    show: false,
-    isPortrait: true
-  }
+  // state = {
+  //   show: false,
+  //   isPortrait: true
+  // }
 
   // Only on this screen, allow landscape orientations
   componentDidMount() {
@@ -36,7 +36,7 @@ export default class Video extends React.Component {
   orientationChangeHandler = dims => {
     const { width, height } = dims.window
     const isLandscape = width > height
-    this.setState({ isPortrait: !isLandscape })
+    // this.setState({ isPortrait: !isLandscape })
     this.props.navigation.setParams({ hideHeader: isLandscape })
 
     // TODO: Why?
@@ -51,16 +51,16 @@ export default class Video extends React.Component {
     ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT)
   }
 
-  show = () => {
-    this.setState({
-      show: true
-    })
-  }
+  // show = () => {
+  //   this.setState({
+  //     show: true
+  //   })
+  // }
 
   render() {
-    const { navigation } = this.props
-    const { url } = navigation.state.params
-    const { show, isPortrait } = this.state
+    // const { navigation } = this.props
+    // const { url } = navigation.state.params
+    // const { show, isPortrait } = this.state
     return (
       <View style={[_.container.row, styles.container]}>
         {/* {show ? (

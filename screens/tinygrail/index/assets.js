@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 01:45:24
+ * @Last Modified time: 2019-11-24 10:27:46
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { Flex, Text, Iconfont, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
