@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 23:58:01
+ * @Last Modified time: 2019-11-25 18:34:53
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -298,7 +298,7 @@ function caculateTotal(list, label, isTemple) {
       total += caculateValue(item, label, isTemple)
     })
   } catch (error) {
-    log('[catch]caculateTotal')
+    // do nothing
   }
   return total
 }
@@ -379,7 +379,7 @@ function caculateValue(item, label, isTemple) {
         break
     }
   } catch (error) {
-    log('[catch]caculateValue')
+    // do nothing
   }
   return value
 }
@@ -416,7 +416,7 @@ function treemapSquarify(nodes) {
         })
     )
   } catch (error) {
-    log('[catch]treemapSquarify')
+    // do nothing
   }
   return data
 }

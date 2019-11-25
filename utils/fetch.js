@@ -4,9 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 23:00:30
+ * @Last Modified time: 2019-11-25 17:50:35
  */
 import { Alert } from 'react-native'
+import Analytics from 'appcenter-analytics'
 import { Portal, Toast } from '@ant-design/react-native'
 import {
   IOS,
@@ -261,7 +262,7 @@ export function xhr(
     if (request.status === 200) {
       success(request.responseText)
     } else {
-      fail()
+      fail(request)
     }
   }
 
@@ -271,7 +272,7 @@ export function xhr(
   request.setRequestHeader('Cookie', userCookie)
   request.setRequestHeader('User-Agent', userAgent)
   request.setRequestHeader('Host', HOST_NAME)
-  request.setRequestHeader('accept-encoding', 'gzip, deflate')
+  request.setRequestHeader('accept-encoding', 'br, gzip, deflate')
   request.send(urlStringify(data))
 }
 
@@ -338,6 +339,9 @@ export function hm(url, screen) {
     let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
     u += `${u.includes('?') ? '&' : '?'}v=${version}`
     u += `${IOS ? '&ios=1' : ''}`
+
+    trackEvent(`[${screen}]${u}`)
+
     u += `${screen ? `&s=${screen}` : ''}`
     fetch(
       `https://hm.baidu.com/hm.gif?${urlStringify({
@@ -359,7 +363,17 @@ export function hm(url, screen) {
   }
 }
 
-export function trackEvent() {}
+export function trackEvent(u) {
+  if (IOS) {
+    return
+  }
+
+  try {
+    Analytics.trackEvent(u)
+  } catch (error) {
+    // do nothing
+  }
+}
 
 /**
  * @todo 接口防并发请求问题严重, 暂时延迟一下, n个请求一组

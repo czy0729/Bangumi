@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-13 10:03:19
+ * @Last Modified time: 2019-11-25 18:30:02
  */
 import React from 'react'
 import {
@@ -18,6 +18,7 @@ import { ImageViewer } from '@components'
 import Stores, { systemStore } from '@stores'
 import { observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { DEV } from '@constants'
 import _ from '@styles'
 import theme from '@styles/theme'
 import Navigations from './navigations/index'
@@ -26,6 +27,34 @@ import Navigations from './navigations/index'
  * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
  */
 useScreens()
+
+console.disableYellowBox = true
+
+/**
+ * 能打印循环引用
+ */
+global.log = (value, space) => {
+  if (!DEV) {
+    return
+  }
+
+  const handleCircular = () => {
+    const cache = []
+    const keyCache = []
+    return (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        const index = cache.indexOf(value)
+        if (index !== -1) {
+          return `[Circular ${keyCache[index]}]`
+        }
+        cache.push(value)
+        keyCache.push(key || 'root')
+      }
+      return value
+    }
+  }
+  console.log(JSON.stringify(value, handleCircular(), space))
+}
 
 export default
 @observer
@@ -43,13 +72,7 @@ class App extends React.Component {
   }
 
   loadResourcesAsync = async () => {
-    const res = Promise.all([
-      Stores.init()
-      // Asset.loadAsync([]),
-      // Font.loadAsync({
-      //   bgm: require('./assets/fonts/AppleColorEmoji.ttf')
-      // })
-    ])
+    const res = Promise.all([Stores.init()])
     await res
 
     this.handleFinishLoading()
@@ -83,21 +106,10 @@ class App extends React.Component {
   }
 
   render() {
-    // const { skipLoadingScreen } = this.props
     const { isLoadingComplete } = this.state
     if (!isLoadingComplete) {
       return null
     }
-
-    // if (!isLoadingComplete && !skipLoadingScreen) {
-    //   return (
-    //     <AppLoading
-    //       startAsync={this.loadResourcesAsync}
-    //       onFinish={this.handleFinishLoading}
-    //       onError={this.handleLoadingError}
-    //     />
-    //   )
-    // }
 
     const { visible, imageUrls } = systemStore.imageViewer
     return (

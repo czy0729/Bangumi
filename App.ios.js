@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-13 10:03:52
+ * @Last Modified time: 2019-11-25 18:29:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,11 +14,14 @@ import { ImageViewer } from '@components'
 import Stores, { systemStore } from '@stores'
 import { observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { DEV } from '@constants'
 import _ from '@styles'
 import theme from '@styles/theme'
 import Navigations from './navigations/index'
 
-// https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
+/**
+ * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
+ */
 useScreens()
 
 console.disableYellowBox = true
@@ -27,6 +30,10 @@ console.disableYellowBox = true
  * 能打印循环引用
  */
 global.log = (value, space) => {
+  if (!DEV) {
+    return
+  }
+
   const handleCircular = () => {
     const cache = []
     const keyCache = []

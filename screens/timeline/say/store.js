@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-11 17:25:39
+ * @Last Modified time: 2019-11-25 18:34:41
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -50,7 +50,7 @@ export default class ScreenSay extends store {
     // eslint-disable-next-line no-restricted-syntax
     for (const item of this.noAvatarUserIds) {
       await userStore.fetchUsersInfo(item)
-      await sleep(200)
+      await sleep(100)
     }
   }
 
@@ -147,7 +147,7 @@ export default class ScreenSay extends store {
 
   // -------------------- action --------------------
   /**
-   * 回复
+   * 提交
    */
   doSubmit = (content, scrollView, navigation) => {
     if (this.isNew) {
@@ -156,12 +156,37 @@ export default class ScreenSay extends store {
         return
       }
 
-      timelineStore.doSay(
-        {
-          content,
-          formhash: this.formhash
-        },
-        () => {
+      this.doSay(content, navigation)
+      return
+    }
+
+    const { list = [] } = this.say
+    if (!list.length && !list[0].formhash) {
+      info('获取表单授权码失败')
+      return
+    }
+
+    this.doReply(content, scrollView)
+  }
+
+  /**
+   * 新吐槽
+   */
+  doSay = (content, navigation) => {
+    timelineStore.doSay(
+      {
+        content,
+        formhash: this.formhash
+      },
+      responseText => {
+        let res = {}
+        try {
+          res = JSON.parse(responseText)
+        } catch (error) {
+          // do nothing
+        }
+
+        if (res.status === 'ok') {
           const { onNavigationCallback } = this.params
           if (onNavigationCallback) {
             onNavigationCallback(true)
@@ -172,36 +197,65 @@ export default class ScreenSay extends store {
           })
           info('吐槽成功')
           navigation.goBack()
+          return
         }
-      )
-      return
-    }
 
-    const { list = [] } = this.say
-    if (!list.length && !list[0].formhash) {
-      info('获取表单授权码失败')
-      return
-    }
+        this.recoveryContent(content)
+      }
+    )
+  }
 
+  /**
+   * 回复吐槽
+   */
+  doReply = (content, scrollView) => {
     const { id } = this.params
+    const { list = [] } = this.say
     timelineStore.doReply(
       {
         id,
         content,
         formhash: list[0].formhash
       },
-      async () => {
-        this.setState({
-          value: ''
-        })
-        await this.fetchSay()
-
-        if (scrollView && scrollView.scrollToEnd) {
-          setTimeout(() => {
-            scrollView.scrollToEnd()
-          }, 0)
+      async responseText => {
+        let res = {}
+        try {
+          res = JSON.parse(responseText)
+        } catch (error) {
+          // do nothing
         }
+
+        if (res.status === 'ok') {
+          this.setState({
+            value: ''
+          })
+          await this.fetchSay()
+
+          if (scrollView && scrollView.scrollToEnd) {
+            setTimeout(() => {
+              scrollView.scrollToEnd()
+            }, 0)
+          }
+          return
+        }
+
+        this.recoveryContent(content)
       }
     )
+  }
+
+  /**
+   * 失败后恢复上次的内容
+   */
+  recoveryContent = content => {
+    info('操作失败，可能是cookie失效了')
+    this.setState({
+      value: ''
+    })
+    setTimeout(() => {
+      this.setState({
+        value: content
+      })
+    }, 160)
   }
 }
