@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:31:29
+ * @Last Modified time: 2019-11-26 21:06:52
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { StatusBarEvents } from '@components'
+import { StatusBarEvents, UM } from '@components'
 import { inject } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
@@ -18,6 +18,8 @@ import BangumiList from './bangumi-list'
 import TimelineList from './timeline-list'
 import About from './about'
 import Store, { height } from './store'
+
+const title = '空间'
 
 export default
 @inject(Store)
@@ -69,6 +71,7 @@ class Zone extends React.Component {
     }
     return (
       <>
+        <UM screen={title} />
         <StatusBarEvents
           barStyle='light-content'
           backgroundColor='transparent'

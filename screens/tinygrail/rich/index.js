@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:29:14
+ * @Last Modified time: 2019-11-26 21:03:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,13 +17,18 @@ import Tabs from '../_/tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+const title = '番市首富'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailRich extends React.Component {
   static navigationOptions = {
-    title: '番市首富'
+    title
   }
 
   static contextTypes = {

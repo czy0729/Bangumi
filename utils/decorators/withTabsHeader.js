@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-10 12:52:24
+ * @Last Modified time: 2019-11-26 20:26:48
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { BlurView } from 'expo-blur'
-import { StatusBarEvents } from '@components'
+import { StatusBarEvents, UM } from '@components'
 import { Logo } from '@screens/_'
 import { IOS, BARE } from '@constants'
 import _ from '@styles'
@@ -17,7 +17,7 @@ import observer from './observer'
 const correctHeightIOS = 14 // @issue iOS端头部高度误差修正值
 
 // (1) 装饰器
-const withTabsHeader = () => ComposedComponent =>
+const withTabsHeader = ({ screen } = {}) => ComposedComponent =>
   observer(
     class withTabsHeaderComponent extends React.Component {
       // @notice 把tabbar通过某些手段放进去header里面, 才能实现比较好的毛玻璃效果
@@ -81,6 +81,7 @@ const withTabsHeader = () => ComposedComponent =>
         const { navigation } = this.props
         return (
           <>
+            <UM screen={screen} />
             <StatusBarEvents />
             <ComposedComponent navigation={navigation} />
           </>

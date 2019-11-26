@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:32:56
+ * @Last Modified time: 2019-11-26 20:55:29
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -17,9 +17,12 @@ import Info from './info'
 import List from './list'
 import Store from './store'
 
+const title = '小组'
+
 export default
 @inject(Store)
 @withTransitionHeader({
+  screen: title,
   colorStart: _.colorTitleRaw,
   barStyle: 'dark-content'
 })

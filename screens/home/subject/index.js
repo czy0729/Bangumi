@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:24:55
+ * @Last Modified time: 2019-11-26 20:50:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -19,6 +19,7 @@ import _ from '@styles'
 import Header from './header'
 import Store from './store'
 
+const title = '条目'
 const sitesDS = [
   'bilibili',
   'iqiyi',
@@ -32,7 +33,9 @@ const sitesDS = [
 
 export default
 @inject(Store)
-@withTransitionHeader()
+@withTransitionHeader({
+  screen: title
+})
 @observer
 class Subject extends React.Component {
   static contextTypes = {

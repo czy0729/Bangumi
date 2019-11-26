@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 23:50:08
+ * @Last Modified time: 2019-11-26 21:04:35
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
@@ -20,9 +20,14 @@ import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
 
+const title = '资产分析'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailTree extends React.Component {
   static contextTypes = {

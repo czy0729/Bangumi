@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:31:21
+ * @Last Modified time: 2019-11-26 21:06:18
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -27,12 +27,16 @@ import {
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import _ from '@styles'
 
+const title = '设置'
+
 export default
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Setting extends React.Component {
   static navigationOptions = {
-    title: '设置'
+    title
   }
 
   state = {

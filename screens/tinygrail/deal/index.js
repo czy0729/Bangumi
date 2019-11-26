@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:28:02
+ * @Last Modified time: 2019-11-26 21:00:21
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native'
+import { StyleSheet, ScrollView, View, RefreshControl, UM } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
@@ -20,6 +20,8 @@ import Depth from './depth'
 import Logs from './logs'
 import Records from './records'
 import Store from './store'
+
+const title = '交易'
 
 export default
 @inject(Store)
@@ -67,6 +69,7 @@ class TinygrailDeal extends React.Component {
     const { refreshing } = this.state
     return (
       <View style={[_.container.flex, styles.dark]}>
+        <UM screen={title} />
         <StatusBarEvents />
         <StatusBarPlaceholder style={styles.dark} />
         <Header />

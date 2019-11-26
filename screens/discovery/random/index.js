@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:23:45
+ * @Last Modified time: 2019-11-26 20:45:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { inject, observer } from '@utils/decorators'
-import { StatusBarEvents, Loading } from '@components'
+import { StatusBarEvents, Loading, UM } from '@components'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
 import List from './list'
 import Store from './store'
+
+const title = '随便看看'
 
 export default
 @inject(Store)
@@ -38,6 +40,7 @@ class Random extends React.Component {
     const { _loaded } = $.random
     return (
       <>
+        <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? <List /> : <Loading style={_.container.screen} />}
       </>

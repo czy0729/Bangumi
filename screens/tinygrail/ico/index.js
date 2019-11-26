@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:28:12
+ * @Last Modified time: 2019-11-26 21:00:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,18 @@ import Tabs from '../_/tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+const title = 'ICO榜单'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailICO extends React.Component {
   static navigationOptions = {
-    title: 'ICO榜单'
+    title
   }
 
   static contextTypes = {

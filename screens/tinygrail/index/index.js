@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:28:31
+ * @Last Modified time: 2019-11-26 21:02:00
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
+import { UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -16,6 +17,8 @@ import StatusBarEvents from '../_/status-bar-events'
 import Auth from './auth'
 import Menus from './menus'
 import Store from './store'
+
+const title = '小圣杯'
 
 export default
 @inject(Store)
@@ -72,6 +75,7 @@ class Tinygrail extends React.Component {
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
       >
+        <UM screen={title} />
         <StatusBarEvents />
         <StatusBarPlaceholder style={{ backgroundColor: colorContainer }} />
         <Auth />

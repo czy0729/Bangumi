@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:25:04
+ * @Last Modified time: 2019-11-26 20:51:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,9 +15,13 @@ import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
 
+const title = '用户标签'
+
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Tag extends React.Component {
   static navigationOptions = ({ navigation }) => {

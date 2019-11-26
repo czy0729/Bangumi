@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:26:29
+ * @Last Modified time: 2019-11-26 20:56:22
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,13 +15,17 @@ import { HTML_NOTIFY } from '@constants/html'
 import _ from '@styles'
 import Store from './store'
 
+const title = '电波提醒'
+
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Notify extends React.Component {
   static navigationOptions = {
-    title: '电波提醒'
+    title
   }
 
   static contextTypes = {

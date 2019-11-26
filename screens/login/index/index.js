@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:25:33
+ * @Last Modified time: 2019-11-26 20:54:07
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,7 +16,8 @@ import {
   Button,
   Loading,
   Text,
-  Mesume
+  Mesume,
+  UM
 } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { urlStringify } from '@utils'
@@ -26,6 +27,7 @@ import { IOS, APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
 
+const title = '登陆V1'
 const backgroundColor = 'rgb(251, 251, 251)'
 const uri = `${OAUTH_URL}?${urlStringify({
   response_type: 'code',
@@ -242,6 +244,7 @@ export default class Login extends React.Component {
     const { clicked } = this.state
     return (
       <View style={[_.container.flex, styles.gray]}>
+        <UM screen={title} />
         <StatusBarEvents backgroundColor={backgroundColor} />
         <StatusBarPlaceholder style={styles.gray} />
         <View style={_.container.flex}>

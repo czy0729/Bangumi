@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:27:45
+ * @Last Modified time: 2019-11-26 20:59:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,13 +18,18 @@ import ToolBar from '../_/tool-bar'
 import List from './list'
 import Store, { tabs, sortDS } from './store'
 
+const title = '我的委托'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailBid extends React.Component {
   static navigationOptions = {
-    title: '我的委托'
+    title
   }
 
   static contextTypes = {

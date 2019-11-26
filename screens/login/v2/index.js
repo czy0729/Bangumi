@@ -5,14 +5,14 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:25:43
+ * @Last Modified time: 2019-11-26 20:54:47
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import deepmerge from 'deepmerge'
-import { StatusBarEvents, Text, Flex, KeyboardSpacer } from '@components'
+import { StatusBarEvents, Text, Flex, KeyboardSpacer, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
@@ -23,6 +23,7 @@ import _ from '@styles'
 import Preview from './preview'
 import Form from './form'
 
+const title = '登陆'
 const namespace = 'LoginV2'
 const backgroundColor = 'rgb(251, 251, 251)'
 const HOST_BANGUMI = 'https://bangumi.tv'
@@ -493,6 +494,7 @@ export default class LoginV2 extends React.Component {
     const { clicked, focus } = this.state
     return (
       <View style={[_.container.flex, styles.gray]}>
+        <UM screen={title} />
         <StatusBarEvents backgroundColor={backgroundColor} />
         <StatusBarPlaceholder style={styles.gray} />
         <View style={_.container.flex}>

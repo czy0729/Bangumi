@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:33:27
+ * @Last Modified time: 2019-11-26 21:05:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,9 +13,13 @@ import { hm } from '@utils/fetch'
 import _ from '@styles'
 import Store from './store'
 
+const title = '好友'
+
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Friends extends React.Component {
   static navigationOptions = ({ navigation }) => ({

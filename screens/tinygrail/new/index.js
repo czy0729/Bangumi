@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:28:49
+ * @Last Modified time: 2019-11-26 21:02:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,13 +18,18 @@ import ToolBar from '../_/tool-bar'
 import List from './list'
 import Store, { tabs, sortDS } from './store'
 
+const title = '新番榜单'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailNew extends React.Component {
   static navigationOptions = {
-    title: '新番榜单'
+    title
   }
 
   static contextTypes = {

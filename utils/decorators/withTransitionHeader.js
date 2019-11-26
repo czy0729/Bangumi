@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-10 13:52:14
+ * @Last Modified time: 2019-11-26 20:16:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, Popover, Menu, Flex, Iconfont } from '@components'
+import { StatusBarEvents, Popover, Menu, Flex, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
 import { gradientColor } from '@utils'
 import { IOS, BARE } from '@constants'
@@ -26,6 +26,7 @@ if (!IOS && BARE) {
  * @param {*} headerTransition 过渡头高度
  */
 const withTransitionHeader = ({
+  screen,
   headerTransition = 48,
   colorStart = _.colorPlainRaw,
   colorEnd = _.colorTitleRaw,
@@ -199,6 +200,7 @@ const withTransitionHeader = ({
         const { barStyle } = this.state
         return (
           <>
+            <UM screen={screen} />
             <StatusBarEvents
               barStyle={barStyle}
               backgroundColor='transparent'

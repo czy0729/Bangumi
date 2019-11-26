@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:22:56
+ * @Last Modified time: 2019-11-26 20:46:12
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
-import { StatusBarEvents, Loading, Text } from '@components'
+import { StatusBarEvents, Loading, Text, UM } from '@components'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
@@ -16,6 +16,8 @@ import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
 import _ from '@styles'
 import staticHTML from './static-html'
+
+const title = '年鉴'
 
 export default
 @observer
@@ -91,6 +93,7 @@ class Award extends React.Component {
     const { loading, redirectCount } = this.state
     return (
       <View style={[_.container.flex, styles.dark]}>
+        <UM screen={title} />
         <StatusBarEvents
           barStyle={this.barStyle}
           backgroundColor='transparent'

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 23:15:05
+ * @Last Modified time: 2019-11-26 20:14:57
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { StatusBarEvents, Flex, Popover, Menu, Iconfont } from '@components'
+import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
 import { IOS, BARE } from '@constants'
 import _ from '@styles'
@@ -19,6 +19,7 @@ if (!IOS && BARE) {
 }
 
 const withHeader = ({
+  screen,
   headerStyle,
   headerTitleStyle,
   iconBackColor = _.colorTitle,
@@ -110,6 +111,7 @@ const withHeader = ({
         const { navigation } = this.props
         return (
           <>
+            <UM screen={screen} />
             {statusBarEvents && <StatusBarEvents />}
             <ComposedComponent navigation={navigation} />
           </>

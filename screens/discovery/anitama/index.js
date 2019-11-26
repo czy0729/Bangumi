@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:22:38
+ * @Last Modified time: 2019-11-26 20:46:28
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -21,11 +21,13 @@ const height = width * 0.56
 
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Anitama extends React.Component {
   static navigationOptions = {
-    title: 'Anitama'
+    title
   }
 
   static contextTypes = {

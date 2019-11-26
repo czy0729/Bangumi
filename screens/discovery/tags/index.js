@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:32:20
+ * @Last Modified time: 2019-11-26 20:51:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,17 @@ import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+const title = '标签'
+
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Tags extends React.Component {
   static navigationOptions = {
-    title: '标签'
+    title
   }
 
   static contextTypes = {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:31:09
+ * @Last Modified time: 2019-11-26 21:06:05
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -12,12 +12,16 @@ import { withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import _ from '@styles'
 
+const title = '想说点话'
+
 export default
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Qiafan extends React.Component {
   static navigationOptions = {
-    title: '想说点话'
+    title
   }
 
   componentDidMount() {

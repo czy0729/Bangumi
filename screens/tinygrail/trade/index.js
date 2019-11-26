@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:30:33
+ * @Last Modified time: 2019-11-26 21:04:07
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { SafeAreaView, NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { Flex, Button, Touchable } from '@components'
+import { Flex, Button, Touchable, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -22,6 +22,8 @@ import Bar from './bar'
 import KLine from './k-line'
 import DepthMap from './depth-map'
 import DepthList from './depth-list'
+
+const title = 'K线'
 
 export default
 @inject(Store)
@@ -106,6 +108,7 @@ class TinygrailTrade extends React.Component {
         style={[_.container.flex, styles.dark]}
         forceInset={{ top: 'never' }}
       >
+        <UM screen={title} />
         {this.renderFocus()}
         <StatusBarEvents />
         <StatusBarPlaceholder style={styles.dark} />

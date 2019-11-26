@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:25:15
+ * @Last Modified time: 2019-11-26 20:52:48
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Clipboard } from 'react-native'
@@ -16,16 +16,19 @@ import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
 
+const title = '电脑辅助登陆'
 const code = `JSON.stringify({
   userAgent: navigator.userAgent,
   cookie: document.cookie
 });`
 
 export default
-@withHeader()
+@withHeader({
+  screen: title
+})
 class LoginAssist extends React.Component {
   static navigationOptions = {
-    title: '电脑辅助登陆'
+    title
   }
 
   state = {

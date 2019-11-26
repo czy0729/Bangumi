@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:28:40
+ * @Last Modified time: 2019-11-26 21:02:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,13 +17,18 @@ import Tabs from '../_/tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+const title = '资金日志'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailLogs extends React.Component {
   static navigationOptions = {
-    title: '资金日志'
+    title
   }
 
   static contextTypes = {

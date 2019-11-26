@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:29:23
+ * @Last Modified time: 2019-11-26 21:03:20
  */
 import React from 'react'
 import { StyleSheet, ScrollView, RefreshControl } from 'react-native'
@@ -20,13 +20,18 @@ import Auction from './auction'
 import AuctionList from './auction-list'
 import Store from './store'
 
+const title = '资产重组'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailSacrifice extends React.Component {
   static navigationOptions = {
-    title: '资产重组'
+    title
   }
 
   static contextTypes = {

@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:25:21
+ * @Last Modified time: 2019-11-26 20:53:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
-import { StatusBarEvents, Button, Mesume } from '@components'
+import { StatusBarEvents, Button, Mesume, UM } from '@components'
 import { IconTabsHeader, IconTinygrail, IconTabBar } from '@screens/_'
 import { hm } from '@utils/fetch'
 import { userStore } from '@stores'
 import _ from '@styles'
+
+const title = '预登陆'
 
 export default
 @observer
@@ -31,6 +33,7 @@ class Auth extends React.Component {
     const { navigation } = this.props
     return (
       <View style={[_.container.column, { backgroundColor: _.colorBg }]}>
+        <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <IconTabsHeader
           style={_.header.left}

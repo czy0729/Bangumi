@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:24:43
+ * @Last Modified time: 2019-11-26 20:50:16
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -17,9 +17,12 @@ import _ from '@styles'
 import Info from './info'
 import Store from './store'
 
+const title = '人物'
+
 export default
 @inject(Store)
 @withTransitionHeader({
+  screen: title,
   colorStart: _.colorTitleRaw,
   barStyle: 'dark-content'
 })

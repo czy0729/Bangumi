@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:30:58
+ * @Last Modified time: 2019-11-26 21:05:48
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents } from '@components'
+import { StatusBarEvents, UM } from '@components'
 import { IconTabBar, Login } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -19,6 +19,8 @@ import ToolBar from './tool-bar'
 import List from './list'
 import Store, { tabs, height } from './store'
 
+const title = '我的'
+
 export default
 @inject(Store)
 @observer
@@ -26,7 +28,7 @@ class User extends React.Component {
   static navigationOptions = {
     header: null,
     tabBarIcon: ({ tintColor }) => <IconTabBar name='me' color={tintColor} />,
-    tabBarLabel: '我的'
+    tabBarLabel: title
   }
 
   static contextTypes = {
@@ -119,6 +121,7 @@ class User extends React.Component {
     const offset = height + _.tabsHeight
     return (
       <>
+        <UM screen={title} />
         <StatusBarEvents
           barStyle='light-content'
           backgroundColor='transparent'

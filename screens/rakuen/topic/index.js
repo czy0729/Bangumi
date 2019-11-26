@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:26:50
+ * @Last Modified time: 2019-11-26 20:57:28
  */
 import React from 'react'
 import { StyleSheet, Alert } from 'react-native'
@@ -21,9 +21,12 @@ import Item from './item'
 import TouchScroll from './touch-scroll'
 import Store from './store'
 
+const title = '帖子'
+
 export default
 @inject(Store)
 @withTransitionHeader({
+  screen: title,
   colorStart: _.colorTitleRaw,
   barStyle: 'dark-content'
 })

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:31:41
+ * @Last Modified time: 2019-11-26 21:07:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,10 +18,13 @@ import { HOST_NAME } from '@constants'
 import { userStore } from '@stores'
 import _ from '@styles'
 
+const title = '浏览器'
 const redirectMaxCount = 8 // 最大跳转次数
 
 export default
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class WebView extends React.Component {
   static navigationOptions = ({ navigation }) => ({

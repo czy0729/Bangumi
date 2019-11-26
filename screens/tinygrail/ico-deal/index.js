@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:28:21
+ * @Last Modified time: 2019-11-26 21:01:27
  */
 import React from 'react'
 import { StyleSheet, ScrollView, RefreshControl } from 'react-native'
@@ -17,13 +17,18 @@ import Slider from './slider'
 import Initial from './initial'
 import Store from './store'
 
+const title = 'ICO'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailICODeal extends React.Component {
   static navigationOptions = {
-    title: 'ICO'
+    title
   }
 
   static contextTypes = {

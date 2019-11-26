@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:27:21
+ * @Last Modified time: 2019-11-26 20:58:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,14 +17,18 @@ import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+const title = '时间胶囊'
+
 export default
 @inject(Store)
-@withTabsHeader()
+@withTabsHeader({
+  screen: title
+})
 @observer
 class Timeline extends React.Component {
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => <IconTabBar name='time' color={tintColor} />,
-    tabBarLabel: '时间胶囊'
+    tabBarLabel: title
   }
 
   static contextTypes = {

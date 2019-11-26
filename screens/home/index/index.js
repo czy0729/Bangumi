@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:16:51
+ * @Last Modified time: 2019-11-26 20:49:36
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -24,9 +24,13 @@ import List from './list'
 import Grid from './grid'
 import Store, { tabs } from './store'
 
+const title = '首页'
+
 export default
 @inject(Store)
-@withTabsHeader()
+@withTabsHeader({
+  screen: title
+})
 @observer
 class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({

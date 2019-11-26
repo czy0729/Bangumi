@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-25 17:50:35
+ * @Last Modified time: 2019-11-26 19:40:05
  */
-import { Alert } from 'react-native'
-import Analytics from 'appcenter-analytics'
+import { Alert, NativeModules } from 'react-native'
+import Constants from 'expo-constants'
 import { Portal, Toast } from '@ant-design/react-native'
 import {
   IOS,
@@ -15,14 +15,15 @@ import {
   HOST_NAME,
   HOST,
   GITHUB_RELEASE_VERSION,
-  CODE_PUSH_VERSION,
   DEV
 } from '@constants'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
 
+const UMAnalyticsModule = NativeModules.UMAnalyticsModule
 const FETCH_ERR_RETRY_COUNT = 5 // GET请求失败重试次数
+let ua = ''
 
 /**
  * 统一请求方法
@@ -323,38 +324,33 @@ export function xhrCustom({
  * @param {*} url
  * @param {*} screen
  */
-export function hm(url, screen) {
+export async function hm(url, screen) {
   if (DEV) {
     return
   }
 
-  let version = GITHUB_RELEASE_VERSION
-  if (CODE_PUSH_VERSION) {
-    version += `-${CODE_PUSH_VERSION}`
-  }
-
   try {
-    const userStore = require('../stores/user').default
-    const { userAgent } = userStore.userCookie
+    if (!ua) {
+      ua = await Constants.getWebViewUserAgentAsync()
+    }
+
     let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
-    u += `${u.includes('?') ? '&' : '?'}v=${version}`
-    u += `${IOS ? '&ios=1' : ''}`
-
-    trackEvent(`[${screen}]${u}`)
-
+    u += `${u.includes('?') ? '&' : '?'}v=${GITHUB_RELEASE_VERSION}`
     u += `${screen ? `&s=${screen}` : ''}`
+    u += `${IOS ? '&ios=1' : ''}`
     fetch(
       `https://hm.baidu.com/hm.gif?${urlStringify({
-        // lt: getTimestamp(),
         rnd: randomn(10),
         si: '2dcb6644739ae08a1748c45fb4cea087',
         v: '1.2.51',
         api: '4_0',
         u
+        // lt: getTimestamp()
       })}`,
       {
         headers: {
-          'User-Agent': userAgent
+          'User-Agent':
+            ua || require('../stores/user').default.userCookie.userAgent
         }
       }
     )
@@ -363,13 +359,13 @@ export function hm(url, screen) {
   }
 }
 
-export function trackEvent(u) {
+export function t(u) {
   if (IOS) {
     return
   }
-
   try {
-    Analytics.trackEvent(u)
+    // Analytics.trackEvent(u)
+    UMAnalyticsModule.onPageStart(u)
   } catch (error) {
     // do nothing
   }

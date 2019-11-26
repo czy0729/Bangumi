@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:23:22
+ * @Last Modified time: 2019-11-26 20:44:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,17 @@ import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+const title = '收藏的人物'
+
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Character extends React.Component {
   static navigationOptions = {
-    title: '收藏的人物'
+    title
   }
 
   static contextTypes = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-19 17:33:15
+ * @Last Modified time: 2019-11-26 20:58:52
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -16,13 +16,17 @@ import _ from '@styles'
 import Chat from './chat'
 import Store from './store'
 
+const title = '吐槽'
+
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Say extends React.Component {
   static navigationOptions = {
-    title: '吐槽'
+    title
   }
 
   static contextTypes = {
