@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 01:35:56
+ * @Last Modified time: 2019-11-27 16:35:46
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -52,10 +52,12 @@ export default class ScreenTinygrail extends store {
     const { _loaded } = await res
     if (!_loaded) {
       await this.doAuth()
-      await Promise.all([tinygrailStore.fetchAssets()])
     }
 
-    await tinygrailStore.fetchHash()
+    await Promise.all([
+      tinygrailStore.fetchAssets(),
+      tinygrailStore.fetchHash()
+    ])
     res = this.fetchCharaAssets()
     await res
 

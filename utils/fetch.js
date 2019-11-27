@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 19:40:05
+ * @Last Modified time: 2019-11-27 16:48:05
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -372,29 +372,19 @@ export function t(u) {
 }
 
 /**
- * @todo 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
+ * 接口防并发请求问题严重, 暂时延迟一下, n个请求一组
  * @param {*} fetchs
  */
-export async function queue(fetchs = []) {
-  const [
-    f1 = Function.prototype,
-    f2 = Function.prototype,
-    f3 = Function.prototype,
-    f4 = Function.prototype,
-    f5 = Function.prototype,
-    f6 = Function.prototype
-  ] = fetchs
-  await Promise.all([f1(), f2(), f3()])
-  return Promise.all([f4(), f5(), f6()])
+export async function queue(fetchs, num = 2) {
+  await Promise.all(
+    new Array(num).fill(0).map(async () => {
+      while (fetchs.length) {
+        // eslint-disable-next-line no-await-in-loop
+        await fetchs.shift()()
+      }
+    })
+  )
 }
-
-// export async function queue(fetchs, run, num = 2) {
-//   await Promise.all(
-//     new Array(num).fill(0).map(async () => {
-//       while (fetchs.length) await run(fetchs.shift())
-//     })
-//   )
-// }
 
 /**
  * 接口某些字段为空返回null, 影响到es6函数初始值的正常使用, 统一处理成空字符串
