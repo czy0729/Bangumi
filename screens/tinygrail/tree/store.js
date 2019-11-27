@@ -2,27 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-25 18:34:53
+ * @Last Modified time: 2019-11-27 20:32:46
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { tinygrailOSS } from '@utils/app'
-import { trackEvent } from '@utils/fetch'
 import { info } from '@utils/ui'
+import treemap from '@utils/thirdParty/treemap'
 import {
   MODEL_TINYGRAIL_ASSETS_TYPE,
-  MODAL_TINYGRAIL_CACULATE_TYPE
+  MODEL_TINYGRAIL_CACULATE_TYPE
 } from '@constants/model'
 import _ from '@styles'
 import { VALHALL_PRICE } from '../_/ds'
-import treemap from './treemap'
 
-const namespace = 'ScreenTinygrailTree'
 const TINYGRAIL_VALHALL_ID = 'valhalla@tinygrail.com'
 const H_TOOL_BAR = 44
+const namespace = 'ScreenTinygrailTree'
 const defaultType = MODEL_TINYGRAIL_ASSETS_TYPE.getValue('所有')
-const defaultCaculateType = MODAL_TINYGRAIL_CACULATE_TYPE.getValue('持仓价值')
+const defaultCaculateType = MODEL_TINYGRAIL_CACULATE_TYPE.getValue('周股息')
 
 export default class ScreenTinygrailTree extends store {
   @observable state = {
@@ -175,7 +174,7 @@ export default class ScreenTinygrailTree extends store {
     const list = this.charaAssets
 
     // 总
-    const label = MODAL_TINYGRAIL_CACULATE_TYPE.getLabel(caculateType)
+    const label = MODEL_TINYGRAIL_CACULATE_TYPE.getLabel(caculateType)
     const total = caculateTotal(list, label, this.isTemple) // 所有总值
 
     // 过滤
@@ -264,7 +263,6 @@ export default class ScreenTinygrailTree extends store {
     })
     this.generateTreeMap()
     this.setStorage(undefined, undefined, namespace)
-    this.track()
   }
 
   /**
@@ -272,17 +270,23 @@ export default class ScreenTinygrailTree extends store {
    */
   onCaculateTypeSelect = caculateType => {
     this.setState({
-      caculateType: MODAL_TINYGRAIL_CACULATE_TYPE.getValue(caculateType),
+      caculateType: MODEL_TINYGRAIL_CACULATE_TYPE.getValue(caculateType),
       filterItems: []
     })
     this.generateTreeMap()
     this.setStorage(undefined, undefined, namespace)
-    this.track()
   }
 
-  track = () => {
-    const { type, caculateType } = this.state
-    trackEvent(`[${namespace}]type=${type}&caculateType=${caculateType}`)
+  /**
+   * 隐藏低持仓
+   */
+  onHideLow = () => {
+    this.setState({
+      filterItems: this.charaAssets.filter(
+        item => caculateValue(item, '持仓价值') < 100
+      )
+    })
+    this.generateTreeMap()
   }
 }
 

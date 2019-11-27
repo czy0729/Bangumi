@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:04:35
+ * @Last Modified time: 2019-11-27 18:10:09
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Modal } from '@ant-design/react-native'
 import { Loading, Text } from '@components'
 import { IconHeader } from '@screens/_'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -69,7 +68,7 @@ class TinygrailTree extends React.Component {
   onAlert = () => {
     Alert.alert(
       '小圣杯助手',
-      '1. 长按方格展开功能菜单\n2. 本功能处于实验性阶段, 不保证能正常渲染, 不正常请尝试刷新或者在讨论组等联系作者\n3. 计算的数据只供参考, 不排除会出现不准确丢失的情况\n4. 因角色数量可能导致流量变大, 页面当有缓存数据不会自动刷新, 请点击旁边的按钮刷新\n5. 部分数据可能毫无意义, 只是顺便调出来, 还请自己把握(bgm38)',
+      '1. 单击方格展开功能菜单, 长按隐藏方格\n2. 本功能处于实验性阶段, 不保证能正常渲染, 不正常请尝试刷新或者在讨论组等联系作者\n3. 计算的数据只供参考, 不排除会出现不准确丢失的情况\n4. 因角色数量可能导致流量变大, 页面当有缓存数据不会自动刷新, 请点击旁边的按钮刷新\n5. 部分数据可能毫无意义, 只是顺便调出来, 还请自己把握(bgm38)',
       [
         {
           text: '确定'
@@ -108,52 +107,46 @@ class TinygrailTree extends React.Component {
     this.setParams()
   }
 
-  onLongPress = ({ id, name }) => {
+  onShowMenu = ({ id, name, title }) => {
     if (!id) {
       return
     }
 
-    const { navigation } = this.context
-    const data = [
-      {
-        text: <Text>{name}</Text>,
-        onPress: () =>
-          navigation.push('Mono', {
-            monoId: `character/${id}`
-          })
-      },
-      {
-        text: <Text>K线</Text>,
-        onPress: () =>
-          navigation.push('TinygrailTrade', {
-            monoId: `character/${id}`
-          })
-      },
-      {
-        text: <Text>买入</Text>,
-        onPress: () =>
-          navigation.push('TinygrailDeal', {
-            monoId: `character/${id}`,
-            type: 'bid'
-          })
-      },
-      {
-        text: <Text>卖出</Text>,
-        onPress: () =>
-          navigation.push('TinygrailDeal', {
-            monoId: `character/${id}`,
-            type: 'ask'
-          })
-      },
-      {
-        text: <Text>资产重组</Text>,
-        onPress: () =>
-          navigation.push('TinygrailSacrifice', {
-            monoId: `character/${id}`
-          })
-      }
-    ]
-    Modal.operation(data)
+    const { $, navigation } = this.context
+    switch (title) {
+      case 'K线':
+        navigation.push('TinygrailTrade', {
+          monoId: `character/${id}`
+        })
+        return
+      case '买入':
+        navigation.push('TinygrailDeal', {
+          monoId: `character/${id}`,
+          type: 'bid'
+        })
+        return
+      case '卖出':
+        navigation.push('TinygrailDeal', {
+          monoId: `character/${id}`,
+          type: 'ask'
+        })
+        return
+      case '资产重组':
+        navigation.push('TinygrailSacrifice', {
+          monoId: `character/${id}`
+        })
+        return
+      case '隐藏':
+        $.onToggleItem({
+          id,
+          name
+        })
+        return
+      default:
+        navigation.push('Mono', {
+          monoId: `character/${id}`
+        })
+    }
   }
 
   render() {
@@ -170,8 +163,8 @@ class TinygrailTree extends React.Component {
             data={data}
             caculateType={caculateType}
             isTemple={$.isTemple}
-            onPress={$.onToggleItem}
-            onLongPress={this.onLongPress}
+            onPress={this.onShowMenu}
+            onLongPress={$.onToggleItem}
           />
         )}
       </View>

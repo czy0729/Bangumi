@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 23:49:15
+ * @Last Modified time: 2019-11-27 19:51:47
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -476,6 +476,7 @@ class Tinygrail extends store {
           userId: item.Name,
           assets: item.Assets.toFixed(2),
           total: item.TotalBalance.toFixed(2),
+          share: item.Share.toFixed(2),
           principal: item.Principal,
           lastActiveDate: item.LastActiveDate,
           lastIndex: item.LastIndex

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 23:18:11
+ * @Last Modified time: 2019-11-27 20:05:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,6 +15,9 @@ import { tinygrailOSS } from '@utils/app'
 import _ from '@styles'
 import { colorContainer, colorText, colorBorder } from '../styles'
 
+const B = 100000000
+const M = 10000
+
 function Item(
   {
     index,
@@ -24,6 +27,7 @@ function Item(
     userId,
     nickname,
     total,
+    share,
     assets,
     principal,
     lastActiveDate,
@@ -33,34 +37,40 @@ function Item(
 ) {
   const isTop = index === 0
   let totalText
-  if (Math.abs(total) > 100000000) {
-    totalText = `${formatNumber(total / 100000000, 1)}亿`
-  } else if (Math.abs(total) > 1000) {
-    totalText = `${formatNumber(total / 10000, 1)}万`
+  if (Math.abs(total) > B) {
+    totalText = `${formatNumber(total / B, 1)}亿`
+  } else if (Math.abs(total) > M) {
+    totalText = `${formatNumber(total / M, 1)}万`
   } else {
     totalText = formatNumber(Math.abs(total), 1)
   }
 
   let assetsText
-  if (assets > 100000000) {
-    assetsText = `${formatNumber(assets / 100000000, 1)}亿`
-  } else if (assets > 1000) {
-    assetsText = `${formatNumber(assets / 10000, 1)}万`
+  if (assets > B) {
+    assetsText = `${formatNumber(assets / B, 1)}亿`
+  } else if (assets > M) {
+    assetsText = `${formatNumber(assets / M, 1)}万`
   } else {
     assetsText = assets
   }
 
   let principalText
-  if (principal > 100000000) {
-    principalText = `${formatNumber(principal / 100000000, 0)}亿`
-  } else if (principal > 1000) {
-    principalText = `${formatNumber(principal / 10000, 0)}万`
+  if (principal > B) {
+    principalText = `${formatNumber(principal / B, 1)}亿`
+  } else if (principal > M) {
+    principalText = `${formatNumber(principal / M, 1)}万`
   } else {
     principalText = principal
   }
 
-  const rank = index + 1 + (page - 1) * limit
+  let shareText
+  if (share > M) {
+    shareText = `${formatNumber(share / M, 1)}万`
+  } else {
+    shareText = share
+  }
 
+  const rank = index + 1 + (page - 1) * limit
   let changeText = ''
   let changeColor
   if (lastIndex === 0) {
@@ -115,7 +125,7 @@ function Item(
                           style={{
                             color: changeColor
                           }}
-                          lineHeight={16}
+                          size={16}
                         >
                           {' '}
                           {changeText}
@@ -131,7 +141,7 @@ function Item(
                       ]}
                       size={12}
                     >
-                      余额{totalText} / 初始{principalText} /{' '}
+                      总{assetsText} / 余{totalText} / 初{principalText} /{' '}
                       {lastActiveDate
                         ? lastDate(
                             getTimestamp(lastActiveDate.replace('T', ' '))
@@ -140,7 +150,7 @@ function Item(
                     </Text>
                   </Flex.Item>
                   <Text size={16} type='plain'>
-                    {assetsText}
+                    {shareText}
                   </Text>
                   <Iconfont
                     style={_.ml.sm}

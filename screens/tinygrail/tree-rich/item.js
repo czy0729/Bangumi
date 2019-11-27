@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-11-23 22:22:48
+ * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 18:22:54
+ * @Last Modified time: 2019-11-27 22:26:46
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,13 +10,7 @@ import { Flex, Image, Text } from '@components'
 import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
 import _ from '@styles'
-import {
-  colorContainer,
-  colorText,
-  colorBorder,
-  colorBid,
-  colorAsk
-} from '../styles'
+import { colorContainer, colorText, colorBorder } from '../styles'
 
 const area = _.window.width * _.window.height
 
@@ -30,10 +24,6 @@ function Item({
   name,
   price,
   percent,
-  fluctuation,
-  label,
-  extra,
-  isTemple,
   onPress,
   onLongPress
 }) {
@@ -57,20 +47,6 @@ function Item({
     backgroundColor = colorBorder
   }
 
-  let left
-  let right
-  let textColor = colorText
-  if (label === '当前涨跌') {
-    right = '%'
-    if (fluctuation > 0) {
-      left = '+'
-      textColor = colorBid
-    } else if (fluctuation < 0) {
-      left = '-'
-      textColor = colorAsk
-    }
-  }
-
   return (
     <Popover
       style={[
@@ -81,7 +57,7 @@ function Item({
           backgroundColor
         }
       ]}
-      data={!id ? [] : [name, 'K线', '买入', '卖出', '资产重组', '隐藏']}
+      data={!id ? [] : [name, '资产分析', '隐藏']}
       placement='auto'
       onSelect={title =>
         onPress({
@@ -115,12 +91,8 @@ function Item({
             }}
             src={icon}
             size={parseInt(ratioHeight * 240)}
-            height={
-              isTemple
-                ? parseInt(ratioHeight * 320)
-                : parseInt(ratioHeight * 240)
-            }
-            radius={isTemple ? 4 : parseInt(ratioHeight * 120)}
+            height={parseInt(ratioHeight * 240)}
+            radius={parseInt(ratioHeight * 120)}
             placeholder={false}
           />
         )}
@@ -137,14 +109,11 @@ function Item({
         >
           <Text
             style={{
-              color: textColor
+              color: colorText
             }}
             size={textSize}
           >
-            {extra}
-            {left}
             {priceText}
-            {right}
           </Text>{' '}
           / {_percent.toFixed(_percent < 0.1 ? 2 : 1)}%
         </Text>
