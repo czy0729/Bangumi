@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:57:28
+ * @Last Modified time: 2019-11-28 11:27:02
  */
 import React from 'react'
 import { StyleSheet, Alert } from 'react-native'
@@ -174,7 +174,7 @@ class Topic extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { placeholder } = $.state
+    const { placeholder, value } = $.state
     const { onScroll } = this.props
     return (
       <>
@@ -216,6 +216,8 @@ class Topic extends React.Component {
           <FixedTextarea
             ref={ref => (this.fixedTextarea = ref)}
             placeholder={placeholder ? `回复 ${placeholder}` : undefined}
+            value={value}
+            onChange={$.onChange}
             onClose={$.closeFixedTextarea}
             onSubmit={$.doSubmit}
           />

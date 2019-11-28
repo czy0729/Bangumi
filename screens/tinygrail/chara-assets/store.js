@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-16 15:51:17
+ * @Last Modified time: 2019-11-28 15:56:31
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -25,12 +25,12 @@ export const tabs = [
     key: 'chara'
   },
   {
-    title: 'ICO',
-    key: 'ico'
-  },
-  {
     title: '圣殿',
     key: 'temple'
+  },
+  {
+    title: 'ICO',
+    key: 'ico'
   }
 ]
 export const sortDS = [

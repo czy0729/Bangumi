@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-07 20:12:10
+ * @Last Modified time: 2019-11-28 15:54:30
  */
 import { observable, computed } from 'mobx'
 import {
@@ -14,15 +14,20 @@ import {
 } from '@stores'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
+import { info } from '@utils/ui'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 
 const namespace = 'ScreenTopic'
+const initState = {
+  placeholder: '', // 回复框placeholder
+  value: '', // 回复框value
+  replySub: '', // 存放bgm特有的子回复配置字符串
+  message: '' // 存放子回复html
+}
 
 export default class ScreenTopic extends store {
   state = observable({
-    placeholder: '',
-    replySub: '',
-    message: '',
+    ...initState,
     filterMe: false,
     filterFriends: false,
     reverse: false,
@@ -33,9 +38,7 @@ export default class ScreenTopic extends store {
     const state = await this.getStorage(undefined, this.namespace)
     this.setState({
       ...state,
-      placeholder: '',
-      replySub: '',
-      message: '',
+      ...initState,
       _loaded: true
     })
 
@@ -233,14 +236,32 @@ export default class ScreenTopic extends store {
     })
   }
 
+  onChange = value => {
+    this.setState({
+      value
+    })
+  }
+
+  /**
+   * 失败后恢复上次的内容
+   */
+  recoveryContent = content => {
+    info('回复失败，可能是cookie失效了')
+    this.setState({
+      value: ''
+    })
+    setTimeout(() => {
+      this.setState({
+        value: content
+      })
+    }, 160)
+  }
+
   // -------------------- action --------------------
   /**
-   * 回复
+   * 提交回复
    */
   doSubmit = content => {
-    const { placeholder, replySub, message } = this.state
-    const { formhash } = this.topic
-
     let type
     if (this.topicId.includes('group/')) {
       type = 'group/topic'
@@ -256,40 +277,94 @@ export default class ScreenTopic extends store {
       return
     }
 
+    const { replySub } = this.state
     if (replySub) {
-      const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
-      let _content = content
-      if (message) {
-        const _message = decoder(message).replace(
-          /<div class="quote"><q>.*<\/q><\/div>/,
-          ''
-        )
-        _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(
-          _message
-        )}[/quote]\n${content}`
-      }
-      rakuenStore.doReply(
-        {
-          type,
-          content: _content,
-          formhash,
-          topicId,
-          related,
-          sub_reply_uid: subReplyUid,
-          post_uid: postUid
-        },
-        () => this.fetchTopic()
-      )
-    } else {
-      rakuenStore.doReply(
-        {
-          type,
-          topicId: this.topicId.match(/\d+/g)[0],
-          content,
-          formhash
-        },
-        () => this.fetchTopic()
-      )
+      this.doReplySub(content, type)
+      return
     }
+
+    this.doReply(content, type)
+  }
+
+  /**
+   * 回复
+   */
+  doReply = (content, type) => {
+    const { formhash } = this.topic
+    rakuenStore.doReply(
+      {
+        type,
+        topicId: this.topicId.match(/\d+/g)[0],
+        content,
+        formhash
+      },
+      responseText => {
+        let res = {}
+        try {
+          res = JSON.parse(responseText)
+        } catch (error) {
+          // do nothing
+        }
+
+        if (res.status !== 'ok') {
+          this.recoveryContent(content)
+        } else {
+          this.setState({
+            value: ''
+          })
+        }
+
+        this.fetchTopic()
+      }
+    )
+  }
+
+  /**
+   * 回复子回复
+   */
+  doReplySub = (content, type) => {
+    const { placeholder, replySub, message } = this.state
+    const { formhash } = this.topic
+
+    const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
+    let _content = content
+    if (message) {
+      const _message = decoder(message).replace(
+        /<div class="quote"><q>.*<\/q><\/div>/,
+        ''
+      )
+      _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(
+        _message
+      )}[/quote]\n${content}`
+    }
+    rakuenStore.doReply(
+      {
+        type,
+        content: _content,
+        formhash,
+        topicId,
+        related,
+        sub_reply_uid: subReplyUid,
+        post_uid: postUid
+      },
+      responseText => {
+        let res = {}
+        try {
+          res = JSON.parse(responseText)
+        } catch (error) {
+          // do nothing
+        }
+
+        if (res.status !== 'ok') {
+          this.recoveryContent(content)
+        } else {
+          this.setState({
+            value: ''
+          })
+        }
+
+        this.fetchTopic()
+      }
+    )
   }
 }

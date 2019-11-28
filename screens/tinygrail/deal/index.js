@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:00:21
+ * @Last Modified time: 2019-11-28 15:58:29
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View, RefreshControl, UM } from 'react-native'
+import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex } from '@components'
+import { Flex, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'

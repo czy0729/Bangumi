@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:12:48
+ * @Last Modified time: 2019-11-28 14:00:43
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -16,7 +16,7 @@ const namespace = 'ScreenTinygrailSacrifice'
 export default class ScreenTinygrailSacrifice extends store {
   state = observable({
     loading: false,
-    amount: 500, // 只能是整数
+    amount: 0, // 只能是整数
     expand: false, // 展开所有圣殿
 
     auctionLoading: false,

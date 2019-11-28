@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:58:52
+ * @Last Modified time: 2019-11-28 11:26:47
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -92,8 +92,8 @@ class Say extends React.Component {
             placeholder={$.isNew ? '新吐槽' : '回复吐槽, 长按头像@某人'}
             simple
             value={value}
-            onClose={$.closeFixedTextarea}
             onChange={$.onChange}
+            onClose={$.closeFixedTextarea}
             onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
           />
         )}

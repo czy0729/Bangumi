@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-25 18:34:41
+ * @Last Modified time: 2019-11-28 11:49:19
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -145,6 +145,21 @@ export default class ScreenSay extends store {
     })
   }
 
+  /**
+   * 失败后恢复上次的内容
+   */
+  recoveryContent = content => {
+    info('操作失败，可能是cookie失效了')
+    this.setState({
+      value: ''
+    })
+    setTimeout(() => {
+      this.setState({
+        value: content
+      })
+    }, 160)
+  }
+
   // -------------------- action --------------------
   /**
    * 提交
@@ -186,21 +201,21 @@ export default class ScreenSay extends store {
           // do nothing
         }
 
-        if (res.status === 'ok') {
-          const { onNavigationCallback } = this.params
-          if (onNavigationCallback) {
-            onNavigationCallback(true)
-          }
-
-          this.setState({
-            value: ''
-          })
-          info('吐槽成功')
-          navigation.goBack()
+        if (res.status !== 'ok') {
+          this.recoveryContent(content)
           return
         }
 
-        this.recoveryContent(content)
+        const { onNavigationCallback } = this.params
+        if (onNavigationCallback) {
+          onNavigationCallback(true)
+        }
+
+        this.setState({
+          value: ''
+        })
+        info('吐槽成功')
+        navigation.goBack()
       }
     )
   }
@@ -225,37 +240,22 @@ export default class ScreenSay extends store {
           // do nothing
         }
 
-        if (res.status === 'ok') {
-          this.setState({
-            value: ''
-          })
-          await this.fetchSay()
-
-          if (scrollView && scrollView.scrollToEnd) {
-            setTimeout(() => {
-              scrollView.scrollToEnd()
-            }, 0)
-          }
+        if (res.status !== 'ok') {
+          this.recoveryContent(content)
           return
         }
 
-        this.recoveryContent(content)
+        this.setState({
+          value: ''
+        })
+        await this.fetchSay()
+
+        if (scrollView && scrollView.scrollToEnd) {
+          setTimeout(() => {
+            scrollView.scrollToEnd()
+          }, 0)
+        }
       }
     )
-  }
-
-  /**
-   * 失败后恢复上次的内容
-   */
-  recoveryContent = content => {
-    info('操作失败，可能是cookie失效了')
-    this.setState({
-      value: ''
-    })
-    setTimeout(() => {
-      this.setState({
-        value: content
-      })
-    }, 160)
   }
 }
