@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:55:59
+ * @Last Modified time: 2019-11-29 01:03:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,18 +42,17 @@ class Rakuen extends React.Component {
     navigation: PropTypes.object
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { $, navigation } = this.context
-    await $.init()
+    $.init()
 
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
-
     navigation.setParams({
       headerLeft: <IconNotify navigation={navigation} />,
       headerRight: (
         <Flex>
-          <Prefetch $={$} />
+          <Prefetch $={$} navigation={navigation} />
           <Popover
             style={_.ml.sm}
             data={['设置', '新讨论', '社区指导原则']}

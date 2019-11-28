@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:18:41
+ * @Last Modified time: 2019-11-28 22:54:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -108,6 +108,11 @@ class Item extends React.Component {
     const { href = '' } = this.props
     const characterId = $.characterId(href)
     return $.characters(characterId)
+  }
+
+  get isFavor() {
+    const { $ } = this.context
+    return $.isFavor(this.topicId)
   }
 
   renderContent() {
@@ -306,6 +311,14 @@ class Item extends React.Component {
             </Flex>
           </Flex.Item>
         </Flex>
+        {this.isFavor && (
+          <Iconfont
+            style={styles.favor}
+            size={12}
+            name='star-full'
+            color={_.colorYellow}
+          />
+        )}
       </View>
     )
   }
@@ -334,6 +347,11 @@ const styles = StyleSheet.create({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: StyleSheet.hairlineWidth
+  },
+  favor: {
+    position: 'absolute',
+    right: 12,
+    bottom: 20
   }
 })
 

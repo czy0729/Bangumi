@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 15:54:30
+ * @Last Modified time: 2019-11-28 22:04:40
  */
 import { observable, computed } from 'mobx'
 import {
@@ -47,6 +47,11 @@ export default class ScreenTopic extends store {
       this.fetchEpFormHTML()
     }
 
+    // 本地帖子过来不主动请求
+    const { _noFetch } = this.params
+    if (_noFetch) {
+      return true
+    }
     return this.fetchTopic()
   }
 
@@ -178,6 +183,10 @@ export default class ScreenTopic extends store {
     return systemStore.isUGCAgree
   }
 
+  @computed get isFavor() {
+    return rakuenStore.favor(this.topicId)
+  }
+
   // -------------------- page --------------------
   /**
    * 吐槽箱倒序
@@ -255,6 +264,13 @@ export default class ScreenTopic extends store {
         value: content
       })
     }, 160)
+  }
+
+  /**
+   * 设置收藏
+   */
+  setFavor = () => {
+    rakuenStore.setFavor(this.topicId, !this.isFavor)
   }
 
   // -------------------- action --------------------

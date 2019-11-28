@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-18 16:34:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 14:54:56
+ * @Last Modified time: 2019-11-28 20:06:38
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -31,6 +31,7 @@ export default SectionHeader
 const styles = StyleSheet.create({
   section: {
     paddingVertical: _.sm,
-    paddingHorizontal: _.wind
+    paddingHorizontal: _.wind,
+    backgroundColor: _.colorBg
   }
 })

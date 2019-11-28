@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-07 02:52:44
+ * @Last Modified time: 2019-11-29 00:58:48
  */
 import { AsyncStorage, Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
@@ -96,6 +96,7 @@ class Stores {
           // 以下为不需要清除的数据, 再次本地化
           systemStore.setStorage('setting', undefined, 'System')
           rakuenStore.setStorage('setting', undefined, 'Rakuen')
+          rakuenStore.setStorage('favor', undefined, 'Rakuen')
           userStore.setStorage('accessToken', undefined, 'User')
           userStore.setStorage('userInfo', undefined, 'User')
           userStore.setStorage('userCookie', undefined, 'User')

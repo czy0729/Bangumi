@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 20:36:46
+ * @Last Modified time: 2019-11-28 17:26:15
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -35,6 +35,7 @@ export { default as Tag } from './home/tag'
 export { default as Group } from './rakuen/group'
 export { default as Notify } from './rakuen/notify'
 export { default as Rakuen } from './rakuen/index'
+export { default as RakuenHistory } from './rakuen/history'
 export { default as RakuenSetting } from './rakuen/setting'
 export { default as Topic } from './rakuen/topic'
 export { default as UGCAgree } from './rakuen/ugc-agree'

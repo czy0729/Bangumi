@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 11:27:02
+ * @Last Modified time: 2019-11-29 00:57:53
  */
 import React from 'react'
 import { StyleSheet, Alert } from 'react-native'
@@ -19,6 +19,7 @@ import _ from '@styles'
 import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
+import IconFavor from './icon-favor'
 import Store from './store'
 
 const title = '帖子'
@@ -71,13 +72,10 @@ class Topic extends React.Component {
       return
     }
 
-    await $.init()
-    const { title } = $.topic
-    withTransitionHeader.setTitle(navigation, title)
-
     const url =
       navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
     navigation.setParams({
+      extra: <IconFavor $={$} />,
       popover: {
         data: ['浏览器查看', '举报'],
         onSelect: key => {
@@ -94,6 +92,10 @@ class Topic extends React.Component {
         }
       }
     })
+
+    await $.init()
+    const { title } = $.topic
+    withTransitionHeader.setTitle(navigation, title)
 
     if ($.postId) {
       this.jump()

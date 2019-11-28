@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:19:54
+ * @Last Modified time: 2019-11-28 21:56:01
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -90,6 +90,13 @@ class Rakuen extends store {
      */
     group: {
       // [groupId|page]: [] | INIT_GROUP_ITEM
+    },
+
+    /**
+     * 本地收藏
+     */
+    favor: {
+      // [topicId]: true
     }
   })
 
@@ -102,7 +109,8 @@ class Rakuen extends store {
         comments: {},
         notify: INIT_NOTIFY,
         setting: INIT_SETTING,
-        groupInfo: {}
+        groupInfo: {},
+        favor: {}
       },
       NAMESPACE
     )
@@ -176,6 +184,14 @@ class Rakuen extends store {
     return computed(
       () => this.state.group[`${groupId}|${page}`] || INIT_GROUP_ITEM
     ).get()
+  }
+
+  /**
+   * 本地收藏
+   * @param {*} topicId
+   */
+  favor(topicId = 0) {
+    return computed(() => this.state.favor[topicId] || false).get()
   }
 
   // -------------------- fetch --------------------
@@ -546,6 +562,19 @@ class Rakuen extends store {
       [key]: {
         ...this.setting,
         isMarkOldTopic: !isMarkOldTopic
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 设置是否收藏
+   */
+  setFavor = (topicId, isFover) => {
+    const key = 'favor'
+    this.setState({
+      [key]: {
+        [topicId]: isFover
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

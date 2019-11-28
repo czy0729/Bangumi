@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 21:14:58
+ * @Last Modified time: 2019-11-29 01:08:25
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -13,7 +13,7 @@ import { IconTabsHeader } from '@screens/_'
 import { IOS } from '@constants'
 import _ from '@styles'
 
-function Prefetch({ $ }) {
+function Prefetch({ $, navigation }) {
   const { prefetching, prefetchTotal, prefetchCurrent } = $.state
   if (prefetching) {
     return (
@@ -50,18 +50,30 @@ function Prefetch({ $ }) {
   }
 
   return (
-    <IconTabsHeader
-      style={{
-        transform: [
-          {
-            rotate: '90deg'
-          }
-        ]
-      }}
-      name='logout'
-      position='right'
-      onPress={$.prefetchConfirm}
-    />
+    <>
+      <IconTabsHeader
+        style={{
+          marginRight: 2
+        }}
+        name='star'
+        position='right'
+        onPress={() => navigation.push('RakuenHistory')}
+      />
+      <IconTabsHeader
+        style={{
+          marginRight: -6,
+          transform: [
+            {
+              rotate: '90deg'
+            }
+          ]
+        }}
+        size={18}
+        name='logout'
+        position='right'
+        onPress={$.prefetchConfirm}
+      />
+    </>
   )
 }
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-10 15:37:05
+ * @Last Modified time: 2019-11-28 22:34:40
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -244,6 +244,14 @@ export default class ScreenRakuen extends store {
    */
   characters(id) {
     return computed(() => tinygrailStore.characters(id)).get()
+  }
+
+  /**
+   * 是否收藏
+   * @param {*} topicId
+   */
+  isFavor(topicId) {
+    return computed(() => rakuenStore.favor(topicId)).get()
   }
 
   // -------------------- page --------------------
