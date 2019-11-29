@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 18:10:09
+ * @Last Modified time: 2019-11-29 21:15:22
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
@@ -103,6 +103,8 @@ class TinygrailTree extends React.Component {
     })
 
     await $.refresh()
+    $.generateTreeMap()
+
     info('已刷新')
     this.setParams()
   }

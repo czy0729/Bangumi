@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 22:42:34
+ * @Last Modified time: 2019-11-29 21:15:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -72,6 +72,8 @@ class TinygrailTree extends React.Component {
     })
 
     await $.fetchRich()
+    $.generateTreeMap()
+
     info('已刷新')
     this.setParams()
   }

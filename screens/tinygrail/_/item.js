@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 21:50:34
+ * @Last Modified time: 2019-11-29 20:28:35
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
-import { lastDate, getTimestamp } from '@utils'
+import { lastDate, getTimestamp, formatNumber } from '@utils'
 import { tinygrailOSS, formatTime } from '@utils/app'
+import { B, M } from '@constants'
 import _ from '@styles'
 import {
   colorBid,
@@ -31,7 +32,8 @@ const colorMap = {
   bid: colorBid,
   asks: colorAsk,
   chara: _.colorWarning,
-  ico: _.colorPrimary
+  ico: _.colorPrimary,
+  auction: _.colorWarning
 }
 
 /**
@@ -48,8 +50,8 @@ function fixedTime(time) {
 
 function Item(props, { navigation }) {
   const {
-    index,
     _index,
+    index,
     id,
     monoId,
     name,
@@ -59,42 +61,69 @@ function Item(props, { navigation }) {
     marketValue,
     total,
     bonus,
-    users, // 有此值为ico中
-    type, // 有此值为用户委托单
-    state
+    users,
+    type,
+    amount,
+    price,
+    state,
+    rate
   } = props
   const isTop = index === 0
-  const isICO = users !== undefined
-  const isDeal = !!type
+  const isICO = users !== undefined // 有users为ico中
+  const isDeal = !!type // 有此值为用户委托单
+  const isAuction = type === 'auction'
 
   let marketValueText
   let totalText
-  if (marketValue > 100000000) {
-    marketValueText = `${(marketValue / 100000000).toFixed(1)}亿`
-  } else if (marketValue > 1000) {
-    marketValueText = `${(marketValue / 10000).toFixed(1)}万`
+  if (marketValue > B) {
+    marketValueText = `${parseFloat((marketValue / B).toFixed(1))}亿`
+  } else if (marketValue > M) {
+    marketValueText = `${parseFloat((marketValue / M).toFixed(1))}万`
+  } else {
+    marketValueText = formatNumber(marketValue, 0)
   }
+
   if (total > 1000) {
-    totalText = `${(total / 10000).toFixed(1)}万`
+    totalText = `${parseFloat((total / M).toFixed(1))}万`
+  } else {
+    totalText = formatNumber(total, 0)
   }
 
   let _end = end
   if (!String(_end).includes('+')) {
     _end = `${end}+${timezone}:00`
   }
-  let extra = isICO
-    ? `${formatTime(_end)} / 已筹集${totalText || '-'}`
-    : `${lastDate(getTimestamp(fixedTime(lastOrder)))} / 总${marketValueText ||
-        '-'} / 量${totalText || '-'}`
+
+  let extra
+  if (isICO) {
+    extra = `${formatTime(_end)} / 已筹集${totalText || '-'}`
+  } else {
+    extra = `${lastDate(
+      getTimestamp(fixedTime(lastOrder))
+    )} / 总${marketValueText || '-'} / 量${totalText || '-'}`
+  }
+
   if (users && users !== 'ico') {
     extra += ` / ${users || '-'}人`
   }
 
   let prevText
+  let auctionText = '竞拍中'
+  let auctionTextColor = colorText
+  let auctionSubText = ''
   if (['bid', 'asks', 'chara'].includes(type)) {
     prevText = `${state}股`
   } else if (type === 'ico') {
     prevText = `注资${state}`
+  } else if (type === 'auction') {
+    auctionSubText = `₵${price} / ${formatNumber(amount, 0)}`
+    if (state === 1) {
+      auctionText = '成功'
+      auctionTextColor = colorBid
+    } else if (state === 2) {
+      auctionText = '失败'
+      auctionTextColor = colorAsk
+    }
   }
 
   return (
@@ -116,6 +145,13 @@ function Item(props, { navigation }) {
             <Touchable
               style={styles.item}
               onPress={() => {
+                if (isAuction) {
+                  navigation.push('TinygrailSacrifice', {
+                    monoId: `character/${monoId || id}`
+                  })
+                  return
+                }
+
                 if (isICO) {
                   navigation.push('TinygrailICODeal', {
                     monoId: `character/${monoId || id}`
@@ -147,6 +183,18 @@ function Item(props, { navigation }) {
                         X{bonus}
                       </Text>
                     )}
+                    {!!rate && (
+                      <Text
+                        style={{
+                          color: colorText
+                        }}
+                        size={12}
+                        lineHeight={16}
+                      >
+                        {' '}
+                        +{parseFloat(rate.toFixed(2))}
+                      </Text>
+                    )}
                   </Text>
                   <Text
                     style={[
@@ -167,21 +215,48 @@ function Item(props, { navigation }) {
                         {prevText}
                       </Text>
                     )}
-                    {isDeal && ' / '}
+                    {isDeal && !isAuction && ' / '}
                     {extra}
                   </Text>
                 </Flex.Item>
+                {isAuction && (
+                  <View>
+                    <Text
+                      style={{
+                        color: auctionTextColor
+                      }}
+                      size={16}
+                      align='right'
+                    >
+                      {auctionText}
+                    </Text>
+                    <Text
+                      style={[
+                        _.mt.xs,
+                        {
+                          color: colorText
+                        }
+                      ]}
+                      size={12}
+                      align='right'
+                    >
+                      {auctionSubText}
+                    </Text>
+                  </View>
+                )}
               </Flex>
             </Touchable>
           </Flex.Item>
-          <StockPreview
-            style={{
-              marginRight: -_.sm
-            }}
-            {...props}
-            _loaded
-            theme='dark'
-          />
+          {!isAuction && (
+            <StockPreview
+              style={{
+                marginRight: -_.sm
+              }}
+              {...props}
+              _loaded
+              theme='dark'
+            />
+          )}
           {!isICO && <Popover id={monoId || id} />}
         </Flex>
       </Flex.Item>

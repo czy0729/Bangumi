@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 15:56:31
+ * @Last Modified time: 2019-11-29 21:05:31
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import {
+  SORT_GX,
   SORT_CGS,
   SORT_CCJZ,
   SORT_HYD,
@@ -34,6 +35,7 @@ export const tabs = [
   }
 ]
 export const sortDS = [
+  SORT_GX,
   SORT_CGS,
   SORT_CCJZ,
   SORT_HYD,

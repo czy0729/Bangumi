@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 20:39:33
+ * @Last Modified time: 2019-11-29 20:08:12
  */
 import { HOST } from './index'
 
@@ -323,7 +323,7 @@ export const API_TINYGRAIL_SCRATCH = () =>
   `${API_HOST_TINYGRAIL}/api/event/scratch/bonus`
 
 /**
- * 可竞拍信息
+ * 可拍卖信息
  * @param {*} monoId
  */
 export const API_TINYGRAIL_VALHALL_CHARA = monoId =>
@@ -338,14 +338,14 @@ export const API_TINYGRAIL_VALHALL_LIST = (page, limit = 20) =>
   `${API_HOST_TINYGRAIL}/api/chara/user/chara/valhalla@tinygrail.com/${page}/${limit}`
 
 /**
- * 上周竞拍结果
+ * 上周拍卖结果
  * @param {*} monoId
  */
 export const API_TINYGRAIL_AUCTION_LIST = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/auction/list/${monoId}/1`
 
 /**
- * 竞拍
+ * 拍卖
  * @param {*} monoId
  * @param {*} price
  * @param {*} amount
@@ -360,3 +360,9 @@ export const API_TINYGRAIL_AUCTION = (monoId, price, amount) =>
  */
 export const API_TINYGRAIL_SACRIFICE = (monoId, amount) =>
   `${API_HOST_TINYGRAIL}/api/chara/sacrifice/${monoId}/${amount}`
+
+/**
+ * 我的拍卖列表
+ */
+export const API_TINYGRAIL_MY_AUCTION_LIST = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/100`

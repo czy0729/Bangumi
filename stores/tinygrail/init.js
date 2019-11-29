@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 12:33:58
+ * @Last Modified time: 2019-11-29 18:02:11
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -115,4 +115,19 @@ export const INIT_BALANCE_ITEM = {
   time: '',
   charaId: 0,
   desc: ''
+}
+
+// 我的拍卖
+export const INIT_AUCTION_ITEM = {
+  id: 0, // 业务id
+  monoId: 0, // 角色id
+  name: '', // 角色名
+  icon: '', // 角色头像
+  marketValue: 0, // 市场价
+  total: 0, // 发行量
+  rate: 0, // 股息
+  amount: 0, // 我的拍卖数量
+  price: 0, // 我的拍卖价
+  state: '', // 状态 | 0拍卖中 | 1成功 | 2失败
+  lastOrder: '' // 操作时间
 }

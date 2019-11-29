@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 19:51:47
+ * @Last Modified time: 2019-11-29 21:07:20
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -39,7 +39,8 @@ import {
   API_TINYGRAIL_AUCTION_LIST,
   API_TINYGRAIL_AUCTION,
   API_TINYGRAIL_SACRIFICE,
-  API_TINYGRAIL_VALHALL_LIST
+  API_TINYGRAIL_VALHALL_LIST,
+  API_TINYGRAIL_MY_AUCTION_LIST
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -191,14 +192,14 @@ class Tinygrail extends store {
     },
 
     /**
-     * 可竞拍信息
+     * 可拍卖信息
      */
     valhallChara: {
       // [monoId]: {}
     },
 
     /**
-     * 上周竞拍记录
+     * 上周拍卖记录
      */
     auctionList: {
       // [monoId]: LIST_EMPTY
@@ -208,6 +209,11 @@ class Tinygrail extends store {
      * 英灵殿
      */
     valhallList: LIST_EMPTY,
+
+    /**
+     * 我的拍卖列表
+     */
+    auction: LIST_EMPTY,
 
     /**
      * iOS此刻是否显示WebView
@@ -239,7 +245,8 @@ class Tinygrail extends store {
         'temple',
         'charaAll',
         'charaTemple',
-        'valhallList'
+        'valhallList',
+        'auction'
       ],
       NAMESPACE
     )
@@ -429,7 +436,8 @@ class Tinygrail extends store {
             users: item.Users,
             name: item.Name,
             icon: item.Icon,
-            bonus: item.Bonus
+            bonus: item.Bonus,
+            rate: item.Rate
           }
         }),
         pagination: {
@@ -861,7 +869,8 @@ class Tinygrail extends store {
             name: item.Name,
             icon: item.Icon,
             bonus: item.Bonus,
-            state: item.State
+            state: item.State,
+            rate: item.Rate
           }
         }),
         pagination: {
@@ -922,7 +931,8 @@ class Tinygrail extends store {
             name: item.Name,
             icon: item.Icon,
             bonus: item.Bonus,
-            state: item.State
+            state: item.State,
+            rate: item.Rate
           }
         }),
         pagination: {
@@ -935,6 +945,65 @@ class Tinygrail extends store {
     }
 
     const key = 'asks'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 我的拍卖列表
+   */
+  fetchAuction = async () => {
+    axios.defaults.withCredentials = false
+    const result = await axios({
+      method: 'get',
+      url: API_TINYGRAIL_MY_AUCTION_LIST(),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => {
+          if (item.Icon) {
+            iconsCache[item.CharacterId] = item.Icon
+          }
+
+          // <INIT_AUCTION_ITEM>
+          return {
+            id: item.Id,
+            monoId: item.CharacterId,
+            name: item.Name,
+            icon: item.Icon,
+            marketValue: item.MarketValue,
+            total: item.Total,
+            rate: item.Rate,
+            amount: item.Amount,
+            price: item.Price,
+            state: item.State,
+            lastOrder: item.Bid
+          }
+        }),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+      this.updateIconsCache(iconsCache)
+    }
+
+    const key = 'auction'
     this.setState({
       [key]: data
     })
@@ -984,7 +1053,8 @@ class Tinygrail extends store {
               name: item.Name,
               icon: item.Icon,
               bonus: item.Bonus,
-              state: item.State
+              state: item.State,
+              rate: item.Rate
             }
           }),
           pagination: {
@@ -1014,7 +1084,8 @@ class Tinygrail extends store {
               name: item.Name,
               icon: item.Icon,
               bonus: item.Bonus,
-              state: item.State
+              state: item.State,
+              rate: item.Rate
             }
           }),
           pagination: {
@@ -1310,7 +1381,7 @@ class Tinygrail extends store {
   }
 
   /**
-   * 可竞拍信息
+   * 可拍卖信息
    */
   fetchValhallChara = async (id = 0) => {
     axios.defaults.withCredentials = false
@@ -1344,7 +1415,7 @@ class Tinygrail extends store {
   }
 
   /**
-   * 上周竞拍记录
+   * 上周拍卖记录
    */
   fetchAuctionList = async (id = 0) => {
     axios.defaults.withCredentials = false
@@ -1531,7 +1602,7 @@ class Tinygrail extends store {
   }
 
   /**
-   * 竞拍
+   * 拍卖
    */
   doAuction = async ({ monoId, price, amount }) => {
     axios.defaults.withCredentials = false

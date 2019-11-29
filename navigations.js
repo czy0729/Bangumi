@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 23:23:20
+ * @Last Modified time: 2019-11-29 20:13:52
  */
 export default {
-  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
+  initialRouteName: 'Tinygrail', // HomeTab TinygrailCharaAssets
   initialRouteParams: {
     // id: 19402913
     // subjectId: 100444 // 238923 100444 204135
@@ -15,7 +15,7 @@ export default {
     // name: '小耳兔'
     // monoId: 'character/36494' // 20391 character/70323 person/5745
     // groupId: 'tinygrail'
-    // type: 'anime',
+    // type: 'auction'
     // tag: '水树奈奈',
     // uri: 'https://bangumi.tv/award/2010',
     // form: 'lottery',

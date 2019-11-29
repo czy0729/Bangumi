@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 14:43:16
+ * @Last Modified time: 2019-11-29 21:04:27
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import {
   SORT_HYD,
+  SORT_GX,
   SORT_SCJ,
   SORT_FHL,
   SORT_DQJ,
@@ -28,6 +29,7 @@ export const tabs = [
 ]
 export const sortDS = [
   SORT_HYD,
+  SORT_GX,
   SORT_SCJ,
   SORT_FHL,
   SORT_DQJ,

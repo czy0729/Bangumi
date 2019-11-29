@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:06:33
+ * @Last Modified time: 2019-11-29 21:13:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -48,7 +48,9 @@ function Item(
       })
   }
 
-  const icons = $.icons(charaId)
+  // @notice 刮刮乐的id有问题, 不显示头像
+  const icons = !desc.includes('刮刮乐') && $.icons(charaId)
+
   return (
     <View style={styles.container}>
       <Touchable onPress={onPress}>

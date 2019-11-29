@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 16:24:43
+ * @Last Modified time: 2019-11-29 19:38:24
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -120,3 +120,6 @@ export const airtimeData = [
   '1981',
   '1980'
 ]
+
+export const B = 100000000
+export const M = 10000

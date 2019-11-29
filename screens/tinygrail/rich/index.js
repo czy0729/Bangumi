@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 23:02:40
+ * @Last Modified time: 2019-11-29 20:51:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { IconHeader } from '@screens/_'
 import { inject, withHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -46,17 +46,23 @@ class TinygrailRich extends React.Component {
     navigation.setParams({
       title,
       extra: (
-        <>
-          <IconHeader name='fen-xi' color={colorText} onPress={onPress} />
+        <Flex>
+          <IconHeader
+            name='fen-xi'
+            color={colorText}
+            size={18}
+            onPress={onPress}
+          />
           <Text
             style={{
+              marginLeft: -2,
               color: colorText
             }}
             onPress={onPress}
           >
             分析
           </Text>
-        </>
+        </Flex>
       )
     })
 

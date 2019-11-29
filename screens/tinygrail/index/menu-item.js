@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 21:47:25
+ * @Last Modified time: 2019-11-29 20:19:25
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,7 +13,7 @@ import _ from '@styles'
 import { colorBorder, colorPlain } from '../styles'
 
 const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
-const sectionHeight = sectionWidth / 2
+const sectionHeight = sectionWidth / 2.4
 
 function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
   return (
@@ -31,7 +31,7 @@ function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
         >
           {title}
         </Text>
-        <Iconfont style={styles.icon} name={icon} size={64} />
+        <Iconfont style={styles.icon} name={icon} size={56} />
       </Flex>
     </Touchable>
   )
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     top: '50%',
-    right: -16,
-    marginTop: -32,
+    right: -12,
+    marginTop: -28,
     opacity: 0.16
   }
 })

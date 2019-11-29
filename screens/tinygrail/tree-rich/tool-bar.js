@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 22:41:22
+ * @Last Modified time: 2019-11-29 21:02:53
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
+import { B, M } from '@constants'
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants/model'
 import _ from '@styles'
 import { colorBorder, colorContainer, colorText } from '../styles'
@@ -24,10 +25,10 @@ function ToolBar(props, { $ }) {
     caculateType
   )
   let totalText
-  if (total > 100000000) {
-    totalText = `${(total / 100000000).toFixed(1)}亿`
-  } else if (total > 10000) {
-    totalText = `${(total / 10000).toFixed(1)}万`
+  if (total > B) {
+    totalText = `${parseFloat((total / B).toFixed(1))}亿`
+  } else if (total > M) {
+    totalText = `${parseFloat((total / M).toFixed(1))}万`
   } else {
     totalText = parseFloat(total).toFixed(1)
   }

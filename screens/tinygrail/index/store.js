@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 16:35:46
+ * @Last Modified time: 2019-11-29 20:39:35
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -42,18 +42,21 @@ export default class ScreenTinygrail extends store {
   errorCount = 0
 
   init = async () => {
+    // 初始化state
     const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
       loading: false
     })
 
+    // 没有资产就自动授权
     let res = tinygrailStore.fetchAssets()
     const { _loaded } = await res
     if (!_loaded) {
       await this.doAuth()
     }
 
+    // 获取资产和用户唯一标识
     await Promise.all([
       tinygrailStore.fetchAssets(),
       tinygrailStore.fetchHash()
@@ -61,7 +64,20 @@ export default class ScreenTinygrail extends store {
     res = this.fetchCharaAssets()
     await res
 
+    // 资产金额UI变动
     this.caculateChange()
+
+    // 获取买单卖单数量
+    if (!this.list('bid')._loaded) {
+      tinygrailStore.fetchBid()
+    }
+    if (!this.list('asks')._loaded) {
+      tinygrailStore.fetchAsks()
+    }
+    if (!this.list('auction')._loaded) {
+      tinygrailStore.fetchAuction()
+    }
+
     return res
   }
 
@@ -85,8 +101,13 @@ export default class ScreenTinygrail extends store {
       this.fetchCharaAssets()
     ])
     await res
-
     this.caculateChange()
+
+    setTimeout(() => {
+      tinygrailStore.fetchBid()
+      tinygrailStore.fetchAsks()
+      tinygrailStore.fetchAuction()
+    }, 0)
 
     return res
   }
@@ -120,6 +141,10 @@ export default class ScreenTinygrail extends store {
       initials.reduce((prev, cur) => prev + cur.state, 0) +
       balance
     )
+  }
+
+  list(key = 'bid') {
+    return computed(() => tinygrailStore.list(key)).get()
   }
 
   // -------------------- action --------------------

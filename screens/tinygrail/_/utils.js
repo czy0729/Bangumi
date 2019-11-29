@@ -2,8 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 14:14:00
+ * @Last Modified time: 2019-11-29 20:34:10
  */
+export const SORT_GX = {
+  label: '股息',
+  value: 'gx'
+}
+
 export const SORT_CGS = {
   label: '持股数',
   value: 'cgs'
@@ -47,6 +52,9 @@ export const SORT_XFJL = {
 export function sortList(sort, direction, list) {
   const base = direction === 'down' ? 1 : -1
   switch (sort) {
+    case SORT_GX.value:
+      return list.sort((a, b) => ((b.rate || 0) - (a.rate || 0)) * base)
+
     case SORT_CGS.value:
       return list.sort((a, b) => ((b.state || 0) - (a.state || 0)) * base)
 

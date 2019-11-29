@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 20:05:12
+ * @Last Modified time: 2019-11-29 21:00:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,11 +12,9 @@ import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
 import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
+import { B, M } from '@constants'
 import _ from '@styles'
 import { colorContainer, colorText, colorBorder } from '../styles'
-
-const B = 100000000
-const M = 10000
 
 function Item(
   {
@@ -38,34 +36,34 @@ function Item(
   const isTop = index === 0
   let totalText
   if (Math.abs(total) > B) {
-    totalText = `${formatNumber(total / B, 1)}亿`
+    totalText = `${parseFloat(formatNumber(total / B, 1))}亿`
   } else if (Math.abs(total) > M) {
-    totalText = `${formatNumber(total / M, 1)}万`
+    totalText = `${parseFloat(formatNumber(total / M, 1))}万`
   } else {
     totalText = formatNumber(Math.abs(total), 1)
   }
 
   let assetsText
   if (assets > B) {
-    assetsText = `${formatNumber(assets / B, 1)}亿`
+    assetsText = `${parseFloat(formatNumber(assets / B, 1))}亿`
   } else if (assets > M) {
-    assetsText = `${formatNumber(assets / M, 1)}万`
+    assetsText = `${parseFloat(formatNumber(assets / M, 1))}万`
   } else {
     assetsText = assets
   }
 
   let principalText
   if (principal > B) {
-    principalText = `${formatNumber(principal / B, 1)}亿`
+    principalText = `${parseFloat(formatNumber(principal / B, 1))}亿`
   } else if (principal > M) {
-    principalText = `${formatNumber(principal / M, 1)}万`
+    principalText = `${parseFloat(formatNumber(principal / M, 1))}万`
   } else {
     principalText = principal
   }
 
   let shareText
   if (share > M) {
-    shareText = `${formatNumber(share / M, 1)}万`
+    shareText = `${parseFloat(formatNumber(share / M, 1))}万`
   } else {
     shareText = share
   }

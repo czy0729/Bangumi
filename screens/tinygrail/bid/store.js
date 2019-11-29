@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 15:04:30
+ * @Last Modified time: 2019-11-29 21:05:01
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import {
   SORT_HYD,
+  SORT_GX,
   SORT_SCJ,
   SORT_FHL,
   SORT_DQJ,
@@ -24,10 +25,15 @@ export const tabs = [
   {
     title: '我的卖单',
     key: 'asks'
+  },
+  {
+    title: '我的拍卖',
+    key: 'auction'
   }
 ]
 export const sortDS = [
   SORT_HYD,
+  SORT_GX,
   SORT_SCJ,
   SORT_FHL,
   SORT_DQJ,
@@ -45,12 +51,11 @@ export default class ScreenTinygrailBid extends store {
 
   init = async () => {
     const { type } = this.params
+    const page = tabs.findIndex(item => item.key === type)
     this.setState({
-      page: type === 'bid' ? 0 : 1,
+      page,
       _loaded: true
     })
-
-    const { page } = this.state
     this.fetchList(tabs[page].key)
   }
 
@@ -59,7 +64,12 @@ export default class ScreenTinygrailBid extends store {
     if (key === 'bid') {
       return tinygrailStore.fetchBid()
     }
-    return tinygrailStore.fetchAsks()
+
+    if (key === 'asks') {
+      return tinygrailStore.fetchAsks()
+    }
+
+    return tinygrailStore.fetchAuction()
   }
 
   // -------------------- get --------------------

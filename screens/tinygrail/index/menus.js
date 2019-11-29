@@ -2,18 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 23:10:24
+ * @Last Modified time: 2019-11-29 20:57:12
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import PropTypes from 'prop-types'
 import { Flex } from '@components'
+import { observer } from '@utils/decorators'
 import _ from '@styles'
 import { SAY_ID } from '../_/ds'
 import { colorDepthBid, colorDepthAsk } from '../styles'
 import MenuItem from './menu-item'
 import Assets from './assets'
 
-function Menus() {
+function Menus(props, { $ }) {
+  const bids = $.list('bid').list.length
+  const asks = $.list('asks').list.length
+  const auction = $.list('auction').list.filter(item => item.state === 0).length
   return (
     <Flex style={styles.section} wrap='wrap'>
       <MenuItem title='热门榜单' pathname='TinygrailOverview' icon='bang-dan' />
@@ -34,7 +39,7 @@ function Menus() {
         style={{
           backgroundColor: colorDepthBid
         }}
-        title='我的买单'
+        title={`我的买单 ${bids ? `(${bids})` : ''}`}
         pathname='TinygrailBid'
         config={{
           type: 'bid'
@@ -45,14 +50,21 @@ function Menus() {
         style={{
           backgroundColor: colorDepthAsk
         }}
-        title='我的卖单'
+        title={`我的卖单 ${asks ? `(${asks})` : ''}`}
         pathname='TinygrailBid'
         config={{
           type: 'asks'
         }}
         icon='ask'
       />
-      {/* <MenuItem title='我的收藏' pathname='TinygrailFavor' icon='star' /> */}
+      <MenuItem
+        title={`我的拍卖 ${auction ? `(${auction})` : ''}`}
+        pathname='TinygrailBid'
+        config={{
+          type: 'auction'
+        }}
+        icon='auction'
+      />
       <MenuItem
         title='我的持仓'
         pathname='TinygrailCharaAssets'
@@ -72,7 +84,11 @@ function Menus() {
   )
 }
 
-export default Menus
+Menus.contextTypes = {
+  $: PropTypes.object
+}
+
+export default observer(Menus)
 
 const styles = StyleSheet.create({
   section: {
