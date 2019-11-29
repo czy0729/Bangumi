@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 20:28:35
+ * @Last Modified time: 2019-11-29 22:11:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -72,6 +72,7 @@ function Item(props, { navigation }) {
   const isICO = users !== undefined // 有users为ico中
   const isDeal = !!type // 有此值为用户委托单
   const isAuction = type === 'auction'
+  const isValhall = type === 'valhall'
 
   let marketValueText
   let totalText
@@ -98,9 +99,15 @@ function Item(props, { navigation }) {
   if (isICO) {
     extra = `${formatTime(_end)} / 已筹集${totalText || '-'}`
   } else {
-    extra = `${lastDate(
-      getTimestamp(fixedTime(lastOrder))
-    )} / 总${marketValueText || '-'} / 量${totalText || '-'}`
+    extra = lastDate(getTimestamp(fixedTime(lastOrder)))
+    if (isValhall) {
+      extra += ` / 底价${parseFloat(price.toFixed(1))} / 数量${formatNumber(
+        state,
+        0
+      )}`
+    } else {
+      extra += ` / 总${marketValueText || '-'} / 量${totalText || '-'}`
+    }
   }
 
   if (users && users !== 'ico') {
@@ -145,7 +152,7 @@ function Item(props, { navigation }) {
             <Touchable
               style={styles.item}
               onPress={() => {
-                if (isAuction) {
+                if (isAuction || isValhall) {
                   navigation.push('TinygrailSacrifice', {
                     monoId: `character/${monoId || id}`
                   })
@@ -215,7 +222,7 @@ function Item(props, { navigation }) {
                         {prevText}
                       </Text>
                     )}
-                    {isDeal && !isAuction && ' / '}
+                    {isDeal && !isAuction && !isValhall && ' / '}
                     {extra}
                   </Text>
                 </Flex.Item>

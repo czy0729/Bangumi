@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 20:39:35
+ * @Last Modified time: 2019-11-29 22:53:19
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -17,11 +17,7 @@ import {
   TINYGRAIL_APP_ID,
   TINYGRAIL_OAUTH_REDIRECT_URL
 } from '@constants'
-import {
-  API_TINYGRAIL_TEST,
-  API_TINYGRAIL_SCRATCH,
-  API_TINYGRAIL_LOGOUT
-} from '@constants/api'
+import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 
 const namespace = 'ScreenTinygrail'
 const errorStr = '/false'
@@ -31,6 +27,7 @@ export default class ScreenTinygrail extends store {
   state = observable({
     loading: false,
     loadingAssets: false,
+    loadingBonus: false,
     currentBalance: 0,
     currentTotal: 0,
     lastBalance: 0,
@@ -231,17 +228,14 @@ export default class ScreenTinygrail extends store {
     }
 
     try {
-      axios.defaults.withCredentials = false
-      const res = axios({
-        method: 'get',
-        url: API_TINYGRAIL_SCRATCH(),
-        headers: {
-          Cookie: tinygrailStore.cookie
-        }
+      this.setState({
+        loadingBonus: true
+      })
+      const { State, Value, Message } = await tinygrailStore.doLottery()
+      this.setState({
+        loadingBonus: false
       })
 
-      const data = await res
-      const { State, Value, Message } = data.data
       if (State === 0) {
         Alert.alert('操作成功', `${Value}，前往持仓查看吗`, [
           {
@@ -261,6 +255,75 @@ export default class ScreenTinygrail extends store {
         info(Message)
       }
     } catch (error) {
+      this.setState({
+        loadingBonus: false
+      })
+      info('操作失败，可能授权过期了')
+    }
+  }
+
+  /**
+   * 每周分红
+   */
+  doGetBonusWeek = async () => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    try {
+      this.setState({
+        loadingBonus: true
+      })
+      const { State, Value, Message } = await tinygrailStore.doBonus()
+      this.setState({
+        loadingBonus: false
+      })
+
+      if (State === 0) {
+        info(Value)
+        await tinygrailStore.fetchAssets()
+        this.caculateChange()
+      } else {
+        info(Message)
+      }
+    } catch (error) {
+      this.setState({
+        loadingBonus: false
+      })
+      info('操作失败，可能授权过期了')
+    }
+  }
+
+  /**
+   * 每周分红
+   */
+  doGetBonusDaily = async () => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    try {
+      this.setState({
+        loadingBonus: true
+      })
+      const { State, Value, Message } = await tinygrailStore.doBonusDaily()
+      this.setState({
+        loadingBonus: false
+      })
+
+      if (State === 0) {
+        info(Value)
+        await tinygrailStore.fetchAssets()
+        this.caculateChange()
+      } else {
+        info(Message)
+      }
+    } catch (error) {
+      this.setState({
+        loadingBonus: false
+      })
       info('操作失败，可能授权过期了')
     }
   }
@@ -342,29 +405,8 @@ export default class ScreenTinygrail extends store {
       `${data.headers['set-cookie'][0].split(';')[0]};`
     )
 
-    // this.locationUrl = responseURL
     return res
   }
-
-  /**
-   * code获取cookie
-   */
-  // getAccessCookie = async () => {
-  //   axios.defaults.withCredentials = false
-  //   const res = axios({
-  //     method: 'get',
-  //     maxRedirects: 0,
-  //     validateStatus: null,
-  //     url: `${this.locationUrl.replace(errorStr, '')}&redirect=false`
-  //   })
-
-  //   const data = await res
-  //   tinygrailStore.updateCookie(
-  //     `${data.headers['set-cookie'][0].split(';')[0]};`
-  //   )
-
-  //   return res
-  // }
 
   /**
    * 计算资金变动

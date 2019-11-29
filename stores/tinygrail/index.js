@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 21:07:20
+ * @Last Modified time: 2019-11-29 22:44:32
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -40,7 +40,10 @@ import {
   API_TINYGRAIL_AUCTION,
   API_TINYGRAIL_SACRIFICE,
   API_TINYGRAIL_VALHALL_LIST,
-  API_TINYGRAIL_MY_AUCTION_LIST
+  API_TINYGRAIL_MY_AUCTION_LIST,
+  API_TINYGRAIL_SCRATCH,
+  API_TINYGRAIL_BONUS,
+  API_TINYGRAIL_BONUS_DAILY
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -750,7 +753,18 @@ class Tinygrail extends store {
           name: item.Name,
           current: item.Current,
           state: item.State,
-          total: item.Total
+          total: item.Total,
+          bids: item.Bids,
+          asks: item.Asks,
+          change: item.Change,
+          fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+          marketValue: item.MarketValue,
+          lastOrder: item.LastOrder,
+          end: item.End,
+          users: item.Users,
+          bonus: item.Bonus,
+          rate: item.Rate,
+          price: item.Price
         }
       })
       this.updateIconsCache(iconsCache)
@@ -1609,6 +1623,57 @@ class Tinygrail extends store {
     const { data } = await axios({
       method: 'post',
       url: API_TINYGRAIL_AUCTION(monoId, price, amount),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    return data
+  }
+
+  /**
+   * 刮刮乐
+   */
+  doLottery = async () => {
+    axios.defaults.withCredentials = false
+    const { data } = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_SCRATCH(),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    return data
+  }
+
+  /**
+   * 每周分红
+   */
+  doBonus = async () => {
+    axios.defaults.withCredentials = false
+    const { data } = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_BONUS(),
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    })
+
+    return data
+  }
+
+  /**
+   * 每日签到
+   */
+  doBonusDaily = async () => {
+    axios.defaults.withCredentials = false
+    const { data } = await axios({
+      method: 'post',
+      url: API_TINYGRAIL_BONUS_DAILY(),
       responseType: 'json',
       headers: {
         cookie: this.cookie
