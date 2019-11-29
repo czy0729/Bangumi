@@ -12,6 +12,7 @@ import {
   View
 } from 'react-native'
 import _ from '@styles'
+import Flex from '../../../flex'
 import { WithTheme } from '../style'
 import TabBarStyles from './style'
 
@@ -111,7 +112,6 @@ export class DefaultTabBar extends React.PureComponent {
 
   updateTabUnderline(position, pageOffset, tabCount) {
     const { dynamicTabUnderlineWidth } = this.props
-
     if (0 <= position && position <= tabCount - 1) {
       if (dynamicTabUnderlineWidth) {
         const nowLeft = this._tabsMeasurements[position].left
@@ -220,7 +220,8 @@ export class DefaultTabBar extends React.PureComponent {
             position: 'absolute',
             bottom: 0,
             ...StyleSheet.flatten(styles.underline),
-            ...StyleSheet.flatten(tabBarUnderlineStyle)
+            ...StyleSheet.flatten(tabBarUnderlineStyle),
+            backgroundColor: 'transparent'
           }
 
           const dynamicTabUnderline = {
@@ -288,7 +289,19 @@ export class DefaultTabBar extends React.PureComponent {
                   {renderUnderline ? (
                     renderUnderline(underlineProps.style)
                   ) : (
-                    <Animated.View {...underlineProps} />
+                    <Animated.View {...underlineProps}>
+                      <Flex style={StyleSheet.absoluteFill} justify='center'>
+                        <View
+                          style={[
+                            tabBarUnderlineStyle,
+                            {
+                              width: 24,
+                              borderRadius: 4
+                            }
+                          ]}
+                        />
+                      </Flex>
+                    </Animated.View>
                   )}
                 </View>
               </ScrollView>

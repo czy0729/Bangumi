@@ -105,14 +105,14 @@ export class Tabs extends React.PureComponent {
 
     if (Platform.OS === 'android') {
       return (
-        <>
-          {!!renderContentHeaderComponent && (
-            <View key='$renderContentHeaderComponent'>
-              {renderContentHeaderComponent}
-            </View>
-          )}
+        <View
+          key='$content'
+          style={{
+            flex: 1
+          }}
+        >
+          {renderContentHeaderComponent}
           <ViewPagerAndroid
-            key='$content'
             keyboardDismissMode='on-drag'
             initialPage={currentTab}
             scrollEnabled={this.props.swipeable || usePaged}
@@ -139,18 +139,19 @@ export class Tabs extends React.PureComponent {
           >
             {content}
           </ViewPagerAndroid>
-        </>
+        </View>
       )
     }
+
     return (
-      <>
-        {!!renderContentHeaderComponent && (
-          <View key='$renderContentHeaderComponent'>
-            {renderContentHeaderComponent}
-          </View>
-        )}
+      <View
+        key='$content'
+        style={{
+          flex: 1
+        }}
+      >
+        {renderContentHeaderComponent}
         <Animated.ScrollView
-          key='$content'
           horizontal
           pagingEnabled={usePaged}
           automaticallyAdjustContentInsets={false}
@@ -177,7 +178,7 @@ export class Tabs extends React.PureComponent {
         >
           {content}
         </Animated.ScrollView>
-      </>
+      </View>
     )
   }
 

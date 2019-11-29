@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-24 17:53:17
+ * @Last Modified time: 2019-11-29 12:08:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -51,9 +51,8 @@ export default Tabs
 
 const styles = StyleSheet.create({
   tabBarUnderline: {
-    backgroundColor: _.colorMain,
-    borderRadius: _.radiusSm,
-    transform: [{ scaleX: 0.5 }]
+    height: 4,
+    backgroundColor: _.colorMain
   },
   block: {
     position: 'absolute',

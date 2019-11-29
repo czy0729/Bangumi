@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 21:50:50
+ * @Last Modified time: 2019-11-29 14:36:46
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -21,7 +21,7 @@ function List({ index }, { $, navigation }) {
 
   const type = index === 0 ? 'chara' : 'ico'
   const isChara = type === 'chara'
-  const isTemple = index === 2
+  const isTemple = index === 1
 
   let data
   if (isChara) {
