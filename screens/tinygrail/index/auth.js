@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 22:53:41
+ * @Last Modified time: 2019-11-29 23:11:33
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -109,7 +109,7 @@ function Auth(props, { $, navigation }) {
                 default:
                   break
               }
-            }, 200)
+            }, 400)
           }}
         >
           <Button

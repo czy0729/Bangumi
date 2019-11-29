@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 22:53:19
+ * @Last Modified time: 2019-11-29 23:11:40
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -104,7 +104,7 @@ export default class ScreenTinygrail extends store {
       tinygrailStore.fetchBid()
       tinygrailStore.fetchAsks()
       tinygrailStore.fetchAuction()
-    }, 0)
+    }, 400)
 
     return res
   }

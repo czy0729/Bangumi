@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 18:22:54
+ * @Last Modified time: 2019-11-29 23:16:44
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
@@ -72,7 +72,7 @@ function Item({
   }
 
   return (
-    <Popover
+    <View
       style={[
         styles.item,
         {
@@ -81,75 +81,85 @@ function Item({
           backgroundColor
         }
       ]}
-      data={!id ? [] : [name, 'K线', '买入', '卖出', '资产重组', '隐藏']}
-      placement='auto'
-      onSelect={title =>
-        onPress({
-          id,
-          name,
-          title
-        })
-      }
-      onLongPress={() =>
-        onLongPress({
-          id,
-          name
-        })
-      }
     >
-      <Flex
-        style={[
-          _.container.flex,
-          {
-            width: w,
-            height: h
-          }
-        ]}
-        direction='column'
-        justify='center'
+      <Popover
+        data={!id ? [] : [name, 'K线', '买入', '卖出', '资产重组', '隐藏']}
+        placement='auto'
+        onSelect={title =>
+          onPress({
+            id,
+            name,
+            title
+          })
+        }
+        onLongPress={() =>
+          onLongPress({
+            id,
+            name
+          })
+        }
       >
-        {showAvatar && (
-          <Image
-            style={{
-              marginBottom: parseInt(5.6 * ratio)
-            }}
-            src={icon}
-            size={parseInt(ratioHeight * 240)}
-            height={
-              isTemple
-                ? parseInt(ratioHeight * 320)
-                : parseInt(ratioHeight * 240)
+        <Flex
+          style={[
+            _.container.flex,
+            {
+              width: w,
+              height: h
             }
-            radius={isTemple ? 4 : parseInt(ratioHeight * 120)}
-            placeholder={false}
-          />
-        )}
-        <Text size={parseInt(11 * ratio)} type='plain' numberOfLines={1}>
-          {name}
-        </Text>
-        <Text
-          style={{
-            marginTop: parseInt(3 * ratio),
-            color: colorText
-          }}
-          size={textSize}
-          numberOfLines={1}
+          ]}
+          direction='column'
+          justify='center'
         >
+          {showAvatar && (
+            <Image
+              style={{
+                marginBottom: parseInt(5.6 * ratio)
+              }}
+              src={icon}
+              size={parseInt(ratioHeight * 240)}
+              height={
+                isTemple
+                  ? parseInt(ratioHeight * 320)
+                  : parseInt(ratioHeight * 240)
+              }
+              radius={isTemple ? 4 : parseInt(ratioHeight * 120)}
+              placeholder={false}
+            />
+          )}
+          <Text
+            size={parseInt(11 * ratio)}
+            type='plain'
+            numberOfLines={1}
+            selectable={false}
+          >
+            {name}
+          </Text>
           <Text
             style={{
-              color: textColor
+              marginTop: parseInt(3 * ratio),
+              color: colorText
             }}
             size={textSize}
+            numberOfLines={1}
+            selectable={false}
           >
-            {extra}
-            {left}
-            {priceText}
-            {right}
-          </Text>{' '}
-          / {_percent.toFixed(_percent < 0.1 ? 2 : 1)}%
-        </Text>
-      </Flex>
-    </Popover>
+            <Text
+              style={{
+                color: textColor
+              }}
+              size={textSize}
+              selectable={false}
+            >
+              {extra}
+              {left}
+              {priceText}
+              {right}
+            </Text>{' '}
+            / {_percent.toFixed(_percent < 0.1 ? 2 : 1)}%
+          </Text>
+        </Flex>
+      </Popover>
+    </View>
   )
 }
 

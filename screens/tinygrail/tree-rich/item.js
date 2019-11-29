@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 22:26:46
+ * @Last Modified time: 2019-11-29 23:16:45
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
@@ -48,7 +48,7 @@ function Item({
   }
 
   return (
-    <Popover
+    <View
       style={[
         styles.item,
         {
@@ -57,68 +57,78 @@ function Item({
           backgroundColor
         }
       ]}
-      data={!id ? [] : [name, '资产分析', '隐藏']}
-      placement='auto'
-      onSelect={title =>
-        onPress({
-          id,
-          name,
-          title
-        })
-      }
-      onLongPress={() =>
-        onLongPress({
-          id,
-          name
-        })
-      }
     >
-      <Flex
-        style={[
-          _.container.flex,
-          {
-            width: w,
-            height: h
-          }
-        ]}
-        direction='column'
-        justify='center'
+      <Popover
+        data={!id ? [] : [name, '资产分析', '隐藏']}
+        placement='auto'
+        onSelect={title =>
+          onPress({
+            id,
+            name,
+            title
+          })
+        }
+        onLongPress={() =>
+          onLongPress({
+            id,
+            name
+          })
+        }
       >
-        {showAvatar && (
-          <Image
-            style={{
-              marginBottom: parseInt(5.6 * ratio)
-            }}
-            src={icon}
-            size={parseInt(ratioHeight * 240)}
-            height={parseInt(ratioHeight * 240)}
-            radius={parseInt(ratioHeight * 120)}
-            placeholder={false}
-          />
-        )}
-        <Text size={parseInt(11 * ratio)} type='plain' numberOfLines={1}>
-          {name}
-        </Text>
-        <Text
-          style={{
-            marginTop: parseInt(3 * ratio),
-            color: colorText
-          }}
-          size={textSize}
-          numberOfLines={1}
+        <Flex
+          style={[
+            _.container.flex,
+            {
+              width: w,
+              height: h
+            }
+          ]}
+          direction='column'
+          justify='center'
         >
+          {showAvatar && (
+            <Image
+              style={{
+                marginBottom: parseInt(5.6 * ratio)
+              }}
+              src={icon}
+              size={parseInt(ratioHeight * 240)}
+              height={parseInt(ratioHeight * 240)}
+              radius={parseInt(ratioHeight * 120)}
+              placeholder={false}
+            />
+          )}
+          <Text
+            size={parseInt(11 * ratio)}
+            type='plain'
+            numberOfLines={1}
+            selectable={false}
+          >
+            {name}
+          </Text>
           <Text
             style={{
+              marginTop: parseInt(3 * ratio),
               color: colorText
             }}
             size={textSize}
+            numberOfLines={1}
+            selectable={false}
           >
-            {priceText}
-          </Text>{' '}
-          / {_percent.toFixed(_percent < 0.1 ? 2 : 1)}%
-        </Text>
-      </Flex>
-    </Popover>
+            <Text
+              style={{
+                color: colorText
+              }}
+              size={textSize}
+              selectable={false}
+            >
+              {priceText}
+            </Text>{' '}
+            / {_percent.toFixed(_percent < 0.1 ? 2 : 1)}%
+          </Text>
+        </Flex>
+      </Popover>
+    </View>
   )
 }
 
