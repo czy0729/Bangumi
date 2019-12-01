@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:49:36
+ * @Last Modified time: 2019-11-30 11:39:10
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -15,10 +15,9 @@ import {
   IconNotify,
   ManageModal
 } from '@screens/_'
-import { userStore } from '@stores'
+import { _, userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Grid from './grid'

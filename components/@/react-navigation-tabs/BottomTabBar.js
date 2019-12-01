@@ -8,7 +8,9 @@ import {
   View,
   Platform
 } from 'react-native'
+import { observer } from 'mobx-react'
 import { SafeAreaView } from '@react-navigation/native'
+import { _ } from '@stores'
 import CrossFadeIcon from './CrossFadeIcon'
 import withDimensions from './utils/withDimensions'
 
@@ -64,19 +66,24 @@ class TabBarBottom extends React.Component<Props> {
       showIcon,
       allowFontScaling
     } = this.props
-
     if (showLabel === false) {
       return null
     }
 
-    // @add
+    /**
+     * @add active then not show label
+     */
     if (!focused) {
       return null
     }
 
-    const label = this.props.getLabelText({ route })
-    const tintColor = focused ? activeTintColor : inactiveTintColor
+    /**
+     * @modify theme mode
+     */
+    // const tintColor = focused ? activeTintColor : inactiveTintColor
+    const tintColor = focused ? _.colorMain : _.colorDesc
 
+    const label = this.props.getLabelText({ route })
     if (typeof label === 'string') {
       return (
         <Animated.Text
@@ -117,10 +124,12 @@ class TabBarBottom extends React.Component<Props> {
     }
 
     const horizontal = this._shouldUseHorizontalLabels()
-
     const activeOpacity = focused ? 1 : 0
     const inactiveOpacity = focused ? 0 : 1
 
+    /**
+     * @modify theme mode
+     */
     return (
       <CrossFadeIcon
         route={route}
@@ -128,8 +137,10 @@ class TabBarBottom extends React.Component<Props> {
         navigation={navigation}
         activeOpacity={activeOpacity}
         inactiveOpacity={inactiveOpacity}
-        activeTintColor={activeTintColor}
-        inactiveTintColor={inactiveTintColor}
+        // activeTintColor={activeTintColor}
+        // inactiveTintColor={inactiveTintColor}
+        activeTintColor={_.colorMain}
+        inactiveTintColor={_.colorDesc}
         renderIcon={renderIcon}
         style={[
           styles.iconWithExplicitHeight,
@@ -284,4 +295,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default withDimensions(TabBarBottom)
+export default withDimensions(observer(TabBarBottom))

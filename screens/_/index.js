@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:15:58
+ * @Last Modified time: 2019-11-30 15:24:57
  */
 // base
 // export { default as Drawer } from './base/drawer'
 export { default as Avatar } from './base/avatar'
+export { default as BlurView } from './base/blur-view'
 export { default as Characters } from './base/characters'
 export { default as Eps } from './base/eps'
 export { default as HorizontalList } from './base/horizontal-list'

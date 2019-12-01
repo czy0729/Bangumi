@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 21:57:23
+ * @Last Modified time: 2019-12-01 02:11:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,8 @@ import {
   getActiveChildNavigationOptions
 } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { BlurView } from 'expo-blur'
+import { observer } from 'mobx-react'
+import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
 import {
   Anitama,
   Award,
@@ -62,46 +63,48 @@ import {
   WebView,
   Zone
 } from '@screens'
-import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
+import { BlurView } from '@screens/_'
 import { IOS } from '@constants'
-import _ from '@styles'
+import { _ } from '@stores'
 import navigationsParams, { initialHomeTabName } from '../navigations'
 import HomeScreen from './screens/home'
 import config from './stacks/config'
 
 const TabBarComponent = props => <BottomTabBar {...props} />
 
-const HomeTab = createBottomTabNavigator(
-  {
-    Discovery,
-    Timeline,
-    Home: HomeScreen,
-    Rakuen,
-    User
-  },
-  {
-    initialRouteName: initialHomeTabName,
-    tabBarComponent: props => {
-      if (IOS) {
+const HomeTab = observer(
+  createBottomTabNavigator(
+    {
+      Discovery,
+      Timeline,
+      Home: HomeScreen,
+      Rakuen,
+      User
+    },
+    {
+      initialRouteName: initialHomeTabName,
+      tabBarComponent: props => {
+        if (IOS) {
+          return (
+            <BlurView style={styles.blurView}>
+              <TabBarComponent {...props} style={styles.tabBarComponent} />
+            </BlurView>
+          )
+        }
         return (
-          <BlurView tint='default' intensity={100} style={styles.blurView}>
+          <View style={styles.tarBarView}>
             <TabBarComponent {...props} style={styles.tabBarComponent} />
-          </BlurView>
+          </View>
         )
-      }
-      return (
-        <View style={styles.tarBarView}>
-          <TabBarComponent {...props} style={styles.tabBarComponent} />
-        </View>
-      )
-    },
-    tabBarOptions: {
-      activeTintColor: _.colorMain,
-      inactiveTintColor: _.colorDesc
-    },
-    navigationOptions: ({ navigation, screenProps }) =>
-      getActiveChildNavigationOptions(navigation, screenProps)
-  }
+      },
+      // tabBarOptions: {
+      //   activeTintColor: _.colorMain,
+      //   inactiveTintColor: _.colorDesc
+      // },
+      navigationOptions: ({ navigation, screenProps }) =>
+        getActiveChildNavigationOptions(navigation, screenProps)
+    }
+  )
 )
 
 const HomeStack = createStackNavigator(

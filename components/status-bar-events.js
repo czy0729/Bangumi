@@ -5,12 +5,14 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-10 12:17:50
+ * @Last Modified time: 2019-11-30 14:16:27
  */
 import React from 'react'
 import { StatusBar } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
+import { observer } from 'mobx-react'
 import { IOS } from '@constants'
+import { _ } from '@stores'
 
 function StatusBarEvents({
   backgroundColor,
@@ -19,12 +21,15 @@ function StatusBarEvents({
   animated,
   action
 }) {
+  // 黑暗模式可以一直设置为light-content
+  const _barStyle = _.mode === 'light' ? barStyle : 'light-content'
+
   const events = () => {
     if (!IOS) {
       StatusBar.setBackgroundColor(backgroundColor, animated)
       StatusBar.setTranslucent(translucent, animated)
     }
-    StatusBar.setBarStyle(barStyle, animated)
+    StatusBar.setBarStyle(_barStyle, animated)
   }
   const props = {
     onDidFocus: () => events()
@@ -37,7 +42,7 @@ function StatusBarEvents({
     <>
       <StatusBar
         backgroundColor={backgroundColor}
-        barStyle={barStyle}
+        barStyle={_barStyle}
         translucent={translucent}
         animated={animated}
       />
@@ -54,4 +59,4 @@ StatusBarEvents.defaultProps = {
   action: 'onDidFocus'
 }
 
-export default StatusBarEvents
+export default observer(StatusBarEvents)

@@ -3,15 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:26:48
+ * @Last Modified time: 2019-12-01 02:04:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { BlurView } from 'expo-blur'
 import { StatusBarEvents, UM } from '@components'
-import { Logo } from '@screens/_'
+import { BlurView, Logo } from '@screens/_'
+import { _ } from '@stores'
 import { IOS, BARE } from '@constants'
-import _ from '@styles'
 import observer from './observer'
 
 const correctHeightIOS = 14 // @issue iOS端头部高度误差修正值
@@ -42,13 +41,7 @@ const withTabsHeader = ({ screen } = {}) => ComposedComponent =>
             ),
             headerLeft: navigation.getParam('headerLeft'),
             headerRight: navigation.getParam('headerRight'),
-            headerBackground: (
-              <BlurView
-                style={_.container.flex}
-                tint='default'
-                intensity={100}
-              />
-            )
+            headerBackground: <BlurView />
           }
         } else {
           withTabsHeaderOptions = {
@@ -125,10 +118,6 @@ withTabsHeader.listViewProps = IOS
 export default withTabsHeader
 
 const styles = StyleSheet.create({
-  header: {
-    flex: 1,
-    backgroundColor: _.colorPlain
-  },
   headerTabsIOS: {
     position: 'absolute',
     left: 0,
@@ -136,6 +125,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1,
     width: _.window.width,
-    transform: [{ translateX: _.window.width * -0.5 + _.logoWidth * 0.5 }]
+    transform: [
+      {
+        translateX: _.window.width * -0.5 + _.logoWidth * 0.5
+      }
+    ]
   }
 })

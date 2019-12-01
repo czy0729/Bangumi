@@ -4,8 +4,24 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-27 16:00:39
+ * @Last Modified time: 2019-12-01 12:42:31
  */
-import Popover from '../@/ant-design/popover'
+import React from 'react'
+import { observer } from 'mobx-react'
+import CompPopover from '../@/ant-design/popover'
+import { _ } from '@stores'
 
-export default Popover
+function Popover({ children, ...other }) {
+  return (
+    <CompPopover
+      arrowStyle={{
+        borderTopColor: _.select(_.colorPlain, _._colorDarkModeRiseLevel2)
+      }}
+      {...other}
+    >
+      {children}
+    </CompPopover>
+  )
+}
+
+export default observer(Popover)

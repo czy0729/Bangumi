@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 00:58:48
+ * @Last Modified time: 2019-11-30 10:32:29
  */
 import { AsyncStorage, Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
@@ -16,6 +16,7 @@ import searchStore from './search'
 import subjectStore from './subject'
 import systemStore from './system'
 import tagStore from './tag'
+import themeStore from './theme'
 import timelineStore from './timeline'
 import tinygrailStore from './tinygrail'
 import userStore from './user'
@@ -36,6 +37,7 @@ class Stores {
 
     // [同步加载]APP最重要Stores
     const res = Promise.all([
+      themeStore.init(),
       collectionStore.init(),
       subjectStore.init(),
       systemStore.init(),
@@ -128,8 +130,10 @@ class Stores {
 }
 
 const GloablStores = new Stores()
+const _ = themeStore
 
 export {
+  _,
   calendarStore,
   collectionStore,
   discoveryStore,
@@ -138,6 +142,7 @@ export {
   subjectStore,
   systemStore,
   tagStore,
+  themeStore,
   timelineStore,
   tinygrailStore,
   userStore,

@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-18 11:16:07
+ * @Last Modified time: 2019-12-01 11:59:21
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -18,12 +18,11 @@ import {
   CacheManager,
   Image as AnimatedImage
 } from 'react-native-expo-image-cache'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { IOS, DEV, IMG_EMPTY, IMG_ERROR } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
-import _ from '@styles'
 import Touchable from './touchable'
 
 const maxErrorCount = 2 // 最大失败重试次数
@@ -80,6 +79,9 @@ export default class Image extends React.Component {
     }
   }
 
+  /**
+   * 缓存图片
+   */
   cache = async src => {
     let res
     let uri
@@ -104,7 +106,9 @@ export default class Image extends React.Component {
       }
     }
 
-    // @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存?
+    /**
+     * @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存?
+     */
     if (IOS) {
       try {
         if (typeof src === 'string') {
@@ -166,6 +170,9 @@ export default class Image extends React.Component {
     return res
   }
 
+  /**
+   * 选择图片质量
+   */
   getQuality = (uri, qualityLevel = 'default') => {
     if (!uri) {
       return ''
@@ -182,6 +189,9 @@ export default class Image extends React.Component {
     return uri
   }
 
+  /**
+   * 获取远程图片宽高
+   */
   getSize = () => {
     const { autoSize } = this.props
     const { uri } = this.state
@@ -210,7 +220,7 @@ export default class Image extends React.Component {
     RNImage.getSize(uri, cb)
   }
 
-  onError = () => {
+  onError = () =>
     this.setState(
       {
         error: true
@@ -222,7 +232,6 @@ export default class Image extends React.Component {
         }
       }
     )
-  }
 
   render() {
     const {
@@ -271,26 +280,34 @@ export default class Image extends React.Component {
           borderColor: border
         })
       } else {
-        _image.push(styles.border)
+        _image.push(this.styles.border)
       }
     }
 
     if (radius) {
       if (typeof radius === 'boolean') {
-        _wrap.push({ borderRadius: _.radiusXs })
-        _image.push({ borderRadius: _.radiusXs })
+        _wrap.push({
+          borderRadius: _.radiusXs
+        })
+        _image.push({
+          borderRadius: _.radiusXs
+        })
       } else {
-        _wrap.push({ borderRadius: radius })
-        _image.push({ borderRadius: radius })
+        _wrap.push({
+          borderRadius: radius
+        })
+        _image.push({
+          borderRadius: radius
+        })
       }
     }
 
     if (shadow) {
-      _wrap.push(styles.shadow)
+      _wrap.push(this.styles.shadow)
     }
 
     if (placeholder) {
-      _wrap.push(styles.placeholder)
+      _wrap.push(this.styles.placeholder)
     }
 
     if (style) {
@@ -304,8 +321,13 @@ export default class Image extends React.Component {
 
     let image
     if (error) {
+      // 错误显示本地的错误提示图片
       image = (
-        <RNImage style={[_image, styles.error]} source={IMG_ERROR} {...other} />
+        <RNImage
+          style={[_image, this.styles.error]}
+          source={IMG_ERROR}
+          {...other}
+        />
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
@@ -326,7 +348,16 @@ export default class Image extends React.Component {
           image = (
             <RNImage
               style={_image}
-              source={headers ? { uri, headers } : { uri }}
+              source={
+                headers
+                  ? {
+                      uri,
+                      headers
+                    }
+                  : {
+                      uri
+                    }
+              }
               onError={this.onError}
               {...other}
             />
@@ -339,7 +370,14 @@ export default class Image extends React.Component {
       image = (
         <RNImage
           style={_image}
-          source={headers ? { ...src, headers } : src}
+          source={
+            headers
+              ? {
+                  ...src,
+                  headers
+                }
+              : src
+          }
           onError={this.onError}
           {...other}
         />
@@ -382,18 +420,30 @@ export default class Image extends React.Component {
 
     return <View style={_wrap}>{image}</View>
   }
+
+  get styles() {
+    return memoStyles(_.mode)
+  }
 }
 
-const styles = StyleSheet.create({
-  border: {
-    borderWidth: 1,
-    borderColor: _.colorBorder
-  },
-  shadow: _.shadow,
-  placeholder: {
-    backgroundColor: _.colorBg
-  },
-  error: {
-    padding: 4
+let _mode
+let _styles
+function memoStyles(mode) {
+  if (!_mode || !_styles || _mode !== mode) {
+    _mode = mode
+    _styles = StyleSheet.create({
+      border: {
+        borderWidth: 1,
+        borderColor: _.colorBorder
+      },
+      shadow: _.shadow,
+      placeholder: {
+        backgroundColor: _.colorBg
+      },
+      error: {
+        padding: 4
+      }
+    })
   }
-})
+  return _styles
+}

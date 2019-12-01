@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 13:54:48
+ * @Last Modified time: 2019-12-01 02:31:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { Flex, Iconfont, Image, Shadow, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
 import { getCoverMedium } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
+import { _ } from '@stores'
 
 class Item extends React.Component {
   static defaultProps = {
@@ -85,12 +85,12 @@ class Item extends React.Component {
 
     return (
       <Touchable
-        style={styles.touchable}
+        style={this.styles.touchable}
         onPress={() => $.doWatchedNextEp(subjectId)}
       >
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='check' size={16} />
-          <View style={[styles.placeholder, _.ml.sm]}>
+          <Iconfont style={this.styles.icon} name='check' size={16} />
+          <View style={[this.styles.placeholder, _.ml.sm]}>
             <Text type='sub' size={12}>
               {sort}
             </Text>
@@ -109,14 +109,14 @@ class Item extends React.Component {
       <Flex>
         {this.renderBtnNextEp()}
         <Touchable
-          style={[styles.touchable, _.ml.sm]}
+          style={[this.styles.touchable, _.ml.sm]}
           onPress={() => $.showManageModal(subjectId)}
         >
           <Iconfont name='star' size={16} />
         </Touchable>
         {!isBook && (
           <Touchable
-            style={[styles.touchable, _.ml.sm]}
+            style={[this.styles.touchable, _.ml.sm]}
             onPress={() => $.itemToggleExpand(subjectId)}
           >
             <Iconfont
@@ -190,11 +190,11 @@ class Item extends React.Component {
     const { $ } = this.context
     return (
       <Touchable
-        style={styles.touchable}
+        style={this.styles.touchable}
         onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
       >
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='check' size={16} />
+          <Iconfont style={this.styles.icon} name='check' size={16} />
         </Flex>
       </Touchable>
     )
@@ -209,7 +209,7 @@ class Item extends React.Component {
     const doing = isBook ? '读' : '看'
     return (
       <Shadow style={_.mb.md} initHeight={120}>
-        <View style={styles.item}>
+        <View style={this.styles.item}>
           <Flex>
             <Image
               size={80}
@@ -222,7 +222,7 @@ class Item extends React.Component {
             <Flex.Item style={_.ml.wind}>
               <Touchable withoutFeedback onPress={this.onPress}>
                 <Flex align='start'>
-                  <Flex.Item style={styles.title}>
+                  <Flex.Item style={this.styles.title}>
                     <Text numberOfLines={1}>
                       {subject.name_cn || subject.name}
                     </Text>
@@ -243,8 +243,8 @@ class Item extends React.Component {
                   {this.renderToolBar()}
                 </Flex>
                 <Progress
-                  style={styles.progress}
-                  barStyle={styles.bar}
+                  style={this.styles.progress}
+                  barStyle={this.styles.bar}
                   percent={$.percent(subjectId, subject)}
                 />
               </View>
@@ -266,7 +266,7 @@ class Item extends React.Component {
           {top && (
             <View
               style={[
-                styles.dot,
+                this.styles.dot,
                 {
                   borderLeftColor: isToday ? _.colorSuccess : _.colorBorder
                 }
@@ -277,41 +277,48 @@ class Item extends React.Component {
       </Shadow>
     )
   }
+
+  get styles() {
+    return StyleSheet.create({
+      item: {
+        padding: _.wind,
+        backgroundColor: _.colorPlain,
+        borderColor: _.colorBorder,
+        borderWidth: StyleSheet.hairlineWidth,
+        borderRadius: _.radiusXs,
+        overflow: 'hidden'
+      },
+      icon: {
+        marginBottom: -1
+      },
+      progress: {
+        backgroundColor: _.select(_.colorBg, _._colorDarkModeRiseLevel1)
+      },
+      bar: {
+        backgroundColor: 'transparent',
+        borderBottomColor: _.colorPrimary,
+        borderBottomWidth: 2,
+        borderRadius: 2
+      },
+      dot: {
+        position: 'absolute',
+        top: 6,
+        right: 6,
+        borderWidth: 8,
+        borderTopColor: 'transparent',
+        borderBottomColor: 'transparent',
+        borderRightColor: 'transparent',
+        transform: [
+          {
+            rotate: '-45deg'
+          }
+        ]
+      },
+      touchable: {
+        padding: _.sm
+      }
+    })
+  }
 }
 
 export default observer(Item)
-
-const styles = StyleSheet.create({
-  item: {
-    padding: _.wind,
-    backgroundColor: _.colorPlain,
-    borderColor: _.colorBorder,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
-  icon: {
-    marginBottom: -1
-  },
-  progress: {
-    backgroundColor: _.colorBg
-  },
-  bar: {
-    borderBottomWidth: 2,
-    borderRadius: 2,
-    backgroundColor: 'transparent'
-  },
-  dot: {
-    position: 'absolute',
-    top: 6,
-    right: 6,
-    borderWidth: 8,
-    borderTopColor: 'transparent',
-    borderBottomColor: 'transparent',
-    borderRightColor: 'transparent',
-    transform: [{ rotate: '-45deg' }]
-  },
-  touchable: {
-    padding: _.sm
-  }
-})

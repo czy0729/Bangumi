@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-10 12:43:04
+ * @Last Modified time: 2019-12-01 12:31:24
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -44,33 +44,70 @@ export const wind = 16 // 两翼
 export const bottom = tabBarHeight + lg + md // 底部留空
 
 // -------------------- 主题色 --------------------
-export const colorPlainRaw = [255, 255, 255]
-export const colorPlain = `rgb(${colorPlainRaw.join()})`
 export const colorDark = 'rgb(0, 0, 0)'
-// export const colorMain = 'rgb(252, 127, 138)' // #FC7F8A
-export const colorMain = 'rgb(254, 138, 149)'
-export const colorMainLight = 'rgb(255, 243, 244)' // #FFF3F4
+
+export const colorMainLight = 'rgb(255, 243, 244)'
 export const colorMainBorder = 'rgb(252, 128, 138)'
-export const colorPrimary = 'rgb(68, 207, 252)'
+
 export const colorPrimaryLight = 'rgb(248, 253, 255)'
 export const colorPrimaryBorder = 'rgb(159, 230, 254)'
-export const colorSuccess = 'rgb(50, 200, 64)'
+
 export const colorSuccessLight = 'rgb(236, 255, 236)'
 export const colorSuccessBorder = 'rgb(115, 241, 115)'
-export const colorYellow = 'rgb(255, 202, 40)'
-export const colorWarning = 'rgb(254, 190, 88)'
+
 export const colorWarningLight = 'rgb(255, 248, 238)'
 export const colorWarningBorder = 'rgb(254, 190, 88)'
-export const colorDanger = 'rgb(232, 8, 13)'
-export const colorDisabled = 'rgb(150, 150, 150)'
+
 export const colorWait = 'rgb(200, 200, 200)'
-// export const colorBorder = 'rgb(222, 222, 222)'
-export const colorBorder = 'rgb(225, 225, 232)'
-export const colorBg = 'rgb(243, 243, 243)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
 export const colorShadow = 'rgb(0, 0, 0)'
 export const colorMask = 'rgba(0, 0, 0, 0.5)'
+
+// -------------------- light --------------------
+export const colorMain = 'rgb(254, 138, 149)'
+export const colorPrimary = 'rgb(68, 207, 252)'
+export const colorSuccess = 'rgb(50, 200, 64)'
+export const colorYellow = 'rgb(255, 202, 40)'
+export const colorWarning = 'rgb(254, 190, 88)'
+export const colorDanger = 'rgb(232, 8, 13)'
+export const colorPlainRaw = [255, 255, 255]
+export const colorPlain = `rgb(${colorPlainRaw.join()})`
+export const colorBg = 'rgb(243, 243, 243)'
+export const colorBorder = 'rgb(225, 225, 232)'
+
+export const colorTitleRaw = [0, 0, 0]
+export const colorTitle = `rgb(${colorTitleRaw.join()})`
+export const colorDesc = 'rgb(12, 12, 12)'
+export const colorSub = 'rgb(142, 142, 142)'
+export const colorDisabled = 'rgb(150, 150, 150)'
+export const colorIcon = 'rgb(200, 200, 200)'
+
+// -------------------- dark --------------------
+// 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
+// 基础层
+export const _colorMain = 'rgba(254, 78, 122, 0.92)' // 'rgb(254, 78, 122)'
+export const _colorPrimary = 'rgba(8, 131, 255, 0.92)' // 'rgb(99, 210, 255)'
+export const _colorSuccess = 'rgb(50, 209, 88)'
+export const _colorYellow = 'rgb(255, 214, 8)'
+export const _colorWarning = 'rgb(255, 160, 12)'
+export const _colorDanger = 'rgb(255, 69, 58)'
+export const _colorPlainRaw = [28, 28, 30]
+export const _colorPlain = `rgb(${_colorPlainRaw.join()})`
+export const _colorBg = 'rgb(0, 0, 0)'
+export const _colorBorder = 'rgb(40, 40, 42)'
+
+// 架高层
+export const _colorDarkModeRiseLevel1 = 'rgb(40, 40, 42)'
+export const _colorDarkModeRiseLevel2 = 'rgb(64, 64, 66)'
+
+// 文字
+export const _colorTitleRaw = [255, 255, 255]
+export const _colorTitle = `rgba(${_colorTitleRaw.join()}, 0.98)`
+export const _colorDesc = 'rgba(255, 255, 255, 0.92)'
+export const _colorSub = 'rgba(255, 255, 255, 0.6)'
+export const _colorDisabled = 'rgba(255, 255, 255, 0.38)'
+export const _colorIcon = 'rgba(255, 255, 255, 0.38)'
 
 // -------------------- 小圣杯 --------------------
 export const colorBid = 'rgb(0, 173, 146)'
@@ -85,14 +122,8 @@ export const colorTinygrailIcon = 'rgb(62, 84, 108)'
 export const colorTinygrailText = 'rgb(99, 117, 144)'
 
 // -------------------- 文字 --------------------
-// export const colorTitleRaw = [12, 12, 12]
-export const colorTitleRaw = [0, 0, 0]
-export const colorTitle = `rgb(${colorTitleRaw.join()})`
-// export const colorDesc = 'rgb(40, 40, 40)' // #282828
-export const colorDesc = 'rgb(12, 12, 12)' // #282828
-export const colorAvatar = 'rgb(116, 116, 116)' // #747474
-export const colorSub = 'rgb(142, 142, 142)' // #8E8E8E
-export const colorIcon = 'rgb(200, 200, 200)' // #C8C8C8
+export const colorAvatar = 'rgb(116, 116, 116)'
+
 export const colorIconPlain = `rgba(${colorPlainRaw.join()}, 0.88)`
 export const lineHeightRatio = 1.28
 
