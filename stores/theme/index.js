@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 11:59:43
+ * @Last Modified time: 2019-12-01 22:47:21
  */
 import { StyleSheet } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import _ from '@styles'
 
+const NAMESPACE = 'Theme'
+const DEFAULT_MODE = 'light'
 const lightStyles = {
   colorMain: _.colorMain,
   colorPrimary: _.colorPrimary,
@@ -44,6 +46,19 @@ const darkStyles = {
   colorIcon: _._colorIcon
 }
 
+/**
+ * 生成记忆styles的标识
+ */
+let _memoStylesId = 0
+function getMemoStylesId() {
+  _memoStylesId += 1
+  return {
+    _id: _memoStylesId,
+    _mode: '',
+    _styles: ''
+  }
+}
+
 class Theme extends store {
   constructor() {
     super()
@@ -55,12 +70,17 @@ class Theme extends store {
   }
 
   state = observable({
-    mode: 'light',
+    mode: DEFAULT_MODE,
     ...lightStyles
   })
 
-  init = () => {
-    this.toggleMode()
+  init = async () => {
+    const res = this.getStorage('mode', NAMESPACE)
+    const mode = await res
+    if (mode !== DEFAULT_MODE) {
+      this.toggleMode(mode)
+    }
+    return res
   }
 
   // -------------------- mode styles --------------------
@@ -187,10 +207,35 @@ class Theme extends store {
    * 切换模式
    */
   toggleMode = () => {
+    const key = 'mode'
     this.setState({
-      mode: this.select('dark', 'light'),
+      [key]: this.select('dark', 'light'),
       ...this.select(darkStyles, lightStyles)
     })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 生成记忆styles函数
+   * 原理: 通过闭包使每一个组件里面的StyleSheet.create都被记忆
+   * 只有mode改变了, 才会重新StyleSheet.create, 配合mobx的observer触发重新渲染
+   */
+  memoStyles = (styles, dev) => {
+    const memoId = getMemoStylesId()
+    return () => {
+      if (!memoId._mode || !memoId._styles || memoId._mode !== this.mode) {
+        // eslint-disable-next-line no-param-reassign
+        memoId._mode = this.mode
+
+        // eslint-disable-next-line no-param-reassign
+        memoId._styles = StyleSheet.create(styles(this))
+
+        if (dev) {
+          console.log(memoId)
+        }
+      }
+      return memoId._styles
+    }
   }
 }
 

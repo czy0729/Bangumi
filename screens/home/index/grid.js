@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 20:34:03
+ * @Last Modified time: 2019-12-01 22:37:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView, Flex, Text, Mesume } from '@components'
+import { _ } from '@stores'
 import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 import GridInfo from './grid-info'
 import GridItem from './grid-item'
 
@@ -90,19 +90,18 @@ class List extends React.Component {
             </Flex>
           )}
         </View>
-        <Flex.Item>
-          <ListView
-            ref={ref => (this.listView = ref)}
-            numColumns={4}
-            keyExtractor={item => String(item.subject_id)}
-            data={userCollection}
-            renderItem={({ item }) => <GridItem {...item} />}
-            footerNoMoreDataText=''
-            footerNoMoreDataComponent={<View />}
-            onHeaderRefresh={() => $.initFetch(true)}
-            {...listViewProps}
-          />
-        </Flex.Item>
+        <ListView
+          ref={ref => (this.listView = ref)}
+          contentContainerStyle={styles.grid}
+          numColumns={4}
+          keyExtractor={item => String(item.subject_id)}
+          data={userCollection}
+          renderItem={({ item }) => <GridItem {...item} />}
+          footerNoMoreDataText=''
+          footerNoMoreDataComponent={<View />}
+          onHeaderRefresh={() => $.initFetch(true)}
+          {...listViewProps}
+        />
       </View>
     )
   }
@@ -113,16 +112,18 @@ export default observer(List)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: IOS ? _.tabsHeaderHeight - correctHeightIOS : 0,
-    paddingBottom: _.tabBarHeight
+    paddingTop: IOS ? _.tabsHeaderHeight - correctHeightIOS : 0
   },
   current: {
     width: '100%',
-    height: 276,
+    height: 284,
     paddingHorizontal: _.sm
   },
   noSelect: {
     width: '100%',
     height: '100%'
+  },
+  grid: {
+    paddingBottom: _.tabBarHeight + _.sm
   }
 })

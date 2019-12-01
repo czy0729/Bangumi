@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 18:19:50
+ * @Last Modified time: 2019-12-01 22:40:26
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Progress } from '@ant-design/react-native'
 import { Image } from '@components'
+import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
-import _ from '@styles'
 
 const imageWidth = (_.window.width - 5 * _.sm) / 4
 
 function GridItem({ subject, subject_id: subjectId }, { $ }) {
+  const styles = memoStyles()
   const { current } = $.state
   const isCurrent = current === subjectId
   return (
@@ -52,14 +53,13 @@ GridItem.contextTypes = {
 
 export default observer(GridItem)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     width: imageWidth,
     marginLeft: _.sm,
     marginBottom: _.sm + 2
   },
   progress: {
-    marginTop: 2,
     borderRadius: 6,
     backgroundColor: 'transparent'
   },
@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderColor: _.colorWarning
   }
-})
+}))

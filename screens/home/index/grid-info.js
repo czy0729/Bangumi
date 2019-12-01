@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 18:16:34
+ * @Last Modified time: 2019-12-01 22:38:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,9 +10,9 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
+import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 
 class GridInfo extends React.Component {
   static defaultProps = {
@@ -156,7 +156,7 @@ class GridInfo extends React.Component {
           height={168}
           src={getCoverMedium(subject.images.medium)}
           radius
-          border={_.colorBorder}
+          border
           shadow
           onPress={this.onPress}
         />

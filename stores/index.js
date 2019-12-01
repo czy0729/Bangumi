@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-30 10:32:29
+ * @Last Modified time: 2019-12-01 13:27:49
  */
 import { AsyncStorage, Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
@@ -36,8 +36,8 @@ class Stores {
     inited = true
 
     // [同步加载]APP最重要Stores
+    await themeStore.init()
     const res = Promise.all([
-      themeStore.init(),
       collectionStore.init(),
       subjectStore.init(),
       systemStore.init(),

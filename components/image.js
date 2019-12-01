@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 11:59:21
+ * @Last Modified time: 2019-12-01 13:41:33
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -18,6 +18,7 @@ import {
   CacheManager,
   Image as AnimatedImage
 } from 'react-native-expo-image-cache'
+import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
@@ -27,7 +28,9 @@ import Touchable from './touchable'
 
 const maxErrorCount = 2 // 最大失败重试次数
 
-export default class Image extends React.Component {
+export default
+@observer
+class Image extends React.Component {
   static defaultProps = {
     style: undefined,
     imageStyle: undefined, // 强制传递给图片的样式
@@ -422,15 +425,15 @@ export default class Image extends React.Component {
   }
 
   get styles() {
-    return memoStyles(_.mode)
+    return memoStyles()
   }
 }
 
 let _mode
 let _styles
-function memoStyles(mode) {
-  if (!_mode || !_styles || _mode !== mode) {
-    _mode = mode
+function memoStyles() {
+  if (!_mode || !_styles || _mode !== _.mode) {
+    _mode = _.mode
     _styles = StyleSheet.create({
       border: {
         borderWidth: 1,
@@ -438,7 +441,7 @@ function memoStyles(mode) {
       },
       shadow: _.shadow,
       placeholder: {
-        backgroundColor: _.colorBg
+        backgroundColor: _.select(_.colorBg, _._colorDarkModeRiseLevel2)
       },
       error: {
         padding: 4

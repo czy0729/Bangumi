@@ -3,16 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-20 14:42:14
+ * @Last Modified time: 2019-12-01 22:48:53
  */
 import { observable, computed } from 'mobx'
 import { userStore, subjectStore, collectionStore } from '@stores'
 import { Eps } from '@screens/_'
-import { IOS } from '@constants'
-import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { sleep } from '@utils'
 import { appNavigate } from '@utils/app'
 import store from '@utils/store'
+import { IOS } from '@constants'
+import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 
 export const tabs = [
   {

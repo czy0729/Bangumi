@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 02:31:18
+ * @Last Modified time: 2019-12-01 22:41:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,9 +11,9 @@ import { observer } from 'mobx-react'
 import { Progress, Modal } from '@ant-design/react-native'
 import { Flex, Iconfont, Image, Shadow, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
+import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import { _ } from '@stores'
 
 class Item extends React.Component {
   static defaultProps = {
@@ -279,46 +279,48 @@ class Item extends React.Component {
   }
 
   get styles() {
-    return StyleSheet.create({
-      item: {
-        padding: _.wind,
-        backgroundColor: _.colorPlain,
-        borderColor: _.colorBorder,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderRadius: _.radiusXs,
-        overflow: 'hidden'
-      },
-      icon: {
-        marginBottom: -1
-      },
-      progress: {
-        backgroundColor: _.select(_.colorBg, _._colorDarkModeRiseLevel1)
-      },
-      bar: {
-        backgroundColor: 'transparent',
-        borderBottomColor: _.colorPrimary,
-        borderBottomWidth: 2,
-        borderRadius: 2
-      },
-      dot: {
-        position: 'absolute',
-        top: 6,
-        right: 6,
-        borderWidth: 8,
-        borderTopColor: 'transparent',
-        borderBottomColor: 'transparent',
-        borderRightColor: 'transparent',
-        transform: [
-          {
-            rotate: '-45deg'
-          }
-        ]
-      },
-      touchable: {
-        padding: _.sm
-      }
-    })
+    return memoStyles()
   }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  item: {
+    padding: _.wind,
+    backgroundColor: _.colorPlain,
+    borderColor: _.colorBorder,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
+  },
+  icon: {
+    marginBottom: -1
+  },
+  progress: {
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeRiseLevel1)
+  },
+  bar: {
+    backgroundColor: 'transparent',
+    borderBottomColor: _.colorPrimary,
+    borderBottomWidth: 2,
+    borderRadius: 2
+  },
+  dot: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    borderWidth: 8,
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderRightColor: 'transparent',
+    transform: [
+      {
+        rotate: '-45deg'
+      }
+    ]
+  },
+  touchable: {
+    padding: _.sm
+  }
+}))
 
 export default observer(Item)
