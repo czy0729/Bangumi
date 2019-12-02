@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-11 11:00:13
+ * @Last Modified time: 2019-12-02 11:21:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { SectionTitle, Eps, IconReverse } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 import BookEp from './book-ep'
 import Disc from './disc'
 

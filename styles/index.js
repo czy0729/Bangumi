@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 12:31:24
+ * @Last Modified time: 2019-12-02 22:46:13
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -35,6 +35,7 @@ export const tabsHeaderHeight = headerHeight + tabsHeight // 带标签栏的头�
 export const tabBarHeight = 50 // 标签栏高度
 
 // -------------------- 统一布局单位 --------------------
+export const hairlineWidth = StyleSheet.hairlineWidth
 export const xs = 4
 export const sm = 8
 export const md = 16
@@ -58,7 +59,6 @@ export const colorSuccessBorder = 'rgb(115, 241, 115)'
 export const colorWarningLight = 'rgb(255, 248, 238)'
 export const colorWarningBorder = 'rgb(254, 190, 88)'
 
-export const colorWait = 'rgb(200, 200, 200)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
 export const colorShadow = 'rgb(0, 0, 0)'
@@ -73,6 +73,7 @@ export const colorWarning = 'rgb(254, 190, 88)'
 export const colorDanger = 'rgb(232, 8, 13)'
 export const colorPlainRaw = [255, 255, 255]
 export const colorPlain = `rgb(${colorPlainRaw.join()})`
+export const colorWait = 'rgb(200, 200, 200)'
 export const colorBg = 'rgb(243, 243, 243)'
 export const colorBorder = 'rgb(225, 225, 232)'
 
@@ -85,6 +86,11 @@ export const colorIcon = 'rgb(200, 200, 200)'
 
 // -------------------- dark --------------------
 // 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
+// 架高层
+export const _colorDarkModeLevel1Raw = [40, 40, 42]
+export const _colorDarkModeLevel1 = `rgb(${_colorDarkModeLevel1Raw.join()})`
+export const _colorDarkModeLevel2 = 'rgb(64, 64, 66)'
+
 // 基础层
 export const _colorMain = 'rgba(254, 78, 122, 0.92)' // 'rgb(254, 78, 122)'
 export const _colorPrimary = 'rgba(8, 131, 255, 0.92)' // 'rgb(99, 210, 255)'
@@ -94,12 +100,9 @@ export const _colorWarning = 'rgb(255, 160, 12)'
 export const _colorDanger = 'rgb(255, 69, 58)'
 export const _colorPlainRaw = [28, 28, 30]
 export const _colorPlain = `rgb(${_colorPlainRaw.join()})`
+export const _colorWait = _colorDarkModeLevel2
 export const _colorBg = 'rgb(0, 0, 0)'
-export const _colorBorder = 'rgb(40, 40, 42)'
-
-// 架高层
-export const _colorDarkModeRiseLevel1 = 'rgb(40, 40, 42)'
-export const _colorDarkModeRiseLevel2 = 'rgb(64, 64, 66)'
+export const _colorBorder = _colorDarkModeLevel1
 
 // 文字
 export const _colorTitleRaw = [255, 255, 255]
@@ -161,6 +164,10 @@ export function fontSize(pt) {
 export const container = StyleSheet.create({
   flex: {
     flex: 1
+  },
+  content: {
+    flex: 1,
+    backgroundColor: colorPlain
   },
   screen: {
     flex: 1,

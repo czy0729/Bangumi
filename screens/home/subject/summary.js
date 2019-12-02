@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:34:24
+ * @Last Modified time: 2019-12-02 11:38:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, Text } from '@components'
 import { SectionTitle } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Summary({ style }, { $ }) {
   const { summary, _loaded } = $.subject

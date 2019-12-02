@@ -15,7 +15,7 @@ function Popover({ children, ...other }) {
   return (
     <CompPopover
       arrowStyle={{
-        borderTopColor: _.select(_.colorPlain, _._colorDarkModeRiseLevel2)
+        borderTopColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
       }}
       {...other}
     >

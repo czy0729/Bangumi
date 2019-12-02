@@ -3,18 +3,21 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-20 20:19:15
+ * @Last Modified time: 2019-12-02 11:52:36
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
-import _ from '@styles'
+import { _ } from '@stores'
 import Iconfont from './iconfont'
 import Touchable from './touchable'
 
 const size = 216 // 1个比例的最大高度
 
-export default class Expand extends React.Component {
+export default
+@observer
+class Expand extends React.Component {
   static defaultProps = {
     style: undefined,
     ratio: 1 // 比例
@@ -88,9 +91,9 @@ export default class Expand extends React.Component {
             <LinearGradient
               style={styles.linear}
               colors={[
-                'rgba(255, 255, 255, 0.16)',
-                'rgba(255, 255, 255, 1)',
-                'rgba(255, 255, 255, 1)'
+                `rgba(${_.colorPlainRaw.join(',')}, 0.16)`,
+                `rgba(${_.colorPlainRaw.join(',')}, 1)`,
+                `rgba(${_.colorPlainRaw.join(',')}, 1)`
               ]}
             />
             <Touchable style={styles.more} onPress={this.onExpand}>

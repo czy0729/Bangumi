@@ -3,16 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-09 22:43:55
+ * @Last Modified time: 2019-12-02 01:15:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
+import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { IOS } from '@constants'
-import { systemStore } from '@stores'
-import _ from '@styles'
 
 function Avatar({
   style,
@@ -24,6 +23,7 @@ function Avatar({
   onPress,
   onLongPress
 }) {
+  const styles = memoStyles()
   const { avatarRound } = systemStore.setting
   const _onPress = () => {
     if (onPress) {
@@ -97,11 +97,11 @@ Avatar.defaultProps = {
 
 export default observer(Avatar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   avatar: {
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   }
-})
+}))

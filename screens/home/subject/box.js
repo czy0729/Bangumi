@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 20:58:11
+ * @Last Modified time: 2019-12-02 22:35:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,11 +10,13 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Button, Icon, Text, Touchable } from '@components'
 import { SectionTitle } from '@screens/_'
+import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
-import _ from '@styles'
 
 function Box({ style }, { $, navigation }) {
   const { collection = {} } = $.subject
+  const { wish, collect, doing, on_hold: onHold, dropped } = collection
+
   const { status = { name: '未收藏' }, rating = 0 } = $.collection
   const leftStyle = []
   const rightStyle = []
@@ -56,7 +58,7 @@ function Box({ style }, { $, navigation }) {
                         key={item}
                         name={type}
                         size={16}
-                        color={_.colorPlain}
+                        color={_.__colorPlain__}
                       />
                     )
                   })}
@@ -67,9 +69,9 @@ function Box({ style }, { $, navigation }) {
         </Touchable>
       </View>
       <Text style={_.mt.md} size={12} type='sub'>
-        {collection.wish || '-'}人想{$.action} / {collection.collect || '-'}人
-        {$.action}过 / {collection.doing || '-'}人在{$.action} /{' '}
-        {collection.on_hold || '-'}人搁置 / {collection.dropped || '-'}人抛弃
+        {wish || '-'}人想{$.action} / {collect || '-'}人{$.action}过 /{' '}
+        {doing || '-'}人在{$.action} / {onHold || '-'}
+        人搁置 / {dropped || '-'}人抛弃
       </Text>
     </View>
   )

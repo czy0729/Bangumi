@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 18:35:34
+ * @Last Modified time: 2019-12-02 15:37:50
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { date } from '@utils'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import _ from '@styles'
 import Avatar from '../base/avatar'
 
 function ItemArticle({
@@ -26,6 +26,7 @@ function ItemArticle({
   replies,
   url
 }) {
+  const styles = memoStyles()
   const isFirst = index === 0
   return (
     <Touchable
@@ -61,7 +62,7 @@ function ItemArticle({
 
 export default observer(ItemArticle)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     backgroundColor: _.colorPlain
   },
@@ -76,4 +77,4 @@ const styles = StyleSheet.create({
     borderTopColor: _.colorBorder,
     borderTopWidth: StyleSheet.hairlineWidth
   }
-})
+}))

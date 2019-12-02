@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 22:41:16
+ * @Last Modified time: 2019-12-02 16:32:25
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -296,7 +296,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: -1
   },
   progress: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeRiseLevel1)
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   bar: {
     backgroundColor: 'transparent',

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 21:05:32
+ * @Last Modified time: 2019-12-02 22:39:42
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator, Modal } from '@ant-design/react-native'
 import { Button, Flex, Input, Text, Touchable } from '@components'
-import { collectionStore, subjectStore } from '@stores'
+import { _, collectionStore, subjectStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
-import _ from '@styles'
 import StarGroup from './star-group'
 import StatusBtnGroup from './status-btn-group'
 
@@ -27,6 +26,8 @@ const initState = {
   privacy: MODEL_PRIVATE.getValue('公开')
 }
 
+export default
+@observer
 class ManageModal extends React.Component {
   static defaultProps = {
     visible: false,
@@ -185,25 +186,34 @@ class ManageModal extends React.Component {
     const selected = this.state.tags.split(' ')
     return (
       <ScrollView horizontal>
-        {tags.map(({ name, count }) => (
-          <Touchable
-            key={name}
-            withoutFeedback
-            onPress={() => this.toggleTag(name)}
-          >
-            <Flex
-              style={[
-                styles.tag,
-                selected.indexOf(name) !== -1 && styles.tagSelected
-              ]}
+        {tags.map(({ name, count }) => {
+          const isSelected = selected.indexOf(name) !== -1
+          return (
+            <Touchable
+              key={name}
+              withoutFeedback
+              onPress={() => this.toggleTag(name)}
             >
-              <Text size={13}>{name}</Text>
-              <Text style={_.ml.xs} type='sub' size={13}>
-                {count}
-              </Text>
-            </Flex>
-          </Touchable>
-        ))}
+              <Flex
+                style={[this.styles.tag, isSelected && this.styles.tagSelected]}
+              >
+                <Text
+                  size={13}
+                  type={_.select('desc', isSelected ? 'main' : 'desc')}
+                >
+                  {name}
+                </Text>
+                <Text
+                  style={_.ml.xs}
+                  type={_.select('sub', isSelected ? 'main' : 'desc')}
+                  size={13}
+                >
+                  {count}
+                </Text>
+              </Flex>
+            </Touchable>
+          )
+        })}
       </ScrollView>
     )
   }
@@ -222,7 +232,7 @@ class ManageModal extends React.Component {
     } = this.state
     return (
       <Modal
-        style={[styles.modal, focus && styles.focus]}
+        style={[this.styles.modal, focus && this.styles.focus]}
         visible={visible}
         title={
           <Text type='title' size={16}>
@@ -237,11 +247,11 @@ class ManageModal extends React.Component {
         <Text style={_.mt.sm} type='sub' size={12} align='center'>
           {desc}
         </Text>
-        <Flex style={[styles.wrap, _.mt.sm]} justify='center'>
+        <Flex style={[this.styles.wrap, _.mt.sm]} justify='center'>
           {loading ? (
             <ActivityIndicator size='small' />
           ) : (
-            <Flex style={styles.content} direction='column'>
+            <Flex style={this.styles.content} direction='column'>
               <StarGroup value={rating} onChange={this.changeRating} />
               <Input
                 style={_.mt.md}
@@ -249,7 +259,7 @@ class ManageModal extends React.Component {
                 placeholder='我的标签'
                 onChangeText={text => this.changeText('tags', text)}
               />
-              <Flex style={styles.tags}>{this.renderTags()}</Flex>
+              <Flex style={this.styles.tags}>{this.renderTags()}</Flex>
               <Input
                 style={_.mt.xs}
                 defaultValue={comment}
@@ -273,7 +283,7 @@ class ManageModal extends React.Component {
                   </Button>
                 </Flex.Item>
                 <Button
-                  style={[styles.btnEye, _.ml.sm]}
+                  style={[this.styles.btnEye, _.ml.sm]}
                   type='ghostMain'
                   onPress={this.togglePrivacy}
                 >
@@ -286,14 +296,16 @@ class ManageModal extends React.Component {
       </Modal>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-export default observer(ManageModal)
-
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   modal: {
     width: _.window.width - 2 * _.wind,
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   focus: {
     marginTop: -_.window.height * 0.32
@@ -315,16 +327,16 @@ const styles = StyleSheet.create({
     paddingVertical: _.xs,
     paddingHorizontal: _.sm,
     marginRight: _.sm,
-    backgroundColor: _.colorBg,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     borderWidth: 1,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs
   },
   tagSelected: {
-    backgroundColor: _.colorPrimaryLight,
-    borderColor: _.colorPrimaryBorder
+    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
+    borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2)
   },
   btnEye: {
     width: 70
   }
-})
+}))

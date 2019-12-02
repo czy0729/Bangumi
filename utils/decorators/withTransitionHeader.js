@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:16:14
+ * @Last Modified time: 2019-12-02 15:02:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Popover, Menu, Flex, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
+import { _ } from '@stores'
 import { gradientColor } from '@utils'
 import { IOS, BARE } from '@constants'
-import _ from '@styles'
 import observer from './observer'
 
 const defaultHeaderStyle = {
@@ -29,14 +29,11 @@ const withTransitionHeader = ({
   screen,
   headerTransition = 48,
   colorStart = _.colorPlainRaw,
-  colorEnd = _.colorTitleRaw,
+  colorEnd = _.colorTitleRaw, // 黑暗模式, end也是白色
   transparent = false,
   barStyle
-} = {}) => ComposedComponent => {
-  // 生成colorPlain过渡到colorTitle的所有颜色
-  const gradientColorSteps = gradientColor(colorStart, colorEnd, 101)
-
-  return observer(
+} = {}) => ComposedComponent =>
+  observer(
     class withTransitionHeaderComponent extends React.Component {
       static navigationOptions = ({ navigation }) => {
         const headerStyle = navigation.getParam('headerStyle')
@@ -44,7 +41,7 @@ const withTransitionHeader = ({
         // 透明默认颜色是colorPlain, 非透明是colorTitle
         const headerTintColor = navigation.getParam(
           'headerTintColor',
-          gradientColorSteps[0]
+          `rgba(${colorStart.join()}, 1)`
         )
 
         let headerRight
@@ -174,7 +171,7 @@ const withTransitionHeader = ({
         if (transparent) {
           navigation.setParams({
             title,
-            headerTintColor: gradientColorSteps[parseInt(opacity * 100)],
+            headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
             headerStyle: {
               ...defaultHeaderStyle,
               backgroundColor: 'transparent',
@@ -184,15 +181,23 @@ const withTransitionHeader = ({
         } else {
           navigation.setParams({
             title,
-            headerTintColor: gradientColorSteps[parseInt(opacity * 100)],
+            headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
             headerStyle: {
               ...defaultHeaderStyle,
-              backgroundColor: `rgba(255, 255, 255, ${opacity})`,
+              backgroundColor: `rgba(${_.select(
+                _.colorPlainRaw,
+                _._colorDarkModeLevel1Raw
+              ).join()}, ${opacity})`,
               borderBottomWidth: isTransitioned ? StyleSheet.hairlineWidth : 0,
               borderBottomColor: _.colorBorder
             }
           })
         }
+      }
+
+      // 生成colorPlain过渡到colorTitle的所有颜色
+      get gradientColorSteps() {
+        return gradientColor(colorStart, _.select(colorEnd, colorStart), 101)
       }
 
       render() {
@@ -215,7 +220,6 @@ const withTransitionHeader = ({
       }
     }
   )
-}
 
 withTransitionHeader.setTitle = (navigation, title) =>
   navigation.setParams({

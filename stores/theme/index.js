@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 22:47:21
+ * @Last Modified time: 2019-12-02 22:15:11
  */
 import { StyleSheet } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -18,10 +18,14 @@ const lightStyles = {
   colorYellow: _.colorYellow,
   colorWarning: _.colorWarning,
   colorDanger: _.colorDanger,
+  colorPlainRaw: _.colorPlainRaw,
   colorPlain: _.colorPlain,
+  colorWait: _.colorWait,
+
   colorBg: _.colorBg,
   colorBorder: _.colorBorder,
 
+  colorTitleRaw: _.colorTitleRaw,
   colorTitle: _.colorTitle,
   colorDesc: _.colorDesc,
   colorSub: _.colorSub,
@@ -35,10 +39,14 @@ const darkStyles = {
   colorYellow: _._colorYellow,
   colorWarning: _._colorWarning,
   colorDanger: _._colorDanger,
+  colorPlainRaw: _._colorPlainRaw,
   colorPlain: _._colorPlain,
+  colorWait: _._colorWait,
+
   colorBg: _._colorBg,
   colorBorder: _._colorBorder,
 
+  colorTitleRaw: _._colorTitleRaw,
   colorTitle: _._colorTitle,
   colorDesc: _._colorDesc,
   colorSub: _._colorSub,
@@ -116,6 +124,10 @@ class Theme extends store {
     return this.state.colorDanger
   }
 
+  @computed get colorPlainRaw() {
+    return this.state.colorPlainRaw
+  }
+
   @computed get colorPlain() {
     return this.state.colorPlain
   }
@@ -124,12 +136,20 @@ class Theme extends store {
     return _.colorPlain
   }
 
+  @computed get colorWait() {
+    return this.state.colorWait
+  }
+
   @computed get colorBg() {
     return this.state.colorBg
   }
 
   @computed get colorBorder() {
     return this.state.colorBorder
+  }
+
+  @computed get colorTitleRaw() {
+    return this.state.colorTitleRaw
   }
 
   @computed get colorTitle() {
@@ -157,6 +177,10 @@ class Theme extends store {
     return StyleSheet.create({
       flex: {
         flex: 1
+      },
+      content: {
+        flex: 1,
+        backgroundColor: this.colorPlain
       },
       screen: {
         flex: 1,

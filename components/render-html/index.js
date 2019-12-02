@@ -4,13 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-10 19:43:23
+ * @Last Modified time: 2019-12-02 15:19:45
  */
 import React from 'react'
 import { View } from 'react-native'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { cheerio } from '@utils/html'
-import _ from '@styles'
 import HTML from '../@/react-native-render-html'
 import BgmText, { bgmMap } from '../bgm-text'
 import MaskText from './mask-text'

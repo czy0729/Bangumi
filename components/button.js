@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 12:28:47
+ * @Last Modified time: 2019-12-02 22:23:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -134,12 +134,12 @@ function memoStyles(mode) {
         borderColor: _.select('rgb(249, 163, 80)', _.colorWarning)
       },
       wait: {
-        backgroundColor: _.colorWait,
-        borderColor: _.select('rgb(160, 160, 160)', _.colorWait)
+        backgroundColor: _.select(_.colorWait, 'rgba(255, 255, 255, 0.38)'),
+        borderColor: _.select('rgb(160, 160, 160)', 'rgba(255, 255, 255, 0.38)')
       },
       disabled: {
-        backgroundColor: _.colorDisabled,
-        borderColor: _.select('rgb(80, 80, 80)', _.colorDisabled)
+        backgroundColor: _.select(_.colorDisabled, 'rgba(255, 255, 255, 0.64)'),
+        borderColor: _.select('rgb(80, 80, 80)', 'rgba(255, 255, 255, 0.64)')
       },
       bid: {
         backgroundColor: _.colorBid,
@@ -152,26 +152,20 @@ function memoStyles(mode) {
 
       // ghost type
       ghostMain: {
-        backgroundColor: _.colorMainLight,
-        borderColor: _.colorMainBorder
+        backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel2),
+        borderColor: _.select(_.colorMainBorder, _._colorDarkModeLevel2)
       },
       ghostPrimary: {
-        backgroundColor: _.select(
-          _.colorPrimaryLight,
-          _._colorDarkModeRiseLevel1
-        ),
-        borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeRiseLevel1)
+        backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
+        borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
       },
       ghostSuccess: {
-        backgroundColor: _.select(
-          _.colorSuccessLight,
-          _._colorDarkModeRiseLevel1
-        ),
-        borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeRiseLevel1)
+        backgroundColor: _.select(_.colorSuccessLight, _._colorDarkModeLevel1),
+        borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1)
       },
       ghostPlain: {
-        backgroundColor: _.select(_.colorBg, _._colorDarkModeRiseLevel2),
-        borderColor: _.select(_.colorBorder, _._colorDarkModeRiseLevel2)
+        backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
+        borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2)
       },
 
       // size
@@ -220,7 +214,7 @@ function memoStyles(mode) {
         color: _.colorSub
       },
       textGhostMain: {
-        color: _.colorSub
+        color: _.select(_.colorSub, _.colorMain)
       },
       textGhostPrimary: {
         color: _.colorSub

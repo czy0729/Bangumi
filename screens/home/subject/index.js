@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:50:34
+ * @Last Modified time: 2019-12-02 22:38:01
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { BlurView, ListView } from '@components'
 import { ManageModal, ItemComment } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
 import { hm } from '@utils/fetch'
 import { NING_MOE_HOST } from '@constants'
-import _ from '@styles'
 import Header from './header'
 import Store from './store'
 
@@ -112,8 +112,13 @@ class Subject extends React.Component {
     const { _image } = $.params
     const image = images.medium || _image
     return (
-      <>
-        <BlurView style={styles.blurView} theme='dark' src={_image || image} />
+      <View style={_.container.content}>
+        <BlurView
+          style={styles.blurView}
+          theme='dark'
+          tint={_.select('default', 'dark')}
+          src={_image || image}
+        />
         <ListView
           style={_.container.flex}
           contentContainerStyle={styles.contentContainerStyle}
@@ -121,8 +126,8 @@ class Subject extends React.Component {
           data={$.subjectComments}
           scrollEventThrottle={32}
           refreshControlProps={{
-            tintColor: _.colorPlain,
-            titleColor: _.colorPlain
+            tintColor: _.__colorPlain__,
+            titleColor: _.__colorPlain__
           }}
           ListHeaderComponent={<Header />}
           renderItem={({ item, index }) => (
@@ -150,7 +155,7 @@ class Subject extends React.Component {
           onSubmit={$.doUpdateCollection}
           onClose={$.closeManageModal}
         />
-      </>
+      </View>
     )
   }
 }

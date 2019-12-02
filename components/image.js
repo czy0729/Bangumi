@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 13:41:33
+ * @Last Modified time: 2019-12-02 12:03:57
  */
 import React from 'react'
 import { StyleSheet, View, Image as RNImage } from 'react-native'
@@ -441,7 +441,7 @@ function memoStyles() {
       },
       shadow: _.shadow,
       placeholder: {
-        backgroundColor: _.select(_.colorBg, _._colorDarkModeRiseLevel2)
+        backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
       },
       error: {
         padding: 4

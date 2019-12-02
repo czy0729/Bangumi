@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:32:45
+ * @Last Modified time: 2019-12-02 15:35:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand } from '@components'
 import { SectionTitle, ItemArticle } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Blog({ style }, { $, navigation }) {
   const { blog } = $.subject

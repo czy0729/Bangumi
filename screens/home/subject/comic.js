@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-13 14:37:21
+ * @Last Modified time: 2019-12-02 15:34:01
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Comic({ style }, { $, navigation }) {
   const { comic = [] } = $.subjectFormHTML

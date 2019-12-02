@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 14:37:16
+ * @Last Modified time: 2019-12-02 15:35:05
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { SectionTitle, Avatar, Stars } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Recent({ style }, { $, navigation }) {
   const { who } = $.subjectFormHTML

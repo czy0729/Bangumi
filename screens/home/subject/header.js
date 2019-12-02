@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-30 20:31:31
+ * @Last Modified time: 2019-12-02 01:12:23
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Text, Flex, Loading } from '@components'
 import { SectionTitle, IconReverse } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 import Head from './head'
 import Box from './box'
 import Ep from './ep'
@@ -28,6 +28,7 @@ import Blog from './blog'
 import Topic from './topic'
 
 function Header(props, { $ }) {
+  const styles = memoStyles()
   const {
     pagination: { pageTotal = 0 },
     _reverse,
@@ -82,7 +83,7 @@ Header.contextTypes = {
 
 export default observer(Header)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   content: {
     minHeight: _.window.height * 0.5,
     backgroundColor: _.colorPlain
@@ -96,4 +97,4 @@ const styles = StyleSheet.create({
   loading: {
     height: 240
   }
-})
+}))

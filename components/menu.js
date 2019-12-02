@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 12:19:41
+ * @Last Modified time: 2019-12-02 01:19:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -78,7 +78,7 @@ function memoStyles() {
     _styles = StyleSheet.create({
       container: {
         width: _.window.width * 0.5,
-        backgroundColor: _.select(_.colorPlain, _._colorDarkModeRiseLevel2)
+        backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
       },
       title: {
         width: '100%',

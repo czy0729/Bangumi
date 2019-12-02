@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:37:44
+ * @Last Modified time: 2019-12-02 15:08:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,8 +10,8 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, RenderHtml } from '@components'
 import { SectionTitle } from '@screens/_'
+import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
 
 function Info({ style }, { $, navigation }) {
   const { info } = $.subjectFormHTML

@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:33:41
+ * @Last Modified time: 2019-12-02 01:13:22
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { ScoreTag } from '@screens/_'
+import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 import Cover from './cover'
 
 const imageWidth = 120
 
 function Head({ style }, { $ }) {
+  const styles = memoStyles()
   const {
     images = {},
     name = '',
@@ -79,7 +80,7 @@ Head.contextTypes = {
 
 export default observer(Head)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingTop: 48
   },
@@ -92,4 +93,4 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: _.radiusLg,
     borderTopRightRadius: _.radiusLg
   }
-})
+}))

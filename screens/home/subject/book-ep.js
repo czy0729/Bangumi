@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:33:01
+ * @Last Modified time: 2019-12-02 15:41:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Input, Button } from '@components'
 import { SectionTitle } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
 
 function BookEp({ style }, { $ }) {
   const { chap, vol } = $.state
