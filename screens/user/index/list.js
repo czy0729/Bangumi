@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 15:08:37
+ * @Last Modified time: 2019-12-03 12:01:54
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
+import { _ } from '@stores'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
-import _ from '@styles'
 
+export default
+@observer
 class List extends React.Component {
   static contextTypes = {
     $: PropTypes.object,
@@ -24,8 +26,8 @@ class List extends React.Component {
     hide: false
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.subjectType !== this.props.subjectType) {
+  componentWillReceiveProps({ subjectType }) {
+    if (subjectType !== this.props.subjectType) {
       this.setState({
         hide: true
       })
@@ -44,11 +46,11 @@ class List extends React.Component {
     if (hide) {
       return null
     }
+
     const userCollections = $.userCollections(
       subjectType,
       MODEL_COLLECTION_STATUS.getValue(title)
     )
-
     if (!userCollections._loaded) {
       return <Loading />
     }
@@ -91,5 +93,3 @@ class List extends React.Component {
     )
   }
 }
-
-export default observer(List)

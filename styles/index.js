@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 22:46:13
+ * @Last Modified time: 2019-12-03 14:38:05
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -46,19 +46,14 @@ export const bottom = tabBarHeight + lg + md // 底部留空
 
 // -------------------- 主题色 --------------------
 export const colorDark = 'rgb(0, 0, 0)'
-
 export const colorMainLight = 'rgb(255, 243, 244)'
 export const colorMainBorder = 'rgb(252, 128, 138)'
-
 export const colorPrimaryLight = 'rgb(248, 253, 255)'
 export const colorPrimaryBorder = 'rgb(159, 230, 254)'
-
 export const colorSuccessLight = 'rgb(236, 255, 236)'
 export const colorSuccessBorder = 'rgb(115, 241, 115)'
-
 export const colorWarningLight = 'rgb(255, 248, 238)'
 export const colorWarningBorder = 'rgb(254, 190, 88)'
-
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
 export const colorShadow = 'rgb(0, 0, 0)'
@@ -87,9 +82,9 @@ export const colorIcon = 'rgb(200, 200, 200)'
 // -------------------- dark --------------------
 // 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
 // 架高层
-export const _colorDarkModeLevel1Raw = [40, 40, 42]
+export const _colorDarkModeLevel1Raw = [50, 50, 52] // [40, 40, 42]
 export const _colorDarkModeLevel1 = `rgb(${_colorDarkModeLevel1Raw.join()})`
-export const _colorDarkModeLevel2 = 'rgb(64, 64, 66)'
+export const _colorDarkModeLevel2 = 'rgb(74, 74, 76)' // 'rgb(64, 64, 66)'
 
 // 基础层
 export const _colorMain = 'rgba(254, 78, 122, 0.92)' // 'rgb(254, 78, 122)'
@@ -97,12 +92,11 @@ export const _colorPrimary = 'rgba(8, 131, 255, 0.92)' // 'rgb(99, 210, 255)'
 export const _colorSuccess = 'rgb(50, 209, 88)'
 export const _colorYellow = 'rgb(255, 214, 8)'
 export const _colorWarning = 'rgb(255, 160, 12)'
-export const _colorDanger = 'rgb(255, 69, 58)'
-export const _colorPlainRaw = [28, 28, 30]
+export const _colorPlainRaw = [32, 32, 34] // [28, 28, 30]
 export const _colorPlain = `rgb(${_colorPlainRaw.join()})`
-export const _colorWait = _colorDarkModeLevel2
-export const _colorBg = 'rgb(0, 0, 0)'
-export const _colorBorder = _colorDarkModeLevel1
+export const _colorWait = 'rgb(74, 74, 76)'
+export const _colorBg = 'rgb(16, 16, 18)' // 'rgb(0, 0, 0)'
+export const _colorBorder = _colorDarkModeLevel2 // _colorDarkModeLevel1
 
 // 文字
 export const _colorTitleRaw = [255, 255, 255]
@@ -126,7 +120,6 @@ export const colorTinygrailText = 'rgb(99, 117, 144)'
 
 // -------------------- 文字 --------------------
 export const colorAvatar = 'rgb(116, 116, 116)'
-
 export const colorIconPlain = `rgba(${colorPlainRaw.join()}, 0.88)`
 export const lineHeightRatio = 1.28
 

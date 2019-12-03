@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 01:15:53
+ * @Last Modified time: 2019-12-03 10:21:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,7 +19,7 @@ function Avatar({
   userId,
   src,
   size,
-  borderColor,
+  borderColor = _.colorBorder,
   onPress,
   onLongPress
 }) {
@@ -90,7 +90,7 @@ Avatar.defaultProps = {
   userId: undefined,
   src: undefined,
   size: 28,
-  borderColor: _.colorBorder,
+  borderColor: undefined,
   onPress: undefined,
   onLongPress: undefined
 }

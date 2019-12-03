@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:18:04
+ * @Last Modified time: 2019-12-03 12:08:21
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import {
   MODEL_COLLECTION_STATUS,
   MODEL_COLLECTIONS_ORDERBY
 } from '@constants/model'
-import _ from '@styles'
 import { tabs } from './store'
 
 function ToolBar(props, { $ }) {
+  const styles = memoStyles()
   const { subjectType, list, order, tag, page } = $.state
   const type = MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
   const userCollectionsTags = $.userCollectionsTags(subjectType, type)
@@ -89,7 +89,7 @@ ToolBar.contextTypes = {
 
 export default observer(ToolBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     backgroundColor: _.colorBg
   },
@@ -99,4 +99,4 @@ const styles = StyleSheet.create({
   touchable: {
     paddingHorizontal: _.lg
   }
-})
+}))

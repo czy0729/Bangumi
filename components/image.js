@@ -10,10 +10,10 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 12:03:57
+ * @Last Modified time: 2019-12-03 10:13:06
  */
 import React from 'react'
-import { StyleSheet, View, Image as RNImage } from 'react-native'
+import { View, Image as RNImage } from 'react-native'
 import {
   CacheManager,
   Image as AnimatedImage
@@ -38,7 +38,7 @@ class Image extends React.Component {
     size: 40, // 大小|宽度
     height: undefined, // 高度
     border: false, // 边框
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: _.hairlineWidth,
     radius: undefined, // 圆角
     shadow: false, // 阴影
     placeholder: true, // 是否有底色
@@ -429,24 +429,16 @@ class Image extends React.Component {
   }
 }
 
-let _mode
-let _styles
-function memoStyles() {
-  if (!_mode || !_styles || _mode !== _.mode) {
-    _mode = _.mode
-    _styles = StyleSheet.create({
-      border: {
-        borderWidth: 1,
-        borderColor: _.colorBorder
-      },
-      shadow: _.shadow,
-      placeholder: {
-        backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
-      },
-      error: {
-        padding: 4
-      }
-    })
+const memoStyles = _.memoStyles(_ => ({
+  border: {
+    borderWidth: 1,
+    borderColor: _.colorBorder
+  },
+  shadow: _.shadow,
+  placeholder: {
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
+  },
+  error: {
+    padding: 4
   }
-  return _styles
-}
+}))

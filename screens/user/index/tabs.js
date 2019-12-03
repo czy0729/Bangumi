@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 15:24:18
+ * @Last Modified time: 2019-12-03 12:04:09
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Tabs as CompTabs, Text } from '@components'
+import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS } from '@constants/model'
-import _ from '@styles'
 import TabBarLeft from './tab-bar-left'
 import { tabs, height, headerHeight } from './store'
 
 function Tabs({ scrollY, children, onSelect, onChange, ...other }, { $ }) {
+  const styles = memoStyles()
   const { subjectType, _page } = $.state
   const counts = {
     动画: {},
@@ -88,7 +88,7 @@ Tabs.contextTypes = {
 
 export default observer(Tabs)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   tabs: {
     position: 'absolute',
     zIndex: 2,
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: _.colorPlain
   }
-})
+}))

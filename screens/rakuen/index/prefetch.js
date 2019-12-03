@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 01:08:25
+ * @Last Modified time: 2019-12-03 10:17:56
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -10,8 +10,8 @@ import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
 import { IconTabsHeader } from '@screens/_'
+import { _ } from '@stores'
 import { IOS } from '@constants'
-import _ from '@styles'
 
 function Prefetch({ $, navigation }) {
   const { prefetching, prefetchTotal, prefetchCurrent } = $.state

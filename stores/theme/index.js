@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 22:15:11
+ * @Last Modified time: 2019-12-03 10:38:24
  */
 import { StyleSheet } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -17,7 +17,6 @@ const lightStyles = {
   colorSuccess: _.colorSuccess,
   colorYellow: _.colorYellow,
   colorWarning: _.colorWarning,
-  colorDanger: _.colorDanger,
   colorPlainRaw: _.colorPlainRaw,
   colorPlain: _.colorPlain,
   colorWait: _.colorWait,
@@ -38,7 +37,6 @@ const darkStyles = {
   colorSuccess: _._colorSuccess,
   colorYellow: _._colorYellow,
   colorWarning: _._colorWarning,
-  colorDanger: _._colorDanger,
   colorPlainRaw: _._colorPlainRaw,
   colorPlain: _._colorPlain,
   colorWait: _._colorWait,
@@ -120,9 +118,9 @@ class Theme extends store {
     return this.state.colorWarning
   }
 
-  @computed get colorDanger() {
-    return this.state.colorDanger
-  }
+  // @computed get colorDanger() {
+  //   return this.state.colorDanger
+  // }
 
   @computed get colorPlainRaw() {
     return this.state.colorPlainRaw

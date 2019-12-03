@@ -3,16 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:05:48
+ * @Last Modified time: 2019-12-03 11:56:18
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, UM } from '@components'
 import { IconTabBar, Login } from '@screens/_'
+import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import ParallaxImage from './parallax-image'
 import Tabs from './tabs'
 import ToolBar from './tool-bar'
@@ -140,7 +140,11 @@ class User extends React.Component {
               subjectType={subjectType}
               ListHeaderComponent={
                 <>
-                  <View style={{ height: offset }} />
+                  <View
+                    style={{
+                      height: offset
+                    }}
+                  />
                   <ToolBar />
                 </>
               }

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:45:12
+ * @Last Modified time: 2019-12-03 10:45:47
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Loading, ListView, UM } from '@components'
 import { IconTabBar } from '@screens/_'
+import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import Header from './header'
 import List from './list'
 import Store from './store'

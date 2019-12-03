@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 11:52:36
+ * @Last Modified time: 2019-12-03 14:17:49
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
@@ -91,9 +91,9 @@ class Expand extends React.Component {
             <LinearGradient
               style={styles.linear}
               colors={[
-                `rgba(${_.colorPlainRaw.join(',')}, 0.16)`,
-                `rgba(${_.colorPlainRaw.join(',')}, 1)`,
-                `rgba(${_.colorPlainRaw.join(',')}, 1)`
+                `rgba(${_.colorPlainRaw.join()}, 0.16)`,
+                `rgba(${_.colorPlainRaw.join()}, 1)`,
+                `rgba(${_.colorPlainRaw.join()}, 1)`
               ]}
             />
             <Touchable style={styles.more} onPress={this.onExpand}>

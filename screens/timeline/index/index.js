@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:58:36
+ * @Last Modified time: 2019-12-03 10:24:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
+import { _ } from '@stores'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'

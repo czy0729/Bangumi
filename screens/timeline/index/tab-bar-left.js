@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:15:28
+ * @Last Modified time: 2019-12-03 10:25:52
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Button } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
-import _ from '@styles'
 
 function TabBarLeft({ $ }) {
   const { scope } = $.state

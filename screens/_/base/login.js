@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-20 22:29:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 14:52:32
+ * @Last Modified time: 2019-12-03 10:26:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Text, Button } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Login(props, { navigation }) {
   return (

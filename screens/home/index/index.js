@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-30 11:39:10
+ * @Last Modified time: 2019-12-03 11:13:24
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -81,7 +81,12 @@ class Home extends React.Component {
 
     const { grid, visible, subjectId, _loaded } = $.state
     if (!_loaded) {
-      return null
+      return (
+        <SafeAreaView
+          style={_.container.screen}
+          forceInset={{ top: 'never' }}
+        />
+      )
     }
 
     const { name, name_cn: nameCn } = $.subject(subjectId)

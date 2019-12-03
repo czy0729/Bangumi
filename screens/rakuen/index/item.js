@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 22:54:47
+ * @Last Modified time: 2019-12-03 10:09:17
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Popover, Avatar, StockPreview } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
 import { HOST, IMG_DEFAULT_AVATAR, TOPIC_PUSH_LIMIT } from '@constants'
-import _ from '@styles'
 
 const adRepliesCount = 4 // 回复数少于的数字, 判断为广告姬
 const oldGroupId = 346568 // 少于这个数字的, 为坟贴
@@ -162,7 +162,7 @@ class Item extends React.Component {
 
     const { name } = this.characters
     return (
-      <Touchable style={styles.item} highlight onPress={onPress}>
+      <Touchable style={this.styles.item} highlight onPress={onPress}>
         <Flex align='start'>
           <Flex.Item>
             <Text size={16}>
@@ -233,7 +233,7 @@ class Item extends React.Component {
     }
     return (
       <Popover
-        style={styles.extra}
+        style={this.styles.extra}
         contentStyle={{
           borderTopRightRadius: 0
         }}
@@ -295,15 +295,21 @@ class Item extends React.Component {
 
     const isTop = index === 0
     return (
-      <View style={[styles.container, this.isReaded && styles.readed, style]}>
+      <View
+        style={[
+          this.styles.container,
+          this.isReaded && this.styles.readed,
+          style
+        ]}
+      >
         <Flex align='start'>
           <Avatar
-            style={styles.image}
+            style={this.styles.image}
             navigation={navigation}
             src={avatar}
             userId={this.userId}
           />
-          <Flex.Item style={!isTop && styles.border}>
+          <Flex.Item style={!isTop && this.styles.border}>
             <Flex align='start'>
               <Flex.Item>{this.renderContent()}</Flex.Item>
               {this.renderStockPreview()}
@@ -313,7 +319,7 @@ class Item extends React.Component {
         </Flex>
         {this.isFavor && (
           <Iconfont
-            style={styles.favor}
+            style={this.styles.favor}
             size={12}
             name='star-full'
             color={_.colorYellow}
@@ -322,9 +328,13 @@ class Item extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -346,14 +356,14 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   favor: {
     position: 'absolute',
     right: 12,
     bottom: 20
   }
-})
+}))
 
 function correctTime(time = '') {
   let _time = time.replace('...', '')

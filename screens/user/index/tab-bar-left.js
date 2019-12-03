@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 15:24:40
+ * @Last Modified time: 2019-12-03 12:02:30
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Button } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 
 function TabBarLeft({ onSelect }, { $ }) {
   const { subjectType } = $.state

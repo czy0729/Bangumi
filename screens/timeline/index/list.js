@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-23 10:02:01
+ * @Last Modified time: 2019-12-03 11:22:25
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { Login, SectionHeader, ItemTimeline } from '@screens/_'
+import { _ } from '@stores'
 import { withTabsHeader } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-import _ from '@styles'
 
+export default
+@observer
 class List extends React.Component {
   static contextTypes = {
     $: PropTypes.object,
@@ -81,5 +83,3 @@ class List extends React.Component {
     )
   }
 }
-
-export default observer(List)

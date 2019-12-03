@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-13 15:50:36
+ * @Last Modified time: 2019-12-03 10:55:15
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Touchable, Text, Iconfont, Image } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
-import _ from '@styles'
 
 function Menu(props, { $, navigation }) {
+  const styles = memoStyles()
   const { username, id } = $.userInfo
   return (
     <Flex style={styles.container} wrap='wrap'>
@@ -21,7 +22,7 @@ function Menu(props, { $, navigation }) {
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='shou-fu' size={28} color={_.colorPlain} />
+              <Iconfont name='shou-fu' size={28} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               排行榜
@@ -34,7 +35,7 @@ function Menu(props, { $, navigation }) {
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='calendar' size={24} color={_.colorPlain} />
+              <Iconfont name='calendar' size={24} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               每日放送
@@ -47,7 +48,7 @@ function Menu(props, { $, navigation }) {
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='xin-fan' size={28} color={_.colorPlain} />
+              <Iconfont name='xin-fan' size={28} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               随便看看
@@ -63,6 +64,7 @@ function Menu(props, { $, navigation }) {
               <Image
                 src={require('@assets/images/anitama.jpg')}
                 size={32}
+                radius={16}
                 placeholder={false}
                 quality={false}
               />
@@ -78,7 +80,7 @@ function Menu(props, { $, navigation }) {
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='paihang' size={28} color={_.colorPlain} />
+              <Iconfont name='paihang' size={28} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               标签
@@ -101,7 +103,7 @@ function Menu(props, { $, navigation }) {
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='like' size={28} color={_.colorPlain} />
+              <Iconfont name='like' size={28} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               我的人物
@@ -120,7 +122,7 @@ Menu.contextTypes = {
 
 export default observer(Menu)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingHorizontal: _.wind
   },
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 56,
     height: 56,
-    backgroundColor: _.colorDark,
+    backgroundColor: _.select(_.colorDark, _._colorDarkModeLevel1),
     borderRadius: 56
   },
   border: {
@@ -149,4 +151,4 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorDanger,
     borderRadius: 56
   }
-})
+}))

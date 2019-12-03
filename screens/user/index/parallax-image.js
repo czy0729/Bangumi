@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-24 10:24:12
+ * @Last Modified time: 2019-12-03 11:59:12
  */
 import React from 'react'
-import { StyleSheet, Alert, Animated, View } from 'react-native'
+import { Alert, Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Text, Iconfont } from '@components'
 import { Popover, IconHeader, IconBack } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
 import { IOS } from '@constants'
-import _ from '@styles'
 import Head from './head'
 import { height, headerHeight } from './store'
 
 function ParallaxImage({ scrollY }, { $, navigation }) {
+  const styles = memoStyles()
   const { id, avatar = {}, nickname } = $.usersInfo
   const isMe = $.myUserId === id
   const parallaxStyle = {
@@ -56,7 +57,9 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
       <View style={styles.parallax} pointerEvents='none'>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
-          source={{ uri: avatar.large }}
+          source={{
+            uri: avatar.large
+          }}
           blurRadius={IOS ? 2 : 1}
         />
         <Animated.View
@@ -64,10 +67,13 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             styles.parallaxMask,
             parallaxStyle,
             {
-              backgroundColor: 'rgba(0, 0, 0, 0.48)',
+              backgroundColor: _.select(
+                'rgba(0, 0, 0, 0.48)',
+                'rgba(0, 0, 0, 0.64)'
+              ),
               opacity: scrollY.interpolate({
                 inputRange: [-height, 0, height - headerHeight, height],
-                outputRange: [0, 0.4, 1, 1]
+                outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
               })
             }
           ]}
@@ -84,13 +90,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             }
           ]}
         >
-          <Text
-            style={styles.title}
-            type='plain'
-            size={16}
-            align='center'
-            numberOfLines={1}
-          >
+          <Text style={styles.title} size={16} align='center' numberOfLines={1}>
             {nickname}
           </Text>
         </Animated.View>
@@ -113,7 +113,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
         <IconBack
           style={[_.header.left, styles.btn]}
           navigation={navigation}
-          color={_.colorPlain}
+          color={_.__colorPlain__}
         />
       )}
       <View style={[_.header.right, styles.btn, styles.more]}>
@@ -151,14 +151,14 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont name='more' color={_.colorPlain} />
+          <Iconfont name='more' color={_.__colorPlain__} />
         </Popover>
       </View>
       {!$.params.userId && (
         <IconHeader
           style={[_.header.right, styles.btn, styles.setting]}
           name='setting'
-          color={_.colorPlain}
+          color={_.__colorPlain__}
           onPress={() => navigation.push('Setting')}
         />
       )}
@@ -173,7 +173,7 @@ ParallaxImage.contextTypes = {
 
 export default observer(ParallaxImage)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   parallax: {
     position: 'absolute',
     zIndex: 1,
@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     left: '50%',
     width: 200,
     bottom: _.sm + (IOS ? 5 : 12),
+    color: _.__colorPlain__,
     transform: [
       {
         translateX: -100
@@ -215,4 +216,4 @@ const styles = StyleSheet.create({
   setting: {
     right: 44
   }
-})
+}))

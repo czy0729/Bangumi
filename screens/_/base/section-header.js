@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-18 16:34:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 20:06:38
+ * @Last Modified time: 2019-12-03 10:28:07
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function SectionHeader({ style, size, right, children }) {
+  const styles = memoStyles()
   return (
     <Flex style={[styles.section, style]}>
       <Flex.Item>
@@ -26,12 +27,12 @@ SectionHeader.defaultProps = {
   size: 12
 }
 
-export default SectionHeader
+export default observer(SectionHeader)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   section: {
     paddingVertical: _.sm,
     paddingHorizontal: _.wind,
     backgroundColor: _.colorBg
   }
-})
+}))

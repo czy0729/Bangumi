@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 01:03:31
+ * @Last Modified time: 2019-12-03 10:04:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,11 +11,11 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { Popover, IconTabsHeader, IconTabBar, IconNotify } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants/html'
-import _ from '@styles'
 import Prefetch from './prefetch'
 import Tabs from './tabs'
 import List from './list'

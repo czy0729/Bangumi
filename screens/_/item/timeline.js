@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-11 17:24:27
+ * @Last Modified time: 2019-12-03 10:30:16
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View, Alert } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
+import { _ } from '@stores'
 import { appNavigate, findBangumiCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
 import { HOST, HOST_NAME } from '@constants'
-import _ from '@styles'
 import Avatar from '../base/avatar'
 import Stars from '../base/stars'
 
 const avatarWidth = 28
 
+export default
+@observer
 class ItemTimeline extends React.Component {
   static defaultProps = {
     navigation: null,
@@ -223,8 +225,8 @@ class ItemTimeline extends React.Component {
     } = this.props
     const _image = getCoverMedium(image.length && image[0])
     return (
-      <Flex style={[styles.item, style]} align='start'>
-        <View style={styles.image}>
+      <Flex style={[this.styles.item, style]} align='start'>
+        <View style={this.styles.image}>
           {!!avatar.src && (
             <Avatar
               navigation={navigation}
@@ -235,7 +237,11 @@ class ItemTimeline extends React.Component {
           )}
         </View>
         <Flex.Item
-          style={[styles.content, index !== 0 && styles.border, _.ml.sm]}
+          style={[
+            this.styles.content,
+            index !== 0 && this.styles.border,
+            _.ml.sm
+          ]}
         >
           <Flex align='start'>
             <Flex.Item>
@@ -289,7 +295,7 @@ class ItemTimeline extends React.Component {
                     ])
                   }}
                 >
-                  <Iconfont style={styles.del} name='close' size={12} />
+                  <Iconfont style={this.styles.del} name='close' size={12} />
                 </Touchable>
               )}
             </Flex>
@@ -298,15 +304,17 @@ class ItemTimeline extends React.Component {
       </Flex>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
 ItemTimeline.defaultProps = {
   onDelete: Function.prototype
 }
 
-export default observer(ItemTimeline)
-
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     backgroundColor: _.colorPlain
   },
@@ -330,4 +338,4 @@ const styles = StyleSheet.create({
     width: 12 + _.sm * 2,
     height: 12 + _.sm * 2
   }
-})
+}))
