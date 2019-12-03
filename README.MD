@@ -10,25 +10,25 @@
 
 #### Download
 
-安卓 [(APK 下载)](https://github.com/czy0729/Bangumi/releases) | [(酷安下载)](https://www.coolapk.com/apk/235642)
+安卓 [[APK 下载]](https://github.com/czy0729/Bangumi/releases) | [[酷安下载]](https://www.coolapk.com/apk/235642)
 
-苹果好难审, 可能短时间内都没办法通过, 会跟苹果做长久作战. 目前有方法可以试用, 不复杂 [(iOS 试用方法)](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
+苹果好难审, 短时间内都没办法通过, 会跟苹果做长久作战. 目前有方法可以试用, 不会太复杂 [[iOS 试用方法]](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
 
 ---
 
 #### PowerBy
 
-[(bangumi-api)](https://github.com/bangumi/api) 官方接口
+[[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
-[(bangumi-onair)](https://github.com/ekibun/bangumi_onair) 单集播放数据源
+[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) 单集播放数据源
 
-[(bangumi-data)](https://github.com/bangumi-data/bangumi-data) 番组数据索引
+[[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
 
-[(https://tinygrail.com)](https://tinygrail.com) 小圣杯接口
+[[https://tinygrail.com]](https://tinygrail.com) 小圣杯接口
 
-[(https://www.ningmoe.com)](https://www.ningmoe.com) 柠萌瞬间接口
+[[https://www.ningmoe.com]](https://www.ningmoe.com) 柠萌瞬间接口
 
-[(https://app.anitama.net)](https://app.anitama.net) Anitama 接口
+[[https://app.anitama.net]](https://app.anitama.net) Anitama 接口
 
 ---
 
