@@ -5,30 +5,31 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:54:47
+ * @Last Modified time: 2019-12-03 16:19:33
  */
 import React from 'react'
-import { StyleSheet, Alert, View } from 'react-native'
+import { Alert, View } from 'react-native'
+import { observer } from 'mobx-react'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import deepmerge from 'deepmerge'
 import { StatusBarEvents, Text, Flex, KeyboardSpacer, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
-import { userStore } from '@stores'
+import { _, userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
 import { xhrCustom, hm } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
-import _ from '@styles'
 import Preview from './preview'
 import Form from './form'
 
 const title = '登陆'
 const namespace = 'LoginV2'
-const backgroundColor = 'rgb(251, 251, 251)'
 const HOST_BANGUMI = 'https://bangumi.tv'
 
-export default class LoginV2 extends React.Component {
+export default
+@observer
+class LoginV2 extends React.Component {
   static navigationOptions = {
     header: null
   }
@@ -493,16 +494,16 @@ export default class LoginV2 extends React.Component {
   render() {
     const { clicked, focus } = this.state
     return (
-      <View style={[_.container.flex, styles.gray]}>
+      <View style={[_.container.flex, this.styles.gray]}>
         <UM screen={title} />
-        <StatusBarEvents backgroundColor={backgroundColor} />
-        <StatusBarPlaceholder style={styles.gray} />
+        <StatusBarEvents backgroundColor={_.colorBg} />
+        <StatusBarPlaceholder style={this.styles.gray} />
         <View style={_.container.flex}>
           {clicked ? this.renderForm() : this.renderPreview()}
         </View>
         {clicked ? (
           !focus && (
-            <View style={styles.ps}>
+            <View style={this.styles.ps}>
               <Text size={12} lineHeight={14} type='sub'>
                 隐私策略: 我们十分尊重您的个人隐私, 信息仅存储于您的设备中,
                 我们不会收集上述信息. (多次尝试登陆后,
@@ -511,7 +512,7 @@ export default class LoginV2 extends React.Component {
             </View>
           )
         ) : (
-          <Flex style={styles.old}>
+          <Flex style={this.styles.old}>
             <Flex.Item>
               <Text
                 type='sub'
@@ -524,7 +525,7 @@ export default class LoginV2 extends React.Component {
                 旧版授权登陆
               </Text>
             </Flex.Item>
-            <Flex.Item style={styles.border}>
+            <Flex.Item style={this.styles.border}>
               <Text
                 type='sub'
                 align='center'
@@ -542,11 +543,15 @@ export default class LoginV2 extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   gray: {
-    backgroundColor
+    backgroundColor: _.colorBg
   },
   old: {
     position: 'absolute',
@@ -566,4 +571,4 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderColor: _.colorBorder
   }
-})
+}))

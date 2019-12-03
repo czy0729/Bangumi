@@ -1,21 +1,20 @@
 /*
- * 帖子
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 00:57:53
+ * @Last Modified time: 2019-12-03 15:35:16
  */
 import React from 'react'
-import { StyleSheet, Alert } from 'react-native'
+import { Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView, FixedTextarea } from '@components'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
-import _ from '@styles'
 import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
@@ -28,7 +27,7 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  colorStart: _.colorTitleRaw,
+  // colorStart: _.colorTitleRaw,
   barStyle: 'dark-content'
 })
 @observer
@@ -182,8 +181,8 @@ class Topic extends React.Component {
       <>
         <ListView
           ref={ref => (this.listView = ref)}
-          style={styles.container}
-          contentContainerStyle={styles.contentContainerStyle}
+          style={this.styles.container}
+          contentContainerStyle={this.styles.contentContainerStyle}
           keyExtractor={item => String(item.id)}
           data={$.comments}
           scrollEventThrottle={32}
@@ -228,9 +227,13 @@ class Topic extends React.Component {
       </>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
     backgroundColor: _.colorPlain
@@ -238,4 +241,4 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingBottom: _.bottom
   }
-})
+}))

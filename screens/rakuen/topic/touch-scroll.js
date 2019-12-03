@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-15 00:45:54
+ * @Last Modified time: 2019-12-03 15:12:17
  */
 import React from 'react'
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
+import { _ } from '@stores'
 import { getTimestamp } from '@utils'
-import _ from '@styles'
 
 function TouchScroll({ onPress }, { $ }) {
   const { list } = $.comments

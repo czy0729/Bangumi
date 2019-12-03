@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-14 10:35:16
+ * @Last Modified time: 2019-12-03 15:49:09
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { rakuenStore } from '@stores'
-import _ from '@styles'
+import { observer } from 'mobx-react'
+import { _, rakuenStore } from '@stores'
 import Text from '../text'
 
-export default class QuoteText extends React.Component {
+export default
+@observer
+class QuoteText extends React.Component {
   state = {
     show: rakuenStore.setting.quote || false
   }
@@ -25,16 +26,20 @@ export default class QuoteText extends React.Component {
     const { show } = this.state
     if (!show) {
       return (
-        <Text style={styles.quoteTextPlaceholder} onPress={this.show}>
+        <Text style={this.styles.quoteTextPlaceholder} onPress={this.show}>
           ...
         </Text>
       )
     }
-    return <Text style={styles.quoteText}>{children}</Text>
+    return <Text style={this.styles.quoteText}>“ {children} ”</Text>
+  }
+
+  get styles() {
+    return memoStyles()
   }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   quoteTextPlaceholder: {
     paddingBottom: 10,
     marginTop: -6,
@@ -45,9 +50,13 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 12,
     marginBottom: 4,
-    backgroundColor: _.colorPrimaryLight,
-    borderWidth: StyleSheet.hairlineWidth,
+    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
+    borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder,
-    transform: [{ scale: 0.96 }]
+    transform: [
+      {
+        scale: 0.96
+      }
+    ]
   }
-})
+}))

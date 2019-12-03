@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 20:57:29
+ * @Last Modified time: 2019-12-03 16:56:26
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
+import { _ } from '@stores'
 import { IOS, BARE } from '@constants'
-import _ from '@styles'
 import observer from './observer'
 
 const defaultHeaderStyle = {}
@@ -22,7 +22,7 @@ const withHeader = ({
   screen,
   headerStyle,
   headerTitleStyle,
-  iconBackColor = _.colorTitle,
+  iconBackColor,
   statusBarEvents = true
 } = {}) => ComposedComponent =>
   observer(
@@ -74,16 +74,21 @@ const withHeader = ({
 
         const params = {
           headerLeft: (
-            <IconBack navigation={navigation} color={iconBackColor} />
+            <IconBack
+              navigation={navigation}
+              color={iconBackColor || _.colorTitle}
+            />
           ),
           headerRight,
           headerStyle: IOS
             ? {
+                backgroundColor: _.colorPlain,
                 borderBottomColor: _.colorBorder,
                 borderBottomWidth: StyleSheet.hairlineWidth,
                 ...headerStyle
               }
             : {
+                backgroundColor: _.colorPlain,
                 borderBottomColor: _.colorBorder,
                 borderBottomWidth: StyleSheet.hairlineWidth,
                 elevation: 0,

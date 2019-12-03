@@ -4,10 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:54:07
+ * @Last Modified time: 2019-12-03 16:37:35
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import {
   StatusBarEvents,
   WebView,
@@ -20,15 +21,13 @@ import {
   UM
 } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
+import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
 import { IOS, APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
-import { userStore } from '@stores'
-import _ from '@styles'
 
 const title = '登陆V1'
-const backgroundColor = 'rgb(251, 251, 251)'
 const uri = `${OAUTH_URL}?${urlStringify({
   response_type: 'code',
   client_id: APP_ID,
@@ -54,7 +53,9 @@ const injectedJavaScript = `(function(){
   setTimeout(() => { waitForBridge() }, 800);
 }());`
 
-export default class Login extends React.Component {
+export default
+@observer
+class Login extends React.Component {
   static navigationOptions = {
     header: null
   }
@@ -171,18 +172,18 @@ export default class Login extends React.Component {
 
   renderPreview() {
     return (
-      <View style={[_.container.column, styles.gray]}>
+      <View style={[_.container.column, this.styles.gray]}>
         {IOS ? (
           <Mesume />
         ) : (
           <Image
-            style={styles.gray}
+            style={this.styles.gray}
             width={160}
             height={128}
             src={require('@assets/screens/login/login.png')}
           />
         )}
-        <View style={[styles.bottomContainer, _.mt.md]}>
+        <View style={[this.styles.bottomContainer, _.mt.md]}>
           <Button type='main' shadow onPress={this.onLogin}>
             授权登陆
           </Button>
@@ -196,19 +197,19 @@ export default class Login extends React.Component {
 
   renderLoading() {
     return (
-      <View style={[_.container.column, styles.gray]}>
+      <View style={[_.container.column, this.styles.gray]}>
         {IOS ? (
           <Mesume />
         ) : (
           <Image
-            style={styles.gray}
+            style={this.styles.gray}
             width={160}
             height={128}
             src={require('@assets/screens/login/login.png')}
           />
         )}
-        <View style={[styles.bottomContainer, _.mt.md]}>
-          <Flex style={styles.loading} direction='column' justify='center'>
+        <View style={[this.styles.bottomContainer, _.mt.md]}>
+          <Flex style={this.styles.loading} direction='column' justify='center'>
             <Loading.Raw color={_.colorMain} />
             <Text style={_.mt.md} size={12} type='main'>
               网页加载中, 请稍等
@@ -243,15 +244,15 @@ export default class Login extends React.Component {
   render() {
     const { clicked } = this.state
     return (
-      <View style={[_.container.flex, styles.gray]}>
+      <View style={[_.container.flex, this.styles.gray]}>
         <UM screen={title} />
-        <StatusBarEvents backgroundColor={backgroundColor} />
-        <StatusBarPlaceholder style={styles.gray} />
+        <StatusBarEvents backgroundColor={_.colorBg} />
+        <StatusBarPlaceholder style={this.styles.gray} />
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}
         </View>
         {!clicked && (
-          <Text style={styles.ps} size={12} type='sub'>
+          <Text style={this.styles.ps} size={12} type='sub'>
             PS: 若登陆过程中出现问题, 请手动把授权网页里面的Bangumi账号登出,
             不然可能会出现cookie过期的情况.
           </Text>
@@ -259,11 +260,15 @@ export default class Login extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   gray: {
-    backgroundColor
+    backgroundColor: _.colorBg
   },
   bottomContainer: {
     width: 280,
@@ -279,4 +284,4 @@ const styles = StyleSheet.create({
     bottom: _.bottom,
     left: _.wind * 2
   }
-})
+}))

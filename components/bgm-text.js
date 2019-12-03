@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-10 19:21:34
+ * @Last Modified time: 2019-12-03 15:54:02
  */
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
-import _ from '@styles'
+import { _ } from '@stores'
 
 export const bgmMap = [
   '',

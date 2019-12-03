@@ -4,10 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 15:19:45
+ * @Last Modified time: 2019-12-03 15:18:24
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { cheerio } from '@utils/html'
@@ -27,16 +28,13 @@ const spanMark = {
   lineThrough: 'line-through;',
   hidden: 'visibility:hidden;'
 }
-const defaultBaseFontStyle = {
-  fontSize: 16 + _.fontSizeAdjust,
-  lineHeight: 26,
-  color: _.colorTitle
-}
 
-export default class RenderHtml extends React.Component {
+export default
+@observer
+class RenderHtml extends React.Component {
   static defaultProps = {
     style: undefined,
-    baseFontStyle: defaultBaseFontStyle,
+    baseFontStyle: {},
     linkStyle: {},
     imagesMaxWidth: _.window.width - 2 * _.wind,
     html: '',
@@ -50,7 +48,7 @@ export default class RenderHtml extends React.Component {
   generateConfig = (imagesMaxWidth, baseFontStyle, linkStyle) => ({
     imagesMaxWidth: _.window.width,
     baseFontStyle: {
-      ...defaultBaseFontStyle,
+      ...this.defaultBaseFontStyle,
       ...baseFontStyle
     },
     tagsStyles: {
@@ -124,7 +122,7 @@ export default class RenderHtml extends React.Component {
             <MaskText
               key={key}
               style={{
-                ...defaultBaseFontStyle,
+                ...this.defaultBaseFontStyle,
                 ...baseFontStyle
               }}
             >
@@ -147,7 +145,7 @@ export default class RenderHtml extends React.Component {
             <LineThroughtText
               key={key}
               style={{
-                ...defaultBaseFontStyle,
+                ...this.defaultBaseFontStyle,
                 ...baseFontStyle
               }}
             >
@@ -164,7 +162,7 @@ export default class RenderHtml extends React.Component {
             <HiddenText
               key={key}
               style={{
-                ...defaultBaseFontStyle,
+                ...this.defaultBaseFontStyle,
                 ...baseFontStyle
               }}
             >
@@ -226,6 +224,14 @@ export default class RenderHtml extends React.Component {
     return _html
   }
 
+  get defaultBaseFontStyle() {
+    return {
+      fontSize: 16 + _.fontSizeAdjust,
+      lineHeight: 26,
+      color: _.colorTitle
+    }
+  }
+
   render() {
     const {
       style,
@@ -242,7 +248,7 @@ export default class RenderHtml extends React.Component {
         <HTML
           html={this.formatHTML()}
           baseFontStyle={{
-            ...defaultBaseFontStyle,
+            ...this.defaultBaseFontStyle,
             ...baseFontStyle
           }}
           onLinkPress={this.onLinkPress}

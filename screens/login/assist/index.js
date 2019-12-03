@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:52:48
+ * @Last Modified time: 2019-12-03 16:58:05
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View, Clipboard } from 'react-native'
+import { ScrollView, View, Clipboard } from 'react-native'
+import { observer } from 'mobx-react'
 import cheerio from 'cheerio-without-node-native'
 import { Text, Input, Button, KeyboardSpacer } from '@components'
+import { _, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
 import { xhrCustom, hm } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
-import { userStore } from '@stores'
-import _ from '@styles'
 
 const title = '电脑辅助登陆'
 const code = `JSON.stringify({
@@ -26,6 +26,7 @@ export default
 @withHeader({
   screen: title
 })
+@observer
 class LoginAssist extends React.Component {
   static navigationOptions = {
     title
@@ -281,8 +282,8 @@ class LoginAssist extends React.Component {
     const { loading, info } = this.state
     return (
       <ScrollView
-        style={styles.screen}
-        contentContainerStyle={styles.container}
+        style={this.styles.screen}
+        contentContainerStyle={this.styles.container}
       >
         <Text type='danger' size={12}>
           此为登陆最后的手段, 流程相对较多 (其实不复杂,
@@ -299,11 +300,11 @@ class LoginAssist extends React.Component {
         </Text>
         <Text style={_.mt.lg}>1. 复制框里的代码.</Text>
         <View style={_.mt.sm}>
-          <Text style={styles.code} size={12}>
+          <Text style={this.styles.code} size={12}>
             {code}
           </Text>
           <Text
-            style={styles.copy}
+            style={this.styles.copy}
             size={12}
             type='success'
             onPress={this.copy}
@@ -342,11 +343,15 @@ class LoginAssist extends React.Component {
       </ScrollView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   screen: {
-    backgroundColor: 'rgb(251, 251, 251)'
+    backgroundColor: _.colorBg
   },
   container: {
     display: 'flex',
@@ -356,7 +361,7 @@ const styles = StyleSheet.create({
   },
   code: {
     padding: _.wind,
-    backgroundColor: _.colorBg,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
@@ -368,4 +373,4 @@ const styles = StyleSheet.create({
     right: _.sm,
     padding: _.sm
   }
-})
+}))

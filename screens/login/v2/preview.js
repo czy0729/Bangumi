@@ -2,27 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-16 09:44:10
+ * @Last Modified time: 2019-12-03 16:27:59
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Button, Image, Mesume } from '@components'
-import { IOS } from '@constants'
-import _ from '@styles'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
+import { Button, Mesume } from '@components'
+import { _ } from '@stores'
 
 function Preview({ onLogin, onTour }) {
+  const styles = memoStyles()
   return (
     <View style={[_.container.column, styles.gray]}>
-      {IOS ? (
-        <Mesume />
-      ) : (
-        <Image
-          style={styles.gray}
-          width={160}
-          height={128}
-          src={require('@assets/screens/login/login.png')}
-        />
-      )}
+      <Mesume />
       <View style={[styles.bottomContainer, _.mt.md]}>
         <Button type='main' shadow onPress={onLogin}>
           账号登陆
@@ -40,14 +32,14 @@ Preview.defaultProps = {
   onTour: Function.prototype
 }
 
-export default Preview
+export default observer(Preview)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   gray: {
-    backgroundColor: 'rgb(251, 251, 251)'
+    backgroundColor: _.colorBg
   },
   bottomContainer: {
     width: 280,
     height: 350
   }
-})
+}))

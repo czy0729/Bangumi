@@ -3,17 +3,19 @@
  * @Author: czy0729
  * @Date: 2019-03-29 03:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:09:18
+ * @Last Modified time: 2019-12-03 15:52:52
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import _ from '@styles'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import Flex from './flex'
 import Text from './text'
 
 function Divider({ style }) {
+  const styles = memoStyles()
   return (
-    <Flex style={[styles.divider, style]}>
+    <Flex style={[styles.divider, style]} justify='center'>
       <View style={styles.line} />
       <Text style={styles.text} type='border' size={20}>
         / / /
@@ -23,17 +25,10 @@ function Divider({ style }) {
   )
 }
 
-Divider.defaultProps = {
-  style: undefined
-}
+export default observer(Divider)
 
-export default Divider
-
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   divider: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
     width: '100%',
     paddingVertical: 32
   },
@@ -42,7 +37,7 @@ const styles = StyleSheet.create({
   },
   line: {
     width: 80,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder
   }
-})
+}))

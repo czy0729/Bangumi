@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:40:28
+ * @Last Modified time: 2019-12-03 15:36:40
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
+import { _ } from '@stores'
 import { getTimestamp, simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
 
 const avatarWidth = 28
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
@@ -38,6 +38,7 @@ function Item(
   },
   { $, navigation }
 ) {
+  const styles = memoStyles()
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   const isFriend = $.myFriendsMap[userId]
@@ -215,12 +216,12 @@ Item.contextTypes = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     backgroundColor: _.colorPlain
   },
   itemOdd: {
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   itemNew: {
     backgroundColor: _.colorMainLight
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   sub: {
     marginTop: _.md,
@@ -259,4 +260,4 @@ const styles = StyleSheet.create({
     marginRight: -_.sm,
     marginBottom: -_.sm
   }
-})
+}))

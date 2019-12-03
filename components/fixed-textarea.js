@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-12 20:54:01
+ * @Last Modified time: 2019-12-03 15:56:36
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { TextareaItem } from '@ant-design/react-native'
+import { _ } from '@stores'
 import { getStorage, setStorage } from '@utils'
-import _ from '@styles'
 import Text from './text'
 import Bgm from './bgm'
 import Flex from './flex'
@@ -20,7 +21,9 @@ import Touchable from './touchable'
 const namespace = 'c-fixed-textarea'
 const maxHistoryCount = 7 // 最大常用bgm表情数量
 
-export default class FixedTextarea extends React.Component {
+export default
+@observer
+class FixedTextarea extends React.Component {
   static defaultProps = {
     value: '',
     placeholder: '',
@@ -237,7 +240,7 @@ export default class FixedTextarea extends React.Component {
       const { showBgm } = this.state
       return (
         <Touchable
-          style={styles.toolBarBtn}
+          style={this.styles.toolBarBtn}
           onPress={() => {
             if (showBgm) {
               this.hideBgm()
@@ -253,7 +256,7 @@ export default class FixedTextarea extends React.Component {
 
     return (
       <Touchable
-        style={styles.toolBarBtn}
+        style={this.styles.toolBarBtn}
         onPress={() => this.onAddSymbolText(symbol)}
       >
         <Text type='sub'>{text}</Text>
@@ -269,7 +272,7 @@ export default class FixedTextarea extends React.Component {
 
     const { simple } = this.props
     return (
-      <Flex style={styles.toolBar}>
+      <Flex style={this.styles.toolBar}>
         {this.renderBtn('BGM')}
         {!simple && this.renderBtn('加粗', 'b')}
         {!simple && this.renderBtn('斜体', 'i')}
@@ -286,11 +289,11 @@ export default class FixedTextarea extends React.Component {
     const canSend = value !== ''
     return (
       <View style={_.container.wind}>
-        <Flex style={styles.textareaContainer} align='start'>
+        <Flex style={this.styles.textareaContainer} align='start'>
           <Flex.Item>
             <TextareaItem
               ref={ref => (this.ref = ref)}
-              style={styles.textarea}
+              style={this.styles.textarea}
               value={value}
               placeholder={placeholder || '不吐槽一下吗'}
               rows={showTextarea || showBgm ? 6 : 1}
@@ -300,7 +303,7 @@ export default class FixedTextarea extends React.Component {
               onChange={this.onChange}
             />
           </Flex.Item>
-          <Touchable style={styles.send} onPress={this.onSubmit}>
+          <Touchable style={this.styles.send} onPress={this.onSubmit}>
             <Iconfont
               name='navigation'
               color={canSend ? _.colorMain : _.colorIcon}
@@ -326,7 +329,7 @@ export default class FixedTextarea extends React.Component {
         style={{
           height: keyboardHeight - 2
         }}
-        contentContainerStyle={styles.bgmContainer}
+        contentContainerStyle={this.styles.bgmContainer}
       >
         <Text style={_.container.wind} size={12} type='sub'>
           常用
@@ -336,7 +339,7 @@ export default class FixedTextarea extends React.Component {
             <Touchable
               // eslint-disable-next-line react/no-array-index-key
               key={index}
-              style={styles.bgm}
+              style={this.styles.bgm}
               onPress={() => this.onSelectBgm(item)}
             >
               <Flex justify='center'>
@@ -353,7 +356,7 @@ export default class FixedTextarea extends React.Component {
             <Touchable
               // eslint-disable-next-line react/no-array-index-key
               key={index + 1}
-              style={styles.bgm}
+              style={this.styles.bgm}
               onPress={() => this.onSelectBgm(index + 1)}
             >
               <Flex justify='center'>
@@ -372,12 +375,12 @@ export default class FixedTextarea extends React.Component {
       <>
         {(showTextarea || showBgm) && (
           <Touchable
-            style={styles.mask}
+            style={this.styles.mask}
             withoutFeedback
             onPress={this.onBlur}
           />
         )}
-        <View style={styles.container}>
+        <View style={this.styles.container}>
           {this.renderToolBar()}
           {this.renderTextarea()}
           {this.renderBgm()}
@@ -390,9 +393,13 @@ export default class FixedTextarea extends React.Component {
       </>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   mask: {
     position: 'absolute',
     top: 0,
@@ -443,4 +450,4 @@ const styles = StyleSheet.create({
     padding: _.sm,
     marginTop: 3
   }
-})
+}))
