@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 22:23:14
+ * @Last Modified time: 2019-12-05 00:34:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -118,8 +118,8 @@ function memoStyles(mode) {
 
       // type
       plain: {
-        backgroundColor: _.colorPlain,
-        borderColor: _.select('rgb(223, 223, 223)', _.colorPlain)
+        backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+        borderColor: _.select('rgb(223, 223, 223)', _._colorDarkModeLevel1)
       },
       main: {
         backgroundColor: _.colorMain,

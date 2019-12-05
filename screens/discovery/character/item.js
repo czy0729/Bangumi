@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-01 17:27:38
+ * @Last Modified time: 2019-12-05 00:38:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Text, Image } from '@components'
+import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
-import _ from '@styles'
 
 const imageWidth = _.window.width * 0.16
 const marginLeft = (_.window.width - 5 * imageWidth) / 6

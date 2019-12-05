@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:15:03
+ * @Last Modified time: 2019-12-05 00:30:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
+import { _ } from '@stores'
 import { IMG_DEFAULT } from '@constants'
 import { HTMLDecode } from '@utils/html'
 import { getCoverMedium } from '@utils/app'
-import _ from '@styles'
 
 const imageWidth = _.window.width * 0.288
 const imageHeight = imageWidth * 1.28

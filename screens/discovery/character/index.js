@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:44:28
+ * @Last Modified time: 2019-12-05 00:35:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'

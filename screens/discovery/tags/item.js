@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 16:30:44
+ * @Last Modified time: 2019-12-05 09:47:19
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Text, Flex } from '@components'
+import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { HTMLDecode } from '@utils/html'
-import _ from '@styles'
 
 const width = _.window.width * 0.2
 const marginLeft = (_.window.width - 4 * width) / 5
 
 function Item({ type, name, nums }, { navigation }) {
+  const styles = memoStyles()
   let numsText = nums
   if (nums > 1000) {
     numsText = `${formatNumber(nums / 1000, 1)}K`
@@ -51,7 +51,7 @@ Item.contextTypes = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     marginTop: _.wind,
     marginLeft
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     height: width,
     backgroundColor: _.colorPlain,
     borderRadius: _.radiusSm,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder
   }
-})
+}))

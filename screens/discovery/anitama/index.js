@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:46:28
+ * @Last Modified time: 2019-12-03 20:37:40
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Touchable, Text, Image } from '@components'
 import { Pagination } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import Store from './store'
 
 const title = 'Anitama'
@@ -95,7 +95,7 @@ class Anitama extends React.Component {
               {$.anitamaTimeline.list.map(item => (
                 <Touchable
                   key={item.aid}
-                  style={styles.item}
+                  style={this.styles.item}
                   onPress={() => {
                     const url = `http://m.anitama.cn/article/${item.aid}`
                     open(url)
@@ -114,7 +114,7 @@ class Anitama extends React.Component {
                     radius
                     shadow
                   />
-                  <View style={styles.info}>
+                  <View style={this.styles.info}>
                     <Text size={20} type='title'>
                       {item.title}
                     </Text>
@@ -134,9 +134,13 @@ class Anitama extends React.Component {
       </ScrollView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     padding: _.wind,
     paddingTop: 24,
@@ -146,4 +150,4 @@ const styles = StyleSheet.create({
   info: {
     paddingVertical: _.wind
   }
-})
+}))

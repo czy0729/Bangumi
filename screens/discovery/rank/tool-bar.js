@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 20:11:50
+ * @Last Modified time: 2019-12-05 00:59:29
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { airtimeData } from '@constants'
 import {
@@ -18,11 +18,11 @@ import {
   MODEL_RANK_GAME_FILTER,
   MODEL_RANK_REAL_FILTER
 } from '@constants/model'
-import _ from '@styles'
 
 const typeData = MODEL_SUBJECT_TYPE.data.map(item => item.title)
 
-const ToolBar = (props, { $, navigation }) => {
+function ToolBar(props, { $, navigation }) {
+  const styles = memoStyles()
   const { type, filter, airtime, list } = $.state
   const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
   let filterData
@@ -123,7 +123,7 @@ ToolBar.contextTypes = {
 
 export default observer(ToolBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     backgroundColor: _.colorBg
   },
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
   touchable: {
     paddingHorizontal: _.lg
   }
-})
+}))

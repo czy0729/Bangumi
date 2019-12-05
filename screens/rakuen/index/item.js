@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:09:17
+ * @Last Modified time: 2019-12-03 20:10:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -340,7 +340,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   readed: {
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   image: {
     marginRight: _.xs,

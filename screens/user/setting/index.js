@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:06:18
+ * @Last Modified time: 2019-12-03 20:19:33
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { Switch } from '@ant-design/react-native'
 import { Text } from '@components'
 import { Popover, ItemSetting } from '@screens/_'
-import Stores, { userStore, systemStore } from '@stores'
+import Stores, { _, userStore, systemStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
@@ -25,7 +25,6 @@ import {
   USERID_IOS_AUTH
 } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
-import _ from '@styles'
 
 const title = '设置'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 18:54:50
+ * @Last Modified time: 2019-12-05 00:38:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,11 +10,11 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
 import { Tag, Stars } from '@screens/_'
+import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 
 const imgWidth = 96
 const imgHeight = 1.28 * imgWidth
@@ -23,6 +23,7 @@ function Item(
   { index, id, cover, name, nameJP, type, info, star, starInfo, actors = [] },
   { navigation }
 ) {
+  const styles = memoStyles()
   const isFirst = index === 0
   const onPress = () =>
     navigation.push('Subject', {
@@ -132,7 +133,7 @@ Item.contextTypes = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -151,4 +152,4 @@ const styles = StyleSheet.create({
   actors: {
     width: '50%'
   }
-})
+}))

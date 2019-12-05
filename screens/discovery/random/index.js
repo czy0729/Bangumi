@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:45:44
+ * @Last Modified time: 2019-12-05 00:54:20
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { inject, observer } from '@utils/decorators'
 import { StatusBarEvents, Loading, UM } from '@components'
+import { _ } from '@stores'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import List from './list'
 import Store from './store'
 

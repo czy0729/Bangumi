@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-01 12:58:52
+ * @Last Modified time: 2019-12-03 20:17:57
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { rakuenStore, userStore } from '@stores'
-import _ from '@styles'
+import { _, rakuenStore, userStore } from '@stores'
 import IconTabsHeader from './tabs-header'
 
 let isSetTimeout = false
@@ -33,7 +32,7 @@ class Notify extends React.Component {
     const { navigation } = this.props
     return (
       <View>
-        {!!rakuenStore.notify.unread && <View style={styles.dot} />}
+        {!!rakuenStore.notify.unread && <View style={this.styles.dot} />}
         <IconTabsHeader
           name='mail'
           onPress={() => {
@@ -47,9 +46,13 @@ class Notify extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   dot: {
     position: 'absolute',
     zIndex: 2,
@@ -62,4 +65,4 @@ const styles = StyleSheet.create({
     borderColor: _.colorPlain,
     borderRadius: 12
   }
-})
+}))

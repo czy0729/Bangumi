@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 14:53:09
+ * @Last Modified time: 2019-12-03 20:38:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import { observer } from 'mobx-react'
 import { Touchable, Text, Flex, Input } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Pagination({ style, input, onPrev, onNext, onChange, onSearch }) {
+  const styles = memoStyles()
   return (
     <Flex style={[_.container.wind, style]}>
       <Flex.Item>
@@ -48,9 +50,9 @@ Pagination.defaultProps = {
   onSearch: Function.prototype
 }
 
-export default Pagination
+export default observer(Pagination)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   pagination: {
     height: 34,
     backgroundColor: _.colorPlain,
@@ -62,4 +64,4 @@ const styles = StyleSheet.create({
     height: 34,
     textAlign: 'center'
   }
-})
+}))

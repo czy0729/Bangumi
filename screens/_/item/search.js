@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 18:54:23
+ * @Last Modified time: 2019-12-05 01:00:28
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Touchable } from '@components'
+import { _ } from '@stores'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 import Tag from '../base/tag'
 import Stars from '../base/stars'
 
@@ -34,6 +34,8 @@ function ItemSearch({
   collected,
   comments
 }) {
+  const styles = memoStyles()
+
   // 人物高清图不是正方形的图, 所以要特殊处理
   const isMono = !id.includes('/subject/')
   const isFirst = index === 0
@@ -126,7 +128,7 @@ function ItemSearch({
 
 export default observer(ItemSearch)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -140,9 +142,9 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   content: {
     height: imgHeight
   }
-})
+}))

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:06:59
+ * @Last Modified time: 2019-12-05 09:39:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Touchable, Flex, Text, Iconfont } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
 
 function History({ style }, { $ }) {
   const { history, value } = $.state
@@ -17,6 +17,7 @@ function History({ style }, { $ }) {
     return null
   }
 
+  const styles = memoStyles()
   return (
     <View style={style}>
       {history.map(item => (
@@ -46,7 +47,7 @@ History.contextTypes = {
 
 export default observer(History)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingHorizontal: _.wind
   },
@@ -58,4 +59,4 @@ const styles = StyleSheet.create({
   close: {
     padding: _.sm
   }
-})
+}))

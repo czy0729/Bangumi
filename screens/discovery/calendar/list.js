@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 21:48:29
+ * @Last Modified time: 2019-12-05 00:29:56
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView, Flex } from '@components'
 import { SectionHeader } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 import Item from './item'
 
 function List(props, { $ }) {

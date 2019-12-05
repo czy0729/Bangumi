@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:43:17
+ * @Last Modified time: 2019-12-03 20:20:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function ItemSetting({ style, border, hd, ft, arrow, onPress, ...other }) {
+  const styles = memoStyles()
   const content = (
     <Flex style={[styles.item, border && styles.border]}>
       <Flex.Item>
@@ -44,7 +45,7 @@ function ItemSetting({ style, border, hd, ft, arrow, onPress, ...other }) {
 
 export default observer(ItemSetting)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   touchable: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -57,4 +58,4 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: _.colorBorder
   }
-})
+}))

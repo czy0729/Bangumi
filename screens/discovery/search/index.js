@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:49:05
+ * @Last Modified time: 2019-12-05 09:42:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Button } from '@components'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 import Category from './category'
 import SearchBar from './search-bar'
 import History from './history'
@@ -61,11 +61,6 @@ class Search extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { _loaded } = $.state
-    if (!_loaded) {
-      return null
-    }
-
     return (
       <View style={_.container.screen}>
         <Flex style={styles.searchBar}>
