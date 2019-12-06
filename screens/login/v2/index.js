@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 16:19:33
+ * @Last Modified time: 2019-12-06 23:19:50
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -412,14 +412,12 @@ class LoginV2 extends React.Component {
     this.setState({
       focus: true
     })
-    console.log('onFocus')
   }
 
   onBlur = () => {
     this.setState({
       focus: false
     })
-    console.log('onBlur')
   }
 
   /**

@@ -81,7 +81,7 @@ class TabBarBottom extends React.Component<Props> {
      * @modify theme mode
      */
     // const tintColor = focused ? activeTintColor : inactiveTintColor
-    const tintColor = focused ? _.colorMain : _.colorDesc
+    const tintColor = focused ? _.colorMain : _.colorSub
 
     const label = this.props.getLabelText({ route })
     if (typeof label === 'string') {
@@ -140,7 +140,7 @@ class TabBarBottom extends React.Component<Props> {
         // activeTintColor={activeTintColor}
         // inactiveTintColor={inactiveTintColor}
         activeTintColor={_.colorMain}
-        inactiveTintColor={_.colorDesc}
+        inactiveTintColor={_.colorSub}
         renderIcon={renderIcon}
         style={[
           styles.iconWithExplicitHeight,

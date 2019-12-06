@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 15:18:24
+ * @Last Modified time: 2019-12-06 22:56:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -85,90 +85,94 @@ class RenderHtml extends React.Component {
         convertedCSSStyles,
         { rawChildren, key, baseFontStyle }
       ) => {
-        // @todo 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
-        // 防剧透字
-        if (style.includes(spanMark.mask)) {
-          const text = []
-          const target = rawChildren[0]
-          if (target) {
-            if (target.children) {
-              // 防剧透字中有表情
-              target.children.forEach((item, index) => {
-                if (item.data) {
-                  // 文字
-                  text.push(item.data)
-                } else if (item.children) {
-                  item.children.forEach((i, idx) => {
-                    // 表情
-                    text.push(
-                      <BgmText
-                        // eslint-disable-next-line react/no-array-index-key
-                        key={`${index}-${idx}`}
-                        size={baseFontStyle.fontSize}
-                        lineHeight={baseFontStyle.lineHeight}
-                      >
-                        {i.data}
-                      </BgmText>
-                    )
-                  })
-                }
-              })
-            } else {
-              // 防剧透字中没表情
-              text.push(target.data)
+        try {
+          // @todo 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
+          // 防剧透字
+          if (style.includes(spanMark.mask)) {
+            const text = []
+            const target = rawChildren[0]
+            if (target) {
+              if (target.children) {
+                // 防剧透字中有表情
+                target.children.forEach((item, index) => {
+                  if (item.data) {
+                    // 文字
+                    text.push(item.data)
+                  } else if (item.children) {
+                    item.children.forEach((i, idx) => {
+                      // 表情
+                      text.push(
+                        <BgmText
+                          // eslint-disable-next-line react/no-array-index-key
+                          key={`${index}-${idx}`}
+                          size={baseFontStyle.fontSize}
+                          lineHeight={baseFontStyle.lineHeight}
+                        >
+                          {i.data}
+                        </BgmText>
+                      )
+                    })
+                  }
+                })
+              } else {
+                // 防剧透字中没表情
+                text.push(target.data)
+              }
             }
+            return (
+              <MaskText
+                key={key}
+                style={{
+                  ...this.defaultBaseFontStyle,
+                  ...baseFontStyle
+                }}
+              >
+                {text}
+              </MaskText>
+            )
           }
-          return (
-            <MaskText
-              key={key}
-              style={{
-                ...this.defaultBaseFontStyle,
-                ...baseFontStyle
-              }}
-            >
-              {text}
-            </MaskText>
-          )
-        }
 
-        // 删除字
-        if (style.includes(spanMark.lineThrough)) {
-          const target = rawChildren[0]
-          const text =
-            (target &&
-              target.parent &&
-              target.parent.children[0] &&
-              target.parent.children[0].data) ||
-            (target.children[0] && target.children[0].data) ||
-            ''
-          return (
-            <LineThroughtText
-              key={key}
-              style={{
-                ...this.defaultBaseFontStyle,
-                ...baseFontStyle
-              }}
-            >
-              {text}
-            </LineThroughtText>
-          )
-        }
+          // 删除字
+          if (style.includes(spanMark.lineThrough)) {
+            const target = rawChildren[0]
+            const text =
+              (target &&
+                target.parent &&
+                target.parent.children[0] &&
+                target.parent.children[0].data) ||
+              (target.children[0] && target.children[0].data) ||
+              ''
+            return (
+              <LineThroughtText
+                key={key}
+                style={{
+                  ...this.defaultBaseFontStyle,
+                  ...baseFontStyle
+                }}
+              >
+                {text}
+              </LineThroughtText>
+            )
+          }
 
-        // 隐藏字
-        if (style.includes(spanMark.hidden)) {
-          const target = rawChildren[0]
-          const text = (target && target.data) || ''
-          return (
-            <HiddenText
-              key={key}
-              style={{
-                ...this.defaultBaseFontStyle,
-                ...baseFontStyle
-              }}
-            >
-              {text}
-            </HiddenText>
-          )
+          // 隐藏字
+          if (style.includes(spanMark.hidden)) {
+            const target = rawChildren[0]
+            const text = (target && target.data) || ''
+            return (
+              <HiddenText
+                key={key}
+                style={{
+                  ...this.defaultBaseFontStyle,
+                  ...baseFontStyle
+                }}
+              >
+                {text}
+              </HiddenText>
+            )
+          }
+        } catch (error) {
+          // do nothing
         }
 
         return children

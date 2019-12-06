@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 15:11:44
+ * @Last Modified time: 2019-12-07 01:04:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -65,6 +65,8 @@ function Top(props, { $, navigation }) {
     groupName = title || _title
     groupPress = () => appNavigate(`${HOST}/${$.monoId}`, navigation)
   }
+
+  const isGroup = $.topicId.includes('group/')
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -108,31 +110,33 @@ function Top(props, { $, navigation }) {
             )}
           </Text>
         </Flex>
-        <Flex style={[styles.userWrap, _.mt.md]}>
-          <View style={styles.userAvatarWrap}>
-            {!!userAvatar && (
-              <Avatar
-                navigation={navigation}
-                size={40}
-                src={_avatar || userAvatar}
-                userId={userId}
-              />
-            )}
-          </View>
-          {!!uid && (
-            <Flex.Item style={_.ml.sm}>
-              <Text numberOfLines={2}>
-                {uname}
-                <Text type='sub'> @{uid}</Text>
-              </Text>
-              {!!_loaded && !userSign ? null : (
-                <Text style={_.mt.xs} type='sub' size={12}>
-                  {userSign || '-'}
-                </Text>
+        {isGroup && (
+          <Flex style={[styles.userWrap, _.mt.md]}>
+            <View style={styles.userAvatarWrap}>
+              {!!userAvatar && (
+                <Avatar
+                  navigation={navigation}
+                  size={40}
+                  src={_avatar || userAvatar}
+                  userId={userId}
+                />
               )}
-            </Flex.Item>
-          )}
-        </Flex>
+            </View>
+            {!!uid && (
+              <Flex.Item style={_.ml.sm}>
+                <Text numberOfLines={2}>
+                  {uname}
+                  <Text type='sub'> @{uid}</Text>
+                </Text>
+                {!!_loaded && !userSign ? null : (
+                  <Text style={_.mt.xs} type='sub' size={12}>
+                    {userSign || '-'}
+                  </Text>
+                )}
+              </Flex.Item>
+            )}
+          </Flex>
+        )}
         <View style={styles.html}>
           {!_loaded && (
             <Flex style={styles.loading} justify='center'>
@@ -176,9 +180,9 @@ const styles = StyleSheet.create({
     width: 40
   },
   html: {
-    minHeight: 160
+    minHeight: 120
   },
   loading: {
-    height: 160
+    height: 120
   }
 })

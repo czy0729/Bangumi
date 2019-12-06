@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 15:36:40
+ * @Last Modified time: 2019-12-07 01:04:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,10 +95,6 @@ function Item(
         )}
         <RenderHtml
           style={_.mt.sm}
-          baseFontStyle={{
-            fontSize: 14 + _.fontSizeAdjust,
-            lineHeight: 22
-          }}
           imagesMaxWidth={imagesMaxWidth}
           html={message}
           onLinkPress={href => appNavigate(href, navigation)}
@@ -173,8 +169,8 @@ function Item(
                   <RenderHtml
                     style={_.mt.xs}
                     baseFontStyle={{
-                      fontSize: 13 + _.fontSizeAdjust,
-                      lineHeight: 20
+                      fontSize: 14 + _.fontSizeAdjust,
+                      lineHeight: 22
                     }}
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}
@@ -239,7 +235,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind
   },
   sign: {
-    marginTop: 6
+    marginTop: _.xs
   },
   border: {
     borderTopColor: _.colorBorder,
@@ -256,8 +252,12 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.md
   },
   reply: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
     padding: _.sm,
     marginRight: -_.sm,
-    marginBottom: -_.sm
+    marginBottom: -_.sm,
+    opacity: 0.64
   }
 }))

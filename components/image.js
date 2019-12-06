@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:13:06
+ * @Last Modified time: 2019-12-06 23:08:24
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -128,7 +128,8 @@ class Image extends React.Component {
 
           // 检查本地有没有图片缓存
           // @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发unmounted
-          res = CacheManager.get(_src).getPath()
+          const { headers } = this.props
+          res = CacheManager.get(_src, headers).getPath()
           const path = await res
           if (path) {
             uri = path

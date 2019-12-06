@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 20:28:41
+ * @Last Modified time: 2019-12-06 23:09:51
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -96,7 +96,7 @@ export const _colorPlainRaw = [32, 32, 34] // 28, 28, 30
 export const _colorPlain = `rgb(${_colorPlainRaw.join()})`
 export const _colorWait = 'rgb(74, 74, 76)'
 export const _colorBg = 'rgb(20, 20, 22)' // 0, 0, 0
-export const _colorBorder = _colorDarkModeLevel2 // _colorDarkModeLevel1
+export const _colorBorder = 'rgba(255, 255, 255, 0.12)' // _colorDarkModeLevel1
 
 // 文字
 export const _colorTitleRaw = [255, 255, 255]
