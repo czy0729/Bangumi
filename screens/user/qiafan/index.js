@@ -3,16 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:06:05
+ * @Last Modified time: 2019-12-08 01:48:43
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { Flex, Text, Image } from '@components'
+import { _ } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 
-const title = '想说点话'
+const title = '恰饭'
 
 export default
 @withHeader({

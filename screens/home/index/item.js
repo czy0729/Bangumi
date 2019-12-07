@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 16:32:25
+ * @Last Modified time: 2019-12-08 02:21:56
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Progress, Modal } from '@ant-design/react-native'
@@ -283,12 +283,14 @@ class Item extends React.Component {
   }
 }
 
+export default observer(Item)
+
 const memoStyles = _.memoStyles(_ => ({
   item: {
     padding: _.wind,
     backgroundColor: _.colorPlain,
     borderColor: _.colorBorder,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
@@ -322,5 +324,3 @@ const memoStyles = _.memoStyles(_ => ({
     padding: _.sm
   }
 }))
-
-export default observer(Item)

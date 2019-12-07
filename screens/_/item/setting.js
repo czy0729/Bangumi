@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 20:20:30
+ * @Last Modified time: 2019-12-08 02:21:11
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
 import { _ } from '@stores'
@@ -55,7 +55,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind
   },
   border: {
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: _.hairlineWidth,
     borderTopColor: _.colorBorder
   }
 }))

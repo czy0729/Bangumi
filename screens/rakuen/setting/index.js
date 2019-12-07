@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:56:53
+ * @Last Modified time: 2019-12-07 18:01:13
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { Switch } from '@ant-design/react-native'
 import { Text } from '@components'
 import { ItemSetting } from '@screens/_'
-import { rakuenStore } from '@stores'
+import { _, rakuenStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import History from './history'
 
 const title = '超展开设置'

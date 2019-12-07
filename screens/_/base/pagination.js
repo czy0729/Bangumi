@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 20:38:34
+ * @Last Modified time: 2019-12-08 02:20:49
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable, Text, Flex, Input } from '@components'
 import { _ } from '@stores'
@@ -56,7 +55,7 @@ const memoStyles = _.memoStyles(_ => ({
   pagination: {
     height: 34,
     backgroundColor: _.colorPlain,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs
   },

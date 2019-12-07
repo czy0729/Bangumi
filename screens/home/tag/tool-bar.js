@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:09:18
+ * @Last Modified time: 2019-12-07 17:42:26
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { airtimeData } from '@constants'
 import { MODEL_TAG_ORDERBY } from '@constants/model'
-import _ from '@styles'
 
 const orderData = MODEL_TAG_ORDERBY.data.map(item => item.label)
 
 function ToolBar(props, { $ }) {
+  const styles = memoStyles()
   const { order, list, airtime } = $.state
   const isEmptyAirdate = airtime === ''
   return (
@@ -80,7 +80,7 @@ ToolBar.contextTypes = {
 
 export default observer(ToolBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     backgroundColor: _.colorBg
   },
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
   touchable: {
     paddingHorizontal: _.lg
   }
-})
+}))

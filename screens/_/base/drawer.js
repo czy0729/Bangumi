@@ -2,32 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-04-23 21:04:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 14:52:04
+ * @Last Modified time: 2019-12-08 02:20:31
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { SafeAreaView, DrawerItems } from 'react-navigation'
 import { DrawerActions } from 'react-navigation-drawer'
 import { observer } from 'mobx-react'
 import { BlurView, Flex, Image, Text, Touchable } from '@components'
 import { IconDrawer } from '@screens/_'
-import { userStore } from '@stores'
-import _ from '@styles'
+import { _, userStore } from '@stores'
 import StatusBarPlaceholder from './status-bar-placeholder'
 
-const contentOptions = {
-  activeTintColor: _.colorMain,
-  activeBackgroundColor: _.colorPlain,
-  inactiveTintColor: _.colorDesc,
-  inactiveBackgroundColor: _.colorPlain,
-  labelStyle: {
-    marginLeft: 0,
-    fontWeight: 'normal'
-  }
-}
-
 function Drawer({ navigation, ...otherProps }) {
+  const styles = memoStyles()
   const { avatar = {}, nickname, id } = userStore.userInfo
+  const contentOptions = {
+    activeTintColor: _.colorMain,
+    activeBackgroundColor: _.colorPlain,
+    inactiveTintColor: _.colorDesc,
+    inactiveBackgroundColor: _.colorPlain,
+    labelStyle: {
+      marginLeft: 0,
+      fontWeight: 'normal'
+    }
+  }
   return (
     <SafeAreaView
       style={_.container.flex}
@@ -87,14 +86,14 @@ function Drawer({ navigation, ...otherProps }) {
 
 export default observer(Drawer)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   bottom: {
     paddingVertical: 14,
     paddingLeft: 17,
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: _.hairlineWidth,
     borderTopColor: _.colorBorder
   },
   bottomText: {
     marginLeft: 18
   }
-})
+}))

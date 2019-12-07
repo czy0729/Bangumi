@@ -3,16 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-08-31 15:45:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:58:07
+ * @Last Modified time: 2019-12-07 18:01:58
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
+import { observer } from 'mobx-react'
 import { RenderHtml, Flex, Button } from '@components'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils/app'
 import { withHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 
 const title = '社区指导原则'
 const html =
@@ -22,6 +22,7 @@ export default
 @withHeader({
   screen: title
 })
+@observer
 class UGCAgree extends React.Component {
   static navigationOptions = {
     title

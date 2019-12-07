@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:21:20
+ * @Last Modified time: 2019-12-08 02:18:56
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
 import { _, systemStore } from '@stores'
@@ -99,7 +99,7 @@ export default observer(Avatar)
 
 const memoStyles = _.memoStyles(_ => ({
   avatar: {
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'

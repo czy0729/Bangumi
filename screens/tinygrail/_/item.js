@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 22:11:03
+ * @Last Modified time: 2019-12-08 02:23:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -293,6 +293,6 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
 })

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 10:21:18
+ * @Last Modified time: 2019-12-07 18:00:29
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { Touchable, Flex, Text, Iconfont } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
 
 function History({ style, data, onDelete }) {
+  const styles = memoStyles()
   if (!data.length) {
     return (
       <View style={[styles.container, style]}>
@@ -51,7 +52,7 @@ History.defaultProps = {
 
 export default observer(History)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -63,10 +64,10 @@ const styles = StyleSheet.create({
     paddingVertical: _.sm
   },
   border: {
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: _.hairlineWidth,
     borderTopColor: _.colorBorder
   },
   close: {
     padding: _.sm
   }
-})
+}))

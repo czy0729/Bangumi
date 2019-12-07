@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 00:34:12
+ * @Last Modified time: 2019-12-08 02:28:37
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { titleCase } from '@utils'
@@ -102,143 +102,135 @@ Button.defaultProps = {
 
 export default observer(Button)
 
-let _mode
-let _styles
-function memoStyles(mode) {
-  if (!_mode || !_styles || _mode !== mode) {
-    _mode = mode
-    _styles = StyleSheet.create({
-      button: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: StyleSheet.hairlineWidth
-      },
+const memoStyles = _.memoStyles(_ => ({
+  button: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: _.hairlineWidth
+  },
 
-      // type
-      plain: {
-        backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-        borderColor: _.select('rgb(223, 223, 223)', _._colorDarkModeLevel1)
-      },
-      main: {
-        backgroundColor: _.colorMain,
-        borderColor: _.select('rgb(255, 54, 76)', _.colorMain)
-      },
-      primary: {
-        backgroundColor: _.colorPrimary,
-        borderColor: _.select('rgb(13, 156, 204)', _.colorPrimary)
-      },
-      warning: {
-        backgroundColor: _.colorWarning,
-        borderColor: _.select('rgb(249, 163, 80)', _.colorWarning)
-      },
-      wait: {
-        backgroundColor: _.select(_.colorWait, 'rgba(255, 255, 255, 0.38)'),
-        borderColor: _.select('rgb(160, 160, 160)', 'rgba(255, 255, 255, 0.38)')
-      },
-      disabled: {
-        backgroundColor: _.select(_.colorDisabled, 'rgba(255, 255, 255, 0.64)'),
-        borderColor: _.select('rgb(80, 80, 80)', 'rgba(255, 255, 255, 0.64)')
-      },
-      bid: {
-        backgroundColor: _.colorBid,
-        borderColor: _.colorBid
-      },
-      ask: {
-        backgroundColor: _.colorAsk,
-        borderColor: _.colorAsk
-      },
+  // type
+  plain: {
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    borderColor: _.select('rgb(223, 223, 223)', _._colorDarkModeLevel1)
+  },
+  main: {
+    backgroundColor: _.colorMain,
+    borderColor: _.select('rgb(255, 54, 76)', _.colorMain)
+  },
+  primary: {
+    backgroundColor: _.colorPrimary,
+    borderColor: _.select('rgb(13, 156, 204)', _.colorPrimary)
+  },
+  warning: {
+    backgroundColor: _.colorWarning,
+    borderColor: _.select('rgb(249, 163, 80)', _.colorWarning)
+  },
+  wait: {
+    backgroundColor: _.select(_.colorWait, 'rgba(255, 255, 255, 0.38)'),
+    borderColor: _.select('rgb(160, 160, 160)', 'rgba(255, 255, 255, 0.38)')
+  },
+  disabled: {
+    backgroundColor: _.select(_.colorDisabled, 'rgba(255, 255, 255, 0.64)'),
+    borderColor: _.select('rgb(80, 80, 80)', 'rgba(255, 255, 255, 0.64)')
+  },
+  bid: {
+    backgroundColor: _.colorBid,
+    borderColor: _.colorBid
+  },
+  ask: {
+    backgroundColor: _.colorAsk,
+    borderColor: _.colorAsk
+  },
 
-      // ghost type
-      ghostMain: {
-        backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel2),
-        borderColor: _.select(_.colorMainBorder, _._colorDarkModeLevel2)
-      },
-      ghostPrimary: {
-        backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
-        borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
-      },
-      ghostSuccess: {
-        backgroundColor: _.select(_.colorSuccessLight, _._colorDarkModeLevel1),
-        borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1)
-      },
-      ghostPlain: {
-        backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
-        borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2)
-      },
+  // ghost type
+  ghostMain: {
+    backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel2),
+    borderColor: _.select(_.colorMainBorder, _._colorDarkModeLevel2)
+  },
+  ghostPrimary: {
+    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
+  },
+  ghostSuccess: {
+    backgroundColor: _.select(_.colorSuccessLight, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1)
+  },
+  ghostPlain: {
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
+    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2)
+  },
 
-      // size
-      sm: {
-        width: 32,
-        height: 32
-      },
-      md: {
-        width: '100%',
-        height: 40
-      },
+  // size
+  sm: {
+    width: 32,
+    height: 32
+  },
+  md: {
+    width: '100%',
+    height: 40
+  },
 
-      // text
-      text: {
-        fontSize: 14 + _.fontSizeAdjust
-      },
-      textSm: {
-        fontSize: 11 + _.fontSizeAdjust,
-        fontWeight: 'bold'
-      },
-      textPlain: {
-        color: _.colorDesc
-      },
-      textMain: {
-        color: _.__colorPlain__
-      },
-      textPrimary: {
-        color: _.__colorPlain__
-      },
-      textWarning: {
-        color: _.__colorPlain__
-      },
-      textWait: {
-        color: _.__colorPlain__
-      },
-      textDisabled: {
-        color: _.__colorPlain__
-      },
-      textBid: {
-        color: _.__colorPlain__
-      },
-      textAsk: {
-        color: _.__colorPlain__
-      },
-      textGhostPlain: {
-        color: _.colorSub
-      },
-      textGhostMain: {
-        color: _.select(_.colorSub, _.colorMain)
-      },
-      textGhostPrimary: {
-        color: _.colorSub
-      },
-      textGhostSuccess: {
-        color: _.select(_.colorSub, _.colorSuccess)
-      },
+  // text
+  text: {
+    fontSize: 14 + _.fontSizeAdjust
+  },
+  textSm: {
+    fontSize: 11 + _.fontSizeAdjust,
+    fontWeight: 'bold'
+  },
+  textPlain: {
+    color: _.colorDesc
+  },
+  textMain: {
+    color: _.__colorPlain__
+  },
+  textPrimary: {
+    color: _.__colorPlain__
+  },
+  textWarning: {
+    color: _.__colorPlain__
+  },
+  textWait: {
+    color: _.__colorPlain__
+  },
+  textDisabled: {
+    color: _.__colorPlain__
+  },
+  textBid: {
+    color: _.__colorPlain__
+  },
+  textAsk: {
+    color: _.__colorPlain__
+  },
+  textGhostPlain: {
+    color: _.colorSub
+  },
+  textGhostMain: {
+    color: _.select(_.colorSub, _.colorMain)
+  },
+  textGhostPrimary: {
+    color: _.colorSub
+  },
+  textGhostSuccess: {
+    color: _.select(_.colorSub, _.colorSuccess)
+  },
 
-      // other
-      shadow: IOS
-        ? {
-            shadowColor: _.colorShadow,
-            shadowOffset: { height: 3 },
-            shadowOpacity: 0.16,
-            shadowRadius: 3
-          }
-        : {
-            backgroundColor: _.colorPlain,
-            elevation: 2
-          },
-      radius: {
-        borderRadius: _.radiusXs
+  // other
+  shadow: IOS
+    ? {
+        shadowColor: _.colorShadow,
+        shadowOffset: { height: 3 },
+        shadowOpacity: 0.16,
+        shadowRadius: 3
       }
-    })
+    : {
+        backgroundColor: _.colorPlain,
+        elevation: 2
+      },
+  radius: {
+    borderRadius: _.radiusXs
   }
-  return _styles
-}
+}))

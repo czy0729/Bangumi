@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 23:25:56
+ * @Last Modified time: 2019-12-07 17:54:13
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { SectionHeader } from '@screens/_'
+import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import IconFavor from './icon-favor'
 import Item from './item'
 import Store from './store'

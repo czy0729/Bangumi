@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 14:52:19
+ * @Last Modified time: 2019-12-08 02:12:59
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { findBangumiCn } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
-import _ from '@styles'
 
 function HorizontalList({
   style,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 15:30:45
+ * @Last Modified time: 2019-12-08 02:23:41
  */
 import React from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
@@ -56,7 +56,7 @@ export default observer(ToolBar)
 const styles = StyleSheet.create({
   container: {
     height: 46,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: _.hairlineWidth,
     borderBottomColor: colorBorder
   },
   tips: {

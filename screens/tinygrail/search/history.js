@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 22:06:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-21 00:25:28
+ * @Last Modified time: 2019-12-08 02:24:25
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingVertical: _.sm,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: _.hairlineWidth,
     borderBottomColor: colorBorder
   },
   close: {

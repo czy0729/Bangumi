@@ -3,12 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-09-07 15:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-21 00:05:43
+ * @Last Modified time: 2019-12-08 02:15:11
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { systemStore } from '@stores'
-import _ from '@styles'
+import { _, systemStore } from '@stores'
 import IconTabsHeader from './tabs-header'
 
 function IconTinygrail({ style, navigation, color }) {

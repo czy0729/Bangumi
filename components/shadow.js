@@ -3,14 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-04-01 07:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:10:56
+ * @Last Modified time: 2019-12-08 02:10:51
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { IOS } from '@constants'
-import _ from '@styles'
 
 function Shadow({ style, children }) {
+  const styles = memoStyles()
   return (
     <View style={[IOS ? styles.ios : styles.todoAndroid, style]}>
       {children}
@@ -18,9 +20,9 @@ function Shadow({ style, children }) {
   )
 }
 
-export default Shadow
+export default observer(Shadow)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   ios: {
     shadowColor: _.colorShadow,
     shadowOffset: { height: 4 },
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorPlain,
     elevation: 2
   }
-})
+}))
 
 // export default class Shadow extends React.Component {
 //   static defaultProps = {

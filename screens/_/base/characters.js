@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 14:54:04
+ * @Last Modified time: 2019-12-08 02:12:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
+import { _ } from '@stores'
 import { IMG_DEFAULT } from '@constants'
-import _ from '@styles'
 
 const containerWidth = _.window.width - 2 * _.wind
 const imageWidth = containerWidth * 0.216

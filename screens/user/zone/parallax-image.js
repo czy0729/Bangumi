@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-24 10:21:04
+ * @Last Modified time: 2019-12-08 01:57:59
  */
 import React from 'react'
-import { StyleSheet, Animated, View, Alert } from 'react-native'
+import { Animated, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Iconfont, Text } from '@components'
 import { Popover, IconBack } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { IOS, HOST } from '@constants'
-import _ from '@styles'
 import Head from './head'
 import { height, headerHeight } from './store'
 
 function ParallaxImage({ scrollY }, { $, navigation }) {
+  const styles = memoStyles()
   const { avatar = {}, nickname, id, username } = $.usersInfo
   const parallaxStyle = {
     transform: [
@@ -62,10 +63,13 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             styles.parallaxMask,
             parallaxStyle,
             {
-              backgroundColor: 'rgba(0, 0, 0, 0.48)',
+              backgroundColor: _.select(
+                'rgba(0, 0, 0, 0.48)',
+                'rgba(0, 0, 0, 0.64)'
+              ),
               opacity: scrollY.interpolate({
                 inputRange: [-height, 0, height - headerHeight, height],
-                outputRange: [0, 0.4, 1, 1]
+                outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
               })
             }
           ]}
@@ -84,7 +88,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
         >
           <Text
             style={styles.title}
-            type='plain'
+            type={_.select('plain', 'title')}
             size={16}
             align='center'
             numberOfLines={1}
@@ -158,7 +162,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont size={24} name='more' color={_.colorPlain} />
+          <Iconfont size={24} name='more' color={_.__colorPlain__} />
         </Popover>
       </View>
     </>
@@ -172,7 +176,7 @@ ParallaxImage.contextTypes = {
 
 export default observer(ParallaxImage)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   parallax: {
     position: 'absolute',
     zIndex: 1,
@@ -213,7 +217,4 @@ const styles = StyleSheet.create({
   btn: {
     zIndex: 1
   }
-  // friends: {
-  //   right: 44
-  // }
-})
+}))

@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 20:33:08
+ * @Last Modified time: 2019-12-08 02:29:10
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { TextareaItem } from '@ant-design/react-native'
 import { _ } from '@stores'
@@ -417,7 +417,7 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     marginBottom: -4,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: _.hairlineWidth,
     borderTopColor: _.colorBorder
   },
   toolBar: {
@@ -437,13 +437,13 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.md
   },
   textareaContainer: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: _.hairlineWidth,
     borderBottomColor: _.colorBorder
   },
   textarea: {
     paddingVertical: _.sm,
     paddingHorizontal: 0,
-    marginBottom: -StyleSheet.hairlineWidth,
+    marginBottom: -_.hairlineWidth,
     color: _.colorDesc,
     fontSize: 14 + _.fontSizeAdjust,
     lineHeight: 22,

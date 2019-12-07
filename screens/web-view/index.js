@@ -4,19 +4,18 @@
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:07:10
+ * @Last Modified time: 2019-12-08 02:01:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Loading, WebView as CompWebView } from '@components'
 import { IconBack } from '@screens/_'
+import { _, userStore } from '@stores'
 import { open } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
 import { HOST_NAME } from '@constants'
-import { userStore } from '@stores'
-import _ from '@styles'
 
 const title = '浏览器'
 const redirectMaxCount = 8 // 最大跳转次数

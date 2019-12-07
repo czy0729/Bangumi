@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 11:26:47
+ * @Last Modified time: 2019-12-07 18:03:15
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import { FixedTextarea } from '@components'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 import Chat from './chat'
 import Store from './store'
 

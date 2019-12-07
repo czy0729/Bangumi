@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:09:10
+ * @Last Modified time: 2019-12-07 17:42:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function List(props, { $, navigation }) {
   const { hide } = $.state

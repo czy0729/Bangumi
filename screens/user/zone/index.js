@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:06:52
+ * @Last Modified time: 2019-12-08 01:51:28
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { StatusBarEvents, UM } from '@components'
+import { _ } from '@stores'
 import { inject } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import ParallaxImage from './parallax-image'
 import Tabs from './tabs'
 import BangumiList from './bangumi-list'

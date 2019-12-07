@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-12 20:34:36
+ * @Last Modified time: 2019-12-08 02:06:25
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,9 +14,7 @@ import {
   LayoutAnimation,
   View,
   Dimensions,
-  // ViewPropTypes,
   Platform
-  // StyleSheet
 } from 'react-native'
 
 // From: https://medium.com/man-moon/writing-modern-react-native-ui-e317ff956f02

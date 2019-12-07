@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-06 13:00:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:11:47
+ * @Last Modified time: 2019-12-08 01:52:52
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Tabs as CompTabs } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 import { tabs, height, headerHeight } from './store'
 
 function Tabs({ $, scrollY, children, ...other }) {
+  const styles = memoStyles()
   const { page, _page } = $.state
   return (
     <CompTabs
@@ -38,7 +38,7 @@ function Tabs({ $, scrollY, children, ...other }) {
 
 export default observer(Tabs)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   tabs: {
     position: 'absolute',
     zIndex: 2,
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: _.colorPlain
   }
-})
+}))

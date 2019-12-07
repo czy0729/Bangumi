@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:05:19
+ * @Last Modified time: 2019-12-07 18:06:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ListView, Text } from '@components'
 import { ItemFriends } from '@screens/_'
+import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import Store from './store'
 
 const title = '好友'

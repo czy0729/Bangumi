@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 16:31:04
+ * @Last Modified time: 2019-12-08 01:41:05
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Progress } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 import Avatar from '../base/avatar'
 
 function ItemFriends({
@@ -26,6 +25,7 @@ function ItemFriends({
   onHold,
   dropped
 }) {
+  const styles = memoStyles()
   return (
     <Touchable
       style={styles.container}
@@ -70,7 +70,7 @@ function ItemFriends({
 
 export default observer(ItemFriends)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingBottom: _.md,
     backgroundColor: _.colorPlain
@@ -89,11 +89,13 @@ const styles = StyleSheet.create({
     right: '24%',
     bottom: 0,
     left: 0,
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   bar: {
-    borderBottomWidth: 1,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    borderBottomColor: _.colorPrimary,
+    borderBottomWidth: 2,
+    borderRadius: 2
   },
   hobby: {
     position: 'absolute',
@@ -103,4 +105,4 @@ const styles = StyleSheet.create({
     marginBottom: -6,
     backgroundColor: _.colorPlain
   }
-})
+}))

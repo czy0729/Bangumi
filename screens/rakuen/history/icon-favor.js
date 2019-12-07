@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 23:10:44
+ * @Last Modified time: 2019-12-07 17:54:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { IconHeader } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function IconFavor({ $ }) {
   const { favor } = $.state

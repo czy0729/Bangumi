@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 02:55:47
+ * @Last Modified time: 2019-12-07 17:48:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -17,8 +17,8 @@ import {
   Text,
   Loading
 } from '@components'
+import { _ } from '@stores'
 import { IOS } from '@constants'
-import _ from '@styles'
 
 function Info(props, { $ }) {
   const { title, content, cover, create, _loaded } = $.groupInfo

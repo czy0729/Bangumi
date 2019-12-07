@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 23:16:44
+ * @Last Modified time: 2019-12-08 02:25:07
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -173,7 +173,7 @@ export default observer(Item)
 const styles = StyleSheet.create({
   item: {
     position: 'absolute',
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: _.hairlineWidth,
     borderColor: colorBorder,
     overflow: 'hidden'
   }

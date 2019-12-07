@@ -3,22 +3,23 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:35:37
+ * @Last Modified time: 2019-12-08 02:08:19
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
-import _ from '@styles'
+import { observer } from 'mobx-react'
+import { _ } from '@stores'
 
-function Raw({ color, size }) {
+function Raw({ color = _.colorSub, size }) {
   return <ActivityIndicator color={color} size={size} />
 }
 
 Raw.defaultProps = {
-  color: _.colorSub,
+  color: undefined,
   size: 'small'
 }
 
-function Loading({ style, color, size, children }) {
+function Loading({ style, color = _.colorSub, size, children }) {
   return (
     <View style={[_.container.column, style]}>
       <Raw color={color} size={size} />
@@ -28,13 +29,13 @@ function Loading({ style, color, size, children }) {
 }
 
 Loading.defaultProps = {
-  color: _.colorSub,
+  color: undefined,
   size: 'small'
 }
 
-Loading.Raw = Raw
+Loading.Raw = observer(Raw)
 
-export default Loading
+export default observer(Loading)
 
 // import { StyleSheet, View, Animated } from 'react-native'
 

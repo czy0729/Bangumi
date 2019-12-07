@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 01:19:09
+ * @Last Modified time: 2019-12-08 02:29:20
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import Text from './text'
@@ -70,31 +70,23 @@ Menu.defaultProps = {
 
 export default observer(Menu)
 
-let _mode
-let _styles
-function memoStyles() {
-  if (!_mode || !_styles || _mode !== _.mode) {
-    _mode = _.mode
-    _styles = StyleSheet.create({
-      container: {
-        width: _.window.width * 0.5,
-        backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
-      },
-      title: {
-        width: '100%',
-        paddingVertical: 12,
-        paddingHorizontal: 24
-      },
-      item: {
-        width: '100%',
-        paddingVertical: 12,
-        paddingHorizontal: 24
-      },
-      border: {
-        borderTopWidth: StyleSheet.hairlineWidth,
-        borderTopColor: _.colorBorder
-      }
-    })
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    width: _.window.width * 0.5,
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
+  },
+  title: {
+    width: '100%',
+    paddingVertical: 12,
+    paddingHorizontal: 24
+  },
+  item: {
+    width: '100%',
+    paddingVertical: 12,
+    paddingHorizontal: 24
+  },
+  border: {
+    borderTopWidth: _.hairlineWidth,
+    borderTopColor: _.colorBorder
   }
-  return _styles
-}
+}))

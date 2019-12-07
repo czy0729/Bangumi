@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:33:52
+ * @Last Modified time: 2019-12-07 18:04:46
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
 
 function Chat(props, { $, navigation }) {
+  const styles = memoStyles()
   const { list } = $.say
   return (
     <View style={styles.container}>
@@ -37,11 +38,11 @@ function Chat(props, { $, navigation }) {
                       baseFontStyle={{
                         fontSize: 14 + _.fontSizeAdjust,
                         lineHeight: 22,
-                        color: _.colorPlain
+                        color: _.__colorPlain__
                       }}
                       linkStyle={{
-                        color: _.colorPlain,
-                        textDecorationColor: _.colorPlain
+                        color: _.__colorPlain__,
+                        textDecorationColor: _.__colorPlain__
                       }}
                       html={getBgmHtml(item.text)}
                       onLinkPress={href => appNavigate(href, navigation)}
@@ -102,7 +103,7 @@ Chat.contextTypes = {
 
 export default observer(Chat)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   loading: {
     height: 240
   },
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
     borderTopLeftRadius: 16
   }
-})
+}))
 
 function getBgmHtml(html = '') {
   let _html = html

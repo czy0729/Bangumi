@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-09 10:27:58
+ * @Last Modified time: 2019-12-08 02:21:04
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
+import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
 import Avatar from '../base/avatar'
 
 function ItemNotify({
@@ -23,6 +22,7 @@ function ItemNotify({
   message2,
   href
 }) {
+  const styles = memoStyles()
   return (
     <Flex style={styles.container} align='start'>
       <Avatar
@@ -53,7 +53,7 @@ function ItemNotify({
 
 export default observer(ItemNotify)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
-})
+}))

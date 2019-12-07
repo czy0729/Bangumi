@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 01:30:29
+ * @Last Modified time: 2019-12-08 02:15:18
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Touchable, Iconfont } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function IconTouchable({ style, name, color, onPress }) {
   return (

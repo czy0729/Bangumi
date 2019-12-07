@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:55:29
+ * @Last Modified time: 2019-12-07 17:53:02
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Pagination } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 import Info from './info'
 import List from './list'
 import Store from './store'
@@ -23,7 +23,7 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  colorStart: _.colorTitleRaw,
+  // colorStart: _.colorTitleRaw,
   barStyle: 'dark-content'
 })
 @observer
@@ -101,13 +101,13 @@ class RakuenGroup extends React.Component {
     const { $ } = this.context
     const { show, _loaded } = $.state
     if (!_loaded) {
-      return null
+      return <View style={_.container.flex} />
     }
 
     const { onScroll } = this.props
     return (
       <ScrollView
-        style={_.container.flex}
+        style={_.container.content}
         contentContainerStyle={_.container.bottom}
         scrollEventThrottle={16}
         onScroll={onScroll}

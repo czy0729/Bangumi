@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:56:22
+ * @Last Modified time: 2019-12-07 17:58:24
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { ItemNotify } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HTML_NOTIFY } from '@constants/html'
-import _ from '@styles'
 import Store from './store'
 
 const title = '电波提醒'

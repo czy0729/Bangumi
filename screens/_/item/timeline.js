@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:30:16
+ * @Last Modified time: 2019-12-08 02:21:24
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View, Alert } from 'react-native'
+import { ScrollView, View, Alert } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
@@ -329,7 +329,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   del: {
     padding: _.sm,

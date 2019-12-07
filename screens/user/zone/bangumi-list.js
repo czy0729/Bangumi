@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:15:40
+ * @Last Modified time: 2019-12-08 01:50:11
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView, Flex, Touchable, Iconfont } from '@components'
 import { SectionHeader, ItemBangumiList } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function List(props, { $, navigation }) {
   if (!$.userCollections._loaded) {

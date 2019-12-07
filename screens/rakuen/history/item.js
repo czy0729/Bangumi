@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 23:04:37
+ * @Last Modified time: 2019-12-08 02:22:24
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Item(
   { index, topicId, avatar, userName, title, group, time = '', userId },
   { $, navigation }
 ) {
+  const styles = memoStyles()
   return (
     <Flex style={styles.container} align='start'>
       <Avatar
@@ -76,7 +76,7 @@ Item.contextTypes = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -92,6 +92,6 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
-})
+}))

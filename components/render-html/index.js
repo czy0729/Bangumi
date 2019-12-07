@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-06 22:56:02
+ * @Last Modified time: 2019-12-07 13:59:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -208,7 +208,12 @@ class RenderHtml extends React.Component {
         // bgm偏移量24
         const index = parseInt(alt.replace(/\(bgm|\)/g, '')) - 24
         if (bgmMap[index]) {
-          return `<span style="font-family:bgm;font-size:${baseFontStyle.fontSize}px;line-height:${baseFontStyle.lineHeight}px;user-select:all">${bgmMap[index]}</span>`
+          return `<span style="font-family:bgm;font-size:${baseFontStyle.fontSize ||
+            this.defaultBaseFontStyle
+              .fontSize}px;line-height:${baseFontStyle.lineHeight ||
+            this.defaultBaseFontStyle.lineHeight}px;user-select:all">${
+            bgmMap[index]
+          }</span>`
         }
         return alt
       }
