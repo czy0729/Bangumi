@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:08:15
+ * @Last Modified time: 2019-12-07 01:22:04
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { SectionTitle, Tag, IconHeader } from '@screens/_'
+import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
 
 function Works({ style }, { $, navigation }) {
   const { works = [] } = $.mono
@@ -19,6 +19,7 @@ function Works({ style }, { $, navigation }) {
     return null
   }
 
+  const styles = memoStyles()
   const { monoId } = $.params
   return (
     <View style={[styles.container, style]}>
@@ -67,7 +68,7 @@ Works.contextTypes = {
 
 export default observer(Works)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind
   },
@@ -77,6 +78,6 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
-})
+}))

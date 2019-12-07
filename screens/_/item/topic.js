@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:33:26
+ * @Last Modified time: 2019-12-07 01:12:54
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, RenderHtml } from '@components'
+import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
 import Avatar from '../base/avatar'
 
 const avatarWidth = 28
@@ -35,6 +35,7 @@ function Item({
     return null
   }
 
+  const styles = memoStyles()
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   return (
@@ -116,10 +117,6 @@ function Item({
                   </Flex>
                   <RenderHtml
                     style={_.mt.xs}
-                    baseFontStyle={{
-                      fontSize: 13 + _.fontSizeAdjust,
-                      lineHeight: 20
-                    }}
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}
                     onLinkPress={href => appNavigate(href, navigation)}
@@ -136,7 +133,7 @@ function Item({
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     backgroundColor: _.colorPlain
   },
@@ -153,7 +150,7 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   sub: {
     marginTop: _.md,
@@ -165,4 +162,4 @@ const styles = StyleSheet.create({
   subContent: {
     paddingVertical: _.md
   }
-})
+}))

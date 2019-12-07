@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 16:48:05
+ * @Last Modified time: 2019-12-07 11:51:56
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -17,21 +17,33 @@ import {
   GITHUB_RELEASE_VERSION,
   DEV
 } from '@constants'
+import fetch from './thirdParty/fetch-polyfill'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
 
 const UMAnalyticsModule = NativeModules.UMAnalyticsModule
-const FETCH_ERR_RETRY_COUNT = 5 // GET请求失败重试次数
-let ua = ''
+const TIMEOUT = 8000
+const FETCH_RETRY_COUNT = 5 // GET请求失败重试次数
+const defaultHeaders = {
+  Accept:
+    'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'Accept-Encoding': 'gzip, deflate',
+  'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+  Connection: 'keep-alive',
+  'Cache-Control': 'no-cache',
+  Pragma: 'no-cache',
+  Referer: HOST
+}
+let ua = '' // 缓存userAgent
 
 /**
  * 统一请求方法
  * 若GET请求异常, 默认一段时间后重试retryCb, 直到成功
  * @param {*} param
  */
-const retryCount = {}
-export default async function _fetch({
+const _retry = {}
+export default async function fetchAPI({
   method = 'GET',
   url,
   data = {},
@@ -39,60 +51,52 @@ export default async function _fetch({
   info = '',
   noConsole = false
 } = {}) {
-  // 避免userStore循环引用
+  const isGet = method === 'GET'
   const userStore = require('../stores/user').default
-  const {
-    token_type: tokenType,
-    access_token: accessToken
-  } = userStore.accessToken
+  const { accessToken } = userStore
   const _config = {
+    timeout: TIMEOUT,
     headers: {
-      Authorization: `${tokenType} ${accessToken}`
+      Authorization: `${accessToken.token_type} ${accessToken.access_token}`
     }
   }
-  const isGet = method === 'GET'
   const body = {
     app_id: APP_ID,
     ...data
   }
 
   let _url = url
-  let toastKey
+  let toastId
   if (isGet) {
+    _config.method = 'GET'
+
     // 随机数防止接口CDN缓存
     body.state = getTimestamp()
-    _url = `${url}?${urlStringify(body)}`
+    _url += `?${urlStringify(body)}`
   } else {
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     _config.body = urlStringify(body)
-
     if (!noConsole) {
-      toastKey = Toast.loading('Loading...', 0)
+      toastId = Toast.loading('Loading...', 0)
     }
   }
-  // log(info, _url, !isGet && _config)
+  log(`[fetchAPI] ${info || _url}`)
 
   return fetch(_url, _config)
     .then(response => {
-      if (toastKey) {
-        Portal.remove(toastKey)
-      }
+      if (toastId) Portal.remove(toastId)
       return response.json()
     })
     .then(json => {
       // 成功后清除失败计数
       if (isGet) {
         const key = `${url}|${urlStringify(data)}`
-        if (retryCount[key]) {
-          retryCount[key] = 0
-        }
-      } else if (!noConsole) {
-        // log(method, 'success', url, _config, info, json)
+        if (_retry[key]) _retry[key] = 0
       }
 
       // @issue 由于Bangumi提供的API没有统一返回数据
-      // 正常情况没有code, 错误情况例如空的时候, 返回 {code: 400, err: '...'}
+      // 正常情况没有code, 错误情况例如空的时候, 返回 { code: 400, err: '...' }
       if (json && json.error) {
         if (json.error === 'invalid_token') {
           UIInfo('登陆过期')
@@ -105,19 +109,15 @@ export default async function _fetch({
       return Promise.resolve(safe(json))
     })
     .catch(async err => {
-      if (toastKey) {
-        Portal.remove(toastKey)
-      }
+      if (toastId) Portal.remove(toastId)
 
       // @issue Bangumi提供的API频繁请求非常容易报错, 也就只能一直请求到成功为止了
       if (isGet && typeof retryCb === 'function') {
         await sleep()
 
         const key = `${url}|${urlStringify(data)}`
-        retryCount[key] = (retryCount[key] || 0) + 1
-
-        if (retryCount[key] < FETCH_ERR_RETRY_COUNT) {
-          // log('re-fetch', `fail ${retryCount[key]} time`, url, info, err)
+        _retry[key] = (_retry[key] || 0) + 1
+        if (_retry[key] < FETCH_RETRY_COUNT) {
           return retryCb()
         }
       }
@@ -139,13 +139,13 @@ export async function fetchHTML({
   headers = {},
   cookie
 } = {}) {
+  const isGet = method === 'GET'
   const userStore = require('../stores/user').default
   const { cookie: userCookie, userAgent } = userStore.userCookie
   const _config = {
-    method,
+    timeout: TIMEOUT,
     headers: {}
   }
-  const isGet = method === 'GET'
   const body = {
     ...data
   }
@@ -171,18 +171,12 @@ export async function fetchHTML({
     }
   }
 
-  let toastKey
+  let toastId
   if (isGet) {
+    _config.method = 'GET'
     _config.headers = {
-      ..._config.headers,
-      Accept:
-        'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-      'Accept-Encoding': 'gzip, deflate',
-      'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-      'Cache-Control': 'no-cache',
-      Connection: 'keep-alive',
-      Pragma: 'no-cache',
-      Referer: HOST
+      ...defaultHeaders,
+      ..._config.headers
     }
     if (Object.keys(body).length) {
       _url += `${_url.includes('?') ? '&' : '?'}${urlStringify(body)}`
@@ -191,46 +185,33 @@ export async function fetchHTML({
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     _config.body = urlStringify(body)
-    toastKey = Toast.loading('Loading...', 8)
+    toastId = Toast.loading('Loading...', 8)
   }
   log(`[fetchHTML] ${_url}`)
 
-  const systemStore = require('../stores/system').default
+  const isDev = require('../stores/system').default.state.dev
   return fetch(_url, _config)
     .then(res => {
       // 开发模式
-      if (systemStore.state.dev) {
+      if (isDev) {
         Alert.alert(
           'dev',
           `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${res._bodyInit}`
         )
       }
-
-      // POST打印结果
-      if (!isGet) {
-        log(method, 'success', _url, _config, res)
-      }
-
-      // 清除Toast
-      if (toastKey) {
-        Portal.remove(toastKey)
-      }
-
-      // return Promise.resolve(res._bodyInit)
+      if (!isGet) log(method, 'success', _url, _config, res)
+      if (toastId) Portal.remove(toastId)
       return Promise.resolve(res.text())
     })
     .catch(err => {
-      if (systemStore.state.dev) {
+      if (isDev) {
         Alert.alert(
           `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${JSON.stringify(
             err
           )}`
         )
       }
-      if (toastKey) {
-        Portal.remove(toastKey)
-      }
-
+      if (toastId) Portal.remove(toastId)
       return Promise.reject(err)
     })
 }
@@ -250,15 +231,15 @@ export function xhr(
   const userStore = require('../stores/user').default
   const { cookie: userCookie, userAgent } = userStore.userCookie
 
-  const toastKey = Toast.loading('Loading...', 0)
+  const toastId = Toast.loading('Loading...', 0)
   const request = new XMLHttpRequest()
   request.onreadystatechange = () => {
     if (request.readyState !== 4) {
       return
     }
 
-    if (toastKey) {
-      Portal.remove(toastKey)
+    if (toastId) {
+      Portal.remove(toastId)
     }
     if (request.status === 200) {
       success(request.responseText)
@@ -325,14 +306,9 @@ export function xhrCustom({
  * @param {*} screen
  */
 export async function hm(url, screen) {
-  if (DEV) {
-    return
-  }
-
+  if (DEV) return
   try {
-    if (!ua) {
-      ua = await Constants.getWebViewUserAgentAsync()
-    }
+    if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
     let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
     u += `${u.includes('?') ? '&' : '?'}v=${GITHUB_RELEASE_VERSION}`
@@ -360,11 +336,8 @@ export async function hm(url, screen) {
 }
 
 export function t(u) {
-  if (IOS) {
-    return
-  }
+  if (IOS) return
   try {
-    // Analytics.trackEvent(u)
     UMAnalyticsModule.onPageStart(u)
   } catch (error) {
     // do nothing

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-24 04:34:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:57:49
+ * @Last Modified time: 2019-12-07 01:13:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import { observer } from 'mobx-react'
 import { Touchable, Iconfont } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
-function IconHeader({ style, size, name, color, onPress }) {
+function IconHeader({ style, size, name, color = _.colorTitle, onPress }) {
   return (
     <Touchable style={[styles.icon, style]} onPress={onPress}>
       <Iconfont size={size} name={name} color={color} />
@@ -18,11 +19,10 @@ function IconHeader({ style, size, name, color, onPress }) {
 }
 
 IconHeader.defaultProps = {
-  size: 20,
-  color: _.colorTitle
+  size: 20
 }
 
-export default IconHeader
+export default observer(IconHeader)
 
 const styles = StyleSheet.create({
   icon: {

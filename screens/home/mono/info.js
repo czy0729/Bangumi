@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 02:27:53
+ * @Last Modified time: 2019-12-07 01:15:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,7 +21,7 @@ import {
 } from '@components'
 import { SectionTitle } from '@screens/_'
 import { IOS } from '@constants'
-import _ from '@styles'
+import { _ } from '@stores'
 import TinygrailUsers from './tinygrail-users'
 import Voice from './voice'
 import Works from './works'

@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:50:16
+ * @Last Modified time: 2019-12-07 01:14:42
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { ItemTopic, IconHeader } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 import Info from './info'
 import Store from './store'
 
@@ -23,7 +22,7 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  colorStart: _.colorTitleRaw,
+  // colorStart: _.colorTitleRaw,
   barStyle: 'dark-content'
 })
 @observer
@@ -90,8 +89,8 @@ class Mono extends React.Component {
     const { onScroll } = this.props
     return (
       <ListView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainerStyle}
+        style={this.styles.container}
+        contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={item => String(item.id)}
         data={$.monoComments}
         scrollEventThrottle={32}
@@ -106,9 +105,13 @@ class Mono extends React.Component {
       />
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
     backgroundColor: _.colorPlain
@@ -116,4 +119,4 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingBottom: _.space
   }
-})
+}))
