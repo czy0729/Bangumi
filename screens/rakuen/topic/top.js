@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 01:04:26
+ * @Last Modified time: 2019-12-08 22:29:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -138,7 +138,7 @@ function Top(props, { $, navigation }) {
           </Flex>
         )}
         <View style={styles.html}>
-          {!_loaded && (
+          {isGroup && !_loaded && (
             <Flex style={styles.loading} justify='center'>
               <Loading />
             </Flex>
@@ -147,7 +147,7 @@ function Top(props, { $, navigation }) {
             <RenderHtml
               style={_.mt.lg}
               html={html}
-              autoShowImage
+              // autoShowImage
               onLinkPress={href => appNavigate(href, navigation)}
             />
           )}

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 02:11:05
+ * @Last Modified time: 2019-12-08 13:36:28
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import {
   createAppContainer,
   createStackNavigator,
@@ -59,7 +59,6 @@ import {
   Topic,
   UGCAgree,
   User,
-  // Video,
   WebView,
   Zone
 } from '@screens'
@@ -70,7 +69,22 @@ import navigationsParams, { initialHomeTabName } from '../navigations'
 import HomeScreen from './screens/home'
 import config from './stacks/config'
 
-const TabBarComponent = props => <BottomTabBar {...props} />
+const TarBarComponent = observer(props => {
+  const styles = memoStyles()
+  if (IOS) {
+    return (
+      <BlurView style={styles.blurView}>
+        <BottomTabBar {...props} style={styles.tabBarComponent} />
+      </BlurView>
+    )
+  }
+
+  return (
+    <View style={styles.tarBarView}>
+      <BottomTabBar {...props} style={styles.tabBarComponent} />
+    </View>
+  )
+})
 
 const HomeTab = observer(
   createBottomTabNavigator(
@@ -83,24 +97,7 @@ const HomeTab = observer(
     },
     {
       initialRouteName: initialHomeTabName,
-      tabBarComponent: props => {
-        if (IOS) {
-          return (
-            <BlurView style={styles.blurView}>
-              <TabBarComponent {...props} style={styles.tabBarComponent} />
-            </BlurView>
-          )
-        }
-        return (
-          <View style={styles.tarBarView}>
-            <TabBarComponent {...props} style={styles.tabBarComponent} />
-          </View>
-        )
-      },
-      // tabBarOptions: {
-      //   activeTintColor: _.colorMain,
-      //   inactiveTintColor: _.colorDesc
-      // },
+      tabBarComponent: props => <TarBarComponent {...props} />,
       navigationOptions: ({ navigation, screenProps }) =>
         getActiveChildNavigationOptions(navigation, screenProps)
     }
@@ -154,7 +151,6 @@ const HomeStack = createStackNavigator(
     Topic,
     UGCAgree,
     User,
-    // Video,
     WebView,
     Zone
   },
@@ -166,7 +162,7 @@ const HomeStack = createStackNavigator(
 
 export default createAppContainer(HomeStack)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   blurView: {
     position: 'absolute',
     right: 0,
@@ -186,7 +182,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
       }
     : {
-        borderTopWidth: StyleSheet.hairlineWidth,
+        backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+        borderTopWidth: _.hairlineWidth,
         borderTopColor: _.colorBorder
       }
-})
+}))

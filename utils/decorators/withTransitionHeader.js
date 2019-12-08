@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 15:02:46
+ * @Last Modified time: 2019-12-08 04:25:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -28,7 +28,7 @@ if (!IOS && BARE) {
 const withTransitionHeader = ({
   screen,
   headerTransition = 48,
-  colorStart = _.colorPlainRaw,
+  colorStart,
   colorEnd = _.colorTitleRaw, // 黑暗模式, end也是白色
   transparent = false,
   barStyle
@@ -41,7 +41,7 @@ const withTransitionHeader = ({
         // 透明默认颜色是colorPlain, 非透明是colorTitle
         const headerTintColor = navigation.getParam(
           'headerTintColor',
-          `rgba(${colorStart.join()}, 1)`
+          `rgba(${colorStart || _.colorTitleRaw.join()}, 1)`
         )
 
         let headerRight
@@ -197,7 +197,11 @@ const withTransitionHeader = ({
 
       // 生成colorPlain过渡到colorTitle的所有颜色
       get gradientColorSteps() {
-        return gradientColor(colorStart, _.select(colorEnd, colorStart), 101)
+        return gradientColor(
+          colorStart || _.colorTitleRaw,
+          _.select(colorEnd, colorStart || _.colorTitleRaw),
+          101
+        )
       }
 
       render() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 00:50:26
+ * @Last Modified time: 2019-12-08 20:36:25
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -34,10 +34,10 @@ function Tag({ style, type, value }) {
         _type = 'warning'
         break
       case '三次元':
-        _type = 'plain'
+        _type = _.select('plain', 'title')
         break
       default:
-        _type = 'plain'
+        _type = _.select('plain', 'title')
         break
     }
   }

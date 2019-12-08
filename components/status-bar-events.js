@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:43:25
+ * @Last Modified time: 2019-12-08 22:21:23
  */
 import React from 'react'
 import { StatusBar } from 'react-native'
@@ -23,7 +23,6 @@ function StatusBarEvents({
 }) {
   // 黑暗模式可以一直设置为light-content
   const _barStyle = _.mode === 'light' ? barStyle : 'light-content'
-
   const events = () => {
     if (!IOS) {
       StatusBar.setBackgroundColor(backgroundColor, animated)
@@ -37,7 +36,6 @@ function StatusBarEvents({
   if (action === 'onWillFocus') {
     props.onWillFocus = () => events()
   }
-
   return (
     <>
       <StatusBar

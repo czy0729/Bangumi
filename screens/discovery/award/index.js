@@ -3,18 +3,18 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:46:12
+ * @Last Modified time: 2019-12-08 03:21:41
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
 import { StatusBarEvents, Loading, Text, UM } from '@components'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 import staticHTML from './static-html'
 
 const title = '年鉴'
@@ -110,7 +110,7 @@ class Award extends React.Component {
             ]}
             color={_.colorPlain}
           >
-            <Text style={_.mt.md} size={12} type='plain'>
+            <Text style={_.mt.md} size={12} type={_.select('plain', 'title')}>
               {redirectCount
                 ? `第${redirectCount}次重试`
                 : '网页加载中, 请稍等'}
@@ -123,7 +123,7 @@ class Award extends React.Component {
                 }
               ]}
               size={10}
-              type='plain'
+              type={_.select('plain', 'title')}
               onPress={this.onOpen}
             >
               或点这里使用浏览器打开

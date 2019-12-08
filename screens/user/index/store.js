@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 01:49:18
+ * @Last Modified time: 2019-12-08 03:24:28
  */
 import { observable, computed } from 'mobx'
-import { userStore, collectionStore } from '@stores'
+import { _, userStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_COLLECTION_STATUS,
   MODEL_COLLECTIONS_ORDERBY
 } from '@constants/model'
-import _ from '@styles'
 
 export const height = _.window.width * 0.64
 

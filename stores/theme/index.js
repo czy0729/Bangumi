@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:38:24
+ * @Last Modified time: 2019-12-08 21:18:48
  */
 import { StyleSheet } from 'react-native'
+import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
+import { IOS } from '@constants'
 import _ from '@styles'
 
 const NAMESPACE = 'Theme'
@@ -117,10 +119,6 @@ class Theme extends store {
   @computed get colorWarning() {
     return this.state.colorWarning
   }
-
-  // @computed get colorDanger() {
-  //   return this.state.colorDanger
-  // }
 
   @computed get colorPlainRaw() {
     return this.state.colorPlainRaw
@@ -235,6 +233,17 @@ class Theme extends store {
       ...this.select(darkStyles, lightStyles)
     })
     this.setStorage(key, undefined, NAMESPACE)
+
+    if (!IOS) {
+      try {
+        changeNavigationBarColor(
+          this.select('#ffffff', '#2A2A2C'),
+          this.isDark
+        )
+      } catch (error) {
+        console.warn('[theme store] changeNavigationBarColor error')
+      }
+    }
   }
 
   /**
@@ -253,7 +262,7 @@ class Theme extends store {
         memoId._styles = StyleSheet.create(styles(this))
 
         if (dev) {
-          console.log(memoId)
+          console.info(memoId)
         }
       }
       return memoId._styles

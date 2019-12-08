@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 15:12:17
+ * @Last Modified time: 2019-12-08 22:31:25
  */
 import React from 'react'
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native'
@@ -18,6 +18,7 @@ function TouchScroll({ onPress }, { $ }) {
     return null
   }
 
+  const styles = memoStyles()
   const { _time: readedTime } = $.readed
   const showFloor = [
     parseInt(list.length * 0.33333),
@@ -84,7 +85,7 @@ TouchScroll.contextTypes = {
 
 export default observer(TouchScroll)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     position: 'absolute',
     zIndex: 1,
@@ -100,6 +101,9 @@ const styles = StyleSheet.create({
     marginVertical: 2
   },
   itemNew: {
-    backgroundColor: 'rgba(254, 138, 149, 0.8)'
+    backgroundColor: _.select(
+      'rgba(254, 138, 149, 0.64)',
+      'rgba(254, 113, 127, 0.16)'
+    )
   }
-})
+}))

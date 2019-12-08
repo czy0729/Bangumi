@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:21:56
+ * @Last Modified time: 2019-12-08 19:52:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -212,14 +212,18 @@ class Item extends React.Component {
         <View style={this.styles.item}>
           <Flex>
             <Image
-              size={80}
+              size={88}
               src={getCoverMedium(subject.images.medium)}
               radius
               border={_.colorBorder}
               onPress={this.onPress}
               onLongPress={this.onLongPress}
             />
-            <Flex.Item style={_.ml.wind}>
+            <Flex.Item
+              style={{
+                marginLeft: 12
+              }}
+            >
               <Touchable withoutFeedback onPress={this.onPress}>
                 <Flex align='start'>
                   <Flex.Item style={this.styles.title}>
@@ -237,7 +241,7 @@ class Item extends React.Component {
                   )}
                 </Flex>
               </Touchable>
-              <View style={_.mt.sm}>
+              <View style={_.mt.md}>
                 <Flex>
                   <Flex.Item>{this.renderCount()}</Flex.Item>
                   {this.renderToolBar()}

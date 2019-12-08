@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 16:56:26
+ * @Last Modified time: 2019-12-08 22:20:41
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -114,10 +114,17 @@ const withHeader = ({
 
       render() {
         const { navigation } = this.props
+        let backgroundColor
+        if (!IOS && _.isDark) {
+          // [dark-mode] Android rgb(42, 42, 44)
+          backgroundColor = '#2A2A2C'
+        }
         return (
           <>
             <UM screen={screen} />
-            {statusBarEvents && <StatusBarEvents />}
+            {statusBarEvents && (
+              <StatusBarEvents backgroundColor={backgroundColor} />
+            )}
             <ComposedComponent navigation={navigation} />
           </>
         )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 01:12:54
+ * @Last Modified time: 2019-12-08 19:42:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,10 @@ const avatarWidth = 28
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+const baseFontStyle = {
+  fontSize: 14 + _.fontSizeAdjust,
+  lineHeight: 22
+}
 
 function Item({
   navigation,
@@ -71,10 +75,7 @@ function Item({
         )}
         <RenderHtml
           style={_.mt.sm}
-          baseFontStyle={{
-            fontSize: 14 + _.fontSizeAdjust,
-            lineHeight: 22
-          }}
+          baseFontStyle={baseFontStyle}
           imagesMaxWidth={imagesMaxWidth}
           html={message}
           onLinkPress={href => appNavigate(href, navigation)}
@@ -117,6 +118,7 @@ function Item({
                   </Flex>
                   <RenderHtml
                     style={_.mt.xs}
+                    baseFontStyle={baseFontStyle}
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}
                     onLinkPress={href => appNavigate(href, navigation)}

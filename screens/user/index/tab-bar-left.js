@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 12:02:30
+ * @Last Modified time: 2019-12-08 20:43:46
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Button } from '@components'
 import { Popover } from '@screens/_'
@@ -14,6 +13,7 @@ import { observer } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 function TabBarLeft({ onSelect }, { $ }) {
+  const styles = memoStyles()
   const { subjectType } = $.state
   return (
     <Popover
@@ -35,15 +35,16 @@ TabBarLeft.contextTypes = {
 
 export default observer(TabBarLeft)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   tabBarLeft: {
     height: 42,
     paddingLeft: _.wind,
-    paddingRight: _.sm
+    paddingRight: _.sm,
+    backgroundColor: _.colorPlain
   },
   btn: {
     width: 48,
     height: 24,
     borderRadius: 16
   }
-})
+}))

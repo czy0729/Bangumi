@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-06 23:09:51
+ * @Last Modified time: 2019-12-08 13:55:44
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -82,26 +82,26 @@ export const colorIcon = 'rgb(200, 200, 200)'
 // -------------------- dark --------------------
 // 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
 // 架高层
-export const _colorDarkModeLevel1Raw = [50, 50, 52] // 40, 40, 42
+export const _colorDarkModeLevel1Raw = [58, 58, 60] // 40, 40, 42
 export const _colorDarkModeLevel1 = `rgb(${_colorDarkModeLevel1Raw.join()})`
-export const _colorDarkModeLevel2 = 'rgb(74, 74, 76)' // 64, 64, 66
+export const _colorDarkModeLevel2 = 'rgb(84, 84, 86)' // 64, 64, 66
 
 // 基础层
 export const _colorMain = 'rgba(254, 113, 127, 1)' // 254, 78, 122
-export const _colorPrimary = 'rgba(0, 131, 252, 1)' // 99, 210, 255
+export const _colorPrimary = 'rgba(35, 149, 233, 1)' //  0, 131, 252
 export const _colorSuccess = 'rgb(50, 209, 96)'
 export const _colorYellow = 'rgb(255, 214, 50)'
 export const _colorWarning = 'rgb(255, 160, 12)'
-export const _colorPlainRaw = [32, 32, 34] // 28, 28, 30
+export const _colorPlainRaw = [42, 42, 44]
 export const _colorPlain = `rgb(${_colorPlainRaw.join()})`
 export const _colorWait = 'rgb(74, 74, 76)'
-export const _colorBg = 'rgb(20, 20, 22)' // 0, 0, 0
-export const _colorBorder = 'rgba(255, 255, 255, 0.12)' // _colorDarkModeLevel1
+export const _colorBg = 'rgb(30, 30, 32)'
+export const _colorBorder = 'rgba(255, 255, 255, 0.16)'
 
 // 文字
 export const _colorTitleRaw = [255, 255, 255]
-export const _colorTitle = `rgba(${_colorTitleRaw.join()}, 0.98)`
-export const _colorDesc = 'rgba(255, 255, 255, 0.92)'
+export const _colorTitle = `rgba(${_colorTitleRaw.join()}, 0.92)`
+export const _colorDesc = 'rgba(255, 255, 255, 0.8)'
 export const _colorSub = 'rgba(255, 255, 255, 0.6)'
 export const _colorDisabled = 'rgba(255, 255, 255, 0.38)'
 export const _colorIcon = 'rgba(255, 255, 255, 0.38)'

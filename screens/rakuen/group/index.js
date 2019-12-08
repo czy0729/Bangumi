@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 17:53:02
+ * @Last Modified time: 2019-12-08 04:23:50
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -23,7 +23,6 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  // colorStart: _.colorTitleRaw,
   barStyle: 'dark-content'
 })
 @observer

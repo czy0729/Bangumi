@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 15:35:16
+ * @Last Modified time: 2019-12-08 04:23:53
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -27,7 +27,6 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  // colorStart: _.colorTitleRaw,
   barStyle: 'dark-content'
 })
 @observer

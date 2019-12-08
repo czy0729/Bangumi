@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 22:38:01
+ * @Last Modified time: 2019-12-08 04:26:40
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -34,7 +34,8 @@ const sitesDS = [
 export default
 @inject(Store)
 @withTransitionHeader({
-  screen: title
+  screen: title,
+  colorStart: _.colorPlain
 })
 @observer
 class Subject extends React.Component {

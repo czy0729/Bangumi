@@ -4,15 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 10:16:09
+ * @Last Modified time: 2019-12-08 03:24:39
  */
 import { observable, computed } from 'mobx'
-import { userStore, usersStore, timelineStore } from '@stores'
+import { _, userStore, usersStore, timelineStore } from '@stores'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
-import _ from '@styles'
 
 export const height = _.window.width * 0.64
 

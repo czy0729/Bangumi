@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 01:14:42
+ * @Last Modified time: 2019-12-08 04:23:48
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -22,7 +22,6 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  // colorStart: _.colorTitleRaw,
   barStyle: 'dark-content'
 })
 @observer

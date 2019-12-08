@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:14:50
+ * @Last Modified time: 2019-12-08 03:19:00
  */
-import { StyleSheet, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
+import { _ } from '@stores'
 import { IOS } from '@constants'
-import _ from '@styles'
 
 const config = {
   headerMode: 'screen',
@@ -16,7 +16,7 @@ const config = {
   headerLayoutPreset: 'center',
   defaultNavigationOptions: {
     headerStyle: {
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomWidth: _.hairlineWidth,
       borderBottomColor: _.colorBorder
     },
     headerTintColor: _.colorTitle,

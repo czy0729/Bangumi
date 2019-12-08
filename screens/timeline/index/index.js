@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:24:08
+ * @Last Modified time: 2019-12-08 22:07:02
  */
 import React from 'react'
-import { View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { IconTabsHeader, IconTabBar } from '@screens/_'
@@ -67,17 +66,21 @@ class Timeline extends React.Component {
   render() {
     const { $ } = this.context
     const { scope, _loaded } = $.state
-    if (!_loaded) {
-      return <View style={_.container.screen} />
-    }
-
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
-        <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
-          {tabs.map(item => (
-            <List key={item.title} title={item.title} scope={scope} />
-          ))}
-        </Tabs>
+        {_loaded && (
+          <Tabs
+            $={$}
+            tabBarStyle={{
+              ...withTabsHeader.tabBarStyle,
+              backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+            }}
+          >
+            {tabs.map(item => (
+              <List key={item.title} title={item.title} scope={scope} />
+            ))}
+          </Tabs>
+        )}
       </SafeAreaView>
     )
   }

@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:04:53
+ * @Last Modified time: 2019-12-08 22:07:14
  */
 import React from 'react'
-import { View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
@@ -84,17 +83,21 @@ class Rakuen extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    if (!_loaded) {
-      return <View style={_.container.screen} />
-    }
-
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
-        <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
-          {$.tabs.map((item, index) => (
-            <List key={item._title} index={index} />
-          ))}
-        </Tabs>
+        {_loaded && (
+          <Tabs
+            $={$}
+            tabBarStyle={{
+              ...withTabsHeader.tabBarStyle,
+              backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+            }}
+          >
+            {$.tabs.map((item, index) => (
+              <List key={item._title} index={index} />
+            ))}
+          </Tabs>
+        )}
       </SafeAreaView>
     )
   }

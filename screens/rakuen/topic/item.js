@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 01:04:41
+ * @Last Modified time: 2019-12-08 22:26:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,10 @@ const avatarWidth = 28
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+const baseFontStyle = {
+  fontSize: 14 + _.fontSizeAdjust,
+  lineHeight: 22
+}
 
 function Item(
   {
@@ -84,7 +88,7 @@ function Item(
               )}
             </Text>
           </Flex.Item>
-          <Text style={_.ml.md} type='sub' size={12}>
+          <Text style={[styles.time, _.ml.md]} type='sub' size={12}>
             {floor} / {simpleTime(time)}
           </Text>
         </Flex>
@@ -95,6 +99,7 @@ function Item(
         )}
         <RenderHtml
           style={_.mt.sm}
+          baseFontStyle={baseFontStyle}
           imagesMaxWidth={imagesMaxWidth}
           html={message}
           onLinkPress={href => appNavigate(href, navigation)}
@@ -162,16 +167,13 @@ function Item(
                         )}
                       </Text>
                     </Flex.Item>
-                    <Text style={_.ml.md} type='sub' size={12}>
+                    <Text style={[styles.time, _.ml.md]} type='sub' size={12}>
                       {item.floor} / {simpleTime(item.time)}
                     </Text>
                   </Flex>
                   <RenderHtml
                     style={_.mt.xs}
-                    baseFontStyle={{
-                      fontSize: 14 + _.fontSizeAdjust,
-                      lineHeight: 22
-                    }}
+                    baseFontStyle={baseFontStyle}
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}
                     onLinkPress={href => appNavigate(href, navigation)}
@@ -220,7 +222,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   itemNew: {
-    backgroundColor: _.colorMainLight
+    backgroundColor: _.select(_.colorMainLight, 'rgba(254, 113, 127, 0.08)')
   },
   itemJump: {
     borderWidth: 2,
@@ -259,5 +261,8 @@ const memoStyles = _.memoStyles(_ => ({
     marginRight: -_.sm,
     marginBottom: -_.sm,
     opacity: 0.64
+  },
+  time: {
+    opacity: 0.5
   }
 }))

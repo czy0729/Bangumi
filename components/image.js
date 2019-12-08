@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-06 23:08:24
+ * @Last Modified time: 2019-12-08 20:46:46
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -129,6 +129,12 @@ class Image extends React.Component {
           // 检查本地有没有图片缓存
           // @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发unmounted
           const { headers } = this.props
+
+          // @issue to fixed
+          if (_src === 'https:/img/no_icon_subject.png') {
+            return false
+          }
+
           res = CacheManager.get(_src, headers).getPath()
           const path = await res
           if (path) {
@@ -277,7 +283,8 @@ class Image extends React.Component {
       })
     }
 
-    if (border) {
+    // 黑暗模式不显示border比较好看
+    if (border && !_.isDark) {
       if (typeof border === 'string') {
         _image.push({
           borderWidth,

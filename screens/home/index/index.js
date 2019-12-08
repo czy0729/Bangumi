@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:23:07
+ * @Last Modified time: 2019-12-08 22:06:44
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -92,7 +92,13 @@ class Home extends React.Component {
     const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
-        <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
+        <Tabs
+          $={$}
+          tabBarStyle={{
+            ...withTabsHeader.tabBarStyle,
+            backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+          }}
+        >
           {tabs.map(item =>
             grid ? (
               <Grid key={item.title} title={item.title} />

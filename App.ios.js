@@ -2,20 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-25 18:29:46
+ * @Last Modified time: 2019-12-08 03:16:08
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { useScreens } from 'react-native-screens'
 import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
 import { ImageViewer } from '@components'
-import Stores, { systemStore } from '@stores'
+import Stores, { _, systemStore } from '@stores'
 import { observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { DEV } from '@constants'
-import _ from '@styles'
 import theme from '@styles/theme'
 import Navigations from './navigations/index'
 
@@ -101,7 +100,7 @@ class App extends React.Component {
 
     const { visible, imageUrls } = systemStore.imageViewer
     return (
-      <View style={styles.container}>
+      <View style={this.styles.container}>
         <Provider theme={theme}>
           <Navigations />
         </Provider>
@@ -113,11 +112,15 @@ class App extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
     backgroundColor: _.colorBg
   }
-})
+}))
