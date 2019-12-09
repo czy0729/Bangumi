@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 23:06:43
+ * @Last Modified time: 2019-12-09 21:44:27
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont } from '@components'
+import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
 import ItemTemple from '../_/item-temple'
-import { colorText } from '../styles'
 
 function Temples({ style }, { $ }) {
   const { expand } = $.state
@@ -25,7 +24,7 @@ function Temples({ style }, { $ }) {
         <Flex.Item>
           <Text
             style={{
-              color: colorText
+              color: _.colorTinygrailText
             }}
             size={14}
           >
@@ -52,7 +51,7 @@ function Temples({ style }, { $ }) {
             )
           }
         >
-          <Iconfont size={16} name='information' color={colorText} />
+          <Iconfont size={16} name='information' color={_.colorTinygrailText} />
         </Touchable>
       </Flex>
       <Flex wrap='wrap'>

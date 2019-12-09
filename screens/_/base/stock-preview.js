@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 02:21:27
+ * @Last Modified time: 2019-12-09 15:37:23
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { caculateICO } from '@utils/app'
-import _ from '@styles'
 
 const colorDarkText = 'rgb(99, 117, 144)'
 
-export default class StockPreview extends React.Component {
+export default
+@observer
+class StockPreview extends React.Component {
   static defaultProps = {
     style: undefined,
     id: 0,
@@ -70,18 +73,23 @@ export default class StockPreview extends React.Component {
     }
 
     return (
-      <Flex style={styles.ico}>
+      <Flex style={this.styles.ico}>
         <Text
-          style={[styles.iconText, this.isDark && styles.iconTextDark]}
+          style={[
+            this.styles.iconText,
+            this.isDark && this.styles.iconTextDark
+          ]}
           size={10}
           align='center'
         >
           lv.{level} {percent}%
         </Text>
-        <View style={[styles.icoBar, this.isDark && styles.icoBarDark]}>
+        <View
+          style={[this.styles.icoBar, this.isDark && this.styles.icoBarDark]}
+        >
           <View
             style={[
-              styles.icoProcess,
+              this.styles.icoProcess,
               {
                 width: `${percent}%`,
                 backgroundColor
@@ -118,13 +126,15 @@ export default class StockPreview extends React.Component {
     }
 
     const { showDetail } = this.state
-    const fluctuationStyle = [styles.fluctuation, _.ml.sm]
+    const fluctuationStyle = [this.styles.fluctuation, _.ml.sm]
     if (fluctuation < 0) {
-      fluctuationStyle.push(styles.danger)
+      fluctuationStyle.push(this.styles.danger)
     } else if (fluctuation > 0) {
-      fluctuationStyle.push(styles.success)
+      fluctuationStyle.push(this.styles.success)
     } else {
-      fluctuationStyle.push(this.isDark ? styles.defaultDark : styles.sub)
+      fluctuationStyle.push(
+        this.isDark ? this.styles.defaultDark : this.styles.sub
+      )
     }
 
     let showFloor = true
@@ -166,14 +176,18 @@ export default class StockPreview extends React.Component {
       fluctuationSize = 12
     }
 
+    const hasNoChanged = (showDetail ? realChange : fluctuationText) === '-%'
     return (
-      <Touchable style={[styles.container, style]} onPress={this.toggleNum}>
+      <Touchable
+        style={[this.styles.container, style]}
+        onPress={this.toggleNum}
+      >
         <Flex justify='end'>
           <Text
             style={[
-              styles.current,
+              !hasNoChanged && this.styles.current,
               {
-                color: this.isDark ? _.colorPlain : _.colorDesc
+                color: this.isDark ? _.__colorPlain__ : _.colorDesc
               }
             ]}
             lineHeight={16}
@@ -181,17 +195,35 @@ export default class StockPreview extends React.Component {
           >
             ₵{current.toFixed(2)}
           </Text>
-          <Text
-            style={fluctuationStyle}
-            size={fluctuationSize}
-            lineHeight={16}
-            type='plain'
-            align='center'
-          >
-            {showDetail ? realChange : fluctuationText}
-          </Text>
+          {hasNoChanged ? (
+            <Text
+              style={[
+                {
+                  color: _.colorTinygrailText
+                },
+                _.ml.sm
+              ]}
+              size={fluctuationSize}
+            >
+              -%
+            </Text>
+          ) : (
+            <Text
+              style={[
+                {
+                  color: _.colorTinygrailPlain
+                },
+                fluctuationStyle
+              ]}
+              size={fluctuationSize}
+              lineHeight={16}
+              align='center'
+            >
+              {showDetail ? realChange : fluctuationText}
+            </Text>
+          )}
         </Flex>
-        <Flex style={styles.wrap} justify='end'>
+        <Flex style={this.styles.wrap} justify='end'>
           {showDetail && (
             <Text
               style={{
@@ -221,14 +253,14 @@ export default class StockPreview extends React.Component {
               )}
               <Flex
                 style={[
-                  showDetail ? styles.floorShowDetail : styles.floor,
+                  showDetail ? this.styles.floorShowDetail : this.styles.floor,
                   _.ml.xs
                 ]}
                 justify='between'
               >
                 <View
                   style={[
-                    styles.bids,
+                    this.styles.bids,
                     {
                       width: `${bidsPercent}%`
                     }
@@ -236,7 +268,7 @@ export default class StockPreview extends React.Component {
                 />
                 <View
                   style={[
-                    styles.asks,
+                    this.styles.asks,
                     {
                       width: `${asksPercent}%`
                     }
@@ -246,7 +278,7 @@ export default class StockPreview extends React.Component {
               {showDetail && (
                 <Text
                   style={[
-                    styles.small,
+                    this.styles.small,
                     _.ml.xs,
                     {
                       color: _.colorAsk
@@ -268,16 +300,20 @@ export default class StockPreview extends React.Component {
               ]}
               size={12}
             >
-              (没有挂单)
+              没挂单
             </Text>
           )}
         </Flex>
       </Touchable>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     height: '100%',
     paddingVertical: _.wind,
@@ -359,4 +395,4 @@ const styles = StyleSheet.create({
   iconTextDark: {
     color: _.colorTinygrailPlain
   }
-})
+}))

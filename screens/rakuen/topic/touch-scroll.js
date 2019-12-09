@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 22:31:25
+ * @Last Modified time: 2019-12-09 01:21:32
  */
 import React from 'react'
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'

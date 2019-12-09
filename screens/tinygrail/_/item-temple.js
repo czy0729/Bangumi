@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 22:00:27
+ * @Last Modified time: 2019-12-09 21:53:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
+import { _ } from '@stores'
 import { Avatar } from '@screens/_'
 import { HTMLDecode } from '@utils/html'
 import { tinygrailOSS } from '@utils/app'
-import _ from '@styles'
-import { colorText } from '../styles'
 
 const imageWidth = _.window.width * 0.28
 const marginLeft = (_.window.width - 3 * imageWidth) / 4
@@ -60,7 +59,9 @@ function ItemTemple(
           )}
           <Flex.Item>
             <Text
-              type='plain'
+              style={{
+                color: _.colorTinygrailPlain
+              }}
               size={isFormCharaAssets ? 16 : 13}
               numberOfLines={1}
             >
@@ -69,7 +70,7 @@ function ItemTemple(
             <Text
               style={{
                 marginTop: 2,
-                color: colorText
+                color: _.colorTinygrailText
               }}
               size={isFormCharaAssets ? 14 : 12}
               numberOfLines={1}

@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 21:00:10
+ * @Last Modified time: 2019-12-09 21:45:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
+import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge } from '@utils/app'
-import _ from '@styles'
-import { colorText, colorBid, colorAsk } from '../styles'
 
 const maxSize = _.window.width / 2
 
@@ -27,11 +26,11 @@ function Info(props, { $, navigation }) {
     total,
     fluctuation
   } = $.chara
-  let color = _.colorPlain
+  let color = _.colorTinygrailPlain
   if (fluctuation < 0) {
-    color = colorAsk
+    color = _.colorAsk
   } else if (fluctuation > 0) {
-    color = colorBid
+    color = _.colorBid
   }
 
   let fluctuationText = '-%'
@@ -63,7 +62,12 @@ function Info(props, { $, navigation }) {
         }
       >
         <Flex justify='center'>
-          <Text size={16} type='plain'>
+          <Text
+            style={{
+              color: _.colorTinygrailPlain
+            }}
+            size={16}
+          >
             #{id} - {name}
             {!!bonus && (
               <Text size={12} lineHeight={16} type='warning'>
@@ -72,13 +76,18 @@ function Info(props, { $, navigation }) {
               </Text>
             )}
           </Text>
-          <Iconfont style={_.ml.sm} name='right' size={16} color={colorText} />
+          <Iconfont
+            style={_.ml.sm}
+            name='right'
+            size={16}
+            color={_.colorTinygrailText}
+          />
         </Flex>
       </Touchable>
       <Flex style={_.mt.md} justify='center' align='baseline'>
         <Text
           style={{
-            color: colorText
+            color: _.colorTinygrailText
           }}
         >
           市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} / ₵

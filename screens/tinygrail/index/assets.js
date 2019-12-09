@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-24 10:27:46
+ * @Last Modified time: 2019-12-09 14:54:45
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBid, colorAsk, colorText } from '../styles'
 
 function Assets(props, { $ }) {
   const {
@@ -31,20 +30,20 @@ function Assets(props, { $ }) {
   let balanceTextColor
   if (changeBalance > 0) {
     balanceChangeText = `(+${formatNumber(changeBalance, 0)})`
-    balanceTextColor = colorBid
+    balanceTextColor = _.colorBid
   } else if (changeBalance < 0) {
     balanceChangeText = `(-${formatNumber(Math.abs(changeBalance), 0)})`
-    balanceTextColor = colorAsk
+    balanceTextColor = _.colorAsk
   }
 
   let totalChangeText
   let totalTextColor
   if (changeTotal > 0) {
     totalChangeText = `(+${formatNumber(changeTotal, 0)})`
-    totalTextColor = colorBid
+    totalTextColor = _.colorBid
   } else if (changeTotal < 0) {
     totalChangeText = `(-${formatNumber(Math.abs(changeTotal), 0)})`
-    totalTextColor = colorAsk
+    totalTextColor = _.colorAsk
   }
 
   return (
@@ -52,10 +51,20 @@ function Assets(props, { $ }) {
       {loadingAssets ? (
         <ActivityIndicator size='small' />
       ) : (
-        <Text type='plain'>₵</Text>
+        <Text
+          style={{
+            color: _.colorTinygrailPlain
+          }}
+        >
+          ₵
+        </Text>
       )}
       <Flex.Item style={_.ml.xs}>
-        <Text type='plain'>
+        <Text
+          style={{
+            color: _.colorTinygrailPlain
+          }}
+        >
           {formatNumber(balance)}{' '}
           {balanceChangeText && (
             <Text
@@ -85,7 +94,7 @@ function Assets(props, { $ }) {
       <Touchable style={_.ml.sm} onPress={$.doTest}>
         <Text
           style={{
-            color: colorText
+            color: _.colorTinygrailText
           }}
         >
           [股息预测]

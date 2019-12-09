@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:36:00
+ * @Last Modified time: 2019-12-09 18:05:48
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { Slider as AntdSlider } from '@ant-design/react-native'
 import PropTypes from 'prop-types'
 import { Flex, Input, Text, Button } from '@components'
+import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBid, colorBorder, colorBg, colorText } from '../styles'
 
 function Slider({ style }, { $ }) {
+  const styles = memoStyles()
   const { loading, amount } = $.state
   const { balance } = $.assets
   const balanceText = `可用 ${formatNumber(balance)}`
@@ -55,8 +55,8 @@ function Slider({ style }, { $ }) {
             min={1000}
             max={balance < 1000 ? 1000 : parseInt(balance)}
             step={100}
-            maximumTrackTintColor={colorBorder}
-            minimumTrackTintColor={colorBid}
+            maximumTrackTintColor={_.colorTinygrailBorder}
+            minimumTrackTintColor={_.colorBid}
             onChange={value => $.changeAmount(value < 1000 ? 1000 : value)}
           />
         </View>
@@ -81,19 +81,19 @@ Slider.contextTypes = {
 
 export default observer(Slider)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     padding: _.wind,
-    backgroundColor: colorBg
+    backgroundColor: _.colorTinygrailBg
   },
   inputWrap: {
     paddingLeft: 4,
-    borderColor: colorBorder,
+    borderColor: _.colorTinygrailBorder,
     borderWidth: 1
   },
   input: {
     height: 34,
-    color: _.colorPlain,
+    color: _.colorTinygrailPlain,
     backgroundColor: 'transparent',
     borderWidth: 0,
     borderRadius: 0
@@ -111,12 +111,12 @@ const styles = StyleSheet.create({
     opacity: 0.8
   },
   plain: {
-    color: _.colorPlain
+    color: _.colorTinygrailPlain
   },
   btnSubmit: {
     width: 96
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))

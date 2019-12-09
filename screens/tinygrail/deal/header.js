@@ -2,25 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:47:36
+ * @Last Modified time: 2019-12-09 18:28:05
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { Avatar, IconHeader, IconBack } from '@screens/_'
+import { _ } from '@stores'
 import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBid, colorAsk } from '../../styles'
 
 function Header(props, { $, navigation }) {
   const { icon, name, fluctuation, bonus } = $.chara
-  let color = _.colorPlain
+  let color = _.colorTinygrailPlain
   if (fluctuation < 0) {
-    color = colorAsk
+    color = _.colorAsk
   } else if (fluctuation > 0) {
-    color = colorBid
+    color = _.colorBid
   }
 
   let fluctuationText = '- %'
@@ -54,7 +53,7 @@ function Header(props, { $, navigation }) {
             style={[
               _.ml.sm,
               {
-                color: _.colorPlain
+                color: _.colorTinygrailPlain
               }
             ]}
             size={16}

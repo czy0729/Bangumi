@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:24:10
+ * @Last Modified time: 2019-12-09 21:45:24
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Mesume } from '@components'
+import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorText, colorBorder, colorBid, colorAsk } from '../styles'
 
 function AuctionList({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { list, _loaded } = $.auctionList
   let successCount = 0
   let successAmount = 0
@@ -28,7 +28,11 @@ function AuctionList({ style }, { $, navigation }) {
       {_loaded && (
         <View style={styles.info}>
           {list.length ? (
-            <Text type='plain'>
+            <Text
+              style={{
+                color: _.colorTinygrailPlain
+              }}
+            >
               上周公示：共 {list.length || '-'} 人拍卖，成功{' '}
               {successCount || '-'} 人 /{' '}
               {successAmount ? formatNumber(successAmount, 0) : '-'} 股
@@ -36,7 +40,14 @@ function AuctionList({ style }, { $, navigation }) {
           ) : (
             <Flex style={_.mt.md} direction='column'>
               <Mesume />
-              <Text style={_.mt.sm} type='plain'>
+              <Text
+                style={[
+                  _.mt.sm,
+                  {
+                    color: _.colorTinygrailPlain
+                  }
+                ]}
+              >
                 上周没有拍卖纪录
               </Text>
             </Flex>
@@ -52,7 +63,7 @@ function AuctionList({ style }, { $, navigation }) {
               <Text
                 style={{
                   width: 96,
-                  color: colorText
+                  color: _.colorTinygrailText
                 }}
                 size={12}
               >
@@ -60,7 +71,9 @@ function AuctionList({ style }, { $, navigation }) {
               </Text>
               <Flex.Item style={_.ml.sm}>
                 <Text
-                  type='plain'
+                  style={{
+                    color: _.colorTinygrailPlain
+                  }}
                   size={12}
                   onPress={() =>
                     navigation.push('Zone', {
@@ -74,7 +87,7 @@ function AuctionList({ style }, { $, navigation }) {
               <Flex.Item style={_.ml.sm}>
                 <Text
                   style={{
-                    color: colorText
+                    color: _.colorTinygrailText
                   }}
                   size={12}
                 >
@@ -84,7 +97,7 @@ function AuctionList({ style }, { $, navigation }) {
               <Text
                 style={[
                   {
-                    color: isSuccess ? colorBid : colorAsk
+                    color: isSuccess ? _.colorBid : _.colorAsk
                   },
                   _.ml.sm
                 ]}
@@ -106,7 +119,7 @@ AuctionList.contextTypes = {
 
 export default observer(AuctionList)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     padding: _.wind
   },
@@ -115,7 +128,7 @@ const styles = StyleSheet.create({
   },
   item: {
     paddingVertical: _.sm,
-    borderBottomColor: colorBorder,
+    borderBottomColor: _.colorTinygrailBorder,
     borderBottomWidth: _.hairlineWidth
   }
-})
+}))

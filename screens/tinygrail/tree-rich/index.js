@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 21:15:20
+ * @Last Modified time: 2019-12-09 22:07:49
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Loading, Text } from '@components'
 import { IconHeader } from '@screens/_'
+import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { info } from '@utils/ui'
-import _ from '@styles'
 import StatusBarEvents from '../_/status-bar-events'
-import { headerStyle, colorContainer, colorText } from '../styles'
+import { headerStyle } from '../styles'
 import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
@@ -47,7 +47,11 @@ class TinygrailTree extends React.Component {
     const params = {
       title,
       extra: (
-        <IconHeader name='refresh' color={colorText} onPress={this.onRefresh} />
+        <IconHeader
+          name='refresh'
+          color={_.colorTinygrailText}
+          onPress={this.onRefresh}
+        />
       )
     }
     navigation.setParams(params)
@@ -61,7 +65,7 @@ class TinygrailTree extends React.Component {
           style={[
             _.mr.sm,
             {
-              color: colorText
+              color: _.colorTinygrailText
             }
           ]}
           size={12}
@@ -108,11 +112,11 @@ class TinygrailTree extends React.Component {
     const { $ } = this.context
     const { loading, caculateType, data } = $.state
     return (
-      <View style={styles.container}>
+      <View style={this.styles.container}>
         <StatusBarEvents />
         <ToolBar />
         {loading ? (
-          <Loading style={styles.container} />
+          <Loading style={this.styles.container} />
         ) : (
           <Chart
             data={data}
@@ -124,11 +128,15 @@ class TinygrailTree extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   }
-})
+}))

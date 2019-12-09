@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 21:13:12
+ * @Last Modified time: 2019-12-09 01:32:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,7 @@ function Tabs({
   if (!IOS) {
     if (_.isDark) {
       _tabBarStyle.push({
-        borderTopColor: _.colorBorder
+        borderBottomWidth: 0
       })
     }
   }

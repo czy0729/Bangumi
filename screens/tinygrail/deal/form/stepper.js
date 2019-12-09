@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:31:05
+ * @Last Modified time: 2019-12-09 21:31:29
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Input, Touchable } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBorder, colorText } from '../../styles'
 
 function Stepper({ style }, { $ }) {
+  const styles = memoStyles()
   const { value } = $.state
   return (
     <Flex style={[styles.stepper, style]}>
@@ -21,7 +21,7 @@ function Stepper({ style }, { $ }) {
           style={styles.input}
           keyboardType='numeric'
           value={String(value)}
-          colorClear={colorText}
+          colorClear={_.colorTinygrailText}
           clearButtonMode='never'
           onChangeText={$.changeValue}
         />
@@ -48,15 +48,15 @@ Stepper.contextTypes = {
 
 export default observer(Stepper)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   stepper: {
     paddingLeft: 4,
-    borderColor: colorBorder,
+    borderColor: _.colorTinygrailBorder,
     borderWidth: 1
   },
   input: {
     height: 34,
-    color: _.colorPlain,
+    color: _.colorTinygrailPlain,
     backgroundColor: 'transparent',
     borderWidth: 0,
     borderRadius: 0
@@ -67,17 +67,17 @@ const styles = StyleSheet.create({
   },
   stepMinus: {
     borderLeftWidth: 1,
-    borderLeftColor: colorBorder
+    borderLeftColor: _.colorTinygrailBorder
   },
   split: {
     width: 1,
     height: 14,
-    backgroundColor: colorBorder
+    backgroundColor: _.colorTinygrailBorder
   },
   minus: {
     width: 14,
     height: 2,
-    backgroundColor: colorText
+    backgroundColor: _.colorTinygrailText
   },
   plus: {
     position: 'absolute',
@@ -85,6 +85,6 @@ const styles = StyleSheet.create({
     left: 15,
     width: 2,
     height: 14,
-    backgroundColor: colorText
+    backgroundColor: _.colorTinygrailText
   }
-})
+}))

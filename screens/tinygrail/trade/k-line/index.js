@@ -2,17 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 18:43:10
+ * @Last Modified time: 2019-12-09 22:03:17
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
 import PropTypes from 'prop-types'
 import { Loading, Text } from '@components'
+import { _, tinygrailStore } from '@stores'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
-import _ from '@styles'
-import { tinygrailStore } from '@stores'
-import { colorBg, colorText } from '../../styles'
 import html from './html'
 import { getKData } from './utils'
 
@@ -58,11 +56,11 @@ class KLine extends React.Component {
     const { $ } = this.context
     const { loading, distance } = $.state
     return (
-      <View style={styles.chart}>
+      <View style={this.styles.chart}>
         {!!$.kline._loaded && (
           <WebView
             key={renderCount}
-            style={styles.webview}
+            style={this.styles.webview}
             useWebKit
             originWhitelist={['*']}
             source={{
@@ -76,8 +74,8 @@ class KLine extends React.Component {
           />
         )}
         {(!tinygrailStore.state._webview || loading) && (
-          <Loading style={styles.loading} color={colorText}>
-            <Text style={[styles.text, _.mt.md]} size={12}>
+          <Loading style={this.styles.loading} color={_.colorTinygrailText}>
+            <Text style={[this.styles.text, _.mt.md]} size={12}>
               K线图加载中...
             </Text>
           </Loading>
@@ -85,27 +83,31 @@ class KLine extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   chart: {
     height: _.window.height * 0.64,
     paddingTop: _.sm,
-    backgroundColor: colorBg,
+    backgroundColor: _.colorTinygrailBg,
     borderBottomWidth: _.sm,
-    borderBottomColor: colorBg,
+    borderBottomColor: _.colorTinygrailBg,
     overflow: 'hidden'
   },
   webview: {
     height: _.window.height * 0.64,
-    backgroundColor: colorBg
+    backgroundColor: _.colorTinygrailBg
   },
   loading: {
     ...StyleSheet.absoluteFill,
     zIndex: 100,
-    backgroundColor: colorBg
+    backgroundColor: _.colorTinygrailBg
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))

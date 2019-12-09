@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:35:35
+ * @Last Modified time: 2019-12-09 18:25:08
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { Slider as AntdSlider } from '@ant-design/react-native'
 import PropTypes from 'prop-types'
 import { Flex, Input, Text } from '@components'
+import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBid, colorAsk, colorBorder, colorText } from '../../styles'
 
 function Slider({ style }, { $ }) {
+  const styles = memoStyles()
   const { value, amount } = $.state
   const { balance } = $.assets
   const { amount: userAmount } = $.userLogs
-
   const min = 0
   let balanceText
   if ($.isBid) {
@@ -48,8 +47,8 @@ function Slider({ style }, { $ }) {
             value={amount}
             min={min}
             max={$.max}
-            maximumTrackTintColor={colorBorder}
-            minimumTrackTintColor={$.isBid ? colorBid : colorAsk}
+            maximumTrackTintColor={_.colorTinygrailBorder}
+            minimumTrackTintColor={$.isBid ? _.colorBid : _.colorAsk}
             onChange={value => $.changeAmount(value)}
           />
         </View>
@@ -84,15 +83,15 @@ Slider.contextTypes = {
 
 export default observer(Slider)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   inputWrap: {
     paddingLeft: 4,
-    borderColor: colorBorder,
+    borderColor: _.colorTinygrailBorder,
     borderWidth: 1
   },
   input: {
     height: 34,
-    color: _.colorPlain,
+    color: _.colorTinygrailPlain,
     backgroundColor: 'transparent',
     borderWidth: 0,
     borderRadius: 0
@@ -110,9 +109,9 @@ const styles = StyleSheet.create({
     opacity: 0.8
   },
   plain: {
-    color: _.colorPlain
+    color: _.colorTinygrailPlain
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))

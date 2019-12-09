@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:24:02
+ * @Last Modified time: 2019-12-09 16:30:37
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
+import { _ } from '@stores'
 import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { B, M } from '@constants'
-import _ from '@styles'
-import { colorContainer, colorText, colorBorder } from '../styles'
 
 function Item(
   {
@@ -33,37 +32,38 @@ function Item(
   },
   { navigation }
 ) {
+  const styles = memoStyles()
   const isTop = index === 0
   let totalText
   if (Math.abs(total) > B) {
-    totalText = `${parseFloat(formatNumber(total / B, 1))}亿`
+    totalText = `${formatNumber(total / B, 1)}亿`
   } else if (Math.abs(total) > M) {
-    totalText = `${parseFloat(formatNumber(total / M, 1))}万`
+    totalText = `${formatNumber(total / M, 1)}万`
   } else {
     totalText = formatNumber(Math.abs(total), 1)
   }
 
   let assetsText
   if (assets > B) {
-    assetsText = `${parseFloat(formatNumber(assets / B, 1))}亿`
+    assetsText = `${formatNumber(assets / B, 1)}亿`
   } else if (assets > M) {
-    assetsText = `${parseFloat(formatNumber(assets / M, 1))}万`
+    assetsText = `${formatNumber(assets / M, 1)}万`
   } else {
     assetsText = assets
   }
 
   let principalText
   if (principal > B) {
-    principalText = `${parseFloat(formatNumber(principal / B, 1))}亿`
+    principalText = `${formatNumber(principal / B, 1)}亿`
   } else if (principal > M) {
-    principalText = `${parseFloat(formatNumber(principal / M, 1))}万`
+    principalText = `${formatNumber(principal / M, 1)}万`
   } else {
     principalText = principal
   }
 
   let shareText
   if (share > M) {
-    shareText = `${parseFloat(formatNumber(share / M, 1))}万`
+    shareText = `${formatNumber(share / M, 1)}万`
   } else {
     shareText = share
   }
@@ -116,7 +116,12 @@ function Item(
               >
                 <Flex>
                   <Flex.Item>
-                    <Text size={16} type='plain'>
+                    <Text
+                      style={{
+                        color: _.colorTinygrailPlain
+                      }}
+                      size={16}
+                    >
                       {rank}. {nickname}
                       {!!changeText && (
                         <Text
@@ -134,7 +139,7 @@ function Item(
                       style={[
                         _.mt.sm,
                         {
-                          color: colorText
+                          color: _.colorTinygrailText
                         }
                       ]}
                       size={12}
@@ -147,14 +152,19 @@ function Item(
                         : '-'}
                     </Text>
                   </Flex.Item>
-                  <Text size={16} type='plain'>
+                  <Text
+                    style={{
+                      color: _.colorTinygrailPlain
+                    }}
+                    size={16}
+                  >
                     {shareText}
                   </Text>
                   <Iconfont
                     style={_.ml.sm}
                     size={14}
                     name='right'
-                    color={colorText}
+                    color={_.colorTinygrailText}
                   />
                 </Flex>
               </Touchable>
@@ -173,10 +183,10 @@ Item.contextTypes = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   },
   image: {
     marginRight: _.xs,
@@ -187,7 +197,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: _.sm
   },
   border: {
-    borderTopColor: colorBorder,
+    borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
   },
   bonus: {
@@ -201,4 +211,4 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorWarning,
     overflow: 'hidden'
   }
-})
+}))

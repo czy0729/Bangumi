@@ -2,38 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:23:55
+ * @Last Modified time: 2019-12-09 16:44:03
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
+import { _ } from '@stores'
 import { lastDate, getTimestamp, formatNumber } from '@utils'
 import { tinygrailOSS } from '@utils/app'
-import _ from '@styles'
-import {
-  colorBid,
-  colorAsk,
-  colorContainer,
-  colorText,
-  colorPlain,
-  colorBorder
-} from '../styles'
 
 function Item(
   { index, balance, desc, change, time, charaId },
   { $, navigation }
 ) {
+  const styles = memoStyles()
   const isTop = index === 0
   let color
   if (change > 0) {
-    color = colorBid
+    color = _.colorBid
   } else if (change < 0) {
-    color = colorAsk
+    color = _.colorAsk
   } else {
-    color = colorText
+    color = _.colorTinygrailText
   }
 
   let onPress
@@ -57,11 +50,16 @@ function Item(
         <Flex style={[styles.wrap, !isTop && styles.border]}>
           <Flex.Item style={_.mr.sm}>
             <View style={styles.item}>
-              <Text type='plain' size={16}>
+              <Text
+                style={{
+                  color: _.colorTinygrailPlain
+                }}
+                size={16}
+              >
                 {formatNumber(balance)}{' '}
                 <Text
                   style={{
-                    color: colorText
+                    color: _.colorTinygrailText
                   }}
                   size={12}
                   lineHeight={16}
@@ -91,7 +89,7 @@ function Item(
                 )}
                 <Text
                   style={{
-                    color: colorPlain
+                    color: _.colorTinygrailPlain
                   }}
                   size={12}
                 >
@@ -102,7 +100,7 @@ function Item(
           </Flex.Item>
           <Flex style={[styles.change, _.ml.md]} justify='end'>
             <Text style={[_.ml.sm, { color }]} size={16} align='right'>
-              {color === colorBid ? '+' : '-'}
+              {color === _.colorBid ? '+' : '-'}
               {formatNumber(Math.abs(change))}
             </Text>
             {!!onPress && (
@@ -110,7 +108,7 @@ function Item(
                 style={_.ml.sm}
                 size={14}
                 name='right'
-                color={colorText}
+                color={_.colorTinygrailText}
               />
             )}
           </Flex>
@@ -127,10 +125,10 @@ Item.contextTypes = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   },
   wrap: {
     paddingRight: _.wind
@@ -139,10 +137,10 @@ const styles = StyleSheet.create({
     paddingVertical: _.md
   },
   border: {
-    borderTopColor: colorBorder,
+    borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
   },
   change: {
     minWidth: 120
   }
-})
+}))

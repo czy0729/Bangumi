@@ -3,21 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 00:51:43
+ * @Last Modified time: 2019-12-09 21:59:36
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import {
-  colorBid,
-  colorDepthBid,
-  colorAsk,
-  colorDepthAsk,
-  colorText
-} from '../../styles'
 
 function DepthList({ style }, { $ }) {
   const { asks = [], bids = [], _loaded } = $.depth
@@ -28,6 +21,7 @@ function DepthList({ style }, { $ }) {
     return null
   }
 
+  const styles = memoStyles()
   let bidsLow = 0
   let bidsHigh = 0
   let bidsAmount = 0
@@ -157,7 +151,7 @@ DepthList.contextTypes = {
 
 export default observer(DepthList)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingVertical: _.sm
   },
@@ -174,10 +168,10 @@ const styles = StyleSheet.create({
     minWidth: 40
   },
   bids: {
-    color: colorBid
+    color: _.colorBid
   },
   asks: {
-    color: colorAsk
+    color: _.colorAsk
   },
   depthBids: {
     position: 'absolute',
@@ -185,7 +179,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: colorDepthBid
+    backgroundColor: _.colorDepthBid
   },
   depthAsks: {
     position: 'absolute',
@@ -193,9 +187,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     bottom: 0,
-    backgroundColor: colorDepthAsk
+    backgroundColor: _.colorDepthAsk
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:29:10
+ * @Last Modified time: 2019-12-09 11:22:05
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -295,7 +295,7 @@ class FixedTextarea extends React.Component {
               ref={ref => (this.ref = ref)}
               style={this.styles.textarea}
               value={value}
-              placeholder={placeholder || '不吐槽一下吗'}
+              placeholder={placeholder || '我要吐槽'}
               placeholderTextColor={_.colorDisabled}
               rows={showTextarea || showBgm ? 6 : 1}
               selectionColor={_.colorMain}
@@ -416,7 +416,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     zIndex: 1,
     marginBottom: -4,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     borderTopWidth: _.hairlineWidth,
     borderTopColor: _.colorBorder
   },
@@ -447,7 +447,7 @@ const memoStyles = _.memoStyles(_ => ({
     color: _.colorDesc,
     fontSize: 14 + _.fontSizeAdjust,
     lineHeight: 22,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
   send: {
     padding: _.sm,

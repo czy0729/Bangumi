@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 23:11:33
+ * @Last Modified time: 2019-12-09 15:00:46
  */
 import React from 'react'
-import { StyleSheet, View, Alert } from 'react-native'
+import { View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Button, Text } from '@components'
 import { IconBack, Avatar, Popover } from '@screens/_'
+import { _ } from '@stores'
 import { lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorIcon } from '../styles'
 
 function Auth(props, { $, navigation }) {
+  const styles = memoStyles()
   const { loading, loadingBonus, _loaded } = $.state
   const { nickname, avatar = {} } = $.userInfo
   return (
@@ -26,7 +26,7 @@ function Auth(props, { $, navigation }) {
             marginLeft: -8
           }}
           navigation={navigation}
-          color={_.colorPlain}
+          color={_.colorTinygrailPlain}
         />
         <Avatar
           size={40}
@@ -34,7 +34,12 @@ function Auth(props, { $, navigation }) {
           borderColor='transparent'
         />
         <Flex.Item style={_.ml.sm}>
-          <Text size={18} type='plain'>
+          <Text
+            style={{
+              color: _.colorTinygrailPlain
+            }}
+            size={18}
+          >
             {nickname}
           </Text>
           {!!_loaded && (
@@ -42,7 +47,7 @@ function Auth(props, { $, navigation }) {
               style={[
                 _.mt.xs,
                 {
-                  color: colorIcon
+                  color: _.colorTinygrailIcon
                 }
               ]}
               size={12}
@@ -133,10 +138,10 @@ Auth.contextTypes = {
 
 export default observer(Auth)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   btn: {
     width: 72,
-    backgroundColor: colorIcon,
-    borderColor: colorIcon
+    backgroundColor: _.colorTinygrailIcon,
+    borderColor: _.colorTinygrailIcon
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 04:25:49
+ * @Last Modified time: 2019-12-09 11:42:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -41,7 +41,7 @@ const withTransitionHeader = ({
         // 透明默认颜色是colorPlain, 非透明是colorTitle
         const headerTintColor = navigation.getParam(
           'headerTintColor',
-          `rgba(${colorStart || _.colorTitleRaw.join()}, 1)`
+          `rgba(${(colorStart || _.colorTitleRaw).join()}, 1)`
         )
 
         let headerRight

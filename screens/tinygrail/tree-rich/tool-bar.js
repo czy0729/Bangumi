@@ -2,24 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 21:02:53
+ * @Last Modified time: 2019-12-09 22:09:46
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { B, M } from '@constants'
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants/model'
-import _ from '@styles'
-import { colorBorder, colorContainer, colorText } from '../styles'
 
 const caculateTypeData = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.data.map(
   item => item.label
 )
 
 function ToolBar(props, { $ }) {
+  const styles = memoStyles()
   const { caculateType, total = 0, filterItems } = $.state
   const caculateTypeLabel = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getLabel(
     caculateType
@@ -69,7 +68,9 @@ function ToolBar(props, { $ }) {
           <Flex style={styles.item} justify='center'>
             <Iconfont
               style={{
-                color: filterItems.length ? _.colorWarning : colorText
+                color: filterItems.length
+                  ? _.colorWarning
+                  : _.colorTinygrailText
               }}
               name='filter'
               size={14}
@@ -78,7 +79,9 @@ function ToolBar(props, { $ }) {
               style={[
                 _.ml.sm,
                 {
-                  color: filterItems.length ? _.colorWarning : colorText
+                  color: filterItems.length
+                    ? _.colorWarning
+                    : _.colorTinygrailText
                 }
               ]}
             >
@@ -97,13 +100,13 @@ ToolBar.contextTypes = {
 
 export default observer(ToolBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     height: 44,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: colorBorder,
-    backgroundColor: colorContainer
+    borderColor: _.colorTinygrailBorder,
+    backgroundColor: _.colorTinygrailContainer
   },
   item: {
     paddingVertical: _.sm + 4
@@ -111,4 +114,4 @@ const styles = StyleSheet.create({
   touchable: {
     paddingHorizontal: _.lg
   }
-})
+}))

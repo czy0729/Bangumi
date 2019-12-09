@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 22:05:24
+ * @Last Modified time: 2019-12-09 12:12:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -48,6 +48,7 @@ const withTabsHeader = ({ screen } = {}) => ComposedComponent =>
             headerStyle: {
               height: _.headerHeight - (BARE ? 0 : _.statusBarHeight),
               paddingTop: BARE ? _.statusBarHeight : 0,
+              backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
               elevation: 0
             },
             headerTitle: <Logo />,
@@ -72,10 +73,14 @@ const withTabsHeader = ({ screen } = {}) => ComposedComponent =>
 
       render() {
         const { navigation } = this.props
+        let backgroundColor
+        if (!IOS && _.isDark) {
+          backgroundColor = _._colorDarkModeLevel1Hex
+        }
         return (
           <>
             <UM screen={screen} />
-            <StatusBarEvents />
+            <StatusBarEvents backgroundColor={backgroundColor} />
             <ComposedComponent navigation={navigation} />
           </>
         )

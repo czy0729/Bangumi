@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-11-23 04:45:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 22:30:21
+ * @Last Modified time: 2019-12-09 16:51:37
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { MODEL_TINYGRAIL_CACULATE_TYPE } from '@constants/model'
-import { colorContainer } from '../styles'
 import Item from './item'
 
 function Chart({ data, caculateType, isTemple, onPress, onLongPress }) {
+  const styles = memoStyles()
   const label = MODEL_TINYGRAIL_CACULATE_TYPE.getLabel(caculateType)
   let extra
   if (label === '股息') {
@@ -41,9 +42,9 @@ Chart.defaultProps = {
 
 export default observer(Chart)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   }
-})
+}))

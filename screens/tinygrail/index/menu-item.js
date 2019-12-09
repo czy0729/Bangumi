@@ -2,20 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 20:19:25
+ * @Last Modified time: 2019-12-09 14:53:12
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBorder, colorPlain } from '../styles'
 
 const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
 const sectionHeight = sectionWidth / 2.4
 
 function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
+  const styles = memoStyles()
   return (
     <Touchable
       style={styles.container}
@@ -24,7 +23,7 @@ function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
       <Flex style={[styles.block, style]}>
         <Text
           style={{
-            color: colorPlain
+            color: _.colorTinygrailPlain
           }}
           size={20}
           bold
@@ -43,7 +42,7 @@ MenuItem.contextTypes = {
 
 export default observer(MenuItem)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     marginRight: _.wind,
     marginBottom: _.wind,
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
     width: sectionWidth,
     height: sectionHeight,
     paddingLeft: 24,
-    backgroundColor: colorBorder
+    backgroundColor: _.colorTinygrailBorder
   },
   icon: {
     position: 'absolute',
@@ -63,4 +62,4 @@ const styles = StyleSheet.create({
     marginTop: -28,
     opacity: 0.16
   }
-})
+}))

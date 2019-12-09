@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 21:02:08
+ * @Last Modified time: 2019-12-09 16:50:58
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { B, M } from '@constants'
 import {
@@ -16,8 +16,6 @@ import {
   MODEL_TINYGRAIL_CACULATE_TYPE,
   MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE
 } from '@constants/model'
-import _ from '@styles'
-import { colorBorder, colorContainer, colorText } from '../styles'
 
 const typeData = MODEL_TINYGRAIL_ASSETS_TYPE.data.map(item => item.label)
 const caculateTypeData = MODEL_TINYGRAIL_CACULATE_TYPE.data.map(
@@ -28,6 +26,7 @@ const caculateTempleTypeData = MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE.data.map(
 )
 
 function ToolBar(props, { $ }) {
+  const styles = memoStyles()
   const { type, caculateType, total = 0, filterItems } = $.state
   const typeLabel = MODEL_TINYGRAIL_ASSETS_TYPE.getLabel(type)
   const caculateTypeLabel = MODEL_TINYGRAIL_CACULATE_TYPE.getLabel(caculateType)
@@ -92,7 +91,9 @@ function ToolBar(props, { $ }) {
           <Flex style={styles.item} justify='center'>
             <Iconfont
               style={{
-                color: filterItems.length ? _.colorWarning : colorText
+                color: filterItems.length
+                  ? _.colorWarning
+                  : _.colorTinygrailText
               }}
               name='filter'
               size={14}
@@ -101,7 +102,9 @@ function ToolBar(props, { $ }) {
               style={[
                 _.ml.sm,
                 {
-                  color: filterItems.length ? _.colorWarning : colorText
+                  color: filterItems.length
+                    ? _.colorWarning
+                    : _.colorTinygrailText
                 }
               ]}
             >
@@ -120,13 +123,13 @@ ToolBar.contextTypes = {
 
 export default observer(ToolBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     height: 44,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: colorBorder,
-    backgroundColor: colorContainer
+    borderColor: _.colorTinygrailBorder,
+    backgroundColor: _.colorTinygrailContainer
   },
   item: {
     paddingVertical: _.sm + 4
@@ -134,4 +137,4 @@ const styles = StyleSheet.create({
   touchable: {
     paddingHorizontal: _.lg
   }
-})
+}))

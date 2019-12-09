@@ -24,11 +24,11 @@
 
 [[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
 
-[[https://tinygrail.com]](https://tinygrail.com) 小圣杯接口
+[[tinygrail.com]](https://tinygrail.com) 小圣杯接口
 
-[[https://www.ningmoe.com]](https://www.ningmoe.com) 柠萌瞬间接口
+[[www.ningmoe.com]](https://www.ningmoe.com) 柠萌瞬间接口
 
-[[https://app.anitama.net]](https://app.anitama.net) Anitama 接口
+[[app.anitama.net]](https://app.anitama.net) Anitama 接口
 
 ---
 

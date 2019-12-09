@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 20:06:09
+ * @Last Modified time: 2019-12-09 16:41:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 import Item from './item'
 import { tabs } from './store'
 

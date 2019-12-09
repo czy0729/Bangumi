@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 21:18:42
+ * @Last Modified time: 2019-12-09 21:52:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Iconfont } from '@components'
 import { Popover as CompPopover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { colorText } from '../styles'
-import _ from '@styles'
 
 function Popover({ id }, { navigation }) {
   return (
@@ -49,7 +48,11 @@ function Popover({ id }, { navigation }) {
         }
       }}
     >
-      <Iconfont style={styles.extra} name='extra' color={colorText} />
+      <Iconfont
+        style={styles.extra}
+        name='extra'
+        color={_.colorTinygrailText}
+      />
     </CompPopover>
   )
 }

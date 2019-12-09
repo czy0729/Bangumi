@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-20 17:33:58
+ * @Last Modified time: 2019-12-09 16:55:38
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Input, Touchable, Text } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorText, colorPlain, colorContainer } from '../styles'
 
 function SearchBar(props, { $, navigation }) {
+  const styles = memoStyles()
   const { value } = $.state
   return (
     <Flex>
@@ -23,7 +22,7 @@ function SearchBar(props, { $, navigation }) {
           keyboardType='numeric'
           returnKeyType='search'
           placeholder='输入角色id直达...'
-          placeholderTextColor={colorText}
+          placeholderTextColor={_.colorTinygrailText}
           autoFocus
           onChange={$.onChange}
           onSubmitEditing={() => $.doSearch(navigation)}
@@ -37,7 +36,7 @@ function SearchBar(props, { $, navigation }) {
         <Flex style={styles.btn} justify='center'>
           <Text
             style={{
-              color: colorText
+              color: _.colorTinygrailText
             }}
             size={14}
           >
@@ -56,14 +55,14 @@ SearchBar.contextTypes = {
 
 export default observer(SearchBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   searchIpt: {
     height: 34,
     paddingHorizontal: _.wind,
     fontSize: 14 + _.fontSizeAdjust,
-    color: colorPlain,
-    backgroundColor: colorContainer,
-    borderColor: colorText,
+    color: _.colorTinygrailPlain,
+    backgroundColor: _.colorTinygrailContainer,
+    borderColor: _.colorTinygrailText,
     borderWidth: 1,
     borderRadius: 64
   },
@@ -71,8 +70,8 @@ const styles = StyleSheet.create({
     width: 80,
     height: 34,
     borderRadius: 64,
-    backgroundColor: colorContainer,
-    borderColor: colorText,
+    backgroundColor: _.colorTinygrailContainer,
+    borderColor: _.colorTinygrailText,
     borderWidth: 1
   }
-})
+}))

@@ -2,38 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:23:05
+ * @Last Modified time: 2019-12-09 15:14:00
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
+import { _ } from '@stores'
 import { lastDate, getTimestamp, formatNumber } from '@utils'
 import { tinygrailOSS, formatTime } from '@utils/app'
 import { B, M } from '@constants'
-import _ from '@styles'
-import {
-  colorBid,
-  colorAsk,
-  colorContainer,
-  colorText,
-  colorBorder
-} from '../styles'
 import Popover from './popover'
 
 let timezone = new Date().getTimezoneOffset() / -60
 if (String(timezone).length === 1) {
   timezone = `0${timezone}`
-}
-
-const colorMap = {
-  bid: colorBid,
-  asks: colorAsk,
-  chara: _.colorWarning,
-  ico: _.colorPrimary,
-  auction: _.colorWarning
 }
 
 /**
@@ -49,6 +34,7 @@ function fixedTime(time) {
 }
 
 function Item(props, { navigation }) {
+  const styles = memoStyles()
   const {
     _index,
     index,
@@ -68,6 +54,14 @@ function Item(props, { navigation }) {
     state,
     rate
   } = props
+  const colorMap = {
+    bid: _.colorBid,
+    asks: _.colorAsk,
+    chara: _.colorWarning,
+    ico: _.colorPrimary,
+    auction: _.colorWarning
+  }
+
   const isTop = index === 0
   const isICO = users !== undefined // 有users为ico中
   const isDeal = !!type // 有此值为用户委托单
@@ -116,7 +110,7 @@ function Item(props, { navigation }) {
 
   let prevText
   let auctionText = '竞拍中'
-  let auctionTextColor = colorText
+  let auctionTextColor = _.colorTinygrailText
   let auctionSubText = ''
   if (['bid', 'asks', 'chara'].includes(type)) {
     prevText = `${state}股`
@@ -126,10 +120,10 @@ function Item(props, { navigation }) {
     auctionSubText = `₵${price} / ${formatNumber(amount, 0)}`
     if (state === 1) {
       auctionText = '成功'
-      auctionTextColor = colorBid
+      auctionTextColor = _.colorBid
     } else if (state === 2) {
       auctionText = '失败'
-      auctionTextColor = colorAsk
+      auctionTextColor = _.colorAsk
     }
   }
 
@@ -181,7 +175,12 @@ function Item(props, { navigation }) {
             >
               <Flex align='start'>
                 <Flex.Item>
-                  <Text size={16} type='plain'>
+                  <Text
+                    style={{
+                      color: _.colorTinygrailPlain
+                    }}
+                    size={16}
+                  >
                     {!isDeal && `${_index}. `}
                     {name}
                     {!!bonus && (
@@ -193,7 +192,7 @@ function Item(props, { navigation }) {
                     {!!rate && (
                       <Text
                         style={{
-                          color: colorText
+                          color: _.colorTinygrailText
                         }}
                         size={12}
                         lineHeight={16}
@@ -207,7 +206,7 @@ function Item(props, { navigation }) {
                     style={[
                       _.mt.xs,
                       {
-                        color: colorText
+                        color: _.colorTinygrailText
                       }
                     ]}
                     size={12}
@@ -241,7 +240,7 @@ function Item(props, { navigation }) {
                       style={[
                         _.mt.xs,
                         {
-                          color: colorText
+                          color: _.colorTinygrailText
                         }
                       ]}
                       size={12}
@@ -278,10 +277,10 @@ Item.contextTypes = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   },
   image: {
     marginRight: _.xs,
@@ -292,7 +291,7 @@ const styles = StyleSheet.create({
     paddingLeft: _.sm
   },
   border: {
-    borderTopColor: colorBorder,
+    borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
   }
-})
+}))

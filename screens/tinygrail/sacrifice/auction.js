@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 18:52:51
+ * @Last Modified time: 2019-12-09 21:39:30
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Slider as AntdSlider } from '@ant-design/react-native'
 import { Flex, Input, Text, Button } from '@components'
+import { _ } from '@stores'
 import { formatNumber, lastDate } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
 import Stepper from './stepper'
-import { colorText, colorBorder, colorBg, colorAsk } from '../styles'
 
 function Auction({ style }, { $ }) {
+  const styles = memoStyles()
   const { auctionLoading, auctionAmount, auctionPrice, lastAuction } = $.state
   const { price = 0, amount } = $.valhallChara
   const { balance } = $.assets
@@ -25,7 +25,7 @@ function Auction({ style }, { $ }) {
         <Flex.Item>
           <Text
             style={{
-              color: colorText
+              color: _.colorTinygrailText
             }}
             size={12}
           >
@@ -35,7 +35,7 @@ function Auction({ style }, { $ }) {
         <Flex.Item style={_.ml.sm}>
           <Text
             style={{
-              color: colorText
+              color: _.colorTinygrailText
             }}
             size={12}
           >
@@ -78,7 +78,7 @@ function Auction({ style }, { $ }) {
         <Text
           style={[
             {
-              color: colorText
+              color: _.colorTinygrailText
             },
             _.mt.sm
           ]}
@@ -92,7 +92,7 @@ function Auction({ style }, { $ }) {
         合计{' '}
         <Text
           style={{
-            color: colorAsk
+            color: _.colorAsk
           }}
           size={12}
         >
@@ -106,8 +106,8 @@ function Auction({ style }, { $ }) {
             min={0}
             max={parseInt(balance / Math.max(auctionPrice, price || 1))}
             step={1}
-            maximumTrackTintColor={colorBorder}
-            minimumTrackTintColor={colorAsk}
+            maximumTrackTintColor={_.colorTinygrailBorder}
+            minimumTrackTintColor={_.colorAsk}
             onChange={value => $.changeAuctionAmount(value)}
           />
         </View>
@@ -133,19 +133,19 @@ Auction.contextTypes = {
 
 export default observer(Auction)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     padding: _.wind,
-    backgroundColor: colorBg
+    backgroundColor: _.colorTinygrailBg
   },
   inputWrap: {
     paddingLeft: 4,
-    borderColor: colorBorder,
+    borderColor: _.colorTinygrailBorder,
     borderWidth: 1
   },
   input: {
     height: 34,
-    color: _.colorPlain,
+    color: _.colorTinygrailPlain,
     backgroundColor: 'transparent',
     borderWidth: 0,
     borderRadius: 0
@@ -160,12 +160,12 @@ const styles = StyleSheet.create({
     opacity: 0.8
   },
   plain: {
-    color: _.colorPlain
+    color: _.colorTinygrailPlain
   },
   btnSubmit: {
     width: 72
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 21:18:48
+ * @Last Modified time: 2019-12-09 01:59:17
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -237,8 +237,8 @@ class Theme extends store {
     if (!IOS) {
       try {
         changeNavigationBarColor(
-          this.select('#ffffff', '#2A2A2C'),
-          this.isDark
+          this.select(_.colorPlainHex, _._colorDarkModeLevel1Hex),
+          !this.isDark
         )
       } catch (error) {
         console.warn('[theme store] changeNavigationBarColor error')

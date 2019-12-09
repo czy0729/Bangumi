@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:24:30
+ * @Last Modified time: 2019-12-09 22:10:17
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorContainer, colorText, colorBorder } from '../styles'
 
 const area = _.window.width * _.window.height
 
@@ -27,6 +26,7 @@ function Item({
   onPress,
   onLongPress
 }) {
+  const styles = memoStyles()
   const ratio = (percent + 1) ** 2
   const ratioHeight = (h / _.window.height) * 1.2
   const showAvatar = !!icon && (w * h) / area > 0.016
@@ -42,9 +42,9 @@ function Item({
     priceText = parseFloat(price.toFixed(1))
   }
 
-  let backgroundColor = colorContainer
+  let backgroundColor = _.colorTinygrailContainer
   if (!icon) {
-    backgroundColor = colorBorder
+    backgroundColor = _.colorTinygrailBorder
   }
 
   return (
@@ -99,8 +99,10 @@ function Item({
             />
           )}
           <Text
+            style={{
+              color: _.colorTinygrailPlain
+            }}
             size={parseInt(11 * ratio)}
-            type='plain'
             numberOfLines={1}
             selectable={false}
           >
@@ -109,7 +111,7 @@ function Item({
           <Text
             style={{
               marginTop: parseInt(3 * ratio),
-              color: colorText
+              color: _.colorTinygrailText
             }}
             size={textSize}
             numberOfLines={1}
@@ -117,7 +119,7 @@ function Item({
           >
             <Text
               style={{
-                color: colorText
+                color: _.colorTinygrailText
               }}
               size={textSize}
               selectable={false}
@@ -139,11 +141,11 @@ Item.defaultProps = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     position: 'absolute',
     borderWidth: _.hairlineWidth,
-    borderColor: colorBorder,
+    borderColor: _.colorTinygrailBorder,
     overflow: 'hidden'
   }
-})
+}))

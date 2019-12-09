@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:04:07
+ * @Last Modified time: 2019-12-09 22:04:01
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -10,11 +10,10 @@ import { SafeAreaView, NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { Flex, Button, Touchable, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
+import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
-import _ from '@styles'
-import { colorBid, colorAsk, colorContainer, colorBg } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Store from './store'
 import Header from './header'
@@ -156,13 +155,13 @@ class TinygrailTrade extends React.Component {
 
 const styles = StyleSheet.create({
   dark: {
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   },
   contentContainerStyle: {
     paddingBottom: 56
   },
   kline: {
-    backgroundColor: colorBg
+    backgroundColor: _.colorTinygrailBg
   },
   mask: {
     ...StyleSheet.absoluteFill,
@@ -174,15 +173,15 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     padding: _.sm,
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   },
   btnBid: {
-    backgroundColor: colorBid,
+    backgroundColor: _.colorBid,
     borderWidth: 0,
     borderRadius: 0
   },
   btnAsk: {
-    backgroundColor: colorAsk,
+    backgroundColor: _.colorAsk,
     borderWidth: 0,
     borderRadius: 0
   }

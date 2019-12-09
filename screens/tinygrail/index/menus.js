@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 22:13:28
+ * @Last Modified time: 2019-12-09 14:53:42
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
 import { SAY_ID } from '../_/ds'
-import { colorDepthBid, colorDepthAsk } from '../styles'
 import MenuItem from './menu-item'
 import Assets from './assets'
 
@@ -37,7 +36,7 @@ function Menus(props, { $ }) {
       <Assets />
       <MenuItem
         style={{
-          backgroundColor: colorDepthBid
+          backgroundColor: _.colorDepthBid
         }}
         title={`我的买单 ${bids ? `(${bids})` : ''}`}
         pathname='TinygrailBid'
@@ -48,7 +47,7 @@ function Menus(props, { $ }) {
       />
       <MenuItem
         style={{
-          backgroundColor: colorDepthAsk
+          backgroundColor: _.colorDepthAsk
         }}
         title={`我的卖单 ${asks ? `(${asks})` : ''}`}
         pathname='TinygrailBid'

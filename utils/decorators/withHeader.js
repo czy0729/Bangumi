@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 22:20:41
+ * @Last Modified time: 2019-12-09 12:05:34
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
 import { _ } from '@stores'
@@ -84,13 +83,13 @@ const withHeader = ({
             ? {
                 backgroundColor: _.colorPlain,
                 borderBottomColor: _.colorBorder,
-                borderBottomWidth: StyleSheet.hairlineWidth,
+                borderBottomWidth: _.hairlineWidth,
                 ...headerStyle
               }
             : {
-                backgroundColor: _.colorPlain,
+                backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
                 borderBottomColor: _.colorBorder,
-                borderBottomWidth: StyleSheet.hairlineWidth,
+                borderBottomWidth: _.hairlineWidth,
                 elevation: 0,
                 ...defaultHeaderStyle,
                 ...headerStyle
@@ -102,7 +101,9 @@ const withHeader = ({
             ...headerTitleStyle
           },
           ...(typeof ComposedComponent.navigationOptions === 'function'
-            ? ComposedComponent.navigationOptions({ navigation })
+            ? ComposedComponent.navigationOptions({
+                navigation
+              })
             : ComposedComponent.navigationOptions)
         }
         const title = navigation.getParam('title')
@@ -116,8 +117,7 @@ const withHeader = ({
         const { navigation } = this.props
         let backgroundColor
         if (!IOS && _.isDark) {
-          // [dark-mode] Android rgb(42, 42, 44)
-          backgroundColor = '#2A2A2C'
+          backgroundColor = _._colorDarkModeLevel1Hex
         }
         return (
           <>

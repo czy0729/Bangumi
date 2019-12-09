@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 04:26:40
+ * @Last Modified time: 2019-12-09 11:45:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
 import { hm } from '@utils/fetch'
-import { NING_MOE_HOST } from '@constants'
+import { IOS, NING_MOE_HOST } from '@constants'
 import Header from './header'
 import Store from './store'
 
@@ -35,7 +35,7 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  colorStart: _.colorPlain
+  colorStart: _.colorPlainRaw
 })
 @observer
 class Subject extends React.Component {
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: _.window.height * 0.4
+    height: IOS ? _.window.height * 0.32 : 160 // iOS有弹簧, 所以拉下来太矮会看见背景
   },
   contentContainerStyle: {
     paddingTop: _.headerHeight,

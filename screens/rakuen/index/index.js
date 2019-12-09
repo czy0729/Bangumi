@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 22:07:14
+ * @Last Modified time: 2019-12-09 01:24:51
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
@@ -86,13 +86,7 @@ class Rakuen extends React.Component {
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
         {_loaded && (
-          <Tabs
-            $={$}
-            tabBarStyle={{
-              ...withTabsHeader.tabBarStyle,
-              backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
-            }}
-          >
+          <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
             {$.tabs.map((item, index) => (
               <List key={item._title} index={index} />
             ))}

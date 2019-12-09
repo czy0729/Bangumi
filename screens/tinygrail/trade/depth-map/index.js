@@ -3,22 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 00:51:44
+ * @Last Modified time: 2019-12-09 22:00:33
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import {
-  colorBorder,
-  colorBid,
-  colorDepthBid,
-  colorAsk,
-  colorDepthAsk,
-  colorText
-} from '../../styles'
 
 const height = 160
 
@@ -31,6 +23,7 @@ function DepthMap({ style }, { $ }) {
     return null
   }
 
+  const styles = memoStyles()
   let bidsLow = 0
   let bidsHigh = 0
   let bidsAmount = 0
@@ -180,11 +173,11 @@ DepthMap.contextTypes = {
 
 export default observer(DepthMap)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingTop: 48,
     borderTopWidth: 1,
-    borderTopColor: colorBorder
+    borderTopColor: _.colorTinygrailBorder
   },
   title: {
     position: 'absolute',
@@ -202,22 +195,22 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    borderTopColor: colorBid,
+    borderTopColor: _.colorBid,
     borderTopWidth: 1,
-    borderRightColor: colorBid,
+    borderRightColor: _.colorBid,
     borderRightWidth: 1,
-    backgroundColor: colorDepthBid
+    backgroundColor: _.colorDepthBid
   },
   asks: {
     position: 'absolute',
     right: 0,
     bottom: 0,
     width: '100%',
-    borderTopColor: colorAsk,
+    borderTopColor: _.colorAsk,
     borderTopWidth: 1,
-    borderLeftColor: colorAsk,
+    borderLeftColor: _.colorAsk,
     borderLeftWidth: 1,
-    backgroundColor: colorDepthAsk
+    backgroundColor: _.colorDepthAsk
   },
   rod: {
     position: 'absolute',
@@ -227,9 +220,9 @@ const styles = StyleSheet.create({
     bottom: 56
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))
 
 function getKStr(amount) {
   if (amount > 1000) {

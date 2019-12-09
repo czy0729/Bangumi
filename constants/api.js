@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 22:35:49
+ * @Last Modified time: 2019-12-09 17:48:40
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
 const TINYGRAIL_LIMIT = 50
+const TINYGRAIL_START = '2019-11-01T00:00:00+08:00'
 
 /**
  * oauth获取access_token
@@ -164,10 +165,8 @@ export const API_TINYGRAIL_RICH = (page = 1, limit = TINYGRAIL_LIMIT) =>
  * @param {*} monoId
  * @param {*} date
  */
-export const API_TINYGRAIL_CHARTS = (
-  monoId = 0,
-  date = '2019-10-01T00:00:00+08:00'
-) => `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/${date}`
+export const API_TINYGRAIL_CHARTS = (monoId = 0, date = TINYGRAIL_START) =>
+  `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/${date}`
 
 /**
  * 角色详情
@@ -250,13 +249,13 @@ export const API_TINYGRAIL_CANCEL_ASK = id =>
  * 我的买单
  */
 export const API_TINYGRAIL_CHARA_BID = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/100`
+  `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/200`
 
 /**
  * 我的卖单
  */
 export const API_TINYGRAIL_CHARA_ASKS = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/100`
+  `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/200`
 
 /**
  * 我的持仓
@@ -365,7 +364,7 @@ export const API_TINYGRAIL_SACRIFICE = (monoId, amount) =>
  * 我的拍卖列表
  */
 export const API_TINYGRAIL_MY_AUCTION_LIST = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/100`
+  `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/200`
 
 /**
  * 每周分红

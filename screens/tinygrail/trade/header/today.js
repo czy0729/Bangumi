@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-02 15:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:46:58
+ * @Last Modified time: 2019-12-09 22:05:10
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
+import { _ } from '@stores'
 import { date, getTimestamp } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorText } from '../../styles'
 
 function Today({ style }, { $ }) {
+  const styles = memoStyles()
   let high = '-'
   let low = '-'
   let amount = 0
@@ -38,7 +38,16 @@ function Today({ style }, { $ }) {
         <Text style={styles.text} size={13}>
           高
         </Text>
-        <Text style={styles.value} type='plain' align='right' size={13}>
+        <Text
+          style={[
+            styles.value,
+            {
+              color: _.colorTinygrailPlain
+            }
+          ]}
+          align='right'
+          size={13}
+        >
           {high}
         </Text>
       </Flex>
@@ -46,7 +55,16 @@ function Today({ style }, { $ }) {
         <Text style={styles.text} size={13}>
           低
         </Text>
-        <Text style={styles.value} type='plain' align='right' size={13}>
+        <Text
+          style={[
+            styles.value,
+            {
+              color: _.colorTinygrailPlain
+            }
+          ]}
+          align='right'
+          size={13}
+        >
           {low}
         </Text>
       </Flex>
@@ -54,7 +72,16 @@ function Today({ style }, { $ }) {
         <Text style={styles.text} size={13}>
           量
         </Text>
-        <Text style={styles.value} type='plain' align='right' size={13}>
+        <Text
+          style={[
+            styles.value,
+            {
+              color: _.colorTinygrailPlain
+            }
+          ]}
+          align='right'
+          size={13}
+        >
           {amount}
         </Text>
       </Flex>
@@ -68,12 +95,12 @@ Today.contextTypes = {
 
 export default observer(Today)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   value: {
     minWidth: 24,
     marginLeft: _.md
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))

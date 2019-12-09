@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 13:55:44
+ * @Last Modified time: 2019-12-09 14:46:18
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -68,6 +68,7 @@ export const colorWarning = 'rgb(254, 190, 88)'
 export const colorDanger = 'rgb(232, 8, 13)'
 export const colorPlainRaw = [255, 255, 255]
 export const colorPlain = `rgb(${colorPlainRaw.join()})`
+export const colorPlainHex = '#ffffff'
 export const colorWait = 'rgb(200, 200, 200)'
 export const colorBg = 'rgb(243, 243, 243)'
 export const colorBorder = 'rgb(225, 225, 232)'
@@ -84,11 +85,12 @@ export const colorIcon = 'rgb(200, 200, 200)'
 // 架高层
 export const _colorDarkModeLevel1Raw = [58, 58, 60] // 40, 40, 42
 export const _colorDarkModeLevel1 = `rgb(${_colorDarkModeLevel1Raw.join()})`
+export const _colorDarkModeLevel1Hex = '#3a3a3c'
 export const _colorDarkModeLevel2 = 'rgb(84, 84, 86)' // 64, 64, 66
 
 // 基础层
-export const _colorMain = 'rgba(254, 113, 127, 1)' // 254, 78, 122
-export const _colorPrimary = 'rgba(35, 149, 233, 1)' //  0, 131, 252
+export const _colorMain = 'rgb(254, 138, 149)' // 254, 113, 127
+export const _colorPrimary = 'rgb(35, 149, 233)' //  0, 131, 252
 export const _colorSuccess = 'rgb(50, 209, 96)'
 export const _colorYellow = 'rgb(255, 214, 50)'
 export const _colorWarning = 'rgb(255, 160, 12)'
@@ -112,6 +114,7 @@ export const colorDepthBid = 'rgb(15, 61, 67)'
 export const colorAsk = 'rgb(209, 77, 100)'
 export const colorDepthAsk = 'rgb(39, 36, 52)'
 export const colorTinygrailPlain = 'rgba(255, 255, 255, 0.8)'
+export const colorTinygrailPrimary = 'rgb(9, 153, 223)'
 export const colorTinygrailBg = 'rgb(14, 25, 36)'
 export const colorTinygrailContainer = 'rgb(20, 30, 50)'
 export const colorTinygrailBorder = 'rgb(29, 42, 61)'

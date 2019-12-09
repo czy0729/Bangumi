@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:30:22
+ * @Last Modified time: 2019-12-09 21:32:07
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
+import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBid, colorAsk, colorBg, colorText } from '../../styles'
 
 function Records({ style }, { $ }) {
+  const styles = memoStyles()
   const { bidHistory, askHistory } = $.userLogs
   return (
     <Flex style={[styles.container, style]} align='start'>
@@ -30,7 +30,7 @@ function Records({ style }, { $ }) {
                 <Text
                   size={12}
                   style={{
-                    color: _.colorPlain
+                    color: _.colorTinygrailPlain
                   }}
                 >
                   {formatNumber(item.price)} /{' '}
@@ -42,7 +42,7 @@ function Records({ style }, { $ }) {
               <Text
                 size={12}
                 style={{
-                  color: _.colorPlain
+                  color: _.colorTinygrailPlain
                 }}
               >
                 -{formatNumber(item.price * item.amount)}
@@ -64,7 +64,7 @@ function Records({ style }, { $ }) {
                 <Text
                   size={12}
                   style={{
-                    color: _.colorPlain
+                    color: _.colorTinygrailPlain
                   }}
                 >
                   {formatNumber(item.price)} /{' '}
@@ -76,7 +76,7 @@ function Records({ style }, { $ }) {
               <Text
                 size={12}
                 style={{
-                  color: _.colorPlain
+                  color: _.colorTinygrailPlain
                 }}
               >
                 +{formatNumber(item.price * item.amount)}
@@ -95,13 +95,13 @@ Records.contextTypes = {
 
 export default observer(Records)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     minHeight: 120,
     paddingVertical: _.md,
     paddingHorizontal: _.wind,
     borderTopWidth: _.sm,
-    borderTopColor: colorBg
+    borderTopColor: _.colorTinygrailBg
   },
   item: {
     width: '100%',
@@ -109,17 +109,17 @@ const styles = StyleSheet.create({
   },
   bid: {
     marginBottom: _.sm,
-    color: colorBid
+    color: _.colorBid
   },
   ask: {
     marginBottom: _.sm,
-    color: colorAsk
+    color: _.colorAsk
   },
   cancel: {
     paddingVertical: _.sm,
     paddingLeft: _.sm
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))

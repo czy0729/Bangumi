@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 20:00:11
+ * @Last Modified time: 2019-12-09 16:10:22
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { toJS } from 'mobx'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 import Item from './item'
 
 function List({ index }, { $ }) {

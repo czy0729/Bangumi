@@ -2,21 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:25:07
+ * @Last Modified time: 2019-12-09 16:52:18
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import {
-  colorContainer,
-  colorText,
-  colorBorder,
-  colorBid,
-  colorAsk
-} from '../styles'
 
 const area = _.window.width * _.window.height
 
@@ -37,6 +30,7 @@ function Item({
   onPress,
   onLongPress
 }) {
+  const styles = memoStyles()
   const ratio = (percent + 1) ** 2
   const ratioHeight = (h / _.window.height) * 1.2
   const showAvatar = !!icon && (w * h) / area > 0.016
@@ -52,22 +46,22 @@ function Item({
     priceText = parseFloat(price.toFixed(1))
   }
 
-  let backgroundColor = colorContainer
+  let backgroundColor = _.colorTinygrailContainer
   if (!icon) {
-    backgroundColor = colorBorder
+    backgroundColor = _.colorTinygrailBorder
   }
 
   let left
   let right
-  let textColor = colorText
+  let textColor = _.colorTinygrailText
   if (label === '当前涨跌') {
     right = '%'
     if (fluctuation > 0) {
       left = '+'
-      textColor = colorBid
+      textColor = _.colorBid
     } else if (fluctuation < 0) {
       left = '-'
-      textColor = colorAsk
+      textColor = _.colorAsk
     }
   }
 
@@ -127,8 +121,10 @@ function Item({
             />
           )}
           <Text
+            style={{
+              color: _.colorTinygrailPlain
+            }}
             size={parseInt(11 * ratio)}
-            type='plain'
             numberOfLines={1}
             selectable={false}
           >
@@ -137,7 +133,7 @@ function Item({
           <Text
             style={{
               marginTop: parseInt(3 * ratio),
-              color: colorText
+              color: _.colorTinygrailText
             }}
             size={textSize}
             numberOfLines={1}
@@ -170,11 +166,11 @@ Item.defaultProps = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     position: 'absolute',
     borderWidth: _.hairlineWidth,
-    borderColor: colorBorder,
+    borderColor: _.colorTinygrailBorder,
     overflow: 'hidden'
   }
-})
+}))

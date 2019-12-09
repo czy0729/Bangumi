@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 22:26:36
+ * @Last Modified time: 2019-12-09 17:59:13
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -25,6 +25,7 @@ class Input extends React.Component {
     showClear: false,
     colorClear: undefined,
     autoFocus: false,
+    placeholderTextColor: undefined,
     onChange: Function.prototype
   }
 
@@ -92,6 +93,7 @@ class Input extends React.Component {
       showClear,
       colorClear,
       autoFocus,
+      placeholderTextColor,
       ...other
     } = this.props
     if (multiline) {
@@ -115,7 +117,7 @@ class Input extends React.Component {
                 underlineColorAndroid='transparent'
                 autoCorrect={false}
                 allowFontScaling={false}
-                placeholderTextColor={_.colorDisabled}
+                placeholderTextColor={placeholderTextColor || _.colorDisabled}
                 {...other}
                 onChange={this.onChange}
               />
@@ -136,7 +138,7 @@ class Input extends React.Component {
           autoCorrect={false}
           clearButtonMode='while-editing'
           allowFontScaling={false}
-          placeholderTextColor={_.colorDisabled}
+          placeholderTextColor={placeholderTextColor || _.colorDisabled}
           {...other}
           onChange={this.onChange}
         />

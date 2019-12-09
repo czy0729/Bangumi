@@ -3,21 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 23:51:23
+ * @Last Modified time: 2019-12-09 21:28:52
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import {
-  colorBid,
-  colorAsk,
-  colorDepthBid,
-  colorDepthAsk,
-  colorText
-} from '../../styles'
 
 function Depth({ style }, { $ }) {
   const { asks = [], bids = [], _loaded } = $.depth
@@ -25,13 +18,14 @@ function Depth({ style }, { $ }) {
     return null
   }
 
+  const styles = memoStyles()
   const { current, fluctuation } = $.chara
   const { bids: userBids, asks: userAsks } = $.userLogs
-  let color = _.colorPlain
+  let color = _.colorTinygrailPlain
   if (fluctuation > 0) {
-    color = colorBid
+    color = _.colorBid
   } else if (fluctuation < 0) {
-    color = colorAsk
+    color = _.colorAsk
   }
 
   let bidsLow = 0
@@ -177,7 +171,7 @@ Depth.contextTypes = {
 
 export default observer(Depth)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingVertical: _.sm
   },
@@ -199,11 +193,11 @@ const styles = StyleSheet.create({
   },
   bids: {
     marginLeft: _.sm,
-    color: colorBid
+    color: _.colorBid
   },
   asks: {
     marginLeft: _.sm,
-    color: colorAsk
+    color: _.colorAsk
   },
   depthBids: {
     position: 'absolute',
@@ -211,7 +205,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: colorDepthBid
+    backgroundColor: _.colorDepthBid
   },
   depthAsks: {
     position: 'absolute',
@@ -219,23 +213,23 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: colorDepthAsk
+    backgroundColor: _.colorDepthAsk
   },
   dotBid: {
     width: 5,
     height: 5,
     marginLeft: -5,
     borderRadius: 5,
-    backgroundColor: colorBid
+    backgroundColor: _.colorBid
   },
   dotAsk: {
     width: 5,
     height: 5,
     marginLeft: -5,
     borderRadius: 5,
-    backgroundColor: colorAsk
+    backgroundColor: _.colorAsk
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))

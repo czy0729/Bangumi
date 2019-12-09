@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 15:58:29
+ * @Last Modified time: 2019-12-09 18:18:45
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native'
+import { ScrollView, View, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
+import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
-import { colorContainer } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Header from './header'
 import Form from './form'
@@ -68,13 +67,13 @@ class TinygrailDeal extends React.Component {
   render() {
     const { refreshing } = this.state
     return (
-      <View style={[_.container.flex, styles.dark]}>
+      <View style={[_.container.flex, this.styles.dark]}>
         <UM screen={title} />
         <StatusBarEvents />
-        <StatusBarPlaceholder style={styles.dark} />
+        <StatusBarPlaceholder style={this.styles.dark} />
         <Header />
         <ScrollView
-          style={[_.container.flex, styles.dark]}
+          style={[_.container.flex, this.styles.dark]}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -103,10 +102,14 @@ class TinygrailDeal extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   dark: {
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   }
-})
+}))

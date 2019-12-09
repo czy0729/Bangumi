@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:52:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 21:09:18
+ * @Last Modified time: 2019-12-09 17:53:50
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Bar({ style, total, level, next }) {
+  const styles = memoStyles()
   const percent = ((total / next) * 100).toFixed(0)
-
   let backgroundColor
   switch (level) {
     case 0:
@@ -36,13 +37,9 @@ function Bar({ style, total, level, next }) {
       backgroundColor = _.colorAsk
       break
   }
-
   return (
     <View style={[styles.ico, style]}>
-      <Text
-        style={[styles.iconText, styles.iconTextDark]}
-        align='center'
-      >
+      <Text style={[styles.iconText, styles.iconTextDark]} align='center'>
         lv.{level} {percent}%
       </Text>
       <View style={[styles.icoBar, styles.icoBarDark]}>
@@ -60,9 +57,9 @@ function Bar({ style, total, level, next }) {
   )
 }
 
-export default Bar
+export default observer(Bar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   ico: {
     height: 24
   },
@@ -90,4 +87,4 @@ const styles = StyleSheet.create({
   iconTextDark: {
     color: _.colorTinygrailPlain
   }
-})
+}))

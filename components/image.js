@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 20:46:46
+ * @Last Modified time: 2019-12-09 15:42:31
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'

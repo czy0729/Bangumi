@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 20:02:48
+ * @Last Modified time: 2019-12-09 22:04:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,18 +10,17 @@ import PropTypes from 'prop-types'
 import { observer } from '@utils/decorators'
 import { Flex, Text } from '@components'
 import { Avatar, IconHeader } from '@screens/_'
+import { _ } from '@stores'
 import { tinygrailOSS } from '@utils/app'
-import _ from '@styles'
-import { colorBid, colorAsk } from '../../styles'
 import Today from './today'
 
 function Header({ goBack }, { $, navigation }) {
   const { icon, name, current, fluctuation, bonus } = $.chara
-  let color = _.colorPlain
+  let color = _.colorTinygrailPlain
   if (fluctuation < 0) {
-    color = colorAsk
+    color = _.colorAsk
   } else if (fluctuation > 0) {
-    color = colorBid
+    color = _.colorBid
   }
 
   let fluctuationText = '-%'
@@ -41,7 +40,7 @@ function Header({ goBack }, { $, navigation }) {
                 marginLeft: -8
               }}
               name='left'
-              color={_.colorPlain}
+              color={_.colorTinygrailPlain}
               onPress={goBack}
             />
             <Avatar
@@ -54,7 +53,16 @@ function Header({ goBack }, { $, navigation }) {
                 })
               }
             />
-            <Text style={_.ml.sm} size={16} type='plain' numberOfLines={1}>
+            <Text
+              style={[
+                _.ml.sm,
+                {
+                  color: _.colorTinygrailPlain
+                }
+              ]}
+              size={16}
+              numberOfLines={1}
+            >
               {name}
               {!!bonus && (
                 <Text size={12} lineHeight={16} type='warning'>
@@ -82,7 +90,12 @@ function Header({ goBack }, { $, navigation }) {
             />
           </Flex>
           <Flex style={_.mt.md}>
-            <Text size={24} type='plain'>
+            <Text
+              style={{
+                color: _.colorTinygrailPlain
+              }}
+              size={24}
+            >
               {current && current.toFixed(2)}
             </Text>
             <Text

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-21 00:21:00
+ * @Last Modified time: 2019-12-09 15:14:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Tabs as CompTabs } from '@components'
-import _ from '@styles'
-import { colorContainer, colorBorder, colorText } from '../styles'
+import { _ } from '@stores'
 
 function Tabs({ tabs, children, ...other }, { $ }) {
   const { page } = $.state
@@ -18,20 +17,20 @@ function Tabs({ tabs, children, ...other }, { $ }) {
       style={[
         _.container.flex,
         {
-          backgroundColor: colorContainer
+          backgroundColor: _.colorTinygrailContainer
         }
       ]}
       tabs={tabs}
       initialPage={page}
       tabBarStyle={{
         borderBottomWidth: 1,
-        borderBottomColor: colorBorder
+        borderBottomColor: _.colorTinygrailBorder
       }}
       tabBarUnderlineStyle={{
         backgroundColor: _.colorWarning
       }}
-      tabBarActiveTextColor={_.colorPlain}
-      tabBarInactiveTextColor={colorText}
+      tabBarActiveTextColor={_.colorTinygrailPlain}
+      tabBarInactiveTextColor={_.colorTinygrailText}
       onChange={$.onChange}
       {...other}
     >

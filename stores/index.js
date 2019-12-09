@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 13:27:49
+ * @Last Modified time: 2019-12-09 14:55:37
  */
 import { AsyncStorage, Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
@@ -41,7 +41,8 @@ class Stores {
       collectionStore.init(),
       subjectStore.init(),
       systemStore.init(),
-      userStore.init()
+      userStore.init(),
+      tinygrailStore.init()
     ])
     await res
 
@@ -52,7 +53,7 @@ class Stores {
       rakuenStore.init(),
       searchStore.init(),
       timelineStore.init(),
-      tinygrailStore.init(),
+      // tinygrailStore.init(),
       tagStore.init(),
       usersStore.init()
     ])

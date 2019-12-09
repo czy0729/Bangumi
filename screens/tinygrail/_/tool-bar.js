@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:23:41
+ * @Last Modified time: 2019-12-09 15:18:34
  */
 import React from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import { Flex, Touchable, Text } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { colorText, colorBorder } from '../styles'
-import _ from '@styles'
 
 function ToolBar({ data, sort, direction, onSortPress }) {
+  const styles = memoStyles()
   return (
     <Flex style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -26,7 +26,7 @@ function ToolBar({ data, sort, direction, onSortPress }) {
               <Flex style={styles.item} justify='center'>
                 <Text
                   style={{
-                    color: isActive ? _.colorWarning : colorText
+                    color: isActive ? _.colorWarning : _.colorTinygrailText
                   }}
                 >
                   {item.label}
@@ -53,11 +53,11 @@ ToolBar.defaultProps = {
 
 export default observer(ToolBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     height: 46,
     borderBottomWidth: _.hairlineWidth,
-    borderBottomColor: colorBorder
+    borderBottomColor: _.colorTinygrailBorder
   },
   tips: {
     width: 6,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     borderWidth: 6,
     borderColor: 'transparent',
-    borderBottomColor: colorText,
+    borderBottomColor: _.colorTinygrailText,
     transform: [
       {
         rotate: '90deg'
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderBottomColor: _.colorWarning
   }
-})
+}))

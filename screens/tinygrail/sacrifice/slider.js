@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:04:12
+ * @Last Modified time: 2019-12-09 21:42:05
  */
 import React from 'react'
-import { StyleSheet, View, Alert } from 'react-native'
+import { View, Alert } from 'react-native'
 import { Slider as AntdSlider } from '@ant-design/react-native'
 import PropTypes from 'prop-types'
 import { Flex, Input, Text, Button } from '@components'
+import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorAsk, colorBorder, colorBg, colorText } from '../styles'
 
 function Slider({ style }, { $ }) {
+  const styles = memoStyles()
   const { loading, amount } = $.state
   const { amount: userAmount } = $.userLogs
   const balanceText = `可用 ${formatNumber(userAmount, 0)} 股`
@@ -22,7 +22,7 @@ function Slider({ style }, { $ }) {
     <View style={[styles.container, style]}>
       <Text
         style={{
-          color: colorText
+          color: _.colorTinygrailText
         }}
       >
         融资累计超过500股获得「光辉圣殿」股息+0.2，2500股「闪耀圣殿」股息+0.4，12500股「奇迹圣殿」股息+0.8
@@ -76,8 +76,8 @@ function Slider({ style }, { $ }) {
             min={0}
             max={parseInt(userAmount)}
             step={1}
-            maximumTrackTintColor={colorBorder}
-            minimumTrackTintColor={colorAsk}
+            maximumTrackTintColor={_.colorTinygrailBorder}
+            minimumTrackTintColor={_.colorAsk}
             onChange={value => $.changeAmount(value)}
           />
         </View>
@@ -102,19 +102,19 @@ Slider.contextTypes = {
 
 export default observer(Slider)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     padding: _.wind,
-    backgroundColor: colorBg
+    backgroundColor: _.colorTinygrailBg
   },
   inputWrap: {
     paddingLeft: 4,
-    borderColor: colorBorder,
+    borderColor: _.colorTinygrailBorder,
     borderWidth: 1
   },
   input: {
     height: 34,
-    color: _.colorPlain,
+    color: _.colorTinygrailPlain,
     backgroundColor: 'transparent',
     borderWidth: 0,
     borderRadius: 0
@@ -132,12 +132,12 @@ const styles = StyleSheet.create({
     opacity: 0.8
   },
   plain: {
-    color: _.colorPlain
+    color: _.colorTinygrailPlain
   },
   btnSubmit: {
     width: 96
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))

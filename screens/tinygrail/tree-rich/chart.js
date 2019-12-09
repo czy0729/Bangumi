@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 22:50:23
+ * @Last Modified time: 2019-12-09 22:06:51
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { colorContainer } from '../styles'
 import Item from './item'
 
 function Chart({ data, onPress, onLongPress }) {
+  const styles = memoStyles()
   return (
     <View style={styles.container}>
       {data.map(item => (
@@ -32,9 +33,9 @@ Chart.defaultProps = {
 
 export default observer(Chart)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   }
-})
+}))

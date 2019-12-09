@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 21:02:00
+ * @Last Modified time: 2019-12-09 14:43:32
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
 import { UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
+import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
-import { colorContainer } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Auth from './auth'
 import Menus from './menus'
@@ -68,7 +67,7 @@ class Tinygrail extends React.Component {
         style={[
           _.container.flex,
           {
-            backgroundColor: colorContainer
+            backgroundColor: _.colorTinygrailContainer
           }
         ]}
         refreshControl={
@@ -77,7 +76,11 @@ class Tinygrail extends React.Component {
       >
         <UM screen={title} />
         <StatusBarEvents />
-        <StatusBarPlaceholder style={{ backgroundColor: colorContainer }} />
+        <StatusBarPlaceholder
+          style={{
+            backgroundColor: _.colorTinygrailContainer
+          }}
+        />
         <Auth />
         <Menus />
       </ScrollView>
