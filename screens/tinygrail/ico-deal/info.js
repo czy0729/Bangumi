@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 17:55:00
+ * @Last Modified time: 2019-12-11 16:43:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text, Image, Iconfont, Touchable } from '@components'
+import { Flex, Text, Image, Iconfont, Touchable, CountDown } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, getTimestamp } from '@utils'
 import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge, caculateICO } from '@utils/app'
 import Bar from './bar'
@@ -17,8 +17,9 @@ import Bar from './bar'
 const maxSize = _.window.width / 2
 
 function Info(props, { $, navigation }) {
-  const { icon, id, name, total } = $.chara
+  const { icon, id, name, total, end } = $.chara
   const { next, level, price, amount } = caculateICO($.chara)
+  const endTime = getTimestamp(end.replace('T', ' '))
   return (
     <View style={styles.container}>
       {!!icon && (
@@ -33,6 +34,23 @@ function Info(props, { $, navigation }) {
           />
         </Flex>
       )}
+      <Flex style={_.mt.md} justify='center'>
+        <Text
+          style={{
+            color: _.colorTinygrailText
+          }}
+          size={16}
+        >
+          剩余时间:{' '}
+        </Text>
+        <CountDown
+          style={{
+            color: _.colorTinygrailText
+          }}
+          size={16}
+          end={endTime}
+        />
+      </Flex>
       <Touchable
         style={_.mt.md}
         onPress={() =>

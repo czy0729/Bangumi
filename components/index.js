@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:13:56
+ * @Last Modified time: 2019-12-11 16:26:20
  */
 export { default as Bgm } from './bgm'
 export { default as BgmText } from './bgm-text'
 export { default as BlurView } from './blur-view'
 export { default as Button } from './button'
+export { default as CountDown } from './count-down'
 export { default as Divider } from './divider'
 export { default as Expand } from './expand'
 export { default as FixedTextarea } from './fixed-textarea'

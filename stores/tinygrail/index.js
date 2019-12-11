@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 22:44:32
+ * @Last Modified time: 2019-12-11 12:21:35
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -241,7 +241,9 @@ class Tinygrail extends store {
         'hash',
         'assets',
         'charaAssets',
+        'userLogs',
         'bid',
+        'asks',
         'myCharaAssets',
         'balance',
         'iconsCache',
@@ -839,6 +841,7 @@ class Tinygrail extends store {
         [monoId]: data
       }
     })
+    this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:53:22
+ * @Last Modified time: 2019-12-11 12:15:49
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 
-export default class ScreenTinygrailDeal extends store {
+export default class ScreenTinygrailICODeal extends store {
   state = observable({
     loading: false,
     amount: 1000 // 只能是整数
