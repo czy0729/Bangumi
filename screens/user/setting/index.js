@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 20:19:33
+ * @Last Modified time: 2019-12-10 22:11:23
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -43,9 +43,13 @@ class Setting extends React.Component {
   }
 
   componentDidMount() {
-    const { navigation } = this.props
+    this.setParams()
+    hm('settings', 'Setting')
+  }
 
+  setParams = () => {
     if (this.showQiafan) {
+      const { navigation } = this.props
       navigation.setParams({
         popover: {
           data: ['鼓励(恰饭)'],
@@ -62,18 +66,8 @@ class Setting extends React.Component {
             }
           }
         }
-        // element: (
-        //   <View
-        //     style={{
-        //       width: 32,
-        //       height: 32
-        //     }}
-        //   />
-        // )
       })
     }
-
-    hm('settings', 'Setting')
   }
 
   setQuality = label => {
@@ -146,6 +140,25 @@ class Setting extends React.Component {
         </Text>
         <ItemSetting
           style={_.mt.sm}
+          hd='黑暗模式'
+          ft={
+            <Switch
+              checked={_.isDark}
+              onChange={() => {
+                _.toggleMode()
+                if (!IOS) {
+                  setTimeout(() => {
+                    // 安卓需要刷新头
+                    this.setParams()
+                  }, 0)
+                }
+              }}
+            />
+          }
+          withoutFeedback
+        />
+        <ItemSetting
+          border
           hd='图片质量'
           ft={
             <Popover

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 11:36:23
+ * @Last Modified time: 2019-12-10 21:50:53
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -241,6 +241,7 @@ export function xhr(
     if (toastId) {
       Portal.remove(toastId)
     }
+
     if (request.status === 200) {
       success(request.responseText)
     } else {
@@ -301,7 +302,7 @@ export function xhrCustom({
 }
 
 /**
- * hm v3.0
+ * hm v4.0
  * @param {*} url
  * @param {*} screen
  */
@@ -310,14 +311,16 @@ export async function hm(url, screen) {
   try {
     if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
-    let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
+    let u = url
     u += `${u.includes('?') ? '&' : '?'}v=${GITHUB_RELEASE_VERSION}`
+    u += `${require('../stores/theme').default.isDark ? '&dark=1' : ''}`
     u += `${screen ? `&s=${screen}` : ''}`
-    u += `${IOS ? '&ios=1' : ''}`
     fetch(
       `https://hm.baidu.com/hm.gif?${urlStringify({
         rnd: randomn(10),
-        si: '2dcb6644739ae08a1748c45fb4cea087',
+        si: IOS
+          ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
+          : '2dcb6644739ae08a1748c45fb4cea087',
         v: '1.2.51',
         api: '4_0',
         u

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 13:00:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 01:52:52
+ * @Last Modified time: 2019-12-09 23:23:13
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -44,6 +44,6 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 2,
     left: 0,
     right: 0,
-    backgroundColor: _.colorPlain
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   }
 }))

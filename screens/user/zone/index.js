@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 01:51:28
+ * @Last Modified time: 2019-12-10 23:21:25
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { StatusBarEvents, UM } from '@components'
+import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { inject } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -76,6 +77,7 @@ class Zone extends React.Component {
           barStyle='light-content'
           backgroundColor='transparent'
         />
+        <NavigationBarEvents />
         <Tabs style={_.container.screen} $={$} scrollY={scrollY}>
           <BangumiList {...listViewProps} />
           <TimelineList {...listViewProps} />

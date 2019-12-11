@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 01:25:45
+ * @Last Modified time: 2019-12-11 01:38:59
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { IconTabsHeader, IconTabBar } from '@screens/_'
+import { IconTabsHeader, IconTabBar, HeaderBackground } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
@@ -57,7 +57,8 @@ class Timeline extends React.Component {
             })
           }}
         />
-      )
+      ),
+      headerBackground: <HeaderBackground />
     })
 
     hm('timeline', 'Timeline')

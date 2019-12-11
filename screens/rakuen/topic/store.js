@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 22:04:40
+ * @Last Modified time: 2019-12-10 22:41:27
  */
 import { observable, computed } from 'mobx'
 import {
@@ -12,6 +12,7 @@ import {
   userStore,
   usersStore
 } from '@stores'
+import { IOS } from '@constants'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
 import { info } from '@utils/ui'
@@ -322,7 +323,7 @@ export default class ScreenTopic extends store {
           // do nothing
         }
 
-        if (res.status !== 'ok') {
+        if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)
         } else {
           this.setState({
@@ -371,7 +372,7 @@ export default class ScreenTopic extends store {
           // do nothing
         }
 
-        if (res.status !== 'ok') {
+        if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)
         } else {
           this.setState({

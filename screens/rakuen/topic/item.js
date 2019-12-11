@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 22:26:40
+ * @Last Modified time: 2019-12-09 22:42:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -222,7 +222,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   itemNew: {
-    backgroundColor: _.select(_.colorMainLight, 'rgba(254, 113, 127, 0.08)')
+    backgroundColor: _.select(_.colorMainLight, 'rgb(59, 48 ,51)')
   },
   itemJump: {
     borderWidth: 2,

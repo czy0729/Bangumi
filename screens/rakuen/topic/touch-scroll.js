@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 01:21:32
+ * @Last Modified time: 2019-12-09 22:44:39
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -62,7 +62,10 @@ function TouchScroll({ onPress }, { $ }) {
                 justify='end'
               >
                 {showFloor.includes(index) && (
-                  <Text size={10} type={isNew ? 'plain' : 'icon'}>
+                  <Text
+                    size={10}
+                    type={isNew ? _.select('plain', 'icon') : 'icon'}
+                  >
                     {list[index].floor.replace('#', '')}
                   </Text>
                 )}

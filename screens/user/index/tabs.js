@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 12:04:09
+ * @Last Modified time: 2019-12-09 22:37:07
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -94,6 +94,6 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 2,
     left: 0,
     right: 0,
-    backgroundColor: _.colorPlain
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   }
 }))

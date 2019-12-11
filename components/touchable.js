@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:11:26
+ * @Last Modified time: 2019-12-10 23:26:22
  */
 import React from 'react'
 import {
@@ -13,6 +13,7 @@ import {
   TouchableNativeFeedback,
   View
 } from 'react-native'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { IOS } from '@constants'
 
@@ -104,7 +105,7 @@ Touchable.defaultProps = {
   onPress: Function.prototype
 }
 
-export default Touchable
+export default observer(Touchable)
 
 const styles = StyleSheet.create({
   touchable: {

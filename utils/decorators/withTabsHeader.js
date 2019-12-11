@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 12:12:34
+ * @Last Modified time: 2019-12-11 11:25:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,6 +23,8 @@ const withTabsHeader = ({ screen } = {}) => ComposedComponent =>
       // 安卓没有毛玻璃效果, 不设置
       static navigationOptions = ({ navigation }) => {
         let withTabsHeaderOptions
+        const headerLeft = navigation.getParam('headerLeft')
+        const headerRight = navigation.getParam('headerRight')
         if (IOS) {
           withTabsHeaderOptions = {
             headerTransparent: true,
@@ -39,11 +41,15 @@ const withTabsHeader = ({ screen } = {}) => ComposedComponent =>
                 </View>
               </View>
             ),
-            headerLeft: navigation.getParam('headerLeft'),
-            headerRight: navigation.getParam('headerRight'),
+            headerLeft,
+            headerRight,
             headerBackground: <BlurView />
           }
         } else {
+          const headerBackground = navigation.getParam(
+            'headerBackground',
+            <View />
+          )
           withTabsHeaderOptions = {
             headerStyle: {
               height: _.headerHeight - (BARE ? 0 : _.statusBarHeight),
@@ -51,15 +57,24 @@ const withTabsHeader = ({ screen } = {}) => ComposedComponent =>
               backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
               elevation: 0
             },
-            headerTitle: <Logo />,
-            headerLeft: navigation.getParam('headerLeft'),
-            headerRight: navigation.getParam('headerRight'),
+            headerTitle: (
+              <Logo
+                forceUpdate={() =>
+                  navigation.setParams({
+                    headerBackground
+                  })
+                }
+              />
+            ),
+            headerLeft,
+            headerRight,
             headerLeftContainerStyle: {
               paddingLeft: _.xs
             },
             headerRightContainerStyle: {
               marginRight: _.wind - _.sm
-            }
+            },
+            headerBackground
           }
         }
 

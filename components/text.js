@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 13:32:23
+ * @Last Modified time: 2019-12-09 22:52:27
  */
 import React from 'react'
-import { StyleSheet, Text as RNText } from 'react-native'
+import { Text as RNText } from 'react-native'
 import { observer } from 'mobx-react'
 import { IOS } from '@constants'
 import { _ } from '@stores'
@@ -69,88 +69,80 @@ Text.defaultProps = {
 
 export default observer(Text)
 
-let _mode
-let _styles
-function memoStyles(mode) {
-  if (!_mode || !_styles || _mode !== mode) {
-    _mode = mode
-    _styles = StyleSheet.create({
-      text: IOS
-        ? {
-            fontWeight: 'normal'
-          }
-        : {},
-      8: _.fontSize(8),
-      9: _.fontSize(9),
-      10: _.fontSize(10),
-      11: _.fontSize(11),
-      12: _.fontSize(12),
-      13: _.fontSize(13),
-      14: _.fontSize(14),
-      15: _.fontSize(15),
-      16: _.fontSize(16),
-      17: _.fontSize(17),
-      18: _.fontSize(18),
-      19: _.fontSize(19),
-      20: _.fontSize(20),
-      21: _.fontSize(21),
-      22: _.fontSize(22),
-      23: _.fontSize(23),
-      24: _.fontSize(24),
-      26: _.fontSize(26),
-      28: _.fontSize(28),
-      plain: {
-        color: _.colorPlain
-      },
-      main: {
-        color: _.colorMain
-      },
-      primary: {
-        color: _.colorPrimary
-      },
-      success: {
-        color: _.colorSuccess
-      },
-      warning: {
-        color: _.colorWarning
-      },
-      danger: {
-        color: _.colorDanger
-      },
-      title: {
-        color: _.colorTitle
-      },
-      desc: {
-        color: _.colorDesc
-      },
-      avatar: {
-        color: _.colorAvatar
-      },
-      sub: {
-        color: _.colorSub
-      },
-      icon: {
-        color: _.colorIcon
-      },
-      border: {
-        color: _.colorBorder
-      },
-      underline: {
-        textDecorationLine: 'underline',
-        textDecorationColor: _.colorMain
-      },
-      alignCenter: {
-        textAlign: 'center'
-      },
-      alignRight: {
-        textAlign: 'right'
-      },
-      bold: IOS
-        ? {
-            fontWeight: 'bold'
-          }
-        : {}
-    })
-  }
-  return _styles
-}
+const memoStyles = _.memoStyles(_ => ({
+  text: IOS
+    ? {
+        fontWeight: 'normal'
+      }
+    : {},
+  8: _.fontSize(8),
+  9: _.fontSize(9),
+  10: _.fontSize(10),
+  11: _.fontSize(11),
+  12: _.fontSize(12),
+  13: _.fontSize(13),
+  14: _.fontSize(14),
+  15: _.fontSize(15),
+  16: _.fontSize(16),
+  17: _.fontSize(17),
+  18: _.fontSize(18),
+  19: _.fontSize(19),
+  20: _.fontSize(20),
+  21: _.fontSize(21),
+  22: _.fontSize(22),
+  23: _.fontSize(23),
+  24: _.fontSize(24),
+  26: _.fontSize(26),
+  28: _.fontSize(28),
+  plain: {
+    color: _.colorPlain
+  },
+  main: {
+    color: _.colorMain
+  },
+  primary: {
+    color: _.colorPrimary
+  },
+  success: {
+    color: _.colorSuccess
+  },
+  warning: {
+    color: _.colorWarning
+  },
+  danger: {
+    color: _.colorDanger
+  },
+  title: {
+    color: _.colorTitle
+  },
+  desc: {
+    color: _.colorDesc
+  },
+  avatar: {
+    color: _.colorAvatar
+  },
+  sub: {
+    color: _.colorSub
+  },
+  icon: {
+    color: _.colorIcon
+  },
+  border: {
+    color: _.colorBorder
+  },
+  underline: {
+    textDecorationLine: 'underline',
+    textDecorationColor: _.colorMain
+  },
+  alignCenter: {
+    textAlign: 'center'
+  },
+  alignRight: {
+    textAlign: 'right'
+  },
+  bold: IOS
+    ? {
+        fontWeight: 'bold'
+      }
+    : {}
+}))

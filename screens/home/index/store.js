@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 22:48:53
+ * @Last Modified time: 2019-12-10 23:10:10
  */
 import { observable, computed } from 'mobx'
-import { userStore, subjectStore, collectionStore } from '@stores'
+import { _, userStore, subjectStore, collectionStore } from '@stores'
 import { Eps } from '@screens/_'
 import { sleep } from '@utils'
 import { appNavigate } from '@utils/app'
@@ -98,6 +98,10 @@ export default class ScreenHome extends store {
   }
 
   // -------------------- get --------------------
+  @computed get backgroundColor() {
+    return _.isDark ? _._colorDarkModeLevel1 : _.colorPlain
+  }
+
   /**
    * <Item />
    */

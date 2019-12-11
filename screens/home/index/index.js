@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 01:24:26
+ * @Last Modified time: 2019-12-11 01:38:23
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -13,7 +13,9 @@ import {
   IconTabsHeader,
   IconTinygrail,
   IconNotify,
-  ManageModal
+  ManageModal,
+  NavigationBarEvents,
+  HeaderBackground
 } from '@screens/_'
 import { _, userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
@@ -59,12 +61,13 @@ class Home extends React.Component {
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
     navigation.setParams({
-      headerLeft: <IconNotify navigation={navigation} />
+      headerLeft: <IconNotify navigation={navigation} />,
+      headerBackground: <HeaderBackground />
     })
 
     setTimeout(() => {
       hm(`?id=${userStore.userInfo.username || userStore.myUserId}`, 'Home')
-    }, 4000)
+    }, 2000)
   }
 
   render() {
@@ -92,6 +95,7 @@ class Home extends React.Component {
     const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
+        <NavigationBarEvents />
         <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
           {tabs.map(item =>
             grid ? (

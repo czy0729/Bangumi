@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 19:52:28
+ * @Last Modified time: 2019-12-09 23:01:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,19 +46,43 @@ class Item extends React.Component {
     const isTop = top.indexOf(subjectId) !== -1
     const data = [
       {
-        text: <Text>全部展开</Text>,
+        text: (
+          <Text
+            style={{
+              color: _.colorDark
+            }}
+          >
+            全部展开
+          </Text>
+        ),
         onPress: () => {
           $.expandAll()
         }
       },
       {
-        text: <Text>全部收起</Text>,
+        text: (
+          <Text
+            style={{
+              color: _.colorDark
+            }}
+          >
+            全部收起
+          </Text>
+        ),
         onPress: () => {
           $.closeAll()
         }
       },
       {
-        text: <Text>置顶</Text>,
+        text: (
+          <Text
+            style={{
+              color: _.colorDark
+            }}
+          >
+            置顶
+          </Text>
+        ),
         onPress: () => {
           $.itemToggleTop(subjectId, true)
         }

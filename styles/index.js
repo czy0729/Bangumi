@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 14:46:18
+ * @Last Modified time: 2019-12-10 23:15:04
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -104,7 +104,7 @@ export const _colorBorder = 'rgba(255, 255, 255, 0.16)'
 export const _colorTitleRaw = [255, 255, 255]
 export const _colorTitle = `rgba(${_colorTitleRaw.join()}, 0.92)`
 export const _colorDesc = 'rgba(255, 255, 255, 0.8)'
-export const _colorSub = 'rgba(255, 255, 255, 0.6)'
+export const _colorSub = 'rgba(255, 255, 255, 0.52)'
 export const _colorDisabled = 'rgba(255, 255, 255, 0.38)'
 export const _colorIcon = 'rgba(255, 255, 255, 0.38)'
 
@@ -117,6 +117,7 @@ export const colorTinygrailPlain = 'rgba(255, 255, 255, 0.8)'
 export const colorTinygrailPrimary = 'rgb(9, 153, 223)'
 export const colorTinygrailBg = 'rgb(14, 25, 36)'
 export const colorTinygrailContainer = 'rgb(20, 30, 50)'
+export const colorTinygrailContainerHex = '#141e32'
 export const colorTinygrailBorder = 'rgb(29, 42, 61)'
 export const colorTinygrailIcon = 'rgb(62, 84, 108)'
 export const colorTinygrailText = 'rgb(99, 117, 144)'

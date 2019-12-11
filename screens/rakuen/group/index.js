@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 04:23:50
+ * @Last Modified time: 2019-12-11 00:47:20
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Pagination } from '@screens/_'
+import { Pagination, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
@@ -100,36 +100,44 @@ class RakuenGroup extends React.Component {
     const { $ } = this.context
     const { show, _loaded } = $.state
     if (!_loaded) {
-      return <View style={_.container.flex} />
+      return (
+        <>
+          <NavigationBarEvents />
+          <View style={_.container.flex} />
+        </>
+      )
     }
 
     const { onScroll } = this.props
     return (
-      <ScrollView
-        style={_.container.content}
-        contentContainerStyle={_.container.bottom}
-        scrollEventThrottle={16}
-        onScroll={onScroll}
-        {...withTransitionHeader.listViewProps}
-      >
-        <Info />
-        {this.renderPagination()}
-        {show && (
-          <>
-            <View
-              style={[
-                {
-                  minHeight: _.window.height
-                },
-                _.mt.md
-              ]}
-            >
-              <List />
-            </View>
-            <View style={_.mt.md}>{this.renderPagination()}</View>
-          </>
-        )}
-      </ScrollView>
+      <>
+        <NavigationBarEvents />
+        <ScrollView
+          style={_.container.content}
+          contentContainerStyle={_.container.bottom}
+          scrollEventThrottle={16}
+          onScroll={onScroll}
+          {...withTransitionHeader.listViewProps}
+        >
+          <Info />
+          {this.renderPagination()}
+          {show && (
+            <>
+              <View
+                style={[
+                  {
+                    minHeight: _.window.height
+                  },
+                  _.mt.md
+                ]}
+              >
+                <List />
+              </View>
+              <View style={_.mt.md}>{this.renderPagination()}</View>
+            </>
+          )}
+        </ScrollView>
+      </>
     )
   }
 }

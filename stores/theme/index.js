@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 01:59:17
+ * @Last Modified time: 2019-12-11 00:16:36
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -233,16 +233,24 @@ class Theme extends store {
       ...this.select(darkStyles, lightStyles)
     })
     this.setStorage(key, undefined, NAMESPACE)
+    this.changeNavigationBarColor()
+  }
 
-    if (!IOS) {
-      try {
-        changeNavigationBarColor(
-          this.select(_.colorPlainHex, _._colorDarkModeLevel1Hex),
-          !this.isDark
-        )
-      } catch (error) {
-        console.warn('[theme store] changeNavigationBarColor error')
-      }
+  /**
+   * 安卓改变底部菜单颜色
+   */
+  changeNavigationBarColor = () => {
+    if (IOS) {
+      return
+    }
+
+    try {
+      changeNavigationBarColor(
+        this.select(_.colorPlainHex, _._colorDarkModeLevel1Hex),
+        !this.isDark
+      )
+    } catch (error) {
+      console.warn('[ThemeStore] changeNavigationBarColor', error)
     }
   }
 

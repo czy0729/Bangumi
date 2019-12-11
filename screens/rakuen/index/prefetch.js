@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 14:01:14
+ * @Last Modified time: 2019-12-09 22:48:44
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -53,7 +53,7 @@ function Prefetch({ $, navigation }) {
     <>
       <IconTabsHeader
         style={{
-          marginRight: 2
+          marginRight: 4
         }}
         name='star'
         position='right'
@@ -61,7 +61,7 @@ function Prefetch({ $, navigation }) {
       />
       <IconTabsHeader
         style={{
-          marginRight: -8,
+          marginRight: -6,
           transform: [
             {
               rotate: '90deg'

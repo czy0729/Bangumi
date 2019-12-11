@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 04:23:48
+ * @Last Modified time: 2019-12-10 23:20:56
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
-import { ItemTopic, IconHeader } from '@screens/_'
+import { ItemTopic, IconHeader, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
@@ -87,21 +87,24 @@ class Mono extends React.Component {
     const { $, navigation } = this.context
     const { onScroll } = this.props
     return (
-      <ListView
-        style={this.styles.container}
-        contentContainerStyle={this.styles.contentContainerStyle}
-        keyExtractor={item => String(item.id)}
-        data={$.monoComments}
-        scrollEventThrottle={32}
-        ListHeaderComponent={<Info />}
-        renderItem={({ item, index }) => (
-          <ItemTopic navigation={navigation} index={index} {...item} />
-        )}
-        onScroll={onScroll}
-        onHeaderRefresh={() => $.fetchMono(true)}
-        onFooterRefresh={$.fetchMono}
-        {...withTransitionHeader.listViewProps}
-      />
+      <>
+        <NavigationBarEvents />
+        <ListView
+          style={this.styles.container}
+          contentContainerStyle={this.styles.contentContainerStyle}
+          keyExtractor={item => String(item.id)}
+          data={$.monoComments}
+          scrollEventThrottle={32}
+          ListHeaderComponent={<Info />}
+          renderItem={({ item, index }) => (
+            <ItemTopic navigation={navigation} index={index} {...item} />
+          )}
+          onScroll={onScroll}
+          onHeaderRefresh={() => $.fetchMono(true)}
+          onFooterRefresh={$.fetchMono}
+          {...withTransitionHeader.listViewProps}
+        />
+      </>
     )
   }
 

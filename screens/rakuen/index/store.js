@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 22:34:40
+ * @Last Modified time: 2019-12-10 22:05:04
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -11,7 +11,7 @@ import { observable, computed } from 'mobx'
 import deepmerge from 'deepmerge'
 import { Text } from '@components'
 import { Popover } from '@screens/_'
-import { systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
+import { _, systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
 import { sleep } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
@@ -109,6 +109,10 @@ export default class ScreenRakuen extends store {
   }
 
   // -------------------- get --------------------
+  @computed get backgroundColor() {
+    return _.select(_.colorPlain, _._colorDarkModeLevel1)
+  }
+
   @computed get autoFetch() {
     return systemStore.setting.autoFetch
   }

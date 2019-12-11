@@ -2,14 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 01:24:51
+ * @Last Modified time: 2019-12-11 01:38:43
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex } from '@components'
-import { Popover, IconTabsHeader, IconTabBar, IconNotify } from '@screens/_'
+import {
+  Popover,
+  IconTabsHeader,
+  IconTabBar,
+  IconNotify,
+  HeaderBackground
+} from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTabsHeader } from '@utils/decorators'
@@ -74,7 +80,8 @@ class Rakuen extends React.Component {
             <IconTabsHeader name='more' position='right' />
           </Popover>
         </Flex>
-      )
+      ),
+      headerBackground: <HeaderBackground />
     })
 
     hm('rakuen', 'Rakuen')

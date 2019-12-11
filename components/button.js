@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:28:37
+ * @Last Modified time: 2019-12-10 23:33:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ function Button({
   const _text = [styles.text]
 
   // @notice 安卓的阴影要保证有背景颜色才能显示, 所以为了不覆盖type的bg, 放在type前面
-  if (shadow) {
+  if (shadow && !_.isDark) {
     _wrap.push(styles.shadow)
   }
   if (type) {
@@ -129,12 +129,12 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.select('rgb(249, 163, 80)', _.colorWarning)
   },
   wait: {
-    backgroundColor: _.select(_.colorWait, 'rgba(255, 255, 255, 0.38)'),
-    borderColor: _.select('rgb(160, 160, 160)', 'rgba(255, 255, 255, 0.38)')
+    backgroundColor: _.colorWait,
+    borderColor: _.select('rgb(160, 160, 160)', _.colorWait)
   },
   disabled: {
-    backgroundColor: _.select(_.colorDisabled, 'rgba(255, 255, 255, 0.64)'),
-    borderColor: _.select('rgb(80, 80, 80)', 'rgba(255, 255, 255, 0.64)')
+    backgroundColor: _.select(_.colorDisabled, 'rgb(128, 128, 130)'),
+    borderColor: _.select('rgb(80, 80, 80)', 'rgb(128, 128, 130)')
   },
   bid: {
     backgroundColor: _.colorBid,
