@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 22:11:23
+ * @Last Modified time: 2019-12-11 21:44:20
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -52,10 +52,10 @@ class Setting extends React.Component {
       const { navigation } = this.props
       navigation.setParams({
         popover: {
-          data: ['鼓励(恰饭)'],
+          data: ['恰饭'],
           onSelect: key => {
             switch (key) {
-              case '鼓励(恰饭)':
+              case '恰饭':
                 navigation.push('Qiafan')
                 break
               case '开发模式':

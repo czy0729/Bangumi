@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 12:12:40
+ * @Last Modified time: 2019-12-11 20:13:52
  */
 export default {
-  initialRouteName: 'TinygrailICODeal', // HomeTab TinygrailCharaAssets
+  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
   initialRouteParams: {
     // id: 19402913
     // subjectId: 238923 // 238923 279457 100444 204135
@@ -13,7 +13,7 @@ export default {
     // userId: 456208 // 456208, 419012
     // userName: 'sukaretto' //
     // name: '小耳兔'
-    monoId: 'character/14961' // 20391 character/70323 person/5745
+    // monoId: 'character/14961' // 20391 character/70323 person/5745
     // groupId: 'tinygrail'
     // type: 'auction'
     // tag: '水树奈奈',

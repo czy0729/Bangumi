@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 17:58:24
+ * @Last Modified time: 2019-12-11 21:38:51
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -60,7 +60,7 @@ class Notify extends React.Component {
     const { $, navigation } = this.context
     return (
       <ListView
-        style={_.container.screen}
+        style={_.container.content}
         keyExtractor={(item, index) => String(index)}
         data={$.notify}
         renderItem={({ item, index }) => (

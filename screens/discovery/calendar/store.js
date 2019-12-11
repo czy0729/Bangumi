@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-21 16:29:33
+ * @Last Modified time: 2019-12-11 21:27:27
  */
 import { observable, computed } from 'mobx'
 import { calendarStore, userStore } from '@stores'
@@ -27,7 +27,7 @@ export default class ScreenCalendar extends store {
     try {
       const { _response } = await xhrCustom({
         url:
-          'https://raw.githubusercontent.com/ekibun/bangumi_calendar/master/calendar.json'
+          'https://raw.githubusercontent.com/ekibun/bangumi_onair/master/calendar.json'
       })
       const calendarData = {
         _loaded: true

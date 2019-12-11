@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 16:43:51
+ * @Last Modified time: 2019-12-11 20:11:28
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -34,23 +34,6 @@ function Info(props, { $, navigation }) {
           />
         </Flex>
       )}
-      <Flex style={_.mt.md} justify='center'>
-        <Text
-          style={{
-            color: _.colorTinygrailText
-          }}
-          size={16}
-        >
-          剩余时间:{' '}
-        </Text>
-        <CountDown
-          style={{
-            color: _.colorTinygrailText
-          }}
-          size={16}
-          end={endTime}
-        />
-      </Flex>
       <Touchable
         style={_.mt.md}
         onPress={() =>
@@ -76,6 +59,23 @@ function Info(props, { $, navigation }) {
           />
         </Flex>
       </Touchable>
+      <Flex style={_.mt.md} justify='center'>
+        <Text
+          style={{
+            color: _.colorTinygrailText
+          }}
+          size={16}
+        >
+          剩余时间:{' '}
+        </Text>
+        <CountDown
+          style={{
+            color: _.colorTinygrailText
+          }}
+          size={16}
+          end={endTime}
+        />
+      </Flex>
       <Text
         style={[
           _.mt.md,

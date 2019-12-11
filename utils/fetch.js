@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 21:50:53
+ * @Last Modified time: 2019-12-11 18:23:49
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -277,13 +277,13 @@ export function xhrCustom({
         resolve(this)
       }
     }
-    xhr.onerror = function() {
+    request.onerror = function() {
       reject(new TypeError('Network request failed'))
     }
-    xhr.ontimeout = function() {
+    request.ontimeout = function() {
       reject(new TypeError('Network request failed'))
     }
-    xhr.onabort = function() {
+    request.onabort = function() {
       reject(new TypeError('AbortError'))
     }
 

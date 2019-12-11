@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 16:40:20
+ * @Last Modified time: 2019-12-11 20:12:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -49,7 +49,10 @@ class CountDown extends React.Component {
     const s = Math.floor(distance - d * 86400 - h * 3600 - m * 60)
     return (
       <Text {...other}>
-        {d}天{h}时{m}分{s}秒
+        {!!d && `${d}天`}
+        {!!h && `${h}时`}
+        {!!m && `${m}分`}
+        {!!s && `${s}秒`}
       </Text>
     )
   }
