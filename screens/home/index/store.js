@@ -3,10 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 23:10:10
+ * @Last Modified time: 2019-12-13 01:23:18
  */
 import { observable, computed } from 'mobx'
-import { _, userStore, subjectStore, collectionStore } from '@stores'
+import {
+  _,
+  userStore,
+  subjectStore,
+  collectionStore,
+  calendarStore
+} from '@stores'
 import { Eps } from '@screens/_'
 import { sleep } from '@utils'
 import { appNavigate } from '@utils/app'
@@ -32,6 +38,10 @@ const namespace = 'ScreenHome'
 const initItem = {
   expand: false,
   doing: false
+}
+let day = new Date().getDay()
+if (day === 0) {
+  day = 7
 }
 
 export default class ScreenHome extends store {
@@ -59,6 +69,7 @@ export default class ScreenHome extends store {
 
   init = async () => {
     userStore.logTourist()
+    calendarStore.fetchOnAir()
 
     let res
     if (this.isLogin) {
@@ -202,16 +213,6 @@ export default class ScreenHome extends store {
   }
 
   /**
-   * 章节是否放送中
-   */
-  isToday(subjectId) {
-    return computed(() => {
-      const eps = this.eps(subjectId)
-      return eps.findIndex(item => item.status === 'Today') !== -1
-    }).get()
-  }
-
-  /**
    * 条目观看进度百分比
    */
   percent(subjectId, subject = {}) {
@@ -240,6 +241,41 @@ export default class ScreenHome extends store {
         // do nothing
       }
       return (watchedCount / subject.eps_count) * 100
+    }).get()
+  }
+
+  @computed get onAir() {
+    return calendarStore.onAir
+  }
+
+  /**
+   * 是否放送中
+   */
+  isToday(subjectId) {
+    return computed(() => {
+      // v1
+      // const eps = this.eps(subjectId)
+      // return eps.findIndex(item => item.status === 'Today') !== -1
+
+      // v2
+      const item = this.onAir[subjectId]
+      if (!item) {
+        return false
+      }
+      return item.weekDayCN === day
+    }).get()
+  }
+
+  /**
+   * 是否明天放送
+   */
+  isNextDay(subjectId) {
+    return computed(() => {
+      const item = this.onAir[subjectId]
+      if (!item) {
+        return false
+      }
+      return day === 7 ? item.weekDayCN === 1 : item.weekDayCN === day + 1
     }).get()
   }
 
@@ -280,6 +316,7 @@ export default class ScreenHome extends store {
 
   /**
    * 列表排序
+   * 章节排序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 默认排序
    */
   sortList = (list = []) => {
     // 置顶排序
@@ -287,21 +324,44 @@ export default class ScreenHome extends store {
     const topMap = {}
     top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
 
-    return (
-      list
-        // 上映日期
-        // .sort(
-        //   (a, b) =>
-        //     String(b.subject.air_date).replace(/-/g, '') -
-        //     String(a.subject.air_date).replace(/-/g, '')
-        // )
-        // 放送中
-        .sort((a, b) => this.isToday(b.subject_id) - this.isToday(a.subject_id))
-        // 置顶, 数组位置越大排越前
+    try {
+      // 计算每一个条目看过ep的数量
+      const weightMap = {}
+      list.forEach(item => {
+        const { subject_id: subjectId } = item
+        const progress = this.userProgress(subjectId)
+
+        let watchedCount = 0
+        Object.keys(progress).forEach(i => {
+          if (progress[i] === '看过') {
+            watchedCount += 1
+          }
+        })
+
+        const { air = 0 } = this.onAir[subjectId] || {}
+        if (this.isToday(subjectId)) {
+          weightMap[subjectId] = air > watchedCount ? 100000 : 10000
+        } else if (this.isNextDay(subjectId)) {
+          weightMap[subjectId] = air > watchedCount ? 1000 : 100
+        } else {
+          weightMap[subjectId] = air > watchedCount ? 10 : 1
+        }
+      })
+      return list
+        .sort((a, b) => weightMap[b.subject_id] - weightMap[a.subject_id])
         .sort(
           (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
         )
-    )
+    } catch (error) {
+      console.warn(`[${namespace}] sortList`, error)
+
+      // fallback
+      return list
+        .sort((a, b) => this.isToday(b.subject_id) - this.isToday(a.subject_id))
+        .sort(
+          (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
+        )
+    }
   }
 
   /**

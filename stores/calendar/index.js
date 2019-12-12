@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:18:39
+ * @Last Modified time: 2019-12-13 00:51:58
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
-import { HOST, LIST_EMPTY } from '@constants'
+import { HOST, LIST_EMPTY, GITHUB_BANGUMI_ONAIR_URL } from '@constants'
 import { API_CALENDAR } from '@constants/api'
 import { NAMESPACE, INIT_HOME } from './init'
 import { cheerioToday } from './common'
@@ -25,14 +25,22 @@ class Calendar extends store {
     /**
      * 首页信息聚合
      */
-    home: INIT_HOME
+    home: INIT_HOME,
+
+    /**
+     * ekibun的线上爬虫数据
+     */
+    onAir: {
+      // [subjectId]: INIT_ONAIR_ITEM
+    }
   })
 
   init = () =>
     this.readStorageThenSetState(
       {
         calendar: LIST_EMPTY,
-        home: INIT_HOME
+        home: INIT_HOME,
+        onAir: {}
       },
       NAMESPACE
     )
@@ -44,6 +52,10 @@ class Calendar extends store {
 
   @computed get home() {
     return this.state.home
+  }
+
+  @computed get onAir() {
+    return this.state.onAir
   }
 
   // -------------------- fetch --------------------
@@ -148,6 +160,40 @@ class Calendar extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return res
+  }
+
+  /**
+   * onAir数据
+   */
+  fetchOnAir = async () => {
+    try {
+      const { _response } = await xhrCustom({
+        url: GITHUB_BANGUMI_ONAIR_URL
+      })
+      const data = {
+        _loaded: true
+      }
+      JSON.parse(_response).forEach(item => {
+        const airEps = item.eps.filter(item => item.status === 'Air')
+        if (!item.weekDayCN || !item.timeCN) {
+          return
+        }
+
+        data[item.id] = {
+          timeCN: item.timeCN,
+          weekDayCN: item.weekDayCN
+        }
+        if (airEps.length) {
+          data[item.id].air = airEps[airEps.length - 1].sort
+        }
+      })
+
+      const key = 'onAir'
+      this.clearState(key, data)
+      this.setStorage(key, undefined, NAMESPACE)
+    } catch (error) {
+      console.warn('[CalendarStore] fetchOnAir', error)
+    }
   }
 }
 

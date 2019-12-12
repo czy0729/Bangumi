@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 00:16:36
+ * @Last Modified time: 2019-12-12 17:14:42
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -83,7 +83,7 @@ class Theme extends store {
   })
 
   init = async () => {
-    const res = this.getStorage('mode', NAMESPACE)
+    const res = this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
     const mode = await res
     if (mode !== DEFAULT_MODE) {
       this.toggleMode(mode)

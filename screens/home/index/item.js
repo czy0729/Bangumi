@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 23:01:00
+ * @Last Modified time: 2019-12-13 01:26:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -90,7 +90,15 @@ class Item extends React.Component {
     ]
     if (isTop) {
       data.push({
-        text: <Text>取消置顶</Text>,
+        text: (
+          <Text
+            style={{
+              color: _.colorDark
+            }}
+          >
+            取消置顶
+          </Text>
+        ),
         onPress: () => {
           $.itemToggleTop(subjectId, false)
         }
@@ -229,6 +237,7 @@ class Item extends React.Component {
     const { top, subjectId, subject } = this.props
     const { expand } = $.$Item(subjectId)
     const isToday = $.isToday(subjectId)
+    const isNextDay = $.isNextDay(subjectId)
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     const doing = isBook ? '读' : '看'
     return (
@@ -258,11 +267,17 @@ class Item extends React.Component {
                       {subject.collection.doing} 人在{doing}
                     </Text>
                   </Flex.Item>
-                  {!top && isToday && (
+                  {isToday ? (
                     <Text style={_.ml.sm} type='success' size={12}>
-                      放送中
+                      {$.onAir[subjectId].timeCN.slice(0, 2)}:
+                      {$.onAir[subjectId].timeCN.slice(2, 4)}
                     </Text>
-                  )}
+                  ) : isNextDay ? (
+                    <Text style={_.ml.sm} type='sub' size={12}>
+                      明天{$.onAir[subjectId].timeCN.slice(0, 2)}:
+                      {$.onAir[subjectId].timeCN.slice(2, 4)}
+                    </Text>
+                  ) : null}
                 </Flex>
               </Touchable>
               <View style={_.mt.md}>
@@ -291,16 +306,7 @@ class Item extends React.Component {
               onLongPress={item => $.doEpsLongPress(item, subjectId)}
             />
           )}
-          {top && (
-            <View
-              style={[
-                this.styles.dot,
-                {
-                  borderLeftColor: isToday ? _.colorSuccess : _.colorBorder
-                }
-              ]}
-            />
-          )}
+          {top && <View style={this.styles.dot} />}
         </View>
       </Shadow>
     )
@@ -336,12 +342,13 @@ const memoStyles = _.memoStyles(_ => ({
   },
   dot: {
     position: 'absolute',
-    top: 6,
-    right: 6,
+    top: 0,
+    right: 0,
     borderWidth: 8,
     borderTopColor: 'transparent',
     borderBottomColor: 'transparent',
     borderRightColor: 'transparent',
+    borderLeftColor: _.colorBorder,
     transform: [
       {
         rotate: '-45deg'

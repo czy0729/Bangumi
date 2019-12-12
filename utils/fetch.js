@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 22:37:12
+ * @Last Modified time: 2019-12-11 22:42:20
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -17,7 +17,7 @@ import {
   GITHUB_RELEASE_VERSION,
   DEV
 } from '@constants'
-import fetchPolyfill from './thirdParty/fetch-polyfill'
+import fetch from './thirdParty/fetch-polyfill'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
@@ -83,7 +83,7 @@ export default async function fetchAPI({
   }
   log(`[fetchAPI] ${info || _url}`)
 
-  return fetchPolyfill(_url, _config)
+  return fetch(_url, _config)
     .then(response => {
       if (toastId) Portal.remove(toastId)
       return response.json()
@@ -190,7 +190,7 @@ export async function fetchHTML({
   log(`[fetchHTML] ${_url}`)
 
   const isDev = require('../stores/system').default.state.dev
-  return fetchPolyfill(_url, _config)
+  return fetch(_url, _config)
     .then(res => {
       // 开发模式
       if (isDev) {

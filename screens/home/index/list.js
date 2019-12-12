@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 22:48:13
+ * @Last Modified time: 2019-12-12 20:16:28
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -32,7 +32,6 @@ function List({ title }, { $ }) {
     )
   }
   userCollection.list = $.sortList(userCollection.list)
-
   return (
     <ListView
       contentContainerStyle={_.container.outer}
