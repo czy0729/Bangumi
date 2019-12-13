@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 11:33:18
+ * @Last Modified time: 2019-12-13 18:11:47
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, AsyncStorage } from 'react-native'
 import { Text, Switch } from '@components'
 import { Popover, ItemSetting } from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
@@ -38,12 +38,38 @@ class Setting extends React.Component {
   }
 
   state = {
-    showDev: false
+    showDev: false,
+    storageSize: ''
   }
 
   componentDidMount() {
     this.setParams()
+    this.caculateStorageSize()
+
     hm('settings', 'Setting')
+  }
+
+  caculateStorageSize = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys()
+      const storages = await AsyncStorage.multiGet(keys)
+      let storageSize = 0
+      storages.forEach(item => {
+        storageSize += item[0].length + item[1].length
+      })
+      this.setState({
+        storageSize: `${(storageSize / 1000).toFixed(1)}KB`
+      })
+    } catch (error) {
+      warn('Setting', 'caculateStorageSize', error)
+    }
+  }
+
+  clearStorage = () => {
+    Stores.clearStorage()
+    setTimeout(() => {
+      this.caculateStorageSize()
+    }, 2400)
   }
 
   setParams = () => {
@@ -114,6 +140,7 @@ class Setting extends React.Component {
 
   render() {
     const { navigation } = this.props
+    const { storageSize } = this.state
     const {
       quality,
       cnFirst,
@@ -274,9 +301,14 @@ class Setting extends React.Component {
         <ItemSetting
           style={_.mt.sm}
           hd='清除缓存'
+          ft={
+            <Text size={16} type='sub'>
+              {storageSize}
+            </Text>
+          }
           arrow
           highlight
-          onPress={Stores.clearStorage}
+          onPress={this.clearStorage}
         />
         <ItemSetting
           border

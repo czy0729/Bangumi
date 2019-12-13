@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 17:10:43
+ * @Last Modified time: 2019-12-13 17:41:53
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -17,7 +17,8 @@ export default class ScreenTinygrailDeal extends store {
     loading: false,
     type: defaultType, // 买卖类型
     value: 0, // 只能到一位小数
-    amount: 0 // 只能是整数
+    amount: 0, // 只能是整数
+    expand: false // 展开买卖记录
   })
 
   prev = 0
@@ -264,6 +265,16 @@ export default class ScreenTinygrailDeal extends store {
 
     this.setState({
       amount: _amount
+    })
+  }
+
+  /**
+   * 展开|收起买卖记录
+   */
+  toggleExpand = () => {
+    const { expand } = this.state
+    this.setState({
+      expand: !expand
     })
   }
 }

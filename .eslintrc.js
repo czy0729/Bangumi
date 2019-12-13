@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-19 22:23:58
+ * @Last Modified time: 2019-12-13 17:58:31
  */
 module.exports = {
   root: true,
@@ -10,6 +10,7 @@ module.exports = {
     XMLHttpRequest: true,
     fetch: true, // react-native的fetch
     log: true, // 测试打印函数, 能规避循环引用
+    warn: true,
     require: true
   },
   env: {

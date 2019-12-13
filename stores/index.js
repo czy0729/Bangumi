@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 14:55:37
+ * @Last Modified time: 2019-12-13 18:11:15
  */
 import { AsyncStorage, Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
@@ -85,29 +85,33 @@ class Stores {
    * 清除缓存
    */
   clearStorage() {
-    Alert.alert('提示', '确定清除缓存? 包括图片缓存和页面接口的数据缓存', [
-      {
-        text: '取消',
-        style: 'cancel'
-      },
-      {
-        text: '确定',
-        onPress: async () => {
-          await AsyncStorage.clear()
-          await CacheManager.clearCache()
+    Alert.alert(
+      '提示',
+      '清除包括页面接口的数据缓存，但不会清除登陆等信息 (若需清除图片缓存，请到系统里面清除应用数据)',
+      [
+        {
+          text: '取消',
+          style: 'cancel'
+        },
+        {
+          text: '确定',
+          onPress: async () => {
+            await AsyncStorage.clear()
+            await CacheManager.clearCache()
 
-          // 以下为不需要清除的数据, 再次本地化
-          systemStore.setStorage('setting', undefined, 'System')
-          rakuenStore.setStorage('setting', undefined, 'Rakuen')
-          rakuenStore.setStorage('favor', undefined, 'Rakuen')
-          userStore.setStorage('accessToken', undefined, 'User')
-          userStore.setStorage('userInfo', undefined, 'User')
-          userStore.setStorage('userCookie', undefined, 'User')
+            // 以下为不需要清除的数据, 再次本地化
+            systemStore.setStorage('setting', undefined, 'System') // 设置
+            rakuenStore.setStorage('setting', undefined, 'Rakuen') // 超展开设置
+            rakuenStore.setStorage('favor', undefined, 'Rakuen') // 超展开收藏帖子
+            userStore.setStorage('accessToken', undefined, 'User') // 用户授权信息
+            userStore.setStorage('userInfo', undefined, 'User') // 用户个人信息
+            userStore.setStorage('userCookie', undefined, 'User') // 用户网页cookie
 
-          info('已清除')
+            info('已清除')
+          }
         }
-      }
-    ])
+      ]
+    )
   }
 
   /**

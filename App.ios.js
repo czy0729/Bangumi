@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 03:16:08
+ * @Last Modified time: 2019-12-13 17:56:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,6 +49,16 @@ global.log = (value, space) => {
     }
   }
   console.log(JSON.stringify(value, handleCircular(), space))
+}
+
+/**
+ * try catch 打印警告
+ */
+global.warn = (key, method, error) => {
+  if (!DEV) {
+    return
+  }
+  console.warn(`[${key}] ${method}`, error)
 }
 
 export default
