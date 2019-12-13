@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 00:30:24
+ * @Last Modified time: 2019-12-13 21:52:32
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -27,8 +27,7 @@ function Item(
   const isCollected =
     list.findIndex(item => item.subject_id === subjectId) !== -1
 
-  const { calendarData } = $.state
-  const { air, timeJP } = calendarData[subjectId] || {}
+  const { air, timeCN } = $.onAir[subjectId] || {}
   const onPress = () => {
     navigation.push('Subject', {
       subjectId
@@ -47,7 +46,7 @@ function Item(
       <Touchable withoutFeedback onPress={onPress}>
         <Text
           style={_.mt.sm}
-          type={isCollected ? 'main' : 'desc'}
+          type={isCollected ? _.select('main', 'warning') : 'desc'}
           numberOfLines={2}
         >
           {HTMLDecode(name)}
@@ -63,9 +62,9 @@ function Item(
               ({score.toFixed(1)}){' '}
             </Text>
           )}
-          {!!timeJP && (
+          {!!timeCN && (
             <Text size={12} type='sub'>
-              {`- ${timeJP.slice(0, 2)}:${timeJP.slice(2)}`}{' '}
+              {`- ${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}{' '}
             </Text>
           )}
         </Flex>

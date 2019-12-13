@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 00:51:58
+ * @Last Modified time: 2019-12-13 21:22:43
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -165,7 +165,13 @@ class Calendar extends store {
   /**
    * onAir数据
    */
+  // 数据不会经常变化, 所以一个启动周期只请求一次
+  _fetchOnAir = false
   fetchOnAir = async () => {
+    if (this._fetchOnAir) {
+      return
+    }
+
     try {
       const { _response } = await xhrCustom({
         url: GITHUB_BANGUMI_ONAIR_URL
@@ -191,6 +197,7 @@ class Calendar extends store {
       const key = 'onAir'
       this.clearState(key, data)
       this.setStorage(key, undefined, NAMESPACE)
+      this._fetchOnAir = true
     } catch (error) {
       console.warn('[CalendarStore] fetchOnAir', error)
     }
