@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 19:31:34
+ * @Last Modified time: 2019-12-13 17:10:43
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { queue } from '@utils/fetch'
 import { info } from '@utils/ui'
 
 const defaultType = 'bid'
@@ -26,21 +27,25 @@ export default class ScreenTinygrailDeal extends store {
     this.setState({
       type
     })
-
-    const res = this.refresh()
-    await res
-    this.initForm()
-
-    return res
+    this.refresh()
   }
 
   refresh = () =>
-    Promise.all([
-      tinygrailStore.fetchCharacters([this.monoId]),
-      tinygrailStore.fetchDepth(this.monoId),
-      tinygrailStore.fetchAssets(),
-      tinygrailStore.fetchUserLogs(this.monoId)
+    queue([
+      () => this.fetchCharaThenInitForm([this.monoId]),
+      () => tinygrailStore.fetchDepth(this.monoId),
+      () => tinygrailStore.fetchAssets(),
+      () => tinygrailStore.fetchUserLogs(this.monoId),
+      () => tinygrailStore.fetchIssuePrice(this.monoId)
     ])
+
+  fetchCharaThenInitForm = async () => {
+    const res = tinygrailStore.fetchCharacters([this.monoId])
+    await res
+
+    this.initForm()
+    return res
+  }
 
   // -------------------- get --------------------
   @computed get monoId() {
@@ -77,6 +82,10 @@ export default class ScreenTinygrailDeal extends store {
       return value == 0 ? 0 : parseInt(balance / value)
     }
     return amount
+  }
+
+  @computed get issuePrice() {
+    return tinygrailStore.issuePrice(this.monoId)
   }
 
   // -------------------- action --------------------
@@ -142,6 +151,11 @@ export default class ScreenTinygrailDeal extends store {
    * 初始化表单数据
    */
   initForm = () => {
+    const { value } = this.state
+    if (value) {
+      return
+    }
+
     const { current } = this.chara
     if (current) {
       this.setState({

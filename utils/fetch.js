@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 22:42:20
+ * @Last Modified time: 2019-12-13 15:08:35
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -298,6 +298,7 @@ export function xhrCustom({
 
     const body = data ? urlStringify(data) : null
     request.send(body)
+    log(`[xhrCustom] ${url}`)
   })
 }
 

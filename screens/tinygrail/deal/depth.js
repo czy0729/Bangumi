@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:28:52
+ * @Last Modified time: 2019-12-13 17:14:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -118,13 +118,25 @@ function Depth({ style }, { $ }) {
               )
             })}
         </Flex>
-        <View style={styles.current}>
-          <Touchable onPress={() => $.changeValue(current.toFixed(1))}>
-            <Text style={{ color }} size={18} bold>
-              {current.toFixed(2)}
+        <Flex style={styles.current}>
+          <Flex.Item>
+            <Touchable onPress={() => $.changeValue(current.toFixed(1))}>
+              <Text style={{ color }} size={18} bold>
+                {current.toFixed(2)}
+              </Text>
+            </Touchable>
+          </Flex.Item>
+          {!!$.issuePrice && (
+            <Text
+              style={{
+                color: _.colorTinygrailText
+              }}
+              size={10}
+            >
+              发行价 {$.issuePrice}
             </Text>
-          </Touchable>
-        </View>
+          )}
+        </Flex>
         <View style={styles.list}>
           {bids
             .filter((item, index) => index < 5)

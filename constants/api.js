@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 17:48:40
+ * @Last Modified time: 2019-12-13 14:31:34
  */
 import { HOST } from './index'
 
@@ -167,6 +167,13 @@ export const API_TINYGRAIL_RICH = (page = 1, limit = TINYGRAIL_LIMIT) =>
  */
 export const API_TINYGRAIL_CHARTS = (monoId = 0, date = TINYGRAIL_START) =>
   `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/${date}`
+
+/**
+ * 发行价
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_ISSUE_PRICE = (monoId = 0) =>
+  `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/2019-08-08`
 
 /**
  * 角色详情

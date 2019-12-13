@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:32:07
+ * @Last Modified time: 2019-12-13 17:23:00
  */
 import React from 'react'
-import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
+import { info } from '@utils/ui'
 
 function Records({ style }, { $ }) {
   const styles = memoStyles()
@@ -23,8 +23,14 @@ function Records({ style }, { $ }) {
         </Text>
         {bidHistory.length === 0 && <Text style={styles.text}>-</Text>}
         {bidHistory.map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <View key={index} style={styles.item}>
+          <Touchable
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            style={styles.item}
+            onPress={() =>
+              info(`成交时间: ${String(item.time).replace('T', ' ')}`)
+            }
+          >
             <Flex>
               <Flex.Item>
                 <Text
@@ -48,7 +54,7 @@ function Records({ style }, { $ }) {
                 -{formatNumber(item.price * item.amount)}
               </Text>
             </Flex>
-          </View>
+          </Touchable>
         ))}
       </Flex.Item>
       <Flex.Item style={_.ml.wind}>
@@ -57,8 +63,14 @@ function Records({ style }, { $ }) {
         </Text>
         {askHistory.length === 0 && <Text style={styles.text}>-</Text>}
         {askHistory.map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <View key={index} style={styles.item}>
+          <Touchable
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            style={styles.item}
+            onPress={() =>
+              info(`成交时间: ${String(item.time).replace('T', ' ')}`)
+            }
+          >
             <Flex>
               <Flex.Item>
                 <Text
@@ -82,7 +94,7 @@ function Records({ style }, { $ }) {
                 +{formatNumber(item.price * item.amount)}
               </Text>
             </Flex>
-          </View>
+          </Touchable>
         ))}
       </Flex.Item>
     </Flex>

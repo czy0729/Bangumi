@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 12:21:35
+ * @Last Modified time: 2019-12-13 16:47:04
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
+import { log } from '@utils/dev'
 import axios from '@utils/thirdParty/axios'
 import { LIST_EMPTY } from '@constants'
 import {
@@ -43,7 +44,8 @@ import {
   API_TINYGRAIL_MY_AUCTION_LIST,
   API_TINYGRAIL_SCRATCH,
   API_TINYGRAIL_BONUS,
-  API_TINYGRAIL_BONUS_DAILY
+  API_TINYGRAIL_BONUS_DAILY,
+  API_TINYGRAIL_ISSUE_PRICE
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -219,6 +221,13 @@ class Tinygrail extends store {
     auction: LIST_EMPTY,
 
     /**
+     * 角色发行价
+     */
+    issuePrice: {
+      // [monoId]: 0
+    },
+
+    /**
      * iOS此刻是否显示WebView
      * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
@@ -251,7 +260,8 @@ class Tinygrail extends store {
         'charaAll',
         'charaTemple',
         'valhallList',
-        'auction'
+        'auction',
+        'issuePrice'
       ],
       NAMESPACE
     )
@@ -345,27 +355,45 @@ class Tinygrail extends store {
     return this.state.valhallList
   }
 
+  issuePrice(id) {
+    return computed(() => this.state.issuePrice[id]).get() || 0
+  }
+
   // -------------------- fetch --------------------
+  fetch = (url, isPost, data) => {
+    log(`[axios] ${url}`)
+
+    axios.defaults.withCredentials = false
+    const config = {
+      method: isPost ? 'post' : 'get',
+      url,
+      responseType: 'json',
+      headers: {
+        cookie: this.cookie
+      }
+    }
+    if (data) {
+      config.data = data
+    }
+    return axios(config)
+  }
+
   /**
    * 人物数据
    */
   fetchCharacters = async ids => {
-    const result = await fetch(API_TINYGRAIL_CHARAS(), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(ids)
-    }).then(response => response.json())
+    const result = await this.fetch(API_TINYGRAIL_CHARAS(), true, ids)
 
     const { characters } = this.state
     const data = {
       ...characters
     }
 
-    if (result.State === 0) {
+    if (result.data.State === 0) {
       const iconsCache = toJS(this.state.iconsCache)
-      const target = Array.isArray(result.Value) ? result.Value : [result.Value]
+      const target = Array.isArray(result.data.Value)
+        ? result.data.Value
+        : [result.data.Value]
       target.forEach(item => {
         const id = item.CharacterId || item.Id
         if (item.Icon) {
@@ -408,43 +436,41 @@ class Tinygrail extends store {
    * @notice 需自行添加顺序index, 以支持二次排序显示
    */
   fetchList = async (key = defaultKey) => {
-    const result = await fetch(API_TINYGRAIL_LIST(key), {
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    }).then(response => response.json())
+    const result = await this.fetch(API_TINYGRAIL_LIST(key))
 
     let data = {
       ...LIST_EMPTY
     }
-    if (result.State === 0) {
+    if (result.data.State === 0) {
       const iconsCache = toJS(this.state.iconsCache)
       data = {
         ...LIST_EMPTY,
-        list: (result.Value.Items || result.Value).map((item, index) => {
-          const id = item.CharacterId || item.Id
-          if (item.Icon) {
-            iconsCache[id] = item.Icon
+        list: (result.data.Value.Items || result.data.Value).map(
+          (item, index) => {
+            const id = item.CharacterId || item.Id
+            if (item.Icon) {
+              iconsCache[id] = item.Icon
+            }
+            return {
+              _index: index + 1,
+              id,
+              bids: item.Bids,
+              asks: item.Asks,
+              change: item.Change,
+              current: item.Current,
+              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
+              total: item.Total,
+              marketValue: item.MarketValue,
+              lastOrder: item.LastOrder,
+              end: item.End,
+              users: item.Users,
+              name: item.Name,
+              icon: item.Icon,
+              bonus: item.Bonus,
+              rate: item.Rate
+            }
           }
-          return {
-            _index: index + 1,
-            id,
-            bids: item.Bids,
-            asks: item.Asks,
-            change: item.Change,
-            current: item.Current,
-            fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-            total: item.Total,
-            marketValue: item.MarketValue,
-            lastOrder: item.LastOrder,
-            end: item.End,
-            users: item.Users,
-            name: item.Name,
-            icon: item.Icon,
-            bonus: item.Bonus,
-            rate: item.Rate
-          }
-        }),
+        ),
         pagination: {
           page: 1,
           pageTotal: 1
@@ -466,16 +492,8 @@ class Tinygrail extends store {
    * 番市首富
    */
   fetchRich = async (sort = defaultSort) => {
-    axios.defaults.withCredentials = false
     const [page, limit] = sort.split('/')
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_RICH(page, limit),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_RICH(page, limit))
 
     let data = {
       ...LIST_EMPTY
@@ -519,20 +537,15 @@ class Tinygrail extends store {
    * K线原始数据
    */
   fetchKline = async monoId => {
-    const result = await fetch(API_TINYGRAIL_CHARTS(monoId), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    }).then(response => response.json())
+    const result = await this.fetch(API_TINYGRAIL_CHARTS(monoId), true)
 
     const data = {
       id: monoId,
       data: []
     }
-    if (result.State === 0) {
+    if (result.data.State === 0) {
       data._loaded = getTimestamp()
-      data.data = result.Value.map(item => ({
+      data.data = result.data.Value.map(item => ({
         time: item.Time,
         begin: item.Begin,
         end: item.End,
@@ -558,23 +571,18 @@ class Tinygrail extends store {
    * 深度图
    */
   fetchDepth = async monoId => {
-    const result = await fetch(API_TINYGRAIL_DEPTH(monoId), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    }).then(response => response.json())
+    const result = await this.fetch(API_TINYGRAIL_DEPTH(monoId), true)
 
     const data = {
       ...INIT_DEPTH_ITEM
     }
-    if (result.State === 0) {
+    if (result.data.State === 0) {
       data._loaded = getTimestamp()
-      data.asks = result.Value.Asks.map(item => ({
+      data.asks = result.data.Value.Asks.map(item => ({
         price: item.Price,
         amount: item.Amount
       }))
-      data.bids = result.Value.Bids.map(item => ({
+      data.bids = result.data.Value.Bids.map(item => ({
         price: item.Price,
         amount: item.Amount
       }))
@@ -595,15 +603,7 @@ class Tinygrail extends store {
    * 用户唯一标识
    */
   fetchHash = async () => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_HASH(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_HASH())
 
     let data = ''
     if (result.data.State === 0) {
@@ -623,15 +623,7 @@ class Tinygrail extends store {
    * 资产信息
    */
   fetchAssets = async () => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_ASSETS(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_ASSETS())
 
     let data = {
       ...INIT_ASSETS
@@ -657,15 +649,7 @@ class Tinygrail extends store {
    * 用户资产概览信息
    */
   fetchCharaAssets = async hash => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_CHARA_ASSETS(hash),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_CHARA_ASSETS(hash))
 
     const data = {
       ...INIT_CHARA_ASSETS
@@ -729,15 +713,7 @@ class Tinygrail extends store {
    * 英灵殿
    */
   fetchValhallList = async () => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_VALHALL_LIST(1, 100),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 100))
 
     const data = {
       ...LIST_EMPTY
@@ -785,15 +761,7 @@ class Tinygrail extends store {
    * 用户挂单和交易记录
    */
   fetchUserLogs = async monoId => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_USER_CHARA(monoId),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_USER_CHARA(monoId))
 
     let data = {
       ...INIT_USER_LOGS
@@ -850,15 +818,7 @@ class Tinygrail extends store {
    * 我的买单
    */
   fetchBid = async () => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_CHARA_BID(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_CHARA_BID())
 
     let data = {
       ...LIST_EMPTY
@@ -912,15 +872,7 @@ class Tinygrail extends store {
    * 我的卖单
    */
   fetchAsks = async () => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_CHARA_ASKS(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_CHARA_ASKS())
 
     let data = {
       ...LIST_EMPTY
@@ -974,15 +926,7 @@ class Tinygrail extends store {
    * 我的拍卖列表
    */
   fetchAuction = async () => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_MY_AUCTION_LIST(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_MY_AUCTION_LIST())
 
     let data = {
       ...LIST_EMPTY
@@ -1033,15 +977,7 @@ class Tinygrail extends store {
    * 我的持仓
    */
   fetchMyCharaAssets = async () => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_MY_CHARA_ASSETS(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_MY_CHARA_ASSETS())
 
     let data = {
       ...INIT_MY_CHARA_ASSETS
@@ -1129,15 +1065,7 @@ class Tinygrail extends store {
    * ICO参与者
    */
   fetchInitial = async monoId => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_INITIAL(monoId),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_INITIAL(monoId))
 
     let data = {
       ...LIST_EMPTY
@@ -1176,15 +1104,7 @@ class Tinygrail extends store {
    * 资金日志
    */
   fetchBalance = async () => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_BALANCE(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_BALANCE())
 
     let data = {
       ...LIST_EMPTY
@@ -1221,12 +1141,7 @@ class Tinygrail extends store {
    * 董事会
    */
   fetchUsers = async monoId => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_USERS(monoId),
-      responseType: 'json'
-    })
+    const result = await this.fetch(API_TINYGRAIL_USERS(monoId))
 
     let data = []
     if (result.data.State === 0) {
@@ -1262,15 +1177,7 @@ class Tinygrail extends store {
    * 用户圣殿
    */
   fetchTemple = async (hash = this.hash) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_TEMPLE(hash),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_TEMPLE(hash))
 
     let data = {
       ...LIST_EMPTY
@@ -1307,15 +1214,7 @@ class Tinygrail extends store {
    * 用户资产概览信息
    */
   fetchCharaAll = async (hash = this.hash) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_CHARA_ALL(hash),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_CHARA_ALL(hash))
 
     let data = {
       ...LIST_EMPTY
@@ -1357,15 +1256,7 @@ class Tinygrail extends store {
    * 角色圣殿
    */
   fetchCharaTemple = async (id = 0) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_CHARA_TEMPLE(id),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_CHARA_TEMPLE(id))
 
     let data = {
       ...LIST_EMPTY
@@ -1401,15 +1292,7 @@ class Tinygrail extends store {
    * 可拍卖信息
    */
   fetchValhallChara = async (id = 0) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_VALHALL_CHARA(id),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_VALHALL_CHARA(id))
 
     let data = {}
     const { State, Value } = result.data
@@ -1435,15 +1318,7 @@ class Tinygrail extends store {
    * 上周拍卖记录
    */
   fetchAuctionList = async (id = 0) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'get',
-      url: API_TINYGRAIL_AUCTION_LIST(id),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
+    const result = await this.fetch(API_TINYGRAIL_AUCTION_LIST(id))
 
     let data = {
       ...LIST_EMPTY
@@ -1474,6 +1349,29 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
+  /**
+   * 角色发行价
+   */
+  fetchIssuePrice = async (id = 0) => {
+    const result = await this.fetch(API_TINYGRAIL_ISSUE_PRICE(id))
+    let data = 0
+    if (result.data.State === 0) {
+      if (result.data.Value.length) {
+        data = result.data.Value[0].Begin
+      }
+    }
+
+    const key = 'issuePrice'
+    this.setState({
+      [key]: {
+        [id]: data
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
   // -------------------- page --------------------
   updateCookie = cookie => {
     this.setState({
@@ -1500,20 +1398,13 @@ class Tinygrail extends store {
    * 买入
    */
   doBid = async ({ monoId, price, amount }) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_BID(monoId, price, amount),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const result = await this.fetch(
+      API_TINYGRAIL_BID(monoId, price, amount),
+      true
+    )
     if (result.data.State === 0) {
       return true
     }
-
     return false
   }
 
@@ -1521,20 +1412,13 @@ class Tinygrail extends store {
    * 卖出
    */
   doAsk = async ({ monoId, price, amount }) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_ASK(monoId, price, amount),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const result = await this.fetch(
+      API_TINYGRAIL_ASK(monoId, price, amount),
+      true
+    )
     if (result.data.State === 0) {
       return true
     }
-
     return false
   }
 
@@ -1542,20 +1426,10 @@ class Tinygrail extends store {
    * 取消买入
    */
   doCancelBid = async ({ id }) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_CANCEL_BID(id),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const result = await this.fetch(API_TINYGRAIL_CANCEL_BID(id), true)
     if (result.data.State === 0) {
       return true
     }
-
     return false
   }
 
@@ -1563,20 +1437,10 @@ class Tinygrail extends store {
    * 取消卖出
    */
   doCancelAsk = async ({ id }) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_CANCEL_ASK(id),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const result = await this.fetch(API_TINYGRAIL_CANCEL_ASK(id), true)
     if (result.data.State === 0) {
       return true
     }
-
     return false
   }
 
@@ -1584,20 +1448,10 @@ class Tinygrail extends store {
    * 参与ICO
    */
   doJoin = async ({ id, amount }) => {
-    axios.defaults.withCredentials = false
-    const result = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_JOIN(id, amount),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const result = await this.fetch(API_TINYGRAIL_JOIN(id, amount), true)
     if (result.data.State === 0) {
       return true
     }
-
     return false
   }
 
@@ -1605,16 +1459,10 @@ class Tinygrail extends store {
    * 资产重组
    */
   doSacrifice = async ({ monoId, amount }) => {
-    axios.defaults.withCredentials = false
-    const { data } = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_SACRIFICE(monoId, amount),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const { data } = await this.fetch(
+      API_TINYGRAIL_SACRIFICE(monoId, amount),
+      true
+    )
     return data
   }
 
@@ -1622,16 +1470,10 @@ class Tinygrail extends store {
    * 拍卖
    */
   doAuction = async ({ monoId, price, amount }) => {
-    axios.defaults.withCredentials = false
-    const { data } = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_AUCTION(monoId, price, amount),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const { data } = await this.fetch(
+      API_TINYGRAIL_AUCTION(monoId, price, amount),
+      true
+    )
     return data
   }
 
@@ -1639,16 +1481,7 @@ class Tinygrail extends store {
    * 刮刮乐
    */
   doLottery = async () => {
-    axios.defaults.withCredentials = false
-    const { data } = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_SCRATCH(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const { data } = await this.fetch(API_TINYGRAIL_SCRATCH(), true)
     return data
   }
 
@@ -1656,16 +1489,7 @@ class Tinygrail extends store {
    * 每周分红
    */
   doBonus = async () => {
-    axios.defaults.withCredentials = false
-    const { data } = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_BONUS(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const { data } = await this.fetch(API_TINYGRAIL_BONUS(), true)
     return data
   }
 
@@ -1673,16 +1497,7 @@ class Tinygrail extends store {
    * 每日签到
    */
   doBonusDaily = async () => {
-    axios.defaults.withCredentials = false
-    const { data } = await axios({
-      method: 'post',
-      url: API_TINYGRAIL_BONUS_DAILY(),
-      responseType: 'json',
-      headers: {
-        cookie: this.cookie
-      }
-    })
-
+    const { data } = await this.fetch(API_TINYGRAIL_BONUS_DAILY(), true)
     return data
   }
 }
