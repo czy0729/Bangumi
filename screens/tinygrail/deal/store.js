@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 17:41:53
+ * @Last Modified time: 2019-12-14 03:15:56
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -11,6 +11,24 @@ import { queue } from '@utils/fetch'
 import { info } from '@utils/ui'
 
 const defaultType = 'bid'
+
+/**
+ * 交易拆单避税
+ * @param {*} amount
+ */
+function splitAmount(amount) {
+  let _amount = amount
+  const splitAmounts = []
+  const len = Math.ceil(_amount / 500)
+  for (let i = 0; i < len; i += 1) {
+    const rest = _amount - 500
+    if (rest >= 100) splitAmounts.push(500)
+    else if (i < len - 1) splitAmounts.push(_amount - 100)
+    else splitAmounts.push(_amount)
+    _amount -= splitAmounts[i]
+  }
+  return splitAmounts
+}
 
 export default class ScreenTinygrailDeal extends store {
   state = observable({
@@ -108,11 +126,20 @@ export default class ScreenTinygrailDeal extends store {
     this.setState({
       loading: true
     })
-    const result = await tinygrailStore[this.isBid ? 'doBid' : 'doAsk']({
-      monoId: this.monoId,
-      price: value,
-      amount
-    })
+
+    // 拆单
+    const splits = splitAmount(amount)
+    let result
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item of splits) {
+      // eslint-disable-next-line no-await-in-loop
+      result = await tinygrailStore[this.isBid ? 'doBid' : 'doAsk']({
+        monoId: this.monoId,
+        price: value,
+        amount: item
+      })
+    }
 
     if (!result) {
       info('交易失败')
@@ -138,6 +165,31 @@ export default class ScreenTinygrailDeal extends store {
     ]({
       id
     })
+
+    if (!result) {
+      info('取消失败')
+      return
+    }
+
+    this.refresh()
+  }
+
+  /**
+   * 一键取消买卖挂单
+   */
+  doCancelAll = async type => {
+    const data = type === 'bid' ? this.userLogs.bids : this.userLogs.asks
+    let result
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item of data) {
+      // eslint-disable-next-line no-await-in-loop
+      result = await tinygrailStore[
+        type === 'bid' ? 'doCancelBid' : 'doCancelAsk'
+      ]({
+        id: item.id
+      })
+    }
 
     if (!result) {
       info('取消失败')

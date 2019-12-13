@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 17:14:32
+ * @Last Modified time: 2019-12-14 03:06:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,14 +82,14 @@ function Depth({ style }, { $ }) {
             })
             .reverse()
             .map((item, index) => {
+              const price = item.price.toFixed(1)
               const isMyOrder =
-                userAsks.findIndex(i => i.price === item.price) !== -1
+                userAsks.findIndex(i => price === i.price.toFixed(1)) !== -1
               const width =
                 ((asksAmount - filterCalculateAsks - calculateAsks) /
                   (asksAmount + filterCalculateAsks)) *
                 100
               calculateAsks += item.amount
-
               return (
                 <Touchable
                   key={index}
@@ -133,7 +133,7 @@ function Depth({ style }, { $ }) {
               }}
               size={10}
             >
-              发行价 {$.issuePrice}
+              发行价{$.issuePrice.toFixed(1)}
             </Text>
           )}
         </Flex>
@@ -141,8 +141,9 @@ function Depth({ style }, { $ }) {
           {bids
             .filter((item, index) => index < 5)
             .map((item, index) => {
+              const price = item.price.toFixed(1)
               const isMyOrder =
-                userBids.findIndex(i => i.price === item.price) !== -1
+                userBids.findIndex(i => price === i.price.toFixed(1)) !== -1
               calculateBids += item.amount
               return (
                 <Touchable

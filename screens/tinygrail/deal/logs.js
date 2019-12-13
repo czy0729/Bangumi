@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 18:30:20
+ * @Last Modified time: 2019-12-14 03:17:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,10 +18,26 @@ function Logs({ style }, { $ }) {
   return (
     <Flex style={[styles.container, style]} align='start'>
       <Flex.Item>
-        <Text style={styles.bid} size={16}>
-          买入委托
-        </Text>
-        {bids.length === 0 && <Text style={styles.text}>-</Text>}
+        <Flex
+          style={{
+            marginBottom: _.sm
+          }}
+        >
+          <Flex.Item>
+            <Text style={styles.bid} size={16}>
+              买入委托
+            </Text>
+          </Flex.Item>
+          {!!bids.length && (
+            <Touchable
+              style={[styles.cancel, _.ml.sm]}
+              onPress={() => $.doCancelAll('bid')}
+            >
+              <Iconfont name='close' size={12} color={_.colorTinygrailIcon} />
+            </Touchable>
+          )}
+        </Flex>
+        {!bids.length && <Text style={styles.text}>-</Text>}
         {bids
           .sort((a, b) => b.price - a.price)
           .map((item, index) => (
@@ -56,10 +72,22 @@ function Logs({ style }, { $ }) {
           ))}
       </Flex.Item>
       <Flex.Item style={_.ml.wind}>
-        <Text style={styles.ask} size={16}>
-          卖出委托
-        </Text>
-        {asks.length === 0 && <Text style={styles.text}>-</Text>}
+        <Flex>
+          <Flex.Item>
+            <Text style={styles.ask} size={16}>
+              卖出委托
+            </Text>
+          </Flex.Item>
+          {!!asks.length && (
+            <Touchable
+              style={[styles.cancel, _.ml.sm]}
+              onPress={() => $.doCancelAll('ask')}
+            >
+              <Iconfont name='close' size={12} color={_.colorTinygrailIcon} />
+            </Touchable>
+          )}
+        </Flex>
+        {!asks.length && <Text style={styles.text}>-</Text>}
         {asks
           .sort((a, b) => a.price - b.price)
           .map((item, index) => (
@@ -115,11 +143,9 @@ const memoStyles = _.memoStyles(_ => ({
     width: '100%'
   },
   bid: {
-    marginBottom: _.sm,
     color: _.colorBid
   },
   ask: {
-    marginBottom: _.sm,
     color: _.colorAsk
   },
   cancel: {

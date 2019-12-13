@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 16:22:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 18:24:01
+ * @Last Modified time: 2019-12-14 02:46:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -33,7 +33,8 @@ export default observer(Form)
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: _.sm,
+    paddingTop: _.sm,
+    paddingBottom: _.md - 4,
     paddingLeft: _.wind
   }
 })
