@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 15:40:03
+ * @Last Modified time: 2019-12-13 23:27:28
  */
 
 /**
@@ -32,7 +32,12 @@ export function fill(str, len = 32) {
  * @param {Any}    value 消息值
  */
 export function log(type = '', key = '', value = '', ...other) {
-  const res = [type]
+  const now = new Date()
+  const h = now.getHours()
+  const m = now.getMinutes()
+  const s = now.getSeconds()
+  const res = [`${h}:${m}:${s}`, type]
+
   if (key) {
     res.push('\n', key)
   }

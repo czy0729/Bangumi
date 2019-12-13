@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 16:47:04
+ * @Last Modified time: 2019-12-13 23:17:18
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -1353,6 +1353,11 @@ class Tinygrail extends store {
    * 角色发行价
    */
   fetchIssuePrice = async (id = 0) => {
+    // 发行价一旦有数据就不会改变, 不需要再请求
+    if (this.issuePrice[id]) {
+      return this.issuePrice[id]
+    }
+
     const result = await this.fetch(API_TINYGRAIL_ISSUE_PRICE(id))
     let data = 0
     if (result.data.State === 0) {

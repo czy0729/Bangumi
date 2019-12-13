@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:45:24
+ * @Last Modified time: 2019-12-13 22:54:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,10 @@ function AuctionList({ style }, { $, navigation }) {
         .map(item => {
           const isSuccess = item.state === 1
           return (
-            <Flex key={item.name} style={styles.item}>
+            <Flex
+              key={`${item.time}|${item.price}|${item.amount}`}
+              style={styles.item}
+            >
               <Text
                 style={{
                   width: 96,

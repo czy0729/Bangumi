@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-12 19:27:16
+ * @Last Modified time: 2019-12-13 22:11:54
  */
 import { Platform } from 'react-native'
 
 /* ==================== EDIT ==================== */
 export const DEV = true // 是否开发模式
 export const BARE = true // 裸工作流
-export const GITHUB_RELEASE_VERSION = '2.0.2' // 版本号
+export const GITHUB_RELEASE_VERSION = '2.0.9' // 版本号
 export const CODE_PUSH_VERSION = '' // 热推送副版本号
 
 /* ==================== BASE ==================== */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:45:30
+ * @Last Modified time: 2019-12-13 23:30:48
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -90,8 +90,8 @@ function Info(props, { $, navigation }) {
             color: _.colorTinygrailText
           }}
         >
-          市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} / ₵
-          {current && current.toFixed(2)}
+          市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} /
+          发行价{$.issuePrice.toFixed(1)} / ₵{current && current.toFixed(2)}
         </Text>
         <Text
           style={[

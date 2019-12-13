@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 03:18:10
+ * @Last Modified time: 2019-12-13 22:30:39
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -66,7 +66,7 @@ class ToggleImage extends React.Component {
             onPress={this.toggleShow}
           >
             <Flex style={this.styles.closeImage} justify='center'>
-              <Iconfont size={12} name='close' color={_.colorPlain} />
+              <Iconfont size={12} name='close' color={_.__colorPlain__} />
             </Flex>
           </Touchable>
         )}

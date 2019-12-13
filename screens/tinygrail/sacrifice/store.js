@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 14:00:43
+ * @Last Modified time: 2019-12-13 23:28:48
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { setStorage, getTimestamp, formatNumber } from '@utils'
 import store from '@utils/store'
+import { queue } from '@utils/fetch'
 import { info } from '@utils/ui'
 
 const namespace = 'ScreenTinygrailSacrifice'
@@ -43,20 +44,18 @@ export default class ScreenTinygrailSacrifice extends store {
       lastAuction
     })
 
-    const res = this.refresh()
-    await res
-
-    this.fetchValhallChara()
-    tinygrailStore.fetchAuctionList(this.monoId) // 上周拍卖信息
-    return res
+    return this.refresh()
   }
 
   refresh = () =>
-    Promise.all([
-      tinygrailStore.fetchCharacters([this.monoId]), // 角色小圣杯信息
-      tinygrailStore.fetchUserLogs(this.monoId), // 本角色我的交易信息
-      tinygrailStore.fetchCharaTemple(this.monoId), // 固定资产
-      tinygrailStore.fetchAssets() // 自己的资产
+    queue([
+      () => tinygrailStore.fetchCharacters([this.monoId]), // 角色小圣杯信息
+      () => tinygrailStore.fetchUserLogs(this.monoId), // 本角色我的交易信息
+      () => tinygrailStore.fetchCharaTemple(this.monoId), // 固定资产
+      () => tinygrailStore.fetchAssets(), // 自己的资产
+      () => tinygrailStore.fetchIssuePrice(this.monoId),
+      () => this.fetchValhallChara(),
+      () => tinygrailStore.fetchAuctionList(this.monoId) // 上周拍卖信息
     ])
 
   fetchValhallChara = async () => {
@@ -107,6 +106,10 @@ export default class ScreenTinygrailSacrifice extends store {
 
   @computed get auctionList() {
     return tinygrailStore.auctionList(this.monoId)
+  }
+
+  @computed get issuePrice() {
+    return tinygrailStore.issuePrice(this.monoId)
   }
 
   // -------------------- action --------------------

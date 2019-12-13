@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:09:31
+ * @Last Modified time: 2019-12-13 23:38:59
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -18,6 +18,21 @@ function Temples({ style }, { $ }) {
   const { rate } = $.chara
   const { list } = $.charaTemple
   const { amount } = $.userLogs
+
+  const levelMap = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0
+  }
+  list.forEach(item => {
+    const { level } = item
+    if (!levelMap[level]) {
+      levelMap[level] = 1
+    } else {
+      levelMap[level] += 1
+    }
+  })
   return (
     <View style={style}>
       <Flex style={styles.info}>
@@ -28,7 +43,10 @@ function Temples({ style }, { $ }) {
             }}
             size={14}
           >
-            固定资产 {list.length || '-'} /{' '}
+            固定资产{list.length || '-'}{' '}
+            {!!list.length &&
+              `(${levelMap[3]} + ${levelMap[2]} + ${levelMap[1]})`}{' '}
+            /{' '}
             <Text size={18} lineHeight={14} type='warning'>
               +{rate ? formatNumber(rate) : '-'}
             </Text>

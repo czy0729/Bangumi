@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 15:42:31
+ * @Last Modified time: 2019-12-13 22:50:05
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -284,14 +284,16 @@ class Image extends React.Component {
     }
 
     // 黑暗模式不显示border比较好看
-    if (border && !_.isDark) {
-      if (typeof border === 'string') {
-        _image.push({
-          borderWidth,
-          borderColor: border
-        })
-      } else {
-        _image.push(this.styles.border)
+    if (border) {
+      if (!_.isDark || (_.isDark && borderWidth !== _.hairlineWidth)) {
+        if (typeof border === 'string') {
+          _image.push({
+            borderWidth,
+            borderColor: border
+          })
+        } else {
+          _image.push(this.styles.border)
+        }
       }
     }
 
