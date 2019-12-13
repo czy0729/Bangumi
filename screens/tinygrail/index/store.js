@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 23:11:40
+ * @Last Modified time: 2019-12-13 12:17:37
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -206,9 +206,6 @@ export default class ScreenTinygrail extends store {
         )}`,
         [
           {
-            text: '取消'
-          },
-          {
             text: '确定'
           }
         ]
@@ -239,7 +236,8 @@ export default class ScreenTinygrail extends store {
       if (State === 0) {
         Alert.alert('操作成功', `${Value}，前往持仓查看吗`, [
           {
-            text: '取消'
+            text: '取消',
+            style: 'cancel'
           },
           {
             text: '确定',

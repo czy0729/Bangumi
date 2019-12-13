@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:44:27
+ * @Last Modified time: 2019-12-13 12:09:31
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -61,7 +61,7 @@ function Temples({ style }, { $ }) {
           .filter((item, index) => (expand ? true : index < 6))
           .map(item => (
             <ItemTemple
-              key={item.id}
+              key={item.nickname}
               cover={item.cover}
               avatar={item.avatar}
               name={item.name}

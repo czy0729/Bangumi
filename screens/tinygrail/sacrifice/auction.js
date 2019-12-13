@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:39:30
+ * @Last Modified time: 2019-12-13 12:03:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Slider as AntdSlider } from '@ant-design/react-native'
-import { Flex, Input, Text, Button } from '@components'
+import { Flex, Input, Text, Button, Slider as CompSlider } from '@components'
 import { _ } from '@stores'
 import { formatNumber, lastDate } from '@utils'
 import { observer } from '@utils/decorators'
@@ -101,13 +100,13 @@ function Auction({ style }, { $ }) {
       </Text>
       <Flex style={[styles.slider, _.mt.sm]}>
         <View style={{ width: '100%' }}>
-          <AntdSlider
+          <CompSlider
             value={auctionAmount}
             min={0}
             max={parseInt(balance / Math.max(auctionPrice, price || 1))}
             step={1}
-            maximumTrackTintColor={_.colorTinygrailBorder}
             minimumTrackTintColor={_.colorAsk}
+            maximumTrackTintColor={_.colorTinygrailBorder}
             onChange={value => $.changeAuctionAmount(value)}
           />
         </View>

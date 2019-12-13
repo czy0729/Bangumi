@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:48:44
+ * @Last Modified time: 2019-12-13 12:16:23
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -19,7 +19,7 @@ function Prefetch({ $, navigation }) {
     return (
       <Touchable
         onPress={() => {
-          Alert.alert('取消预读取', '确定取消?', [
+          Alert.alert('提示', '确定取消预读取?', [
             {
               text: '取消',
               style: 'cancel'

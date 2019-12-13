@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:42:05
+ * @Last Modified time: 2019-12-13 12:17:45
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
-import { Slider as AntdSlider } from '@ant-design/react-native'
 import PropTypes from 'prop-types'
-import { Flex, Input, Text, Button } from '@components'
+import { Flex, Input, Text, Button, Slider as CompSlider } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
@@ -53,7 +52,8 @@ function Slider({ style }, { $ }) {
 
               Alert.alert('小圣杯助手', `确定献祭 ${amount}股?`, [
                 {
-                  text: '取消'
+                  text: '取消',
+                  style: 'cancel'
                 },
                 {
                   text: '确定',
@@ -71,13 +71,13 @@ function Slider({ style }, { $ }) {
       </Text>
       <Flex style={[styles.slider, _.mt.sm]}>
         <View style={{ width: '100%' }}>
-          <AntdSlider
+          <CompSlider
             value={amount}
+            step={1}
             min={0}
             max={parseInt(userAmount)}
-            step={1}
-            maximumTrackTintColor={_.colorTinygrailBorder}
             minimumTrackTintColor={_.colorAsk}
+            maximumTrackTintColor={_.colorTinygrailBorder}
             onChange={value => $.changeAmount(value)}
           />
         </View>

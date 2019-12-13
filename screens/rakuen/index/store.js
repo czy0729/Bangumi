@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 22:05:04
+ * @Last Modified time: 2019-12-13 12:16:46
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -409,7 +409,7 @@ export default class ScreenRakuen extends store {
     }
 
     Alert.alert(
-      '预读取未读帖子(实验性)',
+      '预读取未读帖子',
       `当前 (${ids.length}) 个未读帖子, 1次操作最多预读前40个, 建议在WIFI下进行, 确定?`,
       [
         {

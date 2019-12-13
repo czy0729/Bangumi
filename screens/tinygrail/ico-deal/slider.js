@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 18:05:48
+ * @Last Modified time: 2019-12-13 12:03:16
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Slider as AntdSlider } from '@ant-design/react-native'
 import PropTypes from 'prop-types'
-import { Flex, Input, Text, Button } from '@components'
+import { Flex, Input, Text, Button, Slider as CompSlider } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
@@ -50,13 +49,13 @@ function Slider({ style }, { $ }) {
       </Text>
       <Flex style={[styles.slider, _.mt.sm]}>
         <View style={{ width: '100%' }}>
-          <AntdSlider
+          <CompSlider
             value={amount}
             min={1000}
             max={balance < 1000 ? 1000 : parseInt(balance)}
             step={100}
-            maximumTrackTintColor={_.colorTinygrailBorder}
             minimumTrackTintColor={_.colorBid}
+            maximumTrackTintColor={_.colorTinygrailBorder}
             onChange={value => $.changeAmount(value < 1000 ? 1000 : value)}
           />
         </View>

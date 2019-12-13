@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 15:00:46
+ * @Last Modified time: 2019-12-13 12:17:17
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -73,7 +73,8 @@ function Auth(props, { $, navigation }) {
                 case '刮刮乐':
                   Alert.alert('小圣杯助手', '消费₵1000购买一张刮刮乐彩票?', [
                     {
-                      text: '取消'
+                      text: '取消',
+                      style: 'cancel'
                     },
                     {
                       text: '确定',
@@ -87,7 +88,8 @@ function Auth(props, { $, navigation }) {
                     '领取每周分红后，将不能再领取每日奖励，确定? (每周日0点刷新)',
                     [
                       {
-                        text: '取消'
+                        text: '取消',
+                        style: 'cancel'
                       },
                       {
                         text: '确定',
@@ -102,7 +104,8 @@ function Auth(props, { $, navigation }) {
                     '领取每日签到后，将不能再领取每周分红，暂每天₵1500，确定?',
                     [
                       {
-                        text: '取消'
+                        text: '取消',
+                        style: 'cancel'
                       },
                       {
                         text: '确定',
