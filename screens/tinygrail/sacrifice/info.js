@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 23:30:48
+ * @Last Modified time: 2019-12-14 11:55:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge } from '@utils/app'
 
-const maxSize = _.window.width / 2
+const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }) {
   const {
@@ -91,7 +91,7 @@ function Info(props, { $, navigation }) {
           }}
         >
           市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} /
-          发行价{$.issuePrice.toFixed(1)} / ₵{current && current.toFixed(2)}
+          发行价 ₵{$.issuePrice.toFixed(1)} / ₵{current && current.toFixed(2)}
         </Text>
         <Text
           style={[

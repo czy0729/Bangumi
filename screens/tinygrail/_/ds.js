@@ -2,10 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-11-23 03:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-23 23:10:09
+ * @Last Modified time: 2019-12-14 14:21:11
  */
-export const SAY_ID = '19820034' // 意见反馈入口
-
 export const VALHALL_PRICE = {
   1: 21.4,
   5: 68.2,

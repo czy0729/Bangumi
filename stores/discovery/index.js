@@ -9,7 +9,7 @@ import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
-import { LIST_EMPTY, NING_MOE_HOST, ANITAMA_HOST } from '@constants'
+import { LIST_EMPTY, HOST_NING_MOE, HOST_ANITAMA } from '@constants'
 import { HTML_TAGS } from '@constants/html'
 import {
   NAMESPACE,
@@ -77,7 +77,7 @@ class Discovery extends store {
   fetchRandom = async refresh => {
     try {
       const { list, pagination } = this.random
-      const data = await fetch(`${NING_MOE_HOST}/api/get_random_bangumi`, {
+      const data = await fetch(`${HOST_NING_MOE}/api/get_random_bangumi`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -127,7 +127,7 @@ class Discovery extends store {
    */
   fetchNingMoeDetailBySearch = async ({ keyword }) => {
     try {
-      const data = await fetch(`${NING_MOE_HOST}/api/search`, {
+      const data = await fetch(`${HOST_NING_MOE}/api/search`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -173,7 +173,7 @@ class Discovery extends store {
    */
   fetchNingMoeDetail = async ({ id, bgmId }) => {
     try {
-      const data = await fetch(`${NING_MOE_HOST}/api/get_bangumi`, {
+      const data = await fetch(`${HOST_NING_MOE}/api/get_bangumi`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -216,7 +216,7 @@ class Discovery extends store {
    */
   fetchNingMoeRealYunUrl = async ({ url }) => {
     try {
-      const data = await fetch(`${NING_MOE_HOST}/api/get_real_yun_url`, {
+      const data = await fetch(`${HOST_NING_MOE}/api/get_real_yun_url`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -241,7 +241,7 @@ class Discovery extends store {
    * Anitama文章列表
    */
   fetchAnitamaTimeline = async (page = 1) => {
-    const data = await fetch(`${ANITAMA_HOST}/timeline?pageNo=${page}`).then(
+    const data = await fetch(`${HOST_ANITAMA}/timeline?pageNo=${page}`).then(
       response => response.json()
     )
 

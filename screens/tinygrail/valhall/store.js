@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 22:12:21
+ * @Last Modified time: 2019-12-14 12:38:35
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -28,7 +28,6 @@ export default class ScreenTinygrailValhall extends store {
     })
 
     this.fetchValhallList()
-
     return res
   }
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 03:06:34
+ * @Last Modified time: 2019-12-14 11:55:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -133,7 +133,7 @@ function Depth({ style }, { $ }) {
               }}
               size={10}
             >
-              发行价{$.issuePrice.toFixed(1)}
+              发行价 ₵{$.issuePrice.toFixed(1)}
             </Text>
           )}
         </Flex>

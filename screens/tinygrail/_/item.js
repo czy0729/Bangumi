@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 15:14:00
+ * @Last Modified time: 2019-12-14 12:02:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -93,7 +93,9 @@ function Item(props, { navigation }) {
   if (isICO) {
     extra = `${formatTime(_end)} / 已筹集${totalText || '-'}`
   } else {
-    extra = lastDate(getTimestamp(fixedTime(lastOrder)))
+    extra = `${lastDate(getTimestamp(fixedTime(lastOrder)))} / +${parseFloat(
+      rate.toFixed(2)
+    )}`
     if (isValhall) {
       extra += ` / 底价${parseFloat(price.toFixed(1))} / 数量${formatNumber(
         state,
@@ -179,26 +181,14 @@ function Item(props, { navigation }) {
                     style={{
                       color: _.colorTinygrailPlain
                     }}
-                    size={16}
+                    size={15}
                   >
                     {!isDeal && `${_index}. `}
                     {name}
                     {!!bonus && (
-                      <Text size={12} lineHeight={16} type='warning'>
+                      <Text size={12} lineHeight={15} type='warning'>
                         {' '}
                         X{bonus}
-                      </Text>
-                    )}
-                    {!!rate && (
-                      <Text
-                        style={{
-                          color: _.colorTinygrailText
-                        }}
-                        size={12}
-                        lineHeight={16}
-                      >
-                        {' '}
-                        +{parseFloat(rate.toFixed(2))}
                       </Text>
                     )}
                   </Text>

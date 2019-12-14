@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:17:17
+ * @Last Modified time: 2019-12-14 17:19:30
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -66,7 +66,7 @@ function Auth(props, { $, navigation }) {
           授权
         </Button>
         <Popover
-          data={['刮刮乐', '每周分红', '每日签到']}
+          data={['刮刮乐', '每周分红', '每日签到', '设置']}
           onSelect={title => {
             setTimeout(() => {
               switch (title) {
@@ -113,6 +113,9 @@ function Auth(props, { $, navigation }) {
                       }
                     ]
                   )
+                  break
+                case '设置':
+                  navigation.push('Setting')
                   break
                 default:
                   break

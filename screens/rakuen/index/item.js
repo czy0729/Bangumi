@@ -14,7 +14,7 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
-import { HOST, IMG_DEFAULT_AVATAR, TOPIC_PUSH_LIMIT } from '@constants'
+import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 
 const adRepliesCount = 4 // 回复数少于的数字, 判断为广告姬
 const oldGroupId = 346568 // 少于这个数字的, 为坟贴
@@ -131,7 +131,7 @@ class Item extends React.Component {
 
     // 帖子点击
     const onPress = () => {
-      if (this.replyCount > TOPIC_PUSH_LIMIT) {
+      if (this.replyCount > LIMIT_TOPIC_PUSH) {
         info('该帖评论多, 自动使用浏览器打开')
         setTimeout(() => {
           open(`${HOST}${href}`)

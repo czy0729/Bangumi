@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:53:21
+ * @Last Modified time: 2019-12-14 11:54:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -51,7 +51,7 @@ function ItemTemple(
             <Avatar
               style={_.mr.sm}
               navigation={navigation}
-              size={24}
+              size={28}
               src={avatar}
               userId={name}
               borderColor='transparent'

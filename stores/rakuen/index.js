@@ -9,7 +9,7 @@ import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
-import { HOST, LIST_EMPTY, LIST_LIMIT } from '@constants'
+import { HOST, LIST_EMPTY, LIMIT_LIST } from '@constants'
 import {
   HTML_NOTIFY,
   HTML_TOPIC,
@@ -22,7 +22,7 @@ import {
   NAMESPACE,
   DEFAULT_SCOPE,
   DEFAULT_TYPE,
-  // LIST_COMMENTS_LIMIT,
+  // LIMIT_LIST_COMMENTS,
   INIT_READED_ITEM,
   INIT_TOPIC,
   INIT_NOTIFY,
@@ -215,10 +215,10 @@ class Rakuen extends store {
       this.setState({
         [key]: {
           [stateKey]: {
-            list: rakuen.slice(0, LIST_LIMIT),
+            list: rakuen.slice(0, LIMIT_LIST),
             pagination: {
               page: 1,
-              pageTotal: Math.ceil(rakuen.length / LIST_LIMIT)
+              pageTotal: Math.ceil(rakuen.length / LIMIT_LIST)
             },
             _list: rakuen,
             _loaded: getTimestamp()
@@ -233,7 +233,7 @@ class Rakuen extends store {
         [key]: {
           [stateKey]: {
             ...rakuen,
-            list: rakuen._list.slice(0, LIST_LIMIT * page),
+            list: rakuen._list.slice(0, LIMIT_LIST * page),
             pagination: {
               ...rakuen.pagination,
               page

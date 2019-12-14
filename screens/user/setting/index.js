@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 18:11:47
+ * @Last Modified time: 2019-12-14 17:12:04
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -18,10 +18,11 @@ import {
   FEEDBACK_URL,
   GITHUB_URL,
   GITHUB_RELEASE_URL,
-  GITHUB_RELEASE_VERSION,
-  CODE_PUSH_VERSION,
+  VERSION_GITHUB_RELEASE,
+  VERSION_CODE_PUSH,
   USERID_TOURIST,
-  USERID_IOS_AUTH
+  USERID_IOS_AUTH,
+  SAY_DEVELOP_ID
 } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 
@@ -43,7 +44,6 @@ class Setting extends React.Component {
   }
 
   componentDidMount() {
-    this.setParams()
     this.caculateStorageSize()
 
     hm('settings', 'Setting')
@@ -70,29 +70,6 @@ class Setting extends React.Component {
     setTimeout(() => {
       this.caculateStorageSize()
     }, 2400)
-  }
-
-  setParams = () => {
-    if (this.showQiafan) {
-      const { navigation } = this.props
-      navigation.setParams({
-        popover: {
-          data: ['恰饭'],
-          onSelect: key => {
-            switch (key) {
-              case '恰饭':
-                navigation.push('Qiafan')
-                break
-              case '开发模式':
-                this.toggleDev()
-                break
-              default:
-                break
-            }
-          }
-        }
-      })
-    }
   }
 
   setQuality = label => {
@@ -138,53 +115,62 @@ class Setting extends React.Component {
     return true
   }
 
-  render() {
-    const { navigation } = this.props
-    const { storageSize } = this.state
-    const {
-      quality,
-      cnFirst,
-      autoFetch,
-      speech,
-      tinygrail,
-      avatarRound,
-      heatMap
-    } = systemStore.setting
-    const { name } = systemStore.release
-    const hasNewVersion = name !== GITHUB_RELEASE_VERSION
-    let version = GITHUB_RELEASE_VERSION
-    if (CODE_PUSH_VERSION) {
-      version += ` (${CODE_PUSH_VERSION})`
-    }
+  renderModule() {
+    const { tinygrail } = systemStore.setting
     return (
-      <ScrollView
-        style={_.container.screen}
-        contentContainerStyle={_.container.bottom}
-      >
+      <>
+        <Text style={[_.container.wind, _.mt.md]} type='sub'>
+          模块
+        </Text>
+        <ItemSetting
+          style={_.mt.sm}
+          hd='黑暗模式'
+          ft={<Switch checked={_.isDark} onChange={() => _.toggleMode()} />}
+          withoutFeedback
+          information='首页点击头部Bangumi的Logo也可以快速切换主题'
+        />
+        <ItemSetting
+          border
+          hd='小圣杯'
+          ft={
+            <Switch
+              checked={tinygrail}
+              onChange={systemStore.switchTinygrail}
+            />
+          }
+          withoutFeedback
+        />
+        {tinygrail && (
+          <ItemSetting
+            border
+            hd='小圣杯主题色'
+            ft={
+              <Popover
+                data={['绿涨红跌', '红涨绿跌']}
+                onSelect={_.toggleTinygrailMode}
+              >
+                <Text size={16} type='sub'>
+                  {_.isGreen ? '绿涨红跌' : '红涨绿跌'}
+                </Text>
+              </Popover>
+            }
+            arrow
+            highlight
+          />
+        )}
+      </>
+    )
+  }
+
+  renderBasic() {
+    const { quality, cnFirst, autoFetch } = systemStore.setting
+    return (
+      <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
           基本
         </Text>
         <ItemSetting
           style={_.mt.sm}
-          hd='黑暗模式'
-          ft={
-            <Switch
-              checked={_.isDark}
-              onChange={() => {
-                _.toggleMode()
-                if (!IOS) {
-                  setTimeout(() => {
-                    // 安卓需要刷新头
-                    this.setParams()
-                  }, 0)
-                }
-              }}
-            />
-          }
-          withoutFeedback
-        />
-        <ItemSetting
-          border
           hd='图片质量'
           ft={
             <Popover
@@ -205,10 +191,9 @@ class Setting extends React.Component {
           ft={<Switch checked={cnFirst} onChange={systemStore.switchCnFirst} />}
           withoutFeedback
         />
-
         <ItemSetting
           border
-          hd='优化请求量 (实验性)'
+          hd='优化请求量'
           ft={
             <Switch
               checked={!autoFetch}
@@ -216,29 +201,32 @@ class Setting extends React.Component {
             />
           }
           withoutFeedback
+          information='因维护成本大且效果不好, 即将废弃, 请勿开启'
         />
-        <ItemSetting
-          border
-          hd='小圣杯信息'
-          ft={
-            <Switch
-              checked={tinygrail}
-              onChange={systemStore.switchTinygrail}
-            />
-          }
-          withoutFeedback
-        />
+      </>
+    )
+  }
 
+  renderUI() {
+    const { iosMenu, avatarRound, heatMap, speech } = systemStore.setting
+    return (
+      <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
-          界面
+          UI
         </Text>
+        {!IOS && (
+          <ItemSetting
+            style={_.mt.sm}
+            hd='iOS风格菜单'
+            ft={
+              <Switch checked={iosMenu} onChange={systemStore.switchIOSMenu} />
+            }
+            withoutFeedback
+            information='模拟菜单, 非原生性能略弱, 但显示信息更多并且支持黑暗模式'
+          />
+        )}
         <ItemSetting
-          style={_.mt.sm}
-          hd='Bangumi娘话语'
-          ft={<Switch checked={speech} onChange={systemStore.switchSpeech} />}
-          withoutFeedback
-        />
-        <ItemSetting
+          style={IOS ? _.mt.sm : undefined}
           border
           hd='圆形头像'
           ft={
@@ -254,8 +242,28 @@ class Setting extends React.Component {
           hd='章节讨论热力图'
           ft={<Switch checked={heatMap} onChange={systemStore.switchHeatMap} />}
           withoutFeedback
+          information='章节按钮下方不同透明度的橙色条块, 可以快速了解到哪些章节讨论比较激烈'
         />
+        <ItemSetting
+          border
+          hd='Bangumi娘话语'
+          ft={<Switch checked={speech} onChange={systemStore.switchSpeech} />}
+          withoutFeedback
+        />
+      </>
+    )
+  }
 
+  renderContact() {
+    const { navigation } = this.props
+    const { name } = systemStore.release
+    const hasNewVersion = name !== VERSION_GITHUB_RELEASE
+    let version = VERSION_GITHUB_RELEASE
+    if (VERSION_CODE_PUSH) {
+      version += ` (${VERSION_CODE_PUSH})`
+    }
+    return (
+      <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
           联系
         </Text>
@@ -280,27 +288,52 @@ class Setting extends React.Component {
         />
         <ItemSetting
           border
-          hd='问题反馈'
+          hd='功能需求反馈'
+          arrow
+          highlight
+          onPress={() =>
+            navigation.push('Say', {
+              id: SAY_DEVELOP_ID
+            })
+          }
+        />
+        <ItemSetting
+          border
+          hd='项目帖子'
           arrow
           highlight
           onPress={() => appNavigate(FEEDBACK_URL, navigation)}
         />
-
         <ItemSetting
           border
           hd='项目地址'
-          ft='喜欢的话求个Star'
+          ft='求个星星'
           arrow
           highlight
           onPress={() => appNavigate(GITHUB_URL)}
         />
+        <ItemSetting
+          border
+          hd='🍚'
+          arrow
+          highlight
+          onPress={() => navigation.push('Qiafan')}
+        />
+      </>
+    )
+  }
 
+  renderSystem() {
+    const { navigation } = this.props
+    const { storageSize } = this.state
+    return (
+      <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
-          其他
+          系统
         </Text>
         <ItemSetting
           style={_.mt.sm}
-          hd='清除缓存'
+          hd='清除数据缓存'
           ft={
             <Text size={16} type='sub'>
               {storageSize}
@@ -321,6 +354,21 @@ class Setting extends React.Component {
           highlight
           onPress={() => Stores.logout(navigation)}
         />
+      </>
+    )
+  }
+
+  render() {
+    return (
+      <ScrollView
+        style={_.container.screen}
+        contentContainerStyle={_.container.bottom}
+      >
+        {this.renderModule()}
+        {this.renderBasic()}
+        {this.renderUI()}
+        {this.renderContact()}
+        {this.renderSystem()}
       </ScrollView>
     )
   }

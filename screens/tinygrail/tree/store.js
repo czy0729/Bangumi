@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 20:32:46
+ * @Last Modified time: 2019-12-14 12:45:44
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -42,19 +42,19 @@ export default class ScreenTinygrailTree extends store {
       filterItems: []
     })
 
-    if (!this.charaAssets.length) {
-      this.setState({
-        loading: true
-      })
-      await this.refresh()
+    if (this.charaAssets.length) {
       this.generateTreeMap()
-
-      this.setState({
-        loading: false
-      })
-    } else {
-      this.generateTreeMap()
+      return
     }
+
+    this.setState({
+      loading: true
+    })
+    await this.refresh()
+    this.generateTreeMap()
+    this.setState({
+      loading: false
+    })
   }
 
   // -------------------- fetch --------------------

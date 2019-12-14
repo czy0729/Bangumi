@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:03:17
+ * @Last Modified time: 2019-12-14 17:14:51
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -64,7 +64,11 @@ class KLine extends React.Component {
             useWebKit
             originWhitelist={['*']}
             source={{
-              html: html(JSON.stringify(getKData($.kline.data, distance))),
+              html: html(
+                JSON.stringify(getKData($.kline.data, distance)),
+                _.colorBid,
+                _.colorAsk
+              ),
               baseUrl: 'https://cdn.jsdelivr.net'
             }}
             bounces={false}

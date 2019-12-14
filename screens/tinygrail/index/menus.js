@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 14:53:42
+ * @Last Modified time: 2019-12-14 14:21:04
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { SAY_ID } from '../_/ds'
+import { SAY_TINYGRAIL_ID } from '@constants'
 import MenuItem from './menu-item'
 import Assets from './assets'
 
@@ -76,7 +76,7 @@ function Menus(props, { $ }) {
         title='意见反馈'
         pathname='Say'
         config={{
-          id: SAY_ID
+          id: SAY_TINYGRAIL_ID
         }}
         icon='mail'
       />

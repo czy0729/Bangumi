@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-12 17:14:42
+ * @Last Modified time: 2019-12-14 17:10:02
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -13,6 +13,7 @@ import _ from '@styles'
 
 const NAMESPACE = 'Theme'
 const DEFAULT_MODE = 'light'
+const DEFAULT_TINYGRAIL_MODE = 'green' // green: 绿涨红跌 | red: 红涨绿跌
 const lightStyles = {
   colorMain: _.colorMain,
   colorPrimary: _.colorPrimary,
@@ -31,7 +32,12 @@ const lightStyles = {
   colorDesc: _.colorDesc,
   colorSub: _.colorSub,
   colorDisabled: _.colorDisabled,
-  colorIcon: _.colorIcon
+  colorIcon: _.colorIcon,
+
+  colorBid: _.colorBid,
+  colorDepthBid: _.colorDepthBid,
+  colorAsk: _.colorAsk,
+  colorDepthAsk: _.colorDepthAsk
 }
 const darkStyles = {
   colorMain: _._colorMain,
@@ -51,7 +57,12 @@ const darkStyles = {
   colorDesc: _._colorDesc,
   colorSub: _._colorSub,
   colorDisabled: _._colorDisabled,
-  colorIcon: _._colorIcon
+  colorIcon: _._colorIcon,
+
+  colorBid: _.colorBid,
+  colorDepthBid: _.colorDepthBid,
+  colorAsk: _.colorAsk,
+  colorDepthAsk: _.colorDepthAsk
 }
 
 /**
@@ -79,6 +90,7 @@ class Theme extends store {
 
   state = observable({
     mode: DEFAULT_MODE,
+    tinygrailMode: DEFAULT_TINYGRAIL_MODE,
     ...lightStyles
   })
 
@@ -88,6 +100,16 @@ class Theme extends store {
     if (mode !== DEFAULT_MODE) {
       this.toggleMode(mode)
     }
+
+    const tinygrailMode = await this.getStorage(
+      'tinygrailMode',
+      NAMESPACE,
+      DEFAULT_TINYGRAIL_MODE
+    )
+    this.setState({
+      tinygrailMode
+    })
+
     return res
   }
 
@@ -168,6 +190,28 @@ class Theme extends store {
     return this.state.colorIcon
   }
 
+  // -------------------- tinygrail --------------------
+  @computed get isGreen() {
+    const { tinygrailMode } = this.state
+    return tinygrailMode === DEFAULT_TINYGRAIL_MODE
+  }
+
+  @computed get colorBid() {
+    return this.isGreen ? this.state.colorBid : this.state.colorAsk
+  }
+
+  @computed get colorDepthBid() {
+    return this.isGreen ? this.state.colorDepthBid : this.state.colorDepthAsk
+  }
+
+  @computed get colorAsk() {
+    return this.isGreen ? this.state.colorAsk : this.state.colorBid
+  }
+
+  @computed get colorDepthAsk() {
+    return this.isGreen ? this.state.colorDepthAsk : this.state.colorDepthBid
+  }
+
   // -------------------- tool styles --------------------
   @computed get container() {
     return StyleSheet.create({
@@ -234,6 +278,18 @@ class Theme extends store {
     })
     this.setStorage(key, undefined, NAMESPACE)
     this.changeNavigationBarColor()
+  }
+
+  /**
+   * 切换小圣杯主题模式
+   */
+  toggleTinygrailMode = () => {
+    const { tinygrailMode } = this.state
+    const key = 'tinygrailMode'
+    this.setState({
+      [key]: tinygrailMode === 'green' ? 'red' : 'green'
+    })
+    this.setStorage(key, undefined, NAMESPACE)
   }
 
   /**

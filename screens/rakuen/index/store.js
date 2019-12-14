@@ -15,7 +15,7 @@ import { _, systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
 import { sleep } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
-import { TOPIC_PUSH_LIMIT } from '@constants'
+import { LIMIT_TOPIC_PUSH } from '@constants'
 import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE,
@@ -376,12 +376,12 @@ export default class ScreenRakuen extends store {
     const ids = []
     list.forEach(item => {
       try {
-        // 需要检查回复数是否小于TOPIC_PUSH_LIMIT
+        // 需要检查回复数是否小于LIMIT_TOPIC_PUSH
         // replies: (+1)
         const count = parseInt(
           String(item.replies || '0').replace(/\(\+|\)/g, '')
         )
-        if (count <= TOPIC_PUSH_LIMIT) {
+        if (count <= LIMIT_TOPIC_PUSH) {
           const id = String(item.href).replace('/rakuen/topic/', '')
           if (!topic[id]) {
             ids.push(id)

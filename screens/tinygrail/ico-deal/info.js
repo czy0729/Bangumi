@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-12 00:44:50
+ * @Last Modified time: 2019-12-14 11:55:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,7 @@ import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge, caculateICO } from '@utils/app'
 import Bar from './bar'
 
-const maxSize = _.window.width / 2
+const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }) {
   const { icon, id, name, total, end = '' } = $.chara
@@ -97,7 +97,7 @@ function Info(props, { $, navigation }) {
         ]}
         align='center'
       >
-        预计发行量 约{formatNumber(amount, 0)}股 / 发行价 {formatNumber(price)}
+        预计发行量 约{formatNumber(amount, 0)}股 / 发行价 ₵{formatNumber(price)}
       </Text>
       <Bar style={_.mt.md} total={total} level={level} next={next} />
     </View>

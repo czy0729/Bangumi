@@ -15,7 +15,7 @@ import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
 import { hm } from '@utils/fetch'
-import { IOS, NING_MOE_HOST } from '@constants'
+import { IOS, HOST_NING_MOE } from '@constants'
 import Header from './header'
 import Store from './store'
 
@@ -83,7 +83,7 @@ class Subject extends React.Component {
                 open(url)
                 break
               case '柠萌瞬间':
-                open(`${NING_MOE_HOST}/bangumi/${$.ningMoeDetail.id}/home`)
+                open(`${HOST_NING_MOE}/bangumi/${$.ningMoeDetail.id}/home`)
                 break
               default:
                 item = sites.find(item => item.site === key)

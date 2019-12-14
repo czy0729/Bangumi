@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 18:14:01
+ * @Last Modified time: 2019-12-14 15:31:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,15 @@ import Navigations from './navigations/index'
 useScreens()
 
 console.disableYellowBox = true
+if (!DEV) {
+  global.console = {
+    info: () => {},
+    log: () => {},
+    warn: () => {},
+    debug: () => {},
+    error: () => {}
+  }
+}
 
 /**
  * 能打印循环引用

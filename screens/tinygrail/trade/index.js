@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:04:01
+ * @Last Modified time: 2019-12-14 17:16:33
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -104,33 +104,33 @@ class TinygrailTrade extends React.Component {
     const { showMask, focus } = this.state
     return (
       <SafeAreaView
-        style={[_.container.flex, styles.dark]}
+        style={[_.container.flex, this.styles.dark]}
         forceInset={{ top: 'never' }}
       >
         <UM screen={title} />
         {this.renderFocus()}
         <StatusBarEvents />
-        <StatusBarPlaceholder style={styles.dark} />
+        <StatusBarPlaceholder style={this.styles.dark} />
         <Header goBack={this.goBack} />
         <Bar />
         <View style={_.container.flex}>
           <ScrollView
-            style={[_.container.flex, styles.dark]}
-            contentContainerStyle={styles.contentContainerStyle}
+            style={[_.container.flex, this.styles.dark]}
+            contentContainerStyle={this.styles.contentContainerStyle}
           >
-            <View style={styles.kline}>
+            <View style={this.styles.kline}>
               <KLine focus={focus} />
               {showMask && (
-                <Touchable style={styles.mask} onPress={this.hideMask} />
+                <Touchable style={this.styles.mask} onPress={this.hideMask} />
               )}
             </View>
             <DepthMap />
             <DepthList style={_.mt.md} />
           </ScrollView>
-          <Flex style={styles.fixed}>
+          <Flex style={this.styles.fixed}>
             <Flex.Item>
               <Button
-                style={styles.btnBid}
+                style={this.styles.btnBid}
                 type='main'
                 onPress={() => this.jump('bid')}
               >
@@ -139,7 +139,7 @@ class TinygrailTrade extends React.Component {
             </Flex.Item>
             <Flex.Item style={_.ml.sm}>
               <Button
-                style={styles.btnAsk}
+                style={this.styles.btnAsk}
                 type='main'
                 onPress={() => this.jump('ask')}
               >
@@ -151,9 +151,13 @@ class TinygrailTrade extends React.Component {
       </SafeAreaView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   dark: {
     backgroundColor: _.colorTinygrailContainer
   },
@@ -185,4 +189,4 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 0
   }
-})
+}))

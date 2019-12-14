@@ -14,7 +14,7 @@ import {
   APP_ID,
   HOST_NAME,
   HOST,
-  GITHUB_RELEASE_VERSION,
+  VERSION_GITHUB_RELEASE,
   DEV
 } from '@constants'
 import fetch from './thirdParty/fetch-polyfill'
@@ -313,7 +313,7 @@ export async function hm(url, screen) {
     if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
     let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
-    u += `${u.includes('?') ? '&' : '?'}v=${GITHUB_RELEASE_VERSION}`
+    u += `${u.includes('?') ? '&' : '?'}v=${VERSION_GITHUB_RELEASE}`
     u += `${require('../stores/theme').default.isDark ? '&dark=1' : ''}`
     u += `${screen ? `&s=${screen}` : ''}`
     fetch(

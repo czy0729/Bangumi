@@ -7,7 +7,7 @@
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
 export const NAMESPACE = 'Rakuen'
-export const LIST_COMMENTS_LIMIT = 20
+export const LIMIT_LIST_COMMENTS = 20
 
 // -------------------- default --------------------
 export const DEFAULT_SCOPE = MODEL_RAKUEN_SCOPE.getValue('全局聚合')

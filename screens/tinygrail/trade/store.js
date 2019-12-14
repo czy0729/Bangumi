@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 21:02:47
+ * @Last Modified time: 2019-12-14 12:35:38
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { queue } from '@utils/fetch'
 
 export const m1 = 60 * 1000
 export const m5 = m1 * 5
@@ -35,9 +36,11 @@ export default class ScreenTinygrailTrade extends store {
       _loaded: true
     })
 
-    this.fetchChara()
-    this.fetchKline()
-    this.fetchDepth()
+    queue([
+      () => this.fetchChara(),
+      () => this.fetchKline(),
+      () => this.fetchDepth()
+    ])
   }
 
   fetchChara = () => tinygrailStore.fetchCharacters([this.monoId])

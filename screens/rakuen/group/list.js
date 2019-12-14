@@ -13,7 +13,7 @@ import { open } from '@utils'
 import { appNavigate } from '@utils/app'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { HOST, TOPIC_PUSH_LIMIT } from '@constants'
+import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 
 function List({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -51,7 +51,7 @@ function List({ style }, { $, navigation }) {
             style={[styles.item, isReaded && styles.readed]}
             highlight
             onPress={() => {
-              if (replies > TOPIC_PUSH_LIMIT) {
+              if (replies > LIMIT_TOPIC_PUSH) {
                 info('该帖评论多, 自动使用浏览器打开')
                 setTimeout(() => {
                   open(`${HOST}${href}`)

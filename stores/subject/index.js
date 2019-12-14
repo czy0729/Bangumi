@@ -6,7 +6,7 @@
  * @Last Modified time: 2019-09-29 11:21:07
  */
 import { observable, computed } from 'mobx'
-import { LIST_EMPTY, LIST_COMMENTS_LIMIT } from '@constants'
+import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_EP } from '@constants/html'
 import { getTimestamp } from '@utils'
@@ -382,10 +382,10 @@ class Subject extends store {
       this.setState({
         [commentsKey]: {
           [stateKey]: {
-            list: monoComments.slice(0, LIST_COMMENTS_LIMIT),
+            list: monoComments.slice(0, LIMIT_LIST_COMMENTS),
             pagination: {
               page: 1,
-              pageTotal: Math.ceil(monoComments.length / LIST_COMMENTS_LIMIT)
+              pageTotal: Math.ceil(monoComments.length / LIMIT_LIST_COMMENTS)
             },
             _list: monoComments,
             _loaded
@@ -401,7 +401,7 @@ class Subject extends store {
         [commentsKey]: {
           [stateKey]: {
             ...monoComments,
-            list: monoComments._list.slice(0, LIST_COMMENTS_LIMIT * page),
+            list: monoComments._list.slice(0, LIMIT_LIST_COMMENTS * page),
             pagination: {
               ...monoComments.pagination,
               page

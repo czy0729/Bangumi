@@ -19,7 +19,7 @@ import { xhrCustom, queue } from '@utils/fetch'
 import { appNavigate, getBangumiUrl } from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
-import { IOS, USERID_TOURIST, USERID_IOS_AUTH, NING_MOE_HOST } from '@constants'
+import { IOS, USERID_TOURIST, USERID_IOS_AUTH, HOST_NING_MOE } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 
 const namespace = 'ScreenSubject'
@@ -377,9 +377,9 @@ export default class ScreenSubject extends store {
           if (this.onlinePlayActionSheetData[index] === '柠萌瞬间') {
             // @notice 像一拳超人第二季这种 要处理EP偏移
             if (isSp) {
-              url = `${NING_MOE_HOST}/detail?line=1&eps=1&bangumi_id=${this.ningMoeDetail.id}`
+              url = `${HOST_NING_MOE}/detail?line=1&eps=1&bangumi_id=${this.ningMoeDetail.id}`
             } else {
-              url = `${NING_MOE_HOST}/detail?line=1&eps=${item.sort -
+              url = `${HOST_NING_MOE}/detail?line=1&eps=${item.sort -
                 this.ningMoeEpOffset}&bangumi_id=${this.ningMoeDetail.id}`
             }
           } else {

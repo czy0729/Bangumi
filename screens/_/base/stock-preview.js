@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 15:37:23
+ * @Last Modified time: 2019-12-14 12:09:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -169,11 +169,11 @@ class StockPreview extends React.Component {
       fluctuationText = `${fluctuation.toFixed(2)}%`
     }
 
-    let fluctuationSize = 13
+    let fluctuationSize = 12
     if (fluctuationText.length > 8) {
       fluctuationSize = 10
     } else if (fluctuationText.length > 7) {
-      fluctuationSize = 12
+      fluctuationSize = 11
     }
 
     const hasNoChanged = (showDetail ? realChange : fluctuationText) === '-%'
@@ -195,19 +195,7 @@ class StockPreview extends React.Component {
           >
             ₵{current.toFixed(2)}
           </Text>
-          {hasNoChanged ? (
-            <Text
-              style={[
-                {
-                  color: _.colorTinygrailText
-                },
-                _.ml.sm
-              ]}
-              size={fluctuationSize}
-            >
-              -%
-            </Text>
-          ) : (
+          {!hasNoChanged && (
             <Text
               style={[
                 {
@@ -323,11 +311,11 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     top: 0,
     right: 0,
-    marginRight: 80
+    marginRight: 72
   },
   fluctuation: {
-    minWidth: 72,
-    paddingHorizontal: _.sm,
+    minWidth: 64,
+    paddingHorizontal: _.xs,
     borderRadius: 2,
     overflow: 'hidden'
   },
@@ -350,7 +338,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 16
   },
   floor: {
-    width: 72
+    width: 64
   },
   floorShowDetail: {
     width: 36

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:17:37
+ * @Last Modified time: 2019-12-14 12:43:31
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -11,6 +11,7 @@ import { userStore, tinygrailStore } from '@stores'
 import { urlStringify, getTimestamp, formatNumber } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { queue } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
 import {
   HOST,
@@ -65,15 +66,7 @@ export default class ScreenTinygrail extends store {
     this.caculateChange()
 
     // 获取买单卖单数量
-    if (!this.list('bid')._loaded) {
-      tinygrailStore.fetchBid()
-    }
-    if (!this.list('asks')._loaded) {
-      tinygrailStore.fetchAsks()
-    }
-    if (!this.list('auction')._loaded) {
-      tinygrailStore.fetchAuction()
-    }
+    this.fetchCount()
 
     return res
   }
@@ -92,6 +85,22 @@ export default class ScreenTinygrail extends store {
     return res
   }
 
+  fetchCount = refresh => {
+    const fetchs = []
+    if (refresh || !this.list('bid')._loaded) {
+      fetchs.push(() => tinygrailStore.fetchBid())
+    }
+    if (refresh || !this.list('asks')._loaded) {
+      fetchs.push(() => tinygrailStore.fetchAsks())
+    }
+    if (refresh || !this.list('auction')._loaded) {
+      fetchs.push(() => tinygrailStore.fetchAuction())
+    }
+    if (fetchs.length) {
+      queue(fetchs)
+    }
+  }
+
   refresh = async () => {
     const res = Promise.all([
       tinygrailStore.fetchAssets(),
@@ -101,9 +110,7 @@ export default class ScreenTinygrail extends store {
     this.caculateChange()
 
     setTimeout(() => {
-      tinygrailStore.fetchBid()
-      tinygrailStore.fetchAsks()
-      tinygrailStore.fetchAuction()
+      this.fetchCount(true)
     }, 400)
 
     return res
