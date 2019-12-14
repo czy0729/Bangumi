@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 15:16:29
+ * @Last Modified time: 2019-12-14 19:22:45
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -46,7 +46,7 @@ class Qiafan extends React.Component {
         </Text>
         <Text style={_.mt.sm} lineHeight={2}>
           　　接下来作者会花更多心思，打磨[细节]和优化[性能]，绝对不咕。觉得好用的，可以在github上给星星，也可以在分发平台
-          (比入酷安) 上打分,
+          (比如酷安) 上打分,
           这会极大地鼓励作者继续开发，这些无形的资产都会对作者以后的职业生涯产生重要的帮助。
         </Text>
         <Text style={_.mt.sm} lineHeight={2}>

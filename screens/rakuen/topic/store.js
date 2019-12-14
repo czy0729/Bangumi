@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 18:17:44
+ * @Last Modified time: 2019-12-14 20:01:31
  */
 import { observable, computed } from 'mobx'
 import {
@@ -91,6 +91,14 @@ export default class ScreenTopic extends store {
 
   @computed get topic() {
     return rakuenStore.topic(this.topicId)
+  }
+
+  @computed get groupThumb() {
+    const { _group } = this.params
+    if (_group) {
+      return rakuenStore.groupThumb(_group)
+    }
+    return ''
   }
 
   @computed get comments() {

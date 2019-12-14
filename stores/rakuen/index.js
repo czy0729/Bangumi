@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 18:18:14
+ * @Last Modified time: 2019-12-14 19:54:31
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -97,21 +97,29 @@ class Rakuen extends store {
      */
     favor: {
       // [topicId]: true
+    },
+
+    /**
+     * 小组缩略图缓存
+     */
+    groupThumb: {
+      // [name]: ''
     }
   })
 
   init = () =>
-    this.readStorageThenSetState(
-      {
-        rakuen: {},
-        readed: {},
-        topic: {},
-        comments: {},
-        notify: INIT_NOTIFY,
-        setting: INIT_SETTING,
-        groupInfo: {},
-        favor: {}
-      },
+    this.readStorage(
+      [
+        'rakuen',
+        'readed',
+        'topic',
+        'comments',
+        'notify',
+        'setting',
+        'groupInfo',
+        'favor',
+        'groupThumb'
+      ],
       NAMESPACE
     )
 
@@ -192,6 +200,13 @@ class Rakuen extends store {
    */
   favor(topicId = 0) {
     return computed(() => this.state.favor[topicId] || false).get()
+  }
+
+  /**
+   * 小组缩略图缓存
+   */
+  groupThumb(name) {
+    return computed(() => this.state.groupThumb[name] || '').get()
   }
 
   // -------------------- fetch --------------------
@@ -286,6 +301,7 @@ class Rakuen extends store {
       }
     })
     this.setStorage(commentsKey, undefined, NAMESPACE)
+    this.updateGroupThumb(topic.group, topic.groupThumb)
 
     return Promise.resolve({
       topic,
@@ -587,6 +603,19 @@ class Rakuen extends store {
     this.setState({
       [key]: {
         [topicId]: isFover
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 更新小组缩略图
+   */
+  updateGroupThumb = (name, thumb) => {
+    const key = 'groupThumb'
+    this.setState({
+      [key]: {
+        [name]: thumb
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

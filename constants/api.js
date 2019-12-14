@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 14:31:34
+ * @Last Modified time: 2019-12-14 19:17:43
  */
 import { HOST } from './index'
 
@@ -363,9 +363,10 @@ export const API_TINYGRAIL_AUCTION = (monoId, price, amount) =>
  * 资产重组 (献祭)
  * @param {*} monoId
  * @param {*} count
+ * @param {*} isSale 是否股权融资(卖给英灵殿, 没有道具, 结算日也可以操作)
  */
-export const API_TINYGRAIL_SACRIFICE = (monoId, amount) =>
-  `${API_HOST_TINYGRAIL}/api/chara/sacrifice/${monoId}/${amount}`
+export const API_TINYGRAIL_SACRIFICE = (monoId, amount, isSale = false) =>
+  `${API_HOST_TINYGRAIL}/api/chara/sacrifice/${monoId}/${amount}/${isSale}`
 
 /**
  * 我的拍卖列表

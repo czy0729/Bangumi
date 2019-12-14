@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-13 23:11:56
+ * @Last Modified time: 2019-12-14 20:13:13
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -24,6 +24,9 @@ import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 
 const namespace = 'ScreenSubject'
 const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
+const ningmoeCorret = {
+  炎炎消防队: '炎炎之消防队'
+}
 
 export default class ScreenSubject extends store {
   state = observable({
@@ -74,8 +77,10 @@ export default class ScreenSubject extends store {
           bgmId: this.subjectId
         })
       } else {
+        // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
+        const name = data.name_cn || data.name
         discoveryStore.fetchNingMoeDetailBySearch({
-          keyword: data.name_cn || data.name
+          keyword: ningmoeCorret[name] ? ningmoeCorret[name] : name
         })
       }
     }
@@ -117,8 +122,12 @@ export default class ScreenSubject extends store {
   fetchEpsData = async () => {
     if (this.type === '动画') {
       try {
+        /**
+         * 旧源头
+         * https://raw.githubusercontent.com/ekibun/bangumi_onair/master
+         */
         const { _response } = await xhrCustom({
-          url: `https://raw.githubusercontent.com/ekibun/bangumi_onair/master/onair/${parseInt(
+          url: `https://cdn.jsdelivr.net/gh/ekibun/bangumi_onair@latest/onair/${parseInt(
             parseInt(this.subjectId) / 1000
           )}/${this.subjectId}.json`
         })

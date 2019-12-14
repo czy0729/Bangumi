@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 23:17:18
+ * @Last Modified time: 2019-12-14 19:41:18
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -1463,9 +1463,9 @@ class Tinygrail extends store {
   /**
    * 资产重组
    */
-  doSacrifice = async ({ monoId, amount }) => {
+  doSacrifice = async ({ monoId, amount, isSale }) => {
     const { data } = await this.fetch(
-      API_TINYGRAIL_SACRIFICE(monoId, amount),
+      API_TINYGRAIL_SACRIFICE(monoId, amount, isSale),
       true
     )
     return data

@@ -2,9 +2,9 @@
 
 > 一个基于`React-Native`的 [Bangumi](https://bgm.tv) 第三方客户端
 >
-> 安卓和 iOS 都做了兼容, 并最大限度保持一致, 目前已开发不少于 40 个页面, 持续开发中...
+> 安卓和 iOS 都做了兼容, 并最大限度保持一致, 目前已开发不少于 50 个页面, 持续开发中...
 >
-> 尽量做到每个版本再各个板块都有新功能或优化 (iOS 在审了)
+> 尽量做到每个版本再各个板块都有新功能或优化
 
 ---
 
@@ -16,22 +16,6 @@
 
 ---
 
-#### PowerBy
-
-[[bangumi-api]](https://github.com/bangumi/api) 官方接口
-
-[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) 单集播放数据源
-
-[[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
-
-[[tinygrail.com]](https://tinygrail.com) 小圣杯接口
-
-[[www.ningmoe.com]](https://www.ningmoe.com) 柠萌瞬间接口
-
-[[app.anitama.net]](https://app.anitama.net) Anitama 接口
-
----
-
 #### Versions
 
 [CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
@@ -40,25 +24,36 @@
 
 #### Todos
 
-v2.0.0 - 2019/12/11
+v2.1.0 - 2019/12/14
 
 —— 新功能 ——
 
-- [x] [全站] 黑暗模式 (beta)
+- [x] [全站] 黑暗模式 (稳定)
+- [x] [首页进度] 更实用的条目排序(具体顺序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 网页端默认排序)
+- [x] [首页进度] 抛弃官方的放送中, 使用正确的时间, 会显示今天和明天放送条目的放送时间
+- [x] [帖子] 删除留言
+- [x] [设置] 显示缓存的数据大小(不包括图片)
 
 —— 优化 ——
 
-- [x] [帖子] 不是用户帖子不显示头像和姓名
-- [x] [安卓] 请求添加 timeout 逻辑
+- [x] [帖子] 顶部小组缩略图会使用缓存尽快出现, 减少显示抖动
 
 —— 修复 ——
 
-- [x] [帖子] 安卓端修复了回复一直报失败而实际又成功发出去的问题
+- [x] [条目] 修复部分运营商(例如广东电信) github 接口被墙, 导致不能获取更多播放源头问题
+- [x] [每日放送] 修复部分运营商(例如广东电信) github 接口被墙, 导致无法获取最新条目放送信息问题
 
-—— 小圣杯 ——
+—— 小圣杯助手 ——
 
-- [x] ICO 交易页面加入精确倒计时
-- [x] 修复了番市首富总资产显示不正确的问题
+- [x] [资产重组] 献祭支持股权融资模式
+- [x] [设置] 可以设置为红涨绿跌(默认是绿涨红跌)
+- [x] [交易] 自动拆单
+- [x] [交易] 一键取消所有买卖挂单
+- [x] [交易] 显示角色发行价
+- [x] [交易] 折叠过多的交易记录
+- [x] [交易] 委托和历史记录, 点击显示具体时间
+- [x] [资产重组] 显示各个等级塔的数量
+- [x] [资产重组] 修复了黑暗模式高级塔没有边框的问题
 
 ---
 
@@ -126,6 +121,22 @@ v2.0.0 - 2019/12/11
 <img src="./preview/expo-qr.png" width="200" alt="expo-qr" />
 
 [expo 项目主页](https://expo.io/@a402731062/bangumi)
+
+---
+
+#### PowerBy
+
+[[bangumi-api]](https://github.com/bangumi/api) 官方接口
+
+[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) 单集播放数据源
+
+[[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
+
+[[tinygrail.com]](https://tinygrail.com) 小圣杯接口
+
+[[www.ningmoe.com]](https://www.ningmoe.com) 柠萌瞬间接口
+
+[[app.anitama.net]](https://app.anitama.net) Anitama 接口
 
 ---
 

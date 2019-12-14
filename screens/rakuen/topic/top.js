@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 22:29:49
+ * @Last Modified time: 2019-12-14 20:01:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -53,14 +53,14 @@ function Top(props, { $, navigation }) {
   const userAvatar = avatar || _avatar
   const uname = userName || _userName
   const uid = userId || _userId
+  const _groupThumb = groupThumb || $.groupThumb
 
   // 人物这里不显示详情, 所以要把小组的相关信息替换成人物信息, 跳转到人物页面查看
   let groupName = group || _group
-  let groupPress = () => {
+  let groupPress = () =>
     appNavigate(groupHref, navigation, {
       _jp: group
     })
-  }
   if ($.isMono) {
     groupName = title || _title
     groupPress = () => appNavigate(`${HOST}/${$.monoId}`, navigation)
@@ -82,10 +82,10 @@ function Top(props, { $, navigation }) {
         </Text>
         <Flex style={[styles.groupWrap, _.mt.sm]}>
           <View style={styles.groupThumbWrap}>
-            {!!groupThumb && (
+            {!!_groupThumb && (
               <Image
                 size={28}
-                src={groupThumb}
+                src={_groupThumb}
                 radius
                 border={_.colorBorder}
                 placeholder={false}

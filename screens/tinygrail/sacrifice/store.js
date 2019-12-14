@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 23:28:48
+ * @Last Modified time: 2019-12-14 19:43:52
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -17,7 +17,8 @@ const namespace = 'ScreenTinygrailSacrifice'
 export default class ScreenTinygrailSacrifice extends store {
   state = observable({
     loading: false,
-    amount: 0, // 只能是整数
+    amount: 0, // 只能是整数,
+    isSale: false, // 股权融资
     expand: false, // 展开所有圣殿
 
     auctionLoading: false,
@@ -126,7 +127,7 @@ export default class ScreenTinygrailSacrifice extends store {
       loading: true
     })
 
-    const { amount } = this.state
+    const { amount, isSale } = this.state
     if (!amount) {
       info('请输入数量')
       this.setState({
@@ -137,7 +138,8 @@ export default class ScreenTinygrailSacrifice extends store {
 
     const { State, Value, Message } = await tinygrailStore.doSacrifice({
       monoId: this.monoId,
-      amount
+      amount,
+      isSale
     })
 
     if (State !== 0) {
@@ -150,9 +152,13 @@ export default class ScreenTinygrailSacrifice extends store {
 
     Alert.alert(
       '小圣杯助手',
-      `融资完成！获得资金 ₵${formatNumber(Value.Balance)} ${
-        Value.Items.length ? '掉落道具' : ''
-      } ${Value.Items.map(item => `「${item.Name}」×${item.Count}`).join(' ')}`,
+      isSale
+        ? `融资完成！获得资金 ₵${formatNumber(Value.Balance)}`
+        : `融资完成！获得资金 ₵${formatNumber(Value.Balance)} ${
+            Value.Items.length ? '掉落道具' : ''
+          } ${Value.Items.map(item => `「${item.Name}」×${item.Count}`).join(
+            ' '
+          )}`,
       [
         {
           text: '确定'
@@ -336,5 +342,15 @@ export default class ScreenTinygrailSacrifice extends store {
 
     const key = `${namespace}|lastAuction|${this.monoId}`
     setStorage(key, data)
+  }
+
+  /**
+   * 切换股权融资
+   */
+  switchIsSale = () => {
+    const { isSale } = this.state
+    this.setState({
+      isSale: !isSale
+    })
   }
 }

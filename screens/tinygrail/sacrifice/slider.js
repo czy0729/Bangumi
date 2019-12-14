@@ -2,19 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:17:45
+ * @Last Modified time: 2019-12-14 19:38:32
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Input, Text, Button, Slider as CompSlider } from '@components'
+import {
+  Flex,
+  Input,
+  Text,
+  Button,
+  Slider as CompSlider,
+  Switch
+} from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 
 function Slider({ style }, { $ }) {
   const styles = memoStyles()
-  const { loading, amount } = $.state
+  const { loading, amount, isSale } = $.state
   const { amount: userAmount } = $.userLogs
   const balanceText = `可用 ${formatNumber(userAmount, 0)} 股`
   return (
@@ -23,9 +30,28 @@ function Slider({ style }, { $ }) {
         style={{
           color: _.colorTinygrailText
         }}
+        size={12}
       >
         融资累计超过500股获得「光辉圣殿」股息+0.2，2500股「闪耀圣殿」股息+0.4，12500股「奇迹圣殿」股息+0.8
       </Text>
+      <Flex style={_.mt.md}>
+        <Flex.Item>
+          <Text
+            style={{
+              color: _.colorTinygrailPlain
+            }}
+          >
+            {isSale
+              ? '将股份出售给英灵殿，立刻获取现金。'
+              : '将股份转化为固定资产，获得现金和道具。'}
+          </Text>
+        </Flex.Item>
+        <Switch
+          style={_.ml.sm}
+          checked={isSale}
+          onChange={$.switchIsSale}
+        />
+      </Flex>
       <Flex style={_.mt.md}>
         <Flex.Item>
           <View style={styles.inputWrap}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 17:12:04
+ * @Last Modified time: 2019-12-14 20:37:55
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -47,6 +47,11 @@ class Setting extends React.Component {
     this.caculateStorageSize()
 
     hm('settings', 'Setting')
+  }
+
+  setParams = () => {
+    const { navigation } = this.props
+    navigation.setParams({})
   }
 
   caculateStorageSize = async () => {
@@ -125,7 +130,20 @@ class Setting extends React.Component {
         <ItemSetting
           style={_.mt.sm}
           hd='黑暗模式'
-          ft={<Switch checked={_.isDark} onChange={() => _.toggleMode()} />}
+          ft={
+            <Switch
+              checked={_.isDark}
+              onChange={() => {
+                _.toggleMode()
+                if (!IOS) {
+                  setTimeout(() => {
+                    // 安卓需要刷新头
+                    this.setParams()
+                  }, 0)
+                }
+              }}
+            />
+          }
           withoutFeedback
           information='首页点击头部Bangumi的Logo也可以快速切换主题'
         />
@@ -208,13 +226,18 @@ class Setting extends React.Component {
   }
 
   renderUI() {
-    const { iosMenu, avatarRound, heatMap, speech } = systemStore.setting
+    const {
+      // iosMenu,
+      avatarRound,
+      heatMap,
+      speech
+    } = systemStore.setting
     return (
       <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
           UI
         </Text>
-        {!IOS && (
+        {/* {!IOS && (
           <ItemSetting
             style={_.mt.sm}
             hd='iOS风格菜单'
@@ -224,9 +247,11 @@ class Setting extends React.Component {
             withoutFeedback
             information='模拟菜单, 非原生性能略弱, 但显示信息更多并且支持黑暗模式'
           />
-        )}
+        )} */}
         <ItemSetting
-          style={IOS ? _.mt.sm : undefined}
+          // style={IOS ? _.mt.sm : undefined}
+          // border={!IOS}
+          style={_.mt.sm}
           border
           hd='圆形头像'
           ft={
