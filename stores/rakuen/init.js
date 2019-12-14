@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 02:28:31
+ * @Last Modified time: 2019-12-14 18:04:19
  */
 import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
 
@@ -55,7 +55,8 @@ export const INIT_COMMENTS_ITEM = {
   time: '', // 发帖时间
   userId: '', // 用户Id
   userName: '', // 用户名称
-  userSign: '' // 用户签名
+  userSign: '', // 用户签名
+  erase: '' // 删除的链接
 }
 
 export const INIT_NOTIFY = {

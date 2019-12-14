@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:42:55
+ * @Last Modified time: 2019-12-14 18:14:08
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
@@ -38,6 +38,7 @@ function Item(
     time,
     sub = [],
     replySub,
+    erase,
     showFixedTextare
   },
   { $, navigation }
@@ -104,8 +105,30 @@ function Item(
           html={message}
           onLinkPress={href => appNavigate(href, navigation)}
         />
-        {!!replySub && (
-          <Flex justify='end'>
+
+        <Flex justify='end'>
+          {!!erase && (
+            <Touchable
+              style={[styles.reply, _.mr.sm]}
+              onPress={() =>
+                Alert.alert('警告', '确定删除回复?', [
+                  {
+                    text: '取消',
+                    style: 'cancel'
+                  },
+                  {
+                    text: '确定',
+                    onPress: () => $.doDeleteReply(erase)
+                  }
+                ])
+              }
+            >
+              <Text type='icon' size={12}>
+                删除
+              </Text>
+            </Touchable>
+          )}
+          {!!replySub && (
             <Touchable
               style={styles.reply}
               onPress={() => {
@@ -117,8 +140,8 @@ function Item(
                 回复
               </Text>
             </Touchable>
-          </Flex>
-        )}
+          )}
+        </Flex>
         <View style={styles.sub}>
           {sub.map(item => {
             const isAuthor = authorId === item.userId
@@ -178,8 +201,30 @@ function Item(
                     html={item.message}
                     onLinkPress={href => appNavigate(href, navigation)}
                   />
-                  {!!item.replySub && (
-                    <Flex justify='end'>
+
+                  <Flex justify='end'>
+                    {!!item.erase && (
+                      <Touchable
+                        style={[styles.reply, _.mr.sm]}
+                        onPress={() =>
+                          Alert.alert('警告', '确定删除回复?', [
+                            {
+                              text: '取消',
+                              style: 'cancel'
+                            },
+                            {
+                              text: '确定',
+                              onPress: () => $.doDeleteReply(item.erase)
+                            }
+                          ])
+                        }
+                      >
+                        <Text type='icon' size={12}>
+                          删除
+                        </Text>
+                      </Touchable>
+                    )}
+                    {!!item.replySub && (
                       <Touchable
                         style={styles.reply}
                         onPress={() => {
@@ -195,8 +240,8 @@ function Item(
                           回复
                         </Text>
                       </Touchable>
-                    </Flex>
-                  )}
+                    )}
+                  </Flex>
                 </Flex.Item>
               </Flex>
             )
@@ -254,9 +299,9 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.md
   },
   reply: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
+    // position: 'absolute',
+    // right: 0,
+    // bottom: 0,
     padding: _.sm,
     marginRight: -_.sm,
     marginBottom: -_.sm,

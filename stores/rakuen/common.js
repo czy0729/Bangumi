@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-15 20:50:13
+ * @Last Modified time: 2019-12-14 18:04:17
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -376,6 +376,7 @@ export function cheerioTopic(HTML) {
               $row.find('> div.inner > span.userInfo > strong > a.l').text() ||
               $row.find('> div.inner > strong > a.l').text(),
             userSign: $row.find('span.tip_j').text(),
+            erase: $row.find('> div.re_info a.erase_post').attr('href'),
 
             // 子回复
             sub:
@@ -400,7 +401,8 @@ export function cheerioTopic(HTML) {
                     time: trim(time),
                     userId: matchUserId($row.find('a.avatar').attr('href')),
                     userName: $row.find('strong > a.l').text(),
-                    userSign: $row.find('span.tip_j').text()
+                    userSign: $row.find('span.tip_j').text(),
+                    erase: $row.find('a.erase_post').attr('href')
                   })
                 })
                 .get() || []

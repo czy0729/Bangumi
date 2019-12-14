@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-28 21:56:01
+ * @Last Modified time: 2019-12-14 18:18:14
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -423,6 +423,18 @@ class Rakuen extends store {
           lastview: getTimestamp(),
           submit: 'submit'
         }
+      },
+      success
+    )
+  }
+
+  /**
+   * 删除回复
+   */
+  doDeleteReply = async ({ url }, success) => {
+    xhr(
+      {
+        url
       },
       success
     )

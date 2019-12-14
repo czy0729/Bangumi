@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 22:41:27
+ * @Last Modified time: 2019-12-14 18:17:44
  */
 import { observable, computed } from 'mobx'
 import {
@@ -12,7 +12,7 @@ import {
   userStore,
   usersStore
 } from '@stores'
-import { IOS } from '@constants'
+import { IOS, HOST } from '@constants'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
 import { info } from '@utils/ui'
@@ -380,6 +380,25 @@ export default class ScreenTopic extends store {
           })
         }
 
+        this.fetchTopic()
+      }
+    )
+  }
+
+  /**
+   * 删除回复
+   */
+  doDeleteReply = url => {
+    if (!url) {
+      return
+    }
+
+    rakuenStore.doDeleteReply(
+      {
+        url: `${HOST}/${url}`
+      },
+      () => {
+        info('已删除')
         this.fetchTopic()
       }
     )
