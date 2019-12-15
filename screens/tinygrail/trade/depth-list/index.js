@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:59:36
+ * @Last Modified time: 2019-12-15 13:24:38
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 
 function DepthList({ style }, { $ }) {
@@ -91,7 +92,7 @@ function DepthList({ style }, { $ }) {
                 </Text>
                 <Flex.Item style={_.mr.sm}>
                   <Text style={styles.bids} size={12} align='right'>
-                    {item.price && item.price.toFixed(2)}
+                    {item.price && toFixed(item.price, -2)}
                   </Text>
                 </Flex.Item>
                 <View
@@ -113,7 +114,7 @@ function DepthList({ style }, { $ }) {
               <Flex key={index} style={styles.item}>
                 <Flex.Item style={_.ml.sm}>
                   <Text style={styles.asks} size={12}>
-                    {item.price && item.price.toFixed(2)}
+                    {item.price && toFixed(item.price, 2)}
                   </Text>
                 </Flex.Item>
                 <Text

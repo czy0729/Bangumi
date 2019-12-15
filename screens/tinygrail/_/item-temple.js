@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 11:54:55
+ * @Last Modified time: 2019-12-15 12:27:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
 import { _ } from '@stores'
 import { Avatar } from '@screens/_'
+import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { tinygrailOSS } from '@utils/app'
 
@@ -75,7 +76,7 @@ function ItemTemple(
               size={isFormCharaAssets ? 14 : 12}
               numberOfLines={1}
             >
-              {sacrifices} / {rate ? `+${rate.toFixed(2)}` : `+${plusRate}`}
+              {sacrifices} / {rate ? `+${toFixed(rate, 2)}` : `+${plusRate}`}
             </Text>
           </Flex.Item>
         </Flex>

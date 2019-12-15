@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 13:59:23
+ * @Last Modified time: 2019-12-15 14:36:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { cheerio } from '@utils/html'
+import { IOS } from '@constants'
 import HTML from '../@/react-native-render-html'
 import BgmText, { bgmMap } from '../bgm-text'
 import MaskText from './mask-text'
@@ -197,40 +198,50 @@ class RenderHtml extends React.Component {
 
   formatHTML = () => {
     const { html, baseFontStyle } = this.props
-    let _html
-
-    // 把bgm表情替换成bgm字体文字
-    const $ = cheerio(html)
-    $('img[smileid]').replaceWith((index, element) => {
-      const $img = cheerio(element)
-      const alt = $img.attr('alt') || ''
-      if (alt) {
-        // bgm偏移量24
-        const index = parseInt(alt.replace(/\(bgm|\)/g, '')) - 24
-        if (bgmMap[index]) {
-          return `<span style="font-family:bgm;font-size:${baseFontStyle.fontSize ||
-            this.defaultBaseFontStyle
-              .fontSize}px;line-height:${baseFontStyle.lineHeight ||
-            this.defaultBaseFontStyle.lineHeight}px;user-select:all">${
-            bgmMap[index]
-          }</span>`
-        }
-        return alt
+    try {
+      // iOS碰到过文本里巨大会遇到Maximun stack size exceeded的错误
+      if (IOS && html.length > 20000) {
+        return html
       }
-      return $img.html()
-    })
-    _html = $.html()
 
-    // 给纯文字包上span, 否则安卓不能自由复制
-    _html = `<div>${_html}</div>`
-    const match = _html.match(/>[^<>]+?</g)
-    if (match) {
-      match.forEach(
-        item => (_html = _html.replace(item, `><span${item}/span><`))
-      )
+      let _html
+
+      // 把bgm表情替换成bgm字体文字
+      const $ = cheerio(html)
+      $('img[smileid]').replaceWith((index, element) => {
+        const $img = cheerio(element)
+        const alt = $img.attr('alt') || ''
+        if (alt) {
+          // bgm偏移量24
+          const index = parseInt(alt.replace(/\(bgm|\)/g, '')) - 24
+          if (bgmMap[index]) {
+            return `<span style="font-family:bgm;font-size:${baseFontStyle.fontSize ||
+              this.defaultBaseFontStyle
+                .fontSize}px;line-height:${baseFontStyle.lineHeight ||
+              this.defaultBaseFontStyle.lineHeight}px;user-select:all">${
+              bgmMap[index]
+            }</span>`
+          }
+          return alt
+        }
+        return $img.html()
+      })
+      _html = $.html()
+
+      // 给纯文字包上span, 否则安卓不能自由复制
+      _html = `<div>${_html}</div>`
+      const match = _html.match(/>[^<>]+?</g)
+      if (match) {
+        match.forEach(
+          item => (_html = _html.replace(item, `><span${item}/span><`))
+        )
+      }
+
+      return _html
+    } catch (error) {
+      warn('RenderHtml', 'formatHTML', error)
+      return html
     }
-
-    return _html
   }
 
   get defaultBaseFontStyle() {

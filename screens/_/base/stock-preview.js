@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 12:09:40
+ * @Last Modified time: 2019-12-15 13:37:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { caculateICO } from '@utils/app'
 
 const colorDarkText = 'rgb(99, 117, 144)'
@@ -45,7 +46,7 @@ class StockPreview extends React.Component {
   renderICO() {
     const { total } = this.props
     const { level, next } = caculateICO(this.props)
-    const percent = ((total / next) * 100).toFixed(0)
+    const percent = toFixed((total / next) * 100, 0)
 
     let backgroundColor
     switch (level) {
@@ -157,16 +158,17 @@ class StockPreview extends React.Component {
     let realChange = '0.00'
     if (showDetail) {
       if (fluctuation > 0) {
-        realChange = `+${(current - current / (1 + fluctuation / 100)).toFixed(
+        realChange = `+${toFixed(
+          current - current / (1 + fluctuation / 100),
           2
         )}`
       } else if (fluctuation < 0) {
-        realChange = `-${(current / (1 + fluctuation / 100)).toFixed(2)}`
+        realChange = `-${toFixed(current / (1 + fluctuation / 100), 2)}`
       }
     } else if (fluctuation > 0) {
-      fluctuationText = `+${fluctuation.toFixed(2)}%`
+      fluctuationText = `+${toFixed(fluctuation, 2)}%`
     } else if (fluctuation < 0) {
-      fluctuationText = `${fluctuation.toFixed(2)}%`
+      fluctuationText = `${toFixed(fluctuation, 2)}%`
     }
 
     let fluctuationSize = 12
@@ -193,7 +195,7 @@ class StockPreview extends React.Component {
             lineHeight={16}
             align='right'
           >
-            ₵{current.toFixed(2)}
+            ₵{toFixed(current, 2)}
           </Text>
           {!hasNoChanged && (
             <Text

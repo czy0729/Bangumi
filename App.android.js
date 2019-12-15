@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 15:31:33
+ * @Last Modified time: 2019-12-15 12:17:20
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useScreens } from 'react-native-screens'
+// import { useScreens } from 'react-native-screens'
 import SplashScreen from 'react-native-splash-screen'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
@@ -21,7 +21,7 @@ import Navigations from './navigations/index'
 /**
  * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
  */
-useScreens()
+// useScreens()
 
 console.disableYellowBox = true
 if (!DEV) {

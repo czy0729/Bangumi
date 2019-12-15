@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-27 20:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 22:48:12
+ * @Last Modified time: 2019-12-15 13:44:09
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { toFixed } from '@utils'
 import store from '@utils/store'
 import { tinygrailOSS } from '@utils/app'
 import { info } from '@utils/ui'
@@ -232,16 +233,16 @@ function caculateValue(item, label) {
   try {
     switch (label) {
       case '周股息':
-        value += parseFloat(item.share)
+        value += parseFloat(item.share || 0)
         break
       case '总资产':
-        value += parseFloat(item.assets)
+        value += parseFloat(item.assets || 0)
         break
       case '流动资金':
-        value += parseFloat(item.total)
+        value += parseFloat(item.total || 0)
         break
       case '初始资金':
-        value += parseFloat(item.principal)
+        value += parseFloat(item.principal || 0)
         break
       default:
         break
@@ -276,10 +277,10 @@ function treemapSquarify(nodes) {
           name: node.data,
           price: node.price,
           percent: node.percent,
-          x: parseFloat(x.toFixed(3)),
-          y: parseFloat(y.toFixed(3)),
-          w: parseFloat(w.toFixed(3)),
-          h: parseFloat(h.toFixed(3))
+          x: parseFloat(toFixed(x, 3)),
+          y: parseFloat(toFixed(y, 3)),
+          w: parseFloat(toFixed(w, 3)),
+          h: parseFloat(toFixed(h, 3))
         })
     )
   } catch (error) {

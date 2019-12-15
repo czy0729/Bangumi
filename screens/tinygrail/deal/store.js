@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 03:15:56
+ * @Last Modified time: 2019-12-15 12:33:45
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { toFixed } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -284,7 +285,7 @@ export default class ScreenTinygrailDeal extends store {
     }
 
     this.setState({
-      value: _value.toFixed(2)
+      value: toFixed(_value, 2)
     })
   }
 
@@ -296,7 +297,7 @@ export default class ScreenTinygrailDeal extends store {
     const _value = parseFloat(this.moneyNatural(value)) + 1
 
     this.setState({
-      value: _value.toFixed(2)
+      value: toFixed(_value, 2)
     })
   }
 

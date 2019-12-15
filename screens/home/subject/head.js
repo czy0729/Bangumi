@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 01:13:22
+ * @Last Modified time: 2019-12-15 13:42:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { ScoreTag } from '@screens/_'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Cover from './cover'
@@ -63,7 +64,7 @@ function Head({ style }, { $ }) {
         </View>
         <Flex>
           <Text type='main' size={22} lineHeight={1}>
-            {rating.score === '' ? '-' : rating.score.toFixed(1)}
+            {rating.score === '' ? '-' : toFixed(rating.score, 1)}
           </Text>
           {rating.score !== '' && (
             <ScoreTag style={_.ml.sm} value={rating.score} />

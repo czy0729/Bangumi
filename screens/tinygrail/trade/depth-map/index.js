@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:00:33
+ * @Last Modified time: 2019-12-15 13:25:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 
 const height = 160
@@ -124,10 +125,10 @@ function DepthMap({ style }, { $ }) {
         <Flex.Item>
           <Flex justify='between'>
             <Text style={styles.text} size={12}>
-              {bidsLow && bidsLow.toFixed(2)}
+              {bidsLow && toFixed(bidsLow, 2)}
             </Text>
             <Text style={styles.text} size={12}>
-              {bidsHigh && bidsHigh.toFixed(2)}
+              {bidsHigh && toFixed(bidsHigh, 2)}
             </Text>
           </Flex>
         </Flex.Item>
@@ -138,10 +139,10 @@ function DepthMap({ style }, { $ }) {
         >
           <Flex justify='between'>
             <Text style={styles.text} size={12}>
-              {asksLow && asksLow.toFixed(2)}
+              {asksLow && toFixed(asksLow, 2)}
             </Text>
             <Text style={styles.text} size={12}>
-              {asksHigh && asksHigh.toFixed(2)}
+              {asksHigh && toFixed(asksHigh, 2)}
             </Text>
           </Flex>
         </Flex.Item>
@@ -226,7 +227,7 @@ const memoStyles = _.memoStyles(_ => ({
 
 function getKStr(amount) {
   if (amount > 1000) {
-    return `${(amount / 1000).toFixed(2)}K`
+    return `${toFixed(amount / 1000, 2)}K`
   }
   return parseInt(amount)
 }

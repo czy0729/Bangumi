@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:04:38
+ * @Last Modified time: 2019-12-15 13:26:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from '@utils/decorators'
 import { Flex, Text } from '@components'
 import { Avatar, IconHeader } from '@screens/_'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import Today from './today'
 
@@ -25,9 +26,9 @@ function Header({ goBack }, { $, navigation }) {
 
   let fluctuationText = '-%'
   if (fluctuation > 0) {
-    fluctuationText = `+${fluctuation.toFixed(2)}%`
+    fluctuationText = `+${toFixed(fluctuation, 2)}%`
   } else if (fluctuation < 0) {
-    fluctuationText = `${fluctuation.toFixed(2)}%`
+    fluctuationText = `${toFixed(fluctuation, 2)}%`
   }
 
   return (
@@ -96,7 +97,7 @@ function Header({ goBack }, { $, navigation }) {
               }}
               size={24}
             >
-              {current && current.toFixed(2)}
+              {current && toFixed(current, 2)}
             </Text>
             <Text
               style={[

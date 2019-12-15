@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 12:45:44
+ * @Last Modified time: 2019-12-15 13:35:29
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { toFixed } from '@utils'
 import store from '@utils/store'
 import { tinygrailOSS } from '@utils/app'
 import { info } from '@utils/ui'
@@ -413,10 +414,10 @@ function treemapSquarify(nodes) {
           price: node.price,
           percent: node.percent,
           fluctuation: node.fluctuation,
-          x: parseFloat(x.toFixed(3)),
-          y: parseFloat(y.toFixed(3)),
-          w: parseFloat(w.toFixed(3)),
-          h: parseFloat(h.toFixed(3))
+          x: parseFloat(toFixed(x, 3)),
+          y: parseFloat(toFixed(y, 3)),
+          w: parseFloat(toFixed(w, 3)),
+          h: parseFloat(toFixed(h, 3))
         })
     )
   } catch (error) {

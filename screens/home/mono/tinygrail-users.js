@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 01:19:43
+ * @Last Modified time: 2019-12-15 13:38:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Divider } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, toFixed } from '@utils'
 
 function TinygrailUsers({ style }, { $, navigation }) {
   if (!$.tinygrail || !$.chara._loaded) {
@@ -52,7 +52,7 @@ function TinygrailUsers({ style }, { $, navigation }) {
                 >
                   {item.balance ? `+${formatNumber(item.balance, 0)}` : '--'} (
                   {item.balance
-                    ? ((item.balance / amount) * 100).toFixed(2)
+                    ? toFixed((item.balance / amount) * 100, 2)
                     : '??'}
                   %)
                 </Text>

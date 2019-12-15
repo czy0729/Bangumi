@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:10:17
+ * @Last Modified time: 2019-12-15 13:43:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { observer } from '@utils/decorators'
+import { B, M } from '@constants'
 
 const area = _.window.width * _.window.height
 
@@ -34,12 +36,12 @@ function Item({
   const textSize = parseInt(9 * ratio)
 
   let priceText
-  if (price > 100000000) {
-    priceText = `${parseFloat((price / 100000000).toFixed(1))}亿`
-  } else if (price > 10000) {
-    priceText = `${parseFloat((price / 10000).toFixed(1))}万`
+  if (price > B) {
+    priceText = `${toFixed(price / B, 1)}亿`
+  } else if (price > M) {
+    priceText = `${toFixed(price / M, 1)}万`
   } else {
-    priceText = parseFloat(price.toFixed(1))
+    priceText = toFixed(price, 1)
   }
 
   let backgroundColor = _.colorTinygrailContainer
@@ -126,7 +128,7 @@ function Item({
             >
               {priceText}
             </Text>{' '}
-            / {_percent.toFixed(_percent < 0.1 ? 2 : 1)}%
+            / {toFixed(_percent, _percent < 0.1 ? 2 : 1)}%
           </Text>
         </Flex>
       </Popover>

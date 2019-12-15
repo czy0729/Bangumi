@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 19:41:18
+ * @Last Modified time: 2019-12-15 13:39:45
  */
 import { observable, computed, toJS } from 'mobx'
-import { getTimestamp } from '@utils'
+import { getTimestamp, toFixed } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { log } from '@utils/dev'
@@ -505,9 +505,9 @@ class Tinygrail extends store {
           avatar: item.Avatar,
           nickname: HTMLDecode(item.Nickname),
           userId: item.Name,
-          assets: item.Assets.toFixed(2),
-          total: item.TotalBalance.toFixed(2),
-          share: item.Share.toFixed(2),
+          assets: toFixed(item.Assets, 2),
+          total: toFixed(item.TotalBalance, 2),
+          share: toFixed(item.Share, 2),
           principal: item.Principal,
           lastActiveDate: item.LastActiveDate,
           lastIndex: item.LastIndex

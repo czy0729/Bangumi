@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 18:11:15
+ * @Last Modified time: 2019-12-15 12:19:58
  */
 import { AsyncStorage, Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
@@ -30,35 +30,40 @@ class Stores {
    * 保证所有子Store初始化和加载缓存
    */
   async init() {
-    if (inited) {
+    try {
+      if (inited) {
+        return false
+      }
+      inited = true
+
+      // [同步加载]APP最重要Stores
+      await themeStore.init()
+      const res = Promise.all([
+        collectionStore.init(),
+        subjectStore.init(),
+        systemStore.init(),
+        userStore.init(),
+        tinygrailStore.init()
+      ])
+      await res
+
+      // [异步加载]非重要Stores
+      Promise.all([
+        calendarStore.init(),
+        discoveryStore.init(),
+        rakuenStore.init(),
+        searchStore.init(),
+        timelineStore.init(),
+        // tinygrailStore.init(),
+        tagStore.init(),
+        usersStore.init()
+      ])
+
+      return res
+    } catch (error) {
+      warn('stores', 'init', error)
       return false
     }
-    inited = true
-
-    // [同步加载]APP最重要Stores
-    await themeStore.init()
-    const res = Promise.all([
-      collectionStore.init(),
-      subjectStore.init(),
-      systemStore.init(),
-      userStore.init(),
-      tinygrailStore.init()
-    ])
-    await res
-
-    // [异步加载]非重要Stores
-    Promise.all([
-      calendarStore.init(),
-      discoveryStore.init(),
-      rakuenStore.init(),
-      searchStore.init(),
-      timelineStore.init(),
-      // tinygrailStore.init(),
-      tagStore.init(),
-      usersStore.init()
-    ])
-
-    return res
   }
 
   // -------------------- page --------------------

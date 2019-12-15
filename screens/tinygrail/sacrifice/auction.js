@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:03:39
+ * @Last Modified time: 2019-12-15 12:36:18
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Input, Text, Button, Slider as CompSlider } from '@components'
 import { _ } from '@stores'
-import { formatNumber, lastDate } from '@utils'
+import { formatNumber, lastDate, toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 import Stepper from './stepper'
 
@@ -28,7 +28,7 @@ function Auction({ style }, { $ }) {
             }}
             size={12}
           >
-            价格 (底价 ₵{price ? (price + 0.01).toFixed(2) : '-'})
+            价格 (底价 ₵{price ? toFixed(price + 0.01, 2) : '-'})
           </Text>
         </Flex.Item>
         <Flex.Item style={_.ml.sm}>
@@ -95,7 +95,7 @@ function Auction({ style }, { $ }) {
           }}
           size={12}
         >
-          -₵{(auctionAmount * auctionPrice).toFixed(2)}
+          -₵{toFixed(auctionAmount * auctionPrice, 2)}
         </Text>
       </Text>
       <Flex style={[styles.slider, _.mt.sm]}>

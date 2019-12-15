@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-02 15:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:05:10
+ * @Last Modified time: 2019-12-15 13:26:43
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { date, getTimestamp } from '@utils'
+import { date, getTimestamp, toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 
 function Today({ style }, { $ }) {
@@ -24,10 +24,10 @@ function Today({ style }, { $ }) {
     .filter((item, index) => index !== 0 && item.time.includes(d)) // 要排除第一个数据, 因为有ico的量
     .forEach(item => {
       if (high === '-' || item.high > high) {
-        high = item.high.toFixed(2)
+        high = toFixed(item.high, 2)
       }
       if (low === '-' || item.low < low) {
-        low = item.low.toFixed(2)
+        low = toFixed(item.low, 2)
       }
       amount += item.amount
     })

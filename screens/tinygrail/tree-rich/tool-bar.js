@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:09:46
+ * @Last Modified time: 2019-12-15 13:45:13
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 import { B, M } from '@constants'
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants/model'
@@ -25,11 +26,11 @@ function ToolBar(props, { $ }) {
   )
   let totalText
   if (total > B) {
-    totalText = `${parseFloat((total / B).toFixed(1))}亿`
+    totalText = `${toFixed(total / B, 1)}亿`
   } else if (total > M) {
-    totalText = `${parseFloat((total / M).toFixed(1))}万`
+    totalText = `${toFixed(total / M, 1)}万`
   } else {
-    totalText = parseFloat(total).toFixed(1)
+    totalText = toFixed(parseFloat(total || 0), 1)
   }
   return (
     <Flex style={styles.container}>

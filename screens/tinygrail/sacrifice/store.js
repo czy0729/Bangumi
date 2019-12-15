@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 19:43:52
+ * @Last Modified time: 2019-12-15 13:21:57
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { setStorage, getTimestamp, formatNumber } from '@utils'
+import { setStorage, getTimestamp, formatNumber, toFixed } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -66,7 +66,7 @@ export default class ScreenTinygrailSacrifice extends store {
       const { price } = await res
       if (price) {
         this.setState({
-          auctionPrice: (price + 0.01).toFixed(2)
+          auctionPrice: toFixed(price + 0.01, 2)
         })
       }
     } catch (error) {
@@ -300,7 +300,7 @@ export default class ScreenTinygrailSacrifice extends store {
     }
 
     this.setState({
-      auctionPrice: _value.toFixed(2)
+      auctionPrice: toFixed(_value, 2)
     })
   }
 
@@ -313,7 +313,7 @@ export default class ScreenTinygrailSacrifice extends store {
       parseFloat(this.moneyNatural(auctionPrice) || auctionPrice) + 0.1
 
     this.setState({
-      auctionPrice: _value.toFixed(2)
+      auctionPrice: toFixed(_value, 2)
     })
   }
 

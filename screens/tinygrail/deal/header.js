@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 18:28:05
+ * @Last Modified time: 2019-12-15 12:30:31
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { Avatar, IconHeader, IconBack } from '@screens/_'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
 
@@ -24,9 +25,9 @@ function Header(props, { $, navigation }) {
 
   let fluctuationText = '- %'
   if (fluctuation > 0) {
-    fluctuationText = `+${fluctuation.toFixed(2)}%`
+    fluctuationText = `+${toFixed(fluctuation, 2)}%`
   } else if (fluctuation < 0) {
-    fluctuationText = `${fluctuation.toFixed(2)}%`
+    fluctuationText = `${toFixed(fluctuation, 2)}%`
   }
 
   return (

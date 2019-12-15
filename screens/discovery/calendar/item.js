@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 21:52:32
+ * @Last Modified time: 2019-12-15 13:41:48
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,9 +10,10 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
 import { _ } from '@stores'
-import { IMG_DEFAULT } from '@constants'
+import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { getCoverMedium } from '@utils/app'
+import { IMG_DEFAULT } from '@constants'
 
 const imageWidth = _.window.width * 0.288
 const imageHeight = imageWidth * 1.28
@@ -59,7 +60,7 @@ function Item(
           )}
           {!!score && (
             <Text size={12} type='sub'>
-              ({score.toFixed(1)}){' '}
+              ({toFixed(score, 1)}){' '}
             </Text>
           )}
           {!!timeCN && (

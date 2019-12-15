@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 20:37:55
+ * @Last Modified time: 2019-12-15 13:39:01
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
 import { Text, Switch } from '@components'
 import { Popover, ItemSetting } from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
+import { toFixed } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
@@ -63,7 +64,7 @@ class Setting extends React.Component {
         storageSize += item[0].length + item[1].length
       })
       this.setState({
-        storageSize: `${(storageSize / 1000).toFixed(1)}KB`
+        storageSize: `${toFixed(storageSize / 1000, 1)}KB`
       })
     } catch (error) {
       warn('Setting', 'caculateStorageSize', error)

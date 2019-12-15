@@ -2,11 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-14 17:33:04
+ * @Last Modified time: 2019-12-15 13:39:56
  */
 import { AsyncStorage } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import { info } from './ui'
+
+/**
+ * 安全toFixed
+ * @param {*} object
+ */
+export function toFixed(value, num = 2) {
+  return Number(value || 0).toFixed(num)
+}
 
 /**
  * 安全对象

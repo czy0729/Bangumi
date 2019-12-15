@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 11:55:48
+ * @Last Modified time: 2019-12-15 13:58:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 
 function Depth({ style }, { $ }) {
@@ -82,9 +83,9 @@ function Depth({ style }, { $ }) {
             })
             .reverse()
             .map((item, index) => {
-              const price = item.price.toFixed(1)
+              const price = toFixed(item.price, 0)
               const isMyOrder =
-                userAsks.findIndex(i => price === i.price.toFixed(1)) !== -1
+                userAsks.findIndex(i => price === toFixed(i.price, 0)) !== -1
               const width =
                 ((asksAmount - filterCalculateAsks - calculateAsks) /
                   (asksAmount + filterCalculateAsks)) *
@@ -99,7 +100,7 @@ function Depth({ style }, { $ }) {
                     {isMyOrder && <View style={styles.dotAsk} />}
                     <Flex.Item>
                       <Text style={styles.asks} size={12}>
-                        {item.price.toFixed(2)}
+                        {toFixed(item.price, 2)}
                       </Text>
                     </Flex.Item>
                     <Text style={[styles.text, _.mr.wind]} size={12}>
@@ -120,9 +121,9 @@ function Depth({ style }, { $ }) {
         </Flex>
         <Flex style={styles.current}>
           <Flex.Item>
-            <Touchable onPress={() => $.changeValue(current.toFixed(1))}>
+            <Touchable onPress={() => $.changeValue(toFixed(current, 1))}>
               <Text style={{ color }} size={18} bold>
-                {current.toFixed(2)}
+                {toFixed(current, 2)}
               </Text>
             </Touchable>
           </Flex.Item>
@@ -133,7 +134,7 @@ function Depth({ style }, { $ }) {
               }}
               size={10}
             >
-              发行价 ₵{$.issuePrice.toFixed(1)}
+              发行价 ₵{toFixed($.issuePrice, 1)}
             </Text>
           )}
         </Flex>
@@ -141,9 +142,9 @@ function Depth({ style }, { $ }) {
           {bids
             .filter((item, index) => index < 5)
             .map((item, index) => {
-              const price = item.price.toFixed(1)
+              const price = toFixed(item.price, 0)
               const isMyOrder =
-                userBids.findIndex(i => price === i.price.toFixed(1)) !== -1
+                userBids.findIndex(i => price === toFixed(i.price, 0)) !== -1
               calculateBids += item.amount
               return (
                 <Touchable
@@ -154,7 +155,7 @@ function Depth({ style }, { $ }) {
                     {isMyOrder && <View style={styles.dotBid} />}
                     <Flex.Item>
                       <Text style={styles.bids} size={12}>
-                        {item.price.toFixed(2)}
+                        {toFixed(item.price, 2)}
                       </Text>
                     </Flex.Item>
                     <Text style={[styles.text, _.mr.wind]} size={12}>

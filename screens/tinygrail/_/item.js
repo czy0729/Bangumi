@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 12:02:55
+ * @Last Modified time: 2019-12-15 13:53:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
 import { _ } from '@stores'
-import { lastDate, getTimestamp, formatNumber } from '@utils'
+import { lastDate, getTimestamp, formatNumber, toFixed } from '@utils'
 import { tinygrailOSS, formatTime } from '@utils/app'
 import { B, M } from '@constants'
 import Popover from './popover'
@@ -71,15 +71,15 @@ function Item(props, { navigation }) {
   let marketValueText
   let totalText
   if (marketValue > B) {
-    marketValueText = `${parseFloat((marketValue / B).toFixed(1))}亿`
+    marketValueText = `${toFixed(marketValue / B, 1)}亿`
   } else if (marketValue > M) {
-    marketValueText = `${parseFloat((marketValue / M).toFixed(1))}万`
+    marketValueText = `${toFixed(marketValue / M, 1)}万`
   } else {
     marketValueText = formatNumber(marketValue, 0)
   }
 
   if (total > 1000) {
-    totalText = `${parseFloat((total / M).toFixed(1))}万`
+    totalText = `${toFixed(total / M, 1)}万`
   } else {
     totalText = formatNumber(total, 0)
   }
@@ -93,14 +93,12 @@ function Item(props, { navigation }) {
   if (isICO) {
     extra = `${formatTime(_end)} / 已筹集${totalText || '-'}`
   } else {
-    extra = `${lastDate(getTimestamp(fixedTime(lastOrder)))} / +${parseFloat(
-      rate.toFixed(2)
+    extra = `${lastDate(getTimestamp(fixedTime(lastOrder)))} / +${toFixed(
+      rate,
+      2
     )}`
     if (isValhall) {
-      extra += ` / 底价${parseFloat(price.toFixed(1))} / 数量${formatNumber(
-        state,
-        0
-      )}`
+      extra += ` / 底价${toFixed(price, 1)} / 数量${formatNumber(state, 0)}`
     } else {
       extra += ` / 总${marketValueText || '-'} / 量${totalText || '-'}`
     }
@@ -144,7 +142,7 @@ function Item(props, { navigation }) {
       />
       <Flex.Item style={!isTop && styles.border}>
         <Flex align='start'>
-          <Flex.Item style={_.mr.sm}>
+          <Flex.Item>
             <Touchable
               style={styles.item}
               onPress={() => {
@@ -199,14 +197,14 @@ function Item(props, { navigation }) {
                         color: _.colorTinygrailText
                       }
                     ]}
-                    size={12}
+                    size={11}
                   >
                     {isDeal && (
                       <Text
                         style={{
                           color: colorMap[type]
                         }}
-                        size={12}
+                        size={11}
                       >
                         {prevText}
                       </Text>

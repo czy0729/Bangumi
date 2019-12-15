@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 19:39:57
+ * @Last Modified time: 2019-12-15 12:36:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge } from '@utils/app'
 
@@ -35,9 +35,9 @@ function Info(props, { $, navigation }) {
 
   let fluctuationText = '-%'
   if (fluctuation > 0) {
-    fluctuationText = `+${fluctuation.toFixed(2)}%`
+    fluctuationText = `+${toFixed(fluctuation, 2)}%`
   } else if (fluctuation < 0) {
-    fluctuationText = `${fluctuation.toFixed(2)}%`
+    fluctuationText = `${toFixed(fluctuation, 2)}%`
   }
   return (
     <View style={styles.container}>
@@ -91,13 +91,13 @@ function Info(props, { $, navigation }) {
           }}
         >
           市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} /
-          发行价 ₵{$.issuePrice.toFixed(1)} /{' '}
+          发行价 ₵{toFixed($.issuePrice, 1)} /{' '}
           <Text
             style={{
               color: _.colorTinygrailPlain
             }}
           >
-            ₵{current && current.toFixed(2)}
+            ₵{current && toFixed(current, 2)}
           </Text>
         </Text>
         <Text

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:52:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 17:53:50
+ * @Last Modified time: 2019-12-15 12:35:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 
 function Bar({ style, total, level, next }) {
   const styles = memoStyles()
-  const percent = ((total / next) * 100).toFixed(0)
+  const percent = toFixed((total / next) * 100, 0)
   let backgroundColor
   switch (level) {
     case 0:
