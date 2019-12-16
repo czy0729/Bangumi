@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:53:42
+ * @Last Modified time: 2019-12-16 17:28:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,7 +52,8 @@ function Item(props, { navigation }) {
     amount,
     price,
     state,
-    rate
+    rate,
+    level
   } = props
   const colorMap = {
     bid: _.colorBid,
@@ -186,7 +187,19 @@ function Item(props, { navigation }) {
                     {!!bonus && (
                       <Text size={12} lineHeight={15} type='warning'>
                         {' '}
-                        X{bonus}
+                        x{bonus}
+                      </Text>
+                    )}
+                    {parseInt(level) > 1 && (
+                      <Text
+                        style={{
+                          color: _.colorTinygrailText
+                        }}
+                        size={12}
+                        lineHeight={15}
+                      >
+                        {' '}
+                        lv{level}
                       </Text>
                     )}
                   </Text>

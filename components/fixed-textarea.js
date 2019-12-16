@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 11:22:05
+ * @Last Modified time: 2019-12-16 17:56:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { TextareaItem } from '@ant-design/react-native'
 import { _ } from '@stores'
 import { getStorage, setStorage } from '@utils'
+import { IOS } from '@constants'
 import Text from './text'
 import Bgm from './bgm'
 import Flex from './flex'
@@ -192,6 +193,19 @@ class FixedTextarea extends React.Component {
   }
 
   showBgm = () => {
+    // 安卓eject后, 键盘表现跟IOS不一致, 特殊处理
+    if (IOS) {
+      this.setState({
+        showBgm: true
+      })
+
+      setTimeout(() => {
+        const ref = this.ref.textAreaRef
+        ref.blur()
+      }, 0)
+      return
+    }
+
     setTimeout(() => {
       const ref = this.ref.textAreaRef
       ref.blur()
@@ -317,7 +331,9 @@ class FixedTextarea extends React.Component {
 
   renderBgm() {
     const { showTextarea, showBgm, keyboardHeight, history } = this.state
-    if (!showBgm) {
+
+    // 安卓eject后, 键盘表现跟IOS不一致, 特殊处理
+    if (!IOS && !showBgm) {
       return null
     }
 

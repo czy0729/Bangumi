@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:43:41
+ * @Last Modified time: 2019-12-16 18:03:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -98,6 +98,7 @@ function Item({
               height={parseInt(ratioHeight * 240)}
               radius={parseInt(ratioHeight * 120)}
               placeholder={false}
+              quality={false}
             />
           )}
           <Text

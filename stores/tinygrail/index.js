@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:39:45
+ * @Last Modified time: 2019-12-16 17:19:54
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed } from '@utils'
@@ -416,6 +416,7 @@ class Tinygrail extends store {
           icon: item.Icon,
           bonus: item.Bonus,
           rate: item.Rate,
+          level: item.Level,
           _loaded: getTimestamp()
         }
       })
@@ -467,7 +468,8 @@ class Tinygrail extends store {
               name: item.Name,
               icon: item.Icon,
               bonus: item.Bonus,
-              rate: item.Rate
+              rate: item.Rate,
+              level: item.Level
             }
           }
         ),
@@ -672,6 +674,7 @@ class Tinygrail extends store {
           total: item.Total,
           bonus: item.Bonus,
           rate: item.Rate,
+          level: item.Level,
           marketValue: item.MarketValue,
           change: item.Change,
           fluctuation: item.Fluctuation
@@ -690,6 +693,7 @@ class Tinygrail extends store {
           total: item.Total,
           bonus: item.Bonus,
           rate: item.Rate,
+          level: item.Level,
           marketValue: item.MarketValue,
           change: item.Change,
           fluctuation: item.Fluctuation
@@ -742,6 +746,7 @@ class Tinygrail extends store {
           users: item.Users,
           bonus: item.Bonus,
           rate: item.Rate,
+          level: item.Level,
           price: item.Price
         }
       })
@@ -847,7 +852,8 @@ class Tinygrail extends store {
             icon: item.Icon,
             bonus: item.Bonus,
             state: item.State,
-            rate: item.Rate
+            rate: item.Rate,
+            level: item.Level
           }
         }),
         pagination: {
@@ -901,7 +907,8 @@ class Tinygrail extends store {
             icon: item.Icon,
             bonus: item.Bonus,
             state: item.State,
-            rate: item.Rate
+            rate: item.Rate,
+            level: item.Level
           }
         }),
         pagination: {
@@ -949,6 +956,7 @@ class Tinygrail extends store {
             marketValue: item.MarketValue,
             total: item.Total,
             rate: item.Rate,
+            level: item.Level,
             amount: item.Amount,
             price: item.Price,
             state: item.State,
@@ -1007,7 +1015,8 @@ class Tinygrail extends store {
               icon: item.Icon,
               bonus: item.Bonus,
               state: item.State,
-              rate: item.Rate
+              rate: item.Rate,
+              level: item.Level
             }
           }),
           pagination: {
@@ -1038,7 +1047,8 @@ class Tinygrail extends store {
               icon: item.Icon,
               bonus: item.Bonus,
               state: item.State,
-              rate: item.Rate
+              rate: item.Rate,
+              level: item.Level
             }
           }),
           pagination: {
@@ -1190,8 +1200,8 @@ class Tinygrail extends store {
           cover: item.Cover,
           name: item.Name,
           sacrifices: item.Sacrifices,
-          level: item.Level,
-          rate: item.Rate
+          rate: item.Rate,
+          level: item.Level
         })),
         _loaded: getTimestamp()
       }
@@ -1231,6 +1241,7 @@ class Tinygrail extends store {
           total: item.Total,
           bonus: item.Bonus,
           rate: item.Rate,
+          level: item.Level,
           marketValue: item.MarketValue,
           change: item.Change,
           fluctuation: item.Fluctuation
