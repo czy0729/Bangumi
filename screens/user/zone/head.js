@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 01:55:27
+ * @Last Modified time: 2019-12-17 19:26:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,13 +14,18 @@ import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 
 function Head({ style }, { $ }) {
+  const { _id, _name, _image } = $.params
   const { avatar = {}, nickname, id } = $.usersInfo
   const { join, percent, disconnectUrl } = $.users
   const isFriend = !!disconnectUrl
   return (
     <Flex style={style} justify='center' direction='column'>
       <View>
-        <Image style={[styles.avatar, _.mt.md]} size={80} src={avatar.large} />
+        <Image
+          style={[styles.avatar, _.mt.md]}
+          size={80}
+          src={avatar.large || _image}
+        />
         <Text style={styles.id} type={_.select('plain', 'title')} size={12}>
           {join || '- 加入'}
         </Text>
@@ -42,8 +47,8 @@ function Head({ style }, { $ }) {
         )}
       </View>
       <Text style={_.mt.md} type={_.select('plain', 'title')} size={16}>
-        {HTMLDecode(nickname)}
-        {!!id && ` @${id}`}
+        {HTMLDecode(nickname || _name)}
+        {!!(id || _id) && ` @${id || _id}`}
       </Text>
     </Flex>
   )

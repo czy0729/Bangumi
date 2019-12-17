@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-17 12:51:23
+ * @Last Modified time: 2019-12-17 20:45:12
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -268,10 +268,9 @@ export function getCookie(cookies = '', name) {
  * @param {*} src
  */
 export function getCoverSmall(src = '') {
-  if (typeof src !== 'string') {
+  if (typeof src !== 'string' || src === '') {
     return ''
   }
-
   return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
 }
 
@@ -280,7 +279,7 @@ export function getCoverSmall(src = '') {
  * @param {*} src
  */
 export function getCoverMedium(src = '', mini = false) {
-  if (typeof src !== 'string') {
+  if (typeof src !== 'string' || src === '') {
     return ''
   }
 
@@ -293,7 +292,6 @@ export function getCoverMedium(src = '', mini = false) {
   if (mini || src.includes('/user/') || src.includes('/icon/')) {
     return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
   }
-
   return src.replace(/\/g\/|\/s\/|\/m\/|\/l\//, '/c/')
 }
 
@@ -302,10 +300,9 @@ export function getCoverMedium(src = '', mini = false) {
  * @param {*} src
  */
 export function getCoverLarge(src = '') {
-  if (typeof src !== 'string') {
+  if (typeof src !== 'string' || src === '') {
     return ''
   }
-
   return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 01:00:28
+ * @Last Modified time: 2019-12-17 19:31:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,6 +35,7 @@ function ItemSearch({
   comments
 }) {
   const styles = memoStyles()
+  const _image = getCoverMedium(cover)
 
   // 人物高清图不是正方形的图, 所以要特殊处理
   const isMono = !id.includes('/subject/')
@@ -43,13 +44,19 @@ function ItemSearch({
     <Touchable
       style={styles.container}
       highlight
-      onPress={() => appNavigate(id, navigation)}
+      onPress={() =>
+        appNavigate(id, navigation, {
+          _jp: name,
+          _cn: nameCn,
+          _image
+        })
+      }
     >
       <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
         <View style={styles.imgContainer}>
           <Image
             style={styles.image}
-            src={getCoverMedium(cover) || IMG_DEFAULT}
+            src={_image || IMG_DEFAULT}
             resizeMode={isMono ? 'contain' : undefined}
             placeholder={!isMono}
             width={imgWidth}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:21:24
+ * @Last Modified time: 2019-12-17 17:48:40
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -215,6 +215,7 @@ class ItemTimeline extends React.Component {
       style,
       index,
       avatar,
+      p1,
       p3,
       star,
       reply,
@@ -233,6 +234,7 @@ class ItemTimeline extends React.Component {
               src={avatar.src}
               size={avatarWidth}
               userId={matchUserId(String(avatar.url).replace(HOST, ''))}
+              name={p1.text}
             />
           )}
         </View>

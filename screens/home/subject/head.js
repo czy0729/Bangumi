@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:42:08
+ * @Last Modified time: 2019-12-17 19:41:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,8 @@ function Head({ style }, { $ }) {
         <View>
           {!!jp && (
             <Text type='sub' size={jp.length > 16 ? 11 : 13}>
-              {jp} · {label}
+              {jp}
+              {!!label && ` · ${label}`}
             </Text>
           )}
           <Text style={!!cn && _.mt.xs} size={cn.length > 16 ? 16 : 20}>

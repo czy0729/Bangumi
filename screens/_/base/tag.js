@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 20:36:25
+ * @Last Modified time: 2019-12-17 20:09:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -79,6 +79,10 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.select(_.colorWarningBorder, _._colorDarkModeLevel1)
   },
   plain: {
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
+  },
+  title: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
   }

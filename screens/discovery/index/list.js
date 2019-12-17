@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 11:09:09
+ * @Last Modified time: 2019-12-17 20:00:04
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -61,6 +61,7 @@ function List({ style, type }, { $, navigation }) {
       </SectionTitle>
       {[0].map(item => {
         const src = getCoverLarge(data[item].cover) || IMG_DEFAULT
+        const cn = findBangumiCn(data[item].title)
         return (
           <View key={item} style={styles.big}>
             <Image
@@ -73,6 +74,7 @@ function List({ style, type }, { $, navigation }) {
                 navigation.push('Subject', {
                   subjectId: data[item].subjectId,
                   _jp: data[item].title,
+                  _cn: cn,
                   _image: src
                 })
               }
@@ -92,7 +94,7 @@ function List({ style, type }, { $, navigation }) {
                 type={_.select('plain', 'title')}
                 bold
               >
-                {findBangumiCn(data[item].title)}
+                {cn}
               </Text>
             </View>
           </View>
@@ -108,6 +110,7 @@ function List({ style, type }, { $, navigation }) {
           .filter((item, index) => index > 0)
           .map(item => {
             const src = getCoverMedium(item.cover) || IMG_DEFAULT
+            const cn = findBangumiCn(item.title)
             return (
               <View key={item.subjectId} style={styles.image}>
                 <Image
@@ -120,6 +123,7 @@ function List({ style, type }, { $, navigation }) {
                     navigation.push('Subject', {
                       subjectId: item.subjectId,
                       _jp: item.title,
+                      _cn: cn,
                       _image: src
                     })
                   }
@@ -144,7 +148,7 @@ function List({ style, type }, { $, navigation }) {
                     numberOfLines={1}
                     bold
                   >
-                    {findBangumiCn(item.title)}
+                    {cn}
                   </Text>
                 </View>
               </View>

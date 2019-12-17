@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 14:40:40
+ * @Last Modified time: 2019-12-17 20:55:58
  */
 import { observable, computed } from 'mobx'
 import {
@@ -16,7 +16,7 @@ import {
 import { Eps } from '@screens/_'
 import { sleep } from '@utils'
 import { t } from '@utils/fetch'
-import { appNavigate } from '@utils/app'
+import { appNavigate, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
 import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
@@ -590,7 +590,15 @@ export default class ScreenHome extends store {
         title: '本集讨论',
         subjectId
       })
-      appNavigate(item.url, navigation)
+
+      // 数据占位
+      const subject = this.subject(subjectId)
+      appNavigate(item.url, navigation, {
+        _title: `ep${item.sort}.${item.name || item.name_cn}`,
+        _group: subject.name || subject.name_cn,
+        _groupThumb: getCoverMedium((subject.images || {}).medium),
+        _desc: `时长:${item.duration} / 首播:${item.airdate} \r\n ${item.desc}`
+      })
     }
   }
 

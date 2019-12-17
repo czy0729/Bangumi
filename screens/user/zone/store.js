@@ -1,10 +1,10 @@
 /*
  * 用户控件
- * params { _name, _id, _image }
+ * @Params: { _id, _name, _image }
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 03:24:39
+ * @Last Modified time: 2019-12-17 19:27:16
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, usersStore, timelineStore } from '@stores'

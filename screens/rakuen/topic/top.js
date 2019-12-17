@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 20:01:30
+ * @Last Modified time: 2019-12-17 20:49:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -45,11 +45,12 @@ function Top(props, { $, navigation }) {
     _time,
     _avatar,
     _userName,
-    _userId
+    _userId,
+    _desc
   } = $.params
 
   // ep带上章节详情
-  const html = $.isEp ? $.epFormHTML : message
+  const html = $.isEp ? $.epFormHTML || _desc : message
   const userAvatar = avatar || _avatar
   const uname = userName || _userName
   const uid = userId || _userId

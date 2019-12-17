@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:18:56
+ * @Last Modified time: 2019-12-17 19:25:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ function Avatar({
   style,
   navigation,
   userId,
+  name,
   src,
   size,
   borderColor = _.colorBorder,
@@ -25,6 +26,8 @@ function Avatar({
 }) {
   const styles = memoStyles()
   const { avatarRound } = systemStore.setting
+  const _src = getCoverMedium(src, true)
+  const radius = avatarRound ? size / 2 : true
   const _onPress = () => {
     if (onPress) {
       onPress()
@@ -33,7 +36,10 @@ function Avatar({
 
     if (navigation && userId) {
       navigation.push('Zone', {
-        userId
+        userId,
+        _id: userId,
+        _image: _src,
+        _name: name
       })
     }
   }
@@ -61,8 +67,8 @@ function Avatar({
       <View style={_style}>
         <Image
           size={size}
-          src={getCoverMedium(src, true)}
-          radius={avatarRound ? size / 2 : true}
+          src={_src}
+          radius={radius}
           quality={false}
           onPress={_onPress}
           onLongPress={onLongPress}
@@ -75,8 +81,8 @@ function Avatar({
     <Image
       style={style}
       size={size}
-      src={getCoverMedium(src, true)}
-      radius={avatarRound ? size / 2 : true}
+      src={_src}
+      radius={radius}
       border={borderColor}
       quality={false}
       onPress={_onPress}

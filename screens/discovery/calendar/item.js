@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:41:48
+ * @Last Modified time: 2019-12-17 19:37:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -29,9 +29,12 @@ function Item(
     list.findIndex(item => item.subject_id === subjectId) !== -1
 
   const { air, timeCN } = $.onAir[subjectId] || {}
+  const _image = getCoverMedium(images.medium)
   const onPress = () => {
     navigation.push('Subject', {
-      subjectId
+      subjectId,
+      _cn: name,
+      _image
     })
   }
   return (
@@ -39,7 +42,7 @@ function Item(
       <Image
         width={imageWidth}
         height={imageHeight}
-        src={getCoverMedium(images.medium) || IMG_DEFAULT}
+        src={_image || IMG_DEFAULT}
         radius
         shadow
         onPress={onPress}

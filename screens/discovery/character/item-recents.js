@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:21:39
+ * @Last Modified time: 2019-12-17 19:52:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,9 +25,13 @@ function Item(
 ) {
   const styles = memoStyles()
   const isFirst = index === 0
+  const _image = getCoverMedium(cover)
   const onPress = () =>
     navigation.push('Subject', {
-      subjectId: id
+      subjectId: id,
+      _jp: nameJP,
+      _cn: name,
+      _image
     })
   return (
     <Flex
@@ -35,10 +39,10 @@ function Item(
       style={[styles.container, styles.wrap, !isFirst && styles.border]}
     >
       <View style={styles.imgContainer}>
-        {!!cover && (
+        {!!_image && (
           <Image
             style={styles.image}
-            src={getCoverMedium(cover)}
+            src={_image}
             width={imgWidth}
             height={imgHeight}
             resizeMode='contain'
