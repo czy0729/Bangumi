@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-30 14:05:21
+ * @Last Modified time: 2019-12-17 16:50:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,6 +18,7 @@ export default
 @observer
 class Eps extends React.Component {
   static defaultProps = {
+    marginRight: 0,
     numbersOfLine: 8, // 1行多少个, 为了美观, 通过计算按钮占满1行
     pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
     advance: false, // 详情页模式, 显示SP和更多的操作按钮
@@ -37,10 +38,11 @@ class Eps extends React.Component {
   }
 
   onLayout = ({ nativeEvent }) => {
+    const { marginRight } = this.props
     const { width } = this.state
     if (!width) {
       this.setState({
-        width: nativeEvent.layout.width
+        width: nativeEvent.layout.width - marginRight
       })
     }
   }
@@ -61,10 +63,9 @@ class Eps extends React.Component {
     const marginNumbers = numbersOfLine - 1
     const marginSum = width * marginPercent
     const widthSum = width - marginSum
-
     return {
-      width: Math.floor(widthSum / numbersOfLine),
-      margin: Math.floor(marginSum / marginNumbers)
+      width: widthSum / numbersOfLine,
+      margin: marginSum / marginNumbers
     }
   }
 
@@ -136,7 +137,6 @@ class Eps extends React.Component {
           data: this.getPopoverData(item),
           onSelect: value => this.onSelect(value, item)
         }
-
     return (
       <Popover
         key={item.id}

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 01:23:18
+ * @Last Modified time: 2019-12-17 14:40:40
  */
 import { observable, computed } from 'mobx'
 import {
@@ -15,6 +15,7 @@ import {
 } from '@stores'
 import { Eps } from '@screens/_'
 import { sleep } from '@utils'
+import { t } from '@utils/fetch'
 import { appNavigate } from '@utils/app'
 import store from '@utils/store'
 import { IOS } from '@constants'
@@ -281,10 +282,12 @@ export default class ScreenHome extends store {
 
   // -------------------- page --------------------
   /**
+   * 标签页点击
    * @issue onTabClick与onChange在用受控模式的时候, 有冲突
    * 暂时这样解决
    */
   onTabClick = (item, page) => {
+    t('首页.标签页点击')
     if (page === this.state.page) {
       return
     }
@@ -368,6 +371,7 @@ export default class ScreenHome extends store {
    * 显示收藏管理<Modal>
    */
   showManageModal = subjectId => {
+    t('首页.显示收藏管理')
     this.setState({
       visible: true,
       subjectId
@@ -384,9 +388,10 @@ export default class ScreenHome extends store {
   }
 
   /**
-   * <Item>展开和收起
+   * <Item>展开或收起
    */
   itemToggleExpand = subjectId => {
+    t('首页.展开或收起条目')
     const state = this.$Item(subjectId)
     this.setState({
       item: {
@@ -400,9 +405,11 @@ export default class ScreenHome extends store {
   }
 
   /**
-   * <Item>置顶和取消置顶
+   * <Item>置顶或取消置顶
    */
   itemToggleTop = (subjectId, isTop) => {
+    t('首页.置顶或取消置顶')
+
     const { top } = this.state
     const _top = [...top]
     const index = _top.indexOf(subjectId)
@@ -426,6 +433,8 @@ export default class ScreenHome extends store {
    * 全部展开 (书籍不要展开, 展开就收不回去了)
    */
   expandAll = () => {
+    t('首页.全部展开')
+
     const item = {}
     this.userCollection.list.forEach(({ subject_id: subjectId, subject }) => {
       const type = MODEL_SUBJECT_TYPE.getTitle(subject.type)
@@ -446,6 +455,8 @@ export default class ScreenHome extends store {
    * 全部关闭
    */
   closeAll = () => {
+    t('首页.全部关闭')
+
     this.clearState('item')
     this.setStorage(undefined, undefined, namespace)
   }
@@ -454,6 +465,8 @@ export default class ScreenHome extends store {
    * 选择布局
    */
   selectLayout = title => {
+    t('首页.选择布局')
+
     this.setState({
       grid: title === '方格布局'
     })
@@ -464,6 +477,8 @@ export default class ScreenHome extends store {
    * 格子布局条目选择
    */
   selectGirdSubject = subjectId => {
+    t('首页.格子布局条目选择')
+
     this.setState({
       current: subjectId
     })
@@ -472,13 +487,15 @@ export default class ScreenHome extends store {
 
   // -------------------- action --------------------
   /**
-   * 观看下一集
+   * 观看下一章节
    */
   doWatchedNextEp = async subjectId => {
     const state = this.$Item(subjectId)
     if (state.doing) {
       return
     }
+
+    t('首页.观看下一章节')
     this.setState({
       item: {
         [subjectId]: {
@@ -510,6 +527,8 @@ export default class ScreenHome extends store {
    * 更新书籍下一个章节
    */
   doUpdateNext = async (subjectId, epStatus, volStatus) => {
+    t('首页.更新书籍下一个章节')
+
     await collectionStore.doUpdateBookEp({
       subjectId,
       chap: epStatus,
@@ -523,6 +542,8 @@ export default class ScreenHome extends store {
    * 管理收藏
    */
   doUpdateCollection = async values => {
+    t('首页.管理收藏')
+
     await collectionStore.doUpdateCollection(values)
     this.closeManageModal()
   }
@@ -533,6 +554,12 @@ export default class ScreenHome extends store {
   doEpsSelect = async (value, item, subjectId, navigation) => {
     const status = MODEL_EP_STATUS.getValue(value)
     if (status) {
+      t('首页.章节菜单操作', {
+        title: '更新收视进度',
+        subjectId,
+        status
+      })
+
       // 更新收视进度
       await userStore.doUpdateEpStatus({
         id: item.id,
@@ -543,6 +570,11 @@ export default class ScreenHome extends store {
     }
 
     if (value === '看到') {
+      t('首页.章节菜单操作', {
+        title: '批量更新收视进度',
+        subjectId
+      })
+
       // 批量更新收视进度
       await userStore.doUpdateSubjectWatched({
         subjectId,
@@ -554,6 +586,10 @@ export default class ScreenHome extends store {
 
     // iOS是本集讨论, 安卓是(+N)...
     if (value.includes('本集讨论') || value.includes('(+')) {
+      t('首页.章节菜单操作', {
+        title: '本集讨论',
+        subjectId
+      })
       appNavigate(item.url, navigation)
     }
   }
@@ -562,8 +598,9 @@ export default class ScreenHome extends store {
    * 章节按钮长按
    */
   doEpsLongPress = async ({ id }, subjectId) => {
-    const userProgress = this.userProgress(subjectId)
+    t('首页.章节按钮长按')
 
+    const userProgress = this.userProgress(subjectId)
     let status
     if (userProgress[id]) {
       // 已观看 -> 撤销

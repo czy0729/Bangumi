@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 15:08:35
+ * @Last Modified time: 2019-12-17 14:24:26
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -17,6 +17,7 @@ import {
   VERSION_GITHUB_RELEASE,
   DEV
 } from '@constants'
+import events from '@constants/events'
 import fetch from './thirdParty/fetch-polyfill'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
@@ -338,13 +339,38 @@ export async function hm(url, screen) {
     console.warn('[fetch] hm', error)
   }
 }
+/**
+ * track
+ * @param {*} u
+ */
+export function t(desc, eventData) {
+  if (!desc) {
+    return
+  }
 
-export function t(u) {
-  if (IOS) return
+  if (IOS) {
+    if (!DEV) {
+      return
+    }
+    log(`[track] ${desc} ${eventData ? JSON.stringify(eventData) : ''}`)
+    return
+  }
+
   try {
-    UMAnalyticsModule.onPageStart(u)
+    const eventId = events[desc]
+    if (eventId) {
+      if (eventData) {
+        UMAnalyticsModule.onEventWithMap(eventId, eventData)
+      } else {
+        UMAnalyticsModule.onEvent(eventId)
+      }
+
+      if (DEV) {
+        log(`[track] ${desc} ${eventData ? JSON.stringify(eventData) : ''}`)
+      }
+    }
   } catch (error) {
-    // do nothing
+    warn('utils/fetch', 't', error)
   }
 }
 

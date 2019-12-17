@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-26 20:10:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-26 20:42:06
+ * @Last Modified time: 2019-12-17 10:53:35
  */
 import React from 'react'
 import { NativeModules } from 'react-native'
@@ -18,12 +18,8 @@ function UM({ screen = '' }) {
 
   return (
     <NavigationEvents
-      onDidFocus={() => {
-        UMAnalyticsModule.onPageStart(screen)
-      }}
-      onWillBlur={() => {
-        UMAnalyticsModule.onPageEnd(screen)
-      }}
+      onDidFocus={() => UMAnalyticsModule.onPageStart(screen)}
+      onWillBlur={() => UMAnalyticsModule.onPageEnd(screen)}
     />
   )
 }

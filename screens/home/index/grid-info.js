@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 22:38:13
+ * @Last Modified time: 2019-12-17 17:14:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -147,19 +147,33 @@ class GridInfo extends React.Component {
     const { $, navigation } = this.context
     const { subjectId, subject } = this.props
     const isToday = $.isToday(subjectId)
+    const isNextDay = $.isNextDay(subjectId)
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     const doing = isBook ? '读' : '看'
     return (
       <Flex style={styles.item} align='start'>
-        <Image
-          size={120}
-          height={168}
-          src={getCoverMedium(subject.images.medium)}
-          radius
-          border
-          shadow
-          onPress={this.onPress}
-        />
+        <View>
+          <Image
+            size={120}
+            height={168}
+            src={getCoverMedium(subject.images.medium)}
+            radius
+            border
+            shadow
+            onPress={this.onPress}
+          />
+          {isToday ? (
+            <Text style={_.mt.md} type='success' align='center'>
+              {$.onAir[subjectId].timeCN.slice(0, 2)}:
+              {$.onAir[subjectId].timeCN.slice(2, 4)}
+            </Text>
+          ) : isNextDay ? (
+            <Text style={_.mt.md} type='sub' align='center'>
+              明天{$.onAir[subjectId].timeCN.slice(0, 2)}:
+              {$.onAir[subjectId].timeCN.slice(2, 4)}
+            </Text>
+          ) : null}
+        </View>
         <Flex.Item style={[_.ml.wind, _.mt.xs]}>
           <Touchable onPress={this.onPress}>
             <Flex align='start'>

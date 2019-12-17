@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 01:26:18
+ * @Last Modified time: 2019-12-17 17:03:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -138,7 +138,7 @@ class Item extends React.Component {
     const { expand } = $.$Item(subjectId)
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     return (
-      <Flex>
+      <Flex style={this.styles.toolBar}>
         {this.renderBtnNextEp()}
         <Touchable
           style={[this.styles.touchable, _.ml.sm]}
@@ -243,7 +243,7 @@ class Item extends React.Component {
     return (
       <Shadow style={_.mb.md} initHeight={120}>
         <View style={this.styles.item}>
-          <Flex>
+          <Flex style={this.styles.hd}>
             <Image
               size={88}
               src={getCoverMedium(subject.images.medium)}
@@ -268,12 +268,17 @@ class Item extends React.Component {
                     </Text>
                   </Flex.Item>
                   {isToday ? (
-                    <Text style={_.ml.sm} type='success' size={12}>
+                    <Text
+                      style={_.ml.sm}
+                      type='success'
+                      size={12}
+                      lineHeight={14}
+                    >
                       {$.onAir[subjectId].timeCN.slice(0, 2)}:
                       {$.onAir[subjectId].timeCN.slice(2, 4)}
                     </Text>
                   ) : isNextDay ? (
-                    <Text style={_.ml.sm} type='sub' size={12}>
+                    <Text style={_.ml.sm} type='sub' size={12} lineHeight={14}>
                       明天{$.onAir[subjectId].timeCN.slice(0, 2)}:
                       {$.onAir[subjectId].timeCN.slice(2, 4)}
                     </Text>
@@ -296,6 +301,7 @@ class Item extends React.Component {
           {expand && (
             <Eps
               style={_.mt.md}
+              marginRight={_.wind}
               login={$.isLogin}
               subjectId={subjectId}
               eps={$.eps(subjectId)}
@@ -321,12 +327,19 @@ export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
-    padding: _.wind,
+    paddingVertical: _.wind,
+    paddingLeft: _.wind,
     backgroundColor: _.colorPlain,
     borderColor: _.colorBorder,
     borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  hd: {
+    paddingRight: _.wind
+  },
+  toolBar: {
+    marginRight: -8
   },
   icon: {
     marginBottom: -1

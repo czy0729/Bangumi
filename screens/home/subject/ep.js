@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 11:21:43
+ * @Last Modified time: 2019-12-17 17:18:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -32,7 +32,7 @@ function Ep({ style }, { $, navigation }) {
   const { epsReverse } = $.state
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   return (
-    <View style={[_.container.wind, styles.container, style]}>
+    <View style={[styles.container, style]}>
       <SectionTitle
         right={
           <IconReverse
@@ -51,6 +51,7 @@ function Ep({ style }, { $, navigation }) {
       </SectionTitle>
       <Eps
         style={_.mt.md}
+        marginRight={_.wind}
         advance
         pagination
         login={$.isLogin}
@@ -74,6 +75,7 @@ export default observer(Ep)
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 146
+    minHeight: 146,
+    marginLeft: _.wind
   }
 })

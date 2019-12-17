@@ -3,15 +3,19 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-16 18:07:05
+ * @Last Modified time: 2019-12-17 10:57:43
  */
 import { Platform } from 'react-native'
 
 /* ==================== DEV ==================== */
-export const DEV = false // 是否开发模式
+export const DEV = true // 是否开发模式
 export const BARE = true // 裸工作流
 export const VERSION_GITHUB_RELEASE = '2.1.1' // 版本号
 export const VERSION_CODE_PUSH = '' // 热推送副版本号
+export const ERRORS = {
+  keys: [],
+  errors: []
+}
 
 /* ==================== BASE ==================== */
 // HOST
