@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 12:27:12
+ * @Last Modified time: 2019-12-19 01:21:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,6 +23,7 @@ function ItemTemple(
   { navigation }
 ) {
   const isFormCharaAssets = !!onPress
+  const _name = HTMLDecode(nickname || name)
 
   let colorLevel
   let plusRate = 0.2
@@ -55,6 +56,7 @@ function ItemTemple(
               size={28}
               src={avatar}
               userId={name}
+              name={_name}
               borderColor='transparent'
             />
           )}
@@ -66,7 +68,7 @@ function ItemTemple(
               size={isFormCharaAssets ? 16 : 13}
               numberOfLines={1}
             >
-              {HTMLDecode(nickname || name)}
+              {_name}
             </Text>
             <Text
               style={{

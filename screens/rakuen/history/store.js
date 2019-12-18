@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 01:17:49
+ * @Last Modified time: 2019-12-18 17:54:40
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -34,7 +34,8 @@ export default class ScreenRakuenHistory extends store {
     const map = {}
     Object.keys(data)
       .filter(item => {
-        if (!item.includes('group/')) {
+        // 不知道哪里有问题, 有时会出现undefined的key值, 过滤掉
+        if (!item.includes('group/') || item.includes('undefined')) {
           return false
         }
         if (favor) {

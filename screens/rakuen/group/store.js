@@ -1,8 +1,9 @@
 /*
+ * @Params: { _title }
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 14:58:12
+ * @Last Modified time: 2019-12-18 17:50:07
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -60,6 +61,19 @@ export default class ScreenGroup extends store {
     const { groupId } = this.params
     const { page } = this.state
     return rakuenStore.group(groupId, page)
+  }
+
+  @computed get groupThumb() {
+    const { cover } = this.groupInfo
+    if (cover) {
+      return cover
+    }
+
+    const { _title } = this.params
+    if (_title) {
+      return rakuenStore.groupThumb(_title)
+    }
+    return ''
   }
 
   /**

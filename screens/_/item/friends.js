@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 01:41:05
+ * @Last Modified time: 2019-12-19 01:16:07
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -32,12 +32,14 @@ function ItemFriends({
       highlight
       onPress={() =>
         navigation.push('Zone', {
-          userId
+          userId,
+          _name: userName,
+          _image: avatar
         })
       }
     >
       <Flex>
-        <Avatar style={styles.image} size={48} src={avatar} />
+        <Avatar style={styles.image} size={48} name={userName} src={avatar} />
         <Flex.Item style={[styles.item, _.ml.md]}>
           <Flex>
             <Flex.Item>

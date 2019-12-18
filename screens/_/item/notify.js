@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:21:04
+ * @Last Modified time: 2019-12-19 01:16:18
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -28,8 +28,9 @@ function ItemNotify({
       <Avatar
         style={styles.image}
         navigation={navigation}
-        src={avatar}
         userId={userId}
+        name={userName}
+        src={avatar}
       />
       <Flex.Item style={[styles.item, !!index && styles.border, _.ml.sm]}>
         <Text size={13} type='avatar'>
@@ -40,7 +41,11 @@ function ItemNotify({
           <Text
             lineHeight={1.8}
             type='main'
-            onPress={() => appNavigate(href, navigation)}
+            onPress={() =>
+              appNavigate(href, navigation, {
+                _title: title
+              })
+            }
           >
             {title}
           </Text>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 11:26:30
+ * @Last Modified time: 2019-12-19 01:19:26
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -71,6 +71,7 @@ function Item(
         style={styles.image}
         navigation={navigation}
         userId={userId}
+        name={userName}
         src={avatar}
       />
       <Flex.Item style={[styles.content, _.ml.sm]}>
@@ -166,6 +167,7 @@ function Item(
                   style={styles.subImage}
                   navigation={navigation}
                   userId={item.userId}
+                  name={item.userName}
                   src={item.avatar}
                 />
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>

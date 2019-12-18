@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:38:31
+ * @Last Modified time: 2019-12-19 01:17:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -40,6 +40,7 @@ function TinygrailUsers({ style }, { $, navigation }) {
                 src={item.avatar}
                 size={isTop ? 56 : 40}
                 userId={item.name}
+                name={item.nickName}
               />
               <Flex.Item style={_.ml.sm}>
                 <Text type={isTop ? 'warning' : 'desc'} size={isTop ? 14 : 12}>

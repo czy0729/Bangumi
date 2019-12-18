@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 17:54:13
+ * @Last Modified time: 2019-12-18 17:58:09
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -49,7 +49,7 @@ class RakuenHistory extends React.Component {
       <ListView
         key={$.sections.length}
         style={_.container.screen}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.topicId}
         sections={$.sections}
         renderSectionHeader={({ section: { title } }) => (
           <SectionHeader size={14}>{title}</SectionHeader>

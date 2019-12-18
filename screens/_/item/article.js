@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:20:56
+ * @Last Modified time: 2019-12-19 01:15:56
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -34,7 +34,7 @@ function ItemArticle({
       onPress={() => appNavigate(url, navigation)}
     >
       <Flex align='start'>
-        <Avatar style={styles.image} src={avatar} />
+        <Avatar style={styles.image} name={nickname} src={avatar} />
         <Flex.Item style={[styles.item, !isFirst && styles.border, _.ml.sm]}>
           <Text size={16}>{HTMLDecode(title)}</Text>
           <Flex style={_.mt.xs}>

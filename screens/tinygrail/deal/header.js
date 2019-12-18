@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 12:30:31
+ * @Last Modified time: 2019-12-19 01:21:42
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -44,6 +44,7 @@ function Header(props, { $, navigation }) {
             src={tinygrailOSS(icon)}
             size={32}
             borderColor='transparent'
+            name={name}
             onPress={() =>
               navigation.push('Mono', {
                 monoId: `character/${$.monoId}`

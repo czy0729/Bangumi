@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:16:46
+ * @Last Modified time: 2019-12-18 17:38:55
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -321,16 +321,15 @@ export default class ScreenRakuen extends store {
     switch (title) {
       case '进入小组':
         navigation.push('Group', {
-          groupId: values.groupHref.replace('/group/', '')
+          groupId: values.groupHref.replace('/group/', ''),
+          _title: values.groupCn
         })
         break
-
       case '进入条目':
         navigation.push('Subject', {
           subjectId: values.groupHref.replace('/subject/', '')
         })
         break
-
       case '进入人物':
         navigation.push('Mono', {
           monoId: values.topicId
@@ -338,31 +337,26 @@ export default class ScreenRakuen extends store {
             .replace('crt/', 'character/')
         })
         break
-
       case '屏蔽小组':
       case '屏蔽条目':
       case '屏蔽人物':
         rakuenStore.addBlockGroup(values.groupCn)
         info(`已屏蔽 ${values.groupCn}`)
         break
-
       case '屏蔽用户':
         rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
         info(`已屏蔽 ${values.userName}`)
         break
-
       case '进入ICO':
         navigation.push('TinygrailICODeal', {
           monoId: values.monoId
         })
         break
-
       case '进入交易':
         navigation.push('TinygrailTrade', {
           monoId: values.monoId
         })
         break
-
       default:
         break
     }

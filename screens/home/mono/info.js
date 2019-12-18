@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 12:11:00
+ * @Last Modified time: 2019-12-19 00:51:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,8 +19,9 @@ import {
   Iconfont
 } from '@components'
 import { SectionTitle } from '@screens/_'
-import { IOS } from '@constants'
 import { _ } from '@stores'
+import { getCoverLarge } from '@utils/app'
+import { IOS } from '@constants'
 import TinygrailUsers from './tinygrail-users'
 import Voice from './voice'
 import Works from './works'
@@ -39,7 +40,7 @@ function Info(props, { $, navigation }) {
     eraseCollectUrl
   } = $.mono
   const { monoId, _name, _jp, _image } = $.params
-  const _cover = cover || _image
+  const _cover = cover || getCoverLarge(_image)
   return (
     <>
       {!IOS && <HeaderPlaceholder />}

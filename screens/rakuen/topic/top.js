@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 20:49:16
+ * @Last Modified time: 2019-12-19 01:19:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -120,6 +120,7 @@ function Top(props, { $, navigation }) {
                   size={40}
                   src={_avatar || userAvatar}
                   userId={userId}
+                  name={uname}
                 />
               )}
             </View>

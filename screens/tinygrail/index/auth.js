@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 17:19:30
+ * @Last Modified time: 2019-12-19 01:22:09
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -31,6 +31,7 @@ function Auth(props, { $, navigation }) {
         <Avatar
           size={40}
           src={tinygrailOSS(avatar && avatar.large)}
+          name={nickname}
           borderColor='transparent'
         />
         <Flex.Item style={_.ml.sm}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 15:35:05
+ * @Last Modified time: 2019-12-19 01:17:57
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -31,6 +31,7 @@ function Recent({ style }, { $, navigation }) {
             <Avatar
               navigation={navigation}
               userId={item.userId}
+              name={item.name}
               src={item.avatar}
               size={40}
             />

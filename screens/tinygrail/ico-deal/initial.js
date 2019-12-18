@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 16:48:19
+ * @Last Modified time: 2019-12-19 01:21:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -44,6 +44,7 @@ function Initial({ style }, { $, navigation }) {
                 src={tinygrailOSS(item.avatar)}
                 size={isTop ? 56 : 40}
                 userId={item.name}
+                name={item.nickName}
                 borderColor='transparent'
               />
               <Flex.Item style={_.ml.sm}>

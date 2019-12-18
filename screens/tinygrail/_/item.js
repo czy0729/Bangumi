@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-16 17:28:47
+ * @Last Modified time: 2019-12-19 01:21:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -134,6 +134,7 @@ function Item(props, { navigation }) {
         style={styles.image}
         src={tinygrailOSS(icon)}
         size={40}
+        name={name}
         borderColor='transparent'
         onPress={() =>
           navigation.push('Mono', {

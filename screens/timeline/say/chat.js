@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 18:04:46
+ * @Last Modified time: 2019-12-19 01:20:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,6 +56,7 @@ function Chat(props, { $, navigation }) {
                 src={avatar.medium}
                 size={28}
                 userId={item.id}
+                name={item.name}
               />
             </Flex>
           )
@@ -70,6 +71,7 @@ function Chat(props, { $, navigation }) {
               src={item.avatar || avatar.medium}
               size={28}
               userId={item.id}
+              name={item.name}
               onLongPress={() => $.at(item.id)}
             />
             <Flex.Item style={_.ml.sm}>

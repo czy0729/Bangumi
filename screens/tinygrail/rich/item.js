@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:30:37
+ * @Last Modified time: 2019-12-19 01:23:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,6 +94,7 @@ function Item(
             src={tinygrailOSS(avatar)}
             size={44}
             borderColor='transparent'
+            name={nickname}
             onPress={() =>
               navigation.push('Zone', {
                 userId

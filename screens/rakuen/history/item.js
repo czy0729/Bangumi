@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:22:24
+ * @Last Modified time: 2019-12-19 01:18:11
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -23,6 +23,7 @@ function Item(
         navigation={navigation}
         src={avatar}
         userId={userId}
+        name={userName}
       />
       <Flex.Item style={index !== 0 && styles.border}>
         <Touchable

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 17:48:12
+ * @Last Modified time: 2019-12-18 17:50:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,17 +21,18 @@ import { _ } from '@stores'
 import { IOS } from '@constants'
 
 function Info(props, { $ }) {
-  const { title, content, cover, create, _loaded } = $.groupInfo
+  const { _title } = $.params
+  const { title, content, create, _loaded } = $.groupInfo
   return (
     <View style={[_.container.inner, styles.container]}>
       {!IOS && <HeaderPlaceholder />}
       <Text size={20} bold>
-        {title}
+        {title || _title}
       </Text>
-      {!!cover && (
+      {!!$.groupThumb && (
         <Flex style={_.mt.md} justify='center'>
           <Image
-            src={cover}
+            src={$.groupThumb}
             size={80}
             border
             shadow

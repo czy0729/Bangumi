@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 19:42:52
+ * @Last Modified time: 2019-12-19 01:16:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,8 +48,9 @@ function Item({
         style={styles.image}
         navigation={navigation}
         size={avatarWidth}
-        src={avatar}
         userId={userId}
+        name={userName}
+        src={avatar}
       />
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>
@@ -92,6 +93,7 @@ function Item({
                   size={avatarWidth}
                   src={item.avatar}
                   userId={item.userId}
+                  name={item.userName}
                 />
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
