@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 01:21:13
+ * @Last Modified time: 2019-12-18 15:30:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,13 @@ function Voice({ style }, { $, navigation }) {
                   src={item.cover}
                   radius
                   border={_.colorBorder}
-                  onPress={() => appNavigate(item.href, navigation)}
+                  onPress={() =>
+                    appNavigate(item.href, navigation, {
+                      _jp: item.name,
+                      _cn: item.nameCn,
+                      _image: item.cover
+                    })
+                  }
                 />
                 <Flex.Item style={_.ml.sm}>
                   <Text style={_.mt.xs}>{item.name}</Text>

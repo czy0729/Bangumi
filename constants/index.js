@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 10:57:43
+ * @Last Modified time: 2019-12-18 16:28:58
  */
 import { Platform } from 'react-native'
 
@@ -122,6 +122,21 @@ export const airtimeData = [
   '1982',
   '1981',
   '1980'
+]
+export const monthData = [
+  '全部',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12'
 ]
 
 // decimal

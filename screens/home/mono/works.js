@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 01:22:04
+ * @Last Modified time: 2019-12-18 15:30:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,13 @@ function Works({ style }, { $, navigation }) {
               src={item.cover}
               radius
               border={_.colorBorder}
-              onPress={() => appNavigate(item.href, navigation)}
+              onPress={() =>
+                appNavigate(item.href, navigation, {
+                  _jp: item.name,
+                  _cn: item.nameCn,
+                  _image: item.cover
+                })
+              }
             />
             <Flex.Item style={_.ml.sm}>
               <Text>{item.name}</Text>

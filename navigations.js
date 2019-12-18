@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 20:30:38
+ * @Last Modified time: 2019-12-18 17:26:54
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
@@ -15,8 +15,8 @@ export default {
     // name: '小耳兔'
     // monoId: 'character/20391' // 20391 character/70323 person/5745
     // groupId: 'tinygrail'
-    // type: 'auction'
-    // tag: '水树奈奈',
+    // type: 'anime',
+    // tag: '水树奈奈'
     // uri: 'https://bangumi.tv/award/2010',
     // form: 'lottery',
     // message:

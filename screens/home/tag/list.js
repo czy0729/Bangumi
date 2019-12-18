@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 17:42:00
+ * @Last Modified time: 2019-12-18 16:34:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -35,7 +35,6 @@ function List(props, { $, navigation }) {
         if (list) {
           return <ItemSearch navigation={navigation} index={index} {...item} />
         }
-
         return (
           <ItemCollectionsGrid
             navigation={navigation}
@@ -45,7 +44,13 @@ function List(props, { $, navigation }) {
         )
       }}
       onHeaderRefresh={() => $.fetchTag(true)}
-      onFooterRefresh={$.fetchTag}
+      onFooterRefresh={() => {
+        // 网页判断不了还有没有下一页, 假如长度小于一页24个, 不请求
+        if ($.tag.list.length < 24) {
+          return false
+        }
+        return $.fetchTag()
+      }}
     />
   )
 }

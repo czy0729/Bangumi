@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 12:10:44
+ * @Last Modified time: 2019-12-18 15:39:25
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -34,7 +34,7 @@ function CollectionsGrid({
   const _image = getCoverMedium(cover, false)
   const onPress = () => {
     navigation.push('Subject', {
-      subjectId: id,
+      subjectId: String(id).replace('/subject/', ''),
       _jp: name,
       _cn: nameCn,
       _image

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 23:20:56
+ * @Last Modified time: 2019-12-18 15:32:56
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -67,17 +67,14 @@ class Mono extends React.Component {
         <IconHeader
           name='trophy-full'
           color={_.colorYellow}
-          onPress={() => {
-            if ($.chara.users) {
-              navigation.push('TinygrailICODeal', {
+          onPress={() =>
+            navigation.push(
+              $.chara.users ? 'TinygrailICODeal' : 'TinygrailTrade',
+              {
                 monoId
-              })
-              return
-            }
-            navigation.push('TinygrailTrade', {
-              monoId
-            })
-          }}
+              }
+            )
+          }
         />
       )
     })

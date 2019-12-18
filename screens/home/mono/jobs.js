@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 01:16:53
+ * @Last Modified time: 2019-12-18 15:26:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { SectionTitle, Tag } from '@screens/_'
 import { _ } from '@stores'
-import { appNavigate } from '@utils/app'
+import { appNavigate, getCoverMedium } from '@utils/app'
 
 function Jobs({ style }, { $, navigation }) {
   const { jobs = [] } = $.mono
@@ -37,7 +37,13 @@ function Jobs({ style }, { $, navigation }) {
                   src={item.cover}
                   radius
                   border={_.colorBorder}
-                  onPress={() => appNavigate(item.href, navigation)}
+                  onPress={() =>
+                    appNavigate(item.href, navigation, {
+                      _jp: item.name,
+                      _cn: item.nameCn,
+                      _image: item.cover
+                    })
+                  }
                 />
                 <Flex.Item style={_.ml.sm}>
                   <Text style={_.mt.xs}>{item.name}</Text>
@@ -69,7 +75,12 @@ function Jobs({ style }, { $, navigation }) {
                     src={item.castCover}
                     radius
                     border={_.colorBorder}
-                    onPress={() => appNavigate(item.castHref, navigation)}
+                    onPress={() =>
+                      appNavigate(item.castHref, navigation, {
+                        _name: item.cast,
+                        _image: getCoverMedium(item.castCover)
+                      })
+                    }
                   />
                 )}
               </Flex>

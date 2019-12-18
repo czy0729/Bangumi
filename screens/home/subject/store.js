@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 11:50:48
+ * @Last Modified time: 2019-12-18 15:43:33
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -148,7 +148,7 @@ export default class ScreenSubject extends store {
         })
         this.setStorage(undefined, undefined, this.namespace)
       } catch (error) {
-        // do nothing
+        warn(namespace, 'fetchEpsData', error)
       }
     }
   }
