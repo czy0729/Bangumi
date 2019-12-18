@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 22:30:39
+ * @Last Modified time: 2019-12-18 11:08:14
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -19,6 +19,10 @@ import Text from '../text'
 export default
 @observer
 class ToggleImage extends React.Component {
+  static defaultProps = {
+    onImageFallback: Function.prototype
+  }
+
   state = {
     show: this.props.show || false,
     loaded: false
@@ -37,6 +41,20 @@ class ToggleImage extends React.Component {
     })
 
   render() {
+    // RN不使用第三方link包暂时不支持webp, 暂时使用浏览器跳转
+    const { src, onImageFallback } = this.props
+    if (typeof src === 'string' && src.includes('.webp')) {
+      return (
+        <Touchable onPress={onImageFallback}>
+          <Flex style={this.styles.imagePlaceholder} justify='center'>
+            <Text size={12} type='sub'>
+              暂不支持webp图片, 使用浏览器打开
+            </Text>
+          </Flex>
+        </Touchable>
+      )
+    }
+
     const { show, loaded } = this.state
     if (!show) {
       return (

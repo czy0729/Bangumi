@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 15:32:29
+ * @Last Modified time: 2019-12-18 12:12:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,9 @@ function Character({ style }, { $, navigation }) {
     }) => ({
       id,
       image: images.grid,
+      _image: images.medium,
       name: nameCn || name,
+      nameJP: name,
       desc: (actors[0] && actors[0].name) || roleName
     })
   )
@@ -39,11 +41,12 @@ function Character({ style }, { $, navigation }) {
         style={_.mt.sm}
         data={data}
         quality={false}
-        onPress={({ id, name, image }) =>
+        onPress={({ id, name, nameJP, _image }) =>
           navigation.push('Mono', {
             monoId: `character/${id}`,
             _name: name,
-            _image: image
+            _jp: nameJP,
+            _image
           })
         }
       />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 01:15:50
+ * @Last Modified time: 2019-12-18 12:11:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,8 +16,7 @@ import {
   RenderHtml,
   Divider,
   Touchable,
-  Iconfont,
-  Loading
+  Iconfont
 } from '@components'
 import { SectionTitle } from '@screens/_'
 import { IOS } from '@constants'
@@ -37,10 +36,10 @@ function Info(props, { $, navigation }) {
     info,
     detail,
     collectUrl,
-    eraseCollectUrl,
-    _loaded
+    eraseCollectUrl
   } = $.mono
-  const { monoId, _name, _image } = $.params
+  const { monoId, _name, _jp, _image } = $.params
+  const _cover = cover || _image
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -49,7 +48,7 @@ function Info(props, { $, navigation }) {
           <Flex.Item>
             <Flex align='baseline'>
               <Text size={20} bold>
-                {name}
+                {name || _jp}
                 <Text type='sub' lineHeight={20}>
                   {' '}
                   {nameCn || _name}
@@ -78,15 +77,10 @@ function Info(props, { $, navigation }) {
             </Touchable>
           )}
         </Flex>
-        {!_loaded && (
-          <Flex style={styles.loading} justify='center'>
-            <Loading />
-          </Flex>
-        )}
-        {!!cover && (
+        {!!_cover && (
           <Flex style={_.mt.md} justify='center'>
             <Image
-              src={cover || _image}
+              src={_cover}
               autoSize={maxSize}
               border
               shadow

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 18:14:08
+ * @Last Modified time: 2019-12-18 11:26:30
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -11,8 +11,9 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
-import { getTimestamp, simpleTime } from '@utils'
+import { getTimestamp, simpleTime, open } from '@utils'
 import { appNavigate } from '@utils/app'
+import { HOST } from '@constants'
 
 const avatarWidth = 28
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
@@ -27,7 +28,7 @@ function Item(
   {
     index,
     id,
-    postId,
+    postId, // 存在就跳转到对应楼层
     authorId,
     avatar,
     userId,
@@ -47,13 +48,15 @@ function Item(
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   const isFriend = $.myFriendsMap[userId]
+  const isJump = !!postId && postId === id
   const { _time: readedTime } = $.readed
   let isNew
   if (readedTime) {
     isNew = getTimestamp(time) > readedTime
   }
 
-  const isJump = !!postId && postId === id
+  const { _url } = $.params
+  const url = _url || `${HOST}/rakuen/topic/${$.topicId}`
   return (
     <Flex
       style={[
@@ -104,6 +107,7 @@ function Item(
           imagesMaxWidth={imagesMaxWidth}
           html={message}
           onLinkPress={href => appNavigate(href, navigation)}
+          onImageFallback={() => open(`${url}#post_${id}`)}
         />
 
         <Flex justify='end'>
@@ -151,7 +155,6 @@ function Item(
             if (readedTime) {
               isNew = getTimestamp(item.time) > readedTime
             }
-
             const isJump = !!postId && postId === item.id
             return (
               <Flex
@@ -200,8 +203,8 @@ function Item(
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}
                     onLinkPress={href => appNavigate(href, navigation)}
+                    onImageFallback={() => open(`${url}#post_${item.id}`)}
                   />
-
                   <Flex justify='end'>
                     {!!item.erase && (
                       <Touchable

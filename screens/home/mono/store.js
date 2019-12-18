@@ -1,8 +1,9 @@
 /*
+ * @Params: { _name, _jp, _image }
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 02:16:09
+ * @Last Modified time: 2019-12-18 12:07:08
  */
 import { computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'

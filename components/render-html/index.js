@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 14:36:21
+ * @Last Modified time: 2019-12-18 11:13:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,8 @@ class RenderHtml extends React.Component {
     imagesMaxWidth: _.window.width - 2 * _.wind,
     html: '',
     autoShowImage: false,
-    onLinkPress: Function.prototype
+    onLinkPress: Function.prototype,
+    onImageFallback: Function.prototype
   }
 
   /**
@@ -65,7 +66,7 @@ class RenderHtml extends React.Component {
     // 渲染定义tag前回调
     renderers: {
       img: ({ src = '' }, children, convertedCSSStyles, { key }) => {
-        const { autoShowImage } = this.props
+        const { autoShowImage, onImageFallback } = this.props
         return (
           <ToggleImage
             key={key}
@@ -77,6 +78,7 @@ class RenderHtml extends React.Component {
             placeholder={false}
             imageViewer
             show={autoShowImage}
+            onImageFallback={() => onImageFallback(src)}
           />
         )
       },

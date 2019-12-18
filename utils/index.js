@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:39:56
+ * @Last Modified time: 2019-12-18 11:23:53
  */
 import { AsyncStorage } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
+import { DEV } from '@constants'
 import { info } from './ui'
 
 /**
@@ -41,6 +42,9 @@ export function open(url) {
   }
 
   WebBrowser.openBrowserAsync(url)
+  if (DEV) {
+    log(url)
+  }
   return true
 }
 

@@ -1,10 +1,10 @@
 /*
- * @Params: { _title, _replies, _group, _groupThumb,
+ * @Params: { _url, _title, _replies, _group, _groupThumb,
  *            _time,_avatar, _userName, _userId, _desc }
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 20:48:46
+ * @Last Modified time: 2019-12-18 11:15:34
  */
 import { observable, computed } from 'mobx'
 import {

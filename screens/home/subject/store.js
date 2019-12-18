@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:44:10
+ * @Last Modified time: 2019-12-18 11:50:48
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -16,7 +16,7 @@ import {
 } from '@stores'
 import { open, getTimestamp } from '@utils'
 import { xhrCustom, queue } from '@utils/fetch'
-import { appNavigate, getBangumiUrl } from '@utils/app'
+import { appNavigate, getBangumiUrl, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
 import { IOS, USERID_TOURIST, USERID_IOS_AUTH, HOST_NING_MOE } from '@constants'
@@ -359,7 +359,15 @@ export default class ScreenSubject extends store {
   doEpsSelect = async (value, item, navigation) => {
     // iOS是本集讨论, 安卓是(+N)...
     if (value.includes('本集讨论') || value.includes('(+')) {
-      appNavigate(item.url, navigation)
+      // 数据占位
+      appNavigate(item.url, navigation, {
+        _title: `ep${item.sort}.${item.name || item.name_cn}`,
+        _group: this.subject.name || this.subject.name_cn,
+        _groupThumb: getCoverMedium((this.subject.images || {}).medium),
+        _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
+          item.desc || ''
+        ).replace(/\r\n/g, '<br />')}`
+      })
       return
     }
 

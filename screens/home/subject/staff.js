@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 15:32:57
+ * @Last Modified time: 2019-12-18 12:14:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,9 @@ function Staff({ style }, { $, navigation }) {
     ({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
       id,
       image: images.grid,
+      _image: images.medium,
       name: nameCn || name,
+      nameJP: name,
       desc: jobs[0]
     })
   )
@@ -32,11 +34,12 @@ function Staff({ style }, { $, navigation }) {
         style={_.mt.sm}
         data={data}
         quality={false}
-        onPress={({ id, name, image }) => {
+        onPress={({ id, name, nameJP, _image }) => {
           navigation.push('Mono', {
             monoId: `person/${id}`,
             _name: name,
-            _image: image
+            _jp: nameJP,
+            _image
           })
         }}
       />
