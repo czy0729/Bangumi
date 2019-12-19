@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 15:39:03
+ * @Last Modified time: 2019-12-19 16:19:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,6 +37,13 @@ function Topic({ style }, { $, navigation }) {
             timestamp={item.timestamp}
             replies={item.replies}
             url={item.url}
+            event={{
+              id: '条目.跳转',
+              data: {
+                from: '讨论版',
+                subjectId: $.subjectId
+              }
+            }}
           />
         ))}
       </View>

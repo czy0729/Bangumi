@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-12 00:46:20
+ * @Last Modified time: 2019-12-19 16:58:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, rakuenStore, userStore } from '@stores'
+import { t } from '@utils/fetch'
 import IconTabsHeader from './tabs-header'
 
 let isSetTimeout = false
@@ -15,6 +16,11 @@ let isSetTimeout = false
 export default
 @observer
 class Notify extends React.Component {
+  static defaultProps = {
+    navigation: undefined,
+    event: {}
+  }
+
   componentDidMount() {
     if (!isSetTimeout) {
       isSetTimeout = true
@@ -29,7 +35,7 @@ class Notify extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props
+    const { navigation, event } = this.props
     return (
       <View>
         {!!rakuenStore.notify.unread && <View style={this.styles.dot} />}
@@ -37,6 +43,11 @@ class Notify extends React.Component {
           name='mail'
           onPress={() => {
             if (userStore.isWebLogin) {
+              const { id, data } = event
+              t(id, {
+                to: 'Notify',
+                ...data
+              })
               navigation.push('Notify')
             } else {
               navigation.push('LoginV2')

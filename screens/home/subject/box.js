@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 22:35:35
+ * @Last Modified time: 2019-12-19 15:46:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,7 +16,6 @@ import { getType, getRating } from '@utils/app'
 function Box({ style }, { $, navigation }) {
   const { collection = {} } = $.subject
   const { wish, collect, doing, on_hold: onHold, dropped } = collection
-
   const { status = { name: '未收藏' }, rating = 0 } = $.collection
   const leftStyle = []
   const rightStyle = []
@@ -28,7 +27,6 @@ function Box({ style }, { $, navigation }) {
     leftStyle.push(styles.left)
     rightStyle.push(styles.right)
   }
-
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle>收藏盒</SectionTitle>

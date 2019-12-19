@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 11:45:03
+ * @Last Modified time: 2019-12-19 16:32:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,7 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { IOS, HOST_NING_MOE } from '@constants'
 import Header from './header'
 import Store from './store'
@@ -77,6 +77,11 @@ class Subject extends React.Component {
               .map(item => item.site)
           ],
           onSelect: key => {
+            t('条目.右上角菜单', {
+              subjectId: $.subjectId,
+              key
+            })
+
             let item
             switch (key) {
               case 'Bangumi':
@@ -112,6 +117,13 @@ class Subject extends React.Component {
     const { name_cn: nameCn, name, images = {} } = $.subject
     const { _image } = $.params
     const image = images.medium || _image
+    const event = {
+      id: '条目.跳转',
+      data: {
+        from: '吐槽箱',
+        subjectId: $.subjectId
+      }
+    }
     return (
       <View style={_.container.content}>
         <BlurView
@@ -141,6 +153,7 @@ class Subject extends React.Component {
               userName={item.userName}
               star={item.star}
               comment={item.comment}
+              event={event}
             />
           )}
           onScroll={onScroll}

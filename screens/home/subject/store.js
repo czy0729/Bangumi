@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 15:43:33
+ * @Last Modified time: 2019-12-19 14:35:53
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -15,7 +15,7 @@ import {
   collectionStore
 } from '@stores'
 import { open, getTimestamp } from '@utils'
-import { xhrCustom, queue } from '@utils/fetch'
+import { t, xhrCustom, queue } from '@utils/fetch'
 import { appNavigate, getBangumiUrl, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
@@ -308,12 +308,17 @@ export default class ScreenSubject extends store {
 
   // -------------------- page --------------------
   /**
-   * 显示管理进度信息弹窗
+   * 显示收藏管理
    */
-  showManageModel = () =>
+  showManageModel = () => {
+    t('条目.显示收藏管理', {
+      subjectId: this.subjectId
+    })
+
     this.setState({
       visible: true
     })
+  }
 
   /**
    * 隐藏管理进度信息弹窗
@@ -327,6 +332,10 @@ export default class ScreenSubject extends store {
    * 章节倒序
    */
   toggleReverseEps = () => {
+    t('条目.章节倒序', {
+      subjectId: this.subjectId
+    })
+
     const { epsReverse } = this.state
     this.setState({
       epsReverse: !epsReverse
@@ -338,6 +347,10 @@ export default class ScreenSubject extends store {
    * 吐槽箱倒序
    */
   toggleReverseComments = () => {
+    t('条目.吐槽箱倒序', {
+      subjectId: this.subjectId
+    })
+
     const { _reverse } = this.subjectComments
     this.fetchSubjectComments(true, !_reverse)
   }
@@ -347,10 +360,15 @@ export default class ScreenSubject extends store {
    * @params {*} name 字段
    * @params {*} text 文字
    */
-  changeText = (name, text) =>
+  changeText = (name, text) => {
+    t('条目.书籍章节输入框改变', {
+      subjectId: this.subjectId
+    })
+
     this.setState({
       [name]: String(text)
     })
+  }
 
   // -------------------- action --------------------
   /**
@@ -359,6 +377,11 @@ export default class ScreenSubject extends store {
   doEpsSelect = async (value, item, navigation) => {
     // iOS是本集讨论, 安卓是(+N)...
     if (value.includes('本集讨论') || value.includes('(+')) {
+      t('条目.章节菜单操作', {
+        title: '本集讨论',
+        subjectId: this.subjectId
+      })
+
       // 数据占位
       appNavigate(item.url, navigation, {
         _title: `ep${item.sort}.${item.name || item.name_cn}`,
@@ -372,6 +395,11 @@ export default class ScreenSubject extends store {
     }
 
     if (value === '在线播放') {
+      t('条目.章节菜单操作', {
+        title: '在线播放',
+        subjectId: this.subjectId
+      })
+
       // @todo 查找视频数据源地址
       // const find = this.ningMoeDetail.eps.find(i => i.sort === item.sort)
       // if (find && find.bakUrl) {
@@ -439,6 +467,12 @@ export default class ScreenSubject extends store {
     if (status.name !== '未收藏') {
       const status = MODEL_EP_STATUS.getValue(value)
       if (status) {
+        t('条目.章节菜单操作', {
+          title: '更新收视进度',
+          subjectId: this.subjectId,
+          status
+        })
+
         // 更新收视进度
         await userStore.doUpdateEpStatus({
           id: item.id,
@@ -449,6 +483,11 @@ export default class ScreenSubject extends store {
       }
 
       if (value === '看到') {
+        t('条目.章节菜单操作', {
+          title: '批量更新收视进度',
+          subjectId: this.subjectId
+        })
+
         // 批量更新收视进度
         await userStore.doUpdateSubjectWatched({
           subjectId: this.subjectId,
@@ -468,6 +507,10 @@ export default class ScreenSubject extends store {
    * 管理收藏
    */
   doUpdateCollection = async values => {
+    t('条目.管理收藏', {
+      subjectId: this.subjectId
+    })
+
     await collectionStore.doUpdateCollection(values)
     collectionStore.fetchCollection(this.subjectId)
     this.closeManageModal()
@@ -477,6 +520,10 @@ export default class ScreenSubject extends store {
    * 更新书籍下一个章节
    */
   doUpdateNext = async name => {
+    t('条目.更新书籍下一个章节', {
+      subjectId: this.subjectId
+    })
+
     const { chap, vol } = this.state
 
     // eslint-disable-next-line react/no-access-state-in-setstate
@@ -498,6 +545,10 @@ export default class ScreenSubject extends store {
    * 更新书籍章节
    */
   doUpdateBookEp = async () => {
+    t('条目.更新书籍章节', {
+      subjectId: this.subjectId
+    })
+
     const { chap, vol } = this.state
     await collectionStore.doUpdateBookEp({
       subjectId: this.subjectId,
@@ -511,8 +562,11 @@ export default class ScreenSubject extends store {
    * 章节按钮长按
    */
   doEpsLongPress = async ({ id }) => {
-    const userProgress = this.userProgress
+    t('条目.章节按钮长按', {
+      subjectId: this.subjectId
+    })
 
+    const userProgress = this.userProgress
     let status
     if (userProgress[id]) {
       // 已观看 -> 撤销
@@ -526,7 +580,6 @@ export default class ScreenSubject extends store {
       id,
       status
     })
-
     userStore.fetchUserCollection(this.subjectId)
     userStore.fetchUserProgress(this.subjectId)
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:15:56
+ * @Last Modified time: 2019-12-19 16:30:39
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -23,7 +23,8 @@ function ItemArticle({
   nickname,
   timestamp,
   replies,
-  url
+  url,
+  event
 }) {
   const styles = memoStyles()
   const isFirst = index === 0
@@ -31,7 +32,7 @@ function ItemArticle({
     <Touchable
       style={[styles.container, style]}
       highlight
-      onPress={() => appNavigate(url, navigation)}
+      onPress={() => appNavigate(url, navigation, {}, event)}
     >
       <Flex align='start'>
         <Avatar style={styles.image} name={nickname} src={avatar} />

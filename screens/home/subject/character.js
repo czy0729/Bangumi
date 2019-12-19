@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 12:12:06
+ * @Last Modified time: 2019-12-19 15:53:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
 
 function Character({ style }, { $, navigation }) {
   const { crt = [] } = $.subject
@@ -41,14 +42,19 @@ function Character({ style }, { $, navigation }) {
         style={_.mt.sm}
         data={data}
         quality={false}
-        onPress={({ id, name, nameJP, _image }) =>
+        onPress={({ id, name, nameJP, _image }) => {
+          t('条目.跳转', {
+            to: 'Mono',
+            from: '角色',
+            subjectId: $.subjectId
+          })
           navigation.push('Mono', {
             monoId: `character/${id}`,
             _name: name,
             _jp: nameJP,
             _image
           })
-        }
+        }}
       />
     </View>
   )

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:25:39
+ * @Last Modified time: 2019-12-19 16:15:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Image } from '@components'
 import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
+import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
 function Avatar({
@@ -21,6 +22,7 @@ function Avatar({
   src,
   size,
   borderColor = _.colorBorder,
+  event,
   onPress,
   onLongPress
 }) {
@@ -35,6 +37,12 @@ function Avatar({
     }
 
     if (navigation && userId) {
+      const { id, data = {} } = event
+      t(id, {
+        to: 'Zone',
+        ...data
+      })
+
       navigation.push('Zone', {
         userId,
         _id: userId,
@@ -97,6 +105,7 @@ Avatar.defaultProps = {
   src: undefined,
   size: 28,
   borderColor: undefined,
+  event: {},
   onPress: undefined,
   onLongPress: undefined
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 01:38:23
+ * @Last Modified time: 2019-12-19 17:04:37
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -19,7 +19,7 @@ import {
 } from '@screens/_'
 import { _, userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import Tabs from './tabs'
 import List from './list'
 import Grid from './grid'
@@ -37,11 +37,21 @@ class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
       <>
-        <IconTinygrail navigation={navigation} />
+        <IconTinygrail
+          navigation={navigation}
+          event={{
+            id: '首页.跳转'
+          }}
+        />
         <IconTabsHeader
           name='search'
           position='right'
-          onPress={() => navigation.push('Search')}
+          onPress={() => {
+            t('首页.跳转', {
+              to: 'Search'
+            })
+            navigation.push('Search')
+          }}
         />
       </>
     ),
@@ -61,7 +71,14 @@ class Home extends React.Component {
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
     navigation.setParams({
-      headerLeft: <IconNotify navigation={navigation} />,
+      headerLeft: (
+        <IconNotify
+          navigation={navigation}
+          event={{
+            id: '首页.跳转'
+          }}
+        />
+      ),
       headerBackground: <HeaderBackground />
     })
 
@@ -97,11 +114,11 @@ class Home extends React.Component {
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
         <NavigationBarEvents />
         <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
-          {tabs.map(item =>
+          {tabs.map(({ title }) =>
             grid ? (
-              <Grid key={item.title} title={item.title} />
+              <Grid key={title} title={title} />
             ) : (
-              <List key={item.title} title={item.title} />
+              <List key={title} title={title} />
             )
           )}
         </Tabs>

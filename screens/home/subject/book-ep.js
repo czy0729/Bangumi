@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 15:41:04
+ * @Last Modified time: 2019-12-19 15:45:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,11 @@ import { observer } from '@utils/decorators'
 function BookEp({ style }, { $ }) {
   const { chap, vol } = $.state
   const { book = {} } = $.subjectFormHTML
-  const { status = { name: '未收藏' } } = $.collection
+  const {
+    status = {
+      name: '未收藏'
+    }
+  } = $.collection
   return (
     <View style={[styles.container, _.container.wind, style]}>
       <SectionTitle>章节</SectionTitle>

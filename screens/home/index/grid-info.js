@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 17:14:43
+ * @Last Modified time: 2019-12-19 16:19:40
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,6 +12,7 @@ import { Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
 import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
+import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 class GridInfo extends React.Component {
@@ -27,6 +28,11 @@ class GridInfo extends React.Component {
   }
 
   onPress = () => {
+    t('首页.跳转', {
+      to: 'Subject',
+      from: 'grid'
+    })
+
     const { navigation } = this.context
     const { subjectId, subject } = this.props
     navigation.push('Subject', {

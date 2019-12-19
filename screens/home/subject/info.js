@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 15:08:30
+ * @Last Modified time: 2019-12-19 16:07:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -28,7 +28,20 @@ function Info({ style }, { $, navigation }) {
               lineHeight: 22,
               color: _.colorTitle
             }}
-            onLinkPress={href => appNavigate(href, navigation)}
+            onLinkPress={href =>
+              appNavigate(
+                href,
+                navigation,
+                {},
+                {
+                  id: '条目.跳转',
+                  data: {
+                    from: '详情',
+                    subjectId: $.subjectId
+                  }
+                }
+              )
+            }
           />
         </Expand>
       )}

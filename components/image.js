@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 22:50:05
+ * @Last Modified time: 2019-12-19 15:59:56
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -22,6 +22,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
+import { t } from '@utils/fetch'
 import { IOS, DEV, IMG_EMPTY, IMG_ERROR } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import Touchable from './touchable'
@@ -46,6 +47,7 @@ class Image extends React.Component {
     quality: true, // 是否自动选择Bangumi图片质量
     imageViewer: false, // 是否点击显示全局的ImageViewer, 此值打开会覆盖onPress
     imageViewerSrc: undefined, // 若有值, 打开ImageViewer时使用此src
+    event: {},
     delay: true,
     onPress: undefined,
     onLongPress: undefined,
@@ -260,6 +262,7 @@ class Image extends React.Component {
       imageViewer,
       imageViewerSrc,
       headers,
+      event,
       delay,
       onPress,
       onLongPress,
@@ -407,6 +410,9 @@ class Image extends React.Component {
         ) {
           _imageViewerSrc = undefined
         }
+
+        const { id, data } = event
+        t(id, data)
         showImageViewer([
           {
             url: _imageViewerSrc || uri,

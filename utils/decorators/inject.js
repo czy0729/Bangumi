@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:30:57
+ * @Last Modified time: 2019-12-19 11:16:43
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -32,7 +32,7 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
         const { navigation } = props
         const { state } = navigation
 
-        // 后期对页面跳转传递数据进行了优化, 排除_开头的key
+        // 后期对页面跳转传递数据进行了优化, 排除params里面_开头的key, 如_name, _image
         const params = {}
         Object.keys(state.params || {}).forEach(key => {
           if (key.indexOf('_') === 0) {
@@ -56,7 +56,7 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
         }
       }
 
-      $
+      $ // 页面独立状态机引用
 
       getChildContext() {
         const { navigation } = this.props

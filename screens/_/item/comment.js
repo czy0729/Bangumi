@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:15:48
+ * @Last Modified time: 2019-12-19 16:32:35
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -20,7 +20,8 @@ function ItemComment({
   userId,
   userName,
   star,
-  comment
+  comment,
+  event
 }) {
   const styles = memoStyles()
   const isTop = index === 0
@@ -32,6 +33,7 @@ function ItemComment({
         userId={userId}
         name={userName}
         src={avatar}
+        event={event}
       />
       <Flex.Item style={[styles.content, !isTop && styles.border, _.ml.sm]}>
         <Flex>

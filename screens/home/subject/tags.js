@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 11:41:32
+ * @Last Modified time: 2019-12-19 16:18:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Expand, Flex, Text, Touchable } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 function Tags({ style }, { $, navigation }) {
@@ -34,6 +35,11 @@ function Tags({ style }, { $, navigation }) {
                     key={index}
                     style={[styles.item, isSelected && styles.selected]}
                     onPress={() => {
+                      t('条目.跳转', {
+                        to: 'Tag',
+                        from: '标签',
+                        subjectId: $.subjectId
+                      })
                       navigation.push('Tag', {
                         type: MODEL_SUBJECT_TYPE.getLabel(type),
                         tag: name

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 17:03:16
+ * @Last Modified time: 2019-12-19 16:19:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { Flex, Iconfont, Image, Shadow, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
 import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
+import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 class Item extends React.Component {
@@ -29,6 +30,11 @@ class Item extends React.Component {
   }
 
   onPress = () => {
+    t('首页.跳转', {
+      to: 'Subject',
+      from: 'list'
+    })
+
     const { navigation } = this.context
     const { subjectId, subject } = this.props
     navigation.push('Subject', {

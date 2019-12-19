@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 15:33:27
+ * @Last Modified time: 2019-12-19 16:16:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
 
 function Relations({ style }, { $, navigation }) {
   const { relations = [] } = $.subjectFormHTML
@@ -32,13 +33,18 @@ function Relations({ style }, { $, navigation }) {
         width={80}
         height={106}
         findCn
-        onPress={({ id, name, image }) =>
+        onPress={({ id, name, image }) => {
+          t('条目.跳转', {
+            to: 'Subject',
+            from: '关联条目',
+            subjectId: $.subjectId
+          })
           navigation.push('Subject', {
             subjectId: id,
             _jp: name,
             _image: image
           })
-        }
+        }}
       />
     </View>
   )

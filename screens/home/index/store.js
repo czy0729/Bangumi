@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 11:51:04
+ * @Last Modified time: 2019-12-19 16:20:34
  */
 import { observable, computed } from 'mobx'
 import {
@@ -288,6 +288,7 @@ export default class ScreenHome extends store {
    */
   onTabClick = (item, page) => {
     t('首页.标签页点击')
+
     if (page === this.state.page) {
       return
     }
@@ -372,6 +373,7 @@ export default class ScreenHome extends store {
    */
   showManageModal = subjectId => {
     t('首页.显示收藏管理')
+
     this.setState({
       visible: true,
       subjectId
@@ -392,6 +394,7 @@ export default class ScreenHome extends store {
    */
   itemToggleExpand = subjectId => {
     t('首页.展开或收起条目')
+
     const state = this.$Item(subjectId)
     this.setState({
       item: {
@@ -556,7 +559,6 @@ export default class ScreenHome extends store {
     if (status) {
       t('首页.章节菜单操作', {
         title: '更新收视进度',
-        subjectId,
         status
       })
 
@@ -571,13 +573,11 @@ export default class ScreenHome extends store {
 
     if (value === '看到') {
       t('首页.章节菜单操作', {
-        title: '批量更新收视进度',
-        subjectId
+        title: '批量更新收视进度'
       })
 
       // 批量更新收视进度
       await userStore.doUpdateSubjectWatched({
-        subjectId,
         sort: item.sort
       })
       userStore.fetchUserCollection(subjectId)
@@ -587,20 +587,26 @@ export default class ScreenHome extends store {
     // iOS是本集讨论, 安卓是(+N)...
     if (value.includes('本集讨论') || value.includes('(+')) {
       t('首页.章节菜单操作', {
-        title: '本集讨论',
-        subjectId
+        title: '本集讨论'
       })
 
       // 数据占位
       const subject = this.subject(subjectId)
-      appNavigate(item.url, navigation, {
-        _title: `ep${item.sort}.${item.name || item.name_cn}`,
-        _group: subject.name || subject.name_cn,
-        _groupThumb: getCoverMedium((subject.images || {}).medium),
-        _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
-          item.desc || ''
-        ).replace(/\r\n/g, '<br />')}`
-      })
+      appNavigate(
+        item.url,
+        navigation,
+        {
+          _title: `ep${item.sort}.${item.name || item.name_cn}`,
+          _group: subject.name || subject.name_cn,
+          _groupThumb: getCoverMedium((subject.images || {}).medium),
+          _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
+            item.desc || ''
+          ).replace(/\r\n/g, '<br />')}`
+        },
+        {
+          id: '首页.跳转'
+        }
+      )
     }
   }
 

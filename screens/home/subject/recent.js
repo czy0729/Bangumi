@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:17:57
+ * @Last Modified time: 2019-12-19 16:15:39
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -34,6 +34,13 @@ function Recent({ style }, { $, navigation }) {
               name={item.name}
               src={item.avatar}
               size={40}
+              event={{
+                id: '条目.跳转',
+                data: {
+                  from: '用户动态',
+                  subjectId: $.subjectId
+                }
+              }}
             />
             <View style={_.ml.sm}>
               <Flex>
