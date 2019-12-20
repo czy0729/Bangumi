@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:20:34
+ * @Last Modified time: 2019-12-19 21:02:52
  */
 import { observable, computed } from 'mobx'
 import {
@@ -287,12 +287,11 @@ export default class ScreenHome extends store {
    * 暂时这样解决
    */
   onTabClick = (item, page) => {
-    t('首页.标签页点击')
-
     if (page === this.state.page) {
       return
     }
 
+    t('首页.标签页点击')
     this.setState({
       page
     })
@@ -311,6 +310,7 @@ export default class ScreenHome extends store {
       return
     }
 
+    t('首页.标签页切换')
     this.setState({
       page,
       _page: page

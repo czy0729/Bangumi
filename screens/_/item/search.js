@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:31:33
+ * @Last Modified time: 2019-12-20 00:09:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,8 @@ function ItemSearch({
   rank,
   type,
   collected,
-  comments
+  comments,
+  event
 }) {
   const styles = memoStyles()
   const _image = getCoverMedium(cover)
@@ -44,13 +45,18 @@ function ItemSearch({
     <Touchable
       style={styles.container}
       highlight
-      onPress={() =>
-        appNavigate(id, navigation, {
-          _jp: name,
-          _cn: nameCn,
-          _image
-        })
-      }
+      onPress={() => {
+        appNavigate(
+          id,
+          navigation,
+          {
+            _jp: name,
+            _cn: nameCn,
+            _image
+          },
+          event
+        )
+      }}
     >
       <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
         <View style={styles.imgContainer}>

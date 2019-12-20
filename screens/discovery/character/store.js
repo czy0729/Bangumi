@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:38:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-01 22:33:19
+ * @Last Modified time: 2019-12-20 00:00:27
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 
 export const tabs = [
   {
@@ -79,6 +80,7 @@ export default class ScreenCharacter extends store {
       return
     }
 
+    t('收藏的人物.标签页切换')
     this.setState({
       page
     })

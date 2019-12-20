@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 11:26:45
+ * @Last Modified time: 2019-12-19 19:55:56
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Image, Text, Flex } from '@components'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 
 function Award(props, { navigation }) {
@@ -23,11 +24,15 @@ function Award(props, { navigation }) {
       <Touchable
         style={styles.item}
         withoutFeedback
-        onPress={() =>
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Award',
+            year: 2018
+          })
           navigation.push('Award', {
             uri: `${HOST}/award/2018`
           })
-        }
+        }}
       >
         <View style={styles.borderAward} />
         <View style={styles.image}>
@@ -52,11 +57,15 @@ function Award(props, { navigation }) {
           key={item}
           style={_.ml.md}
           withoutFeedback
-          onPress={() =>
+          onPress={() => {
+            t('发现.跳转', {
+              to: 'Award',
+              year: item
+            })
             navigation.push('Award', {
               uri: `${HOST}/award/${item}`
             })
-          }
+          }}
         >
           <View style={styles.border} />
           <Flex style={styles.itemSquare} justify='center' direction='column'>

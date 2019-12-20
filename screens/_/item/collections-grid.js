@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 15:39:25
+ * @Last Modified time: 2019-12-20 00:15:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
+import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
 
 const imageWidth = _.window.width * 0.2
@@ -25,7 +26,8 @@ function CollectionsGrid({
   name,
   nameCn,
   time,
-  isOnHold
+  isOnHold,
+  event
 }) {
   let holdDays
   if (isOnHold) {
@@ -33,8 +35,15 @@ function CollectionsGrid({
   }
   const _image = getCoverMedium(cover, false)
   const onPress = () => {
+    const { id: eventId, data } = event
+    const subjectId = String(id).replace('/subject/', '')
+    t(eventId, {
+      to: 'Subject',
+      subjectId,
+      ...data
+    })
     navigation.push('Subject', {
-      subjectId: String(id).replace('/subject/', ''),
+      subjectId,
       _jp: name,
       _cn: nameCn,
       _image
@@ -62,6 +71,10 @@ function CollectionsGrid({
       </Touchable>
     </View>
   )
+}
+
+CollectionsGrid.defaultProps = {
+  event: {}
 }
 
 export default observer(CollectionsGrid)

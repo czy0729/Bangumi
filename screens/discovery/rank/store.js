@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 17:18:50
+ * @Last Modified time: 2019-12-20 00:20:02
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
 import { open } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { HTML_RANK } from '@constants/html'
 
@@ -58,6 +59,10 @@ export default class ScreenRank extends store {
 
   // -------------------- page --------------------
   onTypeSelect = async (type, navigation) => {
+    t('排行榜.类型选择', {
+      type
+    })
+
     this.setState({
       type: MODEL_SUBJECT_TYPE.getLabel(type),
       filter: '',
@@ -79,6 +84,10 @@ export default class ScreenRank extends store {
   }
 
   onFilterSelect = async (filter, filterData, navigation) => {
+    t('排行榜.筛选选择', {
+      filter
+    })
+
     this.setState({
       filter: filter === '全部' ? '' : filterData.getValue(filter)
     })
@@ -97,6 +106,10 @@ export default class ScreenRank extends store {
   }
 
   onAirdateSelect = async (airtime, navigation) => {
+    t('排行榜.年选择', {
+      airtime
+    })
+
     this.setState({
       airtime: airtime === '全部' ? '' : airtime,
       month: ''
@@ -122,6 +135,9 @@ export default class ScreenRank extends store {
       return
     }
 
+    t('排行榜.月选择', {
+      month
+    })
     this.setState({
       month: month === '全部' ? '' : month
     })
@@ -139,6 +155,8 @@ export default class ScreenRank extends store {
   }
 
   toggleList = () => {
+    t('排行榜.切换布局')
+
     const { list } = this.state
     this.setState({
       list: !list
@@ -165,6 +183,9 @@ export default class ScreenRank extends store {
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
+          t('排行榜.右上角菜单', {
+            key
+          })
           switch (key) {
             case '浏览器查看':
               open(url)

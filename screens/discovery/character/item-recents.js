@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:52:52
+ * @Last Modified time: 2019-12-19 23:58:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { Tag, Stars } from '@screens/_'
 import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
+import { t } from '@utils/fetch'
 import { IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -26,13 +27,18 @@ function Item(
   const styles = memoStyles()
   const isFirst = index === 0
   const _image = getCoverMedium(cover)
-  const onPress = () =>
+  const onPress = () => {
+    t('收藏的人物.跳转', {
+      to: 'Subject',
+      subjectId: id
+    })
     navigation.push('Subject', {
       subjectId: id,
       _jp: nameJP,
       _cn: name,
       _image
     })
+  }
   return (
     <Flex
       align='start'
@@ -108,11 +114,15 @@ function Item(
                 size={40}
                 border
                 radius
-                onPress={() =>
+                onPress={() => {
+                  t('收藏的人物.跳转', {
+                    to: 'Mono',
+                    monoId: item.id
+                  })
                   navigation.push('Mono', {
                     monoId: item.id
                   })
-                }
+                }}
               />
               <Flex.Item style={_.ml.sm}>
                 <Text size={12} numberOfLines={1}>

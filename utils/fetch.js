@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 14:24:26
+ * @Last Modified time: 2019-12-19 20:41:08
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -24,6 +24,7 @@ import { log } from './dev'
 import { info as UIInfo } from './ui'
 
 const UMAnalyticsModule = NativeModules.UMAnalyticsModule
+const SHOW_LOG = false
 const TIMEOUT = 10000
 const FETCH_RETRY_COUNT = 5 // GET请求失败重试次数
 const defaultHeaders = {
@@ -82,7 +83,9 @@ export default async function fetchAPI({
       toastId = Toast.loading('Loading...', 0)
     }
   }
-  log(`[fetchAPI] ${info || _url}`)
+  if (SHOW_LOG) {
+    log(`[fetchAPI] ${info || _url}`)
+  }
 
   return fetch(_url, _config)
     .then(response => {
@@ -188,7 +191,9 @@ export async function fetchHTML({
     _config.body = urlStringify(body)
     toastId = Toast.loading('Loading...', 8)
   }
-  log(`[fetchHTML] ${_url}`)
+  if (SHOW_LOG) {
+    log(`[fetchHTML] ${_url}`)
+  }
 
   const isDev = require('../stores/system').default.state.dev
   return fetch(_url, _config)
@@ -299,7 +304,9 @@ export function xhrCustom({
 
     const body = data ? urlStringify(data) : null
     request.send(body)
-    log(`[xhrCustom] ${url}`)
+    if (SHOW_LOG) {
+      log(`[xhrCustom] ${url}`)
+    }
   })
 }
 
@@ -317,7 +324,10 @@ export async function hm(url, screen) {
     u += `${u.includes('?') ? '&' : '?'}v=${VERSION_GITHUB_RELEASE}`
     u += `${require('../stores/theme').default.isDark ? '&dark=1' : ''}`
     u += `${screen ? `&s=${screen}` : ''}`
-    fetch(
+
+    const request = new XMLHttpRequest()
+    request.open(
+      'GET',
       `https://hm.baidu.com/hm.gif?${urlStringify({
         rnd: randomn(10),
         si: IOS
@@ -328,13 +338,14 @@ export async function hm(url, screen) {
         u
         // lt: getTimestamp()
       })}`,
-      {
-        headers: {
-          'User-Agent':
-            ua || require('../stores/user').default.userCookie.userAgent
-        }
-      }
+      true
     )
+    request.withCredentials = false
+    request.setRequestHeader(
+      'User-Agent',
+      ua || require('../stores/user').default.userCookie.userAgent
+    )
+    request.send(null)
   } catch (error) {
     console.warn('[fetch] hm', error)
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 20:37:40
+ * @Last Modified time: 2019-12-19 20:36:59
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Pagination } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import Store from './store'
 
 const title = 'Anitama'
@@ -43,6 +43,10 @@ class Anitama extends React.Component {
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
+          t('Anitama.右上角菜单', {
+            key
+          })
+
           switch (key) {
             case '浏览器查看':
               open('http://www.anitama.cn')
@@ -98,6 +102,11 @@ class Anitama extends React.Component {
                   style={this.styles.item}
                   onPress={() => {
                     const url = `http://m.anitama.cn/article/${item.aid}`
+                    t('Anitama.跳转', {
+                      to: 'WebBrowser',
+                      url
+                    })
+
                     open(url)
                     hm(url, title)
                     // $.pushHistory(item.aid)

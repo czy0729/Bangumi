@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:55:15
+ * @Last Modified time: 2019-12-19 20:05:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,13 +11,21 @@ import { Flex, Touchable, Text, Iconfont, Image } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 
 function Menu(props, { $, navigation }) {
   const styles = memoStyles()
   const { username, id } = $.userInfo
   return (
     <Flex style={styles.container} wrap='wrap'>
-      <Touchable onPress={() => navigation.push('Rank')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Rank'
+          })
+          navigation.push('Rank')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
@@ -30,7 +38,14 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
-      <Touchable onPress={() => navigation.push('Calendar')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Calendar'
+          })
+          navigation.push('Calendar')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
@@ -43,7 +58,14 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
-      <Touchable onPress={() => navigation.push('Random')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Random'
+          })
+          navigation.push('Random')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
@@ -56,7 +78,14 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
-      <Touchable onPress={() => navigation.push('Anitama')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Anitama'
+          })
+          navigation.push('Anitama')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
@@ -75,7 +104,14 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
-      <Touchable onPress={() => navigation.push('Tags')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Tags'
+          })
+          navigation.push('Tags')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
@@ -94,6 +130,10 @@ function Menu(props, { $, navigation }) {
             info('请先登陆')
             return
           }
+
+          t('发现.跳转', {
+            to: 'Character'
+          })
           navigation.push('Character', {
             userName: username || id
           })

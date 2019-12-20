@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 16:30:09
+ * @Last Modified time: 2019-12-20 10:48:45
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 export const tabs = MODEL_SUBJECT_TYPE.data.map(item => ({
@@ -52,6 +53,7 @@ export default class ScreenTags extends store {
       return
     }
 
+    t('标签索引.标签页切换')
     this.setState({
       page
     })

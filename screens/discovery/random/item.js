@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:47:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:44:34
+ * @Last Modified time: 2019-12-20 00:02:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,6 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Image, Text } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 
 const imageBigWidth = _.window.width - _.wind * 2
 const imageBigHeight = imageBigWidth * 1.28
@@ -27,7 +28,11 @@ function Item(
         size={imageBigWidth}
         height={imageBigHeight}
         radius={_.radiusMd}
-        onPress={() =>
+        onPress={() => {
+          t('随便看看.跳转', {
+            to: 'Subject',
+            subjectId: bgmId
+          })
           navigation.push('Subject', {
             subjectId: bgmId,
             _ningMoeId: id,
@@ -36,7 +41,7 @@ function Item(
             _image: cover,
             _summary: desc
           })
-        }
+        }}
       />
       <LinearGradient
         colors={[

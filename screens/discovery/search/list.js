@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 09:42:51
+ * @Last Modified time: 2019-12-20 11:17:30
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -22,6 +22,9 @@ function List(props, { $, navigation }) {
     return null
   }
 
+  const event = {
+    id: '搜索.跳转'
+  }
   return (
     <ListView
       style={_.container.screen}
@@ -29,7 +32,12 @@ function List(props, { $, navigation }) {
       keyExtractor={item => String(item.id)}
       data={search}
       renderItem={({ item, index }) => (
-        <ItemSearch navigation={navigation} index={index} {...item} />
+        <ItemSearch
+          navigation={navigation}
+          index={index}
+          event={event}
+          {...item}
+        />
       )}
       onFooterRefresh={$.doSearch}
     />

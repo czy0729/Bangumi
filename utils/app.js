@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 15:40:31
+ * @Last Modified time: 2019-12-19 20:20:26
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -65,6 +65,7 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
     if (!navigation || !_url.includes(HOST)) {
       t(id, {
         to: 'WebBrowser',
+        url: _url,
         ...data
       })
 
@@ -74,13 +75,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
     // 超展开内容 [/rakuen/topic/{topicId}]
     if (_url.includes('/rakuen/topic/')) {
+      const topicId = _url.replace(`${HOST}/rakuen/topic/`, '')
       t(id, {
         to: 'Topic',
+        topicId,
         ...data
       })
 
       navigation.push('Topic', {
-        topicId: _url.replace(`${HOST}/rakuen/topic/`, ''),
+        topicId,
         _url,
         ...passParams
       })
@@ -88,13 +91,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
     }
 
     if (_url.includes('/group/topic/')) {
+      const topicId = `group/${_url.replace(`${HOST}/group/topic/`, '')}`
       t(id, {
         to: 'Topic',
+        topicId,
         ...data
       })
 
       navigation.push('Topic', {
-        topicId: `group/${_url.replace(`${HOST}/group/topic/`, '')}`,
+        topicId,
         _url,
         ...passParams
       })
@@ -103,14 +108,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
     // 条目 > 讨论版
     if (_url.includes('/subject/topic/')) {
+      const topicId = `subject/${_url.replace(`${HOST}/subject/topic/`, '')}`
       t(id, {
         to: 'Topic',
+        topicId,
         ...data
       })
 
-      const id = _url.replace(`${HOST}/subject/topic/`, '')
       navigation.push('Topic', {
-        topicId: `subject/${id}`,
+        topicId,
         _url,
         ...passParams
       })
@@ -120,13 +126,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
     // 本集讨论 [/ep/\d+]
     // 结构与超展开内容类似, 跳转到超展开内容
     if (_url.includes('/ep/')) {
+      const topicId = _url.replace(`${HOST}/`, '').replace('subject/', '')
       t(id, {
         to: 'Topic',
+        topicId,
         ...data
       })
 
       navigation.push('Topic', {
-        topicId: _url.replace(`${HOST}/`, '').replace('subject/', ''),
+        topicId,
         _url,
         ...passParams
       })
@@ -135,13 +143,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
     // 条目 [/subject/{subjectId}]
     if (_url.includes('/subject/')) {
+      const subjectId = _url.replace(`${HOST}/subject/`, '')
       t(id, {
         to: 'Subject',
+        subjectId,
         ...data
       })
 
       navigation.push('Subject', {
-        subjectId: _url.replace(`${HOST}/subject/`, ''),
+        subjectId,
         _url,
         ...passParams
       })
@@ -151,13 +161,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
     // 个人中心 [/user/{userId}]
     // 排除时间线回复 [user/{userId}/timeline/status/{timelineId}]
     if (_url.includes('/user/') && _url.split('/').length <= 6) {
+      const userId = _url.replace(`${HOST}/user/`, '')
       t(id, {
         to: 'Zone',
+        userId,
         ...data
       })
 
       navigation.push('Zone', {
-        userId: _url.replace(`${HOST}/user/`, ''),
+        userId,
         _url,
         ...passParams
       })
@@ -166,13 +178,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
     // 人物 [/character/\d+, /person/\d+]
     if (_url.includes('/character/') || _url.includes('/person/')) {
+      const monoId = _url.replace(`${HOST}/`, '')
       t(id, {
         to: 'Mono',
+        monoId,
         ...data
       })
 
       navigation.push('Mono', {
-        monoId: _url.replace(`${HOST}/`, ''),
+        monoId,
         _url,
         ...passParams
       })
@@ -181,13 +195,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
     // 小组
     if (_url.includes('/group/')) {
+      const groupId = _url.replace(`${HOST}/group/`, '')
       t(id, {
         to: 'Group',
+        groupId,
         ...data
       })
 
       navigation.push('Group', {
-        groupId: _url.replace(`${HOST}/group/`, ''),
+        groupId,
         _url,
         ...passParams
       })
@@ -198,6 +214,9 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
     if (_url.includes('/tag/')) {
       t(id, {
         to: 'Tag',
+        type: params[3],
+        tag: decodeURIComponent(params[5]),
+        airtime: params[7],
         ...data
       })
 
@@ -214,14 +233,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
     // 吐槽
     if (_url.includes('/timeline/status/')) {
+      const _id = _url.split('/timeline/status/')[1]
       t(id, {
         to: 'Say',
+        id: _id,
         ...data
       })
 
-      const id = _url.split('/timeline/status/')[1]
       navigation.push('Say', {
-        id,
+        id: _id,
         ...passParams
       })
       return true
@@ -229,6 +249,7 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
     t(id, {
       to: 'WebBrowser',
+      url: _url,
       ...data
     })
 

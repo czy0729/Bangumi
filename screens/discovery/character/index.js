@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 00:35:44
+ * @Last Modified time: 2019-12-19 21:04:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Tabs from './tabs'
 import List from './list'
@@ -43,6 +43,10 @@ class Character extends React.Component {
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
+          t('收藏的人物.右上角菜单', {
+            key
+          })
+
           switch (key) {
             case '浏览器查看':
               open(`${HOST}/user/${userName}/mono`)

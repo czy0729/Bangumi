@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-28 20:26:40
+ * @Last Modified time: 2019-12-20 11:06:43
  */
 import { observable, computed } from 'mobx'
 import { searchStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT } from '@constants/model'
 
 const namespace = 'ScreenSearch'
@@ -45,6 +46,10 @@ export default class ScreenSearch extends store {
     const { cat } = this.state
     const nextCat = MODEL_SEARCH_CAT.getValue(label)
     if (nextCat !== cat) {
+      t('搜索.切换类型', {
+        cat: nextCat
+      })
+
       this.setState({
         cat: nextCat
       })
@@ -60,12 +65,20 @@ export default class ScreenSearch extends store {
   }
 
   selectHistory = value => {
+    t('搜索.选择历史', {
+      value
+    })
+
     this.setState({
       value
     })
   }
 
   deleteHistory = value => {
+    t('搜索.删除历史', {
+      value
+    })
+
     const { history } = this.state
     this.setState({
       history: history.filter(item => item !== value)
@@ -80,6 +93,10 @@ export default class ScreenSearch extends store {
       info('请输入内容')
       return
     }
+
+    t('搜索.搜索', {
+      value
+    })
 
     const _history = [...history]
     if (!history.includes(value)) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 09:42:31
+ * @Last Modified time: 2019-12-20 10:58:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Flex, Button } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Category from './category'
 import SearchBar from './search-bar'
@@ -45,6 +45,10 @@ class Search extends React.Component {
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
+          t('搜索.右上角菜单', {
+            key
+          })
+
           switch (key) {
             case '浏览器查看':
               open(`${HOST}/subject_search`)

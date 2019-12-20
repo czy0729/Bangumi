@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:37:41
+ * @Last Modified time: 2019-12-19 20:53:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { getCoverMedium } from '@utils/app'
+import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
 
 const imageWidth = _.window.width * 0.288
@@ -31,6 +32,11 @@ function Item(
   const { air, timeCN } = $.onAir[subjectId] || {}
   const _image = getCoverMedium(images.medium)
   const onPress = () => {
+    t('每日放送.跳转', {
+      to: 'Subject',
+      subjectId
+    })
+
     navigation.push('Subject', {
       subjectId,
       _cn: name,

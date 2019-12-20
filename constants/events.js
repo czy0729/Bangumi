@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:43:58
+ * @Last Modified time: 2019-12-20 10:56:19
+ */
+
+/**
+ * 跳转: { to: 'Subject', from: 'block', ...other }
  */
 export default {
-  /**
-   * 跳转: { to: 'Subject', from: 'block', ...other }
-   */
-  /* ==================== Home ==================== */
+  // 首页
   '首页.跳转': 'Home.to',
   '首页.标签页点击': 'Home.tabsPress',
+  '首页.标签页切换': 'Home.tabsChange',
   '首页.显示收藏管理': 'Home.showManageModal',
   '首页.展开或收起条目': 'Home.itemToggleExpand',
   '首页.置顶或取消置顶': 'Home.itemToggleTop',
@@ -24,7 +26,7 @@ export default {
   '首页.章节菜单操作': 'Home.doEpsSelect',
   '首页.章节按钮长按': 'Home.doEpsLongPress',
 
-  /* ==================== Subject ==================== */
+  // 条目
   '条目.跳转': 'Subject.to',
   '条目.显示收藏管理': 'Subject.showManageModel',
   '条目.章节倒序': 'Subject.toggleReverseEps',
@@ -37,5 +39,52 @@ export default {
   '条目.章节按钮长按': 'Subject.doEpsLongPress',
   '条目.跳到条目': 'Subject.toSubject',
   '条目.封面图查看': 'Subject.imageView',
-  '条目.右上角菜单': 'Subject.topRightMenu'
+  '条目.右上角菜单': 'Subject.topRightMenu',
+
+  // 发现
+  '发现.跳转': 'Discovery.to',
+
+  // 年鉴
+  '年鉴.跳转': 'Award.to',
+
+  // Anitama
+  'Anitama.跳转': 'Anitama.to',
+  'Anitama.上一页': 'Anitama.prev',
+  'Anitama.下一页': 'Anitama.next',
+  'Anitama.页码跳转': 'Anitama.doSearch',
+  'Anitama.右上角菜单': 'Anitama.topRightMenu',
+
+  // 每日放送
+  '每日放送.跳转': 'Calendar.to',
+  '每日放送.右上角菜单': 'Calendar.topRightMenu',
+
+  // 收藏的人物
+  '收藏的人物.跳转': 'Character.to',
+  '收藏的人物.右上角菜单': 'Character.topRightMenu',
+  '收藏的人物.标签页切换': 'Character.tabsChange',
+
+  // 随便看看
+  '随便看看.跳转': 'Random.to',
+
+  // 排行榜
+  '排行榜.跳转': 'Rank.to',
+  '排行榜.右上角菜单': 'Rank.topRightMenu',
+  '排行榜.类型选择': 'Rank.onTypeSelect',
+  '排行榜.筛选选择': 'Rank.onFilterSelect',
+  '排行榜.年选择': 'Rank.onAirdateSelect',
+  '排行榜.月选择': 'Rank.onMonthSelect',
+  '排行榜.切换布局': 'Rank.toggleList',
+
+  // 标签索引
+  '标签索引.跳转': 'Tags.to',
+  '标签索引.右上角菜单': 'Tags.topRightMenu',
+  '标签索引.标签页切换': 'Tags.tabsChange',
+
+  // 搜索
+  '搜索.跳转': 'Search.to',
+  '搜索.右上角菜单': 'Search.topRightMenu',
+  '搜索.切换类型': 'Search.onSelect',
+  '搜索.选择历史': 'Search.selectHistory',
+  '搜索.删除历史': 'Search.deleteHistory',
+  '搜索.搜索': 'Search.doSearch'
 }

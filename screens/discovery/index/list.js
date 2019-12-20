@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 20:00:04
+ * @Last Modified time: 2019-12-19 20:02:20
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -13,6 +13,7 @@ import { Image, Text } from '@components'
 import { SectionTitle, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { findBangumiCn, getCoverLarge, getCoverMedium } from '@utils/app'
+import { t } from '@utils/fetch'
 import { HOST, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -48,12 +49,16 @@ function List({ style, type }, { $, navigation }) {
           <IconHeader
             name='right'
             color={_.colorTitle}
-            onPress={() =>
+            onPress={() => {
+              t('发现.跳转', {
+                to: 'WebView',
+                title
+              })
               navigation.push('WebView', {
                 uri: `${HOST}/${type}`,
                 title
               })
-            }
+            }}
           />
         }
       >
@@ -70,14 +75,20 @@ function List({ style, type }, { $, navigation }) {
               height={imageBigHeight}
               radius={_.radiusMd}
               placeholder={false}
-              onPress={() =>
+              onPress={() => {
+                t('发现.跳转', {
+                  to: 'Subject',
+                  from: title,
+                  type: 'lg',
+                  subjectId: data[item].subjectId
+                })
                 navigation.push('Subject', {
                   subjectId: data[item].subjectId,
                   _jp: data[item].title,
                   _cn: cn,
                   _image: src
                 })
-              }
+              }}
             />
             <LinearGradient
               colors={linearColorLg}
@@ -119,14 +130,20 @@ function List({ style, type }, { $, navigation }) {
                   height={imageHeight}
                   radius={_.radiusSm}
                   placeholder={false}
-                  onPress={() =>
+                  onPress={() => {
+                    t('发现.跳转', {
+                      to: 'Subject',
+                      from: title,
+                      type: 'sm',
+                      subjectId: item.subjectId
+                    })
                     navigation.push('Subject', {
                       subjectId: item.subjectId,
                       _jp: item.title,
                       _cn: cn,
                       _image: src
                     })
-                  }
+                  }}
                 />
                 <LinearGradient
                   colors={linearColorSm}

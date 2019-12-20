@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 09:47:19
+ * @Last Modified time: 2019-12-20 10:39:21
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { Touchable, Text, Flex } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { HTMLDecode } from '@utils/html'
+import { t } from '@utils/fetch'
 
 const width = _.window.width * 0.2
 const marginLeft = (_.window.width - 4 * width) / 5
@@ -25,12 +26,17 @@ function Item({ type, name, nums }, { navigation }) {
   return (
     <Touchable
       style={styles.container}
-      onPress={() =>
+      onPress={() => {
+        t('标签索引.跳转', {
+          to: 'Tag',
+          type,
+          tag
+        })
         navigation.push('Tag', {
           type,
           tag
         })
-      }
+      }}
     >
       <Flex style={styles.item} direction='column' justify='center'>
         <Text align='center' bold>

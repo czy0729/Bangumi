@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 03:21:41
+ * @Last Modified time: 2019-12-19 20:10:49
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -57,7 +57,17 @@ class Award extends React.Component {
       switch (type) {
         case 'onclick':
           if (data && data.href) {
-            appNavigate(data.href, navigation)
+            appNavigate(
+              data.href,
+              navigation,
+              {},
+              {
+                id: '年鉴.跳转',
+                data: {
+                  year: this.year
+                }
+              }
+            )
           }
           break
         default:
