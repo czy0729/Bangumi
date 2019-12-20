@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 16:37:35
+ * @Last Modified time: 2019-12-20 18:09:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { IOS, APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
 
 const title = '登陆V1'
@@ -75,6 +75,8 @@ class Login extends React.Component {
   }
 
   onLogin = () => {
+    t('授权登陆.登陆')
+
     this.setState({
       clicked: true
     })
@@ -118,6 +120,8 @@ class Login extends React.Component {
   }
 
   onError = () => {
+    t('授权登陆.网络问题')
+
     info('网络似乎出了点问题')
     this.setState({
       clicked: false
@@ -125,6 +129,8 @@ class Login extends React.Component {
   }
 
   onOtherPage = () => {
+    t('授权登陆.乱逛')
+
     info('授权过程中不要随便乱逛>.<')
     this.setState({
       clicked: false
@@ -168,6 +174,8 @@ class Login extends React.Component {
     await userStore.fetchUserInfo()
     await userStore.fetchUsersInfo()
     navigation.popToTop()
+
+    t('授权登陆.成功')
   }
 
   renderPreview() {

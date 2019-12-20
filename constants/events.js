@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 17:28:06
+ * @Last Modified time: 2019-12-20 18:05:12
  */
 
 /**
@@ -107,5 +107,17 @@ export default {
   /* ==================== login ==================== */
   // 辅助登陆
   '辅助登陆.复制': 'Assist.copy',
-  '辅助登陆.提交': 'Assist.submit'
+  '辅助登陆.提交': 'Assist.submit',
+
+  // 授权登陆
+  '授权登陆.登陆': 'LoginV1.onLogin',
+  '授权登陆.成功': 'LoginV1.onSuccess',
+  '授权登陆.错误': 'LoginV1.onError',
+  '授权登陆.乱逛': 'LoginV1.onOtherPage',
+
+  // 登陆
+  '登陆.游客访问': 'Login.onTour',
+  '登陆.登陆': 'Login.onLogin',
+  '登陆.成功': 'Login.onSuccess',
+  '登陆.错误': 'Login.onError'
 }

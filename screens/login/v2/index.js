@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 14:51:28
+ * @Last Modified time: 2019-12-20 18:08:41
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -17,7 +17,7 @@ import { StatusBarEvents, Text, Flex, KeyboardSpacer, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage } from '@utils'
-import { xhrCustom, hm } from '@utils/fetch'
+import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import Preview from './preview'
@@ -65,9 +65,6 @@ class LoginV2 extends React.Component {
       })
     }
 
-    this.userAgent = await Constants.getWebViewUserAgentAsync()
-
-    // await this.logout()
     await this.getUA()
     await this.getFormHash()
     await this.getCaptcha()
@@ -79,6 +76,8 @@ class LoginV2 extends React.Component {
    * 游客访问
    */
   onTour = async () => {
+    t('登陆.游客访问')
+
     try {
       const { _response } = await xhrCustom({
         url: 'https://czy0729.github.io/Bangumi/web/tourist.json'
@@ -106,11 +105,10 @@ class LoginV2 extends React.Component {
   /**
    * 显示登陆表单
    */
-  onPreviewLogin = () => {
+  onPreviewLogin = () =>
     this.setState({
       clicked: true
     })
-  }
 
   /**
    * 登出
@@ -227,6 +225,8 @@ class LoginV2 extends React.Component {
    * 登陆最终失败
    */
   finalLoginFail = async info => {
+    t('登陆.失败')
+
     this.setState({
       loading: false,
       info,
@@ -247,6 +247,8 @@ class LoginV2 extends React.Component {
       info('请填写以上字段')
       return
     }
+
+    t('登陆.登陆')
 
     this.inputRef.inputRef.blur()
     setStorage(`${namespace}|email`, email)
@@ -419,21 +421,20 @@ class LoginV2 extends React.Component {
 
     await userStore.fetchUserInfo()
     await userStore.fetchUsersInfo()
-
     navigation.popToTop()
+
+    t('登陆.成功')
   }
 
-  onFocus = () => {
+  onFocus = () =>
     this.setState({
       focus: true
     })
-  }
 
-  onBlur = () => {
+  onBlur = () =>
     this.setState({
       focus: false
     })
-  }
 
   /**
    * 输入框变化
