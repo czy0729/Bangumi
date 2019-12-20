@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 16:34:53
+ * @Last Modified time: 2019-12-20 16:46:58
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,6 +24,9 @@ function List(props, { $, navigation }) {
 
   const { list } = $.state
   const numColumns = list ? undefined : 4
+  const event = {
+    id: '用户标签.跳转'
+  }
   return (
     <ListView
       key={String(numColumns)}
@@ -33,12 +36,30 @@ function List(props, { $, navigation }) {
       data={$.tag}
       renderItem={({ item, index }) => {
         if (list) {
-          return <ItemSearch navigation={navigation} index={index} {...item} />
+          return (
+            <ItemSearch
+              navigation={navigation}
+              index={index}
+              event={{
+                ...event,
+                data: {
+                  type: 'list'
+                }
+              }}
+              {...item}
+            />
+          )
         }
         return (
           <ItemCollectionsGrid
             navigation={navigation}
             index={index}
+            event={{
+              ...event,
+              data: {
+                type: 'grid'
+              }
+            }}
             {...item}
           />
         )

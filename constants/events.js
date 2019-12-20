@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 10:56:19
+ * @Last Modified time: 2019-12-20 17:28:06
  */
 
 /**
  * 跳转: { to: 'Subject', from: 'block', ...other }
  */
 export default {
+  /* ==================== home ==================== */
   // 首页
   '首页.跳转': 'Home.to',
   '首页.标签页点击': 'Home.tabsPress',
@@ -41,6 +42,21 @@ export default {
   '条目.封面图查看': 'Subject.imageView',
   '条目.右上角菜单': 'Subject.topRightMenu',
 
+  // 人物
+  '人物.跳转': 'Mono.to',
+  '人物.右上角菜单': 'Mono.topRightMenu',
+  '人物.收藏人物': 'Mono.doCollect',
+  '人物.取消收藏人物': 'Mono.doEraseCollect',
+  '人物.封面图查看': 'Mono.imageView',
+
+  // 用户标签
+  '用户标签.跳转': 'Tag.to',
+  '用户标签.排序选择': 'Tag.onOrderSelect',
+  '用户标签.年选择': 'Tag.onAirdateSelect',
+  '用户标签.月选择': 'Tag.onMonthSelect',
+  '用户标签.切换布局': 'Tag.toggleList',
+
+  /* ==================== discovery ==================== */
   // 发现
   '发现.跳转': 'Discovery.to',
 
@@ -86,5 +102,10 @@ export default {
   '搜索.切换类型': 'Search.onSelect',
   '搜索.选择历史': 'Search.selectHistory',
   '搜索.删除历史': 'Search.deleteHistory',
-  '搜索.搜索': 'Search.doSearch'
+  '搜索.搜索': 'Search.doSearch',
+
+  /* ==================== login ==================== */
+  // 辅助登陆
+  '辅助登陆.复制': 'Assist.copy',
+  '辅助登陆.提交': 'Assist.submit'
 }

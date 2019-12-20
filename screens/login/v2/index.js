@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-06 23:19:50
+ * @Last Modified time: 2019-12-20 14:51:28
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -68,6 +68,7 @@ class LoginV2 extends React.Component {
     this.userAgent = await Constants.getWebViewUserAgentAsync()
 
     // await this.logout()
+    await this.getUA()
     await this.getFormHash()
     await this.getCaptcha()
 
@@ -121,6 +122,17 @@ class LoginV2 extends React.Component {
   //       'User-Agent': this.userAgent
   //     }
   //   })
+
+  /**
+   * 随机生成一个UserAgent
+   */
+  getUA = async () => {
+    const res = Constants.getWebViewUserAgentAsync()
+    const UA = await res
+    this.userAgent = `${UA} ${getTimestamp()}`
+
+    return res
+  }
 
   /**
    * 获取表单hash
@@ -214,13 +226,16 @@ class LoginV2 extends React.Component {
   /**
    * 登陆最终失败
    */
-  finalLoginFail = info => {
+  finalLoginFail = async info => {
     this.setState({
       loading: false,
       info,
       retry: 0
     })
-    this.getCaptcha()
+
+    await this.getUA()
+    await this.getFormHash()
+    await this.getCaptcha()
   }
 
   /**
@@ -363,7 +378,7 @@ class LoginV2 extends React.Component {
    */
   getAccessToken = () => {
     this.setState({
-      info: `${this.retryText}授权成功, 获取token中...(4/5), 若卡住可再次点击登陆重试`
+      info: `${this.retryText}授权成功, 获取token中...(4/5), 若没反应可再次点击登陆重试(不用管转圈)`
     })
 
     return xhrCustom(

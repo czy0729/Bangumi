@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 21:02:52
+ * @Last Modified time: 2019-12-20 11:27:56
  */
 import { observable, computed } from 'mobx'
 import {
@@ -291,7 +291,9 @@ export default class ScreenHome extends store {
       return
     }
 
-    t('首页.标签页点击')
+    t('首页.标签页点击', {
+      page
+    })
     this.setState({
       page
     })
@@ -310,7 +312,9 @@ export default class ScreenHome extends store {
       return
     }
 
-    t('首页.标签页切换')
+    t('首页.标签页切换', {
+      page
+    })
     this.setState({
       page,
       _page: page
@@ -372,7 +376,9 @@ export default class ScreenHome extends store {
    * 显示收藏管理<Modal>
    */
   showManageModal = subjectId => {
-    t('首页.显示收藏管理')
+    t('首页.显示收藏管理', {
+      subjectId
+    })
 
     this.setState({
       visible: true,
@@ -393,7 +399,9 @@ export default class ScreenHome extends store {
    * <Item>展开或收起
    */
   itemToggleExpand = subjectId => {
-    t('首页.展开或收起条目')
+    t('首页.展开或收起条目', {
+      subjectId
+    })
 
     const state = this.$Item(subjectId)
     this.setState({
@@ -411,7 +419,10 @@ export default class ScreenHome extends store {
    * <Item>置顶或取消置顶
    */
   itemToggleTop = (subjectId, isTop) => {
-    t('首页.置顶或取消置顶')
+    t('首页.置顶或取消置顶', {
+      subjectId,
+      isTop
+    })
 
     const { top } = this.state
     const _top = [...top]
@@ -468,7 +479,9 @@ export default class ScreenHome extends store {
    * 选择布局
    */
   selectLayout = title => {
-    t('首页.选择布局')
+    t('首页.选择布局', {
+      title
+    })
 
     this.setState({
       grid: title === '方格布局'
@@ -480,7 +493,9 @@ export default class ScreenHome extends store {
    * 格子布局条目选择
    */
   selectGirdSubject = subjectId => {
-    t('首页.格子布局条目选择')
+    t('首页.格子布局条目选择', {
+      subjectId
+    })
 
     this.setState({
       current: subjectId
@@ -498,7 +513,9 @@ export default class ScreenHome extends store {
       return
     }
 
-    t('首页.观看下一章节')
+    t('首页.观看下一章节', {
+      subjectId
+    })
     this.setState({
       item: {
         [subjectId]: {
@@ -530,7 +547,9 @@ export default class ScreenHome extends store {
    * 更新书籍下一个章节
    */
   doUpdateNext = async (subjectId, epStatus, volStatus) => {
-    t('首页.更新书籍下一个章节')
+    t('首页.更新书籍下一个章节', {
+      subjectId
+    })
 
     await collectionStore.doUpdateBookEp({
       subjectId,
@@ -545,7 +564,9 @@ export default class ScreenHome extends store {
    * 管理收藏
    */
   doUpdateCollection = async values => {
-    t('首页.管理收藏')
+    t('首页.管理收藏', {
+      subjectId: values.subjectId
+    })
 
     await collectionStore.doUpdateCollection(values)
     this.closeManageModal()
@@ -559,6 +580,7 @@ export default class ScreenHome extends store {
     if (status) {
       t('首页.章节菜单操作', {
         title: '更新收视进度',
+        subjectId,
         status
       })
 
@@ -573,7 +595,8 @@ export default class ScreenHome extends store {
 
     if (value === '看到') {
       t('首页.章节菜单操作', {
-        title: '批量更新收视进度'
+        title: '批量更新收视进度',
+        subjectId
       })
 
       // 批量更新收视进度
@@ -587,7 +610,8 @@ export default class ScreenHome extends store {
     // iOS是本集讨论, 安卓是(+N)...
     if (value.includes('本集讨论') || value.includes('(+')) {
       t('首页.章节菜单操作', {
-        title: '本集讨论'
+        title: '本集讨论',
+        subjectId
       })
 
       // 数据占位
@@ -614,7 +638,9 @@ export default class ScreenHome extends store {
    * 章节按钮长按
    */
   doEpsLongPress = async ({ id }, subjectId) => {
-    t('首页.章节按钮长按')
+    t('首页.章节按钮长按', {
+      subjectId
+    })
 
     const userProgress = this.userProgress(subjectId)
     let status

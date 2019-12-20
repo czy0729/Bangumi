@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 15:30:38
+ * @Last Modified time: 2019-12-20 15:54:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,6 +21,12 @@ function Works({ style }, { $, navigation }) {
 
   const styles = memoStyles()
   const { monoId } = $.params
+  const event = {
+    id: '人物.跳转',
+    data: {
+      from: '最近参与'
+    }
+  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
@@ -28,7 +34,9 @@ function Works({ style }, { $, navigation }) {
           <IconHeader
             name='right'
             color={_.title}
-            onPress={() => appNavigate(`/${monoId}/works`)}
+            onPress={() =>
+              appNavigate(`/${monoId}/works`, undefined, {}, event)
+            }
           />
         }
       >
@@ -47,11 +55,16 @@ function Works({ style }, { $, navigation }) {
               radius
               border={_.colorBorder}
               onPress={() =>
-                appNavigate(item.href, navigation, {
-                  _jp: item.name,
-                  _cn: item.nameCn,
-                  _image: item.cover
-                })
+                appNavigate(
+                  item.href,
+                  navigation,
+                  {
+                    _jp: item.name,
+                    _cn: item.nameCn,
+                    _image: item.cover
+                  },
+                  event
+                )
               }
             />
             <Flex.Item style={_.ml.sm}>

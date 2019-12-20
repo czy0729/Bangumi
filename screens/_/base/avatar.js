@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:15:36
+ * @Last Modified time: 2019-12-20 16:00:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,7 @@ function Avatar({
       const { id, data = {} } = event
       t(id, {
         to: 'Zone',
+        userId,
         ...data
       })
 

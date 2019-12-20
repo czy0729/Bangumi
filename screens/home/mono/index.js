@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 15:32:56
+ * @Last Modified time: 2019-12-20 15:45:17
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,7 +11,7 @@ import { ItemTopic, IconHeader, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Info from './info'
 import Store from './store'
@@ -40,8 +40,7 @@ class Mono extends React.Component {
     await $.init()
     this.updateNavigation()
 
-    const { monoId } = $.params
-    hm(monoId, 'Mono')
+    hm($.monoId, 'Mono')
   }
 
   updateNavigation = () => {
@@ -49,14 +48,17 @@ class Mono extends React.Component {
     const { name } = $.mono
     withTransitionHeader.setTitle(navigation, name)
 
-    const { monoId } = $.params
     navigation.setParams({
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
+          t('人物.右上角菜单', {
+            key
+          })
+
           switch (key) {
             case '浏览器查看':
-              open(`${HOST}/${monoId}`)
+              open(`${HOST}/${$.monoId}`)
               break
             default:
               break
@@ -67,14 +69,17 @@ class Mono extends React.Component {
         <IconHeader
           name='trophy-full'
           color={_.colorYellow}
-          onPress={() =>
-            navigation.push(
-              $.chara.users ? 'TinygrailICODeal' : 'TinygrailTrade',
-              {
-                monoId
-              }
-            )
-          }
+          onPress={() => {
+            const path = $.chara.users ? 'TinygrailICODeal' : 'TinygrailTrade'
+            t('人物.跳转', {
+              to: path,
+              monoId: $.monoId
+            })
+
+            navigation.push(path, {
+              monoId: $.monoId
+            })
+          }}
         />
       )
     })
@@ -83,6 +88,12 @@ class Mono extends React.Component {
   render() {
     const { $, navigation } = this.context
     const { onScroll } = this.props
+    const event = {
+      id: '人物.跳转',
+      data: {
+        from: '吐槽'
+      }
+    }
     return (
       <>
         <NavigationBarEvents />
@@ -94,7 +105,12 @@ class Mono extends React.Component {
           scrollEventThrottle={32}
           ListHeaderComponent={<Info />}
           renderItem={({ item, index }) => (
-            <ItemTopic navigation={navigation} index={index} {...item} />
+            <ItemTopic
+              navigation={navigation}
+              index={index}
+              event={event}
+              {...item}
+            />
           )}
           onScroll={onScroll}
           onHeaderRefresh={() => $.fetchMono(true)}

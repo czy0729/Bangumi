@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 17:18:55
+ * @Last Modified time: 2019-12-20 16:51:45
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import { MODEL_TAG_ORDERBY } from '@constants/model'
 
 const namespace = 'ScreenTag'
@@ -65,6 +66,10 @@ export default class ScreenTag extends store {
 
   // -------------------- page --------------------
   onOrderSelect = async label => {
+    t('用户标签.排序选择', {
+      label
+    })
+
     this.setState({
       order: MODEL_TAG_ORDERBY.getValue(label)
     })
@@ -82,6 +87,10 @@ export default class ScreenTag extends store {
   }
 
   onAirdateSelect = async airtime => {
+    t('用户标签.年选择', {
+      airtime
+    })
+
     this.setState({
       airtime: airtime === '全部' ? '' : airtime,
       month: ''
@@ -106,6 +115,10 @@ export default class ScreenTag extends store {
       return
     }
 
+    t('用户标签.月选择', {
+      month
+    })
+
     this.setState({
       month: month === '全部' ? '' : month
     })
@@ -124,6 +137,10 @@ export default class ScreenTag extends store {
 
   toggleList = () => {
     const { list } = this.state
+    t('用户标签.切换布局', {
+      list: !list
+    })
+
     this.setState({
       list: !list
     })

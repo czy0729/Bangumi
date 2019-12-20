@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 00:20:02
+ * @Last Modified time: 2019-12-20 16:51:36
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
@@ -155,9 +155,11 @@ export default class ScreenRank extends store {
   }
 
   toggleList = () => {
-    t('排行榜.切换布局')
-
     const { list } = this.state
+    t('排行榜.切换布局', {
+      list: !list
+    })
+
     this.setState({
       list: !list
     })

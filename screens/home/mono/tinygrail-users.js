@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:17:05
+ * @Last Modified time: 2019-12-20 15:46:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,6 +20,12 @@ function TinygrailUsers({ style }, { $, navigation }) {
 
   const { total: amount } = $.chara
   const { list, total } = $.users
+  const event = {
+    id: '人物.跳转',
+    data: {
+      from: '董事会'
+    }
+  }
   return (
     <View style={style}>
       <Text type='warning' size={20}>
@@ -41,6 +47,7 @@ function TinygrailUsers({ style }, { $, navigation }) {
                 size={isTop ? 56 : 40}
                 userId={item.name}
                 name={item.nickName}
+                event={event}
               />
               <Flex.Item style={_.ml.sm}>
                 <Text type={isTop ? 'warning' : 'desc'} size={isTop ? 14 : 12}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 00:51:57
+ * @Last Modified time: 2019-12-20 16:05:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,6 +21,7 @@ import {
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { getCoverLarge } from '@utils/app'
+import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import TinygrailUsers from './tinygrail-users'
 import Voice from './voice'
@@ -39,7 +40,7 @@ function Info(props, { $, navigation }) {
     collectUrl,
     eraseCollectUrl
   } = $.mono
-  const { monoId, _name, _jp, _image } = $.params
+  const { _name, _jp, _image } = $.params
   const _cover = cover || getCoverLarge(_image)
   return (
     <>
@@ -87,6 +88,12 @@ function Info(props, { $, navigation }) {
               shadow
               placholder={false}
               imageViewer
+              event={{
+                id: '人物.封面图查看',
+                data: {
+                  monoId: $.monoId
+                }
+              }}
             />
           </Flex>
         )}
@@ -103,9 +110,15 @@ function Info(props, { $, navigation }) {
         right={
           <Touchable
             onPress={() => {
-              const type = monoId.includes('character/') ? 'crt' : 'prsn'
+              t('人物.跳转', {
+                to: 'Topic',
+                from: '去吐槽',
+                monoId: $.monoId
+              })
+
+              const type = $.monoId.includes('character/') ? 'crt' : 'prsn'
               navigation.push('Topic', {
-                topicId: `${type}/${monoId.match(/\d+/g)[0]}`
+                topicId: `${type}/${$.monoId.match(/\d+/g)[0]}`
               })
             }}
           >

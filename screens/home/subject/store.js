@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 14:35:53
+ * @Last Modified time: 2019-12-20 16:08:53
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -383,14 +383,25 @@ export default class ScreenSubject extends store {
       })
 
       // 数据占位
-      appNavigate(item.url, navigation, {
-        _title: `ep${item.sort}.${item.name || item.name_cn}`,
-        _group: this.subject.name || this.subject.name_cn,
-        _groupThumb: getCoverMedium((this.subject.images || {}).medium),
-        _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
-          item.desc || ''
-        ).replace(/\r\n/g, '<br />')}`
-      })
+      appNavigate(
+        item.url,
+        navigation,
+        {
+          _title: `ep${item.sort}.${item.name || item.name_cn}`,
+          _group: this.subject.name || this.subject.name_cn,
+          _groupThumb: getCoverMedium((this.subject.images || {}).medium),
+          _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
+            item.desc || ''
+          ).replace(/\r\n/g, '<br />')}`
+        },
+        {
+          id: '条目.跳转',
+          data: {
+            from: '章节',
+            subjectId: this.subjectId
+          }
+        }
+      )
       return
     }
 

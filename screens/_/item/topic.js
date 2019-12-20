@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:16:40
+ * @Last Modified time: 2019-12-20 12:09:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,7 @@ const baseFontStyle = {
   lineHeight: 22
 }
 
-function Item({
+function ItemTopic({
   navigation,
   index,
   authorId,
@@ -33,7 +33,8 @@ function Item({
   message,
   floor,
   time,
-  sub = []
+  sub,
+  event
 }) {
   if (!userId) {
     return null
@@ -51,6 +52,7 @@ function Item({
         userId={userId}
         name={userName}
         src={avatar}
+        event={event}
       />
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>
@@ -79,7 +81,7 @@ function Item({
           baseFontStyle={baseFontStyle}
           imagesMaxWidth={imagesMaxWidth}
           html={message}
-          onLinkPress={href => appNavigate(href, navigation)}
+          onLinkPress={href => appNavigate(href, navigation, {}, event)}
         />
         <View style={styles.sub}>
           {sub.map(item => {
@@ -94,6 +96,7 @@ function Item({
                   src={item.avatar}
                   userId={item.userId}
                   name={item.userName}
+                  event={event}
                 />
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
@@ -123,7 +126,9 @@ function Item({
                     baseFontStyle={baseFontStyle}
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}
-                    onLinkPress={href => appNavigate(href, navigation)}
+                    onLinkPress={href =>
+                      appNavigate(href, navigation, {}, event)
+                    }
                   />
                 </Flex.Item>
               </Flex>
@@ -135,7 +140,12 @@ function Item({
   )
 }
 
-export default observer(Item)
+ItemTopic.defaultProps = {
+  sub: [],
+  event: {}
+}
+
+export default observer(ItemTopic)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

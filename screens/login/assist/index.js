@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 16:58:05
+ * @Last Modified time: 2019-12-20 17:28:44
  */
 import React from 'react'
 import { ScrollView, View, Clipboard } from 'react-native'
@@ -12,7 +12,7 @@ import { Text, Input, Button, KeyboardSpacer } from '@components'
 import { _, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
-import { xhrCustom, hm } from '@utils/fetch'
+import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 
@@ -52,6 +52,8 @@ class LoginAssist extends React.Component {
   }
 
   copy = () => {
+    t('辅助登陆.复制')
+
     Clipboard.setString(code)
     info('已复制')
   }
@@ -72,6 +74,8 @@ class LoginAssist extends React.Component {
       info('请粘贴结果')
       return
     }
+
+    t('辅助登陆.提交')
 
     this.setState({
       loading: true,

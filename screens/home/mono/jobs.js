@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 15:26:30
+ * @Last Modified time: 2019-12-20 15:44:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,12 @@ function Jobs({ style }, { $, navigation }) {
   }
 
   const styles = memoStyles()
+  const event = {
+    id: '人物.跳转',
+    data: {
+      from: '出演'
+    }
+  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle>出演</SectionTitle>
@@ -38,11 +44,16 @@ function Jobs({ style }, { $, navigation }) {
                   radius
                   border={_.colorBorder}
                   onPress={() =>
-                    appNavigate(item.href, navigation, {
-                      _jp: item.name,
-                      _cn: item.nameCn,
-                      _image: item.cover
-                    })
+                    appNavigate(
+                      item.href,
+                      navigation,
+                      {
+                        _jp: item.name,
+                        _cn: item.nameCn,
+                        _image: item.cover
+                      },
+                      event
+                    )
                   }
                 />
                 <Flex.Item style={_.ml.sm}>
@@ -76,10 +87,15 @@ function Jobs({ style }, { $, navigation }) {
                     radius
                     border={_.colorBorder}
                     onPress={() =>
-                      appNavigate(item.castHref, navigation, {
-                        _name: item.cast,
-                        _image: getCoverMedium(item.castCover)
-                      })
+                      appNavigate(
+                        item.castHref,
+                        navigation,
+                        {
+                          _name: item.cast,
+                          _image: getCoverMedium(item.castCover)
+                        },
+                        event
+                      )
                     }
                   />
                 )}
