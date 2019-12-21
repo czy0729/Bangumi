@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:19:54
+ * @Last Modified time: 2019-12-21 15:52:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -55,16 +55,28 @@ function Top(props, { $, navigation }) {
   const uname = userName || _userName
   const uid = userId || _userId
   const _groupThumb = groupThumb || $.groupThumb
+  const event = {
+    id: '帖子.跳转',
+    data: {
+      from: '#1',
+      topicId: $.topicId
+    }
+  }
 
   // 人物这里不显示详情, 所以要把小组的相关信息替换成人物信息, 跳转到人物页面查看
   let groupName = group || _group
   let groupPress = () =>
-    appNavigate(groupHref, navigation, {
-      _jp: group
-    })
+    appNavigate(
+      groupHref,
+      navigation,
+      {
+        _jp: group
+      },
+      event
+    )
   if ($.isMono) {
     groupName = title || _title
-    groupPress = () => appNavigate(`${HOST}/${$.monoId}`, navigation)
+    groupPress = () => appNavigate(`${HOST}/${$.monoId}`, navigation, {}, event)
   }
 
   const isGroup = $.topicId.includes('group/')
@@ -121,6 +133,7 @@ function Top(props, { $, navigation }) {
                   src={_avatar || userAvatar}
                   userId={userId}
                   name={uname}
+                  event={event}
                 />
               )}
             </View>
@@ -150,7 +163,7 @@ function Top(props, { $, navigation }) {
               style={_.mt.lg}
               html={html}
               // autoShowImage
-              onLinkPress={href => appNavigate(href, navigation)}
+              onLinkPress={href => appNavigate(href, navigation, {}, event)}
             />
           )}
         </View>

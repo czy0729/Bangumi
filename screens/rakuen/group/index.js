@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 00:47:20
+ * @Last Modified time: 2019-12-20 22:36:40
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Pagination, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Info from './info'
 import List from './list'
@@ -40,14 +40,12 @@ class RakuenGroup extends React.Component {
     withTransitionHeader.setTitle(navigation, _title)
     this.updatePopover()
 
-    const { groupId } = $.params
-    hm(`group/${groupId}`, 'Group')
+    hm(`group/${$.groupId}`, 'Group')
   }
 
   updatePopover = () => {
     const { $, navigation } = this.context
     const { joinUrl, byeUrl } = $.groupInfo
-    const { groupId } = $.params
     const data = ['浏览器查看', '小组成员']
     if (joinUrl) {
       data.push('加入小组')
@@ -59,12 +57,17 @@ class RakuenGroup extends React.Component {
       popover: {
         data,
         onSelect: async key => {
+          t('小组.右上角菜单', {
+            key,
+            groupId: $.groupId
+          })
+
           switch (key) {
             case '浏览器查看':
-              open(`${HOST}/group/${groupId}`)
+              open(`${HOST}/group/${$.groupId}`)
               break
             case '小组成员':
-              open(`${HOST}/group/${groupId}/members`)
+              open(`${HOST}/group/${$.groupId}/members`)
               break
             case '加入小组':
               await $.doJoin()

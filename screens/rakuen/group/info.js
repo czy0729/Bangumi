@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 17:50:18
+ * @Last Modified time: 2019-12-20 22:37:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -38,6 +38,12 @@ function Info(props, { $ }) {
             shadow
             placholder={false}
             imageViewer
+            event={{
+              id: '小组.封面图查看',
+              data: {
+                groupId: $.groupId
+              }
+            }}
           />
         </Flex>
       )}

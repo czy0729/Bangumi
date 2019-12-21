@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 17:50:07
+ * @Last Modified time: 2019-12-20 22:33:41
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
 import store from '@utils/store'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
 
@@ -35,32 +35,36 @@ export default class ScreenGroup extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchGroupInfo = () => {
-    const { groupId } = this.params
-    return rakuenStore.fetchGroupInfo({ groupId })
-  }
+  fetchGroupInfo = () =>
+    rakuenStore.fetchGroupInfo({
+      groupId: this.groupId
+    })
 
   fetchGroup = () => {
-    const { groupId } = this.params
     const { page } = this.state
-    return rakuenStore.fetchGroup({ groupId, page })
+    return rakuenStore.fetchGroup({
+      groupId: this.groupId,
+      page
+    })
   }
 
   // -------------------- get --------------------
+  @computed get groupId() {
+    const { groupId = '' } = this.params
+    return groupId
+  }
+
   @computed get key() {
-    const { groupId } = this.params
-    return `${namespace}|${groupId}`
+    return `${namespace}|${this.groupId}`
   }
 
   @computed get groupInfo() {
-    const { groupId } = this.params
-    return rakuenStore.groupInfo(groupId)
+    return rakuenStore.groupInfo(this.groupId)
   }
 
   @computed get group() {
-    const { groupId } = this.params
     const { page } = this.state
-    return rakuenStore.group(groupId, page)
+    return rakuenStore.group(this.groupId, page)
   }
 
   @computed get groupThumb() {
@@ -90,6 +94,11 @@ export default class ScreenGroup extends store {
       return
     }
 
+    t('小组.上一页', {
+      page: page - 1,
+      groupId: this.groupId
+    })
+
     this.setState({
       page: page - 1,
       show: false,
@@ -107,6 +116,11 @@ export default class ScreenGroup extends store {
 
   next = async () => {
     const { page } = this.state
+    t('小组.下一页', {
+      page: page + 1,
+      groupId: this.groupId
+    })
+
     this.setState({
       page: page + 1,
       show: false,
@@ -142,6 +156,11 @@ export default class ScreenGroup extends store {
       return
     }
 
+    t('小组.页码跳转', {
+      page: _ipt,
+      groupId: this.groupId
+    })
+
     this.setState({
       page: _ipt,
       show: false,
@@ -166,6 +185,10 @@ export default class ScreenGroup extends store {
       return false
     }
 
+    t('小组.加入', {
+      groupId: this.groupId
+    })
+
     await fetchHTML({
       method: 'POST',
       url: `${HOST}${joinUrl}`,
@@ -186,6 +209,10 @@ export default class ScreenGroup extends store {
     if (!byeUrl) {
       return false
     }
+
+    t('小组.退出', {
+      groupId: this.groupId
+    })
 
     await fetchHTML({
       method: 'POST',

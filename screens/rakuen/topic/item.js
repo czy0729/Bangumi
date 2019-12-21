@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:19:26
+ * @Last Modified time: 2019-12-21 15:44:29
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -40,7 +40,8 @@ function Item(
     sub = [],
     replySub,
     erase,
-    showFixedTextare
+    showFixedTextare,
+    event = {}
   },
   { $, navigation }
 ) {
@@ -57,6 +58,7 @@ function Item(
 
   const { _url } = $.params
   const url = _url || `${HOST}/rakuen/topic/${$.topicId}`
+
   return (
     <Flex
       style={[
@@ -73,6 +75,7 @@ function Item(
         userId={userId}
         name={userName}
         src={avatar}
+        event={event}
       />
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>
@@ -107,10 +110,9 @@ function Item(
           baseFontStyle={baseFontStyle}
           imagesMaxWidth={imagesMaxWidth}
           html={message}
-          onLinkPress={href => appNavigate(href, navigation)}
+          onLinkPress={href => appNavigate(href, navigation, {}, event)}
           onImageFallback={() => open(`${url}#post_${id}`)}
         />
-
         <Flex justify='end'>
           {!!erase && (
             <Touchable
@@ -169,6 +171,7 @@ function Item(
                   userId={item.userId}
                   name={item.userName}
                   src={item.avatar}
+                  event={event}
                 />
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
@@ -204,7 +207,9 @@ function Item(
                     baseFontStyle={baseFontStyle}
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}
-                    onLinkPress={href => appNavigate(href, navigation)}
+                    onLinkPress={href =>
+                      appNavigate(href, navigation, {}, event)
+                    }
                     onImageFallback={() => open(`${url}#post_${item.id}`)}
                   />
                   <Flex justify='end'>

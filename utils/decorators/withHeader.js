@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 12:05:34
+ * @Last Modified time: 2019-12-21 14:16:38
  */
 import React from 'react'
 import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
 import { _ } from '@stores'
+import { hm as utilsHM } from '@utils/fetch'
 import { IOS, BARE } from '@constants'
 import observer from './observer'
 
@@ -22,7 +23,8 @@ const withHeader = ({
   headerStyle,
   headerTitleStyle,
   iconBackColor,
-  statusBarEvents = true
+  statusBarEvents = true,
+  hm
 } = {}) => ComposedComponent =>
   observer(
     class withHeaderComponent extends React.Component {
@@ -111,6 +113,12 @@ const withHeader = ({
           params.title = title
         }
         return params
+      }
+
+      componentDidMount() {
+        if (Array.isArray(hm)) {
+          utilsHM(...hm)
+        }
       }
 
       render() {

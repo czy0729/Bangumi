@@ -2,13 +2,61 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 18:05:12
+ * @Last Modified time: 2019-12-21 16:17:28
  */
 
 /**
  * 跳转: { to: 'Subject', from: 'block', ...other }
  */
 export default {
+  /* ==================== discovery ==================== */
+  // Anitama
+  'Anitama.跳转': 'Anitama.to',
+  'Anitama.右上角菜单': 'Anitama.topRightMenu',
+  'Anitama.上一页': 'Anitama.prev',
+  'Anitama.下一页': 'Anitama.next',
+  'Anitama.页码跳转': 'Anitama.doSearch',
+
+  // 年鉴
+  '年鉴.跳转': 'Award.to',
+
+  // 每日放送
+  '每日放送.跳转': 'Calendar.to',
+  '每日放送.右上角菜单': 'Calendar.topRightMenu',
+
+  // 收藏的人物
+  '收藏的人物.跳转': 'Character.to',
+  '收藏的人物.右上角菜单': 'Character.topRightMenu',
+  '收藏的人物.标签页切换': 'Character.tabsChange',
+
+  // 发现
+  '发现.跳转': 'Discovery.to',
+
+  // 随便看看
+  '随便看看.跳转': 'Random.to',
+
+  // 排行榜
+  '排行榜.跳转': 'Rank.to',
+  '排行榜.右上角菜单': 'Rank.topRightMenu',
+  '排行榜.类型选择': 'Rank.onTypeSelect',
+  '排行榜.筛选选择': 'Rank.onFilterSelect',
+  '排行榜.年选择': 'Rank.onAirdateSelect',
+  '排行榜.月选择': 'Rank.onMonthSelect',
+  '排行榜.切换布局': 'Rank.toggleList',
+
+  // 搜索
+  '搜索.跳转': 'Search.to',
+  '搜索.右上角菜单': 'Search.topRightMenu',
+  '搜索.切换类型': 'Search.onSelect',
+  '搜索.选择历史': 'Search.selectHistory',
+  '搜索.删除历史': 'Search.deleteHistory',
+  '搜索.搜索': 'Search.doSearch',
+
+  // 标签索引
+  '标签索引.跳转': 'Tags.to',
+  '标签索引.右上角菜单': 'Tags.topRightMenu',
+  '标签索引.标签页切换': 'Tags.tabsChange',
+
   /* ==================== home ==================== */
   // 首页
   '首页.跳转': 'Home.to',
@@ -27,6 +75,13 @@ export default {
   '首页.章节菜单操作': 'Home.doEpsSelect',
   '首页.章节按钮长按': 'Home.doEpsLongPress',
 
+  // 人物
+  '人物.跳转': 'Mono.to',
+  '人物.右上角菜单': 'Mono.topRightMenu',
+  '人物.收藏人物': 'Mono.doCollect',
+  '人物.取消收藏人物': 'Mono.doEraseCollect',
+  '人物.封面图查看': 'Mono.imageView',
+
   // 条目
   '条目.跳转': 'Subject.to',
   '条目.显示收藏管理': 'Subject.showManageModel',
@@ -42,67 +97,12 @@ export default {
   '条目.封面图查看': 'Subject.imageView',
   '条目.右上角菜单': 'Subject.topRightMenu',
 
-  // 人物
-  '人物.跳转': 'Mono.to',
-  '人物.右上角菜单': 'Mono.topRightMenu',
-  '人物.收藏人物': 'Mono.doCollect',
-  '人物.取消收藏人物': 'Mono.doEraseCollect',
-  '人物.封面图查看': 'Mono.imageView',
-
   // 用户标签
   '用户标签.跳转': 'Tag.to',
   '用户标签.排序选择': 'Tag.onOrderSelect',
   '用户标签.年选择': 'Tag.onAirdateSelect',
   '用户标签.月选择': 'Tag.onMonthSelect',
   '用户标签.切换布局': 'Tag.toggleList',
-
-  /* ==================== discovery ==================== */
-  // 发现
-  '发现.跳转': 'Discovery.to',
-
-  // 年鉴
-  '年鉴.跳转': 'Award.to',
-
-  // Anitama
-  'Anitama.跳转': 'Anitama.to',
-  'Anitama.上一页': 'Anitama.prev',
-  'Anitama.下一页': 'Anitama.next',
-  'Anitama.页码跳转': 'Anitama.doSearch',
-  'Anitama.右上角菜单': 'Anitama.topRightMenu',
-
-  // 每日放送
-  '每日放送.跳转': 'Calendar.to',
-  '每日放送.右上角菜单': 'Calendar.topRightMenu',
-
-  // 收藏的人物
-  '收藏的人物.跳转': 'Character.to',
-  '收藏的人物.右上角菜单': 'Character.topRightMenu',
-  '收藏的人物.标签页切换': 'Character.tabsChange',
-
-  // 随便看看
-  '随便看看.跳转': 'Random.to',
-
-  // 排行榜
-  '排行榜.跳转': 'Rank.to',
-  '排行榜.右上角菜单': 'Rank.topRightMenu',
-  '排行榜.类型选择': 'Rank.onTypeSelect',
-  '排行榜.筛选选择': 'Rank.onFilterSelect',
-  '排行榜.年选择': 'Rank.onAirdateSelect',
-  '排行榜.月选择': 'Rank.onMonthSelect',
-  '排行榜.切换布局': 'Rank.toggleList',
-
-  // 标签索引
-  '标签索引.跳转': 'Tags.to',
-  '标签索引.右上角菜单': 'Tags.topRightMenu',
-  '标签索引.标签页切换': 'Tags.tabsChange',
-
-  // 搜索
-  '搜索.跳转': 'Search.to',
-  '搜索.右上角菜单': 'Search.topRightMenu',
-  '搜索.切换类型': 'Search.onSelect',
-  '搜索.选择历史': 'Search.selectHistory',
-  '搜索.删除历史': 'Search.deleteHistory',
-  '搜索.搜索': 'Search.doSearch',
 
   /* ==================== login ==================== */
   // 辅助登陆
@@ -119,5 +119,60 @@ export default {
   '登陆.游客访问': 'Login.onTour',
   '登陆.登陆': 'Login.onLogin',
   '登陆.成功': 'Login.onSuccess',
-  '登陆.错误': 'Login.onError'
+  '登陆.错误': 'Login.onError',
+
+  /* ==================== rakuen ==================== */
+  // 超展开
+  '超展开.跳转': 'Rakuen.to',
+  '超展开.右上角菜单': 'Rakuen.topRightMenu',
+  '超展开.标签页点击': 'Rakuen.tabsPress',
+  '超展开.标签页切换': 'Rakuen.tabsChange',
+  '超展开.小组菜单点击': 'Rakuen.onGroupMenuPress',
+  '超展开.人物菜单点击': 'Rakuen.onMonoMenuPress',
+  '超展开.项额外点击': 'Rakuen.onExtraSelect',
+  '超展开.预读取': 'Rakuen.prefetch',
+  '超展开.取消预读取': 'Rakuen.cancelPrefetch',
+
+  // 小组
+  '小组.跳转': 'Group.to',
+  '小组.右上角菜单': 'Group.topRightMenu',
+  '小组.上一页': 'Group.prev',
+  '小组.下一页': 'Group.next',
+  '小组.页码跳转': 'Group.doSearch',
+  '小组.加入': 'Group.doJoin',
+  '小组.退出': 'Group.doBye',
+  '小组.封面图查看': 'Group.imageView',
+
+  // 本地帖子
+  '本地帖子.跳转': 'RakuenHistory.to',
+  '本地帖子.切换收藏': 'RakuenHistory.toggleFavor',
+
+  // 电波提醒
+  '电波提醒.跳转': 'Notify.to',
+  '电波提醒.右上角菜单': 'Notify.topRightMenu',
+  '电波提醒.清除': 'Notify.clear',
+
+  // 超展开设置
+  '超展开设置.切换': 'RakuenSetting.switch',
+  '超展开设置.取消关键字': 'RakuenSetting.cancelBlock',
+  '超展开设置.取消用户': 'RakuenSetting.cancelUser',
+
+  // 帖子
+  '帖子.跳转': 'Topic.to',
+  '帖子.右上角菜单': 'Topic.topRightMenu',
+  '帖子.吐槽倒序': 'Topic.toggleReverseComments',
+  '帖子.与我相关': 'Topic.toggleFilterMe',
+  '帖子.好友相关': 'Topic.toggleFilterFriends',
+  '帖子.显示评论框': 'Topic.showFixedTextarea',
+  '帖子.设置收藏': 'Topic.setFavor',
+  '帖子.回复': 'Topic.doReply',
+  '帖子.回复失败': 'Topic.recoveryContent',
+  '帖子.删除回复': 'Topic.doDeleteReply',
+  '帖子.UCG': 'Topic.UCGAgree',
+  '帖子.楼层跳转': 'Topic.scrollTo',
+
+  // 社区指导原则
+  '社区指导原则.跳转': 'UCG.to',
+  '社区指导原则.不同意': 'UCG.disagree',
+  '社区指导原则.同意': 'UCG.agree'
 }

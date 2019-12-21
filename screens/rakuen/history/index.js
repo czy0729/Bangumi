@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 17:58:09
+ * @Last Modified time: 2019-12-21 13:55:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -37,6 +37,7 @@ class RakuenHistory extends React.Component {
     const { $, navigation } = this.context
     await $.init()
     navigation.setParams({
+      title: $.keys.length ? `本地帖子 (${$.keys.length})` : '本地帖子',
       extra: <IconFavor $={$} />
     })
 

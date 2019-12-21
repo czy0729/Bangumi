@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 01:38:43
+ * @Last Modified time: 2019-12-20 21:31:06
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
@@ -19,7 +19,7 @@ import {
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTabsHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants/html'
 import Prefetch from './prefetch'
 import Tabs from './tabs'
@@ -54,15 +54,26 @@ class Rakuen extends React.Component {
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
     navigation.setParams({
-      headerLeft: <IconNotify navigation={navigation} />,
+      headerLeft: (
+        <IconNotify
+          navigation={navigation}
+          event={{
+            id: '超展开.跳转'
+          }}
+        />
+      ),
       headerRight: (
         <Flex>
           <Prefetch $={$} navigation={navigation} />
           <Popover
             style={_.ml.sm}
             data={['设置', '新讨论', '社区指导原则']}
-            onSelect={title => {
-              switch (title) {
+            onSelect={key => {
+              t('超展开.右上角菜单', {
+                key
+              })
+
+              switch (key) {
                 case '设置':
                   navigation.push('RakuenSetting')
                   break

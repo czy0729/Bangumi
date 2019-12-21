@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 17:49:54
+ * @Last Modified time: 2019-12-20 22:39:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { open } from '@utils'
 import { appNavigate } from '@utils/app'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 
 function List({ style }, { $, navigation }) {
@@ -52,19 +53,32 @@ function List({ style }, { $, navigation }) {
             highlight
             onPress={() => {
               if (replies > LIMIT_TOPIC_PUSH) {
+                const url = `${HOST}${href}`
+                t('小组.跳转', {
+                  to: 'WebBrowser',
+                  url
+                })
+
                 info('该帖评论多, 自动使用浏览器打开')
                 setTimeout(() => {
-                  open(`${HOST}${href}`)
+                  open(url)
                 }, 1600)
               } else {
                 // 记录帖子查看历史详情
                 $.onItemPress(topicId, replies)
-                appNavigate(href, navigation, {
-                  _title: title,
-                  _replies: `(+${replies})`,
-                  _group: group,
-                  _time: time
-                })
+                appNavigate(
+                  href,
+                  navigation,
+                  {
+                    _title: title,
+                    _replies: `(+${replies})`,
+                    _group: group,
+                    _time: time
+                  },
+                  {
+                    id: '小组.跳转'
+                  }
+                )
               }
             }}
           >

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:16:23
+ * @Last Modified time: 2019-12-20 21:29:52
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -11,6 +11,7 @@ import { ActivityIndicator } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
 import { IconTabsHeader } from '@screens/_'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
 function Prefetch({ $, navigation }) {
@@ -57,7 +58,12 @@ function Prefetch({ $, navigation }) {
         }}
         name='star'
         position='right'
-        onPress={() => navigation.push('RakuenHistory')}
+        onPress={() => {
+          t('超展开.跳转', {
+            to: 'RakuenHistory'
+          })
+          navigation.push('RakuenHistory')
+        }}
       />
       <IconTabsHeader
         style={{

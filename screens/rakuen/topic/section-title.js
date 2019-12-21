@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 15:10:38
+ * @Last Modified time: 2019-12-21 15:48:11
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -27,7 +27,6 @@ function SectionTitle(props, { $ }) {
       commentsCount += item.sub.length
     }
   })
-
   return (
     <CompSectionTitle
       style={[styles.title, _.mt.lg, _.mb.md]}

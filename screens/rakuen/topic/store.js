@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 11:15:34
+ * @Last Modified time: 2019-12-21 15:38:08
  */
 import { observable, computed } from 'mobx'
 import {
@@ -18,6 +18,7 @@ import { IOS, HOST } from '@constants'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 
 const namespace = 'ScreenTopic'
@@ -207,6 +208,11 @@ export default class ScreenTopic extends store {
    */
   toggleReverseComments = () => {
     const { reverse } = this.state
+    t('帖子.吐槽倒序', {
+      topicId: this.topicId,
+      reverse: !reverse
+    })
+
     this.setState({
       reverse: !reverse
     })
@@ -218,6 +224,11 @@ export default class ScreenTopic extends store {
    */
   toggleFilterMe = () => {
     const { filterMe } = this.state
+    t('帖子.与我相关', {
+      topicId: this.topicId,
+      filterMe: !filterMe
+    })
+
     this.setState({
       filterMe: !filterMe,
       filterFriends: false
@@ -230,6 +241,11 @@ export default class ScreenTopic extends store {
    */
   toggleFilterFriends = () => {
     const { filterFriends } = this.state
+    t('帖子.好友相关', {
+      topicId: this.topicId,
+      filterFriends: !filterFriends
+    })
+
     this.setState({
       filterMe: false,
       filterFriends: !filterFriends
@@ -241,6 +257,10 @@ export default class ScreenTopic extends store {
    * 显示评论框
    */
   showFixedTextarea = (placeholder, replySub, message) => {
+    t('帖子.显示评论框', {
+      topicId: this.topicId
+    })
+
     this.setState({
       placeholder,
       replySub,
@@ -259,6 +279,9 @@ export default class ScreenTopic extends store {
     })
   }
 
+  /**
+   * 输入框变化
+   */
   onChange = value => {
     this.setState({
       value
@@ -269,6 +292,10 @@ export default class ScreenTopic extends store {
    * 失败后恢复上次的内容
    */
   recoveryContent = content => {
+    t('帖子.回复失败', {
+      topicId: this.topicId
+    })
+
     info('回复失败，可能是cookie失效了')
     this.setState({
       value: ''
@@ -284,6 +311,11 @@ export default class ScreenTopic extends store {
    * 设置收藏
    */
   setFavor = () => {
+    t('帖子.设置收藏', {
+      topicId: this.topicId,
+      isFavor: !this.isFavor
+    })
+
     rakuenStore.setFavor(this.topicId, !this.isFavor)
   }
 
@@ -320,6 +352,11 @@ export default class ScreenTopic extends store {
    * 回复
    */
   doReply = (content, type) => {
+    t('帖子.回复', {
+      topicId: this.topicId,
+      sub: false
+    })
+
     const { formhash } = this.topic
     rakuenStore.doReply(
       {
@@ -353,6 +390,11 @@ export default class ScreenTopic extends store {
    * 回复子回复
    */
   doReplySub = (content, type) => {
+    t('帖子.回复', {
+      topicId: this.topicId,
+      sub: true
+    })
+
     const { placeholder, replySub, message } = this.state
     const { formhash } = this.topic
 
@@ -405,6 +447,10 @@ export default class ScreenTopic extends store {
     if (!url) {
       return
     }
+
+    t('帖子.删除回复', {
+      topicId: this.topicId
+    })
 
     rakuenStore.doDeleteReply(
       {

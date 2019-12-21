@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 17:38:55
+ * @Last Modified time: 2019-12-20 21:52:16
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -15,6 +15,7 @@ import { _, systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
 import { sleep } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import { LIMIT_TOPIC_PUSH } from '@constants'
 import {
   MODEL_RAKUEN_SCOPE,
@@ -264,6 +265,10 @@ export default class ScreenRakuen extends store {
       return
     }
 
+    t('超展开.标签页点击', {
+      page
+    })
+
     this.setState({
       page
     })
@@ -282,6 +287,10 @@ export default class ScreenRakuen extends store {
       return
     }
 
+    t('超展开.标签页切换', {
+      page
+    })
+
     this.setState({
       page,
       _page: page
@@ -298,6 +307,10 @@ export default class ScreenRakuen extends store {
   }
 
   onGroupMenuPress = title => {
+    t('超展开.小组菜单点击', {
+      title
+    })
+
     this.setState({
       group: MODEL_RAKUEN_TYPE_GROUP.getValue(title)
     })
@@ -306,6 +319,10 @@ export default class ScreenRakuen extends store {
   }
 
   onMonoMenuPress = title => {
+    t('超展开.人物菜单点击', {
+      title
+    })
+
     this.setState({
       mono: MODEL_RAKUEN_TYPE_MONO.getValue(title)
     })
@@ -318,45 +335,94 @@ export default class ScreenRakuen extends store {
   }
 
   onExtraSelect = (title, values, navigation) => {
+    const eventId = '超展开.项额外点击'
+    let subjectId
+    let groupId
+    let monoId
     switch (title) {
       case '进入小组':
+        groupId = values.groupHref.replace('/group/', '')
+        t(eventId, {
+          title,
+          groupId
+        })
+
         navigation.push('Group', {
-          groupId: values.groupHref.replace('/group/', ''),
+          groupId,
           _title: values.groupCn
         })
         break
+
       case '进入条目':
+        subjectId = values.groupHref.replace('/subject/', '')
+        t(eventId, {
+          title,
+          subjectId
+        })
+
         navigation.push('Subject', {
-          subjectId: values.groupHref.replace('/subject/', '')
+          subjectId
         })
         break
+
       case '进入人物':
+        monoId = values.topicId
+          .replace('prsn/', 'person/')
+          .replace('crt/', 'character/')
+        t(eventId, {
+          title,
+          monoId
+        })
+
         navigation.push('Mono', {
-          monoId: values.topicId
-            .replace('prsn/', 'person/')
-            .replace('crt/', 'character/')
+          monoId
         })
         break
+
       case '屏蔽小组':
       case '屏蔽条目':
       case '屏蔽人物':
+        t(eventId, {
+          title,
+          groupCn: values.groupCn
+        })
+
         rakuenStore.addBlockGroup(values.groupCn)
         info(`已屏蔽 ${values.groupCn}`)
         break
+
       case '屏蔽用户':
+        t(eventId, {
+          title,
+          userName: values.userName
+        })
+
         rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
         info(`已屏蔽 ${values.userName}`)
         break
+
       case '进入ICO':
+        t(eventId, {
+          title,
+          monoId: values.monoId
+        })
+
         navigation.push('TinygrailICODeal', {
           monoId: values.monoId
         })
         break
+
       case '进入交易':
+        t(eventId, {
+          title,
+          monoId: values.monoId
+        })
+
         navigation.push('TinygrailTrade', {
           monoId: values.monoId
         })
         break
+
       default:
         break
     }
@@ -426,6 +492,10 @@ export default class ScreenRakuen extends store {
       return
     }
 
+    t('超展开.预读取', {
+      length: ids.length
+    })
+
     const _ids = ids.filter((item, index) => index < 40)
     let prefetchCurrent = 0
     this.setState({
@@ -460,6 +530,8 @@ export default class ScreenRakuen extends store {
    * 取消预读取
    */
   cancelPrefetch = () => {
+    t('超展开.取消预读取')
+
     this.setState({
       ...initPrefetchState
     })

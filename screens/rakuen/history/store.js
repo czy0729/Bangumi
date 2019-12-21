@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 17:54:40
+ * @Last Modified time: 2019-12-21 13:41:17
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 
 const namespace = 'ScreenRakuenHistory'
 
@@ -27,12 +28,10 @@ export default class ScreenRakuenHistory extends store {
   }
 
   // -------------------- get --------------------
-  @computed get sections() {
+  @computed get keys() {
     const { favor } = this.state
     const data = rakuenStore.state.topic
-    const sections = []
-    const map = {}
-    Object.keys(data)
+    return Object.keys(data)
       .filter(item => {
         // 不知道哪里有问题, 有时会出现undefined的key值, 过滤掉
         if (!item.includes('group/') || item.includes('undefined')) {
@@ -44,21 +43,26 @@ export default class ScreenRakuenHistory extends store {
         return true
       })
       .sort((a, b) => b.localeCompare(a))
-      .forEach(item => {
-        const target = rakuenStore.state.topic[item]
-        const title = (target.time || '').split(' ')[0]
-        if (!(title in map)) {
-          map[title] = sections.length
-          sections.push({
-            title,
-            data: []
-          })
-        }
-        sections[map[title]].data.push({
-          topicId: item,
-          ...target
+  }
+
+  @computed get sections() {
+    const sections = []
+    const map = {}
+    this.keys.forEach(item => {
+      const target = rakuenStore.state.topic[item]
+      const title = (target.time || '').split(' ')[0]
+      if (!(title in map)) {
+        map[title] = sections.length
+        sections.push({
+          title,
+          data: []
         })
+      }
+      sections[map[title]].data.push({
+        topicId: item,
+        ...target
       })
+    })
     return sections
   }
 
@@ -72,14 +76,19 @@ export default class ScreenRakuenHistory extends store {
 
   // -------------------- page --------------------
   /**
-   * 切换是否只显示收藏
+   * 切换收藏
    */
-  setFavor = () => {
+  toggleFavor = () => {
     const { favor } = this.state
-    this.setState({
-      favor: !favor
+    const nextFavor = !favor
+    t('本地帖子.切换收藏', {
+      favor: nextFavor
     })
-    info(!favor ? '只看收藏' : '看全部')
+
+    this.setState({
+      favor: nextFavor
+    })
+    info(nextFavor ? '只看收藏' : '看全部')
     this.setStorage(undefined, undefined, this.namespace)
   }
 }

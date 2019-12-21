@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:16:18
+ * @Last Modified time: 2019-12-21 14:09:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -20,7 +20,8 @@ function ItemNotify({
   title,
   message,
   message2,
-  href
+  href,
+  event
 }) {
   const styles = memoStyles()
   return (
@@ -31,6 +32,7 @@ function ItemNotify({
         userId={userId}
         name={userName}
         src={avatar}
+        event={event}
       />
       <Flex.Item style={[styles.item, !!index && styles.border, _.ml.sm]}>
         <Text size={13} type='avatar'>
@@ -42,9 +44,14 @@ function ItemNotify({
             lineHeight={1.8}
             type='main'
             onPress={() =>
-              appNavigate(href, navigation, {
-                _title: title
-              })
+              appNavigate(
+                href,
+                navigation,
+                {
+                  _title: title
+                },
+                event
+              )
             }
           >
             {title}
@@ -54,6 +61,10 @@ function ItemNotify({
       </Flex.Item>
     </Flex>
   )
+}
+
+ItemNotify.defaultProps = {
+  event: {}
 }
 
 export default observer(ItemNotify)

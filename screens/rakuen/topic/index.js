@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 04:23:53
+ * @Last Modified time: 2019-12-21 15:55:41
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -12,7 +12,7 @@ import { ListView, FixedTextarea } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
 import Top from './top'
@@ -46,6 +46,8 @@ class Topic extends React.Component {
       // @notice 这里注意在iOS上面, 一定要延迟,
       // 不然首页点击讨论跳进来popover + alert直接就不能操作了
       setTimeout(() => {
+        t('帖子.UCG')
+
         Alert.alert(
           '社区指导原则',
           '生命有限, Bangumi 是一个纯粹的ACG网络, 请查看社区指导原则并且同意才能继续操作',
@@ -77,6 +79,10 @@ class Topic extends React.Component {
       popover: {
         data: ['浏览器查看', '举报'],
         onSelect: key => {
+          t('帖子.右上角菜单', {
+            key
+          })
+
           switch (key) {
             case '浏览器查看':
               open(url)
@@ -150,6 +156,11 @@ class Topic extends React.Component {
 
   scrollToThenFeedback = (index = 0) => {
     const { $ } = this.context
+    t('帖子.楼层跳转', {
+      topicId: $.topicId,
+      index
+    })
+
     if (index === -1) {
       info('#1', 0.8)
       this.listView.scrollToOffset({
@@ -168,14 +179,18 @@ class Topic extends React.Component {
     })
   }
 
-  showFixedTextare = () => {
-    this.fixedTextarea.onFocus()
-  }
+  showFixedTextare = () => this.fixedTextarea.onFocus()
 
   render() {
     const { $ } = this.context
     const { placeholder, value } = $.state
     const { onScroll } = this.props
+    const event = {
+      id: '帖子.跳转',
+      data: {
+        topicId: $.topicId
+      }
+    }
     return (
       <>
         <ListView
@@ -194,6 +209,7 @@ class Topic extends React.Component {
               authorId={$.topic.userId}
               {...item}
               showFixedTextare={this.showFixedTextare}
+              event={event}
             />
           )}
           onScroll={onScroll}

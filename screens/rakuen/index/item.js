@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:19:11
+ * @Last Modified time: 2019-12-20 21:43:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 
 const adRepliesCount = 4 // 回复数少于的数字, 判断为广告姬
@@ -132,22 +133,35 @@ class Item extends React.Component {
     // 帖子点击
     const onPress = () => {
       if (this.replyCount > LIMIT_TOPIC_PUSH) {
+        const url = `${HOST}${href}`
+        t('超展开.跳转', {
+          to: 'WebBrowser',
+          url
+        })
+
         info('该帖评论多, 自动使用浏览器打开')
         setTimeout(() => {
-          open(`${HOST}${href}`)
+          open(url)
         }, 1600)
       } else {
         // 记录帖子查看历史详情
         $.onItemPress(this.topicId, this.replyCount)
-        appNavigate(href, navigation, {
-          _title: title,
-          _replies: `(+${this.replyCount})`,
-          _group: group,
-          _time: time,
-          _avatar: avatar,
-          _userName: userName,
-          _userId: this.userId
-        })
+        appNavigate(
+          href,
+          navigation,
+          {
+            _title: title,
+            _replies: `(+${this.replyCount})`,
+            _group: group,
+            _time: time,
+            _avatar: avatar,
+            _userName: userName,
+            _userId: this.userId
+          },
+          {
+            id: '超展开.跳转'
+          }
+        )
       }
     }
 
@@ -281,19 +295,14 @@ class Item extends React.Component {
   render() {
     const { navigation } = this.context
     const { style, index, avatar } = this.props
-    if (this.isBlockGroup) {
-      return null
-    }
-
-    if (this.isBlockUser) {
-      return null
-    }
-
-    if (this.isAd) {
+    if (this.isBlockGroup || this.isBlockUser || this.isAd) {
       return null
     }
 
     const isTop = index === 0
+    const event = {
+      id: '超展开.跳转'
+    }
     return (
       <View
         style={[
@@ -308,6 +317,7 @@ class Item extends React.Component {
             navigation={navigation}
             src={avatar}
             userId={this.userId}
+            event={event}
           />
           <Flex.Item style={!isTop && this.styles.border}>
             <Flex align='start'>

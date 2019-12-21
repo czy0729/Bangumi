@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 17:54:00
+ * @Last Modified time: 2019-12-21 13:55:23
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -16,7 +16,7 @@ function IconFavor({ $ }) {
     <IconHeader
       name={favor ? 'star-full' : 'star'}
       color={favor ? _.colorYellow : _.colorDesc}
-      onPress={$.setFavor}
+      onPress={$.toggleFavor}
     />
   )
 }
