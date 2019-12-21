@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 18:11:31
+ * @Last Modified time: 2019-12-21 18:24:45
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
 import { sleep, getTimestamp } from '@utils'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 
 const namespace = 'ScreenFriends'
 
@@ -101,6 +102,10 @@ export default class ScreenFriends extends store {
 
   // -------------------- page --------------------
   sort = title => {
+    t('好友.排序', {
+      title
+    })
+
     let sort = ''
     if (title === '同步率') {
       sort = 'percent'

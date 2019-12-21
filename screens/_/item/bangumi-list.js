@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:12:02
+ * @Last Modified time: 2019-12-21 20:21:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,13 +12,28 @@ import { IMG_DEFAULT } from '@constants'
 import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
+import { t } from '@utils/fetch'
 
 const imageWidth = _.window.width * 0.16
 const marginLeft = (_.window.width - 5 * imageWidth) / 6
 
-function ItemBangumiList({ navigation, style, subjectId, images = {}, name }) {
+function ItemBangumiList({
+  navigation,
+  style,
+  subjectId,
+  images = {},
+  name,
+  event
+}) {
   const _image = getCoverMedium(images.small, true)
   const onPress = () => {
+    const { id, data = {} } = event
+    t(id, {
+      to: 'Subject',
+      subjectId,
+      ...data
+    })
+
     navigation.push('Subject', {
       subjectId,
       _cn: name,
@@ -42,6 +57,10 @@ function ItemBangumiList({ navigation, style, subjectId, images = {}, name }) {
       </Touchable>
     </View>
   )
+}
+
+ItemBangumiList.defaultProps = {
+  event: {}
 }
 
 export default observer(ItemBangumiList)

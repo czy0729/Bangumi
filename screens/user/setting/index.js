@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:39:01
+ * @Last Modified time: 2019-12-21 20:00:24
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -13,7 +13,7 @@ import { toFixed } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
-import { hm } from '@utils/fetch'
+import { t } from '@utils/fetch'
 import {
   IOS,
   FEEDBACK_URL,
@@ -31,7 +31,8 @@ const title = '设置'
 
 export default
 @withHeader({
-  screen: title
+  screen: title,
+  hm: ['settings', 'Setting']
 })
 @observer
 class Setting extends React.Component {
@@ -46,8 +47,6 @@ class Setting extends React.Component {
 
   componentDidMount() {
     this.caculateStorageSize()
-
-    hm('settings', 'Setting')
   }
 
   setParams = () => {
@@ -72,6 +71,8 @@ class Setting extends React.Component {
   }
 
   clearStorage = () => {
+    t('设置.清除缓存')
+
     Stores.clearStorage()
     setTimeout(() => {
       this.caculateStorageSize()
@@ -80,6 +81,11 @@ class Setting extends React.Component {
 
   setQuality = label => {
     if (label) {
+      t('设置.切换', {
+        title: '质量',
+        label
+      })
+
       systemStore.setQuality(label)
     }
   }
@@ -135,6 +141,11 @@ class Setting extends React.Component {
             <Switch
               checked={_.isDark}
               onChange={() => {
+                t('设置.切换', {
+                  title: '黑暗模式',
+                  checked: !_.isDark
+                })
+
                 _.toggleMode()
                 if (!IOS) {
                   setTimeout(() => {
@@ -154,7 +165,14 @@ class Setting extends React.Component {
           ft={
             <Switch
               checked={tinygrail}
-              onChange={systemStore.switchTinygrail}
+              onChange={() => {
+                t('设置.切换', {
+                  title: '小圣杯',
+                  checked: !tinygrail
+                })
+
+                systemStore.switchTinygrail()
+              }}
             />
           }
           withoutFeedback
@@ -166,7 +184,14 @@ class Setting extends React.Component {
             ft={
               <Popover
                 data={['绿涨红跌', '红涨绿跌']}
-                onSelect={_.toggleTinygrailMode}
+                onSelect={() => {
+                  t('设置.切换', {
+                    title: '小圣杯主题色',
+                    label: !_.isGreen ? '绿涨红跌' : '红涨绿跌'
+                  })
+
+                  _.toggleTinygrailMode()
+                }}
               >
                 <Text size={16} type='sub'>
                   {_.isGreen ? '绿涨红跌' : '红涨绿跌'}
@@ -207,7 +232,19 @@ class Setting extends React.Component {
         <ItemSetting
           border
           hd='优先中文'
-          ft={<Switch checked={cnFirst} onChange={systemStore.switchCnFirst} />}
+          ft={
+            <Switch
+              checked={cnFirst}
+              onChange={() => {
+                t('设置.切换', {
+                  title: '优先中文',
+                  checked: !cnFirst
+                })
+
+                systemStore.switchCnFirst()
+              }}
+            />
+          }
           withoutFeedback
         />
         <ItemSetting
@@ -216,7 +253,14 @@ class Setting extends React.Component {
           ft={
             <Switch
               checked={!autoFetch}
-              onChange={systemStore.switchAutoFetch}
+              onChange={() => {
+                t('设置.切换', {
+                  title: '优化请求量',
+                  checked: !autoFetch
+                })
+
+                systemStore.switchAutoFetch()
+              }}
             />
           }
           withoutFeedback
@@ -258,7 +302,14 @@ class Setting extends React.Component {
           ft={
             <Switch
               checked={avatarRound}
-              onChange={systemStore.switchAvatarRound}
+              onChange={() => {
+                t('设置.切换', {
+                  title: '圆形头像',
+                  checked: !avatarRound
+                })
+
+                systemStore.switchAvatarRound()
+              }}
             />
           }
           withoutFeedback
@@ -266,14 +317,38 @@ class Setting extends React.Component {
         <ItemSetting
           border
           hd='章节讨论热力图'
-          ft={<Switch checked={heatMap} onChange={systemStore.switchHeatMap} />}
+          ft={
+            <Switch
+              checked={heatMap}
+              onChange={() => {
+                t('设置.切换', {
+                  title: '章节讨论热力图',
+                  checked: !heatMap
+                })
+
+                systemStore.switchHeatMap()
+              }}
+            />
+          }
           withoutFeedback
           information='章节按钮下方不同透明度的橙色条块, 可以快速了解到哪些章节讨论比较激烈'
         />
         <ItemSetting
           border
           hd='Bangumi娘话语'
-          ft={<Switch checked={speech} onChange={systemStore.switchSpeech} />}
+          ft={
+            <Switch
+              checked={speech}
+              onChange={() => {
+                t('设置.切换', {
+                  title: 'Bangumi娘话语',
+                  checked: !speech
+                })
+
+                systemStore.switchSpeech()
+              }}
+            />
+          }
           withoutFeedback
         />
       </>
@@ -310,25 +385,40 @@ class Setting extends React.Component {
             )
           }
           arrow={!IOS}
-          onPress={IOS ? undefined : () => appNavigate(GITHUB_RELEASE_URL)}
+          onPress={
+            IOS
+              ? undefined
+              : () =>
+                  appNavigate(GITHUB_RELEASE_URL, undefined, undefined, {
+                    id: '设置.跳转'
+                  })
+          }
         />
         <ItemSetting
           border
           hd='功能需求反馈'
           arrow
           highlight
-          onPress={() =>
+          onPress={() => {
+            t('设置.跳转', {
+              to: 'Say'
+            })
+
             navigation.push('Say', {
               id: SAY_DEVELOP_ID
             })
-          }
+          }}
         />
         <ItemSetting
           border
           hd='项目帖子'
           arrow
           highlight
-          onPress={() => appNavigate(FEEDBACK_URL, navigation)}
+          onPress={() =>
+            appNavigate(FEEDBACK_URL, navigation, undefined, {
+              id: '设置.跳转'
+            })
+          }
         />
         <ItemSetting
           border
@@ -336,14 +426,24 @@ class Setting extends React.Component {
           ft='求个星星'
           arrow
           highlight
-          onPress={() => appNavigate(GITHUB_URL)}
+          onPress={() =>
+            appNavigate(GITHUB_URL, undefined, undefined, {
+              id: '设置.跳转'
+            })
+          }
         />
         <ItemSetting
           border
           hd='🍚'
           arrow
           highlight
-          onPress={() => navigation.push('Qiafan')}
+          onPress={() => {
+            t('设置.跳转', {
+              to: 'Qiafan'
+            })
+
+            navigation.push('Qiafan')
+          }}
         />
       </>
     )
@@ -378,7 +478,11 @@ class Setting extends React.Component {
           }
           arrow
           highlight
-          onPress={() => Stores.logout(navigation)}
+          onPress={() => {
+            t('设置.退出登陆')
+
+            Stores.logout(navigation)
+          }}
         />
       </>
     )

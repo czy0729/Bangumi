@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 18:07:25
+ * @Last Modified time: 2019-12-21 20:17:07
  */
 
 /**
@@ -192,5 +192,37 @@ export default {
   '吐槽.at': 'Say.at',
   '吐槽.新吐槽': 'Say.doSay',
   '吐槽.回复吐槽': 'Say.doReply',
-  '吐槽.回复失败': 'Say.recoveryContent'
+  '吐槽.回复失败': 'Say.recoveryContent',
+
+  /* ==================== tinygrail ==================== */
+
+  /* ==================== user ==================== */
+  // 好友
+  '好友.跳转': 'Friends.to',
+  '好友.排序': 'Friends.sort',
+
+  // 我的
+  '我的.跳转': 'User.to',
+  '我的.右上角菜单': 'User.topRightMenu',
+  '我的.标签页点击': 'User.tabsPress',
+  '我的.标签页切换': 'User.tabsChange',
+  '我的.类型选择': 'User.onSelectSubjectType',
+  '我的.排序选择': 'User.onOrderSelect',
+  '我的.筛选选择': 'User.onFilterSelect',
+  '我的.布局选择': 'User.toggleList',
+
+  // 设置
+  '设置.跳转': 'Setting.to',
+  '设置.切换': 'Setting.switch',
+  '设置.清除缓存': 'Setting.clear',
+  '设置.退出登陆': 'Setting.logout',
+
+  // 空间
+  '空间.跳转': 'Zone.to',
+  '空间.右上角菜单': 'Zone.topRightMenu',
+  '空间.标签页点击': 'Zone.tabsPress',
+  '空间.标签页切换': 'Zone.tabsChange',
+  '空间.展开分组': 'Zone.toggleSection',
+  '空间.添加好友': 'Zone.connect',
+  '空间.解除好友': 'Zone.disconnect'
 }

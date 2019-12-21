@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 17:59:28
+ * @Last Modified time: 2019-12-21 20:32:16
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -335,10 +335,6 @@ class ItemTimeline extends React.Component {
   get styles() {
     return memoStyles()
   }
-}
-
-ItemTimeline.defaultProps = {
-  onDelete: Function.prototype
 }
 
 const memoStyles = _.memoStyles(_ => ({

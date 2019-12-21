@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 18:06:00
+ * @Last Modified time: 2019-12-21 18:25:20
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -53,6 +53,9 @@ class Friends extends React.Component {
 
   render() {
     const { $, navigation } = this.context
+    const event = {
+      id: '好友.跳转'
+    }
     return (
       <ListView
         style={_.container.screen}
@@ -62,6 +65,7 @@ class Friends extends React.Component {
           <ItemFriends
             key={item.userId}
             navigation={navigation}
+            event={event}
             {...item}
             {...$.users(item.userId)}
           />

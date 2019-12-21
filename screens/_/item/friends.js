@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:16:07
+ * @Last Modified time: 2019-12-21 18:26:57
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Progress } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
 import Avatar from '../base/avatar'
 
 function ItemFriends({
@@ -22,21 +23,29 @@ function ItemFriends({
   doing,
   collect,
   wish,
-  onHold,
-  dropped
+  event,
+  dropped,
+  onHold
 }) {
   const styles = memoStyles()
   return (
     <Touchable
       style={styles.container}
       highlight
-      onPress={() =>
+      onPress={() => {
+        const { id, data = {} } = event
+        t(id, {
+          to: 'Zone',
+          userId,
+          ...data
+        })
+
         navigation.push('Zone', {
           userId,
           _name: userName,
           _image: avatar
         })
-      }
+      }}
     >
       <Flex>
         <Avatar style={styles.image} size={48} name={userName} src={avatar} />
@@ -68,6 +77,10 @@ function ItemFriends({
       </Flex>
     </Touchable>
   )
+}
+
+ItemFriends.defaultProps = {
+  event: {}
 }
 
 export default observer(ItemFriends)

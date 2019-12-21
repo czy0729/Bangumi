@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:27:16
+ * @Last Modified time: 2019-12-21 20:18:23
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, usersStore, timelineStore } from '@stores'
 import store from '@utils/store'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
 
@@ -62,52 +62,53 @@ export default class ScreenZone extends store {
   }
 
   // -------------------- get --------------------
+  @computed get userId() {
+    const { userId = '' } = this.params
+    return userId
+  }
+
   @computed get usersInfo() {
-    const { userId } = this.params
-    return userStore.usersInfo(userId)
+    return userStore.usersInfo(this.userId)
   }
 
   @computed get userCollections() {
-    const { userId } = this.params
-    return userStore.userCollections(undefined, userId)
+    return userStore.userCollections(undefined, this.userId)
   }
 
   @computed get usersTimeline() {
-    const { userId } = this.params
-    return timelineStore.usersTimeline(userId)
+    return timelineStore.usersTimeline(this.userId)
   }
 
   @computed get users() {
-    const { userId } = this.params
-    return usersStore.users(userId)
+    return usersStore.users(this.userId)
   }
 
   // -------------------- fetch --------------------
-  fetchUsersInfo = () => {
-    const { userId } = this.params
-    return userStore.fetchUsersInfo(userId)
-  }
+  fetchUsersInfo = () => userStore.fetchUsersInfo(this.userId)
 
-  fetchUserCollections = () => {
-    const { userId } = this.params
-    return userStore.fetchUserCollections(undefined, userId)
-  }
+  fetchUserCollections = () =>
+    userStore.fetchUserCollections(undefined, this.userId)
 
-  fetchUsersTimeline = () => {
-    const { userId } = this.params
-    return timelineStore.fetchUsersTimeline({ userId })
-  }
+  fetchUsersTimeline = () =>
+    timelineStore.fetchUsersTimeline({
+      userId: this.userId
+    })
 
-  fetchUsers = () => {
-    const { userId } = this.params
-    return usersStore.fetchUsers({ userId })
-  }
+  fetchUsers = () =>
+    usersStore.fetchUsers({
+      userId: this.userId
+    })
 
   // -------------------- page --------------------
   onTabClick = (item, page) => {
     if (page === this.state.page) {
       return
     }
+
+    t('空间.标签页点击', {
+      userId: this.userId,
+      page
+    })
 
     this.setState({
       page
@@ -126,6 +127,11 @@ export default class ScreenZone extends store {
       return
     }
 
+    t('空间.标签页切换', {
+      userId: this.userId,
+      page
+    })
+
     this.setState({
       page,
       _page: page
@@ -142,6 +148,12 @@ export default class ScreenZone extends store {
 
   toggleSection = title => {
     const { expand } = this.state
+    t('空间.展开分组', {
+      userId: this.userId,
+      title,
+      expand: !expand[title]
+    })
+
     this.setState({
       expand: {
         ...expand,
@@ -156,6 +168,10 @@ export default class ScreenZone extends store {
    * 添加好友
    */
   doConnectFriend = async () => {
+    t('空间.添加好友', {
+      userId: this.userId
+    })
+
     const { connectUrl } = this.users
     if (connectUrl) {
       await fetchHTML({
@@ -170,6 +186,10 @@ export default class ScreenZone extends store {
    * 解除好友
    */
   doDisconnectFriend = async () => {
+    t('空间.解除好友', {
+      userId: this.userId
+    })
+
     const { disconnectUrl } = this.users
     if (disconnectUrl) {
       await fetchHTML({

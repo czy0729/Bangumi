@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 01:53:05
+ * @Last Modified time: 2019-12-21 20:36:10
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -16,6 +16,12 @@ function TimelineList(props, { $, navigation }) {
     return <Loading />
   }
 
+  const event = {
+    id: '空间.跳转',
+    data: {
+      from: '时间胶囊'
+    }
+  }
   return (
     <ListView
       contentContainerStyle={_.container.bottom}
@@ -27,7 +33,12 @@ function TimelineList(props, { $, navigation }) {
         <SectionHeader>{title}</SectionHeader>
       )}
       renderItem={({ item, index }) => (
-        <ItemTimeline navigation={navigation} index={index} {...item} />
+        <ItemTimeline
+          navigation={navigation}
+          index={index}
+          event={event}
+          {...item}
+        />
       )}
       onFooterRefresh={$.fetchUsersTimeline}
       {...props}

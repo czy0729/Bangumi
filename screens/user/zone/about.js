@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 01:49:56
+ * @Last Modified time: 2019-12-21 20:19:36
  */
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
@@ -19,7 +19,20 @@ function About(props, { $, navigation }) {
       <RenderHtml
         style={_.mt.lg}
         html={$.users.sign || '(什么都没有)'}
-        onLinkPress={href => appNavigate(href, navigation)}
+        onLinkPress={href =>
+          appNavigate(
+            href,
+            navigation,
+            {},
+            {
+              id: '空间.跳转',
+              data: {
+                from: '关于TA',
+                userId: $.userId
+              }
+            }
+          )
+        }
       />
     </ScrollView>
   )

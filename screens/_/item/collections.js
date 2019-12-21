@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 12:06:32
+ * @Last Modified time: 2019-12-21 19:16:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
+import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
 import Stars from '../base/stars'
 
@@ -32,7 +33,8 @@ function ItemCollections({
   comments,
   isDo,
   isOnHold,
-  isDropped
+  isDropped,
+  event
 }) {
   const styles = memoStyles()
   const _cover = getCoverMedium(cover)
@@ -50,14 +52,22 @@ function ItemCollections({
     <Touchable
       style={styles.container}
       highlight
-      onPress={() =>
+      onPress={() => {
+        const { eventId, eventData } = event
+        t(eventId, {
+          to: 'Subject',
+          subjectId: id,
+          type: 'list',
+          ...eventData
+        })
+
         navigation.push('Subject', {
           subjectId: id,
           _jp: name,
           _cn: nameCn,
           _image: _cover
         })
-      }
+      }}
     >
       <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
         <View style={styles.imgContainer}>
@@ -111,6 +121,10 @@ function ItemCollections({
       </Flex>
     </Touchable>
   )
+}
+
+ItemCollections.defaultProps = {
+  event: {}
 }
 
 export default observer(ItemCollections)

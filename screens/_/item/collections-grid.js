@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 00:15:06
+ * @Last Modified time: 2019-12-21 19:16:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -35,13 +35,15 @@ function CollectionsGrid({
   }
   const _image = getCoverMedium(cover, false)
   const onPress = () => {
-    const { id: eventId, data } = event
+    const { id: eventId, eventData } = event
     const subjectId = String(id).replace('/subject/', '')
     t(eventId, {
       to: 'Subject',
       subjectId,
-      ...data
+      type: 'grid',
+      ...eventData
     })
+
     navigation.push('Subject', {
       subjectId,
       _jp: name,

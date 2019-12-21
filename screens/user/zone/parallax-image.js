@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:26:28
+ * @Last Modified time: 2019-12-21 20:24:34
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -13,6 +13,7 @@ import { Popover, IconBack } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { HTMLDecode } from '@utils/html'
+import { t } from '@utils/fetch'
 import { IOS, HOST } from '@constants'
 import Head from './head'
 import { height, headerHeight } from './store'
@@ -124,8 +125,13 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
       >
         <Popover
           data={data}
-          onSelect={label => {
-            switch (label) {
+          onSelect={key => {
+            t('空间.右上角菜单', {
+              key,
+              userId: $.userId
+            })
+
+            switch (key) {
               case '浏览器查看':
                 open(`${HOST}/user/${username}`)
                 break

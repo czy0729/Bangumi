@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 11:59:12
+ * @Last Modified time: 2019-12-21 19:19:00
  */
 import React from 'react'
 import { Alert, Animated, View } from 'react-native'
@@ -12,6 +12,7 @@ import { Popover, IconHeader, IconBack } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Head from './head'
 import { height, headerHeight } from './store'
@@ -119,8 +120,12 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
       <View style={[_.header.right, styles.btn, styles.more]}>
         <Popover
           data={data}
-          onSelect={title => {
-            switch (title) {
+          onSelect={key => {
+            t('我的.右上角菜单', {
+              key
+            })
+
+            switch (key) {
               case '我的好友':
                 navigation.push('Friends')
                 break
@@ -159,7 +164,13 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
           style={[_.header.right, styles.btn, styles.setting]}
           name='setting'
           color={_.__colorPlain__}
-          onPress={() => navigation.push('Setting')}
+          onPress={() => {
+            t('我的.跳转', {
+              to: 'Setting'
+            })
+
+            navigation.push('Setting')
+          }}
         />
       )}
     </>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 12:01:54
+ * @Last Modified time: 2019-12-21 19:12:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -60,6 +60,9 @@ class List extends React.Component {
     const isDo = $.type === 'do'
     const isOnHold = $.type === 'on_hold'
     const isDropped = $.type === 'dropped'
+    const event = {
+      id: '我的.跳转'
+    }
     return (
       <ListView
         key={String(numColumns)}
@@ -75,6 +78,7 @@ class List extends React.Component {
               isDo={isDo}
               isOnHold={isOnHold}
               isDropped={isDropped}
+              event={event}
               {...item}
             />
           ) : (
@@ -82,6 +86,7 @@ class List extends React.Component {
               navigation={navigation}
               index={index}
               isOnHold={isOnHold}
+              event={event}
               {...item}
             />
           )

@@ -4,29 +4,25 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 19:22:45
+ * @Last Modified time: 2019-12-21 19:59:19
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { Flex, Text, Image } from '@components'
 import { _ } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
 
 const title = '恰饭'
 
 export default
 @withHeader({
-  screen: title
+  screen: title,
+  hm: ['qiafan', 'Qiafan']
 })
 @observer
 class Qiafan extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  componentDidMount() {
-    hm('qiafan', 'Qiafan')
   }
 
   render() {
