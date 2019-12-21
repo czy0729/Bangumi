@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 11:22:25
+ * @Last Modified time: 2019-12-21 16:49:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -58,6 +58,13 @@ class List extends React.Component {
       return <Loading />
     }
 
+    const event = {
+      id: '时间胶囊.跳转',
+      data: {
+        scope,
+        title
+      }
+    }
     return (
       <ListView
         contentContainerStyle={_.container.bottom}
@@ -73,6 +80,7 @@ class List extends React.Component {
             navigation={navigation}
             index={index}
             {...item}
+            event={event}
             onDelete={$.doDelete}
           />
         )}

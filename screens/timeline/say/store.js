@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 22:41:54
+ * @Last Modified time: 2019-12-21 18:07:07
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
 import { sleep } from '@utils'
 import { info } from '@utils/ui'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
 export default class ScreenSay extends store {
@@ -115,6 +116,8 @@ export default class ScreenSay extends store {
    * 显示评论框
    */
   showFixedTextarea = (placeholder, replySub, message) => {
+    t('吐槽.显示评论框')
+
     this.setState({
       placeholder,
       replySub,
@@ -140,6 +143,10 @@ export default class ScreenSay extends store {
   }
 
   at = id => {
+    t('吐槽.at', {
+      id
+    })
+
     const { value } = this.state
     this.setState({
       value: `${value} @${id} `
@@ -150,6 +157,8 @@ export default class ScreenSay extends store {
    * 失败后恢复上次的内容
    */
   recoveryContent = content => {
+    t('吐槽.回复失败')
+
     info('操作失败，可能是cookie失效了')
     this.setState({
       value: ''
@@ -189,6 +198,8 @@ export default class ScreenSay extends store {
    * 新吐槽
    */
   doSay = (content, navigation) => {
+    t('吐槽.新吐槽')
+
     timelineStore.doSay(
       {
         content,
@@ -225,6 +236,8 @@ export default class ScreenSay extends store {
    * 回复吐槽
    */
   doReply = (content, scrollView) => {
+    t('吐槽.回复吐槽')
+
     const { id } = this.params
     const { list = [] } = this.say
     timelineStore.doReply(

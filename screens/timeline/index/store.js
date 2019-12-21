@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 22:05:15
+ * @Last Modified time: 2019-12-21 16:43:50
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 
@@ -79,6 +79,12 @@ export default class ScreenTimeline extends store {
       return
     }
 
+    const { scope } = this.state
+    t('时间胶囊.标签页点击', {
+      page,
+      scope
+    })
+
     this.setState({
       page
     })
@@ -97,6 +103,12 @@ export default class ScreenTimeline extends store {
     if (page === this.state.page) {
       return
     }
+
+    const { scope } = this.state
+    t('时间胶囊.标签页切换', {
+      page,
+      scope
+    })
 
     // 这里最后一个tab是假占位, 跳回到第一个tab
     if (page + 1 === tabs.length) {
@@ -117,6 +129,10 @@ export default class ScreenTimeline extends store {
   }
 
   onSelectScope = label => {
+    t('时间胶囊.切换类型', {
+      label
+    })
+
     const { scope } = this.state
     const nextScope = MODEL_TIMELINE_SCOPE.getValue(label)
     if (nextScope !== scope) {
@@ -136,6 +152,11 @@ export default class ScreenTimeline extends store {
     if (!href) {
       return false
     }
+
+    const { scope } = this.state
+    t('时间胶囊.删除时间线', {
+      scope
+    })
 
     const res = fetchHTML({
       method: 'POST',

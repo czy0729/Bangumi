@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:20:11
+ * @Last Modified time: 2019-12-21 18:11:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,9 @@ import { appNavigate } from '@utils/app'
 function Chat(props, { $, navigation }) {
   const styles = memoStyles()
   const { list } = $.say
+  const event = {
+    id: '吐槽.跳转'
+  }
   return (
     <View style={styles.container}>
       <Text size={12} type='sub' align='center'>
@@ -45,7 +48,9 @@ function Chat(props, { $, navigation }) {
                         textDecorationColor: _.__colorPlain__
                       }}
                       html={getBgmHtml(item.text)}
-                      onLinkPress={href => appNavigate(href, navigation)}
+                      onLinkPress={href =>
+                        appNavigate(href, navigation, {}, event)
+                      }
                     />
                   </View>
                 </Flex>
@@ -57,6 +62,7 @@ function Chat(props, { $, navigation }) {
                 size={28}
                 userId={item.id}
                 name={item.name}
+                event={event}
               />
             </Flex>
           )
@@ -72,6 +78,7 @@ function Chat(props, { $, navigation }) {
               size={28}
               userId={item.id}
               name={item.name}
+              event={event}
               onLongPress={() => $.at(item.id)}
             />
             <Flex.Item style={_.ml.sm}>
@@ -86,7 +93,9 @@ function Chat(props, { $, navigation }) {
                       lineHeight: 22
                     }}
                     html={getBgmHtml(item.text)}
-                    onLinkPress={href => appNavigate(href, navigation)}
+                    onLinkPress={href =>
+                      appNavigate(href, navigation, {}, event)
+                    }
                   />
                 </View>
               </Flex>

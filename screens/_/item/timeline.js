@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:16:28
+ * @Last Modified time: 2019-12-21 17:59:28
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -11,6 +11,7 @@ import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate, findBangumiCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
+import { t } from '@utils/fetch'
 import { HOST, HOST_NAME } from '@constants'
 import Avatar from '../base/avatar'
 import Stars from '../base/stars'
@@ -33,12 +34,13 @@ class ItemTimeline extends React.Component {
     reply: {},
     image: [],
     clearHref: '',
+    event: {},
     onDelete: Function.prototype
   }
 
   appNavigate = (url, passParams) => {
-    const { navigation } = this.props
-    appNavigate(url, navigation, passParams)
+    const { navigation, event } = this.props
+    appNavigate(url, navigation, passParams, event)
   }
 
   renderP3() {
@@ -143,7 +145,16 @@ class ItemTimeline extends React.Component {
   }
 
   renderDesc() {
-    const { navigation, subject, image, subjectId, comment, reply } = this.props
+    const {
+      navigation,
+      subject,
+      image,
+      subjectId,
+      comment,
+      reply,
+      event
+    } = this.props
+    const { id, data = {} } = event
     return (
       <>
         {!!subject && (
@@ -151,6 +162,11 @@ class ItemTimeline extends React.Component {
             style={_.mt.sm}
             underline
             onPress={() => {
+              t(id, {
+                to: 'Subject',
+                subjectId,
+                ...data
+              })
               navigation.push('Subject', {
                 subjectId,
                 _cn: findBangumiCn(subject),
@@ -227,6 +243,7 @@ class ItemTimeline extends React.Component {
       time,
       image,
       clearHref,
+      event,
       onDelete
     } = this.props
     const _image = getCoverMedium(!!image.length && image[0])
@@ -240,6 +257,7 @@ class ItemTimeline extends React.Component {
               userId={matchUserId(String(avatar.url).replace(HOST, ''))}
               name={p1.text}
               src={avatar.src}
+              event={event}
             />
           )}
         </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 11:06:43
+ * @Last Modified time: 2019-12-21 16:27:53
  */
 import { observable, computed } from 'mobx'
 import { searchStore } from '@stores'
@@ -95,6 +95,7 @@ export default class ScreenSearch extends store {
     }
 
     t('搜索.搜索', {
+      cat,
       value
     })
 
