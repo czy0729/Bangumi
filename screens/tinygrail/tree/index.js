@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:48:00
+ * @Last Modified time: 2019-12-22 20:52:47
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Loading, Text } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import StatusBarEvents from '../_/status-bar-events'
 import { headerStyle } from '../styles'
@@ -25,6 +25,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
+  hm: ['tinygrail/tree', 'TinygrailTree'],
   ...headerStyle
 })
 @observer
@@ -37,9 +38,7 @@ class TinygrailTree extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
-
     this.setParams()
-    hm('tinygrail/tree', 'TinygrailTree')
   }
 
   setParams = () => {
@@ -52,12 +51,18 @@ class TinygrailTree extends React.Component {
           <IconHeader
             name='refresh'
             color={_.colorTinygrailText}
-            onPress={this.onRefresh}
+            onPress={() => {
+              t('资产分析.刷新')
+              this.onRefresh()
+            }}
           />
           <IconHeader
             name='information'
             color={_.colorTinygrailText}
-            onPress={this.onAlert}
+            onPress={() => {
+              t('资产分析.提醒')
+              this.onAlert()
+            }}
           />
         </>
       )
@@ -113,6 +118,11 @@ class TinygrailTree extends React.Component {
     if (!id) {
       return
     }
+
+    t('资产分析.人物菜单', {
+      key: title,
+      id
+    })
 
     const { $, navigation } = this.context
     switch (title) {
@@ -176,7 +186,13 @@ class TinygrailTree extends React.Component {
             caculateType={caculateType}
             isTemple={$.isTemple}
             onPress={this.onShowMenu}
-            onLongPress={$.onToggleItem}
+            onLongPress={item => {
+              t('资产分析.长按隐藏', {
+                id: item.id
+              })
+
+              $.onToggleItem(item)
+            }}
           />
         )}
       </View>

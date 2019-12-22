@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:37:48
+ * @Last Modified time: 2019-12-22 21:10:31
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -27,13 +27,16 @@ function List(props, { $ }) {
     }
   }
 
+  const event = {
+    id: '英灵殿.跳转'
+  }
   return (
     <ListView
       style={_.container.flex}
       keyExtractor={item => String(item.id)}
       data={_list}
       renderItem={({ item, index }) => (
-        <Item index={index} type='valhall' {...item} />
+        <Item index={index} type='valhall' event={event} {...item} />
       )}
       onHeaderRefresh={$.fetchValhallList}
     />

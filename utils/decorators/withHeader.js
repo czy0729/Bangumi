@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 14:16:38
+ * @Last Modified time: 2019-12-22 21:56:07
  */
 import React from 'react'
 import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
@@ -97,6 +97,7 @@ const withHeader = ({
                 ...headerStyle
               },
           headerTitleStyle: {
+            width: '100%',
             color: _.colorTitle,
             fontSize: 16 + _.fontSizeAdjust,
             fontWeight: 'normal',

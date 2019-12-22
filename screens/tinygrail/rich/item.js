@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:23:55
+ * @Last Modified time: 2019-12-22 17:20:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
+import { t } from '@utils/fetch'
 import { B, M } from '@constants'
 
 function Item(
@@ -95,11 +96,16 @@ function Item(
             size={44}
             borderColor='transparent'
             name={nickname}
-            onPress={() =>
+            onPress={() => {
+              t('番市首富.跳转', {
+                to: 'Zone',
+                userId
+              })
+
               navigation.push('Zone', {
                 userId
               })
-            }
+            }}
           />
         </View>
         <Flex.Item style={!isTop && styles.border}>
@@ -108,12 +114,17 @@ function Item(
               <Touchable
                 style={styles.item}
                 highlight
-                onPress={() =>
+                onPress={() => {
+                  t('番市首富.跳转', {
+                    to: 'TinygrailTree',
+                    userId
+                  })
+
                   navigation.push('TinygrailTree', {
                     userName: userId,
                     name: nickname
                   })
-                }
+                }}
               >
                 <Flex>
                   <Flex.Item>

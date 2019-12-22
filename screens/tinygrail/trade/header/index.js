@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:24:12
+ * @Last Modified time: 2019-12-22 20:41:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,6 +13,7 @@ import { Avatar, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
+import { t } from '@utils/fetch'
 import Today from './today'
 
 function Header({ goBack }, { $, navigation }) {
@@ -49,11 +50,16 @@ function Header({ goBack }, { $, navigation }) {
               size={32}
               borderColor='transparent'
               name={name}
-              onPress={() =>
+              onPress={() => {
+                t('K线.跳转', {
+                  to: 'Mono',
+                  monoId: $.monoId
+                })
+
                 navigation.push('Mono', {
                   monoId: `character/${$.monoId}`
                 })
-              }
+              }}
             />
             <Text
               style={[
@@ -78,6 +84,11 @@ function Header({ goBack }, { $, navigation }) {
               name='licheng'
               color={_.colorIcon}
               onPress={() => {
+                t('K线.跳转', {
+                  to: 'TinygrailSacrifice',
+                  monoId: $.monoId
+                })
+
                 const { form, monoId } = $.params
                 if (form === 'sacrifice') {
                   navigation.goBack()

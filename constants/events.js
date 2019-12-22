@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 20:17:07
+ * @Last Modified time: 2019-12-22 21:09:18
  */
 
 /**
@@ -194,7 +194,100 @@ export default {
   '吐槽.回复吐槽': 'Say.doReply',
   '吐槽.回复失败': 'Say.recoveryContent',
 
-  /* ==================== tinygrail ==================== */
+  /* ==================== tinygrail(T) ==================== */
+  // 我的委托
+  '我的委托.跳转': 'TBid.to',
+  '我的委托.标签页切换': 'TBid.tabsChange',
+  '我的委托.排序': 'TBid.onSortPress',
+
+  // 我的持仓
+  '我的持仓.跳转': 'TCharaAssets.to',
+  '我的持仓.标签页切换': 'TCharaAssets.tabsChange',
+  '我的持仓.排序': 'TCharaAssets.onSortPress',
+
+  // 交易
+  '交易.跳转': 'TDeal.to',
+  '交易.挂单': 'TDeal.doSubmit',
+  '交易.取消挂单': 'TDeal.doCancel',
+  '交易.一键取消挂单': 'TDeal.doCancelAll',
+  '交易.切换买卖类型': 'TDeal.toggleType',
+  '交易.展开收起记录': 'TDeal.toggleExpand',
+  '交易.显示时间': 'TDeal.showTime',
+
+  // ICO
+  'ICO.跳转': 'TICO.to',
+  'ICO.标签页切换': 'TICO.tabsChange',
+
+  // ICO交易
+  'ICO交易.跳转': 'TICODeal.to',
+  'ICO交易.注资': 'TICODeal.doSubmit',
+  'ICO交易.封面图查看': 'TICODeal.imageView',
+
+  // 小圣杯
+  '小圣杯.跳转': 'TIndex.to',
+  '小圣杯.授权成功': 'TIndex.authSuccess',
+  '小圣杯.授权失败': 'TIndex.authFail',
+  '小圣杯.预测股息': 'TIndex.test',
+  '小圣杯.刮刮乐': 'TIndex.lottery',
+  '小圣杯.每周分红': 'TIndex.bonusWeek',
+  '小圣杯.每日签到': 'TIndex.bonusDaily',
+
+  // 资金日志
+  '资金日志.跳转': 'TLogs.to',
+  '资金日志.标签页切换': 'TLogs.tabsChange',
+
+  // 新番榜单
+  '新番榜单.跳转': 'TNew.to',
+  '新番榜单.标签页切换': 'TNew.tabsChange',
+  '新番榜单.排序': 'TNew.onSortPress',
+
+  // 热门榜单
+  '热门榜单.跳转': 'TOverview.to',
+  '热门榜单.标签页切换': 'TOverview.tabsChange',
+  '热门榜单.排序': 'TOverview.onSortPress',
+
+  // 番市首富
+  '番市首富.跳转': 'TRich.to',
+  '番市首富.标签页切换': 'TRich.tabsChange',
+
+  // 资产重组
+  '资产重组.跳转': 'TSacrifice.to',
+  '资产重组.资产重组': 'TSacrifice.doSacrifice',
+  '资产重组.竞拍': 'TSacrifice.doAuction',
+  '资产重组.展开收起圣殿': 'TSacrifice.toggleExpand',
+  '资产重组.封面图查看': 'TSacrifice.imageView',
+  '资产重组.圣殿图查看': 'TSacrifice.templeView',
+  '资产重组.股息查看': 'TSacrifice.rate',
+
+  // 人物直达
+  '人物直达.跳转': 'TSearch.to',
+  '人物直达.删除历史': 'TSearch.deleteHistory',
+  '人物直达.搜索': 'TSearch.doSearch',
+
+  // K线
+  'K线.跳转': 'TTrade.to',
+  'K线.间隔': 'TTrade.changeDistance',
+
+  // 资产分析
+  '资产分析.选择范围': 'TTree.onTypeSelect',
+  '资产分析.选择计算类型': 'TTree.onCaculateTypeSelect',
+  '资产分析.选择筛选': 'TTree.onFilter',
+  '资产分析.刷新': 'TTree.refresh',
+  '资产分析.提醒': 'TTree.alert',
+  '资产分析.人物菜单': 'TTree.onShowMenu',
+  '资产分析.长按隐藏': 'TTree.onLongPressHide',
+
+  // 前百首富
+  '前百首富.刷新': 'TTreeRich.refresh',
+  '前百首富.选择计算类型': 'TTreeRich.onCaculateTypeSelect',
+  '前百首富.选择筛选': 'TTreeRich.onFilter',
+  '前百首富.人物菜单': 'TTreeRich.onShowMenu',
+  '前百首富.长按隐藏': 'TTreeRich.onLongPressHide',
+
+  // 英灵殿
+  '英灵殿.跳转': 'TValhall.to',
+  '英灵殿.标签页切换': 'TValhall.tabsChange',
+  '英灵殿.排序': 'TValhall.onSortPress',
 
   /* ==================== user ==================== */
   // 好友
@@ -224,5 +317,8 @@ export default {
   '空间.标签页切换': 'Zone.tabsChange',
   '空间.展开分组': 'Zone.toggleSection',
   '空间.添加好友': 'Zone.connect',
-  '空间.解除好友': 'Zone.disconnect'
+  '空间.解除好友': 'Zone.disconnect',
+
+  /* ==================== other ==================== */
+  '其他.切换主题': 'Other.theme'
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:07:49
+ * @Last Modified time: 2019-12-22 21:04:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Loading, Text } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import StatusBarEvents from '../_/status-bar-events'
 import { headerStyle } from '../styles'
@@ -25,6 +25,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
+  hm: ['tinygrail/tree-rich', 'TinygrailTreeRich'],
   ...headerStyle
 })
 @observer
@@ -37,9 +38,7 @@ class TinygrailTree extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
-
     this.setParams()
-    hm('tinygrail/tree-rich', 'TinygrailTreeRich')
   }
 
   setParams = () => {
@@ -50,7 +49,10 @@ class TinygrailTree extends React.Component {
         <IconHeader
           name='refresh'
           color={_.colorTinygrailText}
-          onPress={this.onRefresh}
+          onPress={() => {
+            t('前百首富.刷新')
+            this.onRefresh()
+          }}
         />
       )
     }
@@ -87,6 +89,11 @@ class TinygrailTree extends React.Component {
       return
     }
 
+    t('前百首富.人物菜单', {
+      key: title,
+      id
+    })
+
     const { $, navigation } = this.context
     switch (title) {
       case '资产分析':
@@ -122,7 +129,13 @@ class TinygrailTree extends React.Component {
             data={data}
             caculateType={caculateType}
             onPress={this.onShowMenu}
-            onLongPress={$.onToggleItem}
+            onLongPress={item => {
+              t('前百首富.长按隐藏', {
+                id: item.id
+              })
+
+              $.onToggleItem(item)
+            }}
           />
         )}
       </View>

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:07:23
+ * @Last Modified time: 2019-12-22 02:54:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
 import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
@@ -22,6 +21,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
+  hm: ['tinygrail/ico', 'TinygrailICO'],
   ...headerStyle
 })
 @observer
@@ -38,8 +38,6 @@ class TinygrailICO extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
-
-    hm('tinygrail/ico', 'TinygrailICO')
   }
 
   render() {

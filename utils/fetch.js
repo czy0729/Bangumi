@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 20:41:08
+ * @Last Modified time: 2019-12-22 02:55:08
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -316,7 +316,11 @@ export function xhrCustom({
  * @param {*} screen
  */
 export async function hm(url, screen) {
-  if (DEV) return
+  if (DEV) {
+    log(`[hm] ${url} ${screen}`)
+    return
+  }
+
   try {
     if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 

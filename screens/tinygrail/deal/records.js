@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 17:42:19
+ * @Last Modified time: 2019-12-22 02:47:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 
 function Records({ style }, { $ }) {
   const styles = memoStyles()
@@ -33,9 +34,13 @@ function Records({ style }, { $ }) {
                 // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 style={styles.item}
-                onPress={() =>
+                onPress={() => {
+                  t('交易.显示时间', {
+                    monoId: $.monoId
+                  })
+
                   info(`成交时间: ${String(item.time).replace('T', ' ')}`)
-                }
+                }}
               >
                 <Flex>
                   <Flex.Item>
@@ -75,9 +80,13 @@ function Records({ style }, { $ }) {
                 // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 style={styles.item}
-                onPress={() =>
+                onPress={() => {
+                  t('交易.显示时间', {
+                    monoId: $.monoId
+                  })
+
                   info(`成交时间: ${String(item.time).replace('T', ' ')}`)
-                }
+                }}
               >
                 <Flex>
                   <Flex.Item>

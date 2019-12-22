@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:21:57
+ * @Last Modified time: 2019-12-22 03:02:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,6 +18,9 @@ function Initial({ style }, { $, navigation }) {
   const { users } = $.chara
   const { list } = $.initial
   const { username } = $.userInfo
+  const event = {
+    id: 'ICO交易.跳转'
+  }
   return (
     <View style={[styles.container, style]}>
       <Text
@@ -46,6 +49,7 @@ function Initial({ style }, { $, navigation }) {
                 userId={item.name}
                 name={item.nickName}
                 borderColor='transparent'
+                event={event}
               />
               <Flex.Item style={_.ml.sm}>
                 <Text

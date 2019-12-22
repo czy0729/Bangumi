@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 22:54:18
+ * @Last Modified time: 2019-12-22 18:02:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Flex, Text, Mesume } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 
 function AuctionList({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -78,11 +79,18 @@ function AuctionList({ style }, { $, navigation }) {
                     color: _.colorTinygrailPlain
                   }}
                   size={12}
-                  onPress={() =>
+                  onPress={() => {
+                    t('资产重组.跳转', {
+                      to: 'Zone',
+                      from: '竞拍列表',
+                      monoId: $.monoId,
+                      userId: item.name
+                    })
+
                     navigation.push('Zone', {
                       userId: item.name
                     })
-                  }
+                  }}
                 >
                   {item.nickname}
                 </Text>

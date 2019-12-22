@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:21:57
+ * @Last Modified time: 2019-12-22 18:14:41
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { setStorage, getTimestamp, formatNumber, toFixed } from '@utils'
 import store from '@utils/store'
-import { queue } from '@utils/fetch'
+import { queue, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 
 const namespace = 'ScreenTinygrailSacrifice'
@@ -136,6 +136,12 @@ export default class ScreenTinygrailSacrifice extends store {
       return
     }
 
+    t('资产重组.资产重组', {
+      monoId: this.monoId,
+      amount,
+      isSale
+    })
+
     const { State, Value, Message } = await tinygrailStore.doSacrifice({
       monoId: this.monoId,
       amount,
@@ -161,7 +167,7 @@ export default class ScreenTinygrailSacrifice extends store {
           )}`,
       [
         {
-          text: '确定'
+          text: '我知道了'
         }
       ]
     )
@@ -200,6 +206,10 @@ export default class ScreenTinygrailSacrifice extends store {
       })
       return
     }
+
+    t('资产重组.竞拍', {
+      monoId: this.monoId
+    })
 
     const { State, Value, Message } = await tinygrailStore.doAuction({
       monoId: this.monoId,
@@ -322,6 +332,10 @@ export default class ScreenTinygrailSacrifice extends store {
    */
   toggleExpand = () => {
     const { expand } = this.state
+    t('资产重组.展开收起圣殿', {
+      expand: !expand
+    })
+
     this.setState({
       expand: !expand
     })

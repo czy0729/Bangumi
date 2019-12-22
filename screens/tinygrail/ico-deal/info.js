@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 11:55:57
+ * @Last Modified time: 2019-12-22 03:01:25
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,14 +12,21 @@ import { _ } from '@stores'
 import { formatNumber, getTimestamp } from '@utils'
 import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge, caculateICO } from '@utils/app'
+import { t } from '@utils/fetch'
 import Bar from './bar'
 
-const maxSize = _.window.width / 3
+const maxSize = _.window.width / 2.4
 
 function Info(props, { $, navigation }) {
   const { icon, id, name, total, end = '' } = $.chara
   const { next, level, price, amount } = caculateICO($.chara)
   const endTime = getTimestamp(end.replace('T', ' '))
+  const event = {
+    id: 'ICO交易.封面图查看',
+    data: {
+      monoId: id
+    }
+  }
   return (
     <View style={styles.container}>
       {!!icon && (
@@ -31,16 +38,22 @@ function Info(props, { $, navigation }) {
             placholder={false}
             imageViewer
             imageViewerSrc={tinygrailOSS(getCoverLarge(icon), 480)}
+            event={event}
           />
         </Flex>
       )}
       <Touchable
         style={_.mt.md}
-        onPress={() =>
+        onPress={() => {
+          t('ICO交易.跳转', {
+            to: 'Mono',
+            monoId: id
+          })
+
           navigation.push('Mono', {
             monoId: `character/${id}`
           })
-        }
+        }}
       >
         <Flex justify='center'>
           <Text

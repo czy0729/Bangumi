@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:41:27
+ * @Last Modified time: 2019-12-22 03:16:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
 import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
@@ -23,6 +22,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
+  hm: ['tinygrail/logs', 'TinygrailLogs'],
   ...headerStyle
 })
 @observer
@@ -39,8 +39,6 @@ class TinygrailLogs extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
-
-    hm('tinygrail/logs', 'TinygrailLogs')
   }
 
   render() {

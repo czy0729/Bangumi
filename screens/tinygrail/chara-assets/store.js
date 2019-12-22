@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 21:05:31
+ * @Last Modified time: 2019-12-21 22:03:08
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 import {
   SORT_GX,
   SORT_CGS,
@@ -107,7 +108,7 @@ export default class ScreenTinygrailCharaAssets extends store {
           .join('，')}，价值₵${total}`,
         [
           {
-            text: '确定'
+            text: '我知道了'
           }
         ]
       )
@@ -137,6 +138,10 @@ export default class ScreenTinygrailCharaAssets extends store {
     if (page === this.state.page) {
       return
     }
+
+    t('我的持仓.标签页切换', {
+      page
+    })
 
     this.setState({
       page
@@ -168,11 +173,21 @@ export default class ScreenTinygrailCharaAssets extends store {
         nextDirection = ''
       }
 
+      t('我的持仓.排序', {
+        sort: nextSort,
+        direction: nextDirection
+      })
+
       this.setState({
         sort: nextSort,
         direction: nextDirection
       })
     } else {
+      t('我的持仓.排序', {
+        sort: item,
+        direction: 'down'
+      })
+
       this.setState({
         sort: item,
         direction: 'down'

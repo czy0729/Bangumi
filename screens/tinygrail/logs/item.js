@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:44:03
+ * @Last Modified time: 2019-12-22 03:21:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { lastDate, getTimestamp, formatNumber } from '@utils'
 import { tinygrailOSS } from '@utils/app'
+import { t } from '@utils/fetch'
 
 function Item(
   { index, balance, desc, change, time, charaId },
@@ -35,15 +36,20 @@ function Item(
     desc.includes('卖出委托') ||
     desc.includes('交易')
   ) {
-    onPress = () =>
+    onPress = () => {
+      t('资金日志.跳转', {
+        to: 'TinygrailTrade',
+        monoId: charaId
+      })
+
       navigation.push('TinygrailTrade', {
         monoId: `character/${charaId}`
       })
+    }
   }
 
   // @notice 刮刮乐的id有问题, 不显示头像
   const icons = !desc.includes('刮刮乐') && $.icons(charaId)
-
   return (
     <View style={styles.container}>
       <Touchable onPress={onPress}>
@@ -80,6 +86,11 @@ function Item(
                       if (!onPress) {
                         return
                       }
+
+                      t('资金日志.跳转', {
+                        to: 'Mono',
+                        monoId: charaId
+                      })
 
                       navigation.push('Mono', {
                         monoId: `character/${charaId}`

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:45:13
+ * @Last Modified time: 2019-12-22 21:06:10
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { B, M } from '@constants'
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants/model'
 
@@ -54,6 +55,10 @@ function ToolBar(props, { $ }) {
             ...filterItems.map(item => `${item.name} #${item.id}`)
           ]}
           onSelect={title => {
+            t('前百首富.选择筛选', {
+              title
+            })
+
             if (title === '重置') {
               $.reset()
               return

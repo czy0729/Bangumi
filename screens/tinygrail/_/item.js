@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:21:32
+ * @Last Modified time: 2019-12-21 21:11:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,8 @@ import { Avatar, StockPreview } from '@screens/_'
 import { _ } from '@stores'
 import { lastDate, getTimestamp, formatNumber, toFixed } from '@utils'
 import { tinygrailOSS, formatTime } from '@utils/app'
-import { B, M } from '@constants'
+import { t } from '@utils/fetch'
+import { EVENT, B, M } from '@constants'
 import Popover from './popover'
 
 let timezone = new Date().getTimezoneOffset() / -60
@@ -53,8 +54,10 @@ function Item(props, { navigation }) {
     price,
     state,
     rate,
-    level
+    level,
+    event
   } = props
+  const { id: eventId, data: eventData } = event
   const colorMap = {
     bid: _.colorBid,
     asks: _.colorAsk,
@@ -136,11 +139,17 @@ function Item(props, { navigation }) {
         size={40}
         name={name}
         borderColor='transparent'
-        onPress={() =>
+        onPress={() => {
+          t(eventId, {
+            to: 'Mono',
+            monoId: monoId || id,
+            ...eventData
+          })
+
           navigation.push('Mono', {
             monoId: `character/${monoId || id}`
           })
-        }
+        }}
       />
       <Flex.Item style={!isTop && styles.border}>
         <Flex align='start'>
@@ -149,6 +158,12 @@ function Item(props, { navigation }) {
               style={styles.item}
               onPress={() => {
                 if (isAuction || isValhall) {
+                  t(eventId, {
+                    to: 'TinygrailSacrifice',
+                    monoId: monoId || id,
+                    ...eventData
+                  })
+
                   navigation.push('TinygrailSacrifice', {
                     monoId: `character/${monoId || id}`
                   })
@@ -156,6 +171,12 @@ function Item(props, { navigation }) {
                 }
 
                 if (isICO) {
+                  t(eventId, {
+                    to: 'TinygrailICODeal',
+                    monoId: monoId || id,
+                    ...eventData
+                  })
+
                   navigation.push('TinygrailICODeal', {
                     monoId: `character/${monoId || id}`
                   })
@@ -163,12 +184,24 @@ function Item(props, { navigation }) {
                 }
 
                 if (isDeal) {
+                  t(eventId, {
+                    to: 'TinygrailDeal',
+                    monoId: id,
+                    ...eventData
+                  })
+
                   navigation.push('TinygrailDeal', {
                     monoId: `character/${id}`,
                     type
                   })
                   return
                 }
+
+                t(eventId, {
+                  to: 'TinygrailTrade',
+                  monoId: id,
+                  ...eventData
+                })
 
                 navigation.push('TinygrailTrade', {
                   monoId: `character/${id}`
@@ -265,7 +298,7 @@ function Item(props, { navigation }) {
               theme='dark'
             />
           )}
-          {!isICO && <Popover id={monoId || id} />}
+          {!isICO && <Popover id={monoId || id} event={event} />}
         </Flex>
       </Flex.Item>
     </Flex>
@@ -275,6 +308,10 @@ function Item(props, { navigation }) {
 Item.contextTypes = {
   $: PropTypes.object,
   navigation: PropTypes.object
+}
+
+Item.defaultProps = {
+  event: EVENT
 }
 
 export default observer(Item)

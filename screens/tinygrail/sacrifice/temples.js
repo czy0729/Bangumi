@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 23:38:59
+ * @Last Modified time: 2019-12-22 18:08:37
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -11,6 +11,7 @@ import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import ItemTemple from '../_/item-temple'
 
 function Temples({ style }, { $ }) {
@@ -33,6 +34,10 @@ function Temples({ style }, { $ }) {
       levelMap[level] += 1
     }
   })
+
+  const event = {
+    id: '资产重组.圣殿图查看'
+  }
   return (
     <View style={style}>
       <Flex style={styles.info}>
@@ -56,7 +61,11 @@ function Temples({ style }, { $ }) {
           style={{
             padding: _.sm
           }}
-          onPress={() =>
+          onPress={() => {
+            t('资产重组.股息查看', {
+              monoId: $.monoId
+            })
+
             Alert.alert(
               '小圣杯助手',
               `角色每股每周派息 ₵${rate}，您拥有 ${amount} 股，税前派息 ₵${amount *
@@ -67,7 +76,7 @@ function Temples({ style }, { $ }) {
                 }
               ]
             )
-          }
+          }}
         >
           <Iconfont size={16} name='information' color={_.colorTinygrailText} />
         </Touchable>
@@ -86,6 +95,7 @@ function Temples({ style }, { $ }) {
               nickname={item.nickname}
               sacrifices={item.sacrifices}
               level={item.level}
+              event={event}
             />
           ))}
       </Flex>

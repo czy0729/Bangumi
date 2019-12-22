@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 14:53:12
+ * @Last Modified time: 2019-12-22 03:13:10
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 
 const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
 const sectionHeight = sectionWidth / 2.4
@@ -18,7 +19,14 @@ function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
   return (
     <Touchable
       style={styles.container}
-      onPress={() => navigation.push(pathname, config)}
+      onPress={() => {
+        t('小圣杯.跳转', {
+          to: pathname,
+          ...config
+        })
+
+        navigation.push(pathname, config)
+      }}
     >
       <Flex style={[styles.block, style]}>
         <Text

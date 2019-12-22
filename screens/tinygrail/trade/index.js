@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 17:16:33
+ * @Last Modified time: 2019-12-22 20:41:58
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Button, Touchable, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { IOS } from '@constants'
 import StatusBarEvents from '../_/status-bar-events'
 import Store from './store'
@@ -57,6 +57,12 @@ class TinygrailTrade extends React.Component {
 
   jump = type => {
     const { $, navigation } = this.context
+    t('K线.跳转', {
+      to: 'TinygrailDeal',
+      type,
+      monoId: $.monoId
+    })
+
     navigation.push('TinygrailDeal', {
       monoId: $.monoId,
       type,

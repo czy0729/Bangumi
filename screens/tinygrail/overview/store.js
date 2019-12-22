@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 20:34:42
+ * @Last Modified time: 2019-12-22 16:56:23
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 import {
   SORT_GX,
   SORT_HYD,
@@ -90,6 +91,10 @@ export default class ScreenTinygrailOverview extends store {
       return
     }
 
+    t('热门榜单.标签页切换', {
+      page
+    })
+
     this.setState({
       page,
       sort: '',
@@ -119,11 +124,21 @@ export default class ScreenTinygrailOverview extends store {
         nextDirection = ''
       }
 
+      t('热门榜单.排序', {
+        sort: nextSort,
+        direction: nextDirection
+      })
+
       this.setState({
         sort: nextSort,
         direction: nextDirection
       })
     } else {
+      t('热门榜单.排序', {
+        sort: item,
+        direction: 'down'
+      })
+
       this.setState({
         sort: item,
         direction: 'down'

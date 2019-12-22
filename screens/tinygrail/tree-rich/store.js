@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 20:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:44:09
+ * @Last Modified time: 2019-12-22 21:01:55
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,7 @@ import { toFixed } from '@utils'
 import store from '@utils/store'
 import { tinygrailOSS } from '@utils/app'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import treemap from '@utils/thirdParty/treemap'
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants/model'
 import _ from '@styles'
@@ -197,6 +198,10 @@ export default class ScreenTinygrailTreeRich extends store {
    * 选择计算类型
    */
   onCaculateTypeSelect = caculateType => {
+    t('资产分析.选择计算类型', {
+      type: caculateType
+    })
+
     this.setState({
       caculateType: MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getValue(caculateType),
       filterItems: []

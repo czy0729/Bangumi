@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 12:36:50
+ * @Last Modified time: 2019-12-22 18:04:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,8 +12,9 @@ import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge } from '@utils/app'
+import { t } from '@utils/fetch'
 
-const maxSize = _.window.width / 3
+const maxSize = _.window.width / 2.4
 
 function Info(props, { $, navigation }) {
   const {
@@ -39,6 +40,7 @@ function Info(props, { $, navigation }) {
   } else if (fluctuation < 0) {
     fluctuationText = `${toFixed(fluctuation, 2)}%`
   }
+
   return (
     <View style={styles.container}>
       {!!icon && (
@@ -50,16 +52,28 @@ function Info(props, { $, navigation }) {
             placholder={false}
             imageViewer
             imageViewerSrc={tinygrailOSS(getCoverLarge(icon), 480)}
+            event={{
+              id: '资产重组.封面图查看',
+              data: {
+                monoId: $.monoId
+              }
+            }}
           />
         </Flex>
       )}
       <Touchable
         style={_.mt.md}
-        onPress={() =>
+        onPress={() => {
+          t('资产重组.跳转', {
+            to: 'Mono',
+            from: '顶部',
+            monoId: $.monoId
+          })
+
           navigation.push('Mono', {
             monoId: `character/${id}`
           })
-        }
+        }}
       >
         <Flex justify='center'>
           <Text

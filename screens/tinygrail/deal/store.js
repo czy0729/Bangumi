@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 12:33:45
+ * @Last Modified time: 2019-12-22 02:40:40
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { toFixed } from '@utils'
 import store from '@utils/store'
-import { queue } from '@utils/fetch'
+import { queue, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 
 const defaultType = 'bid'
@@ -124,6 +124,11 @@ export default class ScreenTinygrailDeal extends store {
       return
     }
 
+    t('交易.挂单', {
+      monoId: this.monoId,
+      type: this.isBid ? 'bid' : 'asks'
+    })
+
     this.setState({
       loading: true
     })
@@ -161,6 +166,11 @@ export default class ScreenTinygrailDeal extends store {
    * 取消挂单
    */
   doCancel = async (type, id) => {
+    t('交易.取消挂单', {
+      monoId: this.monoId,
+      type
+    })
+
     const result = await tinygrailStore[
       type === 'bid' ? 'doCancelBid' : 'doCancelAsk'
     ]({
@@ -179,6 +189,11 @@ export default class ScreenTinygrailDeal extends store {
    * 一键取消买卖挂单
    */
   doCancelAll = async type => {
+    t('交易.一键取消挂单', {
+      monoId: this.monoId,
+      type
+    })
+
     const data = type === 'bid' ? this.userLogs.bids : this.userLogs.asks
     let result
 
@@ -222,6 +237,11 @@ export default class ScreenTinygrailDeal extends store {
    * 切换买卖类型
    */
   toggleType = type => {
+    t('交易.切换买卖类型', {
+      monoId: this.monoId,
+      type
+    })
+
     const { current } = this.chara
     if (type === 'bid') {
       this.setState({
@@ -326,6 +346,10 @@ export default class ScreenTinygrailDeal extends store {
    */
   toggleExpand = () => {
     const { expand } = this.state
+    t('交易.切换买卖类型', {
+      monoId: this.monoId
+    })
+
     this.setState({
       expand: !expand
     })

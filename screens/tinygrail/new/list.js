@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:06:12
+ * @Last Modified time: 2019-12-22 16:52:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -29,12 +29,17 @@ function List({ index }, { $ }) {
     }
   }
 
+  const event = {
+    id: '新番榜单.跳转'
+  }
   return (
     <ListView
       style={_.container.flex}
       keyExtractor={item => String(item.id)}
       data={_list}
-      renderItem={({ item, index }) => <Item index={index} {...item} />}
+      renderItem={({ item, index }) => (
+        <Item index={index} event={event} {...item} />
+      )}
       onHeaderRefresh={() => $.fetchList(key)}
     />
   )

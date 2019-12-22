@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 19:46:30
+ * @Last Modified time: 2019-12-22 21:58:17
  */
 import { Platform } from 'react-native'
 
 /* ==================== DEV ==================== */
-export const DEV = true // 是否开发模式
+export const DEV = false // 是否开发模式
 export const BARE = true // 裸工作流
-export const VERSION_GITHUB_RELEASE = '2.1.9' // 版本号
+export const VERSION_GITHUB_RELEASE = '2.2.0' // 版本号
 export const VERSION_CODE_PUSH = '' // 热推送副版本号
 export const ERRORS = {
   keys: [],
@@ -77,6 +77,11 @@ export const LIST_EMPTY = {
 export const LIMIT_LIST = 40 // 用于制造分页数据
 export const LIMIT_LIST_COMMENTS = 25 // 用于制造分页数据 (评论)
 export const LIMIT_TOPIC_PUSH = 400 // 对评论大于400的帖子进行网页跳转
+
+export const EVENT = {
+  id: '',
+  data: {}
+}
 
 // 时间数组
 export const airtimeData = [

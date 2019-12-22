@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 22:06:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 17:49:47
+ * @Last Modified time: 2019-12-22 20:32:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { Touchable, Flex, Text, Iconfont } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 
 function History({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -26,11 +27,16 @@ function History({ style }, { $, navigation }) {
                   color: _.colorTinygrailPlain
                 }}
                 size={15}
-                onPress={() =>
+                onPress={() => {
+                  t('人物直达.跳转', {
+                    to: 'TinygrailTrade',
+                    monoId: item
+                  })
+
                   navigation.push('TinygrailTrade', {
                     monoId: item
                   })
-                }
+                }}
               >
                 {$.chara(item).name || item}
               </Text>

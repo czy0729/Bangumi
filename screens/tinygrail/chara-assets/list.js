@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:40:21
+ * @Last Modified time: 2019-12-21 22:08:01
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
 import Item from '../_/item'
 import ItemTemple from '../_/item-temple'
 import { sortList } from '../_/utils'
@@ -41,6 +42,9 @@ function List({ index }, { $, navigation }) {
   }
 
   const numColumns = isTemple ? 3 : undefined
+  const event = {
+    id: '我的持仓.跳转'
+  }
   return (
     <ListView
       key={String(numColumns)}
@@ -54,11 +58,16 @@ function List({ index }, { $, navigation }) {
             <ItemTemple
               index={index}
               {...item}
-              onPress={() =>
+              onPress={() => {
+                t('我的持仓.跳转', {
+                  to: 'TinygrailSacrifice',
+                  monoId: item.id
+                })
+
                 navigation.push('TinygrailSacrifice', {
                   monoId: `character/${item.id}`
                 })
-              }
+              }}
             />
           )
         }
@@ -68,6 +77,7 @@ function List({ index }, { $, navigation }) {
             {...item}
             type={type}
             users={type === 'ico' ? 'ico' : undefined} // 这里api有bug
+            event={event}
           />
         )
       }}

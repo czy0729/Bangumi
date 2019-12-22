@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 15:05:57
+ * @Last Modified time: 2019-12-22 16:56:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
 import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
@@ -18,12 +17,13 @@ import ToolBar from '../_/tool-bar'
 import List from './list'
 import Store, { tabs, sortDS } from './store'
 
-const title = '交易榜单'
+const title = '热门榜单'
 
 export default
 @inject(Store)
 @withHeader({
   screen: title,
+  hm: ['tinygrail/overview', 'TinygrailOverview'],
   ...headerStyle
 })
 @observer
@@ -40,8 +40,6 @@ class TinygrailOverview extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
-
-    hm('tinygrail/overview', 'TinygrailOverview')
   }
 
   renderContentHeaderComponent() {

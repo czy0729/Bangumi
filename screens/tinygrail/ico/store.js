@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-01 15:50:20
+ * @Last Modified time: 2019-12-22 02:53:54
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 
 export const tabs = [
   {
@@ -61,6 +62,10 @@ export default class ScreenTinygrailICO extends store {
     if (page === this.state.page) {
       return
     }
+
+    t('ICO.标签页切换', {
+      page
+    })
 
     this.setState({
       page

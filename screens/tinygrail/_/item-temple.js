@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:21:01
+ * @Last Modified time: 2019-12-22 18:01:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,12 +14,13 @@ import { Avatar } from '@screens/_'
 import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { tinygrailOSS } from '@utils/app'
+import { EVENT } from '@constants'
 
 const imageWidth = _.window.width * 0.28
 const marginLeft = (_.window.width - 3 * imageWidth) / 4
 
 function ItemTemple(
-  { cover, avatar, name, nickname, sacrifices, level, rate, onPress },
+  { cover, avatar, name, nickname, sacrifices, level, rate, event, onPress },
   { navigation }
 ) {
   const isFormCharaAssets = !!onPress
@@ -45,6 +46,7 @@ function ItemTemple(
         imageViewerSrc={tinygrailOSS(cover, 480)}
         border={colorLevel}
         borderWidth={3}
+        event={event}
         onPress={onPress}
       />
       <Touchable style={_.mt.sm} withoutFeedback onPress={onPress}>
@@ -58,6 +60,7 @@ function ItemTemple(
               userId={name}
               name={_name}
               borderColor='transparent'
+              event={event}
             />
           )}
           <Flex.Item>
@@ -90,6 +93,10 @@ function ItemTemple(
 ItemTemple.contextTypes = {
   $: PropTypes.object,
   navigation: PropTypes.object
+}
+
+ItemTemple.defaultProps = {
+  event: EVENT
 }
 
 export default observer(ItemTemple)

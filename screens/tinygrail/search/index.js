@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:56:22
+ * @Last Modified time: 2019-12-22 20:33:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
 import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import SearchBar from './search-bar'
@@ -23,6 +22,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
+  hm: ['tinygrail/search', 'TinygrailSearch'],
   ...headerStyle
 })
 @observer
@@ -39,8 +39,6 @@ class TinygrailSearch extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
-
-    hm('tinygrail/search', 'TinygrailSearch')
   }
 
   render() {

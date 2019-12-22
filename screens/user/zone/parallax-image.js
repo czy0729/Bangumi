@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 20:24:34
+ * @Last Modified time: 2019-12-22 21:07:57
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -52,12 +52,21 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
   } else if ($.users.disconnectUrl) {
     data.push('解除好友')
   }
+
+  let uri = avatar.large || ''
+  if (_image) {
+    if (_image.indexOf('http') === 0) {
+      uri = _image
+    } else {
+      uri = `https:${_image}`
+    }
+  }
   return (
     <>
       <View style={styles.parallax} pointerEvents='none'>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
-          source={{ uri: (_image ? `https:${_image}` : '') || avatar.large }} // blurView可以优先使用缩略图
+          source={{ uri }} // blurView可以优先使用缩略图
           blurRadius={2}
         />
         <Animated.View

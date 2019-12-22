@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:46:02
+ * @Last Modified time: 2019-12-22 20:55:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { B, M } from '@constants'
 import {
   MODEL_TINYGRAIL_ASSETS_TYPE,
@@ -72,6 +73,10 @@ function ToolBar(props, { $ }) {
             ...filterItems.map(item => `${item.name} #${item.id}`)
           ]}
           onSelect={title => {
+            t('资产分析.选择筛选', {
+              title
+            })
+
             if (title === '重置') {
               $.reset()
               return

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:10:13
+ * @Last Modified time: 2019-12-22 17:21:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Text } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { t } from '@utils/fetch'
 import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
@@ -25,6 +25,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
+  hm: ['tinygrail/rich', 'TinygrailRich'],
   ...headerStyle
 })
 @observer
@@ -42,7 +43,13 @@ class TinygrailRich extends React.Component {
     const { $, navigation } = this.context
     $.init()
 
-    const onPress = () => navigation.push('TinygrailTreeRich')
+    const onPress = () => {
+      t('番市首富.跳转', {
+        to: 'TinygrailTreeRich'
+      })
+
+      navigation.push('TinygrailTreeRich')
+    }
     navigation.setParams({
       title,
       extra: (
@@ -65,8 +72,6 @@ class TinygrailRich extends React.Component {
         </Flex>
       )
     })
-
-    hm('tinygrail/rich', 'TinygrailRich')
   }
 
   render() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:33:30
+ * @Last Modified time: 2019-12-22 17:50:23
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Info from './info'
@@ -56,6 +56,11 @@ class TinygrailSacrifice extends React.Component {
             color={_.colorIcon}
             onPress={() => {
               const { form, monoId } = $.params
+              t('资产重组.跳转', {
+                to: 'TinygrailDeal',
+                monoId: $.monoId
+              })
+
               if (form === 'deal') {
                 navigation.goBack()
                 return
@@ -72,6 +77,11 @@ class TinygrailSacrifice extends React.Component {
             color={_.colorIcon}
             onPress={() => {
               const { form, monoId } = $.params
+              t('资产重组.跳转', {
+                to: 'TinygrailTrade',
+                monoId: $.monoId
+              })
+
               if (form === 'trade') {
                 navigation.goBack()
                 return

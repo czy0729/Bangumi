@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:35:29
+ * @Last Modified time: 2019-12-22 20:57:52
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,7 @@ import { toFixed } from '@utils'
 import store from '@utils/store'
 import { tinygrailOSS } from '@utils/app'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import treemap from '@utils/thirdParty/treemap'
 import {
   MODEL_TINYGRAIL_ASSETS_TYPE,
@@ -258,6 +259,10 @@ export default class ScreenTinygrailTree extends store {
    * 选择范围
    */
   onTypeSelect = type => {
+    t('资产分析.选择范围', {
+      type
+    })
+
     this.setState({
       type: MODEL_TINYGRAIL_ASSETS_TYPE.getValue(type),
       filterItems: []
@@ -270,6 +275,10 @@ export default class ScreenTinygrailTree extends store {
    * 选择计算类型
    */
   onCaculateTypeSelect = caculateType => {
+    t('资产分析.选择计算类型', {
+      type: caculateType
+    })
+
     this.setState({
       caculateType: MODEL_TINYGRAIL_CACULATE_TYPE.getValue(caculateType),
       filterItems: []

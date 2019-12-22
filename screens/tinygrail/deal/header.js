@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:21:42
+ * @Last Modified time: 2019-12-22 02:45:20
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 
 function Header(props, { $, navigation }) {
   const { icon, name, fluctuation, bonus } = $.chara
@@ -45,11 +46,16 @@ function Header(props, { $, navigation }) {
             size={32}
             borderColor='transparent'
             name={name}
-            onPress={() =>
+            onPress={() => {
+              t('交易.跳转', {
+                to: 'Mono',
+                monoId: $.monoId
+              })
+
               navigation.push('Mono', {
                 monoId: `character/${$.monoId}`
               })
-            }
+            }}
           />
           <Text
             style={[
@@ -88,6 +94,11 @@ function Header(props, { $, navigation }) {
         size={22}
         color={_.colorIcon}
         onPress={() => {
+          t('交易.跳转', {
+            to: 'TinygrailSacrifice',
+            monoId: $.monoId
+          })
+
           const { form, monoId } = $.params
           if (form === 'sacrifice') {
             navigation.goBack()
@@ -104,6 +115,11 @@ function Header(props, { $, navigation }) {
         name='k-line'
         color={_.colorIcon}
         onPress={() => {
+          t('交易.跳转', {
+            to: 'TinygrailTrade',
+            monoId: $.monoId
+          })
+
           const { form, monoId } = $.params
           if (form === 'trade') {
             navigation.goBack()

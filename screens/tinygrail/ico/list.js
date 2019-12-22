@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:07:38
+ * @Last Modified time: 2019-12-22 02:55:43
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -19,12 +19,17 @@ function List({ index }, { $ }) {
     return <Loading style={_.container.flex} />
   }
 
+  const event = {
+    id: 'ICO.跳转'
+  }
   return (
     <ListView
       style={_.container.flex}
       keyExtractor={item => String(item.id)}
       data={list}
-      renderItem={({ item, index }) => <Item index={index} {...item} />}
+      renderItem={({ item, index }) => (
+        <Item index={index} event={event} {...item} />
+      )}
       onHeaderRefresh={() => $.fetchList(key)}
     />
   )
