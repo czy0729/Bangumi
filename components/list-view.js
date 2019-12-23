@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 16:29:20
+ * @Last Modified time: 2019-12-23 20:30:30
  */
 import React from 'react'
 import {
@@ -266,7 +266,7 @@ class ListView extends React.Component {
       ListFooterComponent: this.renderFooter(refreshState),
       onRefresh: this.onHeaderRefresh,
       onEndReached: this.onEndReached,
-      onEndReachedThreshold: 0.25
+      onEndReachedThreshold: 0.64
     }
 
     if (sectionKey || sections) {
