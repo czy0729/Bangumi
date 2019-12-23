@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 19:19:00
+ * @Last Modified time: 2019-12-23 12:21:02
  */
 import React from 'react'
 import { Alert, Animated, View } from 'react-native'
@@ -145,7 +145,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
                     '因隐藏条目受登陆状态影响, 若条目没找到, 可以尝试重新登陆',
                     [
                       {
-                        text: '好的'
+                        text: '知道了'
                       }
                     ]
                   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:07:57
+ * @Last Modified time: 2019-12-23 14:59:57
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -53,7 +53,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
     data.push('解除好友')
   }
 
-  let uri = avatar.large || ''
+  let uri = avatar.large
   if (_image) {
     if (_image.indexOf('http') === 0) {
       uri = _image

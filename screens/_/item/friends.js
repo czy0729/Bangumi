@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 18:26:57
+ * @Last Modified time: 2019-12-23 09:47:59
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,6 +10,7 @@ import { Progress } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 
 function ItemFriends({
@@ -23,8 +24,8 @@ function ItemFriends({
   doing,
   collect,
   wish,
-  event,
   dropped,
+  event,
   onHold
 }) {
   const styles = memoStyles()
@@ -80,7 +81,7 @@ function ItemFriends({
 }
 
 ItemFriends.defaultProps = {
-  event: {}
+  event: EVENT
 }
 
 export default observer(ItemFriends)

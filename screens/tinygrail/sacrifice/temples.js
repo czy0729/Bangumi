@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 18:08:37
+ * @Last Modified time: 2019-12-23 12:20:52
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -72,7 +72,7 @@ function Temples({ style }, { $ }) {
                 rate}`,
               [
                 {
-                  text: '确定'
+                  text: '知道了'
                 }
               ]
             )

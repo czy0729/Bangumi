@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:30:39
+ * @Last Modified time: 2019-12-23 09:39:01
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { date } from '@utils'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 
 function ItemArticle({
@@ -58,6 +59,10 @@ function ItemArticle({
       </Flex>
     </Touchable>
   )
+}
+
+ItemArticle.defaultProps = {
+  event: EVENT
 }
 
 export default observer(ItemArticle)

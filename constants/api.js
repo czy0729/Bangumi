@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 20:34:09
+ * @Last Modified time: 2019-12-23 15:06:38
  */
 import { HOST } from './index'
 
@@ -321,6 +321,12 @@ export const API_TINYGRAIL_CHARA_ALL = hash =>
  */
 export const API_TINYGRAIL_TEMPLE = hash =>
   `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/1000`
+
+/**
+ * 最近圣殿
+ */
+export const API_TINYGRAIL_TEMPLE_LAST = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/temple/last/1/36`
 
 /**
  * 司法刮刮乐

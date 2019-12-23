@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 18:14:41
+ * @Last Modified time: 2019-12-23 12:20:48
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -167,7 +167,7 @@ export default class ScreenTinygrailSacrifice extends store {
           )}`,
       [
         {
-          text: '我知道了'
+          text: '知道了'
         }
       ]
     )

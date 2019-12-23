@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-09-07 15:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 17:05:22
+ * @Last Modified time: 2019-12-23 09:49:22
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
+import { EVENT } from '@constants'
 import IconTabsHeader from './tabs-header'
 
 function IconTinygrail({ style, navigation, color, event }) {
@@ -49,9 +50,7 @@ function IconTinygrail({ style, navigation, color, event }) {
 }
 
 IconTinygrail.defaultProps = {
-  navigation: undefined,
-  color: undefined,
-  event: {}
+  event: EVENT
 }
 
 export default observer(IconTinygrail)

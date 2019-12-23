@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 20:32:16
+ * @Last Modified time: 2019-12-23 09:40:45
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { appNavigate, findBangumiCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
 import { t } from '@utils/fetch'
-import { HOST, HOST_NAME } from '@constants'
+import { HOST, HOST_NAME, EVENT } from '@constants'
 import Avatar from '../base/avatar'
 import Stars from '../base/stars'
 
@@ -34,7 +34,7 @@ class ItemTimeline extends React.Component {
     reply: {},
     image: [],
     clearHref: '',
-    event: {},
+    event: EVENT,
     onDelete: Function.prototype
   }
 

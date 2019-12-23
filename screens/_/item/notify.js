@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 14:09:44
+ * @Last Modified time: 2019-12-23 09:39:43
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 
 function ItemNotify({
@@ -64,7 +65,7 @@ function ItemNotify({
 }
 
 ItemNotify.defaultProps = {
-  event: {}
+  event: EVENT
 }
 
 export default observer(ItemNotify)

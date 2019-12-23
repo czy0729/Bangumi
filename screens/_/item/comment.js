@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:32:35
+ * @Last Modified time: 2019-12-23 09:47:41
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 import Stars from '../base/stars'
 
@@ -53,6 +54,10 @@ function ItemComment({
       </Flex.Item>
     </Flex>
   )
+}
+
+ItemComment.defaultProps = {
+  event: EVENT
 }
 
 export default observer(ItemComment)

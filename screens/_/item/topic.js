@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 12:09:13
+ * @Last Modified time: 2019-12-23 09:41:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Flex, Text, RenderHtml } from '@components'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 
 const avatarWidth = 28
@@ -142,7 +143,7 @@ function ItemTopic({
 
 ItemTopic.defaultProps = {
   sub: [],
-  event: {}
+  event: EVENT
 }
 
 export default observer(ItemTopic)

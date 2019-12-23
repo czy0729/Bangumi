@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 19:16:23
+ * @Last Modified time: 2019-12-23 09:46:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT } from '@constants'
+import { IMG_DEFAULT, EVENT } from '@constants'
 import Stars from '../base/stars'
 
 const imgWidth = 88
@@ -29,7 +29,7 @@ function ItemCollections({
   tip,
   score,
   time,
-  tags = '',
+  tags,
   comments,
   isDo,
   isOnHold,
@@ -124,7 +124,8 @@ function ItemCollections({
 }
 
 ItemCollections.defaultProps = {
-  event: {}
+  tags: '',
+  event: EVENT
 }
 
 export default observer(ItemCollections)

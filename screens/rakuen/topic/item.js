@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 15:44:29
+ * @Last Modified time: 2019-12-23 09:44:45
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -13,7 +13,7 @@ import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
 import { appNavigate } from '@utils/app'
-import { HOST } from '@constants'
+import { HOST, EVENT } from '@constants'
 
 const avatarWidth = 28
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
@@ -37,11 +37,11 @@ function Item(
     message,
     floor,
     time,
-    sub = [],
+    sub,
     replySub,
     erase,
     showFixedTextare,
-    event = {}
+    event
   },
   { $, navigation }
 ) {
@@ -260,6 +260,11 @@ function Item(
       </Flex.Item>
     </Flex>
   )
+}
+
+Item.defaultProps = {
+  sub: [],
+  event: EVENT
 }
 
 Item.contextTypes = {

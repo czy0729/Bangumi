@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-16 17:19:54
+ * @Last Modified time: 2019-12-23 14:57:26
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed } from '@utils'
@@ -45,7 +45,8 @@ import {
   API_TINYGRAIL_SCRATCH,
   API_TINYGRAIL_BONUS,
   API_TINYGRAIL_BONUS_DAILY,
-  API_TINYGRAIL_ISSUE_PRICE
+  API_TINYGRAIL_ISSUE_PRICE,
+  API_TINYGRAIL_TEMPLE_LAST
 } from '@constants/api'
 import {
   NAMESPACE,
@@ -228,6 +229,11 @@ class Tinygrail extends store {
     },
 
     /**
+     * 最近圣殿
+     */
+    templeLast: LIST_EMPTY,
+
+    /**
      * iOS此刻是否显示WebView
      * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
@@ -357,6 +363,10 @@ class Tinygrail extends store {
 
   issuePrice(id) {
     return computed(() => this.state.issuePrice[id]).get() || 0
+  }
+
+  @computed get templeLast() {
+    return this.state.templeLast
   }
 
   // -------------------- fetch --------------------
@@ -1384,6 +1394,36 @@ class Tinygrail extends store {
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 最近圣殿
+   */
+  fetchTempleLast = async () => {
+    const result = await this.fetch(API_TINYGRAIL_TEMPLE_LAST())
+
+    const data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data._loaded = getTimestamp()
+      data.list = result.data.Value.Items.map(item => ({
+        id: item.CharacterId,
+        userId: item.Name,
+        cover: item.Cover,
+        name: item.CharacterName,
+        nickname: item.Nickname,
+        level: item.Level,
+        rate: item.Rate
+      }))
+    }
+
+    const key = 'templeLast'
+    this.setState({
+      [key]: data
+    })
 
     return Promise.resolve(data)
   }

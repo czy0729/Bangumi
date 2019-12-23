@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:58:33
+ * @Last Modified time: 2019-12-23 09:48:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, rakuenStore, userStore } from '@stores'
 import { t } from '@utils/fetch'
+import { EVENT } from '@constants'
 import IconTabsHeader from './tabs-header'
 
 let isSetTimeout = false
@@ -17,8 +18,7 @@ export default
 @observer
 class Notify extends React.Component {
   static defaultProps = {
-    navigation: undefined,
-    event: {}
+    event: EVENT
   }
 
   componentDidMount() {

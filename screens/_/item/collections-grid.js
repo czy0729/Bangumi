@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 19:16:44
+ * @Last Modified time: 2019-12-23 09:47:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT } from '@constants'
+import { IMG_DEFAULT, EVENT } from '@constants'
 
 const imageWidth = _.window.width * 0.2
 const marginLeft = (_.window.width - 4 * imageWidth) / 5
@@ -76,7 +76,7 @@ function CollectionsGrid({
 }
 
 CollectionsGrid.defaultProps = {
-  event: {}
+  event: EVENT
 }
 
 export default observer(CollectionsGrid)

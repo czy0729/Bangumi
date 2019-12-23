@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 00:09:07
+ * @Last Modified time: 2019-12-23 09:40:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Flex, Text, Image, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { IOS, IMG_DEFAULT } from '@constants'
+import { EVENT, IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Tag from '../base/tag'
 import Stars from '../base/stars'
@@ -137,6 +137,10 @@ function ItemSearch({
       </Flex>
     </Touchable>
   )
+}
+
+ItemSearch.defaultProps = {
+  event: EVENT
 }
 
 export default observer(ItemSearch)

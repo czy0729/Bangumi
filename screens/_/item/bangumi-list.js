@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 20:21:49
+ * @Last Modified time: 2019-12-23 09:46:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable, Text, Image } from '@components'
-import { IMG_DEFAULT } from '@constants'
 import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { IMG_DEFAULT, EVENT } from '@constants'
 
 const imageWidth = _.window.width * 0.16
 const marginLeft = (_.window.width - 5 * imageWidth) / 6
@@ -21,7 +21,7 @@ function ItemBangumiList({
   navigation,
   style,
   subjectId,
-  images = {},
+  images,
   name,
   event
 }) {
@@ -60,7 +60,8 @@ function ItemBangumiList({
 }
 
 ItemBangumiList.defaultProps = {
-  event: {}
+  images: {},
+  event: EVENT
 }
 
 export default observer(ItemBangumiList)

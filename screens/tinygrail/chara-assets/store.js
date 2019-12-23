@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 22:03:08
+ * @Last Modified time: 2019-12-23 12:20:33
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -108,7 +108,7 @@ export default class ScreenTinygrailCharaAssets extends store {
           .join('，')}，价值₵${total}`,
         [
           {
-            text: '我知道了'
+            text: '知道了'
           }
         ]
       )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 20:52:47
+ * @Last Modified time: 2019-12-23 12:20:58
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -76,7 +76,7 @@ class TinygrailTree extends React.Component {
       '1. 单击方格展开功能菜单, 长按隐藏方格\n2. 本功能处于实验性阶段, 不保证能正常渲染, 不正常请尝试刷新或者在讨论组等联系作者\n3. 计算的数据只供参考, 不排除会出现不准确丢失的情况\n4. 因角色数量可能导致流量变大, 页面当有缓存数据不会自动刷新, 请点击旁边的按钮刷新\n5. 部分数据可能毫无意义, 只是顺便调出来, 还请自己把握(bgm38)',
       [
         {
-          text: '确定'
+          text: '知道了'
         }
       ]
     )

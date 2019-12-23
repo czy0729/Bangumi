@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 14:21:04
+ * @Last Modified time: 2019-12-23 13:52:53
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -25,14 +25,7 @@ function Menus(props, { $ }) {
       <MenuItem title='ICO榜单' pathname='TinygrailICO' icon='ico' />
       <MenuItem title='番市首富' pathname='TinygrailRich' icon='shou-fu' />
       <MenuItem title='英灵殿' pathname='TinygrailValhall' icon='app' />
-      <MenuItem
-        title='小组讨论'
-        pathname='Group'
-        config={{
-          groupId: 'tinygrail'
-        }}
-        icon='planet'
-      />
+      <MenuItem title='最近圣殿' pathname='TinygrailTemples' icon='paihang' />
       <Assets />
       <MenuItem
         style={{
@@ -71,7 +64,15 @@ function Menus(props, { $ }) {
       />
       <MenuItem title='资金日志' pathname='TinygrailLogs' icon='ri-zhi' />
       <MenuItem title='资金分析' pathname='TinygrailTree' icon='fen-xi' />
-      <MenuItem title='人物直达' pathname='TinygrailSearch' icon='navigation' />
+      {/* <MenuItem title='人物直达' pathname='TinygrailSearch' icon='navigation' /> */}
+      <MenuItem
+        title='小组讨论'
+        pathname='Group'
+        config={{
+          groupId: 'tinygrail'
+        }}
+        icon='planet'
+      />
       <MenuItem
         title='意见反馈'
         pathname='Say'

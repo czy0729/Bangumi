@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:09:18
+ * @Last Modified time: 2019-12-23 14:24:54
  */
 
 /**
@@ -263,6 +263,9 @@ export default {
   '人物直达.跳转': 'TSearch.to',
   '人物直达.删除历史': 'TSearch.deleteHistory',
   '人物直达.搜索': 'TSearch.doSearch',
+
+  // 最近圣殿
+  '最近圣殿.跳转': 'TTemples.to',
 
   // K线
   'K线.跳转': 'TTrade.to',

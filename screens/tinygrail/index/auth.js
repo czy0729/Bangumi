@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 01:22:09
+ * @Last Modified time: 2019-12-23 12:09:51
  */
 import React from 'react'
-import { View, Alert } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Button, Text } from '@components'
-import { IconBack, Avatar, Popover } from '@screens/_'
+import { Flex, Text } from '@components'
+import { IconBack, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
+import Btns from './btns'
 
 function Auth(props, { $, navigation }) {
-  const styles = memoStyles()
-  const { loading, loadingBonus, _loaded } = $.state
+  const { _loaded } = $.state
   const { nickname, avatar = {} } = $.userInfo
   return (
     <View style={_.container.inner}>
@@ -57,82 +57,7 @@ function Auth(props, { $, navigation }) {
             </Text>
           )}
         </Flex.Item>
-        <Button
-          style={[styles.btn, _.ml.sm]}
-          type='warning'
-          size='sm'
-          loading={loading}
-          onPress={$.doAuth}
-        >
-          授权
-        </Button>
-        <Popover
-          data={['刮刮乐', '每周分红', '每日签到', '设置']}
-          onSelect={title => {
-            setTimeout(() => {
-              switch (title) {
-                case '刮刮乐':
-                  Alert.alert('小圣杯助手', '消费₵1000购买一张刮刮乐彩票?', [
-                    {
-                      text: '取消',
-                      style: 'cancel'
-                    },
-                    {
-                      text: '确定',
-                      onPress: () => $.doLottery(navigation)
-                    }
-                  ])
-                  break
-                case '每周分红':
-                  Alert.alert(
-                    '警告',
-                    '领取每周分红后，将不能再领取每日奖励，确定? (每周日0点刷新)',
-                    [
-                      {
-                        text: '取消',
-                        style: 'cancel'
-                      },
-                      {
-                        text: '确定',
-                        onPress: $.doGetBonusWeek
-                      }
-                    ]
-                  )
-                  break
-                case '每日签到':
-                  Alert.alert(
-                    '警告',
-                    '领取每日签到后，将不能再领取每周分红，暂每天₵1500，确定?',
-                    [
-                      {
-                        text: '取消',
-                        style: 'cancel'
-                      },
-                      {
-                        text: '确定',
-                        onPress: $.doGetBonusDaily
-                      }
-                    ]
-                  )
-                  break
-                case '设置':
-                  navigation.push('Setting')
-                  break
-                default:
-                  break
-              }
-            }, 400)
-          }}
-        >
-          <Button
-            style={[styles.btn, _.ml.sm]}
-            type='warning'
-            size='sm'
-            loading={loadingBonus}
-          >
-            更多
-          </Button>
-        </Popover>
+        <Btns />
       </Flex>
     </View>
   )
@@ -144,11 +69,3 @@ Auth.contextTypes = {
 }
 
 export default observer(Auth)
-
-const memoStyles = _.memoStyles(_ => ({
-  btn: {
-    width: 72,
-    backgroundColor: _.colorTinygrailIcon,
-    borderColor: _.colorTinygrailIcon
-  }
-}))
