@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:10:42
+ * @Last Modified time: 2019-12-23 17:51:27
  */
 import React from 'react'
 import Image from './image'
@@ -27,6 +27,7 @@ function Musume({ style, size, ...other }) {
       resizeMode='contain'
       size={size}
       placeholder={false}
+      fadeDuration={0}
       {...other}
     />
   )

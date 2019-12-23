@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /*
  * v2.1 为了应付多种特异的情况
  * [0]正常登陆 -> 不行 -> [1]换成http -> 不行 -> [2]withCredentials = true -> 不行 -> 失败
@@ -5,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 18:08:41
+ * @Last Modified time: 2019-12-23 18:07:21
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -16,10 +17,10 @@ import deepmerge from 'deepmerge'
 import { StatusBarEvents, Text, Flex, KeyboardSpacer, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore } from '@stores'
-import { getTimestamp, setStorage, getStorage } from '@utils'
+import { getTimestamp, setStorage, getStorage, open } from '@utils'
 import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
+import { IOS, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import Preview from './preview'
 import Form from './form'
 
@@ -532,6 +533,10 @@ class LoginV2 extends React.Component {
                 type='sub'
                 align='center'
                 onPress={() => {
+                  t('登陆.跳转', {
+                    to: 'Login'
+                  })
+
                   const { navigation } = this.props
                   navigation.push('Login')
                 }}
@@ -544,6 +549,10 @@ class LoginV2 extends React.Component {
                 type='sub'
                 align='center'
                 onPress={() => {
+                  t('登陆.跳转', {
+                    to: 'LoginAssist'
+                  })
+
                   const { navigation } = this.props
                   navigation.push('LoginAssist')
                 }}
@@ -551,6 +560,22 @@ class LoginV2 extends React.Component {
                 电脑辅助登陆
               </Text>
             </Flex.Item>
+            {IOS && (
+              <Flex.Item style={this.styles.border}>
+                <Text
+                  type='sub'
+                  onPress={() => {
+                    t('登陆.跳转', {
+                      to: 'Signup'
+                    })
+
+                    open('https://bgm.tv/signup')
+                  }}
+                >
+                  　　注册
+                </Text>
+              </Flex.Item>
+            )}
           </Flex>
         )}
         <KeyboardSpacer />

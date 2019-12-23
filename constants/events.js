@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 14:24:54
+ * @Last Modified time: 2019-12-23 17:53:28
  */
 
 /**
@@ -116,6 +116,7 @@ export default {
   '授权登陆.乱逛': 'LoginV1.onOtherPage',
 
   // 登陆
+  '登陆.跳转': 'Login.to',
   '登陆.游客访问': 'Login.onTour',
   '登陆.登陆': 'Login.onLogin',
   '登陆.成功': 'Login.onSuccess',
