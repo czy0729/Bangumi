@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-16 17:56:16
+ * @Last Modified time: 2019-12-23 17:39:52
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -38,22 +38,31 @@ class FixedTextarea extends React.Component {
     value: this.props.value,
     showTextarea: false,
     showBgm: false,
+    showReplyHistory: false,
     showKeyboardSpacer: false,
     keyboardHeight: 0,
-    history: []
+    history: [],
+    replyHistory: []
   }
 
   ref
 
   async componentDidMount() {
-    const storage = (await getStorage(namespace)) || '15'
-    const history = storage
-      .split(',')
-      .filter(item => item !== '')
-      .map(item => parseInt(item))
-    this.setState({
-      history
-    })
+    try {
+      const history = (await getStorage(namespace)) || '15'
+      const bgmHistory = history
+        .split(',')
+        .filter(item => item !== '')
+        .map(item => parseInt(item))
+      const replyHistory = (await getStorage(`${namespace}|replyHistory`)) || []
+
+      this.setState({
+        history: bgmHistory,
+        replyHistory
+      })
+    } catch (error) {
+      warn('fixed-textarea', 'componentDidMount', error)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,7 +86,8 @@ class FixedTextarea extends React.Component {
   onFocus = () => {
     this.setState({
       showTextarea: true,
-      showBgm: false
+      showBgm: false,
+      showReplyHistory: false
     })
 
     setTimeout(() => {
@@ -93,6 +103,7 @@ class FixedTextarea extends React.Component {
     this.setState({
       showTextarea: false,
       showBgm: false,
+      showReplyHistory: false,
       showKeyboardSpacer: false
     })
 
@@ -145,6 +156,7 @@ class FixedTextarea extends React.Component {
     this.setRecentUseBgm(bgmIndex)
   }
 
+  // 提交 (完了要保存历史)
   onSubmit = () => {
     const { value } = this.state
     if (value === '') {
@@ -153,6 +165,8 @@ class FixedTextarea extends React.Component {
 
     const { onSubmit } = this.props
     onSubmit(value)
+    this.setReplyHistory(value)
+
     this.clear()
     this.onBlur()
   }
@@ -196,7 +210,8 @@ class FixedTextarea extends React.Component {
     // 安卓eject后, 键盘表现跟IOS不一致, 特殊处理
     if (IOS) {
       this.setState({
-        showBgm: true
+        showBgm: true,
+        showReplyHistory: false
       })
 
       setTimeout(() => {
@@ -212,7 +227,8 @@ class FixedTextarea extends React.Component {
 
       setTimeout(() => {
         this.setState({
-          showBgm: true
+          showBgm: true,
+          showReplyHistory: false
         })
       }, 0)
     }, 0)
@@ -229,7 +245,7 @@ class FixedTextarea extends React.Component {
     }, 0)
   }
 
-  // 本地化最近使用bgm, 最多7个
+  // 本地化最近使用bgm
   setRecentUseBgm = async bgmIndex => {
     // eslint-disable-next-line react/no-access-state-in-setstate
     let history = [...this.state.history]
@@ -249,6 +265,67 @@ class FixedTextarea extends React.Component {
     setStorage(namespace, history.join())
   }
 
+  // 本地化最近的回复
+  setReplyHistory = async value => {
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    let replyHistory = [...this.state.replyHistory]
+    if (replyHistory.includes(value)) {
+      replyHistory = replyHistory.filter(item => item !== value)
+      replyHistory.unshift(value)
+    } else {
+      replyHistory.unshift(value)
+    }
+    if (replyHistory.length > maxHistoryCount) {
+      replyHistory = replyHistory.filter(
+        (item, index) => index < maxHistoryCount
+      )
+    }
+
+    this.setState({
+      replyHistory
+    })
+    setStorage(`${namespace}|replyHistory`, replyHistory)
+  }
+
+  showReplyHistory = () => {
+    // 安卓eject后, 键盘表现跟IOS不一致, 特殊处理
+    if (IOS) {
+      this.setState({
+        showReplyHistory: true,
+        showBgm: false
+      })
+
+      setTimeout(() => {
+        const ref = this.ref.textAreaRef
+        ref.blur()
+      }, 0)
+      return
+    }
+
+    setTimeout(() => {
+      const ref = this.ref.textAreaRef
+      ref.blur()
+
+      setTimeout(() => {
+        this.setState({
+          showReplyHistory: true,
+          showBgm: false
+        })
+      }, 0)
+    }, 0)
+  }
+
+  hideReplyHistory = () => {
+    this.setState({
+      showReplyHistory: false
+    })
+
+    setTimeout(() => {
+      const ref = this.ref.textAreaRef
+      ref.focus()
+    }, 0)
+  }
+
   renderBtn(text, symbol) {
     if (text === 'BGM') {
       const { showBgm } = this.state
@@ -264,6 +341,24 @@ class FixedTextarea extends React.Component {
           }}
         >
           <Text type={showBgm ? 'main' : 'sub'}>{text}</Text>
+        </Touchable>
+      )
+    }
+
+    if (text === '历史') {
+      const { showReplyHistory } = this.state
+      return (
+        <Touchable
+          style={this.styles.toolBarBtn}
+          onPress={() => {
+            if (showReplyHistory) {
+              this.hideReplyHistory()
+            } else {
+              this.showReplyHistory()
+            }
+          }}
+        >
+          <Text type={showReplyHistory ? 'main' : 'sub'}>{text}</Text>
         </Touchable>
       )
     }
@@ -290,9 +385,10 @@ class FixedTextarea extends React.Component {
         {this.renderBtn('BGM')}
         {!simple && this.renderBtn('加粗', 'b')}
         {!simple && this.renderBtn('斜体', 'i')}
-        {!simple && this.renderBtn('下划线', 'u')}
-        {!simple && this.renderBtn('删除线', 's')}
+        {!simple && this.renderBtn('下划', 'u')}
+        {!simple && this.renderBtn('删除', 's')}
         {!simple && this.renderBtn('防剧透', 'mask')}
+        {this.renderBtn('历史')}
       </Flex>
     )
   }
@@ -329,9 +425,15 @@ class FixedTextarea extends React.Component {
     )
   }
 
-  renderBgm() {
-    const { showTextarea, showBgm, keyboardHeight, history } = this.state
-
+  renderContent() {
+    const {
+      showTextarea,
+      showBgm,
+      showReplyHistory,
+      keyboardHeight,
+      history,
+      replyHistory
+    } = this.state
     // 安卓eject后, 键盘表现跟IOS不一致, 特殊处理
     if (!IOS && !showBgm) {
       return null
@@ -348,40 +450,57 @@ class FixedTextarea extends React.Component {
         }}
         contentContainerStyle={this.styles.bgmContainer}
       >
-        <Text style={_.container.wind} size={12} type='sub'>
-          常用
-        </Text>
-        <Flex wrap='wrap'>
-          {history.map((item, index) => (
-            <Touchable
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              style={this.styles.bgm}
-              onPress={() => this.onSelectBgm(item)}
-            >
-              <Flex justify='center'>
-                <Bgm index={item} />
-              </Flex>
-            </Touchable>
-          ))}
-        </Flex>
-        <Text style={[_.container.wind, _.mt.sm]} size={12} type='sub'>
-          全部
-        </Text>
-        <Flex wrap='wrap'>
-          {Array.from(new Array(100)).map((item, index) => (
-            <Touchable
-              // eslint-disable-next-line react/no-array-index-key
-              key={index + 1}
-              style={this.styles.bgm}
-              onPress={() => this.onSelectBgm(index + 1)}
-            >
-              <Flex justify='center'>
-                <Bgm index={index + 1} />
-              </Flex>
-            </Touchable>
-          ))}
-        </Flex>
+        {showReplyHistory ? (
+          <>
+            {replyHistory.map((item, index) => (
+              <Touchable
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                style={this.styles.replyHistory}
+                onPress={() => this.onChange(item)}
+              >
+                <Text lineHeight={22}>{item}</Text>
+              </Touchable>
+            ))}
+          </>
+        ) : (
+          <>
+            <Text style={_.container.wind} size={12} type='sub'>
+              常用
+            </Text>
+            <Flex wrap='wrap'>
+              {history.map((item, index) => (
+                <Touchable
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
+                  style={this.styles.bgm}
+                  onPress={() => this.onSelectBgm(item)}
+                >
+                  <Flex justify='center'>
+                    <Bgm index={item} />
+                  </Flex>
+                </Touchable>
+              ))}
+            </Flex>
+            <Text style={[_.container.wind, _.mt.sm]} size={12} type='sub'>
+              全部
+            </Text>
+            <Flex wrap='wrap'>
+              {Array.from(new Array(100)).map((item, index) => (
+                <Touchable
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index + 1}
+                  style={this.styles.bgm}
+                  onPress={() => this.onSelectBgm(index + 1)}
+                >
+                  <Flex justify='center'>
+                    <Bgm index={index + 1} />
+                  </Flex>
+                </Touchable>
+              ))}
+            </Flex>
+          </>
+        )}
       </ScrollView>
     )
   }
@@ -400,7 +519,7 @@ class FixedTextarea extends React.Component {
         <View style={this.styles.container}>
           {this.renderToolBar()}
           {this.renderTextarea()}
-          {this.renderBgm()}
+          {this.renderContent()}
         </View>
         {!showKeyboardSpacer && (
           <View style={{ display: 'none' }}>
@@ -443,7 +562,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   toolBarBtn: {
     padding: _.sm,
-    marginRight: _.sm
+    marginRight: _.xs
   },
   bgmContainer: {
     paddingVertical: _.sm
@@ -451,6 +570,10 @@ const memoStyles = _.memoStyles(_ => ({
   bgm: {
     width: '14.28%',
     paddingVertical: _.md
+  },
+  replyHistory: {
+    paddingHorizontal: _.wind,
+    paddingVertical: _.sm
   },
   textareaContainer: {
     borderBottomWidth: _.hairlineWidth,
