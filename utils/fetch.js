@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 02:55:08
+ * @Last Modified time: 2019-12-23 21:11:14
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -371,22 +371,24 @@ export function t(desc, eventData) {
     return
   }
 
-  try {
-    const eventId = events[desc]
-    if (eventId) {
-      if (eventData) {
-        UMAnalyticsModule.onEventWithMap(eventId, eventData)
-      } else {
-        UMAnalyticsModule.onEvent(eventId)
-      }
+  setTimeout(() => {
+    try {
+      const eventId = events[desc]
+      if (eventId) {
+        if (eventData) {
+          UMAnalyticsModule.onEventWithMap(eventId, eventData)
+        } else {
+          UMAnalyticsModule.onEvent(eventId)
+        }
 
-      if (DEV) {
-        log(`[track] ${desc} ${eventData ? JSON.stringify(eventData) : ''}`)
+        if (DEV) {
+          log(`[track] ${desc} ${eventData ? JSON.stringify(eventData) : ''}`)
+        }
       }
+    } catch (error) {
+      warn('utils/fetch', 't', error)
     }
-  } catch (error) {
-    warn('utils/fetch', 't', error)
-  }
+  }, 800)
 }
 
 /**

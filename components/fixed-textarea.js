@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 17:39:52
+ * @Last Modified time: 2019-12-23 21:23:06
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -292,7 +292,7 @@ class FixedTextarea extends React.Component {
     if (IOS) {
       this.setState({
         showReplyHistory: true,
-        showBgm: false
+        showBgm: true
       })
 
       setTimeout(() => {
@@ -309,7 +309,7 @@ class FixedTextarea extends React.Component {
       setTimeout(() => {
         this.setState({
           showReplyHistory: true,
-          showBgm: false
+          showBgm: true
         })
       }, 0)
     }, 0)
