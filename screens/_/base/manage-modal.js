@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 22:39:42
+ * @Last Modified time: 2019-12-28 16:52:43
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -66,9 +66,9 @@ class ManageModal extends React.Component {
       }
     } else {
       // <Modal>有渐出动画
-      setTimeout(() => {
-        this.setState(initState)
-      }, 400)
+      // setTimeout(() => {
+      //   this.setState(initState)
+      // }, 400)
     }
   }
 
@@ -223,7 +223,6 @@ class ManageModal extends React.Component {
     const {
       focus,
       loading,
-      doing,
       rating,
       tags,
       comment,
@@ -278,7 +277,7 @@ class ManageModal extends React.Component {
               />
               <Flex style={_.mt.md}>
                 <Flex.Item>
-                  <Button type='main' loading={doing} onPress={this.onSubmit}>
+                  <Button type='main' onPress={this.onSubmit}>
                     更新收藏状态
                   </Button>
                 </Flex.Item>

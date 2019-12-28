@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 11:27:56
+ * @Last Modified time: 2019-12-28 16:59:08
  */
 import { observable, computed } from 'mobx'
 import {
@@ -589,7 +589,7 @@ export default class ScreenHome extends store {
         id: item.id,
         status
       })
-      userStore.fetchUserCollection(subjectId)
+      userStore.fetchUserCollection()
       userStore.fetchUserProgress(subjectId)
     }
 
@@ -599,11 +599,19 @@ export default class ScreenHome extends store {
         subjectId
       })
 
-      // 批量更新收视进度
+      /**
+       * 批量更新收视进度
+       * @issue 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
+       */
+      const sort = (this.eps(subjectId) || [])
+        .filter(i => i.type === 0)
+        .sort((a, b) => (a.sort || 0) - (b.sort || 0))
+        .findIndex(i => i.sort === item.sort)
       await userStore.doUpdateSubjectWatched({
-        sort: item.sort
+        subjectId,
+        sort: sort === -1 ? item.sort : sort + 1
       })
-      userStore.fetchUserCollection(subjectId)
+      userStore.fetchUserCollection()
       userStore.fetchUserProgress(subjectId)
     }
 
@@ -656,7 +664,7 @@ export default class ScreenHome extends store {
       id,
       status
     })
-    userStore.fetchUserCollection(subjectId)
+    userStore.fetchUserCollection()
     userStore.fetchUserProgress(subjectId)
   }
 }

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 16:08:53
+ * @Last Modified time: 2019-12-28 16:58:41
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -489,7 +489,7 @@ export default class ScreenSubject extends store {
           id: item.id,
           status
         })
-        userStore.fetchUserCollection(this.subjectId)
+        userStore.fetchUserCollection()
         userStore.fetchUserProgress(this.subjectId)
       }
 
@@ -499,12 +499,20 @@ export default class ScreenSubject extends store {
           subjectId: this.subjectId
         })
 
-        // 批量更新收视进度
+        /**
+         * 批量更新收视进度
+         * @issue 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
+         */
+        const { eps = [] } = this.subjectEp
+        const sort = eps
+          .filter(i => i.type === 0)
+          .sort((a, b) => (a.sort || 0) - (b.sort || 0))
+          .findIndex(i => i.sort === item.sort)
         await userStore.doUpdateSubjectWatched({
           subjectId: this.subjectId,
-          sort: item.sort
+          sort: sort === -1 ? item.sort : sort + 1
         })
-        userStore.fetchUserCollection(this.subjectId)
+        userStore.fetchUserCollection()
         userStore.fetchUserProgress(this.subjectId)
       }
 
@@ -591,7 +599,7 @@ export default class ScreenSubject extends store {
       id,
       status
     })
-    userStore.fetchUserCollection(this.subjectId)
+    userStore.fetchUserCollection()
     userStore.fetchUserProgress(this.subjectId)
   }
 }
