@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 14:52:03
+ * @Last Modified time: 2019-12-28 17:38:57
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -255,3 +255,11 @@ export const HTML_ACTION_TIMELINE_REPLY = id =>
  * 发新吐槽
  */
 export const HTML_ACTION_TIMELINE_SAY = () => `${HOST}/update/user/say?ajax=1`
+
+/**
+ * 删除收藏
+ * @param {*} subjectId
+ * @param {*} formhash
+ */
+export const HTML_ACTION_ERASE_COLLECTION = (subjectId, formhash) =>
+  `${HOST}/subject/${subjectId}/remove?gh=${formhash}`

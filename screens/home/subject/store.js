@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 16:58:41
+ * @Last Modified time: 2019-12-28 17:51:15
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -56,7 +56,7 @@ export default class ScreenSubject extends store {
       _loaded: true
     })
 
-    const res = subjectStore.fetchSubject(this.subjectId)
+    const res = this.fetchSubject()
     const data = await res
     const item = bangumiData.items.find(item => item.title === data.name)
     if (item) {
@@ -86,7 +86,7 @@ export default class ScreenSubject extends store {
     }
 
     queue([
-      () => collectionStore.fetchCollection(this.subjectId),
+      () => this.fetchCollection(),
       () => userStore.fetchUserProgress(this.subjectId),
       () => subjectStore.fetchSubjectEp(this.subjectId),
       async () => {
@@ -105,6 +105,16 @@ export default class ScreenSubject extends store {
   }
 
   // -------------------- fetch --------------------
+  /**
+   * 条目信息
+   */
+  fetchSubject = () => subjectStore.fetchSubject(this.subjectId)
+
+  /**
+   * 用户收藏信息
+   */
+  fetchCollection = () => collectionStore.fetchCollection(this.subjectId)
+
   /**
    * 条目留言
    */
@@ -601,5 +611,32 @@ export default class ScreenSubject extends store {
     })
     userStore.fetchUserCollection()
     userStore.fetchUserProgress(this.subjectId)
+  }
+
+  /**
+   * 删除收藏
+   */
+  doEraseCollection = async () => {
+    const { formhash } = this.subjectFormHTML
+    if (!formhash) {
+      return
+    }
+
+    t('条目.删除收藏', {
+      subjectId: this.subjectId
+    })
+
+    await userStore.doEraseCollection(
+      {
+        subjectId: this.subjectId,
+        formhash
+      },
+      () => {}, // 因为删除后是302, 使用fail去触发
+      () => {
+        info('删除收藏成功')
+        this.fetchCollection()
+        userStore.fetchUserCollection()
+      }
+    )
   }
 }

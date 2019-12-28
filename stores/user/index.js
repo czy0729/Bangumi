@@ -5,12 +5,12 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-20 14:45:55
+ * @Last Modified time: 2019-12-28 17:48:19
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
-import fetch, { fetchHTML } from '@utils/fetch'
+import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import {
   APP_ID,
@@ -29,7 +29,7 @@ import {
   API_USER_COLLECTIONS,
   API_USER_COLLECTIONS_STATUS
 } from '@constants/api'
-import { HTML_USERS } from '@constants/html'
+import { HTML_USERS, HTML_ACTION_ERASE_COLLECTION } from '@constants/html'
 import {
   NAMESPACE,
   DEFAULT_SCOPE,
@@ -551,6 +551,19 @@ class Store extends store {
     }
 
     return res
+  }
+
+  /**
+   * 删除收藏
+   */
+  async doEraseCollection({ subjectId, formhash }, success, fail) {
+    xhr(
+      {
+        url: HTML_ACTION_ERASE_COLLECTION(subjectId, formhash)
+      },
+      success,
+      fail
+    )
   }
 }
 

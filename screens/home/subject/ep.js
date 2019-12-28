@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 17:18:12
+ * @Last Modified time: 2019-12-28 17:23:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -36,6 +36,7 @@ function Ep({ style }, { $, navigation }) {
       <SectionTitle
         right={
           <IconReverse
+            style={_.mr.sm}
             color={epsReverse ? _.colorMain : _.colorIcon}
             onPress={$.toggleReverseEps}
           />

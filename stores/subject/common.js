@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 15:13:09
+ * @Last Modified time: 2019-12-28 17:18:56
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -346,6 +346,9 @@ export function cheerioSubjectFormHTML(HTML) {
     info: $('#infobox').html(),
 
     // 锁定
-    lock: $('div.tipIntro > div.inner > h3').text()
+    lock: $('div.tipIntro > div.inner > h3').text(),
+
+    // hash 比如删除等网页操作需要
+    formhash: $('input[name=formhash]').attr('value')
   }
 }

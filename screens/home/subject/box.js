@@ -2,24 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 15:46:30
+ * @Last Modified time: 2019-12-28 17:43:06
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Button, Icon, Text, Touchable } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
 
 function Box({ style }, { $, navigation }) {
   const { collection = {} } = $.subject
+  const { formhash } = $.subjectFormHTML
   const { wish, collect, doing, on_hold: onHold, dropped } = collection
   const { status = { name: '未收藏' }, rating = 0 } = $.collection
   const leftStyle = []
   const rightStyle = []
   const btnText = $.isLogin ? status.name : '登陆管理'
+  const showErase = status.name !== '未收藏' && !!formhash
   const onPress = $.isLogin
     ? $.showManageModel
     : () => navigation.push('LoginV2')
@@ -27,9 +29,40 @@ function Box({ style }, { $, navigation }) {
     leftStyle.push(styles.left)
     rightStyle.push(styles.right)
   }
+
   return (
     <View style={[_.container.wind, styles.container, style]}>
-      <SectionTitle>收藏盒</SectionTitle>
+      <SectionTitle
+        style={{
+          height: 28
+        }}
+        right={
+          showErase && (
+            <IconTouchable
+              name='close'
+              style={{
+                marginRight: -_.sm
+              }}
+              size={14}
+              color={_.colorIcon}
+              onPress={() => {
+                Alert.alert('警告', '确定删除收藏?', [
+                  {
+                    text: '取消',
+                    style: 'cancel'
+                  },
+                  {
+                    text: '确定',
+                    onPress: () => $.doEraseCollection()
+                  }
+                ])
+              }}
+            />
+          )
+        }
+      >
+        收藏盒
+      </SectionTitle>
       <View style={[_.shadow, _.mt.md]}>
         <Touchable onPress={onPress}>
           <Flex justify='center'>

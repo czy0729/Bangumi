@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 13:58:51
+ * @Last Modified time: 2019-12-28 17:30:43
  */
 
 /**
@@ -326,5 +326,6 @@ export default {
   /* ==================== other ==================== */
   '其他.启动': 'Other.start',
   '其他.切换主题': 'Other.theme',
-  '搜索.切换细分类型': 'Search.onLegacySelect'
+  '搜索.切换细分类型': 'Search.onLegacySelect',
+  '条目.删除收藏': 'Subject.doEraseCollection'
 }
