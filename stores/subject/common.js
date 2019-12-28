@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-24 10:24:32
+ * @Last Modified time: 2019-12-28 15:13:09
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -343,6 +343,9 @@ export function cheerioSubjectFormHTML(HTML) {
         .get() || [],
 
     // 详情
-    info: $('#infobox').html()
+    info: $('#infobox').html(),
+
+    // 锁定
+    lock: $('div.tipIntro > div.inner > h3').text()
   }
 }

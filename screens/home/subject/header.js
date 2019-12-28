@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 01:12:23
+ * @Last Modified time: 2019-12-28 15:25:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { Text, Flex, Loading } from '@components'
 import { SectionTitle, IconReverse } from '@screens/_'
 import { _ } from '@stores'
 import Head from './head'
+import Lock from './lock'
 import Box from './box'
 import Ep from './ep'
 import Tags from './tags'
@@ -38,6 +39,7 @@ function Header(props, { $ }) {
     <>
       <Head />
       <View style={styles.content}>
+        <Lock />
         <Box style={_.mt.md} />
         <Ep style={_.mt.lg} />
         <Summary style={_.mt.lg} />
