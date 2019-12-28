@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 17:58:29
+ * @Last Modified time: 2019-12-28 19:41:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -199,7 +199,7 @@ class Login extends React.Component {
             返回
           </Button>
           <Text style={_.mt.lg} size={12} type='sub'>
-            旧版登陆已很久没维护, 不保证成功登陆后能正常运行APP内所有功能,
+            旧版授权登陆已很久没维护, 不保证成功登陆后能正常运行APP内所有功能,
             建议使用账号密码登陆
           </Text>
         </View>

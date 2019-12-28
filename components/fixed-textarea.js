@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 21:23:06
+ * @Last Modified time: 2019-12-28 20:48:39
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -328,7 +328,7 @@ class FixedTextarea extends React.Component {
 
   renderBtn(text, symbol) {
     if (text === 'BGM') {
-      const { showBgm } = this.state
+      const { showBgm, showReplyHistory } = this.state
       return (
         <Touchable
           style={this.styles.toolBarBtn}
@@ -340,7 +340,9 @@ class FixedTextarea extends React.Component {
             }
           }}
         >
-          <Text type={showBgm ? 'main' : 'sub'}>{text}</Text>
+          <Text type={showBgm && !showReplyHistory ? 'main' : 'sub'}>
+            {text}
+          </Text>
         </Touchable>
       )
     }

@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 18:07:21
+ * @Last Modified time: 2019-12-28 21:39:05
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -20,7 +20,7 @@ import { _, userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
 import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { IOS, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
+import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import Preview from './preview'
 import Form from './form'
 
@@ -534,6 +534,34 @@ class LoginV2 extends React.Component {
                 align='center'
                 onPress={() => {
                   t('登陆.跳转', {
+                    to: 'Signup'
+                  })
+                  Alert.alert(
+                    '温馨提示',
+                    // eslint-disable-next-line max-len
+                    '在移动端浏览器注册会经常遇到验证码错误，若碰到建议在浏览器里使用电脑版UA，不行就使用电脑浏览器，再不行使用电脑Chrome注册(这个一定可以)。 \n\n注册后会有激活码发到邮箱，短时间内只会发送一次，反正一直用邮箱那个就行。输入激活码有可能激活失败，主要是之前太多人注册进来打广告，站主写了很多限制。若激活不能再换一个不同的电脑浏览器，比如IE或者Safari激活。',
+                    [
+                      {
+                        text: '取消',
+                        type: 'cancel'
+                      },
+                      {
+                        text: '前往注册',
+                        onPress: () => open('https://bgm.tv/signup')
+                      }
+                    ]
+                  )
+                }}
+              >
+                注册
+              </Text>
+            </Flex.Item>
+            <Flex.Item style={this.styles.border}>
+              <Text
+                type='sub'
+                align='center'
+                onPress={() => {
+                  t('登陆.跳转', {
                     to: 'Login'
                   })
 
@@ -541,7 +569,7 @@ class LoginV2 extends React.Component {
                   navigation.push('Login')
                 }}
               >
-                旧版授权登陆
+                旧版登陆
               </Text>
             </Flex.Item>
             <Flex.Item style={this.styles.border}>
@@ -557,25 +585,9 @@ class LoginV2 extends React.Component {
                   navigation.push('LoginAssist')
                 }}
               >
-                电脑辅助登陆
+                辅助登陆
               </Text>
             </Flex.Item>
-            {IOS && (
-              <Flex.Item style={this.styles.border}>
-                <Text
-                  type='sub'
-                  onPress={() => {
-                    t('登陆.跳转', {
-                      to: 'Signup'
-                    })
-
-                    open('https://bgm.tv/signup')
-                  }}
-                >
-                  　　注册
-                </Text>
-              </Flex.Item>
-            )}
           </Flex>
         )}
         <KeyboardSpacer />
