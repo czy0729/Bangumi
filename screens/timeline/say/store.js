@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 18:07:07
+ * @Last Modified time: 2019-12-28 09:36:28
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -26,15 +26,15 @@ export default class ScreenSay extends store {
 
     const res = this.fetchSay()
     await res
+    timelineStore.fetchFormHash()
 
     if (scrollView && scrollView.scrollToEnd) {
       setTimeout(() => {
         scrollView.scrollToEnd({
           animated: false
         })
-      }, 0)
+      }, 80)
     }
-
     this.fetchAvatars()
 
     return res
@@ -42,7 +42,9 @@ export default class ScreenSay extends store {
 
   fetchSay = () => {
     const { id } = this.params
-    return timelineStore.fetchSay({ id })
+    return timelineStore.fetchSay({
+      id
+    })
   }
 
   /**
@@ -52,7 +54,7 @@ export default class ScreenSay extends store {
     // eslint-disable-next-line no-restricted-syntax
     for (const item of this.noAvatarUserIds) {
       await userStore.fetchUsersInfo(item)
-      await sleep(100)
+      await sleep(80)
     }
   }
 

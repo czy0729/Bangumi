@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 15:55:41
+ * @Last Modified time: 2019-12-26 17:33:34
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -201,6 +201,7 @@ class Topic extends React.Component {
           data={$.comments}
           scrollEventThrottle={32}
           initialNumToRender={$.postId ? 50 : undefined} // 为了可以更快地到达目标楼层
+          removeClippedSubviews={false}
           ListHeaderComponent={<Top />}
           renderItem={({ item, index }) => (
             <Item
