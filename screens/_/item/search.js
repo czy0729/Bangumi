@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:40:20
+ * @Last Modified time: 2019-12-28 14:11:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -81,14 +81,15 @@ function ItemSearch({
             <View>
               <Flex align='start' style={{ width: '100%' }}>
                 <Flex.Item>
-                  {!!name && (
+                  {!!(nameCn || name) && (
                     <Text size={15} numberOfLines={2}>
                       {collected && (
                         <Text type='main' lineHeight={15}>
                           [已收藏]{' '}
                         </Text>
                       )}
-                      {HTMLDecode(name)}
+
+                      {HTMLDecode(nameCn || name)}
                       {!!comments && (
                         <Text type='main' lineHeight={15}>
                           {' '}
@@ -97,14 +98,14 @@ function ItemSearch({
                       )}
                     </Text>
                   )}
-                  {!!nameCn && nameCn !== name && (
+                  {!!name && name !== nameCn && (
                     <Text
                       style={_.mt.xs}
                       type='sub'
                       size={12}
                       numberOfLines={1}
                     >
-                      {HTMLDecode(nameCn)}
+                      {HTMLDecode(name)}
                     </Text>
                   )}
                 </Flex.Item>

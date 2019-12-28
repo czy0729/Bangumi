@@ -2,23 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 09:43:20
+ * @Last Modified time: 2019-12-28 13:48:33
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Input } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
+import { MODEL_SEARCH_CAT } from '@constants/model'
 
 function SearchBar(props, { $ }) {
   const styles = memoStyles()
-  const { value } = $.state
+  const { cat, value } = $.state
   return (
     <Input
-      style={styles.searchIpt}
+      style={[
+        styles.searchIpt,
+        MODEL_SEARCH_CAT.getLabel(cat) === '人物' && styles.radius
+      ]}
       value={value}
       returnKeyType='search'
-      placeholder='搜索...'
+      placeholder='输入关键字'
       onChange={$.onChange}
       onSubmitEditing={() => $.doSearch(true)}
     />
@@ -38,6 +42,10 @@ const memoStyles = _.memoStyles(_ => ({
     fontSize: 12 + _.fontSizeAdjust,
     lineHeight: 14,
     backgroundColor: _.colorPlain,
-    borderRadius: 64
+    borderRadius: 0
+  },
+  radius: {
+    borderTopRightRadius: 34,
+    borderBottomRightRadius: 34
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-05 14:08:27
+ * @Last Modified time: 2019-12-28 13:43:38
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -39,11 +39,15 @@ export default observer(Category)
 
 const styles = StyleSheet.create({
   btn: {
-    width: 80,
+    width: 68,
     height: 34,
-    borderRadius: 64
+    paddingLeft: 4,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    borderTopLeftRadius: 34,
+    borderBottomLeftRadius: 34
   },
   text: {
-    width: 80
+    width: 68
   }
 })

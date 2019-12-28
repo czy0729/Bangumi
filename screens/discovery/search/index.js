@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 10:58:27
+ * @Last Modified time: 2019-12-28 13:45:00
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,6 +14,7 @@ import { inject, withHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Category from './category'
+import Legacy from './legacy'
 import SearchBar from './search-bar'
 import History from './history'
 import List from './list'
@@ -69,9 +70,10 @@ class Search extends React.Component {
       <View style={_.container.screen}>
         <Flex style={styles.searchBar}>
           <Category />
-          <Flex.Item style={_.ml.sm}>
+          <Flex.Item>
             <SearchBar />
           </Flex.Item>
+          <Legacy />
           <Button
             style={[styles.btn, _.ml.sm]}
             size='sm'
@@ -92,8 +94,8 @@ const styles = StyleSheet.create({
     padding: _.wind
   },
   btn: {
-    width: 64,
+    width: 68,
     height: 34,
-    borderRadius: 64
+    borderRadius: 34
   }
 })

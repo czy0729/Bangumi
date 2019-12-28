@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-11 14:30:12
+ * @Last Modified time: 2019-12-28 14:52:03
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -91,10 +91,15 @@ export const HTML_GROUP = (groupId, page = 1) =>
  * @param {*} text
  * @param {*} cat
  * @param {*} page
+ * @param {*} legacy 是否精准匹配
  */
-export const HTML_SEARCH = (text, cat = '', page = 1) => {
+export const HTML_SEARCH = (text, cat = '', page = 1, legacy = '') => {
   const [type, _cat] = cat.split('_')
-  return `${HOST}/${type}_search/${text}?cat=${_cat}&page=${page}`
+  let _text = text
+  if (legacy) {
+    _text = `"${_text}"`
+  }
+  return `${HOST}/${type}_search/${_text}?cat=${_cat}&page=${page}`
 }
 
 /**

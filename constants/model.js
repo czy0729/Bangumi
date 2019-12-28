@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-27 23:04:03
+ * @Last Modified time: 2019-12-28 13:41:19
  */
 class Model {
   constructor(data) {
@@ -334,6 +334,18 @@ export const MODEL_SEARCH_CAT = new Model([
   //   label: '现实人物',
   //   value: 'mono_prsn'
   // }
+])
+
+// 搜索细度
+export const MODEL_SEARCH_LEGACY = new Model([
+  {
+    label: '模糊',
+    value: ''
+  },
+  {
+    label: '精确',
+    value: '1'
+  }
 ])
 
 // 设置 - 图片质量

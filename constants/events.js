@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 17:53:28
+ * @Last Modified time: 2019-12-28 13:58:51
  */
 
 /**
@@ -324,5 +324,7 @@ export default {
   '空间.解除好友': 'Zone.disconnect',
 
   /* ==================== other ==================== */
-  '其他.切换主题': 'Other.theme'
+  '其他.启动': 'Other.start',
+  '其他.切换主题': 'Other.theme',
+  '搜索.切换细分类型': 'Search.onLegacySelect'
 }
