@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-07-13 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:10:11
+ * @Last Modified time: 2019-12-20 22:39:25
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Touchable, Flex, Text, Mesume } from '@components'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { appNavigate } from '@utils/app'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
-import { HOST, TOPIC_PUSH_LIMIT } from '@constants'
-import _ from '@styles'
+import { t } from '@utils/fetch'
+import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 
 function List({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { title: group } = $.groupInfo
   const { list, _loaded } = $.group
   if (_loaded && !list.length) {
@@ -50,20 +52,33 @@ function List({ style }, { $, navigation }) {
             style={[styles.item, isReaded && styles.readed]}
             highlight
             onPress={() => {
-              if (replies > TOPIC_PUSH_LIMIT) {
+              if (replies > LIMIT_TOPIC_PUSH) {
+                const url = `${HOST}${href}`
+                t('小组.跳转', {
+                  to: 'WebBrowser',
+                  url
+                })
+
                 info('该帖评论多, 自动使用浏览器打开')
                 setTimeout(() => {
-                  open(`${HOST}${href}`)
+                  open(url)
                 }, 1600)
               } else {
                 // 记录帖子查看历史详情
                 $.onItemPress(topicId, replies)
-                appNavigate(href, navigation, {
-                  _title: title,
-                  _replies: `(+${replies})`,
-                  _group: group,
-                  _time: time
-                })
+                appNavigate(
+                  href,
+                  navigation,
+                  {
+                    _title: title,
+                    _replies: `(+${replies})`,
+                    _group: group,
+                    _time: time
+                  },
+                  {
+                    id: '小组.跳转'
+                  }
+                )
               }
             }}
           >
@@ -103,7 +118,7 @@ List.contextTypes = {
 
 export default observer(List)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingLeft: _.md
   },
@@ -113,7 +128,7 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   readed: {
     backgroundColor: _.colorBg
@@ -121,4 +136,4 @@ const styles = StyleSheet.create({
   empty: {
     minHeight: 240
   }
-})
+}))

@@ -2,28 +2,33 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 17:44:13
+ * @Last Modified time: 2019-12-09 17:52:14
  */
 import React from 'react'
-import { StyleSheet, ScrollView, RefreshControl } from 'react-native'
+import { ScrollView, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
+import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
-import { headerStyle, colorContainer } from '../styles'
+import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Info from './info'
 import Slider from './slider'
 import Initial from './initial'
 import Store from './store'
 
+const title = 'ICO'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailICODeal extends React.Component {
   static navigationOptions = {
-    title: 'ICO'
+    title
   }
 
   static contextTypes = {
@@ -39,7 +44,7 @@ class TinygrailICODeal extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`tinygrail/ico/deal/${$.monoId}`)
+    hm(`tinygrail/ico/deal/${$.monoId}`, 'TinygrailICODeal')
   }
 
   onRefresh = () => {
@@ -63,7 +68,12 @@ class TinygrailICODeal extends React.Component {
     const { refreshing } = this.state
     return (
       <ScrollView
-        style={[_.container.flex, styles.dark]}
+        style={[
+          _.container.flex,
+          {
+            backgroundColor: _.colorTinygrailContainer
+          }
+        ]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
@@ -76,9 +86,3 @@ class TinygrailICODeal extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  dark: {
-    backgroundColor: colorContainer
-  }
-})

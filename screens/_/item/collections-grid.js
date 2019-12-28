@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:42:37
+ * @Last Modified time: 2019-12-23 09:47:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable, Text, Image } from '@components'
+import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { IMG_DEFAULT } from '@constants'
-import _ from '@styles'
+import { t } from '@utils/fetch'
+import { IMG_DEFAULT, EVENT } from '@constants'
 
 const imageWidth = _.window.width * 0.2
 const marginLeft = (_.window.width - 4 * imageWidth) / 5
@@ -25,7 +26,8 @@ function CollectionsGrid({
   name,
   nameCn,
   time,
-  isOnHold
+  isOnHold,
+  event
 }) {
   let holdDays
   if (isOnHold) {
@@ -33,8 +35,17 @@ function CollectionsGrid({
   }
   const _image = getCoverMedium(cover, false)
   const onPress = () => {
+    const { id: eventId, eventData } = event
+    const subjectId = String(id).replace('/subject/', '')
+    t(eventId, {
+      to: 'Subject',
+      subjectId,
+      type: 'grid',
+      ...eventData
+    })
+
     navigation.push('Subject', {
-      subjectId: id,
+      subjectId,
       _jp: name,
       _cn: nameCn,
       _image
@@ -62,6 +73,10 @@ function CollectionsGrid({
       </Touchable>
     </View>
   )
+}
+
+CollectionsGrid.defaultProps = {
+  event: EVENT
 }
 
 export default observer(CollectionsGrid)

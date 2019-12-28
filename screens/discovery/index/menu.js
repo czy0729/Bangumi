@@ -2,26 +2,35 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 16:45:51
+ * @Last Modified time: 2019-12-19 20:05:22
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Touchable, Text, Iconfont, Image } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
-import _ from '@styles'
+import { t } from '@utils/fetch'
 
 function Menu(props, { $, navigation }) {
+  const styles = memoStyles()
   const { username, id } = $.userInfo
   return (
     <Flex style={styles.container} wrap='wrap'>
-      <Touchable onPress={() => navigation.push('Rank')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Rank'
+          })
+          navigation.push('Rank')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='shou-fu' size={28} color={_.colorPlain} />
+              <Iconfont name='shou-fu' size={28} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               排行榜
@@ -29,12 +38,19 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
-      <Touchable onPress={() => navigation.push('Calendar')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Calendar'
+          })
+          navigation.push('Calendar')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='calendar' size={24} color={_.colorPlain} />
+              <Iconfont name='calendar' size={24} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               每日放送
@@ -42,12 +58,19 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
-      <Touchable onPress={() => navigation.push('Random')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Random'
+          })
+          navigation.push('Random')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='xin-fan' size={28} color={_.colorPlain} />
+              <Iconfont name='xin-fan' size={28} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               随便看看
@@ -55,7 +78,14 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
-      <Touchable onPress={() => navigation.push('Anitama')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Anitama'
+          })
+          navigation.push('Anitama')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
@@ -63,6 +93,7 @@ function Menu(props, { $, navigation }) {
               <Image
                 src={require('@assets/images/anitama.jpg')}
                 size={32}
+                radius={16}
                 placeholder={false}
                 quality={false}
               />
@@ -73,12 +104,19 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
-      <Touchable onPress={() => navigation.push('Tags')}>
+      <Touchable
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Tags'
+          })
+          navigation.push('Tags')
+        }}
+      >
         <Flex style={styles.wrap} justify='center'>
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='paihang' size={28} color={_.colorPlain} />
+              <Iconfont name='paihang' size={28} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               标签
@@ -89,9 +127,13 @@ function Menu(props, { $, navigation }) {
       <Touchable
         onPress={() => {
           if (!username && !id) {
-            info('请先登录')
+            info('请先登陆')
             return
           }
+
+          t('发现.跳转', {
+            to: 'Character'
+          })
           navigation.push('Character', {
             userName: username || id
           })
@@ -101,7 +143,7 @@ function Menu(props, { $, navigation }) {
           <Flex style={styles.item} direction='column'>
             <View style={styles.border} />
             <Flex style={styles.icon} justify='center'>
-              <Iconfont name='like' size={28} color={_.colorPlain} />
+              <Iconfont name='like' size={28} color={_.__colorPlain__} />
             </Flex>
             <Text style={_.mt.sm} size={12}>
               我的人物
@@ -120,7 +162,7 @@ Menu.contextTypes = {
 
 export default observer(Menu)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingHorizontal: _.wind
   },
@@ -134,7 +176,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 56,
     height: 56,
-    backgroundColor: _.colorDark,
+    backgroundColor: _.select(_.colorDark, _._colorDarkModeLevel1),
     borderRadius: 56
   },
   border: {
@@ -149,4 +191,4 @@ const styles = StyleSheet.create({
     backgroundColor: _.colorDanger,
     borderRadius: 56
   }
-})
+}))

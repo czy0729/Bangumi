@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:33:29
+ * @Last Modified time: 2019-12-19 16:02:58
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, Text } from '@components'
 import { SectionTitle } from '@screens/_'
+import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
 
 function Disc({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { disc = [] } = $.subjectFormHTML
   return (
     <View style={[_.container.wind, styles.container, style]}>
@@ -31,7 +32,20 @@ function Disc({ style }, { $, navigation }) {
                     key={i.href}
                     style={idx % 2 === 0 && styles.odd}
                     lineHeight={2}
-                    onPress={() => appNavigate(i.href, navigation)}
+                    onPress={() =>
+                      appNavigate(
+                        i.href,
+                        navigation,
+                        {},
+                        {
+                          id: '条目.跳转',
+                          data: {
+                            from: '曲目列表',
+                            subjectId: $.subjectId
+                          }
+                        }
+                      )
+                    }
                   >
                     {i.title}
                   </Text>
@@ -52,11 +66,11 @@ Disc.contextTypes = {
 
 export default observer(Disc)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     minHeight: 146
   },
   odd: {
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   }
-})
+}))

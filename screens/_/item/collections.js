@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:43:27
+ * @Last Modified time: 2019-12-23 09:46:57
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Touchable } from '@components'
+import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { IMG_DEFAULT } from '@constants'
-import _ from '@styles'
+import { t } from '@utils/fetch'
+import { IMG_DEFAULT, EVENT } from '@constants'
 import Stars from '../base/stars'
 
 const imgWidth = 88
@@ -28,10 +29,14 @@ function ItemCollections({
   tip,
   score,
   time,
-  tags = '',
+  tags,
   comments,
-  isOnHold
+  isDo,
+  isOnHold,
+  isDropped,
+  event
 }) {
+  const styles = memoStyles()
   const _cover = getCoverMedium(cover)
   const isFirst = index === 0
   const hasName = !!name
@@ -39,22 +44,30 @@ function ItemCollections({
   const hasScore = !!score
   const hasTags = !!tags
   const hasComment = !!comments
-  let holdDays
-  if (isOnHold) {
-    holdDays = Math.ceil((getTimestamp() - getTimestamp(time)) / 86400)
+  let days
+  if (isDo || isOnHold || isDropped) {
+    days = Math.ceil((getTimestamp() - getTimestamp(time)) / 86400)
   }
   return (
     <Touchable
       style={styles.container}
       highlight
-      onPress={() =>
+      onPress={() => {
+        const { eventId, eventData } = event
+        t(eventId, {
+          to: 'Subject',
+          subjectId: id,
+          type: 'list',
+          ...eventData
+        })
+
         navigation.push('Subject', {
           subjectId: id,
           _jp: name,
           _cn: nameCn,
           _image: _cover
         })
-      }
+      }}
     >
       <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
         <View style={styles.imgContainer}>
@@ -94,7 +107,9 @@ function ItemCollections({
               )}
               <Text style={_.mr.sm} type='sub' size={12} numberOfLines={2}>
                 {hasScore && '/ '}
-                {isOnHold && `搁置${holdDays}天 / `}
+                {isDo && `${days}天 / `}
+                {isOnHold && `搁置${days}天 / `}
+                {isDropped && `抛弃${days}天 / `}
                 {time} {hasTags && '/'} {tags.replace(' ', '')}
               </Text>
             </Flex>
@@ -108,9 +123,14 @@ function ItemCollections({
   )
 }
 
+ItemCollections.defaultProps = {
+  tags: '',
+  event: EVENT
+}
+
 export default observer(ItemCollections)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -124,17 +144,17 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   content: {
     height: imgHeight
   },
   comments: {
     padding: _.sm,
-    backgroundColor: _.colorBg,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   }
-})
+}))

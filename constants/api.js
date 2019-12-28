@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 02:22:21
+ * @Last Modified time: 2019-12-23 15:06:38
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
 const TINYGRAIL_LIMIT = 50
+const TINYGRAIL_START = '2019-12-01T00:00:00+08:00'
 
 /**
  * oauth获取access_token
@@ -146,6 +147,7 @@ export const API_TINYGRAIL_CHARAS = () => `${API_HOST_TINYGRAIL}/api/chara/list`
  * recent: 最近活跃
  * tnbc: 新番市值
  * nbc: 新番活跃
+ * msrc: 最高股息
  */
 export const API_TINYGRAIL_LIST = (type, page = 1, limit = TINYGRAIL_LIMIT) =>
   `${API_HOST_TINYGRAIL}/api/chara/${type}/${page}/${limit}`
@@ -163,10 +165,15 @@ export const API_TINYGRAIL_RICH = (page = 1, limit = TINYGRAIL_LIMIT) =>
  * @param {*} monoId
  * @param {*} date
  */
-export const API_TINYGRAIL_CHARTS = (
-  monoId = 0,
-  date = '2019-08-01T00:00:00+08:00'
-) => `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/${date}`
+export const API_TINYGRAIL_CHARTS = (monoId = 0, date = TINYGRAIL_START) =>
+  `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/${date}`
+
+/**
+ * 发行价
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_ISSUE_PRICE = (monoId = 0) =>
+  `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/2019-08-08`
 
 /**
  * 角色详情
@@ -249,13 +256,13 @@ export const API_TINYGRAIL_CANCEL_ASK = id =>
  * 我的买单
  */
 export const API_TINYGRAIL_CHARA_BID = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/100`
+  `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/200`
 
 /**
  * 我的卖单
  */
 export const API_TINYGRAIL_CHARA_ASKS = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/100`
+  `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/200`
 
 /**
  * 我的持仓
@@ -289,3 +296,98 @@ export const API_TINYGRAIL_JOIN = (icoId, amount) =>
  */
 export const API_TINYGRAIL_USERS = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/10`
+
+/**
+ * 股息预测
+ */
+export const API_TINYGRAIL_TEST = () =>
+  `${API_HOST_TINYGRAIL}/api/event/share/bonus/test`
+
+/**
+ * 角色圣殿
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_CHARA_TEMPLE = monoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/temple/${monoId}`
+
+/**
+ * 用户所有角色信息
+ */
+export const API_TINYGRAIL_CHARA_ALL = hash =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/1000`
+
+/**
+ * 用户所有圣殿信息
+ */
+export const API_TINYGRAIL_TEMPLE = hash =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/1000`
+
+/**
+ * 最近圣殿
+ */
+export const API_TINYGRAIL_TEMPLE_LAST = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/temple/last/1/36`
+
+/**
+ * 司法刮刮乐
+ */
+export const API_TINYGRAIL_SCRATCH = () =>
+  `${API_HOST_TINYGRAIL}/api/event/scratch/bonus`
+
+/**
+ * 可拍卖信息
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_VALHALL_CHARA = monoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/${monoId}/valhalla@tinygrail.com/false`
+
+/**
+ * 英灵殿
+ * @param {*} page
+ * @param {*} limit
+ */
+export const API_TINYGRAIL_VALHALL_LIST = (page, limit = 20) =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/chara/valhalla@tinygrail.com/${page}/${limit}`
+
+/**
+ * 上周拍卖结果
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_AUCTION_LIST = monoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/auction/list/${monoId}/1`
+
+/**
+ * 拍卖
+ * @param {*} monoId
+ * @param {*} price
+ * @param {*} amount
+ */
+export const API_TINYGRAIL_AUCTION = (monoId, price, amount) =>
+  `${API_HOST_TINYGRAIL}/api/chara/auction/${monoId}/${price}/${amount}`
+
+/**
+ * 资产重组 (献祭)
+ * @param {*} monoId
+ * @param {*} count
+ * @param {*} isSale 是否股权融资(卖给英灵殿, 没有道具, 结算日也可以操作)
+ */
+export const API_TINYGRAIL_SACRIFICE = (monoId, amount, isSale = false) =>
+  `${API_HOST_TINYGRAIL}/api/chara/sacrifice/${monoId}/${amount}/${isSale}`
+
+/**
+ * 我的拍卖列表
+ */
+export const API_TINYGRAIL_MY_AUCTION_LIST = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/200`
+
+/**
+ * 每周分红
+ */
+export const API_TINYGRAIL_BONUS = () =>
+  `${API_HOST_TINYGRAIL}/api/event/share/bonus`
+
+/**
+ * 每日签到
+ */
+export const API_TINYGRAIL_BONUS_DAILY = () =>
+  `${API_HOST_TINYGRAIL}/api/event/bangumi/bonus/daily`

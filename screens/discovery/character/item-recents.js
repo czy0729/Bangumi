@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-02 12:24:14
+ * @Last Modified time: 2019-12-19 23:58:06
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
 import { Tag, Stars } from '@screens/_'
+import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { IMG_DEFAULT } from '@constants'
+import { t } from '@utils/fetch'
+import { IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 
 const imgWidth = 96
 const imgHeight = 1.28 * imgWidth
@@ -23,27 +24,37 @@ function Item(
   { index, id, cover, name, nameJP, type, info, star, starInfo, actors = [] },
   { navigation }
 ) {
+  const styles = memoStyles()
   const isFirst = index === 0
-  const onPress = () =>
-    navigation.push('Subject', {
+  const _image = getCoverMedium(cover)
+  const onPress = () => {
+    t('收藏的人物.跳转', {
+      to: 'Subject',
       subjectId: id
     })
+    navigation.push('Subject', {
+      subjectId: id,
+      _jp: nameJP,
+      _cn: name,
+      _image
+    })
+  }
   return (
     <Flex
       align='start'
       style={[styles.container, styles.wrap, !isFirst && styles.border]}
     >
       <View style={styles.imgContainer}>
-        {!!cover && (
+        {!!_image && (
           <Image
             style={styles.image}
-            src={getCoverMedium(cover)}
+            src={_image}
             width={imgWidth}
             height={imgHeight}
             resizeMode='contain'
             placeholder={false}
             radius
-            shadow
+            shadow={IOS}
             onPress={onPress}
           />
         )}
@@ -103,11 +114,15 @@ function Item(
                 size={40}
                 border
                 radius
-                onPress={() =>
+                onPress={() => {
+                  t('收藏的人物.跳转', {
+                    to: 'Mono',
+                    monoId: item.id
+                  })
                   navigation.push('Mono', {
                     monoId: item.id
                   })
-                }
+                }}
               />
               <Flex.Item style={_.ml.sm}>
                 <Text size={12} numberOfLines={1}>
@@ -132,7 +147,7 @@ Item.contextTypes = {
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -146,9 +161,9 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   actors: {
     width: '50%'
   }
-})
+}))

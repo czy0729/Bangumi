@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-28 17:08:59
+ * @Last Modified time: 2019-12-28 13:41:19
  */
-class Modal {
+class Model {
   constructor(data) {
     this.data = data
   }
@@ -46,7 +46,7 @@ class Modal {
 }
 
 // 条目类型
-export const MODEL_SUBJECT_TYPE = new Modal([
+export const MODEL_SUBJECT_TYPE = new Model([
   {
     label: 'anime',
     value: '2',
@@ -75,7 +75,7 @@ export const MODEL_SUBJECT_TYPE = new Modal([
 ])
 
 // 章节状态
-export const MODEL_EP_STATUS = new Modal([
+export const MODEL_EP_STATUS = new Model([
   {
     label: '想看',
     value: 'queue'
@@ -95,7 +95,7 @@ export const MODEL_EP_STATUS = new Modal([
 ])
 
 // 章节类型
-export const MODEL_EP_TYPE = new Modal([
+export const MODEL_EP_TYPE = new Model([
   {
     label: '普通',
     value: '1'
@@ -107,7 +107,7 @@ export const MODEL_EP_TYPE = new Modal([
 ])
 
 // 收藏状态
-export const MODEL_COLLECTION_STATUS = new Modal([
+export const MODEL_COLLECTION_STATUS = new Model([
   {
     label: '想看',
     value: 'wish'
@@ -131,7 +131,7 @@ export const MODEL_COLLECTION_STATUS = new Modal([
 ])
 
 // 收藏隐私
-export const MODEL_PRIVATE = new Modal([
+export const MODEL_PRIVATE = new Model([
   {
     label: '公开',
     value: '0'
@@ -143,7 +143,7 @@ export const MODEL_PRIVATE = new Modal([
 ])
 
 // 时间胶囊范围
-export const MODEL_TIMELINE_SCOPE = new Modal([
+export const MODEL_TIMELINE_SCOPE = new Model([
   {
     label: '好友',
     value: 'friend'
@@ -159,7 +159,7 @@ export const MODEL_TIMELINE_SCOPE = new Modal([
 ])
 
 // 时间胶囊类型
-export const MODEL_TIMELINE_TYPE = new Modal([
+export const MODEL_TIMELINE_TYPE = new Model([
   {
     label: '全部',
     value: 'all'
@@ -211,7 +211,7 @@ export const MODEL_TIMELINE_TYPE = new Modal([
 ])
 
 // 超展开板块
-export const MODEL_RAKUEN_SCOPE = new Modal([
+export const MODEL_RAKUEN_SCOPE = new Model([
   {
     label: '全局聚合',
     value: 'topiclist'
@@ -239,7 +239,7 @@ export const MODEL_RAKUEN_SCOPE = new Modal([
 ])
 
 // 超展开全局聚合类型
-export const MODEL_RAKUEN_TYPE = new Modal([
+export const MODEL_RAKUEN_TYPE = new Model([
   {
     label: '全部',
     value: ''
@@ -262,7 +262,7 @@ export const MODEL_RAKUEN_TYPE = new Modal([
   }
 ])
 
-export const MODEL_RAKUEN_TYPE_GROUP = new Modal([
+export const MODEL_RAKUEN_TYPE_GROUP = new Model([
   {
     label: '全部', // 全部小组
     value: 'group'
@@ -281,7 +281,7 @@ export const MODEL_RAKUEN_TYPE_GROUP = new Modal([
   }
 ])
 
-export const MODEL_RAKUEN_TYPE_MONO = new Modal([
+export const MODEL_RAKUEN_TYPE_MONO = new Model([
   {
     label: '全部', // 全部人物
     value: 'mono'
@@ -297,7 +297,7 @@ export const MODEL_RAKUEN_TYPE_MONO = new Modal([
 ])
 
 // 搜索类型
-export const MODEL_SEARCH_CAT = new Modal([
+export const MODEL_SEARCH_CAT = new Model([
   {
     label: '条目',
     value: 'subject_all'
@@ -325,19 +325,31 @@ export const MODEL_SEARCH_CAT = new Modal([
   {
     label: '人物',
     value: 'mono_all'
+  }
+  // {
+  //   label: '虚拟角色',
+  //   value: 'mono_crt'
+  // },
+  // {
+  //   label: '现实人物',
+  //   value: 'mono_prsn'
+  // }
+])
+
+// 搜索细度
+export const MODEL_SEARCH_LEGACY = new Model([
+  {
+    label: '模糊',
+    value: ''
   },
   {
-    label: '虚拟角色',
-    value: 'mono_crt'
-  },
-  {
-    label: '现实人物',
-    value: 'mono_prsn'
+    label: '精确',
+    value: '1'
   }
 ])
 
 // 设置 - 图片质量
-export const MODEL_SETTING_QUALITY = new Modal([
+export const MODEL_SETTING_QUALITY = new Model([
   {
     label: '默认',
     value: 'default'
@@ -356,7 +368,7 @@ export const MODEL_SETTING_QUALITY = new Modal([
   }
 ])
 
-export const MODEL_COLLECTIONS_ORDERBY = new Modal([
+export const MODEL_COLLECTIONS_ORDERBY = new Model([
   {
     label: '收藏时间',
     value: ''
@@ -375,7 +387,7 @@ export const MODEL_COLLECTIONS_ORDERBY = new Modal([
   }
 ])
 
-export const MODEL_TAG_ORDERBY = new Modal([
+export const MODEL_TAG_ORDERBY = new Model([
   {
     label: '名称',
     value: ''
@@ -390,7 +402,7 @@ export const MODEL_TAG_ORDERBY = new Modal([
   }
 ])
 
-export const MODEL_RANK_ANIME_FILTER = new Modal([
+export const MODEL_RANK_ANIME_FILTER = new Model([
   {
     label: '全部',
     value: ''
@@ -417,7 +429,7 @@ export const MODEL_RANK_ANIME_FILTER = new Modal([
   }
 ])
 
-export const MODEL_RANK_BOOK_FILTER = new Modal([
+export const MODEL_RANK_BOOK_FILTER = new Model([
   {
     label: '全部',
     value: ''
@@ -440,7 +452,7 @@ export const MODEL_RANK_BOOK_FILTER = new Modal([
   }
 ])
 
-export const MODEL_RANK_GAME_FILTER = new Modal([
+export const MODEL_RANK_GAME_FILTER = new Model([
   {
     label: '全部',
     value: ''
@@ -523,7 +535,7 @@ export const MODEL_RANK_GAME_FILTER = new Modal([
   }
 ])
 
-export const MODEL_RANK_REAL_FILTER = new Modal([
+export const MODEL_RANK_REAL_FILTER = new Model([
   {
     label: '全部',
     value: ''
@@ -543,5 +555,101 @@ export const MODEL_RANK_REAL_FILTER = new Modal([
   {
     label: '其他',
     value: 'misc'
+  }
+])
+
+export const MODEL_TINYGRAIL_ASSETS_TYPE = new Model([
+  {
+    label: '所有',
+    value: 'all'
+  },
+  {
+    label: '流动股',
+    value: 'mono'
+  },
+  {
+    label: '圣殿股',
+    value: 'temple'
+  }
+])
+
+export const MODEL_TINYGRAIL_CACULATE_TYPE = new Model([
+  {
+    label: '持仓价值',
+    value: 'value'
+  },
+  {
+    label: '周股息',
+    value: 'rateWeek'
+  },
+  {
+    label: '股息',
+    value: 'rate'
+  },
+  {
+    label: '持股数',
+    value: 'amount'
+  },
+  {
+    label: '市场价',
+    value: 'market'
+  },
+  {
+    label: '发行量',
+    value: 'total'
+  },
+  {
+    label: '当前价',
+    value: 'current'
+  },
+  {
+    label: '交易量',
+    value: 'change'
+  },
+  {
+    label: '当前涨跌',
+    value: 'fluctuation'
+  },
+  {
+    label: '新番奖励',
+    value: 'bonus'
+  }
+])
+
+export const MODEL_TINYGRAIL_CACULATE_TEMPLE_TYPE = new Model([
+  {
+    label: '持仓价值',
+    value: 'value'
+  },
+  {
+    label: '周股息',
+    value: 'rateWeek'
+  },
+  {
+    label: '股息',
+    value: 'rate'
+  },
+  {
+    label: '持股数',
+    value: 'amount'
+  }
+])
+
+export const MODEL_TINYGRAIL_CACULATE_RICH_TYPE = new Model([
+  {
+    label: '周股息',
+    value: 'share'
+  },
+  {
+    label: '总资产',
+    value: 'assets'
+  },
+  {
+    label: '流动资金',
+    value: 'balance'
+  },
+  {
+    label: '初始资金',
+    value: 'principal'
   }
 ])

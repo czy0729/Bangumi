@@ -1,17 +1,22 @@
+/* eslint-disable no-await-in-loop */
 /*
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:18:45
+ * @Last Modified time: 2019-12-20 21:52:16
  */
 import React from 'react'
+import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import deepmerge from 'deepmerge'
 import { Text } from '@components'
 import { Popover } from '@screens/_'
-import { systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
+import { _, systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
+import { sleep } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
+import { LIMIT_TOPIC_PUSH } from '@constants'
 import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE,
@@ -23,6 +28,11 @@ export const tabs = MODEL_RAKUEN_TYPE.data.map(item => ({
   title: item.label
 }))
 const namespace = 'ScreenRakuen'
+const initPrefetchState = {
+  prefetching: false,
+  prefetchTotal: 0,
+  prefetchCurrent: 0
+}
 
 export default class ScreenRakuen extends store {
   state = observable({
@@ -30,6 +40,12 @@ export default class ScreenRakuen extends store {
     page: 0, // <Tabs>当前页数
     group: MODEL_RAKUEN_TYPE_GROUP.getValue('全部'), // 小组菜单
     mono: MODEL_RAKUEN_TYPE_MONO.getValue('全部'), // 人物菜单
+
+    /**
+     * Prefetch
+     */
+    ...initPrefetchState,
+
     _page: 0, // header上的假<Tabs>当前页数
     _loaded: false
   })
@@ -39,6 +55,7 @@ export default class ScreenRakuen extends store {
     const state = await res
     this.setState({
       ...state,
+      ...initPrefetchState,
       _loaded: true
     })
 
@@ -93,6 +110,10 @@ export default class ScreenRakuen extends store {
   }
 
   // -------------------- get --------------------
+  @computed get backgroundColor() {
+    return _.select(_.colorPlain, _._colorDarkModeLevel1)
+  }
+
   @computed get autoFetch() {
     return systemStore.setting.autoFetch
   }
@@ -153,8 +174,8 @@ export default class ScreenRakuen extends store {
             data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
             onSelect={this.onGroupMenuPress}
           >
-            <Text size={10} type='sub' lineHeight={13}>
-              <Text size={13}>小组</Text>{' '}
+            <Text size={11} type='sub' lineHeight={14}>
+              <Text size={14}>小组</Text>{' '}
               {MODEL_RAKUEN_TYPE_GROUP.getLabel(group)}
             </Text>
           </Popover>
@@ -166,16 +187,16 @@ export default class ScreenRakuen extends store {
             data={MODEL_RAKUEN_TYPE_MONO.data.map(item => item.label)}
             onSelect={this.onMonoMenuPress}
           >
-            <Text size={10} type='sub' lineHeight={13}>
-              <Text size={13}>人物</Text>{' '}
+            <Text size={11} type='sub' lineHeight={14}>
+              <Text size={14}>人物</Text>{' '}
               {MODEL_RAKUEN_TYPE_MONO.getLabel(mono)}
             </Text>
           </Popover>
         )
       } else {
         _tabs[index].title = (
-          <Text size={10} type='sub' lineHeight={13}>
-            <Text size={13}>{title}</Text>
+          <Text size={11} type='sub' lineHeight={14}>
+            <Text size={14}>{title}</Text>
           </Text>
         )
       }
@@ -230,11 +251,23 @@ export default class ScreenRakuen extends store {
     return computed(() => tinygrailStore.characters(id)).get()
   }
 
+  /**
+   * 是否收藏
+   * @param {*} topicId
+   */
+  isFavor(topicId) {
+    return computed(() => rakuenStore.favor(topicId)).get()
+  }
+
   // -------------------- page --------------------
   onTabClick = (item, page) => {
     if (page === this.state.page) {
       return
     }
+
+    t('超展开.标签页点击', {
+      page
+    })
 
     this.setState({
       page
@@ -254,6 +287,10 @@ export default class ScreenRakuen extends store {
       return
     }
 
+    t('超展开.标签页切换', {
+      page
+    })
+
     this.setState({
       page,
       _page: page
@@ -270,6 +307,10 @@ export default class ScreenRakuen extends store {
   }
 
   onGroupMenuPress = title => {
+    t('超展开.小组菜单点击', {
+      title
+    })
+
     this.setState({
       group: MODEL_RAKUEN_TYPE_GROUP.getValue(title)
     })
@@ -278,6 +319,10 @@ export default class ScreenRakuen extends store {
   }
 
   onMonoMenuPress = title => {
+    t('超展开.人物菜单点击', {
+      title
+    })
+
     this.setState({
       mono: MODEL_RAKUEN_TYPE_MONO.getValue(title)
     })
@@ -290,46 +335,89 @@ export default class ScreenRakuen extends store {
   }
 
   onExtraSelect = (title, values, navigation) => {
+    const eventId = '超展开.项额外点击'
+    let subjectId
+    let groupId
+    let monoId
     switch (title) {
       case '进入小组':
+        groupId = values.groupHref.replace('/group/', '')
+        t(eventId, {
+          title,
+          groupId
+        })
+
         navigation.push('Group', {
-          groupId: values.groupHref.replace('/group/', '')
+          groupId,
+          _title: values.groupCn
         })
         break
 
       case '进入条目':
+        subjectId = values.groupHref.replace('/subject/', '')
+        t(eventId, {
+          title,
+          subjectId
+        })
+
         navigation.push('Subject', {
-          subjectId: values.groupHref.replace('/subject/', '')
+          subjectId
         })
         break
 
       case '进入人物':
+        monoId = values.topicId
+          .replace('prsn/', 'person/')
+          .replace('crt/', 'character/')
+        t(eventId, {
+          title,
+          monoId
+        })
+
         navigation.push('Mono', {
-          monoId: values.topicId
-            .replace('prsn/', 'person/')
-            .replace('crt/', 'character/')
+          monoId
         })
         break
 
       case '屏蔽小组':
       case '屏蔽条目':
       case '屏蔽人物':
+        t(eventId, {
+          title,
+          groupCn: values.groupCn
+        })
+
         rakuenStore.addBlockGroup(values.groupCn)
         info(`已屏蔽 ${values.groupCn}`)
         break
 
       case '屏蔽用户':
+        t(eventId, {
+          title,
+          userName: values.userName
+        })
+
         rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
         info(`已屏蔽 ${values.userName}`)
         break
 
       case '进入ICO':
+        t(eventId, {
+          title,
+          monoId: values.monoId
+        })
+
         navigation.push('TinygrailICODeal', {
           monoId: values.monoId
         })
         break
 
       case '进入交易':
+        t(eventId, {
+          title,
+          monoId: values.monoId
+        })
+
         navigation.push('TinygrailTrade', {
           monoId: values.monoId
         })
@@ -338,5 +426,114 @@ export default class ScreenRakuen extends store {
       default:
         break
     }
+  }
+
+  /**
+   * 获取未读帖子的id
+   */
+  getUnreadTopicIds = (list = []) => {
+    const { topic } = rakuenStore.state
+    const ids = []
+    list.forEach(item => {
+      try {
+        // 需要检查回复数是否小于LIMIT_TOPIC_PUSH
+        // replies: (+1)
+        const count = parseInt(
+          String(item.replies || '0').replace(/\(\+|\)/g, '')
+        )
+        if (count <= LIMIT_TOPIC_PUSH) {
+          const id = String(item.href).replace('/rakuen/topic/', '')
+          if (!topic[id]) {
+            ids.push(id)
+          }
+        }
+      } catch (error) {
+        // do nothing
+      }
+    })
+    return ids
+  }
+
+  /**
+   * 预读取未读帖子内容
+   */
+  prefetchConfirm = () => {
+    const { page } = this.state
+    const type = this.type(page)
+    const { list } = this.rakuen(type)
+    const ids = this.getUnreadTopicIds(list)
+
+    if (!ids.length) {
+      info('当前没有未读取数据的帖子')
+      return
+    }
+
+    Alert.alert(
+      '预读取未读帖子',
+      `当前 (${ids.length}) 个未读帖子, 1次操作最多预读前40个, 建议在WIFI下进行, 确定?`,
+      [
+        {
+          text: '取消',
+          style: 'cancel'
+        },
+        {
+          text: '确定',
+          onPress: () => this.prefetch(ids)
+        }
+      ]
+    )
+  }
+
+  /**
+   * 预读取帖子内容
+   */
+  prefetch = async (ids = []) => {
+    if (!ids.length) {
+      return
+    }
+
+    t('超展开.预读取', {
+      length: ids.length
+    })
+
+    const _ids = ids.filter((item, index) => index < 40)
+    let prefetchCurrent = 0
+    this.setState({
+      prefetching: true,
+      prefetchTotal: _ids.length,
+      prefetchCurrent
+    })
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const topicId of _ids) {
+      const { prefetching } = this.state
+      if (prefetching) {
+        await rakuenStore.fetchTopic({
+          topicId
+        })
+        await sleep(200)
+
+        prefetchCurrent += 1
+        this.setState({
+          prefetchCurrent
+        })
+      }
+    }
+
+    this.setState({
+      ...initPrefetchState
+    })
+    info('预读取完毕')
+  }
+
+  /**
+   * 取消预读取
+   */
+  cancelPrefetch = () => {
+    t('超展开.取消预读取')
+
+    this.setState({
+      ...initPrefetchState
+    })
   }
 }

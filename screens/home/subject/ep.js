@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-11 11:00:13
+ * @Last Modified time: 2019-12-28 17:23:57
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { SectionTitle, Eps, IconReverse } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 import BookEp from './book-ep'
 import Disc from './disc'
 
@@ -32,10 +32,11 @@ function Ep({ style }, { $, navigation }) {
   const { epsReverse } = $.state
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   return (
-    <View style={[_.container.wind, styles.container, style]}>
+    <View style={[styles.container, style]}>
       <SectionTitle
         right={
           <IconReverse
+            style={_.mr.sm}
             color={epsReverse ? _.colorMain : _.colorIcon}
             onPress={$.toggleReverseEps}
           />
@@ -51,6 +52,7 @@ function Ep({ style }, { $, navigation }) {
       </SectionTitle>
       <Eps
         style={_.mt.md}
+        marginRight={_.wind}
         advance
         pagination
         login={$.isLogin}
@@ -74,6 +76,7 @@ export default observer(Ep)
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 146
+    minHeight: 146,
+    marginLeft: _.wind
   }
 })

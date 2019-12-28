@@ -3,23 +3,21 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 21:24:19
+ * @Last Modified time: 2019-12-09 17:59:13
  */
 import React from 'react'
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  TouchableWithoutFeedback
-} from 'react-native'
+import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
+import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { IOS } from '@constants'
-import _ from '@styles'
 import Iconfont from './iconfont'
 import Touchable from './touchable'
 
 const initInputHeight = 18 // 一行的大概高度
 
-export default class Input extends React.Component {
+export default
+@observer
+class Input extends React.Component {
   static defaultProps = {
     style: undefined,
     multiline: false,
@@ -27,6 +25,7 @@ export default class Input extends React.Component {
     showClear: false,
     colorClear: undefined,
     autoFocus: false,
+    placeholderTextColor: undefined,
     onChange: Function.prototype
   }
 
@@ -80,7 +79,7 @@ export default class Input extends React.Component {
 
     const { colorClear } = this.props
     return (
-      <Touchable style={styles.close} onPress={this.clear}>
+      <Touchable style={this.styles.close} onPress={this.clear}>
         <Iconfont name='close' size={12} color={colorClear} />
       </Touchable>
     )
@@ -94,29 +93,31 @@ export default class Input extends React.Component {
       showClear,
       colorClear,
       autoFocus,
+      placeholderTextColor,
       ...other
     } = this.props
     if (multiline) {
       const containerHeight = initInputHeight * numberOfLines + 18
       return (
-        <View style={styles.container}>
+        <View style={this.styles.container}>
           <TouchableWithoutFeedback onPress={() => this.inputRef.focus()}>
             <View
               style={[
-                styles.multiContainer,
+                this.styles.multiContainer,
                 { height: containerHeight },
                 style
               ]}
             >
               <TextInput
                 ref={ref => (this.inputRef = ref)}
-                style={styles.multiInput}
+                style={this.styles.multiInput}
                 multiline
                 textAlignVertical='top'
                 numberOfLines={numberOfLines}
                 underlineColorAndroid='transparent'
                 autoCorrect={false}
                 allowFontScaling={false}
+                placeholderTextColor={placeholderTextColor || _.colorDisabled}
                 {...other}
                 onChange={this.onChange}
               />
@@ -128,15 +129,16 @@ export default class Input extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View style={this.styles.container}>
         <TextInput
           ref={ref => (this.inputRef = ref)}
-          style={[styles.input, style]}
+          style={[this.styles.input, style]}
           numberOfLines={numberOfLines}
           underlineColorAndroid='transparent'
           autoCorrect={false}
           clearButtonMode='while-editing'
           allowFontScaling={false}
+          placeholderTextColor={placeholderTextColor || _.colorDisabled}
           {...other}
           onChange={this.onChange}
         />
@@ -144,9 +146,13 @@ export default class Input extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     width: '100%'
   },
@@ -155,9 +161,8 @@ const styles = StyleSheet.create({
     padding: 8,
     color: _.colorDesc,
     ..._.fontSize(14),
-    backgroundColor: _.colorPlain,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderStyle: 'solid',
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
+    borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
@@ -165,9 +170,8 @@ const styles = StyleSheet.create({
   multiContainer: {
     width: '100%',
     padding: 8,
-    backgroundColor: _.colorPlain,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderStyle: 'solid',
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
+    borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
@@ -175,6 +179,7 @@ const styles = StyleSheet.create({
   multiInput: {
     width: '100%',
     paddingTop: 0,
+    color: _.colorDesc,
     ..._.fontSize(14)
   },
   close: {
@@ -186,4 +191,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: _.wind,
     marginTop: -(6 + _.sm)
   }
-})
+}))

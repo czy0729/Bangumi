@@ -2,21 +2,29 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 14:37:38
+ * @Last Modified time: 2019-12-22 21:56:07
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { StatusBarEvents, Flex, Popover, Menu, Iconfont } from '@components'
+import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
-import { IOS } from '@constants'
-import _ from '@styles'
+import { _ } from '@stores'
+import { hm as utilsHM } from '@utils/fetch'
+import { IOS, BARE } from '@constants'
 import observer from './observer'
 
+const defaultHeaderStyle = {}
+if (!IOS && BARE) {
+  defaultHeaderStyle.height = _.statusBarHeight + 52
+  defaultHeaderStyle.paddingTop = _.statusBarHeight
+}
+
 const withHeader = ({
+  screen,
   headerStyle,
   headerTitleStyle,
-  iconBackColor = _.colorTitle,
-  statusBarEvents = true
+  iconBackColor,
+  statusBarEvents = true,
+  hm
 } = {}) => ComposedComponent =>
   observer(
     class withHeaderComponent extends React.Component {
@@ -61,42 +69,71 @@ const withHeader = ({
               </Popover>
             </Flex>
           )
+        } else {
+          headerRight = <Flex>{extra}</Flex>
         }
 
-        return {
+        const params = {
           headerLeft: (
-            <IconBack navigation={navigation} color={iconBackColor} />
+            <IconBack
+              navigation={navigation}
+              color={iconBackColor || _.colorTitle}
+            />
           ),
           headerRight,
           headerStyle: IOS
             ? {
+                backgroundColor: _.colorPlain,
                 borderBottomColor: _.colorBorder,
-                borderBottomWidth: StyleSheet.hairlineWidth,
+                borderBottomWidth: _.hairlineWidth,
                 ...headerStyle
               }
             : {
+                backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
                 borderBottomColor: _.colorBorder,
-                borderBottomWidth: StyleSheet.hairlineWidth,
+                borderBottomWidth: _.hairlineWidth,
                 elevation: 0,
+                ...defaultHeaderStyle,
                 ...headerStyle
               },
           headerTitleStyle: {
+            width: '100%',
             color: _.colorTitle,
-            fontSize: 16,
+            fontSize: 16 + _.fontSizeAdjust,
             fontWeight: 'normal',
             ...headerTitleStyle
           },
           ...(typeof ComposedComponent.navigationOptions === 'function'
-            ? ComposedComponent.navigationOptions({ navigation })
+            ? ComposedComponent.navigationOptions({
+                navigation
+              })
             : ComposedComponent.navigationOptions)
+        }
+        const title = navigation.getParam('title')
+        if (title) {
+          params.title = title
+        }
+        return params
+      }
+
+      componentDidMount() {
+        if (Array.isArray(hm)) {
+          utilsHM(...hm)
         }
       }
 
       render() {
         const { navigation } = this.props
+        let backgroundColor
+        if (!IOS && _.isDark) {
+          backgroundColor = _._colorDarkModeLevel1Hex
+        }
         return (
           <>
-            {statusBarEvents && <StatusBarEvents />}
+            <UM screen={screen} />
+            {statusBarEvents && (
+              <StatusBarEvents backgroundColor={backgroundColor} />
+            )}
             <ComposedComponent navigation={navigation} />
           </>
         )

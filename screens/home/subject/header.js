@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 01:55:08
+ * @Last Modified time: 2019-12-28 15:25:43
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Text, Flex, Loading } from '@components'
 import { SectionTitle, IconReverse } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 import Head from './head'
+import Lock from './lock'
 import Box from './box'
 import Ep from './ep'
 import Tags from './tags'
@@ -28,6 +29,7 @@ import Blog from './blog'
 import Topic from './topic'
 
 function Header(props, { $ }) {
+  const styles = memoStyles()
   const {
     pagination: { pageTotal = 0 },
     _reverse,
@@ -37,10 +39,11 @@ function Header(props, { $ }) {
     <>
       <Head />
       <View style={styles.content}>
+        <Lock />
         <Box style={_.mt.md} />
         <Ep style={_.mt.lg} />
-        <Tags style={_.mt.lg} />
         <Summary style={_.mt.lg} />
+        <Tags style={_.mt.lg} />
         <Info style={_.mt.lg} />
         <Rating style={_.mt.lg} />
         <Character style={_.mt.lg} />
@@ -82,7 +85,7 @@ Header.contextTypes = {
 
 export default observer(Header)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   content: {
     minHeight: _.window.height * 0.5,
     backgroundColor: _.colorPlain
@@ -96,4 +99,4 @@ const styles = StyleSheet.create({
   loading: {
     height: 240
   }
-})
+}))

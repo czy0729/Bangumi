@@ -2,96 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 02:57:30
+ * @Last Modified time: 2019-12-23 13:52:53
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text, Iconfont } from '@components'
-import { formatNumber } from '@utils'
+import { Flex } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBid, colorAsk, colorDepthBid, colorDepthAsk } from '../styles'
+import { SAY_TINYGRAIL_ID } from '@constants'
 import MenuItem from './menu-item'
+import Assets from './assets'
 
 function Menus(props, { $ }) {
-  const { currentBalance, currentTotal, lastBalance, lastTotal } = $.state
-  const { balance } = $.assets
-
-  const changeBalance = currentBalance - lastBalance
-  const changeTotal = currentTotal - lastTotal
-
-  let balanceChangeText
-  let balanceTextColor
-  if (changeBalance > 0) {
-    balanceChangeText = `(+${formatNumber(changeBalance, 0)})`
-    balanceTextColor = colorBid
-  } else if (changeBalance < 0) {
-    balanceChangeText = `(${formatNumber(changeBalance, 0)})`
-    balanceTextColor = colorAsk
-  }
-
-  let totalChangeText
-  let totalTextColor
-  if (changeTotal > 0) {
-    totalChangeText = `(+${formatNumber(changeTotal, 0)})`
-    totalTextColor = colorBid
-  } else if (changeTotal < 0) {
-    totalChangeText = `(${formatNumber(changeTotal, 0)})`
-    totalTextColor = colorAsk
-  }
-
+  const bids = $.list('bid').list.length
+  const asks = $.list('asks').list.length
+  const auction = $.list('auction').list.filter(item => item.state === 0).length
   return (
     <Flex style={styles.section} wrap='wrap'>
-      <MenuItem title='交易榜单' pathname='TinygrailOverview' icon='bang-dan' />
+      <MenuItem title='热门榜单' pathname='TinygrailOverview' icon='bang-dan' />
       <MenuItem title='新番榜单' pathname='TinygrailNew' icon='xin-fan' />
       <MenuItem title='ICO榜单' pathname='TinygrailICO' icon='ico' />
       <MenuItem title='番市首富' pathname='TinygrailRich' icon='shou-fu' />
-      <MenuItem title='人物直达' pathname='TinygrailSearch' icon='navigation' />
-      <MenuItem
-        title='小组讨论'
-        pathname='Group'
-        config={{
-          groupId: 'tinygrail'
-        }}
-        icon='planet'
-      />
-
-      <Flex style={styles.assets}>
-        <Iconfont name='licheng' color={_.colorPlain} />
-        <Text style={_.ml.sm} size={15} type='plain'>
-          {formatNumber(balance)}{' '}
-          {balanceChangeText && (
-            <Text
-              style={{
-                color: balanceTextColor
-              }}
-              size={12}
-              lineHeight={15}
-            >
-              {balanceChangeText}
-            </Text>
-          )}{' '}
-          / {formatNumber($.total)}{' '}
-          {totalChangeText && (
-            <Text
-              style={{
-                color: totalTextColor
-              }}
-              size={12}
-              lineHeight={15}
-            >
-              {totalChangeText}
-            </Text>
-          )}
-        </Text>
-      </Flex>
-
+      <MenuItem title='英灵殿' pathname='TinygrailValhall' icon='app' />
+      <MenuItem title='最近圣殿' pathname='TinygrailTemples' icon='paihang' />
+      <Assets />
       <MenuItem
         style={{
-          backgroundColor: colorDepthBid
+          backgroundColor: _.colorDepthBid
         }}
-        title='我的买单'
+        title={`我的买单 ${bids ? `(${bids})` : ''}`}
         pathname='TinygrailBid'
         config={{
           type: 'bid'
@@ -100,23 +40,47 @@ function Menus(props, { $ }) {
       />
       <MenuItem
         style={{
-          backgroundColor: colorDepthAsk
+          backgroundColor: _.colorDepthAsk
         }}
-        title='我的卖单'
+        title={`我的卖单 ${asks ? `(${asks})` : ''}`}
         pathname='TinygrailBid'
         config={{
           type: 'asks'
         }}
         icon='ask'
       />
-      {/* <MenuItem title='我的收藏' pathname='TinygrailFavor' icon='star' /> */}
+      <MenuItem
+        title={`我的拍卖 ${auction ? `(${auction})` : ''}`}
+        pathname='TinygrailBid'
+        config={{
+          type: 'auction'
+        }}
+        icon='auction'
+      />
       <MenuItem
         title='我的持仓'
         pathname='TinygrailCharaAssets'
         icon='chi-cang'
       />
       <MenuItem title='资金日志' pathname='TinygrailLogs' icon='ri-zhi' />
-      {/* <MenuItem title='资金分布' pathname='TinygrailAnalysis' icon='fen-xi' /> */}
+      <MenuItem title='资金分析' pathname='TinygrailTree' icon='fen-xi' />
+      {/* <MenuItem title='人物直达' pathname='TinygrailSearch' icon='navigation' /> */}
+      <MenuItem
+        title='小组讨论'
+        pathname='Group'
+        config={{
+          groupId: 'tinygrail'
+        }}
+        icon='planet'
+      />
+      <MenuItem
+        title='意见反馈'
+        pathname='Say'
+        config={{
+          id: SAY_TINYGRAIL_ID
+        }}
+        icon='mail'
+      />
     </Flex>
   )
 }
@@ -130,12 +94,6 @@ export default observer(Menus)
 const styles = StyleSheet.create({
   section: {
     paddingBottom: _.wind,
-    marginTop: -8,
     marginLeft: _.wind
-  },
-  assets: {
-    width: '100%',
-    marginTop: _.sm,
-    marginBottom: _.sm
   }
 })

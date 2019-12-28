@@ -2,22 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:08:03
- */
-/*
- * @Author: czy0729
- * @Date: 2019-06-02 22:34:52
- * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-02 23:38:05
+ * @Last Modified time: 2019-12-20 15:44:24
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { SectionTitle, Tag } from '@screens/_'
-import { appNavigate } from '@utils/app'
-import _ from '@styles'
+import { _ } from '@stores'
+import { appNavigate, getCoverMedium } from '@utils/app'
 
 function Jobs({ style }, { $, navigation }) {
   const { jobs = [] } = $.mono
@@ -25,6 +19,13 @@ function Jobs({ style }, { $, navigation }) {
     return null
   }
 
+  const styles = memoStyles()
+  const event = {
+    id: '人物.跳转',
+    data: {
+      from: '出演'
+    }
+  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle>出演</SectionTitle>
@@ -42,7 +43,18 @@ function Jobs({ style }, { $, navigation }) {
                   src={item.cover}
                   radius
                   border={_.colorBorder}
-                  onPress={() => appNavigate(item.href, navigation)}
+                  onPress={() =>
+                    appNavigate(
+                      item.href,
+                      navigation,
+                      {
+                        _jp: item.name,
+                        _cn: item.nameCn,
+                        _image: item.cover
+                      },
+                      event
+                    )
+                  }
                 />
                 <Flex.Item style={_.ml.sm}>
                   <Text style={_.mt.xs}>{item.name}</Text>
@@ -74,7 +86,17 @@ function Jobs({ style }, { $, navigation }) {
                     src={item.castCover}
                     radius
                     border={_.colorBorder}
-                    onPress={() => appNavigate(item.castHref, navigation)}
+                    onPress={() =>
+                      appNavigate(
+                        item.castHref,
+                        navigation,
+                        {
+                          _name: item.cast,
+                          _image: getCoverMedium(item.castCover)
+                        },
+                        event
+                      )
+                    }
                   />
                 )}
               </Flex>
@@ -93,7 +115,7 @@ Jobs.contextTypes = {
 
 export default observer(Jobs)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind
   },
@@ -103,6 +125,6 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
-})
+}))

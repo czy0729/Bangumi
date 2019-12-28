@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:15:40
+ * @Last Modified time: 2019-12-21 20:22:54
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView, Flex, Touchable, Iconfont } from '@components'
 import { SectionHeader, ItemBangumiList } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function List(props, { $, navigation }) {
   if (!$.userCollections._loaded) {
@@ -29,6 +29,9 @@ function List(props, { $, navigation }) {
       ]
     })
   })
+  const event = {
+    id: '空间.跳转'
+  }
   return (
     <ListView
       keyExtractor={item => item.id}
@@ -65,6 +68,7 @@ function List(props, { $, navigation }) {
                 subjectId={item.id}
                 images={item.images}
                 name={item.name_cn || item.name}
+                event={event}
               />
             ))}
           </Flex>

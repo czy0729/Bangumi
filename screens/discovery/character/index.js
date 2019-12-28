@@ -2,27 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-01 17:29:45
+ * @Last Modified time: 2019-12-19 21:04:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+const title = '收藏的人物'
+
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Character extends React.Component {
   static navigationOptions = {
-    title: '收藏的人物'
+    title
   }
 
   static contextTypes = {
@@ -39,6 +43,10 @@ class Character extends React.Component {
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
+          t('收藏的人物.右上角菜单', {
+            key
+          })
+
           switch (key) {
             case '浏览器查看':
               open(`${HOST}/user/${userName}/mono`)
@@ -50,14 +58,14 @@ class Character extends React.Component {
       }
     })
 
-    hm('character')
+    hm('character', 'Character')
   }
 
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.flex}>
+      <View style={_.container.screen}>
         {!!_loaded && (
           <Tabs tabs={tabs}>
             {tabs.map((item, index) => (

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-13 21:39:55
+ * @Last Modified time: 2019-12-19 20:38:41
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 
 const namespace = 'ScreenAnitama'
 
@@ -51,6 +52,10 @@ export default class ScreenAnitama extends store {
       return
     }
 
+    t('Anitama.上一页', {
+      page: page - 1
+    })
+
     this.setState({
       page: page - 1,
       show: false,
@@ -68,6 +73,10 @@ export default class ScreenAnitama extends store {
 
   next = async () => {
     const { page } = this.state
+    t('Anitama.下一页', {
+      page: page + 1
+    })
+
     this.setState({
       page: page + 1,
       show: false,
@@ -108,6 +117,10 @@ export default class ScreenAnitama extends store {
       info('请输入正确页码')
       return
     }
+
+    t('Anitama.页码跳转', {
+      page: _ipt
+    })
 
     this.setState({
       page: _ipt,

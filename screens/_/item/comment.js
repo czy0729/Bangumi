@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:42:55
+ * @Last Modified time: 2019-12-23 09:47:41
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 import Stars from '../base/stars'
 
@@ -21,8 +21,10 @@ function ItemComment({
   userId,
   userName,
   star,
-  comment
+  comment,
+  event
 }) {
+  const styles = memoStyles()
   const isTop = index === 0
   return (
     <Flex style={[styles.item, style]} align='start'>
@@ -30,7 +32,9 @@ function ItemComment({
         style={styles.image}
         navigation={navigation}
         userId={userId}
+        name={userName}
         src={avatar}
+        event={event}
       />
       <Flex.Item style={[styles.content, !isTop && styles.border, _.ml.sm]}>
         <Flex>
@@ -52,9 +56,13 @@ function ItemComment({
   )
 }
 
+ItemComment.defaultProps = {
+  event: EVENT
+}
+
 export default observer(ItemComment)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     backgroundColor: _.colorPlain
   },
@@ -68,9 +76,9 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
-})
+}))
 
 /**
  * 由于爬出的html做了去除空格操作

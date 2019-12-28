@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 21:02:47
+ * @Last Modified time: 2019-12-22 20:39:09
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { queue, t } from '@utils/fetch'
 
 export const m1 = 60 * 1000
 export const m5 = m1 * 5
@@ -35,9 +36,11 @@ export default class ScreenTinygrailTrade extends store {
       _loaded: true
     })
 
-    this.fetchChara()
-    this.fetchKline()
-    this.fetchDepth()
+    queue([
+      () => this.fetchChara(),
+      () => this.fetchKline(),
+      () => this.fetchDepth()
+    ])
   }
 
   fetchChara = () => tinygrailStore.fetchCharacters([this.monoId])
@@ -73,11 +76,13 @@ export default class ScreenTinygrailTrade extends store {
    * 切换K线时间间隔
    */
   changeDistance = distance => {
+    t('K线.间隔', {
+      distance
+    })
+
     this.setState({
       distance
     })
     this.setStorage(undefined, undefined, namespace)
   }
-
-  // -------------------- action --------------------
 }

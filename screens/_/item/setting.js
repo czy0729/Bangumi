@@ -2,19 +2,51 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:43:17
+ * @Last Modified time: 2019-12-14 14:38:50
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Alert, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
-function ItemSetting({ style, border, hd, ft, arrow, onPress, ...other }) {
+function ItemSetting({
+  style,
+  border,
+  hd,
+  ft,
+  arrow,
+  information,
+  onPress,
+  ...other
+}) {
+  const styles = memoStyles()
   const content = (
     <Flex style={[styles.item, border && styles.border]}>
       <Flex.Item>
-        <Text size={16}>{hd}</Text>
+        <Flex>
+          <Text size={16}>{hd}</Text>
+          {information && (
+            <Touchable
+              style={{
+                padding: _.sm
+              }}
+              onPress={() =>
+                Alert.alert(
+                  '提示',
+                  information,
+                  [
+                    {
+                      text: '知道了'
+                    }
+                  ]
+                )
+              }
+            >
+              <Iconfont name='information' />
+            </Touchable>
+          )}
+        </Flex>
       </Flex.Item>
       {typeof ft === 'string' ? (
         <Text size={16} type='sub'>
@@ -44,7 +76,7 @@ function ItemSetting({ style, border, hd, ft, arrow, onPress, ...other }) {
 
 export default observer(ItemSetting)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   touchable: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -54,7 +86,7 @@ const styles = StyleSheet.create({
     paddingRight: _.wind
   },
   border: {
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: _.hairlineWidth,
     borderTopColor: _.colorBorder
   }
-})
+}))

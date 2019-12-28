@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 18:35:34
+ * @Last Modified time: 2019-12-23 09:39:01
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { date } from '@utils'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import _ from '@styles'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 
 function ItemArticle({
@@ -24,17 +24,19 @@ function ItemArticle({
   nickname,
   timestamp,
   replies,
-  url
+  url,
+  event
 }) {
+  const styles = memoStyles()
   const isFirst = index === 0
   return (
     <Touchable
       style={[styles.container, style]}
       highlight
-      onPress={() => appNavigate(url, navigation)}
+      onPress={() => appNavigate(url, navigation, {}, event)}
     >
       <Flex align='start'>
-        <Avatar style={styles.image} src={avatar} />
+        <Avatar style={styles.image} name={nickname} src={avatar} />
         <Flex.Item style={[styles.item, !isFirst && styles.border, _.ml.sm]}>
           <Text size={16}>{HTMLDecode(title)}</Text>
           <Flex style={_.mt.xs}>
@@ -59,9 +61,13 @@ function ItemArticle({
   )
 }
 
+ItemArticle.defaultProps = {
+  event: EVENT
+}
+
 export default observer(ItemArticle)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     backgroundColor: _.colorPlain
   },
@@ -74,6 +80,6 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
-})
+}))

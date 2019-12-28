@@ -3,23 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-11 04:30:05
+ * @Last Modified time: 2019-12-26 17:32:58
  */
 import React from 'react'
 import {
   FlatList,
   RefreshControl,
   SectionList,
-  StyleSheet,
   TouchableOpacity,
   View
 } from 'react-native'
+import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { sleep, date, simpleTime } from '@utils'
 import { randomSpeech } from '@constants/speech'
 import { LIST_EMPTY } from '@constants'
-import _ from '@styles'
 import Flex from './flex'
 import Mesume from './mesume'
 import Text from './text'
@@ -33,7 +32,9 @@ const RefreshState = {
   EmptyData: 5
 }
 
-export default class ListView extends React.Component {
+export default
+@observer
+class ListView extends React.Component {
   static defaultProps = {
     style: undefined,
     keyExtractor: undefined,
@@ -77,8 +78,9 @@ export default class ListView extends React.Component {
     }
   }
 
-  scrollTo = Function.prototype
-  scrollToLocation = Function.prototype
+  scrollToIndex = Function.prototype
+  scrollToItem = Function.prototype
+  scrollToOffset = Function.prototype
 
   onHeaderRefresh = async () => {
     const { onHeaderRefresh } = this.props
@@ -141,7 +143,7 @@ export default class ListView extends React.Component {
     } = this.props
     switch (refreshState) {
       case RefreshState.Idle:
-        footer = <View style={styles.footerContainer} />
+        footer = <View style={this.styles.footerContainer} />
         break
       case RefreshState.Failure:
         footer = (
@@ -157,8 +159,8 @@ export default class ListView extends React.Component {
             }}
           >
             {footerFailureComponent || (
-              <View style={styles.footerContainer}>
-                <Text style={styles.footerText}>{footerFailureText}</Text>
+              <View style={this.styles.footerContainer}>
+                <Text style={this.styles.footerText}>{footerFailureText}</Text>
               </View>
             )}
           </TouchableOpacity>
@@ -175,12 +177,12 @@ export default class ListView extends React.Component {
           >
             {footerEmptyDataComponent || (
               <Flex
-                style={styles.footerEmpty}
+                style={this.styles.footerEmpty}
                 direction='column'
                 justify='center'
               >
                 <Mesume />
-                <Text style={[styles.footerText, _.mt.sm]}>
+                <Text style={[this.styles.footerText, _.mt.sm]}>
                   {footerEmptyDataText}
                 </Text>
               </Flex>
@@ -191,7 +193,7 @@ export default class ListView extends React.Component {
       case RefreshState.FooterRefreshing:
         footer = footerRefreshingComponent || (
           <Flex
-            style={[styles.footerNoMore, _.container.wind]}
+            style={[this.styles.footerNoMore, _.container.wind]}
             justify='center'
             direction='column'
           >
@@ -205,7 +207,7 @@ export default class ListView extends React.Component {
       case RefreshState.NoMoreData:
         footer = footerNoMoreDataComponent || (
           <Flex
-            style={[styles.footerNoMore, _.container.wind]}
+            style={[this.styles.footerNoMore, _.container.wind]}
             justify='center'
             direction='column'
           >
@@ -238,11 +240,14 @@ export default class ListView extends React.Component {
     const commonProps = {
       ref: ref => {
         if (ref) {
-          this.scrollToLocation = params => ref.scrollToLocation(params)
+          this.scrollToIndex = params => ref.scrollToIndex(params)
+          this.scrollToItem = params => ref.scrollToItem(params)
+          this.scrollToOffset = params => ref.scrollToOffset(params)
         }
       },
-      style: [styles.container, style],
+      style: [this.styles.container, style],
       initialNumToRender: 10,
+      // removeClippedSubviews: false, // 安卓需要添加这个属性, Text才能自由复制
       refreshing: refreshState === RefreshState.HeaderRefreshing,
       refreshControl: (
         <RefreshControl
@@ -261,7 +266,7 @@ export default class ListView extends React.Component {
       ListFooterComponent: this.renderFooter(refreshState),
       onRefresh: this.onHeaderRefresh,
       onEndReached: this.onEndReached,
-      onEndReachedThreshold: 0.25
+      onEndReachedThreshold: 0.64
     }
 
     if (sectionKey || sections) {
@@ -288,9 +293,13 @@ export default class ListView extends React.Component {
 
     return <FlatList data={data.list.slice()} {...commonProps} {...other} />
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     minHeight: _.window.height * 0.24
   },
@@ -303,7 +312,7 @@ const styles = StyleSheet.create({
     height: 40
   },
   footerText: {
-    fontSize: 14,
+    fontSize: 14 + _.fontSizeAdjust,
     color: _.colorSub
   },
   footerEmpty: {
@@ -312,4 +321,4 @@ const styles = StyleSheet.create({
   footerNoMore: {
     padding: 8
   }
-})
+}))

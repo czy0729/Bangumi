@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-11 10:49:12
+ * @Last Modified time: 2019-12-19 16:32:08
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { BlurView, ListView } from '@components'
 import { ManageModal, ItemComment } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
-import { hm } from '@utils/fetch'
-import { NING_MOE_HOST } from '@constants'
-import _ from '@styles'
+import { hm, t } from '@utils/fetch'
+import { IOS, HOST_NING_MOE } from '@constants'
 import Header from './header'
 import Store from './store'
 
+const title = '条目'
 const sitesDS = [
   'bilibili',
   'iqiyi',
@@ -32,7 +33,10 @@ const sitesDS = [
 
 export default
 @inject(Store)
-@withTransitionHeader()
+@withTransitionHeader({
+  screen: title,
+  colorStart: _.colorPlainRaw
+})
 @observer
 class Subject extends React.Component {
   static contextTypes = {
@@ -73,13 +77,18 @@ class Subject extends React.Component {
               .map(item => item.site)
           ],
           onSelect: key => {
+            t('条目.右上角菜单', {
+              subjectId: $.subjectId,
+              key
+            })
+
             let item
             switch (key) {
               case 'Bangumi':
                 open(url)
                 break
               case '柠萌瞬间':
-                open(`${NING_MOE_HOST}/bangumi/${$.ningMoeDetail.id}/home`)
+                open(`${HOST_NING_MOE}/bangumi/${$.ningMoeDetail.id}/home`)
                 break
               default:
                 item = sites.find(item => item.site === key)
@@ -94,7 +103,7 @@ class Subject extends React.Component {
       })
     }
 
-    hm(`subject/${$.params.subjectId}`)
+    hm(`subject/${$.params.subjectId}`, 'Subject')
   }
 
   render() {
@@ -108,9 +117,21 @@ class Subject extends React.Component {
     const { name_cn: nameCn, name, images = {} } = $.subject
     const { _image } = $.params
     const image = images.medium || _image
+    const event = {
+      id: '条目.跳转',
+      data: {
+        from: '吐槽箱',
+        subjectId: $.subjectId
+      }
+    }
     return (
-      <>
-        <BlurView style={styles.blurView} theme='dark' src={image} />
+      <View style={_.container.content}>
+        <BlurView
+          style={styles.blurView}
+          theme='dark'
+          tint={_.select('default', 'dark')}
+          src={_image || image}
+        />
         <ListView
           style={_.container.flex}
           contentContainerStyle={styles.contentContainerStyle}
@@ -118,8 +139,8 @@ class Subject extends React.Component {
           data={$.subjectComments}
           scrollEventThrottle={32}
           refreshControlProps={{
-            tintColor: _.colorPlain,
-            titleColor: _.colorPlain
+            tintColor: _.__colorPlain__,
+            titleColor: _.__colorPlain__
           }}
           ListHeaderComponent={<Header />}
           renderItem={({ item, index }) => (
@@ -132,6 +153,7 @@ class Subject extends React.Component {
               userName={item.userName}
               star={item.star}
               comment={item.comment}
+              event={event}
             />
           )}
           onScroll={onScroll}
@@ -147,7 +169,7 @@ class Subject extends React.Component {
           onSubmit={$.doUpdateCollection}
           onClose={$.closeManageModal}
         />
-      </>
+      </View>
     )
   }
 }
@@ -158,7 +180,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: _.window.height * 0.4
+    height: IOS ? _.window.height * 0.32 : 160 // iOS有弹簧, 所以拉下来太矮会看见背景
   },
   contentContainerStyle: {
     paddingTop: _.headerHeight,

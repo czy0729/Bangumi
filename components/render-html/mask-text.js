@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:03:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-14 10:35:13
+ * @Last Modified time: 2019-12-03 15:45:54
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import _ from '@styles'
+import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import Text from '../text'
 
-export default class MaskText extends React.Component {
+export default
+@observer
+class MaskText extends React.Component {
   state = {
     show: false
   }
@@ -26,22 +28,29 @@ export default class MaskText extends React.Component {
     const { show } = this.state
     return (
       <Text
-        style={[style, show ? styles.blockTextShow : styles.blockText]}
+        style={[
+          style,
+          show ? this.styles.blockTextShow : this.styles.blockText
+        ]}
         onPress={this.toggle}
       >
         {children}
       </Text>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   blockText: {
-    color: _.colorDesc,
-    backgroundColor: _.colorDesc
+    color: _.select(_.colorDesc, _._colorDarkModeLevel2),
+    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel2)
   },
   blockTextShow: {
     color: _.colorPlain,
     backgroundColor: _.colorDesc
   }
-})
+}))

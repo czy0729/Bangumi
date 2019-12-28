@@ -3,27 +3,33 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 21:43:35
+ * @Last Modified time: 2019-12-20 16:00:30
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
+import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
+import { t } from '@utils/fetch'
 import { IOS } from '@constants'
-import { systemStore } from '@stores'
-import _ from '@styles'
 
 function Avatar({
   style,
   navigation,
   userId,
+  name,
   src,
   size,
-  borderColor,
-  onPress
+  borderColor = _.colorBorder,
+  event,
+  onPress,
+  onLongPress
 }) {
+  const styles = memoStyles()
   const { avatarRound } = systemStore.setting
+  const _src = getCoverMedium(src, true)
+  const radius = avatarRound ? size / 2 : true
   const _onPress = () => {
     if (onPress) {
       onPress()
@@ -31,8 +37,18 @@ function Avatar({
     }
 
     if (navigation && userId) {
+      const { id, data = {} } = event
+      t(id, {
+        to: 'Zone',
+        userId,
+        ...data
+      })
+
       navigation.push('Zone', {
-        userId
+        userId,
+        _id: userId,
+        _image: _src,
+        _name: name
       })
     }
   }
@@ -60,10 +76,11 @@ function Avatar({
       <View style={_style}>
         <Image
           size={size}
-          src={getCoverMedium(src, true)}
-          radius={avatarRound ? size / 2 : true}
+          src={_src}
+          radius={radius}
           quality={false}
           onPress={_onPress}
+          onLongPress={onLongPress}
         />
       </View>
     )
@@ -73,11 +90,12 @@ function Avatar({
     <Image
       style={style}
       size={size}
-      src={getCoverMedium(src, true)}
-      radius={avatarRound ? size / 2 : true}
+      src={_src}
+      radius={radius}
       border={borderColor}
       quality={false}
       onPress={_onPress}
+      onLongPress={onLongPress}
     />
   )
 }
@@ -87,17 +105,19 @@ Avatar.defaultProps = {
   userId: undefined,
   src: undefined,
   size: 28,
-  borderColor: _.colorBorder,
-  onPress: undefined
+  borderColor: undefined,
+  event: {},
+  onPress: undefined,
+  onLongPress: undefined
 }
 
 export default observer(Avatar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   avatar: {
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   }
-})
+}))

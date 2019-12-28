@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:08:56
+ * @Last Modified time: 2019-12-02 01:23:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,7 +20,7 @@ const backgroundColor = {
   xlight: ['rgba(255, 255, 255, 0.64)', 'rgba(255, 255, 255, 0.8)']
 }
 
-function BlurView({ style, src, theme, intensity, children }) {
+function BlurView({ style, src, theme, tint, intensity, children }) {
   if (!src) {
     return null
   }
@@ -41,7 +41,7 @@ function BlurView({ style, src, theme, intensity, children }) {
       {IOS ? (
         <ExpoBlurView
           style={StyleSheet.absoluteFill}
-          tint='default'
+          tint={tint}
           intensity={intensity}
         />
       ) : (
@@ -59,6 +59,7 @@ BlurView.defaultProps = {
   style: undefined,
   theme: 'default',
   src: undefined,
+  tint: 'default',
   intensity: 100
 }
 

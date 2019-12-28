@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:15:03
+ * @Last Modified time: 2019-12-19 20:53:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
-import { IMG_DEFAULT } from '@constants'
+import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { getCoverMedium } from '@utils/app'
-import _ from '@styles'
+import { t } from '@utils/fetch'
+import { IMG_DEFAULT } from '@constants'
 
 const imageWidth = _.window.width * 0.288
 const imageHeight = imageWidth * 1.28
@@ -27,11 +29,18 @@ function Item(
   const isCollected =
     list.findIndex(item => item.subject_id === subjectId) !== -1
 
-  const { calendarData } = $.state
-  const { air, timeJP } = calendarData[subjectId] || {}
+  const { air, timeCN } = $.onAir[subjectId] || {}
+  const _image = getCoverMedium(images.medium)
   const onPress = () => {
-    navigation.push('Subject', {
+    t('每日放送.跳转', {
+      to: 'Subject',
       subjectId
+    })
+
+    navigation.push('Subject', {
+      subjectId,
+      _cn: name,
+      _image
     })
   }
   return (
@@ -39,7 +48,7 @@ function Item(
       <Image
         width={imageWidth}
         height={imageHeight}
-        src={getCoverMedium(images.medium) || IMG_DEFAULT}
+        src={_image || IMG_DEFAULT}
         radius
         shadow
         onPress={onPress}
@@ -47,7 +56,7 @@ function Item(
       <Touchable withoutFeedback onPress={onPress}>
         <Text
           style={_.mt.sm}
-          type={isCollected ? 'main' : 'desc'}
+          type={isCollected ? _.select('main', 'warning') : 'desc'}
           numberOfLines={2}
         >
           {HTMLDecode(name)}
@@ -60,12 +69,12 @@ function Item(
           )}
           {!!score && (
             <Text size={12} type='sub'>
-              ({score.toFixed(1)}){' '}
+              ({toFixed(score, 1)}){' '}
             </Text>
           )}
-          {!!timeJP && (
+          {!!timeCN && (
             <Text size={12} type='sub'>
-              {`- ${timeJP.slice(0, 2)}:${timeJP.slice(2)}`}{' '}
+              {`- ${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}{' '}
             </Text>
           )}
         </Flex>

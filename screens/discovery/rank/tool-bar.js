@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 20:11:50
+ * @Last Modified time: 2019-12-18 17:24:56
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { airtimeData } from '@constants'
+import { airtimeData, monthData } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_RANK_ANIME_FILTER,
@@ -18,12 +18,12 @@ import {
   MODEL_RANK_GAME_FILTER,
   MODEL_RANK_REAL_FILTER
 } from '@constants/model'
-import _ from '@styles'
 
 const typeData = MODEL_SUBJECT_TYPE.data.map(item => item.title)
 
-const ToolBar = (props, { $, navigation }) => {
-  const { type, filter, airtime, list } = $.state
+function ToolBar(props, { $, navigation }) {
+  const styles = memoStyles()
+  const { type, filter, airtime, month, list } = $.state
   const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
   let filterData
   switch (typeCn) {
@@ -43,7 +43,7 @@ const ToolBar = (props, { $, navigation }) => {
   const filterCn = filterData.getLabel(filter)
   const isEmptyFilter = filter === ''
   const isEmptyAirdate = airtime === ''
-
+  const isEmptyMonth = month === ''
   return (
     <Flex style={styles.container}>
       <Flex.Item>
@@ -78,7 +78,7 @@ const ToolBar = (props, { $, navigation }) => {
           </Popover>
         </Flex.Item>
       )}
-      <Flex.Item>
+      <Flex.Item flex={0.8}>
         <Popover
           data={airtimeData}
           onSelect={title => $.onAirdateSelect(title, navigation)}
@@ -90,7 +90,16 @@ const ToolBar = (props, { $, navigation }) => {
               color={isEmptyAirdate ? _.colorSub : _.colorMain}
             />
             <Text style={_.ml.sm} type={isEmptyAirdate ? 'sub' : 'main'}>
-              {airtime || '年份'}
+              {airtime || '年'}
+            </Text>
+          </Flex>
+        </Popover>
+      </Flex.Item>
+      <Flex.Item flex={0.64}>
+        <Popover data={monthData} onSelect={$.onMonthSelect}>
+          <Flex style={styles.item} justify='center'>
+            <Text style={_.ml.sm} type={isEmptyMonth ? 'sub' : 'main'}>
+              {month || '月'}
             </Text>
           </Flex>
         </Popover>
@@ -123,7 +132,7 @@ ToolBar.contextTypes = {
 
 export default observer(ToolBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     backgroundColor: _.colorBg
   },
@@ -133,4 +142,4 @@ const styles = StyleSheet.create({
   touchable: {
     paddingHorizontal: _.lg
   }
-})
+}))

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 16:10:57
+ * @Last Modified time: 2019-12-12 20:16:28
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
+import { _ } from '@stores'
 import { withTabsHeader } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 import Item from './item'
 
 function List({ title }, { $ }) {
@@ -32,7 +32,6 @@ function List({ title }, { $ }) {
     )
   }
   userCollection.list = $.sortList(userCollection.list)
-
   return (
     <ListView
       contentContainerStyle={_.container.outer}

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-03 22:06:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-21 00:25:28
+ * @Last Modified time: 2019-12-22 20:32:39
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Touchable, Flex, Text, Iconfont } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBorder, colorIcon } from '../styles'
+import { t } from '@utils/fetch'
 
 function History({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { history } = $.state
   return (
     <View style={style}>
@@ -22,13 +23,20 @@ function History({ style }, { $, navigation }) {
           <Flex style={styles.content}>
             <Flex.Item>
               <Text
+                style={{
+                  color: _.colorTinygrailPlain
+                }}
                 size={15}
-                type='plain'
-                onPress={() =>
+                onPress={() => {
+                  t('人物直达.跳转', {
+                    to: 'TinygrailTrade',
+                    monoId: item
+                  })
+
                   navigation.push('TinygrailTrade', {
                     monoId: item
                   })
-                }
+                }}
               >
                 {$.chara(item).name || item}
               </Text>
@@ -37,7 +45,7 @@ function History({ style }, { $, navigation }) {
               style={[styles.close, _.ml.md]}
               onPress={() => $.deleteHistory(item)}
             >
-              <Iconfont name='close' size={12} color={colorIcon} />
+              <Iconfont name='close' size={12} color={_.colorTinygrailIcon} />
             </Touchable>
           </Flex>
         </View>
@@ -53,16 +61,16 @@ History.contextTypes = {
 
 export default observer(History)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingHorizontal: _.wind
   },
   content: {
     paddingVertical: _.sm,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colorBorder
+    borderBottomWidth: _.hairlineWidth,
+    borderBottomColor: _.colorTinygrailBorder
   },
   close: {
     padding: _.sm
   }
-})
+}))

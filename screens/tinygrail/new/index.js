@@ -2,28 +2,34 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:30:12
+ * @Last Modified time: 2019-12-22 16:51:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import _ from '@styles'
-import { headerStyle, colorContainer } from '../styles'
+import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
+import ToolBar from '../_/tool-bar'
 import List from './list'
-import Store, { tabs } from './store'
+import Store, { tabs, sortDS } from './store'
+
+const title = '新番榜单'
 
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  hm: ['tinygrail/new', 'TinygrailNew'],
+  ...headerStyle
+})
 @observer
 class TinygrailNew extends React.Component {
   static navigationOptions = {
-    title: '新番榜单'
+    title
   }
 
   static contextTypes = {
@@ -34,8 +40,19 @@ class TinygrailNew extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
+  }
 
-    hm('tinygrail/new')
+  renderContentHeaderComponent() {
+    const { $ } = this.context
+    const { sort, direction } = $.state
+    return (
+      <ToolBar
+        data={sortDS}
+        sort={sort}
+        direction={direction}
+        onSortPress={$.onSortPress}
+      />
+    )
   }
 
   render() {
@@ -46,13 +63,16 @@ class TinygrailNew extends React.Component {
         style={[
           _.container.flex,
           {
-            backgroundColor: colorContainer
+            backgroundColor: _.colorTinygrailContainer
           }
         ]}
       >
         <StatusBarEvents />
         {!!_loaded && (
-          <Tabs tabs={tabs}>
+          <Tabs
+            tabs={tabs}
+            renderContentHeaderComponent={this.renderContentHeaderComponent()}
+          >
             {tabs.map((item, index) => (
               <List key={item.key} index={index} />
             ))}

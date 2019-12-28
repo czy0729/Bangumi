@@ -1,8 +1,10 @@
 /*
+ * @Params: { _url, _title, _replies, _group, _groupThumb,
+ *            _time,_avatar, _userName, _userId, _desc }
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 15:43:07
+ * @Last Modified time: 2019-12-21 15:38:08
  */
 import { observable, computed } from 'mobx'
 import {
@@ -12,17 +14,24 @@ import {
   userStore,
   usersStore
 } from '@stores'
+import { IOS, HOST } from '@constants'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
+import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 
 const namespace = 'ScreenTopic'
+const initState = {
+  placeholder: '', // 回复框placeholder
+  value: '', // 回复框value
+  replySub: '', // 存放bgm特有的子回复配置字符串
+  message: '' // 存放子回复html
+}
 
 export default class ScreenTopic extends store {
   state = observable({
-    placeholder: '',
-    replySub: '',
-    message: '',
+    ...initState,
     filterMe: false,
     filterFriends: false,
     reverse: false,
@@ -33,9 +42,7 @@ export default class ScreenTopic extends store {
     const state = await this.getStorage(undefined, this.namespace)
     this.setState({
       ...state,
-      placeholder: '',
-      replySub: '',
-      message: '',
+      ...initState,
       _loaded: true
     })
 
@@ -44,35 +51,64 @@ export default class ScreenTopic extends store {
       this.fetchEpFormHTML()
     }
 
+    // 本地帖子过来不主动请求
+    const { _noFetch } = this.params
+    if (_noFetch) {
+      return true
+    }
     return this.fetchTopic()
   }
 
   // -------------------- fetch --------------------
-  fetchTopic = () => {
-    const { topicId } = this.params
-    return rakuenStore.fetchTopic({ topicId })
-  }
+  fetchTopic = () =>
+    rakuenStore.fetchTopic({
+      topicId: this.topicId
+    })
 
   fetchEpFormHTML = () => {
-    const { topicId } = this.params
-    const epId = topicId.replace('ep/', '')
+    const epId = this.topicId.replace('ep/', '')
     return subjectStore.fetchEpFormHTML(epId)
   }
 
   // -------------------- get --------------------
+  @computed get topicId() {
+    const { topicId = '' } = this.params
+    if (!topicId) {
+      return '0'
+    }
+    return topicId.split('#')[0]
+  }
+
+  /**
+   * 需要跳转到的楼层id
+   */
+  @computed get postId() {
+    const { topicId = '' } = this.params
+    const [, postId] = topicId.split('#post_')
+    return postId
+  }
+
   @computed get namespace() {
-    const { topicId } = this.params
-    return `${namespace}|${topicId}`
+    return `${namespace}|${this.topicId}`
   }
 
   @computed get topic() {
-    const { topicId } = this.params
-    return rakuenStore.topic(topicId)
+    return rakuenStore.topic(this.topicId)
+  }
+
+  @computed get groupThumb() {
+    const { _group, _groupThumb } = this.params
+    if (_groupThumb) {
+      return _groupThumb
+    }
+    if (_group) {
+      return rakuenStore.groupThumb(_group)
+    }
+    return ''
   }
 
   @computed get comments() {
-    const { topicId } = this.params
-    const comments = rakuenStore.comments(topicId)
+    const comments = rakuenStore.comments(this.topicId)
     const { filterMe, filterFriends, reverse } = this.state
 
     const list = reverse ? comments.list.reverse() : comments.list
@@ -116,31 +152,29 @@ export default class ScreenTopic extends store {
   }
 
   @computed get isEp() {
-    const { topicId } = this.params
-    return topicId.indexOf('ep/') === 0
+    return this.topicId.indexOf('ep/') === 0
   }
 
   @computed get isMono() {
-    const { topicId } = this.params
-    return topicId.indexOf('prsn/') === 0 || topicId.indexOf('crt/') === 0
+    return (
+      this.topicId.indexOf('prsn/') === 0 || this.topicId.indexOf('crt/') === 0
+    )
   }
 
   @computed get monoId() {
-    const { topicId } = this.params
-    if (topicId.indexOf('prsn/') === 0) {
-      return topicId.replace('prsn/', 'person/')
+    if (this.topicId.indexOf('prsn/') === 0) {
+      return this.topicId.replace('prsn/', 'person/')
     }
 
-    if (topicId.indexOf('crt/') === 0) {
-      return topicId.replace('crt/', 'character/')
+    if (this.topicId.indexOf('crt/') === 0) {
+      return this.topicId.replace('crt/', 'character/')
     }
 
-    return topicId
+    return this.topicId
   }
 
   @computed get epFormHTML() {
-    const { topicId } = this.params
-    const epId = topicId.replace('ep/', '')
+    const epId = this.topicId.replace('ep/', '')
     return subjectStore.epFormHTML(epId)
   }
 
@@ -149,8 +183,7 @@ export default class ScreenTopic extends store {
   }
 
   @computed get readed() {
-    const { topicId } = this.params
-    return rakuenStore.readed(topicId)
+    return rakuenStore.readed(this.topicId)
   }
 
   @computed get myId() {
@@ -165,12 +198,21 @@ export default class ScreenTopic extends store {
     return systemStore.isUGCAgree
   }
 
+  @computed get isFavor() {
+    return rakuenStore.favor(this.topicId)
+  }
+
   // -------------------- page --------------------
   /**
    * 吐槽箱倒序
    */
   toggleReverseComments = () => {
     const { reverse } = this.state
+    t('帖子.吐槽倒序', {
+      topicId: this.topicId,
+      reverse: !reverse
+    })
+
     this.setState({
       reverse: !reverse
     })
@@ -182,6 +224,11 @@ export default class ScreenTopic extends store {
    */
   toggleFilterMe = () => {
     const { filterMe } = this.state
+    t('帖子.与我相关', {
+      topicId: this.topicId,
+      filterMe: !filterMe
+    })
+
     this.setState({
       filterMe: !filterMe,
       filterFriends: false
@@ -194,6 +241,11 @@ export default class ScreenTopic extends store {
    */
   toggleFilterFriends = () => {
     const { filterFriends } = this.state
+    t('帖子.好友相关', {
+      topicId: this.topicId,
+      filterFriends: !filterFriends
+    })
+
     this.setState({
       filterMe: false,
       filterFriends: !filterFriends
@@ -205,6 +257,10 @@ export default class ScreenTopic extends store {
    * 显示评论框
    */
   showFixedTextarea = (placeholder, replySub, message) => {
+    t('帖子.显示评论框', {
+      topicId: this.topicId
+    })
+
     this.setState({
       placeholder,
       replySub,
@@ -223,64 +279,187 @@ export default class ScreenTopic extends store {
     })
   }
 
+  /**
+   * 输入框变化
+   */
+  onChange = value => {
+    this.setState({
+      value
+    })
+  }
+
+  /**
+   * 失败后恢复上次的内容
+   */
+  recoveryContent = content => {
+    t('帖子.回复失败', {
+      topicId: this.topicId
+    })
+
+    info('回复失败，可能是cookie失效了')
+    this.setState({
+      value: ''
+    })
+    setTimeout(() => {
+      this.setState({
+        value: content
+      })
+    }, 160)
+  }
+
+  /**
+   * 设置收藏
+   */
+  setFavor = () => {
+    t('帖子.设置收藏', {
+      topicId: this.topicId,
+      isFavor: !this.isFavor
+    })
+
+    rakuenStore.setFavor(this.topicId, !this.isFavor)
+  }
+
   // -------------------- action --------------------
   /**
-   * 回复
+   * 提交回复
    */
   doSubmit = content => {
-    const { topicId } = this.params
-    const { placeholder, replySub, message } = this.state
-    const { formhash } = this.topic
-
     let type
-    if (topicId.includes('group/')) {
+    if (this.topicId.includes('group/')) {
       type = 'group/topic'
-    } else if (topicId.includes('subject/')) {
+    } else if (this.topicId.includes('subject/')) {
       type = 'subject/topic'
-    } else if (topicId.includes('ep/')) {
+    } else if (this.topicId.includes('ep/')) {
       type = 'subject/ep'
-    } else if (topicId.includes('crt/')) {
+    } else if (this.topicId.includes('crt/')) {
       type = 'character'
-    } else if (topicId.includes('prsn/')) {
+    } else if (this.topicId.includes('prsn/')) {
       type = 'person'
     } else {
       return
     }
 
+    const { replySub } = this.state
     if (replySub) {
-      const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
-      let _content = content
-      if (message) {
-        const _message = decoder(message).replace(
-          /<div class="quote"><q>.*<\/q><\/div>/,
-          ''
-        )
-        _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(
-          _message
-        )}[/quote]\n${content}`
-      }
-      rakuenStore.doReply(
-        {
-          type,
-          content: _content,
-          formhash,
-          topicId,
-          related,
-          sub_reply_uid: subReplyUid,
-          post_uid: postUid
-        },
-        () => this.fetchTopic()
-      )
-    } else {
-      rakuenStore.doReply(
-        {
-          type,
-          topicId: topicId.match(/\d+/g)[0],
-          content,
-          formhash
-        },
-        () => this.fetchTopic()
-      )
+      this.doReplySub(content, type)
+      return
     }
+
+    this.doReply(content, type)
+  }
+
+  /**
+   * 回复
+   */
+  doReply = (content, type) => {
+    t('帖子.回复', {
+      topicId: this.topicId,
+      sub: false
+    })
+
+    const { formhash } = this.topic
+    rakuenStore.doReply(
+      {
+        type,
+        topicId: this.topicId.match(/\d+/g)[0],
+        content,
+        formhash
+      },
+      responseText => {
+        let res = {}
+        try {
+          res = JSON.parse(responseText)
+        } catch (error) {
+          // do nothing
+        }
+
+        if (IOS && res.status !== 'ok') {
+          this.recoveryContent(content)
+        } else {
+          this.setState({
+            value: ''
+          })
+        }
+
+        this.fetchTopic()
+      }
+    )
+  }
+
+  /**
+   * 回复子回复
+   */
+  doReplySub = (content, type) => {
+    t('帖子.回复', {
+      topicId: this.topicId,
+      sub: true
+    })
+
+    const { placeholder, replySub, message } = this.state
+    const { formhash } = this.topic
+
+    const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
+    let _content = content
+    if (message) {
+      const _message = decoder(message).replace(
+        /<div class="quote"><q>.*<\/q><\/div>/,
+        ''
+      )
+      _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(
+        _message
+      )}[/quote]\n${content}`
+    }
+    rakuenStore.doReply(
+      {
+        type,
+        content: _content,
+        formhash,
+        topicId,
+        related,
+        sub_reply_uid: subReplyUid,
+        post_uid: postUid
+      },
+      responseText => {
+        let res = {}
+        try {
+          res = JSON.parse(responseText)
+        } catch (error) {
+          // do nothing
+        }
+
+        if (IOS && res.status !== 'ok') {
+          this.recoveryContent(content)
+        } else {
+          this.setState({
+            value: ''
+          })
+        }
+
+        this.fetchTopic()
+      }
+    )
+  }
+
+  /**
+   * 删除回复
+   */
+  doDeleteReply = url => {
+    if (!url) {
+      return
+    }
+
+    t('帖子.删除回复', {
+      topicId: this.topicId
+    })
+
+    rakuenStore.doDeleteReply(
+      {
+        url: `${HOST}/${url}`
+      },
+      () => {
+        info('已删除')
+        this.fetchTopic()
+      }
+    )
   }
 }

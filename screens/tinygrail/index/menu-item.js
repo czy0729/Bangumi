@@ -2,36 +2,43 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 21:47:25
+ * @Last Modified time: 2019-12-22 03:13:10
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBorder, colorPlain } from '../styles'
+import { t } from '@utils/fetch'
 
 const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
-const sectionHeight = sectionWidth / 2
+const sectionHeight = sectionWidth / 2.4
 
 function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
+  const styles = memoStyles()
   return (
     <Touchable
       style={styles.container}
-      onPress={() => navigation.push(pathname, config)}
+      onPress={() => {
+        t('小圣杯.跳转', {
+          to: pathname,
+          ...config
+        })
+
+        navigation.push(pathname, config)
+      }}
     >
       <Flex style={[styles.block, style]}>
         <Text
           style={{
-            color: colorPlain
+            color: _.colorTinygrailPlain
           }}
           size={20}
           bold
         >
           {title}
         </Text>
-        <Iconfont style={styles.icon} name={icon} size={64} />
+        <Iconfont style={styles.icon} name={icon} size={56} />
       </Flex>
     </Touchable>
   )
@@ -43,7 +50,7 @@ MenuItem.contextTypes = {
 
 export default observer(MenuItem)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     marginRight: _.wind,
     marginBottom: _.wind,
@@ -54,13 +61,13 @@ const styles = StyleSheet.create({
     width: sectionWidth,
     height: sectionHeight,
     paddingLeft: 24,
-    backgroundColor: colorBorder
+    backgroundColor: _.colorTinygrailBorder
   },
   icon: {
     position: 'absolute',
     top: '50%',
-    right: -16,
-    marginTop: -32,
+    right: -12,
+    marginTop: -28,
     opacity: 0.16
   }
-})
+}))

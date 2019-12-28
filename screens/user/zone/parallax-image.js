@@ -2,22 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:28:20
+ * @Last Modified time: 2019-12-23 14:59:57
  */
 import React from 'react'
-import { StyleSheet, Animated, View, Alert } from 'react-native'
+import { Animated, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Iconfont, Text } from '@components'
 import { Popover, IconBack } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { HTMLDecode } from '@utils/html'
+import { t } from '@utils/fetch'
 import { IOS, HOST } from '@constants'
-import _ from '@styles'
 import Head from './head'
 import { height, headerHeight } from './store'
 
 function ParallaxImage({ scrollY }, { $, navigation }) {
+  const styles = memoStyles()
+  const { _image, _name } = $.params
   const { avatar = {}, nickname, id, username } = $.usersInfo
   const parallaxStyle = {
     transform: [
@@ -49,12 +52,21 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
   } else if ($.users.disconnectUrl) {
     data.push('解除好友')
   }
+
+  let uri = avatar.large
+  if (_image) {
+    if (_image.indexOf('http') === 0) {
+      uri = _image
+    } else {
+      uri = `https:${_image}`
+    }
+  }
   return (
     <>
       <View style={styles.parallax} pointerEvents='none'>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
-          source={{ uri: avatar.large }}
+          source={{ uri }} // blurView可以优先使用缩略图
           blurRadius={2}
         />
         <Animated.View
@@ -62,10 +74,13 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             styles.parallaxMask,
             parallaxStyle,
             {
-              backgroundColor: 'rgba(0, 0, 0, 0.48)',
+              backgroundColor: _.select(
+                'rgba(0, 0, 0, 0.48)',
+                'rgba(0, 0, 0, 0.64)'
+              ),
               opacity: scrollY.interpolate({
                 inputRange: [-height, 0, height - headerHeight, height],
-                outputRange: [0, 0.4, 1, 1]
+                outputRange: _.select([0, 0.4, 1, 1], [0.4, 0.8, 1, 1])
               })
             }
           ]}
@@ -84,12 +99,12 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
         >
           <Text
             style={styles.title}
-            type='plain'
+            type={_.select('plain', 'title')}
             size={16}
             align='center'
             numberOfLines={1}
           >
-            {HTMLDecode(nickname)}
+            {HTMLDecode(nickname || _name)}
           </Text>
         </Animated.View>
         <Animated.View
@@ -119,8 +134,13 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
       >
         <Popover
           data={data}
-          onSelect={label => {
-            switch (label) {
+          onSelect={key => {
+            t('空间.右上角菜单', {
+              key,
+              userId: $.userId
+            })
+
+            switch (key) {
               case '浏览器查看':
                 open(`${HOST}/user/${username}`)
                 break
@@ -132,7 +152,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
               case 'TA的收藏信息':
                 navigation.push('User', {
                   userId: username,
-                  _name: HTMLDecode(nickname),
+                  _name: HTMLDecode(nickname || _name),
                   _image: avatar.large
                 })
                 break
@@ -158,7 +178,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont size={24} name='more' color={_.colorPlain} />
+          <Iconfont size={24} name='more' color={_.__colorPlain__} />
         </Popover>
       </View>
     </>
@@ -172,7 +192,7 @@ ParallaxImage.contextTypes = {
 
 export default observer(ParallaxImage)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   parallax: {
     position: 'absolute',
     zIndex: 1,
@@ -213,7 +233,4 @@ const styles = StyleSheet.create({
   btn: {
     zIndex: 1
   }
-  // friends: {
-  //   right: 44
-  // }
-})
+}))

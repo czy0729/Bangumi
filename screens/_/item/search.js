@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-19 22:33:45
+ * @Last Modified time: 2019-12-28 14:11:43
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image, Touchable } from '@components'
+import { _ } from '@stores'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { IMG_DEFAULT } from '@constants'
+import { EVENT, IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 import Tag from '../base/tag'
 import Stars from '../base/stars'
 
@@ -32,8 +32,12 @@ function ItemSearch({
   rank,
   type,
   collected,
-  comments
+  comments,
+  event
 }) {
+  const styles = memoStyles()
+  const _image = getCoverMedium(cover)
+
   // 人物高清图不是正方形的图, 所以要特殊处理
   const isMono = !id.includes('/subject/')
   const isFirst = index === 0
@@ -41,19 +45,30 @@ function ItemSearch({
     <Touchable
       style={styles.container}
       highlight
-      onPress={() => appNavigate(id, navigation)}
+      onPress={() => {
+        appNavigate(
+          id,
+          navigation,
+          {
+            _jp: name,
+            _cn: nameCn,
+            _image
+          },
+          event
+        )
+      }}
     >
       <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
         <View style={styles.imgContainer}>
           <Image
             style={styles.image}
-            src={getCoverMedium(cover) || IMG_DEFAULT}
+            src={_image || IMG_DEFAULT}
             resizeMode={isMono ? 'contain' : undefined}
             placeholder={!isMono}
             width={imgWidth}
             height={imgHeight}
             radius
-            shadow
+            shadow={IOS}
           />
         </View>
         <Flex.Item style={[styles.item, _.ml.wind]}>
@@ -66,14 +81,15 @@ function ItemSearch({
             <View>
               <Flex align='start' style={{ width: '100%' }}>
                 <Flex.Item>
-                  {!!name && (
+                  {!!(nameCn || name) && (
                     <Text size={15} numberOfLines={2}>
                       {collected && (
                         <Text type='main' lineHeight={15}>
                           [已收藏]{' '}
                         </Text>
                       )}
-                      {HTMLDecode(name)}
+
+                      {HTMLDecode(nameCn || name)}
                       {!!comments && (
                         <Text type='main' lineHeight={15}>
                           {' '}
@@ -82,14 +98,14 @@ function ItemSearch({
                       )}
                     </Text>
                   )}
-                  {!!nameCn && nameCn !== name && (
+                  {!!name && name !== nameCn && (
                     <Text
                       style={_.mt.xs}
                       type='sub'
                       size={12}
                       numberOfLines={1}
                     >
-                      {HTMLDecode(nameCn)}
+                      {HTMLDecode(name)}
                     </Text>
                   )}
                 </Flex.Item>
@@ -124,9 +140,13 @@ function ItemSearch({
   )
 }
 
+ItemSearch.defaultProps = {
+  event: EVENT
+}
+
 export default observer(ItemSearch)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -140,9 +160,9 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   content: {
     height: imgHeight
   }
-})
+}))

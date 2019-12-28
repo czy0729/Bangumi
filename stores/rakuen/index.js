@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:19:54
+ * @Last Modified time: 2019-12-14 19:54:31
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
-import { HOST, LIST_EMPTY, LIST_LIMIT } from '@constants'
+import { HOST, LIST_EMPTY, LIMIT_LIST } from '@constants'
 import {
   HTML_NOTIFY,
   HTML_TOPIC,
@@ -22,7 +22,7 @@ import {
   NAMESPACE,
   DEFAULT_SCOPE,
   DEFAULT_TYPE,
-  // LIST_COMMENTS_LIMIT,
+  // LIMIT_LIST_COMMENTS,
   INIT_READED_ITEM,
   INIT_TOPIC,
   INIT_NOTIFY,
@@ -90,20 +90,36 @@ class Rakuen extends store {
      */
     group: {
       // [groupId|page]: [] | INIT_GROUP_ITEM
+    },
+
+    /**
+     * 本地收藏
+     */
+    favor: {
+      // [topicId]: true
+    },
+
+    /**
+     * 小组缩略图缓存
+     */
+    groupThumb: {
+      // [name]: ''
     }
   })
 
   init = () =>
-    this.readStorageThenSetState(
-      {
-        rakuen: {},
-        readed: {},
-        topic: {},
-        comments: {},
-        notify: INIT_NOTIFY,
-        setting: INIT_SETTING,
-        groupInfo: {}
-      },
+    this.readStorage(
+      [
+        'rakuen',
+        'readed',
+        'topic',
+        'comments',
+        'notify',
+        'setting',
+        'groupInfo',
+        'favor',
+        'groupThumb'
+      ],
       NAMESPACE
     )
 
@@ -178,6 +194,21 @@ class Rakuen extends store {
     ).get()
   }
 
+  /**
+   * 本地收藏
+   * @param {*} topicId
+   */
+  favor(topicId = 0) {
+    return computed(() => this.state.favor[topicId] || false).get()
+  }
+
+  /**
+   * 小组缩略图缓存
+   */
+  groupThumb(name) {
+    return computed(() => this.state.groupThumb[name] || '').get()
+  }
+
   // -------------------- fetch --------------------
   /**
    * 获取超展开聚合列表 (高流量, 20k左右1次)
@@ -199,10 +230,10 @@ class Rakuen extends store {
       this.setState({
         [key]: {
           [stateKey]: {
-            list: rakuen.slice(0, LIST_LIMIT),
+            list: rakuen.slice(0, LIMIT_LIST),
             pagination: {
               page: 1,
-              pageTotal: Math.ceil(rakuen.length / LIST_LIMIT)
+              pageTotal: Math.ceil(rakuen.length / LIMIT_LIST)
             },
             _list: rakuen,
             _loaded: getTimestamp()
@@ -217,7 +248,7 @@ class Rakuen extends store {
         [key]: {
           [stateKey]: {
             ...rakuen,
-            list: rakuen._list.slice(0, LIST_LIMIT * page),
+            list: rakuen._list.slice(0, LIMIT_LIST * page),
             pagination: {
               ...rakuen.pagination,
               page
@@ -270,6 +301,7 @@ class Rakuen extends store {
       }
     })
     this.setStorage(commentsKey, undefined, NAMESPACE)
+    this.updateGroupThumb(topic.group, topic.groupThumb)
 
     return Promise.resolve({
       topic,
@@ -412,6 +444,18 @@ class Rakuen extends store {
     )
   }
 
+  /**
+   * 删除回复
+   */
+  doDeleteReply = async ({ url }, success) => {
+    xhr(
+      {
+        url
+      },
+      success
+    )
+  }
+
   // -------------------- page --------------------
   /**
    * 更新帖子历史查看信息
@@ -546,6 +590,32 @@ class Rakuen extends store {
       [key]: {
         ...this.setting,
         isMarkOldTopic: !isMarkOldTopic
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 设置是否收藏
+   */
+  setFavor = (topicId, isFover) => {
+    const key = 'favor'
+    this.setState({
+      [key]: {
+        [topicId]: isFover
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 更新小组缩略图
+   */
+  updateGroupThumb = (name, thumb) => {
+    const key = 'groupThumb'
+    this.setState({
+      [key]: {
+        [name]: thumb
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

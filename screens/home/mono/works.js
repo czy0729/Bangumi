@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:08:15
+ * @Last Modified time: 2019-12-20 15:54:15
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { SectionTitle, Tag, IconHeader } from '@screens/_'
+import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
 
 function Works({ style }, { $, navigation }) {
   const { works = [] } = $.mono
@@ -19,7 +19,14 @@ function Works({ style }, { $, navigation }) {
     return null
   }
 
+  const styles = memoStyles()
   const { monoId } = $.params
+  const event = {
+    id: '人物.跳转',
+    data: {
+      from: '最近参与'
+    }
+  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
@@ -27,7 +34,9 @@ function Works({ style }, { $, navigation }) {
           <IconHeader
             name='right'
             color={_.title}
-            onPress={() => appNavigate(`/${monoId}/works`)}
+            onPress={() =>
+              appNavigate(`/${monoId}/works`, undefined, {}, event)
+            }
           />
         }
       >
@@ -45,7 +54,18 @@ function Works({ style }, { $, navigation }) {
               src={item.cover}
               radius
               border={_.colorBorder}
-              onPress={() => appNavigate(item.href, navigation)}
+              onPress={() =>
+                appNavigate(
+                  item.href,
+                  navigation,
+                  {
+                    _jp: item.name,
+                    _cn: item.nameCn,
+                    _image: item.cover
+                  },
+                  event
+                )
+              }
             />
             <Flex.Item style={_.ml.sm}>
               <Text>{item.name}</Text>
@@ -67,7 +87,7 @@ Works.contextTypes = {
 
 export default observer(Works)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind
   },
@@ -77,6 +97,6 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
-})
+}))

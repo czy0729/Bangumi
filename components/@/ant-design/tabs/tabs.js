@@ -29,6 +29,7 @@ export class Tabs extends React.PureComponent {
     renderHeaderComponent: undefined, // @add
     renderContentHeaderComponent: undefined, //@add
     renderTabBarLeft: undefined, // @add
+    renderTabBarRight: undefined, // @add
     style: {}, // @add
     tabBarStyle: {} // @add
   }
@@ -101,47 +102,56 @@ export class Tabs extends React.PureComponent {
         </View>
       )
     })
+
     if (Platform.OS === 'android') {
       return (
-        <ViewPagerAndroid
+        <View
           key='$content'
-          keyboardDismissMode='on-drag'
-          initialPage={currentTab}
-          scrollEnabled={this.props.swipeable || usePaged}
-          onPageScroll={e => {
-            this.state.scrollX.setValue(
-              e.nativeEvent.position * this.state.containerWidth
-            )
+          style={{
+            flex: 1
           }}
-          style={{ flex: 1 }}
-          onPageSelected={e => {
-            const index = e.nativeEvent.position
-            this.setState(
-              {
-                currentTab: index
-              },
-              () => {
-                // tslint:disable-next-line:no-unused-expression
-                this.props.onChange && this.props.onChange(tabs[index], index)
-              }
-            )
-            this.nextCurrentTab = index
-          }}
-          ref={ref => (this.viewPager = ref)}
         >
-          {content}
-        </ViewPagerAndroid>
+          {renderContentHeaderComponent}
+          <ViewPagerAndroid
+            keyboardDismissMode='on-drag'
+            initialPage={currentTab}
+            scrollEnabled={this.props.swipeable || usePaged}
+            onPageScroll={e => {
+              this.state.scrollX.setValue(
+                e.nativeEvent.position * this.state.containerWidth
+              )
+            }}
+            style={{ flex: 1 }}
+            onPageSelected={e => {
+              const index = e.nativeEvent.position
+              this.setState(
+                {
+                  currentTab: index
+                },
+                () => {
+                  // tslint:disable-next-line:no-unused-expression
+                  this.props.onChange && this.props.onChange(tabs[index], index)
+                }
+              )
+              this.nextCurrentTab = index
+            }}
+            ref={ref => (this.viewPager = ref)}
+          >
+            {content}
+          </ViewPagerAndroid>
+        </View>
       )
     }
+
     return (
-      <>
-        {!!renderContentHeaderComponent && (
-          <View key='$renderContentHeaderComponent'>
-            {renderContentHeaderComponent}
-          </View>
-        )}
+      <View
+        key='$content'
+        style={{
+          flex: 1
+        }}
+      >
+        {renderContentHeaderComponent}
         <Animated.ScrollView
-          key='$content'
           horizontal
           pagingEnabled={usePaged}
           automaticallyAdjustContentInsets={false}
@@ -168,7 +178,7 @@ export class Tabs extends React.PureComponent {
         >
           {content}
         </Animated.ScrollView>
-      </>
+      </View>
     )
   }
 
@@ -399,7 +409,7 @@ export class Tabs extends React.PureComponent {
 
   // tslint:disable-next-line:no-shadowed-variable
   renderTabBar(tabBarProps, DefaultTabBar) {
-    const { renderTabBar, renderTabBarLeft } = this.props
+    const { renderTabBar, renderTabBarLeft, renderTabBarRight } = this.props
     if (renderTabBar === false) {
       return null
     } else if (renderTabBar) {
@@ -411,6 +421,18 @@ export class Tabs extends React.PureComponent {
           <Flex>
             {renderTabBarLeft}
             <DefaultTabBar {...tabBarProps} />
+          </Flex>
+        )
+      }
+
+      // @add
+      if (renderTabBarRight) {
+        return (
+          <Flex>
+            <Flex.Item>
+              <DefaultTabBar {...tabBarProps} />
+            </Flex.Item>
+            {renderTabBarRight}
           </Flex>
         )
       }

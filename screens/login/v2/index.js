@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /*
  * v2.1 为了应付多种特异的情况
  * [0]正常登陆 -> 不行 -> [1]换成http -> 不行 -> [2]withCredentials = true -> 不行 -> 失败
@@ -5,29 +6,31 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-27 11:18:59
+ * @Last Modified time: 2019-12-28 21:39:05
  */
 import React from 'react'
-import { StyleSheet, Alert, View } from 'react-native'
+import { Alert, View } from 'react-native'
+import { observer } from 'mobx-react'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import deepmerge from 'deepmerge'
-import { StatusBarEvents, Text, Flex, KeyboardSpacer } from '@components'
+import { StatusBarEvents, Text, Flex, KeyboardSpacer, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
-import { userStore } from '@stores'
-import { getTimestamp, setStorage, getStorage } from '@utils'
-import { xhrCustom, hm } from '@utils/fetch'
+import { _, userStore } from '@stores'
+import { getTimestamp, setStorage, getStorage, open } from '@utils'
+import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
-import _ from '@styles'
 import Preview from './preview'
 import Form from './form'
 
+const title = '登陆'
 const namespace = 'LoginV2'
-const backgroundColor = 'rgb(251, 251, 251)'
 const HOST_BANGUMI = 'https://bangumi.tv'
 
-export default class LoginV2 extends React.Component {
+export default
+@observer
+class LoginV2 extends React.Component {
   static navigationOptions = {
     header: null
   }
@@ -40,7 +43,8 @@ export default class LoginV2 extends React.Component {
     base64: '',
     loading: false,
     info: '',
-    retry: 0
+    retry: 0,
+    focus: false
   }
 
   userAgent = ''
@@ -62,19 +66,19 @@ export default class LoginV2 extends React.Component {
       })
     }
 
-    this.userAgent = await Constants.getWebViewUserAgentAsync()
-
-    // await this.logout()
+    await this.getUA()
     await this.getFormHash()
     await this.getCaptcha()
 
-    hm('login/v2')
+    hm('login/v2', 'LoginV2')
   }
 
   /**
    * 游客访问
    */
   onTour = async () => {
+    t('登陆.游客访问')
+
     try {
       const { _response } = await xhrCustom({
         url: 'https://czy0729.github.io/Bangumi/web/tourist.json'
@@ -102,11 +106,10 @@ export default class LoginV2 extends React.Component {
   /**
    * 显示登陆表单
    */
-  onPreviewLogin = () => {
+  onPreviewLogin = () =>
     this.setState({
       clicked: true
     })
-  }
 
   /**
    * 登出
@@ -118,6 +121,17 @@ export default class LoginV2 extends React.Component {
   //       'User-Agent': this.userAgent
   //     }
   //   })
+
+  /**
+   * 随机生成一个UserAgent
+   */
+  getUA = async () => {
+    const res = Constants.getWebViewUserAgentAsync()
+    const UA = await res
+    this.userAgent = `${UA} ${getTimestamp()}`
+
+    return res
+  }
 
   /**
    * 获取表单hash
@@ -211,13 +225,18 @@ export default class LoginV2 extends React.Component {
   /**
    * 登陆最终失败
    */
-  finalLoginFail = info => {
+  finalLoginFail = async info => {
+    t('登陆.失败')
+
     this.setState({
       loading: false,
       info,
       retry: 0
     })
-    this.getCaptcha()
+
+    await this.getUA()
+    await this.getFormHash()
+    await this.getCaptcha()
   }
 
   /**
@@ -229,6 +248,8 @@ export default class LoginV2 extends React.Component {
       info('请填写以上字段')
       return
     }
+
+    t('登陆.登陆')
 
     this.inputRef.inputRef.blur()
     setStorage(`${namespace}|email`, email)
@@ -360,7 +381,7 @@ export default class LoginV2 extends React.Component {
    */
   getAccessToken = () => {
     this.setState({
-      info: `${this.retryText}授权成功, 获取token中...(4/5), 若卡住可再次点击登录重试`
+      info: `${this.retryText}授权成功, 获取token中...(4/5), 若没反应可再次点击登陆重试(不用管转圈)`
     })
 
     return xhrCustom(
@@ -401,9 +422,20 @@ export default class LoginV2 extends React.Component {
 
     await userStore.fetchUserInfo()
     await userStore.fetchUsersInfo()
-
     navigation.popToTop()
+
+    t('登陆.成功')
   }
+
+  onFocus = () =>
+    this.setState({
+      focus: true
+    })
+
+  onBlur = () =>
+    this.setState({
+      focus: false
+    })
 
   /**
    * 输入框变化
@@ -466,6 +498,8 @@ export default class LoginV2 extends React.Component {
         loading={loading}
         info={info}
         onGetCaptcha={this.getCaptcha}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
         onChange={this.onChange}
         onLogin={this.onLogin}
       />
@@ -473,46 +507,85 @@ export default class LoginV2 extends React.Component {
   }
 
   render() {
-    const { clicked } = this.state
+    const { clicked, focus } = this.state
     return (
-      <View style={[_.container.flex, styles.gray]}>
-        <StatusBarEvents backgroundColor={backgroundColor} />
-        <StatusBarPlaceholder style={styles.gray} />
+      <View style={[_.container.flex, this.styles.gray]}>
+        <UM screen={title} />
+        <StatusBarEvents backgroundColor={_.colorBg} />
+        <StatusBarPlaceholder style={this.styles.gray} />
         <View style={_.container.flex}>
           {clicked ? this.renderForm() : this.renderPreview()}
         </View>
         {clicked ? (
-          <View style={styles.ps}>
-            <Text size={12} lineHeight={14} type='sub'>
-              隐私策略: 我们十分尊重您的个人隐私, 信息仅存储于您的设备中,
-              我们不会收集上述信息. (多次尝试登陆后, 会导致一段时间不能再次登陆,
-              可者完全退出后清除应用数据再尝试)
-            </Text>
-          </View>
+          !focus && (
+            <View style={this.styles.ps}>
+              <Text size={12} lineHeight={14} type='sub'>
+                隐私策略: 我们十分尊重您的个人隐私, 信息仅存储于您的设备中,
+                我们不会收集上述信息. (多次尝试登陆后,
+                会导致一段时间不能再次登陆, 可者完全退出后清除应用数据再尝试)
+              </Text>
+            </View>
+          )
         ) : (
-          <Flex style={styles.old}>
+          <Flex style={this.styles.old}>
             <Flex.Item>
               <Text
                 type='sub'
                 align='center'
                 onPress={() => {
-                  const { navigation } = this.props
-                  navigation.push('Login')
+                  t('登陆.跳转', {
+                    to: 'Signup'
+                  })
+                  Alert.alert(
+                    '温馨提示',
+                    // eslint-disable-next-line max-len
+                    '在移动端浏览器注册会经常遇到验证码错误，若碰到建议在浏览器里使用电脑版UA，不行就使用电脑浏览器，再不行使用电脑Chrome注册(这个一定可以)。 \n\n注册后会有激活码发到邮箱，短时间内只会发送一次，反正一直用邮箱那个就行。输入激活码有可能激活失败，主要是之前太多人注册进来打广告，站主写了很多限制。若激活不能再换一个不同的电脑浏览器，比如IE或者Safari激活。',
+                    [
+                      {
+                        text: '取消',
+                        type: 'cancel'
+                      },
+                      {
+                        text: '前往注册',
+                        onPress: () => open('https://bgm.tv/signup')
+                      }
+                    ]
+                  )
                 }}
               >
-                旧版授权登陆
+                注册
               </Text>
             </Flex.Item>
-            <Flex.Item style={styles.border}>
+            <Flex.Item style={this.styles.border}>
               <Text
                 type='sub'
                 align='center'
                 onPress={() => {
+                  t('登陆.跳转', {
+                    to: 'Login'
+                  })
+
+                  const { navigation } = this.props
+                  navigation.push('Login')
+                }}
+              >
+                旧版登陆
+              </Text>
+            </Flex.Item>
+            <Flex.Item style={this.styles.border}>
+              <Text
+                type='sub'
+                align='center'
+                onPress={() => {
+                  t('登陆.跳转', {
+                    to: 'LoginAssist'
+                  })
+
                   const { navigation } = this.props
                   navigation.push('LoginAssist')
                 }}
               >
-                电脑辅助登陆
+                辅助登陆
               </Text>
             </Flex.Item>
           </Flex>
@@ -521,11 +594,15 @@ export default class LoginV2 extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   gray: {
-    backgroundColor
+    backgroundColor: _.colorBg
   },
   old: {
     position: 'absolute',
@@ -545,4 +622,4 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderColor: _.colorBorder
   }
-})
+}))

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 15:39:03
+ * @Last Modified time: 2019-12-23 14:27:05
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import {
   createAppContainer,
   createStackNavigator,
   getActiveChildNavigationOptions
 } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { BlurView } from 'expo-blur'
+import { observer } from 'mobx-react'
+import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
 import {
   Anitama,
   Award,
@@ -26,10 +27,13 @@ import {
   LoginV2,
   Mono,
   Notify,
+  Qiafan,
   Rakuen,
+  RakuenHistory,
   RakuenSetting,
   Random,
   Rank,
+  Say,
   Search,
   Setting,
   Subject,
@@ -44,57 +48,61 @@ import {
   TinygrailICODeal,
   TinygrailLogs,
   TinygrailNew,
+  TinygrailSacrifice,
   TinygrailOverview,
   TinygrailRich,
   TinygrailSearch,
+  TinygrailTemples,
   TinygrailTrade,
+  TinygrailTree,
+  TinygrailTreeRich,
+  TinygrailValhall,
   Topic,
   UGCAgree,
   User,
-  Video,
   WebView,
   Zone
 } from '@screens'
-import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
+import { BlurView } from '@screens/_'
 import { IOS } from '@constants'
-import _ from '@styles'
+import { _ } from '@stores'
 import navigationsParams, { initialHomeTabName } from '../navigations'
 import HomeScreen from './screens/home'
 import config from './stacks/config'
 
-const TabBarComponent = props => <BottomTabBar {...props} />
-
-const HomeTab = createBottomTabNavigator(
-  {
-    Discovery,
-    Timeline,
-    Home: HomeScreen,
-    Rakuen,
-    User
-  },
-  {
-    initialRouteName: initialHomeTabName,
-    tabBarComponent: props => {
-      if (IOS) {
-        return (
-          <BlurView tint='default' intensity={100} style={styles.blurView}>
-            <TabBarComponent {...props} style={styles.tabBarComponent} />
-          </BlurView>
-        )
-      }
-      return (
-        <View style={styles.tarBarView}>
-          <TabBarComponent {...props} style={styles.tabBarComponent} />
-        </View>
-      )
-    },
-    tabBarOptions: {
-      activeTintColor: _.colorMain,
-      inactiveTintColor: _.colorDesc
-    },
-    navigationOptions: ({ navigation, screenProps }) =>
-      getActiveChildNavigationOptions(navigation, screenProps)
+const TarBarComponent = observer(props => {
+  const styles = memoStyles()
+  if (IOS) {
+    return (
+      <BlurView style={styles.blurView}>
+        <BottomTabBar {...props} style={styles.tabBarComponent} />
+      </BlurView>
+    )
   }
+
+  return (
+    <View style={styles.tarBarView}>
+      <BottomTabBar {...props} style={styles.tabBarComponent} />
+    </View>
+  )
+})
+
+const HomeTab = observer(
+  createBottomTabNavigator(
+    {
+      Discovery,
+      Timeline,
+      Home: HomeScreen,
+      Rakuen,
+      User
+    },
+    {
+      initialRouteName: initialHomeTabName,
+      tabBarComponent: props => <TarBarComponent {...props} />,
+      navigationOptions: ({ navigation, screenProps }) =>
+        getActiveChildNavigationOptions(navigation, screenProps)
+    }
+  )
 )
 
 const HomeStack = createStackNavigator(
@@ -112,10 +120,13 @@ const HomeStack = createStackNavigator(
     LoginV2,
     Mono,
     Notify,
+    Qiafan,
     Rakuen,
+    RakuenHistory,
     RakuenSetting,
     Random,
     Rank,
+    Say,
     Search,
     Setting,
     Subject,
@@ -132,12 +143,16 @@ const HomeStack = createStackNavigator(
     TinygrailNew,
     TinygrailOverview,
     TinygrailRich,
+    TinygrailSacrifice,
     TinygrailSearch,
+    TinygrailTemples,
     TinygrailTrade,
+    TinygrailTree,
+    TinygrailTreeRich,
+    TinygrailValhall,
     Topic,
     UGCAgree,
     User,
-    Video,
     WebView,
     Zone
   },
@@ -149,7 +164,7 @@ const HomeStack = createStackNavigator(
 
 export default createAppContainer(HomeStack)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   blurView: {
     position: 'absolute',
     right: 0,
@@ -169,7 +184,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
       }
     : {
-        borderTopWidth: StyleSheet.hairlineWidth,
+        backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+        borderTopWidth: _.hairlineWidth,
         borderTopColor: _.colorBorder
       }
-})
+}))

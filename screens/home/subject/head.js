@@ -2,22 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:33:41
+ * @Last Modified time: 2019-12-17 19:41:27
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { ScoreTag } from '@screens/_'
+import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 import Cover from './cover'
 
 const imageWidth = 120
 
 function Head({ style }, { $ }) {
+  const styles = memoStyles()
   const {
     images = {},
     name = '',
@@ -53,7 +55,8 @@ function Head({ style }, { $ }) {
         <View>
           {!!jp && (
             <Text type='sub' size={jp.length > 16 ? 11 : 13}>
-              {jp} · {label}
+              {jp}
+              {!!label && ` · ${label}`}
             </Text>
           )}
           <Text style={!!cn && _.mt.xs} size={cn.length > 16 ? 16 : 20}>
@@ -62,7 +65,7 @@ function Head({ style }, { $ }) {
         </View>
         <Flex>
           <Text type='main' size={22} lineHeight={1}>
-            {rating.score === '' ? '-' : rating.score.toFixed(1)}
+            {rating.score === '' ? '-' : toFixed(rating.score, 1)}
           </Text>
           {rating.score !== '' && (
             <ScoreTag style={_.ml.sm} value={rating.score} />
@@ -79,7 +82,7 @@ Head.contextTypes = {
 
 export default observer(Head)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingTop: 48
   },
@@ -92,4 +95,4 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: _.radiusLg,
     borderTopRightRadius: _.radiusLg
   }
-})
+}))

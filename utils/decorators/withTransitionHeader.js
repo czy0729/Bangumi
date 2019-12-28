@@ -2,42 +2,46 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 20:10:21
+ * @Last Modified time: 2019-12-09 11:42:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, Popover, Menu, Flex, Iconfont } from '@components'
+import { StatusBarEvents, Popover, Menu, Flex, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
+import { _ } from '@stores'
 import { gradientColor } from '@utils'
-import { IOS } from '@constants'
-import _ from '@styles'
+import { IOS, BARE } from '@constants'
 import observer from './observer'
+
+const defaultHeaderStyle = {
+  backgroundColor: 'transparent'
+}
+if (!IOS && BARE) {
+  defaultHeaderStyle.height = _.statusBarHeight + 52
+  defaultHeaderStyle.paddingTop = _.statusBarHeight
+}
 
 /**
  * @param {*} headerTransition 过渡头高度
  */
 const withTransitionHeader = ({
+  screen,
   headerTransition = 48,
-  colorStart = _.colorPlainRaw,
-  colorEnd = _.colorTitleRaw,
+  colorStart,
+  colorEnd = _.colorTitleRaw, // 黑暗模式, end也是白色
   transparent = false,
   barStyle
-} = {}) => ComposedComponent => {
-  // 生成colorPlain过渡到colorTitle的所有颜色
-  const gradientColorSteps = gradientColor(colorStart, colorEnd, 101)
-
-  return observer(
+} = {}) => ComposedComponent =>
+  observer(
     class withTransitionHeaderComponent extends React.Component {
       static navigationOptions = ({ navigation }) => {
-        const headerStyle = navigation.getParam('headerStyle', {
-          backgroundColor: 'transparent'
-        })
+        const headerStyle = navigation.getParam('headerStyle')
 
         // 透明默认颜色是colorPlain, 非透明是colorTitle
         const headerTintColor = navigation.getParam(
           'headerTintColor',
-          gradientColorSteps[0]
+          `rgba(${(colorStart || _.colorTitleRaw).join()}, 1)`
         )
 
         let headerRight
@@ -96,7 +100,10 @@ const withTransitionHeader = ({
           // @todo headerTitle优先级应比title大
           title: navigation.getParam('title'),
           headerTransparent: true,
-          headerStyle,
+          headerStyle: {
+            ...defaultHeaderStyle,
+            ...headerStyle
+          },
           headerTintColor,
           headerLeft: (
             <IconBack navigation={navigation} color={headerTintColor} />
@@ -164,8 +171,9 @@ const withTransitionHeader = ({
         if (transparent) {
           navigation.setParams({
             title,
-            headerTintColor: gradientColorSteps[parseInt(opacity * 100)],
+            headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
             headerStyle: {
+              ...defaultHeaderStyle,
               backgroundColor: 'transparent',
               borderBottomWidth: 0
             }
@@ -173,9 +181,13 @@ const withTransitionHeader = ({
         } else {
           navigation.setParams({
             title,
-            headerTintColor: gradientColorSteps[parseInt(opacity * 100)],
+            headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
             headerStyle: {
-              backgroundColor: `rgba(255, 255, 255, ${opacity})`,
+              ...defaultHeaderStyle,
+              backgroundColor: `rgba(${_.select(
+                _.colorPlainRaw,
+                _._colorDarkModeLevel1Raw
+              ).join()}, ${opacity})`,
               borderBottomWidth: isTransitioned ? StyleSheet.hairlineWidth : 0,
               borderBottomColor: _.colorBorder
             }
@@ -183,11 +195,21 @@ const withTransitionHeader = ({
         }
       }
 
+      // 生成colorPlain过渡到colorTitle的所有颜色
+      get gradientColorSteps() {
+        return gradientColor(
+          colorStart || _.colorTitleRaw,
+          _.select(colorEnd, colorStart || _.colorTitleRaw),
+          101
+        )
+      }
+
       render() {
         const { navigation } = this.props
         const { barStyle } = this.state
         return (
           <>
+            <UM screen={screen} />
             <StatusBarEvents
               barStyle={barStyle}
               backgroundColor='transparent'
@@ -202,7 +224,6 @@ const withTransitionHeader = ({
       }
     }
   )
-}
 
 withTransitionHeader.setTitle = (navigation, title) =>
   navigation.setParams({

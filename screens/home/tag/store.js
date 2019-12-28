@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-22 20:22:39
+ * @Last Modified time: 2019-12-20 16:51:45
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
 import store from '@utils/store'
+import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 import { MODEL_TAG_ORDERBY } from '@constants/model'
 
 const namespace = 'ScreenTag'
@@ -17,6 +19,7 @@ export default class ScreenTag extends store {
     order: defaultOrder,
     list: true, // list | grid
     airtime: '',
+    month: '',
     hide: false, // 用于列表置顶
     _loaded: false
   })
@@ -26,6 +29,7 @@ export default class ScreenTag extends store {
     const _state = {
       ...state,
       airtime: '',
+      month: '',
       hide: false,
       _loaded: true
     }
@@ -41,20 +45,20 @@ export default class ScreenTag extends store {
   // -------------------- get --------------------
   @computed get tag() {
     const { type, tag } = this.params
-    const { airtime } = this.state
-    return tagStore.tag(tag, type, airtime)
+    const { airtime, month } = this.state
+    return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime)
   }
 
   // -------------------- fetch --------------------
   fetchTag = refresh => {
     const { type, tag } = this.params
-    const { order, airtime } = this.state
+    const { order, airtime, month } = this.state
     return tagStore.fetchTag(
       {
         text: tag,
         type,
         order,
-        airtime
+        airtime: month ? `${airtime}-${month}` : airtime
       },
       refresh
     )
@@ -62,6 +66,10 @@ export default class ScreenTag extends store {
 
   // -------------------- page --------------------
   onOrderSelect = async label => {
+    t('用户标签.排序选择', {
+      label
+    })
+
     this.setState({
       order: MODEL_TAG_ORDERBY.getValue(label)
     })
@@ -79,8 +87,40 @@ export default class ScreenTag extends store {
   }
 
   onAirdateSelect = async airtime => {
-    this.setState({
+    t('用户标签.年选择', {
       airtime
+    })
+
+    this.setState({
+      airtime: airtime === '全部' ? '' : airtime,
+      month: ''
+    })
+    await this.fetchTag(true)
+    this.setStorage(undefined, undefined, namespace)
+
+    this.setState({
+      hide: true
+    })
+    setTimeout(() => {
+      this.setState({
+        hide: false
+      })
+    }, 0)
+  }
+
+  onMonthSelect = async month => {
+    const { airtime } = this.state
+    if (airtime === '') {
+      info('请先选择年')
+      return
+    }
+
+    t('用户标签.月选择', {
+      month
+    })
+
+    this.setState({
+      month: month === '全部' ? '' : month
     })
     await this.fetchTag(true)
     this.setStorage(undefined, undefined, namespace)
@@ -97,6 +137,10 @@ export default class ScreenTag extends store {
 
   toggleList = () => {
     const { list } = this.state
+    t('用户标签.切换布局', {
+      list: !list
+    })
+
     this.setState({
       list: !list
     })
@@ -111,6 +155,4 @@ export default class ScreenTag extends store {
       })
     }, 0)
   }
-
-  // -------------------- action --------------------
 }

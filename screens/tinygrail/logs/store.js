@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 23:50:27
+ * @Last Modified time: 2019-12-22 03:16:15
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 
 export const tabs = [
   {
@@ -20,6 +21,14 @@ export const tabs = [
   {
     title: '买入',
     key: 'bid'
+  },
+  {
+    title: '圣殿',
+    key: 'temple'
+  },
+  {
+    title: '竞拍',
+    key: 'auction'
   },
   {
     title: 'ICO',
@@ -68,6 +77,10 @@ export default class ScreenTinygrailLogs extends store {
       return
     }
 
+    t('资金日志.标签页切换', {
+      page
+    })
+
     this.setState({
       page
     })
@@ -81,6 +94,4 @@ export default class ScreenTinygrailLogs extends store {
       this.fetchBalance()
     }
   }
-
-  // -------------------- action --------------------
 }

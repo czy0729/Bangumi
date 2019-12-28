@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 16:31:04
+ * @Last Modified time: 2019-12-23 09:47:59
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Progress } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
+import { t } from '@utils/fetch'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 
 function ItemFriends({
@@ -23,21 +24,32 @@ function ItemFriends({
   doing,
   collect,
   wish,
-  onHold,
-  dropped
+  dropped,
+  event,
+  onHold
 }) {
+  const styles = memoStyles()
   return (
     <Touchable
       style={styles.container}
       highlight
-      onPress={() =>
-        navigation.push('Zone', {
-          userId
+      onPress={() => {
+        const { id, data = {} } = event
+        t(id, {
+          to: 'Zone',
+          userId,
+          ...data
         })
-      }
+
+        navigation.push('Zone', {
+          userId,
+          _name: userName,
+          _image: avatar
+        })
+      }}
     >
       <Flex>
-        <Avatar style={styles.image} size={48} src={avatar} />
+        <Avatar style={styles.image} size={48} name={userName} src={avatar} />
         <Flex.Item style={[styles.item, _.ml.md]}>
           <Flex>
             <Flex.Item>
@@ -68,9 +80,13 @@ function ItemFriends({
   )
 }
 
+ItemFriends.defaultProps = {
+  event: EVENT
+}
+
 export default observer(ItemFriends)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingBottom: _.md,
     backgroundColor: _.colorPlain
@@ -89,11 +105,13 @@ const styles = StyleSheet.create({
     right: '24%',
     bottom: 0,
     left: 0,
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   bar: {
-    borderBottomWidth: 1,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    borderBottomColor: _.colorPrimary,
+    borderBottomWidth: 2,
+    borderRadius: 2
   },
   hobby: {
     position: 'absolute',
@@ -103,4 +121,4 @@ const styles = StyleSheet.create({
     marginBottom: -6,
     backgroundColor: _.colorPlain
   }
-})
+}))

@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 14:45:43
+ * @Last Modified time: 2019-12-21 19:12:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
+import { _ } from '@stores'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
-import _ from '@styles'
 
+export default
+@observer
 class List extends React.Component {
   static contextTypes = {
     $: PropTypes.object,
@@ -24,8 +26,8 @@ class List extends React.Component {
     hide: false
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.subjectType !== this.props.subjectType) {
+  componentWillReceiveProps({ subjectType }) {
+    if (subjectType !== this.props.subjectType) {
       this.setState({
         hide: true
       })
@@ -44,18 +46,23 @@ class List extends React.Component {
     if (hide) {
       return null
     }
+
     const userCollections = $.userCollections(
       subjectType,
       MODEL_COLLECTION_STATUS.getValue(title)
     )
-
     if (!userCollections._loaded) {
       return <Loading />
     }
 
     const { list } = $.state
     const numColumns = list ? undefined : 4
+    const isDo = $.type === 'do'
     const isOnHold = $.type === 'on_hold'
+    const isDropped = $.type === 'dropped'
+    const event = {
+      id: '我的.跳转'
+    }
     return (
       <ListView
         key={String(numColumns)}
@@ -68,7 +75,10 @@ class List extends React.Component {
             <ItemCollections
               navigation={navigation}
               index={index}
+              isDo={isDo}
               isOnHold={isOnHold}
+              isDropped={isDropped}
+              event={event}
               {...item}
             />
           ) : (
@@ -76,6 +86,7 @@ class List extends React.Component {
               navigation={navigation}
               index={index}
               isOnHold={isOnHold}
+              event={event}
               {...item}
             />
           )
@@ -87,5 +98,3 @@ class List extends React.Component {
     )
   }
 }
-
-export default observer(List)

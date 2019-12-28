@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:32:45
+ * @Last Modified time: 2019-12-19 15:53:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand } from '@components'
 import { SectionTitle, ItemArticle } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Blog({ style }, { $, navigation }) {
   const { blog } = $.subject
@@ -36,6 +36,13 @@ function Blog({ style }, { $, navigation }) {
             timestamp={item.timestamp}
             replies={item.replies}
             url={item.url}
+            event={{
+              id: '条目.跳转',
+              data: {
+                from: '评论',
+                subjectId: $.subjectId
+              }
+            }}
           />
         ))}
       </View>

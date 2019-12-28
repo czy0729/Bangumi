@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-25 17:01:43
+ * @Last Modified time: 2019-12-28 17:15:25
  */
 export const NAMESPACE = 'Subject'
 
@@ -29,7 +29,9 @@ export const INIT_SUBJECT_ITEM = {
   summary: '',
   topic: [],
   type: '',
-  url: ''
+  url: '',
+  lock: '',
+  formhash: ''
 }
 
 export const INIT_SUBJECT_FROM_HTML_ITEM = {

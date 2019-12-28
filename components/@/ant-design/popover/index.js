@@ -38,7 +38,9 @@ export default class Popover extends React.PureComponent {
   static defaultProps = {
     onSelect: () => {}
   }
+
   static Item = PopoverItem
+
   onSelect = (value, closePopover) => {
     const { onSelect } = this.props
     if (onSelect) {
@@ -46,6 +48,7 @@ export default class Popover extends React.PureComponent {
     }
     closePopover()
   }
+
   renderOverlay = closePopover => {
     const { overlay, renderOverlayComponent } = this.props
     const items = React.Children.map(overlay, child => {
@@ -73,10 +76,12 @@ export default class Popover extends React.PureComponent {
       </ScrollView>
     )
   }
+
   render() {
     const {
       style,
       contentStyle, // @add
+      arrowStyle, // @add
       children,
       disabled,
       triggerStyle,
@@ -109,7 +114,10 @@ export default class Popover extends React.PureComponent {
                 <Pop
                   popoverStyle={s.popover}
                   contentStyle={[s.content, contentStyle]} // @add
-                  arrowStyle={Platform.OS === 'ios' ? s.arrow : s.arrowAndroid}
+                  arrowStyle={{
+                    ...(Platform.OS === 'ios' ? s.arrow : s.arrowAndroid),
+                    ...arrowStyle
+                  }}
                   backgroundStyle={s.background}
                   visible={popoverVisible}
                   onClose={closePopover}

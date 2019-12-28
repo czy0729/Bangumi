@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-28 03:05:07
+ * @Last Modified time: 2019-12-13 12:02:06
  */
 export { default as Bgm } from './bgm'
 export { default as BgmText } from './bgm-text'
 export { default as BlurView } from './blur-view'
 export { default as Button } from './button'
+export { default as CountDown } from './count-down'
 export { default as Divider } from './divider'
 export { default as Expand } from './expand'
+export { default as FixedTextarea } from './fixed-textarea'
 export { default as Flex } from './flex'
 export { default as HeaderPlaceholder } from './header-placeholder'
 export { default as Icon } from './icon'
@@ -25,8 +27,11 @@ export { default as Mesume } from './mesume'
 export { default as Popover } from './popover'
 export { default as RenderHtml } from './render-html'
 export { default as Shadow } from './shadow'
+export { default as Slider } from './slider'
 export { default as StatusBarEvents } from './status-bar-events'
+export { default as Switch } from './switch'
 export { default as Tabs } from './tabs'
 export { default as Text } from './text'
 export { default as Touchable } from './touchable'
+export { default as UM } from './um'
 export { default as WebView } from './web-view'

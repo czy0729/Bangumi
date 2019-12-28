@@ -2,19 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-07-21 21:58:41
+ * @Last Modified time: 2019-12-19 15:58:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
 const imageWidth = 120
 
 export default
 @observer
 class Cover extends React.Component {
+  static contextTypes = {
+    $: PropTypes.object
+  }
+
   state = {
     onLoad: false
   }
@@ -28,6 +33,7 @@ class Cover extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
     const { image, placeholder } = this.props
     const { onLoad } = this.state
     return (
@@ -43,6 +49,12 @@ class Cover extends React.Component {
             placeholder={false}
             imageViewer
             fadeDuration={0}
+            event={{
+              id: '条目.封面图查看',
+              data: {
+                subjectId: $.subjectId
+              }
+            }}
             onLoad={this.onLoad}
           />
         )}

@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 01:49:18
+ * @Last Modified time: 2019-12-21 19:06:34
  */
 import { observable, computed } from 'mobx'
-import { userStore, collectionStore } from '@stores'
+import { _, userStore, collectionStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_COLLECTION_STATUS,
   MODEL_COLLECTIONS_ORDERBY
 } from '@constants/model'
-import _ from '@styles'
 
 export const height = _.window.width * 0.64
 
@@ -141,6 +141,10 @@ export default class ScreenUser extends store {
       return
     }
 
+    t('我的.标签页点击', {
+      page
+    })
+
     this.setState({
       page,
       tag: ''
@@ -160,6 +164,10 @@ export default class ScreenUser extends store {
     if (page === this.state.page) {
       return
     }
+
+    t('我的.标签页切换', {
+      page
+    })
 
     // 这里最后一个tab是假占位, 跳回到第一个tab
     if (page + 1 === tabs.length) {
@@ -182,6 +190,10 @@ export default class ScreenUser extends store {
   }
 
   onSelectSubjectType = title => {
+    t('我的.类型选择', {
+      title
+    })
+
     const { subjectType } = this.state
     const nextSubjectType = MODEL_SUBJECT_TYPE.getLabel(title)
     if (nextSubjectType !== subjectType) {
@@ -195,6 +207,10 @@ export default class ScreenUser extends store {
   }
 
   onOrderSelect = label => {
+    t('我的.排序选择', {
+      label
+    })
+
     this.setState({
       order: MODEL_COLLECTIONS_ORDERBY.getValue(label)
     })
@@ -203,6 +219,10 @@ export default class ScreenUser extends store {
   }
 
   onFilterSelect = label => {
+    t('我的.筛选选择', {
+      label
+    })
+
     let tag
     if (label === '重置') {
       tag = ''
@@ -219,11 +239,13 @@ export default class ScreenUser extends store {
 
   toggleList = () => {
     const { list } = this.state
+    t('我的.布局选择', {
+      list: !list
+    })
+
     this.setState({
       list: !list
     })
     this.setStorage(undefined, undefined, namespace)
   }
-
-  // -------------------- action --------------------
 }

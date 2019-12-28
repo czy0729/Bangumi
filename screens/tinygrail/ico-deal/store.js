@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:53:22
+ * @Last Modified time: 2019-12-22 03:03:55
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
 
-export default class ScreenTinygrailDeal extends store {
+export default class ScreenTinygrailICODeal extends store {
   state = observable({
     loading: false,
     amount: 1000 // 只能是整数
@@ -69,7 +70,12 @@ export default class ScreenTinygrailDeal extends store {
       loading: true
     })
 
-    const { icoId } = this.chara
+    const { icoId, id } = this.chara
+    t('ICO交易.注资', {
+      monoId: id,
+      amount
+    })
+
     const result = await tinygrailStore.doJoin({
       id: icoId,
       amount

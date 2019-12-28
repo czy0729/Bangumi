@@ -3,15 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:47:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:51:37
+ * @Last Modified time: 2019-12-20 00:02:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Image, Text } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
+import { t } from '@utils/fetch'
 
 const imageBigWidth = _.window.width - _.wind * 2
 const imageBigHeight = imageBigWidth * 1.28
@@ -27,15 +28,20 @@ function Item(
         size={imageBigWidth}
         height={imageBigHeight}
         radius={_.radiusMd}
-        onPress={() =>
+        onPress={() => {
+          t('随便看看.跳转', {
+            to: 'Subject',
+            subjectId: bgmId
+          })
           navigation.push('Subject', {
             subjectId: bgmId,
             _ningMoeId: id,
             _jp: jp,
             _cn: cn,
-            _image: cover
+            _image: cover,
+            _summary: desc
           })
-        }
+        }}
       />
       <LinearGradient
         colors={[
@@ -48,14 +54,25 @@ function Item(
         style={StyleSheet.absoluteFill}
       />
       <View style={styles.desc} pointerEvents='none'>
-        <Text style={styles.title} size={26} lineHeight={26} type='plain' bold>
+        <Text
+          style={styles.title}
+          size={26}
+          lineHeight={26}
+          type={_.select('plain', 'title')}
+          bold
+        >
           {$.cnFirst ? cn || jp : jp || cn}
-          <Text type='plain' lineHeight={26} bold>
+          <Text type={_.select('plain', 'title')} lineHeight={26} bold>
             {` ${String(airDate).slice(2)}`}
             {eps ? ` (${eps})` : ''}
           </Text>
         </Text>
-        <Text type='plain' lineHeight={18} bold numberOfLines={4}>
+        <Text
+          type={_.select('plain', 'title')}
+          lineHeight={18}
+          bold
+          numberOfLines={4}
+        >
           {String(desc).replace(/'　'/g, '')}
         </Text>
       </View>

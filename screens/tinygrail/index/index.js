@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 14:04:00
+ * @Last Modified time: 2019-12-09 14:43:32
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
+import { UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
+import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
-import { colorContainer } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Auth from './auth'
 import Menus from './menus'
 import Store from './store'
+
+const title = '小圣杯'
 
 export default
 @inject(Store)
@@ -37,7 +39,7 @@ class Tinygrail extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('tinygrail')
+    hm('tinygrail', 'Tinygrail')
   }
 
   onRefresh = () => {
@@ -65,15 +67,20 @@ class Tinygrail extends React.Component {
         style={[
           _.container.flex,
           {
-            backgroundColor: colorContainer
+            backgroundColor: _.colorTinygrailContainer
           }
         ]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
       >
+        <UM screen={title} />
         <StatusBarEvents />
-        <StatusBarPlaceholder style={{ backgroundColor: colorContainer }} />
+        <StatusBarPlaceholder
+          style={{
+            backgroundColor: _.colorTinygrailContainer
+          }}
+        />
         <Auth />
         <Menus />
       </ScrollView>

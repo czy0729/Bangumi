@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:05:42
+ * @Last Modified time: 2019-12-05 00:54:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 import Item from './item'
 
 function List(props, { $ }) {

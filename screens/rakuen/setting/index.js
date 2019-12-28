@@ -2,29 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:20:11
+ * @Last Modified time: 2019-12-21 14:39:41
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
-import { Switch } from '@ant-design/react-native'
-import { Text } from '@components'
+import { Text, Switch } from '@components'
 import { ItemSetting } from '@screens/_'
-import { rakuenStore } from '@stores'
+import { _, rakuenStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import _ from '@styles'
+import { t } from '@utils/fetch'
 import History from './history'
 
+const title = '超展开设置'
+
 export default
-@withHeader()
+@withHeader({
+  screen: title,
+  hm: ['rakuen/settings', 'RakuenSetting']
+})
 @observer
 class RakuenSetting extends React.Component {
   static navigationOptions = {
-    title: '超展开设置'
-  }
-
-  componentDidMount() {
-    hm('rakuen/settings')
+    title
   }
 
   render() {
@@ -40,7 +39,18 @@ class RakuenSetting extends React.Component {
         <ItemSetting
           style={_.mt.sm}
           hd='帖子展开引用'
-          ft={<Switch checked={quote} onChange={rakuenStore.switchQuote} />}
+          ft={
+            <Switch
+              checked={quote}
+              onChange={() => {
+                t('超展开设置.切换', {
+                  title: '展开引用',
+                  checked: !quote
+                })
+                rakuenStore.switchQuote()
+              }}
+            />
+          }
           withoutFeedback
         />
         <ItemSetting
@@ -49,7 +59,13 @@ class RakuenSetting extends React.Component {
           ft={
             <Switch
               checked={isBlockDefaultUser}
-              onChange={rakuenStore.switchIsBlockDefaultUser}
+              onChange={() => {
+                t('超展开设置.切换', {
+                  title: '屏蔽广告',
+                  checked: !isBlockDefaultUser
+                })
+                rakuenStore.switchIsBlockDefaultUser()
+              }}
             />
           }
           withoutFeedback
@@ -60,28 +76,42 @@ class RakuenSetting extends React.Component {
           ft={
             <Switch
               checked={isMarkOldTopic}
-              onChange={rakuenStore.switchIsMarkOldTopic}
+              onChange={() => {
+                t('超展开设置.切换', {
+                  title: '坟贴',
+                  checked: !isMarkOldTopic
+                })
+                rakuenStore.switchIsMarkOldTopic()
+              }}
             />
           }
           withoutFeedback
         />
-
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
           屏蔽中的关键字
         </Text>
         <History
           style={_.mt.sm}
           data={rakuenStore.setting.blockGroups}
-          onDelete={rakuenStore.deleteBlockGroup}
+          onDelete={item => {
+            t('超展开设置.取消关键字', {
+              item
+            })
+            rakuenStore.deleteBlockGroup(item)
+          }}
         />
-
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
           屏蔽中的用户
         </Text>
         <History
           style={_.mt.sm}
           data={rakuenStore.setting.blockUserIds}
-          onDelete={rakuenStore.deleteBlockUser}
+          onDelete={item => {
+            t('超展开设置.取消用户', {
+              item
+            })
+            rakuenStore.deleteBlockUser(item)
+          }}
         />
       </ScrollView>
     )

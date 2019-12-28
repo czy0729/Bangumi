@@ -1,29 +1,32 @@
 /*
- * 帖子
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 22:38:00
+ * @Last Modified time: 2019-12-26 17:33:34
  */
 import React from 'react'
-import { StyleSheet, Alert } from 'react-native'
+import { Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { ListView } from '@components'
-import FixedTextarea from '@components/fixed-textarea'
+import { ListView, FixedTextarea } from '@components'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
+import { info } from '@utils/ui'
 import { HOST } from '@constants'
-import _ from '@styles'
 import Top from './top'
 import Item from './item'
+import TouchScroll from './touch-scroll'
+import IconFavor from './icon-favor'
 import Store from './store'
+
+const title = '帖子'
 
 export default
 @inject(Store)
 @withTransitionHeader({
-  colorStart: _.colorTitleRaw,
+  screen: title,
   barStyle: 'dark-content'
 })
 @observer
@@ -33,15 +36,18 @@ class Topic extends React.Component {
     navigation: PropTypes.object
   }
 
+  listView
   fixedTextarea
+  scrollFailCount = 0
 
   async componentDidMount() {
     const { $, navigation } = this.context
-    const { topicId } = $.params
     if (!$.isUGCAgree) {
       // @notice 这里注意在iOS上面, 一定要延迟,
       // 不然首页点击讨论跳进来popover + alert直接就不能操作了
       setTimeout(() => {
+        t('帖子.UCG')
+
         Alert.alert(
           '社区指导原则',
           '生命有限, Bangumi 是一个纯粹的ACG网络, 请查看社区指导原则并且同意才能继续操作',
@@ -56,7 +62,7 @@ class Topic extends React.Component {
               onPress: () => {
                 navigation.goBack()
                 navigation.push('UGCAgree', {
-                  topicId
+                  topicId: $.topicId
                 })
               }
             }
@@ -66,15 +72,17 @@ class Topic extends React.Component {
       return
     }
 
-    await $.init()
-    const { title } = $.topic
-    withTransitionHeader.setTitle(navigation, title)
-
-    const url = navigation.getParam('_url') || `${HOST}/rakuen/topic/${topicId}`
+    const url =
+      navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
     navigation.setParams({
+      extra: <IconFavor $={$} />,
       popover: {
         data: ['浏览器查看', '举报'],
         onSelect: key => {
+          t('帖子.右上角菜单', {
+            key
+          })
+
           switch (key) {
             case '浏览器查看':
               open(url)
@@ -89,35 +97,133 @@ class Topic extends React.Component {
       }
     })
 
-    hm(`rakuen/topic/${topicId}`)
+    await $.init()
+    const { title } = $.topic
+    withTransitionHeader.setTitle(navigation, title)
+
+    if ($.postId) {
+      this.jump()
+    }
+
+    hm(`rakuen/topic/${$.topicId}`, 'Topic')
   }
 
-  showFixedTextare = () => {
-    this.fixedTextarea.onFocus()
+  jump = () => {
+    const { $ } = this.context
+    if (!$.postId) {
+      return
+    }
+
+    const { list, _loaded } = $.comments
+    if (_loaded) {
+      try {
+        let scrollIndex = 0
+        list.forEach((item, index) => {
+          if (scrollIndex) {
+            return
+          }
+
+          if (item.id === $.postId) {
+            scrollIndex = index
+          } else if (item.sub) {
+            item.sub.forEach(i => {
+              if (i.id === $.postId) {
+                scrollIndex = index
+              }
+            })
+          }
+        })
+
+        if (scrollIndex) {
+          this.scrollTo(scrollIndex)
+        }
+      } catch (error) {
+        // do nothing
+      }
+    }
   }
+
+  scrollTo = (index = 0) => {
+    const { $ } = this.context
+    const { list } = $.comments
+    info(list[index].floor, 0.8)
+    this.listView.scrollToIndex({
+      animated: false,
+      index,
+      viewOffset: 0
+    })
+  }
+
+  scrollToThenFeedback = (index = 0) => {
+    const { $ } = this.context
+    t('帖子.楼层跳转', {
+      topicId: $.topicId,
+      index
+    })
+
+    if (index === -1) {
+      info('#1', 0.8)
+      this.listView.scrollToOffset({
+        animated: true,
+        offset: 0 - _.headerHeight
+      })
+      return
+    }
+
+    const { list } = $.comments
+    info(list[index].floor, 0.8)
+    this.listView.scrollToIndex({
+      animated: true,
+      index,
+      viewOffset: 0 + _.headerHeight
+    })
+  }
+
+  showFixedTextare = () => this.fixedTextarea.onFocus()
 
   render() {
     const { $ } = this.context
-    const { placeholder } = $.state
+    const { placeholder, value } = $.state
     const { onScroll } = this.props
+    const event = {
+      id: '帖子.跳转',
+      data: {
+        topicId: $.topicId
+      }
+    }
     return (
       <>
         <ListView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainerStyle}
+          ref={ref => (this.listView = ref)}
+          style={this.styles.container}
+          contentContainerStyle={this.styles.contentContainerStyle}
           keyExtractor={item => String(item.id)}
           data={$.comments}
           scrollEventThrottle={32}
+          initialNumToRender={$.postId ? 50 : undefined} // 为了可以更快地到达目标楼层
+          removeClippedSubviews={false}
           ListHeaderComponent={<Top />}
           renderItem={({ item, index }) => (
             <Item
               index={index}
+              postId={$.postId}
               authorId={$.topic.userId}
               {...item}
               showFixedTextare={this.showFixedTextare}
+              event={event}
             />
           )}
           onScroll={onScroll}
+          onScrollToIndexFailed={({ highestMeasuredFrameIndex, index }) => {
+            this.scrollTo(highestMeasuredFrameIndex)
+            setTimeout(() => {
+              if (this.scrollFailCount > 10) {
+                return
+              }
+              this.scrollFailCount += 1
+              this.scrollTo(index)
+            }, 100)
+          }}
           onHeaderRefresh={$.fetchTopic}
           onFooterRefresh={$.fetchTopic}
           onEndReachedThreshold={0.5}
@@ -127,16 +233,23 @@ class Topic extends React.Component {
           <FixedTextarea
             ref={ref => (this.fixedTextarea = ref)}
             placeholder={placeholder ? `回复 ${placeholder}` : undefined}
+            value={value}
+            onChange={$.onChange}
             onClose={$.closeFixedTextarea}
             onSubmit={$.doSubmit}
           />
         )}
+        <TouchScroll onPress={index => this.scrollToThenFeedback(index)} />
       </>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
     backgroundColor: _.colorPlain
@@ -144,4 +257,4 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingBottom: _.bottom
   }
-})
+}))

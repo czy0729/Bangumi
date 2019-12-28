@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-02 12:15:21
+ * @Last Modified time: 2019-12-19 20:02:20
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -11,10 +11,11 @@ import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Image, Text } from '@components'
 import { SectionTitle, IconHeader } from '@screens/_'
+import { _ } from '@stores'
 import { findBangumiCn, getCoverLarge, getCoverMedium } from '@utils/app'
+import { t } from '@utils/fetch'
 import { HOST, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 
 const imageBigWidth = _.window.width - _.wind * 2
 const imageBigHeight = imageBigWidth * 1.28
@@ -37,6 +38,7 @@ function List({ style, type }, { $, navigation }) {
     return null
   }
 
+  const styles = memoStyles()
   const data = $.home[type].sort(() => 0.5 - Math.random())
   const title = MODEL_SUBJECT_TYPE.getTitle(type)
   return (
@@ -46,13 +48,17 @@ function List({ style, type }, { $, navigation }) {
         right={
           <IconHeader
             name='right'
-            color={_.title}
-            onPress={() =>
+            color={_.colorTitle}
+            onPress={() => {
+              t('发现.跳转', {
+                to: 'WebView',
+                title
+              })
               navigation.push('WebView', {
                 uri: `${HOST}/${type}`,
                 title
               })
-            }
+            }}
           />
         }
       >
@@ -60,6 +66,7 @@ function List({ style, type }, { $, navigation }) {
       </SectionTitle>
       {[0].map(item => {
         const src = getCoverLarge(data[item].cover) || IMG_DEFAULT
+        const cn = findBangumiCn(data[item].title)
         return (
           <View key={item} style={styles.big}>
             <Image
@@ -68,13 +75,20 @@ function List({ style, type }, { $, navigation }) {
               height={imageBigHeight}
               radius={_.radiusMd}
               placeholder={false}
-              onPress={() =>
+              onPress={() => {
+                t('发现.跳转', {
+                  to: 'Subject',
+                  from: title,
+                  type: 'lg',
+                  subjectId: data[item].subjectId
+                })
                 navigation.push('Subject', {
                   subjectId: data[item].subjectId,
                   _jp: data[item].title,
+                  _cn: cn,
                   _image: src
                 })
-              }
+              }}
             />
             <LinearGradient
               colors={linearColorLg}
@@ -82,11 +96,16 @@ function List({ style, type }, { $, navigation }) {
               style={StyleSheet.absoluteFill}
             />
             <View style={styles.desc} pointerEvents='none'>
-              <Text style={styles.info} type='plain' bold>
+              <Text style={styles.info} type={_.select('plain', 'title')} bold>
                 {data[item].info}
               </Text>
-              <Text style={[styles.title, _.mt.xs]} size={26} type='plain' bold>
-                {findBangumiCn(data[item].title)}
+              <Text
+                style={[styles.title, _.mt.xs]}
+                size={26}
+                type={_.select('plain', 'title')}
+                bold
+              >
+                {cn}
               </Text>
             </View>
           </View>
@@ -102,6 +121,7 @@ function List({ style, type }, { $, navigation }) {
           .filter((item, index) => index > 0)
           .map(item => {
             const src = getCoverMedium(item.cover) || IMG_DEFAULT
+            const cn = findBangumiCn(item.title)
             return (
               <View key={item.subjectId} style={styles.image}>
                 <Image
@@ -110,13 +130,20 @@ function List({ style, type }, { $, navigation }) {
                   height={imageHeight}
                   radius={_.radiusSm}
                   placeholder={false}
-                  onPress={() =>
+                  onPress={() => {
+                    t('发现.跳转', {
+                      to: 'Subject',
+                      from: title,
+                      type: 'sm',
+                      subjectId: item.subjectId
+                    })
                     navigation.push('Subject', {
                       subjectId: item.subjectId,
                       _jp: item.title,
+                      _cn: cn,
                       _image: src
                     })
-                  }
+                  }}
                 />
                 <LinearGradient
                   colors={linearColorSm}
@@ -127,18 +154,18 @@ function List({ style, type }, { $, navigation }) {
                   <Text
                     style={styles.info}
                     size={12}
-                    type='plain'
+                    type={_.select('plain', 'title')}
                     numberOfLines={1}
                   >
                     {item.info}
                   </Text>
                   <Text
                     style={[styles.title, _.mt.xs]}
-                    type='plain'
+                    type={_.select('plain', 'title')}
                     numberOfLines={1}
                     bold
                   >
-                    {findBangumiCn(item.title)}
+                    {cn}
                   </Text>
                 </View>
               </View>
@@ -160,7 +187,7 @@ List.defaultProps = {
 
 export default observer(List)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   contentContainerStyle: {
     padding: _.wind,
     paddingRight: 0
@@ -195,4 +222,4 @@ const styles = StyleSheet.create({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
-})
+}))

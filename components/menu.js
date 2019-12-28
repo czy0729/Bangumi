@@ -3,15 +3,17 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:10:26
+ * @Last Modified time: 2019-12-08 02:29:20
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import _ from '@styles'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import Text from './text'
 import Touchable from './touchable'
 
 function Menu({ style, title, data, onSelect }) {
+  const styles = memoStyles()
   return (
     <View style={[styles.container, style]}>
       {title.length !== 0 && (
@@ -32,7 +34,7 @@ function Menu({ style, title, data, onSelect }) {
       {data.map((item, index) => {
         if (typeof item === 'string') {
           return (
-            <View key={item} style={_.border.top}>
+            <View key={item} style={styles.border}>
               <Touchable style={styles.item} onPress={() => onSelect(item)}>
                 <Text size={16} align='center'>
                   {item}
@@ -44,11 +46,11 @@ function Menu({ style, title, data, onSelect }) {
 
         if (item.type === 'divider') {
           // eslint-disable-next-line react/no-array-index-key
-          return <View key={index} style={styles.divider} />
+          return <View key={index} style={styles.border} />
         }
 
         return (
-          <View key={item.title} style={_.border.top}>
+          <View key={item.title} style={styles.border}>
             <Touchable style={styles.item} onPress={() => onSelect(item.title)}>
               {item.title}
             </Touchable>
@@ -66,11 +68,12 @@ Menu.defaultProps = {
   onSelect: Function.prototype
 }
 
-export default Menu
+export default observer(Menu)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
-    width: _.window.width * 0.5
+    width: _.window.width * 0.5,
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
   },
   title: {
     width: '100%',
@@ -82,8 +85,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24
   },
-  divider: {
-    borderTopWidth: StyleSheet.hairlineWidth,
+  border: {
+    borderTopWidth: _.hairlineWidth,
     borderTopColor: _.colorBorder
   }
-})
+}))

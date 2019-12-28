@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 02:27:53
+ * @Last Modified time: 2019-12-20 16:05:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,12 +16,13 @@ import {
   RenderHtml,
   Divider,
   Touchable,
-  Iconfont,
-  Loading
+  Iconfont
 } from '@components'
 import { SectionTitle } from '@screens/_'
+import { _ } from '@stores'
+import { getCoverLarge } from '@utils/app'
+import { t } from '@utils/fetch'
 import { IOS } from '@constants'
-import _ from '@styles'
 import TinygrailUsers from './tinygrail-users'
 import Voice from './voice'
 import Works from './works'
@@ -37,10 +38,10 @@ function Info(props, { $, navigation }) {
     info,
     detail,
     collectUrl,
-    eraseCollectUrl,
-    _loaded
+    eraseCollectUrl
   } = $.mono
-  const { monoId, _name, _image } = $.params
+  const { _name, _jp, _image } = $.params
+  const _cover = cover || getCoverLarge(_image)
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -49,7 +50,7 @@ function Info(props, { $, navigation }) {
           <Flex.Item>
             <Flex align='baseline'>
               <Text size={20} bold>
-                {name}
+                {name || _jp}
                 <Text type='sub' lineHeight={20}>
                   {' '}
                   {nameCn || _name}
@@ -78,20 +79,21 @@ function Info(props, { $, navigation }) {
             </Touchable>
           )}
         </Flex>
-        {!_loaded && (
-          <Flex style={styles.loading} justify='center'>
-            <Loading />
-          </Flex>
-        )}
-        {!!cover && (
+        {!!_cover && (
           <Flex style={_.mt.md} justify='center'>
             <Image
-              src={cover || _image}
+              src={_cover}
               autoSize={maxSize}
               border
               shadow
               placholder={false}
               imageViewer
+              event={{
+                id: '人物.封面图查看',
+                data: {
+                  monoId: $.monoId
+                }
+              }}
             />
           </Flex>
         )}
@@ -108,9 +110,15 @@ function Info(props, { $, navigation }) {
         right={
           <Touchable
             onPress={() => {
-              const type = monoId.includes('character/') ? 'crt' : 'prsn'
+              t('人物.跳转', {
+                to: 'Topic',
+                from: '去吐槽',
+                monoId: $.monoId
+              })
+
+              const type = $.monoId.includes('character/') ? 'crt' : 'prsn'
               navigation.push('Topic', {
-                topicId: `${type}/${monoId.match(/\d+/g)[0]}`
+                topicId: `${type}/${$.monoId.match(/\d+/g)[0]}`
               })
             }}
           >

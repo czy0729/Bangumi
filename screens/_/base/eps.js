@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-02 00:23:42
+ * @Last Modified time: 2019-12-17 16:50:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Carousel } from '@ant-design/react-native'
 import { Flex, Popover, Menu, Button, Text } from '@components'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { arrGroup } from '@utils'
 import { IOS } from '@constants'
 import { MODEL_EP_TYPE } from '@constants/model'
-import _ from '@styles'
 
 export default
 @observer
 class Eps extends React.Component {
   static defaultProps = {
+    marginRight: 0,
     numbersOfLine: 8, // 1行多少个, 为了美观, 通过计算按钮占满1行
     pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
     advance: false, // 详情页模式, 显示SP和更多的操作按钮
@@ -38,10 +38,11 @@ class Eps extends React.Component {
   }
 
   onLayout = ({ nativeEvent }) => {
+    const { marginRight } = this.props
     const { width } = this.state
     if (!width) {
       this.setState({
-        width: nativeEvent.layout.width
+        width: nativeEvent.layout.width - marginRight
       })
     }
   }
@@ -62,10 +63,9 @@ class Eps extends React.Component {
     const marginNumbers = numbersOfLine - 1
     const marginSum = width * marginPercent
     const widthSum = width - marginSum
-
     return {
-      width: Math.floor(widthSum / numbersOfLine),
-      margin: Math.floor(marginSum / marginNumbers)
+      width: widthSum / numbersOfLine,
+      margin: marginSum / marginNumbers
     }
   }
 
@@ -137,7 +137,6 @@ class Eps extends React.Component {
           data: this.getPopoverData(item),
           onSelect: value => this.onSelect(value, item)
         }
-
     return (
       <Popover
         key={item.id}
@@ -161,7 +160,7 @@ class Eps extends React.Component {
         {systemStore.setting.heatMap && (
           <View
             style={[
-              styles.hotBar,
+              this.styles.hotBar,
               {
                 opacity:
                   (item.comment - this.commentMin / 1.68) / this.commentMax
@@ -190,7 +189,7 @@ class Eps extends React.Component {
         {!!itemsSp.length && (
           <Flex
             style={[
-              styles.sp,
+              this.styles.sp,
               {
                 width,
                 height: width - 4, // 感觉短一点好看
@@ -234,9 +233,9 @@ class Eps extends React.Component {
   renderCarousel(epsGroup) {
     return (
       <Carousel
-        style={styles.carousel}
-        dotStyle={styles.dotStyle}
-        dotActiveStyle={styles.dotActiveStyle}
+        style={this.styles.carousel}
+        dotStyle={this.styles.dotStyle}
+        dotActiveStyle={this.styles.dotActiveStyle}
         infinite
       >
         {epsGroup
@@ -307,36 +306,38 @@ class Eps extends React.Component {
       </View>
     )
   }
-}
 
-const styles = StyleSheet.create({
-  carousel: {
-    height: 224
-  },
-  dotStyle: {
-    backgroundColor: _.colorPlain,
-    borderWidth: 1,
-    borderColor: _.colorDesc
-  },
-  dotActiveStyle: {
-    backgroundColor: _.colorDesc
-  },
-  sp: {
-    marginTop: 2,
-    borderLeftWidth: 2,
-    borderColor: _.colorSub
-  },
-  hotBar: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    left: 0,
-    height: 4,
-    marginBottom: -4,
-    backgroundColor: _.colorWarning,
-    borderRadius: 4
+  get styles() {
+    return StyleSheet.create({
+      carousel: {
+        height: 224
+      },
+      dotStyle: {
+        backgroundColor: _.colorPlain,
+        borderWidth: 1,
+        borderColor: _.colorDesc
+      },
+      dotActiveStyle: {
+        backgroundColor: _.colorDesc
+      },
+      sp: {
+        marginTop: 2,
+        borderLeftWidth: 2,
+        borderColor: _.colorSub
+      },
+      hotBar: {
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        left: 0,
+        height: 4,
+        marginBottom: -4,
+        backgroundColor: _.colorWarning,
+        borderRadius: 4
+      }
+    })
   }
-})
+}
 
 function getType(progress, status) {
   switch (progress) {

@@ -2,22 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:19:01
+ * @Last Modified time: 2019-12-07 17:41:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
+import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
 
+const title = '用户标签'
+
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Tag extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -38,20 +42,16 @@ class Tag extends React.Component {
     $.init()
 
     const { type, tag, airtime } = navigation.state.params
-    hm(`${type}/${tag}/${airtime}`)
+    hm(`${type}/${tag}/${airtime}`, 'Tag')
   }
 
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    if (!_loaded) {
-      return null
-    }
-
     return (
       <View style={_.container.screen}>
         <ToolBar />
-        <List />
+        {_loaded && <List />}
       </View>
     )
   }

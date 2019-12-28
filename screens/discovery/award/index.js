@@ -3,19 +3,21 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:11:48
+ * @Last Modified time: 2019-12-23 09:42:23
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
-import { StatusBarEvents, Loading, Text } from '@components'
+import { StatusBarEvents, Loading, Text, UM } from '@components'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 import staticHTML from './static-html'
+
+const title = '年鉴'
 
 export default
 @observer
@@ -33,7 +35,7 @@ class Award extends React.Component {
   redirectCount = 0 // 跳转次数
 
   componentDidMount() {
-    hm(`award/${this.year}`)
+    hm(`award/${this.year}`, 'Award')
   }
 
   onError = () => {
@@ -55,7 +57,17 @@ class Award extends React.Component {
       switch (type) {
         case 'onclick':
           if (data && data.href) {
-            appNavigate(data.href, navigation)
+            appNavigate(
+              data.href,
+              navigation,
+              {},
+              {
+                id: '年鉴.跳转',
+                data: {
+                  year: this.year
+                }
+              }
+            )
           }
           break
         default:
@@ -91,6 +103,7 @@ class Award extends React.Component {
     const { loading, redirectCount } = this.state
     return (
       <View style={[_.container.flex, styles.dark]}>
+        <UM screen={title} />
         <StatusBarEvents
           barStyle={this.barStyle}
           backgroundColor='transparent'
@@ -107,7 +120,7 @@ class Award extends React.Component {
             ]}
             color={_.colorPlain}
           >
-            <Text style={_.mt.md} size={12} type='plain'>
+            <Text style={_.mt.md} size={12} type={_.select('plain', 'title')}>
               {redirectCount
                 ? `第${redirectCount}次重试`
                 : '网页加载中, 请稍等'}
@@ -120,7 +133,7 @@ class Award extends React.Component {
                 }
               ]}
               size={10}
-              type='plain'
+              type={_.select('plain', 'title')}
               onPress={this.onOpen}
             >
               或点这里使用浏览器打开

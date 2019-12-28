@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-28 18:16:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-10 17:43:05
+ * @Last Modified time: 2019-12-03 11:03:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Image, Touchable } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { getCoverMedium } from '@utils/app'
-import _ from '@styles'
 import { sectionWidth, sectionHeight } from './store'
 
 function Section2(props, { $, navigation }) {
+  const styles = memoStyles()
   let randomCover = ''
   if ($.random._loaded) {
     randomCover = $.random.list.length && $.random.list[0].cover
@@ -67,7 +68,7 @@ Section2.contextTypes = {
 
 export default observer(Section2)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   section: {
     marginTop: _.wind,
     marginHorizontal: _.wind
@@ -84,4 +85,4 @@ const styles = StyleSheet.create({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   }
-})
+}))

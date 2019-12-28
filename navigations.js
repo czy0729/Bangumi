@@ -2,20 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 12:55:24
+ * @Last Modified time: 2019-12-22 21:54:19
  */
 export default {
-  initialRouteName: 'HomeTab', // HomeTab
+  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
   initialRouteParams: {
-    // subjectId: 100444 // 238923 100444 204135
-    // topicId: 'group/352477' // ep/768491
-    // userId: '456208' // '419012'
+    // id: 19402913
+    // subjectId: 266372 // 103824 238923 279457 100444 204135
+    // topicId: 'group/353820' // group/350677, ep/768491
+    // userId: 456208 // 456208, 419012
     // userName: 'sukaretto' //
-    // monoId: 'character/29457' // character/70323 person/5745
+    // name: '小耳兔'
+    // monoId: 'character/20391' // 20391 character/70323 person/5745
     // groupId: 'tinygrail'
     // type: 'anime',
-    // tag: '水树奈奈',
-    // uri: 'https://bangumi.tv/award/2010'
+    // tag: '水树奈奈'
+    // uri: 'https://bangumi.tv/award/2010',
+    // form: 'lottery',
+    // message:
+    //   '彩票刮刮乐共获得： #20391「双叶杏」64股 #709「神原骏河」36股'
   }
 }
 

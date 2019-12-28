@@ -2,30 +2,34 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:19:16
+ * @Last Modified time: 2019-12-20 17:28:44
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View, Clipboard } from 'react-native'
+import { ScrollView, View, Clipboard } from 'react-native'
+import { observer } from 'mobx-react'
 import cheerio from 'cheerio-without-node-native'
 import { Text, Input, Button, KeyboardSpacer } from '@components'
+import { _, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
-import { xhrCustom, hm } from '@utils/fetch'
+import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
-import { userStore } from '@stores'
-import _ from '@styles'
 
+const title = '电脑辅助登陆'
 const code = `JSON.stringify({
   userAgent: navigator.userAgent,
   cookie: document.cookie
 });`
 
 export default
-@withHeader()
+@withHeader({
+  screen: title
+})
+@observer
 class LoginAssist extends React.Component {
   static navigationOptions = {
-    title: '电脑辅助登陆'
+    title
   }
 
   state = {
@@ -44,10 +48,12 @@ class LoginAssist extends React.Component {
   accessToken = ''
 
   componentDidMount() {
-    hm('login/assist')
+    hm('login/assist', 'LoginAssist')
   }
 
   copy = () => {
+    t('辅助登陆.复制')
+
     Clipboard.setString(code)
     info('已复制')
   }
@@ -68,6 +74,8 @@ class LoginAssist extends React.Component {
       info('请粘贴结果')
       return
     }
+
+    t('辅助登陆.提交')
 
     this.setState({
       loading: true,
@@ -278,8 +286,8 @@ class LoginAssist extends React.Component {
     const { loading, info } = this.state
     return (
       <ScrollView
-        style={styles.screen}
-        contentContainerStyle={styles.container}
+        style={this.styles.screen}
+        contentContainerStyle={this.styles.container}
       >
         <Text type='danger' size={12}>
           此为登陆最后的手段, 流程相对较多 (其实不复杂,
@@ -296,11 +304,11 @@ class LoginAssist extends React.Component {
         </Text>
         <Text style={_.mt.lg}>1. 复制框里的代码.</Text>
         <View style={_.mt.sm}>
-          <Text style={styles.code} size={12}>
+          <Text style={this.styles.code} size={12}>
             {code}
           </Text>
           <Text
-            style={styles.copy}
+            style={this.styles.copy}
             size={12}
             type='success'
             onPress={this.copy}
@@ -339,11 +347,15 @@ class LoginAssist extends React.Component {
       </ScrollView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   screen: {
-    backgroundColor: 'rgb(251, 251, 251)'
+    backgroundColor: _.colorBg
   },
   container: {
     display: 'flex',
@@ -353,7 +365,7 @@ const styles = StyleSheet.create({
   },
   code: {
     padding: _.wind,
-    backgroundColor: _.colorBg,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
@@ -365,4 +377,4 @@ const styles = StyleSheet.create({
     right: _.sm,
     padding: _.sm
   }
-})
+}))

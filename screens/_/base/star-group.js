@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-05-14 19:34:26
+ * @Last Modified time: 2019-12-02 16:40:18
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import { observer } from 'mobx-react'
 import { Text, Touchable, Iconfont, Flex } from '@components'
+import { _ } from '@stores'
 import { getRating } from '@utils/app'
-import _ from '@styles'
 
-export default class StarGroup extends React.Component {
+export default
+@observer
+class StarGroup extends React.Component {
   static defaultProps = {
     value: 0,
     onChange: Function.prototype

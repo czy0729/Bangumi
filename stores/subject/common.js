@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-02 00:36:07
+ * @Last Modified time: 2019-12-28 17:18:56
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -210,12 +210,12 @@ export async function fetchMono({ monoId = 0 }) {
     matchHTML = HTML.match(
       /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><\/div><div id="footer/
     )
-    monoComments = analysisComments(matchHTML, true)
+    monoComments = analysisComments(matchHTML)
   }
 
   return Promise.resolve({
     mono,
-    monoComments
+    monoComments: monoComments.reverse()
   })
 }
 
@@ -343,6 +343,12 @@ export function cheerioSubjectFormHTML(HTML) {
         .get() || [],
 
     // 详情
-    info: $('#infobox').html()
+    info: $('#infobox').html(),
+
+    // 锁定
+    lock: $('div.tipIntro > div.inner > h3').text(),
+
+    // hash 比如删除等网页操作需要
+    formhash: $('input[name=formhash]').attr('value')
   }
 }

@@ -3,21 +3,23 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-25 18:13:11
+ * @Last Modified time: 2019-12-21 19:08:05
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents } from '@components'
+import { StatusBarEvents, UM } from '@components'
 import { IconTabBar, Login } from '@screens/_'
+import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import ParallaxImage from './parallax-image'
 import Tabs from './tabs'
 import ToolBar from './tool-bar'
 import List from './list'
 import Store, { tabs, height } from './store'
+
+const title = '我的'
 
 export default
 @inject(Store)
@@ -26,7 +28,7 @@ class User extends React.Component {
   static navigationOptions = {
     header: null,
     tabBarIcon: ({ tintColor }) => <IconTabBar name='me' color={tintColor} />,
-    tabBarLabel: '我的'
+    tabBarLabel: title
   }
 
   static contextTypes = {
@@ -44,7 +46,7 @@ class User extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`user/${$.myUserId}?route=user`)
+    hm(`user/${$.myUserId}?route=user`, 'User')
   }
 
   onScroll = e => {
@@ -119,6 +121,7 @@ class User extends React.Component {
     const offset = height + _.tabsHeight
     return (
       <>
+        <UM screen={title} />
         <StatusBarEvents
           barStyle='light-content'
           backgroundColor='transparent'
@@ -137,7 +140,11 @@ class User extends React.Component {
               subjectType={subjectType}
               ListHeaderComponent={
                 <>
-                  <View style={{ height: offset }} />
+                  <View
+                    style={{
+                      height: offset
+                    }}
+                  />
                   <ToolBar />
                 </>
               }

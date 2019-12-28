@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-06-22 14:18:11
+ * @Last Modified time: 2019-12-08 02:06:25
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,9 +14,7 @@ import {
   LayoutAnimation,
   View,
   Dimensions,
-  ViewPropTypes,
-  Platform,
-  StyleSheet
+  Platform
 } from 'react-native'
 
 // From: https://medium.com/man-moon/writing-modern-react-native-ui-e317ff956f02
@@ -36,9 +34,8 @@ const defaultAnimation = {
 export default class KeyboardSpacer extends React.Component {
   static propTypes = {
     topSpacing: PropTypes.number,
-    onToggle: PropTypes.func,
-    // eslint-disable-next-line react/require-default-props
-    style: ViewPropTypes.style
+    onToggle: PropTypes.func
+    // style: ViewPropTypes.style
   }
 
   static defaultProps = {
@@ -125,22 +122,6 @@ export default class KeyboardSpacer extends React.Component {
   }
 
   render() {
-    return (
-      <View
-        style={[
-          styles.container,
-          { height: this.state.keyboardSpace },
-          this.props.style
-        ]}
-      />
-    )
+    return <View />
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    left: 0,
-    right: 0,
-    bottom: 0
-  }
-})

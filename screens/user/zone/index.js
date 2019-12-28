@@ -2,22 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:15:57
+ * @Last Modified time: 2019-12-10 23:21:25
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { StatusBarEvents } from '@components'
+import { StatusBarEvents, UM } from '@components'
+import { NavigationBarEvents } from '@screens/_'
+import { _ } from '@stores'
 import { inject } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import ParallaxImage from './parallax-image'
 import Tabs from './tabs'
 import BangumiList from './bangumi-list'
 import TimelineList from './timeline-list'
 import About from './about'
 import Store, { height } from './store'
+
+const title = '空间'
 
 export default
 @inject(Store)
@@ -39,7 +42,7 @@ class Zone extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`user/${$.params.userId}?route=zone`)
+    hm(`user/${$.params.userId}?route=zone`, 'Zone')
   }
 
   onScroll = e => {
@@ -69,10 +72,12 @@ class Zone extends React.Component {
     }
     return (
       <>
+        <UM screen={title} />
         <StatusBarEvents
           barStyle='light-content'
           backgroundColor='transparent'
         />
+        <NavigationBarEvents />
         <Tabs style={_.container.screen} $={$} scrollY={scrollY}>
           <BangumiList {...listViewProps} />
           <TimelineList {...listViewProps} />

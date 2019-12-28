@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:08:14
+ * @Last Modified time: 2019-12-20 15:53:29
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { SectionTitle, Tag, IconHeader } from '@screens/_'
+import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
 
 function Voice({ style }, { $, navigation }) {
   const { voice = [] } = $.mono
@@ -19,7 +19,14 @@ function Voice({ style }, { $, navigation }) {
     return null
   }
 
+  const styles = memoStyles()
   const { monoId } = $.params
+  const event = {
+    id: '人物.跳转',
+    data: {
+      from: '最近演出角色'
+    }
+  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
@@ -27,7 +34,9 @@ function Voice({ style }, { $, navigation }) {
           <IconHeader
             name='right'
             color={_.title}
-            onPress={() => appNavigate(`/${monoId}/works/voice`)}
+            onPress={() =>
+              appNavigate(`/${monoId}/works/voice`, undefined, {}, event)
+            }
           />
         }
       >
@@ -47,7 +56,18 @@ function Voice({ style }, { $, navigation }) {
                   src={item.cover}
                   radius
                   border={_.colorBorder}
-                  onPress={() => appNavigate(item.href, navigation)}
+                  onPress={() =>
+                    appNavigate(
+                      item.href,
+                      navigation,
+                      {
+                        _jp: item.name,
+                        _cn: item.nameCn,
+                        _image: item.cover
+                      },
+                      event
+                    )
+                  }
                 />
                 <Flex.Item style={_.ml.sm}>
                   <Text style={_.mt.xs}>{item.name}</Text>
@@ -80,7 +100,9 @@ function Voice({ style }, { $, navigation }) {
                   src={item.subjectCover}
                   radius
                   border={_.colorBorder}
-                  onPress={() => appNavigate(item.subjectHref, navigation)}
+                  onPress={() =>
+                    appNavigate(item.subjectHref, navigation, {}, event)
+                  }
                 />
               </Flex>
             </Flex.Item>
@@ -98,7 +120,7 @@ Voice.contextTypes = {
 
 export default observer(Voice)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind
   },
@@ -108,6 +130,6 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
-})
+}))

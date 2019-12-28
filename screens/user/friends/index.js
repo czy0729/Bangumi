@@ -2,20 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:21:41
+ * @Last Modified time: 2019-12-21 18:25:20
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ListView, Text } from '@components'
 import { ItemFriends } from '@screens/_'
+import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import Store from './store'
+
+const title = '好友'
 
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Friends extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -44,11 +48,14 @@ class Friends extends React.Component {
       element: <Text size={16}>排序</Text>
     })
 
-    hm(`user/${$.params.userId}/friends`)
+    hm(`user/${$.params.userId}/friends`, 'Friends')
   }
 
   render() {
     const { $, navigation } = this.context
+    const event = {
+      id: '好友.跳转'
+    }
     return (
       <ListView
         style={_.container.screen}
@@ -58,6 +65,7 @@ class Friends extends React.Component {
           <ItemFriends
             key={item.userId}
             navigation={navigation}
+            event={event}
             {...item}
             {...$.users(item.userId)}
           />

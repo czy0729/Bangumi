@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:33:13
+ * @Last Modified time: 2019-12-19 15:53:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { SectionTitle, HorizontalList } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
+import { t } from '@utils/fetch'
 
 function Character({ style }, { $, navigation }) {
   const { crt = [] } = $.subject
@@ -28,7 +29,9 @@ function Character({ style }, { $, navigation }) {
     }) => ({
       id,
       image: images.grid,
+      _image: images.medium,
       name: nameCn || name,
+      nameJP: name,
       desc: (actors[0] && actors[0].name) || roleName
     })
   )
@@ -39,13 +42,19 @@ function Character({ style }, { $, navigation }) {
         style={_.mt.sm}
         data={data}
         quality={false}
-        onPress={({ id, name, image }) =>
+        onPress={({ id, name, nameJP, _image }) => {
+          t('条目.跳转', {
+            to: 'Mono',
+            from: '角色',
+            subjectId: $.subjectId
+          })
           navigation.push('Mono', {
             monoId: `character/${id}`,
             _name: name,
-            _image: image
+            _jp: nameJP,
+            _image
           })
-        }
+        }}
       />
     </View>
   )

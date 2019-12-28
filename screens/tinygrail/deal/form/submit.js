@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-12 11:40:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-13 02:26:50
+ * @Last Modified time: 2019-12-14 02:41:52
  */
 import React from 'react'
-import { StyleSheet, ActivityIndicator } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorBid, colorAsk } from '../../styles'
 
 function Submit({ style }, { $ }) {
-  const { loading } = $.state
+  const styles = memoStyles()
+  const { loading, amount } = $.state
   return (
     <Touchable
       style={[styles.btn, $.isBid ? styles.btnBid : styles.btnAsk, style]}
@@ -23,7 +23,13 @@ function Submit({ style }, { $ }) {
         {loading && (
           <ActivityIndicator style={_.mr.sm} color='white' size='small' />
         )}
-        <Text type='plain' align='center'>
+        <Text
+          style={{
+            color: _.colorTinygrailPlain
+          }}
+          align='center'
+        >
+          {amount > 500 && '拆单'}
           {$.isBid ? '买入' : '卖出'}
         </Text>
       </Flex>
@@ -37,16 +43,16 @@ Submit.contextTypes = {
 
 export default observer(Submit)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   btn: {
     padding: 8,
     marginVertical: 8,
     backgroundColor: 'rgb(23, 41, 65)'
   },
   btnBid: {
-    backgroundColor: colorBid
+    backgroundColor: _.colorBid
   },
   btnAsk: {
-    backgroundColor: colorAsk
+    backgroundColor: _.colorAsk
   }
-})
+}))

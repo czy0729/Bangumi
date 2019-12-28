@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 16:24:37
+ * @Last Modified time: 2019-12-28 17:38:57
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -91,10 +91,15 @@ export const HTML_GROUP = (groupId, page = 1) =>
  * @param {*} text
  * @param {*} cat
  * @param {*} page
+ * @param {*} legacy 是否精准匹配
  */
-export const HTML_SEARCH = (text, cat = '', page = 1) => {
+export const HTML_SEARCH = (text, cat = '', page = 1, legacy = '') => {
   const [type, _cat] = cat.split('_')
-  return `${HOST}/${type}_search/${text}?cat=${_cat}&page=${page}`
+  let _text = text
+  if (legacy) {
+    _text = `"${_text}"`
+  }
+  return `${HOST}/${type}_search/${_text}?cat=${_cat}&page=${page}`
 }
 
 /**
@@ -212,6 +217,14 @@ export const HTML_USERS_MONO_RECENTS = (page = 1) =>
  */
 export const HTML_TAGS = (type, page = 1) => `${HOST}/${type}/tag?page=${page}`
 
+/**
+ * 吐槽
+ * @param {*} userId
+ * @param {*} id
+ */
+export const HTML_SAY = (userId, id) =>
+  `${HOST}/user/${userId}/timeline/status/${id}`
+
 // -------------------- action --------------------
 /**
  * 回复帖子
@@ -230,3 +243,23 @@ export const HTML_TAGS = (type, page = 1) => `${HOST}/${type}/tag?page=${page}`
  */
 export const HTML_ACTION_RAKUEN_REPLY = (topicId, type = 'group/topic') =>
   `${HOST}/${type}/${topicId}/new_reply?ajax=1`
+
+/**
+ * 回复吐槽
+ * @param {*} id
+ */
+export const HTML_ACTION_TIMELINE_REPLY = id =>
+  `${HOST}/timeline/${id}/new_reply?ajax=1`
+
+/**
+ * 发新吐槽
+ */
+export const HTML_ACTION_TIMELINE_SAY = () => `${HOST}/update/user/say?ajax=1`
+
+/**
+ * 删除收藏
+ * @param {*} subjectId
+ * @param {*} formhash
+ */
+export const HTML_ACTION_ERASE_COLLECTION = (subjectId, formhash) =>
+  `${HOST}/subject/${subjectId}/remove?gh=${formhash}`

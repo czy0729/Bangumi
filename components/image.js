@@ -10,22 +10,28 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 23:17:27
+ * @Last Modified time: 2019-12-23 15:04:05
  */
 import React from 'react'
-import { StyleSheet, View, Image as RNImage } from 'react-native'
-import { systemStore } from '@stores'
+import { View, Image as RNImage } from 'react-native'
+import {
+  CacheManager,
+  Image as AnimatedImage
+} from 'react-native-expo-image-cache'
+import { observer } from 'mobx-react'
+import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
-import { IOS, IMG_ERROR } from '@constants'
+import { t } from '@utils/fetch'
+import { IOS, DEV, IMG_EMPTY, IMG_ERROR, EVENT } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
-import _ from '@styles'
-import CacheManager from './@/react-native-expo-image-cache/src/CacheManager'
 import Touchable from './touchable'
 
 const maxErrorCount = 2 // 最大失败重试次数
 
-export default class Image extends React.Component {
+export default
+@observer
+class Image extends React.Component {
   static defaultProps = {
     style: undefined,
     imageStyle: undefined, // 强制传递给图片的样式
@@ -33,12 +39,16 @@ export default class Image extends React.Component {
     size: 40, // 大小|宽度
     height: undefined, // 高度
     border: false, // 边框
+    borderWidth: _.hairlineWidth,
     radius: undefined, // 圆角
     shadow: false, // 阴影
     placeholder: true, // 是否有底色
     autoSize: 0, // 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例
     quality: true, // 是否自动选择Bangumi图片质量
     imageViewer: false, // 是否点击显示全局的ImageViewer, 此值打开会覆盖onPress
+    imageViewerSrc: undefined, // 若有值, 打开ImageViewer时使用此src
+    event: EVENT,
+    delay: true,
     onPress: undefined,
     onLongPress: undefined,
     onError: undefined
@@ -74,6 +84,9 @@ export default class Image extends React.Component {
     }
   }
 
+  /**
+   * 缓存图片
+   */
   cache = async src => {
     let res
     let uri
@@ -98,7 +111,9 @@ export default class Image extends React.Component {
       }
     }
 
-    // @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存?
+    /**
+     * @issue 安卓还没调试出怎么使用, 并且安卓貌似自带缓存?
+     */
     if (IOS) {
       try {
         if (typeof src === 'string') {
@@ -115,7 +130,14 @@ export default class Image extends React.Component {
 
           // 检查本地有没有图片缓存
           // @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发unmounted
-          res = CacheManager.get(_src).getPath()
+          const { headers } = this.props
+
+          // @issue to fixed
+          if (_src === 'https:/img/no_icon_subject.png') {
+            return false
+          }
+
+          res = CacheManager.get(_src, headers).getPath()
           const path = await res
           if (path) {
             uri = path
@@ -160,6 +182,9 @@ export default class Image extends React.Component {
     return res
   }
 
+  /**
+   * 选择图片质量
+   */
   getQuality = (uri, qualityLevel = 'default') => {
     if (!uri) {
       return ''
@@ -176,6 +201,9 @@ export default class Image extends React.Component {
     return uri
   }
 
+  /**
+   * 获取远程图片宽高
+   */
   getSize = () => {
     const { autoSize } = this.props
     const { uri } = this.state
@@ -204,7 +232,7 @@ export default class Image extends React.Component {
     RNImage.getSize(uri, cb)
   }
 
-  onError = () => {
+  onError = () =>
     this.setState(
       {
         error: true
@@ -216,7 +244,6 @@ export default class Image extends React.Component {
         }
       }
     )
-  }
 
   render() {
     const {
@@ -226,13 +253,17 @@ export default class Image extends React.Component {
       size,
       height,
       border,
+      borderWidth,
       radius,
       shadow,
       placeholder,
       autoSize,
       quality,
       imageViewer,
+      imageViewerSrc,
       headers,
+      event,
+      delay,
       onPress,
       onLongPress,
       onError,
@@ -255,33 +286,44 @@ export default class Image extends React.Component {
       })
     }
 
+    // 黑暗模式不显示border比较好看
     if (border) {
-      if (typeof border === 'string') {
-        _image.push({
-          borderWidth: StyleSheet.hairlineWidth,
-          borderColor: border
-        })
-      } else {
-        _image.push(styles.border)
+      if (!_.isDark || (_.isDark && borderWidth !== _.hairlineWidth)) {
+        if (typeof border === 'string') {
+          _image.push({
+            borderWidth,
+            borderColor: border
+          })
+        } else {
+          _image.push(this.styles.border)
+        }
       }
     }
 
     if (radius) {
       if (typeof radius === 'boolean') {
-        _wrap.push({ borderRadius: _.radiusXs })
-        _image.push({ borderRadius: _.radiusXs })
+        _wrap.push({
+          borderRadius: _.radiusXs
+        })
+        _image.push({
+          borderRadius: _.radiusXs
+        })
       } else {
-        _wrap.push({ borderRadius: radius })
-        _image.push({ borderRadius: radius })
+        _wrap.push({
+          borderRadius: radius
+        })
+        _image.push({
+          borderRadius: radius
+        })
       }
     }
 
     if (shadow) {
-      _wrap.push(styles.shadow)
+      _wrap.push(this.styles.shadow)
     }
 
     if (placeholder) {
-      _wrap.push(styles.placeholder)
+      _wrap.push(this.styles.placeholder)
     }
 
     if (style) {
@@ -295,19 +337,48 @@ export default class Image extends React.Component {
 
     let image
     if (error) {
+      // 错误显示本地的错误提示图片
       image = (
-        <RNImage style={[_image, styles.error]} source={IMG_ERROR} {...other} />
+        <RNImage
+          style={[_image, this.styles.error]}
+          source={IMG_ERROR}
+          {...other}
+        />
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
-        image = (
-          <RNImage
-            style={_image}
-            source={headers ? { uri, headers } : { uri }}
-            onError={this.onError}
-            {...other}
-          />
-        )
+        if (IOS && !DEV) {
+          image = (
+            <AnimatedImage
+              style={_image}
+              // source={headers ? { uri, headers } : { uri }}
+              headers={headers}
+              tint='light'
+              preview={IMG_EMPTY}
+              uri={uri}
+              onError={this.onError}
+              {...other}
+            />
+          )
+        } else {
+          image = (
+            <RNImage
+              style={_image}
+              source={
+                headers
+                  ? {
+                      uri,
+                      headers
+                    }
+                  : {
+                      uri
+                    }
+              }
+              onError={this.onError}
+              {...other}
+            />
+          )
+        }
       } else {
         image = <View style={_image} />
       }
@@ -315,7 +386,14 @@ export default class Image extends React.Component {
       image = (
         <RNImage
           style={_image}
-          source={headers ? { ...src, headers } : src}
+          source={
+            headers
+              ? {
+                  ...src,
+                  headers
+                }
+              : src
+          }
           onError={this.onError}
           {...other}
         />
@@ -325,10 +403,23 @@ export default class Image extends React.Component {
     let _onPress = onPress
     if (imageViewer) {
       _onPress = () => {
+        let _imageViewerSrc = imageViewerSrc
+        if (
+          typeof _imageViewerSrc === 'string' &&
+          _imageViewerSrc.indexOf('http') !== 0
+        ) {
+          _imageViewerSrc = undefined
+        }
+
+        const { id, data } = event
+        t(id, {
+          from: '封面图',
+          ...data
+        })
         showImageViewer([
           {
-            url: uri,
-            _url: src,
+            url: _imageViewerSrc || uri,
+            _url: _imageViewerSrc || src,
             headers
           }
         ])
@@ -340,6 +431,7 @@ export default class Image extends React.Component {
         <Touchable
           style={_wrap}
           highlight={IOS}
+          delay={delay}
           onPress={_onPress}
           onLongPress={onLongPress}
         >
@@ -350,18 +442,22 @@ export default class Image extends React.Component {
 
     return <View style={_wrap}>{image}</View>
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   border: {
     borderWidth: 1,
     borderColor: _.colorBorder
   },
   shadow: _.shadow,
   placeholder: {
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
   },
   error: {
     padding: 4
   }
-})
+}))

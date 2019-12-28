@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-24 19:51:38
+ * @Last Modified time: 2019-12-10 23:26:22
  */
 import React from 'react'
 import {
@@ -13,8 +13,9 @@ import {
   TouchableNativeFeedback,
   View
 } from 'react-native'
+import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { IOS } from '@constants'
-import _ from '@styles'
 
 let isCalled = false
 let timer
@@ -36,6 +37,7 @@ function Touchable({
   withoutFeedback,
   highlight,
   children,
+  delay,
   onPress,
   ...other
 }) {
@@ -45,7 +47,7 @@ function Touchable({
         style={style}
         activeOpacity={1}
         {...other}
-        onPress={() => callOnceInInterval(onPress)}
+        onPress={delay ? () => callOnceInInterval(onPress) : onPress}
       >
         {children}
       </TouchableOpacity>
@@ -61,7 +63,7 @@ function Touchable({
             activeOpacity={1}
             underlayColor={_.colorHighLight}
             {...other}
-            onPress={() => callOnceInInterval(onPress)}
+            onPress={delay ? () => callOnceInInterval(onPress) : onPress}
           >
             <View />
           </TouchableHighlight>
@@ -75,7 +77,7 @@ function Touchable({
         style={style}
         activeOpacity={0.64}
         {...other}
-        onPress={() => callOnceInInterval(onPress)}
+        onPress={delay ? () => callOnceInInterval(onPress) : onPress}
       >
         {children}
       </TouchableOpacity>
@@ -86,7 +88,7 @@ function Touchable({
     <View style={style}>
       <TouchableNativeFeedback
         {...other}
-        onPress={() => callOnceInInterval(onPress)}
+        onPress={delay ? () => callOnceInInterval(onPress) : onPress}
       >
         <View style={styles.touchable} />
       </TouchableNativeFeedback>
@@ -99,10 +101,11 @@ Touchable.defaultProps = {
   style: undefined,
   withoutFeedback: false,
   highlight: false,
+  delay: true,
   onPress: Function.prototype
 }
 
-export default Touchable
+export default observer(Touchable)
 
 const styles = StyleSheet.create({
   touchable: {

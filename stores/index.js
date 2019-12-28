@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 23:35:38
+ * @Last Modified time: 2019-12-15 12:19:58
  */
 import { AsyncStorage, Alert } from 'react-native'
-import CacheManager from '@components/@/react-native-expo-image-cache/src/CacheManager'
+import { CacheManager } from 'react-native-expo-image-cache'
 import { info } from '@utils/ui'
 import calendarStore from './calendar'
 import collectionStore from './collection'
@@ -16,6 +16,7 @@ import searchStore from './search'
 import subjectStore from './subject'
 import systemStore from './system'
 import tagStore from './tag'
+import themeStore from './theme'
 import timelineStore from './timeline'
 import tinygrailStore from './tinygrail'
 import userStore from './user'
@@ -29,33 +30,40 @@ class Stores {
    * 保证所有子Store初始化和加载缓存
    */
   async init() {
-    if (inited) {
+    try {
+      if (inited) {
+        return false
+      }
+      inited = true
+
+      // [同步加载]APP最重要Stores
+      await themeStore.init()
+      const res = Promise.all([
+        collectionStore.init(),
+        subjectStore.init(),
+        systemStore.init(),
+        userStore.init(),
+        tinygrailStore.init()
+      ])
+      await res
+
+      // [异步加载]非重要Stores
+      Promise.all([
+        calendarStore.init(),
+        discoveryStore.init(),
+        rakuenStore.init(),
+        searchStore.init(),
+        timelineStore.init(),
+        // tinygrailStore.init(),
+        tagStore.init(),
+        usersStore.init()
+      ])
+
+      return res
+    } catch (error) {
+      warn('stores', 'init', error)
       return false
     }
-    inited = true
-
-    // [同步加载]APP最重要Stores
-    const res = Promise.all([
-      collectionStore.init(),
-      subjectStore.init(),
-      systemStore.init(),
-      userStore.init()
-    ])
-    await res
-
-    // [异步加载]非重要Stores
-    Promise.all([
-      calendarStore.init(),
-      discoveryStore.init(),
-      rakuenStore.init(),
-      searchStore.init(),
-      timelineStore.init(),
-      tinygrailStore.init(),
-      tagStore.init(),
-      usersStore.init()
-    ])
-
-    return res
   }
 
   // -------------------- page --------------------
@@ -82,28 +90,33 @@ class Stores {
    * 清除缓存
    */
   clearStorage() {
-    Alert.alert('提示', '确定清除缓存? 包括图片缓存和页面接口的数据缓存', [
-      {
-        text: '取消',
-        style: 'cancel'
-      },
-      {
-        text: '确定',
-        onPress: async () => {
-          await AsyncStorage.clear()
-          await CacheManager.clearCache()
+    Alert.alert(
+      '提示',
+      '清除包括页面接口的数据缓存，但不会清除登陆等信息 (若需清除图片缓存，请到系统里面清除应用数据)',
+      [
+        {
+          text: '取消',
+          style: 'cancel'
+        },
+        {
+          text: '确定',
+          onPress: async () => {
+            await AsyncStorage.clear()
+            await CacheManager.clearCache()
 
-          // 以下为不需要清除的数据, 再次本地化
-          systemStore.setStorage('setting', undefined, 'System')
-          rakuenStore.setStorage('setting', undefined, 'Rakuen')
-          userStore.setStorage('accessToken', undefined, 'User')
-          userStore.setStorage('userInfo', undefined, 'User')
-          userStore.setStorage('userCookie', undefined, 'User')
+            // 以下为不需要清除的数据, 再次本地化
+            systemStore.setStorage('setting', undefined, 'System') // 设置
+            rakuenStore.setStorage('setting', undefined, 'Rakuen') // 超展开设置
+            rakuenStore.setStorage('favor', undefined, 'Rakuen') // 超展开收藏帖子
+            userStore.setStorage('accessToken', undefined, 'User') // 用户授权信息
+            userStore.setStorage('userInfo', undefined, 'User') // 用户个人信息
+            userStore.setStorage('userCookie', undefined, 'User') // 用户网页cookie
 
-          info('已清除')
+            info('已清除')
+          }
         }
-      }
-    ])
+      ]
+    )
   }
 
   /**
@@ -127,8 +140,10 @@ class Stores {
 }
 
 const GloablStores = new Stores()
+const _ = themeStore
 
 export {
+  _,
   calendarStore,
   collectionStore,
   discoveryStore,
@@ -137,6 +152,7 @@ export {
   subjectStore,
   systemStore,
   tagStore,
+  themeStore,
   timelineStore,
   tinygrailStore,
   userStore,

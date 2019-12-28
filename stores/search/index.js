@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:19:56
+ * @Last Modified time: 2019-12-28 14:02:02
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -19,7 +19,7 @@ class Search extends store {
      * 搜索
      */
     search: {
-      // [`${text}|${cat}`]: LIST_EMPTY | INIT_SEARCH_ITEM
+      // [`${text}|${cat}|?legacy`]: LIST_EMPTY | INIT_SEARCH_ITEM
     }
   })
 
@@ -46,11 +46,13 @@ class Search extends store {
    * 取搜索结果
    * @param {*} text 搜索关键字
    */
-  search(text, cat = DEFAULT_CAT) {
+  search(text, cat = DEFAULT_CAT, legacy) {
     const _text = text.replace(/ /g, '+')
-    return computed(
-      () => this.state.search[`${_text}|${cat}`] || LIST_EMPTY
-    ).get()
+    let key = `${_text}|${cat}`
+    if (legacy) {
+      key += '|legacy'
+    }
+    return computed(() => this.state.search[key] || LIST_EMPTY).get()
   }
 
   // -------------------- fetch --------------------
@@ -58,12 +60,16 @@ class Search extends store {
    * 搜索
    * @param {*} text    关键字
    * @param {*} cat     类型
+   * @param {*} legacy  1为精准匹配
    * @param {*} refresh 是否刷新
    */
-  async fetchSearch({ text = '', cat = DEFAULT_CAT } = {}, refresh) {
+  async fetchSearch(
+    { text = '', cat = DEFAULT_CAT, legacy = '' } = {},
+    refresh
+  ) {
     const _text = text.replace(/ /g, '+')
 
-    const { list, pagination } = this.search(_text, cat)
+    const { list, pagination } = this.search(_text, cat, legacy)
     let page // 下一页的页码
     if (refresh) {
       page = 1
@@ -73,8 +79,8 @@ class Search extends store {
 
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
-      url: HTML_SEARCH(_text, cat, page),
-      cookie: 'chii_searchDateLine=0;' // 搜索不加这个会无条件返回错误
+      url: HTML_SEARCH(_text, cat, page, legacy),
+      cookie: `chii_searchDateLine=${getTimestamp()};` // 搜索不加这个会无条件返回错误
     })
     const raw = await res
     const HTML = HTMLTrim(raw)
@@ -212,14 +218,14 @@ class Search extends store {
 
           // 标题
           node = findTreeNode(children, 'div > h2 > a')
-          const name = node ? node[0].text[0].replace(' / ', '') : ''
+          const name = node ? (node[0].text[0] || '').replace(' / ', '') : ''
 
           node = findTreeNode(children, 'div > h2 > a > span')
           const nameCn = node ? node[0].text[0] : ''
 
           // 描述
           node = findTreeNode(children, 'div > div > span')
-          const tip = node ? node[0].text[0].replace(' ', '') : ''
+          const tip = node ? (node[0].text[0] || '').replace(' ', '') : ''
 
           // 讨论数
           node = findTreeNode(children, 'div > small')
@@ -240,7 +246,10 @@ class Search extends store {
     }
 
     const key = 'search'
-    const stateKey = `${_text}|${cat}`
+    let stateKey = `${_text}|${cat}`
+    if (legacy) {
+      stateKey += '|legacy'
+    }
     this.setState({
       [key]: {
         [stateKey]: {

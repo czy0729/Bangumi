@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:06:14
+ * @Last Modified time: 2019-12-23 12:09:51
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Button, Text } from '@components'
+import { Flex, Text } from '@components'
 import { IconBack, Avatar } from '@screens/_'
+import { _ } from '@stores'
 import { lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import { colorIcon } from '../styles'
+import Btns from './btns'
 
 function Auth(props, { $, navigation }) {
-  const { loading, _loaded } = $.state
+  const { _loaded } = $.state
   const { nickname, avatar = {} } = $.userInfo
   return (
     <View style={_.container.inner}>
@@ -26,15 +26,21 @@ function Auth(props, { $, navigation }) {
             marginLeft: -8
           }}
           navigation={navigation}
-          color={_.colorPlain}
+          color={_.colorTinygrailPlain}
         />
         <Avatar
           size={40}
           src={tinygrailOSS(avatar && avatar.large)}
+          name={nickname}
           borderColor='transparent'
         />
         <Flex.Item style={_.ml.sm}>
-          <Text size={18} type='plain'>
+          <Text
+            style={{
+              color: _.colorTinygrailPlain
+            }}
+            size={18}
+          >
             {nickname}
           </Text>
           {!!_loaded && (
@@ -42,7 +48,7 @@ function Auth(props, { $, navigation }) {
               style={[
                 _.mt.xs,
                 {
-                  color: colorIcon
+                  color: _.colorTinygrailIcon
                 }
               ]}
               size={12}
@@ -51,24 +57,7 @@ function Auth(props, { $, navigation }) {
             </Text>
           )}
         </Flex.Item>
-        <Button
-          style={styles.btn}
-          type='warning'
-          size='sm'
-          loading={loading}
-          onPress={$.doAuth}
-        >
-          {loading ? '授权中' : '授权'}
-        </Button>
-        {/* <Button
-          style={[styles.btn, _.ml.sm]}
-          type='warning'
-          size='sm'
-          loading={loading}
-          onPress={$.doAuth}
-        >
-          签到
-        </Button> */}
+        <Btns />
       </Flex>
     </View>
   )
@@ -80,11 +69,3 @@ Auth.contextTypes = {
 }
 
 export default observer(Auth)
-
-const styles = StyleSheet.create({
-  btn: {
-    width: 80,
-    backgroundColor: colorIcon,
-    borderColor: colorIcon
-  }
-})

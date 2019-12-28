@@ -4,30 +4,43 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-24 17:53:17
+ * @Last Modified time: 2019-12-09 01:32:44
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { IOS } from '@constants'
-import _ from '@styles'
 import AntdTabs from './@/ant-design/tabs'
 
 function Tabs({
   tabs,
-  tabBarBackgroundColor,
+  tabBarStyle,
   tabBarUnderlineStyle,
   prerenderingSiblingsNumber,
   renderTabBarLeft,
   children,
   ...other
 }) {
+  const styles = memoStyles()
+  const _tabBarStyle = [tabBarStyle]
+  if (!IOS) {
+    if (_.isDark) {
+      _tabBarStyle.push({
+        borderBottomWidth: 0
+      })
+    }
+  }
+
   // iOS最左边加入一个块, 使得可以手势退后
   return (
     <>
       <AntdTabs
         tabs={tabs}
-        tabBarBackgroundColor={tabBarBackgroundColor}
+        tabBarStyle={_tabBarStyle}
         tabBarUnderlineStyle={[styles.tabBarUnderline, tabBarUnderlineStyle]}
+        tabBarActiveTextColor={_.colorDesc}
+        tabBarInactiveTextColor={_.colorDesc}
         prerenderingSiblingsNumber={prerenderingSiblingsNumber}
         renderTabBarLeft={renderTabBarLeft}
         {...other}
@@ -42,18 +55,16 @@ function Tabs({
 Tabs.defaultProps = {
   tabs: [],
   prerenderingSiblingsNumber: 0,
-  tabBarBackgroundColor: 'transparent',
   tabBarUnderlineStyle: undefined,
   renderTabBarLeft: undefined // 导航栏左边插入
 }
 
-export default Tabs
+export default observer(Tabs)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   tabBarUnderline: {
-    backgroundColor: _.colorMain,
-    borderRadius: _.radiusSm,
-    transform: [{ scaleX: 0.5 }]
+    height: 4,
+    backgroundColor: _.colorMain
   },
   block: {
     position: 'absolute',
@@ -62,4 +73,4 @@ const styles = StyleSheet.create({
     left: 0,
     width: _.wind
   }
-})
+}))

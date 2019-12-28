@@ -2,28 +2,33 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:31:22
+ * @Last Modified time: 2019-12-22 20:33:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex } from '@components'
+import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import _ from '@styles'
-import { headerStyle, colorContainer } from '../styles'
+import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import SearchBar from './search-bar'
 import History from './history'
 import Store from './store'
 
+const title = '人物直达'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  hm: ['tinygrail/search', 'TinygrailSearch'],
+  ...headerStyle
+})
 @observer
 class TinygrailSearch extends React.Component {
   static navigationOptions = {
-    title: '人物直达'
+    title
   }
 
   static contextTypes = {
@@ -34,8 +39,6 @@ class TinygrailSearch extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
-
-    hm('tinygrail/search')
   }
 
   render() {
@@ -44,7 +47,7 @@ class TinygrailSearch extends React.Component {
         style={[
           _.container.flex,
           {
-            backgroundColor: colorContainer
+            backgroundColor: _.colorTinygrailContainer
           }
         ]}
       >

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:07:14
+ * @Last Modified time: 2019-12-20 11:17:30
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemSearch } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function List(props, { $, navigation }) {
   const { searching } = $.state
@@ -22,6 +22,9 @@ function List(props, { $, navigation }) {
     return null
   }
 
+  const event = {
+    id: '搜索.跳转'
+  }
   return (
     <ListView
       style={_.container.screen}
@@ -29,7 +32,12 @@ function List(props, { $, navigation }) {
       keyExtractor={item => String(item.id)}
       data={search}
       renderItem={({ item, index }) => (
-        <ItemSearch navigation={navigation} index={index} {...item} />
+        <ItemSearch
+          navigation={navigation}
+          index={index}
+          event={event}
+          {...item}
+        />
       )}
       onFooterRefresh={$.doSearch}
     />

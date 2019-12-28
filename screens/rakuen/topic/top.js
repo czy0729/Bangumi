@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-18 14:06:20
+ * @Last Modified time: 2019-12-21 15:52:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,10 +18,10 @@ import {
   Loading
 } from '@components'
 import { Avatar } from '@screens/_'
+import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { HOST, IOS } from '@constants'
-import _ from '@styles'
 import SectionTitle from './section-title'
 
 function Top(props, { $, navigation }) {
@@ -45,26 +45,41 @@ function Top(props, { $, navigation }) {
     _time,
     _avatar,
     _userName,
-    _userId
+    _userId,
+    _desc
   } = $.params
 
   // ep带上章节详情
-  const html = $.isEp ? $.epFormHTML : message
+  const html = $.isEp ? $.epFormHTML || _desc : message
   const userAvatar = avatar || _avatar
   const uname = userName || _userName
   const uid = userId || _userId
+  const _groupThumb = groupThumb || $.groupThumb
+  const event = {
+    id: '帖子.跳转',
+    data: {
+      from: '#1',
+      topicId: $.topicId
+    }
+  }
 
   // 人物这里不显示详情, 所以要把小组的相关信息替换成人物信息, 跳转到人物页面查看
   let groupName = group || _group
-  let groupPress = () => {
-    appNavigate(groupHref, navigation, {
-      _jp: group
-    })
-  }
+  let groupPress = () =>
+    appNavigate(
+      groupHref,
+      navigation,
+      {
+        _jp: group
+      },
+      event
+    )
   if ($.isMono) {
     groupName = title || _title
-    groupPress = () => appNavigate(`${HOST}/${$.monoId}`, navigation)
+    groupPress = () => appNavigate(`${HOST}/${$.monoId}`, navigation, {}, event)
   }
+
+  const isGroup = $.topicId.includes('group/')
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -80,10 +95,10 @@ function Top(props, { $, navigation }) {
         </Text>
         <Flex style={[styles.groupWrap, _.mt.sm]}>
           <View style={styles.groupThumbWrap}>
-            {!!groupThumb && (
+            {!!_groupThumb && (
               <Image
                 size={28}
-                src={groupThumb}
+                src={_groupThumb}
                 radius
                 border={_.colorBorder}
                 placeholder={false}
@@ -108,33 +123,37 @@ function Top(props, { $, navigation }) {
             )}
           </Text>
         </Flex>
-        <Flex style={[styles.userWrap, _.mt.md]}>
-          <View style={styles.userAvatarWrap}>
-            {!!userAvatar && (
-              <Avatar
-                navigation={navigation}
-                size={40}
-                src={userAvatar}
-                userId={userId}
-              />
-            )}
-          </View>
-          {!!uid && (
-            <Flex.Item style={_.ml.sm}>
-              <Text numberOfLines={2}>
-                {uname}
-                <Text type='sub'> @{uid}</Text>
-              </Text>
-              {!!_loaded && !userSign ? null : (
-                <Text style={_.mt.xs} type='sub' size={12}>
-                  {userSign || '-'}
-                </Text>
+        {isGroup && (
+          <Flex style={[styles.userWrap, _.mt.md]}>
+            <View style={styles.userAvatarWrap}>
+              {!!userAvatar && (
+                <Avatar
+                  navigation={navigation}
+                  size={40}
+                  src={_avatar || userAvatar}
+                  userId={userId}
+                  name={uname}
+                  event={event}
+                />
               )}
-            </Flex.Item>
-          )}
-        </Flex>
+            </View>
+            {!!uid && (
+              <Flex.Item style={_.ml.sm}>
+                <Text numberOfLines={2}>
+                  {uname}
+                  <Text type='sub'> @{uid}</Text>
+                </Text>
+                {!!_loaded && !userSign ? null : (
+                  <Text style={_.mt.xs} type='sub' size={12}>
+                    {userSign || '-'}
+                  </Text>
+                )}
+              </Flex.Item>
+            )}
+          </Flex>
+        )}
         <View style={styles.html}>
-          {!_loaded && (
+          {isGroup && !_loaded && (
             <Flex style={styles.loading} justify='center'>
               <Loading />
             </Flex>
@@ -143,8 +162,8 @@ function Top(props, { $, navigation }) {
             <RenderHtml
               style={_.mt.lg}
               html={html}
-              autoShowImage
-              onLinkPress={href => appNavigate(href, navigation)}
+              // autoShowImage
+              onLinkPress={href => appNavigate(href, navigation, {}, event)}
             />
           )}
         </View>
@@ -176,9 +195,9 @@ const styles = StyleSheet.create({
     width: 40
   },
   html: {
-    minHeight: 160
+    minHeight: 120
   },
   loading: {
-    height: 160
+    height: 120
   }
 })

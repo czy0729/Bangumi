@@ -3,27 +3,29 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 16:10:23
+ * @Last Modified time: 2019-12-21 16:46:07
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { BlurView } from 'expo-blur'
-import { StatusBarEvents } from '@components'
-import { Logo } from '@screens/_'
-import { IOS } from '@constants'
-import _ from '@styles'
+import { StatusBarEvents, UM } from '@components'
+import { BlurView, Logo } from '@screens/_'
+import { _ } from '@stores'
+import { hm as utilsHM } from '@utils/fetch'
+import { IOS, BARE } from '@constants'
 import observer from './observer'
 
 const correctHeightIOS = 14 // @issue iOS端头部高度误差修正值
 
 // (1) 装饰器
-const withTabsHeader = () => ComposedComponent =>
+const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
   observer(
     class withTabsHeaderComponent extends React.Component {
       // @notice 把tabbar通过某些手段放进去header里面, 才能实现比较好的毛玻璃效果
       // 安卓没有毛玻璃效果, 不设置
       static navigationOptions = ({ navigation }) => {
         let withTabsHeaderOptions
+        const headerLeft = navigation.getParam('headerLeft')
+        const headerRight = navigation.getParam('headerRight')
         if (IOS) {
           withTabsHeaderOptions = {
             headerTransparent: true,
@@ -40,31 +42,40 @@ const withTabsHeader = () => ComposedComponent =>
                 </View>
               </View>
             ),
-            headerLeft: navigation.getParam('headerLeft'),
-            headerRight: navigation.getParam('headerRight'),
-            headerBackground: (
-              <BlurView
-                style={_.container.flex}
-                tint='default'
-                intensity={100}
-              />
-            )
+            headerLeft,
+            headerRight,
+            headerBackground: <BlurView />
           }
         } else {
+          const headerBackground = navigation.getParam(
+            'headerBackground',
+            <View />
+          )
           withTabsHeaderOptions = {
             headerStyle: {
-              height: _.headerHeight - _.statusBarHeight,
+              height: _.headerHeight - (BARE ? 0 : _.statusBarHeight),
+              paddingTop: BARE ? _.statusBarHeight : 0,
+              backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
               elevation: 0
             },
-            headerTitle: <Logo />,
-            headerLeft: navigation.getParam('headerLeft'),
-            headerRight: navigation.getParam('headerRight'),
+            headerTitle: (
+              <Logo
+                forceUpdate={() =>
+                  navigation.setParams({
+                    headerBackground
+                  })
+                }
+              />
+            ),
+            headerLeft,
+            headerRight,
             headerLeftContainerStyle: {
               paddingLeft: _.xs
             },
             headerRightContainerStyle: {
               marginRight: _.wind - _.sm
-            }
+            },
+            headerBackground
           }
         }
 
@@ -76,11 +87,22 @@ const withTabsHeader = () => ComposedComponent =>
         }
       }
 
+      componentDidMount() {
+        if (Array.isArray(hm)) {
+          utilsHM(...hm)
+        }
+      }
+
       render() {
         const { navigation } = this.props
+        let backgroundColor
+        if (!IOS && _.isDark) {
+          backgroundColor = _._colorDarkModeLevel1Hex
+        }
         return (
           <>
-            <StatusBarEvents />
+            <UM screen={screen} />
+            <StatusBarEvents backgroundColor={backgroundColor} />
             <ComposedComponent navigation={navigation} />
           </>
         )
@@ -123,10 +145,6 @@ withTabsHeader.listViewProps = IOS
 export default withTabsHeader
 
 const styles = StyleSheet.create({
-  header: {
-    flex: 1,
-    backgroundColor: _.colorPlain
-  },
   headerTabsIOS: {
     position: 'absolute',
     left: 0,
@@ -134,6 +152,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1,
     width: _.window.width,
-    transform: [{ translateX: _.window.width * -0.5 + _.logoWidth * 0.5 }]
+    transform: [
+      {
+        translateX: _.window.width * -0.5 + _.logoWidth * 0.5
+      }
+    ]
   }
 })

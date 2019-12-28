@@ -2,20 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:33:01
+ * @Last Modified time: 2019-12-19 15:45:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Input, Button } from '@components'
 import { SectionTitle } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
 
 function BookEp({ style }, { $ }) {
   const { chap, vol } = $.state
   const { book = {} } = $.subjectFormHTML
-  const { status = { name: '未收藏' } } = $.collection
+  const {
+    status = {
+      name: '未收藏'
+    }
+  } = $.collection
   return (
     <View style={[styles.container, _.container.wind, style]}>
       <SectionTitle>章节</SectionTitle>

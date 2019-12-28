@@ -3,22 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 00:51:44
+ * @Last Modified time: 2019-12-15 13:25:44
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
+import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
-import {
-  colorBorder,
-  colorBid,
-  colorDepthBid,
-  colorAsk,
-  colorDepthAsk,
-  colorText
-} from '../../styles'
 
 const height = 160
 
@@ -31,6 +24,7 @@ function DepthMap({ style }, { $ }) {
     return null
   }
 
+  const styles = memoStyles()
   let bidsLow = 0
   let bidsHigh = 0
   let bidsAmount = 0
@@ -131,10 +125,10 @@ function DepthMap({ style }, { $ }) {
         <Flex.Item>
           <Flex justify='between'>
             <Text style={styles.text} size={12}>
-              {bidsLow && bidsLow.toFixed(2)}
+              {bidsLow && toFixed(bidsLow, 2)}
             </Text>
             <Text style={styles.text} size={12}>
-              {bidsHigh && bidsHigh.toFixed(2)}
+              {bidsHigh && toFixed(bidsHigh, 2)}
             </Text>
           </Flex>
         </Flex.Item>
@@ -145,10 +139,10 @@ function DepthMap({ style }, { $ }) {
         >
           <Flex justify='between'>
             <Text style={styles.text} size={12}>
-              {asksLow && asksLow.toFixed(2)}
+              {asksLow && toFixed(asksLow, 2)}
             </Text>
             <Text style={styles.text} size={12}>
-              {asksHigh && asksHigh.toFixed(2)}
+              {asksHigh && toFixed(asksHigh, 2)}
             </Text>
           </Flex>
         </Flex.Item>
@@ -180,11 +174,11 @@ DepthMap.contextTypes = {
 
 export default observer(DepthMap)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingTop: 48,
     borderTopWidth: 1,
-    borderTopColor: colorBorder
+    borderTopColor: _.colorTinygrailBorder
   },
   title: {
     position: 'absolute',
@@ -202,22 +196,22 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    borderTopColor: colorBid,
+    borderTopColor: _.colorBid,
     borderTopWidth: 1,
-    borderRightColor: colorBid,
+    borderRightColor: _.colorBid,
     borderRightWidth: 1,
-    backgroundColor: colorDepthBid
+    backgroundColor: _.colorDepthBid
   },
   asks: {
     position: 'absolute',
     right: 0,
     bottom: 0,
     width: '100%',
-    borderTopColor: colorAsk,
+    borderTopColor: _.colorAsk,
     borderTopWidth: 1,
-    borderLeftColor: colorAsk,
+    borderLeftColor: _.colorAsk,
     borderLeftWidth: 1,
-    backgroundColor: colorDepthAsk
+    backgroundColor: _.colorDepthAsk
   },
   rod: {
     position: 'absolute',
@@ -227,13 +221,13 @@ const styles = StyleSheet.create({
     bottom: 56
   },
   text: {
-    color: colorText
+    color: _.colorTinygrailText
   }
-})
+}))
 
 function getKStr(amount) {
   if (amount > 1000) {
-    return `${(amount / 1000).toFixed(2)}K`
+    return `${toFixed(amount / 1000, 2)}K`
   }
   return parseInt(amount)
 }

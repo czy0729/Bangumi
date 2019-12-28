@@ -2,26 +2,30 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 15:20:00
+ * @Last Modified time: 2019-12-21 14:01:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { ItemNotify } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { HTML_NOTIFY } from '@constants/html'
-import _ from '@styles'
 import Store from './store'
+
+const title = '电波提醒'
 
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Notify extends React.Component {
   static navigationOptions = {
-    title: '电波提醒'
+    title
   }
 
   static contextTypes = {
@@ -35,6 +39,9 @@ class Notify extends React.Component {
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
+          t('电波提醒.右上角菜单', {
+            key
+          })
           switch (key) {
             case '浏览器查看':
               open(HTML_NOTIFY())
@@ -49,14 +56,17 @@ class Notify extends React.Component {
     await $.init()
     $.doClearNotify()
 
-    hm('notify/all')
+    hm('notify/all', 'Notify')
   }
 
   render() {
     const { $, navigation } = this.context
+    const event = {
+      id: '电波提醒.跳转'
+    }
     return (
       <ListView
-        style={_.container.screen}
+        style={_.container.content}
         keyExtractor={(item, index) => String(index)}
         data={$.notify}
         renderItem={({ item, index }) => (
@@ -64,6 +74,7 @@ class Notify extends React.Component {
             key={item.userId}
             navigation={navigation}
             index={index}
+            event={event}
             {...item}
           />
         )}

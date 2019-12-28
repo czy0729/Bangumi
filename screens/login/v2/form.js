@@ -2,17 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-06 14:35:58
+ * @Last Modified time: 2019-12-03 16:33:47
  */
 import React from 'react'
-import { StyleSheet, View, Image as RNImage } from 'react-native'
-import { Flex, Text, Touchable, Image, Input, Button } from '@components'
-import _ from '@styles'
+import { View, Image as RNImage } from 'react-native'
+import { observer } from 'mobx-react'
+import { Flex, Text, Touchable, Input, Button, Mesume } from '@components'
+import { _ } from '@stores'
 
-export default class Form extends React.Component {
+export default
+@observer
+class Form extends React.Component {
   static defaultProps = {
     forwardRef: Function.prototype,
     onGetCaptcha: Function.prototype,
+    onFocus: Function.prototype,
+    onBlur: Function.prototype,
     onChange: Function.prototype,
     onLogin: Function.prototype
   }
@@ -28,27 +33,26 @@ export default class Form extends React.Component {
       info,
       forwardRef,
       onGetCaptcha,
+      onFocus,
+      onBlur,
       onChange,
       onLogin
     } = this.props
     const isError = info.includes('错误')
     return (
-      <View style={[_.container.column, styles.gray]}>
-        <View style={styles.form}>
+      <View style={[_.container.column, this.styles.gray]}>
+        <View style={this.styles.form}>
           <Flex justify='center'>
-            <Image
-              style={styles.gray}
-              width={160}
-              height={128}
-              src={require('@assets/screens/login/login.png')}
-            />
+            <Mesume />
           </Flex>
           <Flex style={_.mt.md}>
             <Flex.Item>
               <Input
-                style={styles.input}
+                style={this.styles.input}
                 value={email}
                 placeholder='Email'
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onChange={evt => onChange(evt, 'email')}
               />
             </Flex.Item>
@@ -56,10 +60,12 @@ export default class Form extends React.Component {
           <Flex style={_.mt.md}>
             <Flex.Item>
               <Input
-                style={styles.input}
+                style={this.styles.input}
                 value={password}
                 placeholder='密码'
                 secureTextEntry
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onChange={evt => onChange(evt, 'password')}
               />
             </Flex.Item>
@@ -68,15 +74,20 @@ export default class Form extends React.Component {
             <Flex.Item>
               <Input
                 ref={forwardRef}
-                style={styles.input}
+                style={this.styles.input}
                 value={captcha}
                 placeholder='验证'
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onChange={evt => onChange(evt, 'captcha')}
               />
             </Flex.Item>
-            <Touchable style={styles.captchaContainer} onPress={onGetCaptcha}>
+            <Touchable
+              style={this.styles.captchaContainer}
+              onPress={onGetCaptcha}
+            >
               {!!base64 && (
-                <RNImage style={styles.captcha} source={{ uri: base64 }} />
+                <RNImage style={this.styles.captcha} source={{ uri: base64 }} />
               )}
             </Touchable>
           </Flex>
@@ -118,11 +129,15 @@ export default class Form extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   gray: {
-    backgroundColor: 'rgb(251, 251, 251)'
+    backgroundColor: _.colorBg
   },
   form: {
     width: 280,
@@ -141,4 +156,4 @@ const styles = StyleSheet.create({
     width: 118,
     height: 44
   }
-})
+}))

@@ -2,25 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 00:55:14
+ * @Last Modified time: 2019-12-20 15:45:17
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
-import { ItemTopic, IconHeader } from '@screens/_'
+import { ItemTopic, IconHeader, NavigationBarEvents } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 import Info from './info'
 import Store from './store'
+
+const title = '人物'
 
 export default
 @inject(Store)
 @withTransitionHeader({
-  colorStart: _.colorTitleRaw,
+  screen: title,
   barStyle: 'dark-content'
 })
 @observer
@@ -39,8 +40,7 @@ class Mono extends React.Component {
     await $.init()
     this.updateNavigation()
 
-    const { monoId } = $.params
-    hm(monoId)
+    hm($.monoId, 'Mono')
   }
 
   updateNavigation = () => {
@@ -48,14 +48,17 @@ class Mono extends React.Component {
     const { name } = $.mono
     withTransitionHeader.setTitle(navigation, name)
 
-    const { monoId } = $.params
     navigation.setParams({
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
+          t('人物.右上角菜单', {
+            key
+          })
+
           switch (key) {
             case '浏览器查看':
-              open(`${HOST}/${monoId}`)
+              open(`${HOST}/${$.monoId}`)
               break
             default:
               break
@@ -67,14 +70,14 @@ class Mono extends React.Component {
           name='trophy-full'
           color={_.colorYellow}
           onPress={() => {
-            if ($.chara.users) {
-              navigation.push('TinygrailICODeal', {
-                monoId
-              })
-              return
-            }
-            navigation.push('TinygrailTrade', {
-              monoId
+            const path = $.chara.users ? 'TinygrailICODeal' : 'TinygrailTrade'
+            t('人物.跳转', {
+              to: path,
+              monoId: $.monoId
+            })
+
+            navigation.push(path, {
+              monoId: $.monoId
             })
           }}
         />
@@ -85,27 +88,45 @@ class Mono extends React.Component {
   render() {
     const { $, navigation } = this.context
     const { onScroll } = this.props
+    const event = {
+      id: '人物.跳转',
+      data: {
+        from: '吐槽'
+      }
+    }
     return (
-      <ListView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainerStyle}
-        keyExtractor={item => String(item.id)}
-        data={$.monoComments}
-        scrollEventThrottle={32}
-        ListHeaderComponent={<Info />}
-        renderItem={({ item, index }) => (
-          <ItemTopic navigation={navigation} index={index} {...item} />
-        )}
-        onScroll={onScroll}
-        onHeaderRefresh={() => $.fetchMono(true)}
-        onFooterRefresh={$.fetchMono}
-        {...withTransitionHeader.listViewProps}
-      />
+      <>
+        <NavigationBarEvents />
+        <ListView
+          style={this.styles.container}
+          contentContainerStyle={this.styles.contentContainerStyle}
+          keyExtractor={item => String(item.id)}
+          data={$.monoComments}
+          scrollEventThrottle={32}
+          ListHeaderComponent={<Info />}
+          renderItem={({ item, index }) => (
+            <ItemTopic
+              navigation={navigation}
+              index={index}
+              event={event}
+              {...item}
+            />
+          )}
+          onScroll={onScroll}
+          onHeaderRefresh={() => $.fetchMono(true)}
+          onFooterRefresh={$.fetchMono}
+          {...withTransitionHeader.listViewProps}
+        />
+      </>
     )
+  }
+
+  get styles() {
+    return memoStyles()
   }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
     backgroundColor: _.colorPlain
@@ -113,4 +134,4 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingBottom: _.space
   }
-})
+}))

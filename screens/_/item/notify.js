@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-09 10:27:58
+ * @Last Modified time: 2019-12-23 09:39:43
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
+import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 
 function ItemNotify({
@@ -21,15 +21,19 @@ function ItemNotify({
   title,
   message,
   message2,
-  href
+  href,
+  event
 }) {
+  const styles = memoStyles()
   return (
     <Flex style={styles.container} align='start'>
       <Avatar
         style={styles.image}
         navigation={navigation}
-        src={avatar}
         userId={userId}
+        name={userName}
+        src={avatar}
+        event={event}
       />
       <Flex.Item style={[styles.item, !!index && styles.border, _.ml.sm]}>
         <Text size={13} type='avatar'>
@@ -40,7 +44,16 @@ function ItemNotify({
           <Text
             lineHeight={1.8}
             type='main'
-            onPress={() => appNavigate(href, navigation)}
+            onPress={() =>
+              appNavigate(
+                href,
+                navigation,
+                {
+                  _title: title
+                },
+                event
+              )
+            }
           >
             {title}
           </Text>
@@ -51,9 +64,13 @@ function ItemNotify({
   )
 }
 
+ItemNotify.defaultProps = {
+  event: EVENT
+}
+
 export default observer(ItemNotify)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -67,6 +84,6 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   }
-})
+}))

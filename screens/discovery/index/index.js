@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-02 12:32:16
+ * @Last Modified time: 2019-12-03 10:45:47
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, Loading, ListView } from '@components'
+import { StatusBarEvents, Loading, ListView, UM } from '@components'
 import { IconTabBar } from '@screens/_'
+import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
 import Header from './header'
 import List from './list'
 import Store from './store'
+
+const title = '发现'
 
 export default
 @inject(Store)
@@ -22,7 +24,7 @@ class Discovery extends React.Component {
   static navigationOptions = {
     header: null,
     tabBarIcon: ({ tintColor }) => <IconTabBar name='home' color={tintColor} />,
-    tabBarLabel: '发现'
+    tabBarLabel: title
   }
 
   static contextTypes = {
@@ -33,7 +35,7 @@ class Discovery extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm('discovery')
+    hm('discovery', 'Discovery')
   }
 
   render() {
@@ -41,6 +43,7 @@ class Discovery extends React.Component {
     const { _loaded } = $.home
     return (
       <>
+        <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? (
           <ListView

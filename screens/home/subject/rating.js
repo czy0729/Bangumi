@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:15:19
+ * @Last Modified time: 2019-12-19 16:09:53
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { SectionTitle } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
-import _ from '@styles'
+import { t } from '@utils/fetch'
 
 const initialRating = {
   count: {
@@ -42,6 +43,7 @@ function getHeight(total, current) {
 }
 
 function Ranting({ style }, { $ }) {
+  const styles = memoStyles()
   const { subjectId } = $.params
   const { rating = initialRating, rank = '-' } = $.subject
   const { friend = {} } = $.subjectFormHTML
@@ -50,7 +52,14 @@ function Ranting({ style }, { $ }) {
       <SectionTitle
         right={
           <Touchable
-            onPress={() => open(`https://netaba.re/subject/${subjectId}`)}
+            onPress={() => {
+              t('条目.跳转', {
+                to: 'Netabare',
+                from: '评分分布',
+                subjectId: $.subjectId
+              })
+              open(`https://netaba.re/subject/${subjectId}`)
+            }}
           >
             <Flex>
               <Text type='sub'>netabare</Text>
@@ -111,16 +120,16 @@ Ranting.contextTypes = {
 
 export default observer(Ranting)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     height: 80,
     paddingBottom: _.xs,
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   itemFill: {
     position: 'absolute',
     right: 0,
     left: 0,
-    backgroundColor: _.colorWait
+    backgroundColor: _.select(_.colorWait, _._colorDarkModeLevel2)
   }
-})
+}))

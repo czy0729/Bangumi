@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-31 01:32:58
+ * @Last Modified time: 2019-12-21 15:48:11
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ import {
   IconTouchable,
   IconReverse
 } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function SectionTitle(props, { $ }) {
   const { list = [] } = $.comments
@@ -27,7 +27,6 @@ function SectionTitle(props, { $ }) {
       commentsCount += item.sub.length
     }
   })
-
   return (
     <CompSectionTitle
       style={[styles.title, _.mt.lg, _.mb.md]}

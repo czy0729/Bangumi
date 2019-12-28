@@ -2,28 +2,33 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 12:55:18
+ * @Last Modified time: 2019-12-23 13:46:36
  */
+import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore } from '@stores'
-import { urlStringify, getTimestamp } from '@utils'
+import { urlStringify, getTimestamp, formatNumber } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { queue, t } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
 import {
   HOST,
   TINYGRAIL_APP_ID,
   TINYGRAIL_OAUTH_REDIRECT_URL
 } from '@constants'
-import { API_TINYGRAIL_LOGOUT } from '@constants/api'
+import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 
 const namespace = 'ScreenTinygrail'
-const maxErrorCount = 8
+const errorStr = '/false'
+const maxErrorCount = 3
 
 export default class ScreenTinygrail extends store {
   state = observable({
     loading: false,
+    loadingAssets: false,
+    loadingBonus: false,
     currentBalance: 0,
     currentTotal: 0,
     lastBalance: 0,
@@ -35,29 +40,66 @@ export default class ScreenTinygrail extends store {
   errorCount = 0
 
   init = async () => {
+    // 初始化state
     const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
       loading: false
     })
 
+    // 没有资产就自动授权
     let res = tinygrailStore.fetchAssets()
     const { _loaded } = await res
     if (!_loaded) {
       await this.doAuth()
-      await Promise.all([tinygrailStore.fetchAssets()])
     }
 
-    await tinygrailStore.fetchHash()
+    // 获取资产和用户唯一标识
+    await Promise.all([
+      tinygrailStore.fetchAssets(),
+      tinygrailStore.fetchHash()
+    ])
     res = this.fetchCharaAssets()
     await res
 
+    // 资产金额UI变动
     this.caculateChange()
+
+    // 获取买单卖单数量
+    this.fetchCount()
+
     return res
   }
 
   // -------------------- fetch --------------------
-  fetchCharaAssets = () => tinygrailStore.fetchCharaAssets(this.hash)
+  fetchCharaAssets = async () => {
+    this.setState({
+      loadingAssets: true
+    })
+    const res = tinygrailStore.fetchCharaAssets(this.hash)
+    await res
+    this.setState({
+      loadingAssets: false
+    })
+
+    return res
+  }
+
+  fetchCount = refresh => {
+    const fetchs = []
+    if (refresh || !this.list('bid')._loaded) {
+      fetchs.push(() => tinygrailStore.fetchBid())
+    }
+    if (refresh || !this.list('asks')._loaded) {
+      fetchs.push(() => tinygrailStore.fetchAsks())
+    }
+    if (refresh || !this.list('auction')._loaded) {
+      fetchs.push(() => tinygrailStore.fetchAuction())
+    }
+    if (fetchs.length) {
+      queue(fetchs)
+    }
+  }
 
   refresh = async () => {
     const res = Promise.all([
@@ -65,8 +107,11 @@ export default class ScreenTinygrail extends store {
       this.fetchCharaAssets()
     ])
     await res
-
     this.caculateChange()
+
+    setTimeout(() => {
+      this.fetchCount(true)
+    }, 400)
 
     return res
   }
@@ -102,6 +147,10 @@ export default class ScreenTinygrail extends store {
     )
   }
 
+  list(key = 'bid') {
+    return computed(() => tinygrailStore.list(key)).get()
+  }
+
   // -------------------- action --------------------
   /**
    * 小圣杯授权
@@ -115,10 +164,11 @@ export default class ScreenTinygrail extends store {
     try {
       await this.logout()
       await this.oauth()
-      await this.authorize()
+      res = this.authorize()
 
-      res = this.getAccessCookie()
+      // res = this.getAccessCookie()
       await res
+      t('小圣杯.授权成功')
 
       info('已更新授权')
       this.setState({
@@ -127,13 +177,171 @@ export default class ScreenTinygrail extends store {
       })
       this.setStorage(undefined, undefined, namespace)
     } catch (error) {
-      info('授权失败, 请重试')
+      t('小圣杯.授权失败')
+
+      info('授权失败请重试, 或检查登陆状态')
       this.setState({
         loading: false
       })
     }
 
     return res
+  }
+
+  /**
+   * 预测股息
+   */
+  doTest = async () => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    t('小圣杯.预测股息')
+
+    try {
+      axios.defaults.withCredentials = false
+      const res = axios({
+        method: 'get',
+        url: API_TINYGRAIL_TEST(),
+        headers: {
+          Cookie: tinygrailStore.cookie
+        }
+      })
+
+      const data = await res
+      const { Total, Share } = data.data.Value
+      Alert.alert(
+        '股息预测',
+        `本期计息股份共${formatNumber(Total, 0)}股, 预期股息₵${formatNumber(
+          Share
+        )}`,
+        [
+          {
+            text: '知道了'
+          }
+        ]
+      )
+    } catch (error) {
+      info('获取股息预测失败')
+    }
+  }
+
+  /**
+   * 刮刮乐
+   */
+  doLottery = async navigation => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    t('小圣杯.刮刮乐')
+
+    try {
+      this.setState({
+        loadingBonus: true
+      })
+      const { State, Value, Message } = await tinygrailStore.doLottery()
+      this.setState({
+        loadingBonus: false
+      })
+
+      if (State === 0) {
+        Alert.alert('操作成功', `${Value}，前往持仓查看吗`, [
+          {
+            text: '取消',
+            style: 'cancel'
+          },
+          {
+            text: '确定',
+            onPress: () => {
+              navigation.push('TinygrailCharaAssets', {
+                form: 'lottery',
+                message: Value
+              })
+            }
+          }
+        ])
+      } else {
+        info(Message)
+      }
+    } catch (error) {
+      this.setState({
+        loadingBonus: false
+      })
+      info('操作失败，可能授权过期了')
+    }
+  }
+
+  /**
+   * 每周分红
+   */
+  doGetBonusWeek = async () => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    t('小圣杯.每周分红')
+
+    try {
+      this.setState({
+        loadingBonus: true
+      })
+      const { State, Value, Message } = await tinygrailStore.doBonus()
+      this.setState({
+        loadingBonus: false
+      })
+
+      if (State === 0) {
+        info(Value)
+        await tinygrailStore.fetchAssets()
+        this.caculateChange()
+      } else {
+        info(Message)
+      }
+    } catch (error) {
+      this.setState({
+        loadingBonus: false
+      })
+      info('操作失败，可能授权过期了')
+    }
+  }
+
+  /**
+   * 每日签到
+   */
+  doGetBonusDaily = async () => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    t('小圣杯.每日签到')
+
+    try {
+      this.setState({
+        loadingBonus: true
+      })
+      const { State, Value, Message } = await tinygrailStore.doBonusDaily()
+      this.setState({
+        loadingBonus: false
+      })
+
+      if (State === 0) {
+        info(Value)
+        await tinygrailStore.fetchAssets()
+        this.caculateChange()
+      } else {
+        info(Message)
+      }
+    } catch (error) {
+      this.setState({
+        loadingBonus: false
+      })
+      info('操作失败，可能授权过期了')
+    }
   }
 
   /**
@@ -182,7 +390,7 @@ export default class ScreenTinygrail extends store {
       method: 'post',
       maxRedirects: 0,
       validateStatus: null,
-      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}`,
+      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}${errorStr}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Cookie: `chii_cookietime=2592000; ${cookie}`,
@@ -208,24 +416,7 @@ export default class ScreenTinygrail extends store {
       }
       return false
     }
-    this.locationUrl = responseURL
 
-    return res
-  }
-
-  /**
-   * code获取cookie
-   */
-  getAccessCookie = async () => {
-    axios.defaults.withCredentials = false
-    const res = axios({
-      method: 'get',
-      maxRedirects: 0,
-      validateStatus: null,
-      url: `${this.locationUrl}&redirect=false`
-    })
-
-    const data = await res
     tinygrailStore.updateCookie(
       `${data.headers['set-cookie'][0].split(';')[0]};`
     )

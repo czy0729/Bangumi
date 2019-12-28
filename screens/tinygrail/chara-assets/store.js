@@ -2,11 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-04 03:18:25
+ * @Last Modified time: 2019-12-23 12:20:33
  */
+import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
+import {
+  SORT_GX,
+  SORT_CGS,
+  SORT_CCJZ,
+  SORT_HYD,
+  SORT_SCJ,
+  SORT_FHL,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_XFJL
+} from '../_/utils'
 
 export const tabs = [
   {
@@ -14,43 +27,24 @@ export const tabs = [
     key: 'chara'
   },
   {
+    title: '圣殿',
+    key: 'temple'
+  },
+  {
     title: 'ICO',
     key: 'ico'
   }
 ]
 export const sortDS = [
-  {
-    label: '持股数',
-    value: 'cgs'
-  },
-  {
-    label: '持仓价值',
-    value: 'ccjz'
-  },
-  {
-    label: '活跃度',
-    value: 'czsj'
-  },
-  {
-    label: '市场价',
-    value: 'fhze'
-  },
-  {
-    label: '发行量',
-    value: 'fhl'
-  },
-  {
-    label: '当前价',
-    value: 'dqj'
-  },
-  {
-    label: '当前涨跌',
-    value: 'dqzd'
-  },
-  {
-    label: '新番奖励',
-    value: 'xfjl'
-  }
+  SORT_GX,
+  SORT_CGS,
+  SORT_CCJZ,
+  SORT_HYD,
+  SORT_SCJ,
+  SORT_FHL,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_XFJL
 ]
 const namespace = 'ScreenTinygrailCharaAssets'
 
@@ -74,12 +68,69 @@ export default class ScreenTinygrailCharaAssets extends store {
     return res
   }
 
+  /**
+   * 刮刮乐动作进入, 锁定到最近活跃|倒序
+   * 请求完资产后, 根据message显示上次刮刮乐总价值
+   */
+  initFormLottery = async () => {
+    const res = this.getStorage(undefined, namespace)
+    const state = await res
+    this.setState({
+      ...state,
+      page: 0,
+      sort: SORT_HYD.value,
+      direction: 'down',
+      _loaded: true
+    })
+
+    const { chara } = await this.fetchMyCharaAssets()
+    try {
+      const { message = '' } = this.params
+      const { list } = chara
+      const items = message
+        .split('#')
+        .map(v => /(\d+)「(.+)」(\d+)股/.exec(v))
+        .filter(v => v)
+        .map(v => ({ id: Number(v[1]), name: v[2], num: Number(v[3]) }))
+
+      let total = 0
+      items.forEach(item => {
+        const find = list.find(i => i.id === item.id)
+        if (find) {
+          total += item.num * find.current
+        }
+      })
+
+      Alert.alert(
+        '小圣杯助手',
+        `本次刮刮乐：${items
+          .map(item => `${item.name}x${item.num}`)
+          .join('，')}，价值₵${total}`,
+        [
+          {
+            text: '知道了'
+          }
+        ]
+      )
+    } catch (error) {
+      // do nothing
+    }
+
+    return res
+  }
+
   // -------------------- fetch --------------------
   fetchMyCharaAssets = () => tinygrailStore.fetchMyCharaAssets()
+
+  fetchTemple = () => tinygrailStore.fetchTemple()
 
   // -------------------- get --------------------
   @computed get myCharaAssets() {
     return tinygrailStore.myCharaAssets
+  }
+
+  @computed get temple() {
+    return tinygrailStore.temple()
   }
 
   // -------------------- page --------------------
@@ -88,6 +139,10 @@ export default class ScreenTinygrailCharaAssets extends store {
       return
     }
 
+    t('我的持仓.标签页切换', {
+      page
+    })
+
     this.setState({
       page
     })
@@ -95,10 +150,14 @@ export default class ScreenTinygrailCharaAssets extends store {
     this.tabChangeCallback(page)
   }
 
-  tabChangeCallback = () => {
+  tabChangeCallback = page => {
     const { _loaded } = this.myCharaAssets
     if (!_loaded) {
       this.fetchMyCharaAssets()
+    }
+
+    if (page === 2) {
+      this.fetchTemple()
     }
   }
 
@@ -114,11 +173,21 @@ export default class ScreenTinygrailCharaAssets extends store {
         nextDirection = ''
       }
 
+      t('我的持仓.排序', {
+        sort: nextSort,
+        direction: nextDirection
+      })
+
       this.setState({
         sort: nextSort,
         direction: nextDirection
       })
     } else {
+      t('我的持仓.排序', {
+        sort: item,
+        direction: 'down'
+      })
+
       this.setState({
         sort: item,
         direction: 'down'

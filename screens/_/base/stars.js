@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-09 14:55:43
+ * @Last Modified time: 2019-12-02 16:39:32
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Icon, Text } from '@components'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Stars({ style, simple, value, color }) {
   if (!value) {
@@ -55,4 +56,4 @@ Stars.defaultProps = {
   color: 'sub'
 }
 
-export default Stars
+export default observer(Stars)

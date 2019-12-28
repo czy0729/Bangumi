@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 16:22:40
+ * @Last Modified time: 2019-12-14 20:18:32
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
+import { log } from '@utils/dev'
 import { HTMLDecode } from '@utils/html'
-import { LIST_EMPTY, NING_MOE_HOST, ANITAMA_HOST } from '@constants'
+import { LIST_EMPTY, HOST_NING_MOE, HOST_ANITAMA } from '@constants'
 import { HTML_TAGS } from '@constants/html'
 import {
   NAMESPACE,
@@ -75,9 +76,12 @@ class Discovery extends store {
    * @param {*} refresh
    */
   fetchRandom = async refresh => {
+    const url = `${HOST_NING_MOE}/api/get_random_bangumi`
+    log(`[fetch] 柠萌动漫随便看看 ${url}`)
+
     try {
       const { list, pagination } = this.random
-      const data = await fetch(`${NING_MOE_HOST}/api/get_random_bangumi`, {
+      const data = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -126,8 +130,11 @@ class Discovery extends store {
    * @param {*} keyword 关键字
    */
   fetchNingMoeDetailBySearch = async ({ keyword }) => {
+    const url = `${HOST_NING_MOE}/api/search`
+    log(`[fetch] 搜索柠萌动漫信息 ${url}`)
+
     try {
-      const data = await fetch(`${NING_MOE_HOST}/api/search`, {
+      const data = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -172,8 +179,11 @@ class Discovery extends store {
    * @param {*} bgmId
    */
   fetchNingMoeDetail = async ({ id, bgmId }) => {
+    const url = `${HOST_NING_MOE}/api/get_bangumi`
+    log(`[fetch] 查询柠萌动漫信息 ${url}`)
+
     try {
-      const data = await fetch(`${NING_MOE_HOST}/api/get_bangumi`, {
+      const data = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -215,8 +225,11 @@ class Discovery extends store {
    * @param {*} url
    */
   fetchNingMoeRealYunUrl = async ({ url }) => {
+    const _url = `${HOST_NING_MOE}/api/get_real_yun_url`
+    log(`[fetch] 查询真正的云盘地址 ${_url}`)
+
     try {
-      const data = await fetch(`${NING_MOE_HOST}/api/get_real_yun_url`, {
+      const data = await fetch(_url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -241,22 +254,28 @@ class Discovery extends store {
    * Anitama文章列表
    */
   fetchAnitamaTimeline = async (page = 1) => {
-    const data = await fetch(`${ANITAMA_HOST}/timeline?pageNo=${page}`).then(
-      response => response.json()
-    )
+    const url = `${HOST_ANITAMA}/timeline?pageNo=${page}`
+    log(`[fetch] Anitama文章列表 ${url}`)
 
     let animataTimeline = INIT_ANITAMA_TIMELINE_ITEM
-    if (data.status === 200 && data.success) {
-      const key = 'anitamaTimeline'
-      animataTimeline = {
-        list: data.data.page.list.filter(item => item.entryType === 'article'),
-        _loaded: getTimestamp()
-      }
-      this.setState({
-        [key]: {
-          [page]: animataTimeline
+    try {
+      const data = await fetch(url).then(response => response.json())
+      if (data.status === 200 && data.success) {
+        const key = 'anitamaTimeline'
+        animataTimeline = {
+          list: data.data.page.list.filter(
+            item => item.entryType === 'article'
+          ),
+          _loaded: getTimestamp()
         }
-      })
+        this.setState({
+          [key]: {
+            [page]: animataTimeline
+          }
+        })
+      }
+    } catch (error) {
+      // do nothing
     }
 
     return Promise.resolve(animataTimeline)

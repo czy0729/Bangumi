@@ -2,23 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-27 19:44:47
+ * @Last Modified time: 2019-12-23 09:41:36
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, RenderHtml } from '@components'
+import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
-import _ from '@styles'
+import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 
 const avatarWidth = 28
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+const baseFontStyle = {
+  fontSize: 14 + _.fontSizeAdjust,
+  lineHeight: 22
+}
 
-function Item({
+function ItemTopic({
   navigation,
   index,
   authorId,
@@ -29,12 +34,14 @@ function Item({
   message,
   floor,
   time,
-  sub = []
+  sub,
+  event
 }) {
   if (!userId) {
     return null
   }
 
+  const styles = memoStyles()
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   return (
@@ -43,8 +50,10 @@ function Item({
         style={styles.image}
         navigation={navigation}
         size={avatarWidth}
-        src={avatar}
         userId={userId}
+        name={userName}
+        src={avatar}
+        event={event}
       />
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>
@@ -70,13 +79,10 @@ function Item({
         )}
         <RenderHtml
           style={_.mt.sm}
-          baseFontStyle={{
-            fontSize: 14,
-            lineHeight: 22
-          }}
+          baseFontStyle={baseFontStyle}
           imagesMaxWidth={imagesMaxWidth}
           html={message}
-          onLinkPress={href => appNavigate(href, navigation)}
+          onLinkPress={href => appNavigate(href, navigation, {}, event)}
         />
         <View style={styles.sub}>
           {sub.map(item => {
@@ -90,6 +96,8 @@ function Item({
                   size={avatarWidth}
                   src={item.avatar}
                   userId={item.userId}
+                  name={item.userName}
+                  event={event}
                 />
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
@@ -116,13 +124,12 @@ function Item({
                   </Flex>
                   <RenderHtml
                     style={_.mt.xs}
-                    baseFontStyle={{
-                      fontSize: 13,
-                      lineHeight: 20
-                    }}
+                    baseFontStyle={baseFontStyle}
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}
-                    onLinkPress={href => appNavigate(href, navigation)}
+                    onLinkPress={href =>
+                      appNavigate(href, navigation, {}, event)
+                    }
                   />
                 </Flex.Item>
               </Flex>
@@ -134,9 +141,14 @@ function Item({
   )
 }
 
-export default observer(Item)
+ItemTopic.defaultProps = {
+  sub: [],
+  event: EVENT
+}
 
-const styles = StyleSheet.create({
+export default observer(ItemTopic)
+
+const memoStyles = _.memoStyles(_ => ({
   item: {
     backgroundColor: _.colorPlain
   },
@@ -153,7 +165,7 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
   },
   sub: {
     marginTop: _.md,
@@ -165,4 +177,4 @@ const styles = StyleSheet.create({
   subContent: {
     paddingVertical: _.md
   }
-})
+}))

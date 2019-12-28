@@ -2,17 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 21:16:41
+ * @Last Modified time: 2019-12-15 13:37:49
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
+import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { caculateICO } from '@utils/app'
-import _ from '@styles'
 
 const colorDarkText = 'rgb(99, 117, 144)'
 
-export default class StockPreview extends React.Component {
+export default
+@observer
+class StockPreview extends React.Component {
   static defaultProps = {
     style: undefined,
     id: 0,
@@ -42,7 +46,7 @@ export default class StockPreview extends React.Component {
   renderICO() {
     const { total } = this.props
     const { level, next } = caculateICO(this.props)
-    const percent = ((total / next) * 100).toFixed(0)
+    const percent = toFixed((total / next) * 100, 0)
 
     let backgroundColor
     switch (level) {
@@ -70,18 +74,23 @@ export default class StockPreview extends React.Component {
     }
 
     return (
-      <Flex style={styles.ico}>
+      <Flex style={this.styles.ico}>
         <Text
-          style={[styles.iconText, this.isDark && styles.iconTextDark]}
+          style={[
+            this.styles.iconText,
+            this.isDark && this.styles.iconTextDark
+          ]}
           size={10}
           align='center'
         >
           lv.{level} {percent}%
         </Text>
-        <View style={[styles.icoBar, this.isDark && styles.icoBarDark]}>
+        <View
+          style={[this.styles.icoBar, this.isDark && this.styles.icoBarDark]}
+        >
           <View
             style={[
-              styles.icoProcess,
+              this.styles.icoProcess,
               {
                 width: `${percent}%`,
                 backgroundColor
@@ -118,13 +127,15 @@ export default class StockPreview extends React.Component {
     }
 
     const { showDetail } = this.state
-    const fluctuationStyle = [styles.fluctuation, _.ml.sm]
+    const fluctuationStyle = [this.styles.fluctuation, _.ml.sm]
     if (fluctuation < 0) {
-      fluctuationStyle.push(styles.danger)
+      fluctuationStyle.push(this.styles.danger)
     } else if (fluctuation > 0) {
-      fluctuationStyle.push(styles.success)
+      fluctuationStyle.push(this.styles.success)
     } else {
-      fluctuationStyle.push(this.isDark ? styles.defaultDark : styles.sub)
+      fluctuationStyle.push(
+        this.isDark ? this.styles.defaultDark : this.styles.sub
+      )
     }
 
     let showFloor = true
@@ -147,55 +158,71 @@ export default class StockPreview extends React.Component {
     let realChange = '0.00'
     if (showDetail) {
       if (fluctuation > 0) {
-        realChange = `+${(current - current / (1 + fluctuation / 100)).toFixed(
+        realChange = `+${toFixed(
+          current - current / (1 + fluctuation / 100),
           2
         )}`
       } else if (fluctuation < 0) {
-        realChange = `-${(current / (1 + fluctuation / 100)).toFixed(2)}`
+        realChange = `-${toFixed(current / (1 + fluctuation / 100), 2)}`
       }
     } else if (fluctuation > 0) {
-      fluctuationText = `+${fluctuation.toFixed(2)}%`
+      fluctuationText = `+${toFixed(fluctuation, 2)}%`
     } else if (fluctuation < 0) {
-      fluctuationText = `${fluctuation.toFixed(2)}%`
+      fluctuationText = `${toFixed(fluctuation, 2)}%`
     }
 
-    let fluctuationSize = 13
+    let fluctuationSize = 12
     if (fluctuationText.length > 8) {
       fluctuationSize = 10
     } else if (fluctuationText.length > 7) {
-      fluctuationSize = 12
+      fluctuationSize = 11
     }
 
+    const hasNoChanged = (showDetail ? realChange : fluctuationText) === '-%'
     return (
-      <Touchable style={[styles.container, style]} onPress={this.toggleNum}>
+      <Touchable
+        style={[this.styles.container, style]}
+        onPress={this.toggleNum}
+      >
         <Flex justify='end'>
           <Text
             style={[
-              styles.current,
+              !hasNoChanged && this.styles.current,
               {
-                color: this.isDark ? _.colorPlain : _.colorDesc
+                color: this.isDark ? _.__colorPlain__ : _.colorDesc
               }
             ]}
             lineHeight={16}
             align='right'
           >
-            ₵{current.toFixed(2)}
+            ₵{toFixed(current, 2)}
           </Text>
-          <Text
-            style={fluctuationStyle}
-            size={fluctuationSize}
-            lineHeight={16}
-            type='plain'
-            align='center'
-          >
-            {showDetail ? realChange : fluctuationText}
-          </Text>
+          {!hasNoChanged && (
+            <Text
+              style={[
+                {
+                  color: _.colorTinygrailPlain
+                },
+                fluctuationStyle
+              ]}
+              size={fluctuationSize}
+              lineHeight={16}
+              align='center'
+            >
+              {showDetail ? realChange : fluctuationText}
+            </Text>
+          )}
         </Flex>
-        <Flex style={styles.wrap} justify='end'>
+        <Flex style={this.styles.wrap} justify='end'>
           {showDetail && (
             <Text
               style={{
-                color: this.isDark ? colorDarkText : _.colorSub
+                paddingLeft: _.wind,
+                paddingRight: _.sm,
+                color: this.isDark ? colorDarkText : _.colorSub,
+                backgroundColor: this.isDark
+                  ? _.colorTinygrailContainer
+                  : _.colorPlain
               }}
               size={12}
             >
@@ -203,7 +230,7 @@ export default class StockPreview extends React.Component {
             </Text>
           )}
           {showFloor ? (
-            <Flex style={_.ml.sm}>
+            <Flex>
               {showDetail && (
                 <Text
                   style={{
@@ -214,10 +241,16 @@ export default class StockPreview extends React.Component {
                   {bids}
                 </Text>
               )}
-              <Flex style={[styles.floor, _.ml.xs]} justify='between'>
+              <Flex
+                style={[
+                  showDetail ? this.styles.floorShowDetail : this.styles.floor,
+                  _.ml.xs
+                ]}
+                justify='between'
+              >
                 <View
                   style={[
-                    styles.bids,
+                    this.styles.bids,
                     {
                       width: `${bidsPercent}%`
                     }
@@ -225,7 +258,7 @@ export default class StockPreview extends React.Component {
                 />
                 <View
                   style={[
-                    styles.asks,
+                    this.styles.asks,
                     {
                       width: `${asksPercent}%`
                     }
@@ -235,7 +268,7 @@ export default class StockPreview extends React.Component {
               {showDetail && (
                 <Text
                   style={[
-                    styles.small,
+                    this.styles.small,
                     _.ml.xs,
                     {
                       color: _.colorAsk
@@ -257,16 +290,20 @@ export default class StockPreview extends React.Component {
               ]}
               size={12}
             >
-              (没有挂单)
+              没挂单
             </Text>
           )}
         </Flex>
       </Touchable>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     height: '100%',
     paddingVertical: _.wind,
@@ -276,11 +313,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    marginRight: 80
+    marginRight: 72
   },
   fluctuation: {
-    minWidth: 72,
-    paddingHorizontal: _.sm,
+    minWidth: 64,
+    paddingHorizontal: _.xs,
     borderRadius: 2,
     overflow: 'hidden'
   },
@@ -303,7 +340,10 @@ const styles = StyleSheet.create({
     height: 16
   },
   floor: {
-    width: 72
+    width: 64
+  },
+  floorShowDetail: {
+    width: 36
   },
   bids: {
     height: 2,
@@ -345,4 +385,4 @@ const styles = StyleSheet.create({
   iconTextDark: {
     color: _.colorTinygrailPlain
   }
-})
+}))

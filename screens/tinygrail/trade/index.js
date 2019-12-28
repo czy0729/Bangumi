@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 18:42:38
+ * @Last Modified time: 2019-12-22 20:41:58
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { SafeAreaView, NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { Flex, Button, Touchable } from '@components'
+import { Flex, Button, Touchable, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
+import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
+import { hm, t } from '@utils/fetch'
 import { IOS } from '@constants'
-import _ from '@styles'
-import { colorBid, colorAsk, colorContainer, colorBg } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Store from './store'
 import Header from './header'
@@ -22,6 +21,8 @@ import Bar from './bar'
 import KLine from './k-line'
 import DepthMap from './depth-map'
 import DepthList from './depth-list'
+
+const title = 'K线'
 
 export default
 @inject(Store)
@@ -45,7 +46,7 @@ class TinygrailTrade extends React.Component {
     const { $ } = this.context
     $.init()
 
-    hm(`tinygrail/trade/${$.monoId}`)
+    hm(`tinygrail/trade/${$.monoId}`, 'TinygrailTrade')
   }
 
   hideMask = () => {
@@ -56,9 +57,16 @@ class TinygrailTrade extends React.Component {
 
   jump = type => {
     const { $, navigation } = this.context
+    t('K线.跳转', {
+      to: 'TinygrailDeal',
+      type,
+      monoId: $.monoId
+    })
+
     navigation.push('TinygrailDeal', {
       monoId: $.monoId,
-      type
+      type,
+      form: 'kline'
     })
   }
 
@@ -102,32 +110,33 @@ class TinygrailTrade extends React.Component {
     const { showMask, focus } = this.state
     return (
       <SafeAreaView
-        style={[_.container.flex, styles.dark]}
+        style={[_.container.flex, this.styles.dark]}
         forceInset={{ top: 'never' }}
       >
+        <UM screen={title} />
         {this.renderFocus()}
         <StatusBarEvents />
-        <StatusBarPlaceholder style={styles.dark} />
+        <StatusBarPlaceholder style={this.styles.dark} />
         <Header goBack={this.goBack} />
         <Bar />
         <View style={_.container.flex}>
           <ScrollView
-            style={[_.container.flex, styles.dark]}
-            contentContainerStyle={styles.contentContainerStyle}
+            style={[_.container.flex, this.styles.dark]}
+            contentContainerStyle={this.styles.contentContainerStyle}
           >
-            <View style={styles.kline}>
+            <View style={this.styles.kline}>
               <KLine focus={focus} />
               {showMask && (
-                <Touchable style={styles.mask} onPress={this.hideMask} />
+                <Touchable style={this.styles.mask} onPress={this.hideMask} />
               )}
             </View>
             <DepthMap />
             <DepthList style={_.mt.md} />
           </ScrollView>
-          <Flex style={styles.fixed}>
+          <Flex style={this.styles.fixed}>
             <Flex.Item>
               <Button
-                style={styles.btnBid}
+                style={this.styles.btnBid}
                 type='main'
                 onPress={() => this.jump('bid')}
               >
@@ -136,7 +145,7 @@ class TinygrailTrade extends React.Component {
             </Flex.Item>
             <Flex.Item style={_.ml.sm}>
               <Button
-                style={styles.btnAsk}
+                style={this.styles.btnAsk}
                 type='main'
                 onPress={() => this.jump('ask')}
               >
@@ -148,17 +157,21 @@ class TinygrailTrade extends React.Component {
       </SafeAreaView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   dark: {
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   },
   contentContainerStyle: {
     paddingBottom: 56
   },
   kline: {
-    backgroundColor: colorBg
+    backgroundColor: _.colorTinygrailBg
   },
   mask: {
     ...StyleSheet.absoluteFill,
@@ -170,16 +183,16 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     padding: _.sm,
-    backgroundColor: colorContainer
+    backgroundColor: _.colorTinygrailContainer
   },
   btnBid: {
-    backgroundColor: colorBid,
+    backgroundColor: _.colorBid,
     borderWidth: 0,
     borderRadius: 0
   },
   btnAsk: {
-    backgroundColor: colorAsk,
+    backgroundColor: _.colorAsk,
     borderWidth: 0,
     borderRadius: 0
   }
-})
+}))

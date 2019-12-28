@@ -3,20 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-20 22:37:20
+ * @Last Modified time: 2019-12-10 23:33:35
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { titleCase } from '@utils'
+import { _ } from '@stores'
 import { IOS } from '@constants'
-import _ from '@styles'
 import Flex from './flex'
 import Text from './text'
 import Touchable from './touchable'
 
 function Button({
   style,
+  styleText,
   type,
   size,
   shadow,
@@ -26,11 +28,12 @@ function Button({
   onPress,
   ...other
 }) {
+  const styles = memoStyles(_.mode)
   const _wrap = [styles.button]
   const _text = [styles.text]
 
   // @notice 安卓的阴影要保证有背景颜色才能显示, 所以为了不覆盖type的bg, 放在type前面
-  if (shadow) {
+  if (shadow && !_.isDark) {
     _wrap.push(styles.shadow)
   }
   if (type) {
@@ -61,7 +64,8 @@ function Button({
           size === 'sm' && {
             width: 32
           },
-          _text
+          _text,
+          styleText
         ]}
         align='center'
         selectable={false}
@@ -88,6 +92,7 @@ function Button({
 
 Button.defaultProps = {
   style: undefined,
+  styleText: undefined,
   type: 'plain',
   size: 'md',
   shadow: false,
@@ -95,63 +100,67 @@ Button.defaultProps = {
   loading: false
 }
 
-export default Button
+export default observer(Button)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   button: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: StyleSheet.hairlineWidth
+    borderWidth: _.hairlineWidth
   },
 
   // type
   plain: {
-    backgroundColor: _.colorPlain,
-    borderColor: 'rgb(223, 223, 223)'
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    borderColor: _.select('rgb(223, 223, 223)', _._colorDarkModeLevel1)
   },
   main: {
     backgroundColor: _.colorMain,
-    borderColor: 'rgb(255, 54, 76)'
+    borderColor: _.select('rgb(255, 54, 76)', _.colorMain)
   },
   primary: {
     backgroundColor: _.colorPrimary,
-    borderColor: 'rgb(13, 156, 204)'
+    borderColor: _.select('rgb(13, 156, 204)', _.colorPrimary)
   },
   warning: {
     backgroundColor: _.colorWarning,
-    borderColor: 'rgb(249, 163, 80)'
+    borderColor: _.select('rgb(249, 163, 80)', _.colorWarning)
   },
   wait: {
     backgroundColor: _.colorWait,
-    borderColor: 'rgb(160, 160, 160)'
+    borderColor: _.select('rgb(160, 160, 160)', _.colorWait)
   },
   disabled: {
-    backgroundColor: _.colorDisabled,
-    borderColor: 'rgb(80, 80, 80)'
+    backgroundColor: _.select(_.colorDisabled, 'rgb(128, 128, 130)'),
+    borderColor: _.select('rgb(80, 80, 80)', 'rgb(128, 128, 130)')
   },
   bid: {
     backgroundColor: _.colorBid,
     borderColor: _.colorBid
   },
+  ask: {
+    backgroundColor: _.colorAsk,
+    borderColor: _.colorAsk
+  },
 
   // ghost type
-  ghostPlain: {
-    backgroundColor: _.colorBg,
-    borderColor: _.colorBorder
-  },
   ghostMain: {
-    backgroundColor: _.colorMainLight,
-    borderColor: _.colorMainBorder
+    backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel2),
+    borderColor: _.select(_.colorMainBorder, _._colorDarkModeLevel2)
   },
   ghostPrimary: {
-    backgroundColor: _.colorPrimaryLight,
-    borderColor: _.colorPrimaryBorder
+    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
   },
   ghostSuccess: {
-    backgroundColor: _.colorSuccessLight,
-    borderColor: _.colorSuccessBorder
+    backgroundColor: _.select(_.colorSuccessLight, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1)
+  },
+  ghostPlain: {
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
+    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2)
   },
 
   // size
@@ -166,44 +175,47 @@ const styles = StyleSheet.create({
 
   // text
   text: {
-    fontSize: 14
+    fontSize: 14 + _.fontSizeAdjust
   },
   textSm: {
-    fontSize: 11,
+    fontSize: 11 + _.fontSizeAdjust,
     fontWeight: 'bold'
   },
   textPlain: {
     color: _.colorDesc
   },
   textMain: {
-    color: _.colorPlain
+    color: _.__colorPlain__
   },
   textPrimary: {
-    color: _.colorPlain
+    color: _.__colorPlain__
   },
   textWarning: {
-    color: _.colorPlain
+    color: _.__colorPlain__
   },
   textWait: {
-    color: _.colorPlain
+    color: _.__colorPlain__
   },
   textDisabled: {
-    color: _.colorPlain
+    color: _.__colorPlain__
   },
   textBid: {
-    color: _.colorPlain
+    color: _.__colorPlain__
+  },
+  textAsk: {
+    color: _.__colorPlain__
   },
   textGhostPlain: {
     color: _.colorSub
   },
   textGhostMain: {
-    color: _.colorSub
+    color: _.select(_.colorSub, _.colorMain)
   },
   textGhostPrimary: {
     color: _.colorSub
   },
   textGhostSuccess: {
-    color: _.colorSub
+    color: _.select(_.colorSub, _.colorSuccess)
   },
 
   // other
@@ -221,4 +233,4 @@ const styles = StyleSheet.create({
   radius: {
     borderRadius: _.radiusXs
   }
-})
+}))

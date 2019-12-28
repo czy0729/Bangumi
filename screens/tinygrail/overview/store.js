@@ -2,11 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-17 00:09:23
+ * @Last Modified time: 2019-12-22 16:56:23
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
+import {
+  SORT_GX,
+  SORT_HYD,
+  SORT_SCJ,
+  SORT_FHL,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_XFJL
+} from '../_/utils'
 
 export const tabs = [
   {
@@ -18,6 +28,10 @@ export const tabs = [
     key: 'mvc'
   },
   {
+    title: '最高股息',
+    key: 'msrc'
+  },
+  {
     title: '最大涨幅',
     key: 'mrc'
   },
@@ -26,11 +40,22 @@ export const tabs = [
     key: 'mfc'
   }
 ]
+export const sortDS = [
+  SORT_HYD,
+  SORT_GX,
+  SORT_SCJ,
+  SORT_FHL,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_XFJL
+]
 const namespace = 'ScreenTinygrailOverview'
 
 export default class ScreenTinygrailOverview extends store {
   state = observable({
     page: 0,
+    sort: '',
+    direction: '',
     _loaded: false
   })
 
@@ -66,8 +91,14 @@ export default class ScreenTinygrailOverview extends store {
       return
     }
 
-    this.setState({
+    t('热门榜单.标签页切换', {
       page
+    })
+
+    this.setState({
+      page,
+      sort: '',
+      direction: ''
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)
@@ -81,5 +112,39 @@ export default class ScreenTinygrailOverview extends store {
     }
   }
 
-  // -------------------- action --------------------
+  onSortPress = item => {
+    const { sort, direction } = this.state
+    if (item === sort) {
+      let nextSort = item
+      let nextDirection = 'down'
+      if (direction === 'down') {
+        nextDirection = 'up'
+      } else if (direction === 'up') {
+        nextSort = ''
+        nextDirection = ''
+      }
+
+      t('热门榜单.排序', {
+        sort: nextSort,
+        direction: nextDirection
+      })
+
+      this.setState({
+        sort: nextSort,
+        direction: nextDirection
+      })
+    } else {
+      t('热门榜单.排序', {
+        sort: item,
+        direction: 'down'
+      })
+
+      this.setState({
+        sort: item,
+        direction: 'down'
+      })
+    }
+
+    this.setStorage(undefined, undefined, namespace)
+  }
 }

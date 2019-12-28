@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-16 22:37:16
+ * @Last Modified time: 2019-12-22 17:10:33
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { t } from '@utils/fetch'
 
 export const tabs = [
   {
@@ -18,11 +19,15 @@ export const tabs = [
     key: '2/50'
   },
   {
-    title: '余额最多',
+    title: '价值',
+    key: '1/100/0'
+  },
+  {
+    title: '余额',
     key: '1/100'
   },
   {
-    title: '初始最多',
+    title: '初始',
     key: '1/100/2'
   }
 ]
@@ -69,6 +74,10 @@ export default class ScreenTinygrailRich extends store {
       return
     }
 
+    t('番市首富.标签页切换', {
+      page
+    })
+
     this.setState({
       page
     })
@@ -83,6 +92,4 @@ export default class ScreenTinygrailRich extends store {
       this.fetchRich(key)
     }
   }
-
-  // -------------------- action --------------------
 }

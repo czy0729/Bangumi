@@ -2,23 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:07:20
+ * @Last Modified time: 2019-12-28 13:48:33
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Input } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import _ from '@styles'
+import { MODEL_SEARCH_CAT } from '@constants/model'
 
 function SearchBar(props, { $ }) {
-  const { value } = $.state
+  const styles = memoStyles()
+  const { cat, value } = $.state
   return (
     <Input
-      style={styles.searchIpt}
+      style={[
+        styles.searchIpt,
+        MODEL_SEARCH_CAT.getLabel(cat) === '人物' && styles.radius
+      ]}
       value={value}
       returnKeyType='search'
-      placeholder='搜索...'
+      placeholder='输入关键字'
       onChange={$.onChange}
       onSubmitEditing={() => $.doSearch(true)}
     />
@@ -31,12 +35,17 @@ SearchBar.contextTypes = {
 
 export default observer(SearchBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   searchIpt: {
     height: 34,
     paddingHorizontal: _.wind,
-    fontSize: 12,
+    fontSize: 12 + _.fontSizeAdjust,
+    lineHeight: 14,
     backgroundColor: _.colorPlain,
-    borderRadius: 64
+    borderRadius: 0
+  },
+  radius: {
+    borderTopRightRadius: 34,
+    borderBottomRightRadius: 34
   }
-})
+}))

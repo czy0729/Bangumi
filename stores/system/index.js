@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:26:51
+ * @Last Modified time: 2019-12-14 16:25:44
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { info } from '@utils/ui'
-import { log } from '@utils/dev'
 import {
   IOS,
   GITHUB_RELEASE_REPOS_URL,
-  GITHUB_RELEASE_VERSION
+  VERSION_GITHUB_RELEASE
 } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import {
@@ -112,14 +111,13 @@ class System extends store {
   fetchRelease = async () => {
     let res
     try {
-      log('检查新版本', GITHUB_RELEASE_REPOS_URL)
       res = fetch(GITHUB_RELEASE_REPOS_URL).then(response => response.json())
       const data = await res
 
       const { name: githubVersion, assets = [] } = data[0]
       const { browser_download_url: downloadUrl } = assets[0]
       const { name: currentVersion } = this.state.release
-      if (githubVersion !== (currentVersion || GITHUB_RELEASE_VERSION)) {
+      if (githubVersion !== (currentVersion || VERSION_GITHUB_RELEASE)) {
         // iOS不允许提示更新
         if (!IOS) {
           setTimeout(() => {
@@ -245,6 +243,21 @@ class System extends store {
       [key]: {
         ...this.setting,
         heatMap: !heatMap
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 切换`iOS风格弹出菜单`
+   */
+  switchIOSMenu = () => {
+    const { iosMenu } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        iosMenu: !iosMenu
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

@@ -2,28 +2,34 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-18 22:24:46
+ * @Last Modified time: 2019-11-29 23:10:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import _ from '@styles'
-import { headerStyle, colorContainer } from '../styles'
+import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
+import ToolBar from '../_/tool-bar'
 import List from './list'
-import Store, { tabs } from './store'
+import Store, { tabs, sortDS } from './store'
+
+const title = '我的委托'
 
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  ...headerStyle
+})
 @observer
 class TinygrailBid extends React.Component {
   static navigationOptions = {
-    title: '我的委托'
+    title
   }
 
   static contextTypes = {
@@ -36,7 +42,20 @@ class TinygrailBid extends React.Component {
     $.init()
 
     const { type = 'bid' } = $.params
-    hm(`tinygrail/${type}`)
+    hm(`tinygrail/${type}`, 'TinygrailBid')
+  }
+
+  renderContentHeaderComponent() {
+    const { $ } = this.context
+    const { sort, direction } = $.state
+    return (
+      <ToolBar
+        data={sortDS}
+        sort={sort}
+        direction={direction}
+        onSortPress={$.onSortPress}
+      />
+    )
   }
 
   render() {
@@ -47,13 +66,16 @@ class TinygrailBid extends React.Component {
         style={[
           _.container.flex,
           {
-            backgroundColor: colorContainer
+            backgroundColor: _.colorTinygrailContainer
           }
         ]}
       >
         <StatusBarEvents />
         {!!_loaded && (
-          <Tabs tabs={tabs}>
+          <Tabs
+            tabs={tabs}
+            renderContentHeaderComponent={this.renderContentHeaderComponent()}
+          >
             {tabs.map((item, index) => (
               <List key={item.key} index={index} />
             ))}

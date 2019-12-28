@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:04:52
+ * @Last Modified time: 2019-12-19 20:36:59
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Touchable, Text, Image } from '@components'
 import { Pagination } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import _ from '@styles'
+import { hm, t } from '@utils/fetch'
 import Store from './store'
 
 const title = 'Anitama'
@@ -21,11 +21,13 @@ const height = width * 0.56
 
 export default
 @inject(Store)
-@withHeader()
+@withHeader({
+  screen: title
+})
 @observer
 class Anitama extends React.Component {
   static navigationOptions = {
-    title: 'Anitama'
+    title
   }
 
   static contextTypes = {
@@ -41,6 +43,10 @@ class Anitama extends React.Component {
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
+          t('Anitama.右上角菜单', {
+            key
+          })
+
           switch (key) {
             case '浏览器查看':
               open('http://www.anitama.cn')
@@ -52,7 +58,7 @@ class Anitama extends React.Component {
       }
     })
 
-    hm('discovery/anitama')
+    hm('discovery/anitama', 'Anitama')
   }
 
   renderPaganation() {
@@ -93,9 +99,14 @@ class Anitama extends React.Component {
               {$.anitamaTimeline.list.map(item => (
                 <Touchable
                   key={item.aid}
-                  style={styles.item}
+                  style={this.styles.item}
                   onPress={() => {
                     const url = `http://m.anitama.cn/article/${item.aid}`
+                    t('Anitama.跳转', {
+                      to: 'WebBrowser',
+                      url
+                    })
+
                     open(url)
                     hm(url, title)
                     // $.pushHistory(item.aid)
@@ -112,7 +123,7 @@ class Anitama extends React.Component {
                     radius
                     shadow
                   />
-                  <View style={styles.info}>
+                  <View style={this.styles.info}>
                     <Text size={20} type='title'>
                       {item.title}
                     </Text>
@@ -132,9 +143,13 @@ class Anitama extends React.Component {
       </ScrollView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     padding: _.wind,
     paddingTop: 24,
@@ -144,4 +159,4 @@ const styles = StyleSheet.create({
   info: {
     paddingVertical: _.wind
   }
-})
+}))

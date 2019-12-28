@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 13:59:59
+ * @Last Modified time: 2019-12-19 19:55:56
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
+import { observer } from 'mobx-react'
 import { Touchable, Image, Text, Flex } from '@components'
+import { _ } from '@stores'
+import { t } from '@utils/fetch'
 import { HOST } from '@constants'
-import _ from '@styles'
 
 function Award(props, { navigation }) {
+  const styles = memoStyles()
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -21,11 +24,15 @@ function Award(props, { navigation }) {
       <Touchable
         style={styles.item}
         withoutFeedback
-        onPress={() =>
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Award',
+            year: 2018
+          })
           navigation.push('Award', {
             uri: `${HOST}/award/2018`
           })
-        }
+        }}
       >
         <View style={styles.borderAward} />
         <View style={styles.image}>
@@ -50,20 +57,24 @@ function Award(props, { navigation }) {
           key={item}
           style={_.ml.md}
           withoutFeedback
-          onPress={() =>
+          onPress={() => {
+            t('发现.跳转', {
+              to: 'Award',
+              year: item
+            })
             navigation.push('Award', {
               uri: `${HOST}/award/${item}`
             })
-          }
+          }}
         >
           <View style={styles.border} />
           <Flex style={styles.itemSquare} justify='center' direction='column'>
             {index === 0 && (
-              <Text size={20} type='plain' bold>
+              <Text size={20} type={_.select('plain', 'title')} bold>
                 BEST OF
               </Text>
             )}
-            <Text size={20} type='plain' bold>
+            <Text size={20} type={_.select('plain', 'title')} bold>
               {item}
             </Text>
           </Flex>
@@ -77,21 +88,25 @@ Award.contextTypes = {
   navigation: PropTypes.object
 }
 
-export default Award
+export default observer(Award)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     padding: _.wind
   },
   item: {
-    width: 312
+    width: 312,
+    paddingRight: 4,
+    borderWidth: _.select(0, 1),
+    borderColor: _.colorBorder,
+    borderRadius: _.radiusMd
   },
   itemSquare: {
     width: 148,
     height: 148,
-    backgroundColor: _.colorDark,
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
+    marginRight: 4,
+    backgroundColor: _.select(_.colorDark, _._colorDarkModeLevel1),
+    borderRadius: _.radiusMd
   },
   borderAward: {
     position: 'absolute',
@@ -100,8 +115,7 @@ const styles = StyleSheet.create({
     right: 0,
     width: 48,
     height: 148,
-    marginRight: -4,
-    backgroundColor: _.colorDark,
+    backgroundColor: _.select(_.colorDark, _._colorDarkModeLevel1),
     borderRadius: _.radiusMd
   },
   border: {
@@ -111,7 +125,6 @@ const styles = StyleSheet.create({
     right: 0,
     width: 48,
     height: 148,
-    marginRight: -4,
     backgroundColor: _.colorDanger,
     borderRadius: _.radiusMd
   },
@@ -126,4 +139,4 @@ const styles = StyleSheet.create({
     right: 0,
     marginRight: -8
   }
-})
+}))

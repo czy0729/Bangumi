@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-23 00:34:37
+ * @Last Modified time: 2019-12-19 16:19:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand } from '@components'
 import { SectionTitle, ItemArticle } from '@screens/_'
-import _ from '@styles'
+import { _ } from '@stores'
 
 function Topic({ style }, { $, navigation }) {
   const { topic } = $.subject
@@ -25,7 +25,9 @@ function Topic({ style }, { $, navigation }) {
         {topic.map((item, index) => (
           <ItemArticle
             key={item.id}
-            style={{ paddingLeft: _.wind }}
+            style={{
+              paddingLeft: _.wind
+            }}
             navigation={navigation}
             index={index}
             avatar={item.user.avatar.small}
@@ -35,6 +37,13 @@ function Topic({ style }, { $, navigation }) {
             timestamp={item.timestamp}
             replies={item.replies}
             url={item.url}
+            event={{
+              id: '条目.跳转',
+              data: {
+                from: '讨论版',
+                subjectId: $.subjectId
+              }
+            }}
           />
         ))}
       </View>

@@ -1,13 +1,14 @@
 /*
+ * @Params: { _name, _jp, _image }
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 02:16:09
+ * @Last Modified time: 2019-12-20 15:38:14
  */
 import { computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
 import store from '@utils/store'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
 
@@ -24,35 +25,31 @@ export default class ScreenMono extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchMono = refresh => {
-    const { monoId } = this.params
-    return subjectStore.fetchMono({ monoId }, refresh)
-  }
+  fetchMono = refresh =>
+    subjectStore.fetchMono({ monoId: this.monoId }, refresh)
 
-  fetchChara = () => {
-    const { monoId = '' } = this.params
-    return tinygrailStore.fetchCharacters([monoId.replace('character/', '')])
-  }
+  fetchChara = () =>
+    tinygrailStore.fetchCharacters([this.monoId.replace('character/', '')])
 
-  fetchUsers = () => {
-    const { monoId = '' } = this.params
-    return tinygrailStore.fetchUsers(monoId.replace('character/', ''))
-  }
+  fetchUsers = () =>
+    tinygrailStore.fetchUsers(this.monoId.replace('character/', ''))
 
   // -------------------- get --------------------
+  @computed get monoId() {
+    const { monoId = '' } = this.params
+    return monoId
+  }
+
   @computed get mono() {
-    const { monoId } = this.params
-    return subjectStore.mono(monoId)
+    return subjectStore.mono(this.monoId)
   }
 
   @computed get monoComments() {
-    const { monoId } = this.params
-    return subjectStore.monoComments(monoId)
+    return subjectStore.monoComments(this.monoId)
   }
 
   @computed get chara() {
-    const { monoId = '' } = this.params
-    return tinygrailStore.characters(monoId.replace('character/', ''))
+    return tinygrailStore.characters(this.monoId.replace('character/', ''))
   }
 
   @computed get tinygrail() {
@@ -60,8 +57,7 @@ export default class ScreenMono extends store {
   }
 
   @computed get users() {
-    const { monoId = '' } = this.params
-    return tinygrailStore.users(monoId.replace('character/', ''))
+    return tinygrailStore.users(this.monoId.replace('character/', ''))
   }
 
   // -------------------- action --------------------
@@ -73,6 +69,10 @@ export default class ScreenMono extends store {
     if (!collectUrl) {
       return false
     }
+
+    t('人物.收藏人物', {
+      monoId: this.monoId
+    })
 
     await fetchHTML({
       method: 'POST',
@@ -91,6 +91,10 @@ export default class ScreenMono extends store {
     if (!eraseCollectUrl) {
       return false
     }
+
+    t('人物.取消收藏人物', {
+      monoId: this.monoId
+    })
 
     await fetchHTML({
       method: 'POST',

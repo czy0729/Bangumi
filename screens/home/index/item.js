@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-05 13:54:48
+ * @Last Modified time: 2019-12-19 16:19:47
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Progress, Modal } from '@ant-design/react-native'
 import { Flex, Iconfont, Image, Shadow, Text, Touchable } from '@components'
 import { Eps } from '@screens/_'
+import { _ } from '@stores'
 import { getCoverMedium } from '@utils/app'
+import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-import _ from '@styles'
 
 class Item extends React.Component {
   static defaultProps = {
@@ -29,6 +30,11 @@ class Item extends React.Component {
   }
 
   onPress = () => {
+    t('首页.跳转', {
+      to: 'Subject',
+      from: 'list'
+    })
+
     const { navigation } = this.context
     const { subjectId, subject } = this.props
     navigation.push('Subject', {
@@ -46,19 +52,43 @@ class Item extends React.Component {
     const isTop = top.indexOf(subjectId) !== -1
     const data = [
       {
-        text: <Text>全部展开</Text>,
+        text: (
+          <Text
+            style={{
+              color: _.colorDark
+            }}
+          >
+            全部展开
+          </Text>
+        ),
         onPress: () => {
           $.expandAll()
         }
       },
       {
-        text: <Text>全部收起</Text>,
+        text: (
+          <Text
+            style={{
+              color: _.colorDark
+            }}
+          >
+            全部收起
+          </Text>
+        ),
         onPress: () => {
           $.closeAll()
         }
       },
       {
-        text: <Text>置顶</Text>,
+        text: (
+          <Text
+            style={{
+              color: _.colorDark
+            }}
+          >
+            置顶
+          </Text>
+        ),
         onPress: () => {
           $.itemToggleTop(subjectId, true)
         }
@@ -66,7 +96,15 @@ class Item extends React.Component {
     ]
     if (isTop) {
       data.push({
-        text: <Text>取消置顶</Text>,
+        text: (
+          <Text
+            style={{
+              color: _.colorDark
+            }}
+          >
+            取消置顶
+          </Text>
+        ),
         onPress: () => {
           $.itemToggleTop(subjectId, false)
         }
@@ -85,12 +123,12 @@ class Item extends React.Component {
 
     return (
       <Touchable
-        style={styles.touchable}
+        style={this.styles.touchable}
         onPress={() => $.doWatchedNextEp(subjectId)}
       >
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='check' size={16} />
-          <View style={[styles.placeholder, _.ml.sm]}>
+          <Iconfont style={this.styles.icon} name='check' size={16} />
+          <View style={[this.styles.placeholder, _.ml.sm]}>
             <Text type='sub' size={12}>
               {sort}
             </Text>
@@ -106,17 +144,17 @@ class Item extends React.Component {
     const { expand } = $.$Item(subjectId)
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     return (
-      <Flex>
+      <Flex style={this.styles.toolBar}>
         {this.renderBtnNextEp()}
         <Touchable
-          style={[styles.touchable, _.ml.sm]}
+          style={[this.styles.touchable, _.ml.sm]}
           onPress={() => $.showManageModal(subjectId)}
         >
           <Iconfont name='star' size={16} />
         </Touchable>
         {!isBook && (
           <Touchable
-            style={[styles.touchable, _.ml.sm]}
+            style={[this.styles.touchable, _.ml.sm]}
             onPress={() => $.itemToggleExpand(subjectId)}
           >
             <Iconfont
@@ -190,11 +228,11 @@ class Item extends React.Component {
     const { $ } = this.context
     return (
       <Touchable
-        style={styles.touchable}
+        style={this.styles.touchable}
         onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
       >
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='check' size={16} />
+          <Iconfont style={this.styles.icon} name='check' size={16} />
         </Flex>
       </Touchable>
     )
@@ -205,24 +243,29 @@ class Item extends React.Component {
     const { top, subjectId, subject } = this.props
     const { expand } = $.$Item(subjectId)
     const isToday = $.isToday(subjectId)
+    const isNextDay = $.isNextDay(subjectId)
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     const doing = isBook ? '读' : '看'
     return (
       <Shadow style={_.mb.md} initHeight={120}>
-        <View style={styles.item}>
-          <Flex>
+        <View style={this.styles.item}>
+          <Flex style={this.styles.hd}>
             <Image
-              size={80}
+              size={88}
               src={getCoverMedium(subject.images.medium)}
               radius
               border={_.colorBorder}
               onPress={this.onPress}
               onLongPress={this.onLongPress}
             />
-            <Flex.Item style={_.ml.wind}>
+            <Flex.Item
+              style={{
+                marginLeft: 12
+              }}
+            >
               <Touchable withoutFeedback onPress={this.onPress}>
                 <Flex align='start'>
-                  <Flex.Item style={styles.title}>
+                  <Flex.Item style={this.styles.title}>
                     <Text numberOfLines={1}>
                       {subject.name_cn || subject.name}
                     </Text>
@@ -230,21 +273,32 @@ class Item extends React.Component {
                       {subject.collection.doing} 人在{doing}
                     </Text>
                   </Flex.Item>
-                  {!top && isToday && (
-                    <Text style={_.ml.sm} type='success' size={12}>
-                      放送中
+                  {isToday ? (
+                    <Text
+                      style={_.ml.sm}
+                      type='success'
+                      size={12}
+                      lineHeight={14}
+                    >
+                      {$.onAir[subjectId].timeCN.slice(0, 2)}:
+                      {$.onAir[subjectId].timeCN.slice(2, 4)}
                     </Text>
-                  )}
+                  ) : isNextDay ? (
+                    <Text style={_.ml.sm} type='sub' size={12} lineHeight={14}>
+                      明天{$.onAir[subjectId].timeCN.slice(0, 2)}:
+                      {$.onAir[subjectId].timeCN.slice(2, 4)}
+                    </Text>
+                  ) : null}
                 </Flex>
               </Touchable>
-              <View style={_.mt.sm}>
+              <View style={_.mt.md}>
                 <Flex>
                   <Flex.Item>{this.renderCount()}</Flex.Item>
                   {this.renderToolBar()}
                 </Flex>
                 <Progress
-                  style={styles.progress}
-                  barStyle={styles.bar}
+                  style={this.styles.progress}
+                  barStyle={this.styles.bar}
                   percent={$.percent(subjectId, subject)}
                 />
               </View>
@@ -253,6 +307,7 @@ class Item extends React.Component {
           {expand && (
             <Eps
               style={_.mt.md}
+              marginRight={_.wind}
               login={$.isLogin}
               subjectId={subjectId}
               eps={$.eps(subjectId)}
@@ -263,55 +318,63 @@ class Item extends React.Component {
               onLongPress={item => $.doEpsLongPress(item, subjectId)}
             />
           )}
-          {top && (
-            <View
-              style={[
-                styles.dot,
-                {
-                  borderLeftColor: isToday ? _.colorSuccess : _.colorBorder
-                }
-              ]}
-            />
-          )}
+          {top && <View style={this.styles.dot} />}
         </View>
       </Shadow>
     )
+  }
+
+  get styles() {
+    return memoStyles()
   }
 }
 
 export default observer(Item)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
-    padding: _.wind,
+    paddingVertical: _.wind,
+    paddingLeft: _.wind,
     backgroundColor: _.colorPlain,
     borderColor: _.colorBorder,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  hd: {
+    paddingRight: _.wind
+  },
+  toolBar: {
+    marginRight: -8
   },
   icon: {
     marginBottom: -1
   },
   progress: {
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   bar: {
+    backgroundColor: 'transparent',
+    borderBottomColor: _.colorPrimary,
     borderBottomWidth: 2,
-    borderRadius: 2,
-    backgroundColor: 'transparent'
+    borderRadius: 2
   },
   dot: {
     position: 'absolute',
-    top: 6,
-    right: 6,
+    top: 0,
+    right: 0,
     borderWidth: 8,
     borderTopColor: 'transparent',
     borderBottomColor: 'transparent',
     borderRightColor: 'transparent',
-    transform: [{ rotate: '-45deg' }]
+    borderLeftColor: _.colorBorder,
+    transform: [
+      {
+        rotate: '-45deg'
+      }
+    ]
   },
   touchable: {
     padding: _.sm
   }
-})
+}))

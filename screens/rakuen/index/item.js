@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-22 01:18:41
+ * @Last Modified time: 2019-12-20 21:43:36
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Popover, Avatar, StockPreview } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
-import { HOST, IMG_DEFAULT_AVATAR, TOPIC_PUSH_LIMIT } from '@constants'
-import _ from '@styles'
+import { t } from '@utils/fetch'
+import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 
 const adRepliesCount = 4 // 回复数少于的数字, 判断为广告姬
 const oldGroupId = 346568 // 少于这个数字的, 为坟贴
@@ -110,6 +111,11 @@ class Item extends React.Component {
     return $.characters(characterId)
   }
 
+  get isFavor() {
+    const { $ } = this.context
+    return $.isFavor(this.topicId)
+  }
+
   renderContent() {
     const { $, navigation } = this.context
     const { href = '', avatar, userName, title, group, time } = this.props
@@ -126,23 +132,36 @@ class Item extends React.Component {
 
     // 帖子点击
     const onPress = () => {
-      if (this.replyCount > TOPIC_PUSH_LIMIT) {
+      if (this.replyCount > LIMIT_TOPIC_PUSH) {
+        const url = `${HOST}${href}`
+        t('超展开.跳转', {
+          to: 'WebBrowser',
+          url
+        })
+
         info('该帖评论多, 自动使用浏览器打开')
         setTimeout(() => {
-          open(`${HOST}${href}`)
+          open(url)
         }, 1600)
       } else {
         // 记录帖子查看历史详情
         $.onItemPress(this.topicId, this.replyCount)
-        appNavigate(href, navigation, {
-          _title: title,
-          _replies: `(+${this.replyCount})`,
-          _group: group,
-          _time: time,
-          _avatar: avatar,
-          _userName: userName,
-          _userId: this.userId
-        })
+        appNavigate(
+          href,
+          navigation,
+          {
+            _title: title,
+            _replies: `(+${this.replyCount})`,
+            _group: group,
+            _time: time,
+            _avatar: avatar,
+            _userName: userName,
+            _userId: this.userId
+          },
+          {
+            id: '超展开.跳转'
+          }
+        )
       }
     }
 
@@ -157,7 +176,7 @@ class Item extends React.Component {
 
     const { name } = this.characters
     return (
-      <Touchable style={styles.item} highlight onPress={onPress}>
+      <Touchable style={this.styles.item} highlight onPress={onPress}>
         <Flex align='start'>
           <Flex.Item>
             <Text size={16}>
@@ -228,7 +247,7 @@ class Item extends React.Component {
     }
     return (
       <Popover
-        style={styles.extra}
+        style={this.styles.extra}
         contentStyle={{
           borderTopRightRadius: 0
         }}
@@ -276,29 +295,31 @@ class Item extends React.Component {
   render() {
     const { navigation } = this.context
     const { style, index, avatar } = this.props
-    if (this.isBlockGroup) {
-      return null
-    }
-
-    if (this.isBlockUser) {
-      return null
-    }
-
-    if (this.isAd) {
+    if (this.isBlockGroup || this.isBlockUser || this.isAd) {
       return null
     }
 
     const isTop = index === 0
+    const event = {
+      id: '超展开.跳转'
+    }
     return (
-      <View style={[styles.container, this.isReaded && styles.readed, style]}>
+      <View
+        style={[
+          this.styles.container,
+          this.isReaded && this.styles.readed,
+          style
+        ]}
+      >
         <Flex align='start'>
           <Avatar
-            style={styles.image}
+            style={this.styles.image}
             navigation={navigation}
             src={avatar}
             userId={this.userId}
+            event={event}
           />
-          <Flex.Item style={!isTop && styles.border}>
+          <Flex.Item style={!isTop && this.styles.border}>
             <Flex align='start'>
               <Flex.Item>{this.renderContent()}</Flex.Item>
               {this.renderStockPreview()}
@@ -306,18 +327,30 @@ class Item extends React.Component {
             </Flex>
           </Flex.Item>
         </Flex>
+        {this.isFavor && (
+          <Iconfont
+            style={this.styles.favor}
+            size={12}
+            name='star-full'
+            color={_.colorYellow}
+          />
+        )}
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
   },
   readed: {
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   image: {
     marginRight: _.xs,
@@ -333,9 +366,14 @@ const styles = StyleSheet.create({
   },
   border: {
     borderTopColor: _.colorBorder,
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: _.hairlineWidth
+  },
+  favor: {
+    position: 'absolute',
+    right: 12,
+    bottom: 20
   }
-})
+}))
 
 function correctTime(time = '') {
   let _time = time.replace('...', '')

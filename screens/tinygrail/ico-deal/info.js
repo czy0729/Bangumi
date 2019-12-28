@@ -2,24 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-26 16:09:50
+ * @Last Modified time: 2019-12-22 03:01:25
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text, Image } from '@components'
-import { formatNumber } from '@utils'
+import { Flex, Text, Image, Iconfont, Touchable, CountDown } from '@components'
+import { _ } from '@stores'
+import { formatNumber, getTimestamp } from '@utils'
 import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge, caculateICO } from '@utils/app'
-import _ from '@styles'
+import { t } from '@utils/fetch'
 import Bar from './bar'
-import { colorPlain } from '../styles'
 
-const maxSize = _.window.width / 2
+const maxSize = _.window.width / 2.4
 
-function Info(props, { $ }) {
-  const { icon, id, name, total } = $.chara
+function Info(props, { $, navigation }) {
+  const { icon, id, name, total, end = '' } = $.chara
   const { next, level, price, amount } = caculateICO($.chara)
+  const endTime = getTimestamp(end.replace('T', ' '))
+  const event = {
+    id: 'ICO交易.封面图查看',
+    data: {
+      monoId: id
+    }
+  }
   return (
     <View style={styles.container}>
       {!!icon && (
@@ -30,17 +37,63 @@ function Info(props, { $ }) {
             shadow
             placholder={false}
             imageViewer
+            imageViewerSrc={tinygrailOSS(getCoverLarge(icon), 480)}
+            event={event}
           />
         </Flex>
       )}
-      <Text style={_.mt.md} size={16} type='plain' align='center'>
-        #{id} - {name}
-      </Text>
+      <Touchable
+        style={_.mt.md}
+        onPress={() => {
+          t('ICO交易.跳转', {
+            to: 'Mono',
+            monoId: id
+          })
+
+          navigation.push('Mono', {
+            monoId: `character/${id}`
+          })
+        }}
+      >
+        <Flex justify='center'>
+          <Text
+            style={{
+              color: _.colorTinygrailPlain
+            }}
+            size={16}
+          >
+            #{id} - {name}
+          </Text>
+          <Iconfont
+            style={_.ml.sm}
+            name='right'
+            size={16}
+            color={_.colorTinygrailText}
+          />
+        </Flex>
+      </Touchable>
+      <Flex style={_.mt.md} justify='center'>
+        <Text
+          style={{
+            color: _.colorTinygrailText
+          }}
+          size={16}
+        >
+          剩余时间:{' '}
+        </Text>
+        <CountDown
+          style={{
+            color: _.colorTinygrailText
+          }}
+          size={16}
+          end={endTime}
+        />
+      </Flex>
       <Text
         style={[
           _.mt.md,
           {
-            color: colorPlain
+            color: _.colorTinygrailPlain
           }
         ]}
         align='center'
@@ -52,12 +105,12 @@ function Info(props, { $ }) {
         style={[
           _.mt.sm,
           {
-            color: colorPlain
+            color: _.colorTinygrailPlain
           }
         ]}
         align='center'
       >
-        预计发行量 约{formatNumber(amount, 0)}股 / 发行价 {formatNumber(price)}
+        预计发行量 约{formatNumber(amount, 0)}股 / 发行价 ₵{formatNumber(price)}
       </Text>
       <Bar style={_.mt.md} total={total} level={level} next={next} />
     </View>
@@ -65,7 +118,8 @@ function Info(props, { $ }) {
 }
 
 Info.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(Info)

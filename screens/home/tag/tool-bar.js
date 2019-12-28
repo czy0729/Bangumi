@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-30 14:09:18
+ * @Last Modified time: 2019-12-18 17:25:10
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { airtimeData } from '@constants'
+import { airtimeData, monthData } from '@constants'
 import { MODEL_TAG_ORDERBY } from '@constants/model'
-import _ from '@styles'
 
 const orderData = MODEL_TAG_ORDERBY.data.map(item => item.label)
 
 function ToolBar(props, { $ }) {
-  const { order, list, airtime } = $.state
+  const styles = memoStyles()
+  const { order, list, airtime, month } = $.state
   const isEmptyAirdate = airtime === ''
+  const isEmptyMonth = month === ''
   return (
     <Flex style={styles.container}>
       <Flex.Item>
@@ -39,7 +40,7 @@ function ToolBar(props, { $ }) {
           </Flex>
         </Popover>
       </Flex.Item>
-      <Flex.Item>
+      <Flex.Item flex={0.8}>
         <Popover data={airtimeData} onSelect={$.onAirdateSelect}>
           <Flex style={styles.item} justify='center'>
             <Iconfont
@@ -48,7 +49,16 @@ function ToolBar(props, { $ }) {
               color={isEmptyAirdate ? _.colorSub : _.colorMain}
             />
             <Text style={_.ml.sm} type={isEmptyAirdate ? 'sub' : 'main'}>
-              {airtime || '年份'}
+              {airtime || '年'}
+            </Text>
+          </Flex>
+        </Popover>
+      </Flex.Item>
+      <Flex.Item flex={0.64}>
+        <Popover data={monthData} onSelect={$.onMonthSelect}>
+          <Flex style={styles.item} justify='center'>
+            <Text style={_.ml.sm} type={isEmptyMonth ? 'sub' : 'main'}>
+              {month || '月'}
             </Text>
           </Flex>
         </Popover>
@@ -80,7 +90,7 @@ ToolBar.contextTypes = {
 
 export default observer(ToolBar)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     backgroundColor: _.colorBg
   },
@@ -90,4 +100,4 @@ const styles = StyleSheet.create({
   touchable: {
     paddingHorizontal: _.lg
   }
-})
+}))

@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Bangumi",
-    "slug": "bangumi",
+    "name": "Bangumi iOS test",
+    "slug": "bangumi-ios-test",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "1.2.5",
+    "version": "2.2.6",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -17,7 +17,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "enabled": false
+      "enabled": false,
+      "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
@@ -28,13 +29,20 @@
     },
     "android": {
       "package": "com.czy0729.bangumi",
-      "versionCode": 3
+      "versionCode": 226,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/foreground.png",
+        "backgroundColor": "#000000"
+      }
     },
     "androidStatusBar": {
       "barStyle": "dark-content",
       "backgroundColor": "#ffffff"
     },
     "description": "A React Native App for https://bgm.tv ",
-    "githubUrl": "https://github.com/czy0729/Bangumi"
-  }
+    "githubUrl": "https://github.com/czy0729/Bangumi",
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  },
+  "displayName": "Bangumi",
+  "name": "czy0729.bangumi"
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-07 16:17:18
+ * @Last Modified time: 2019-12-28 11:24:18
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -13,29 +13,45 @@ import {
   IconTabsHeader,
   IconTinygrail,
   IconNotify,
-  ManageModal
+  ManageModal,
+  NavigationBarEvents,
+  HeaderBackground
 } from '@screens/_'
-import { userStore } from '@stores'
+import { _, userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import _ from '@styles'
+import { hm, t } from '@utils/fetch'
 import Tabs from './tabs'
 import List from './list'
+import Grid from './grid'
 import Store, { tabs } from './store'
+
+const title = '首页'
 
 export default
 @inject(Store)
-@withTabsHeader()
+@withTabsHeader({
+  screen: title
+})
 @observer
 class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
       <>
-        <IconTinygrail navigation={navigation} />
+        <IconTinygrail
+          navigation={navigation}
+          event={{
+            id: '首页.跳转'
+          }}
+        />
         <IconTabsHeader
           name='search'
           position='right'
-          onPress={() => navigation.push('Search')}
+          onPress={() => {
+            t('首页.跳转', {
+              to: 'Search'
+            })
+            navigation.push('Search')
+          }}
         />
       </>
     ),
@@ -55,12 +71,26 @@ class Home extends React.Component {
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
     navigation.setParams({
-      headerLeft: <IconNotify navigation={navigation} />
+      headerLeft: (
+        <IconNotify
+          navigation={navigation}
+          event={{
+            id: '首页.跳转'
+          }}
+        />
+      ),
+      headerBackground: <HeaderBackground />
     })
 
     setTimeout(() => {
-      hm(`?id=${userStore.userInfo.username || userStore.myUserId}`)
-    }, 4000)
+      const id = userStore.userInfo.username || userStore.myUserId
+      if (id) {
+        t('其他.启动', {
+          id
+        })
+        hm(`?id=${id}`, 'Home')
+      }
+    }, 2000)
   }
 
   render() {
@@ -75,18 +105,28 @@ class Home extends React.Component {
       )
     }
 
-    const { visible, subjectId, _loaded } = $.state
+    const { grid, visible, subjectId, _loaded } = $.state
     if (!_loaded) {
-      return null
+      return (
+        <SafeAreaView
+          style={_.container.screen}
+          forceInset={{ top: 'never' }}
+        />
+      )
     }
 
     const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
       <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
+        <NavigationBarEvents />
         <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
-          {tabs.map(item => (
-            <List key={item.title} title={item.title} />
-          ))}
+          {tabs.map(({ title }) =>
+            grid ? (
+              <Grid key={title} title={title} />
+            ) : (
+              <List key={title} title={title} />
+            )
+          )}
         </Tabs>
         <ManageModal
           visible={visible}

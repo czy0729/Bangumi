@@ -2,28 +2,33 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-19 00:38:35
+ * @Last Modified time: 2019-12-22 03:16:35
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import _ from '@styles'
-import { headerStyle, colorContainer } from '../styles'
+import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
+const title = '资金日志'
+
 export default
 @inject(Store)
-@withHeader(headerStyle)
+@withHeader({
+  screen: title,
+  hm: ['tinygrail/logs', 'TinygrailLogs'],
+  ...headerStyle
+})
 @observer
 class TinygrailLogs extends React.Component {
   static navigationOptions = {
-    title: '资金日志'
+    title
   }
 
   static contextTypes = {
@@ -34,8 +39,6 @@ class TinygrailLogs extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
-
-    hm('tinygrail/logs')
   }
 
   render() {
@@ -46,7 +49,7 @@ class TinygrailLogs extends React.Component {
         style={[
           _.container.flex,
           {
-            backgroundColor: colorContainer
+            backgroundColor: _.colorTinygrailContainer
           }
         ]}
       >
