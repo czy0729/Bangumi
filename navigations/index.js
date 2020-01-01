@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 14:27:05
+ * @Last Modified time: 2020-01-01 19:00:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
 import {
   Anitama,
   Award,
+  Browser,
   Calendar,
   Character,
   Discovery,
@@ -109,6 +110,7 @@ const HomeStack = createStackNavigator(
   {
     Anitama,
     Award,
+    Browser,
     Calendar,
     Character,
     Discovery,
