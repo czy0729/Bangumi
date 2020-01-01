@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:49:00
+ * @Last Modified time: 2020-01-01 22:39:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import Award from './award'
 import Menu from './menu'
 
 function Header(props, { $ }) {
+  const { online } = $.state
   const { today } = $.home
   return (
     <>
@@ -29,6 +30,11 @@ function Header(props, { $ }) {
         <Text align='right' size={12}>
           {today}
         </Text>
+        {!!online && (
+          <Text style={_.mt.xs} align='right' size={12}>
+            {online}
+          </Text>
+        )}
       </View>
     </>
   )

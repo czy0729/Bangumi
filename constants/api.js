@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 15:06:38
+ * @Last Modified time: 2020-01-01 21:45:51
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
-const TINYGRAIL_LIMIT = 50
+const TINYGRAIL_LIMIT = 100
 const TINYGRAIL_START = '2019-12-01T00:00:00+08:00'
 
 /**

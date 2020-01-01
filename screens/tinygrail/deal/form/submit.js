@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 11:40:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 02:41:52
+ * @Last Modified time: 2020-01-01 21:59:07
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -13,7 +13,10 @@ import { observer } from '@utils/decorators'
 
 function Submit({ style }, { $ }) {
   const styles = memoStyles()
-  const { loading, amount } = $.state
+  const {
+    loading
+    // amount
+  } = $.state
   return (
     <Touchable
       style={[styles.btn, $.isBid ? styles.btnBid : styles.btnAsk, style]}
@@ -29,7 +32,7 @@ function Submit({ style }, { $ }) {
           }}
           align='center'
         >
-          {amount > 500 && '拆单'}
+          {/* {amount > 500 && '拆单'} */}
           {$.isBid ? '买入' : '卖出'}
         </Text>
       </Flex>

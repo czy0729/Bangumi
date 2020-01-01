@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:37:49
+ * @Last Modified time: 2020-01-01 21:41:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -285,10 +285,12 @@ class StockPreview extends React.Component {
               style={[
                 _.ml.sm,
                 {
+                  minWidth: 40,
                   color: this.isDark ? colorDarkText : _.colorSub
                 }
               ]}
-              size={12}
+              size={11}
+              align='right'
             >
               没挂单
             </Text>
