@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 17:30:43
+ * @Last Modified time: 2020-01-01 21:01:27
  */
 
 /**
@@ -51,6 +51,7 @@ export default {
   '搜索.选择历史': 'Search.selectHistory',
   '搜索.删除历史': 'Search.deleteHistory',
   '搜索.搜索': 'Search.doSearch',
+  '搜索.切换细分类型': 'Search.onLegacySelect',
 
   // 标签索引
   '标签索引.跳转': 'Tags.to',
@@ -96,6 +97,7 @@ export default {
   '条目.跳到条目': 'Subject.toSubject',
   '条目.封面图查看': 'Subject.imageView',
   '条目.右上角菜单': 'Subject.topRightMenu',
+  '条目.删除收藏': 'Subject.doEraseCollection',
 
   // 用户标签
   '用户标签.跳转': 'Tag.to',
@@ -326,6 +328,8 @@ export default {
   /* ==================== other ==================== */
   '其他.启动': 'Other.start',
   '其他.切换主题': 'Other.theme',
-  '搜索.切换细分类型': 'Search.onLegacySelect',
-  '条目.删除收藏': 'Subject.doEraseCollection'
+
+  '索引.跳转': 'Browser.to',
+  '索引.标签页切换': 'Browser.onChange',
+  '索引.类型选择': 'Browser.onSelect'
 }

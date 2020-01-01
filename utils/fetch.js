@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 21:11:14
+ * @Last Modified time: 2020-01-01 20:05:50
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -24,7 +24,7 @@ import { log } from './dev'
 import { info as UIInfo } from './ui'
 
 const UMAnalyticsModule = NativeModules.UMAnalyticsModule
-const SHOW_LOG = false
+const SHOW_LOG = true
 const TIMEOUT = 10000
 const FETCH_RETRY_COUNT = 5 // GET请求失败重试次数
 const defaultHeaders = {

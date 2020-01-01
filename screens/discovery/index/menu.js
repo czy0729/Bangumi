@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 20:05:22
+ * @Last Modified time: 2020-01-01 21:25:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,6 +34,26 @@ function Menu(props, { $, navigation }) {
             </Flex>
             <Text style={_.mt.sm} size={12}>
               排行榜
+            </Text>
+          </Flex>
+        </Flex>
+      </Touchable>
+      <Touchable
+        onPress={() => {
+          t('发现.索引', {
+            to: 'Browser'
+          })
+          navigation.push('Browser')
+        }}
+      >
+        <Flex style={styles.wrap} justify='center'>
+          <Flex style={styles.item} direction='column'>
+            <View style={styles.border} />
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='menu' size={28} color={_.__colorPlain__} />
+            </Flex>
+            <Text style={_.mt.sm} size={12}>
+              索引
             </Text>
           </Flex>
         </Flex>
@@ -151,6 +171,19 @@ function Menu(props, { $, navigation }) {
           </Flex>
         </Flex>
       </Touchable>
+      <Touchable onPress={() => info('目录、日志适配中')}>
+        <Flex style={styles.wrap} justify='center'>
+          <Flex style={styles.item} direction='column'>
+            <View style={styles.border} />
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='extra' size={28} color={_.__colorPlain__} />
+            </Flex>
+            <Text style={_.mt.sm} size={12}>
+              更多
+            </Text>
+          </Flex>
+        </Flex>
+      </Touchable>
     </Flex>
   )
 }
@@ -167,7 +200,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.wind
   },
   wrap: {
-    width: (_.window.width - 2 * _.wind) * 0.33333,
+    width: (_.window.width - 2 * _.wind) * 0.249,
     marginTop: _.md
   },
   item: {

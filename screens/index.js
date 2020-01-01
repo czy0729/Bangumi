@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 14:26:44
+ * @Last Modified time: 2020-01-01 19:00:43
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -13,6 +13,7 @@ export { default as LoginV2 } from './login/v2'
 // Discovery
 export { default as Anitama } from './discovery/anitama'
 export { default as Award } from './discovery/award'
+export { default as Browser } from './discovery/browser'
 export { default as Calendar } from './discovery/calendar'
 export { default as Character } from './discovery/character'
 export { default as Discovery } from './discovery/index'

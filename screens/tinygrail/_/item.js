@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 21:11:17
+ * @Last Modified time: 2020-01-01 21:44:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -183,28 +183,15 @@ function Item(props, { navigation }) {
                   return
                 }
 
-                if (isDeal) {
-                  t(eventId, {
-                    to: 'TinygrailDeal',
-                    monoId: id,
-                    ...eventData
-                  })
-
-                  navigation.push('TinygrailDeal', {
-                    monoId: `character/${id}`,
-                    type
-                  })
-                  return
-                }
-
                 t(eventId, {
-                  to: 'TinygrailTrade',
+                  to: 'TinygrailDeal',
                   monoId: id,
                   ...eventData
                 })
 
-                navigation.push('TinygrailTrade', {
-                  monoId: `character/${id}`
+                navigation.push('TinygrailDeal', {
+                  monoId: `character/${id}`,
+                  type
                 })
               }}
             >
@@ -227,7 +214,7 @@ function Item(props, { navigation }) {
                     {parseInt(level) > 1 && (
                       <Text
                         style={{
-                          color: _.colorTinygrailText
+                          color: _.colorAsk
                         }}
                         size={12}
                         lineHeight={15}

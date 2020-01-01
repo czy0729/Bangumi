@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 02:40:40
+ * @Last Modified time: 2020-01-01 21:57:36
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -18,17 +18,19 @@ const defaultType = 'bid'
  * @param {*} amount
  */
 function splitAmount(amount) {
-  let _amount = amount
-  const splitAmounts = []
-  const len = Math.ceil(_amount / 500)
-  for (let i = 0; i < len; i += 1) {
-    const rest = _amount - 500
-    if (rest >= 100) splitAmounts.push(500)
-    else if (i < len - 1) splitAmounts.push(_amount - 100)
-    else splitAmounts.push(_amount)
-    _amount -= splitAmounts[i]
-  }
-  return splitAmounts
+  return [amount]
+
+  // let _amount = amount
+  // const splitAmounts = []
+  // const len = Math.ceil(_amount / 500)
+  // for (let i = 0; i < len; i += 1) {
+  //   const rest = _amount - 500
+  //   if (rest >= 100) splitAmounts.push(500)
+  //   else if (i < len - 1) splitAmounts.push(_amount - 100)
+  //   else splitAmounts.push(_amount)
+  //   _amount -= splitAmounts[i]
+  // }
+  // return splitAmounts
 }
 
 export default class ScreenTinygrailDeal extends store {
