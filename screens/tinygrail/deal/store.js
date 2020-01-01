@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 22:51:51
+ * @Last Modified time: 2020-01-01 23:09:19
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -288,7 +288,7 @@ export default class ScreenTinygrailDeal extends store {
     const { type } = this.state
     this.setState({
       value: this.moneyNatural(value),
-      amount: type === 'bid' ? 0 : amount || 0
+      amount: type === 'bid' ? amount || 0 : 0
     })
   }
 
