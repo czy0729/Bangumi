@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 13:46:36
+ * @Last Modified time: 2020-01-01 22:47:47
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -210,12 +210,12 @@ export default class ScreenTinygrail extends store {
       })
 
       const data = await res
-      const { Total, Share } = data.data.Value
+      const { Total, Share, Tax } = data.data.Value
       Alert.alert(
         '股息预测',
         `本期计息股份共${formatNumber(Total, 0)}股, 预期股息₵${formatNumber(
           Share
-        )}`,
+        )}, 需缴纳个人所得税₵${formatNumber(Tax)}`,
         [
           {
             text: '知道了'

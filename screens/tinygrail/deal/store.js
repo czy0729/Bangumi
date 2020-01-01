@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 21:57:36
+ * @Last Modified time: 2020-01-01 22:51:51
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -284,16 +284,12 @@ export default class ScreenTinygrailDeal extends store {
   /**
    * 金额变动
    */
-  changeValue = value => {
+  changeValue = (value, amount) => {
     const { type } = this.state
-    const state = {
-      value: this.moneyNatural(value)
-    }
-    if (type === 'bid') {
-      state.amount = 0
-    }
-
-    this.setState(state)
+    this.setState({
+      value: this.moneyNatural(value),
+      amount: type === 'bid' ? 0 : amount || 0
+    })
   }
 
   /**

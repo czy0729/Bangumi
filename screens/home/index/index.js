@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 11:24:18
+ * @Last Modified time: 2020-01-01 22:56:18
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -84,12 +84,10 @@ class Home extends React.Component {
 
     setTimeout(() => {
       const id = userStore.userInfo.username || userStore.myUserId
-      if (id) {
-        t('其他.启动', {
-          id
-        })
-        hm(`?id=${id}`, 'Home')
-      }
+      t('其他.启动', {
+        userId: id
+      })
+      hm(`?id=${id}`, 'Home')
     }, 2000)
   }
 
