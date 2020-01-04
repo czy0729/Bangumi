@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 20:18:32
+ * @Last Modified time: 2020-01-04 15:25:27
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -11,14 +11,16 @@ import { fetchHTML } from '@utils/fetch'
 import { log } from '@utils/dev'
 import { HTMLDecode } from '@utils/html'
 import { LIST_EMPTY, HOST_NING_MOE, HOST_ANITAMA } from '@constants'
-import { HTML_TAGS } from '@constants/html'
+import { HTML_TAGS, HTML_CATALOG, HTML_CATALOG_DETAIL } from '@constants/html'
 import {
   NAMESPACE,
   DEFAULT_TYPE,
   INIT_NINGMOE_DETAIL_ITEM,
-  INIT_ANITAMA_TIMELINE_ITEM
+  INIT_ANITAMA_TIMELINE_ITEM,
+  INIT_CATALOG_ITEM,
+  INIT_CATELOG_DETAIL_ITEM
 } from './init'
-import { analysisTags } from './common'
+import { analysisTags, analysisCatalog, analysisCatalogDetail } from './common'
 
 class Discovery extends store {
   state = observable({
@@ -46,10 +48,29 @@ class Discovery extends store {
      */
     tags: {
       // [type]: LIST_EMPTY<INIT_TAGS_ITEM>
+    },
+
+    /**
+     * 目录
+     * @params {*} type ''|collect|me
+     */
+    catalog: {
+      // [`${type}|${page}`]: INIT_CATALOG_ITEM
+    },
+
+    /**
+     * 目录详情
+     */
+    catalogDetail: {
+      // [id]: INIT_CATELOG_DETAIL_ITEM
     }
   })
 
-  init = () => this.readStorage(['ningMoeDetail', 'tags'], NAMESPACE)
+  init = () =>
+    this.readStorage(
+      ['ningMoeDetail', 'tags', 'catalog', 'catalogDetail'],
+      NAMESPACE
+    )
 
   // -------------------- get --------------------
   @computed get random() {
@@ -68,6 +89,14 @@ class Discovery extends store {
 
   tags(type = DEFAULT_TYPE) {
     return this.state.tags[type] || LIST_EMPTY
+  }
+
+  catalog(type = '', page = 1) {
+    return this.state.catalog[`${type}|${page}`] || INIT_CATALOG_ITEM
+  }
+
+  catalogDetail(id) {
+    return this.state.catalogDetail[id] || INIT_CATELOG_DETAIL_ITEM
   }
 
   // -------------------- fetch --------------------
@@ -325,6 +354,52 @@ class Discovery extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return characters
+  }
+
+  /**
+   * 目录
+   */
+  fetchCatalog = async ({ type = '', page = 1 } = {}) => {
+    const html = await fetchHTML({
+      url: HTML_CATALOG(type, page)
+    })
+    const data = analysisCatalog(html)
+
+    const key = 'catalog'
+    this.setState({
+      [key]: {
+        [`${type}|${page}`]: {
+          list: data,
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return data
+  }
+
+  /**
+   * 目录详情
+   */
+  fetchCatalogDetail = async ({ id } = {}) => {
+    const html = await fetchHTML({
+      url: HTML_CATALOG_DETAIL(id)
+    })
+    const data = analysisCatalogDetail(html)
+
+    const key = 'catalogDetail'
+    this.setState({
+      [key]: {
+        [id]: {
+          ...data,
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return data
   }
 }
 

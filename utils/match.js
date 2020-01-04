@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-24 01:39:17
+ * @Last Modified time: 2020-01-04 14:39:33
  */
 
 /**
@@ -11,9 +11,9 @@
  * @url https://jsperf.com/czy0729-001
  * @param {*} str
  */
-export function matchAvatar(str = '') {
+export function matchAvatar(str = '', start = 22) {
   const index = str.indexOf('?')
-  return str.substring(22, index === -1 ? str.length - 2 : index)
+  return str.substring(start, index === -1 ? str.length - 2 : index)
 }
 
 /**
@@ -43,7 +43,8 @@ export function matchSubjectId(str = '') {
  * @param {*} str
  */
 export function matchCover(str = '') {
-  if (str === 'background-image:url(\'/img/no_icon_subject.png\')') {
+  // eslint-disable-next-line quotes
+  if (str === "background-image:url('/img/no_icon_subject.png')") {
     return ''
   }
   return str.substring(22, str.length - 2)
