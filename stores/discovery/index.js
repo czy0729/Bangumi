@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-04 15:25:27
+ * @Last Modified time: 2020-01-05 19:11:31
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -160,7 +160,7 @@ class Discovery extends store {
    */
   fetchNingMoeDetailBySearch = async ({ keyword }) => {
     const url = `${HOST_NING_MOE}/api/search`
-    log(`[fetch] 搜索柠萌动漫信息 ${url}`)
+    log(`[fetch] 搜索柠萌动漫信息 ${url}, ${keyword}`)
 
     try {
       const data = await fetch(url, {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 18:04:57
+ * @Last Modified time: 2020-01-05 19:07:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,6 @@ function Head({ style }, { $ }) {
   if (label === '动画') {
     label = String($.state.bangumiInfo.type).toUpperCase()
   }
-
   return (
     <View style={[styles.container, style]}>
       <Cover image={images.large} placeholder={_image} />

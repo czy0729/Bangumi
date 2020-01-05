@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 18:03:19
+ * @Last Modified time: 2020-01-05 19:25:42
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -22,7 +22,7 @@ import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
 import { IOS, USERID_TOURIST, USERID_IOS_AUTH, HOST_NING_MOE } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
-import { NINGMOE_DATA } from '@constants/online'
+import { NINGMOE_ID } from '@constants/online'
 
 const namespace = 'ScreenSubject'
 const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
@@ -68,8 +68,9 @@ export default class ScreenSubject extends store {
     }
 
     // 获取其他源头eps在线地址
+    const name = data.name_cn || data.name
     if (this.type === '动画') {
-      const { _ningMoeId } = this.params
+      const { _ningMoeId = NINGMOE_ID[name] } = this.params
       if (_ningMoeId) {
         discoveryStore.fetchNingMoeDetail({
           id: _ningMoeId,
@@ -77,9 +78,8 @@ export default class ScreenSubject extends store {
         })
       } else {
         // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
-        const name = data.name_cn || data.name
         discoveryStore.fetchNingMoeDetailBySearch({
-          keyword: NINGMOE_DATA[name] ? NINGMOE_DATA[name] : name
+          keyword: name
         })
       }
     }
