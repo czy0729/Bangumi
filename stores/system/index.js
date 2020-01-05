@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 16:25:44
+ * @Last Modified time: 2020-01-05 18:03:52
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -55,14 +55,7 @@ class System extends store {
   })
 
   init = async () => {
-    await this.readStorageThenSetState(
-      {
-        setting: INIT_SETTING,
-        release: INIT_RELEASE,
-        iosUGCAgree: false
-      },
-      NAMESPACE
-    )
+    await this.readStorage(['setting', 'release', 'iosUGCAgree'], NAMESPACE)
 
     const res = NetInfo.getConnectionInfo()
     const { type } = await res
@@ -159,105 +152,14 @@ class System extends store {
   }
 
   /**
-   * 切换`中文优先`
+   * 切换
    */
-  switchCnFirst = () => {
-    const { cnFirst } = this.setting
+  switchSetting = switchKey => {
     const key = 'setting'
     this.setState({
       [key]: {
         ...this.setting,
-        cnFirst: !cnFirst
-      }
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-  }
-
-  /**
-   * 切换`切换页面自动请求`
-   */
-  switchAutoFetch = () => {
-    const { autoFetch } = this.setting
-    const key = 'setting'
-    this.setState({
-      [key]: {
-        ...this.setting,
-        autoFetch: !autoFetch
-      }
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-  }
-
-  /**
-   * 切换`小圣杯`
-   */
-  switchTinygrail = () => {
-    const { tinygrail } = this.setting
-    const key = 'setting'
-    this.setState({
-      [key]: {
-        ...this.setting,
-        tinygrail: !tinygrail
-      }
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-  }
-
-  /**
-   * 切换`圆形头像`
-   */
-  switchAvatarRound = () => {
-    const { avatarRound } = this.setting
-    const key = 'setting'
-    this.setState({
-      [key]: {
-        ...this.setting,
-        avatarRound: !avatarRound
-      }
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-  }
-
-  /**
-   * 切换`Bangumi娘话语`
-   */
-  switchSpeech = () => {
-    const { speech } = this.setting
-    const key = 'setting'
-    this.setState({
-      [key]: {
-        ...this.setting,
-        speech: !speech
-      }
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-  }
-
-  /**
-   * 切换`章节热力图`
-   */
-  switchHeatMap = () => {
-    const { heatMap } = this.setting
-    const key = 'setting'
-    this.setState({
-      [key]: {
-        ...this.setting,
-        heatMap: !heatMap
-      }
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-  }
-
-  /**
-   * 切换`iOS风格弹出菜单`
-   */
-  switchIOSMenu = () => {
-    const { iosMenu } = this.setting
-    const key = 'setting'
-    this.setState({
-      [key]: {
-        ...this.setting,
-        iosMenu: !iosMenu
+        [switchKey]: !this.setting[switchKey]
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

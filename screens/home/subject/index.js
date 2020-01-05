@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:32:08
+ * @Last Modified time: 2020-01-05 18:42:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -151,7 +151,7 @@ class Subject extends React.Component {
               avatar={item.avatar}
               userId={item.userId}
               userName={item.userName}
-              star={item.star}
+              star={$.hideScore ? undefined : item.star}
               comment={item.comment}
               event={event}
             />

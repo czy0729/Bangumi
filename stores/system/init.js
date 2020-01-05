@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 16:24:36
+ * @Last Modified time: 2020-01-05 18:03:40
  */
 import { IOS, VERSION_GITHUB_RELEASE } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
@@ -18,7 +18,8 @@ export const INIT_SETTING = {
   tinygrail: !IOS, // 小圣杯是否开启 (安卓默认开, iOS因为审核问题默认不开)
   avatarRound: true, // 头像是否圆形
   heatMap: true, // 章节热力图
-  iosMenu: false // iOS风格弹出菜单
+  iosMenu: false, // iOS风格弹出菜单
+  hideScore: false // 隐藏他人评分
 }
 
 export const INIT_RELEASE = {

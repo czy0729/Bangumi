@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:41:27
+ * @Last Modified time: 2020-01-05 18:04:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,11 +64,15 @@ function Head({ style }, { $ }) {
           </Text>
         </View>
         <Flex>
-          <Text type='main' size={22} lineHeight={1}>
-            {rating.score === '' ? '-' : toFixed(rating.score, 1)}
-          </Text>
-          {rating.score !== '' && (
-            <ScoreTag style={_.ml.sm} value={rating.score} />
+          {!$.hideScore && (
+            <>
+              <Text type='main' size={22} lineHeight={1}>
+                {rating.score === '' ? '-' : toFixed(rating.score, 1)}
+              </Text>
+              {rating.score !== '' && (
+                <ScoreTag style={_.ml.sm} value={rating.score} />
+              )}
+            </>
           )}
         </Flex>
       </Flex>

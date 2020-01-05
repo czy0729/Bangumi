@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 20:00:24
+ * @Last Modified time: 2020-01-05 14:25:26
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -171,7 +171,7 @@ class Setting extends React.Component {
                   checked: !tinygrail
                 })
 
-                systemStore.switchTinygrail()
+                systemStore.switchSetting('tinygrail')
               }}
             />
           }
@@ -207,7 +207,7 @@ class Setting extends React.Component {
   }
 
   renderBasic() {
-    const { quality, cnFirst, autoFetch } = systemStore.setting
+    const { quality, hideScore, cnFirst, autoFetch } = systemStore.setting
     return (
       <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
@@ -231,6 +231,24 @@ class Setting extends React.Component {
         />
         <ItemSetting
           border
+          hd='隐藏他人评分'
+          ft={
+            <Switch
+              checked={hideScore}
+              onChange={() => {
+                t('设置.切换', {
+                  title: '隐藏他人评分',
+                  checked: !hideScore
+                })
+
+                systemStore.switchSetting('hideScore')
+              }}
+            />
+          }
+          withoutFeedback
+        />
+        <ItemSetting
+          border
           hd='优先中文'
           ft={
             <Switch
@@ -241,7 +259,7 @@ class Setting extends React.Component {
                   checked: !cnFirst
                 })
 
-                systemStore.switchCnFirst()
+                systemStore.switchSetting('cnFirst')
               }}
             />
           }
@@ -259,7 +277,7 @@ class Setting extends React.Component {
                   checked: !autoFetch
                 })
 
-                systemStore.switchAutoFetch()
+                systemStore.switchSetting('autoFetch')
               }}
             />
           }
@@ -287,7 +305,17 @@ class Setting extends React.Component {
             style={_.mt.sm}
             hd='iOS风格菜单'
             ft={
-              <Switch checked={iosMenu} onChange={systemStore.switchIOSMenu} />
+              <Switch
+                checked={iosMenu}
+                onChange={() => {
+                  t('设置.切换', {
+                    title: 'iOS风格菜单',
+                    checked: !iosMenu
+                  })
+
+                  systemStore.switchSetting('iosMenu')
+                }}
+              />
             }
             withoutFeedback
             information='模拟菜单, 非原生性能略弱, 但显示信息更多并且支持黑暗模式'
@@ -297,7 +325,7 @@ class Setting extends React.Component {
           // style={IOS ? _.mt.sm : undefined}
           // border={!IOS}
           style={_.mt.sm}
-          border
+          // border
           hd='圆形头像'
           ft={
             <Switch
@@ -308,7 +336,7 @@ class Setting extends React.Component {
                   checked: !avatarRound
                 })
 
-                systemStore.switchAvatarRound()
+                systemStore.switchSetting('avatarRound')
               }}
             />
           }
@@ -326,7 +354,7 @@ class Setting extends React.Component {
                   checked: !heatMap
                 })
 
-                systemStore.switchHeatMap()
+                systemStore.switchSetting('heatMap')
               }}
             />
           }
@@ -345,7 +373,7 @@ class Setting extends React.Component {
                   checked: !speech
                 })
 
-                systemStore.switchSpeech()
+                systemStore.switchSetting('speech')
               }}
             />
           }
