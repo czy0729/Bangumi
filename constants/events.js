@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 19:57:37
+ * @Last Modified time: 2020-01-06 21:18:16
  */
 
 /**
@@ -118,6 +118,7 @@ export default {
   '条目.封面图查看': 'Subject.imageView',
   '条目.右上角菜单': 'Subject.topRightMenu',
   '条目.删除收藏': 'Subject.doEraseCollection',
+  '条目.搜索源': 'Subject.searchEp',
 
   // 用户标签
   '用户标签.跳转': 'Tag.to',

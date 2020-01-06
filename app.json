@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "2.3.0",
+    "version": "2.4.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -29,7 +29,7 @@
     },
     "android": {
       "package": "com.czy0729.bangumi",
-      "versionCode": 230,
+      "versionCode": 240,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/foreground.png",
         "backgroundColor": "#000000"

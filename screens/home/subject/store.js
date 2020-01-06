@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 19:25:42
+ * @Last Modified time: 2020-01-06 21:17:42
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -386,6 +386,24 @@ export default class ScreenSubject extends store {
     this.setState({
       [name]: String(text)
     })
+  }
+
+  /**
+   * 迅播动漫
+   */
+  jumpXunBo = () => {
+    t('条目.搜索源', {
+      type: '迅播',
+      subjectId: this.subjectId,
+      subjectType: this.type
+    })
+
+    const { name_cn: nameCn, name } = this.subject
+    open(
+      `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
+        nameCn || name
+      )}`
+    )
   }
 
   // -------------------- action --------------------

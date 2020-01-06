@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 18:42:51
+ * @Last Modified time: 2020-01-06 21:17:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -67,15 +67,19 @@ class Subject extends React.Component {
         _sitesDS = sitesDS
       }
 
+      const popoverData = [
+        ..._data,
+        ...sites
+          .filter(item => _sitesDS.includes(item.site))
+          .map(item => item.site)
+      ]
+      if (['动画', '三次元'].includes($.type)) {
+        popoverData.push('迅播动漫')
+      }
       navigation.setParams({
         headerTransitionTitle: data.name_cn || data.name,
         popover: {
-          data: [
-            ..._data,
-            ...sites
-              .filter(item => _sitesDS.includes(item.site))
-              .map(item => item.site)
-          ],
+          data: popoverData,
           onSelect: key => {
             t('条目.右上角菜单', {
               subjectId: $.subjectId,
@@ -89,6 +93,9 @@ class Subject extends React.Component {
                 break
               case '柠萌瞬间':
                 open(`${HOST_NING_MOE}/bangumi/${$.ningMoeDetail.id}/home`)
+                break
+              case '迅播动漫':
+                $.jumpXunBo()
                 break
               default:
                 item = sites.find(item => item.site === key)
