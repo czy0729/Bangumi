@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 02:47:19
+ * @Last Modified time: 2020-01-06 20:43:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,8 @@ import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
+
+const LIMIT = 5
 
 function Records({ style }, { $ }) {
   const styles = memoStyles()
@@ -28,7 +30,7 @@ function Records({ style }, { $ }) {
           </Text>
           {bidHistory.length === 0 && <Text style={styles.text}>-</Text>}
           {bidHistory
-            .filter((item, index) => (expand ? true : index < 10))
+            .filter((item, index) => (expand ? true : index < LIMIT))
             .map((item, index) => (
               <Touchable
                 // eslint-disable-next-line react/no-array-index-key
@@ -74,7 +76,7 @@ function Records({ style }, { $ }) {
           </Text>
           {askHistory.length === 0 && <Text style={styles.text}>-</Text>}
           {askHistory
-            .filter((item, index) => (expand ? true : index < 10))
+            .filter((item, index) => (expand ? true : index < LIMIT))
             .map((item, index) => (
               <Touchable
                 // eslint-disable-next-line react/no-array-index-key

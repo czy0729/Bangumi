@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 20:41:04
+ * @Last Modified time: 2020-01-06 20:48:37
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -79,10 +79,15 @@ function Header({ goBack }, { $, navigation }) {
                 </Text>
               )}
             </Text>
-            <IconHeader
-              style={_.ml.sm}
-              name='licheng'
-              color={_.colorIcon}
+            <Text
+              style={[
+                {
+                  paddingVertical: _.sm,
+                  color: _.colorTinygrailText
+                },
+                _.ml.sm
+              ]}
+              size={15}
               onPress={() => {
                 t('K线.跳转', {
                   to: 'TinygrailSacrifice',
@@ -100,7 +105,9 @@ function Header({ goBack }, { $, navigation }) {
                   form: 'kline'
                 })
               }}
-            />
+            >
+              [资产重组]
+            </Text>
           </Flex>
           <Flex style={_.mt.md}>
             <Text
