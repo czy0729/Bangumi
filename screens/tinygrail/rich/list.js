@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 23:45:24
+ * @Last Modified time: 2020-01-06 20:22:04
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,10 +24,10 @@ function List({ index }, { $ }) {
 
   // top100 余额最多处理
   let data = rich
-  if (title === '价值') {
+  if (title === '股息') {
     data = toJS(rich)
     data.list = data.list.sort(
-      (a, b) => parseInt(b.assets) - parseInt(a.assets)
+      (a, b) => parseInt(b.share) - parseInt(a.share)
     )
   } else if (title === '余额') {
     data = toJS(rich)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 21:44:13
+ * @Last Modified time: 2020-01-06 20:26:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -157,19 +157,6 @@ function Item(props, { navigation }) {
             <Touchable
               style={styles.item}
               onPress={() => {
-                if (isAuction || isValhall) {
-                  t(eventId, {
-                    to: 'TinygrailSacrifice',
-                    monoId: monoId || id,
-                    ...eventData
-                  })
-
-                  navigation.push('TinygrailSacrifice', {
-                    monoId: `character/${monoId || id}`
-                  })
-                  return
-                }
-
                 if (isICO) {
                   t(eventId, {
                     to: 'TinygrailICODeal',
@@ -190,8 +177,7 @@ function Item(props, { navigation }) {
                 })
 
                 navigation.push('TinygrailDeal', {
-                  monoId: `character/${id}`,
-                  type
+                  monoId: `character/${id}`
                 })
               }}
             >
