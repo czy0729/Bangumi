@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 21:30:50
+ * @Last Modified time: 2020-01-07 00:08:27
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -20,7 +20,7 @@ class Tag extends store {
      * 标签列表
      */
     tag: {
-      // [`${text}|${type}`]: LIST_EMPTY | INIT_TAG_ITEM
+      // [`${text}|${type}|${airtime}`]: LIST_EMPTY | INIT_TAG_ITEM
     },
 
     /**
@@ -93,7 +93,7 @@ class Tag extends store {
   ) {
     const _text = text.replace(/ /g, '+')
 
-    const { list, pagination } = this.tag(_text, type)
+    const { list, pagination } = this.tag(_text, type, airtime)
     let page // 下一页的页码
     if (refresh) {
       page = 1
