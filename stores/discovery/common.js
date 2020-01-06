@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-04 15:25:26
+ * @Last Modified time: 2020-01-06 20:11:18
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
@@ -96,9 +96,9 @@ export function analysisCatalogDetail(HTML) {
       }
 
       return safeObject({
-        id: $a.attr('href').replace('/subject/', ''),
+        id: ($a.attr('href') || '').replace('/subject/', ''),
         image: $li.find('img.cover').attr('src'),
-        title: $a.text(),
+        title: ($a.text() || '').replace('修改删除', ''),
         type,
         info: $li.find('p.info').text(),
         comment: $li.find('div.text_main_even > div.text').text(),
@@ -111,14 +111,26 @@ export function analysisCatalogDetail(HTML) {
   const [time = '', collect = ''] = (
     $('div.grp_box > span.tip_j').text() || ''
   ).split('\n/')
+
+  const href = $('div.rr > a').attr('href') || ''
+  let joinUrl = ''
+  let byeUrl = ''
+  if (href.includes('erase_collect')) {
+    byeUrl = href
+  } else {
+    joinUrl = href
+  }
   return {
-    list,
+    list: list.filter(item => !item.id.includes('ep/')),
+    title: $('div#header > h1').text(),
     avatar: matchAvatar($('img.avatar').attr('src'), 0),
     progress: $('div.progress small').text(),
     nickname: $a.text(),
     userId: ($a.attr('href') || '').replace('/user/', ''),
     time: time.replace('创建于 ', ''),
     collect: collect.match(/\d+/) && collect.match(/\d+/)[0],
-    content: $('div.line_detail > span.tip').html()
+    content: $('div.line_detail > span.tip').html(),
+    joinUrl,
+    byeUrl
   }
 }

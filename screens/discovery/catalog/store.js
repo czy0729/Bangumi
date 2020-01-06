@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-04 14:15:43
+ * @Last Modified time: 2020-01-06 19:52:13
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
@@ -14,7 +14,7 @@ const namespace = 'ScreenCatalog'
 
 export default class ScreenCatalog extends store {
   state = observable({
-    type: 'collect',
+    type: '',
     page: 1,
     show: true,
     ipt: '1',
@@ -69,13 +69,33 @@ export default class ScreenCatalog extends store {
   }
 
   // -------------------- page --------------------
+  toggleType = async () => {
+    const { type } = this.state
+    t('目录.切换类型', {
+      type: type === 'collect' ? '热门' : '最新'
+    })
+
+    this.setState({
+      type: type === 'collect' ? '' : 'collect',
+      page: 1,
+      ipt: '1',
+      show: false
+    })
+
+    await this.fetchCatalog()
+    this.setState({
+      show: true
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
   prev = async () => {
     const { page } = this.state
     if (page === 1) {
       return
     }
 
-    t('Catalog.上一页', {
+    t('目录.上一页', {
       page: page - 1
     })
 
@@ -96,7 +116,7 @@ export default class ScreenCatalog extends store {
 
   next = async () => {
     const { page } = this.state
-    t('Catalog.下一页', {
+    t('目录.下一页', {
       page: page + 1
     })
 
@@ -131,7 +151,7 @@ export default class ScreenCatalog extends store {
       return
     }
 
-    t('Catalog.页码跳转', {
+    t('目录.页码跳转', {
       page: _ipt
     })
 

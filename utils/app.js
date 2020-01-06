@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 20:20:26
+ * @Last Modified time: 2020-01-06 17:31:39
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -242,6 +242,22 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
       navigation.push('Say', {
         id: _id,
+        ...passParams
+      })
+      return true
+    }
+
+    // 目录
+    if (_url.includes('/index/')) {
+      const _id = _url.split('/index/')[1]
+      t(id, {
+        to: 'CatalogDetail',
+        catalogId: _id,
+        ...data
+      })
+
+      navigation.push('CatalogDetail', {
+        catalogId: _id,
         ...passParams
       })
       return true

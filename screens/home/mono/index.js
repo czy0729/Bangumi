@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 15:45:17
+ * @Last Modified time: 2020-01-06 17:09:40
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -102,7 +102,7 @@ class Mono extends React.Component {
           contentContainerStyle={this.styles.contentContainerStyle}
           keyExtractor={item => String(item.id)}
           data={$.monoComments}
-          scrollEventThrottle={32}
+          scrollEventThrottle={16}
           ListHeaderComponent={<Info />}
           renderItem={({ item, index }) => (
             <ItemTopic

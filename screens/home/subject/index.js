@@ -137,7 +137,7 @@ class Subject extends React.Component {
           contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={item => String(item.id)}
           data={$.subjectComments}
-          scrollEventThrottle={32}
+          scrollEventThrottle={16}
           refreshControlProps={{
             tintColor: _.__colorPlain__,
             titleColor: _.__colorPlain__

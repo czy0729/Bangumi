@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 21:01:27
+ * @Last Modified time: 2020-01-06 19:57:37
  */
 
 /**
@@ -20,9 +20,29 @@ export default {
   // 年鉴
   '年鉴.跳转': 'Award.to',
 
+  // 索引
+  '索引.跳转': 'Browser.to',
+  '索引.标签页切换': 'Browser.onChange',
+  '索引.类型选择': 'Browser.onSelect',
+
   // 每日放送
   '每日放送.跳转': 'Calendar.to',
   '每日放送.右上角菜单': 'Calendar.topRightMenu',
+
+  // 目录
+  '目录.跳转': 'Catalog.to',
+  '目录.切换类型': 'Catalog.toggleType',
+  '目录.上一页': 'Catalog.prev',
+  '目录.下一页': 'Catalog.next',
+  '目录.页码跳转': 'Catalog.doSearch',
+  '目录.提示': 'Catalog.alert',
+
+  // 目录详情
+  '目录详情.跳转': 'CatalogDetail.to',
+  '目录详情.右上角菜单': 'CatalogDetail.topRightMenu',
+  '目录详情.收藏': 'CatalogDetail.doCollect',
+  '目录详情.取消收藏': 'CatalogDetail.doErase',
+  '目录详情.封面图查看': 'CatalogDetail.imageView',
 
   // 收藏的人物
   '收藏的人物.跳转': 'Character.to',
@@ -327,9 +347,5 @@ export default {
 
   /* ==================== other ==================== */
   '其他.启动': 'Other.start',
-  '其他.切换主题': 'Other.theme',
-
-  '索引.跳转': 'Browser.to',
-  '索引.标签页切换': 'Browser.onChange',
-  '索引.类型选择': 'Browser.onSelect'
+  '其他.切换主题': 'Other.theme'
 }

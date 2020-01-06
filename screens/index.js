@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-02 20:32:56
+ * @Last Modified time: 2020-01-06 15:52:26
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -16,6 +16,7 @@ export { default as Award } from './discovery/award'
 export { default as Browser } from './discovery/browser'
 export { default as Calendar } from './discovery/calendar'
 export { default as Catalog } from './discovery/catalog'
+export { default as CatalogDetail } from './discovery/catalog-detail'
 export { default as Character } from './discovery/character'
 export { default as Discovery } from './discovery/index'
 export { default as Random } from './discovery/random'
