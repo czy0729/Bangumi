@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 12:19:58
+ * @Last Modified time: 2020-01-08 16:27:55
  */
 import { AsyncStorage, Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
@@ -111,6 +111,7 @@ class Stores {
             userStore.setStorage('accessToken', undefined, 'User') // 用户授权信息
             userStore.setStorage('userInfo', undefined, 'User') // 用户个人信息
             userStore.setStorage('userCookie', undefined, 'User') // 用户网页cookie
+            tinygrailStore.setStorage('advanceList', undefined, 'Tinygrail') // 卖一精选30分钟限制
 
             info('已清除')
           }
