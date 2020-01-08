@@ -2,73 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 12:17:20
+ * @Last Modified time: 2020-01-08 10:47:13
  */
 import React from 'react'
 import { View } from 'react-native'
-// import { useScreens } from 'react-native-screens'
 import SplashScreen from 'react-native-splash-screen'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
 import { ImageViewer } from '@components'
 import Stores, { _, systemStore } from '@stores'
+import { bootApp } from '@utils/app'
+import { globalLog, globalWarn } from '@utils/dev'
 import { observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { DEV } from '@constants'
 import theme from '@styles/theme'
 import Navigations from './navigations/index'
 
-/**
- * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
- */
-// useScreens()
-
-console.disableYellowBox = true
-if (!DEV) {
-  global.console = {
-    info: () => {},
-    log: () => {},
-    warn: () => {},
-    debug: () => {},
-    error: () => {}
-  }
-}
-
-/**
- * 能打印循环引用
- */
-global.log = (value, space) => {
-  if (!DEV) {
-    return
-  }
-
-  const handleCircular = () => {
-    const cache = []
-    const keyCache = []
-    return (key, value) => {
-      if (typeof value === 'object' && value !== null) {
-        const index = cache.indexOf(value)
-        if (index !== -1) {
-          return `[Circular ${keyCache[index]}]`
-        }
-        cache.push(value)
-        keyCache.push(key || 'root')
-      }
-      return value
-    }
-  }
-  console.log(JSON.stringify(value, handleCircular(), space))
-}
-
-/**
- * try catch 打印警告
- */
-global.warn = (key, method, error) => {
-  if (!DEV) {
-    return
-  }
-  console.warn(`[${key}] ${method}`, error)
-}
+bootApp()
+global.log = globalLog
+global.warn = globalWarn
 
 export default
 @observer

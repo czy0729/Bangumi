@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:26:30
+ * @Last Modified time: 2020-01-08 09:43:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -170,14 +170,15 @@ function Item(props, { navigation }) {
                   return
                 }
 
+                const _id = isAuction || isValhall ? monoId || id : id
                 t(eventId, {
                   to: 'TinygrailDeal',
-                  monoId: id,
+                  monoId: _id,
                   ...eventData
                 })
 
                 navigation.push('TinygrailDeal', {
-                  monoId: `character/${id}`
+                  monoId: `character/${_id}`
                 })
               }}
             >

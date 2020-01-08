@@ -3,12 +3,35 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 17:31:39
+ * @Last Modified time: 2020-01-08 10:47:07
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
-import { HOST, HOST_2 } from '@constants'
+// import { useScreens } from 'react-native-screens'
+import { DEV, HOST, HOST_2 } from '@constants'
 import { t } from './fetch'
+
+/**
+ * 启动
+ */
+export function bootApp() {
+  console.disableYellowBox = true
+
+  /**
+   * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
+   */
+  // useScreens()
+
+  if (!DEV) {
+    global.console = {
+      info: () => {},
+      log: () => {},
+      warn: () => {},
+      debug: () => {},
+      error: () => {}
+    }
+  }
+}
 
 /**
  * 查找番剧中文名
