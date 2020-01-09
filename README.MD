@@ -60,7 +60,7 @@ v2.4.0 - 2020/01/07
 
 #### Page Preview
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-1.png" width="140" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-2.png" width="140" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-3.png" width="140" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-4.png" width="140" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-5.png" width="140" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-1.png" width="176" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-2.png" width="176" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-3.png" width="176" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-4.png" width="176" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-5.png" width="176" />
 
 #### Demo
 
