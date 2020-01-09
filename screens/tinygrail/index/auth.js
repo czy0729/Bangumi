@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:09:51
+ * @Last Modified time: 2020-01-09 14:35:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,18 +43,24 @@ function Auth(props, { $, navigation }) {
           >
             {nickname}
           </Text>
-          {!!_loaded && (
-            <Text
-              style={[
-                _.mt.xs,
-                {
-                  color: _.colorTinygrailIcon
-                }
-              ]}
-              size={12}
-            >
-              上次授权: {lastDate(_loaded)}
+          {$.advance ? (
+            <Text style={_.mt.xs} type='warning' size={12}>
+              高级会员
             </Text>
+          ) : (
+            !!_loaded && (
+              <Text
+                style={[
+                  _.mt.xs,
+                  {
+                    color: _.colorTinygrailIcon
+                  }
+                ]}
+                size={12}
+              >
+                上次授权: {lastDate(_loaded)}
+              </Text>
+            )
           )}
         </Flex.Item>
         <Btns />

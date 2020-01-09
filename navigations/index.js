@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 11:46:43
+ * @Last Modified time: 2020-01-09 19:51:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,6 +44,10 @@ import {
   Tags,
   Timeline,
   Tinygrail,
+  TinygrailAdvance,
+  TinygrailAdvanceAsk,
+  TinygrailAdvanceAuction,
+  TinygrailAdvanceBid,
   TinygrailBid,
   TinygrailCharaAssets,
   TinygrailDeal,
@@ -53,7 +57,6 @@ import {
   TinygrailNew,
   TinygrailSacrifice,
   TinygrailOverview,
-  TinygrailOverviewAdvance,
   TinygrailRich,
   TinygrailSearch,
   TinygrailTemples,
@@ -141,6 +144,10 @@ const HomeStack = createStackNavigator(
     Tags,
     Timeline,
     Tinygrail,
+    TinygrailAdvance,
+    TinygrailAdvanceAsk,
+    TinygrailAdvanceAuction,
+    TinygrailAdvanceBid,
     TinygrailBid,
     TinygrailCharaAssets,
     TinygrailDeal,
@@ -149,7 +156,6 @@ const HomeStack = createStackNavigator(
     TinygrailLogs,
     TinygrailNew,
     TinygrailOverview,
-    TinygrailOverviewAdvance,
     TinygrailRich,
     TinygrailSacrifice,
     TinygrailSearch,

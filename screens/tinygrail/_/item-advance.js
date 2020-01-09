@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 16:37:37
+ * @Last Modified time: 2020-01-09 21:59:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -17,6 +17,7 @@ import { EVENT } from '@constants'
 function Item(props, { navigation }) {
   const styles = memoStyles()
   const {
+    event,
     index,
     id,
     name,
@@ -24,12 +25,16 @@ function Item(props, { navigation }) {
     bonus,
     rate,
     level,
-    event,
+    amount,
+    current,
     firstAsks,
+    firstBids,
     firstAmount,
     mark
   } = props
   const { id: eventId, data: eventData } = event
+  const isAuction = !firstBids && !firstAsks
+  const isBids = !!firstBids
   const isTop = index === 0
   return (
     <Flex style={styles.container} align='start'>
@@ -55,6 +60,19 @@ function Item(props, { navigation }) {
         <Touchable
           style={styles.item}
           onPress={() => {
+            if (isAuction) {
+              t(eventId, {
+                to: 'TinygrailSacrifice',
+                monoId: id,
+                ...eventData
+              })
+
+              navigation.push('TinygrailSacrifice', {
+                monoId: `character/${id}`
+              })
+              return
+            }
+
             t(eventId, {
               to: 'TinygrailDeal',
               monoId: id,
@@ -62,7 +80,8 @@ function Item(props, { navigation }) {
             })
 
             navigation.push('TinygrailDeal', {
-              monoId: `character/${id}`
+              monoId: `character/${id}`,
+              type: isBids ? 'ask' : 'bid'
             })
           }}
         >
@@ -103,15 +122,25 @@ function Item(props, { navigation }) {
                 ]}
                 size={11}
               >
-                <Text
-                  style={{
-                    color: _.colorAsk
-                  }}
-                  size={11}
-                >
-                  {firstAmount}股
-                </Text>{' '}
-                / ₵{firstAsks} / +{rate}
+                {!!amount && (
+                  <Text type='warning' size={11}>
+                    {amount}股
+                  </Text>
+                )}
+                {!!amount && ' / '}
+                {!!firstAmount && (
+                  <Text
+                    style={{
+                      color: isBids ? _.colorBid : _.colorAsk
+                    }}
+                    size={11}
+                  >
+                    {isBids && '收'}
+                    {firstAmount}股
+                  </Text>
+                )}
+                {!!firstAmount && ' / '}₵{firstAsks || firstBids || current} / +
+                {rate}
               </Text>
             </Flex.Item>
             <Text

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:20:52
+ * @Last Modified time: 2020-01-09 22:09:34
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -84,7 +84,17 @@ function Temples({ style }, { $ }) {
       <Flex wrap='wrap'>
         {list
           // 自己的排最前
-          .sort((a, b) => (b.name === $.hash ? 1 : 0))
+          .sort((a, b) => {
+            let _a = 0
+            let _b = 0
+            if (a.name === $.hash) {
+              _a += 1
+            }
+            if (b.name === $.hash) {
+              _b += 1
+            }
+            return _b - _a
+          })
           .filter((item, index) => (expand ? true : index < 6))
           .map(item => (
             <ItemTemple

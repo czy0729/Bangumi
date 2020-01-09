@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 22:47:47
+ * @Last Modified time: 2020-01-09 14:34:06
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -48,27 +48,22 @@ export default class ScreenTinygrail extends store {
     })
 
     // 没有资产就自动授权
-    let res = tinygrailStore.fetchAssets()
-    const { _loaded } = await res
+    const { _loaded } = await tinygrailStore.fetchAssets()
     if (!_loaded) {
       await this.doAuth()
     }
 
     // 获取资产和用户唯一标识
-    await Promise.all([
-      tinygrailStore.fetchAssets(),
-      tinygrailStore.fetchHash()
+    await queue([
+      () => tinygrailStore.fetchAssets(),
+      () => tinygrailStore.fetchHash(),
+      () => this.fetchCharaAssets()
     ])
-    res = this.fetchCharaAssets()
-    await res
 
-    // 资产金额UI变动
+    tinygrailStore.fetchAdvance()
     this.caculateChange()
-
-    // 获取买单卖单数量
     this.fetchCount()
-
-    return res
+    return true
   }
 
   // -------------------- fetch --------------------
@@ -85,6 +80,9 @@ export default class ScreenTinygrail extends store {
     return res
   }
 
+  /**
+   * 获取买单卖单数量
+   */
   fetchCount = refresh => {
     const fetchs = []
     if (refresh || !this.list('bid')._loaded) {
@@ -119,6 +117,10 @@ export default class ScreenTinygrail extends store {
   // -------------------- get --------------------
   @computed get userCookie() {
     return userStore.userCookie
+  }
+
+  @computed get advance() {
+    return tinygrailStore.advance
   }
 
   @computed get userInfo() {
@@ -425,7 +427,7 @@ export default class ScreenTinygrail extends store {
   }
 
   /**
-   * 计算资金变动
+   * 资产金额UI变动
    */
   caculateChange = () => {
     const { currentBalance, currentTotal } = this.state

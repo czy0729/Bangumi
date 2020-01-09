@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:52:53
+ * @Last Modified time: 2020-01-09 20:58:08
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -90,7 +90,7 @@ class Tinygrail extends React.Component {
           size={10}
           align='center'
         >
-          - 1.0 -
+          - 1.1 -
         </Text>
       </ScrollView>
     )
