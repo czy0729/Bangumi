@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:58:11
+ * @Last Modified time: 2020-01-06 20:42:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,11 +62,11 @@ function Depth({ style }, { $ }) {
     <View style={[styles.container, style]}>
       <Flex style={styles.header}>
         <Flex.Item>
-          <Text style={styles.text} size={10}>
+          <Text style={styles.text} size={11}>
             价格
           </Text>
         </Flex.Item>
-        <Text style={styles.text} size={10}>
+        <Text style={styles.text} size={11}>
           数量
         </Text>
       </Flex>
@@ -94,7 +94,7 @@ function Depth({ style }, { $ }) {
               return (
                 <Touchable
                   key={index}
-                  onPress={() => $.changeValue(item.price)}
+                  onPress={() => $.changeValue(item.price, item.amount)}
                 >
                   <Flex style={styles.item}>
                     {isMyOrder && <View style={styles.dotAsk} />}
@@ -132,7 +132,7 @@ function Depth({ style }, { $ }) {
               style={{
                 color: _.colorTinygrailText
               }}
-              size={10}
+              size={11}
             >
               发行价 ₵{toFixed($.issuePrice, 1)}
             </Text>
@@ -149,7 +149,7 @@ function Depth({ style }, { $ }) {
               return (
                 <Touchable
                   key={index}
-                  onPress={() => $.changeValue(item.price)}
+                  onPress={() => $.changeValue(item.price, item.amount)}
                 >
                   <Flex style={styles.item}>
                     {isMyOrder && <View style={styles.dotBid} />}

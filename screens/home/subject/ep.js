@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 17:23:57
+ * @Last Modified time: 2020-01-06 21:21:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
-import { SectionTitle, Eps, IconReverse } from '@screens/_'
+import { SectionTitle, Eps, IconReverse, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import BookEp from './book-ep'
 import Disc from './disc'
@@ -35,11 +35,16 @@ function Ep({ style }, { $, navigation }) {
     <View style={[styles.container, style]}>
       <SectionTitle
         right={
-          <IconReverse
-            style={_.mr.sm}
-            color={epsReverse ? _.colorMain : _.colorIcon}
-            onPress={$.toggleReverseEps}
-          />
+          <>
+            {['动画', '三次元'].includes($.type) && (
+              <IconTouchable name='search' onPress={$.jumpXunBo} />
+            )}
+            <IconReverse
+              style={_.mr.sm}
+              color={epsReverse ? _.colorMain : _.colorIcon}
+              onPress={$.toggleReverseEps}
+            />
+          </>
         }
       >
         章节

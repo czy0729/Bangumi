@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:46:57
+ * @Last Modified time: 2020-01-06 18:14:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT, EVENT } from '@constants'
+import Tag from '../base/tag'
 import Stars from '../base/stars'
 
 const imgWidth = 88
@@ -31,6 +32,9 @@ function ItemCollections({
   time,
   tags,
   comments,
+  type,
+  isCatalog,
+  isCollect,
   isDo,
   isOnHold,
   isDropped,
@@ -50,7 +54,7 @@ function ItemCollections({
   }
   return (
     <Touchable
-      style={styles.container}
+      style={[styles.container, isCollect && styles.containerActive]}
       highlight
       onPress={() => {
         const { eventId, eventData } = event
@@ -82,20 +86,25 @@ function ItemCollections({
         </View>
         <Flex.Item style={_.ml.wind}>
           <Flex
-            style={styles.content}
+            style={[!isCatalog && styles.content]}
             direction='column'
-            justify='between'
+            justify={isCatalog ? undefined : 'between'}
             align='start'
           >
-            <Text numberOfLines={2}>
-              {HTMLDecode(nameCn)}
-              {hasName && name !== nameCn && (
-                <Text type='sub' size={12} lineHeight={14}>
-                  {' '}
-                  {HTMLDecode(name)}
+            <Flex>
+              <Flex.Item>
+                <Text numberOfLines={2}>
+                  {HTMLDecode(nameCn)}
+                  {hasName && name !== nameCn && (
+                    <Text type='sub' size={12} lineHeight={14}>
+                      {' '}
+                      {HTMLDecode(name)}
+                    </Text>
+                  )}
                 </Text>
-              )}
-            </Text>
+              </Flex.Item>
+              {!!type && <Tag style={_.ml.sm} value={type} />}
+            </Flex>
             {hasTip && (
               <Text style={_.mt.sm} size={12} numberOfLines={2}>
                 {HTMLDecode(tip)}
@@ -134,6 +143,9 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
+  },
+  containerActive: {
+    backgroundColor: _.select(_.colorMainLight, 'rgb(59, 48 ,51)')
   },
   imgContainer: {
     width: imgWidth

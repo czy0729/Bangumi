@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 14:11:43
+ * @Last Modified time: 2020-01-09 00:24:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,7 @@ function ItemSearch({
   const isFirst = index === 0
   return (
     <Touchable
-      style={styles.container}
+      style={[styles.container, collected && styles.containerActive]}
       highlight
       onPress={() => {
         appNavigate(
@@ -83,12 +83,11 @@ function ItemSearch({
                 <Flex.Item>
                   {!!(nameCn || name) && (
                     <Text size={15} numberOfLines={2}>
-                      {collected && (
+                      {/* {collected && (
                         <Text type='main' lineHeight={15}>
                           [已收藏]{' '}
                         </Text>
-                      )}
-
+                      )} */}
                       {HTMLDecode(nameCn || name)}
                       {!!comments && (
                         <Text type='main' lineHeight={15}>
@@ -150,6 +149,9 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
+  },
+  containerActive: {
+    backgroundColor: _.select(_.colorMainLight, 'rgb(59, 48 ,51)')
   },
   imgContainer: {
     width: imgWidth

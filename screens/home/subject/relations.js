@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:16:25
+ * @Last Modified time: 2020-01-05 17:50:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,7 @@ function Relations({ style }, { $, navigation }) {
   }))
   return (
     <View style={style}>
-      <SectionTitle style={_.container.wind}>关联条目</SectionTitle>
+      <SectionTitle style={_.container.wind}>关联</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
         data={data}

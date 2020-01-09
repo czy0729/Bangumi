@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 19:00:53
+ * @Last Modified time: 2020-01-08 11:46:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,8 @@ import {
   Award,
   Browser,
   Calendar,
+  Catalog,
+  CatalogDetail,
   Character,
   Discovery,
   Friends,
@@ -51,6 +53,7 @@ import {
   TinygrailNew,
   TinygrailSacrifice,
   TinygrailOverview,
+  TinygrailOverviewAdvance,
   TinygrailRich,
   TinygrailSearch,
   TinygrailTemples,
@@ -112,6 +115,8 @@ const HomeStack = createStackNavigator(
     Award,
     Browser,
     Calendar,
+    Catalog,
+    CatalogDetail,
     Character,
     Discovery,
     Friends,
@@ -144,6 +149,7 @@ const HomeStack = createStackNavigator(
     TinygrailLogs,
     TinygrailNew,
     TinygrailOverview,
+    TinygrailOverviewAdvance,
     TinygrailRich,
     TinygrailSacrifice,
     TinygrailSearch,

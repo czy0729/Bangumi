@@ -3,12 +3,35 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 20:20:26
+ * @Last Modified time: 2020-01-08 10:47:07
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
-import { HOST, HOST_2 } from '@constants'
+// import { useScreens } from 'react-native-screens'
+import { DEV, HOST, HOST_2 } from '@constants'
 import { t } from './fetch'
+
+/**
+ * 启动
+ */
+export function bootApp() {
+  console.disableYellowBox = true
+
+  /**
+   * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
+   */
+  // useScreens()
+
+  if (!DEV) {
+    global.console = {
+      info: () => {},
+      log: () => {},
+      warn: () => {},
+      debug: () => {},
+      error: () => {}
+    }
+  }
+}
 
 /**
  * 查找番剧中文名
@@ -242,6 +265,22 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
       navigation.push('Say', {
         id: _id,
+        ...passParams
+      })
+      return true
+    }
+
+    // 目录
+    if (_url.includes('/index/')) {
+      const _id = _url.split('/index/')[1]
+      t(id, {
+        to: 'CatalogDetail',
+        catalogId: _id,
+        ...data
+      })
+
+      navigation.push('CatalogDetail', {
+        catalogId: _id,
         ...passParams
       })
       return true

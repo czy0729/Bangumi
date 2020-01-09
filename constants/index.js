@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-30 17:44:43
+ * @Last Modified time: 2020-01-08 11:06:03
  */
 import { Platform } from 'react-native'
 
 /* ==================== DEV ==================== */
 export const DEV = true // 是否开发模式
 export const BARE = true // 裸工作流
-export const VERSION_GITHUB_RELEASE = '2.3.0' // 版本号
+export const VERSION_GITHUB_RELEASE = '2.4.2' // 版本号
 export const VERSION_CODE_PUSH = '' // 热推送副版本号
 export const ERRORS = {
   keys: [],
@@ -23,7 +23,7 @@ export const HOST_NAME = 'bgm.tv' // 域名
 export const HOST = `https://${HOST_NAME}`
 export const HOST_2 = 'https://bangumi.tv' // 备用域名
 export const HOST_NING_MOE = 'https://www.ningmoe.com' // 柠萌瞬间地址
-export const HOST_ANITAMA = 'https://app.anitama.net/' // Anitama api地址
+export const HOST_ANITAMA = 'https://app.anitama.net' // Anitama api地址
 export const OAUTH_URL = `${HOST}/oauth/authorize` // 登陆v1.0 oauth地址
 export const OAUTH_REDIRECT_URL = `${HOST}/dev/app` // 登陆v1.0 授权跳转地址
 export const FEEDBACK_URL = `${HOST}/group/topic/350677` // bgm项目帖子地址
@@ -38,8 +38,8 @@ export const SAY_TINYGRAIL_ID = '19820034' // 小圣杯意见反馈入口
 export const IOS = Platform.OS === 'ios' // 是否iOS
 
 // USERID
-export const USERID_TOURIST = 476179 // 游客id 6907XXX59
-export const USERID_IOS_AUTH = 474489 // 2963XXX10
+export const USERID_TOURIST = 476179 // 6907xxx59@qq.com (游客)
+export const USERID_IOS_AUTH = 474489 // 2963xxx10@qq.com
 
 // TINYGRAIL
 export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec' // 小圣杯client_id
@@ -51,7 +51,7 @@ export const GITHUB_RELEASE_URL = `${GITHUB_URL}/releases` // 版本析出地址
 export const GITHUB_RELEASE_REPOS_URL =
   'https://api.github.com/repos/czy0729/Bangumi/releases' // 版本析出api地址
 export const GITHUB_BANGUMI_ONAIR_URL =
-  'https://cdn.jsdelivr.net/gh/ekibun/bangumi_onair@latest/calendar.json'
+  'https://cdn.jsdelivr.net/gh/ekibun/bangumi_onair@latest/calendar.json' // 每日放送在线爬虫地址
 
 // 图片
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg' // 空头像

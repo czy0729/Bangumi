@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 20:05:50
+ * @Last Modified time: 2020-01-08 14:08:39
  */
 import { Alert, NativeModules } from 'react-native'
 import Constants from 'expo-constants'
@@ -404,6 +404,7 @@ export async function queue(fetchs, num = 2) {
       }
     })
   )
+  return true
 }
 
 /**

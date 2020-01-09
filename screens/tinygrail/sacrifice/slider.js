@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 19:38:32
+ * @Last Modified time: 2020-01-06 20:55:40
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -13,7 +13,8 @@ import {
   Text,
   Button,
   Slider as CompSlider,
-  Switch
+  Switch,
+  Touchable
 } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
@@ -46,11 +47,7 @@ function Slider({ style }, { $ }) {
               : '将股份转化为固定资产，获得现金和道具。'}
           </Text>
         </Flex.Item>
-        <Switch
-          style={_.ml.sm}
-          checked={isSale}
-          onChange={$.switchIsSale}
-        />
+        <Switch style={_.ml.sm} checked={isSale} onChange={$.switchIsSale} />
       </Flex>
       <Flex style={_.mt.md}>
         <Flex.Item>
@@ -96,17 +93,30 @@ function Slider({ style }, { $ }) {
         {balanceText}
       </Text>
       <Flex style={[styles.slider, _.mt.sm]}>
-        <View style={{ width: '100%' }}>
-          <CompSlider
-            value={amount}
-            step={1}
-            min={0}
-            max={parseInt(userAmount)}
-            minimumTrackTintColor={_.colorAsk}
-            maximumTrackTintColor={_.colorTinygrailBorder}
-            onChange={value => $.changeAmount(value)}
-          />
-        </View>
+        <Flex.Item>
+          <View style={{ width: '100%' }}>
+            <CompSlider
+              value={amount}
+              step={1}
+              min={0}
+              max={parseInt(userAmount)}
+              minimumTrackTintColor={_.colorAsk}
+              maximumTrackTintColor={_.colorTinygrailBorder}
+              onChange={value => $.changeAmount(value)}
+            />
+          </View>
+        </Flex.Item>
+        <Touchable style={_.ml.sm} onPress={() => $.changeAmount(userAmount)}>
+          <Text
+            style={{
+              paddingVertical: _.sm,
+              color: _.colorTinygrailText
+            }}
+            size={13}
+          >
+            [最大]
+          </Text>
+        </Touchable>
       </Flex>
       <Flex>
         <Flex.Item>

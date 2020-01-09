@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 17:10:33
+ * @Last Modified time: 2020-01-06 20:22:24
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -11,24 +11,20 @@ import { t } from '@utils/fetch'
 
 export const tabs = [
   {
-    title: '1-50',
-    key: '1/50'
+    title: '1-100',
+    key: '1/100'
   },
   {
-    title: '51-100',
-    key: '2/50'
-  },
-  {
-    title: '价值',
+    title: '股息',
     key: '1/100/0'
   },
   {
     title: '余额',
-    key: '1/100'
+    key: '1/100/1'
   },
   {
     title: '初始',
-    key: '1/100/2'
+    key: '1/100/3'
   }
 ]
 const namespace = 'ScreenTinygrailRich'

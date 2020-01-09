@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:55:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-03 15:20:17
+ * @Last Modified time: 2020-01-03 17:54:37
  */
 export const NAMESPACE = 'Discovery'
 
@@ -17,4 +17,18 @@ export const INIT_NINGMOE_DETAIL_ITEM = {
 
 export const INIT_ANITAMA_TIMELINE_ITEM = {
   list: []
+}
+
+export const INIT_CATALOG_ITEM = {
+  list: []
+}
+
+export const INIT_CATELOG_DETAIL_ITEM = {
+  list: [],
+  avatar: '',
+  progress: '', // 1/10
+  nickname: '',
+  userId: '',
+  time: '',
+  content: ''
 }

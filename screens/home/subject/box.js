@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 17:43:06
+ * @Last Modified time: 2020-01-05 17:48:33
  */
 import React from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
@@ -61,7 +61,7 @@ function Box({ style }, { $, navigation }) {
           )
         }
       >
-        收藏盒
+        收藏
       </SectionTitle>
       <View style={[_.shadow, _.mt.md]}>
         <Touchable onPress={onPress}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:10:22
+ * @Last Modified time: 2020-01-06 20:22:04
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,15 +24,19 @@ function List({ index }, { $ }) {
 
   // top100 余额最多处理
   let data = rich
-  if (title === '价值最多') {
+  if (title === '股息') {
     data = toJS(rich)
-    data.list = data.list.sort((a, b) => b.assets - a.assets)
-  } else if (title === '余额最多') {
+    data.list = data.list.sort(
+      (a, b) => parseInt(b.share) - parseInt(a.share)
+    )
+  } else if (title === '余额') {
     data = toJS(rich)
-    data.list = data.list.sort((a, b) => b.total - a.total)
-  } else if (title === '初始最多') {
+    data.list = data.list.sort((a, b) => parseInt(b.total) - parseInt(a.total))
+  } else if (title === '初始') {
     data = toJS(rich)
-    data.list = data.list.sort((a, b) => b.principal - a.principal)
+    data.list = data.list.sort(
+      (a, b) => parseInt(b.principal) - parseInt(a.principal)
+    )
   }
   return (
     <ListView

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:01:18
+ * @Last Modified time: 2020-01-06 20:36:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Input, Text, Slider as CompSlider } from '@components'
+import { Flex, Input, Text, Slider as CompSlider, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { observer } from '@utils/decorators'
@@ -41,16 +41,29 @@ function Slider({ style }, { $ }) {
         {balanceText}
       </Text>
       <Flex style={[styles.slider, _.mt.sm]}>
-        <View style={{ width: '100%' }}>
-          <CompSlider
-            value={amount}
-            min={min}
-            max={$.max}
-            minimumTrackTintColor={$.isBid ? _.colorBid : _.colorAsk}
-            maximumTrackTintColor={_.colorTinygrailBorder}
-            onChange={value => $.changeAmount(value)}
-          />
-        </View>
+        <Flex.Item>
+          <View style={{ width: '100%' }}>
+            <CompSlider
+              value={amount}
+              min={min}
+              max={$.max}
+              minimumTrackTintColor={$.isBid ? _.colorBid : _.colorAsk}
+              maximumTrackTintColor={_.colorTinygrailBorder}
+              onChange={value => $.changeAmount(value)}
+            />
+          </View>
+        </Flex.Item>
+        <Touchable style={_.ml.sm} onPress={() => $.changeAmount($.max)}>
+          <Text
+            style={{
+              paddingVertical: _.sm,
+              color: _.colorTinygrailText
+            }}
+            size={13}
+          >
+            [最大]
+          </Text>
+        </Touchable>
       </Flex>
       <Flex>
         <Flex.Item>

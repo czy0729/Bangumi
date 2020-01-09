@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 14:43:32
+ * @Last Modified time: 2020-01-06 20:52:53
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
-import { UM } from '@components'
+import { UM, Text } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
@@ -83,6 +83,15 @@ class Tinygrail extends React.Component {
         />
         <Auth />
         <Menus />
+        <Text
+          style={{
+            color: _.colorTinygrailText
+          }}
+          size={10}
+          align='center'
+        >
+          - 1.0 -
+        </Text>
       </ScrollView>
     )
   }

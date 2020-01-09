@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 02:45:20
+ * @Last Modified time: 2020-01-06 20:41:17
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
-import { Avatar, IconHeader, IconBack } from '@screens/_'
+import { Avatar, IconBack } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
@@ -89,10 +89,12 @@ function Header(props, { $, navigation }) {
           </Text>
         </Flex>
       </Flex.Item>
-      <IconHeader
-        name='licheng'
-        size={22}
-        color={_.colorIcon}
+      <Text
+        style={{
+          paddingVertical: _.sm,
+          color: _.colorTinygrailText
+        }}
+        size={15}
         onPress={() => {
           t('交易.跳转', {
             to: 'TinygrailSacrifice',
@@ -110,10 +112,19 @@ function Header(props, { $, navigation }) {
             form: 'deal'
           })
         }}
-      />
-      <IconHeader
-        name='k-line'
-        color={_.colorIcon}
+      >
+        [资产重组]
+      </Text>
+      <Text
+        style={[
+          {
+            paddingVertical: _.sm,
+            color: _.colorTinygrailText
+          },
+          _.ml.sm,
+          _.mr.sm
+        ]}
+        size={15}
         onPress={() => {
           t('交易.跳转', {
             to: 'TinygrailTrade',
@@ -131,7 +142,9 @@ function Header(props, { $, navigation }) {
             form: 'deal'
           })
         }}
-      />
+      >
+        [K线]
+      </Text>
     </Flex>
   )
 }

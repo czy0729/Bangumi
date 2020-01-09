@@ -3,8 +3,53 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 23:27:28
+ * @Last Modified time: 2020-01-08 11:13:00
  */
+import { DEV } from '@constants'
+
+/**
+ * 处理循环引用
+ */
+function handleCircular() {
+  const cache = []
+  const keyCache = []
+  return (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      const index = cache.indexOf(value)
+      if (index !== -1) {
+        return `[Circular ${keyCache[index]}]`
+      }
+      cache.push(value)
+      keyCache.push(key || 'root')
+    }
+    return value
+  }
+}
+
+/**
+ * 全局log, 能打印循环引用
+ * @param {*} value
+ * @param {*} space
+ */
+export function globalLog(value, space) {
+  if (!DEV) {
+    return
+  }
+  console.log(JSON.stringify(value, handleCircular(), space))
+}
+
+/**
+ * 全局警告
+ * @param {*} key
+ * @param {*} method
+ * @param {*} error
+ */
+export function globalWarn(key, method, error) {
+  if (!DEV) {
+    return
+  }
+  console.warn(`[${key}] ${method}`, error)
+}
 
 /**
  * 字符串填充
@@ -31,22 +76,28 @@ export function fill(str, len = 32) {
  * @param {String} key   消息键
  * @param {Any}    value 消息值
  */
+let lastTime
+let lastIndex = 0
 export function log(type = '', key = '', value = '', ...other) {
   const now = new Date()
   const h = now.getHours()
   const m = now.getMinutes()
   const s = now.getSeconds()
-  const res = [`${h}:${m}:${s}`, type]
 
-  if (key) {
-    res.push('\n', key)
+  let time = `${h}:${m}:${s}`
+  if (time === lastTime) {
+    lastIndex += 1
+    time += `.${lastIndex + 1}`
+  } else {
+    lastTime = time
+    lastIndex = 0
   }
-  if (value) {
-    res.push('\n', value)
-  }
-  if (other && other.length) {
-    res.push('\n', other)
-  }
+
+  const res = [time, type]
+  if (key) res.push('\n', key)
+  if (value) res.push('\n', value)
+  if (other && other.length) res.push('\n', other)
   res.push('\n', '|')
+
   console.info(...res)
 }

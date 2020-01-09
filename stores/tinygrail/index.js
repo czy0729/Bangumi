@@ -3,13 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 21:49:18
+ * @Last Modified time: 2020-01-08 23:55:43
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { log } from '@utils/dev'
+import { queue } from '@utils/fetch'
+import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import { LIST_EMPTY } from '@constants'
 import {
@@ -234,6 +236,11 @@ class Tinygrail extends store {
     templeLast: LIST_EMPTY,
 
     /**
+     * 精选角色
+     */
+    advanceList: LIST_EMPTY,
+
+    /**
      * iOS此刻是否显示WebView
      * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
@@ -267,7 +274,8 @@ class Tinygrail extends store {
         'charaTemple',
         'valhallList',
         'auction',
-        'issuePrice'
+        'issuePrice',
+        'advanceList'
       ],
       NAMESPACE
     )
@@ -367,6 +375,10 @@ class Tinygrail extends store {
 
   @computed get templeLast() {
     return this.state.templeLast
+  }
+
+  @computed get advanceList() {
+    return this.state.advanceList
   }
 
   // -------------------- fetch --------------------
@@ -727,7 +739,7 @@ class Tinygrail extends store {
    * 英灵殿
    */
   fetchValhallList = async () => {
-    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 200))
+    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 300))
 
     const data = {
       ...LIST_EMPTY
@@ -1424,6 +1436,85 @@ class Tinygrail extends store {
     this.setState({
       [key]: data
     })
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 精选角色
+   */
+  fetchAdvanceList = async () => {
+    const result = await this.fetch(API_TINYGRAIL_LIST('recent', 1, 800))
+    const { State, Value } = result.data
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    let list = []
+    if (State === 0) {
+      const iconsCache = toJS(this.state.iconsCache)
+      list = Value.Items
+        // 规则
+        .filter(item => item.Asks >= 10 && item.Rate >= 3)
+        .map(item => {
+          const id = item.CharacterId || item.Id
+          if (item.Icon) {
+            iconsCache[id] = item.Icon
+          }
+          return {
+            id,
+            name: item.Name,
+            icon: item.Icon,
+            asks: item.Asks,
+            current: item.Current,
+            bonus: item.Bonus,
+            rate: toFixed(item.Rate, 2),
+            level: item.Level
+          }
+        })
+      this.updateIconsCache(iconsCache)
+    }
+
+    if (list.length) {
+      info(`正在分析${list.length}个角色, 请稍等`)
+
+      // 循环请求获取第一卖单价
+      await queue(list.map(item => () => this.fetchDepth(item.id)))
+
+      // 合并数据并计算分数
+      data = {
+        list: list
+          .map(item => {
+            const { asks } = this.depth(item.id)
+
+            // 列表有时有卖单数, 但是实际又没有人卖
+            if (!asks.length) {
+              return null
+            }
+
+            return {
+              ...item,
+              firstAsks: asks[0].price,
+              firstAmount: asks[0].amount,
+              mark: toFixed((parseFloat(item.rate) / asks[0].price) * 10, 1)
+            }
+          })
+          .filter(item => !!item && parseFloat(item.mark) > 1)
+          .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+      info('分析完毕')
+    }
+
+    const key = 'advanceList'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
   }

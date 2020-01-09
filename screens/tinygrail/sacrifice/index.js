@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 17:50:23
+ * @Last Modified time: 2020-01-06 20:46:39
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
-import { IconHeader } from '@screens/_'
+import { Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
@@ -50,10 +50,12 @@ class TinygrailSacrifice extends React.Component {
     navigation.setParams({
       extra: (
         <>
-          <IconHeader
-            name='reverse'
-            size={18}
-            color={_.colorIcon}
+          <Text
+            style={{
+              paddingVertical: _.sm,
+              color: _.colorTinygrailText
+            }}
+            size={15}
             onPress={() => {
               const { form, monoId } = $.params
               t('资产重组.跳转', {
@@ -71,10 +73,18 @@ class TinygrailSacrifice extends React.Component {
                 form: 'sacrifice'
               })
             }}
-          />
-          <IconHeader
-            name='k-line'
-            color={_.colorIcon}
+          >
+            [交易]
+          </Text>
+          <Text
+            style={[
+              {
+                paddingVertical: _.sm,
+                color: _.colorTinygrailText
+              },
+              _.ml.sm
+            ]}
+            size={15}
             onPress={() => {
               const { form, monoId } = $.params
               t('资产重组.跳转', {
@@ -92,7 +102,9 @@ class TinygrailSacrifice extends React.Component {
                 form: 'sacrifice'
               })
             }}
-          />
+          >
+            [K线]
+          </Text>
         </>
       )
     })

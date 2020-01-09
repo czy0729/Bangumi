@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 21:25:50
+ * @Last Modified time: 2020-01-04 15:37:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -146,6 +146,26 @@ function Menu(props, { $, navigation }) {
       </Touchable>
       <Touchable
         onPress={() => {
+          t('发现.跳转', {
+            to: 'Catalog'
+          })
+          navigation.push('Catalog')
+        }}
+      >
+        <Flex style={styles.wrap} justify='center'>
+          <Flex style={styles.item} direction='column'>
+            <View style={styles.border} />
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='bag' size={28} color={_.__colorPlain__} />
+            </Flex>
+            <Text style={_.mt.sm} size={12}>
+              目录
+            </Text>
+          </Flex>
+        </Flex>
+      </Touchable>
+      <Touchable
+        onPress={() => {
           if (!username && !id) {
             info('请先登陆')
             return
@@ -167,19 +187,6 @@ function Menu(props, { $, navigation }) {
             </Flex>
             <Text style={_.mt.sm} size={12}>
               我的人物
-            </Text>
-          </Flex>
-        </Flex>
-      </Touchable>
-      <Touchable onPress={() => info('目录、日志适配中')}>
-        <Flex style={styles.wrap} justify='center'>
-          <Flex style={styles.item} direction='column'>
-            <View style={styles.border} />
-            <Flex style={styles.icon} justify='center'>
-              <Iconfont name='extra' size={28} color={_.__colorPlain__} />
-            </Flex>
-            <Text style={_.mt.sm} size={12}>
-              更多
             </Text>
           </Flex>
         </Flex>

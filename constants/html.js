@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-31 11:53:24
+ * @Last Modified time: 2020-01-03 17:50:38
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -144,6 +144,20 @@ export const HTML_RANK = (
  */
 export const HTML_BROSWER = (type = 'anime', airtime = '2020-1', page = 1) =>
   `${HOST}/${type}/browser/airtime/${airtime}?page=${page}`
+
+/**
+ * 目录
+ * @param {*} type
+ * @param {*} page
+ */
+export const HTML_CATALOG = (type = '', page = 1) =>
+  `${HOST}/index/browser?page=${page}&orderby=${type}`
+
+/**
+ * 目录详情
+ * @param {*} id
+ */
+export const HTML_CATALOG_DETAIL = id => `${HOST}/index/${id}`
 
 /**
  * 添加新讨论 (需登陆)

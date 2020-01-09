@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 17:51:15
+ * @Last Modified time: 2020-01-06 21:17:42
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -12,7 +12,8 @@ import {
   subjectStore,
   discoveryStore,
   userStore,
-  collectionStore
+  collectionStore,
+  systemStore
 } from '@stores'
 import { open, getTimestamp } from '@utils'
 import { t, xhrCustom, queue } from '@utils/fetch'
@@ -21,12 +22,10 @@ import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
 import { IOS, USERID_TOURIST, USERID_IOS_AUTH, HOST_NING_MOE } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
+import { NINGMOE_ID } from '@constants/online'
 
 const namespace = 'ScreenSubject'
 const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
-const ningmoeCorret = {
-  炎炎消防队: '炎炎之消防队'
-}
 
 export default class ScreenSubject extends store {
   state = observable({
@@ -69,8 +68,9 @@ export default class ScreenSubject extends store {
     }
 
     // 获取其他源头eps在线地址
+    const name = data.name_cn || data.name
     if (this.type === '动画') {
-      const { _ningMoeId } = this.params
+      const { _ningMoeId = NINGMOE_ID[name] } = this.params
       if (_ningMoeId) {
         discoveryStore.fetchNingMoeDetail({
           id: _ningMoeId,
@@ -78,9 +78,8 @@ export default class ScreenSubject extends store {
         })
       } else {
         // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
-        const name = data.name_cn || data.name
         discoveryStore.fetchNingMoeDetailBySearch({
-          keyword: ningmoeCorret[name] ? ningmoeCorret[name] : name
+          keyword: name
         })
       }
     }
@@ -89,15 +88,7 @@ export default class ScreenSubject extends store {
       () => this.fetchCollection(),
       () => userStore.fetchUserProgress(this.subjectId),
       () => subjectStore.fetchSubjectEp(this.subjectId),
-      async () => {
-        const res = subjectStore.fetchSubjectFormHTML(this.subjectId)
-        const { book } = await res
-        this.setState({
-          chap: book.chap || '0',
-          vol: book.vol || '0'
-        })
-        return res
-      },
+      () => this.fetchSubjectFormHTML(),
       () => this.fetchEpsData(),
       () => this.fetchSubjectComments(true)
     ])
@@ -109,6 +100,20 @@ export default class ScreenSubject extends store {
    * 条目信息
    */
   fetchSubject = () => subjectStore.fetchSubject(this.subjectId)
+
+  /**
+   * 网页的条目信息,
+   * 书籍只有网页端有数据源, 需要初始值
+   */
+  fetchSubjectFormHTML = async () => {
+    const res = subjectStore.fetchSubjectFormHTML(this.subjectId)
+    const { book } = await res
+    this.setState({
+      chap: book.chap || '0',
+      vol: book.vol || '0'
+    })
+    return res
+  }
 
   /**
    * 用户收藏信息
@@ -127,7 +132,6 @@ export default class ScreenSubject extends store {
 
   /**
    * 获取单集播放源
-   * https://github.com/ekibun/bangumi_onair/blob/master/onair/100/100444.json
    */
   fetchEpsData = async () => {
     if (this.type === '动画') {
@@ -316,6 +320,10 @@ export default class ScreenSubject extends store {
     return true
   }
 
+  @computed get hideScore() {
+    return systemStore.setting.hideScore
+  }
+
   // -------------------- page --------------------
   /**
    * 显示收藏管理
@@ -378,6 +386,24 @@ export default class ScreenSubject extends store {
     this.setState({
       [name]: String(text)
     })
+  }
+
+  /**
+   * 迅播动漫
+   */
+  jumpXunBo = () => {
+    t('条目.搜索源', {
+      type: '迅播',
+      subjectId: this.subjectId,
+      subjectType: this.type
+    })
+
+    const { name_cn: nameCn, name } = this.subject
+    open(
+      `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
+        nameCn || name
+      )}`
+    )
   }
 
   // -------------------- action --------------------

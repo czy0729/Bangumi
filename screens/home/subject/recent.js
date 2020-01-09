@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:15:39
+ * @Last Modified time: 2020-01-05 18:41:31
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -19,7 +19,7 @@ function Recent({ style }, { $, navigation }) {
   }
   return (
     <View style={[styles.container, style]}>
-      <SectionTitle style={_.container.wind}>用户动态</SectionTitle>
+      <SectionTitle style={_.container.wind}>动态</SectionTitle>
       <ScrollView
         style={_.mt.md}
         contentContainerStyle={styles.contentContainerStyle}
@@ -45,7 +45,7 @@ function Recent({ style }, { $, navigation }) {
             <View style={_.ml.sm}>
               <Flex>
                 <Text size={12}>{item.name}</Text>
-                <Stars style={_.ml.xs} value={item.star} />
+                {!$.hideScore && <Stars style={_.ml.xs} value={item.star} />}
               </Flex>
               <Text style={_.mt.xs} size={12} type='sub'>
                 {item.status}
