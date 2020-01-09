@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 16:24:48
+ * @Last Modified time: 2020-01-09 20:30:13
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed } from '@utils'
@@ -252,6 +252,11 @@ class Tinygrail extends store {
     advanceBidList: LIST_EMPTY,
 
     /**
+     * 竞拍推荐
+     */
+    advanceAuctionList: LIST_EMPTY,
+
+    /**
      * iOS此刻是否显示WebView
      * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
@@ -288,7 +293,8 @@ class Tinygrail extends store {
         'auction',
         'issuePrice',
         'advanceList',
-        'advanceBidList'
+        'advanceBidList',
+        'advanceAuctionList'
       ],
       NAMESPACE
     )
@@ -400,6 +406,10 @@ class Tinygrail extends store {
 
   @computed get advanceBidList() {
     return this.state.advanceBidList
+  }
+
+  @computed get advanceAuctionList() {
+    return this.state.advanceAuctionList
   }
 
   // -------------------- fetch --------------------
@@ -1637,6 +1647,50 @@ class Tinygrail extends store {
     }
 
     const key = 'advanceBidList'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 拍卖推荐
+   * 从英灵殿中查找
+   */
+  fetchAdvanceAuctionList = async () => {
+    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 1000))
+    const { State, Value } = result.data
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (State === 0) {
+      data = {
+        list: Value.Items.filter(item => item.Rate >= 2 && item.State >= 100)
+          .map(item => ({
+            id: item.Id,
+            name: item.Name,
+            icon: item.Icon,
+            current: item.Current,
+            bonus: item.Bonus,
+            rate: toFixed(item.Rate, 2),
+            level: item.Level,
+            amount: item.State,
+            mark: toFixed((parseFloat(item.Rate) / item.Price) * 10, 1)
+          }))
+          .filter(item => parseFloat(item.mark) > 3)
+          .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'advanceAuctionList'
     this.setState({
       [key]: data
     })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 15:17:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 16:00:14
+ * @Last Modified time: 2020-01-09 20:57:13
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -18,7 +18,10 @@ function List(props, { $ }) {
   }
 
   const event = {
-    id: '买一推荐.跳转'
+    id: '买一推荐.跳转',
+    data: {
+      userId: $.myUserId
+    }
   }
   return (
     <ListView

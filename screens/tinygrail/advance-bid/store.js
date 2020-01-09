@@ -2,34 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 15:52:54
+ * @Last Modified time: 2020-01-09 20:56:59
  */
-import { observable, computed } from 'mobx'
-import { tinygrailStore } from '@stores'
+import { computed } from 'mobx'
+import { tinygrailStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 
-const namespace = 'ScreenTinygrailAdvanceBid'
-
 export default class ScreenTinygrailAdvanceBid extends store {
-  state = observable({
-    _loaded: false
-  })
-
-  init = async () => {
-    const res = this.getStorage(undefined, namespace)
-    const state = await res
-    this.setState({
-      ...state,
-      _loaded: true
-    })
-
+  init = () => {
     const { _loaded } = this.advanceBidList
     if (!_loaded) {
       this.fetchAdvanceBidList(false)
     }
-    return res
   }
 
   // -------------------- fetch --------------------
@@ -63,5 +49,9 @@ export default class ScreenTinygrailAdvanceBid extends store {
 
   @computed get advanceBidList() {
     return tinygrailStore.advanceBidList
+  }
+
+  @computed get myUserId() {
+    return userStore.myUserId
   }
 }

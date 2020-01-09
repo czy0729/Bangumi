@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 16:05:08
+ * @Last Modified time: 2020-01-09 20:38:07
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -26,12 +26,14 @@ function Item(props, { navigation }) {
     rate,
     level,
     amount,
+    current,
     firstAsks,
     firstBids,
     firstAmount,
     mark
   } = props
   const { id: eventId, data: eventData } = event
+  const isAuction = !firstBids && !firstAsks
   const isBids = !!firstBids
   const isTop = index === 0
   return (
@@ -58,6 +60,19 @@ function Item(props, { navigation }) {
         <Touchable
           style={styles.item}
           onPress={() => {
+            if (isAuction) {
+              t(eventId, {
+                to: 'TinygrailAuction',
+                monoId: id,
+                ...eventData
+              })
+
+              navigation.push('TinygrailAuction', {
+                monoId: `character/${id}`
+              })
+              return
+            }
+
             t(eventId, {
               to: 'TinygrailDeal',
               monoId: id,
@@ -113,16 +128,19 @@ function Item(props, { navigation }) {
                   </Text>
                 )}
                 {!!amount && ' / '}
-                <Text
-                  style={{
-                    color: isBids ? _.colorBid : _.colorAsk
-                  }}
-                  size={11}
-                >
-                  {isBids && '收'}
-                  {firstAmount}股
-                </Text>{' '}
-                / ₵{firstAsks || firstBids} / +{rate}
+                {!!firstAmount && (
+                  <Text
+                    style={{
+                      color: isBids ? _.colorBid : _.colorAsk
+                    }}
+                    size={11}
+                  >
+                    {isBids && '收'}
+                    {firstAmount}股
+                  </Text>
+                )}
+                {!!firstAmount && ' / '}₵{firstAsks || firstBids || current} / +
+                {rate}
               </Text>
             </Flex.Item>
             <Text

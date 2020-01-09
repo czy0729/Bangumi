@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2020-01-08 11:55:21
+ * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:56:37
+ * @Last Modified time: 2020-01-09 20:57:10
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,13 +12,13 @@ import { _ } from '@stores'
 import ItemAdvance from '../_/item-advance'
 
 function List(props, { $ }) {
-  const { _loaded } = $.advanceList
+  const { _loaded } = $.advanceAuctionList
   if (!_loaded) {
     return <Loading style={_.container.flex} />
   }
 
   const event = {
-    id: '卖一推荐.跳转',
+    id: '竞拍推荐.跳转',
     data: {
       userId: $.myUserId
     }
@@ -27,11 +27,11 @@ function List(props, { $ }) {
     <ListView
       style={_.container.flex}
       keyExtractor={item => String(item.id)}
-      data={$.advanceList}
+      data={$.advanceAuctionList}
       renderItem={({ item, index }) => (
         <ItemAdvance index={index} event={event} {...item} />
       )}
-      onHeaderRefresh={$.fetchAdvanceList}
+      onHeaderRefresh={$.fetchAdvanceAuctionList}
     />
   )
 }
