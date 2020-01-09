@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 18:01:16
+ * @Last Modified time: 2020-01-09 22:10:53
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 
 const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
-const sectionHeight = sectionWidth / 2
+const sectionHeight = sectionWidth / 2.4
 
 function MenuItem({ navigation, style, pathname, config, title, icon }) {
   const styles = memoStyles()

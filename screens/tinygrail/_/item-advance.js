@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:38:07
+ * @Last Modified time: 2020-01-09 21:59:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -62,12 +62,12 @@ function Item(props, { navigation }) {
           onPress={() => {
             if (isAuction) {
               t(eventId, {
-                to: 'TinygrailAuction',
+                to: 'TinygrailSacrifice',
                 monoId: id,
                 ...eventData
               })
 
-              navigation.push('TinygrailAuction', {
+              navigation.push('TinygrailSacrifice', {
                 monoId: `character/${id}`
               })
               return
