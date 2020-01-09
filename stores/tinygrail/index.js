@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 16:18:06
+ * @Last Modified time: 2020-01-08 23:55:43
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed } from '@utils'
@@ -1455,7 +1455,7 @@ class Tinygrail extends store {
       const iconsCache = toJS(this.state.iconsCache)
       list = Value.Items
         // 规则
-        .filter(item => item.Asks > 0 && item.Rate > 3)
+        .filter(item => item.Asks >= 10 && item.Rate >= 3)
         .map(item => {
           const id = item.CharacterId || item.Id
           if (item.Icon) {
@@ -1475,8 +1475,10 @@ class Tinygrail extends store {
       this.updateIconsCache(iconsCache)
     }
 
-    // 循环请求获取第一卖单价
     if (list.length) {
+      info(`正在分析${list.length}个角色, 请稍等`)
+
+      // 循环请求获取第一卖单价
       await queue(list.map(item => () => this.fetchDepth(item.id)))
 
       // 合并数据并计算分数
@@ -1497,7 +1499,7 @@ class Tinygrail extends store {
               mark: toFixed((parseFloat(item.rate) / asks[0].price) * 10, 1)
             }
           })
-          .filter(item => !!item)
+          .filter(item => !!item && parseFloat(item.mark) > 1)
           .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
         pagination: {
           page: 1,
@@ -1505,8 +1507,7 @@ class Tinygrail extends store {
         },
         _loaded: getTimestamp()
       }
-
-      info(`筛选到${list.length}个角色`)
+      info('分析完毕')
     }
 
     const key = 'advanceList'

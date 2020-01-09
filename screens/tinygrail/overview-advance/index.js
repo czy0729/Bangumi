@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 16:07:52
+ * @Last Modified time: 2020-01-08 23:53:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
 import Store from './store'
 
-const title = '卖一精选'
+const title = '卖一推荐'
 
 export default
 @inject(Store)
