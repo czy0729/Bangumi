@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 21:18:16
+ * @Last Modified time: 2020-01-09 17:59:31
  */
 
 /**
@@ -219,6 +219,14 @@ export default {
   '吐槽.回复失败': 'Say.recoveryContent',
 
   /* ==================== tinygrail(T) ==================== */
+  // 高级分析
+  '高级分析.跳转': 'TAdvance.to',
+  '高级分析.提示': 'TAdvance.alert',
+  '卖一推荐.跳转': 'TAdvanceAsk.to',
+  '卖一推荐.提示': 'TAdvanceAsk.alert',
+  '买一推荐.跳转': 'TAdvanceBid.to',
+  '买一推荐.提示': 'TAdvanceBid.alert',
+
   // 我的委托
   '我的委托.跳转': 'TBid.to',
   '我的委托.标签页切换': 'TBid.tabsChange',

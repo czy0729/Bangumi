@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:15:52
+ * @Last Modified time: 2020-01-09 14:49:36
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -11,6 +11,7 @@ import { Button } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
+import { SAY_TINYGRAIL_ID } from '@constants'
 
 function Btns(props, { $, navigation }) {
   const styles = memoStyles()
@@ -96,7 +97,7 @@ function Btns(props, { $, navigation }) {
         </Button>
       </Popover>
       <Popover
-        data={['重新授权', '人物直达', '设置']}
+        data={['重新授权', '人物直达', '意见反馈', '设置']}
         onSelect={title => {
           setTimeout(() => {
             switch (title) {
@@ -105,6 +106,11 @@ function Btns(props, { $, navigation }) {
                 break
               case '人物直达':
                 navigation.push('TinygrailSearch')
+                break
+              case '意见反馈':
+                navigation.push('Say', {
+                  id: SAY_TINYGRAIL_ID
+                })
                 break
               case '设置':
                 navigation.push('Setting')

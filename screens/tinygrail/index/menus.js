@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 13:52:53
+ * @Last Modified time: 2020-01-09 16:44:52
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { SAY_TINYGRAIL_ID } from '@constants'
 import MenuItem from './menu-item'
 import Assets from './assets'
 
@@ -64,7 +63,14 @@ function Menus(props, { $ }) {
       />
       <MenuItem title='资金日志' pathname='TinygrailLogs' icon='ri-zhi' />
       <MenuItem title='资金分析' pathname='TinygrailTree' icon='fen-xi' />
-      {/* <MenuItem title='人物直达' pathname='TinygrailSearch' icon='navigation' /> */}
+      <MenuItem
+        style={{
+          backgroundColor: 'rgb(39, 40, 46)'
+        }}
+        title='高级分析'
+        pathname='TinygrailAdvance'
+        icon='search'
+      />
       <MenuItem
         title='小组讨论'
         pathname='Group'
@@ -72,14 +78,6 @@ function Menus(props, { $ }) {
           groupId: 'tinygrail'
         }}
         icon='planet'
-      />
-      <MenuItem
-        title='意见反馈'
-        pathname='Say'
-        config={{
-          id: SAY_TINYGRAIL_ID
-        }}
-        icon='mail'
       />
     </Flex>
   )

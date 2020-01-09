@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 23:55:43
+ * @Last Modified time: 2020-01-09 16:24:48
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { log } from '@utils/dev'
-import { queue } from '@utils/fetch'
+import { queue, xhrCustom } from '@utils/fetch'
 import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import { LIST_EMPTY } from '@constants'
@@ -50,6 +50,7 @@ import {
   API_TINYGRAIL_ISSUE_PRICE,
   API_TINYGRAIL_TEMPLE_LAST
 } from '@constants/api'
+import UserStore from '../user'
 import {
   NAMESPACE,
   INIT_CHARACTERS_ITEM,
@@ -71,6 +72,11 @@ class Tinygrail extends store {
      * 授权cookie
      */
     cookie: '',
+
+    /**
+     * 高级会员
+     */
+    advance: false,
 
     /**
      * 人物数据
@@ -236,9 +242,14 @@ class Tinygrail extends store {
     templeLast: LIST_EMPTY,
 
     /**
-     * 精选角色
+     * 卖一推荐
      */
     advanceList: LIST_EMPTY,
+
+    /**
+     * 买一推荐
+     */
+    advanceBidList: LIST_EMPTY,
 
     /**
      * iOS此刻是否显示WebView
@@ -253,6 +264,7 @@ class Tinygrail extends store {
     this.readStorage(
       [
         'cookie',
+        'advance',
         'characters',
         'mvi',
         'recent',
@@ -275,7 +287,8 @@ class Tinygrail extends store {
         'valhallList',
         'auction',
         'issuePrice',
-        'advanceList'
+        'advanceList',
+        'advanceBidList'
       ],
       NAMESPACE
     )
@@ -283,6 +296,10 @@ class Tinygrail extends store {
   // -------------------- get --------------------
   @computed get cookie() {
     return this.state.cookie
+  }
+
+  @computed get advance() {
+    return this.state.advance
   }
 
   characters(id) {
@@ -381,6 +398,10 @@ class Tinygrail extends store {
     return this.state.advanceList
   }
 
+  @computed get advanceBidList() {
+    return this.state.advanceBidList
+  }
+
   // -------------------- fetch --------------------
   fetch = (url, isPost, data) => {
     log(`[axios] ${url}`)
@@ -398,6 +419,38 @@ class Tinygrail extends store {
       config.data = data
     }
     return axios(config)
+  }
+
+  /**
+   * 判断是否高级用户
+   */
+  fetchAdvance = async () => {
+    // 永久性质
+    if (this.advance) {
+      return true
+    }
+
+    if (!UserStore.myId) {
+      return false
+    }
+
+    try {
+      const { _response } = await xhrCustom({
+        url: 'https://czy0729.github.io/Bangumi/web/advance.json'
+      })
+      const advanceUserMap = JSON.parse(_response)
+
+      if (advanceUserMap[UserStore.myId]) {
+        const key = 'advance'
+        this.setState({
+          advance: true
+        })
+        this.setStorage(key, undefined, NAMESPACE)
+      }
+    } catch (error) {
+      warn(NAMESPACE, 'fetchAdvance', error)
+    }
+    return true
   }
 
   /**
@@ -1441,7 +1494,8 @@ class Tinygrail extends store {
   }
 
   /**
-   * 精选角色
+   * 卖一推荐
+   * 从市场查找
    */
   fetchAdvanceList = async () => {
     const result = await this.fetch(API_TINYGRAIL_LIST('recent', 1, 800))
@@ -1476,41 +1530,113 @@ class Tinygrail extends store {
     }
 
     if (list.length) {
-      info(`正在分析${list.length}个角色, 请稍等`)
+      try {
+        info(`正在分析市场中${list.length}个角色, 请稍等`)
 
-      // 循环请求获取第一卖单价
-      await queue(list.map(item => () => this.fetchDepth(item.id)))
+        // 循环请求获取第一卖单价
+        await queue(list.map(item => () => this.fetchDepth(item.id)))
 
-      // 合并数据并计算分数
-      data = {
-        list: list
-          .map(item => {
-            const { asks } = this.depth(item.id)
+        // 合并数据并计算分数
+        data = {
+          list: list
+            .map(item => {
+              const { asks } = this.depth(item.id)
 
-            // 列表有时有卖单数, 但是实际又没有人卖
-            if (!asks.length) {
-              return null
-            }
+              // 列表有时有卖单数, 但是实际又没有人卖
+              if (!asks.length) {
+                return null
+              }
 
-            return {
-              ...item,
-              firstAsks: asks[0].price,
-              firstAmount: asks[0].amount,
-              mark: toFixed((parseFloat(item.rate) / asks[0].price) * 10, 1)
-            }
-          })
-          .filter(item => !!item && parseFloat(item.mark) > 1)
-          .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
-        _loaded: getTimestamp()
+              return {
+                ...item,
+                firstAsks: asks[0].price,
+                firstAmount: asks[0].amount,
+                mark: toFixed((parseFloat(item.rate) / asks[0].price) * 10, 1)
+              }
+            })
+            .filter(item => !!item && parseFloat(item.mark) > 1)
+            .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded: getTimestamp()
+        }
+        info('分析完毕')
+      } catch (error) {
+        warn(NAMESPACE, 'fetchAdvanceList', error)
       }
-      info('分析完毕')
     }
 
     const key = 'advanceList'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 买一推荐
+   * 从自己持仓中查找
+   */
+  fetchAdvanceBidList = async () => {
+    await this.fetchMyCharaAssets()
+    const { chara = LIST_EMPTY } = this.myCharaAssets
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    const list = chara.list.filter(item => item.bids)
+    if (list.length) {
+      try {
+        info(`正在分析持仓中${list.length}个角色, 请稍等`)
+
+        // 循环请求获取第一买单价
+        await queue(list.map(item => () => this.fetchDepth(item.id)))
+
+        // 合并数据并计算分数
+        data = {
+          list: list
+            .map(item => {
+              const { bids } = this.depth(item.id)
+
+              // 列表有时有买单数, 但是实际又没有人买
+              if (!bids.length) {
+                return null
+              }
+
+              return {
+                id: item.id,
+                name: item.name,
+                icon: item.icon,
+                bids: item.bids,
+                current: item.current,
+                bonus: item.bonus,
+                rate: toFixed(item.rate, 2),
+                level: item.level,
+                amount: item.state,
+                firstBids: bids[0].price,
+                firstAmount: bids[0].amount,
+                mark: toFixed(bids[0].price / parseFloat(item.rate), 1)
+              }
+            })
+            .filter(item => !!item)
+            .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded: getTimestamp()
+        }
+        info('分析完毕')
+      } catch (error) {
+        warn(NAMESPACE, 'fetchAdvanceBidList', error)
+      }
+    }
+
+    const key = 'advanceBidList'
     this.setState({
       [key]: data
     })

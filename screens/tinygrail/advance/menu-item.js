@@ -1,26 +1,24 @@
 /*
  * @Author: czy0729
- * @Date: 2019-09-15 10:54:09
+ * @Date: 2020-01-09 16:41:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 14:46:19
+ * @Last Modified time: 2020-01-09 18:01:16
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
-const sectionHeight = sectionWidth / 2.4
+const sectionHeight = sectionWidth / 2
 
-function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
+function MenuItem({ navigation, style, pathname, config, title, icon }) {
   const styles = memoStyles()
   return (
     <Touchable
       style={styles.container}
       onPress={() => {
-        t('小圣杯.跳转', {
+        t('高级分析.跳转', {
           to: pathname,
           ...config
         })
@@ -44,11 +42,7 @@ function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
   )
 }
 
-MenuItem.contextTypes = {
-  navigation: PropTypes.object
-}
-
-export default observer(MenuItem)
+export default MenuItem
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
