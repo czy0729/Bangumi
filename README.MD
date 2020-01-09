@@ -60,41 +60,7 @@ v2.4.0 - 2020/01/07
 
 #### Page Preview
 
-#### 进度
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/11.png" width="200" alt="11" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/12.png" width="200" alt="12" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/13.png" width="200" alt="13" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/14.png" width="200" alt="14" />
-
-#### 条目 / 人物
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/21.png" width="200" alt="21" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/22.png" width="200" alt="22" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/23.png" width="200" alt="23" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/24.png" width="200" alt="24" />
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/31.png" width="200" alt="31" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/32.png" width="200" alt="32" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/33.png" width="200" alt="33" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/34.png" width="200" alt="34" />
-
-#### 发现
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/41.png" width="200" alt="41" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/42.png" width="200" alt="42" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/43.png" width="200" alt="43" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/44.png" width="200" alt="44" />
-
-#### 超展开
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/51.png" width="200" alt="51" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/52.png" width="200" alt="52" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/53.png" width="200" alt="53" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/54.png" width="200" alt="54" />
-
-#### 时间胶囊
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/61.png" width="200" alt="61" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/62.png" width="200" alt="62" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/63.png" width="200" alt="63" />
-
-#### 索引
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/71.png" width="200" alt="71" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/72.png" width="200" alt="72" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/73.png" width="200" alt="73" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/74.png" width="200" alt="74" />
-
-#### 空间 / 时光机
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/81.png" width="200" alt="81" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/82.png" width="200" alt="82" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/83.png" width="200" alt="83" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/84.png" width="200" alt="84" />
-
-#### 小圣杯 (新)
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/01.png" width="200" alt="01" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/02.png" width="200" alt="02" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/03.png" width="200" alt="03" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/04.png" width="200" alt="04" />
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/05.png" width="200" alt="05" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/06.png" width="200" alt="06" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/07.png" width="200" alt="07" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/08.png" width="200" alt="08" />
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/09.png" width="200" alt="09" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/10.png" width="200" alt="10" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-1.png" width="140" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-2.png" width="140" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-3.png" width="140" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-4.png" width="140" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-5.png" width="140" />
 
 #### Demo
 
