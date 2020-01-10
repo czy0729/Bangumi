@@ -55,11 +55,11 @@ v2.4.0 - 2020/01/07
 
 #### 基础功能
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/1.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/2.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/d-1.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/d-2.png" width="100%" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/1.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/d-2.png" width="100%" />
 
 #### 小圣杯模块
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-s1.png" width="100%" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-1.png" width="100%" />
 
 ## Demo
 
