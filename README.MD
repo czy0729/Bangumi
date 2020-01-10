@@ -6,24 +6,18 @@
 >
 > 尽量做到每个版本再各个板块都有新功能或优化
 
----
-
-#### Download
+## Download
 
 安卓 [[APK 下载]](https://github.com/czy0729/Bangumi/releases) | [[酷安下载]](https://www.coolapk.com/apk/235642)
 
 苹果好难审, 短时间内都没办法通过, 会跟苹果做长久作战. 目前有方法可以试用, 不会太复杂
 [TestFlight] | [[iOS 试用方法]](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
 
----
-
-#### Versions
+## Versions
 
 [CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
----
-
-#### Update
+## Update
 
 v2.4.0 - 2020/01/07
 
@@ -39,9 +33,7 @@ v2.4.0 - 2020/01/07
 - [x] [小圣杯助手] 稍微再优化了部分业务流程
 - [x] [小圣杯助手] 拖动条右方加入 [最大] 按钮
 
----
-
-#### Features
+## Features
 
 - 小圣杯 (更适合移动端交互的角色交易 air game)
 - 素材使用了主站上能找到的 (b38 求大佬贡献)
@@ -56,21 +48,19 @@ v2.4.0 - 2020/01/07
 - 好友 / 用户空间
 - 热门 / 随便看看 /每日放送 / 历年年鉴
 
----
+## Page Preview
 
-#### Page Preview
-
-## 基础功能
+#### 基础功能
 
 [黑暗模式预览图](https://github.com/czy0729/Bangumi/blob/master/web/DARK-MODE.MD)
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-3.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-4.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/1-5.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/2-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/2-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/2-3.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/2-4.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/2-5.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/3-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/4-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/4-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/4-3.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/4-4.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/4-5.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/5-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/5-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/5-3.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/5-4.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/5-5.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/6-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/6-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/6-3.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/6-4.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/6-5.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/7-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/7-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/8-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/8-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/7-3.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/7-4.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/light/7-5.png" width="145" />
 
-## 小圣杯模块
+#### 小圣杯模块
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-1-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-1-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-1-3.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-1-4.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-1-5.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-2-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-2-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-2-3.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-2-4.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-2-5.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-3-1.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-3-2.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-3-3.png" width="145" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/tinygrail/t-3-4.png" width="145" />
 
-#### Demo
+## Demo
 
 [若要在线预览, 请先安装 expo app](https://expo.io/tools)
 
@@ -80,9 +70,7 @@ v2.4.0 - 2020/01/07
 
 [expo 项目主页](https://expo.io/@a402731062/bangumi)
 
----
-
-#### PowerBy
+## PowerBy
 
 [[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
@@ -96,9 +84,7 @@ v2.4.0 - 2020/01/07
 
 [[app.anitama.net]](https://app.anitama.net) Anitama 接口
 
----
-
-#### Getting Started
+## Getting Started
 
 ** 下载 **
 
