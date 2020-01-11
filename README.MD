@@ -1,5 +1,11 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
+<p align="center">
+  <img alt="Version: 2.4.0" src="https://img.shields.io/badge/Version-2.4.0-0366d6" />
+  <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
+  <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
+</p>
+
 ---
 
 一个基于`React-Native`的 [Bangumi](https://bgm.tv) 第三方客户端
@@ -10,7 +16,7 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Download
 
-安卓 [[APK 下载]](https://github.com/czy0729/Bangumi/releases) | [[酷安下载]](https://www.coolapk.com/apk/235642)
+安卓 [APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安下载](https://www.coolapk.com/apk/235642)
 
 苹果好难审, 短时间内都没办法通过, 会跟苹果做长久作战. 目前有方法可以试用, 不会太复杂
 [TestFlight] | [[iOS 试用方法]](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
@@ -52,8 +58,7 @@ v2.4.0 - 2020/01/07
 
 ## Page Preview
 
-[日间模式详细](https://github.com/czy0729/Bangumi/blob/master/web/LIGHT-MODE.MD)
-[黑暗模式详细](https://github.com/czy0729/Bangumi/blob/master/web/DARK-MODE.MD)
+单独预览 [日间模式](https://github.com/czy0729/Bangumi/blob/master/web/LIGHT-MODE.MD) | [黑暗模式](https://github.com/czy0729/Bangumi/blob/master/web/DARK-MODE.MD)
 
 #### 基础功能
 
