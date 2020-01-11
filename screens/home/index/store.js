@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 16:59:08
+ * @Last Modified time: 2020-01-11 17:07:48
  */
 import { observable, computed } from 'mobx'
 import {
@@ -99,15 +99,20 @@ export default class ScreenHome extends store {
         const { subject_id: subjectId } = item
         const { _loaded } = this.subjectEp(subjectId)
 
-        // 被动请求
+        /**
+         * 被动请求
+         * cloudfare请求太快会被拒绝
+         */
         if (refresh || !_loaded) {
           await subjectStore.fetchSubjectEp(subjectId)
-          await sleep(400)
+          await sleep(240)
         }
       }
     }
     return res
   }
+
+  onHeaderRefresh = () => this.initFetch(true)
 
   // -------------------- get --------------------
   @computed get backgroundColor() {
@@ -140,6 +145,26 @@ export default class ScreenHome extends store {
    */
   @computed get userCollection() {
     return userStore.userCollection
+  }
+
+  /**
+   * 列表当前数据
+   */
+  currentUserCollection(title) {
+    return computed(() => {
+      const userCollection = {
+        ...this.userCollection
+      }
+      const type = MODEL_SUBJECT_TYPE.getValue(title)
+      if (type) {
+        userCollection.list = userCollection.list.filter(
+          item => item.subject.type == type
+        )
+      }
+      userCollection.list = this.sortList(userCollection.list)
+
+      return userCollection
+    }).get()
   }
 
   /**

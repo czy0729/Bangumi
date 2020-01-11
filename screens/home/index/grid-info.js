@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 11:28:27
+ * @Last Modified time: 2020-01-11 17:49:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -35,12 +35,37 @@ class GridInfo extends React.Component {
       from: 'grid',
       subjectId
     })
+
     navigation.push('Subject', {
       subjectId,
       _jp: subject.name,
       _cn: subject.name_cn || subject.name,
       _image: getCoverMedium(subject.images.medium)
     })
+  }
+
+  onEpsSelect = (value, item) => {
+    const { $, navigation } = this.context
+    const { subjectId } = this.props
+    $.doEpsSelect(value, item, subjectId, navigation)
+  }
+
+  onEpsLongPress = item => {
+    const { $ } = this.context
+    const { subjectId } = this.props
+    $.doEpsLongPress(item, subjectId)
+  }
+
+  onCheckPress = () => {
+    const { $ } = this.context
+    const { subjectId } = this.props
+    $.doWatchedNextEp(subjectId)
+  }
+
+  onStarPress = () => {
+    const { $ } = this.context
+    const { subjectId } = this.props
+    $.showManageModal(subjectId)
   }
 
   renderBtnNextEp() {
@@ -52,10 +77,7 @@ class GridInfo extends React.Component {
     }
 
     return (
-      <Touchable
-        style={styles.touchable}
-        onPress={() => $.doWatchedNextEp(subjectId)}
-      >
+      <Touchable style={styles.touchable} onPress={this.onCheckPress}>
         <Flex justify='center'>
           <Iconfont style={styles.icon} name='check' size={16} />
           <View style={[styles.placeholder, _.ml.sm]}>
@@ -69,14 +91,12 @@ class GridInfo extends React.Component {
   }
 
   renderToolBar() {
-    const { $ } = this.context
-    const { subjectId } = this.props
     return (
       <Flex>
         {this.renderBtnNextEp()}
         <Touchable
           style={[styles.touchable, _.ml.sm]}
-          onPress={() => $.showManageModal(subjectId)}
+          onPress={this.onStarPress}
         >
           <Iconfont name='star' size={16} />
         </Touchable>
@@ -106,7 +126,7 @@ class GridInfo extends React.Component {
               / ?
             </Text>
           </Flex>
-          {this.renderBookNextBtn(subjectId, epStatus + 1, volStatus)}
+          {this.renderBookNextBtn(epStatus + 1, volStatus)}
           <Flex style={_.ml.md} align='baseline'>
             <Text type='primary' size={10} lineHeight={1}>
               Vol.
@@ -118,7 +138,7 @@ class GridInfo extends React.Component {
               / ?
             </Text>
           </Flex>
-          {this.renderBookNextBtn(subjectId, epStatus, volStatus + 1)}
+          {this.renderBookNextBtn(epStatus, volStatus + 1)}
         </Flex>
       )
     }
@@ -135,8 +155,9 @@ class GridInfo extends React.Component {
     )
   }
 
-  renderBookNextBtn(subjectId, epStatus, volStatus) {
+  renderBookNextBtn(epStatus, volStatus) {
     const { $ } = this.context
+    const { subjectId } = this.props
     return (
       <Touchable
         style={styles.touchable}
@@ -150,7 +171,7 @@ class GridInfo extends React.Component {
   }
 
   render() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     const { subjectId, subject } = this.props
     const isToday = $.isToday(subjectId)
     const isNextDay = $.isNextDay(subjectId)
@@ -207,10 +228,8 @@ class GridInfo extends React.Component {
             subjectId={subjectId}
             eps={$.eps(subjectId)}
             userProgress={$.userProgress(subjectId)}
-            onSelect={(value, item, subjectId) =>
-              $.doEpsSelect(value, item, subjectId, navigation)
-            }
-            onLongPress={item => $.doEpsLongPress(item, subjectId)}
+            onSelect={this.onEpsSelect}
+            onLongPress={this.onEpsLongPress}
           />
         </Flex.Item>
       </Flex>

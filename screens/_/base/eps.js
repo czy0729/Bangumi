@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 16:50:59
+ * @Last Modified time: 2020-01-11 17:22:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -27,8 +27,8 @@ class Eps extends React.Component {
     canPlay: false, // 有播放源
     eps: [], // 章节数据
     userProgress: {}, // 用户收藏记录
-    onSelect: Function.prototype, // 操作选择
-    onLongPress: Function.prototype // 按钮长按
+    onSelect: Function.prototype, // 操作选择 (value, item, subjectId) => void
+    onLongPress: Function.prototype // 按钮长按 (item) => void
   }
 
   static pageLimit = 32 // 1页32个

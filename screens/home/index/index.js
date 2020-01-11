@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 22:56:18
+ * @Last Modified time: 2020-01-11 15:47:13
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -26,6 +26,9 @@ import Grid from './grid'
 import Store, { tabs } from './store'
 
 const title = '首页'
+const forceInset = {
+  top: 'never'
+}
 
 export default
 @inject(Store)
@@ -91,31 +94,25 @@ class Home extends React.Component {
     }, 2000)
   }
 
+  onWillFocus = () => {
+    const { navigation } = this.context
+    navigation.navigate('Auth')
+  }
+
   render() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     if (!$.isLogin) {
-      return (
-        <NavigationEvents
-          onWillFocus={() => {
-            navigation.navigate('Auth')
-          }}
-        />
-      )
+      return <NavigationEvents onWillFocus={this.onWillFocus} />
     }
 
     const { grid, visible, subjectId, _loaded } = $.state
     if (!_loaded) {
-      return (
-        <SafeAreaView
-          style={_.container.screen}
-          forceInset={{ top: 'never' }}
-        />
-      )
+      return <SafeAreaView style={_.container.screen} forceInset={forceInset} />
     }
 
     const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
-      <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
+      <SafeAreaView style={_.container.screen} forceInset={forceInset}>
         <NavigationBarEvents />
         <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
           {tabs.map(({ title }) =>

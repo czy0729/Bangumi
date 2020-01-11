@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-01 22:37:52
+ * @Last Modified time: 2020-01-11 17:17:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,11 +11,10 @@ import { observer } from 'mobx-react'
 import { Loading, ListView, Flex, Text, Mesume } from '@components'
 import { _ } from '@stores'
 import { IOS } from '@constants'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import GridInfo from './grid-info'
 import GridItem from './grid-item'
 
-const correctHeightIOS = 14 // @issue iOS端头部高度误差修正值
+const correctHeightIOS = 14 // iOS端头部高度误差修正值
 const listViewProps = IOS
   ? {
       contentOffset: {
@@ -24,7 +23,7 @@ const listViewProps = IOS
     }
   : {}
 
-class List extends React.Component {
+class Grid extends React.Component {
   static defaultProps = {
     title: '全部'
   }
@@ -36,7 +35,7 @@ class List extends React.Component {
   listView
 
   componentDidMount() {
-    // @notice iOS端不知道原因, 初次渲染会看见下拉刷新的文字
+    // iOS端不知道原因, 初次渲染会看见下拉刷新的文字
     if (IOS && this.listView) {
       try {
         this.listView.scrollToIndex({
@@ -45,9 +44,22 @@ class List extends React.Component {
           viewOffset: 0
         })
       } catch (error) {
-        // do nothing
+        warn('HomeGrid', 'componentDidMount', error)
       }
     }
+  }
+
+  connectRef = ref => (this.listView = ref)
+
+  renderEmpty() {
+    return (
+      <Flex style={styles.noSelect} justify='center' direction='column'>
+        <Mesume size={80} />
+        <Text style={_.mt.sm} type='sub' align='center'>
+          请点击下方条目
+        </Text>
+      </Flex>
+    )
   }
 
   render() {
@@ -57,20 +69,8 @@ class List extends React.Component {
       return <Loading />
     }
 
-    // 筛选当前类型
-    const userCollection = {
-      ...$.userCollection
-    }
-    const type = MODEL_SUBJECT_TYPE.getValue(title)
-    if (type) {
-      userCollection.list = userCollection.list.filter(
-        item => item.subject.type == type
-      )
-    }
-    userCollection.list = $.sortList(userCollection.list)
-
-    // 当前条目数据
     const { current } = $.state
+    const userCollection = $.currentUserCollection(title)
     const find = userCollection.list.find(item => item.subject_id === current)
     return (
       <View style={styles.container}>
@@ -82,24 +82,19 @@ class List extends React.Component {
               epStatus={find.ep_status}
             />
           ) : (
-            <Flex style={styles.noSelect} justify='center' direction='column'>
-              <Mesume size={80} />
-              <Text style={_.mt.sm} type='sub' align='center'>
-                请点击下方条目
-              </Text>
-            </Flex>
+            this.renderEmpty()
           )}
         </View>
         <ListView
-          ref={ref => (this.listView = ref)}
+          ref={this.connectRef}
           contentContainerStyle={styles.grid}
-          numColumns={4}
-          keyExtractor={item => String(item.subject_id)}
+          keyExtractor={keyExtractor}
           data={userCollection}
-          renderItem={({ item }) => <GridItem {...item} />}
-          footerNoMoreDataText=''
+          numColumns={4}
           footerNoMoreDataComponent={<View />}
-          onHeaderRefresh={() => $.initFetch(true)}
+          footerNoMoreDataText=''
+          renderItem={renderItem}
+          onHeaderRefresh={$.onHeaderRefresh}
           {...listViewProps}
         />
       </View>
@@ -107,7 +102,7 @@ class List extends React.Component {
   }
 }
 
-export default observer(List)
+export default observer(Grid)
 
 const styles = StyleSheet.create({
   container: {
@@ -127,3 +122,10 @@ const styles = StyleSheet.create({
     paddingBottom: _.tabBarHeight + _.sm
   }
 })
+
+function keyExtractor(item) {
+  return String(item.subject_id)
+}
+function renderItem({ item }) {
+  return <GridItem {...item} />
+}

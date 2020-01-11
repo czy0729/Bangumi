@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:19:47
+ * @Last Modified time: 2020-01-11 16:43:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,9 +16,12 @@ import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
+const colorDark = {
+  color: _.colorDark
+}
+
 class Item extends React.Component {
   static defaultProps = {
-    top: false,
     subjectId: 0,
     subject: {},
     epStatus: ''
@@ -52,65 +55,62 @@ class Item extends React.Component {
     const isTop = top.indexOf(subjectId) !== -1
     const data = [
       {
-        text: (
-          <Text
-            style={{
-              color: _.colorDark
-            }}
-          >
-            全部展开
-          </Text>
-        ),
-        onPress: () => {
-          $.expandAll()
-        }
+        text: <Text style={colorDark}>全部展开</Text>,
+        onPress: $.expandAll
       },
       {
-        text: (
-          <Text
-            style={{
-              color: _.colorDark
-            }}
-          >
-            全部收起
-          </Text>
-        ),
-        onPress: () => {
-          $.closeAll()
-        }
+        text: <Text style={colorDark}>全部收起</Text>,
+        onPress: $.closeAll
       },
       {
-        text: (
-          <Text
-            style={{
-              color: _.colorDark
-            }}
-          >
-            置顶
-          </Text>
-        ),
-        onPress: () => {
-          $.itemToggleTop(subjectId, true)
-        }
+        text: <Text style={colorDark}>置顶</Text>,
+        onPress: () => $.itemToggleTop(subjectId, true)
       }
     ]
     if (isTop) {
       data.push({
-        text: (
-          <Text
-            style={{
-              color: _.colorDark
-            }}
-          >
-            取消置顶
-          </Text>
-        ),
-        onPress: () => {
-          $.itemToggleTop(subjectId, false)
-        }
+        text: <Text style={colorDark}>取消置顶</Text>,
+        onPress: () => $.itemToggleTop(subjectId, false)
       })
     }
     Modal.operation(data)
+  }
+
+  onEpsSelect = (value, item) => {
+    const { $, navigation } = this.context
+    const { subjectId } = this.props
+    $.doEpsSelect(value, item, subjectId, navigation)
+  }
+
+  onEpsLongPress = item => {
+    const { $ } = this.context
+    const { subjectId } = this.props
+    $.doEpsLongPress(item, subjectId)
+  }
+
+  onCheckPress = () => {
+    const { $ } = this.context
+    const { subjectId } = this.props
+    $.doWatchedNextEp(subjectId)
+  }
+
+  onStarPress = () => {
+    const { $ } = this.context
+    const { subjectId } = this.props
+    $.showManageModal(subjectId)
+  }
+
+  onGridPress = () => {
+    const { $ } = this.context
+    const { subjectId } = this.props
+    $.itemToggleExpand(subjectId)
+  }
+
+  get isTop() {
+    const { $ } = this.context
+    const { subjectId } = this.props
+    const { top } = $.state
+    return top.indexOf(subjectId) !== -1
   }
 
   renderBtnNextEp() {
@@ -122,10 +122,7 @@ class Item extends React.Component {
     }
 
     return (
-      <Touchable
-        style={this.styles.touchable}
-        onPress={() => $.doWatchedNextEp(subjectId)}
-      >
+      <Touchable style={this.styles.touchable} onPress={this.onCheckPress}>
         <Flex justify='center'>
           <Iconfont style={this.styles.icon} name='check' size={16} />
           <View style={[this.styles.placeholder, _.ml.sm]}>
@@ -148,14 +145,14 @@ class Item extends React.Component {
         {this.renderBtnNextEp()}
         <Touchable
           style={[this.styles.touchable, _.ml.sm]}
-          onPress={() => $.showManageModal(subjectId)}
+          onPress={this.onStarPress}
         >
           <Iconfont name='star' size={16} />
         </Touchable>
         {!isBook && (
           <Touchable
             style={[this.styles.touchable, _.ml.sm]}
-            onPress={() => $.itemToggleExpand(subjectId)}
+            onPress={this.onGridPress}
           >
             <Iconfont
               name={expand ? 'grid-full' : 'grid-half'}
@@ -195,7 +192,7 @@ class Item extends React.Component {
               / ?
             </Text>
           </Flex>
-          {this.renderBookNextBtn(subjectId, epStatus + 1, volStatus)}
+          {this.renderBookNextBtn(epStatus + 1, volStatus)}
           <Flex style={_.ml.md} align='baseline'>
             <Text type='primary' size={10} lineHeight={1}>
               Vol.
@@ -207,7 +204,7 @@ class Item extends React.Component {
               / ?
             </Text>
           </Flex>
-          {this.renderBookNextBtn(subjectId, epStatus, volStatus + 1)}
+          {this.renderBookNextBtn(epStatus, volStatus + 1)}
         </Flex>
       )
     }
@@ -224,8 +221,9 @@ class Item extends React.Component {
     )
   }
 
-  renderBookNextBtn(subjectId, epStatus, volStatus) {
+  renderBookNextBtn(epStatus, volStatus) {
     const { $ } = this.context
+    const { subjectId } = this.props
     return (
       <Touchable
         style={this.styles.touchable}
@@ -239,8 +237,8 @@ class Item extends React.Component {
   }
 
   render() {
-    const { $, navigation } = this.context
-    const { top, subjectId, subject } = this.props
+    const { $ } = this.context
+    const { subjectId, subject } = this.props
     const { expand } = $.$Item(subjectId)
     const isToday = $.isToday(subjectId)
     const isNextDay = $.isNextDay(subjectId)
@@ -258,11 +256,7 @@ class Item extends React.Component {
               onPress={this.onPress}
               onLongPress={this.onLongPress}
             />
-            <Flex.Item
-              style={{
-                marginLeft: 12
-              }}
-            >
+            <Flex.Item style={this.styles.content}>
               <Touchable withoutFeedback onPress={this.onPress}>
                 <Flex align='start'>
                   <Flex.Item style={this.styles.title}>
@@ -312,13 +306,11 @@ class Item extends React.Component {
               subjectId={subjectId}
               eps={$.eps(subjectId)}
               userProgress={$.userProgress(subjectId)}
-              onSelect={(value, item, subjectId) =>
-                $.doEpsSelect(value, item, subjectId, navigation)
-              }
-              onLongPress={item => $.doEpsLongPress(item, subjectId)}
+              onSelect={this.onEpsSelect}
+              onLongPress={this.onEpsLongPress}
             />
           )}
-          {top && <View style={this.styles.dot} />}
+          {this.isTop && <View style={this.styles.dot} />}
         </View>
       </Shadow>
     )
@@ -343,6 +335,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   hd: {
     paddingRight: _.wind
+  },
+  content: {
+    marginLeft: 12
   },
   toolBar: {
     marginRight: -8
