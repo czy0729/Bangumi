@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 15:30:12
+ * @Last Modified time: 2020-01-12 22:35:24
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -44,6 +44,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind,
     paddingLeft: _.xs,
     margin: _.wind,
+    backgroundColor: _.colorPlain,
     borderWidth: 1,
     borderColor: _.colorMain,
     borderRadius: _.radiusSm

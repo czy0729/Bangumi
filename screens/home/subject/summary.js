@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 19:45:43
+ * @Last Modified time: 2020-01-12 22:37:50
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, Text } from '@components'
@@ -19,6 +19,7 @@ function Summary({ style }, { $ }) {
     return null
   }
 
+  const styles = memoStyles()
   const content = (summary || _summary || '').replace('\r\n\r\n', '\r\n')
   return (
     <View style={[_.container.wind, styles.container, style]}>
@@ -40,8 +41,9 @@ Summary.contextTypes = {
 
 export default observer(Summary)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 120
+    minHeight: 120,
+    backgroundColor: _.colorPlain
   }
-})
+}))

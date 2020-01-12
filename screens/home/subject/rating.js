@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 18:40:00
+ * @Last Modified time: 2020-01-12 22:41:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -89,7 +89,7 @@ class Ranting extends React.Component {
     const { friend = {} } = $.subjectFormHTML
     return (
       <>
-        <Flex style={_.mt.md}>
+        <Flex style={[this.styles.container, _.mt.md]}>
           {Object.keys(rating.count)
             .reverse()
             .map((item, index) => (
@@ -163,6 +163,9 @@ class Ranting extends React.Component {
 export default observer(Ranting)
 
 const memoStyles = _.memoStyles(_ => ({
+  container: {
+    backgroundColor: _.colorPlain
+  },
   item: {
     height: 80,
     paddingBottom: _.xs,

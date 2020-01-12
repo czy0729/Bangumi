@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 20:11:35
+ * @Last Modified time: 2020-01-12 22:25:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -31,6 +31,10 @@ const sitesDS = [
   'qq',
   'mgtv'
 ]
+const refreshControlProps = {
+  tintColor: _.__colorPlain__,
+  titleColor: _.__colorPlain__
+}
 
 export default
 @inject(Store)
@@ -119,8 +123,32 @@ class Subject extends React.Component {
     hm(`subject/${$.params.subjectId}`, 'Subject')
   }
 
-  render() {
+  renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
+    const event = {
+      id: '条目.跳转',
+      data: {
+        from: '吐槽箱',
+        subjectId: $.subjectId
+      }
+    }
+    return (
+      <ItemComment
+        navigation={navigation}
+        event={event}
+        index={index}
+        time={item.time}
+        avatar={item.avatar}
+        userId={item.userId}
+        userName={item.userName}
+        star={$.hideScore ? undefined : item.star}
+        comment={item.comment}
+      />
+    )
+  }
+
+  render() {
+    const { $ } = this.context
     const { visible, _loaded } = $.state
     if (!_loaded) {
       return null
@@ -130,13 +158,6 @@ class Subject extends React.Component {
     const { name_cn: nameCn, name, images = {} } = $.subject
     const { _image } = $.params
     const image = images.medium || _image
-    const event = {
-      id: '条目.跳转',
-      data: {
-        from: '吐槽箱',
-        subjectId: $.subjectId
-      }
-    }
     return (
       <View style={_.container.content}>
         <BlurView
@@ -146,29 +167,14 @@ class Subject extends React.Component {
           src={_image || image}
         />
         <ListView
-          style={_.container.flex}
+          style={styles.listView}
           contentContainerStyle={styles.contentContainerStyle}
-          keyExtractor={item => String(item.id)}
+          keyExtractor={keyExtractor}
           data={$.subjectComments}
           scrollEventThrottle={16}
-          refreshControlProps={{
-            tintColor: _.__colorPlain__,
-            titleColor: _.__colorPlain__
-          }}
+          refreshControlProps={refreshControlProps}
           ListHeaderComponent={<Header />}
-          renderItem={({ item, index }) => (
-            <ItemComment
-              navigation={navigation}
-              index={index}
-              time={item.time}
-              avatar={item.avatar}
-              userId={item.userId}
-              userName={item.userName}
-              star={$.hideScore ? undefined : item.star}
-              comment={item.comment}
-              event={event}
-            />
-          )}
+          renderItem={this.renderItem}
           onScroll={onScroll}
           onHeaderRefresh={$.init}
           onFooterRefresh={$.fetchSubjectComments}
@@ -195,8 +201,16 @@ const styles = StyleSheet.create({
     right: 0,
     height: IOS ? _.window.height * 0.32 : 160 // iOS有弹簧, 所以拉下来太矮会看见背景
   },
+  listView: {
+    ..._.container.flex,
+    zIndex: 1
+  },
   contentContainerStyle: {
     paddingTop: _.headerHeight,
     paddingBottom: _.space
   }
 })
+
+function keyExtractor(item) {
+  return String(item.id)
+}

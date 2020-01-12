@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:54:07
+ * @Last Modified time: 2020-01-12 22:09:54
  */
 
 /**
@@ -226,8 +226,8 @@ export default {
   '卖一推荐.提示': 'TAdvanceAsk.alert',
   '买一推荐.跳转': 'TAdvanceBid.to',
   '买一推荐.提示': 'TAdvanceBid.alert',
-  '拍卖推荐.跳转': 'TAdvanceAuction.to',
-  '拍卖推荐.提示': 'TAdvanceAuction.alert',
+  '竞拍推荐.跳转': 'TAdvanceAuction.to',
+  '竞拍推荐.提示': 'TAdvanceAuction.alert',
 
   // 我的委托
   '我的委托.跳转': 'TBid.to',

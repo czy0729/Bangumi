@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:08:33
+ * @Last Modified time: 2020-01-12 22:49:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,8 +18,9 @@ function Like({ style }, { $, navigation }) {
     return null
   }
 
+  const styles = memoStyles()
   return (
-    <View style={style}>
+    <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>猜你喜欢</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
@@ -49,3 +50,9 @@ Like.contextTypes = {
 }
 
 export default observer(Like)
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    backgroundColor: _.colorPlain
+  }
+}))

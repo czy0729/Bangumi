@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:20:33
+ * @Last Modified time: 2020-01-12 22:31:45
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -11,6 +11,7 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
   SORT_GX,
+  SORT_GXB,
   SORT_CGS,
   SORT_CCJZ,
   SORT_HYD,
@@ -18,7 +19,8 @@ import {
   SORT_FHL,
   SORT_DQJ,
   SORT_DQZD,
-  SORT_XFJL
+  SORT_XFJL,
+  SORT_DJ
 } from '../_/utils'
 
 export const tabs = [
@@ -36,15 +38,17 @@ export const tabs = [
   }
 ]
 export const sortDS = [
-  SORT_GX,
-  SORT_CGS,
-  SORT_CCJZ,
   SORT_HYD,
-  SORT_SCJ,
-  SORT_FHL,
+  SORT_CGS,
+  SORT_GX,
+  SORT_GXB,
   SORT_DQJ,
+  SORT_SCJ,
   SORT_DQZD,
-  SORT_XFJL
+  SORT_DJ,
+  SORT_CCJZ,
+  SORT_XFJL,
+  SORT_FHL
 ]
 const namespace = 'ScreenTinygrailCharaAssets'
 

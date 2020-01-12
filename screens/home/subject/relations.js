@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 17:50:03
+ * @Last Modified time: 2020-01-12 22:48:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ function Relations({ style }, { $, navigation }) {
     return null
   }
 
+  const styles = memoStyles()
   const data = relations.map(({ id, image, title, type }) => ({
     id,
     image,
@@ -25,7 +26,7 @@ function Relations({ style }, { $, navigation }) {
     desc: type
   }))
   return (
-    <View style={style}>
+    <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>关联</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
@@ -56,3 +57,9 @@ Relations.contextTypes = {
 }
 
 export default observer(Relations)
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    backgroundColor: _.colorPlain
+  }
+}))

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 17:48:33
+ * @Last Modified time: 2020-01-12 22:37:09
  */
 import React from 'react'
-import { Alert, StyleSheet, View } from 'react-native'
+import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Button, Icon, Text, Touchable } from '@components'
@@ -14,6 +14,7 @@ import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
 
 function Box({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { collection = {} } = $.subject
   const { formhash } = $.subjectFormHTML
   const { wish, collect, doing, on_hold: onHold, dropped } = collection
@@ -115,9 +116,10 @@ Box.contextTypes = {
 
 export default observer(Box)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 120
+    minHeight: 120,
+    backgroundColor: _.colorPlain
   },
   touchable: {
     ..._.shadow
@@ -130,4 +132,4 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   }
-})
+}))

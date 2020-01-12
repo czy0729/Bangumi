@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:07:05
+ * @Last Modified time: 2020-01-12 22:39:31
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, RenderHtml } from '@components'
@@ -14,6 +14,7 @@ import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 
 function Info({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { info } = $.subjectFormHTML
   return (
     <View style={[styles.container, style]}>
@@ -56,11 +57,12 @@ Info.contextTypes = {
 
 export default observer(Info)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 120
+    minHeight: 120,
+    backgroundColor: _.colorPlain
   },
   info: {
     paddingHorizontal: _.wind
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 15:53:45
+ * @Last Modified time: 2020-01-12 22:46:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ function Character({ style }, { $, navigation }) {
     return null
   }
 
+  const styles = memoStyles()
   const data = crt.map(
     ({
       id,
@@ -36,7 +37,7 @@ function Character({ style }, { $, navigation }) {
     })
   )
   return (
-    <View style={style}>
+    <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>角色</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
@@ -66,3 +67,9 @@ Character.contextTypes = {
 }
 
 export default observer(Character)
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    backgroundColor: _.colorPlain
+  }
+}))

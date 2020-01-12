@@ -2,15 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:11:41
+ * @Last Modified time: 2020-01-12 22:29:20
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { SORT_GX, SORT_HYD, SORT_DQJ, SORT_DQZD, SORT_XFJL } from '../_/utils'
+import {
+  SORT_GX,
+  SORT_GXB,
+  SORT_HYD,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_XFJL,
+  SORT_DJ
+} from '../_/utils'
 
-export const sortDS = [SORT_HYD, SORT_GX, SORT_DQJ, SORT_DQZD, SORT_XFJL]
+export const sortDS = [
+  SORT_HYD,
+  SORT_GX,
+  SORT_GXB,
+  SORT_DQJ,
+  SORT_DQZD,
+  SORT_DJ,
+  SORT_XFJL
+]
 const namespace = 'ScreenTinygrailValhall'
 
 export default class ScreenTinygrailValhall extends store {

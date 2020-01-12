@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 21:21:17
+ * @Last Modified time: 2020-01-12 22:36:42
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
@@ -28,6 +28,7 @@ function Ep({ style }, { $, navigation }) {
     return <Disc style={style} />
   }
 
+  const styles = memoStyles()
   const { eps } = $.subjectEp
   const { epsReverse } = $.state
   const canPlay = $.onlinePlayActionSheetData.length >= 2
@@ -79,9 +80,10 @@ Ep.contextTypes = {
 
 export default observer(Ep)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     minHeight: 146,
-    marginLeft: _.wind
+    marginLeft: _.wind,
+    backgroundColor: _.colorPlain
   }
-})
+}))
