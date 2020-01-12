@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 14:59:57
+ * @Last Modified time: 2020-01-12 20:25:12
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -11,9 +11,10 @@ import { observer } from 'mobx-react'
 import { Iconfont, Text } from '@components'
 import { Popover, IconBack } from '@screens/_'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { open, copy } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { info } from '@utils/ui'
 import { IOS, HOST } from '@constants'
 import Head from './head'
 import { height, headerHeight } from './store'
@@ -46,7 +47,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
       }
     ]
   }
-  const data = ['浏览器查看', 'TA的好友', 'TA的收藏信息']
+  const data = ['浏览器查看', '复制链接', 'TA的好友', 'TA的收藏信息']
   if ($.users.connectUrl) {
     data.push('加为好友')
   } else if ($.users.disconnectUrl) {
@@ -143,6 +144,10 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             switch (key) {
               case '浏览器查看':
                 open(`${HOST}/user/${username}`)
+                break
+              case '复制链接':
+                copy(`${HOST}/user/${username}`)
+                info('已复制')
                 break
               case 'TA的好友':
                 navigation.push('Friends', {

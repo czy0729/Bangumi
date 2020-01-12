@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 17:09:40
+ * @Last Modified time: 2020-01-12 20:17:01
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { ItemTopic, IconHeader, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { open, copy } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
+import { info } from '@utils/ui'
 import { HOST } from '@constants'
 import Info from './info'
 import Store from './store'
@@ -50,7 +51,7 @@ class Mono extends React.Component {
 
     navigation.setParams({
       popover: {
-        data: ['浏览器查看'],
+        data: ['浏览器查看', '复制链接'],
         onSelect: key => {
           t('人物.右上角菜单', {
             key
@@ -59,6 +60,10 @@ class Mono extends React.Component {
           switch (key) {
             case '浏览器查看':
               open(`${HOST}/${$.monoId}`)
+              break
+            case '复制链接':
+              copy(`${HOST}/${$.monoId}`)
+              info('已复制')
               break
             default:
               break

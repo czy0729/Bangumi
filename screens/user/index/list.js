@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 19:12:19
+ * @Last Modified time: 2020-01-12 19:35:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -39,8 +39,38 @@ class List extends React.Component {
     }
   }
 
-  render() {
+  renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
+    const { list } = $.state
+    const isDo = $.type === 'do'
+    const isOnHold = $.type === 'on_hold'
+    const isDropped = $.type === 'dropped'
+    const event = {
+      id: '我的.跳转'
+    }
+    return list ? (
+      <ItemCollections
+        navigation={navigation}
+        index={index}
+        isDo={isDo}
+        isOnHold={isOnHold}
+        isDropped={isDropped}
+        event={event}
+        {...item}
+      />
+    ) : (
+      <ItemCollectionsGrid
+        navigation={navigation}
+        index={index}
+        isOnHold={isOnHold}
+        event={event}
+        {...item}
+      />
+    )
+  }
+
+  render() {
+    const { $ } = this.context
     const { subjectType, title, ...other } = this.props
     const { hide } = this.state
     if (hide) {
@@ -57,44 +87,22 @@ class List extends React.Component {
 
     const { list } = $.state
     const numColumns = list ? undefined : 4
-    const isDo = $.type === 'do'
-    const isOnHold = $.type === 'on_hold'
-    const isDropped = $.type === 'dropped'
-    const event = {
-      id: '我的.跳转'
-    }
     return (
       <ListView
         key={String(numColumns)}
-        numColumns={numColumns}
+        keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
-        keyExtractor={item => item.id}
         data={userCollections}
-        renderItem={({ item, index }) =>
-          list ? (
-            <ItemCollections
-              navigation={navigation}
-              index={index}
-              isDo={isDo}
-              isOnHold={isOnHold}
-              isDropped={isDropped}
-              event={event}
-              {...item}
-            />
-          ) : (
-            <ItemCollectionsGrid
-              navigation={navigation}
-              index={index}
-              isOnHold={isOnHold}
-              event={event}
-              {...item}
-            />
-          )
-        }
-        onHeaderRefresh={() => $.fetchUserCollections(true)}
+        numColumns={numColumns}
+        renderItem={this.renderItem}
+        onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchUserCollections}
         {...other}
       />
     )
   }
+}
+
+function keyExtractor(item) {
+  return String(item.id)
 }

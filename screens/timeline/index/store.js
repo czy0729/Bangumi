@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 16:43:50
+ * @Last Modified time: 2020-01-12 19:32:18
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -40,6 +40,8 @@ export default class ScreenTimeline extends store {
 
     return res
   }
+
+  onHeaderRefresh = () => this.fetchTimeline(true)
 
   // -------------------- get --------------------
   @computed get backgroundColor() {

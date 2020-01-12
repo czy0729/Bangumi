@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 22:08:26
+ * @Last Modified time: 2020-01-12 18:12:44
  */
 import { Platform } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
@@ -32,7 +32,10 @@ const config = {
     }),
     headerRightContainerStyle: {
       paddingRight: _.wind
-    }
+    },
+    headerTitleAllowFontScaling: false,
+    headerBackAllowFontScaling: false,
+    transparentCard: true
   }
   // gestureEnabled: true // 安卓开启手势退后
 }

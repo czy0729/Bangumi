@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 14:34:09
+ * @Last Modified time: 2020-01-12 19:26:22
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -64,6 +64,8 @@ export default class ScreenRakuen extends store {
 
     return res
   }
+
+  onHeaderRefresh = () => this.fetchRakuen(true)
 
   // -------------------- fetch --------------------
   /**

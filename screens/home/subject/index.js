@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 21:17:11
+ * @Last Modified time: 2020-01-12 20:11:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,11 +11,12 @@ import { observer } from 'mobx-react'
 import { BlurView, ListView } from '@components'
 import { ManageModal, ItemComment } from '@screens/_'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { open, copy } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { getBangumiUrl } from '@utils/app'
 import { hm, t } from '@utils/fetch'
-import { IOS, HOST_NING_MOE } from '@constants'
+import { info } from '@utils/ui'
+import { HOST, IOS, HOST_NING_MOE } from '@constants'
 import Header from './header'
 import Store from './store'
 
@@ -76,6 +77,7 @@ class Subject extends React.Component {
       if (['动画', '三次元'].includes($.type)) {
         popoverData.push('迅播动漫')
       }
+      popoverData.push('复制链接')
       navigation.setParams({
         headerTransitionTitle: data.name_cn || data.name,
         popover: {
@@ -96,6 +98,10 @@ class Subject extends React.Component {
                 break
               case '迅播动漫':
                 $.jumpXunBo()
+                break
+              case '复制链接':
+                copy(`${HOST}/subject/${$.params.subjectId}`)
+                info('已复制')
                 break
               default:
                 item = sites.find(item => item.site === key)

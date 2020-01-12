@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 19:06:34
+ * @Last Modified time: 2020-01-12 19:35:33
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore } from '@stores'
@@ -59,6 +59,8 @@ export default class ScreenUser extends store {
     this.fetchUserCollections(true)
     return res
   }
+
+  onHeaderRefresh = () => this.fetchUserCollections(true)
 
   // -------------------- get --------------------
   @computed get isLogin() {

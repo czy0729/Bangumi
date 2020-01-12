@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 16:49:32
+ * @Last Modified time: 2020-01-12 19:32:23
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -40,8 +40,33 @@ class List extends React.Component {
     }
   }
 
-  render() {
+  renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
+    const { scope, title } = this.props
+    const event = {
+      id: '时间胶囊.跳转',
+      data: {
+        scope,
+        title
+      }
+    }
+    return (
+      <ItemTimeline
+        navigation={navigation}
+        index={index}
+        {...item}
+        event={event}
+        onDelete={$.doDelete}
+      />
+    )
+  }
+
+  renderSectionHeader = ({ section: { title } }) => (
+    <SectionHeader>{title}</SectionHeader>
+  )
+
+  render() {
+    const { $ } = this.context
     const { scope, title } = this.props
     const label = MODEL_TIMELINE_SCOPE.getLabel(scope)
     if (!$.isWebLogin && ['好友', '自己'].includes(label)) {
@@ -58,36 +83,23 @@ class List extends React.Component {
       return <Loading />
     }
 
-    const event = {
-      id: '时间胶囊.跳转',
-      data: {
-        scope,
-        title
-      }
-    }
     return (
       <ListView
         contentContainerStyle={_.container.bottom}
-        keyExtractor={item => String(item.id)}
+        keyExtractor={keyExtractor}
         data={timeline}
         sectionKey='date'
         stickySectionHeadersEnabled={false}
-        renderSectionHeader={({ section: { title } }) => (
-          <SectionHeader>{title}</SectionHeader>
-        )}
-        renderItem={({ item, index }) => (
-          <ItemTimeline
-            navigation={navigation}
-            index={index}
-            {...item}
-            event={event}
-            onDelete={$.doDelete}
-          />
-        )}
-        onHeaderRefresh={() => $.fetchTimeline(true)}
+        renderSectionHeader={this.renderSectionHeader}
+        renderItem={this.renderItem}
+        onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchTimeline}
         {...withTabsHeader.listViewProps}
       />
     )
   }
+}
+
+function keyExtractor(item) {
+  return String(item.id)
 }

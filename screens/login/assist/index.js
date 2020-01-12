@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 17:28:44
+ * @Last Modified time: 2020-01-12 20:09:10
  */
 import React from 'react'
-import { ScrollView, View, Clipboard } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import cheerio from 'cheerio-without-node-native'
 import { Text, Input, Button, KeyboardSpacer } from '@components'
 import { _, userStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { copy, getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
 import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -54,7 +54,7 @@ class LoginAssist extends React.Component {
   copy = () => {
     t('辅助登陆.复制')
 
-    Clipboard.setString(code)
+    copy(code)
     info('已复制')
   }
 

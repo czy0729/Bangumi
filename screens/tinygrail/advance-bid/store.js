@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:56:59
+ * @Last Modified time: 2020-01-12 19:55:34
  */
 import { computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
@@ -25,9 +25,9 @@ export default class ScreenTinygrailAdvanceBid extends store {
       return tinygrailStore.fetchAdvanceBidList()
     }
 
-    if (!this.advance && getTimestamp() - _loaded < 60 * 120) {
+    if (!this.advance && getTimestamp() - _loaded < 60 * 60 * 4) {
       if (showInfo) {
-        info('普通用户2小时内只能刷新一次')
+        info('普通用户4小时内只能刷新一次')
       }
       return true
     }

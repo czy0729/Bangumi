@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 21:31:06
+ * @Last Modified time: 2020-01-12 19:53:14
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
@@ -27,6 +27,9 @@ import List from './list'
 import Store from './store'
 
 const title = '超展开'
+const forceInset = {
+  top: 'never'
+}
 
 export default
 @inject(Store)
@@ -67,13 +70,16 @@ class Rakuen extends React.Component {
           <Prefetch $={$} navigation={navigation} />
           <Popover
             style={_.ml.sm}
-            data={['设置', '新讨论', '社区指导原则']}
+            data={['本地帖子', '设置', '新讨论', '社区指导原则']}
             onSelect={key => {
               t('超展开.右上角菜单', {
                 key
               })
 
               switch (key) {
+                case '本地帖子':
+                  navigation.push('RakuenHistory')
+                  break
                 case '设置':
                   navigation.push('RakuenSetting')
                   break
@@ -102,7 +108,7 @@ class Rakuen extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
+      <SafeAreaView style={_.container.screen} forceInset={forceInset}>
         {_loaded && (
           <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
             {$.tabs.map((item, index) => (

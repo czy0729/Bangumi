@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 17:09:49
+ * @Last Modified time: 2020-01-12 20:20:02
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView, FixedTextarea } from '@components'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { copy, open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -77,7 +77,7 @@ class Topic extends React.Component {
     navigation.setParams({
       extra: <IconFavor $={$} />,
       popover: {
-        data: ['浏览器查看', '举报'],
+        data: ['浏览器查看', '复制链接', '举报'],
         onSelect: key => {
           t('帖子.右上角菜单', {
             key
@@ -86,6 +86,10 @@ class Topic extends React.Component {
           switch (key) {
             case '浏览器查看':
               open(url)
+              break
+            case '复制链接':
+              copy(url)
+              info('已复制')
               break
             case '举报':
               open(`${HOST}/group/forum`)
@@ -107,6 +111,10 @@ class Topic extends React.Component {
 
     hm(`rakuen/topic/${$.topicId}`, 'Topic')
   }
+
+  connectListViewRef = ref => (this.listView = ref)
+
+  connectFixedTextareaRef = ref => (this.fixedTextarea = ref)
 
   jump = () => {
     const { $ } = this.context
@@ -179,12 +187,21 @@ class Topic extends React.Component {
     })
   }
 
+  onScrollToIndexFailed = ({ highestMeasuredFrameIndex, index }) => {
+    this.scrollTo(highestMeasuredFrameIndex)
+    setTimeout(() => {
+      if (this.scrollFailCount > 10) {
+        return
+      }
+      this.scrollFailCount += 1
+      this.scrollTo(index)
+    }, 100)
+  }
+
   showFixedTextare = () => this.fixedTextarea.onFocus()
 
-  render() {
+  renderItem = ({ item, index }) => {
     const { $ } = this.context
-    const { placeholder, value } = $.state
-    const { onScroll } = this.props
     const event = {
       id: '帖子.跳转',
       data: {
@@ -192,38 +209,36 @@ class Topic extends React.Component {
       }
     }
     return (
+      <Item
+        index={index}
+        postId={$.postId}
+        authorId={$.topic.userId}
+        {...item}
+        showFixedTextare={this.showFixedTextare}
+        event={event}
+      />
+    )
+  }
+
+  render() {
+    const { $ } = this.context
+    const { placeholder, value } = $.state
+    const { onScroll } = this.props
+    return (
       <>
         <ListView
-          ref={ref => (this.listView = ref)}
+          ref={this.connectListViewRef}
           style={this.styles.container}
           contentContainerStyle={this.styles.contentContainerStyle}
-          keyExtractor={item => String(item.id)}
+          keyExtractor={keyExtractor}
           data={$.comments}
           scrollEventThrottle={16}
           initialNumToRender={$.postId ? 50 : undefined} // 为了可以更快地到达目标楼层
           removeClippedSubviews={false}
           ListHeaderComponent={<Top />}
-          renderItem={({ item, index }) => (
-            <Item
-              index={index}
-              postId={$.postId}
-              authorId={$.topic.userId}
-              {...item}
-              showFixedTextare={this.showFixedTextare}
-              event={event}
-            />
-          )}
+          renderItem={this.renderItem}
           onScroll={onScroll}
-          onScrollToIndexFailed={({ highestMeasuredFrameIndex, index }) => {
-            this.scrollTo(highestMeasuredFrameIndex)
-            setTimeout(() => {
-              if (this.scrollFailCount > 10) {
-                return
-              }
-              this.scrollFailCount += 1
-              this.scrollTo(index)
-            }, 100)
-          }}
+          onScrollToIndexFailed={this.onScrollToIndexFailed}
           onHeaderRefresh={$.fetchTopic}
           onFooterRefresh={$.fetchTopic}
           onEndReachedThreshold={0.5}
@@ -231,7 +246,7 @@ class Topic extends React.Component {
         />
         {$.isWebLogin && (
           <FixedTextarea
-            ref={ref => (this.fixedTextarea = ref)}
+            ref={this.connectFixedTextareaRef}
             placeholder={placeholder ? `回复 ${placeholder}` : undefined}
             value={value}
             onChange={$.onChange}
@@ -239,7 +254,7 @@ class Topic extends React.Component {
             onSubmit={$.doSubmit}
           />
         )}
-        <TouchScroll onPress={index => this.scrollToThenFeedback(index)} />
+        <TouchScroll onPress={this.scrollToThenFeedback} />
       </>
     )
   }
@@ -258,3 +273,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingBottom: _.bottom
   }
 }))
+
+function keyExtractor(item) {
+  return String(item.id)
+}

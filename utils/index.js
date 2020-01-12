@@ -2,12 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 11:23:53
+ * @Last Modified time: 2020-01-12 20:08:39
  */
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Clipboard } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import { DEV } from '@constants'
 import { info } from './ui'
+
+/**
+ * 复制到剪贴板
+ * @param {*} string
+ */
+export function copy(string) {
+  return Clipboard.setString(string)
+}
 
 /**
  * 安全toFixed

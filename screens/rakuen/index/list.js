@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:15:42
+ * @Last Modified time: 2020-01-12 19:26:28
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -22,10 +22,10 @@ function List({ index }, { $ }) {
   return (
     <ListView
       contentContainerStyle={_.container.bottom}
-      keyExtractor={item => item.href}
+      keyExtractor={keyExtractor}
       data={rakuen}
-      renderItem={({ item, index }) => <Item index={index} {...item} />}
-      onHeaderRefresh={() => $.fetchRakuen(true)}
+      renderItem={renderItem}
+      onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchRakuen}
       {...withTabsHeader.listViewProps}
     />
@@ -37,3 +37,11 @@ List.contextTypes = {
 }
 
 export default observer(List)
+
+function keyExtractor(item) {
+  return item.href
+}
+
+function renderItem({ item, index }) {
+  return <Item index={index} {...item} />
+}
