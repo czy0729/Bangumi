@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 09:43:04
+ * @Last Modified time: 2020-01-12 16:12:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,6 +55,7 @@ function Item(props, { navigation }) {
     state,
     rate,
     level,
+    current,
     event
   } = props
   const { id: eventId, data: eventData } = event
@@ -97,10 +98,11 @@ function Item(props, { navigation }) {
   if (isICO) {
     extra = `${formatTime(_end)} / 已筹集${totalText || '-'}`
   } else {
+    const rateRatio = toFixed(((rate || 0) / (current || 10)) * 10, 1)
     extra = `${lastDate(getTimestamp(fixedTime(lastOrder)))} / +${toFixed(
       rate,
       2
-    )}`
+    )} / ${rateRatio}`
     if (isValhall) {
       extra += ` / 底价${toFixed(price, 1)} / 数量${formatNumber(state, 0)}`
     } else {
@@ -184,12 +186,7 @@ function Item(props, { navigation }) {
             >
               <Flex align='start'>
                 <Flex.Item>
-                  <Text
-                    style={{
-                      color: _.colorTinygrailPlain
-                    }}
-                    size={15}
-                  >
+                  <Text style={styles.textPlain} size={15}>
                     {!isDeal && `${_index}. `}
                     {name}
                     {!!bonus && (
@@ -199,27 +196,13 @@ function Item(props, { navigation }) {
                       </Text>
                     )}
                     {parseInt(level) > 1 && (
-                      <Text
-                        style={{
-                          color: _.colorAsk
-                        }}
-                        size={12}
-                        lineHeight={15}
-                      >
+                      <Text style={styles.textAsk} size={12} lineHeight={15}>
                         {' '}
                         lv{level}
                       </Text>
                     )}
                   </Text>
-                  <Text
-                    style={[
-                      _.mt.xs,
-                      {
-                        color: _.colorTinygrailText
-                      }
-                    ]}
-                    size={11}
-                  >
+                  <Text style={styles.extraText} size={10}>
                     {isDeal && (
                       <Text
                         style={{
@@ -245,16 +228,7 @@ function Item(props, { navigation }) {
                     >
                       {auctionText}
                     </Text>
-                    <Text
-                      style={[
-                        _.mt.xs,
-                        {
-                          color: _.colorTinygrailText
-                        }
-                      ]}
-                      size={12}
-                      align='right'
-                    >
+                    <Text style={styles.auctionSubText} size={12} align='right'>
                       {auctionSubText}
                     </Text>
                   </View>
@@ -264,9 +238,7 @@ function Item(props, { navigation }) {
           </Flex.Item>
           {!isAuction && (
             <StockPreview
-              style={{
-                marginRight: -_.sm
-              }}
+              style={styles.stockPreview}
               {...props}
               _loaded
               theme='dark'
@@ -306,5 +278,22 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  textPlain: {
+    color: _.colorTinygrailPlain
+  },
+  textAsk: {
+    color: _.colorAsk
+  },
+  extraText: {
+    ..._.mt.xs,
+    color: _.colorTinygrailText
+  },
+  auctionSubText: {
+    ..._.mt.xs,
+    color: _.colorTinygrailText
+  },
+  stockPreview: {
+    marginRight: -12
   }
 }))

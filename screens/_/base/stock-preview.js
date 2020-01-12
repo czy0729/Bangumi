@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 21:41:58
+ * @Last Modified time: 2020-01-12 16:07:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, tinygrailStore } from '@stores'
 import { toFixed } from '@utils'
 import { caculateICO } from '@utils/app'
 
@@ -30,17 +30,6 @@ class StockPreview extends React.Component {
     users: 0,
     theme: 'light',
     _loaded: false
-  }
-
-  state = {
-    showDetail: false
-  }
-
-  toggleNum = () => {
-    const { showDetail } = this.state
-    this.setState({
-      showDetail: !showDetail
-    })
   }
 
   renderICO() {
@@ -126,7 +115,7 @@ class StockPreview extends React.Component {
       return this.renderICO()
     }
 
-    const { showDetail } = this.state
+    const { _stockPreview: show } = tinygrailStore.state
     const fluctuationStyle = [this.styles.fluctuation, _.ml.sm]
     if (fluctuation < 0) {
       fluctuationStyle.push(this.styles.danger)
@@ -156,7 +145,7 @@ class StockPreview extends React.Component {
 
     let fluctuationText = '-%'
     let realChange = '0.00'
-    if (showDetail) {
+    if (show) {
       if (fluctuation > 0) {
         realChange = `+${toFixed(
           current - current / (1 + fluctuation / 100),
@@ -178,11 +167,11 @@ class StockPreview extends React.Component {
       fluctuationSize = 11
     }
 
-    const hasNoChanged = (showDetail ? realChange : fluctuationText) === '-%'
+    const hasNoChanged = (show ? realChange : fluctuationText) === '-%'
     return (
       <Touchable
         style={[this.styles.container, style]}
-        onPress={this.toggleNum}
+        onPress={tinygrailStore.toggleStockPreview}
       >
         <Flex justify='end'>
           <Text
@@ -209,41 +198,41 @@ class StockPreview extends React.Component {
               lineHeight={16}
               align='center'
             >
-              {showDetail ? realChange : fluctuationText}
+              {show ? realChange : fluctuationText}
             </Text>
           )}
         </Flex>
         <Flex style={this.styles.wrap} justify='end'>
-          {showDetail && (
+          {show && (
             <Text
               style={{
                 paddingLeft: _.wind,
-                paddingRight: _.sm,
+                paddingRight: _.xs,
                 color: this.isDark ? colorDarkText : _.colorSub,
                 backgroundColor: this.isDark
                   ? _.colorTinygrailContainer
                   : _.colorPlain
               }}
-              size={12}
+              size={10}
             >
               量{change}
             </Text>
           )}
           {showFloor ? (
             <Flex>
-              {showDetail && (
+              {show && (
                 <Text
                   style={{
                     color: _.colorBid
                   }}
-                  size={12}
+                  size={10}
                 >
                   {bids}
                 </Text>
               )}
               <Flex
                 style={[
-                  showDetail ? this.styles.floorShowDetail : this.styles.floor,
+                  show ? this.styles.floorShowDetail : this.styles.floor,
                   _.ml.xs
                 ]}
                 justify='between'
@@ -265,7 +254,7 @@ class StockPreview extends React.Component {
                   ]}
                 />
               </Flex>
-              {showDetail && (
+              {show && (
                 <Text
                   style={[
                     this.styles.small,
@@ -274,7 +263,7 @@ class StockPreview extends React.Component {
                       color: _.colorAsk
                     }
                   ]}
-                  size={12}
+                  size={10}
                 >
                   {asks}
                 </Text>
@@ -338,8 +327,8 @@ const memoStyles = _.memoStyles(_ => ({
   wrap: {
     position: 'absolute',
     right: _.sm,
-    bottom: _.wind,
-    height: 16
+    bottom: 16,
+    height: 12
   },
   floor: {
     width: 64

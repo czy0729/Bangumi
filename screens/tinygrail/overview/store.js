@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 16:56:23
+ * @Last Modified time: 2020-01-12 15:28:54
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,8 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
   SORT_GX,
+  SORT_GXB,
+  SORT_DJ,
   SORT_HYD,
   SORT_SCJ,
   SORT_FHL,
@@ -43,11 +45,13 @@ export const tabs = [
 export const sortDS = [
   SORT_HYD,
   SORT_GX,
-  SORT_SCJ,
-  SORT_FHL,
+  SORT_GXB,
   SORT_DQJ,
+  SORT_SCJ,
   SORT_DQZD,
-  SORT_XFJL
+  SORT_DJ,
+  SORT_XFJL,
+  SORT_FHL
 ]
 const namespace = 'ScreenTinygrailOverview'
 

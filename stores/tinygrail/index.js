@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:30:13
+ * @Last Modified time: 2020-01-12 16:33:45
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed } from '@utils'
@@ -262,7 +262,12 @@ class Tinygrail extends store {
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
      * 会导致闪白屏, 这个非常不友好, 暂时只想到通过维护一个全局变量去决定是否渲染WebView
      */
-    _webview: true
+    _webview: true,
+
+    /**
+     * StockPreview 展开/收起
+     */
+    _stockPreview: false
   })
 
   init = () =>
@@ -632,15 +637,18 @@ class Tinygrail extends store {
     }
     if (result.data.State === 0) {
       data._loaded = getTimestamp()
-      data.data = result.data.Value.map(item => ({
-        time: item.Time,
-        begin: item.Begin,
-        end: item.End,
-        low: item.Low,
-        high: item.High,
-        amount: item.Amount,
-        price: item.Price
-      }))
+      data.data = result.data.Value
+        // K线图排除掉刮刮乐10元的记录, 以获得更正常的K线表现
+        .filter(item => !(item.Low === 10 && item.Low !== item.High))
+        .map(item => ({
+          time: item.Time,
+          begin: item.Begin,
+          end: item.End,
+          low: item.Low,
+          high: item.High,
+          amount: item.Amount,
+          price: item.Price
+        }))
     }
 
     const key = 'kline'
@@ -1717,6 +1725,13 @@ class Tinygrail extends store {
   updateWebViewShow = show => {
     this.setState({
       _webview: show
+    })
+  }
+
+  toggleStockPreview = () => {
+    const { _stockPreview } = this.state
+    this.setState({
+      _stockPreview: !_stockPreview
     })
   }
 

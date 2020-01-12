@@ -2,11 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 20:34:10
+ * @Last Modified time: 2020-01-12 15:27:24
  */
 export const SORT_GX = {
   label: '股息',
   value: 'gx'
+}
+
+export const SORT_GXB = {
+  label: '股息比',
+  value: 'gxb'
+}
+
+export const SORT_DJ = {
+  label: '等级',
+  value: 'dj'
 }
 
 export const SORT_CGS = {
@@ -54,6 +64,17 @@ export function sortList(sort, direction, list) {
   switch (sort) {
     case SORT_GX.value:
       return list.sort((a, b) => ((b.rate || 0) - (a.rate || 0)) * base)
+
+    case SORT_GXB.value:
+      return list.sort(
+        (a, b) =>
+          ((b.rate || 0) / (b.current || 10) -
+            (a.rate || 0) / (a.current || 10)) *
+          base
+      )
+
+    case SORT_DJ.value:
+      return list.sort((a, b) => ((b.level || 1) - (a.level || 1)) * base)
 
     case SORT_CGS.value:
       return list.sort((a, b) => ((b.state || 0) - (a.state || 0)) * base)
