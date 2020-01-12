@@ -1,10 +1,10 @@
-/* eslint-disable no-await-in-loop, no-restricted-syntax */
 /*
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-11 17:07:48
+ * @Last Modified time: 2020-01-12 14:21:10
  */
+import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
 import {
   _,
@@ -14,8 +14,7 @@ import {
   calendarStore
 } from '@stores'
 import { Eps } from '@screens/_'
-import { sleep } from '@utils'
-import { t } from '@utils/fetch'
+import { t, queue } from '@utils/fetch'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
 import { IOS } from '@constants'
@@ -69,9 +68,6 @@ export default class ScreenHome extends store {
   })
 
   init = async () => {
-    userStore.logTourist()
-    calendarStore.fetchOnAir()
-
     let res
     if (this.isLogin) {
       res = this.getStorage(undefined, namespace)
@@ -82,6 +78,12 @@ export default class ScreenHome extends store {
       })
       this.initFetch()
     }
+
+    InteractionManager.runAfterInteractions(() => {
+      userStore.logTourist()
+      calendarStore.fetchOnAir()
+    })
+
     return res
   }
 
@@ -92,22 +94,22 @@ export default class ScreenHome extends store {
     ])
     const data = await res
 
-    if (data[0]) {
-      // @issue 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
-      const list = this.sortList(data[0])
-      for (const item of list) {
-        const { subject_id: subjectId } = item
-        const { _loaded } = this.subjectEp(subjectId)
-
-        /**
-         * 被动请求
-         * cloudfare请求太快会被拒绝
-         */
-        if (refresh || !_loaded) {
-          await subjectStore.fetchSubjectEp(subjectId)
-          await sleep(240)
-        }
-      }
+    if (refresh && data[0]) {
+      /**
+       * 被动请求
+       * 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
+       * cloudfare请求太快会被拒绝
+       */
+      InteractionManager.runAfterInteractions(() => {
+        const fetchs = []
+        this.sortList(data[0]).forEach(({ subject_id: subjectId }) => {
+          const { _loaded } = this.subjectEp(subjectId)
+          if (!_loaded) {
+            fetchs.push(() => subjectStore.fetchSubjectEp(subjectId))
+          }
+        })
+        queue(fetchs, 1)
+      })
     }
     return res
   }

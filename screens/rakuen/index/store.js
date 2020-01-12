@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 21:52:16
+ * @Last Modified time: 2020-01-12 14:34:09
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -12,7 +12,6 @@ import deepmerge from 'deepmerge'
 import { Text } from '@components'
 import { Popover } from '@screens/_'
 import { _, systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
-import { sleep } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
@@ -41,10 +40,7 @@ export default class ScreenRakuen extends store {
     group: MODEL_RAKUEN_TYPE_GROUP.getValue('全部'), // 小组菜单
     mono: MODEL_RAKUEN_TYPE_MONO.getValue('全部'), // 人物菜单
 
-    /**
-     * Prefetch
-     */
-    ...initPrefetchState,
+    ...initPrefetchState, // Prefetch
 
     _page: 0, // header上的假<Tabs>当前页数
     _loaded: false
@@ -507,11 +503,12 @@ export default class ScreenRakuen extends store {
     // eslint-disable-next-line no-restricted-syntax
     for (const topicId of _ids) {
       const { prefetching } = this.state
+
+      // 这里需要能中断, 所以就不用queue了
       if (prefetching) {
         await rakuenStore.fetchTopic({
           topicId
         })
-        await sleep(200)
 
         prefetchCurrent += 1
         this.setState({

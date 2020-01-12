@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 01:32:44
+ * @Last Modified time: 2020-01-12 14:42:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,7 @@ function Tabs({
       >
         {children}
       </AntdTabs>
-      {IOS && children && <View style={styles.block} />}
+      {IOS && children && <View style={styles.touchBlock} />}
     </>
   )
 }
@@ -66,7 +66,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 4,
     backgroundColor: _.colorMain
   },
-  block: {
+  touchBlock: {
     position: 'absolute',
     top: 0,
     bottom: 0,

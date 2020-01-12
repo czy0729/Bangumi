@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-26 17:32:58
+ * @Last Modified time: 2020-01-12 05:25:43
  */
 import React from 'react'
 import {
@@ -48,6 +48,7 @@ class ListView extends React.Component {
     footerFailureText: '居然失败了 =.=!',
     footerNoMoreDataText: '到底啦',
     footerEmptyDataText: '好像什么都没有',
+    optimize: true, // 是否开启长列表优化
     onHeaderRefresh: undefined,
     onFooterRefresh: undefined
   }
@@ -88,7 +89,7 @@ class ListView extends React.Component {
       this.setState({
         refreshState: RefreshState.HeaderRefreshing
       })
-      await sleep(800)
+      await sleep(640)
       onHeaderRefresh()
     }
   }
@@ -99,7 +100,7 @@ class ListView extends React.Component {
       this.setState({
         refreshState: RefreshState.FooterRefreshing
       })
-      await sleep(800)
+      await sleep(640)
       onFooterRefresh()
     }
   }
@@ -126,7 +127,73 @@ class ListView extends React.Component {
     return refreshState === RefreshState.Idle
   }
 
-  renderFooter = refreshState => {
+  connectRef = ref => {
+    if (ref) {
+      this.scrollToIndex = params => ref.scrollToIndex(params)
+      this.scrollToItem = params => ref.scrollToItem(params)
+      this.scrollToOffset = params => ref.scrollToOffset(params)
+    }
+  }
+
+  get style() {
+    const { style } = this.props
+    return [this.styles.container, style]
+  }
+
+  get commonProps() {
+    const { optimize } = this.props
+    const { refreshState } = this.state
+    return {
+      ref: this.connectRef,
+      style: this.style,
+      initialNumToRender: 10,
+
+      // 安卓默认为true, iOS为false, false时列表的Text才能自由选择复制
+      // removeClippedSubviews: false,
+
+      refreshing: refreshState === RefreshState.HeaderRefreshing,
+      refreshControl: this.renderRefreshControl(),
+      ListFooterComponent: this.renderFooter(refreshState),
+      onRefresh: this.onHeaderRefresh,
+      onEndReached: this.onEndReached,
+      onEndReachedThreshold: 0.64,
+
+      // optimize
+      windowSize: optimize ? 3 : undefined,
+      maxToRenderPerBatch: optimize ? 10 : undefined,
+      updateCellsBatchingPeriod: optimize ? 50 : undefined
+    }
+  }
+
+  get section() {
+    const { data, sectionKey, sections } = this.props
+    let _sections = []
+    if (sections) {
+      _sections = sections.slice()
+    } else {
+      const sectionsMap = {}
+      data.list.slice().forEach(item => {
+        const title = item[sectionKey]
+        if (sectionsMap[title] === undefined) {
+          sectionsMap[title] = _sections.length
+          _sections.push({
+            title,
+            data: [item]
+          })
+        } else {
+          _sections[sectionsMap[title]].data.push(item)
+        }
+      })
+    }
+    return _sections
+  }
+
+  get data() {
+    const { data } = this.props
+    return Array.isArray(data.list) ? data.list : data.list.slice()
+  }
+
+  renderFooter(refreshState) {
     let footer = null
     const {
       data,
@@ -226,6 +293,25 @@ class ListView extends React.Component {
     return footer
   }
 
+  renderRefreshControl() {
+    const { data, progressViewOffset, refreshControlProps } = this.props
+    const { refreshState } = this.state
+    return (
+      <RefreshControl
+        title={
+          data._loaded
+            ? `上次刷新时间: ${simpleTime(date(data._loaded))}`
+            : undefined
+        }
+        titleColor={_.colorSub}
+        progressViewOffset={progressViewOffset}
+        refreshing={refreshState === RefreshState.HeaderRefreshing}
+        onRefresh={this.onHeaderRefresh}
+        {...refreshControlProps}
+      />
+    )
+  }
+
   render() {
     const {
       style,
@@ -234,64 +320,15 @@ class ListView extends React.Component {
       sections,
       progressViewOffset,
       refreshControlProps,
+      optimize,
       ...other
     } = this.props
-    const { refreshState } = this.state
-    const commonProps = {
-      ref: ref => {
-        if (ref) {
-          this.scrollToIndex = params => ref.scrollToIndex(params)
-          this.scrollToItem = params => ref.scrollToItem(params)
-          this.scrollToOffset = params => ref.scrollToOffset(params)
-        }
-      },
-      style: [this.styles.container, style],
-      initialNumToRender: 10,
-      // removeClippedSubviews: false, // 安卓需要添加这个属性, Text才能自由复制
-      refreshing: refreshState === RefreshState.HeaderRefreshing,
-      refreshControl: (
-        <RefreshControl
-          title={
-            data._loaded
-              ? `上次刷新时间: ${simpleTime(date(data._loaded))}`
-              : undefined
-          }
-          titleColor={_.colorSub}
-          progressViewOffset={progressViewOffset}
-          refreshing={refreshState === RefreshState.HeaderRefreshing}
-          onRefresh={this.onHeaderRefresh}
-          {...refreshControlProps}
-        />
-      ),
-      ListFooterComponent: this.renderFooter(refreshState),
-      onRefresh: this.onHeaderRefresh,
-      onEndReached: this.onEndReached,
-      onEndReachedThreshold: 0.64
-    }
-
     if (sectionKey || sections) {
-      let _sections = []
-      if (sections) {
-        _sections = sections.slice()
-      } else {
-        const sectionsMap = {}
-        data.list.slice().forEach(item => {
-          const title = item[sectionKey]
-          if (sectionsMap[title] === undefined) {
-            sectionsMap[title] = _sections.length
-            _sections.push({
-              title,
-              data: [item]
-            })
-          } else {
-            _sections[sectionsMap[title]].data.push(item)
-          }
-        })
-      }
-      return <SectionList sections={_sections} {...commonProps} {...other} />
+      return (
+        <SectionList sections={this.section} {...this.commonProps} {...other} />
+      )
     }
-
-    return <FlatList data={data.list.slice()} {...commonProps} {...other} />
+    return <FlatList data={this.data} {...this.commonProps} {...other} />
   }
 
   get styles() {

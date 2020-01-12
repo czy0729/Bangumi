@@ -1,12 +1,13 @@
-/* eslint-disable space-before-function-paren, func-names */
+/* eslint-disable space-before-function-paren */
+/* eslint-disable func-names */
 /*
  * 请求相关
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 14:08:39
+ * @Last Modified time: 2020-01-12 14:28:36
  */
-import { Alert, NativeModules } from 'react-native'
+import { Alert, NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
 import { Portal, Toast } from '@ant-design/react-native'
 import {
@@ -24,9 +25,11 @@ import { log } from './dev'
 import { info as UIInfo } from './ui'
 
 const UMAnalyticsModule = NativeModules.UMAnalyticsModule
+
 const SHOW_LOG = true
-const TIMEOUT = 10000
-const FETCH_RETRY_COUNT = 5 // GET请求失败重试次数
+const FETCH_TIMEOUT = 10000
+const FETCH_RETRY = 5 // GET请求失败重试次数
+
 const defaultHeaders = {
   Accept:
     'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
@@ -57,7 +60,7 @@ export default async function fetchAPI({
   const userStore = require('../stores/user').default
   const { accessToken } = userStore
   const _config = {
-    timeout: TIMEOUT,
+    timeout: FETCH_TIMEOUT,
     headers: {
       Authorization: `${accessToken.token_type} ${accessToken.access_token}`
     }
@@ -84,7 +87,7 @@ export default async function fetchAPI({
     }
   }
   if (SHOW_LOG) {
-    log(`[fetchAPI] ${info || _url}`)
+    log(`[fetchAPI] ${info} ${_url}`)
   }
 
   return fetch(_url, _config)
@@ -121,7 +124,7 @@ export default async function fetchAPI({
 
         const key = `${url}|${urlStringify(data)}`
         _retry[key] = (_retry[key] || 0) + 1
-        if (_retry[key] < FETCH_RETRY_COUNT) {
+        if (_retry[key] < FETCH_RETRY) {
           return retryCb()
         }
       }
@@ -147,7 +150,7 @@ export async function fetchHTML({
   const userStore = require('../stores/user').default
   const { cookie: userCookie, userAgent } = userStore.userCookie
   const _config = {
-    timeout: TIMEOUT,
+    timeout: FETCH_TIMEOUT,
     headers: {}
   }
   const body = {
@@ -315,41 +318,43 @@ export function xhrCustom({
  * @param {*} url
  * @param {*} screen
  */
-export async function hm(url, screen) {
+export function hm(url, screen) {
   if (DEV) {
     log(`[hm] ${url} ${screen}`)
     return
   }
 
   try {
-    if (!ua) ua = await Constants.getWebViewUserAgentAsync()
+    // 保证这种低优先级的操作在UI响应之后再执行
+    InteractionManager.runAfterInteractions(async () => {
+      if (!ua) ua = await Constants.getWebViewUserAgentAsync()
 
-    let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
-    u += `${u.includes('?') ? '&' : '?'}v=${VERSION_GITHUB_RELEASE}`
-    u += `${require('../stores/theme').default.isDark ? '&dark=1' : ''}`
-    u += `${screen ? `&s=${screen}` : ''}`
+      let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
+      u += `${u.includes('?') ? '&' : '?'}v=${VERSION_GITHUB_RELEASE}`
+      u += `${require('../stores/theme').default.isDark ? '&dark=1' : ''}`
+      u += `${screen ? `&s=${screen}` : ''}`
 
-    const request = new XMLHttpRequest()
-    request.open(
-      'GET',
-      `https://hm.baidu.com/hm.gif?${urlStringify({
-        rnd: randomn(10),
-        si: IOS
-          ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
-          : '2dcb6644739ae08a1748c45fb4cea087',
-        v: '1.2.51',
-        api: '4_0',
-        u
-        // lt: getTimestamp()
-      })}`,
-      true
-    )
-    request.withCredentials = false
-    request.setRequestHeader(
-      'User-Agent',
-      ua || require('../stores/user').default.userCookie.userAgent
-    )
-    request.send(null)
+      const request = new XMLHttpRequest()
+      request.open(
+        'GET',
+        `https://hm.baidu.com/hm.gif?${urlStringify({
+          rnd: randomn(10),
+          si: IOS
+            ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
+            : '2dcb6644739ae08a1748c45fb4cea087',
+          v: '1.2.51',
+          api: '4_0',
+          u
+        })}`,
+        true
+      )
+      request.withCredentials = false
+      request.setRequestHeader(
+        'User-Agent',
+        ua || require('../stores/user').default.userCookie.userAgent
+      )
+      request.send(null)
+    })
   } catch (error) {
     console.warn('[fetch] hm', error)
   }
@@ -371,8 +376,9 @@ export function t(desc, eventData) {
     return
   }
 
-  setTimeout(() => {
-    try {
+  try {
+    // 保证这种低优先级的操作在UI响应之后再执行
+    InteractionManager.runAfterInteractions(() => {
       const eventId = events[desc]
       if (eventId) {
         if (eventData) {
@@ -380,15 +386,11 @@ export function t(desc, eventData) {
         } else {
           UMAnalyticsModule.onEvent(eventId)
         }
-
-        if (DEV) {
-          log(`[track] ${desc} ${eventData ? JSON.stringify(eventData) : ''}`)
-        }
       }
-    } catch (error) {
-      warn('utils/fetch', 't', error)
-    }
-  }, 800)
+    })
+  } catch (error) {
+    warn('utils/fetch', 't', error)
+  }
 }
 
 /**
@@ -396,6 +398,10 @@ export function t(desc, eventData) {
  * @param {*} fetchs
  */
 export async function queue(fetchs, num = 2) {
+  if (!fetchs.length) {
+    return false
+  }
+
   await Promise.all(
     new Array(num).fill(0).map(async () => {
       while (fetchs.length) {
