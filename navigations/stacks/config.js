@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 18:12:44
+ * @Last Modified time: 2020-01-13 00:55:33
  */
 import { Platform } from 'react-native'
-import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
+// import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
 import { _ } from '@stores'
-import { IOS } from '@constants'
+// import { IOS } from '@constants'
 
 const config = {
   headerMode: 'screen',
@@ -40,10 +40,10 @@ const config = {
   // gestureEnabled: true // 安卓开启手势退后
 }
 
-if (!IOS) {
-  config.transitionConfig = () => ({
-    screenInterpolator: StackViewStyleInterpolator.forHorizontal
-  })
-}
+// if (!IOS) {
+//   config.transitionConfig = () => ({
+//     screenInterpolator: StackViewStyleInterpolator.forHorizontal
+//   })
+// }
 
 export default config
