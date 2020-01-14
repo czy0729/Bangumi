@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:21:07
+ * @Last Modified time: 2020-01-14 22:39:17
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -12,7 +12,7 @@ import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_EP } from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, xhrCustom } from '@utils/fetch'
 import {
   NAMESPACE,
   INIT_SUBJECT_ITEM,
@@ -38,7 +38,7 @@ class Subject extends store {
     },
 
     /**
-     * 条目章节
+     * [待废弃] 条目章节
      */
     subjectEp: {
       // [subjectId]: {}
@@ -78,7 +78,7 @@ class Subject extends store {
       {
         subject: {},
         subjectFormHTML: {},
-        subjectEp: {},
+        // subjectEp: {},
         subjectComments: {},
         mono: {},
         monoComments: {}
@@ -174,11 +174,13 @@ class Subject extends store {
   /**
    * 网页获取条目信息
    * @param {*} subjectId
+   * @param {*} cdn 是否请求自建cdn
    */
-  async fetchSubjectFormHTML(subjectId) {
+  fetchSubjectFormHTML = async subjectId => {
     const HTML = await fetchHTML({
       url: HTML_SUBJECT(subjectId)
     })
+
     const key = 'subjectFormHTML'
     const data = {
       ...cheerioSubjectFormHTML(HTML),
@@ -191,6 +193,36 @@ class Subject extends store {
     })
     this.setStorage(key, undefined, NAMESPACE)
     return Promise.resolve(data)
+  }
+
+  /**
+   * CDN获取条目信息
+   * @param {*} subjectId
+   */
+  fetchSubjectFormCDN = async subjectId => {
+    try {
+      const { _response } = await xhrCustom({
+        url: `https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Subject@master/data/${parseInt(
+          parseInt(subjectId) / 1000
+        )}/${subjectId}.json`
+      })
+
+      const data = {
+        ...INIT_SUBJECT_FROM_HTML_ITEM,
+        ...JSON.parse(_response),
+        _loaded: getTimestamp()
+      }
+      const key = 'subjectFormHTML'
+      this.setState({
+        [key]: {
+          [subjectId]: data
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      warn('subjectStore', 'fetchSubjectFormCDN', 404)
+      return Promise.resolve(INIT_SUBJECT_FROM_HTML_ITEM)
+    }
   }
 
   /**

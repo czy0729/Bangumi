@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:36:42
+ * @Last Modified time: 2020-01-14 22:27:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,7 @@ function Ep({ style }, { $, navigation }) {
   }
 
   const styles = memoStyles()
-  const { eps } = $.subjectEp
+  const { eps = [] } = $.subject
   const { epsReverse } = $.state
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   return (

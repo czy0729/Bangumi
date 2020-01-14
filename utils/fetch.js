@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 14:28:36
+ * @Last Modified time: 2020-01-14 16:07:48
  */
 import { Alert, NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -282,8 +282,12 @@ export function xhrCustom({
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        resolve(this)
+      if (this.readyState === 4) {
+        if (this.status === 200) {
+          resolve(this)
+        } else if (this.status === 404) {
+          reject(new TypeError('404'))
+        }
       }
     }
     request.onerror = function() {

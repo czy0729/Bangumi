@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 14:21:10
+ * @Last Modified time: 2020-01-14 22:59:08
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -94,7 +94,7 @@ export default class ScreenHome extends store {
     ])
     const data = await res
 
-    if (refresh && data[0]) {
+    if (data[0]) {
       /**
        * 被动请求
        * 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
@@ -103,9 +103,9 @@ export default class ScreenHome extends store {
       InteractionManager.runAfterInteractions(() => {
         const fetchs = []
         this.sortList(data[0]).forEach(({ subject_id: subjectId }) => {
-          const { _loaded } = this.subjectEp(subjectId)
-          if (!_loaded) {
-            fetchs.push(() => subjectStore.fetchSubjectEp(subjectId))
+          const { _loaded } = this.subject(subjectId)
+          if (refresh || !_loaded) {
+            fetchs.push(() => subjectStore.fetchSubject(subjectId))
           }
         })
         queue(fetchs, 1)
@@ -180,27 +180,22 @@ export default class ScreenHome extends store {
    * 条目信息
    */
   subject(subjectId) {
-    return computed(() => {
-      const { subject } =
-        this.userCollection.list.find(item => item.subject_id === subjectId) ||
-        {}
-      return subject || {}
-    }).get()
+    return computed(() => subjectStore.subject(subjectId)).get()
   }
 
   /**
    * 条目章节
    */
-  subjectEp(subjectId) {
-    return computed(() => subjectStore.subjectEp(subjectId)).get()
-  }
+  // subjectEp(subjectId) {
+  //   return computed(() => subjectStore.subjectEp(subjectId)).get()
+  // }
 
   /**
    * 条目章节数据
    */
   eps(subjectId) {
     return computed(() => {
-      const eps = subjectStore.subjectEp(subjectId).eps || []
+      const { eps = [] } = this.subject(subjectId)
       const { length } = eps
 
       // 集数超过了1页的显示个数

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 19:51:02
+ * @Last Modified time: 2020-01-13 11:28:21
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -44,6 +44,7 @@ export { default as Topic } from './rakuen/topic'
 export { default as UGCAgree } from './rakuen/ugc-agree'
 
 // User
+export { default as DEV } from './user/dev'
 export { default as Friends } from './user/friends'
 export { default as Qiafan } from './user/qiafan'
 export { default as Setting } from './user/setting'

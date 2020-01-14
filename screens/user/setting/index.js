@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 14:25:26
+ * @Last Modified time: 2020-01-13 11:32:37
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
 import { Text, Switch } from '@components'
-import { Popover, ItemSetting } from '@screens/_'
+import { Popover, ItemSetting, IconTouchable } from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
 import { toFixed } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
@@ -47,11 +47,22 @@ class Setting extends React.Component {
 
   componentDidMount() {
     this.caculateStorageSize()
+    this.setParams()
   }
 
   setParams = () => {
     const { navigation } = this.props
-    navigation.setParams({})
+    navigation.setParams({
+      extra: (
+        <IconTouchable
+          style={{
+            opacity: 0
+          }}
+          name='more'
+          onPress={() => navigation.push('DEV')}
+        />
+      )
+    })
   }
 
   caculateStorageSize = async () => {

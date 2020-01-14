@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 21:17:42
+ * @Last Modified time: 2020-01-14 22:30:32
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -55,8 +55,10 @@ export default class ScreenSubject extends store {
       _loaded: true
     })
 
-    const res = this.fetchSubject()
+    const res = this.fetchSubject() // API条目信息
     const data = await res
+
+    // bangumi-data数据扩展
     const item = bangumiData.items.find(item => item.title === data.name)
     if (item) {
       this.setState({
@@ -84,13 +86,15 @@ export default class ScreenSubject extends store {
       }
     }
 
+    // 访问私有cdn, 加速未缓存条目首屏数据渲染
+    // this.fetchSubjectFormCDN()
     queue([
-      () => this.fetchCollection(),
-      () => userStore.fetchUserProgress(this.subjectId),
-      () => subjectStore.fetchSubjectEp(this.subjectId),
-      () => this.fetchSubjectFormHTML(),
-      () => this.fetchEpsData(),
-      () => this.fetchSubjectComments(true)
+      () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
+      // () => subjectStore.fetchSubjectEp(this.subjectId), // [废弃] 跟条目API重复
+      () => this.fetchCollection(), // 用户每集收看进度
+      () => this.fetchEpsData(), // 单集播放源
+      () => this.fetchSubjectComments(true), // 吐槽箱
+      () => this.fetchSubjectFormHTML() // 条目API没有的网页额外数据
     ])
     return res
   }
@@ -113,6 +117,17 @@ export default class ScreenSubject extends store {
       vol: book.vol || '0'
     })
     return res
+  }
+
+  /**
+   * 私有CDN的条目信息
+   */
+  fetchSubjectFormCDN = async () => {
+    const { _loaded } = this.subjectFormHTML
+    if (_loaded) {
+      return true
+    }
+    return subjectStore.fetchSubjectFormCDN(this.subjectId)
   }
 
   /**
@@ -218,9 +233,9 @@ export default class ScreenSubject extends store {
   /**
    * 章节信息
    */
-  @computed get subjectEp() {
-    return subjectStore.subjectEp(this.subjectId)
-  }
+  // @computed get subjectEp() {
+  //   return subjectStore.subjectEp(this.subjectId)
+  // }
 
   /**
    * 条目留言
@@ -256,10 +271,10 @@ export default class ScreenSubject extends store {
 
   // Ep偏移
   @computed get ningMoeEpOffset() {
+    const { eps = [] } = this.subject
     return (
-      this.subjectEp.eps
-        .filter(item => item.type === 0)
-        .sort((a, b) => a.sort - b.sort)[0].sort - 1
+      eps.filter(item => item.type === 0).sort((a, b) => a.sort - b.sort)[0]
+        .sort - 1
     )
   }
 
@@ -477,7 +492,7 @@ export default class ScreenSubject extends store {
           } else {
             // @todo 逻辑比较复杂, 暂时不处理EP偏移
             const { epsData } = this.state
-            const { eps } = this.subjectEp
+            const { eps = [] } = this.subject
             const site = this.onlinePlayActionSheetData[index]
             let epIndex
             if (sites.includes(site)) {
@@ -539,7 +554,7 @@ export default class ScreenSubject extends store {
          * 批量更新收视进度
          * @issue 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
          */
-        const { eps = [] } = this.subjectEp
+        const { eps = [] } = this.subject
         const sort = eps
           .filter(i => i.type === 0)
           .sort((a, b) => (a.sort || 0) - (b.sort || 0))
