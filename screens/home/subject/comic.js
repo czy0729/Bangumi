@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:49:07
+ * @Last Modified time: 2020-01-15 20:44:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,8 +13,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 
 function Comic({ style }, { $, navigation }) {
-  const { comic = [] } = $.subjectFormHTML
-  if (!comic.length) {
+  if (!$.comic.length) {
     return null
   }
 
@@ -24,7 +23,7 @@ function Comic({ style }, { $, navigation }) {
       <SectionTitle style={_.container.wind}>单行本</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
-        data={comic}
+        data={$.comic}
         width={80}
         height={106}
         onPress={({ id, name, image }) => {

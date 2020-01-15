@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:46:48
+ * @Last Modified time: 2020-01-15 20:37:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,35 +13,17 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 
 function Character({ style }, { $, navigation }) {
-  const { crt = [] } = $.subject
-  if (!crt.length) {
+  if (!$.crt.length) {
     return null
   }
 
   const styles = memoStyles()
-  const data = crt.map(
-    ({
-      id,
-      images = {},
-      name,
-      name_cn: nameCn,
-      role_name: roleName,
-      actors = []
-    }) => ({
-      id,
-      image: images.grid,
-      _image: images.medium,
-      name: nameCn || name,
-      nameJP: name,
-      desc: (actors[0] && actors[0].name) || roleName
-    })
-  )
   return (
     <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>角色</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
-        data={data}
+        data={$.crt}
         quality={false}
         onPress={({ id, name, nameJP, _image }) => {
           t('条目.跳转', {

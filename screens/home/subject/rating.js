@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:41:48
+ * @Last Modified time: 2020-01-15 20:33:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,23 +13,6 @@ import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-
-const initialRating = {
-  count: {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
-    10: 0
-  },
-  score: 0,
-  total: 0
-}
 
 function getHeight(total, current) {
   if (!total) {
@@ -85,12 +68,12 @@ class Ranting extends React.Component {
 
   renderRating() {
     const { $ } = this.context
-    const { rating = initialRating, rank = '-' } = $.subject
+    const { rank = '-' } = $.subject
     const { friend = {} } = $.subjectFormHTML
     return (
       <>
         <Flex style={[this.styles.container, _.mt.md]}>
-          {Object.keys(rating.count)
+          {Object.keys($.rating.count)
             .reverse()
             .map((item, index) => (
               <Flex.Item key={item} style={index > 0 && _.ml.xs}>
@@ -99,12 +82,12 @@ class Ranting extends React.Component {
                     style={[
                       this.styles.itemFill,
                       {
-                        height: getHeight(rating.total, rating.count[item])
+                        height: getHeight($.rating.total, $.rating.count[item])
                       }
                     ]}
                   />
                   <Text size={10} type='sub'>
-                    {rating.count[item]}
+                    {$.rating.count[item]}
                   </Text>
                 </Flex>
                 <Text style={_.mt.xs} size={12} align='center'>
@@ -115,9 +98,9 @@ class Ranting extends React.Component {
         </Flex>
         <Text style={_.mt.sm} size={12}>
           <Text size={12} type='main'>
-            {rating.score}
+            {$.rating.score}
           </Text>{' '}
-          / {rating.total} votes / Ranked:{' '}
+          / {$.rating.total} votes / Ranked:{' '}
           <Text size={12} type='main'>
             #{rank}
           </Text>

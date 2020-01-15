@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-14 22:39:17
+ * @Last Modified time: 2020-01-15 21:45:24
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -17,6 +17,7 @@ import {
   NAMESPACE,
   INIT_SUBJECT_ITEM,
   INIT_SUBJECT_FROM_HTML_ITEM,
+  INIT_SUBJECT_FROM_CDN_ITEM,
   INIT_MONO
 } from './init'
 import { fetchMono, cheerioSubjectFormHTML } from './common'
@@ -35,6 +36,14 @@ class Subject extends store {
      */
     subjectFormHTML: {
       // [subjectId]: INIT_SUBJECT_FROM_HTML_ITEM
+    },
+
+    /**
+     * 条目CDN自维护数据
+     * 用于条目首次渲染加速
+     */
+    subjectFormCDN: {
+      // [subjectId]: INIT_SUBJECT_FROM_CDN_ITEM
     },
 
     /**
@@ -104,6 +113,16 @@ class Subject extends store {
   subjectFormHTML(subjectId) {
     return computed(
       () => this.state.subjectFormHTML[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
+    ).get()
+  }
+
+  /**
+   * 条目CDN自维护数据
+   * @param {*} subjectId
+   */
+  subjectFormCDN(subjectId) {
+    return computed(
+      () => this.state.subjectFormCDN[subjectId] || INIT_SUBJECT_FROM_CDN_ITEM
     ).get()
   }
 
@@ -202,17 +221,16 @@ class Subject extends store {
   fetchSubjectFormCDN = async subjectId => {
     try {
       const { _response } = await xhrCustom({
-        url: `https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Subject@master/data/${parseInt(
-          parseInt(subjectId) / 1000
+        url: `https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Subject@latest/data/${parseInt(
+          parseInt(subjectId) / 100
         )}/${subjectId}.json`
       })
 
       const data = {
-        ...INIT_SUBJECT_FROM_HTML_ITEM,
-        ...JSON.parse(_response),
-        _loaded: getTimestamp()
+        ...INIT_SUBJECT_FROM_CDN_ITEM,
+        ...JSON.parse(_response)
       }
-      const key = 'subjectFormHTML'
+      const key = 'subjectFormCDN'
       this.setState({
         [key]: {
           [subjectId]: data
@@ -221,7 +239,7 @@ class Subject extends store {
       return Promise.resolve(data)
     } catch (error) {
       warn('subjectStore', 'fetchSubjectFormCDN', 404)
-      return Promise.resolve(INIT_SUBJECT_FROM_HTML_ITEM)
+      return Promise.resolve(INIT_SUBJECT_FROM_CDN_ITEM)
     }
   }
 

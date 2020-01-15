@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:48:28
+ * @Last Modified time: 2020-01-15 20:40:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,24 +13,17 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 
 function Relations({ style }, { $, navigation }) {
-  const { relations = [] } = $.subjectFormHTML
-  if (!relations.length) {
+  if (!$.relations.length) {
     return null
   }
 
   const styles = memoStyles()
-  const data = relations.map(({ id, image, title, type }) => ({
-    id,
-    image,
-    name: title,
-    desc: type
-  }))
   return (
     <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>关联</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
-        data={data}
+        data={$.relations}
         width={80}
         height={106}
         findCn

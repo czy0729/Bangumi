@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:37:09
+ * @Last Modified time: 2020-01-15 16:11:23
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -15,21 +15,22 @@ import { getType, getRating } from '@utils/app'
 
 function Box({ style }, { $, navigation }) {
   const styles = memoStyles()
-  const { collection = {} } = $.subject
-  const { formhash } = $.subjectFormHTML
-  const { wish, collect, doing, on_hold: onHold, dropped } = collection
+  const { wish, collect, doing, on_hold: onHold, dropped } = $.subjectCollection
+
+  // 自己的收藏状态
   const { status = { name: '未收藏' }, rating = 0 } = $.collection
+  const { formhash } = $.subjectFormHTML
+  const showErase = status.name !== '未收藏' && !!formhash
   const leftStyle = []
   const rightStyle = []
-  const btnText = $.isLogin ? status.name : '登陆管理'
-  const showErase = status.name !== '未收藏' && !!formhash
-  const onPress = $.isLogin
-    ? $.showManageModel
-    : () => navigation.push('LoginV2')
   if (rating) {
     leftStyle.push(styles.left)
     rightStyle.push(styles.right)
   }
+  const btnText = $.isLogin ? status.name : '登陆管理'
+  const onPress = $.isLogin
+    ? $.showManageModel
+    : () => navigation.push('LoginV2')
 
   return (
     <View style={[_.container.wind, styles.container, style]}>

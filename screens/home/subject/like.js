@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:49:27
+ * @Last Modified time: 2020-01-15 20:45:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,8 +13,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 
 function Like({ style }, { $, navigation }) {
-  const { like = [] } = $.subjectFormHTML
-  if (!like.length) {
+  if (!$.like.length) {
     return null
   }
 
@@ -24,7 +23,7 @@ function Like({ style }, { $, navigation }) {
       <SectionTitle style={_.container.wind}>猜你喜欢</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
-        data={like}
+        data={$.like}
         width={80}
         height={106}
         onPress={({ id, name, image }) => {

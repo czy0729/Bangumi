@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:51:56
+ * @Last Modified time: 2020-01-15 20:49:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,13 +15,12 @@ import { appNavigate } from '@utils/app'
 
 function Disc({ style }, { $, navigation }) {
   const styles = memoStyles()
-  const { disc = [] } = $.subjectFormHTML
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle>曲目列表</SectionTitle>
-      {!!disc.length && (
+      {!!$.disc.length && (
         <Expand style={_.mt.md}>
-          {disc.map((item, index) => (
+          {$.disc.map((item, index) => (
             <View key={item.title} style={!!index && _.mt.md}>
               <Text type='sub' size={16}>
                 {item.title}

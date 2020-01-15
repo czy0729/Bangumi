@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-14 22:27:26
+ * @Last Modified time: 2020-01-15 16:13:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,6 @@ function Ep({ style }, { $, navigation }) {
   }
 
   const styles = memoStyles()
-  const { eps = [] } = $.subject
   const { epsReverse } = $.state
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   return (
@@ -63,7 +62,7 @@ function Ep({ style }, { $, navigation }) {
         pagination
         login={$.isLogin}
         subjectId={$.params.subjectId}
-        eps={epsReverse ? eps.reverse() : eps}
+        eps={epsReverse ? $.eps.reverse() : $.eps}
         userProgress={$.userProgress}
         canPlay={$.showOnlinePlay && canPlay}
         onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:39:31
+ * @Last Modified time: 2020-01-15 20:27:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,15 +15,14 @@ import { appNavigate } from '@utils/app'
 
 function Info({ style }, { $, navigation }) {
   const styles = memoStyles()
-  const { info } = $.subjectFormHTML
   return (
     <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>详情</SectionTitle>
-      {!!info && (
+      {!!$.info && (
         <Expand>
           <RenderHtml
             style={styles.info}
-            html={info}
+            html={$.info}
             baseFontStyle={{
               fontSize: 13 + _.fontSizeAdjust,
               lineHeight: 22,

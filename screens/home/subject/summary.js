@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:37:50
+ * @Last Modified time: 2020-01-15 16:17:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,14 +13,13 @@ import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 
 function Summary({ style }, { $ }) {
-  const { _summary } = $.params
-  const { summary, _loaded } = $.subject
-  if (_loaded && !_summary && !summary) {
+  const { _loaded } = $.subject
+  if (_loaded && !$.summary) {
     return null
   }
 
   const styles = memoStyles()
-  const content = (summary || _summary || '').replace('\r\n\r\n', '\r\n')
+  const content = $.summary.replace('\r\n\r\n', '\r\n')
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle>简介</SectionTitle>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:35:24
+ * @Last Modified time: 2020-01-15 16:01:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,8 +11,7 @@ import { Flex, Mesume, Text } from '@components'
 import { _ } from '@stores'
 
 function Lock({ style }, { $ }) {
-  const { lock } = $.subjectFormHTML
-  if (!lock) {
+  if (!$.lock) {
     return null
   }
 

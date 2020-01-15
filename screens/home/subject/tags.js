@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:38:55
+ * @Last Modified time: 2020-01-15 20:23:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,16 +16,14 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 function Tags({ style }, { $, navigation }) {
   const styles = memoStyles()
-  const { type } = $.subject
-  const { tags = [] } = $.subjectFormHTML
   const { tag = [] } = $.collection
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle>标签</SectionTitle>
-      {!!tags.length && (
+      {!!$.tags.length && (
         <Expand style={_.mt.sm}>
           <Flex wrap='wrap'>
-            {tags
+            {$.tags
               .filter(item => !!item.name)
               .map(({ name, count }, index) => {
                 const isSelected = tag.includes(name)
@@ -41,7 +39,7 @@ function Tags({ style }, { $, navigation }) {
                         subjectId: $.subjectId
                       })
                       navigation.push('Tag', {
-                        type: MODEL_SUBJECT_TYPE.getLabel(type),
+                        type: MODEL_SUBJECT_TYPE.getLabel($.subjectType),
                         tag: name
                       })
                     }}

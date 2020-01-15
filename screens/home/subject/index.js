@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:25:11
+ * @Last Modified time: 2020-01-15 17:14:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -156,15 +156,14 @@ class Subject extends React.Component {
 
     const { onScroll } = this.props
     const { name_cn: nameCn, name, images = {} } = $.subject
-    const { _image } = $.params
-    const image = images.medium || _image
+    const image = images.medium || $.coverPlaceholder
     return (
       <View style={_.container.content}>
         <BlurView
           style={styles.blurView}
           theme='dark'
           tint={_.select('default', 'dark')}
-          src={_image || image}
+          src={$.coverPlaceholder || image}
         />
         <ListView
           style={styles.listView}

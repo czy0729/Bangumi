@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-14 22:30:32
+ * @Last Modified time: 2020-01-15 21:45:04
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -16,8 +16,14 @@ import {
   systemStore
 } from '@stores'
 import { open, getTimestamp } from '@utils'
+import { HTMLDecode } from '@utils/html'
 import { t, xhrCustom, queue } from '@utils/fetch'
-import { appNavigate, getBangumiUrl, getCoverMedium } from '@utils/app'
+import {
+  appNavigate,
+  findBangumiCn,
+  getBangumiUrl,
+  getCoverMedium
+} from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
 import { IOS, USERID_TOURIST, USERID_IOS_AUTH, HOST_NING_MOE } from '@constants'
@@ -26,6 +32,11 @@ import { NINGMOE_ID } from '@constants/online'
 
 const namespace = 'ScreenSubject'
 const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
+const initRating = {
+  count: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+  score: '',
+  total: ''
+}
 
 export default class ScreenSubject extends store {
   state = observable({
@@ -55,7 +66,16 @@ export default class ScreenSubject extends store {
       _loaded: true
     })
 
-    const res = this.fetchSubject() // API条目信息
+    /**
+     * 访问私有cdn, 加速未缓存条目首屏数据渲染
+     * 因为有cdn, 下面2个用户相关的接口可以提前
+     */
+    this.fetchSubjectFormCDN()
+    userStore.fetchUserProgress(this.subjectId)
+    this.fetchCollection()
+
+    // API条目信息
+    const res = this.fetchSubject()
     const data = await res
 
     // bangumi-data数据扩展
@@ -86,15 +106,13 @@ export default class ScreenSubject extends store {
       }
     }
 
-    // 访问私有cdn, 加速未缓存条目首屏数据渲染
-    // this.fetchSubjectFormCDN()
     queue([
-      () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
+      // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
       // () => subjectStore.fetchSubjectEp(this.subjectId), // [废弃] 跟条目API重复
-      () => this.fetchCollection(), // 用户每集收看进度
-      () => this.fetchEpsData(), // 单集播放源
+      // () => this.fetchCollection(), // 用户每集收看进度
       () => this.fetchSubjectComments(true), // 吐槽箱
-      () => this.fetchSubjectFormHTML() // 条目API没有的网页额外数据
+      () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
+      () => this.fetchEpsData() // 单集播放源
     ])
     return res
   }
@@ -231,6 +249,13 @@ export default class ScreenSubject extends store {
   }
 
   /**
+   * 条目CDN自维护数据
+   */
+  @computed get subjectFormCDN() {
+    return subjectStore.subjectFormCDN(this.subjectId)
+  }
+
+  /**
    * 章节信息
    */
   // @computed get subjectEp() {
@@ -337,6 +362,169 @@ export default class ScreenSubject extends store {
 
   @computed get hideScore() {
     return systemStore.setting.hideScore
+  }
+
+  // -------------------- get: cdn fallback --------------------
+  @computed get coverPlaceholder() {
+    const { _image } = this.params
+    return _image || this.subjectFormCDN.image
+  }
+
+  @computed get jp() {
+    const { _jp } = this.params
+    return HTMLDecode(this.subject.name || _jp || this.subjectFormCDN.name)
+  }
+
+  @computed get cn() {
+    const { _cn } = this.params
+    return HTMLDecode(this.subject.name_cn || _cn || findBangumiCn(this.jp))
+  }
+
+  @computed get subjectType() {
+    if (this.subject._loaded) {
+      return this.subject.type
+    }
+    return this.subjectFormCDN.type
+  }
+
+  @computed get rating() {
+    if (this.subject._loaded) {
+      return {
+        ...initRating,
+        ...this.subject.rating
+      }
+    }
+    if (this.subjectFormCDN._loaded) {
+      return {
+        ...initRating,
+        ...this.subjectFormCDN.rating
+      }
+    }
+    return initRating
+  }
+
+  @computed get lock() {
+    if (this.subjectFormHTML._loaded) {
+      return this.subjectFormHTML.lock
+    }
+    return this.subjectFormCDN.lock
+  }
+
+  @computed get subjectCollection() {
+    if (this.subject._loaded) {
+      return this.subject.collection
+    }
+    return this.subjectFormCDN.collection
+  }
+
+  @computed get eps() {
+    if (this.subject._loaded) {
+      return this.subject.eps || []
+    }
+    return this.subjectFormCDN.eps || []
+  }
+
+  @computed get disc() {
+    if (this.subject._loaded) {
+      return this.subject.disc || []
+    }
+    return this.subjectFormCDN.disc || []
+  }
+
+  @computed get summary() {
+    if (this.subject._loaded) {
+      return this.subject.summary
+    }
+    const { _summary = '' } = this.params
+    return this.subjectFormCDN.summary || _summary
+  }
+
+  @computed get tags() {
+    if (this.subjectFormHTML._loaded) {
+      return this.subjectFormHTML.tags || []
+    }
+    return this.subjectFormCDN.tags || []
+  }
+
+  @computed get info() {
+    if (this.subjectFormHTML._loaded) {
+      return this.subjectFormHTML.info
+    }
+    return this.subjectFormCDN.info
+  }
+
+  @computed get crt() {
+    if (this.subject._loaded) {
+      const { crt } = this.subject
+      return (crt || []).map(
+        ({
+          id,
+          images = {},
+          name,
+          name_cn: nameCn,
+          role_name: roleName,
+          actors = []
+        }) => ({
+          id,
+          image: images.grid,
+          _image: images.medium,
+          name: nameCn || name,
+          nameJP: name,
+          desc: (actors[0] && actors[0].name) || roleName
+        })
+      )
+    }
+    return this.subjectFormCDN.crt || []
+  }
+
+  @computed get staff() {
+    if (this.subject._loaded) {
+      const { staff } = this.subject
+      return (staff || []).map(
+        ({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
+          id,
+          image: images.grid,
+          _image: images.medium,
+          name: nameCn || name,
+          nameJP: name,
+          desc: jobs[0]
+        })
+      )
+    }
+    return this.subjectFormCDN.staff || []
+  }
+
+  @computed get relations() {
+    if (this.subject._loaded) {
+      return (this.subjectFormHTML.relations || []).map(
+        ({ id, image, title, type }) => ({
+          id,
+          image,
+          name: title,
+          desc: type
+        })
+      )
+    }
+    return (this.subjectFormCDN.relations || []).map(item => ({
+      id: item.id,
+      image: item.image,
+      name: item.title,
+      desc: item.type
+    }))
+  }
+
+  @computed get comic() {
+    if (this.subject._loaded) {
+      return this.subjectFormHTML.comic || []
+    }
+    return this.subjectFormCDN.comic || []
+  }
+
+  @computed get like() {
+    if (this.subject._loaded) {
+      return this.subjectFormHTML.like || []
+    }
+    return this.subjectFormCDN.like || []
   }
 
   // -------------------- page --------------------
