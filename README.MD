@@ -27,6 +27,16 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
+v2.5.2 - 2020/01/16
+
+—— 优化 ——
+
+- [x] [条目] 通过自维护 CDN 加速条目加载数据的速度
+
+—— 修复 ——
+
+- [x] 安卓 10 用户假如页面布局有错位问题, 可在设置里把切页动画选择成垂直, 可暂时解决问题
+
 v2.5.0 - 2020/01/12
 
 —— 优化 ——
@@ -78,7 +88,7 @@ v2.5.0 - 2020/01/12
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-1.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-1.png" />
 
-(被墙看不见图的可以复制alt打开)
+(被墙看不见图的可以复制 alt 打开)
 
 ## Demo
 

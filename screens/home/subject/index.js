@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 17:14:05
+ * @Last Modified time: 2020-01-16 21:53:40
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { InteractionManager, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { BlurView, ListView } from '@components'
@@ -49,78 +49,80 @@ class Subject extends React.Component {
     navigation: PropTypes.object
   }
 
-  async componentDidMount() {
-    const { $, navigation } = this.context
-    const { name_cn: nameCn, name } = $.subject
-    const _title = nameCn || name
-    if (_title) {
-      withTransitionHeader.setTitle(navigation, _title)
-    }
-
-    // 右上角头部按钮
-    const data = await $.init()
-    if (data) {
-      const { sites = [] } = $.state.bangumiInfo
-      const url = String(data.url).replace('http://', 'https://')
-      const _data = ['Bangumi']
-      if ($.showOnlinePlay && $.ningMoeDetail.id) {
-        _data.push('柠萌瞬间')
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(async () => {
+      const { $, navigation } = this.context
+      const { name_cn: nameCn, name } = $.subject
+      const _title = nameCn || name
+      if (_title) {
+        withTransitionHeader.setTitle(navigation, _title)
       }
 
-      let _sitesDS = []
-      if ($.showOnlinePlay) {
-        _sitesDS = sitesDS
-      }
+      // 右上角头部按钮
+      const data = await $.init()
+      if (data) {
+        const { sites = [] } = $.state.bangumiInfo
+        const url = String(data.url).replace('http://', 'https://')
+        const _data = ['Bangumi']
+        if ($.showOnlinePlay && $.ningMoeDetail.id) {
+          _data.push('柠萌瞬间')
+        }
 
-      const popoverData = [
-        ..._data,
-        ...sites
-          .filter(item => _sitesDS.includes(item.site))
-          .map(item => item.site)
-      ]
-      if (['动画', '三次元'].includes($.type)) {
-        popoverData.push('迅播动漫')
-      }
-      popoverData.push('复制链接')
-      navigation.setParams({
-        headerTransitionTitle: data.name_cn || data.name,
-        popover: {
-          data: popoverData,
-          onSelect: key => {
-            t('条目.右上角菜单', {
-              subjectId: $.subjectId,
-              key
-            })
+        let _sitesDS = []
+        if ($.showOnlinePlay) {
+          _sitesDS = sitesDS
+        }
 
-            let item
-            switch (key) {
-              case 'Bangumi':
-                open(url)
-                break
-              case '柠萌瞬间':
-                open(`${HOST_NING_MOE}/bangumi/${$.ningMoeDetail.id}/home`)
-                break
-              case '迅播动漫':
-                $.jumpXunBo()
-                break
-              case '复制链接':
-                copy(`${HOST}/subject/${$.params.subjectId}`)
-                info('已复制')
-                break
-              default:
-                item = sites.find(item => item.site === key)
-                if (item) {
-                  const url = getBangumiUrl(item)
+        const popoverData = [
+          ..._data,
+          ...sites
+            .filter(item => _sitesDS.includes(item.site))
+            .map(item => item.site)
+        ]
+        if (['动画', '三次元'].includes($.type)) {
+          popoverData.push('迅播动漫')
+        }
+        popoverData.push('复制链接')
+        navigation.setParams({
+          headerTransitionTitle: data.name_cn || data.name,
+          popover: {
+            data: popoverData,
+            onSelect: key => {
+              t('条目.右上角菜单', {
+                subjectId: $.subjectId,
+                key
+              })
+
+              let item
+              switch (key) {
+                case 'Bangumi':
                   open(url)
-                }
-                break
+                  break
+                case '柠萌瞬间':
+                  open(`${HOST_NING_MOE}/bangumi/${$.ningMoeDetail.id}/home`)
+                  break
+                case '迅播动漫':
+                  $.jumpXunBo()
+                  break
+                case '复制链接':
+                  copy(`${HOST}/subject/${$.params.subjectId}`)
+                  info('已复制')
+                  break
+                default:
+                  item = sites.find(item => item.site === key)
+                  if (item) {
+                    const url = getBangumiUrl(item)
+                    open(url)
+                  }
+                  break
+              }
             }
           }
-        }
-      })
-    }
+        })
+      }
 
-    hm(`subject/${$.params.subjectId}`, 'Subject')
+      hm(`subject/${$.params.subjectId}`, 'Subject')
+    })
   }
 
   renderItem = ({ item, index }) => {
