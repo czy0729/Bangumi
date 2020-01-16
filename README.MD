@@ -102,6 +102,8 @@ v2.5.0 - 2020/01/12
 
 ## PowerBy
 
+[[bangumi-subject]](https://github.com/czy0729/Bangumi-Subject) 本人自维护的条目静态数据CDN
+
 [[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
 [[bangumi-onair]](https://github.com/ekibun/bangumi_onair) 单集播放数据源
