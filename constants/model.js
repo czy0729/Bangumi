@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 13:41:19
+ * @Last Modified time: 2020-01-16 20:06:08
  */
 class Model {
   constructor(data) {
@@ -365,6 +365,18 @@ export const MODEL_SETTING_QUALITY = new Model([
   {
     label: '低质量',
     value: 'mini'
+  }
+])
+
+// 设置 - 切页动画
+export const MODEL_SETTING_TRANSITION = new Model([
+  {
+    label: '水平',
+    value: 'horizontal'
+  },
+  {
+    label: '垂直',
+    value: 'vertical'
   }
 ])
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 18:03:52
+ * @Last Modified time: 2020-01-16 20:13:41
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -13,7 +13,10 @@ import {
   GITHUB_RELEASE_REPOS_URL,
   VERSION_GITHUB_RELEASE
 } from '@constants'
-import { MODEL_SETTING_QUALITY } from '@constants/model'
+import {
+  MODEL_SETTING_QUALITY,
+  MODEL_SETTING_TRANSITION
+} from '@constants/model'
 import {
   NAMESPACE,
   INIT_SETTING,
@@ -145,6 +148,23 @@ class System extends store {
         [key]: {
           ...this.setting,
           quality
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  /**
+   * 设置`切页动画`
+   */
+  setTransition = label => {
+    const transition = MODEL_SETTING_TRANSITION.getValue(label)
+    if (transition) {
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          transition
         }
       })
       this.setStorage(key, undefined, NAMESPACE)

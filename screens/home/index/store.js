@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-14 22:59:08
+ * @Last Modified time: 2020-01-16 19:37:24
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -194,45 +194,55 @@ export default class ScreenHome extends store {
    * 条目章节数据
    */
   eps(subjectId) {
-    return computed(() => {
-      const { eps = [] } = this.subject(subjectId)
-      const { length } = eps
+    try {
+      return computed(() => {
+        const eps = this.subject(subjectId).eps || []
+        const { length } = eps
 
-      // 集数超过了1页的显示个数
-      if (length > Eps.pageLimit) {
-        const userProgress = this.userProgress(subjectId)
-        const index = eps.findIndex(
-          item => item.type === 0 && userProgress[item.id] !== '看过'
-        )
+        // 集数超过了1页的显示个数
+        if (length > Eps.pageLimit) {
+          const userProgress = this.userProgress(subjectId)
+          const index = eps.findIndex(
+            item => item.type === 0 && userProgress[item.id] !== '看过'
+          )
 
-        // 找不到未看集数, 返回最后的数据
-        if (index === -1) {
-          return eps.slice(length - Eps.pageLimit - 1, length - 1)
+          // 找不到未看集数, 返回最后的数据
+          if (index === -1) {
+            return eps.slice(length - Eps.pageLimit - 1, length - 1)
+          }
+
+          // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
+          // @notice 注意这里第一个值不能小于0, 不然会返回空
+          return eps.slice(index < 1 ? 0 : index - 1, index + Eps.pageLimit - 1)
         }
-
-        // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
-        // @notice 注意这里第一个值不能小于0, 不然会返回空
-        return eps.slice(index < 1 ? 0 : index - 1, index + Eps.pageLimit - 1)
-      }
-      return eps
-    }).get()
+        return eps
+      }).get()
+    } catch (error) {
+      warn(namespace, 'eps', error)
+      return []
+    }
   }
 
   /**
    * 条目下一个未看章节
    */
   nextWatchEp(subjectId) {
-    return computed(() => {
-      const eps = this.eps(subjectId)
-      const userProgress = this.userProgress(subjectId)
-      const index = eps.findIndex(
-        item => item.type === 0 && userProgress[item.id] !== '看过'
-      )
-      if (index === -1) {
-        return {}
-      }
-      return eps[index]
-    }).get()
+    try {
+      return computed(() => {
+        const eps = this.eps(subjectId) || []
+        const userProgress = this.userProgress(subjectId)
+        const index = eps.findIndex(
+          item => item.type === 0 && userProgress[item.id] !== '看过'
+        )
+        if (index === -1) {
+          return {}
+        }
+        return eps[index]
+      }).get()
+    } catch (error) {
+      warn(namespace, 'nextWatchEp', error)
+      return {}
+    }
   }
 
   /**

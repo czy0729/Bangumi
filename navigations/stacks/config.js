@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-24 18:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-13 11:34:48
+ * @Last Modified time: 2020-01-16 20:30:42
  */
 import { Platform } from 'react-native'
 import StackViewStyleInterpolator from '@components/@/react-navigation-stack/StackViewStyleInterpolator'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { IOS } from '@constants'
 
 const config = {
@@ -41,9 +41,16 @@ const config = {
 }
 
 if (!IOS) {
-  config.transitionConfig = () => ({
-    screenInterpolator: StackViewStyleInterpolator.forHorizontal
-  })
+  config.transitionConfig = () => {
+    if (systemStore.setting.transition === 'vertical') {
+      return {
+        screenInterpolator: StackViewStyleInterpolator.forFadeToBottomAndroid
+      }
+    }
+    return {
+      screenInterpolator: StackViewStyleInterpolator.forHorizontal
+    }
+  }
 }
 
 export default config

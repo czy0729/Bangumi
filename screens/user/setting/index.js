@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-13 11:32:37
+ * @Last Modified time: 2020-01-16 20:20:29
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -25,7 +25,10 @@ import {
   USERID_IOS_AUTH,
   SAY_DEVELOP_ID
 } from '@constants'
-import { MODEL_SETTING_QUALITY } from '@constants/model'
+import {
+  MODEL_SETTING_QUALITY,
+  MODEL_SETTING_TRANSITION
+} from '@constants/model'
 
 const title = '设置'
 
@@ -101,6 +104,17 @@ class Setting extends React.Component {
     }
   }
 
+  setTransition = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '切页动画',
+        label
+      })
+
+      systemStore.setTransition(label)
+    }
+  }
+
   toggleDev = () => {
     const { showDev } = this.state
     this.setState({
@@ -139,7 +153,7 @@ class Setting extends React.Component {
   }
 
   renderModule() {
-    const { tinygrail } = systemStore.setting
+    const { cdn, tinygrail } = systemStore.setting
     return (
       <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
@@ -147,6 +161,25 @@ class Setting extends React.Component {
         </Text>
         <ItemSetting
           style={_.mt.sm}
+          hd='CDN加速'
+          ft={
+            <Switch
+              checked={cdn}
+              onChange={() => {
+                t('设置.切换', {
+                  title: 'CDN加速',
+                  checked: !cdn
+                })
+
+                systemStore.switchSetting('cdn')
+              }}
+            />
+          }
+          withoutFeedback
+          information='[实验性] 针对网站静态数据, 使用CDN访问自维护的快照, 加速首屏渲染并且更稳定, 特别是bgm卡的时候效果更为明显. 缺点是数据可能不会及时同步, 流量也会稍微变高. (暂只支持条目)'
+        />
+        <ItemSetting
+          border
           hd='黑暗模式'
           ft={
             <Switch
@@ -304,7 +337,8 @@ class Setting extends React.Component {
       // iosMenu,
       avatarRound,
       heatMap,
-      speech
+      speech,
+      transition
     } = systemStore.setting
     return (
       <>
@@ -389,6 +423,23 @@ class Setting extends React.Component {
             />
           }
           withoutFeedback
+        />
+        <ItemSetting
+          border
+          hd='切页动画'
+          ft={
+            <Popover
+              data={MODEL_SETTING_TRANSITION.data.map(({ label }) => label)}
+              onSelect={this.setTransition}
+            >
+              <Text size={16} type='sub'>
+                {MODEL_SETTING_TRANSITION.getLabel(transition)}
+              </Text>
+            </Popover>
+          }
+          arrow
+          highlight
+          information="部分安卓10用户会遇到页面布局错位问题, 可把动画设置成垂直暂时解决"
         />
       </>
     )

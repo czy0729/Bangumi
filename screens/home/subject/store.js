@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 21:45:04
+ * @Last Modified time: 2020-01-16 18:00:21
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -71,8 +71,8 @@ export default class ScreenSubject extends store {
      * 因为有cdn, 下面2个用户相关的接口可以提前
      */
     this.fetchSubjectFormCDN()
-    userStore.fetchUserProgress(this.subjectId)
-    this.fetchCollection()
+    userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
+    this.fetchCollection() // 用户每集收看进度
 
     // API条目信息
     const res = this.fetchSubject()
@@ -141,8 +141,10 @@ export default class ScreenSubject extends store {
    * 私有CDN的条目信息
    */
   fetchSubjectFormCDN = async () => {
+    const { setting } = systemStore
     const { _loaded } = this.subjectFormHTML
-    if (_loaded) {
+    console.log(setting.cdn)
+    if (!setting.cdn || _loaded) {
       return true
     }
     return subjectStore.fetchSubjectFormCDN(this.subjectId)
@@ -412,9 +414,9 @@ export default class ScreenSubject extends store {
 
   @computed get subjectCollection() {
     if (this.subject._loaded) {
-      return this.subject.collection
+      return this.subject.collection || {}
     }
-    return this.subjectFormCDN.collection
+    return this.subjectFormCDN.collection || {}
   }
 
   @computed get eps() {

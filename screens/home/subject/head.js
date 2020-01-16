@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:19:27
+ * @Last Modified time: 2020-01-16 18:04:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,7 @@ function Head({ style }, { $ }) {
   }
   return (
     <View style={[styles.container, style]}>
-      <Cover image={images.large} placeholder={$.coverPlaceholder} />
+      <Cover image={images.common} placeholder={$.coverPlaceholder} />
       <Flex
         style={styles.content}
         direction='column'

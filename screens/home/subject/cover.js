@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 15:58:01
+ * @Last Modified time: 2020-01-16 18:06:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
+import { getCoverLarge } from '@utils/app'
 import { _ } from '@stores'
 
 const imageWidth = 120
@@ -48,6 +49,7 @@ class Cover extends React.Component {
             shadow
             placeholder={false}
             imageViewer
+            imageViewerSrc={getCoverLarge(image)}
             fadeDuration={0}
             event={{
               id: '条目.封面图查看',
