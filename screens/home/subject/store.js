@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-16 18:00:21
+ * @Last Modified time: 2020-01-17 14:17:49
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -27,6 +27,7 @@ import {
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
 import { IOS, USERID_TOURIST, USERID_IOS_AUTH, HOST_NING_MOE } from '@constants'
+import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { NINGMOE_ID } from '@constants/online'
 
@@ -171,14 +172,8 @@ export default class ScreenSubject extends store {
   fetchEpsData = async () => {
     if (this.type === '动画') {
       try {
-        /**
-         * 旧源头
-         * https://raw.githubusercontent.com/ekibun/bangumi_onair/master
-         */
         const { _response } = await xhrCustom({
-          url: `https://cdn.jsdelivr.net/gh/ekibun/bangumi_onair@latest/onair/${parseInt(
-            parseInt(this.subjectId) / 1000
-          )}/${this.subjectId}.json`
+          url: CDN_EPS(this.subjectId)
         })
 
         const epsData = {

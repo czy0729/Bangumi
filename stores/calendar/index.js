@@ -3,15 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 21:22:43
+ * @Last Modified time: 2020-01-17 14:09:36
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
-import { HOST, LIST_EMPTY, GITHUB_BANGUMI_ONAIR_URL } from '@constants'
+import { HOST, LIST_EMPTY } from '@constants'
 import { API_CALENDAR } from '@constants/api'
+import { CDN_ONAIR } from '@constants/cdn'
 import { NAMESPACE, INIT_HOME } from './init'
 import { cheerioToday } from './common'
 
@@ -174,7 +175,7 @@ class Calendar extends store {
 
     try {
       const { _response } = await xhrCustom({
-        url: GITHUB_BANGUMI_ONAIR_URL
+        url: CDN_ONAIR
       })
       const data = {
         _loaded: true

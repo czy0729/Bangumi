@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 17:14:51
+ * @Last Modified time: 2020-01-17 14:24:22
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -11,6 +11,7 @@ import { Loading, Text } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { HOST_CDN } from '@constants/cdn'
 import html from './html'
 import { getKData } from './utils'
 
@@ -69,7 +70,7 @@ class KLine extends React.Component {
                 _.colorBid,
                 _.colorAsk
               ),
-              baseUrl: 'https://cdn.jsdelivr.net'
+              baseUrl: HOST_CDN
             }}
             bounces={false}
             scrollEnabled={false}

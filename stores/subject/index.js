@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 21:45:24
+ * @Last Modified time: 2020-01-17 14:16:14
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
+import { CDN_SUBJECT } from '@constants/cdn'
 import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_EP } from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
@@ -221,9 +222,7 @@ class Subject extends store {
   fetchSubjectFormCDN = async subjectId => {
     try {
       const { _response } = await xhrCustom({
-        url: `https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Subject@latest/data/${parseInt(
-          parseInt(subjectId) / 100
-        )}/${subjectId}.json`
+        url: CDN_SUBJECT(subjectId)
       })
 
       const data = {
