@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 16:00:30
+ * @Last Modified time: 2020-01-18 15:23:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
+import { CDN_OSS_AVATAR } from '@constants/cdn'
 
 function Avatar({
   style,
@@ -27,8 +28,10 @@ function Avatar({
   onLongPress
 }) {
   const styles = memoStyles()
-  const { avatarRound } = systemStore.setting
-  const _src = getCoverMedium(src, true)
+  const { cdn, avatarRound } = systemStore.setting
+  const _src = cdn
+    ? CDN_OSS_AVATAR(getCoverMedium(src, true))
+    : getCoverMedium(src, true)
   const radius = avatarRound ? size / 2 : true
   const _onPress = () => {
     if (onPress) {
