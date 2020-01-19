@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-11 17:22:42
+ * @Last Modified time: 2020-01-19 14:36:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -239,7 +239,7 @@ class Eps extends React.Component {
         infinite
       >
         {epsGroup
-          // @todo 渲染过多会卡顿, 暂时只取前5页
+          // 渲染过多会卡顿, 暂时只取前5页
           .filter((item, index) => index < 5)
           .map((eps, index) => (
             // eslint-disable-next-line react/no-array-index-key
@@ -321,9 +321,7 @@ class Eps extends React.Component {
         backgroundColor: _.colorDesc
       },
       sp: {
-        marginTop: 2,
-        borderLeftWidth: 2,
-        borderColor: _.colorSub
+        marginTop: 2
       },
       hotBar: {
         position: 'absolute',
@@ -350,6 +348,7 @@ function getType(progress, status) {
     default:
       break
   }
+
   switch (status) {
     case 'Air':
       return 'ghostPrimary'

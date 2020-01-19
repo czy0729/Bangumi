@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:21:02
+ * @Last Modified time: 2020-01-19 16:03:49
  */
 import React from 'react'
 import { Alert, Animated, View } from 'react-native'
@@ -48,9 +48,9 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
 
   let data
   if (isMe) {
-    data = ['我的好友', 'netabare', '缺少收藏?']
+    data = ['我的好友', 'netaba.re', '缺少收藏?']
   } else {
-    data = ['TA的好友', 'TA的netabare']
+    data = ['TA的好友', 'TA的netaba.re']
   }
 
   return (
@@ -134,8 +134,8 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
                   userId: id
                 })
                 break
-              case 'netabare':
-              case 'TA的netabare':
+              case 'netaba.re':
+              case 'TA的netaba.re':
                 open(`https://netaba.re/user/${id}`)
                 break
               case '缺少收藏?':

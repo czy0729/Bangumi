@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:45:47
+ * @Last Modified time: 2020-01-19 14:44:27
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -16,6 +16,7 @@ import List from './list'
 import Store from './store'
 
 const title = '发现'
+const ListHeaderComponent = <Header />
 
 export default
 @inject(Store)
@@ -23,7 +24,7 @@ export default
 class Discovery extends React.Component {
   static navigationOptions = {
     header: null,
-    tabBarIcon: ({ tintColor }) => <IconTabBar name='home' color={tintColor} />,
+    tabBarIcon,
     tabBarLabel: title
   }
 
@@ -49,10 +50,10 @@ class Discovery extends React.Component {
           <ListView
             style={_.container.screen}
             contentContainerStyle={_.container.bottom}
-            keyExtractor={item => item.type}
+            keyExtractor={keyExtractor}
             data={$.state.home}
-            ListHeaderComponent={<Header />}
-            renderItem={({ item }) => <List {...item} />}
+            ListHeaderComponent={ListHeaderComponent}
+            renderItem={renderItem}
             onHeaderRefresh={$.init}
             onFooterRefresh={$.fetchHome}
           />
@@ -62,4 +63,16 @@ class Discovery extends React.Component {
       </>
     )
   }
+}
+
+function tabBarIcon({ tintColor }) {
+  return <IconTabBar name='home' color={tintColor} />
+}
+
+function keyExtractor(item) {
+  return item.type
+}
+
+function renderItem({ item }) {
+  return <List {...item} />
 }

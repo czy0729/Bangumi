@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-11 17:49:38
+ * @Last Modified time: 2020-01-18 20:21:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Iconfont, Image, Text, Touchable } from '@components'
-import { Eps } from '@screens/_'
+import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Eps, Cover } from '@screens/_'
 import { _ } from '@stores'
-import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -40,7 +39,7 @@ class GridInfo extends React.Component {
       subjectId,
       _jp: subject.name,
       _cn: subject.name_cn || subject.name,
-      _image: getCoverMedium(subject.images.medium)
+      _image: subject.images.medium
     })
   }
 
@@ -180,10 +179,10 @@ class GridInfo extends React.Component {
     return (
       <Flex style={styles.item} align='start'>
         <View>
-          <Image
+          <Cover
             size={120}
             height={168}
-            src={getCoverMedium(subject.images.medium)}
+            src={subject.images.medium}
             radius
             border
             shadow

@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 21:39:05
+ * @Last Modified time: 2020-01-18 19:54:16
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -60,9 +60,15 @@ class LoginV2 extends React.Component {
 
   async componentDidMount() {
     const email = await getStorage(`${namespace}|email`)
+    const password = await getStorage(`${namespace}|password`)
     if (email) {
       this.setState({
         email
+      })
+    }
+    if (password) {
+      this.setState({
+        password
       })
     }
 
@@ -267,6 +273,7 @@ class LoginV2 extends React.Component {
       const { _response } = await this.getAccessToken()
       const accessToken = JSON.parse(_response)
       userStore.updateAccessToken(accessToken)
+      setStorage(`${namespace}|password`, password)
       this.inStore()
     } catch (ex) {
       this.retryLogin('登陆失败, 请重试或点击这里前往旧版授权登陆 >')

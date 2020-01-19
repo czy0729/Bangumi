@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-16 21:53:40
+ * @Last Modified time: 2020-01-18 21:43:08
  */
 import React from 'react'
 import { InteractionManager, StyleSheet, View } from 'react-native'
@@ -13,10 +13,11 @@ import { ManageModal, ItemComment } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
-import { getBangumiUrl } from '@utils/app'
+import { getBangumiUrl, getCoverMedium } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, IOS, HOST_NING_MOE } from '@constants'
+import { CDN_OSS_SUBJECT } from '@constants/cdn'
 import Header from './header'
 import Store from './store'
 
@@ -158,14 +159,15 @@ class Subject extends React.Component {
 
     const { onScroll } = this.props
     const { name_cn: nameCn, name, images = {} } = $.subject
-    const image = images.medium || $.coverPlaceholder
     return (
       <View style={_.container.content}>
         <BlurView
           style={styles.blurView}
           theme='dark'
           tint={_.select('default', 'dark')}
-          src={$.coverPlaceholder || image}
+          src={CDN_OSS_SUBJECT(
+            getCoverMedium($.coverPlaceholder || images.common)
+          )}
         />
         <ListView
           style={styles.listView}

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:12:59
+ * @Last Modified time: 2020-01-19 02:32:22
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Image, Text, Touchable } from '@components'
+import { Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { findBangumiCn } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
+import Cover from './cover'
 
 function HorizontalList({
   style,
@@ -38,7 +39,7 @@ function HorizontalList({
             index !== 0 && _.ml.md
           ]}
         >
-          <Image
+          <Cover
             size={width}
             height={height}
             src={item.image || IMG_DEFAULT}

@@ -4,9 +4,9 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 14:46:49
+ * @Last Modified time: 2020-01-18 20:29:00
  */
-import { HASH_AVATAR } from './hash'
+import { HASH_AVATAR, HASH_SUBJECT } from './hash'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
@@ -83,6 +83,7 @@ export const CDN_OSS_AVATAR = src => {
   if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
     _src = `https:${_src}`
   }
+  _src = _src.replace('http://', 'https://')
 
   /**
    * 计算图片hash, 之后查询在不在OSS缓存里面
@@ -99,3 +100,45 @@ export const CDN_OSS_AVATAR = src => {
   avatarCache[src] = src
   return src
 }
+
+/**
+ * 条目封面CDN
+ */
+const subjectCache = {}
+export const CDN_OSS_SUBJECT = src => {
+  if (typeof src !== 'string') {
+    return src
+  }
+
+  if (subjectCache[src]) {
+    return subjectCache[src]
+  }
+
+  // 修正图片地址
+  let _src = src.split('?')[0]
+  if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
+    _src = `https:${_src}`
+  }
+  _src = _src.replace('http://', 'https://')
+
+  /**
+   * 计算图片hash, 之后查询在不在OSS缓存里面
+   * 计算规则: 带https://开头, 使用/c/质量, 去掉?后面的参数
+   */
+  const _hash = hash(_src)
+  if (_hash in HASH_SUBJECT) {
+    const path = _hash.slice(0, 1).toLocaleLowerCase()
+    const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@master/data/subject/c/${path}/${_hash}.jpg`
+    subjectCache[src] = cdnSrc
+    return cdnSrc
+  }
+
+  subjectCache[src] = src
+  return src
+}
+
+/**
+ * 年鉴
+ */
+export const CDN_AWARD = year =>
+  `${HOST_CDN}/gh/czy0729/Bangumi-Static/data/award/${year}.json`

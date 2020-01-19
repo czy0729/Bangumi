@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 20:20:02
+ * @Last Modified time: 2020-01-18 21:24:53
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -146,7 +146,7 @@ class Topic extends React.Component {
           this.scrollTo(scrollIndex)
         }
       } catch (error) {
-        // do nothing
+        warn('topic/index.js', 'jump', error)
       }
     }
   }
@@ -155,11 +155,15 @@ class Topic extends React.Component {
     const { $ } = this.context
     const { list } = $.comments
     info(list[index].floor, 0.8)
-    this.listView.scrollToIndex({
-      animated: false,
-      index,
-      viewOffset: 0
-    })
+    try {
+      this.listView.scrollToIndex({
+        animated: false,
+        index,
+        viewOffset: 0
+      })
+    } catch (error) {
+      warn('topic/index.js', 'scrollTo', error)
+    }
   }
 
   scrollToThenFeedback = (index = 0) => {
@@ -180,11 +184,15 @@ class Topic extends React.Component {
 
     const { list } = $.comments
     info(list[index].floor, 0.8)
-    this.listView.scrollToIndex({
-      animated: true,
-      index,
-      viewOffset: 0 + _.headerHeight
-    })
+    try {
+      this.listView.scrollToIndex({
+        animated: true,
+        index,
+        viewOffset: 0 + _.headerHeight
+      })
+    } catch (error) {
+      warn('topic/index.js', 'scrollToThenFeedback', error)
+    }
   }
 
   onScrollToIndexFailed = ({ highestMeasuredFrameIndex, index }) => {

@@ -3,13 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 10:47:07
+ * @Last Modified time: 2020-01-19 02:29:03
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
 // import { useScreens } from 'react-native-screens'
 import { DEV, HOST, HOST_2 } from '@constants'
 import { t } from './fetch'
+
+const HOST_IMAGE = '//lain.bgm.tv'
 
 /**
  * 启动
@@ -390,16 +392,24 @@ export function getCookie(cookies = '', name) {
   return ''
 }
 
-// bgm图片质量 g < s < m < c < l, 只用s, m(c), l
+/**
+ * bgm图片质量 g < s < m < c < l, 只用s, m(c), l
+ * CDN开启下 不用s, s转成m(c)
+ */
 /**
  * 获取低质量bgm图片
  * @param {*} src
  */
 export function getCoverSmall(src = '') {
   if (typeof src !== 'string' || src === '') {
-    return ''
+    return src
   }
-  return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
+
+  if (!src.includes(HOST_IMAGE)) {
+    return src
+  }
+
+  return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/s/')
 }
 
 /**
@@ -408,11 +418,11 @@ export function getCoverSmall(src = '') {
  */
 export function getCoverMedium(src = '', mini = false) {
   if (typeof src !== 'string' || src === '') {
-    return ''
+    return src
   }
 
-  // 角色图片不要处理
-  if (src.includes('/crt/')) {
+  // 角色图片因为是对头部划图的, 不要处理
+  if (src.includes('/crt/') || !src.includes(HOST_IMAGE)) {
     return src
   }
 
@@ -429,8 +439,13 @@ export function getCoverMedium(src = '', mini = false) {
  */
 export function getCoverLarge(src = '') {
   if (typeof src !== 'string' || src === '') {
-    return ''
+    return src
   }
+
+  if (!src.includes(HOST_IMAGE)) {
+    return src
+  }
+
   return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
 }
 

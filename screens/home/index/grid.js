@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-11 17:17:27
+ * @Last Modified time: 2020-01-18 20:02:25
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,6 +22,7 @@ const listViewProps = IOS
       }
     }
   : {}
+const footerNoMoreDataComponent = <View />
 
 class Grid extends React.Component {
   static defaultProps = {
@@ -91,7 +92,7 @@ class Grid extends React.Component {
           keyExtractor={keyExtractor}
           data={userCollection}
           numColumns={4}
-          footerNoMoreDataComponent={<View />}
+          footerNoMoreDataComponent={footerNoMoreDataComponent}
           footerNoMoreDataText=''
           renderItem={renderItem}
           onHeaderRefresh={$.onHeaderRefresh}

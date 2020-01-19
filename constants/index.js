@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 15:21:34
+ * @Last Modified time: 2020-01-19 15:36:45
  */
 import { Platform } from 'react-native'
 
 /* ==================== DEV ==================== */
-export const DEV = false // 是否开发模式
+export const DEV = true // 是否开发模式
 export const BARE = true // 裸工作流
 export const VERSION_GITHUB_RELEASE = '2.6.0' // 版本号
 export const VERSION_CODE_PUSH = '' // 热推送副版本号
@@ -46,10 +46,12 @@ export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec' // 小圣杯client_id
 export const TINYGRAIL_OAUTH_REDIRECT_URL = 'https://tinygrail.com/cb' // 小圣杯授权跳转地址
 
 // GITHUB
-export const GITHUB_URL = 'https://github.com/czy0729/Bangumi' // github地址
-export const GITHUB_RELEASE_URL = `${GITHUB_URL}/releases` // 版本析出地址
-export const GITHUB_RELEASE_REPOS_URL =
+export const GITHUB_PROJECT = 'https://github.com/czy0729/Bangumi' // github项目地址
+export const GITHUB_PROJECT_GH = 'https://czy0729.github.io/Bangumi' // gh-pages
+export const GITHUB_RELEASE = `${GITHUB_PROJECT}/releases` // 版本析出地址
+export const GITHUB_RELEASE_REPOS =
   'https://api.github.com/repos/czy0729/Bangumi/releases' // 版本析出api地址
+export const GITHUB_DATA = `${GITHUB_PROJECT_GH}/web/data.json` // online数
 
 // 图片
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg' // 空头像

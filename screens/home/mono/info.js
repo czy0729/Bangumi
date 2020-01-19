@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 16:05:06
+ * @Last Modified time: 2020-01-18 21:19:40
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -118,7 +118,7 @@ function Info(props, { $, navigation }) {
 
               const type = $.monoId.includes('character/') ? 'crt' : 'prsn'
               navigation.push('Topic', {
-                topicId: `${type}/${$.monoId.match(/\d+/g)[0]}`
+                topicId: `${type}/${($.monoId || '').match(/\d+/g)[0]}`
               })
             }}
           >

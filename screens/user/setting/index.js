@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-16 20:20:29
+ * @Last Modified time: 2020-01-18 19:53:20
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -17,8 +17,8 @@ import { t } from '@utils/fetch'
 import {
   IOS,
   FEEDBACK_URL,
-  GITHUB_URL,
-  GITHUB_RELEASE_URL,
+  GITHUB_PROJECT,
+  GITHUB_RELEASE,
   VERSION_GITHUB_RELEASE,
   VERSION_CODE_PUSH,
   USERID_TOURIST,
@@ -176,7 +176,7 @@ class Setting extends React.Component {
             />
           }
           withoutFeedback
-          information='[实验性] 针对网站静态数据, 使用CDN访问自维护的快照, 加速首屏渲染并且更稳定, 特别是bgm卡的时候效果更为明显. 缺点是数据可能不会及时同步, 流量也会稍微变高. (暂只支持条目)'
+          information='[实验性] 针对网站静态数据, 使用CDN访问自维护的快照, 加速渲染并且更稳定, 特别是bgm卡的时候效果更为明显. 缺点是数据可能不会及时同步, 流量也会稍微变高. (现支持条目、封面图)'
         />
         <ItemSetting
           border
@@ -439,7 +439,7 @@ class Setting extends React.Component {
           }
           arrow
           highlight
-          information="部分安卓10用户会遇到页面布局错位问题, 可把动画设置成垂直暂时解决"
+          information='部分安卓10用户会遇到页面布局错位问题, 可把动画设置成垂直暂时解决'
         />
       </>
     )
@@ -479,7 +479,7 @@ class Setting extends React.Component {
             IOS
               ? undefined
               : () =>
-                  appNavigate(GITHUB_RELEASE_URL, undefined, undefined, {
+                  appNavigate(GITHUB_RELEASE, undefined, undefined, {
                     id: '设置.跳转'
                   })
           }
@@ -517,7 +517,7 @@ class Setting extends React.Component {
           arrow
           highlight
           onPress={() =>
-            appNavigate(GITHUB_URL, undefined, undefined, {
+            appNavigate(GITHUB_PROJECT, undefined, undefined, {
               id: '设置.跳转'
             })
           }

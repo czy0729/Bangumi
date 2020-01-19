@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 11:13:24
+ * @Last Modified time: 2020-01-19 15:59:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -239,10 +239,10 @@ class RenderHtml extends React.Component {
         )
       }
 
-      return _html
+      return decodeURIComponent(_html)
     } catch (error) {
       warn('RenderHtml', 'formatHTML', error)
-      return html
+      return decodeURIComponent(html)
     }
   }
 

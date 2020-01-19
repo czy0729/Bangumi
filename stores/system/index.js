@@ -10,7 +10,7 @@ import store from '@utils/store'
 import { info } from '@utils/ui'
 import {
   IOS,
-  GITHUB_RELEASE_REPOS_URL,
+  GITHUB_RELEASE_REPOS,
   VERSION_GITHUB_RELEASE
 } from '@constants'
 import {
@@ -107,7 +107,7 @@ class System extends store {
   fetchRelease = async () => {
     let res
     try {
-      res = fetch(GITHUB_RELEASE_REPOS_URL).then(response => response.json())
+      res = fetch(GITHUB_RELEASE_REPOS).then(response => response.json())
       const data = await res
 
       const { name: githubVersion, assets = [] } = data[0]

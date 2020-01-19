@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:33:43
+ * @Last Modified time: 2020-01-19 16:03:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ class Ranting extends React.Component {
             }}
           >
             <Flex>
-              <Text type='sub'>netabare</Text>
+              <Text type='sub'>netaba.re</Text>
               <Iconfont name='right' size={16} />
             </Flex>
           </Touchable>

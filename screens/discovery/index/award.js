@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 19:55:56
+ * @Last Modified time: 2020-01-19 14:48:03
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,6 +12,10 @@ import { Touchable, Image, Text, Flex } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import ImageHero from '@assets/images/hero.png'
+import ImageHeroTitle from '@assets/images/hero_title.png'
+
+const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 
 function Award(props, { navigation }) {
   const styles = memoStyles()
@@ -29,6 +33,7 @@ function Award(props, { navigation }) {
             to: 'Award',
             year: 2018
           })
+
           navigation.push('Award', {
             uri: `${HOST}/award/2018`
           })
@@ -38,21 +43,21 @@ function Award(props, { navigation }) {
         <View style={styles.image}>
           <Image
             style={styles.imageHero}
-            src={require('@assets/images/hero.png')}
+            src={ImageHero}
             size={148}
             placeholder={false}
           />
         </View>
         <Image
           style={styles.imageTitle}
-          src={require('@assets/images/hero_title.png')}
+          src={ImageHeroTitle}
           size={184}
           height={148}
           resizeMode='contain'
           placeholder={false}
         />
       </Touchable>
-      {[2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010].map((item, index) => (
+      {years.map((item, index) => (
         <Touchable
           key={item}
           style={_.ml.md}
@@ -62,6 +67,7 @@ function Award(props, { navigation }) {
               to: 'Award',
               year: item
             })
+
             navigation.push('Award', {
               uri: `${HOST}/award/${item}`
             })

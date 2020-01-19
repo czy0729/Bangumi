@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-16 18:06:18
+ * @Last Modified time: 2020-01-18 21:54:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Image } from '@components'
-import { getCoverLarge } from '@utils/app'
+import { Cover as CompCover } from '@screens/_'
+import { getCoverMedium, getCoverLarge } from '@utils/app'
+import { CDN_OSS_SUBJECT } from '@constants/cdn'
 import { _ } from '@stores'
 
 const imageWidth = 120
@@ -25,13 +26,12 @@ class Cover extends React.Component {
     onLoad: false
   }
 
-  onLoad = () => {
+  onLoad = () =>
     setTimeout(() => {
       this.setState({
         onLoad: true
       })
-    }, 300)
-  }
+    }, 400)
 
   render() {
     const { $ } = this.context
@@ -40,8 +40,8 @@ class Cover extends React.Component {
     return (
       <View style={styles.container}>
         {!!image && (
-          <Image
-            src={image}
+          <CompCover
+            src={CDN_OSS_SUBJECT(getCoverMedium(image))}
             size={imageWidth}
             height={160}
             radius
@@ -49,7 +49,7 @@ class Cover extends React.Component {
             shadow
             placeholder={false}
             imageViewer
-            imageViewerSrc={getCoverLarge(image)}
+            imageViewerSrc={getCoverLarge(image || placeholder)}
             fadeDuration={0}
             event={{
               id: '条目.封面图查看',
@@ -61,13 +61,12 @@ class Cover extends React.Component {
           />
         )}
         {!onLoad && (
-          <Image
+          <CompCover
             style={styles.placeholder}
-            src={placeholder}
+            src={CDN_OSS_SUBJECT(getCoverMedium(placeholder))}
             size={imageWidth}
             height={160}
             radius
-            shadow
             border
           />
         )}
