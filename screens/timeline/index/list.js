@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 19:32:23
+ * @Last Modified time: 2020-01-19 17:10:18
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -22,8 +22,10 @@ class List extends React.Component {
   }
 
   state = {
-    // @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
-    // 暂时使用重新渲染的办法解决列表变换置顶问题
+    /**
+     * @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
+     * 暂时使用重新渲染的办法解决列表变换置顶问题
+     */
     hide: false
   }
 
@@ -32,6 +34,7 @@ class List extends React.Component {
       this.setState({
         hide: true
       })
+
       setTimeout(() => {
         this.setState({
           hide: false
@@ -61,10 +64,6 @@ class List extends React.Component {
     )
   }
 
-  renderSectionHeader = ({ section: { title } }) => (
-    <SectionHeader>{title}</SectionHeader>
-  )
-
   render() {
     const { $ } = this.context
     const { scope, title } = this.props
@@ -90,7 +89,7 @@ class List extends React.Component {
         data={timeline}
         sectionKey='date'
         stickySectionHeadersEnabled={false}
-        renderSectionHeader={this.renderSectionHeader}
+        renderSectionHeader={renderSectionHeader}
         renderItem={this.renderItem}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchTimeline}
@@ -102,4 +101,8 @@ class List extends React.Component {
 
 function keyExtractor(item) {
   return String(item.id)
+}
+
+function renderSectionHeader({ section: { title } }) {
+  return <SectionHeader>{title}</SectionHeader>
 }

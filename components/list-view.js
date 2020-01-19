@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 05:25:43
+ * @Last Modified time: 2020-01-19 17:21:10
  */
 import React from 'react'
 import {
@@ -159,9 +159,9 @@ class ListView extends React.Component {
       onEndReachedThreshold: 0.64,
 
       // optimize
-      windowSize: optimize ? 3 : undefined,
+      windowSize: optimize ? 4 : undefined,
       maxToRenderPerBatch: optimize ? 10 : undefined,
-      updateCellsBatchingPeriod: optimize ? 50 : undefined
+      updateCellsBatchingPeriod: optimize ? 32 : undefined
     }
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 17:05:54
+ * @Last Modified time: 2020-01-19 17:41:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
+const itemPadding = 12
 const colorDark = {
   color: _.colorDark
 }
@@ -244,11 +245,11 @@ class Item extends React.Component {
     const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     const doing = isBook ? '读' : '看'
     return (
-      <Shadow style={_.mb.md} initHeight={120}>
+      <Shadow style={this.styles.shadow} initHeight={120}>
         <View style={this.styles.item}>
           <Flex style={this.styles.hd}>
             <Cover
-              size={88}
+              size={80}
               src={subject.images.medium}
               radius
               border={_.colorBorder}
@@ -284,7 +285,7 @@ class Item extends React.Component {
                   ) : null}
                 </Flex>
               </Touchable>
-              <View style={_.mt.md}>
+              <View style={_.mt.sm}>
                 <Flex>
                   <Flex.Item>{this.renderCount()}</Flex.Item>
                   {this.renderToolBar()}
@@ -299,8 +300,8 @@ class Item extends React.Component {
           </Flex>
           {expand && (
             <Eps
-              style={_.mt.md}
-              marginRight={_.wind}
+              style={this.styles.eps}
+              marginRight={itemPadding}
               login={$.isLogin}
               subjectId={subjectId}
               eps={$.eps(subjectId)}
@@ -323,9 +324,12 @@ class Item extends React.Component {
 export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
+  shadow: {
+    marginBottom: itemPadding
+  },
   item: {
-    paddingVertical: _.wind,
-    paddingLeft: _.wind,
+    paddingVertical: itemPadding,
+    paddingLeft: itemPadding,
     backgroundColor: _.colorPlain,
     borderColor: _.colorBorder,
     borderWidth: _.hairlineWidth,
@@ -333,13 +337,13 @@ const memoStyles = _.memoStyles(_ => ({
     overflow: 'hidden'
   },
   hd: {
-    paddingRight: _.wind
+    paddingRight: itemPadding
   },
   content: {
-    marginLeft: 12
+    marginLeft: itemPadding
   },
   toolBar: {
-    marginRight: -8
+    marginRight: -itemPadding / 2
   },
   icon: {
     marginBottom: -1
@@ -352,6 +356,9 @@ const memoStyles = _.memoStyles(_ => ({
     borderBottomColor: _.colorPrimary,
     borderBottomWidth: 2,
     borderRadius: 2
+  },
+  eps: {
+    marginTop: itemPadding
   },
   dot: {
     position: 'absolute',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 21:19:40
+ * @Last Modified time: 2020-01-19 17:19:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -40,8 +40,7 @@ function Info(props, { $, navigation }) {
     collectUrl,
     eraseCollectUrl
   } = $.mono
-  const { _name, _jp, _image } = $.params
-  const _cover = cover || getCoverLarge(_image)
+  const { _name, _jp } = $.params
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -79,10 +78,10 @@ function Info(props, { $, navigation }) {
             </Touchable>
           )}
         </Flex>
-        {!!_cover && (
+        {!!cover && (
           <Flex style={_.mt.md} justify='center'>
             <Image
-              src={_cover}
+              src={getCoverLarge(cover)}
               autoSize={maxSize}
               border
               shadow

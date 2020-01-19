@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 18:14:44
+ * @Last Modified time: 2020-01-19 20:35:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Image, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
-import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT, EVENT } from '@constants'
 import Tag from '../base/tag'
 import Stars from '../base/stars'
+import Cover from '../base/cover'
 
 const imgWidth = 88
 const imgHeight = 1.28 * imgWidth
@@ -41,7 +41,6 @@ function ItemCollections({
   event
 }) {
   const styles = memoStyles()
-  const _cover = getCoverMedium(cover)
   const isFirst = index === 0
   const hasName = !!name
   const hasTip = !!tip
@@ -69,15 +68,15 @@ function ItemCollections({
           subjectId: id,
           _jp: name,
           _cn: nameCn,
-          _image: _cover
+          _image: cover
         })
       }}
     >
       <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
         <View style={styles.imgContainer}>
-          <Image
+          <Cover
             style={styles.image}
-            src={_cover || IMG_DEFAULT}
+            src={cover || IMG_DEFAULT}
             width={imgWidth}
             height={imgHeight}
             radius

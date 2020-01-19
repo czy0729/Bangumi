@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 16:47:37
+ * @Last Modified time: 2020-01-19 17:08:02
  */
 import React from 'react'
 import { SafeAreaView } from 'react-navigation'
@@ -17,6 +17,9 @@ import List from './list'
 import Store, { tabs } from './store'
 
 const title = '时间胶囊'
+const forceInset = {
+  top: 'never'
+}
 
 export default
 @inject(Store)
@@ -27,7 +30,7 @@ export default
 @observer
 class Timeline extends React.Component {
   static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => <IconTabBar name='time' color={tintColor} />,
+    tabBarIcon,
     tabBarLabel: title
   }
 
@@ -69,7 +72,7 @@ class Timeline extends React.Component {
     const { $ } = this.context
     const { scope, _loaded } = $.state
     return (
-      <SafeAreaView style={_.container.screen} forceInset={{ top: 'never' }}>
+      <SafeAreaView style={_.container.screen} forceInset={forceInset}>
         {_loaded && (
           <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
             {tabs.map(item => (
@@ -80,4 +83,8 @@ class Timeline extends React.Component {
       </SafeAreaView>
     )
   }
+}
+
+function tabBarIcon({ tintColor }) {
+  return <IconTabBar name='time' color={tintColor} />
 }

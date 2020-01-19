@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 19:32:18
+ * @Last Modified time: 2020-01-19 17:09:51
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -43,6 +43,13 @@ export default class ScreenTimeline extends store {
 
   onHeaderRefresh = () => this.fetchTimeline(true)
 
+  // -------------------- fetch --------------------
+  fetchTimeline = refresh => {
+    const { scope, page } = this.state
+    const type = MODEL_TIMELINE_TYPE.getValue(tabs[page].title)
+    return timelineStore.fetchTimeline({ scope, type }, refresh)
+  }
+
   // -------------------- get --------------------
   @computed get backgroundColor() {
     return _.select(_.colorPlain, _._colorDarkModeLevel1)
@@ -62,13 +69,6 @@ export default class ScreenTimeline extends store {
 
   timeline(scope, type) {
     return computed(() => timelineStore.timeline(scope, type)).get()
-  }
-
-  // -------------------- fetch --------------------
-  fetchTimeline = refresh => {
-    const { scope, page } = this.state
-    const type = MODEL_TIMELINE_TYPE.getValue(tabs[page].title)
-    return timelineStore.fetchTimeline({ scope, type }, refresh)
   }
 
   // -------------------- page --------------------

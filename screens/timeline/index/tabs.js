@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 17:36:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 00:12:30
+ * @Last Modified time: 2020-01-19 17:10:17
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,7 +13,9 @@ import { tabs } from './store'
 
 function Tabs({ tabBarStyle, $, children, ...other }) {
   const { page, _page } = $.state
-  const _tabBarStyle = { ...tabBarStyle }
+  const _tabBarStyle = {
+    ...tabBarStyle
+  }
   if (!IOS) {
     _tabBarStyle.backgroundColor = $.backgroundColor
   }

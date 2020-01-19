@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 19:35:37
+ * @Last Modified time: 2020-01-19 18:15:11
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -31,6 +31,7 @@ class List extends React.Component {
       this.setState({
         hide: true
       })
+
       setTimeout(() => {
         this.setState({
           hide: false
@@ -48,17 +49,21 @@ class List extends React.Component {
     const event = {
       id: '我的.跳转'
     }
-    return list ? (
-      <ItemCollections
-        navigation={navigation}
-        index={index}
-        isDo={isDo}
-        isOnHold={isOnHold}
-        isDropped={isDropped}
-        event={event}
-        {...item}
-      />
-    ) : (
+
+    if (list) {
+      return (
+        <ItemCollections
+          navigation={navigation}
+          index={index}
+          isDo={isDo}
+          isOnHold={isOnHold}
+          isDropped={isDropped}
+          event={event}
+          {...item}
+        />
+      )
+    }
+    return (
       <ItemCollectionsGrid
         navigation={navigation}
         index={index}

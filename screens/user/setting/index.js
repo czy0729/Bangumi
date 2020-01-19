@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 19:53:20
+ * @Last Modified time: 2020-01-19 17:30:53
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -471,7 +471,7 @@ class Setting extends React.Component {
                 </Text>
               </Text>
             ) : (
-              `当前版本${version}`
+              `当前${version}`
             )
           }
           arrow={!IOS}
@@ -513,7 +513,7 @@ class Setting extends React.Component {
         <ItemSetting
           border
           hd='项目地址'
-          ft='求个星星'
+          ft='欢迎star'
           arrow
           highlight
           onPress={() =>
@@ -549,7 +549,7 @@ class Setting extends React.Component {
         </Text>
         <ItemSetting
           style={_.mt.sm}
-          hd='清除数据缓存'
+          hd='清除缓存'
           ft={
             <Text size={16} type='sub'>
               {storageSize}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 19:35:33
+ * @Last Modified time: 2020-01-19 18:21:47
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore } from '@stores'
@@ -62,6 +62,27 @@ export default class ScreenUser extends store {
 
   onHeaderRefresh = () => this.fetchUserCollections(true)
 
+  // -------------------- fetch --------------------
+  fetchUsersInfo = () => {
+    const { userId } = this.params
+    return userStore.fetchUsersInfo(userId)
+  }
+
+  fetchUserCollections = refresh => {
+    const { userId } = this.params
+    const { subjectType, order, tag } = this.state
+    return collectionStore.fetchUserCollections(
+      {
+        subjectType,
+        type: this.type,
+        order,
+        tag,
+        userId: this.usersInfo.username || userId
+      },
+      refresh
+    )
+  }
+
   // -------------------- get --------------------
   @computed get isLogin() {
     return userStore.isLogin
@@ -114,27 +135,6 @@ export default class ScreenUser extends store {
     return computed(() =>
       collectionStore.userCollectionsTags(userId, subjectType, type)
     ).get()
-  }
-
-  // -------------------- fetch --------------------
-  fetchUsersInfo = () => {
-    const { userId } = this.params
-    return userStore.fetchUsersInfo(userId)
-  }
-
-  fetchUserCollections = refresh => {
-    const { userId } = this.params
-    const { subjectType, order, tag } = this.state
-    return collectionStore.fetchUserCollections(
-      {
-        subjectType,
-        type: this.type,
-        order,
-        tag,
-        userId: this.usersInfo.username || userId
-      },
-      refresh
-    )
   }
 
   // -------------------- page --------------------

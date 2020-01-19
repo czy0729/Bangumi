@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 19:08:05
+ * @Last Modified time: 2020-01-19 18:10:16
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -20,6 +20,16 @@ import List from './list'
 import Store, { tabs, height } from './store'
 
 const title = '我的'
+const ListHeaderComponent = (
+  <>
+    <View
+      style={{
+        height: height + _.tabsHeight
+      }}
+    />
+    <ToolBar />
+  </>
+)
 
 export default
 @inject(Store)
@@ -27,7 +37,7 @@ export default
 class User extends React.Component {
   static navigationOptions = {
     header: null,
-    tabBarIcon: ({ tintColor }) => <IconTabBar name='me' color={tintColor} />,
+    tabBarIcon,
     tabBarLabel: title
   }
 
@@ -118,7 +128,6 @@ class User extends React.Component {
 
     const { subjectType } = $.state
     const { scrollY } = this.state
-    const offset = height + _.tabsHeight
     return (
       <>
         <UM screen={title} />
@@ -138,16 +147,7 @@ class User extends React.Component {
               key={item.title}
               title={item.title}
               subjectType={subjectType}
-              ListHeaderComponent={
-                <>
-                  <View
-                    style={{
-                      height: offset
-                    }}
-                  />
-                  <ToolBar />
-                </>
-              }
+              ListHeaderComponent={ListHeaderComponent}
               scrollEventThrottle={16}
               onScroll={this.onScroll}
             />
@@ -157,4 +157,8 @@ class User extends React.Component {
       </>
     )
   }
+}
+
+function tabBarIcon({ tintColor }) {
+  return <IconTabBar name='me' color={tintColor} />
 }

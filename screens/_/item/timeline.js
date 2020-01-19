@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:40:45
+ * @Last Modified time: 2020-01-19 17:16:00
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Image, Iconfont, Touchable } from '@components'
+import { Flex, Text, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate, findBangumiCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
 import { t } from '@utils/fetch'
 import { HOST, HOST_NAME, EVENT } from '@constants'
 import Avatar from '../base/avatar'
+import Cover from '../base/cover'
 import Stars from '../base/stars'
 
 const avatarWidth = 28
@@ -193,27 +194,25 @@ class ItemTimeline extends React.Component {
       return null
     }
 
-    const images = image.map((item, index) => {
-      const image = getCoverMedium(item)
-      return (
-        <Image
-          key={item}
-          style={_.mr.sm}
-          src={image}
-          size={48}
-          radius
-          border={_.colorBorder}
-          onPress={() =>
-            this.appNavigate(!!p3.url.length && p3.url[index], {
-              _cn: findBangumiCn(!!p3.text.length && p3.text[index]),
-              _jp: !!p3.text.length && p3.text[index],
-              _name: !!p3.text.length && p3.text[index],
-              _image: image
-            })
-          }
-        />
-      )
-    })
+    const images = image.map((item, index) => (
+      <Cover
+        key={item}
+        style={_.mr.sm}
+        src={item}
+        size={56}
+        radius
+        border={_.colorBorder}
+        onPress={() =>
+          this.appNavigate(!!p3.url.length && p3.url[index], {
+            _cn: findBangumiCn(!!p3.text.length && p3.text[index]),
+            _jp: !!p3.text.length && p3.text[index],
+            _name: !!p3.text.length && p3.text[index],
+            _image: image
+          })
+        }
+      />
+    ))
+
     if (image.length <= 5) {
       return (
         <Flex style={_.mt.sm} wrap='wrap'>
@@ -246,7 +245,7 @@ class ItemTimeline extends React.Component {
       event,
       onDelete
     } = this.props
-    const _image = getCoverMedium(!!image.length && image[0])
+    const _image = !!image.length && image[0]
     return (
       <Flex style={[this.styles.item, style]} align='start'>
         <View style={this.styles.image}>
@@ -291,7 +290,7 @@ class ItemTimeline extends React.Component {
             </Flex.Item>
             <Flex align='start'>
               {image.length === 1 && (
-                <Image
+                <Cover
                   style={_.ml.sm}
                   src={_image}
                   size={48}
