@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 20:50:51
+ * @Last Modified time: 2020-01-20 16:07:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import TabBarLeft from './tab-bar-left'
 import Store from './store'
 
 const title = '索引'
+const renderTabBarLeft = <TabBarLeft />
 
 export default
 @inject(Store)
@@ -59,7 +60,7 @@ class Browser extends React.Component {
             initialPage={page}
             page={page}
             prerenderingSiblingsNumber={1}
-            renderTabBarLeft={<TabBarLeft />}
+            renderTabBarLeft={renderTabBarLeft}
             onChange={$.onChange}
           >
             {this.tabs.map(item => (

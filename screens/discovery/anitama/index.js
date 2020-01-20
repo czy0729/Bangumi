@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 20:36:59
+ * @Last Modified time: 2020-01-20 16:03:45
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -22,7 +22,8 @@ const height = width * 0.56
 export default
 @inject(Store)
 @withHeader({
-  screen: title
+  screen: title,
+  hm: ['discovery/anitama', 'Anitama']
 })
 @observer
 class Anitama extends React.Component {
@@ -57,8 +58,17 @@ class Anitama extends React.Component {
         }
       }
     })
+  }
 
-    hm('discovery/anitama', 'Anitama')
+  onPress = id => {
+    const url = `http://m.anitama.cn/article/${id}`
+    t('Anitama.跳转', {
+      to: 'WebBrowser',
+      url
+    })
+
+    open(url)
+    hm(url, title)
   }
 
   renderPaganation() {
@@ -90,27 +100,13 @@ class Anitama extends React.Component {
       >
         {this.renderPaganation()}
         {show && (
-          <View>
-            <View
-              style={{
-                minHeight: _.window.height
-              }}
-            >
+          <>
+            <View style={this.styles.container}>
               {$.anitamaTimeline.list.map(item => (
                 <Touchable
                   key={item.aid}
                   style={this.styles.item}
-                  onPress={() => {
-                    const url = `http://m.anitama.cn/article/${item.aid}`
-                    t('Anitama.跳转', {
-                      to: 'WebBrowser',
-                      url
-                    })
-
-                    open(url)
-                    hm(url, title)
-                    // $.pushHistory(item.aid)
-                  }}
+                  onPress={() => this.onPress(item.aid)}
                 >
                   <Text align='right'>
                     © {item.author} / {item.origin}
@@ -138,7 +134,7 @@ class Anitama extends React.Component {
               ))}
             </View>
             {this.renderPaganation()}
-          </View>
+          </>
         )}
       </ScrollView>
     )
@@ -150,6 +146,9 @@ class Anitama extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
+  container: {
+    minHeight: _.window.height
+  },
   item: {
     padding: _.wind,
     paddingTop: 24,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 21:30:38
+ * @Last Modified time: 2020-01-20 16:11:08
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
@@ -39,11 +39,7 @@ export default class ScreenBrowser extends store {
     return true
   }
 
-  // -------------------- get --------------------
-  browser(airtime) {
-    const { type } = this.state
-    return computed(() => tagStore.browser(type, airtime)).get()
-  }
+  onHeaderRefresh = () => this.fetchBrowser(true)
 
   // -------------------- fetch --------------------
   fetchBrowser = refresh => {
@@ -55,6 +51,12 @@ export default class ScreenBrowser extends store {
       },
       refresh
     )
+  }
+
+  // -------------------- get --------------------
+  browser(airtime) {
+    const { type } = this.state
+    return computed(() => tagStore.browser(type, airtime)).get()
   }
 
   // -------------------- page --------------------

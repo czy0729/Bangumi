@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 20:52:30
+ * @Last Modified time: 2020-01-20 17:12:25
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,7 +10,7 @@ import { Loading } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm, t } from '@utils/fetch'
+import { t } from '@utils/fetch'
 import { HTML_CALENDAR } from '@constants/html'
 import List from './list'
 import Store from './store'
@@ -20,7 +20,8 @@ const title = '每日放送'
 export default
 @inject(Store)
 @withHeader({
-  screen: title
+  screen: title,
+  hm: ['calendar', 'Calendar']
 })
 @observer
 class Calendar extends React.Component {
@@ -55,8 +56,6 @@ class Calendar extends React.Component {
         }
       }
     })
-
-    hm('calendar', 'Calendar')
   }
 
   render() {
