@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 13:45:00
+ * @Last Modified time: 2020-01-22 17:08:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { Flex, Button } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm, t } from '@utils/fetch'
+import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Category from './category'
 import Legacy from './legacy'
@@ -25,7 +25,8 @@ const title = '搜索'
 export default
 @inject(Store)
 @withHeader({
-  screen: title
+  screen: title,
+  hm: ['search', 'Search']
 })
 @observer
 class Search extends React.Component {
@@ -60,12 +61,14 @@ class Search extends React.Component {
         }
       }
     })
+  }
 
-    hm('search', 'Search')
+  onPress = () => {
+    const { $ } = this.context
+    $.doSearch(true)
   }
 
   render() {
-    const { $ } = this.context
     return (
       <View style={_.container.screen}>
         <Flex style={styles.searchBar}>
@@ -74,11 +77,7 @@ class Search extends React.Component {
             <SearchBar />
           </Flex.Item>
           <Legacy />
-          <Button
-            style={[styles.btn, _.ml.sm]}
-            size='sm'
-            onPress={() => $.doSearch(true)}
-          >
+          <Button style={styles.btn} size='sm' onPress={this.onPress}>
             查询
           </Button>
         </Flex>
@@ -96,6 +95,7 @@ const styles = StyleSheet.create({
   btn: {
     width: 68,
     height: 34,
+    ..._.ml.sm,
     borderRadius: 34
   }
 })

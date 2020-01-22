@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 21:07:50
+ * @Last Modified time: 2020-01-22 02:40:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,6 +22,7 @@ function Item({ avatar, name, id }, { navigation }) {
       to: 'Mono',
       monoId: id
     })
+
     navigation.push('Mono', {
       monoId: id
     })

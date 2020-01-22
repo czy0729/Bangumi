@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 19:57:06
+ * @Last Modified time: 2020-01-22 02:23:27
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -19,6 +19,10 @@ import Info from './info'
 import Store from './store'
 
 const title = '目录详情'
+const event = {
+  id: '目录详情.跳转'
+}
+const ListHeaderComponent = <Info />
 
 export default
 @inject(Store)
@@ -61,34 +65,36 @@ class CatalogDetail extends React.Component {
     hm(`index/${$.catalogId}`, 'CatalogDetail')
   }
 
+  renderItem = ({ item }) => {
+    const { navigation } = this.context
+    return (
+      <ItemCollections
+        navigation={navigation}
+        event={event}
+        id={item.id}
+        type={item.type}
+        cover={item.image}
+        name={item.title}
+        nameCn={findBangumiCn(item.title)}
+        tip={item.info}
+        comments={item.comment}
+        isCatalog
+        isCollect={item.isCollect}
+      />
+    )
+  }
+
   render() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     const { onScroll } = this.props
-    const event = {
-      id: '目录详情.跳转'
-    }
     return (
       <ListView
         style={_.container.content}
         contentContainerStyle={_.container.bottom}
-        keyExtractor={item => String(item.id)}
+        keyExtractor={keyExtractor}
         data={$.catalogDetail}
-        ListHeaderComponent={<Info />}
-        renderItem={({ item }) => (
-          <ItemCollections
-            navigation={navigation}
-            event={event}
-            id={item.id}
-            type={item.type}
-            cover={item.image}
-            name={item.title}
-            nameCn={findBangumiCn(item.title)}
-            tip={item.info}
-            comments={item.comment}
-            isCatalog
-            isCollect={item.isCollect}
-          />
-        )}
+        ListHeaderComponent={ListHeaderComponent}
+        renderItem={this.renderItem}
         scrollEventThrottle={16}
         onScroll={onScroll}
         onHeaderRefresh={$.fetchCatalogDetail}
@@ -96,4 +102,8 @@ class CatalogDetail extends React.Component {
       />
     )
   }
+}
+
+function keyExtractor(item) {
+  return String(item.id)
 }

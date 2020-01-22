@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 21:04:59
+ * @Last Modified time: 2020-01-22 02:27:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm, t } from '@utils/fetch'
+import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Tabs from './tabs'
 import List from './list'
@@ -21,7 +21,8 @@ const title = '收藏的人物'
 export default
 @inject(Store)
 @withHeader({
-  screen: title
+  screen: title,
+  hm: ['character', 'Character']
 })
 @observer
 class Character extends React.Component {
@@ -57,8 +58,6 @@ class Character extends React.Component {
         }
       }
     })
-
-    hm('character', 'Character')
   }
 
   render() {

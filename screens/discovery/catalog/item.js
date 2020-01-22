@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:02:52
+ * @Last Modified time: 2020-01-22 02:19:34
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -26,13 +26,7 @@ function Item(
   const styles = memoStyles()
   const { list, collect = '-' } = $.catalogDetail(id)
   return (
-    <Shadow
-      style={{
-        marginTop: _.wind,
-        marginLeft: _.wind
-      }}
-      initHeight={154}
-    >
+    <Shadow style={styles.shadow} initHeight={154}>
       <Touchable
         onPress={() => {
           t('目录.跳转', {
@@ -92,6 +86,10 @@ Item.contextTypes = {
 export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
+  shadow: {
+    marginTop: _.wind,
+    marginLeft: _.wind
+  },
   item: {
     width,
     height,

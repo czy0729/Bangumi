@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 10:38:26
+ * @Last Modified time: 2020-01-22 17:18:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { hm, t } from '@utils/fetch'
+import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Tabs from './tabs'
 import List from './list'
@@ -21,7 +21,8 @@ const title = '标签'
 export default
 @inject(Store)
 @withHeader({
-  screen: title
+  screen: title,
+  hm: ['discovery/tags', 'Tags']
 })
 @observer
 class Tags extends React.Component {
@@ -57,8 +58,6 @@ class Tags extends React.Component {
         }
       }
     })
-
-    hm('discovery/tags', 'Tags')
   }
 
   render() {

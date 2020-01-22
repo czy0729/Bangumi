@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:47:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 00:02:56
+ * @Last Modified time: 2020-01-22 02:58:40
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,6 +16,12 @@ import { t } from '@utils/fetch'
 
 const imageBigWidth = _.window.width - _.wind * 2
 const imageBigHeight = imageBigWidth * 1.28
+const colors = [
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0.32)',
+  'rgba(0, 0, 0, 0.8)'
+]
 
 function Item(
   { id, bgmId, cover, airDate, eps, desc, cn, jp },
@@ -33,6 +39,7 @@ function Item(
             to: 'Subject',
             subjectId: bgmId
           })
+
           navigation.push('Subject', {
             subjectId: bgmId,
             _ningMoeId: id,
@@ -44,12 +51,7 @@ function Item(
         }}
       />
       <LinearGradient
-        colors={[
-          'rgba(0, 0, 0, 0)',
-          'rgba(0, 0, 0, 0)',
-          'rgba(0, 0, 0, 0.32)',
-          'rgba(0, 0, 0, 0.8)'
-        ]}
+        colors={colors}
         pointerEvents='none'
         style={StyleSheet.absoluteFill}
       />
@@ -63,8 +65,8 @@ function Item(
         >
           {$.cnFirst ? cn || jp : jp || cn}
           <Text type={_.select('plain', 'title')} lineHeight={26} bold>
-            {` ${String(airDate).slice(2)}`}
-            {eps ? ` (${eps})` : ''}
+            {` ${airDate === '0000-00-00' ? '' : String(airDate).slice(2)}`}
+            {eps ? ` (${eps}集)` : ''}
           </Text>
         </Text>
         <Text

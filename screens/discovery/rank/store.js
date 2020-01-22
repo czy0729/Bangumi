@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 16:51:36
+ * @Last Modified time: 2020-01-22 17:04:24
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
@@ -37,6 +37,8 @@ export default class ScreenRank extends store {
 
     return this.fetchRank(true)
   }
+
+  onHeaderRefresh = () => this.fetchRank(true)
 
   // -------------------- get --------------------
   @computed get rank() {

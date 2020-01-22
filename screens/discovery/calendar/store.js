@@ -2,12 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 17:15:31
+ * @Last Modified time: 2020-01-20 18:12:19
  */
 import { computed } from 'mobx'
-import { calendarStore, userStore } from '@stores'
+import { _, calendarStore, userStore } from '@stores'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
+
+export const imageWidth = (_.window.width - _.wind * 2) * 0.22
+export const imageHeight = imageWidth * 1.28
+export const marginLeft = (_.window.width - 4 * imageWidth) / 5
 
 export default class ScreenCalendar extends store {
   init = () =>

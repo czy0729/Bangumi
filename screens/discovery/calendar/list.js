@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 17:19:37
+ * @Last Modified time: 2020-01-20 18:33:55
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { ListView, Flex } from '@components'
 import { SectionHeader } from '@screens/_'
 import { _ } from '@stores'
 import Item from './item'
+import { marginLeft } from './store'
 
 function List(props, { $ }) {
   return (
@@ -18,7 +19,7 @@ function List(props, { $ }) {
       style={_.container.screen}
       keyExtractor={keyExtractor}
       sections={$.sections}
-      numColumns={3}
+      numColumns={4}
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
     />
@@ -36,7 +37,16 @@ function keyExtractor(item) {
 }
 
 function renderSectionHeader({ section: { title } }) {
-  return <SectionHeader size={16}>{title}</SectionHeader>
+  return (
+    <SectionHeader
+      style={{
+        paddingLeft: marginLeft
+      }}
+      size={14}
+    >
+      {title}
+    </SectionHeader>
+  )
 }
 
 function renderItem({ item, title }) {

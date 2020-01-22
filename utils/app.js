@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 02:29:03
+ * @Last Modified time: 2020-01-22 17:15:33
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -57,6 +57,14 @@ export function findBangumiCn(jp = '') {
 
   _bangumiFindHistory[jp] = jp
   return jp
+}
+
+/**
+ * keyExtractor
+ * @param {*} item
+ */
+export function keyExtractor(item = {}) {
+  return String(item.id)
 }
 
 /**

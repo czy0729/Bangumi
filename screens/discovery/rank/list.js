@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 00:16:03
+ * @Last Modified time: 2020-01-22 17:04:36
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,69 +11,81 @@ import { Loading, ListView } from '@components'
 import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
 
-function List(props, { $, navigation }) {
-  const { hide } = $.state
-  if (hide) {
-    return null
-  }
-
-  const { _loaded } = $.rank
-  if (!_loaded) {
-    return <Loading />
-  }
-
-  const { list } = $.state
-  const numColumns = list ? undefined : 4
-  const event = {
-    id: '排行榜.跳转'
-  }
-  return (
-    <ListView
-      key={String(numColumns)}
-      numColumns={numColumns}
-      contentContainerStyle={_.container.bottom}
-      keyExtractor={item => item.id}
-      data={$.rank}
-      renderItem={({ item, index }) => {
-        if (list) {
-          return (
-            <ItemSearch
-              navigation={navigation}
-              index={index}
-              event={{
-                ...event,
-                data: {
-                  type: 'list'
-                }
-              }}
-              {...item}
-            />
-          )
-        }
-        return (
-          <ItemCollectionsGrid
-            navigation={navigation}
-            index={index}
-            event={{
-              ...event,
-              data: {
-                type: 'grid'
-              }
-            }}
-            {...item}
-            id={item.id.replace('/subject/', '')}
-          />
-        )
-      }}
-      onHeaderRefresh={() => $.fetchRank(true)}
-      onFooterRefresh={$.fetchRank}
-    />
-  )
+const event = {
+  id: '排行榜.跳转'
 }
 
-List.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
+export default
+@observer
+class List extends React.Component {
+  static contextTypes = {
+    $: PropTypes.object,
+    navigation: PropTypes.object
+  }
+
+  renderItem = ({ item, index }) => {
+    const { $, navigation } = this.context
+    const { list } = $.state
+    if (list) {
+      return (
+        <ItemSearch
+          navigation={navigation}
+          index={index}
+          event={{
+            ...event,
+            data: {
+              type: 'list'
+            }
+          }}
+          {...item}
+        />
+      )
+    }
+    return (
+      <ItemCollectionsGrid
+        navigation={navigation}
+        index={index}
+        event={{
+          ...event,
+          data: {
+            type: 'grid'
+          }
+        }}
+        {...item}
+        id={item.id.replace('/subject/', '')}
+      />
+    )
+  }
+
+  render() {
+    const { $ } = this.context
+    const { hide } = $.state
+    if (hide) {
+      return null
+    }
+
+    const { _loaded } = $.rank
+    if (!_loaded) {
+      return <Loading />
+    }
+
+    const { list } = $.state
+    const numColumns = list ? undefined : 4
+    return (
+      <ListView
+        key={String(numColumns)}
+        numColumns={numColumns}
+        contentContainerStyle={_.container.bottom}
+        keyExtractor={keyExtractor}
+        data={$.rank}
+        renderItem={this.renderItem}
+        onHeaderRefresh={$.onHeaderRefresh}
+        onFooterRefresh={$.fetchRank}
+      />
+    )
+  }
 }
 
-export default observer(List)
+function keyExtractor(item) {
+  return String(item.id)
+}

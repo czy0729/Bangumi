@@ -2,22 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 17:30:40
+ * @Last Modified time: 2020-01-20 18:32:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Text } from '@components'
+import { Touchable, Text } from '@components'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-
-const imageWidth = _.window.width * 0.26
-const imageHeight = imageWidth * 1.28
-const marginLeft = (_.window.width - 3 * imageWidth) / 4
+import { imageWidth, imageHeight, marginLeft } from './store'
 
 function Item(
   { style, subjectId, images = {}, name, score },
@@ -54,28 +51,29 @@ function Item(
       <Touchable withoutFeedback onPress={onPress}>
         <Text
           style={_.mt.sm}
+          size={12}
           type={isCollected ? _.select('main', 'warning') : 'desc'}
           numberOfLines={2}
         >
           {HTMLDecode(name)}
         </Text>
-        <Flex style={_.mt.xs}>
+        <Text style={_.mt.xs} numberOfLines={2}>
           {!!timeCN && (
-            <Text style={_.mr.xs} size={12} type='sub'>
-              {`${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
+            <Text size={11} type='sub'>
+              {`${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}{' '}
             </Text>
           )}
           {!!air && (
-            <Text style={_.mr.xs} size={12} type='sub'>
-              第{air}话
+            <Text size={11} type='sub'>
+              {air}话{' '}
             </Text>
           )}
           {!!score && (
-            <Text size={12} type='sub'>
+            <Text size={11} type='sub'>
               ({toFixed(score, 1)})
             </Text>
           )}
-        </Flex>
+        </Text>
       </Touchable>
     </View>
   )
