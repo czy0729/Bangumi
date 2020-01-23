@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 02:32:22
+ * @Last Modified time: 2020-01-23 19:55:23
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -10,7 +10,6 @@ import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { findBangumiCn } from '@utils/app'
-import { IMG_DEFAULT } from '@constants'
 import Cover from './cover'
 
 function HorizontalList({
@@ -42,7 +41,7 @@ function HorizontalList({
           <Cover
             size={width}
             height={height}
-            src={item.image || IMG_DEFAULT}
+            src={item.image}
             radius
             border
             shadow

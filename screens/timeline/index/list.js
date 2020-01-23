@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 17:10:18
+ * @Last Modified time: 2020-01-23 19:49:38
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { Login, SectionHeader, ItemTimeline } from '@screens/_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import { withTabsHeader } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 
@@ -97,10 +98,6 @@ class List extends React.Component {
       />
     )
   }
-}
-
-function keyExtractor(item) {
-  return String(item.id)
 }
 
 function renderSectionHeader({ section: { title } }) {

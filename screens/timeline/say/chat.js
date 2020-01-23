@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 18:11:00
+ * @Last Modified time: 2020-01-23 17:55:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,12 +13,13 @@ import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 
+const event = {
+  id: '吐槽.跳转'
+}
+
 function Chat(props, { $, navigation }) {
   const styles = memoStyles()
   const { list } = $.say
-  const event = {
-    id: '吐槽.跳转'
-  }
   return (
     <View style={styles.container}>
       <Text size={12} type='sub' align='center'>

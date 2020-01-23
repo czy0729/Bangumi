@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 21:24:53
+ * @Last Modified time: 2020-01-23 19:49:14
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -12,6 +12,7 @@ import { ListView, FixedTextarea } from '@components'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
+import { keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
@@ -281,7 +282,3 @@ const memoStyles = _.memoStyles(_ => ({
     paddingBottom: _.bottom
   }
 }))
-
-function keyExtractor(item) {
-  return String(item.id)
-}

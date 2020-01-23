@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 18:33:55
+ * @Last Modified time: 2020-01-23 18:08:31
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { ListView, Flex } from '@components'
 import { SectionHeader } from '@screens/_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import Item from './item'
 import { marginLeft } from './store'
 
@@ -31,10 +32,6 @@ List.contextTypes = {
 }
 
 export default observer(List)
-
-function keyExtractor(item) {
-  return String(item.id)
-}
 
 function renderSectionHeader({ section: { title } }) {
   return (

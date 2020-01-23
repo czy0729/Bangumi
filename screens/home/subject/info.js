@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:27:09
+ * @Last Modified time: 2020-01-23 17:06:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,12 @@ import { appNavigate } from '@utils/app'
 
 function Info({ style }, { $, navigation }) {
   const styles = memoStyles()
+  let html = $.info
+  try {
+    html = decodeURIComponent(html)
+  } catch (error) {
+    warn('home/subject/info.js', 'Info', error)
+  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>详情</SectionTitle>
@@ -22,7 +28,7 @@ function Info({ style }, { $, navigation }) {
         <Expand>
           <RenderHtml
             style={styles.info}
-            html={$.info}
+            html={html}
             baseFontStyle={{
               fontSize: 13 + _.fontSizeAdjust,
               lineHeight: 22,

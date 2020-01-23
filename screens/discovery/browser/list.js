@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 17:07:28
+ * @Last Modified time: 2020-01-23 18:08:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemSearch } from '@screens/_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 
 const event = {
   id: '索引.跳转',
@@ -63,8 +64,4 @@ class List extends React.Component {
       />
     )
   }
-}
-
-function keyExtractor(item) {
-  return String(item.id)
 }

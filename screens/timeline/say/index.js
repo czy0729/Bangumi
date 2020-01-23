@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 18:08:23
+ * @Last Modified time: 2020-01-23 17:54:57
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -74,6 +74,10 @@ class Say extends React.Component {
     )
   }
 
+  connectRefScrollView = ref => (this.scrollView = ref)
+
+  connectRefFixedTextarea = ref => (this.fixedTextarea = ref)
+
   showFixedTextare = () => this.fixedTextarea.onFocus()
 
   render() {
@@ -82,7 +86,7 @@ class Say extends React.Component {
     return (
       <>
         <ScrollView
-          ref={ref => (this.scrollView = ref)}
+          ref={this.connectRefScrollView}
           style={_.container.screen}
           contentContainerStyle={_.container.bottom}
         >
@@ -90,7 +94,7 @@ class Say extends React.Component {
         </ScrollView>
         {$.isWebLogin && (
           <FixedTextarea
-            ref={ref => (this.fixedTextarea = ref)}
+            ref={this.connectRefFixedTextarea}
             placeholder={$.isNew ? '新吐槽' : '回复吐槽, 长按头像@某人'}
             simple
             value={value}

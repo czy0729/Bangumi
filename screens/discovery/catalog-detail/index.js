@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 02:23:27
+ * @Last Modified time: 2020-01-23 18:21:48
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { ItemCollections } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
-import { findBangumiCn } from '@utils/app'
+import { findBangumiCn, keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import IconFavor from './icon-favor'
@@ -102,8 +102,4 @@ class CatalogDetail extends React.Component {
       />
     )
   }
-}
-
-function keyExtractor(item) {
-  return String(item.id)
 }

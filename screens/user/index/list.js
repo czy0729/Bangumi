@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 18:15:11
+ * @Last Modified time: 2020-01-23 19:53:08
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 
 export default
@@ -106,8 +107,4 @@ class List extends React.Component {
       />
     )
   }
-}
-
-function keyExtractor(item) {
-  return String(item.id)
 }

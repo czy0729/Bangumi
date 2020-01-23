@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 20:17:01
+ * @Last Modified time: 2020-01-23 15:36:14
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { ListView } from '@components'
 import { ItemTopic, IconHeader, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
+import { keyExtractor } from '@utils/app'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -18,6 +19,13 @@ import Info from './info'
 import Store from './store'
 
 const title = '人物'
+const event = {
+  id: '人物.跳转',
+  data: {
+    from: '吐槽'
+  }
+}
+const ListHeaderComponent = <Info />
 
 export default
 @inject(Store)
@@ -90,35 +98,34 @@ class Mono extends React.Component {
     })
   }
 
+  renderItem = ({ item, index }) => {
+    const { navigation } = this.context
+    return (
+      <ItemTopic
+        navigation={navigation}
+        index={index}
+        event={event}
+        {...item}
+      />
+    )
+  }
+
   render() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     const { onScroll } = this.props
-    const event = {
-      id: '人物.跳转',
-      data: {
-        from: '吐槽'
-      }
-    }
     return (
       <>
         <NavigationBarEvents />
         <ListView
           style={this.styles.container}
           contentContainerStyle={this.styles.contentContainerStyle}
-          keyExtractor={item => String(item.id)}
+          keyExtractor={keyExtractor}
           data={$.monoComments}
           scrollEventThrottle={16}
-          ListHeaderComponent={<Info />}
-          renderItem={({ item, index }) => (
-            <ItemTopic
-              navigation={navigation}
-              index={index}
-              event={event}
-              {...item}
-            />
-          )}
+          ListHeaderComponent={ListHeaderComponent}
+          renderItem={this.renderItem}
           onScroll={onScroll}
-          onHeaderRefresh={() => $.fetchMono(true)}
+          onHeaderRefresh={$.onHeaderRefresh}
           onFooterRefresh={$.fetchMono}
           {...withTransitionHeader.listViewProps}
         />

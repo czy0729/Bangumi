@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 17:11:17
+ * @Last Modified time: 2020-01-23 19:55:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { EVENT, IOS, IMG_DEFAULT } from '@constants'
+import { EVENT, IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Tag from '../base/tag'
 import Cover from '../base/cover'
@@ -62,7 +62,7 @@ function ItemSearch({
         <View style={styles.imgContainer}>
           <Cover
             style={styles.image}
-            src={cover || IMG_DEFAULT}
+            src={cover}
             resizeMode={isMono ? 'contain' : undefined}
             placeholder={!isMono}
             width={imgWidth}

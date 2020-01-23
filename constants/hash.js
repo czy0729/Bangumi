@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 12:12:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 18:35:53
+ * @Last Modified time: 2020-01-23 15:51:48
  */
 export const HASH_AVATAR = {
   _2gLP: '',
@@ -1545,6 +1545,7 @@ export const HASH_AVATAR = {
   JpjnnB: '',
   jpK1QB: '',
   jPoQM: '',
+  JPxQXB: '',
   jPxwYB: '',
   Jq_taB: '',
   JqUMX: '',

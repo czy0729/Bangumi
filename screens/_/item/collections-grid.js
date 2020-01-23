@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 20:36:05
+ * @Last Modified time: 2020-01-23 19:55:33
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT, EVENT } from '@constants'
+import { EVENT } from '@constants'
 import Cover from '../base/cover'
 
 const imageWidth = _.window.width * 0.2
@@ -54,7 +54,7 @@ function CollectionsGrid({
     <View style={[styles.item, style]}>
       <Cover
         size={imageWidth}
-        src={cover || IMG_DEFAULT}
+        src={cover}
         border
         radius
         shadow

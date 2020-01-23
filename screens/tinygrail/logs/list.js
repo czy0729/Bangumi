@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:41:37
+ * @Last Modified time: 2020-01-23 19:51:31
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import Item from './item'
 import { tabs } from './store'
 
@@ -69,7 +70,7 @@ function List({ index }, { $ }) {
   return (
     <ListView
       style={_.container.flex}
-      keyExtractor={item => String(item.id)}
+      keyExtractor={keyExtractor}
       data={data}
       renderItem={({ item, index }) => <Item index={index} {...item} />}
       onHeaderRefresh={() => $.fetchBalance()}

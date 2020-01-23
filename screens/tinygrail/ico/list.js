@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 02:55:43
+ * @Last Modified time: 2020-01-23 19:51:13
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import Item from '../_/item'
 import { tabs } from './store'
 
@@ -25,7 +26,7 @@ function List({ index }, { $ }) {
   return (
     <ListView
       style={_.container.flex}
-      keyExtractor={item => String(item.id)}
+      keyExtractor={keyExtractor}
       data={list}
       renderItem={({ item, index }) => (
         <Item index={index} event={event} {...item} />

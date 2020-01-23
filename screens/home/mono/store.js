@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 15:38:14
+ * @Last Modified time: 2020-01-23 15:31:58
  */
 import { computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -23,6 +23,8 @@ export default class ScreenMono extends store {
     }
     return this.fetchMono(true)
   }
+
+  onHeaderRefresh = () => this.fetchMono(true)
 
   // -------------------- fetch --------------------
   fetchMono = refresh =>

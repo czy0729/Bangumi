@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 02:33:15
+ * @Last Modified time: 2020-01-23 18:22:06
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import Item from './item'
 import ItemRecents from './item-recents'
 import { tabs } from './store'
@@ -62,6 +63,3 @@ class List extends React.Component {
   }
 }
 
-function keyExtractor(item) {
-  return String(item.id)
-}

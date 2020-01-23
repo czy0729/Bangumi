@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 15:59:51
+ * @Last Modified time: 2020-01-23 17:43:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { cheerio } from '@utils/html'
 import { IOS } from '@constants'
 import HTML from '../@/react-native-render-html'
 import BgmText, { bgmMap } from '../bgm-text'
+import Error from './error'
 import MaskText from './mask-text'
 import QuoteText from './quote-text'
 import LineThroughtText from './line-throught-text'
@@ -42,6 +43,16 @@ class RenderHtml extends React.Component {
     autoShowImage: false,
     onLinkPress: Function.prototype,
     onImageFallback: Function.prototype
+  }
+
+  state = {
+    error: false
+  }
+
+  componentDidCatch() {
+    this.setState({
+      error: true
+    })
   }
 
   /**
@@ -239,10 +250,10 @@ class RenderHtml extends React.Component {
         )
       }
 
-      return decodeURIComponent(_html)
+      return _html
     } catch (error) {
       warn('RenderHtml', 'formatHTML', error)
-      return decodeURIComponent(html)
+      return html
     }
   }
 
@@ -265,6 +276,11 @@ class RenderHtml extends React.Component {
       onLinkPress,
       ...other
     } = this.props
+    const { error } = this.state
+    if (error) {
+      return <Error />
+    }
+
     return (
       <View style={style}>
         <HTML

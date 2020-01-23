@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 15:46:34
+ * @Last Modified time: 2020-01-23 15:45:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,6 +13,13 @@ import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 
+const event = {
+  id: '人物.跳转',
+  data: {
+    from: '董事会'
+  }
+}
+
 function TinygrailUsers({ style }, { $, navigation }) {
   if (!$.tinygrail || !$.chara._loaded) {
     return null
@@ -20,12 +27,6 @@ function TinygrailUsers({ style }, { $, navigation }) {
 
   const { total: amount } = $.chara
   const { list, total } = $.users
-  const event = {
-    id: '人物.跳转',
-    data: {
-      from: '董事会'
-    }
-  }
   return (
     <View style={style}>
       <Text type='warning' size={20}>

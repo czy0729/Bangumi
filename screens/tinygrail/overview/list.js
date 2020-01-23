@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 15:12:41
+ * @Last Modified time: 2020-01-23 19:52:11
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import Item from '../_/item'
 import { sortList } from '../_/utils'
 import { tabs } from './store'
@@ -53,10 +54,6 @@ List.contextTypes = {
 }
 
 export default observer(List)
-
-function keyExtractor(item) {
-  return String(item.id)
-}
 
 function renderItem({ item, index }) {
   return <Item index={index} event={event} {...item} />

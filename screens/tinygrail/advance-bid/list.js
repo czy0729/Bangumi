@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-09 15:17:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:57:13
+ * @Last Modified time: 2020-01-23 19:50:49
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import ItemAdvance from '../_/item-advance'
 
 function List(props, { $ }) {
@@ -26,7 +27,7 @@ function List(props, { $ }) {
   return (
     <ListView
       style={_.container.flex}
-      keyExtractor={item => String(item.id)}
+      keyExtractor={keyExtractor}
       data={$.advanceBidList}
       renderItem={({ item, index }) => (
         <ItemAdvance index={index} event={event} {...item} />

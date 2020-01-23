@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:10:31
+ * @Last Modified time: 2020-01-23 19:52:45
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import Item from '../_/item'
 import { sortList } from '../_/utils'
 
@@ -33,7 +34,7 @@ function List(props, { $ }) {
   return (
     <ListView
       style={_.container.flex}
-      keyExtractor={item => String(item.id)}
+      keyExtractor={keyExtractor}
       data={_list}
       renderItem={({ item, index }) => (
         <Item index={index} type='valhall' event={event} {...item} />

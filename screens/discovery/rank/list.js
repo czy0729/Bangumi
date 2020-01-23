@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 17:04:36
+ * @Last Modified time: 2020-01-23 19:47:38
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 
 const event = {
   id: '排行榜.跳转'
@@ -84,8 +85,4 @@ class List extends React.Component {
       />
     )
   }
-}
-
-function keyExtractor(item) {
-  return String(item.id)
 }

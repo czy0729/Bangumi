@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 17:19:52
+ * @Last Modified time: 2020-01-23 15:38:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -44,7 +44,7 @@ function Info(props, { $, navigation }) {
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
-      <View style={[_.container.inner, styles.container]}>
+      <View style={styles.container}>
         <Flex align='start'>
           <Flex.Item>
             <Flex align='baseline'>
@@ -97,7 +97,7 @@ function Info(props, { $, navigation }) {
           </Flex>
         )}
         <TinygrailUsers style={_.mt.lg} />
-        {!!info && <RenderHtml style={[styles.info, _.mt.md]} html={info} />}
+        {!!info && <RenderHtml style={styles.info} html={info} />}
         {!!detail && <RenderHtml style={_.mt.lg} html={detail} />}
       </View>
       <Divider />
@@ -105,7 +105,7 @@ function Info(props, { $, navigation }) {
       <Works style={_.mt.md} />
       <Jobs style={_.mt.md} />
       <SectionTitle
-        style={[styles.title, _.mt.lg, _.mb.md]}
+        style={styles.title}
         right={
           <Touchable
             onPress={() => {
@@ -143,15 +143,19 @@ export default observer(Info)
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: _.window.height * 0.56
+    minHeight: _.window.height * 0.56,
+    ..._.container.inner
   },
   loading: {
     minHeight: _.window.height * 0.48
   },
   info: {
-    paddingHorizontal: _.wind
+    paddingHorizontal: _.wind,
+    ..._.mt.md
   },
   title: {
-    paddingHorizontal: _.wind
+    paddingHorizontal: _.wind,
+    ..._.mt.lg,
+    ..._.mb.md
   }
 })

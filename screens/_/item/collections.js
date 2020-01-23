@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 20:35:49
+ * @Last Modified time: 2020-01-23 19:55:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT, EVENT } from '@constants'
+import { EVENT } from '@constants'
 import Tag from '../base/tag'
 import Stars from '../base/stars'
 import Cover from '../base/cover'
@@ -76,7 +76,7 @@ function ItemCollections({
         <View style={styles.imgContainer}>
           <Cover
             style={styles.image}
-            src={cover || IMG_DEFAULT}
+            src={cover}
             width={imgWidth}
             height={imgHeight}
             radius

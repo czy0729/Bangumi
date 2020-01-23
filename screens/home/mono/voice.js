@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 15:53:29
+ * @Last Modified time: 2020-01-23 15:45:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,13 @@ import { SectionTitle, Tag, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 
+const event = {
+  id: '人物.跳转',
+  data: {
+    from: '最近演出角色'
+  }
+}
+
 function Voice({ style }, { $, navigation }) {
   const { voice = [] } = $.mono
   if (!voice.length) {
@@ -21,12 +28,6 @@ function Voice({ style }, { $, navigation }) {
 
   const styles = memoStyles()
   const { monoId } = $.params
-  const event = {
-    id: '人物.跳转',
-    data: {
-      from: '最近演出角色'
-    }
-  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle

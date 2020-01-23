@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 02:56:04
+ * @Last Modified time: 2020-01-23 19:47:04
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import Item from './item'
 
 export default
@@ -42,10 +43,6 @@ class List extends React.Component {
       />
     )
   }
-}
-
-function keyExtractor(item) {
-  return String(item.id)
 }
 
 function renderItem({ item }) {
