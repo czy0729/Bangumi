@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 23:21:25
+ * @Last Modified time: 2020-01-23 20:54:05
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -61,17 +61,23 @@ class Zone extends React.Component {
   render() {
     const { $ } = this.context
     if (!$.state._loaded) {
-      return null
+      return <View style={_.container.screen} />
     }
 
     const { scrollY } = this.state
     const listViewProps = {
-      ListHeaderComponent: <View style={{ height: height + _.tabsHeight }} />,
+      ListHeaderComponent: (
+        <View
+          style={{
+            height: height + _.tabsHeight
+          }}
+        />
+      ),
       scrollEventThrottle: 16,
       onScroll: this.onScroll
     }
     return (
-      <>
+      <View style={_.container.screen}>
         <UM screen={title} />
         <StatusBarEvents
           barStyle='light-content'
@@ -84,7 +90,7 @@ class Zone extends React.Component {
           <About {...listViewProps} />
         </Tabs>
         <ParallaxImage scrollY={scrollY} />
-      </>
+      </View>
     )
   }
 }

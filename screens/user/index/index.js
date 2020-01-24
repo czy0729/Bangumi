@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 18:10:16
+ * @Last Modified time: 2020-01-23 20:52:32
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -129,7 +129,7 @@ class User extends React.Component {
     const { subjectType } = $.state
     const { scrollY } = this.state
     return (
-      <>
+      <View style={_.container.screen}>
         <UM screen={title} />
         <StatusBarEvents
           barStyle='light-content'
@@ -154,7 +154,7 @@ class User extends React.Component {
           ))}
         </Tabs>
         <ParallaxImage scrollY={scrollY} />
-      </>
+      </View>
     )
   }
 }

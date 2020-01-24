@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-07 00:08:27
+ * @Last Modified time: 2020-01-24 14:14:02
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -38,15 +38,7 @@ class Tag extends store {
     }
   })
 
-  init = () =>
-    this.readStorageThenSetState(
-      {
-        tag: {},
-        rank: {},
-        browser: {}
-      },
-      NAMESPACE
-    )
+  init = () => this.readStorage(['tag', 'rank', 'browser'], NAMESPACE)
 
   // -------------------- get --------------------
   /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 14:02:02
+ * @Last Modified time: 2020-01-24 14:13:03
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -23,13 +23,7 @@ class Search extends store {
     }
   })
 
-  init = () =>
-    this.readStorageThenSetState(
-      {
-        search: {}
-      },
-      NAMESPACE
-    )
+  init = () => this.readStorage(['search'], NAMESPACE)
 
   async init() {
     const res = Promise.all([this.getStorage('search', NAMESPACE)])

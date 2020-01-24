@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-17 14:17:49
+ * @Last Modified time: 2020-01-23 20:26:37
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -364,7 +364,10 @@ export default class ScreenSubject extends store {
   // -------------------- get: cdn fallback --------------------
   @computed get coverPlaceholder() {
     const { _image } = this.params
-    return _image || this.subjectFormCDN.image
+    if (typeof _image === 'string') {
+      return _image || this.subjectFormCDN.image
+    }
+    return this.subject.images.medium
   }
 
   @computed get jp() {

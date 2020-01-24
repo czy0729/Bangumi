@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 02:19:34
+ * @Last Modified time: 2020-01-23 20:05:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Shadow, Flex, Text, Touchable, Image } from '@components'
-import { getCoverSmall } from '@utils/app'
+import { Shadow, Flex, Text, Touchable } from '@components'
+import { Cover } from '@screens/_'
 import { t } from '@utils/fetch'
 import { _ } from '@stores'
 
 const width = _.window.width - _.wind * 2
-const height = width * 0.4
+const height = width * 0.42
 
 function Item(
   { id, name, title, info, last, book, anime, music, game, real },
@@ -48,14 +48,14 @@ function Item(
           </Text>
           <Flex style={[styles.images, _.mt.sm]}>
             {list
-              .filter((item, index) => index < 4)
+              .filter((item, index) => index < 3)
               .map(item => (
-                <Image
+                <Cover
                   key={item.id}
                   style={styles.image}
                   size={56}
                   radius={4}
-                  src={getCoverSmall(item.image)}
+                  src={item.image}
                 />
               ))}
             {list.length ? (

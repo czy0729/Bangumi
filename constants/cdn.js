@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 15:51:08
+ * @Last Modified time: 2020-01-24 15:26:42
  */
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
 
@@ -34,11 +34,13 @@ function hash(input) {
 
 /**
  * 每日放送
+ * @url https://github.com/ekibun/bangumi_onair
  */
 export const CDN_ONAIR = `${HOST_CDN}/gh/ekibun/bangumi_onair@master/calendar.json`
 
 /**
  * 单集数据源
+ * @url https://github.com/ekibun/bangumi_onair
  * @param {*} subjectId
  */
 export const CDN_EPS = subjectId =>
@@ -48,6 +50,7 @@ export const CDN_EPS = subjectId =>
 
 /**
  * 条目CDN自维护数据
+ * @url https://github.com/czy0729/Bangumi-Subject
  * @param {*} subjectId
  */
 export const CDN_SUBJECT = subjectId =>
@@ -57,6 +60,7 @@ export const CDN_SUBJECT = subjectId =>
 
 /**
  * 超展开小组CDN自维护数据
+ * @url https://github.com/czy0729/Bangumi-Rakuen
  * @param {*} topicId
  * @param {*} type topic | comment
  */
@@ -67,6 +71,7 @@ export const CDN_RAKUEN = (topicId, type = 'topic') =>
 
 /**
  * 头像CDN
+ * @url https://github.com/czy0729/Bangumi-OSS
  */
 const avatarCache = {}
 export const CDN_OSS_AVATAR = src => {
@@ -103,6 +108,7 @@ export const CDN_OSS_AVATAR = src => {
 
 /**
  * 条目封面CDN
+ * @url https://github.com/czy0729/Bangumi-OSS
  */
 const subjectCache = {}
 export const CDN_OSS_SUBJECT = src => {
@@ -139,6 +145,7 @@ export const CDN_OSS_SUBJECT = src => {
 
 /**
  * 年鉴
+ * @url https://github.com/czy0729/Bangumi-Static
  */
 export const CDN_AWARD = year =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Static/data/award/${year}.json`
+  `${HOST_CDN}/gh/czy0729/Bangumi-Static@master/data/award/${year}.json`

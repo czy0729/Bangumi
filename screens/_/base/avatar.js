@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 14:34:50
+ * @Last Modified time: 2020-01-23 20:06:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,14 +91,7 @@ function Avatar({
 
   return (
     <Image
-      style={[
-        style,
-        _src.includes &&
-          _src.includes('jsdelivr') && {
-            borderColor: 'red',
-            borderWidth: 1
-          }
-      ]}
+      style={style}
       size={size}
       src={_src}
       radius={radius}

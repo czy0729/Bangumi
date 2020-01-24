@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 14:44:27
+ * @Last Modified time: 2020-01-23 20:41:15
  */
 import React from 'react'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Loading, ListView, UM } from '@components'
 import { IconTabBar } from '@screens/_'
@@ -43,7 +44,7 @@ class Discovery extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.home
     return (
-      <>
+      <View style={_.container.content}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? (
@@ -60,7 +61,7 @@ class Discovery extends React.Component {
         ) : (
           <Loading style={_.container.screen} />
         )}
-      </>
+      </View>
     )
   }
 }

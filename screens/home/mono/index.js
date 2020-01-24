@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 15:36:14
+ * @Last Modified time: 2020-01-23 20:45:06
  */
 import React from 'react'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { ItemTopic, IconHeader, NavigationBarEvents } from '@screens/_'
@@ -114,11 +115,11 @@ class Mono extends React.Component {
     const { $ } = this.context
     const { onScroll } = this.props
     return (
-      <>
+      <View style={_.container.content}>
         <NavigationBarEvents />
         <ListView
-          style={this.styles.container}
-          contentContainerStyle={this.styles.contentContainerStyle}
+          style={_.container.content}
+          contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={keyExtractor}
           data={$.monoComments}
           scrollEventThrottle={16}
@@ -129,21 +130,13 @@ class Mono extends React.Component {
           onFooterRefresh={$.fetchMono}
           {...withTransitionHeader.listViewProps}
         />
-      </>
+      </View>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorPlain
-  },
+const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingBottom: _.space
   }
-}))
+})

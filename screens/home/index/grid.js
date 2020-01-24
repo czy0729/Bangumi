@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 20:02:25
+ * @Last Modified time: 2020-01-23 20:18:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -91,7 +91,7 @@ class Grid extends React.Component {
           contentContainerStyle={styles.grid}
           keyExtractor={keyExtractor}
           data={userCollection}
-          numColumns={4}
+          numColumns={5}
           footerNoMoreDataComponent={footerNoMoreDataComponent}
           footerNoMoreDataText=''
           renderItem={renderItem}
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   current: {
     width: '100%',
-    height: 284,
+    height: 268,
     paddingHorizontal: _.sm
   },
   noSelect: {

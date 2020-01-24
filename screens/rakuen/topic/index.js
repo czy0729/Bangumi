@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:49:14
+ * @Last Modified time: 2020-01-23 20:49:24
  */
 import React from 'react'
-import { Alert } from 'react-native'
+import { StyleSheet, Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView, FixedTextarea } from '@components'
@@ -23,6 +23,7 @@ import IconFavor from './icon-favor'
 import Store from './store'
 
 const title = '帖子'
+const ListHeaderComponent = <Top />
 
 export default
 @inject(Store)
@@ -234,17 +235,17 @@ class Topic extends React.Component {
     const { placeholder, value } = $.state
     const { onScroll } = this.props
     return (
-      <>
+      <View style={_.container.content}>
         <ListView
           ref={this.connectListViewRef}
-          style={this.styles.container}
-          contentContainerStyle={this.styles.contentContainerStyle}
+          style={_.container.content}
+          contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={keyExtractor}
           data={$.comments}
           scrollEventThrottle={16}
           initialNumToRender={$.postId ? 50 : undefined} // 为了可以更快地到达目标楼层
           removeClippedSubviews={false}
-          ListHeaderComponent={<Top />}
+          ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
           onScroll={onScroll}
           onScrollToIndexFailed={this.onScrollToIndexFailed}
@@ -264,21 +265,13 @@ class Topic extends React.Component {
           />
         )}
         <TouchScroll onPress={this.scrollToThenFeedback} />
-      </>
+      </View>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorPlain
-  },
+const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingBottom: _.bottom
   }
-}))
+})

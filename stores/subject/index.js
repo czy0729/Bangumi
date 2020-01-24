@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-17 14:16:14
+ * @Last Modified time: 2020-01-24 14:13:33
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -84,15 +84,8 @@ class Subject extends store {
   })
 
   init = () =>
-    this.readStorageThenSetState(
-      {
-        subject: {},
-        subjectFormHTML: {},
-        // subjectEp: {},
-        subjectComments: {},
-        mono: {},
-        monoComments: {}
-      },
+    this.readStorage(
+      ['subject', 'subjectFormHTML', 'subjectComments', 'mono', 'monoComments'],
       NAMESPACE
     )
 

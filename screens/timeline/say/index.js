@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 17:54:57
+ * @Last Modified time: 2020-01-23 20:50:34
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import { FixedTextarea } from '@components'
 import { _ } from '@stores'
@@ -84,7 +84,7 @@ class Say extends React.Component {
     const { $, navigation } = this.context
     const { value } = $.state
     return (
-      <>
+      <View style={_.container.screen}>
         <ScrollView
           ref={this.connectRefScrollView}
           style={_.container.screen}
@@ -103,7 +103,7 @@ class Say extends React.Component {
             onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
           />
         )}
-      </>
+      </View>
     )
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 16:00:45
+ * @Last Modified time: 2020-01-23 20:29:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ function Header(props, { $ }) {
     _loaded
   } = $.subjectComments
   return (
-    <>
+    <View>
       <Head />
       <View style={styles.content}>
         <Lock />
@@ -75,7 +75,7 @@ function Header(props, { $ }) {
           </Flex>
         )}
       </View>
-    </>
+    </View>
   )
 }
 
@@ -87,7 +87,6 @@ export default observer(Header)
 
 const memoStyles = _.memoStyles(_ => ({
   content: {
-    zIndex: 1,
     minHeight: _.window.height * 0.5,
     backgroundColor: _.colorPlain
   },

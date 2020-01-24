@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 17:48:19
+ * @Last Modified time: 2020-01-24 14:19:41
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -100,16 +100,16 @@ class Store extends store {
   })
 
   init = async () => {
-    await this.readStorageThenSetState(
-      {
-        accessToken: INIT_ACCESS_TOKEN,
-        userInfo: INIT_USER_INFO,
-        userCookie: INIT_USER_COOKIE,
-        userCollection: LIST_EMPTY,
-        userProgress: {},
-        usersInfo: {},
-        userCollectionsStatus: {}
-      },
+    await this.readStorage(
+      [
+        'accessToken',
+        'userInfo',
+        'userCookie',
+        'userCollection',
+        'userProgress',
+        'usersInfo',
+        'userCollectionsStatus'
+      ],
       NAMESPACE
     )
 

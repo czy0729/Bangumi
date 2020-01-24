@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:48:32
+ * @Last Modified time: 2020-01-23 20:39:09
  */
 import React from 'react'
 import { InteractionManager, StyleSheet, View } from 'react-native'
@@ -154,13 +154,13 @@ class Subject extends React.Component {
     const { $ } = this.context
     const { visible, _loaded } = $.state
     if (!_loaded) {
-      return null
+      return <View style={_.container.screen} />
     }
 
     const { onScroll } = this.props
     const { name_cn: nameCn, name, images = {} } = $.subject
     return (
-      <View style={_.container.content}>
+      <View style={_.container.screen}>
         <BlurView
           style={styles.blurView}
           theme='dark'
@@ -205,8 +205,7 @@ const styles = StyleSheet.create({
     height: IOS ? _.window.height * 0.32 : 160 // iOS有弹簧, 所以拉下来太矮会看见背景
   },
   listView: {
-    ..._.container.flex,
-    zIndex: 1
+    ..._.container.flex
   },
   contentContainerStyle: {
     paddingTop: _.headerHeight,

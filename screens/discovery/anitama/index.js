@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 16:03:45
+ * @Last Modified time: 2020-01-23 20:39:46
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -90,7 +90,7 @@ class Anitama extends React.Component {
     const { $ } = this.context
     const { show, _loaded } = $.state
     if (!_loaded) {
-      return null
+      return <View style={_.container.screen} />
     }
 
     return (

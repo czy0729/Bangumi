@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 20:21:09
+ * @Last Modified time: 2020-01-23 20:18:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -180,8 +180,8 @@ class GridInfo extends React.Component {
       <Flex style={styles.item} align='start'>
         <View>
           <Cover
-            size={120}
-            height={168}
+            size={104}
+            height={146}
             src={subject.images.medium}
             radius
             border
@@ -189,12 +189,12 @@ class GridInfo extends React.Component {
             onPress={this.onPress}
           />
           {isToday ? (
-            <Text style={_.mt.md} type='success' align='center'>
+            <Text style={_.mt.sm} type='success' align='center' size={12}>
               {$.onAir[subjectId].timeCN.slice(0, 2)}:
               {$.onAir[subjectId].timeCN.slice(2, 4)}
             </Text>
           ) : isNextDay ? (
-            <Text style={_.mt.md} type='sub' align='center'>
+            <Text style={_.mt.sm} type='sub' align='center' size={12}>
               明天{$.onAir[subjectId].timeCN.slice(0, 2)}:
               {$.onAir[subjectId].timeCN.slice(2, 4)}
             </Text>
@@ -206,22 +206,17 @@ class GridInfo extends React.Component {
               <Flex.Item>
                 <Text numberOfLines={1}>{subject.name_cn || subject.name}</Text>
               </Flex.Item>
-              {isToday && (
-                <Text style={_.ml.sm} type='success' size={12} lineHeight={14}>
-                  放送中
-                </Text>
-              )}
+              <Text type='sub' size={11}>
+                {subject.collection.doing} 人在{doing}
+              </Text>
             </Flex>
           </Touchable>
-          <Text style={_.mt.xs} type='sub' size={11}>
-            {subject.collection.doing} 人在{doing}
-          </Text>
-          <Flex style={_.mt.sm}>
+          <Flex style={_.mt.xs}>
             <Flex.Item>{this.renderCount()}</Flex.Item>
             {this.renderToolBar()}
           </Flex>
           <Eps
-            style={_.mt.sm}
+            style={_.mt.xs}
             numbersOfLine={6}
             login={$.isLogin}
             subjectId={subjectId}

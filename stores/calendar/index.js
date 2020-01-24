@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-17 14:09:36
+ * @Last Modified time: 2020-01-24 14:11:48
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -36,15 +36,7 @@ class Calendar extends store {
     }
   })
 
-  init = () =>
-    this.readStorageThenSetState(
-      {
-        calendar: LIST_EMPTY,
-        home: INIT_HOME,
-        onAir: {}
-      },
-      NAMESPACE
-    )
+  init = () => this.readStorage(['calendar', 'home', 'onAir'], NAMESPACE)
 
   // -------------------- get --------------------
   @computed get calendar() {
