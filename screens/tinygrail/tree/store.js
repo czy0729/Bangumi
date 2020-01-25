@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 20:57:52
+ * @Last Modified time: 2020-01-25 17:42:47
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -343,13 +343,14 @@ function caculateValue(item, label, isTemple) {
         break
       case '周股息':
         if (isTemple) {
-          value += item.sacrifices * item.rate * 0.5
+          value += (item.sacrifices || 0) * item.rate * (item.level + 1) * 0.3
         } else if (item.sacrifices) {
           // 所有, 合并
           value +=
-            (item.state || 0) * item.rate + item.sacrifices * item.rate * 0.5
+            (item.state || 0) * item.rate +
+            item.sacrifices * item.rate * (item.level + 1) * 0.3
         } else {
-          value += item.state * item.rate
+          value += (item.state || 0) * item.rate
         }
         break
       case '股息':

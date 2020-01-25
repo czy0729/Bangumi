@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 16:44:52
+ * @Last Modified time: 2020-01-25 17:47:01
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -24,7 +24,7 @@ function Menus(props, { $ }) {
       <MenuItem title='ICO榜单' pathname='TinygrailICO' icon='ico' />
       <MenuItem title='番市首富' pathname='TinygrailRich' icon='shou-fu' />
       <MenuItem title='英灵殿' pathname='TinygrailValhall' icon='app' />
-      <MenuItem title='最近圣殿' pathname='TinygrailTemples' icon='paihang' />
+      <MenuItem title='最新圣殿' pathname='TinygrailTemples' icon='paihang' />
       <Assets />
       <MenuItem
         style={{

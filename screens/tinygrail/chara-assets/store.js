@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 16:56:03
+ * @Last Modified time: 2020-01-25 17:55:28
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { toFixed } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
@@ -113,7 +114,7 @@ export default class ScreenTinygrailCharaAssets extends store {
         '小圣杯助手',
         `本次刮刮乐：${items
           .map(item => `${item.name}x${item.num}`)
-          .join('，')}，价值₵${total}`,
+          .join('，')}，价值₵${toFixed(total, 2)}`,
         [
           {
             text: '知道了'

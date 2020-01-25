@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 09:36:28
+ * @Last Modified time: 2020-01-25 18:23:25
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -244,7 +244,7 @@ export default class ScreenSay extends store {
     const { list = [] } = this.say
     timelineStore.doReply(
       {
-        id,
+        id: String(id).split('#')[0],
         content,
         formhash: list[0].formhash
       },
