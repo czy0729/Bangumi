@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 21:13:51
+ * @Last Modified time: 2020-01-25 20:07:24
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -379,6 +379,28 @@ export default class ScreenTinygrail extends store {
       })
       info('操作失败，可能授权过期了')
     }
+  }
+
+  doSend = () => {
+    Alert.alert('新年快乐!', '是否给作者发送10000cc?', [
+      {
+        text: '取消',
+        style: 'cancel'
+      },
+      {
+        text: '确定',
+        onPress: async () => {
+          const { State, Value, Message } = await tinygrailStore.doSend()
+          if (State === 0) {
+            info(Value)
+            await tinygrailStore.fetchAssets()
+            this.caculateChange()
+          } else {
+            info(Message)
+          }
+        }
+      }
+    ])
   }
 
   /**

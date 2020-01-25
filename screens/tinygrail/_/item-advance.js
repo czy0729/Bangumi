@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 17:14:25
+ * @Last Modified time: 2020-01-25 20:34:01
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -140,7 +140,8 @@ function Item(props, { navigation }) {
                     {firstAmount}股
                   </Text>
                 )}
-                {!!firstAmount && ' / '}₵{firstAsks || firstBids || current} / +
+                {!!firstAmount && ' / '}₵
+                {toFixed(firstAsks || firstBids || current, 2)} / +
                 {toFixed(rate, 2)} / +{toFixed(rate * (level + 1) * 0.3, 2)}
               </Text>
             </Flex.Item>

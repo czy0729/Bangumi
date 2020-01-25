@@ -1,8 +1,9 @@
+/* eslint-disable no-trailing-spaces */
 /*
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 21:14:47
+ * @Last Modified time: 2020-01-25 20:08:33
  */
 import React from 'react'
 import { Alert, ScrollView, RefreshControl } from 'react-native'
@@ -60,19 +61,31 @@ class Tinygrail extends React.Component {
     )
   }
 
-  alertUpdates = () => {
+  alertScience = () =>
     Alert.alert(
-      '小圣杯助手',
-      '1. [高级分析] 全网卖一推荐\n2. [高级分析] 持仓买一推荐\n3. [高级分析] 竞拍推荐\n4. 列表项右侧的状态快捷预览点击切换时, 所有都会同时切换\n5. 列表二次排序增加股息比和等级\n6. 修复了拍卖点击人物进入错误页面的问题\n7. 自己圣殿的排最前',
+      '科普',
+      '角色等级: \n圣殿股息: 流动股息 * (等级 + 1) * 0.3\n欢迎贡献',
       [
         {
           text: '知道了'
         }
       ]
     )
-  }
+
+  alertUpdates = () =>
+    Alert.alert(
+      '小圣杯助手v1.2.0',
+      // '1. [高级分析] 全网卖一推荐\n2. [高级分析] 持仓买一推荐\n3. [高级分析] 竞拍推荐\n4. 列表项右侧的状态快捷预览点击切换时, 所有都会同时切换\n5. 列表二次排序增加股息比和等级\n6. 修复了拍卖点击人物进入错误页面的问题\n7. 自己圣殿的排最前',
+      '1. [交易] 删除出价100的限制\n2. [资产重组] 圣殿折叠\n3. [资产重组] 可以看见当前竞拍状态\n4. [资金分析] 更新股息算法\n5. [高级分析] 计算优化, 整合圣殿股息\n6. [高级分析] 新增献祭推荐\n7. [最新圣殿] 可以加载更多\n8. 列表添加圣殿股息排序\n9. 角色页面可以复制bgm链接',
+      [
+        {
+          text: '知道了'
+        }
+      ]
+    )
 
   render() {
+    const { $ } = this.context
     const { refreshing } = this.state
     return (
       <ScrollView
@@ -101,10 +114,63 @@ class Tinygrail extends React.Component {
               color: _.colorTinygrailText
             }}
             size={12}
-            align='center'
+          >
+            - 1.2.0 -
+          </Text>
+        </Flex>
+        <Flex style={_.mt.sm} justify='center'>
+          {/* <Text
+            style={{
+              color: _.colorTinygrailText
+            }}
+            size={12}
+            onPress={this.alertScience}
+          >
+            科普
+          </Text>
+          <Text
+            style={[
+              _.ml.md,
+              {
+                color: _.colorTinygrailText
+              }
+            ]}
+          >
+            |
+          </Text> */}
+          <Text
+            style={[
+              // _.ml.md,
+              {
+                color: _.colorTinygrailText
+              }
+            ]}
+            size={12}
             onPress={this.alertUpdates}
           >
-            - 1.2.0 - [更新内容]
+            更新内容
+          </Text>
+          <Text
+            style={[
+              _.ml.md,
+              {
+                color: _.colorTinygrailText
+              }
+            ]}
+          >
+            |
+          </Text>
+          <Text
+            style={[
+              _.ml.md,
+              {
+                color: _.colorTinygrailText
+              }
+            ]}
+            size={12}
+            onPress={$.doSend}
+          >
+            新年快乐
           </Text>
         </Flex>
       </ScrollView>

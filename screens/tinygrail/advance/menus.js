@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 18:00:47
+ * @Last Modified time: 2020-01-25 20:16:13
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -38,6 +38,12 @@ function Menus({ navigation }) {
         title='拍卖推荐'
         pathname='TinygrailAdvanceAuction'
         icon='auction'
+      />
+      <MenuItem
+        navigation={navigation}
+        title='献祭推荐'
+        pathname='TinygrailAdvanceSacrifice'
+        icon='app'
       />
     </Flex>
   )

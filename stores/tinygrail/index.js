@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 17:31:00
+ * @Last Modified time: 2020-01-25 20:34:25
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -271,6 +271,11 @@ class Tinygrail extends store {
     advanceAuctionList: LIST_EMPTY,
 
     /**
+     * 献祭推荐
+     */
+    advanceSacrificeList: LIST_EMPTY,
+
+    /**
      * iOS此刻是否显示WebView
      * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
@@ -313,7 +318,8 @@ class Tinygrail extends store {
         'issuePrice',
         'advanceList',
         'advanceBidList',
-        'advanceAuctionList'
+        'advanceAuctionList',
+        'advanceSacrificeList'
       ],
       NAMESPACE
     )
@@ -435,6 +441,10 @@ class Tinygrail extends store {
 
   @computed get advanceAuctionList() {
     return this.state.advanceAuctionList
+  }
+
+  @computed get advanceSacrificeList() {
+    return this.state.advanceSacrificeList
   }
 
   // -------------------- fetch --------------------
@@ -1809,6 +1819,43 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
+  /**
+   * 献祭推荐
+   * 从自己持仓中查找
+   */
+  fetchAdvanceSacrificeList = async () => {
+    await this.fetchMyCharaAssets()
+    const { chara = LIST_EMPTY } = this.myCharaAssets
+    const data = {
+      list: chara.list
+        .filter(item => {
+          const templeRate = parseFloat(item.rate) * (item.level + 1) * 0.3
+          return templeRate > item.rate
+        })
+        .map(item => ({
+          ...item,
+          mark: toFixed(
+            parseFloat(item.rate) * (item.level + 1) * 0.3 - item.rate,
+            1
+          )
+        }))
+        .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
+      pagination: {
+        page: 1,
+        pageTotal: 1
+      },
+      _loaded: getTimestamp()
+    }
+
+    const key = 'advanceSacrificeList'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
   // -------------------- page --------------------
   updateCookie = cookie => {
     this.setState({
@@ -1950,6 +1997,17 @@ class Tinygrail extends store {
    */
   doBonusHoliday = async () => {
     const { data } = await this.fetch(API_TINYGRAIL_BONUS_HOLIDAY(), true)
+    return data
+  }
+
+  /**
+   * 新年快乐
+   */
+  doSend = async () => {
+    const { data } = await this.fetch(
+      'https://tinygrail.com/api/event/send/sukaretto/10000',
+      true
+    )
     return data
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 15:49:47
+ * @Last Modified time: 2020-01-25 20:14:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -100,7 +100,10 @@ function Item(props, { navigation }) {
 
     // 圣殿股息比
     const templeRate = toFixed((rate || 0) * (level + 1) * 0.3, 1)
-    extra += ` / +${templeRate}`
+    if (level !== undefined) {
+      extra += ` / +${templeRate}`
+    }
+
     if (show) {
       const templeRateRatio = toFixed(
         ((templeRate || 0) / (current || 10)) * 10,
@@ -130,7 +133,7 @@ function Item(props, { navigation }) {
 
   let prevText
   let auctionText = '竞拍中'
-  let auctionTextColor = _.colorTinygrailText
+  let auctionTextColor = _.colorWarning
   let auctionSubText = ''
   if (types.includes(type)) {
     prevText = `${state}股`
@@ -237,7 +240,7 @@ function Item(props, { navigation }) {
                       style={{
                         color: auctionTextColor
                       }}
-                      size={16}
+                      size={15}
                       align='right'
                     >
                       {auctionText}
