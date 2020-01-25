@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 16:33:45
+ * @Last Modified time: 2020-01-25 15:33:01
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed } from '@utils'
@@ -41,12 +41,14 @@ import {
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_AUCTION_LIST,
   API_TINYGRAIL_AUCTION,
+  API_TINYGRAIL_AUCTION_STATUS,
   API_TINYGRAIL_SACRIFICE,
   API_TINYGRAIL_VALHALL_LIST,
   API_TINYGRAIL_MY_AUCTION_LIST,
   API_TINYGRAIL_SCRATCH,
   API_TINYGRAIL_BONUS,
   API_TINYGRAIL_BONUS_DAILY,
+  API_TINYGRAIL_BONUS_HOLIDAY,
   API_TINYGRAIL_ISSUE_PRICE,
   API_TINYGRAIL_TEMPLE_LAST
 } from '@constants/api'
@@ -60,7 +62,8 @@ import {
   INIT_ASSETS,
   INIT_CHARA_ASSETS,
   INIT_USER_LOGS,
-  INIT_MY_CHARA_ASSETS
+  INIT_MY_CHARA_ASSETS,
+  INIT_AUCTION_STATUS
 } from './init'
 
 const defaultKey = 'recent'
@@ -230,6 +233,13 @@ class Tinygrail extends store {
     auction: LIST_EMPTY,
 
     /**
+     * 当前拍卖状态
+     */
+    auctionStatus: {
+      // [monoId]: INIT_AUCTION_STATUS
+    },
+
+    /**
      * 角色发行价
      */
     issuePrice: {
@@ -391,6 +401,12 @@ class Tinygrail extends store {
 
   auctionList(id) {
     return computed(() => this.state.auctionList[id]).get() || LIST_EMPTY
+  }
+
+  auctionStatus(id) {
+    return (
+      computed(() => this.state.auctionStatus[id]).get() || INIT_AUCTION_STATUS
+    )
   }
 
   @computed get valhallList() {
@@ -1071,6 +1087,33 @@ class Tinygrail extends store {
     })
     this.setStorage(key, undefined, NAMESPACE)
 
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 当前拍卖状态
+   */
+  fetchAuctionStatus = async monoId => {
+    const result = await this.fetch(API_TINYGRAIL_AUCTION_STATUS(), true, [
+      monoId
+    ])
+
+    const { State, Value } = result.data
+    let data = INIT_AUCTION_STATUS
+    if (State === 0) {
+      data = {
+        state: Value[0].State,
+        type: Value[0].Type,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'auctionStatus'
+    this.setState({
+      [key]: {
+        [monoId]: data
+      }
+    })
     return Promise.resolve(data)
   }
 
@@ -1840,6 +1883,14 @@ class Tinygrail extends store {
    */
   doBonusDaily = async () => {
     const { data } = await this.fetch(API_TINYGRAIL_BONUS_DAILY(), true)
+    return data
+  }
+
+  /**
+   * 节日福利
+   */
+  doBonusHoliday = async () => {
+    const { data } = await this.fetch(API_TINYGRAIL_BONUS_HOLIDAY(), true)
     return data
   }
 }

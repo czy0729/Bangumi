@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:09:54
+ * @Last Modified time: 2020-01-24 21:10:06
  */
 
 /**
@@ -265,6 +265,7 @@ export default {
   '小圣杯.刮刮乐': 'TIndex.lottery',
   '小圣杯.每周分红': 'TIndex.bonusWeek',
   '小圣杯.每日签到': 'TIndex.bonusDaily',
+  '小圣杯.节日福利': 'TIndex.bonusHoliday',
 
   // 资金日志
   '资金日志.跳转': 'TLogs.to',

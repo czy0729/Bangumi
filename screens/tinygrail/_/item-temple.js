@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 15:10:50
+ * @Last Modified time: 2020-01-25 11:17:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,6 @@ import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
 import { _ } from '@stores'
 import { Avatar } from '@screens/_'
-import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -29,10 +28,10 @@ function ItemTemple(
     name,
     nickname,
     sacrifices,
-    level,
-    rate,
     event,
     type,
+    level,
+    count,
     onPress
   },
   { navigation }
@@ -43,13 +42,10 @@ function ItemTemple(
   const _name = HTMLDecode(nickname || name)
 
   let colorLevel
-  let plusRate = 0.2
   if (level === 3) {
     colorLevel = _.colorDanger
-    plusRate = 0.8
   } else if (level === 2) {
     colorLevel = _.colorWarning
-    plusRate = 0.4
   }
   return (
     <View style={styles.item}>
@@ -138,22 +134,27 @@ function ItemTemple(
                 style={{
                   color: _.colorTinygrailPlain
                 }}
-                size={isFormCharaAssets ? 16 : 13}
+                size={isFormCharaAssets ? 16 : 14}
                 numberOfLines={1}
               >
-                {_name}
+                {sacrifices}
               </Text>
               <Text
                 style={{
                   marginTop: 2,
                   color: _.colorTinygrailText
                 }}
-                size={isFormCharaAssets ? 14 : 12}
+                size={isFormCharaAssets ? 12 : 10}
                 numberOfLines={1}
               >
-                {sacrifices} / {rate ? `+${toFixed(rate, 2)}` : `+${plusRate}`}
+                {_name}
               </Text>
             </Flex.Item>
+            {count > 1 && (
+              <Text style={_.ml.xs} type='warning'>
+                x{count}
+              </Text>
+            )}
           </Flex>
         </Touchable>
       )}

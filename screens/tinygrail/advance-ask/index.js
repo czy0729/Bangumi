@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 17:50:00
+ * @Last Modified time: 2020-01-24 17:42:08
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -45,6 +45,7 @@ class TinygrailAdvanceAsk extends React.Component {
       extra: (
         <IconHeader
           name='information'
+          color={_.__colorPlain__}
           onPress={() => {
             t('卖一推荐.提示')
 

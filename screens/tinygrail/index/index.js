@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:34:13
+ * @Last Modified time: 2020-01-24 21:14:47
  */
 import React from 'react'
 import { Alert, ScrollView, RefreshControl } from 'react-native'
@@ -104,7 +104,7 @@ class Tinygrail extends React.Component {
             align='center'
             onPress={this.alertUpdates}
           >
-            - 1.1.1 - [更新内容]
+            - 1.2.0 - [更新内容]
           </Text>
         </Flex>
       </ScrollView>

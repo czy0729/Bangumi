@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:46:18
+ * @Last Modified time: 2020-01-24 17:42:16
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -45,6 +45,7 @@ class TinygrailAdvanceAuction extends React.Component {
       extra: (
         <IconHeader
           name='information'
+          color={_.__colorPlain__}
           onPress={() => {
             t('竞拍推荐.提示')
 

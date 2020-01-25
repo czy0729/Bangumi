@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:46:39
+ * @Last Modified time: 2020-01-25 12:24:32
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -147,9 +147,9 @@ class TinygrailSacrifice extends React.Component {
         <StatusBarEvents />
         <Info />
         <Slider style={_.mt.sm} />
-        <Temples style={_.mt.sm} />
-        <Auction style={_.mt.lg} />
-        <AuctionList style={_.mt.md} />
+        <Auction style={_.mt.md} />
+        <AuctionList style={_.mt.sm} />
+        <Temples />
       </ScrollView>
     )
   }

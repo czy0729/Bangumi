@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 20:15:44
+ * @Last Modified time: 2020-01-24 17:41:39
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -33,6 +33,7 @@ class TinygrailAdvance extends React.Component {
       extra: (
         <IconHeader
           name='information'
+          color={_.__colorPlain__}
           onPress={() => {
             t('高级分析.提示')
 

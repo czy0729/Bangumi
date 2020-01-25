@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 18:04:45
+ * @Last Modified time: 2020-01-25 14:33:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,7 @@ import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
 
-const maxSize = _.window.width / 2.4
+const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }) {
   const {
@@ -25,6 +25,7 @@ function Info(props, { $, navigation }) {
     marketValue,
     current,
     total,
+    level,
     fluctuation
   } = $.chara
   let color = _.colorTinygrailPlain
@@ -84,11 +85,20 @@ function Info(props, { $, navigation }) {
           >
             #{id} - {name}
             {!!bonus && (
-              <Text size={12} lineHeight={16} type='warning'>
+              <Text size={16} type='warning'>
                 {' '}
                 X{bonus}
               </Text>
             )}
+            <Text
+              style={{
+                color: _.colorAsk
+              }}
+              size={16}
+            >
+              {' '}
+              lv{level}
+            </Text>
           </Text>
           <Iconfont
             style={_.ml.sm}
@@ -98,11 +108,16 @@ function Info(props, { $, navigation }) {
           />
         </Flex>
       </Touchable>
-      <Flex style={_.mt.md} justify='center' align='baseline'>
+      <Flex
+        style={[_.container.wind, _.mt.md]}
+        justify='center'
+        align='baseline'
+      >
         <Text
           style={{
             color: _.colorTinygrailText
           }}
+          align='center'
         >
           市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} /
           发行价 ₵{toFixed($.issuePrice, 1)} /{' '}
@@ -113,17 +128,15 @@ function Info(props, { $, navigation }) {
           >
             ₵{current && toFixed(current, 2)}
           </Text>
-        </Text>
-        <Text
-          style={[
-            _.ml.sm,
-            {
+          <Text
+            style={{
               color
-            }
-          ]}
-          align='center'
-        >
-          {fluctuationText}
+            }}
+            align='center'
+          >
+            {' '}
+            {fluctuationText}
+          </Text>
         </Text>
       </Flex>
     </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 03:01:25
+ * @Last Modified time: 2020-01-25 14:34:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import { tinygrailOSS, getCoverLarge, caculateICO } from '@utils/app'
 import { t } from '@utils/fetch'
 import Bar from './bar'
 
-const maxSize = _.window.width / 2.4
+const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }) {
   const { icon, id, name, total, end = '' } = $.chara

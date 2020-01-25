@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 18:02:11
+ * @Last Modified time: 2020-01-25 15:22:41
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -130,4 +130,10 @@ export const INIT_AUCTION_ITEM = {
   price: 0, // 我的拍卖价
   state: '', // 状态 | 0拍卖中 | 1成功 | 2失败
   lastOrder: '' // 操作时间
+}
+
+// 当前拍卖状态
+export const INIT_AUCTION_STATUS = {
+  state: 0, // 人数
+  type: 0 // 股数
 }

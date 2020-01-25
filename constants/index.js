@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 15:36:45
+ * @Last Modified time: 2020-01-25 14:23:03
  */
 import { Platform } from 'react-native'
 
@@ -43,7 +43,8 @@ export const USERID_IOS_AUTH = 474489 // 2963xxx10@qq.com
 
 // TINYGRAIL
 export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec' // 小圣杯client_id
-export const TINYGRAIL_OAUTH_REDIRECT_URL = 'https://tinygrail.com/cb' // 小圣杯授权跳转地址
+export const TINYGRAIL_OAUTH_REDIRECT_URL =
+  'https://tinygrail.com/api/account/callback' // 小圣杯授权跳转地址
 
 // GITHUB
 export const GITHUB_PROJECT = 'https://github.com/czy0729/Bangumi' // github项目地址

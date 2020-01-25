@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 16:12:43
+ * @Last Modified time: 2020-01-25 15:49:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,28 +10,17 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
-import { _ } from '@stores'
+import { _, tinygrailStore } from '@stores'
 import { lastDate, getTimestamp, formatNumber, toFixed } from '@utils'
 import { tinygrailOSS, formatTime } from '@utils/app'
 import { t } from '@utils/fetch'
 import { EVENT, B, M } from '@constants'
 import Popover from './popover'
 
+const types = ['bid', 'asks', 'chara']
 let timezone = new Date().getTimezoneOffset() / -60
 if (String(timezone).length === 1) {
   timezone = `0${timezone}`
-}
-
-/**
- * 修复时间
- * 2019-10-04T13:34:03.4243768+08:00 => 2019-10-04 13:34:03
- * @param {*} time
- */
-function fixedTime(time) {
-  return (time || '')
-    .replace('T', ' ')
-    .split('+')[0]
-    .split('.')[0]
 }
 
 function Item(props, { navigation }) {
@@ -67,46 +56,71 @@ function Item(props, { navigation }) {
     auction: _.colorWarning
   }
 
-  const isTop = index === 0
+  // 用show判断是否精简模式
+  const { _stockPreview: show } = tinygrailStore.state
+
   const isICO = users !== undefined // 有users为ico中
   const isDeal = !!type // 有此值为用户委托单
   const isAuction = type === 'auction'
   const isValhall = type === 'valhall'
 
-  let marketValueText
-  let totalText
-  if (marketValue > B) {
-    marketValueText = `${toFixed(marketValue / B, 1)}亿`
-  } else if (marketValue > M) {
-    marketValueText = `${toFixed(marketValue / M, 1)}万`
-  } else {
-    marketValueText = formatNumber(marketValue, 0)
-  }
+  let marketValueText // 总市场价
+  let totalText // 总量
+  if (show || isICO) {
+    if (marketValue > B) {
+      marketValueText = `${toFixed(marketValue / B, 1)}亿`
+    } else if (marketValue > M) {
+      marketValueText = `${toFixed(marketValue / M, 1)}万`
+    } else {
+      marketValueText = formatNumber(marketValue, 0)
+    }
 
-  if (total > 1000) {
-    totalText = `${toFixed(total / M, 1)}万`
-  } else {
-    totalText = formatNumber(total, 0)
-  }
-
-  let _end = end
-  if (!String(_end).includes('+')) {
-    _end = `${end}+${timezone}:00`
+    if (total > 1000) {
+      totalText = `${toFixed(total / M, 1)}万`
+    } else {
+      totalText = formatNumber(total, 0)
+    }
   }
 
   let extra
   if (isICO) {
+    // ICO结束时间
+    let _end = end
+    if (!String(_end).includes('+')) {
+      _end = `${end}+${timezone}:00`
+    }
     extra = `${formatTime(_end)} / 已筹集${totalText || '-'}`
   } else {
-    const rateRatio = toFixed(((rate || 0) / (current || 10)) * 10, 1)
-    extra = `${lastDate(getTimestamp(fixedTime(lastOrder)))} / +${toFixed(
-      rate,
-      2
-    )} / ${rateRatio}`
+    // 流动股息比
+    extra = `+${toFixed(rate, 2)}`
+    if (show) {
+      const rateRatio = toFixed(((rate || 0) / (current || 10)) * 10, 1)
+      extra += ` (${rateRatio})`
+    }
+
+    // 圣殿股息比
+    const templeRate = toFixed((rate || 0) * (level + 1) * 0.3, 1)
+    extra += ` / +${templeRate}`
+    if (show) {
+      const templeRateRatio = toFixed(
+        ((templeRate || 0) / (current || 10)) * 10,
+        1
+      )
+      extra += ` (${templeRateRatio})`
+    }
+
     if (isValhall) {
       extra += ` / 底价${toFixed(price, 1)} / 数量${formatNumber(state, 0)}`
     } else {
-      extra += ` / 总${marketValueText || '-'} / 量${totalText || '-'}`
+      if (show) {
+        extra += ` / ${lastDate(getTimestamp(fixedTime(lastOrder)))}`
+      }
+      if (marketValueText) {
+        extra += ` / 总${marketValueText}`
+      }
+      if (totalText) {
+        extra += ` / 量${totalText}`
+      }
     }
   }
 
@@ -118,7 +132,7 @@ function Item(props, { navigation }) {
   let auctionText = '竞拍中'
   let auctionTextColor = _.colorTinygrailText
   let auctionSubText = ''
-  if (['bid', 'asks', 'chara'].includes(type)) {
+  if (types.includes(type)) {
     prevText = `${state}股`
   } else if (type === 'ico') {
     prevText = `注资${state}`
@@ -153,7 +167,7 @@ function Item(props, { navigation }) {
           })
         }}
       />
-      <Flex.Item style={!isTop && styles.border}>
+      <Flex.Item style={index !== 0 && styles.border}>
         <Flex align='start'>
           <Flex.Item>
             <Touchable
@@ -297,3 +311,15 @@ const memoStyles = _.memoStyles(_ => ({
     marginRight: -12
   }
 }))
+
+/**
+ * 修复时间
+ * 2019-10-04T13:34:03.4243768+08:00 => 2019-10-04 13:34:03
+ * @param {*} time
+ */
+function fixedTime(time) {
+  return (time || '')
+    .replace('T', ' ')
+    .split('+')[0]
+    .split('.')[0]
+}

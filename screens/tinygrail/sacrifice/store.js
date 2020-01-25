@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:20:48
+ * @Last Modified time: 2020-01-25 15:31:13
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -56,6 +56,7 @@ export default class ScreenTinygrailSacrifice extends store {
       () => tinygrailStore.fetchAssets(), // 自己的资产
       () => tinygrailStore.fetchIssuePrice(this.monoId),
       () => this.fetchValhallChara(),
+      () => tinygrailStore.fetchAuctionStatus(this.monoId),
       () => tinygrailStore.fetchAuctionList(this.monoId) // 上周拍卖信息
     ])
 
@@ -107,6 +108,10 @@ export default class ScreenTinygrailSacrifice extends store {
 
   @computed get auctionList() {
     return tinygrailStore.auctionList(this.monoId)
+  }
+
+  @computed get auctionStatus() {
+    return tinygrailStore.auctionStatus(this.monoId)
   }
 
   @computed get issuePrice() {

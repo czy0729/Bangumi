@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 16:07:57
+ * @Last Modified time: 2020-01-24 23:20:12
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -57,48 +57,46 @@ function Header(props, { $, navigation }) {
               })
             }}
           />
-          <Text
-            style={[
-              _.ml.sm,
-              {
-                color: _.colorTinygrailPlain
-              }
-            ]}
-            size={16}
-            numberOfLines={1}
-          >
-            {name}
-            {!!bonus && (
-              <Text size={12} lineHeight={16} type='warning'>
-                {' '}
-                X{bonus}
+          <Flex.Item style={_.ml.sm}>
+            <Flex>
+              <Text
+                style={{
+                  color: _.colorTinygrailPlain
+                }}
+                size={16}
+                numberOfLines={1}
+              >
+                {name}
+                {!!bonus && (
+                  <Text size={12} lineHeight={16} type='warning'>
+                    {' '}
+                    X{bonus}
+                  </Text>
+                )}
               </Text>
-            )}
-          </Text>
-          <Text
-            style={[
-              _.ml.sm,
-              {
-                color
-              }
-            ]}
-            lineHeight={17}
-            align='center'
-          >
-            {fluctuationText}
-          </Text>
-          <Text
-            style={[
-              _.ml.sm,
-              {
+              <Text
+                style={[
+                  _.ml.sm,
+                  {
+                    color
+                  }
+                ]}
+                lineHeight={17}
+                align='center'
+              >
+                {fluctuationText}
+              </Text>
+            </Flex>
+            <Text
+              style={{
                 color: _.colorTinygrailText
-              }
-            ]}
-            size={12}
-            lineHeight={17}
-          >
-            +{toFixed(rate, 2)}
-          </Text>
+              }}
+              size={12}
+              lineHeight={17}
+            >
+              +{toFixed(rate, 2)}
+            </Text>
+          </Flex.Item>
         </Flex>
       </Flex.Item>
       <Text

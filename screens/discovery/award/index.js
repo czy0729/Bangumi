@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 15:21:17
+ * @Last Modified time: 2020-01-24 15:35:49
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -39,7 +39,11 @@ class Award extends React.Component {
   redirectCount = 0 // 跳转次数
 
   componentDidMount() {
-    if (!htmlCache[this.year]) {
+    if (htmlCache[this.year]) {
+      this.setState({
+        html: htmlCache[this.year]
+      })
+    } else {
       this.fetchHTML()
     }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 14:34:06
+ * @Last Modified time: 2020-01-24 21:13:51
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -327,6 +327,41 @@ export default class ScreenTinygrail extends store {
         loadingBonus: true
       })
       const { State, Value, Message } = await tinygrailStore.doBonusDaily()
+      this.setState({
+        loadingBonus: false
+      })
+
+      if (State === 0) {
+        info(Value)
+        await tinygrailStore.fetchAssets()
+        this.caculateChange()
+      } else {
+        info(Message)
+      }
+    } catch (error) {
+      this.setState({
+        loadingBonus: false
+      })
+      info('操作失败，可能授权过期了')
+    }
+  }
+
+  /**
+   * 节日福利
+   */
+  doGetBonusHoliday = async () => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    t('小圣杯.节日福利')
+
+    try {
+      this.setState({
+        loadingBonus: true
+      })
+      const { State, Value, Message } = await tinygrailStore.doBonusHoliday()
       this.setState({
         loadingBonus: false
       })

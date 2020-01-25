@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 14:49:36
+ * @Last Modified time: 2020-01-24 21:03:47
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -33,7 +33,7 @@ function Btns(props, { $, navigation }) {
   return (
     <>
       <Popover
-        data={['刮刮乐', '每周分红', '每日签到']}
+        data={['刮刮乐', '每周分红', '每日签到', '节日福利']}
         onSelect={title => {
           setTimeout(() => {
             switch (title) {
@@ -80,6 +80,9 @@ function Btns(props, { $, navigation }) {
                     }
                   ]
                 )
+                break
+              case '节日福利':
+                $.doGetBonusHoliday()
                 break
               default:
                 break

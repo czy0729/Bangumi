@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 12:36:18
+ * @Last Modified time: 2020-01-25 15:43:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,17 +18,27 @@ function Auction({ style }, { $ }) {
   const { auctionLoading, auctionAmount, auctionPrice, lastAuction } = $.state
   const { price = 0, amount } = $.valhallChara
   const { balance } = $.assets
+  const { state, type } = $.auctionStatus
   return (
     <View style={[styles.container, style]}>
       <Flex>
-        <Flex.Item>
+        <Flex.Item flex={1.6}>
           <Text
             style={{
-              color: _.colorTinygrailText
+              color: _.colorTinygrailPlain
             }}
-            size={12}
           >
-            价格 (底价 ₵{price ? toFixed(price + 0.01, 2) : '-'})
+            竞拍
+            <Text
+              style={{
+                color: _.colorTinygrailText
+              }}
+              size={12}
+              lineHeight={14}
+            >
+              {' '}
+              底价 (₵{price ? toFixed(price + 0.01, 2) : '-'})
+            </Text>
           </Text>
         </Flex.Item>
         <Flex.Item style={_.ml.sm}>
@@ -44,7 +54,7 @@ function Auction({ style }, { $ }) {
         <View style={[styles.btnSubmit, _.ml.sm]} />
       </Flex>
       <Flex style={_.mt.sm}>
-        <Flex.Item>
+        <Flex.Item flex={1.6}>
           <View style={styles.inputWrap}>
             <Stepper />
           </View>
@@ -87,17 +97,32 @@ function Auction({ style }, { $ }) {
           股 / {lastDate(lastAuction.time)})
         </Text>
       )}
-      <Text style={[styles.plain, _.mt.md]} size={12}>
-        合计{' '}
+      <Flex style={_.mt.md}>
+        <Flex.Item>
+          <Text style={styles.plain} size={12}>
+            合计{' '}
+            <Text
+              style={{
+                color: _.colorAsk
+              }}
+              size={12}
+            >
+              -₵{toFixed(auctionAmount * auctionPrice, 2)}
+            </Text>
+          </Text>
+        </Flex.Item>
         <Text
-          style={{
-            color: _.colorAsk
-          }}
+          style={[
+            _.ml.sm,
+            {
+              color: _.colorTinygrailText
+            }
+          ]}
           size={12}
         >
-          -₵{toFixed(auctionAmount * auctionPrice, 2)}
+          当前竞拍 {state}人 / {formatNumber(type, 0)}股
         </Text>
-      </Text>
+      </Flex>
       <Flex style={[styles.slider, _.mt.sm]}>
         <View style={{ width: '100%' }}>
           <CompSlider
@@ -118,7 +143,7 @@ function Auction({ style }, { $ }) {
           </Text>
         </Flex.Item>
         <Text style={styles.text} size={12}>
-          {formatNumber(balance, 2)}
+          ₵{formatNumber(balance, 2)}
         </Text>
       </Flex>
     </View>

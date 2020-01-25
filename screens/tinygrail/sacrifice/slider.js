@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:55:40
+ * @Last Modified time: 2020-01-25 15:44:47
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -24,18 +24,9 @@ function Slider({ style }, { $ }) {
   const styles = memoStyles()
   const { loading, amount, isSale } = $.state
   const { amount: userAmount } = $.userLogs
-  const balanceText = `可用 ${formatNumber(userAmount, 0)} 股`
   return (
     <View style={[styles.container, style]}>
-      <Text
-        style={{
-          color: _.colorTinygrailText
-        }}
-        size={12}
-      >
-        融资累计超过500股获得「光辉圣殿」股息+0.2，2500股「闪耀圣殿」股息+0.4，12500股「奇迹圣殿」股息+0.8
-      </Text>
-      <Flex style={_.mt.md}>
+      <Flex>
         <Flex.Item>
           <Text
             style={{
@@ -43,8 +34,8 @@ function Slider({ style }, { $ }) {
             }}
           >
             {isSale
-              ? '将股份出售给英灵殿，立刻获取现金。'
-              : '将股份转化为固定资产，获得现金和道具。'}
+              ? '资产重组，股份出售给英灵殿获得现金'
+              : '股权融资，股份转化为固定资产获得现金和道具'}
           </Text>
         </Flex.Item>
         <Switch style={_.ml.sm} checked={isSale} onChange={$.switchIsSale} />
@@ -89,9 +80,6 @@ function Slider({ style }, { $ }) {
           </Button>
         </View>
       </Flex>
-      <Text style={[styles.balance, styles.plain]} size={12}>
-        {balanceText}
-      </Text>
       <Flex style={[styles.slider, _.mt.sm]}>
         <Flex.Item>
           <View style={{ width: '100%' }}>
@@ -121,11 +109,11 @@ function Slider({ style }, { $ }) {
       <Flex>
         <Flex.Item>
           <Text style={styles.text} size={12}>
-            0
+            可用 0
           </Text>
         </Flex.Item>
         <Text style={styles.text} size={12}>
-          {formatNumber(userAmount, 0)}
+          {formatNumber(userAmount, 0)}股
         </Text>
       </Flex>
     </View>

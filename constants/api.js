@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:28:07
+ * @Last Modified time: 2020-01-25 15:25:32
  */
 import { HOST } from './index'
 
@@ -357,6 +357,14 @@ export const API_TINYGRAIL_AUCTION_LIST = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/auction/list/${monoId}/1`
 
 /**
+ * 本周竞拍
+ * @method POST
+ * @param [monoId]
+ */
+export const API_TINYGRAIL_AUCTION_STATUS = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/auction/list`
+
+/**
  * 拍卖
  * @param {*} monoId
  * @param {*} price
@@ -391,3 +399,9 @@ export const API_TINYGRAIL_BONUS = () =>
  */
 export const API_TINYGRAIL_BONUS_DAILY = () =>
   `${API_HOST_TINYGRAIL}/api/event/bangumi/bonus/daily`
+
+/**
+ * 节日奖励
+ */
+export const API_TINYGRAIL_BONUS_HOLIDAY = () =>
+  `${API_HOST_TINYGRAIL}/api/event/holiday/bonus`

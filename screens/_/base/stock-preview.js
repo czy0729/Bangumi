@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 16:07:48
+ * @Last Modified time: 2020-01-24 16:03:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -202,7 +202,7 @@ class StockPreview extends React.Component {
             </Text>
           )}
         </Flex>
-        <Flex style={this.styles.wrap} justify='end'>
+        <Flex style={show ? _.mt.xs : _.mt.sm} justify='end'>
           {show && (
             <Text
               style={{
@@ -323,12 +323,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   defaultDark: {
     backgroundColor: _.colorTinygrailText
-  },
-  wrap: {
-    position: 'absolute',
-    right: _.sm,
-    bottom: 16,
-    height: 12
   },
   floor: {
     width: 64

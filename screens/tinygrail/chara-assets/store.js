@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:31:45
+ * @Last Modified time: 2020-01-24 16:56:03
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -12,6 +12,8 @@ import { t } from '@utils/fetch'
 import {
   SORT_GX,
   SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
   SORT_CGS,
   SORT_CCJZ,
   SORT_HYD,
@@ -42,6 +44,8 @@ export const sortDS = [
   SORT_CGS,
   SORT_GX,
   SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
   SORT_DQJ,
   SORT_SCJ,
   SORT_DQZD,
