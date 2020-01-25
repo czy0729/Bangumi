@@ -2,12 +2,43 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 20:08:39
+ * @Last Modified time: 2020-01-25 17:02:36
  */
 import { AsyncStorage, Clipboard } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import { DEV } from '@constants'
 import { info } from './ui'
+
+/**
+ * 节流
+ * @param {*} callback
+ */
+export function throttle(callback, delay = 400) {
+  let timeoutID
+  let lastExec = 0
+
+  function wrapper() {
+    const self = this
+    const elapsed = Number(new Date()) - lastExec
+    // eslint-disable-next-line prefer-rest-params
+    const args = arguments
+
+    function exec() {
+      lastExec = Number(new Date())
+      callback.apply(self, args)
+    }
+
+    clearTimeout(timeoutID)
+
+    if (elapsed > delay) {
+      exec()
+    } else {
+      timeoutID = setTimeout(exec, delay - elapsed)
+    }
+  }
+
+  return wrapper
+}
 
 /**
  * 复制到剪贴板

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 21:59:16
+ * @Last Modified time: 2020-01-25 17:14:25
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
@@ -140,7 +141,7 @@ function Item(props, { navigation }) {
                   </Text>
                 )}
                 {!!firstAmount && ' / '}₵{firstAsks || firstBids || current} / +
-                {rate}
+                {toFixed(rate, 2)} / +{toFixed(rate * (level + 1) * 0.3, 2)}
               </Text>
             </Flex.Item>
             <Text

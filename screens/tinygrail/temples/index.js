@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 15:05:59
+ * @Last Modified time: 2020-01-25 16:39:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,9 @@ import ItemTemple from '../_/item-temple'
 import Store from './store'
 
 const title = '最新圣殿'
+const event = {
+  id: '最近圣殿.跳转'
+}
 
 export default
 @inject(Store)
@@ -38,15 +41,12 @@ class TinygrailTemples extends React.Component {
 
   componentDidMount() {
     const { $ } = this.context
-    $.fetchTempleLast()
+    $.onHeaderRefresh()
   }
 
   render() {
     const { $ } = this.context
     const { _loaded } = $.templeLast
-    const event = {
-      id: '最近圣殿.跳转'
-    }
     return (
       <View
         style={[
@@ -60,13 +60,12 @@ class TinygrailTemples extends React.Component {
         {_loaded ? (
           <ListView
             style={_.container.flex}
-            keyExtractor={item => `${item.id}|${item.userId}`}
+            keyExtractor={keyExtractor}
             numColumns={3}
             data={$.templeLast}
-            renderItem={({ item, index }) => (
-              <ItemTemple index={index} type='view' event={event} {...item} />
-            )}
-            onHeaderRefresh={() => $.fetchTempleLast()}
+            renderItem={renderItem}
+            onHeaderRefresh={$.onHeaderRefresh}
+            onFooterRefresh={$.fetchTempleLast}
           />
         ) : (
           <Loading />
@@ -74,4 +73,12 @@ class TinygrailTemples extends React.Component {
       </View>
     )
   }
+}
+
+function keyExtractor(item) {
+  return `${item.id}|${item.userId}`
+}
+
+function renderItem({ item, index }) {
+  return <ItemTemple index={index} type='view' event={event} {...item} />
 }

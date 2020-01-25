@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:29:20
+ * @Last Modified time: 2020-01-25 16:11:06
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -11,6 +11,8 @@ import { t } from '@utils/fetch'
 import {
   SORT_GX,
   SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
   SORT_HYD,
   SORT_DQJ,
   SORT_DQZD,
@@ -22,6 +24,8 @@ export const sortDS = [
   SORT_HYD,
   SORT_GX,
   SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
   SORT_DQJ,
   SORT_DQZD,
   SORT_DJ,

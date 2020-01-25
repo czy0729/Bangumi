@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:36:56
+ * @Last Modified time: 2020-01-25 16:07:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,7 +72,7 @@ function Slider({ style }, { $ }) {
           </Text>
         </Flex.Item>
         <Text style={styles.text} size={12}>
-          {$.max}
+          {formatNumber($.max)}
         </Text>
       </Flex>
       <Flex style={_.mt.md}>

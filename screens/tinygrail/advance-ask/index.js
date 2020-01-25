@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 17:42:08
+ * @Last Modified time: 2020-01-25 17:20:34
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -51,7 +51,7 @@ class TinygrailAdvanceAsk extends React.Component {
 
             Alert.alert(
               '当前计算方式',
-              '从活跃列表里面查找\n第一卖单股数 > 10 且 股息 > 3\n股息 / 第一卖单价 * 10 = 分数',
+              '从活跃列表里面查找\n第一卖单股数 > 10 且 Max(流动股息, 圣殿股息) > 4\nMax(流动股息, 圣殿股息) / 第一卖单价 * 10 = 分数',
               [
                 {
                   text: '知道了'

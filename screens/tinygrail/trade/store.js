@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 20:39:09
+ * @Last Modified time: 2020-01-25 16:12:32
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -24,7 +24,7 @@ const namespace = 'ScreenTinygrailTrade'
 export default class ScreenTinygrailTrade extends store {
   state = observable({
     loading: true, // K线是否加载中
-    distance: h4,
+    distance: d1,
     _loaded: false // 本地数据读取完成
   })
 

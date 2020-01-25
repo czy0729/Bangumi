@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 23:20:12
+ * @Last Modified time: 2020-01-25 16:06:14
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -16,7 +16,7 @@ import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Header(props, { $, navigation }) {
-  const { icon, name, fluctuation, bonus, rate } = $.chara
+  const { icon, name, fluctuation, bonus, rate, level } = $.chara
   let color = _.colorTinygrailPlain
   if (fluctuation < 0) {
     color = _.colorAsk
@@ -87,15 +87,27 @@ function Header(props, { $, navigation }) {
                 {fluctuationText}
               </Text>
             </Flex>
-            <Text
-              style={{
-                color: _.colorTinygrailText
-              }}
-              size={12}
-              lineHeight={17}
-            >
-              +{toFixed(rate, 2)}
-            </Text>
+            <Flex>
+              <Text
+                style={{
+                  color: _.colorAsk
+                }}
+                size={12}
+                lineHeight={17}
+              >
+                lv{level}
+              </Text>
+              <Text
+                style={{
+                  color: _.colorTinygrailText
+                }}
+                size={12}
+                lineHeight={17}
+              >
+                {' '}
+                +{toFixed(rate, 2)} ({toFixed(rate * (level + 1) * 0.3, 2)})
+              </Text>
+            </Flex>
           </Flex.Item>
         </Flex>
       </Flex.Item>

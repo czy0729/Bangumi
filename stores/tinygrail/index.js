@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 15:33:01
+ * @Last Modified time: 2020-01-25 17:31:00
  */
 import { observable, computed, toJS } from 'mobx'
-import { getTimestamp, toFixed } from '@utils'
+import { getTimestamp, toFixed, throttle } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { log } from '@utils/dev'
@@ -68,6 +68,10 @@ import {
 
 const defaultKey = 'recent'
 const defaultSort = '1/50'
+function _info(message) {
+  info(message, 0.4)
+}
+const throttleInfo = throttle(_info, 400)
 
 class Tinygrail extends store {
   state = observable({
@@ -1527,15 +1531,22 @@ class Tinygrail extends store {
   /**
    * 最近圣殿
    */
-  fetchTempleLast = async () => {
-    const result = await this.fetch(API_TINYGRAIL_TEMPLE_LAST())
+  fetchTempleLast = async refresh => {
+    const { list, pagination } = this.templeLast
+    let page
+    if (refresh) {
+      page = 1
+    } else {
+      page = pagination.page + 1
+    }
 
-    const data = {
+    const result = await this.fetch(API_TINYGRAIL_TEMPLE_LAST(page))
+    let data = {
       ...LIST_EMPTY
     }
-    if (result.data.State === 0) {
-      data._loaded = getTimestamp()
-      data.list = result.data.Value.Items.map(item => ({
+    const { State, Value } = result.data
+    if (State === 0) {
+      const _list = Value.Items.map(item => ({
         id: item.CharacterId,
         userId: item.Name,
         cover: item.Cover,
@@ -1544,6 +1555,19 @@ class Tinygrail extends store {
         level: item.Level,
         rate: item.Rate
       }))
+      data = {
+        list: refresh ? _list : [...list, ..._list],
+        pagination: refresh
+          ? {
+              page: 1,
+              pageTotal: 100
+            }
+          : {
+              ...pagination,
+              page: pagination.page + 1
+            },
+        _loaded: getTimestamp()
+      }
     }
 
     const key = 'templeLast'
@@ -1570,7 +1594,12 @@ class Tinygrail extends store {
       const iconsCache = toJS(this.state.iconsCache)
       list = Value.Items
         // 规则
-        .filter(item => item.Asks >= 10 && item.Rate >= 3)
+        .filter(item => {
+          const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3
+          return (
+            item.Asks >= 10 && Math.max(parseFloat(item.Rate), templeRate) >= 4
+          )
+        })
         .map(item => {
           const id = item.CharacterId || item.Id
           if (item.Icon) {
@@ -1592,10 +1621,15 @@ class Tinygrail extends store {
 
     if (list.length) {
       try {
-        info(`正在分析市场中${list.length}个角色, 请稍等`)
-
         // 循环请求获取第一卖单价
-        await queue(list.map(item => () => this.fetchDepth(item.id)))
+        await queue(
+          list.map(item => () => {
+            throttleInfo(
+              `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
+            )
+            return this.fetchDepth(item.id)
+          })
+        )
 
         // 合并数据并计算分数
         data = {
@@ -1608,11 +1642,17 @@ class Tinygrail extends store {
                 return null
               }
 
+              const templeRate = parseFloat(item.rate) * (item.level + 1) * 0.3
               return {
                 ...item,
                 firstAsks: asks[0].price,
                 firstAmount: asks[0].amount,
-                mark: toFixed((parseFloat(item.rate) / asks[0].price) * 10, 1)
+                mark: toFixed(
+                  (Math.max(parseFloat(item.rate), templeRate) /
+                    asks[0].price) *
+                    10,
+                  1
+                )
               }
             })
             .filter(item => !!item && parseFloat(item.mark) > 1)
@@ -1652,10 +1692,15 @@ class Tinygrail extends store {
     const list = chara.list.filter(item => item.bids)
     if (list.length) {
       try {
-        info(`正在分析持仓中${list.length}个角色, 请稍等`)
-
         // 循环请求获取第一买单价
-        await queue(list.map(item => () => this.fetchDepth(item.id)))
+        await queue(
+          list.map(item => () => {
+            throttleInfo(
+              `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
+            )
+            return this.fetchDepth(item.id)
+          })
+        )
 
         // 合并数据并计算分数
         data = {
@@ -1668,6 +1713,8 @@ class Tinygrail extends store {
                 return null
               }
 
+              const templeRate = parseFloat(item.rate) * (item.level + 1) * 0.3
+              const markRate = Math.max(parseFloat(item.rate), templeRate)
               return {
                 id: item.id,
                 name: item.name,
@@ -1680,7 +1727,7 @@ class Tinygrail extends store {
                 amount: item.state,
                 firstBids: bids[0].price,
                 firstAmount: bids[0].amount,
-                mark: toFixed(bids[0].price / parseFloat(item.rate), 1)
+                mark: toFixed(bids[0].price / markRate, 1)
               }
             })
             .filter(item => !!item)
@@ -1719,18 +1766,30 @@ class Tinygrail extends store {
     }
     if (State === 0) {
       data = {
-        list: Value.Items.filter(item => item.Rate >= 2 && item.State >= 100)
-          .map(item => ({
-            id: item.Id,
-            name: item.Name,
-            icon: item.Icon,
-            current: item.Current,
-            bonus: item.Bonus,
-            rate: toFixed(item.Rate, 2),
-            level: item.Level,
-            amount: item.State,
-            mark: toFixed((parseFloat(item.Rate) / item.Price) * 10, 1)
-          }))
+        list: Value.Items.filter(item => {
+          const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3
+          return (
+            Math.max(parseFloat(item.Rate), templeRate) >= 4 &&
+            item.State >= 100
+          )
+        })
+          .map(item => {
+            const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3
+            return {
+              id: item.Id,
+              name: item.Name,
+              icon: item.Icon,
+              current: item.Current,
+              bonus: item.Bonus,
+              rate: toFixed(item.Rate, 2),
+              level: item.Level,
+              amount: item.State,
+              mark: toFixed(
+                (Math.max(parseFloat(item.Rate), templeRate) / item.Price) * 10,
+                1
+              )
+            }
+          })
           .filter(item => parseFloat(item.mark) > 3)
           .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
         pagination: {

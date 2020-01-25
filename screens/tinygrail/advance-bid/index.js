@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 15:16:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 17:42:24
+ * @Last Modified time: 2020-01-25 17:20:54
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -51,7 +51,7 @@ class TinygrailAdvanceBid extends React.Component {
 
             Alert.alert(
               '当前计算方式',
-              '从持仓列表里面查找\n第一买单股数 > 0\n第一买单价 / 股息 = 分数',
+              '从持仓列表里面查找\n第一买单股数 > 0\n第一买单价 / Max(流动股息, 圣殿股息) = 分数',
               [
                 {
                   text: '知道了'
