@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 17:55:57
+ * @Last Modified time: 2020-01-25 19:22:13
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
@@ -18,7 +18,7 @@ export default {
     // groupId: 'tinygrail'
     // type: 'anime',
     // tag: '水树奈奈'
-    // uri: 'https://bangumi.tv/award/2010',
+    // uri: 'https://bgm.tv/award/2019'
     // form: 'lottery',
     // message:
     //   '彩票刮刮乐共获得： #20391「双叶杏」64股 #709「神原骏河」36股'

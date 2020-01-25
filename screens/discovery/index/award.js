@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 14:48:03
+ * @Last Modified time: 2020-01-25 18:27:40
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -25,6 +25,30 @@ function Award(props, { navigation }) {
       horizontal
       showsHorizontalScrollIndicator={false}
     >
+      <Touchable
+        style={_.mr.md}
+        withoutFeedback
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Award',
+            year: 2019
+          })
+
+          navigation.push('Award', {
+            uri: `${HOST}/award/2019`
+          })
+        }}
+      >
+        <View style={styles.border} />
+        <Flex style={styles.itemSquare} justify='center' direction='column'>
+          <Text size={20} type={_.select('plain', 'title')} bold>
+            2019
+          </Text>
+          <Text size={20} type={_.select('plain', 'title')} bold>
+            年鉴
+          </Text>
+        </Flex>
+      </Touchable>
       <Touchable
         style={styles.item}
         withoutFeedback
@@ -57,7 +81,7 @@ function Award(props, { navigation }) {
           placeholder={false}
         />
       </Touchable>
-      {years.map((item, index) => (
+      {years.map(item => (
         <Touchable
           key={item}
           style={_.ml.md}
@@ -75,11 +99,6 @@ function Award(props, { navigation }) {
         >
           <View style={styles.border} />
           <Flex style={styles.itemSquare} justify='center' direction='column'>
-            {index === 0 && (
-              <Text size={20} type={_.select('plain', 'title')} bold>
-                BEST OF
-              </Text>
-            )}
             <Text size={20} type={_.select('plain', 'title')} bold>
               {item}
             </Text>

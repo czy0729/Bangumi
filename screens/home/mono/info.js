@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 15:38:26
+ * @Last Modified time: 2020-01-25 19:26:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -28,7 +28,7 @@ import Voice from './voice'
 import Works from './works'
 import Jobs from './jobs'
 
-const maxSize = _.window.width - _.wind * 2
+const maxSize = (_.window.width - 2 * _.wind) * 0.5
 
 function Info(props, { $, navigation }) {
   const {

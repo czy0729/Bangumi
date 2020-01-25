@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 15:35:49
+ * @Last Modified time: 2020-01-25 19:22:02
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -13,9 +13,12 @@ import { open } from '@utils'
 import { observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
-import { hm, xhrCustom } from '@utils/fetch'
+import { hm, xhrCustom, fetchHTML } from '@utils/fetch'
+import { removeCF } from '@utils/html'
 import { HOST } from '@constants'
 import { CDN_AWARD } from '@constants/cdn'
+import resetStyle from './reset-style'
+import { injectedStaticJavaScript } from './utils'
 
 const title = '年鉴'
 const originWhitelist = ['*']
@@ -51,6 +54,11 @@ class Award extends React.Component {
   }
 
   fetchHTML = async () => {
+    if (this.year == 2019) {
+      this.fetch2019()
+      return
+    }
+
     try {
       const { _response } = await xhrCustom({
         url: CDN_AWARD(this.year)
@@ -62,6 +70,34 @@ class Award extends React.Component {
       })
     } catch (error) {
       warn('discovery/award/index.js', 'fetchHTML', error)
+    }
+  }
+
+  fetch2019 = async () => {
+    try {
+      const html = await fetchHTML({
+        url: `${HOST}/award/2019`
+      })
+
+      this.setState({
+        html: `${removeCF(html)
+          .replace(/>\s+</g, '><')
+          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+          .replace(
+            /<div id="headerNeue2">(.+?)<div id="awardWrapper"/g,
+            '<div id="awardWrapper"'
+          )
+          .replace(/<div class="shareBtn">(.+?)<\/div>/, '')
+          .replace(/<div id="dock">(.+?)<div id="robot"/g, '<div id="robot"')
+          .replace(
+            /<div id="main" class="png_bg"><div id="footer">(.+?)<\/div><div class="homeBg">/g,
+            '</div><div class="homeBg">'
+          )}<style>${
+          resetStyle[2019]
+        }</style><script>${injectedStaticJavaScript}</script>`
+      })
+    } catch (error) {
+      this.onError()
     }
   }
 
