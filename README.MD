@@ -1,9 +1,10 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 2.5.0" src="https://img.shields.io/badge/Version-2.5.0-0366d6" />
+  <img alt="Version: 2.5.0" src="https://img.shields.io/badge/Version-2.6.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
+  <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
 </p>
 
 ---
@@ -20,6 +21,20 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 苹果好难审, 短时间内都没办法通过, 会跟苹果做长久作战. 目前有方法可以试用, 不会太复杂
 [TestFlight] | [[iOS 试用方法]](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
+
+## PowerBy
+
+[[bangumi-subject]](https://github.com/czy0729/Bangumi-Subject) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) 本人维护的条目静态数据CDN
+
+[[bangumi-oss]](https://github.com/czy0729/Bangumi-OSS) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS) 本人维护的热门条目封面和活跃用户头像对象存储CDN
+
+[[bangumi-api]](https://github.com/bangumi/api) 官方接口
+
+[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) 单集播放数据源
+
+[[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
+
+[[tinygrail.com]](https://tinygrail.com) 小圣杯接口
 
 ## Versions
 
@@ -103,22 +118,6 @@ v2.5.2 - 2020/01/16
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/expo-qr.png" width="200" alt="expo-qr" />
 
 [expo 项目主页](https://expo.io/@a402731062/bangumi)
-
-## PowerBy
-
-[[bangumi-subject]](https://github.com/czy0729/Bangumi-Subject) 本人自维护的条目静态数据 CDN
-
-[[bangumi-api]](https://github.com/bangumi/api) 官方接口
-
-[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) 单集播放数据源
-
-[[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
-
-[[tinygrail.com]](https://tinygrail.com) 小圣杯接口
-
-[[www.ningmoe.com]](https://www.ningmoe.com) 柠萌瞬间接口
-
-[[app.anitama.net]](https://app.anitama.net) Anitama 接口
 
 ## Getting Started
 
