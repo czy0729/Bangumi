@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 20:36:38
+ * @Last Modified time: 2020-01-30 06:36:05
  */
 
 /**
@@ -141,6 +141,7 @@ export default {
   // 登陆
   '登陆.跳转': 'Login.to',
   '登陆.游客访问': 'Login.onTour',
+  '登陆.切换域名': 'Login.onSelect',
   '登陆.登陆': 'Login.onLogin',
   '登陆.成功': 'Login.onSuccess',
   '登陆.错误': 'Login.onError',

@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 19:54:16
+ * @Last Modified time: 2020-01-30 06:40:23
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -20,13 +20,12 @@ import { _, userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
 import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
+import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import Preview from './preview'
 import Form from './form'
 
 const title = '登陆'
 const namespace = 'LoginV2'
-const HOST_BANGUMI = 'https://bangumi.tv'
 
 export default
 @observer
@@ -36,6 +35,7 @@ class LoginV2 extends React.Component {
   }
 
   state = {
+    host: HOST,
     clicked: false,
     email: '',
     password: '',
@@ -72,10 +72,7 @@ class LoginV2 extends React.Component {
       })
     }
 
-    await this.getUA()
-    await this.getFormHash()
-    await this.getCaptcha()
-
+    this.reset()
     hm('login/v2', 'LoginV2')
   }
 
@@ -118,17 +115,6 @@ class LoginV2 extends React.Component {
     })
 
   /**
-   * 登出
-   */
-  // logout = () =>
-  //   xhrCustom({
-  //     url: `${HOST_BANGUMI}/logout/7dd16c5e`,
-  //     headers: {
-  //       'User-Agent': this.userAgent
-  //     }
-  //   })
-
-  /**
    * 随机生成一个UserAgent
    */
   getUA = async () => {
@@ -143,8 +129,9 @@ class LoginV2 extends React.Component {
    * 获取表单hash
    */
   getFormHash = async () => {
+    const { host } = this.state
     const res = xhrCustom({
-      url: `${HOST_BANGUMI}/login`,
+      url: `${host}/login`,
       headers: {
         // Cookie: '; chii_cookietime=2592000;',
         'User-Agent': this.userAgent
@@ -173,8 +160,9 @@ class LoginV2 extends React.Component {
    * 获取验证码
    */
   getCaptcha = async () => {
+    const { host } = this.state
     const res = xhrCustom({
-      url: `${HOST_BANGUMI}/signup/captcha`,
+      url: `${host}/signup/captcha`,
       headers: {
         Cookie: `; chii_sid=${this.cookie.chiiSid};`,
         'User-Agent': this.userAgent
@@ -240,9 +228,7 @@ class LoginV2 extends React.Component {
       retry: 0
     })
 
-    await this.getUA()
-    await this.getFormHash()
-    await this.getCaptcha()
+    this.reset()
   }
 
   /**
@@ -263,7 +249,7 @@ class LoginV2 extends React.Component {
     try {
       await this.login()
       if (!this.cookie.chiiAuth) {
-        this.retryLogin('验证码错误, 请重试或点击这里前往旧版授权登陆 >')
+        this.retryLogin('验证码或密码错误, 重试或前往旧版授权登陆 >')
         return
       }
 
@@ -289,11 +275,11 @@ class LoginV2 extends React.Component {
       info: `${this.retryText}登陆请求中...(1/5)`
     })
 
-    const { email, password, captcha } = this.state
+    const { host, email, password, captcha } = this.state
     const res = xhrCustom(
       this.getRetryData({
         method: 'POST',
-        url: `${HOST_BANGUMI}/FollowTheRabbit`,
+        url: `${host}/FollowTheRabbit`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           Cookie: `; chii_sid=${this.cookie.chiiSid};`,
@@ -311,7 +297,8 @@ class LoginV2 extends React.Component {
       })
     )
 
-    const { responseHeaders } = await res
+    const data = await res
+    const { responseHeaders } = data
     if (responseHeaders['Set-Cookie']) {
       const match = responseHeaders['Set-Cookie'].match(/chii_auth=(.+?);/)
       if (match) {
@@ -330,9 +317,10 @@ class LoginV2 extends React.Component {
       info: `${this.retryText}获取授权表单码...(2/5)`
     })
 
+    const { host } = this.state
     const res = xhrCustom(
       this.getRetryData({
-        url: `${HOST_BANGUMI}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
         headers: {
           Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
           'User-Agent': this.userAgent
@@ -356,10 +344,11 @@ class LoginV2 extends React.Component {
       info: `${this.retryText}授权中...(3/5)`
     })
 
+    const { host } = this.state
     const res = xhrCustom(
       this.getRetryData({
         method: 'POST',
-        url: `${HOST_BANGUMI}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
@@ -388,13 +377,14 @@ class LoginV2 extends React.Component {
    */
   getAccessToken = () => {
     this.setState({
-      info: `${this.retryText}授权成功, 获取token中...(4/5), 若没反应可再次点击登陆重试(不用管转圈)`
+      info: `${this.retryText}授权成功, 获取token中...(4/5), 若没反应可再次点击登陆重试(转圈中也能点)`
     })
 
+    const { host } = this.state
     return xhrCustom(
       this.getRetryData({
         method: 'POST',
-        url: `${HOST_BANGUMI}/oauth/access_token`,
+        url: `${host}/oauth/access_token`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'User-Agent': this.userAgent
@@ -434,6 +424,12 @@ class LoginV2 extends React.Component {
     t('登陆.成功')
   }
 
+  reset = async () => {
+    await this.getUA()
+    await this.getFormHash()
+    await this.getCaptcha()
+  }
+
   onFocus = () =>
     this.setState({
       focus: true
@@ -455,6 +451,23 @@ class LoginV2 extends React.Component {
       info: ''
     })
   }
+
+  /**
+   * 切换登陆域名
+   */
+  onSelect = host =>
+    this.setState(
+      {
+        host
+      },
+      () => {
+        t('登陆.切换域名', {
+          host
+        })
+
+        this.reset()
+      }
+    )
 
   /**
    * 重试登陆文案
@@ -493,7 +506,7 @@ class LoginV2 extends React.Component {
 
   renderForm() {
     const { navigation } = this.props
-    const { email, password, captcha, base64, loading, info } = this.state
+    const { host, email, password, captcha, base64, loading, info } = this.state
     return (
       <Form
         forwardRef={ref => (this.inputRef = ref)}
@@ -504,10 +517,12 @@ class LoginV2 extends React.Component {
         base64={base64}
         loading={loading}
         info={info}
+        host={host}
         onGetCaptcha={this.getCaptcha}
         onBlur={this.onBlur}
         onFocus={this.onFocus}
         onChange={this.onChange}
+        onSelect={this.onSelect}
         onLogin={this.onLogin}
       />
     )
@@ -516,7 +531,7 @@ class LoginV2 extends React.Component {
   render() {
     const { clicked, focus } = this.state
     return (
-      <View style={[_.container.flex, this.styles.gray]}>
+      <View style={this.styles.container}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor={_.colorBg} />
         <StatusBarPlaceholder style={this.styles.gray} />
@@ -527,9 +542,8 @@ class LoginV2 extends React.Component {
           !focus && (
             <View style={this.styles.ps}>
               <Text size={12} lineHeight={14} type='sub'>
-                隐私策略: 我们十分尊重您的个人隐私, 信息仅存储于您的设备中,
-                我们不会收集上述信息. (多次尝试登陆后,
-                会导致一段时间不能再次登陆, 可者完全退出后清除应用数据再尝试)
+                隐私策略: 我们十分尊重您的隐私, 我们不会收集上述信息.
+                (多次登陆失败后可能一段时间内不能再次登陆)
               </Text>
             </View>
           )
@@ -608,6 +622,11 @@ class LoginV2 extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    paddingBottom: _.lg,
+    backgroundColor: _.colorBg
+  },
   gray: {
     backgroundColor: _.colorBg
   },

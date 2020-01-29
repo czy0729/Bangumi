@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 20:47:48
+ * @Last Modified time: 2020-01-30 05:34:25
  */
 import { Platform } from 'react-native'
 
 /* ==================== DEV ==================== */
-export const DEV = false // 是否开发模式
+export const DEV = true // 是否开发模式
 export const BARE = true // 裸工作流
 export const VERSION_GITHUB_RELEASE = '2.6.0' // 版本号
 export const VERSION_CODE_PUSH = '' // 热推送副版本号

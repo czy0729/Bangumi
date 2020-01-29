@@ -2,19 +2,32 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 16:33:47
+ * @Last Modified time: 2020-01-30 06:32:53
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, Input, Button, Mesume } from '@components'
+import {
+  Flex,
+  Text,
+  Touchable,
+  Input,
+  Button,
+  Mesume,
+  Iconfont
+} from '@components'
+import { Popover } from '@screens/_'
 import { _ } from '@stores'
+import { HOST, HOST_2 } from '@constants'
+
+const data = [HOST, HOST_2]
 
 export default
 @observer
 class Form extends React.Component {
   static defaultProps = {
     forwardRef: Function.prototype,
+    host: '',
     onGetCaptcha: Function.prototype,
     onFocus: Function.prototype,
     onBlur: Function.prototype,
@@ -31,11 +44,13 @@ class Form extends React.Component {
       base64,
       loading,
       info,
+      host,
       forwardRef,
       onGetCaptcha,
       onFocus,
       onBlur,
       onChange,
+      onSelect,
       onLogin
     } = this.props
     const isError = info.includes('错误')
@@ -91,13 +106,17 @@ class Form extends React.Component {
               )}
             </Touchable>
           </Flex>
-          <Button
-            style={_.mt.lg}
-            type='main'
-            shadow
-            loading={loading}
-            onPress={onLogin}
-          >
+          <Popover data={data} onSelect={onSelect}>
+            <Flex style={this.styles.popover}>
+              <Flex.Item>
+                <Text type='sub' size={12}>
+                  使用 {host} 进行登陆
+                </Text>
+              </Flex.Item>
+              <Iconfont name='down' type='sub' size={12} />
+            </Flex>
+          </Popover>
+          <Button type='main' shadow loading={loading} onPress={onLogin}>
             登陆
           </Button>
           <Text
@@ -121,8 +140,8 @@ class Form extends React.Component {
               type='sub'
               onPress={() => navigation.push('LoginAssist')}
             >
-              部分设备实在没办法走通登陆流程的, 可点击这里前往辅助登陆
-              (需要使用PC) &gt;
+              可以尝试切换另一个域名进行登陆. 部分设备实在没办法走通登陆流程的,
+              可点击这里前往辅助登陆 (需要使用PC) &gt;
             </Text>
           )}
         </View>
@@ -155,5 +174,9 @@ const memoStyles = _.memoStyles(_ => ({
   captcha: {
     width: 118,
     height: 44
+  },
+  popover: {
+    paddingTop: _.md,
+    paddingBottom: _.lg
   }
 }))
