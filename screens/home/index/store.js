@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-16 19:37:24
+ * @Last Modified time: 2020-02-01 04:43:51
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -259,17 +259,21 @@ export default class ScreenHome extends store {
       let watchedCount = 0
       const userProgress = this.userProgress(subjectId)
       try {
-        eps
-          .filter(item => item.type === 0)
-          .forEach(item => {
-            if (userProgress[item.id] === '看过') {
-              if (watchedCount === 0) {
-                watchedCount += parseInt(item.sort)
-              } else {
-                watchedCount += 1
-              }
+        const epsWithoutSP = eps.filter(item => item.type === 0)
+        epsWithoutSP.forEach(item => {
+          if (userProgress[item.id] === '看过') {
+            // 这里很坑, 有一些是多季度不是1开始的番, 还有一些是只显示4行的超长番组, 很容易混淆
+            if (
+              watchedCount === 0 &&
+              item.sort !== 1 &&
+              epsWithoutSP.length >= 32
+            ) {
+              watchedCount += parseInt(item.sort)
+            } else {
+              watchedCount += 1
             }
-          })
+          }
+        })
       } catch (error) {
         // do nothing
       }
