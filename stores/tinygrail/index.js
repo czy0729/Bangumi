@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 20:34:25
+ * @Last Modified time: 2020-02-01 05:45:39
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -42,6 +42,7 @@ import {
   API_TINYGRAIL_AUCTION_LIST,
   API_TINYGRAIL_AUCTION,
   API_TINYGRAIL_AUCTION_STATUS,
+  API_TINYGRAIL_AUCTION_CANCEL,
   API_TINYGRAIL_SACRIFICE,
   API_TINYGRAIL_VALHALL_LIST,
   API_TINYGRAIL_MY_AUCTION_LIST,
@@ -1965,6 +1966,14 @@ class Tinygrail extends store {
       API_TINYGRAIL_AUCTION(monoId, price, amount),
       true
     )
+    return data
+  }
+
+  /**
+   * 取消拍卖
+   */
+  doAuctionCancel = async ({ id }) => {
+    const { data } = await this.fetch(API_TINYGRAIL_AUCTION_CANCEL(id), true)
     return data
   }
 

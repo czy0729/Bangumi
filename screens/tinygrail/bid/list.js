@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 21:02:58
+ * @Last Modified time: 2020-02-01 05:42:46
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,6 +12,10 @@ import { _ } from '@stores'
 import Item from '../_/item'
 import { sortList } from '../_/utils'
 import { tabs } from './store'
+
+const event = {
+  id: '我的委托.跳转'
+}
 
 function List({ index }, { $ }) {
   const { key } = tabs[index]
@@ -29,16 +33,19 @@ function List({ index }, { $ }) {
     }
   }
 
-  const event = {
-    id: '我的委托.跳转'
-  }
   return (
     <ListView
       style={_.container.flex}
       keyExtractor={(item, index) => String(index)}
       data={_list}
       renderItem={({ item, index }) => (
-        <Item index={index} type={key} event={event} {...item} />
+        <Item
+          index={index}
+          type={key}
+          event={event}
+          onAuctionCancel={$.doAuctionCancel}
+          {...item}
+        />
       )}
       onHeaderRefresh={() => $.fetchList(key)}
     />

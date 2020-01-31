@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 20:04:34
+ * @Last Modified time: 2020-02-01 05:42:17
  */
 import { HOST } from './index'
 
@@ -389,6 +389,13 @@ export const API_TINYGRAIL_SACRIFICE = (monoId, amount, isSale = false) =>
  */
 export const API_TINYGRAIL_MY_AUCTION_LIST = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/200`
+
+/**
+ * 取消竞拍
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_AUCTION_CANCEL = id =>
+  `${API_HOST_TINYGRAIL}/api/chara/auction/cancel/${id}`
 
 /**
  * 每周分红

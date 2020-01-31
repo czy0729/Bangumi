@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 22:08:01
+ * @Last Modified time: 2020-02-01 05:12:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,6 +13,10 @@ import { t } from '@utils/fetch'
 import Item from '../_/item'
 import ItemTemple from '../_/item-temple'
 import { sortList } from '../_/utils'
+
+const event = {
+  id: '我的持仓.跳转'
+}
 
 function List({ index }, { $, navigation }) {
   const { chara, ico, _loaded } = $.myCharaAssets
@@ -42,9 +46,6 @@ function List({ index }, { $, navigation }) {
   }
 
   const numColumns = isTemple ? 3 : undefined
-  const event = {
-    id: '我的持仓.跳转'
-  }
   return (
     <ListView
       key={String(numColumns)}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-30 06:36:05
+ * @Last Modified time: 2020-02-01 05:49:28
  */
 
 /**
@@ -236,6 +236,7 @@ export default {
   '我的委托.跳转': 'TBid.to',
   '我的委托.标签页切换': 'TBid.tabsChange',
   '我的委托.排序': 'TBid.onSortPress',
+  '我的委托.取消拍卖': 'TBid.onAuctionCancel',
 
   // 我的持仓
   '我的持仓.跳转': 'TCharaAssets.to',

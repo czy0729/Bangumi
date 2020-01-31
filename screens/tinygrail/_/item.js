@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 20:14:58
+ * @Last Modified time: 2020-02-01 05:42:30
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
@@ -45,7 +45,8 @@ function Item(props, { navigation }) {
     rate,
     level,
     current,
-    event
+    event,
+    onAuctionCancel
   } = props
   const { id: eventId, data: eventData } = event
   const colorMap = {
@@ -149,6 +150,7 @@ function Item(props, { navigation }) {
       auctionTextColor = _.colorAsk
     }
   }
+  const auctioning = auctionText === '竞拍中'
 
   return (
     <Flex style={styles.container} align='start'>
@@ -253,6 +255,27 @@ function Item(props, { navigation }) {
               </Flex>
             </Touchable>
           </Flex.Item>
+          {isAuction && auctioning && (
+            <Touchable
+              style={styles.auctionCancel}
+              onPress={() =>
+                Alert.alert('警告', '周六取消需要收取手续费, 确定取消?', [
+                  {
+                    text: '取消',
+                    style: 'cancel'
+                  },
+                  {
+                    text: '确定',
+                    onPress: () => onAuctionCancel(id)
+                  }
+                ])
+              }
+            >
+              <Text style={styles.auctionCancelText} size={15}>
+                [取消]
+              </Text>
+            </Touchable>
+          )}
           {!isAuction && (
             <StockPreview
               style={styles.stockPreview}
@@ -274,7 +297,8 @@ Item.contextTypes = {
 }
 
 Item.defaultProps = {
-  event: EVENT
+  event: EVENT,
+  onAuctionCancel: Function.prototype
 }
 
 export default observer(Item)
@@ -308,6 +332,13 @@ const memoStyles = _.memoStyles(_ => ({
   },
   auctionSubText: {
     ..._.mt.xs,
+    color: _.colorTinygrailText
+  },
+  auctionCancel: {
+    paddingVertical: _.md,
+    paddingLeft: _.md
+  },
+  auctionCancelText: {
     color: _.colorTinygrailText
   },
   stockPreview: {
