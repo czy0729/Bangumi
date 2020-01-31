@@ -2,17 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-16 20:13:41
+ * @Last Modified time: 2020-01-31 20:46:44
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { info } from '@utils/ui'
-import {
-  IOS,
-  GITHUB_RELEASE_REPOS,
-  VERSION_GITHUB_RELEASE
-} from '@constants'
+import { IOS, GITHUB_RELEASE_REPOS, VERSION_GITHUB_RELEASE } from '@constants'
 import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION
@@ -58,7 +54,10 @@ class System extends store {
   })
 
   init = async () => {
-    await this.readStorage(['setting', 'release', 'iosUGCAgree'], NAMESPACE)
+    await this.readStorage(
+      ['setting', 'release', 'dev', 'iosUGCAgree'],
+      NAMESPACE
+    )
 
     const res = NetInfo.getConnectionInfo()
     const { type } = await res
@@ -212,9 +211,11 @@ class System extends store {
    */
   toggleDev = () => {
     const { dev } = this.state
+    const key = 'dev'
     this.setState({
-      dev: !dev
+      [key]: !dev
     })
+    this.setStorage(key, undefined, NAMESPACE)
   }
 
   /**

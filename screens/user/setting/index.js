@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 17:30:53
+ * @Last Modified time: 2020-01-31 20:40:12
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -11,7 +11,6 @@ import { Popover, ItemSetting, IconTouchable } from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
 import { toFixed } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import {
@@ -44,7 +43,6 @@ class Setting extends React.Component {
   }
 
   state = {
-    showDev: false,
     storageSize: ''
   }
 
@@ -113,15 +111,6 @@ class Setting extends React.Component {
 
       systemStore.setTransition(label)
     }
-  }
-
-  toggleDev = () => {
-    const { showDev } = this.state
-    this.setState({
-      showDev: !showDev
-    })
-    info(`调式模式 ${!showDev ? '开' : '关'}`)
-    systemStore.toggleDev()
   }
 
   get userId() {

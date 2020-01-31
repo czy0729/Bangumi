@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 20:08:33
+ * @Last Modified time: 2020-01-31 20:27:25
  */
 import React from 'react'
 import { Alert, ScrollView, RefreshControl } from 'react-native'
@@ -29,7 +29,8 @@ class Tinygrail extends React.Component {
   }
 
   static contextTypes = {
-    $: PropTypes.object
+    $: PropTypes.object,
+    navigation: PropTypes.object
   }
 
   state = {
@@ -61,16 +62,12 @@ class Tinygrail extends React.Component {
     )
   }
 
-  alertScience = () =>
-    Alert.alert(
-      '科普',
-      '角色等级: \n圣殿股息: 流动股息 * (等级 + 1) * 0.3\n欢迎贡献',
-      [
-        {
-          text: '知道了'
-        }
-      ]
-    )
+  alertScience = () => {
+    const { navigation } = this.context
+    navigation.push('Topic', {
+      topicId: 'group/353195'
+    })
+  }
 
   alertUpdates = () =>
     Alert.alert(
@@ -119,14 +116,14 @@ class Tinygrail extends React.Component {
           </Text>
         </Flex>
         <Flex style={_.mt.sm} justify='center'>
-          {/* <Text
+          <Text
             style={{
               color: _.colorTinygrailText
             }}
             size={12}
             onPress={this.alertScience}
           >
-            科普
+            游戏指南
           </Text>
           <Text
             style={[
@@ -137,10 +134,10 @@ class Tinygrail extends React.Component {
             ]}
           >
             |
-          </Text> */}
+          </Text>
           <Text
             style={[
-              // _.ml.md,
+              _.ml.md,
               {
                 color: _.colorTinygrailText
               }

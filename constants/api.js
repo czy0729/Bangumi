@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 16:41:22
+ * @Last Modified time: 2020-01-31 20:04:34
  */
 import { HOST } from './index'
 
@@ -341,7 +341,7 @@ export const API_TINYGRAIL_SCRATCH = () =>
  * @param {*} monoId
  */
 export const API_TINYGRAIL_VALHALL_CHARA = monoId =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/${monoId}/valhalla@tinygrail.com/false`
+  `${API_HOST_TINYGRAIL}/api/chara/user/${monoId}/tinygrail/false`
 
 /**
  * 英灵殿
@@ -349,7 +349,7 @@ export const API_TINYGRAIL_VALHALL_CHARA = monoId =>
  * @param {*} limit
  */
 export const API_TINYGRAIL_VALHALL_LIST = (page, limit = 20) =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/chara/valhalla@tinygrail.com/${page}/${limit}`
+  `${API_HOST_TINYGRAIL}/api/chara/user/chara/tinygrail/${page}/${limit}`
 
 /**
  * 上周拍卖结果

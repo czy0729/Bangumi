@@ -5,9 +5,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-14 16:07:48
+ * @Last Modified time: 2020-01-31 20:33:10
  */
-import { Alert, NativeModules, InteractionManager } from 'react-native'
+import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
 import { Portal, Toast } from '@ant-design/react-native'
 import {
@@ -198,28 +198,13 @@ export async function fetchHTML({
     log(`[fetchHTML] ${_url}`)
   }
 
-  const isDev = require('../stores/system').default.state.dev
   return fetch(_url, _config)
     .then(res => {
-      // 开发模式
-      if (isDev) {
-        Alert.alert(
-          'dev',
-          `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${res._bodyInit}`
-        )
-      }
       if (!isGet) log(method, 'success', _url, _config, res)
       if (toastId) Portal.remove(toastId)
       return Promise.resolve(res.text())
     })
     .catch(err => {
-      if (isDev) {
-        Alert.alert(
-          `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${JSON.stringify(
-            err
-          )}`
-        )
-      }
       if (toastId) Portal.remove(toastId)
       return Promise.reject(err)
     })

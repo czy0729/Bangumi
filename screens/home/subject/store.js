@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:26:37
+ * @Last Modified time: 2020-01-30 06:53:57
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -425,8 +425,8 @@ export default class ScreenSubject extends store {
   }
 
   @computed get disc() {
-    if (this.subject._loaded) {
-      return this.subject.disc || []
+    if (this.subjectFormHTML._loaded) {
+      return this.subjectFormHTML.disc || []
     }
     return this.subjectFormCDN.disc || []
   }

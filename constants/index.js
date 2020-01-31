@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-30 05:34:25
+ * @Last Modified time: 2020-01-30 16:31:23
  */
 import { Platform } from 'react-native'
 
@@ -22,6 +22,7 @@ export const ERRORS = {
 export const HOST_NAME = 'bgm.tv' // 域名
 export const HOST = `https://${HOST_NAME}`
 export const HOST_2 = 'https://bangumi.tv' // 备用域名
+export const HOST_3 = 'https://chii.in'
 export const HOST_NING_MOE = 'https://www.ningmoe.com' // 柠萌瞬间地址
 export const HOST_ANITAMA = 'https://app.anitama.net' // Anitama api地址
 export const OAUTH_URL = `${HOST}/oauth/authorize` // 登陆v1.0 oauth地址

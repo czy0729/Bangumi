@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-30 06:32:53
+ * @Last Modified time: 2020-01-30 16:35:30
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -18,9 +18,9 @@ import {
 } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
-import { HOST, HOST_2 } from '@constants'
+import { HOST, HOST_2, HOST_3 } from '@constants'
 
-const data = [HOST, HOST_2]
+const data = [HOST, HOST_2, HOST_3]
 
 export default
 @observer
@@ -116,7 +116,13 @@ class Form extends React.Component {
               <Iconfont name='down' type='sub' size={12} />
             </Flex>
           </Popover>
-          <Button type='main' shadow loading={loading} onPress={onLogin}>
+          <Button
+            style={_.mt.md}
+            type='main'
+            shadow
+            loading={loading}
+            onPress={onLogin}
+          >
             登陆
           </Button>
           <Text
@@ -177,6 +183,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   popover: {
     paddingTop: _.md,
-    paddingBottom: _.lg
+    paddingBottom: _.md
   }
 }))

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:06:27
+ * @Last Modified time: 2020-01-31 20:45:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,7 @@ function Avatar({
   onLongPress
 }) {
   const styles = memoStyles()
+  const { dev } = systemStore.state
   const { cdn, avatarRound } = systemStore.setting
   const _src = cdn
     ? CDN_OSS_AVATAR(getCoverMedium(src, true))
@@ -91,7 +92,7 @@ function Avatar({
 
   return (
     <Image
-      style={style}
+      style={[style, dev && styles.dev]}
       size={size}
       src={_src}
       radius={radius}
@@ -122,5 +123,9 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  dev: {
+    borderWidth: 1,
+    borderColor: _.colorDanger
   }
 }))
