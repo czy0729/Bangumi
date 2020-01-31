@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-29 16:44:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-11 16:41:32
+ * @Last Modified time: 2020-02-01 03:43:18
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Tabs as CompTabs } from '@components'
+import { Tabs as CompTabs, Text } from '@components'
 import { IOS } from '@constants'
 import TabBarRight from './tab-bar-right'
 import { tabs } from './store'
@@ -22,7 +22,13 @@ function Tabs({ tabBarStyle = {}, $, children, ...other }) {
   return (
     <CompTabs
       tabBarStyle={_tabBarStyle}
-      tabs={tabs}
+      tabs={tabs.map(({ title }) => ({
+        title: (
+          <Text size={11} type='sub' lineHeight={14}>
+            <Text size={14}>{title}</Text>
+          </Text>
+        )
+      }))}
       initialPage={page}
       page={children ? page : _page}
       prerenderingSiblingsNumber={1}

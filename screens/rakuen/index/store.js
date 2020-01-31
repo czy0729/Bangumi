@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 19:26:22
+ * @Last Modified time: 2020-02-01 04:12:03
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -36,13 +36,13 @@ const initPrefetchState = {
 export default class ScreenRakuen extends store {
   state = observable({
     scope: MODEL_RAKUEN_SCOPE.getValue('全局聚合'),
-    page: 0, // <Tabs>当前页数
+    page: 1, // <Tabs>当前页数
     group: MODEL_RAKUEN_TYPE_GROUP.getValue('全部'), // 小组菜单
     mono: MODEL_RAKUEN_TYPE_MONO.getValue('全部'), // 人物菜单
 
     ...initPrefetchState, // Prefetch
 
-    _page: 0, // header上的假<Tabs>当前页数
+    _page: 1, // header上的假<Tabs>当前页数
     _loaded: false
   })
 
@@ -54,14 +54,7 @@ export default class ScreenRakuen extends store {
       ...initPrefetchState,
       _loaded: true
     })
-
-    const { page } = this.state
-    const type = this.type(page)
-    const { _loaded } = this.rakuen(type)
-    if (!_loaded || this.autoFetch) {
-      this.fetchRakuen(true)
-    }
-
+    this.fetchRakuen(true)
     return res
   }
 
@@ -110,10 +103,6 @@ export default class ScreenRakuen extends store {
   // -------------------- get --------------------
   @computed get backgroundColor() {
     return _.select(_.colorPlain, _._colorDarkModeLevel1)
-  }
-
-  @computed get autoFetch() {
-    return systemStore.setting.autoFetch
   }
 
   @computed get isWebLogin() {

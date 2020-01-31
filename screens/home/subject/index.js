@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:39:09
+ * @Last Modified time: 2020-02-01 04:05:34
  */
 import React from 'react'
 import { InteractionManager, StyleSheet, View } from 'react-native'
@@ -36,6 +36,7 @@ const refreshControlProps = {
   tintColor: _.__colorPlain__,
   titleColor: _.__colorPlain__
 }
+const showBlurViewOffset = 200
 
 export default
 @inject(Store)
@@ -49,6 +50,12 @@ class Subject extends React.Component {
     $: PropTypes.object,
     navigation: PropTypes.object
   }
+
+  state = {
+    showBlurView: true
+  }
+
+  ListHeaderComponent = (<Header />)
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(async () => {
@@ -126,6 +133,26 @@ class Subject extends React.Component {
     })
   }
 
+  onScroll = e => {
+    const { onScroll } = this.props
+    onScroll(e)
+
+    const { nativeEvent } = e
+    const { y } = nativeEvent.contentOffset
+    if (this.state.showBlurView && y > showBlurViewOffset) {
+      this.setState({
+        showBlurView: false
+      })
+      return
+    }
+
+    if (!this.state.showBlurView && y <= showBlurViewOffset) {
+      this.setState({
+        showBlurView: true
+      })
+    }
+  }
+
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
     const event = {
@@ -157,28 +184,30 @@ class Subject extends React.Component {
       return <View style={_.container.screen} />
     }
 
-    const { onScroll } = this.props
     const { name_cn: nameCn, name, images = {} } = $.subject
+    const { showBlurView } = this.state
     return (
-      <View style={_.container.screen}>
-        <BlurView
-          style={styles.blurView}
-          theme='dark'
-          tint={_.select('default', 'dark')}
-          src={CDN_OSS_SUBJECT(
-            getCoverMedium($.coverPlaceholder || images.common)
-          )}
-        />
+      <View style={_.select(_.container.screen, _.container.content)}>
+        {showBlurView && (
+          <BlurView
+            style={styles.blurView}
+            theme='dark'
+            tint={_.select('default', 'dark')}
+            src={CDN_OSS_SUBJECT(
+              getCoverMedium($.coverPlaceholder || images.common)
+            )}
+          />
+        )}
         <ListView
-          style={styles.listView}
+          style={_.container.flex}
           contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={keyExtractor}
           data={$.subjectComments}
           scrollEventThrottle={16}
           refreshControlProps={refreshControlProps}
-          ListHeaderComponent={<Header />}
+          ListHeaderComponent={this.ListHeaderComponent}
           renderItem={this.renderItem}
-          onScroll={onScroll}
+          onScroll={this.onScroll}
           onHeaderRefresh={$.init}
           onFooterRefresh={$.fetchSubjectComments}
         />
@@ -199,6 +228,7 @@ class Subject extends React.Component {
 const styles = StyleSheet.create({
   blurView: {
     position: 'absolute',
+    zIndex: -1,
     top: 0,
     left: 0,
     right: 0,

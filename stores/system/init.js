@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-16 20:09:32
+ * @Last Modified time: 2020-01-31 22:03:09
  */
 import { IOS, VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -16,7 +16,7 @@ export const NAMESPACE = 'System'
 export const INIT_SETTING = {
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   cnFirst: true, // 是否中文优先
-  autoFetch: true, // 切换页面自动请求
+  // autoFetch: true, // 切换页面自动请求
   speech: true, // Bangumi娘话语
   tinygrail: !IOS, // 小圣杯是否开启 (安卓默认开, iOS因为审核问题默认不开)
   avatarRound: true, // 头像是否圆形

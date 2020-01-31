@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-16 20:06:08
+ * @Last Modified time: 2020-01-31 23:33:31
  */
 class Model {
   constructor(data) {
@@ -365,6 +365,30 @@ export const MODEL_SETTING_QUALITY = new Model([
   {
     label: '低质量',
     value: 'mini'
+  }
+])
+
+// 设置 - 字号
+export const MODEL_SETTING_FONTSIZEADJUST = new Model([
+  {
+    label: '小',
+    value: '-1'
+  },
+  {
+    label: '标准',
+    value: '0'
+  },
+  {
+    label: '大',
+    value: '+1'
+  },
+  {
+    label: '超大',
+    value: '+2'
+  },
+  {
+    label: '巨无霸',
+    value: '+4'
   }
 ])
 

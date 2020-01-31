@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 20:40:12
+ * @Last Modified time: 2020-01-31 23:13:04
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -26,6 +26,7 @@ import {
 } from '@constants'
 import {
   MODEL_SETTING_QUALITY,
+  MODEL_SETTING_FONTSIZEADJUST,
   MODEL_SETTING_TRANSITION
 } from '@constants/model'
 
@@ -102,6 +103,15 @@ class Setting extends React.Component {
     }
   }
 
+  setFontSizeAdjust = label => {
+    t('设置.切换', {
+      title: '字号',
+      label
+    })
+
+    _.changeFontSizeAdjust(MODEL_SETTING_FONTSIZEADJUST.getValue(label))
+  }
+
   setTransition = label => {
     if (label) {
       t('设置.切换', {
@@ -165,7 +175,7 @@ class Setting extends React.Component {
             />
           }
           withoutFeedback
-          information='[实验性] 针对网站静态数据, 使用CDN访问自维护的快照, 加速渲染并且更稳定, 特别是bgm卡的时候效果更为明显. 缺点是数据可能不会及时同步, 流量也会稍微变高. (现支持条目、封面图)'
+          information='建议开启, 针对静态数据, 使用CDN访问快照加速渲染, bgm卡的时候效果更为明显. 缺点是数据不会及时同步, 流量稍微变高. (支持条目、封面图、用户头像)'
         />
         <ItemSetting
           border
@@ -240,7 +250,7 @@ class Setting extends React.Component {
   }
 
   renderBasic() {
-    const { quality, hideScore, cnFirst, autoFetch } = systemStore.setting
+    const { quality, hideScore, cnFirst } = systemStore.setting
     return (
       <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
@@ -248,22 +258,6 @@ class Setting extends React.Component {
         </Text>
         <ItemSetting
           style={_.mt.sm}
-          hd='图片质量'
-          ft={
-            <Popover
-              data={MODEL_SETTING_QUALITY.data.map(({ label }) => label)}
-              onSelect={this.setQuality}
-            >
-              <Text size={16} type='sub'>
-                {MODEL_SETTING_QUALITY.getLabel(quality)}
-              </Text>
-            </Popover>
-          }
-          arrow
-          highlight
-        />
-        <ItemSetting
-          border
           hd='隐藏他人评分'
           ft={
             <Switch
@@ -300,22 +294,35 @@ class Setting extends React.Component {
         />
         <ItemSetting
           border
-          hd='优化请求量'
+          hd='字号'
           ft={
-            <Switch
-              checked={!autoFetch}
-              onChange={() => {
-                t('设置.切换', {
-                  title: '优化请求量',
-                  checked: !autoFetch
-                })
-
-                systemStore.switchSetting('autoFetch')
-              }}
-            />
+            <Popover
+              data={MODEL_SETTING_FONTSIZEADJUST.data.map(({ label }) => label)}
+              onSelect={this.setFontSizeAdjust}
+            >
+              <Text size={16} type='sub'>
+                {MODEL_SETTING_FONTSIZEADJUST.getLabel(_.fontSizeAdjust)}
+              </Text>
+            </Popover>
           }
-          withoutFeedback
-          information='因维护成本大且效果不好, 即将废弃, 请勿开启'
+          arrow
+          highlight
+        />
+        <ItemSetting
+          border
+          hd='图片质量'
+          ft={
+            <Popover
+              data={MODEL_SETTING_QUALITY.data.map(({ label }) => label)}
+              onSelect={this.setQuality}
+            >
+              <Text size={16} type='sub'>
+                {MODEL_SETTING_QUALITY.getLabel(quality)}
+              </Text>
+            </Popover>
+          }
+          arrow
+          highlight
         />
       </>
     )

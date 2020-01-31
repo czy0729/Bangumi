@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 17:10:02
+ * @Last Modified time: 2020-01-31 23:22:26
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -91,6 +91,7 @@ class Theme extends store {
   state = observable({
     mode: DEFAULT_MODE,
     tinygrailMode: DEFAULT_TINYGRAIL_MODE,
+    fontSizeAdjust: 0,
     ...lightStyles
   })
 
@@ -106,8 +107,10 @@ class Theme extends store {
       NAMESPACE,
       DEFAULT_TINYGRAIL_MODE
     )
+    const fontSizeAdjust = await this.getStorage('fontSizeAdjust', NAMESPACE, 0)
     this.setState({
-      tinygrailMode
+      tinygrailMode,
+      fontSizeAdjust
     })
 
     return res
@@ -261,6 +264,94 @@ class Theme extends store {
     })
   }
 
+  @computed get fontSizeAdjust() {
+    return this.state.fontSizeAdjust
+  }
+
+  fontSize(pt) {
+    return computed(() => _.fontSize(pt, this.fontSizeAdjust)).get()
+  }
+
+  @computed get fontSize7() {
+    return this.fontSize(7)
+  }
+
+  @computed get fontSize8() {
+    return this.fontSize(8)
+  }
+
+  @computed get fontSize9() {
+    return this.fontSize(9)
+  }
+
+  @computed get fontSize10() {
+    return this.fontSize(10)
+  }
+
+  @computed get fontSize11() {
+    return this.fontSize(11)
+  }
+
+  @computed get fontSize12() {
+    return this.fontSize(12)
+  }
+
+  @computed get fontSize13() {
+    return this.fontSize(13)
+  }
+
+  @computed get fontSize14() {
+    return this.fontSize(14)
+  }
+
+  @computed get fontSize15() {
+    return this.fontSize(15)
+  }
+
+  @computed get fontSize16() {
+    return this.fontSize(16)
+  }
+
+  @computed get fontSize17() {
+    return this.fontSize(17)
+  }
+
+  @computed get fontSize18() {
+    return this.fontSize(18)
+  }
+
+  @computed get fontSize19() {
+    return this.fontSize(19)
+  }
+
+  @computed get fontSize20() {
+    return this.fontSize(20)
+  }
+
+  @computed get fontSize21() {
+    return this.fontSize(21)
+  }
+
+  @computed get fontSize22() {
+    return this.fontSize(22)
+  }
+
+  @computed get fontSize23() {
+    return this.fontSize(23)
+  }
+
+  @computed get fontSize24() {
+    return this.fontSize(24)
+  }
+
+  @computed get fontSize26() {
+    return this.fontSize(26)
+  }
+
+  @computed get fontSize28() {
+    return this.fontSize(28)
+  }
+
   // -------------------- page --------------------
   /**
    * 黑暗模式使用第二个值
@@ -288,6 +379,17 @@ class Theme extends store {
     const key = 'tinygrailMode'
     this.setState({
       [key]: tinygrailMode === 'green' ? 'red' : 'green'
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 改变整体字号
+   */
+  changeFontSizeAdjust = (fontSizeAdjust = 0) => {
+    const key = 'fontSizeAdjust'
+    this.setState({
+      [key]: parseInt(fontSizeAdjust)
     })
     this.setStorage(key, undefined, NAMESPACE)
   }

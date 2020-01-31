@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:41:36
+ * @Last Modified time: 2020-02-01 03:33:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,10 +18,6 @@ const avatarWidth = 28
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
-const baseFontStyle = {
-  fontSize: 14 + _.fontSizeAdjust,
-  lineHeight: 22
-}
 
 function ItemTopic({
   navigation,
@@ -42,6 +38,10 @@ function ItemTopic({
   }
 
   const styles = memoStyles()
+  const baseFontStyle = {
+    fontSize: 14 + _.fontSizeAdjust,
+    lineHeight: 22
+  }
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 14:32:58
+ * @Last Modified time: 2020-01-31 21:46:20
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -136,12 +136,13 @@ class Temples extends React.Component {
                 color: _.colorTinygrailText
               }}
               size={13}
+              lineHeight={17}
             >
               固定资产{list.length || '-'}{' '}
               {!!list.length &&
                 `(${this.levelMap[3]}+${this.levelMap[2]}+${this.levelMap[1]})`}{' '}
               /{' '}
-              <Text size={17} lineHeight={13} type='warning'>
+              <Text size={17} type='warning'>
                 +{rate ? formatNumber(rate) : '-'} (
                 {toFixed(this.templeRate, 2)})
               </Text>

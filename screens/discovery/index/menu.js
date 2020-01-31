@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 15:30:11
+ * @Last Modified time: 2020-01-31 23:29:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,6 +57,7 @@ const menus = [
     login: true
   }
 ]
+const itemWidth = (_.window.width - 2 * _.wind) / 4
 
 function Menu(props, { $, navigation }) {
   const styles = memoStyles()
@@ -87,26 +88,28 @@ function Menu(props, { $, navigation }) {
           }}
         >
           <Flex style={styles.wrap} justify='center'>
-            <Flex style={styles.item} direction='column'>
-              <View style={styles.border} />
-              <Flex style={styles.icon} justify='center'>
-                {item.icon === 'anitama' ? (
-                  <Image
-                    src={ImageAnitama}
-                    size={32}
-                    radius={16}
-                    placeholder={false}
-                    quality={false}
-                  />
-                ) : (
-                  <Iconfont
-                    name={item.icon}
-                    size={28}
-                    color={_.__colorPlain__}
-                  />
-                )}
-              </Flex>
-              <Text style={_.mt.sm} size={12}>
+            <Flex style={styles.item} direction='column' justify='center'>
+              <View style={styles.iconWrap}>
+                <View style={styles.border} />
+                <Flex style={styles.icon} justify='center'>
+                  {item.icon === 'anitama' ? (
+                    <Image
+                      src={ImageAnitama}
+                      size={32}
+                      radius={16}
+                      placeholder={false}
+                      quality={false}
+                    />
+                  ) : (
+                    <Iconfont
+                      name={item.icon}
+                      size={28}
+                      color={_.__colorPlain__}
+                    />
+                  )}
+                </Flex>
+              </View>
+              <Text style={_.mt.sm} size={12} align='center'>
                 {item.title}
               </Text>
             </Flex>
@@ -133,6 +136,9 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: _.md
   },
   item: {
+    width: itemWidth
+  },
+  iconWrap: {
     width: 56
   },
   icon: {

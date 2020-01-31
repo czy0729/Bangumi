@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 14:53:23
+ * @Last Modified time: 2020-01-31 23:29:59
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -29,7 +29,7 @@ function Header(props, { $ }) {
           </Text>
         )}
         <Flex.Item>
-          <Text align='right' size={11}>
+          <Text align='right' size={11} numberOfLines={1}>
             {today}
           </Text>
         </Flex.Item>
