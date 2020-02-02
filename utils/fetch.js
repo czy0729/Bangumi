@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 20:33:10
+ * @Last Modified time: 2020-02-02 19:36:54
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -144,7 +144,8 @@ export async function fetchHTML({
   url,
   data = {},
   headers = {},
-  cookie
+  cookie,
+  raw = false
 } = {}) {
   const isGet = method === 'GET'
   const userStore = require('../stores/user').default
@@ -202,7 +203,7 @@ export async function fetchHTML({
     .then(res => {
       if (!isGet) log(method, 'success', _url, _config, res)
       if (toastId) Portal.remove(toastId)
-      return Promise.resolve(res.text())
+      return Promise.resolve(raw ? res : res.text())
     })
     .catch(err => {
       if (toastId) Portal.remove(toastId)
@@ -211,7 +212,7 @@ export async function fetchHTML({
 }
 
 /**
- * [待废弃] XMLHttpRequest
+ * [待废弃] 带登陆信息的XMLHttpRequest
  * @param {*} params
  * @param {*} success
  * @param {*} fail
@@ -361,7 +362,13 @@ export function t(desc, eventData) {
     if (!DEV) {
       return
     }
-    log(`[track] ${desc} ${eventData ? JSON.stringify(eventData) : ''}`)
+
+    const eventId = events[desc]
+    log(
+      `${eventId ? '' : '找不到eventId '}[track] ${desc} ${
+        eventData ? JSON.stringify(eventData) : ''
+      }`
+    )
     return
   }
 

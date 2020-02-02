@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-03 17:50:38
+ * @Last Modified time: 2020-02-02 07:23:41
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -41,7 +41,7 @@ export const HTML_MONO = monoId => {
 }
 
 /**
- * 时间胶囊 (需登陆)
+ * 时间胶囊
  * @param {*} scope
  * @param {*} type
  * @param {*} userId
@@ -160,20 +160,45 @@ export const HTML_CATALOG = (type = '', page = 1) =>
 export const HTML_CATALOG_DETAIL = id => `${HOST}/index/${id}`
 
 /**
- * 添加新讨论 (需登陆)
+ * 添加新讨论
  */
 export const HTML_NEW_TOPIC = () => `${HOST}/rakuen/new_topic`
 
 /**
- * 添加新时间线 (需登陆)
+ * 添加新时间线
  */
 export const HTML_NEW_TIMELINE = userId =>
   `${HOST}/user/${userId}/timeline?type=say`
 
 /**
- * 电波提醒 (需登陆)
+ * 电波提醒
  */
 export const HTML_NOTIFY = () => `${HOST}/notify/all`
+
+/**
+ * 私信
+ * @param {*} page
+ */
+export const HTML_PM = (page = 1) => `${HOST}/pm/inbox.chii?page=${page}`
+
+/**
+ * 私信详情
+ * @param {*} id
+ */
+export const HTML_PM_DETAIL = id => `${HOST}/pm/view/${id}.chii`
+
+/**
+ * [POST] 发私信
+ * @param {*} related
+ * @param {*} msg_receivers
+ * @param {*} current_msg_id
+ * @param {*} formhash
+ * @param {*} msg_title
+ * @param {*} msg_body
+ * @param {*} chat on
+ * @param {*} submit 回复
+ */
+export const HTML_PM_CREATE = () => `${HOST}/pm/create.chii`
 
 /**
  * 每日放送

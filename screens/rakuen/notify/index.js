@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 16:59:28
+ * @Last Modified time: 2020-02-02 04:51:06
  */
 import React from 'react'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
-import { ItemNotify } from '@screens/_'
+import { ItemNotify, ItemPM } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_NOTIFY } from '@constants/html'
-import Store from './store'
+import Store, { tabs } from './store'
+import Tabs from './tabs'
 
 const title = '电波提醒'
 const event = {
@@ -61,11 +63,20 @@ class Notify extends React.Component {
     $.doClearNotify()
   }
 
+  onHeaderRefresh = () => {
+    const { $ } = this.context
+    return $.fetchPM(true)
+  }
+
+  onFooterRefresh = () => {
+    const { $ } = this.context
+    return $.fetchPM()
+  }
+
   renderItem = ({ item, index }) => {
     const { navigation } = this.context
     return (
       <ItemNotify
-        key={item.userId}
         navigation={navigation}
         index={index}
         event={event}
@@ -74,16 +85,35 @@ class Notify extends React.Component {
     )
   }
 
+  renderPMItem = ({ item, index }) => {
+    const { navigation } = this.context
+    return (
+      <ItemPM navigation={navigation} index={index} event={event} {...item} />
+    )
+  }
+
   render() {
     const { $ } = this.context
     return (
-      <ListView
-        style={_.container.content}
-        keyExtractor={keyExtractor}
-        data={$.notify}
-        renderItem={this.renderItem}
-        onHeaderRefresh={$.fetchNotify}
-      />
+      <View style={_.container.screen}>
+        <Tabs tabs={tabs}>
+          <ListView
+            key='notify'
+            keyExtractor={keyExtractor}
+            data={$.notify}
+            renderItem={this.renderItem}
+            onHeaderRefresh={$.fetchNotify}
+          />
+          <ListView
+            key='pm'
+            keyExtractor={keyExtractor}
+            data={$.pm}
+            renderItem={this.renderPMItem}
+            onHeaderRefresh={this.onHeaderRefresh}
+            onFooterRefresh={this.onFooterRefresh}
+          />
+        </Tabs>
+      </View>
     )
   }
 }

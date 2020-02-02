@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:50:34
+ * @Last Modified time: 2020-02-02 20:18:40
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-import { FixedTextarea } from '@components'
+import { ActivityIndicator } from '@ant-design/react-native'
+import { FixedTextarea, Flex } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -83,25 +84,36 @@ class Say extends React.Component {
   render() {
     const { $, navigation } = this.context
     const { value } = $.state
+    const { _loaded } = $.say
     return (
       <View style={_.container.screen}>
-        <ScrollView
-          ref={this.connectRefScrollView}
-          style={_.container.screen}
-          contentContainerStyle={_.container.bottom}
-        >
-          <Chat />
-        </ScrollView>
-        {$.isWebLogin && (
-          <FixedTextarea
-            ref={this.connectRefFixedTextarea}
-            placeholder={$.isNew ? '新吐槽' : '回复吐槽, 长按头像@某人'}
-            simple
-            value={value}
-            onChange={$.onChange}
-            onClose={$.closeFixedTextarea}
-            onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
-          />
+        {_loaded ? (
+          <>
+            <ScrollView
+              ref={this.connectRefScrollView}
+              style={_.container.screen}
+              contentContainerStyle={_.container.bottom}
+            >
+              <Chat />
+            </ScrollView>
+            {$.isWebLogin && (
+              <FixedTextarea
+                ref={this.connectRefFixedTextarea}
+                placeholder={$.isNew ? '新吐槽' : '回复吐槽, 长按头像@某人'}
+                simple
+                value={value}
+                onChange={$.onChange}
+                onClose={$.closeFixedTextarea}
+                onSubmit={value =>
+                  $.doSubmit(value, this.scrollView, navigation)
+                }
+              />
+            )}
+          </>
+        ) : (
+          <Flex style={_.container.screen} justify='center'>
+            <ActivityIndicator />
+          </Flex>
         )}
       </View>
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 05:49:28
+ * @Last Modified time: 2020-02-02 18:45:27
  */
 
 /**
@@ -345,6 +345,11 @@ export default {
   '我的.排序选择': 'User.onOrderSelect',
   '我的.筛选选择': 'User.onFilterSelect',
   '我的.布局选择': 'User.toggleList',
+
+  // 短信
+  '短信.跳转': 'PM.to',
+  '短信.显示评论框': 'PM.showFixedTextarea',
+  '短信.回复短信': 'PM.doReply',
 
   // 设置
   '设置.跳转': 'Setting.to',

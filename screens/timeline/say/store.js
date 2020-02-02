@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 18:23:25
+ * @Last Modified time: 2020-02-02 17:59:53
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -24,19 +24,17 @@ export default class ScreenSay extends store {
       return timelineStore.fetchFormHash()
     }
 
+    const { _loaded } = this.say
+    if (_loaded) {
+      this.scrollToBottom(scrollView)
+    }
+
     const res = this.fetchSay()
     await res
     timelineStore.fetchFormHash()
 
-    if (scrollView && scrollView.scrollToEnd) {
-      setTimeout(() => {
-        scrollView.scrollToEnd({
-          animated: false
-        })
-      }, 80)
-    }
+    this.scrollToBottom(scrollView)
     this.fetchAvatars()
-
     return res
   }
 
@@ -114,6 +112,19 @@ export default class ScreenSay extends store {
   }
 
   // -------------------- page --------------------
+  /**
+   * 滚动到底
+   */
+  scrollToBottom = scrollView => {
+    if (scrollView && scrollView.scrollToEnd) {
+      setTimeout(() => {
+        scrollView.scrollToEnd({
+          animated: false
+        })
+      }, 80)
+    }
+  }
+
   /**
    * 显示评论框
    */
