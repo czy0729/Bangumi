@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 2.5.0" src="https://img.shields.io/badge/Version-2.6.0-0366d6" />
+  <img alt="Version: 2.7.0" src="https://img.shields.io/badge/Version-2.7.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -24,9 +24,9 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## PowerBy
 
-[[bangumi-subject]](https://github.com/czy0729/Bangumi-Subject) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) 本人维护的条目静态数据CDN
+[[bangumi-subject]](https://github.com/czy0729/Bangumi-Subject) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) 本人维护的条目静态数据 CDN
 
-[[bangumi-oss]](https://github.com/czy0729/Bangumi-OSS) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS) 本人维护的热门条目封面和活跃用户头像对象存储CDN
+[[bangumi-oss]](https://github.com/czy0729/Bangumi-OSS) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS) 本人维护的热门条目封面和活跃用户头像对象存储 CDN
 
 [[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
@@ -41,6 +41,29 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 [CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
 ## Update
+
+v2.7.0 - 2020/02/04
+
+—— 新功能 ——
+
+- [x] [短信] 内容展示, 回复短信
+- [x] [电波提醒] 短信(私信)列表
+- [x] [用户空间] 添加发短信入口
+- [x] [设置] 可调整全局字体大小
+
+—— 优化 ——
+
+- [x] [登陆] 可以选择域名登陆 (登陆失败的可以切换试试)
+
+—— 修复 ——
+
+- [x] [首页收藏] 修复了多季度番组进度条进度不正确的问题
+- [x] [用户空间] 修复了不能折叠展开番组的问题
+
+—— 小圣杯助手 ——
+
+- [x] [我的拍卖] 添加取消拍卖按钮
+- [x] 首页底部添加 [教程帖子直达]
 
 v2.6.0 - 2020/01/25
 
@@ -69,16 +92,6 @@ v2.6.0 - 2020/01/25
 - [x] [最新圣殿] 可以加载更多
 - [x] 列表添加圣殿股息排序
 - [x] 角色页面可以复制 bgm 链接
-
-v2.5.2 - 2020/01/16
-
-—— 优化 ——
-
-- [x] [条目] 通过自维护 CDN 加速条目加载数据的速度
-
-—— 修复 ——
-
-- [x] 安卓 10 用户假如页面布局有错位问题, 可在设置里把切页动画选择成垂直, 可暂时解决问题
 
 ## Features
 
