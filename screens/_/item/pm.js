@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 18:37:32
+ * @Last Modified time: 2020-02-02 21:18:25
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -22,7 +22,9 @@ function ItemPM({
   avatar,
   name,
   userId,
-  time
+  time,
+  new: isNew,
+  onRefresh
 }) {
   const styles = memoStyles()
   return (
@@ -46,17 +48,32 @@ function ItemPM({
             navigation.push('PM', {
               id
             })
+
+            if (isNew) {
+              setTimeout(() => {
+                onRefresh()
+              }, 4000)
+            }
           }}
         >
-          <Text size={13} type='sub'>
-            {name} / {time}
-          </Text>
-          <Text style={_.mt.xs} lineHeight={1.8} type='main'>
-            {title}
-          </Text>
-          <Text size={13} lineHeight={1.8} type='title'>
-            {content}
-          </Text>
+          <Flex>
+            <Flex.Item>
+              <Text size={13} type='sub'>
+                {name} / {time}
+              </Text>
+              <Text style={_.mt.xs} lineHeight={1.8} type='main'>
+                {title}
+              </Text>
+              <Text size={13} lineHeight={1.8} type='title'>
+                {content}
+              </Text>
+            </Flex.Item>
+            {isNew && (
+              <Text style={_.ml.sm} type='danger'>
+                new
+              </Text>
+            )}
+          </Flex>
         </Touchable>
       </Flex.Item>
     </Flex>
@@ -64,7 +81,8 @@ function ItemPM({
 }
 
 ItemPM.defaultProps = {
-  event: EVENT
+  event: EVENT,
+  onRefresh: Function.prototype
 }
 
 export default observer(ItemPM)

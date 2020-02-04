@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 04:51:06
+ * @Last Modified time: 2020-02-04 21:09:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,14 +63,14 @@ class Notify extends React.Component {
     $.doClearNotify()
   }
 
-  onHeaderRefresh = () => {
+  onHeaderRefresh = key => {
     const { $ } = this.context
-    return $.fetchPM(true)
+    return $.fetchPM(true, key)
   }
 
-  onFooterRefresh = () => {
+  onFooterRefresh = key => {
     const { $ } = this.context
-    return $.fetchPM()
+    return $.fetchPM(undefined, key)
   }
 
   renderItem = ({ item, index }) => {
@@ -88,31 +88,48 @@ class Notify extends React.Component {
   renderPMItem = ({ item, index }) => {
     const { navigation } = this.context
     return (
-      <ItemPM navigation={navigation} index={index} event={event} {...item} />
+      <ItemPM
+        navigation={navigation}
+        index={index}
+        event={event}
+        onRefresh={this.onHeaderRefresh}
+        {...item}
+      />
     )
   }
 
   render() {
     const { $ } = this.context
+    const { _loaded } = $.state
     return (
       <View style={_.container.screen}>
-        <Tabs tabs={tabs}>
-          <ListView
-            key='notify'
-            keyExtractor={keyExtractor}
-            data={$.notify}
-            renderItem={this.renderItem}
-            onHeaderRefresh={$.fetchNotify}
-          />
-          <ListView
-            key='pm'
-            keyExtractor={keyExtractor}
-            data={$.pm}
-            renderItem={this.renderPMItem}
-            onHeaderRefresh={this.onHeaderRefresh}
-            onFooterRefresh={this.onFooterRefresh}
-          />
-        </Tabs>
+        {_loaded && (
+          <Tabs tabs={tabs}>
+            <ListView
+              key='notify'
+              keyExtractor={keyExtractor}
+              data={$.notify}
+              renderItem={this.renderItem}
+              onHeaderRefresh={$.fetchNotify}
+            />
+            <ListView
+              key='pm'
+              keyExtractor={keyExtractor}
+              data={$.pmIn}
+              renderItem={this.renderPMItem}
+              onHeaderRefresh={() => this.onHeaderRefresh('pmIn')}
+              onFooterRefresh={() => this.onFooterRefresh('pmIn')}
+            />
+            <ListView
+              key='out'
+              keyExtractor={keyExtractor}
+              data={$.pmOut}
+              renderItem={this.renderPMItem}
+              onHeaderRefresh={() => this.onHeaderRefresh('pmOut')}
+              onFooterRefresh={() => this.onFooterRefresh('pmOut')}
+            />
+          </Tabs>
+        )}
       </View>
     )
   }

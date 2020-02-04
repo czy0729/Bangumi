@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 07:23:41
+ * @Last Modified time: 2020-02-04 20:51:06
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -176,19 +176,20 @@ export const HTML_NEW_TIMELINE = userId =>
 export const HTML_NOTIFY = () => `${HOST}/notify/all`
 
 /**
- * 私信
+ * 短信
  * @param {*} page
  */
 export const HTML_PM = (page = 1) => `${HOST}/pm/inbox.chii?page=${page}`
+export const HTML_PM_OUT = (page = 1) => `${HOST}/pm/outbox.chii?page=${page}`
 
 /**
- * 私信详情
+ * 短信详情
  * @param {*} id
  */
 export const HTML_PM_DETAIL = id => `${HOST}/pm/view/${id}.chii`
 
 /**
- * [POST] 发私信
+ * [POST] 发短信
  * @param {*} related
  * @param {*} msg_receivers
  * @param {*} current_msg_id
@@ -199,6 +200,12 @@ export const HTML_PM_DETAIL = id => `${HOST}/pm/view/${id}.chii`
  * @param {*} submit 回复
  */
 export const HTML_PM_CREATE = () => `${HOST}/pm/create.chii`
+
+/**
+ * 新短信参数
+ * @param {*} userId
+ */
+export const HTML_PM_PARAMS = userId => `${HOST}/pm/compose/${userId}.chii`
 
 /**
  * 每日放送

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 04:43:51
+ * @Last Modified time: 2020-02-04 22:48:13
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -17,7 +17,6 @@ import { Eps } from '@screens/_'
 import { t, queue } from '@utils/fetch'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
-import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 
 export const tabs = [
@@ -63,7 +62,7 @@ export default class ScreenHome extends store {
     /**
      * layout
      */
-    grid: IOS, // 是否格子布局, iOS默认使用格子
+    grid: false,
     current: 0
   })
 

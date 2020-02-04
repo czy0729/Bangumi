@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 18:45:27
+ * @Last Modified time: 2020-02-04 20:36:47
  */
 
 /**
@@ -350,6 +350,7 @@ export default {
   '短信.跳转': 'PM.to',
   '短信.显示评论框': 'PM.showFixedTextarea',
   '短信.回复短信': 'PM.doReply',
+  '短信.新短信': 'PM.doCreate',
 
   // 设置
   '设置.跳转': 'Setting.to',

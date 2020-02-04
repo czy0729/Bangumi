@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-01 22:42:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 19:47:05
+ * @Last Modified time: 2020-02-03 20:56:26
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLTrim } from '@utils/html'
@@ -31,7 +31,8 @@ export function cheerioPM(HTML) {
           avatar: String($row.find('img').attr('src')).split('?')[0],
           name: $user.text(),
           userId: String($user.attr('href')).replace('/user/', ''),
-          time: $row.find('small.grey').text()
+          time: $row.find('small.grey').text(),
+          new: !!$row.find('td.pm_new').html()
         })
       })
       .get() || []
@@ -76,5 +77,17 @@ export function cheerioPMDetail(HTML) {
       formhash: $('input[name=formhash]').attr('value'),
       msg_title: $('input[name=msg_title]').attr('value')
     }
+  }
+}
+
+/**
+ *
+ * @param {*} HTML
+ */
+export function cheerioPMParams(HTML) {
+  const $ = cheerio(HTMLTrim(HTML))
+  return {
+    formhash: $('input[name=formhash]').attr('value'),
+    msg_receivers: $('input[name=msg_receivers]').attr('value')
   }
 }

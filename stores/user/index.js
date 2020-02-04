@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 20:08:05
+ * @Last Modified time: 2020-02-04 21:12:12
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -33,8 +33,10 @@ import {
   HTML_USERS,
   HTML_ACTION_ERASE_COLLECTION,
   HTML_PM,
+  HTML_PM_OUT,
   HTML_PM_DETAIL,
-  HTML_PM_CREATE
+  HTML_PM_CREATE,
+  HTML_PM_PARAMS
 } from '@constants/html'
 import RakuenStore from '../rakuen'
 import {
@@ -44,7 +46,7 @@ import {
   INIT_USER_INFO,
   INIT_USER_COOKIE
 } from './init'
-import { cheerioPM, cheerioPMDetail } from './common'
+import { cheerioPM, cheerioPMDetail, cheerioPMParams } from './common'
 
 class Store extends store {
   state = observable({
@@ -106,15 +108,23 @@ class Store extends store {
     },
 
     /**
-     * 私信
+     * 短信
      */
-    pm: LIST_EMPTY,
+    pmIn: LIST_EMPTY,
+    pmOut: LIST_EMPTY,
 
     /**
-     * 私信详情
+     * 短信详情
      */
     pmDetail: {
       // [id]: LIST_EMPTY
+    },
+
+    /**
+     * 新短信参数
+     */
+    pmParams: {
+      // [userId]: {}
     }
   })
 
@@ -128,7 +138,8 @@ class Store extends store {
         'userProgress',
         'usersInfo',
         'userCollectionsStatus',
-        'pm',
+        'pmIn',
+        'pmOut',
         'pmDetail'
       ],
       NAMESPACE
@@ -227,17 +238,34 @@ class Store extends store {
   }
 
   /**
-   * 私信
+   * 短信
    */
-  @computed get pm() {
-    return this.state.pm
+  @computed get pmIn() {
+    return this.state.pmIn
+  }
+  @computed get pmOut() {
+    return this.state.pmOut
   }
 
   /**
-   * 私信详情
+   * 有新短信
+   */
+  @computed get hasNewPM() {
+    return this.state.pmIn.list.findIndex(item => item.new) !== -1
+  }
+
+  /**
+   * 短信详情
    */
   pmDetail(id) {
     return computed(() => this.state.pmDetail[id] || LIST_EMPTY).get()
+  }
+
+  /**
+   * 新短信参数
+   */
+  pmParams(userId) {
+    return computed(() => this.state.pmParams[userId] || {}).get()
   }
 
   /**
@@ -495,10 +523,11 @@ class Store extends store {
   }
 
   /**
-   * 私信
+   * 短信
+   * @param {*} key pmIn | pmOut
    */
-  fetchPM = async refresh => {
-    const { list, pagination } = this.pm
+  fetchPM = async (refresh, key = 'pmIn') => {
+    const { list, pagination } = this[key]
     let page
     if (refresh) {
       page = 1
@@ -507,9 +536,8 @@ class Store extends store {
     }
 
     const HTML = await fetchHTML({
-      url: HTML_PM(page)
+      url: key === 'pmOut' ? HTML_PM_OUT(page) : HTML_PM(page)
     })
-    const key = 'pm'
     const data = {
       list: refresh ? cheerioPM(HTML) : [...list, ...cheerioPM(HTML)],
       pagination: {
@@ -526,7 +554,7 @@ class Store extends store {
   }
 
   /**
-   * 私信详情
+   * 短信详情
    */
   fetchPMDetail = async ({ id }) => {
     const raw = await fetchHTML({
@@ -560,6 +588,26 @@ class Store extends store {
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 新短信参数
+   */
+  fetchPMParams = async ({ userId }) => {
+    const HTML = await fetchHTML({
+      url: HTML_PM_PARAMS(userId)
+    })
+    const key = 'pmParams'
+    const data = {
+      ...cheerioPMParams(HTML),
+      _loaded: getTimestamp()
+    }
+    this.setState({
+      [key]: {
+        [userId]: data
+      }
+    })
     return Promise.resolve(data)
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 17:27:39
+ * @Last Modified time: 2020-02-04 22:46:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,8 +51,7 @@ function Chat(props, { $, navigation }) {
                       <RenderHtml
                         baseFontStyle={{
                           fontSize: 14 + _.fontSizeAdjust,
-                          lineHeight: 22,
-                          color: _.__colorPlain__
+                          lineHeight: 22
                         }}
                         html={getBgmHtml(item.content)}
                         onLinkPress={href =>

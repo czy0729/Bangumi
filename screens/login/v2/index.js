@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-30 06:40:23
+ * @Last Modified time: 2020-02-04 22:00:22
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -59,13 +59,21 @@ class LoginV2 extends React.Component {
   inputRef
 
   async componentDidMount() {
+    const host = await getStorage(`${namespace}|host`)
+    if (host) {
+      this.setState({
+        host
+      })
+    }
+
     const email = await getStorage(`${namespace}|email`)
-    const password = await getStorage(`${namespace}|password`)
     if (email) {
       this.setState({
         email
       })
     }
+
+    const password = await getStorage(`${namespace}|password`)
     if (password) {
       this.setState({
         password
@@ -160,6 +168,10 @@ class LoginV2 extends React.Component {
    * 获取验证码
    */
   getCaptcha = async () => {
+    this.setState({
+      base64: ''
+    })
+
     const { host } = this.state
     const res = xhrCustom({
       url: `${host}/signup/captcha`,
@@ -220,14 +232,13 @@ class LoginV2 extends React.Component {
    * 登陆最终失败
    */
   finalLoginFail = async info => {
-    t('登陆.失败')
+    t('登陆.错误')
 
     this.setState({
       loading: false,
       info,
       retry: 0
     })
-
     this.reset()
   }
 
@@ -298,7 +309,11 @@ class LoginV2 extends React.Component {
     )
 
     const data = await res
-    const { responseHeaders } = data
+    const { _response, responseHeaders } = data
+    if (_response.includes('分钟内您将不能登录本站。')) {
+      info('累计 5 次错误尝试，15 分钟内您将不能登录本站。')
+    }
+
     if (responseHeaders['Set-Cookie']) {
       const match = responseHeaders['Set-Cookie'].match(/chii_auth=(.+?);/)
       if (match) {
@@ -425,6 +440,10 @@ class LoginV2 extends React.Component {
   }
 
   reset = async () => {
+    this.setState({
+      base64: ''
+    })
+
     await this.getUA()
     await this.getFormHash()
     await this.getCaptcha()
@@ -455,7 +474,8 @@ class LoginV2 extends React.Component {
   /**
    * 切换登陆域名
    */
-  onSelect = host =>
+  onSelect = host => {
+    setStorage(`${namespace}|host`, host)
     this.setState(
       {
         host
@@ -468,6 +488,7 @@ class LoginV2 extends React.Component {
         this.reset()
       }
     )
+  }
 
   /**
    * 重试登陆文案

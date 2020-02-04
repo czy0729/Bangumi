@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 18:04:13
+ * @Last Modified time: 2020-02-02 23:05:21
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -50,36 +50,13 @@ class List extends React.Component {
     )
   }
 
-  renderItem = ({ item, section: { title } }) => {
-    const { $, navigation } = this.context
-    const { expand } = $.state
-    if (!expand[title]) {
-      return null
-    }
-    return (
-      <Flex wrap='wrap' align='start'>
-        {item.list
-          .filter((item, index) => index < 15)
-          .map(item => (
-            <ItemBangumiList
-              key={item.id}
-              navigation={navigation}
-              subjectId={item.id}
-              images={item.images}
-              name={item.name_cn || item.name}
-              event={event}
-            />
-          ))}
-      </Flex>
-    )
-  }
-
   render() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     if (!$.userCollections._loaded) {
       return <Loading />
     }
 
+    const { expand } = $.state
     const sections = []
     $.userCollections.list.forEach(item => {
       sections.push({
@@ -97,7 +74,28 @@ class List extends React.Component {
         keyExtractor={keyExtractor}
         sections={sections}
         renderSectionHeader={this.renderSectionHeader}
-        renderItem={this.renderItem}
+        renderItem={({ item, section: { title } }) => {
+          if (!expand[title]) {
+            return null
+          }
+
+          return (
+            <Flex wrap='wrap' align='start'>
+              {item.list
+                .filter((item, index) => index < 15)
+                .map(item => (
+                  <ItemBangumiList
+                    key={item.id}
+                    navigation={navigation}
+                    subjectId={item.id}
+                    images={item.images}
+                    name={item.name_cn || item.name}
+                    event={event}
+                  />
+                ))}
+            </Flex>
+          )
+        }}
         {...this.props}
       />
     )

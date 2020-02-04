@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 20:25:12
+ * @Last Modified time: 2020-02-03 19:53:21
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -47,7 +47,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
       }
     ]
   }
-  const data = ['浏览器查看', '复制链接', 'TA的好友', 'TA的收藏信息']
+  const data = ['浏览器查看', '复制链接', 'TA的好友']
   if ($.users.connectUrl) {
     data.push('加为好友')
   } else if ($.users.disconnectUrl) {
@@ -64,7 +64,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
   }
   return (
     <>
-      <View style={styles.parallax} pointerEvents='none'>
+      <View style={styles.parallax}>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
           source={{ uri }} // blurView可以优先使用缩略图
@@ -152,13 +152,6 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
               case 'TA的好友':
                 navigation.push('Friends', {
                   userId: username || id
-                })
-                break
-              case 'TA的收藏信息':
-                navigation.push('User', {
-                  userId: username,
-                  _name: HTMLDecode(nickname || _name),
-                  _image: avatar.large
                 })
                 break
               case '加为好友':

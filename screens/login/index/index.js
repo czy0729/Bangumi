@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 19:41:52
+ * @Last Modified time: 2020-02-04 21:54:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -283,11 +283,11 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   bottomContainer: {
-    width: 280,
+    width: 320,
     height: 350
   },
   loading: {
-    width: 280,
+    width: 320,
     height: 64
   },
   ps: {

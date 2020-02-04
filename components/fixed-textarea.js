@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 20:48:39
+ * @Last Modified time: 2020-02-04 19:51:38
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -508,6 +508,7 @@ class FixedTextarea extends React.Component {
   }
 
   render() {
+    const { children } = this.props
     const { showTextarea, showBgm, showKeyboardSpacer } = this.state
     return (
       <>
@@ -519,6 +520,7 @@ class FixedTextarea extends React.Component {
           />
         )}
         <View style={this.styles.container}>
+          {children}
           {this.renderToolBar()}
           {this.renderTextarea()}
           {this.renderContent()}

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-30 16:35:30
+ * @Last Modified time: 2020-02-04 21:56:51
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
+import { ActivityIndicator } from '@ant-design/react-native'
 import {
   Flex,
   Text,
@@ -97,13 +98,17 @@ class Form extends React.Component {
                 onChange={evt => onChange(evt, 'captcha')}
               />
             </Flex.Item>
-            <Touchable
-              style={this.styles.captchaContainer}
-              onPress={onGetCaptcha}
-            >
-              {!!base64 && (
-                <RNImage style={this.styles.captcha} source={{ uri: base64 }} />
-              )}
+            <Touchable onPress={onGetCaptcha}>
+              <Flex style={this.styles.captchaContainer} justify='center'>
+                {base64 ? (
+                  <RNImage
+                    style={this.styles.captcha}
+                    source={{ uri: base64 }}
+                  />
+                ) : (
+                  <ActivityIndicator size='small' />
+                )}
+              </Flex>
             </Touchable>
           </Flex>
           <Popover data={data} onSelect={onSelect}>
@@ -146,7 +151,8 @@ class Form extends React.Component {
               type='sub'
               onPress={() => navigation.push('LoginAssist')}
             >
-              可以尝试切换另一个域名进行登陆. 部分设备实在没办法走通登陆流程的,
+              可以尝试切换另一个域名进行登陆. 登陆受到网络供应商影响,
+              请尝试切换wifi或4g网络, 部分设备实在没办法走通登陆流程的,
               可点击这里前往辅助登陆 (需要使用PC) &gt;
             </Text>
           )}
@@ -165,7 +171,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   form: {
-    width: 280,
+    width: 320,
     paddingBottom: 82
   },
   input: {
