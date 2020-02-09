@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:03:16
+ * @Last Modified time: 2020-02-08 21:42:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,23 +51,23 @@ function Slider({ style }, { $ }) {
         <View style={{ width: '100%' }}>
           <CompSlider
             value={amount}
-            min={1000}
-            max={balance < 1000 ? 1000 : parseInt(balance)}
+            min={5000}
+            max={balance < 5000 ? 5000 : parseInt(balance)}
             step={100}
             minimumTrackTintColor={_.colorBid}
             maximumTrackTintColor={_.colorTinygrailBorder}
-            onChange={value => $.changeAmount(value < 1000 ? 1000 : value)}
+            onChange={value => $.changeAmount(value < 5000 ? 5000 : value)}
           />
         </View>
       </Flex>
       <Flex>
         <Flex.Item>
           <Text style={styles.text} size={12}>
-            {formatNumber(1000, 0)}
+            {formatNumber(5000, 0)}
           </Text>
         </Flex.Item>
         <Text style={styles.text} size={12}>
-          {formatNumber(balance < 1000 ? 1000 : balance, 0)}
+          {formatNumber(balance < 5000 ? 5000 : balance, 0)}
         </Text>
       </Flex>
     </View>

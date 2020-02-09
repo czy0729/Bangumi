@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 17:15:33
+ * @Last Modified time: 2020-02-08 20:31:47
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -501,24 +501,56 @@ export function formatTime(time) {
  * 计算ICO等级
  * @param {*} ico
  */
+// export function caculateICO(ico) {
+//   let level = 0
+//   let price = 10
+//   let amount = 10000
+//   // let total = 0
+//   let next = 100000
+
+//   if (ico.total < 100000 || ico.users < 10) {
+//     return { level, next, price: 0, amount: 0 }
+//   }
+
+//   level = Math.floor(Math.sqrt(ico.total / 100000))
+//   amount = 10000 + (level - 1) * 7500
+//   price = ico.total / amount
+//   // eslint-disable-next-line no-restricted-properties
+//   next = Math.pow(level + 1, 2) * 100000
+
+//   return { level, next, price, amount }
+// }
+
 export function caculateICO(ico) {
   let level = 0
   let price = 10
-  let amount = 10000
-  // let total = 0
+  let amount = 0
   let next = 100000
+  let nextUser = 15
 
-  if (ico.total < 100000 || ico.users < 10) {
-    return { level, next, price: 0, amount: 0 }
+  // 人数等级
+  const heads = ico.users
+  let headLevel = Math.floor((heads - 10) / 5)
+  if (headLevel < 0) headLevel = 0
+
+  // 资金等级
+  while (ico.total >= next && level < headLevel) {
+    level += 1
+    // eslint-disable-next-line no-restricted-properties
+    next += Math.pow(level + 1, 2) * 100000
   }
 
-  level = Math.floor(Math.sqrt(ico.total / 100000))
   amount = 10000 + (level - 1) * 7500
   price = ico.total / amount
-  // eslint-disable-next-line no-restricted-properties
-  next = Math.pow(level + 1, 2) * 100000
+  nextUser = (level + 1) * 5 + 10
 
-  return { level, next, price, amount }
+  return {
+    level,
+    next,
+    price,
+    amount,
+    users: nextUser - ico.Users
+  }
 }
 
 /**

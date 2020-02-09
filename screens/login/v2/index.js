@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 22:00:22
+ * @Last Modified time: 2020-02-04 23:40:59
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -20,7 +20,7 @@ import { _, userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
 import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
+import { HOST_2, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
 import Preview from './preview'
 import Form from './form'
 
@@ -35,7 +35,7 @@ class LoginV2 extends React.Component {
   }
 
   state = {
-    host: HOST,
+    host: HOST_2,
     clicked: false,
     email: '',
     password: '',

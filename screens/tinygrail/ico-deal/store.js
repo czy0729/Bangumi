@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 03:03:55
+ * @Last Modified time: 2020-02-08 21:42:05
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
@@ -13,7 +13,7 @@ import { t } from '@utils/fetch'
 export default class ScreenTinygrailICODeal extends store {
   state = observable({
     loading: false,
-    amount: 1000 // 只能是整数
+    amount: 5000 // 只能是整数
   })
 
   init = () => this.refresh()
@@ -61,8 +61,8 @@ export default class ScreenTinygrailICODeal extends store {
       return
     }
 
-    if (!amount || amount < 1000) {
-      info('必须大于1000')
+    if (!amount || amount < 5000) {
+      info('必须大于5000')
       return
     }
 
@@ -91,7 +91,7 @@ export default class ScreenTinygrailICODeal extends store {
 
     info('注资成功')
     this.setState({
-      amount: 1000,
+      amount: 5000,
       loading: false
     })
     this.refresh()
@@ -126,7 +126,7 @@ export default class ScreenTinygrailICODeal extends store {
 
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(_amount)) {
-      _amount = 1000
+      _amount = 5000
     }
 
     this.setState({
