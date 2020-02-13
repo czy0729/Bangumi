@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 20:36:47
+ * @Last Modified time: 2020-02-14 06:57:42
  */
 
 /**
@@ -242,6 +242,7 @@ export default {
   '我的持仓.跳转': 'TCharaAssets.to',
   '我的持仓.标签页切换': 'TCharaAssets.tabsChange',
   '我的持仓.排序': 'TCharaAssets.onSortPress',
+  '我的持仓.设置前往': 'TCharaAssets.onSelectGo',
 
   // 交易
   '交易.跳转': 'TDeal.to',
@@ -270,20 +271,24 @@ export default {
   '小圣杯.每周分红': 'TIndex.bonusWeek',
   '小圣杯.每日签到': 'TIndex.bonusDaily',
   '小圣杯.节日福利': 'TIndex.bonusHoliday',
+  '小圣杯.缩略资金': 'TIndex.toggleShort',
 
   // 资金日志
   '资金日志.跳转': 'TLogs.to',
   '资金日志.标签页切换': 'TLogs.tabsChange',
+  '资金日志.设置前往': 'TLogs.onSelectGo',
 
   // 新番榜单
   '新番榜单.跳转': 'TNew.to',
   '新番榜单.标签页切换': 'TNew.tabsChange',
   '新番榜单.排序': 'TNew.onSortPress',
+  '新番榜单.设置前往': 'TNew.onSelectGo',
 
   // 热门榜单
   '热门榜单.跳转': 'TOverview.to',
   '热门榜单.标签页切换': 'TOverview.tabsChange',
   '热门榜单.排序': 'TOverview.onSortPress',
+  '热门榜单.设置前往': 'TOverview.onSelectGo',
 
   // 番市首富
   '番市首富.跳转': 'TRich.to',
@@ -330,6 +335,7 @@ export default {
   '英灵殿.跳转': 'TValhall.to',
   '英灵殿.标签页切换': 'TValhall.tabsChange',
   '英灵殿.排序': 'TValhall.onSortPress',
+  '英灵殿.设置前往': 'TValhall.onSelectGo',
 
   /* ==================== user ==================== */
   // 好友

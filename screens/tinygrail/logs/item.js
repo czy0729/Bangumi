@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 03:21:07
+ * @Last Modified time: 2020-02-14 05:24:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ function Item(
   { $, navigation }
 ) {
   const styles = memoStyles()
+  const { go } = $.state
   const isTop = index === 0
   let color
   if (change > 0) {
@@ -31,25 +32,33 @@ function Item(
   }
 
   let onPress
+  let icons
   if (
     (charaId && desc.includes('买入委托')) ||
     desc.includes('卖出委托') ||
     desc.includes('交易')
   ) {
-    onPress = () => {
-      t('资金日志.跳转', {
-        to: 'TinygrailTrade',
-        monoId: charaId
-      })
+    // 这些类型有charaId
+    icons = $.icons(charaId)
+    onPress = getOnPress(charaId, go, navigation)
+  } else if (desc.includes('竞拍') || desc.includes('ICO')) {
+    icons = $.icons(charaId)
 
-      navigation.push('TinygrailTrade', {
-        monoId: `character/${charaId}`
-      })
+    // 竞拍、ICO根据#id
+    const match = desc.match(/#\d+/g)
+    if (match) {
+      onPress = getOnPress(match[0].replace('#', ''), go, navigation)
+    }
+  } else if (desc.includes('刮刮乐获奖')) {
+    // 刮刮乐根据#id
+    const match = desc.match(/#\d+/g)
+    if (match) {
+      const charaId = match[0].replace('#', '')
+      icons = $.icons(charaId)
+      onPress = getOnPress(charaId, go, navigation)
     }
   }
 
-  // @notice 刮刮乐的id有问题, 不显示头像
-  const icons = !desc.includes('刮刮乐') && $.icons(charaId)
   return (
     <View style={styles.container}>
       <Touchable onPress={onPress}>
@@ -109,10 +118,13 @@ function Item(
               </Flex>
             </View>
           </Flex.Item>
-          <Flex style={[styles.change, _.ml.md]} justify='end'>
+          <Flex style={_.ml.md} justify='end'>
             <Text style={[_.ml.sm, { color }]} size={16} align='right'>
-              {color === _.colorBid ? '+' : '-'}
-              {formatNumber(Math.abs(change))}
+              {change
+                ? `${color === _.colorBid ? '+' : '-'}${formatNumber(
+                    Math.abs(change)
+                  )}`
+                : ''}
             </Text>
             {!!onPress && (
               <Iconfont
@@ -150,8 +162,44 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
-  },
-  change: {
-    minWidth: 120
   }
 }))
+
+function getOnPress(charaId, go, navigation) {
+  return () => {
+    let to
+    let params
+    switch (go) {
+      case 'K线':
+        to = 'TinygrailTrade'
+        break
+      case '买入':
+        to = 'TinygrailDeal'
+        params = {
+          type: 'bid'
+        }
+        break
+      case '卖出':
+        to = 'TinygrailDeal'
+        params = {
+          type: 'asks'
+        }
+        break
+      case '资产重组':
+        to = 'TinygrailSacrifice'
+        break
+      default:
+        return
+    }
+
+    t('资金日志.跳转', {
+      to,
+      monoId: charaId
+    })
+
+    navigation.push(to, {
+      monoId: `character/${charaId}`,
+      ...params
+    })
+  }
+}

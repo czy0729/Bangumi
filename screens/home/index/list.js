@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-11 17:08:08
+ * @Last Modified time: 2020-02-14 01:26:14
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -23,6 +23,7 @@ function List({ title }, { $ }) {
       keyExtractor={keyExtractor}
       data={$.currentUserCollection(title)}
       footerNoMoreDataText=''
+      footerEmptyDataText='当前没有在看的条目哦'
       renderItem={renderItem}
       onHeaderRefresh={$.onHeaderRefresh}
       {...withTabsHeader.listViewProps}

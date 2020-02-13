@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 14:35:02
+ * @Last Modified time: 2020-02-14 02:16:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,12 +39,12 @@ function Auth(props, { $, navigation }) {
             style={{
               color: _.colorTinygrailPlain
             }}
-            size={18}
+            size={16}
           >
             {nickname}
           </Text>
           {$.advance ? (
-            <Text style={_.mt.xs} type='warning' size={12}>
+            <Text style={_.mt.xs} type='warning'>
               高级会员
             </Text>
           ) : (
@@ -56,7 +56,6 @@ function Auth(props, { $, navigation }) {
                     color: _.colorTinygrailIcon
                   }
                 ]}
-                size={12}
               >
                 上次授权: {lastDate(_loaded)}
               </Text>

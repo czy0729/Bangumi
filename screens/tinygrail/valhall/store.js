@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 16:11:06
+ * @Last Modified time: 2020-02-14 06:39:03
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -37,6 +37,7 @@ export default class ScreenTinygrailValhall extends store {
   state = observable({
     sort: '',
     direction: '',
+    go: '资产重组',
     _loaded: false
   })
 
@@ -61,6 +62,17 @@ export default class ScreenTinygrailValhall extends store {
   }
 
   // -------------------- page --------------------
+  onSelectGo = title => {
+    t('英灵殿.设置前往', {
+      title
+    })
+
+    this.setState({
+      go: title
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
   onSortPress = item => {
     const { sort, direction } = this.state
     if (item === sort) {

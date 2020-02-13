@@ -3,14 +3,19 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 05:42:17
+ * @Last Modified time: 2020-02-14 05:10:55
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
 const TINYGRAIL_LIMIT = 150
-const TINYGRAIL_START = '2019-12-06T00:00:00+08:00'
+
+/**
+ * @todo correct
+ */
+const d = new Date()
+const TINYGRAIL_START = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}T00:00:00+08:00`
 
 /**
  * oauth获取access_token

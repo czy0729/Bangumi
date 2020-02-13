@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 20:07:24
+ * @Last Modified time: 2020-02-14 05:36:00
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -33,6 +33,7 @@ export default class ScreenTinygrail extends store {
     currentTotal: 0,
     lastBalance: 0,
     lastTotal: 0,
+    short: false,
     _loaded: false
   })
 
@@ -495,6 +496,21 @@ export default class ScreenTinygrail extends store {
       currentTotal: this.total,
       lastBalance: currentBalance,
       lastTotal: currentTotal
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 开启/关闭缩略资金
+   */
+  toogleShort = () => {
+    const { short } = this.state
+    t('小圣杯.缩略资金', {
+      short: !short
+    })
+
+    this.setState({
+      short: !short
     })
     this.setStorage(undefined, undefined, namespace)
   }

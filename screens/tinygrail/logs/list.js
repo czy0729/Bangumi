@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:51:31
+ * @Last Modified time: 2020-02-14 03:09:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -20,6 +20,12 @@ function List({ index }, { $ }) {
 
   let data
   switch (tabs[index].title) {
+    case '刮刮乐':
+      data = {
+        ...$.balance,
+        list: $.balance.list.filter(item => item.desc.includes('刮刮乐'))
+      }
+      break
     case '卖出':
       data = {
         ...$.balance,

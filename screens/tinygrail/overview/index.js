@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 15:17:55
+ * @Last Modified time: 2020-02-14 05:34:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
 import ToolBar from '../_/tool-bar'
+import IconGo from '../_/icon-go'
 import List from './list'
 import Store, { tabs, sortDS } from './store'
 
@@ -38,8 +39,12 @@ class TinygrailOverview extends React.Component {
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     $.init()
+
+    navigation.setParams({
+      extra: <IconGo $={$} />
+    })
   }
 
   renderContentHeaderComponent() {

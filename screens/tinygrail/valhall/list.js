@@ -13,6 +13,10 @@ import { keyExtractor } from '@utils/app'
 import Item from '../_/item'
 import { sortList } from '../_/utils'
 
+const event = {
+  id: '英灵殿.跳转'
+}
+
 function List(props, { $ }) {
   const { _loaded } = $.valhallList
   if (!_loaded) {
@@ -26,10 +30,6 @@ function List(props, { $ }) {
       ..._list,
       list: sortList(sort, direction, $.valhallList.list)
     }
-  }
-
-  const event = {
-    id: '英灵殿.跳转'
   }
   return (
     <ListView

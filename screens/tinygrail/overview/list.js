@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:52:11
+ * @Last Modified time: 2020-02-14 06:03:59
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -18,43 +18,46 @@ const event = {
   id: '热门榜单.跳转'
 }
 
-function List({ index }, { $ }) {
-  const { key } = tabs[index]
-  const list = $.list(key)
-  if (!list._loaded) {
-    return <Loading style={_.container.flex} />
+export default
+@observer
+class List extends React.Component {
+  static defaultProps = {
+    title: '全部'
   }
 
-  const { sort, direction } = $.state
-  let _list = list
-  if (sort) {
-    _list = {
-      ..._list,
-      list: sortList(sort, direction, list.list)
-    }
+  static contextTypes = {
+    $: PropTypes.object
   }
 
-  return (
-    <ListView
-      style={_.container.flex}
-      keyExtractor={keyExtractor}
-      data={_list}
-      renderItem={renderItem}
-      onHeaderRefresh={() => $.fetchList(key)}
-    />
+  renderItem = ({ item, index }) => (
+    <Item index={index} event={event} {...item} />
   )
-}
 
-List.defaultProps = {
-  title: '全部'
-}
+  render() {
+    const { index } = this.props
+    const { $ } = this.context
+    const { key } = tabs[index]
+    const list = $.list(key)
+    if (!list._loaded) {
+      return <Loading style={_.container.flex} />
+    }
 
-List.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(List)
-
-function renderItem({ item, index }) {
-  return <Item index={index} event={event} {...item} />
+    const { sort, direction } = $.state
+    let _list = list
+    if (sort) {
+      _list = {
+        ..._list,
+        list: sortList(sort, direction, list.list)
+      }
+    }
+    return (
+      <ListView
+        style={_.container.flex}
+        keyExtractor={keyExtractor}
+        data={_list}
+        renderItem={this.renderItem}
+        onHeaderRefresh={() => $.fetchList(key)}
+      />
+    )
+  }
 }

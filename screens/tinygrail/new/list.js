@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:51:51
+ * @Last Modified time: 2020-02-14 06:41:56
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,6 +13,10 @@ import { keyExtractor } from '@utils/app'
 import Item from '../_/item'
 import { sortList } from '../_/utils'
 import { tabs } from './store'
+
+const event = {
+  id: '新番榜单.跳转'
+}
 
 function List({ index }, { $ }) {
   const { key } = tabs[index]
@@ -30,9 +34,6 @@ function List({ index }, { $ }) {
     }
   }
 
-  const event = {
-    id: '新番榜单.跳转'
-  }
   return (
     <ListView
       style={_.container.flex}

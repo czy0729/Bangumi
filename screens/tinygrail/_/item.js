@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 05:42:30
+ * @Last Modified time: 2020-02-14 06:03:54
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -23,7 +23,7 @@ if (String(timezone).length === 1) {
   timezone = `0${timezone}`
 }
 
-function Item(props, { navigation }) {
+function Item(props, { $, navigation }) {
   const styles = memoStyles()
   const {
     _index,
@@ -48,6 +48,7 @@ function Item(props, { navigation }) {
     event,
     onAuctionCancel
   } = props
+  const { go } = $.state
   const { id: eventId, data: eventData } = event
   const colorMap = {
     bid: _.colorBid,
@@ -178,13 +179,13 @@ function Item(props, { navigation }) {
             <Touchable
               style={styles.item}
               onPress={() => {
+                // ICO不受复写go参数影响跳转
                 if (isICO) {
                   t(eventId, {
                     to: 'TinygrailICODeal',
                     monoId: monoId || id,
                     ...eventData
                   })
-
                   navigation.push('TinygrailICODeal', {
                     monoId: `character/${monoId || id}`
                   })
@@ -192,12 +193,16 @@ function Item(props, { navigation }) {
                 }
 
                 const _id = isAuction || isValhall ? monoId || id : id
+                if (go) {
+                  getOnPress(_id, go, navigation, eventId, eventData)()
+                  return
+                }
+
                 t(eventId, {
                   to: 'TinygrailDeal',
                   monoId: _id,
                   ...eventData
                 })
-
                 navigation.push('TinygrailDeal', {
                   monoId: `character/${_id}`
                 })
@@ -356,4 +361,49 @@ function fixedTime(time) {
     .replace('T', ' ')
     .split('+')[0]
     .split('.')[0]
+}
+
+/**
+ * 路由跳转复写
+ * @param {*} charaId
+ * @param {*} go
+ * @param {*} navigation
+ */
+function getOnPress(charaId, go, navigation, eventId, eventData) {
+  return () => {
+    let to
+    let params
+    switch (go) {
+      case 'K线':
+        to = 'TinygrailTrade'
+        break
+      case '买入':
+        to = 'TinygrailDeal'
+        params = {
+          type: 'bid'
+        }
+        break
+      case '卖出':
+        to = 'TinygrailDeal'
+        params = {
+          type: 'asks'
+        }
+        break
+      case '资产重组':
+        to = 'TinygrailSacrifice'
+        break
+      default:
+        return
+    }
+
+    t(eventId, {
+      to,
+      monoId: charaId,
+      ...eventData
+    })
+    navigation.push(to, {
+      monoId: `character/${charaId}`,
+      ...params
+    })
+  }
 }

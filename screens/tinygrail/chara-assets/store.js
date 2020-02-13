@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 17:55:28
+ * @Last Modified time: 2020-02-14 07:01:47
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -62,6 +62,7 @@ export default class ScreenTinygrailCharaAssets extends store {
     page: 0,
     sort: '',
     direction: '', // void | down | up
+    go: '卖出',
     _loaded: false
   })
 
@@ -157,6 +158,17 @@ export default class ScreenTinygrailCharaAssets extends store {
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)
+  }
+
+  onSelectGo = title => {
+    t('我的持仓.设置前往', {
+      title
+    })
+
+    this.setState({
+      go: title
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   tabChangeCallback = page => {

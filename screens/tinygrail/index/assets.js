@@ -2,27 +2,50 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 14:54:45
+ * @Last Modified time: 2020-02-14 02:16:06
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { ActivityIndicator } from '@ant-design/react-native'
+// import { ActivityIndicator } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, toFixed } from '@utils'
 import { observer } from '@utils/decorators'
+import { M } from '@constants'
 
 function Assets(props, { $ }) {
   const {
-    loadingAssets,
+    // loadingAssets,
     currentBalance,
     currentTotal,
     lastBalance,
-    lastTotal
+    lastTotal,
+    short
   } = $.state
   const { balance } = $.assets
 
+  // 缩短
+  let _balance = balance
+  let _total = $.total
+  if (short) {
+    if (_balance > 1000) {
+      _balance = `${toFixed(_balance / M, 1)}万`
+    } else {
+      _balance = formatNumber(_balance, 1)
+    }
+
+    if (_total > 1000) {
+      _total = `${toFixed(_total / M, 1)}万`
+    } else {
+      _total = formatNumber(_total, 1)
+    }
+  } else {
+    _balance = formatNumber(_balance, 1)
+    _total = formatNumber(_total, 1)
+  }
+
+  // 变化
   const changeBalance = currentBalance - lastBalance
   const changeTotal = currentTotal - lastTotal
 
@@ -48,48 +71,46 @@ function Assets(props, { $ }) {
 
   return (
     <Flex style={styles.assets}>
-      {loadingAssets ? (
-        <ActivityIndicator size='small' />
-      ) : (
-        <Text
-          style={{
-            color: _.colorTinygrailPlain
-          }}
-        >
-          ₵
-        </Text>
-      )}
-      <Flex.Item style={_.ml.xs}>
-        <Text
-          style={{
-            color: _.colorTinygrailPlain
-          }}
-        >
-          {formatNumber(balance)}{' '}
-          {balanceChangeText && (
+      <Flex.Item>
+        <Touchable onPress={$.toogleShort}>
+          <Text
+            style={{
+              color: _.colorTinygrailPlain
+            }}
+          >
+            ₵{_balance}{' '}
+            {balanceChangeText && (
+              <Text
+                style={{
+                  color: balanceTextColor
+                }}
+                size={12}
+                lineHeight={14}
+              >
+                {balanceChangeText}
+              </Text>
+            )}{' '}
+            / {_total}{' '}
+            {totalChangeText && (
+              <Text
+                style={{
+                  color: totalTextColor
+                }}
+                size={12}
+                lineHeight={14}
+              >
+                {totalChangeText}
+              </Text>
+            )}
             <Text
               style={{
-                color: balanceTextColor
+                color: _.colorTinygrailPlain
               }}
-              size={12}
-              lineHeight={14}
             >
-              {balanceChangeText}
+              {short ? ' [-]' : ' [+]'}
             </Text>
-          )}{' '}
-          / {formatNumber($.total)}{' '}
-          {totalChangeText && (
-            <Text
-              style={{
-                color: totalTextColor
-              }}
-              size={12}
-              lineHeight={14}
-            >
-              {totalChangeText}
-            </Text>
-          )}
-        </Text>
+          </Text>
+        </Touchable>
       </Flex.Item>
       <Touchable style={_.ml.sm} onPress={$.doTest}>
         <Text

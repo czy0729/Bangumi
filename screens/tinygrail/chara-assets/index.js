@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:40:15
+ * @Last Modified time: 2020-02-14 07:01:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,11 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
-import { hm } from '@utils/fetch'
 import { headerStyle } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
 import Tabs from '../_/tabs'
+import IconGo from '../_/icon-go'
 import List from './list'
 import Store, { tabs, sortDS } from './store'
 
@@ -24,6 +24,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
+  hm: ['tinygrail/chara/assets', 'TinygrailCharaAssets'],
   ...headerStyle
 })
 @observer
@@ -38,7 +39,7 @@ class TinygrailCharaAssets extends React.Component {
   }
 
   async componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     const { form } = $.params
     if (form === 'lottery') {
       $.initFormLottery()
@@ -46,7 +47,9 @@ class TinygrailCharaAssets extends React.Component {
       $.init()
     }
 
-    hm('tinygrail/chara/assets', 'TinygrailCharaAssets')
+    navigation.setParams({
+      extra: <IconGo $={$} />
+    })
   }
 
   renderContentHeaderComponent() {
@@ -70,14 +73,7 @@ class TinygrailCharaAssets extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
-      >
+      <View style={this.styles.container}>
         <StatusBarEvents />
         {!!_loaded && (
           <Tabs
@@ -92,4 +88,15 @@ class TinygrailCharaAssets extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    ..._.container.flex,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

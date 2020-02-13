@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 02:21:49
+ * @Last Modified time: 2020-02-14 06:27:34
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -87,9 +87,9 @@ class TinygrailDeal extends React.Component {
             </Flex.Item>
             <View
               style={[
-                _.ml.wind,
+                _.ml.sm,
                 {
-                  width: 160
+                  width: 176
                 }
               ]}
             >

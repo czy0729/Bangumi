@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 17:04:40
+ * @Last Modified time: 2020-02-14 05:41:03
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -64,6 +64,7 @@ export default class ScreenTinygrailOverview extends store {
     page: 0,
     sort: '',
     direction: '',
+    go: '卖出',
     _loaded: false
   })
 
@@ -110,6 +111,17 @@ export default class ScreenTinygrailOverview extends store {
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)
+  }
+
+  onSelectGo = title => {
+    t('热门榜单.设置前往', {
+      title
+    })
+
+    this.setState({
+      go: title
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   tabChangeCallback = page => {
