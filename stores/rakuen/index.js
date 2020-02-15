@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 19:54:31
+ * @Last Modified time: 2020-02-15 14:26:34
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -473,6 +473,20 @@ class Rakuen extends store {
           time,
           _time: readed.time === 0 ? time : readed.time
         }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 设置`楼层导航条方向`
+   */
+  setScrollDirection = scrollDirection => {
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        scrollDirection
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

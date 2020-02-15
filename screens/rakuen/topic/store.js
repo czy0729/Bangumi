@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 15:38:08
+ * @Last Modified time: 2020-02-15 14:34:56
  */
 import { observable, computed } from 'mobx'
 import {
@@ -200,6 +200,10 @@ export default class ScreenTopic extends store {
 
   @computed get isFavor() {
     return rakuenStore.favor(this.topicId)
+  }
+
+  @computed get setting() {
+    return rakuenStore.setting
   }
 
   // -------------------- page --------------------

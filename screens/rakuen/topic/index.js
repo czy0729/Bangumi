@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:49:24
+ * @Last Modified time: 2020-02-15 15:04:32
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
@@ -45,8 +45,10 @@ class Topic extends React.Component {
   async componentDidMount() {
     const { $, navigation } = this.context
     if (!$.isUGCAgree) {
-      // @notice 这里注意在iOS上面, 一定要延迟,
-      // 不然首页点击讨论跳进来popover + alert直接就不能操作了
+      /**
+       * @issue 这里注意在iOS上面, 一定要延迟,
+       * 不然首页点击讨论跳进来popover + alert直接就不能操作了
+       */
       setTimeout(() => {
         t('帖子.UCG')
 
@@ -245,6 +247,7 @@ class Topic extends React.Component {
           scrollEventThrottle={16}
           initialNumToRender={$.postId ? 50 : undefined} // 为了可以更快地到达目标楼层
           removeClippedSubviews={false}
+          optimize={false}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
           onScroll={onScroll}

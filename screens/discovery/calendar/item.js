@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 18:32:50
+ * @Last Modified time: 2020-02-15 13:10:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -52,7 +52,7 @@ function Item(
         <Text
           style={_.mt.sm}
           size={12}
-          type={isCollected ? _.select('main', 'warning') : 'desc'}
+          type={isCollected ? 'main' : 'desc'}
           numberOfLines={2}
         >
           {HTMLDecode(name)}

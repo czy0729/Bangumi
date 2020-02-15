@@ -2,9 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 18:04:19
+ * @Last Modified time: 2020-02-15 14:11:39
  */
-import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
+import {
+  MODEL_RAKUEN_SCOPE,
+  MODEL_RAKUEN_TYPE,
+  MODEL_RAKUEN_SCROLL_DIRECTION
+} from '@constants/model'
 
 export const NAMESPACE = 'Rakuen'
 export const LIMIT_LIST_COMMENTS = 20
@@ -70,7 +74,8 @@ export const INIT_SETTING = {
   isBlockDefaultUser: false, // 是否屏蔽默认头像用户帖子
   blockGroups: [], // 屏蔽的小组
   blockUserIds: [], // 屏蔽的用户 `${userName}@${userId}`
-  isMarkOldTopic: true // 标记坟贴
+  isMarkOldTopic: true, // 标记坟贴
+  scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右边') // 帖子楼层滚动导航条方向
 }
 
 export const INIT_GROUP_INFO = {

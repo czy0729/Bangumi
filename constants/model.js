@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 23:33:31
+ * @Last Modified time: 2020-02-15 14:11:17
  */
 class Model {
   constructor(data) {
@@ -401,6 +401,26 @@ export const MODEL_SETTING_TRANSITION = new Model([
   {
     label: '垂直',
     value: 'vertical'
+  }
+])
+
+// 超展开设置 - 切页动画
+export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
+  {
+    label: '右边',
+    value: 'right'
+  },
+  {
+    label: '左边',
+    value: 'left'
+  },
+  {
+    label: '水平底部',
+    value: 'bottom'
+  },
+  {
+    label: '隐藏',
+    value: 'none'
   }
 ])
 
