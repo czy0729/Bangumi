@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 07:05:44
+ * @Last Modified time: 2020-02-15 15:48:33
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -23,7 +23,7 @@ function Assets(props, { $ }) {
     lastTotal,
     short
   } = $.state
-  const { balance } = $.assets
+  const { balance, lastIndex } = $.assets
 
   // 缩短
   let _balance = balance
@@ -78,7 +78,7 @@ function Assets(props, { $ }) {
               color: _.colorTinygrailPlain
             }}
           >
-            ₵ {_balance}{' '}
+            ₵ {_balance}
             {balanceChangeText && (
               <Text
                 style={{
@@ -102,6 +102,7 @@ function Assets(props, { $ }) {
                 {totalChangeText}
               </Text>
             )}
+            {!!lastIndex && `/ #${lastIndex}`}
             <Text
               style={{
                 color: _.colorTinygrailPlain

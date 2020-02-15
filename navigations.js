@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 11:31:25
+ * @Last Modified time: 2020-02-15 16:06:18
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets

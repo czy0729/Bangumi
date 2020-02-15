@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 07:09:22
+ * @Last Modified time: 2020-02-15 15:33:39
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -141,13 +141,8 @@ export default class ScreenTinygrail extends store {
   }
 
   @computed get total() {
-    const { balance } = this.assets
-    const { characters, initials } = this.charaAssets
-    return (
-      characters.reduce((prev, cur) => prev + cur.state * cur.current, 0) +
-      initials.reduce((prev, cur) => prev + cur.state, 0) +
-      balance
-    )
+    const { assets } = this.assets
+    return assets
   }
 
   list(key = 'bid') {

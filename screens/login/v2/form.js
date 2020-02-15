@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 21:56:51
+ * @Last Modified time: 2020-02-15 15:50:39
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -181,7 +181,9 @@ const memoStyles = _.memoStyles(_ => ({
     width: 118,
     height: 44,
     marginLeft: _.sm,
-    backgroundColor: _.colorBg
+    backgroundColor: _.colorBg,
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   },
   captcha: {
     width: 118,

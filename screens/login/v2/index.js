@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 23:40:59
+ * @Last Modified time: 2020-02-15 16:03:28
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -49,6 +49,7 @@ class LoginV2 extends React.Component {
 
   userAgent = ''
   formhash = ''
+  lastCaptcha = ''
   cookie = {
     chiiSid: '',
     chiiAuth: ''
@@ -91,6 +92,8 @@ class LoginV2 extends React.Component {
     t('登陆.游客访问')
 
     try {
+      info('正在从github获取游客cookie...')
+
       const { _response } = await xhrCustom({
         url: 'https://czy0729.github.io/Bangumi/web/tourist.json'
       })
@@ -258,14 +261,21 @@ class LoginV2 extends React.Component {
     setStorage(`${namespace}|email`, email)
 
     try {
-      await this.login()
-      if (!this.cookie.chiiAuth) {
-        this.retryLogin('验证码或密码错误, 重试或前往旧版授权登陆 >')
-        return
-      }
+      if (this.lastCaptcha !== captcha) {
+        await this.login()
+        if (!this.cookie.chiiAuth) {
+          this.retryLogin('验证码或密码错误, 重试或前往旧版授权登陆 >')
+          return
+        }
 
-      await this.oauth()
-      await this.authorize()
+        // 缓存上次的正确的验证码
+        this.lastCaptcha = captcha
+
+        await this.oauth()
+        await this.authorize()
+      } else {
+        info('重试 (4/5)')
+      }
 
       const { _response } = await this.getAccessToken()
       const accessToken = JSON.parse(_response)
@@ -392,7 +402,7 @@ class LoginV2 extends React.Component {
    */
   getAccessToken = () => {
     this.setState({
-      info: `${this.retryText}授权成功, 获取token中...(4/5), 若没反应可再次点击登陆重试(转圈中也能点)`
+      info: `${this.retryText}授权成功, 获取token中...(4/5), 持续时间过长可直接再次点击登陆重试`
     })
 
     const { host } = this.state

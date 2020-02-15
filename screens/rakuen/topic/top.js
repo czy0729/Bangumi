@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 15:52:03
+ * @Last Modified time: 2020-02-15 15:25:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -143,9 +143,9 @@ function Top(props, { $, navigation }) {
                   {uname}
                   <Text type='sub'> @{uid}</Text>
                 </Text>
-                {!!_loaded && !userSign ? null : (
+                {!!userSign && (
                   <Text style={_.mt.xs} type='sub' size={12}>
-                    {userSign || '-'}
+                    {userSign}
                   </Text>
                 )}
               </Flex.Item>
