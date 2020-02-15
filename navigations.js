@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 20:57:09
+ * @Last Modified time: 2020-02-15 11:31:25
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
   initialRouteParams: {
     // id: 170597
-    // subjectId: 293411 // 103824 238923 279457 100444 204135
+    // subjectId: 285776 // 103824 238923 279457 100444 204135
     // topicId: 'group/353820' // group/350677, ep/768491
     // userName: 'ekibun',
     // userId: 419012 // 456208, 419012

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 01:21:41
+ * @Last Modified time: 2020-02-14 07:43:34
  */
 import { Platform } from 'react-native'
 
@@ -11,6 +11,7 @@ import { Platform } from 'react-native'
 export const DEV = true // 是否开发模式
 export const BARE = true // 裸工作流
 export const VERSION_GITHUB_RELEASE = '2.7.0' // 版本号
+export const VERSION_TINYGRAIL_PLUGIN = '1.3.0'
 export const VERSION_CODE_PUSH = '' // 热推送副版本号
 export const ERRORS = {
   keys: [],
@@ -46,6 +47,7 @@ export const USERID_IOS_AUTH = 474489 // 2963xxx10@qq.com
 export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec' // 小圣杯client_id
 export const TINYGRAIL_OAUTH_REDIRECT_URL =
   'https://tinygrail.com/api/account/callback' // 小圣杯授权跳转地址
+export const TINYGRAIL_UPDATES_LOGS_URL = `${HOST}/group/topic/354698` // 更新内容帖子
 
 // GITHUB
 export const GITHUB_PROJECT = 'https://github.com/czy0729/Bangumi' // github项目地址

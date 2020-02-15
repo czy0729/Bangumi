@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 05:45:39
+ * @Last Modified time: 2020-02-14 09:58:00
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -1117,8 +1117,8 @@ class Tinygrail extends store {
     let data = INIT_AUCTION_STATUS
     if (State === 0) {
       data = {
-        state: Value[0].State,
-        type: Value[0].Type,
+        state: Value[0] ? Value[0].State : 0,
+        type: Value[0] ? Value[0].Type : 0,
         _loaded: getTimestamp()
       }
     }

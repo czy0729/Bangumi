@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 05:36:00
+ * @Last Modified time: 2020-02-14 07:09:22
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -382,8 +382,8 @@ export default class ScreenTinygrail extends store {
     }
   }
 
-  doSend = () => {
-    Alert.alert('新年快乐!', '是否给作者发送10000cc?', [
+  doSend = () =>
+    Alert.alert('小圣杯助手', '是否给作者发送10000cc?', [
       {
         text: '取消',
         style: 'cancel'
@@ -402,7 +402,6 @@ export default class ScreenTinygrail extends store {
         }
       }
     ])
-  }
 
   /**
    * 登出

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 04:05:34
+ * @Last Modified time: 2020-02-15 11:15:26
  */
 import React from 'react'
 import { InteractionManager, StyleSheet, View } from 'react-native'
@@ -13,25 +13,15 @@ import { ManageModal, ItemComment } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
-import { keyExtractor, getBangumiUrl, getCoverMedium } from '@utils/app'
+import { keyExtractor, getCoverMedium } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST, IOS, HOST_NING_MOE } from '@constants'
+import { HOST, IOS } from '@constants'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 import Header from './header'
 import Store from './store'
 
 const title = '条目'
-const sitesDS = [
-  'bilibili',
-  'iqiyi',
-  'pptv',
-  'youku',
-  'acfun',
-  'nicovideo',
-  'qq',
-  'mgtv'
-]
 const refreshControlProps = {
   tintColor: _.__colorPlain__,
   titleColor: _.__colorPlain__
@@ -60,68 +50,28 @@ class Subject extends React.Component {
   componentDidMount() {
     InteractionManager.runAfterInteractions(async () => {
       const { $, navigation } = this.context
-      const { name_cn: nameCn, name } = $.subject
-      const _title = nameCn || name
-      if (_title) {
-        withTransitionHeader.setTitle(navigation, _title)
-      }
+      withTransitionHeader.setTitle(navigation, $.cn)
 
       // 右上角头部按钮
       const data = await $.init()
       if (data) {
-        const { sites = [] } = $.state.bangumiInfo
         const url = String(data.url).replace('http://', 'https://')
-        const _data = ['Bangumi']
-        if ($.showOnlinePlay && $.ningMoeDetail.id) {
-          _data.push('柠萌瞬间')
-        }
-
-        let _sitesDS = []
-        if ($.showOnlinePlay) {
-          _sitesDS = sitesDS
-        }
-
-        const popoverData = [
-          ..._data,
-          ...sites
-            .filter(item => _sitesDS.includes(item.site))
-            .map(item => item.site)
-        ]
-        if (['动画', '三次元'].includes($.type)) {
-          popoverData.push('迅播动漫')
-        }
-        popoverData.push('复制链接')
         navigation.setParams({
-          headerTransitionTitle: data.name_cn || data.name,
+          headerTransitionTitle: $.cn,
           popover: {
-            data: popoverData,
+            data: ['Bangumi', '复制链接'],
             onSelect: key => {
               t('条目.右上角菜单', {
                 subjectId: $.subjectId,
                 key
               })
-
-              let item
               switch (key) {
-                case 'Bangumi':
-                  open(url)
-                  break
-                case '柠萌瞬间':
-                  open(`${HOST_NING_MOE}/bangumi/${$.ningMoeDetail.id}/home`)
-                  break
-                case '迅播动漫':
-                  $.jumpXunBo()
-                  break
                 case '复制链接':
                   copy(`${HOST}/subject/${$.params.subjectId}`)
                   info('已复制')
                   break
                 default:
-                  item = sites.find(item => item.site === key)
-                  if (item) {
-                    const url = getBangumiUrl(item)
-                    open(url)
-                  }
+                  open(url)
                   break
               }
             }

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-30 06:53:57
+ * @Last Modified time: 2020-02-15 11:12:52
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -38,6 +38,16 @@ const initRating = {
   score: '',
   total: ''
 }
+const sitesDS = [
+  'bilibili',
+  'iqiyi',
+  'pptv',
+  'youku',
+  'acfun',
+  'nicovideo',
+  'qq',
+  'mgtv'
+]
 
 export default class ScreenSubject extends store {
   state = observable({
@@ -361,6 +371,27 @@ export default class ScreenSubject extends store {
     return systemStore.setting.hideScore
   }
 
+  @computed get onlineOrigins() {
+    const { bangumiInfo } = this.state
+    const { sites = [] } = bangumiInfo
+    const _data = []
+    if (this.ningMoeDetail.id) {
+      _data.push('柠萌瞬间')
+    }
+
+    const data = [
+      ..._data,
+      ...sites
+        .filter(item => sitesDS.includes(item.site))
+        .map(item => item.site)
+    ]
+    if (['动画', '三次元'].includes(this.type)) {
+      data.push('AGE动漫')
+      data.push('迅播动漫')
+    }
+    return data
+  }
+
   // -------------------- get: cdn fallback --------------------
   @computed get coverPlaceholder() {
     const { _image } = this.params
@@ -592,21 +623,47 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 迅播动漫
+   * 在线源头选择
+   * @params {*} key
    */
-  jumpXunBo = () => {
+  onlinePlaySelected = key => {
     t('条目.搜索源', {
-      type: '迅播',
+      type: key,
       subjectId: this.subjectId,
       subjectType: this.type
     })
 
-    const { name_cn: nameCn, name } = this.subject
-    open(
-      `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
-        nameCn || name
-      )}`
-    )
+    const { bangumiInfo } = this.state
+    const { sites = [] } = bangumiInfo
+    let item
+    switch (key) {
+      case '柠萌瞬间':
+        open(
+          `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
+        )
+        break
+      case 'AGE动漫':
+        open(
+          `https://www.agefans.tv/search?query=${encodeURIComponent(
+            this.cn
+          )}&page=1`
+        )
+        break
+      case '迅播动漫':
+        open(
+          `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
+            this.cn
+          )}`
+        )
+        break
+      default:
+        item = sites.find(item => item.site === key)
+        if (item) {
+          const url = getBangumiUrl(item)
+          open(url)
+        }
+        break
+    }
   }
 
   // -------------------- action --------------------

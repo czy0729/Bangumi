@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 16:13:42
+ * @Last Modified time: 2020-02-15 11:05:43
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Text } from '@components'
-import { SectionTitle, Eps, IconReverse, IconTouchable } from '@screens/_'
+import { Text, Iconfont } from '@components'
+import { SectionTitle, Eps, IconReverse, Popover } from '@screens/_'
 import { _ } from '@stores'
 import BookEp from './book-ep'
 import Disc from './disc'
@@ -31,13 +31,16 @@ function Ep({ style }, { $, navigation }) {
   const styles = memoStyles()
   const { epsReverse } = $.state
   const canPlay = $.onlinePlayActionSheetData.length >= 2
+  const showPlay = $.showOnlinePlay && canPlay
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
         right={
           <>
-            {['动画', '三次元'].includes($.type) && (
-              <IconTouchable name='search' onPress={$.jumpXunBo} />
+            {$.showOnlinePlay && (
+              <Popover data={$.onlineOrigins} onSelect={$.onlinePlaySelected}>
+                <Iconfont style={styles.iconPlay} name='search' size={16} />
+              </Popover>
             )}
             <IconReverse
               style={_.mr.sm}
@@ -48,7 +51,7 @@ function Ep({ style }, { $, navigation }) {
         }
       >
         章节
-        {$.showOnlinePlay && canPlay && (
+        {showPlay && (
           <Text size={12} type='sub' lineHeight={24}>
             {' '}
             (可播放)
@@ -64,7 +67,7 @@ function Ep({ style }, { $, navigation }) {
         subjectId={$.params.subjectId}
         eps={epsReverse ? $.eps.reverse() : $.eps}
         userProgress={$.userProgress}
-        canPlay={$.showOnlinePlay && canPlay}
+        canPlay={showPlay}
         onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
         onLongPress={item => $.doEpsLongPress(item)}
       />
@@ -84,5 +87,8 @@ const memoStyles = _.memoStyles(_ => ({
     minHeight: 146,
     marginLeft: _.wind,
     backgroundColor: _.colorPlain
+  },
+  iconPlay: {
+    paddingHorizontal: _.sm
   }
 }))
