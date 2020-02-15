@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 15:46:40
+ * @Last Modified time: 2020-02-16 07:17:35
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -914,7 +914,8 @@ class Tinygrail extends store {
           characterId: item.CharacterId,
           amount: item.Amount,
           price: item.Price,
-          time: item.Begin
+          time: item.Begin,
+          type: item.Type
         })),
         bidHistory: result.data.Value.BidHistory.map(item => ({
           id: item.Id,
@@ -928,7 +929,8 @@ class Tinygrail extends store {
           characterId: item.CharacterId,
           amount: item.Amount,
           price: item.Price,
-          time: item.Begin
+          time: item.Begin,
+          type: item.Type
         })),
         _loaded: getTimestamp()
       }
@@ -1891,9 +1893,9 @@ class Tinygrail extends store {
   /**
    * 买入
    */
-  doBid = async ({ monoId, price, amount }) => {
+  doBid = async ({ monoId, price, amount, isIce }) => {
     const result = await this.fetch(
-      API_TINYGRAIL_BID(monoId, price, amount),
+      API_TINYGRAIL_BID(monoId, price, amount, isIce),
       true
     )
     if (result.data.State === 0) {
@@ -1905,9 +1907,9 @@ class Tinygrail extends store {
   /**
    * 卖出
    */
-  doAsk = async ({ monoId, price, amount }) => {
+  doAsk = async ({ monoId, price, amount, isIce }) => {
     const result = await this.fetch(
-      API_TINYGRAIL_ASK(monoId, price, amount),
+      API_TINYGRAIL_ASK(monoId, price, amount, isIce),
       true
     )
     if (result.data.State === 0) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 06:57:42
+ * @Last Modified time: 2020-02-16 07:22:54
  */
 
 /**
@@ -252,6 +252,7 @@ export default {
   '交易.切换买卖类型': 'TDeal.toggleType',
   '交易.展开收起记录': 'TDeal.toggleExpand',
   '交易.显示时间': 'TDeal.showTime',
+  '交易.切换冰山': 'TDeal.switchIsIce',
 
   // ICO
   'ICO.跳转': 'TICO.to',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 16:07:29
+ * @Last Modified time: 2020-02-16 07:21:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { observer } from '@utils/decorators'
 
 function Slider({ style }, { $ }) {
   const styles = memoStyles()
-  const { value, amount } = $.state
+  const { value, amount, isIce } = $.state
   const { balance } = $.assets
   const { amount: userAmount } = $.userLogs
   const min = 0
@@ -84,6 +84,11 @@ function Slider({ style }, { $ }) {
         <Text style={styles.plain} size={12}>
           {amount == 0 ? '--' : formatNumber(amount * value)}
         </Text>
+        <Touchable style={_.ml.sm}>
+          <Text style={styles.text} size={12} onPress={$.switchIsIce}>
+            [冰山: {isIce ? '开' : '关'}]
+          </Text>
+        </Touchable>
       </Flex>
     </View>
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 22:06:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 20:32:39
+ * @Last Modified time: 2020-02-16 06:23:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,16 +29,14 @@ function History({ style }, { $, navigation }) {
                 size={15}
                 onPress={() => {
                   t('人物直达.跳转', {
-                    to: 'TinygrailTrade',
                     monoId: item
                   })
 
-                  navigation.push('TinygrailTrade', {
-                    monoId: item
-                  })
+                  $.doSearch(navigation, item)
                 }}
               >
                 {$.chara(item).name || item}
+                {!!$.chara(item).id && ` #${$.chara(item).id}`}
               </Text>
             </Flex.Item>
             <Touchable

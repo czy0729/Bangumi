@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 06:03:54
+ * @Last Modified time: 2020-02-16 06:46:23
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -48,7 +48,7 @@ function Item(props, { $, navigation }) {
     event,
     onAuctionCancel
   } = props
-  const { go } = $.state
+  const go = props.go || $.state.go
   const { id: eventId, data: eventData } = event
   const colorMap = {
     bid: _.colorBid,

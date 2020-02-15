@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 16:06:18
+ * @Last Modified time: 2020-02-16 07:25:25
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
@@ -14,7 +14,7 @@ export default {
     // userId: 419012 // 456208, 419012
     // catalogId: 29811
     // name: '小耳兔'
-    // monoId: 'character/19544' // 20391 character/70323 person/5745
+    // monoId: 'character/13508' // 20391 character/70323 person/5745
     // groupId: 'tinygrail'
     // type: 'anime',
     // tag: '水树奈奈'

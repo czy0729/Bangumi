@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 21:03:47
+ * @Last Modified time: 2020-02-16 06:03:39
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -38,48 +38,46 @@ function Btns(props, { $, navigation }) {
           setTimeout(() => {
             switch (title) {
               case '刮刮乐':
-                Alert.alert('小圣杯助手', '消费₵1000购买一张刮刮乐彩票?', [
+                // Alert.alert('小圣杯助手', '消费₵1000购买一张刮刮乐彩票?', [
+                //   {
+                //     text: '取消',
+                //     style: 'cancel'
+                //   },
+                //   {
+                //     text: '确定',
+                //     onPress: () => $.doLottery(navigation)
+                //   }
+                // ])
+                $.doLottery(navigation)
+                break
+              case '每周分红':
+                Alert.alert('警告', '确定领取每周分红? (每周日0点刷新)', [
                   {
                     text: '取消',
                     style: 'cancel'
                   },
                   {
                     text: '确定',
-                    onPress: () => $.doLottery(navigation)
+                    onPress: $.doGetBonusWeek
                   }
                 ])
                 break
-              case '每周分红':
-                Alert.alert(
-                  '警告',
-                  '领取每周分红后，将不能再领取每日奖励，确定? (每周日0点刷新)',
-                  [
-                    {
-                      text: '取消',
-                      style: 'cancel'
-                    },
-                    {
-                      text: '确定',
-                      onPress: $.doGetBonusWeek
-                    }
-                  ]
-                )
-                break
               case '每日签到':
-                Alert.alert(
-                  '警告',
-                  '领取每日签到后，将不能再领取每周分红，暂每天₵1500，确定?',
-                  [
-                    {
-                      text: '取消',
-                      style: 'cancel'
-                    },
-                    {
-                      text: '确定',
-                      onPress: $.doGetBonusDaily
-                    }
-                  ]
-                )
+                // Alert.alert(
+                //   '警告',
+                //   '领取每日签到后，将不能再领取每周分红，暂每天₵1500，确定?',
+                //   [
+                //     {
+                //       text: '取消',
+                //       style: 'cancel'
+                //     },
+                //     {
+                //       text: '确定',
+                //       onPress: $.doGetBonusDaily
+                //     }
+                //   ]
+                // )
+                $.doGetBonusDaily()
                 break
               case '节日福利':
                 $.doGetBonusHoliday()

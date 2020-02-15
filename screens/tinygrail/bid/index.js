@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 23:10:49
+ * @Last Modified time: 2020-02-16 06:33:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,14 +62,7 @@ class TinygrailBid extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
-      >
+      <View style={this.styles.container}>
         <StatusBarEvents />
         {!!_loaded && (
           <Tabs
@@ -84,4 +77,15 @@ class TinygrailBid extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    ..._.container.flex,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

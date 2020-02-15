@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 16:46:04
+ * @Last Modified time: 2020-02-16 07:22:27
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -11,44 +11,36 @@ import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 
+const namespace = 'ScreenTinygrailDeal'
 const defaultType = 'bid'
-
-/**
- * 交易拆单避税
- * @param {*} amount
- */
-function splitAmount(amount) {
-  return [amount]
-
-  // let _amount = amount
-  // const splitAmounts = []
-  // const len = Math.ceil(_amount / 500)
-  // for (let i = 0; i < len; i += 1) {
-  //   const rest = _amount - 500
-  //   if (rest >= 100) splitAmounts.push(500)
-  //   else if (i < len - 1) splitAmounts.push(_amount - 100)
-  //   else splitAmounts.push(_amount)
-  //   _amount -= splitAmounts[i]
-  // }
-  // return splitAmounts
+const initState = {
+  loading: false,
+  type: defaultType, // 买卖类型
+  value: 0, // 只能到一位小数
+  amount: 0, // 只能是整数
+  expand: false // 展开买卖记录
 }
 
 export default class ScreenTinygrailDeal extends store {
   state = observable({
-    loading: false,
-    type: defaultType, // 买卖类型
-    value: 0, // 只能到一位小数
-    amount: 0, // 只能是整数
-    expand: false // 展开买卖记录
+    ...initState,
+    isIce: false, // 是否冰山委托
+    _loaded: false
   })
 
   prev = 0
 
   init = async () => {
+    const res = this.getStorage(undefined, namespace)
+    const state = await res
     const { type = defaultType } = this.params
     this.setState({
-      type
+      ...state,
+      ...initState,
+      type,
+      _loaded: true
     })
+
     this.refresh()
   }
 
@@ -115,7 +107,7 @@ export default class ScreenTinygrailDeal extends store {
    * 挂单
    */
   doSubmit = async () => {
-    const { value, amount } = this.state
+    const { value, amount, isIce } = this.state
     if (!value || !amount) {
       info('出价有误')
       return
@@ -140,7 +132,8 @@ export default class ScreenTinygrailDeal extends store {
       result = await tinygrailStore[this.isBid ? 'doBid' : 'doAsk']({
         monoId: this.monoId,
         price: value,
-        amount: item
+        amount: item,
+        isIce
       })
     }
 
@@ -347,4 +340,40 @@ export default class ScreenTinygrailDeal extends store {
       expand: !expand
     })
   }
+
+  /**
+   * 切换冰山委托
+   */
+  switchIsIce = () => {
+    const { isIce } = this.state
+    t('交易.切换冰山', {
+      monoId: this.monoId,
+      isIce: !isIce
+    })
+
+    this.setState({
+      isIce: !isIce
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+}
+
+/**
+ * 交易拆单避税
+ * @param {*} amount
+ */
+function splitAmount(amount) {
+  return [amount]
+
+  // let _amount = amount
+  // const splitAmounts = []
+  // const len = Math.ceil(_amount / 500)
+  // for (let i = 0; i < len; i += 1) {
+  //   const rest = _amount - 500
+  //   if (rest >= 100) splitAmounts.push(500)
+  //   else if (i < len - 1) splitAmounts.push(_amount - 100)
+  //   else splitAmounts.push(_amount)
+  //   _amount -= splitAmounts[i]
+  // }
+  // return splitAmounts
 }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 05:10:55
+ * @Last Modified time: 2020-02-16 06:50:17
  */
 import { HOST } from './index'
 
@@ -230,18 +230,20 @@ export const API_TINYGRAIL_USER_CHARA = monoId =>
  * @param {*} monoId
  * @param {*} price
  * @param {*} amount
+ * @param {*} ice    冰山委托
  */
-export const API_TINYGRAIL_BID = (monoId, price, amount) =>
-  `${API_HOST_TINYGRAIL}/api/chara/bid/${monoId}/${price}/${amount}`
+export const API_TINYGRAIL_BID = (monoId, price, amount, ice = false) =>
+  `${API_HOST_TINYGRAIL}/api/chara/bid/${monoId}/${price}/${amount}/${ice}`
 
 /**
  * 卖出
  * @param {*} monoId
  * @param {*} price
  * @param {*} amount
+ * @param {*} ice    冰山委托
  */
-export const API_TINYGRAIL_ASK = (monoId, price, amount) =>
-  `${API_HOST_TINYGRAIL}/api/chara/ask/${monoId}/${price}/${amount}`
+export const API_TINYGRAIL_ASK = (monoId, price, amount, ice = false) =>
+  `${API_HOST_TINYGRAIL}/api/chara/ask/${monoId}/${price}/${amount}/${ice}`
 
 /**
  * 取消买入

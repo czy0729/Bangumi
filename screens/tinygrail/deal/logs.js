@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 03:17:27
+ * @Last Modified time: 2020-02-16 07:19:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,6 +52,17 @@ function Logs({ style }, { $ }) {
                     }}
                   >
                     {formatNumber(item.price)}
+                    {item.type === 1 && (
+                      <Text
+                        size={12}
+                        style={{
+                          color: _.colorTinygrailText
+                        }}
+                      >
+                        {' '}
+                        [冰山]
+                      </Text>
+                    )}
                   </Text>
                 </Flex.Item>
                 <Text style={styles.text} size={12}>
@@ -102,6 +113,17 @@ function Logs({ style }, { $ }) {
                     }}
                   >
                     {formatNumber(item.price)}
+                    {item.type === 1 && (
+                      <Text
+                        size={12}
+                        style={{
+                          color: _.colorTinygrailText
+                        }}
+                      >
+                        {' '}
+                        [冰山]
+                      </Text>
+                    )}
                   </Text>
                 </Flex.Item>
                 <Text style={styles.text} size={12}>

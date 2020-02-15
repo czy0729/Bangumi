@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 05:42:46
+ * @Last Modified time: 2020-02-16 06:46:15
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,6 +15,11 @@ import { tabs } from './store'
 
 const event = {
   id: '我的委托.跳转'
+}
+const go = {
+  bid: '买入',
+  asks: '卖出',
+  auction: '资产重组'
 }
 
 function List({ index }, { $ }) {
@@ -43,6 +48,7 @@ function List({ index }, { $ }) {
           index={index}
           type={key}
           event={event}
+          go={go[key]}
           onAuctionCancel={$.doAuctionCancel}
           {...item}
         />
