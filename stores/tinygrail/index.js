@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 07:17:35
+ * @Last Modified time: 2020-02-16 08:54:10
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -1317,7 +1317,8 @@ class Tinygrail extends store {
           nickName: item.Nickname,
           avatar: item.Avatar,
           balance: item.Balance,
-          name: item.Name
+          name: item.Name,
+          lastIndex: item.LastIndex
         })),
         pagination: {
           page: 1,
@@ -2018,7 +2019,7 @@ class Tinygrail extends store {
    */
   doSend = async () => {
     const { data } = await this.fetch(
-      'https://tinygrail.com/api/event/send/sukaretto/10000',
+      'https://tinygrail.com/api/event/send/sukaretto/2000',
       true
     )
     return data

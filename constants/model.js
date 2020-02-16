@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 07:56:28
+ * @Last Modified time: 2020-02-16 10:57:49
  */
 class Model {
   constructor(data) {
@@ -345,6 +345,34 @@ export const MODEL_SEARCH_LEGACY = new Model([
   {
     label: '精确',
     value: '1'
+  }
+])
+
+// 设置 - 启动页面
+export const MODEL_INITIAL_PAGE = new Model([
+  {
+    label: '进度',
+    value: 'Home'
+  },
+  {
+    label: '发现',
+    value: 'Discovery'
+  },
+  {
+    label: '时间胶囊',
+    value: 'Timeline'
+  },
+  {
+    label: '超展开',
+    value: 'Rakuen'
+  },
+  {
+    label: '我的',
+    value: 'User'
+  },
+  {
+    label: '小圣杯',
+    value: 'Tinygrail'
   }
 ])
 

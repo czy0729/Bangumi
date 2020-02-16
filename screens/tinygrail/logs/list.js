@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 03:09:53
+ * @Last Modified time: 2020-02-16 08:41:48
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -30,7 +30,7 @@ function List({ index }, { $ }) {
       data = {
         ...$.balance,
         list: $.balance.list.filter(
-          item => item.desc.includes('卖出委托') && item.change > 0
+          item => item.desc.includes('卖出') && item.change > 0
         )
       }
       break
@@ -38,7 +38,7 @@ function List({ index }, { $ }) {
       data = {
         ...$.balance,
         list: $.balance.list.filter(
-          item => item.desc.includes('买入委托') && item.change < 0
+          item => item.desc.includes('买入') && item.change < 0
         )
       }
       break

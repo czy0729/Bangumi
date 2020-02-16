@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 15:45:27
+ * @Last Modified time: 2020-02-16 08:57:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -30,7 +30,7 @@ function TinygrailUsers({ style }, { $, navigation }) {
   return (
     <View style={style}>
       <Text type='warning' size={20}>
-        董事会 10
+        董事会 20
         <Text type='desc' size={12} lineHeight={20}>
           {' '}
           / {total || '-'}
@@ -51,7 +51,12 @@ function TinygrailUsers({ style }, { $, navigation }) {
                 event={event}
               />
               <Flex.Item style={_.ml.sm}>
-                <Text type={isTop ? 'warning' : 'desc'} size={isTop ? 14 : 12}>
+                <Text
+                  type={isTop ? 'warning' : 'desc'}
+                  size={isTop ? 14 : 12}
+                  numberOfLines={1}
+                >
+                  {item.lastIndex !== 0 && `[#${item.lastIndex}] `}
                   {item.nickName}
                 </Text>
                 <Text

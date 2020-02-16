@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 22:48:13
+ * @Last Modified time: 2020-02-16 10:52:37
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -11,7 +11,8 @@ import {
   userStore,
   subjectStore,
   collectionStore,
-  calendarStore
+  calendarStore,
+  systemStore
 } from '@stores'
 import { Eps } from '@screens/_'
 import { t, queue } from '@utils/fetch'
@@ -118,6 +119,10 @@ export default class ScreenHome extends store {
   // -------------------- get --------------------
   @computed get backgroundColor() {
     return _.isDark ? _._colorDarkModeLevel1 : _.colorPlain
+  }
+
+  @computed get initialPage() {
+    return systemStore.setting.initialPage
   }
 
   /**

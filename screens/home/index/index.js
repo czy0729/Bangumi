@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-11 15:47:13
+ * @Last Modified time: 2020-02-16 10:54:45
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -20,6 +20,7 @@ import {
 import { _, userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
+import { MODEL_INITIAL_PAGE } from '@constants/model'
 import Tabs from './tabs'
 import List from './list'
 import Grid from './grid'
@@ -67,9 +68,9 @@ class Home extends React.Component {
     navigation: PropTypes.object
   }
 
-  async componentDidMount() {
+  componentWillMount() {
     const { $, navigation } = this.context
-    await $.init()
+    $.init()
 
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
@@ -85,18 +86,34 @@ class Home extends React.Component {
       headerBackground: <HeaderBackground />
     })
 
+    this.updateInitialPage()
+
     setTimeout(() => {
       const id = userStore.userInfo.username || userStore.myUserId
       t('其他.启动', {
         userId: id
       })
       hm(`?id=${id}`, 'Home')
-    }, 2000)
+    }, 8000)
   }
 
   onWillFocus = () => {
     const { navigation } = this.context
     navigation.navigate('Auth')
+  }
+
+  updateInitialPage = () => {
+    const { $, navigation } = this.context
+    if ($.initialPage === MODEL_INITIAL_PAGE.getValue('进度')) {
+      return
+    }
+
+    if ($.initialPage === MODEL_INITIAL_PAGE.getValue('小圣杯')) {
+      navigation.push('Tinygrail')
+      return
+    }
+
+    navigation.navigate($.initialPage)
   }
 
   render() {

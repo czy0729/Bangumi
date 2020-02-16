@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 05:24:41
+ * @Last Modified time: 2020-02-16 08:41:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,11 +33,7 @@ function Item(
 
   let onPress
   let icons
-  if (
-    (charaId && desc.includes('买入委托')) ||
-    desc.includes('卖出委托') ||
-    desc.includes('交易')
-  ) {
+  if (desc.includes('买入') || desc.includes('卖出') || desc.includes('交易')) {
     // 这些类型有charaId
     icons = $.icons(charaId)
     onPress = getOnPress(charaId, go, navigation)

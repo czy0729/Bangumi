@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 20:46:44
+ * @Last Modified time: 2020-02-16 10:37:06
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -11,7 +11,8 @@ import { info } from '@utils/ui'
 import { IOS, GITHUB_RELEASE_REPOS, VERSION_GITHUB_RELEASE } from '@constants'
 import {
   MODEL_SETTING_QUALITY,
-  MODEL_SETTING_TRANSITION
+  MODEL_SETTING_TRANSITION,
+  MODEL_INITIAL_PAGE
 } from '@constants/model'
 import {
   NAMESPACE,
@@ -164,6 +165,23 @@ class System extends store {
         [key]: {
           ...this.setting,
           transition
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  /**
+   * 设置`启动页`
+   */
+  setInitialPage = label => {
+    const initialPage = MODEL_INITIAL_PAGE.getValue(label)
+    if (initialPage) {
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          initialPage
         }
       })
       this.setStorage(key, undefined, NAMESPACE)

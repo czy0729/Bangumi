@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 22:03:09
+ * @Last Modified time: 2020-02-16 10:35:34
  */
 import { IOS, VERSION_GITHUB_RELEASE } from '@constants'
 import {
   MODEL_SETTING_QUALITY,
-  MODEL_SETTING_TRANSITION
+  MODEL_SETTING_TRANSITION,
+  MODEL_INITIAL_PAGE
 } from '@constants/model'
 
 export const NAMESPACE = 'System'
@@ -24,7 +25,8 @@ export const INIT_SETTING = {
   iosMenu: false, // iOS风格弹出菜单
   hideScore: false, // 隐藏他人评分
   cdn: true, // CDN加速
-  transition: MODEL_SETTING_TRANSITION.getValue('水平') // 切页动画
+  transition: MODEL_SETTING_TRANSITION.getValue('水平'), // 切页动画
+  initialPage: MODEL_INITIAL_PAGE.getValue('进度') // 启动页
 }
 
 export const INIT_RELEASE = {

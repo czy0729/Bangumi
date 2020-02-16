@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 23:13:04
+ * @Last Modified time: 2020-02-16 10:49:11
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -27,7 +27,8 @@ import {
 import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_FONTSIZEADJUST,
-  MODEL_SETTING_TRANSITION
+  MODEL_SETTING_TRANSITION,
+  MODEL_INITIAL_PAGE
 } from '@constants/model'
 
 const title = '设置'
@@ -120,6 +121,28 @@ class Setting extends React.Component {
       })
 
       systemStore.setTransition(label)
+    }
+  }
+
+  setTransition = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '切页动画',
+        label
+      })
+
+      systemStore.setTransition(label)
+    }
+  }
+
+  setInitialPage = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '启动页',
+        label
+      })
+
+      systemStore.setInitialPage(label)
     }
   }
 
@@ -250,7 +273,7 @@ class Setting extends React.Component {
   }
 
   renderBasic() {
-    const { quality, hideScore, cnFirst } = systemStore.setting
+    const { quality, hideScore, cnFirst, initialPage } = systemStore.setting
     return (
       <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
@@ -291,6 +314,22 @@ class Setting extends React.Component {
             />
           }
           withoutFeedback
+        />
+        <ItemSetting
+          border
+          hd='启动页'
+          ft={
+            <Popover
+              data={MODEL_INITIAL_PAGE.data.map(({ label }) => label)}
+              onSelect={this.setInitialPage}
+            >
+              <Text size={16} type='sub'>
+                {MODEL_INITIAL_PAGE.getLabel(initialPage)}
+              </Text>
+            </Popover>
+          }
+          arrow
+          highlight
         />
         <ItemSetting
           border
@@ -482,7 +521,7 @@ class Setting extends React.Component {
         />
         <ItemSetting
           border
-          hd='功能需求反馈'
+          hd='反馈'
           arrow
           highlight
           onPress={() => {
@@ -508,7 +547,7 @@ class Setting extends React.Component {
         />
         <ItemSetting
           border
-          hd='项目地址'
+          hd='github地址'
           ft='欢迎star'
           arrow
           highlight
