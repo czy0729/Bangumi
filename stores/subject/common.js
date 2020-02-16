@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-16 20:32:05
+ * @Last Modified time: 2020-02-16 11:27:36
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -68,13 +68,18 @@ export async function fetchMono({ monoId = 0 }) {
       HTML.match(/<img src="(.+?)" class="cover"\/>/) ||
       HTML.match(/<img src="(.+?)" class="cover" \/>/)
     if (matchHTML) {
-      mono.cover = matchHTML[1]
+      mono.cover = String(matchHTML[1]).split('?')[0]
     }
 
     // 各种详细
     matchHTML = HTML.match(/<ul id="infobox">(.+?)<\/ul>/)
     if (matchHTML) {
-      mono.info = matchHTML[1]
+      mono.info = String(matchHTML[1])
+        .replace(/\n/g, '')
+        .replace(/ class="(.+?)"/g, '')
+        .replace(/ title="(.+?)"/g, '')
+        .replace(/>( +)</g, '><')
+        .trim()
     }
 
     // 详情
@@ -101,7 +106,7 @@ export async function fetchMono({ monoId = 0 }) {
         const nameCn = node ? node[0].text[0] : ''
 
         node = findTreeNode(children, 'div > a > img')
-        const cover = node ? node[0].attrs.src : ''
+        const cover = node ? String(node[0].attrs.src).split('?')[0] : ''
 
         node = findTreeNode(children, 'ul > li > div > h3 > a|text&href')
         const subjectHref = node ? node[0].attrs.href : ''
@@ -114,7 +119,7 @@ export async function fetchMono({ monoId = 0 }) {
         const staff = node ? node[0].text[0] : ''
 
         node = findTreeNode(children, 'ul > li > a > img')
-        const subjectCover = node ? node[0].attrs.src : ''
+        const subjectCover = node ? String(node[0].attrs.src).split('?')[0] : ''
 
         mono.voice.push({
           href,
@@ -145,7 +150,7 @@ export async function fetchMono({ monoId = 0 }) {
         const name = node ? node[0].attrs.title : ''
 
         node = findTreeNode(children, 'div > a > img')
-        const cover = node ? node[0].attrs.src : ''
+        const cover = node ? String(node[0].attrs.src).split('?')[0] : ''
 
         node = findTreeNode(children, 'div > div > span')
         const staff = node ? node[0].text[0] : ''
@@ -177,7 +182,7 @@ export async function fetchMono({ monoId = 0 }) {
         const nameCn = node ? node[0].text[0] : ''
 
         node = findTreeNode(children, 'div > a > img')
-        const cover = node ? node[0].attrs.src : ''
+        const cover = node ? String(node[0].attrs.src).split('?')[0] : ''
 
         node = findTreeNode(children, 'div > div > span')
         const staff = node ? node[0].text[0] : ''
@@ -190,7 +195,7 @@ export async function fetchMono({ monoId = 0 }) {
         const castTag = node ? node[0].text[0] : ''
 
         node = findTreeNode(children, 'ul > li > a > img')
-        const castCover = node ? node[0].attrs.src : ''
+        const castCover = node ? String(node[0].attrs.src).split('?')[0] : ''
 
         mono.jobs.push({
           href,

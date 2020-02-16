@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 11:12:52
+ * @Last Modified time: 2020-02-16 11:32:07
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -154,7 +154,6 @@ export default class ScreenSubject extends store {
   fetchSubjectFormCDN = async () => {
     const { setting } = systemStore
     const { _loaded } = this.subjectFormHTML
-    console.log(setting.cdn)
     if (!setting.cdn || _loaded) {
       return true
     }

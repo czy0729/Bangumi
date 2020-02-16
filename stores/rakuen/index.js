@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 14:26:34
+ * @Last Modified time: 2020-02-16 12:45:23
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
-import { fetchHTML, xhr } from '@utils/fetch'
+import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
 import { HOST, LIST_EMPTY, LIMIT_LIST } from '@constants'
 import {
@@ -17,6 +17,7 @@ import {
   HTML_GROUP_INFO,
   HTML_GROUP
 } from '@constants/html'
+import { CDN_RAKUEN } from '@constants/cdn'
 import store from '@utils/store'
 import {
   NAMESPACE,
@@ -66,6 +67,14 @@ class Rakuen extends store {
      */
     comments: {
       // [topicId]: LIST_EMPTY | INIT_COMMENTS_ITEM
+    },
+
+    /**
+     * 帖子内容CDN自维护数据
+     * 用于帖子首次渲染加速
+     */
+    topicFormCDN: {
+      // [topicId]: INIT_TOPIC
     },
 
     /**
@@ -157,6 +166,14 @@ class Rakuen extends store {
    */
   comments(topicId = 0) {
     return computed(() => this.state.comments[topicId] || LIST_EMPTY).get()
+  }
+
+  /**
+   * 帖子内容CDN自维护数据
+   * @param {*} monoId
+   */
+  topicFormCDN(topicId = 0) {
+    return computed(() => this.state.topicFormCDN[topicId] || INIT_TOPIC).get()
   }
 
   /**
@@ -307,6 +324,33 @@ class Rakuen extends store {
       topic,
       comments
     })
+  }
+
+  /**
+   * CDN获取人物信息
+   * @param {*} subjectId
+   */
+  fetchTopicFormCDN = async topicId => {
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_RAKUEN(topicId)
+      })
+
+      const data = {
+        ...INIT_TOPIC,
+        ...JSON.parse(_response)
+      }
+      const key = 'topicFormCDN'
+      this.setState({
+        [key]: {
+          [topicId]: data
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      warn('rakuenStore', 'fetchTopicFormCDN', 404)
+      return Promise.resolve(INIT_TOPIC)
+    }
   }
 
   /**

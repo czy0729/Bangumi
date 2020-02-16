@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 14:13:33
+ * @Last Modified time: 2020-02-16 11:37:46
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
-import { CDN_SUBJECT } from '@constants/cdn'
+import { CDN_SUBJECT, CDN_MONO } from '@constants/cdn'
 import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_EP } from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
@@ -80,6 +80,14 @@ class Subject extends store {
      */
     monoComments: {
       // [monoId]: LIST_EMPTY | INIT_MONO_COMMENTS_ITEM
+    },
+
+    /**
+     * 人物CDN自维护数据
+     * 用于人物首次渲染加速
+     */
+    monoFormCDN: {
+      // [monoId]: INIT_MONO
     }
   })
 
@@ -160,6 +168,14 @@ class Subject extends store {
    */
   monoComments(monoId) {
     return computed(() => this.state.monoComments[monoId] || LIST_EMPTY).get()
+  }
+
+  /**
+   * 人物CDN自维护数据
+   * @param {*} monoId
+   */
+  monoFormCDN(monoId) {
+    return computed(() => this.state.monoFormCDN[monoId] || INIT_MONO).get()
   }
 
   // -------------------- fetch --------------------
@@ -454,6 +470,33 @@ class Subject extends store {
       this.setStorage(commentsKey, undefined, NAMESPACE)
     }
     return res
+  }
+
+  /**
+   * CDN获取人物信息
+   * @param {*} subjectId
+   */
+  fetchMonoFormCDN = async monoId => {
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_MONO(monoId)
+      })
+
+      const data = {
+        ...INIT_MONO,
+        ...JSON.parse(_response)
+      }
+      const key = 'monoFormCDN'
+      this.setState({
+        [key]: {
+          [monoId]: data
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      warn('subjectStore', 'fetchMonoFormCDN', 404)
+      return Promise.resolve(INIT_MONO)
+    }
   }
 }
 

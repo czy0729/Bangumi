@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 08:57:29
+ * @Last Modified time: 2020-02-16 11:44:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Divider } from '@components'
+import { Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
@@ -30,7 +30,7 @@ function TinygrailUsers({ style }, { $, navigation }) {
   return (
     <View style={style}>
       <Text type='warning' size={20}>
-        董事会 20
+        董事会 10
         <Text type='desc' size={12} lineHeight={20}>
           {' '}
           / {total || '-'}
@@ -75,7 +75,6 @@ function TinygrailUsers({ style }, { $, navigation }) {
           )
         })}
       </Flex>
-      <Divider />
     </View>
   )
 }

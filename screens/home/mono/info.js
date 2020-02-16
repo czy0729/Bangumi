@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 19:26:31
+ * @Last Modified time: 2020-02-16 13:27:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -31,16 +31,7 @@ import Jobs from './jobs'
 const maxSize = (_.window.width - 2 * _.wind) * 0.5
 
 function Info(props, { $, navigation }) {
-  const {
-    name,
-    nameCn,
-    cover,
-    info,
-    detail,
-    collectUrl,
-    eraseCollectUrl
-  } = $.mono
-  const { _name, _jp } = $.params
+  const { collectUrl, eraseCollectUrl } = $.mono
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -49,10 +40,10 @@ function Info(props, { $, navigation }) {
           <Flex.Item>
             <Flex align='baseline'>
               <Text size={20} bold>
-                {name || _jp}
+                {$.jp}
                 <Text type='sub' lineHeight={20}>
                   {' '}
-                  {nameCn || _name}
+                  {$.cn}
                 </Text>
               </Text>
             </Flex>
@@ -78,10 +69,10 @@ function Info(props, { $, navigation }) {
             </Touchable>
           )}
         </Flex>
-        {!!cover && (
+        {!!$.cover && (
           <Flex style={_.mt.md} justify='center'>
             <Image
-              src={getCoverLarge(cover)}
+              src={getCoverLarge($.cover)}
               autoSize={maxSize}
               border
               shadow
@@ -96,11 +87,11 @@ function Info(props, { $, navigation }) {
             />
           </Flex>
         )}
-        <TinygrailUsers style={_.mt.lg} />
-        {!!info && <RenderHtml style={styles.info} html={info} />}
-        {!!detail && <RenderHtml style={_.mt.lg} html={detail} />}
+        {!!$.info && <RenderHtml style={styles.info} html={$.info} />}
+        {!!$.detail && <RenderHtml style={_.mt.lg} html={$.detail} />}
       </View>
       <Divider />
+      <TinygrailUsers style={[_.container.inner, _.mt.md]} />
       <Voice style={_.mt.md} />
       <Works style={_.mt.md} />
       <Jobs style={_.mt.md} />

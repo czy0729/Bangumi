@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 14:34:56
+ * @Last Modified time: 2020-02-16 13:21:53
  */
 import { observable, computed } from 'mobx'
 import {
@@ -46,6 +46,8 @@ export default class ScreenTopic extends store {
       _loaded: true
     })
 
+    this.fetchTopicFromCDN()
+
     // 章节需要请求章节详情
     if (this.isEp) {
       this.fetchEpFormHTML()
@@ -68,6 +70,23 @@ export default class ScreenTopic extends store {
   fetchEpFormHTML = () => {
     const epId = this.topicId.replace('ep/', '')
     return subjectStore.fetchEpFormHTML(epId)
+  }
+
+  /**
+   * 私有CDN的帖子内容信息
+   */
+  fetchTopicFromCDN = () => {
+    if (!this.topicId.includes('group/')) {
+      return false
+    }
+
+    const { setting } = systemStore
+    const { _loaded } = this.topic
+    if (!setting.cdn || _loaded) {
+      return true
+    }
+
+    return rakuenStore.fetchTopicFormCDN(this.topicId.replace('group/', ''))
   }
 
   // -------------------- get --------------------
@@ -96,15 +115,8 @@ export default class ScreenTopic extends store {
     return rakuenStore.topic(this.topicId)
   }
 
-  @computed get groupThumb() {
-    const { _group, _groupThumb } = this.params
-    if (_groupThumb) {
-      return _groupThumb
-    }
-    if (_group) {
-      return rakuenStore.groupThumb(_group)
-    }
-    return ''
+  @computed get topicFormCDN() {
+    return rakuenStore.topicFormCDN(this.topicId.replace('group/', ''))
   }
 
   @computed get comments() {
@@ -204,6 +216,74 @@ export default class ScreenTopic extends store {
 
   @computed get setting() {
     return rakuenStore.setting
+  }
+
+  // -------------------- get: cdn fallback --------------------
+  @computed get title() {
+    return (
+      this.topic.title || this.params._title || this.topicFormCDN.title || ''
+    )
+  }
+
+  @computed get group() {
+    if (this.isMono) {
+      return this.topic.title || this.params._title
+    }
+    return (
+      this.topic.group || this.params._group || this.topicFormCDN.group || ''
+    )
+  }
+
+  @computed get groupThumb() {
+    const { _group, _groupThumb } = this.params
+    if (_groupThumb) {
+      return _groupThumb
+    }
+    if (_group) {
+      return rakuenStore.groupThumb(_group)
+    }
+    return this.topicFormCDN.groupThumb || ''
+  }
+
+  @computed get groupHref() {
+    return this.topic.groupHref || this.topicFormCDN.groupHref || ''
+  }
+
+  @computed get time() {
+    return this.topic.time || this.topicFormCDN.time || ''
+  }
+
+  @computed get avatar() {
+    return (
+      this.topic.avatar || this.params._avatar || this.topicFormCDN.avatar || ''
+    )
+  }
+
+  @computed get userId() {
+    return (
+      this.topic.userId || this.params._userId || this.topicFormCDN.userId || ''
+    )
+  }
+
+  @computed get userName() {
+    return (
+      this.topic.userName ||
+      this.params._userName ||
+      this.topicFormCDN.userName ||
+      ''
+    )
+  }
+
+  @computed get userSign() {
+    return this.topic.userSign || this.topicFormCDN.userSign || ''
+  }
+
+  @computed get html() {
+    // ep带上章节详情
+    if (this.isEp) {
+      return this.epFormHTML || this.params._desc
+    }
+    return this.topic.message || this.topicFormCDN.message || ''
   }
 
   // -------------------- page --------------------

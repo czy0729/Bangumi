@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 15:25:08
+ * @Last Modified time: 2020-02-16 13:19:48
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -25,36 +25,7 @@ import { HOST, IOS } from '@constants'
 import SectionTitle from './section-title'
 
 function Top(props, { $, navigation }) {
-  const {
-    title,
-    groupThumb,
-    group,
-    groupHref,
-    time,
-    avatar,
-    userName,
-    userId,
-    userSign,
-    message,
-    _loaded
-  } = $.topic
-  const {
-    _title,
-    _replies,
-    _group,
-    _time,
-    _avatar,
-    _userName,
-    _userId,
-    _desc
-  } = $.params
-
-  // ep带上章节详情
-  const html = $.isEp ? $.epFormHTML || _desc : message
-  const userAvatar = avatar || _avatar
-  const uname = userName || _userName
-  const uid = userId || _userId
-  const _groupThumb = groupThumb || $.groupThumb
+  const { _replies } = $.params
   const event = {
     id: '帖子.跳转',
     data: {
@@ -64,28 +35,26 @@ function Top(props, { $, navigation }) {
   }
 
   // 人物这里不显示详情, 所以要把小组的相关信息替换成人物信息, 跳转到人物页面查看
-  let groupName = group || _group
   let groupPress = () =>
     appNavigate(
-      groupHref,
+      $.groupHref,
       navigation,
       {
-        _jp: group
+        _jp: $.group
       },
       event
     )
   if ($.isMono) {
-    groupName = title || _title
     groupPress = () => appNavigate(`${HOST}/${$.monoId}`, navigation, {}, event)
   }
-
+  log($.time)
   const isGroup = $.topicId.includes('group/')
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
       <View style={_.container.inner}>
         <Text type='title' size={20} bold>
-          {title || _title}
+          {$.title}
           {!!_replies && (
             <Text type='main' size={12} lineHeight={26}>
               {' '}
@@ -95,10 +64,10 @@ function Top(props, { $, navigation }) {
         </Text>
         <Flex style={[styles.groupWrap, _.mt.sm]}>
           <View style={styles.groupThumbWrap}>
-            {!!_groupThumb && (
+            {!!$.groupThumb && (
               <Image
                 size={28}
-                src={_groupThumb}
+                src={$.groupThumb}
                 radius
                 border={_.colorBorder}
                 placeholder={false}
@@ -108,16 +77,16 @@ function Top(props, { $, navigation }) {
           </View>
           <Text style={_.ml.sm}>
             <Text size={13} underline numberOfLines={1} onPress={groupPress}>
-              {findBangumiCn(groupName)}
+              {findBangumiCn($.group)}
             </Text>
-            {!!time && (
+            {!!$.time && (
               <>
                 <Text style={_.ml.sm} type='sub' size={13}>
                   {' '}
                   /{' '}
                 </Text>
                 <Text type='sub' size={13}>
-                  {simpleTime(time || _time)}
+                  {simpleTime($.time)}
                 </Text>
               </>
             )}
@@ -126,26 +95,26 @@ function Top(props, { $, navigation }) {
         {isGroup && (
           <Flex style={[styles.userWrap, _.mt.md]}>
             <View style={styles.userAvatarWrap}>
-              {!!userAvatar && (
+              {!!$.avatar && (
                 <Avatar
                   navigation={navigation}
-                  size={40}
-                  src={_avatar || userAvatar}
-                  userId={userId}
-                  name={uname}
                   event={event}
+                  size={40}
+                  src={$.avatar}
+                  userId={$.userId}
+                  name={$.userName}
                 />
               )}
             </View>
-            {!!uid && (
+            {!!$.userId && (
               <Flex.Item style={_.ml.sm}>
                 <Text numberOfLines={2}>
-                  {uname}
-                  <Text type='sub'> @{uid}</Text>
+                  {$.userName}
+                  <Text type='sub'> @{$.userId}</Text>
                 </Text>
-                {!!userSign && (
+                {!!$.userSign && (
                   <Text style={_.mt.xs} type='sub' size={12}>
-                    {userSign}
+                    {$.userSign}
                   </Text>
                 )}
               </Flex.Item>
@@ -153,15 +122,15 @@ function Top(props, { $, navigation }) {
           </Flex>
         )}
         <View style={styles.html}>
-          {isGroup && !_loaded && (
+          {isGroup && !$.html && (
             <Flex style={styles.loading} justify='center'>
               <Loading />
             </Flex>
           )}
-          {!!html && (
+          {!!$.html && (
             <RenderHtml
               style={_.mt.lg}
-              html={html}
+              html={$.html}
               // autoShowImage
               onLinkPress={href => appNavigate(href, navigation, {}, event)}
             />

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 15:26:42
+ * @Last Modified time: 2020-02-16 11:31:34
  */
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
 
@@ -57,6 +57,16 @@ export const CDN_SUBJECT = subjectId =>
   `${HOST_CDN}/gh/czy0729/Bangumi-Subject@master/data/${parseInt(
     parseInt(subjectId) / 100
   )}/${subjectId}.json`
+
+/**
+ * 人物CDN自维护数据
+ * @url https://github.com/czy0729/Bangumi-Mono
+ * @param {*} monoId
+ */
+export const CDN_MONO = monoId =>
+  `${HOST_CDN}/gh/czy0729/Bangumi-Mono@master/data/${parseInt(
+    parseInt(monoId) / 100
+  )}/${monoId}.json`
 
 /**
  * 超展开小组CDN自维护数据

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 15:45:36
+ * @Last Modified time: 2020-02-16 11:59:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,8 +21,7 @@ const event = {
 }
 
 function Voice({ style }, { $, navigation }) {
-  const { voice = [] } = $.mono
-  if (!voice.length) {
+  if (!$.voices.length) {
     return null
   }
 
@@ -44,7 +43,7 @@ function Voice({ style }, { $, navigation }) {
         最近演出角色
       </SectionTitle>
       <View style={_.mt.md}>
-        {voice.map((item, index) => (
+        {$.voices.map((item, index) => (
           <Flex
             key={item.href}
             style={[styles.item, index !== 0 && styles.border]}

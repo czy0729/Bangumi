@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 15:44:53
+ * @Last Modified time: 2020-02-16 12:00:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,8 +21,7 @@ const event = {
 }
 
 function Jobs({ style }, { $, navigation }) {
-  const { jobs = [] } = $.mono
-  if (!jobs.length) {
+  if (!$.jobs.length) {
     return null
   }
 
@@ -31,7 +30,7 @@ function Jobs({ style }, { $, navigation }) {
     <View style={[styles.container, style]}>
       <SectionTitle>出演</SectionTitle>
       <View style={_.mt.md}>
-        {jobs.map((item, index) => (
+        {$.jobs.map((item, index) => (
           <Flex
             key={item.href}
             style={[styles.item, index !== 0 && styles.border]}
