@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 15:01:53
+ * @Last Modified time: 2020-02-16 07:55:34
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -30,18 +30,20 @@ function TouchScroll({ onPress }, { $ }) {
     parseInt(list.length * 0.66666),
     list.length - 1
   ]
+
+  const isVertical =
+    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右边') ||
+    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左边')
   return (
     <Flex
       style={styles[`container${titleCase(scrollDirection)}`]}
-      direction={
-        scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('水平底部')
-          ? undefined
-          : 'column'
-      }
+      direction={isVertical ? 'column' : undefined}
     >
       <Flex.Item>
         <TouchableWithoutFeedback onPressIn={() => onPress(-1)}>
-          <Flex style={styles.item}>
+          <Flex
+            style={isVertical ? styles.itemVertical : styles.itemHorizontal}
+          >
             <Text style={styles.text} size={10} type='icon' align='center'>
               1
             </Text>
@@ -69,7 +71,12 @@ function TouchScroll({ onPress }, { $ }) {
           // eslint-disable-next-line react/no-array-index-key
           <Flex.Item key={index}>
             <TouchableWithoutFeedback onPressIn={() => onPress(index)}>
-              <Flex style={[styles.item, isNew && styles.itemNew]}>
+              <Flex
+                style={[
+                  isVertical ? styles.itemVertical : styles.itemHorizontal,
+                  isNew && styles.itemNew
+                ]}
+              >
                 {showFloor.includes(index) && (
                   <Text
                     style={styles.text}
@@ -125,11 +132,13 @@ const memoStyles = _.memoStyles(_ => ({
     height: 24,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
-  item: {
+  itemVertical: {
     width: 16,
-    height: '100%',
-    paddingRight: 1,
-    marginVertical: 2
+    height: '100%'
+  },
+  itemHorizontal: {
+    width: '100%',
+    height: '100%'
   },
   itemNew: {
     backgroundColor: _.select(

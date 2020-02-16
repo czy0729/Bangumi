@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 14:11:17
+ * @Last Modified time: 2020-02-16 07:56:28
  */
 class Model {
   constructor(data) {
@@ -415,7 +415,7 @@ export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
     value: 'left'
   },
   {
-    label: '水平底部',
+    label: '底部',
     value: 'bottom'
   },
   {
