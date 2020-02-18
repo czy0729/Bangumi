@@ -2,27 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 16:39:32
+ * @Last Modified time: 2020-02-18 02:47:47
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Icon, Text } from '@components'
 import { _ } from '@stores'
 
-function Stars({ style, simple, value, color }) {
+function Stars({ style, value }) {
   if (!value) {
     return null
-  }
-
-  if (simple) {
-    return (
-      <Flex style={style}>
-        <Icon name='ios-star' size={12} color={_.colorWarning} />
-        <Text style={_.ml.xs} type={color} size={12} lineHeight={12}>
-          {value}
-        </Text>
-      </Flex>
-    )
   }
 
   return (
@@ -45,15 +34,15 @@ function Stars({ style, simple, value, color }) {
           />
         )
       })}
+      <Text style={_.ml.xs} type='sub' size={12} lineHeight={12}>
+        {value}
+      </Text>
     </Flex>
   )
 }
 
 Stars.defaultProps = {
-  style: undefined,
-  simple: true,
-  value: 0,
-  color: 'sub'
+  value: 0
 }
 
 export default observer(Stars)

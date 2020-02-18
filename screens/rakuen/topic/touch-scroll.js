@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 07:55:34
+ * @Last Modified time: 2020-02-18 02:38:55
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -39,7 +39,7 @@ function TouchScroll({ onPress }, { $ }) {
       style={styles[`container${titleCase(scrollDirection)}`]}
       direction={isVertical ? 'column' : undefined}
     >
-      <Flex.Item>
+      <Flex.Item flex={isVertical ? 1 : 3}>
         <TouchableWithoutFeedback onPressIn={() => onPress(-1)}>
           <Flex
             style={isVertical ? styles.itemVertical : styles.itemHorizontal}
@@ -67,9 +67,11 @@ function TouchScroll({ onPress }, { $ }) {
             }
           }
         }
+
+        const showFloorText = showFloor.includes(index)
         return (
           // eslint-disable-next-line react/no-array-index-key
-          <Flex.Item key={index}>
+          <Flex.Item key={index} flex={isVertical ? 1 : showFloorText ? 3 : 1}>
             <TouchableWithoutFeedback onPressIn={() => onPress(index)}>
               <Flex
                 style={[
@@ -77,7 +79,7 @@ function TouchScroll({ onPress }, { $ }) {
                   isNew && styles.itemNew
                 ]}
               >
-                {showFloor.includes(index) && (
+                {showFloorText && (
                   <Text
                     style={styles.text}
                     size={10}

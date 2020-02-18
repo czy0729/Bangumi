@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:55:41
+ * @Last Modified time: 2020-02-18 03:00:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,7 +45,6 @@ function ItemCollections({
   const hasName = !!name
   const hasTip = !!tip
   const hasScore = !!score
-  const hasTags = !!tags
   const hasComment = !!comments
   let days
   if (isDo || isOnHold || isDropped) {
@@ -92,7 +91,7 @@ function ItemCollections({
           >
             <Flex>
               <Flex.Item>
-                <Text numberOfLines={2}>
+                <Text numberOfLines={1}>
                   {HTMLDecode(nameCn)}
                   {hasName && name !== nameCn && (
                     <Text type='sub' size={12} lineHeight={14}>
@@ -113,12 +112,16 @@ function ItemCollections({
               {hasScore && (
                 <Stars style={_.mr.xs} value={score} color='warning' />
               )}
-              <Text style={_.mr.sm} type='sub' size={12} numberOfLines={2}>
+              <Text style={_.mr.sm} type='sub' size={12} numberOfLines={1}>
                 {hasScore && '/ '}
                 {isDo && `${days}天 / `}
                 {isOnHold && `搁置${days}天 / `}
                 {isDropped && `抛弃${days}天 / `}
-                {time} {hasTags && '/'} {tags.replace(' ', '')}
+                {tags
+                  .replace(' ', '')
+                  .split(' ')
+                  .filter((item, index) => index < 2)
+                  .join(' ')}
               </Text>
             </Flex>
           </Flex>
@@ -162,6 +165,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   comments: {
     padding: _.sm,
+    marginBottom: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.colorBorder,

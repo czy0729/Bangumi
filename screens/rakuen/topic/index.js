@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 12:51:25
+ * @Last Modified time: 2020-02-18 02:36:56
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
@@ -245,7 +245,7 @@ class Topic extends React.Component {
           keyExtractor={keyExtractor}
           data={$.comments}
           scrollEventThrottle={16}
-          initialNumToRender={$.postId ? 50 : undefined} // 为了可以更快地到达目标楼层
+          initialNumToRender={50}
           removeClippedSubviews={false}
           optimize={false}
           ListHeaderComponent={ListHeaderComponent}
