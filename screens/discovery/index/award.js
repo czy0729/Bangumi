@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 18:27:40
+ * @Last Modified time: 2020-02-20 12:18:58
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -130,27 +130,7 @@ const memoStyles = _.memoStyles(_ => ({
     width: 148,
     height: 148,
     marginRight: 4,
-    backgroundColor: _.select(_.colorDark, _._colorDarkModeLevel1),
-    borderRadius: _.radiusMd
-  },
-  borderAward: {
-    position: 'absolute',
-    zIndex: 0,
-    top: 0,
-    right: 0,
-    width: 48,
-    height: 148,
-    backgroundColor: _.select(_.colorDark, _._colorDarkModeLevel1),
-    borderRadius: _.radiusMd
-  },
-  border: {
-    position: 'absolute',
-    zIndex: 0,
-    top: 0,
-    right: 0,
-    width: 48,
-    height: 148,
-    backgroundColor: _.colorDanger,
+    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
     borderRadius: _.radiusMd
   },
   image: {

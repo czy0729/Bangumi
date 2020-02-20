@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 15:56:38
+ * @Last Modified time: 2020-02-20 12:08:57
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -102,7 +102,7 @@ function List({ style, type }, { $, navigation }) {
           pointerEvents='none'
         />
         <View style={styles.desc} pointerEvents='none'>
-          <Text style={styles.info} type={_.select('plain', 'title')} bold>
+          <Text style={styles.info} type={_.select('plain', 'desc')} bold>
             {data[0].info}
           </Text>
           <Text
