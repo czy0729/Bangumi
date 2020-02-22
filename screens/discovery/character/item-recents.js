@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 02:41:00
+ * @Last Modified time: 2020-02-23 05:03:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,7 +95,7 @@ function Item(
                   {!!star && (
                     <Stars style={_.mr.xs} value={star} color='warning' />
                   )}
-                  <Text style={_.mr.sm} type='sub' size={12}>
+                  <Text style={_.mr.sm} type='sub' size={13}>
                     {starInfo}
                   </Text>
                 </Flex>

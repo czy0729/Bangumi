@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:46:09
+ * @Last Modified time: 2020-02-22 11:38:26
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -46,7 +46,7 @@ function Recent({ style }, { $, navigation }) {
             />
             <View style={_.ml.sm}>
               <Flex>
-                <Text size={12}>{item.name}</Text>
+                <Text size={13}>{item.name}</Text>
                 {!$.hideScore && <Stars style={_.ml.xs} value={item.star} />}
               </Flex>
               <Text style={_.mt.xs} size={12} type='sub'>

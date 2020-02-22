@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 17:06:04
+ * @Last Modified time: 2020-02-22 09:51:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ function Info({ style }, { $, navigation }) {
             style={styles.info}
             html={html}
             baseFontStyle={{
-              fontSize: 13 + _.fontSizeAdjust,
+              fontSize: 14 + _.fontSizeAdjust,
               lineHeight: 22,
               color: _.colorTitle
             }}
@@ -68,6 +68,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   info: {
+    paddingVertical: _.sm,
     paddingHorizontal: _.wind
   }
 }))

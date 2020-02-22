@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 11:27:36
+ * @Last Modified time: 2020-02-22 11:28:35
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -342,7 +342,9 @@ export function cheerioSubjectFormHTML(HTML) {
             name: $a.text(),
             userId: matchUserId($a.attr('href')),
             star: matchStar($row.find('span.starlight').attr('class')),
-            status: $row.find('small.grey').text()
+            status: String($row.find('small.grey').text())
+              .replace('小时', '时')
+              .replace('分钟', '分')
           })
         })
         .get() || [],

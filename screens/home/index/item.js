@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 17:41:00
+ * @Last Modified time: 2020-02-23 05:36:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -124,11 +124,9 @@ class Item extends React.Component {
     return (
       <Touchable style={this.styles.touchable} onPress={this.onCheckPress}>
         <Flex justify='center'>
-          <Iconfont style={this.styles.icon} name='check' size={16} />
+          <Iconfont style={this.styles.icon} name='check' size={18} />
           <View style={[this.styles.placeholder, _.ml.sm]}>
-            <Text type='sub' size={12}>
-              {sort}
-            </Text>
+            <Text type='sub'>{sort}</Text>
           </View>
         </Flex>
       </Touchable>
@@ -147,7 +145,7 @@ class Item extends React.Component {
           style={[this.styles.touchable, _.ml.sm]}
           onPress={this.onStarPress}
         >
-          <Iconfont name='star' size={16} />
+          <Iconfont name='star' size={18} />
         </Touchable>
         {!isBook && (
           <Touchable
@@ -156,7 +154,7 @@ class Item extends React.Component {
           >
             <Iconfont
               name={expand ? 'grid-full' : 'grid-half'}
-              size={16}
+              size={18}
               color={expand ? _.colorMain : _.colorIcon}
             />
           </Touchable>
@@ -180,41 +178,35 @@ class Item extends React.Component {
         item => item.subject_id === subjectId
       )
       return (
-        <Flex>
+        <Flex style={_.mr.md} justify='end'>
           <Flex align='baseline'>
-            <Text type='primary' size={10} lineHeight={1}>
+            <Text type='primary' size={12} lineHeight={1}>
               Chap.
             </Text>
-            <Text style={_.ml.xs} type='primary' size={18} lineHeight={1}>
+            <Text style={_.ml.xs} type='primary' size={20} lineHeight={1}>
               {epStatus}
             </Text>
-            <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
-              / ?
-            </Text>
+            {this.renderBookNextBtn(epStatus + 1, volStatus)}
           </Flex>
-          {this.renderBookNextBtn(epStatus + 1, volStatus)}
           <Flex style={_.ml.md} align='baseline'>
-            <Text type='primary' size={10} lineHeight={1}>
+            <Text type='primary' size={12} lineHeight={1}>
               Vol.
             </Text>
-            <Text style={_.ml.xs} type='primary' size={18} lineHeight={1}>
+            <Text style={_.ml.xs} type='primary' size={20} lineHeight={1}>
               {volStatus}
             </Text>
-            <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
-              / ?
-            </Text>
+            {this.renderBookNextBtn(epStatus, volStatus + 1)}
           </Flex>
-          {this.renderBookNextBtn(epStatus, volStatus + 1)}
         </Flex>
       )
     }
 
     return (
       <Flex align='baseline'>
-        <Text type='primary' size={18} lineHeight={1}>
+        <Text type='primary' size={20} lineHeight={1}>
           {epStatus || 1}
         </Text>
-        <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
+        <Text style={_.ml.xs} type='sub' size={12} lineHeight={1}>
           / {subject.eps_count || '?'}
         </Text>
       </Flex>
@@ -230,7 +222,7 @@ class Item extends React.Component {
         onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
       >
         <Flex justify='center'>
-          <Iconfont style={this.styles.icon} name='check' size={16} />
+          <Iconfont style={this.styles.icon} name='check' size={18} />
         </Flex>
       </Touchable>
     )
@@ -242,14 +234,14 @@ class Item extends React.Component {
     const { expand } = $.$Item(subjectId)
     const isToday = $.isToday(subjectId)
     const isNextDay = $.isNextDay(subjectId)
-    const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
-    const doing = isBook ? '读' : '看'
+    // const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
+    // const doing = isBook ? '读' : '看'
     return (
       <Shadow style={this.styles.shadow} initHeight={120}>
         <View style={this.styles.item}>
           <Flex style={this.styles.hd}>
             <Cover
-              size={80}
+              size={82}
               src={subject.images.medium}
               radius
               border={_.colorBorder}
@@ -260,32 +252,27 @@ class Item extends React.Component {
               <Touchable withoutFeedback onPress={this.onPress}>
                 <Flex align='start'>
                   <Flex.Item style={this.styles.title}>
-                    <Text numberOfLines={1}>
+                    <Text size={15} numberOfLines={1}>
                       {subject.name_cn || subject.name}
                     </Text>
-                    <Text style={_.mt.xs} type='sub' size={11}>
+                    {/* <Text style={_.mt.xs} type='sub' size={11}>
                       {subject.collection.doing} 人在{doing}
-                    </Text>
+                    </Text> */}
                   </Flex.Item>
                   {isToday ? (
-                    <Text
-                      style={_.ml.sm}
-                      type='success'
-                      size={12}
-                      lineHeight={14}
-                    >
+                    <Text style={_.ml.sm} type='success' lineHeight={15}>
                       {$.onAir[subjectId].timeCN.slice(0, 2)}:
                       {$.onAir[subjectId].timeCN.slice(2, 4)}
                     </Text>
                   ) : isNextDay ? (
-                    <Text style={_.ml.sm} type='sub' size={12} lineHeight={14}>
+                    <Text style={_.ml.sm} type='sub' lineHeight={15}>
                       明天{$.onAir[subjectId].timeCN.slice(0, 2)}:
                       {$.onAir[subjectId].timeCN.slice(2, 4)}
                     </Text>
                   ) : null}
                 </Flex>
               </Touchable>
-              <View style={_.mt.sm}>
+              <View style={_.mt.md}>
                 <Flex>
                   <Flex.Item>{this.renderCount()}</Flex.Item>
                   {this.renderToolBar()}
@@ -331,8 +318,6 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: itemPadding,
     paddingLeft: itemPadding,
     backgroundColor: _.colorPlain,
-    borderColor: _.colorBorder,
-    borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },

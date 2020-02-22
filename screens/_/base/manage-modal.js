@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 16:52:43
+ * @Last Modified time: 2020-02-23 05:21:32
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -243,7 +243,7 @@ class ManageModal extends React.Component {
         closable
         onClose={onClose}
       >
-        <Text style={_.mt.sm} type='sub' size={12} align='center'>
+        <Text style={_.mt.sm} type='sub' size={13} align='center'>
           {desc}
         </Text>
         <Flex style={[this.styles.wrap, _.mt.sm]} justify='center'>

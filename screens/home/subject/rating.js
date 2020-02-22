@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 08:26:45
+ * @Last Modified time: 2020-02-22 11:40:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -93,30 +93,30 @@ class Ranting extends React.Component {
                     {$.rating.count[item]}
                   </Text>
                 </Flex>
-                <Text style={_.mt.xs} size={12} align='center'>
+                <Text style={_.mt.xs} size={13} align='center'>
                   {item}
                 </Text>
               </Flex.Item>
             ))}
         </Flex>
-        <Text style={_.mt.sm} size={12}>
-          <Text size={12} type='main'>
+        <Text style={_.mt.sm} size={13} type='sub'>
+          <Text size={13} type='main'>
             {$.rating.score}
           </Text>{' '}
-          / {$.rating.total} votes / Ranked{' '}
-          <Text size={12} type='main'>
+          / {$.rating.total} votes /{' '}
+          <Text size={13} type='main'>
             #{rank}
           </Text>{' '}
           / 标准差{' '}
-          <Text size={12} type='main'>
+          <Text size={13} type='main'>
             {toFixed(this.deviation, 2)}
           </Text>{' '}
           / {getDispute(this.deviation)}
         </Text>
         {!!friend.score && (
-          <Text style={_.mt.sm} size={12}>
+          <Text style={_.mt.sm} size={13}>
             好友{' '}
-            <Text size={12} type='main'>
+            <Text size={13} type='main'>
               {friend.score}
             </Text>{' '}
             / {friend.total} votes

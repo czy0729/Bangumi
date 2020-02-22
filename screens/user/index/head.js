@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 11:54:42
+ * @Last Modified time: 2020-02-23 03:54:04
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -20,7 +20,7 @@ function Head({ style }, { $ }) {
       direction='column'
       pointerEvents='none'
     >
-      <Image style={[styles.avatar, _.mt.md]} size={80} src={avatar.large} />
+      <Image style={[styles.avatar, _.mt.md]} size={88} src={avatar.large} />
       <Text style={_.mt.md} type={_.select('plain', 'title')} size={16}>
         {nickname}
         <Text
@@ -42,11 +42,11 @@ Head.contextTypes = {
 
 export default observer(Head)
 
-const memoStyles = _.memoStyles(_ => ({
+const memoStyles = _.memoStyles(() => ({
   avatar: {
     borderWidth: 2,
-    borderColor: _.colorIconPlain,
-    borderRadius: 80,
+    borderColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    borderRadius: 88,
     overflow: 'hidden'
   },
   id: {

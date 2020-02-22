@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:29:20
+ * @Last Modified time: 2020-02-23 05:22:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,7 @@ function Menu({ style, title, data, onSelect }) {
               key={item}
               style={index !== 0 && _.mt.sm}
               type='sub'
-              size={12}
+              size={13}
               align='center'
             >
               {item}

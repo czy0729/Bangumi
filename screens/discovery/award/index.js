@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 19:22:02
+ * @Last Modified time: 2020-02-23 05:23:12
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -181,7 +181,7 @@ class Award extends React.Component {
         />
         {loading && (
           <Loading style={styles.loading} color={_.colorPlain}>
-            <Text style={_.mt.md} size={12} type={_.select('plain', 'title')}>
+            <Text style={_.mt.md} size={13} type={_.select('plain', 'title')}>
               {redirectCount
                 ? `第${redirectCount}次重试`
                 : '网页加载中, 请稍等'}

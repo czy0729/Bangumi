@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:23:05
+ * @Last Modified time: 2020-02-22 09:49:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,7 +91,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: 12,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
-    borderColor: _.colorBorder,
+    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
     borderRadius: _.radiusXs
   },
   selected: {

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 13:10:36
+ * @Last Modified time: 2020-02-23 04:51:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { LinearGradient } from 'expo-linear-gradient'
 import { Touchable, Text } from '@components'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
@@ -15,6 +16,12 @@ import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { imageWidth, imageHeight, marginLeft } from './store'
+
+const linearColorSm = [
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0.8)'
+]
 
 function Item(
   { style, subjectId, images = {}, name, score },
@@ -40,40 +47,42 @@ function Item(
   }
   return (
     <View style={[styles.item, style]}>
-      <Cover
-        width={imageWidth}
-        height={imageHeight}
-        src={images.medium}
-        radius
-        shadow
-        onPress={onPress}
-      />
+      <View style={styles.cover}>
+        <Cover
+          width={imageWidth}
+          height={imageHeight}
+          src={images.medium}
+          radius
+          shadow
+          onPress={onPress}
+        />
+
+        {!!score && (
+          <>
+            <LinearGradient
+              style={StyleSheet.absoluteFill}
+              colors={linearColorSm}
+              pointerEvents='none'
+            />
+            <Text style={styles.score}>{toFixed(score, 1)}</Text>
+          </>
+        )}
+      </View>
       <Touchable withoutFeedback onPress={onPress}>
         <Text
           style={_.mt.sm}
-          size={12}
+          size={15}
           type={isCollected ? 'main' : 'desc'}
           numberOfLines={2}
         >
           {HTMLDecode(name)}
         </Text>
-        <Text style={_.mt.xs} numberOfLines={2}>
-          {!!timeCN && (
-            <Text size={11} type='sub'>
-              {`${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}{' '}
-            </Text>
-          )}
-          {!!air && (
-            <Text size={11} type='sub'>
-              {air}话{' '}
-            </Text>
-          )}
-          {!!score && (
-            <Text size={11} type='sub'>
-              ({toFixed(score, 1)})
-            </Text>
-          )}
-        </Text>
+        {(!!air || !!timeCN) && (
+          <Text style={_.mt.xs} size={13} type='sub' numberOfLines={2}>
+            {air}话{!!timeCN && ' / '}
+            {`${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
+          </Text>
+        )}
       </Touchable>
     </View>
   )
@@ -91,5 +100,17 @@ const styles = StyleSheet.create({
     width: imageWidth,
     marginBottom: _.wind,
     marginLeft
+  },
+  cover: {
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
+  },
+  score: {
+    position: 'absolute',
+    zIndex: 1,
+    right: _.sm,
+    bottom: _.sm,
+    left: _.sm,
+    color: _.__colorPlain__
   }
 })

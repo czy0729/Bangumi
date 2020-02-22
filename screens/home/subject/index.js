@@ -108,7 +108,7 @@ class Subject extends React.Component {
     const event = {
       id: '条目.跳转',
       data: {
-        from: '吐槽箱',
+        from: '吐槽',
         subjectId: $.subjectId
       }
     }

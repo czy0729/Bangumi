@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 04:07:27
+ * @Last Modified time: 2020-02-22 10:13:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,9 +64,9 @@ function Header(props, { $ }) {
             />
           }
         >
-          吐槽箱{' '}
+          吐槽{' '}
           <Text size={12} type='sub' lineHeight={24}>
-            ({20 * pageTotal}+)
+            {20 * pageTotal}+
           </Text>
         </SectionTitle>
         {!_loaded && (

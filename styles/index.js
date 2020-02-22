@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 23:01:53
+ * @Last Modified time: 2020-02-22 09:33:29
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -45,14 +45,20 @@ export const wind = 16 // 两翼
 export const bottom = tabBarHeight + lg + md // 底部留空
 
 // -------------------- 主题色 --------------------
+export const colorMainRaw = [254, 138, 149]
+export const colorPrimaryRaw = [68, 207, 252]
+export const colorSuccessRaw = [50, 200, 64]
+export const colorWarningRaw = [254, 190, 88]
+export const colorPlainRaw = [255, 255, 255]
+
 export const colorDark = 'rgb(0, 0, 0)'
-export const colorMainLight = 'rgb(255, 243, 244)'
+export const colorMainLight = `rgba(${colorMainRaw.join()}, 0.1)`
 export const colorMainBorder = 'rgb(252, 128, 138)'
-export const colorPrimaryLight = 'rgb(248, 253, 255)'
+export const colorPrimaryLight = `rgba(${colorPrimaryRaw.join()}, 0.1)`
 export const colorPrimaryBorder = 'rgb(159, 230, 254)'
-export const colorSuccessLight = 'rgb(236, 255, 236)'
+export const colorSuccessLight = `rgba(${colorSuccessRaw.join()}, 0.1)`
 export const colorSuccessBorder = 'rgb(115, 241, 115)'
-export const colorWarningLight = 'rgb(255, 248, 238)'
+export const colorWarningLight = `rgba(${colorWarningRaw.join()}, 0.1)`
 export const colorWarningBorder = 'rgb(254, 190, 88)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
@@ -60,15 +66,14 @@ export const colorShadow = 'rgb(0, 0, 0)'
 export const colorMask = 'rgba(0, 0, 0, 0.5)'
 
 // -------------------- light --------------------
-export const colorMain = 'rgb(254, 138, 149)'
-export const colorPrimary = 'rgb(68, 207, 252)'
-export const colorSuccess = 'rgb(50, 200, 64)'
-export const colorYellow = 'rgb(255, 202, 40)'
-export const colorWarning = 'rgb(254, 190, 88)'
+export const colorMain = `rgb(${colorMainRaw.join()})`
+export const colorPrimary = `rgb(${colorPrimaryRaw.join()})`
+export const colorSuccess = `rgb(${colorSuccessRaw.join()})`
+export const colorWarning = `rgb(${colorWarningRaw.join()})`
 export const colorDanger = 'rgb(232, 8, 13)'
-export const colorPlainRaw = [255, 255, 255]
 export const colorPlain = `rgb(${colorPlainRaw.join()})`
 export const colorPlainHex = '#ffffff'
+export const colorYellow = 'rgb(255, 202, 40)'
 export const colorWait = 'rgb(200, 200, 200)'
 export const colorBg = 'rgb(243, 243, 243)'
 export const colorBorder = 'rgb(225, 225, 232)'

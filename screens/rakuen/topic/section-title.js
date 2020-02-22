@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 15:48:11
+ * @Last Modified time: 2020-02-23 05:04:23
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -55,10 +55,10 @@ function SectionTitle(props, { $ }) {
         </>
       }
     >
-      吐槽箱{' '}
+      吐槽{' '}
       {commentsCount !== 0 && (
         <Text size={12} type='sub' lineHeight={24}>
-          ({commentsCount})
+          {commentsCount}
         </Text>
       )}
     </CompSectionTitle>

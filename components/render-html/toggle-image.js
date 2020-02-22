@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 11:08:14
+ * @Last Modified time: 2020-02-23 05:22:55
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -47,7 +47,7 @@ class ToggleImage extends React.Component {
       return (
         <Touchable onPress={onImageFallback}>
           <Flex style={this.styles.imagePlaceholder} justify='center'>
-            <Text size={12} type='sub'>
+            <Text size={13} type='sub'>
               暂不支持webp图片, 使用浏览器打开
             </Text>
           </Flex>
@@ -60,7 +60,7 @@ class ToggleImage extends React.Component {
       return (
         <Touchable onPress={this.toggleShow}>
           <Flex style={this.styles.imagePlaceholder} justify='center'>
-            <Text size={12} type='sub'>
+            <Text size={13} type='sub'>
               点击显示图片
             </Text>
           </Flex>
@@ -84,7 +84,7 @@ class ToggleImage extends React.Component {
             onPress={this.toggleShow}
           >
             <Flex style={this.styles.closeImage} justify='center'>
-              <Iconfont size={12} name='close' color={_.__colorPlain__} />
+              <Iconfont size={13} name='close' color={_.__colorPlain__} />
             </Flex>
           </Touchable>
         )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 16:11:23
+ * @Last Modified time: 2020-02-22 11:46:21
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -65,7 +65,7 @@ function Box({ style }, { $, navigation }) {
       >
         收藏
       </SectionTitle>
-      <View style={[_.shadow, _.mt.md]}>
+      <View style={[_.select(_.shadow, undefined), _.mt.md]}>
         <Touchable onPress={onPress}>
           <Flex justify='center'>
             <Flex.Item>
@@ -122,14 +122,13 @@ const memoStyles = _.memoStyles(_ => ({
     minHeight: 120,
     backgroundColor: _.colorPlain
   },
-  touchable: {
-    ..._.shadow
-  },
   left: {
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
   },
   right: {
+    borderLeftWidth: _.select(0, 1),
+    borderLeftColor: 'rgba(33, 33, 33, 0.1)',
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   }

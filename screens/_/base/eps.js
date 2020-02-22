@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 14:36:45
+ * @Last Modified time: 2020-02-23 05:21:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -59,7 +59,7 @@ class Eps extends React.Component {
       return {}
     }
 
-    const marginPercent = 0.24
+    const marginPercent = 0.2
     const marginNumbers = numbersOfLine - 1
     const marginSum = width * marginPercent
     const widthSum = width - marginSum
@@ -199,7 +199,7 @@ class Eps extends React.Component {
             ]}
             justify='center'
           >
-            <Text type='sub' size={12}>
+            <Text type='sub' size={13}>
               SP
             </Text>
           </Flex>

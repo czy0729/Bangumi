@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-18 02:45:27
+ * @Last Modified time: 2020-02-23 04:13:24
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -17,7 +17,7 @@ import Avatar from '../base/avatar'
 import Cover from '../base/cover'
 import Stars from '../base/stars'
 
-const avatarWidth = 28
+const avatarWidth = 32
 
 export default
 @observer
@@ -60,7 +60,6 @@ class ItemTimeline extends React.Component {
             key={item}
             type={isSubject ? undefined : 'main'}
             underline={isSubject}
-            size={12}
             onPress={() =>
               this.appNavigate(
                 url,
@@ -75,9 +74,7 @@ class ItemTimeline extends React.Component {
           >
             {isSubject ? findBangumiCn(item) : item}
           </Text>,
-          <Text key={`${item}.`} size={12}>
-            、
-          </Text>
+          <Text key={`${item}.`}>、</Text>
         )
       })
       $p3.pop()
@@ -90,7 +87,6 @@ class ItemTimeline extends React.Component {
         <Text
           type={isSubject ? undefined : 'main'}
           underline={isSubject}
-          size={12}
           onPress={() =>
             this.appNavigate(
               !!p3.url.length && p3.url[0],
@@ -123,11 +119,10 @@ class ItemTimeline extends React.Component {
     }
 
     return (
-      <Text size={12}>
+      <Text>
         {!!p1.text && (
           <Text
             type='main'
-            size={12}
             onPress={() =>
               this.appNavigate(p1.url, {
                 _name: p1.text,
@@ -138,9 +133,9 @@ class ItemTimeline extends React.Component {
             {p1.text}{' '}
           </Text>
         )}
-        <Text size={12}>{p2.text} </Text>
+        <Text>{p2.text} </Text>
         {this.renderP3()}
-        {!!p4.text && <Text size={12}> {p4.text}</Text>}
+        {!!p4.text && <Text> {p4.text}</Text>}
       </Text>
     )
   }
@@ -276,13 +271,13 @@ class ItemTimeline extends React.Component {
                 {!!reply.count && (
                   <Text
                     type='primary'
-                    size={12}
+                    size={13}
                     onPress={() => this.appNavigate(reply.url)}
                   >
                     {reply.count}
                   </Text>
                 )}
-                <Text style={_.mr.sm} type='sub' size={12}>
+                <Text style={_.mr.sm} type='sub' size={13}>
                   {time}
                 </Text>
                 <Stars value={star} />
@@ -321,7 +316,7 @@ class ItemTimeline extends React.Component {
                     ])
                   }}
                 >
-                  <Iconfont style={this.styles.del} name='close' size={12} />
+                  <Iconfont style={this.styles.del} name='close' size={13} />
                 </Touchable>
               )}
             </Flex>

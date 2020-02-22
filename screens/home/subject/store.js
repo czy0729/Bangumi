@@ -121,7 +121,7 @@ export default class ScreenSubject extends store {
       // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
       // () => subjectStore.fetchSubjectEp(this.subjectId), // [废弃] 跟条目API重复
       // () => this.fetchCollection(), // 用户每集收看进度
-      () => this.fetchSubjectComments(true), // 吐槽箱
+      () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
       () => this.fetchEpsData() // 单集播放源
     ])
@@ -595,10 +595,10 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 吐槽箱倒序
+   * 吐槽倒序
    */
   toggleReverseComments = () => {
-    t('条目.吐槽箱倒序', {
+    t('条目.吐槽倒序', {
       subjectId: this.subjectId
     })
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 18:08:31
+ * @Last Modified time: 2020-02-23 04:49:20
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -20,7 +20,7 @@ function List(props, { $ }) {
       style={_.container.screen}
       keyExtractor={keyExtractor}
       sections={$.sections}
-      numColumns={4}
+      numColumns={3}
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
     />

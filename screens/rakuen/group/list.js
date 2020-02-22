@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 22:39:25
+ * @Last Modified time: 2020-02-23 05:18:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Touchable, Flex, Text, Mesume } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { appNavigate } from '@utils/app'
+import { appNavigate, correctAgo } from '@utils/app'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
@@ -87,21 +87,21 @@ function List({ style }, { $, navigation }) {
                 {title}
                 <Text
                   type={isReaded ? 'sub' : 'main'}
-                  size={12}
+                  size={13}
                   lineHeight={16}
                 >
                   {' '}
-                  ({replyText})
+                  {replyText}
                 </Text>
                 {!!replyAdd && (
-                  <Text type='main' size={12} lineHeight={16}>
+                  <Text type='main' size={13} lineHeight={16}>
                     {' '}
                     {replyAdd}
                   </Text>
                 )}
               </Text>
-              <Text style={_.mt.sm} type='sub' size={12}>
-                {time} / <Text size={12}>{userName}</Text>
+              <Text style={_.mt.sm} type='sub' size={13}>
+                {correctAgo(time)} / <Text size={13}>{userName}</Text>
               </Text>
             </View>
           </Touchable>

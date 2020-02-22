@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 23:22:26
+ * @Last Modified time: 2020-02-22 07:58:38
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -272,6 +272,10 @@ class Theme extends store {
     return computed(() => _.fontSize(pt, this.fontSizeAdjust)).get()
   }
 
+  @computed get fontSize6() {
+    return this.fontSize(6)
+  }
+
   @computed get fontSize7() {
     return this.fontSize(7)
   }
@@ -344,12 +348,28 @@ class Theme extends store {
     return this.fontSize(24)
   }
 
+  @computed get fontSize25() {
+    return this.fontSize(25)
+  }
+
   @computed get fontSize26() {
     return this.fontSize(26)
   }
 
+  @computed get fontSize27() {
+    return this.fontSize(27)
+  }
+
   @computed get fontSize28() {
     return this.fontSize(28)
+  }
+
+  @computed get fontSize29() {
+    return this.fontSize(29)
+  }
+
+  @computed get fontSize30() {
+    return this.fontSize(30)
   }
 
   // -------------------- page --------------------

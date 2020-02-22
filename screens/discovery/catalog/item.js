@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:05:32
+ * @Last Modified time: 2020-02-22 09:44:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -69,8 +69,8 @@ function Item(
             )}
           </Flex>
           <Text style={_.mt.sm} size={12}>
-            {name} · {last}
-            {collect ? ` · ${collect}收藏` : ''}
+            {name} / {last}
+            {collect ? ` / ${collect}收藏` : ''}
           </Text>
         </Flex>
       </Touchable>

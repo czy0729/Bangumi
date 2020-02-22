@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 20:56:54
+ * @Last Modified time: 2020-02-23 03:54:55
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Image, Text } from '@components'
@@ -14,6 +14,7 @@ import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 
 function Head({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { _id, _name, _image } = $.params
   const { avatar = {}, nickname, id } = $.usersInfo
   const { join, percent, disconnectUrl } = $.users
@@ -25,16 +26,16 @@ function Head({ style }, { $, navigation }) {
       <View>
         <Image
           style={[styles.avatar, _.mt.md]}
-          size={80}
+          size={88}
           src={avatar.large || _image}
         />
-        <Text style={styles.id} type={_.select('plain', 'title')} size={12}>
+        <Text style={styles.id} type={_.select('plain', 'title')} size={13}>
           {join || '- 加入'}
         </Text>
         <Text
           style={styles.percent}
           type={_.select('plain', 'title')}
-          size={12}
+          size={13}
         >
           同步率{isNaN(percent) ? '-' : percent}%
         </Text>
@@ -42,13 +43,13 @@ function Head({ style }, { $, navigation }) {
           <Text
             style={styles.friend}
             type={_.select('plain', 'title')}
-            size={12}
+            size={13}
           >
             是我的好友
           </Text>
         )}
         <Touchable style={styles.collect} onPress={() => $.toUser(navigation)}>
-          <Text type={_.select('plain', 'title')} size={12}>
+          <Text type={_.select('plain', 'title')} size={13}>
             [TA的收藏]
           </Text>
         </Touchable>
@@ -61,13 +62,13 @@ function Head({ style }, { $, navigation }) {
             })
           }
         >
-          <Text type={_.select('plain', 'title')} size={12}>
+          <Text type={_.select('plain', 'title')} size={13}>
             [发短信]
           </Text>
         </Touchable>
         {!!$.users.connectUrl && (
           <Touchable style={styles.connect} onPress={$.doConnectFriend}>
-            <Text type={_.select('plain', 'title')} size={12}>
+            <Text type={_.select('plain', 'title')} size={13}>
               [加好友]
             </Text>
           </Touchable>
@@ -88,11 +89,11 @@ Head.contextTypes = {
 
 export default observer(Head)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   avatar: {
     borderWidth: 2,
-    borderColor: _.colorPlain,
-    borderRadius: 80,
+    borderColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    borderRadius: 88,
     overflow: 'hidden'
   },
   id: {
@@ -134,4 +135,4 @@ const styles = StyleSheet.create({
     left: 92,
     opacity: 0.88
   }
-})
+}))

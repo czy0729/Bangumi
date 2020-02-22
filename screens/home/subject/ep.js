@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 11:05:43
+ * @Last Modified time: 2020-02-22 09:55:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,7 +54,7 @@ function Ep({ style }, { $, navigation }) {
         {showPlay && (
           <Text size={12} type='sub' lineHeight={24}>
             {' '}
-            (可播放)
+            可播放
           </Text>
         )}
       </SectionTitle>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:55:33
+ * @Last Modified time: 2020-02-22 09:28:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -61,11 +61,11 @@ function CollectionsGrid({
         onPress={onPress}
       />
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} size={12} numberOfLines={2}>
+        <Text style={_.mt.sm} size={13} numberOfLines={2}>
           {HTMLDecode(nameCn || name)}
         </Text>
         {!!holdDays && (
-          <Text style={_.mt.xs} size={12} type='sub'>
+          <Text style={_.mt.xs} size={13} type='sub'>
             搁置{holdDays}天
           </Text>
         )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:18:51
+ * @Last Modified time: 2020-02-22 08:16:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   current: {
     width: '100%',
-    height: 268,
+    height: 276,
     paddingHorizontal: _.sm
   },
   noSelect: {

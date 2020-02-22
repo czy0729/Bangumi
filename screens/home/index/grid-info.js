@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:18:29
+ * @Last Modified time: 2020-02-22 08:15:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -78,11 +78,9 @@ class GridInfo extends React.Component {
     return (
       <Touchable style={styles.touchable} onPress={this.onCheckPress}>
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='check' size={16} />
+          <Iconfont style={styles.icon} name='check' size={18} />
           <View style={[styles.placeholder, _.ml.sm]}>
-            <Text type='sub' size={12}>
-              {sort}
-            </Text>
+            <Text type='sub'>{sort}</Text>
           </View>
         </Flex>
       </Touchable>
@@ -97,7 +95,7 @@ class GridInfo extends React.Component {
           style={[styles.touchable, _.ml.sm]}
           onPress={this.onStarPress}
         >
-          <Iconfont name='star' size={16} />
+          <Iconfont name='star' size={18} />
         </Touchable>
       </Flex>
     )
@@ -115,10 +113,10 @@ class GridInfo extends React.Component {
       return (
         <Flex>
           <Flex align='baseline'>
-            <Text type='primary' size={10} lineHeight={1}>
+            <Text type='primary' size={12} lineHeight={1}>
               Chap.
             </Text>
-            <Text style={_.ml.xs} type='primary' size={18} lineHeight={1}>
+            <Text style={_.ml.xs} type='primary' size={28} lineHeight={1}>
               {epStatus}
             </Text>
             <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
@@ -127,13 +125,13 @@ class GridInfo extends React.Component {
           </Flex>
           {this.renderBookNextBtn(epStatus + 1, volStatus)}
           <Flex style={_.ml.md} align='baseline'>
-            <Text type='primary' size={10} lineHeight={1}>
+            <Text type='primary' size={12} lineHeight={1}>
               Vol.
             </Text>
-            <Text style={_.ml.xs} type='primary' size={18} lineHeight={1}>
+            <Text style={_.ml.xs} type='primary' size={28} lineHeight={1}>
               {volStatus}
             </Text>
-            <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
+            <Text style={_.ml.xs} type='sub' size={12} lineHeight={1}>
               / ?
             </Text>
           </Flex>
@@ -144,10 +142,10 @@ class GridInfo extends React.Component {
 
     return (
       <Flex align='baseline'>
-        <Text type='primary' size={18} lineHeight={1}>
+        <Text type='primary' size={20} lineHeight={1}>
           {epStatus || 1}
         </Text>
-        <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
+        <Text style={_.ml.xs} type='sub' size={12} lineHeight={1}>
           / {subject.eps_count || '?'}
         </Text>
       </Flex>
@@ -163,7 +161,7 @@ class GridInfo extends React.Component {
         onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}
       >
         <Flex justify='center'>
-          <Iconfont style={styles.icon} name='check' size={16} />
+          <Iconfont style={styles.icon} name='check' size={18} />
         </Flex>
       </Touchable>
     )
@@ -174,8 +172,8 @@ class GridInfo extends React.Component {
     const { subjectId, subject } = this.props
     const isToday = $.isToday(subjectId)
     const isNextDay = $.isNextDay(subjectId)
-    const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
-    const doing = isBook ? '读' : '看'
+    // const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
+    // const doing = isBook ? '读' : '看'
     return (
       <Flex style={styles.item} align='start'>
         <View>
@@ -189,29 +187,31 @@ class GridInfo extends React.Component {
             onPress={this.onPress}
           />
           {isToday ? (
-            <Text style={_.mt.sm} type='success' align='center' size={12}>
+            <Text style={_.mt.sm} type='success' align='center'>
               {$.onAir[subjectId].timeCN.slice(0, 2)}:
               {$.onAir[subjectId].timeCN.slice(2, 4)}
             </Text>
           ) : isNextDay ? (
-            <Text style={_.mt.sm} type='sub' align='center' size={12}>
+            <Text style={_.mt.sm} type='sub' align='center'>
               明天{$.onAir[subjectId].timeCN.slice(0, 2)}:
               {$.onAir[subjectId].timeCN.slice(2, 4)}
             </Text>
           ) : null}
         </View>
-        <Flex.Item style={[_.ml.wind, _.mt.xs]}>
+        <Flex.Item style={_.ml.wind}>
           <Touchable onPress={this.onPress}>
             <Flex align='start'>
               <Flex.Item>
-                <Text numberOfLines={1}>{subject.name_cn || subject.name}</Text>
+                <Text size={18} numberOfLines={1}>
+                  {subject.name_cn || subject.name}
+                </Text>
               </Flex.Item>
-              <Text type='sub' size={11}>
+              {/* <Text type='sub' lineHeight={18}>
                 {subject.collection.doing} 人在{doing}
-              </Text>
+              </Text> */}
             </Flex>
           </Touchable>
-          <Flex style={_.mt.xs}>
+          <Flex style={_.mt.sm}>
             <Flex.Item>{this.renderCount()}</Flex.Item>
             {this.renderToolBar()}
           </Flex>

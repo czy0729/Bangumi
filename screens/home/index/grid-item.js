@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:10:51
+ * @Last Modified time: 2020-02-22 08:11:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Progress } from '@ant-design/react-native'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
 
-const imageWidth = (_.window.width - 6 * _.sm) / 5
+const imageWidth = (_.window.width - 5 * _.sm) / 4
 
 function GridItem({ subject, subject_id: subjectId }, { $ }) {
   const styles = memoStyles()

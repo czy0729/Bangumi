@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-20 12:18:58
+ * @Last Modified time: 2020-02-23 03:52:00
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,6 +16,7 @@ import ImageHero from '@assets/images/hero.png'
 import ImageHeroTitle from '@assets/images/hero_title.png'
 
 const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
+const itemWidth = 132
 
 function Award(props, { navigation }) {
   const styles = memoStyles()
@@ -41,10 +42,10 @@ function Award(props, { navigation }) {
       >
         <View style={styles.border} />
         <Flex style={styles.itemSquare} justify='center' direction='column'>
-          <Text size={20} type={_.select('plain', 'title')} bold>
+          <Text size={18} type={_.select('plain', 'title')} bold>
             2019
           </Text>
-          <Text size={20} type={_.select('plain', 'title')} bold>
+          <Text size={16} type={_.select('plain', 'title')} bold>
             年鉴
           </Text>
         </Flex>
@@ -68,15 +69,15 @@ function Award(props, { navigation }) {
           <Image
             style={styles.imageHero}
             src={ImageHero}
-            size={148}
+            size={itemWidth}
             placeholder={false}
           />
         </View>
         <Image
           style={styles.imageTitle}
           src={ImageHeroTitle}
-          size={184}
-          height={148}
+          size={itemWidth * 1.25}
+          height={itemWidth}
           resizeMode='contain'
           placeholder={false}
         />
@@ -99,7 +100,7 @@ function Award(props, { navigation }) {
         >
           <View style={styles.border} />
           <Flex style={styles.itemSquare} justify='center' direction='column'>
-            <Text size={20} type={_.select('plain', 'title')} bold>
+            <Text size={18} type={_.select('plain', 'title')} bold>
               {item}
             </Text>
           </Flex>
@@ -120,16 +121,12 @@ const memoStyles = _.memoStyles(_ => ({
     padding: _.wind
   },
   item: {
-    width: 312,
-    paddingRight: 4,
-    borderWidth: _.select(0, 1),
-    borderColor: _.colorBorder,
+    width: itemWidth * 2.12,
     borderRadius: _.radiusMd
   },
   itemSquare: {
-    width: 148,
-    height: 148,
-    marginRight: 4,
+    width: itemWidth,
+    height: itemWidth,
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
     borderRadius: _.radiusMd
   },

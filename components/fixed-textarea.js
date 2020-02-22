@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 19:51:38
+ * @Last Modified time: 2020-02-23 05:22:27
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -467,7 +467,7 @@ class FixedTextarea extends React.Component {
           </>
         ) : (
           <>
-            <Text style={_.container.wind} size={12} type='sub'>
+            <Text style={_.container.wind} size={13} type='sub'>
               常用
             </Text>
             <Flex wrap='wrap'>
@@ -484,7 +484,7 @@ class FixedTextarea extends React.Component {
                 </Touchable>
               ))}
             </Flex>
-            <Text style={[_.container.wind, _.mt.sm]} size={12} type='sub'>
+            <Text style={[_.container.wind, _.mt.sm]} size={13} type='sub'>
               全部
             </Text>
             <Flex wrap='wrap'>

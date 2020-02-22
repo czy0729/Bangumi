@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 13:27:12
+ * @Last Modified time: 2020-02-22 12:05:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -119,7 +119,7 @@ function Info(props, { $, navigation }) {
           </Touchable>
         }
       >
-        吐槽箱
+        吐槽
       </SectionTitle>
     </>
   )
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     minHeight: _.window.height * 0.48
   },
   info: {
-    paddingHorizontal: _.wind,
+    paddingHorizontal: _.xs,
     ..._.mt.md
   },
   title: {

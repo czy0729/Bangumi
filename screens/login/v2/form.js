@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 15:50:39
+ * @Last Modified time: 2020-02-21 04:19:34
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -151,8 +151,8 @@ class Form extends React.Component {
               type='sub'
               onPress={() => navigation.push('LoginAssist')}
             >
-              可以尝试切换另一个域名进行登陆. 登陆受到网络供应商影响,
-              请尝试切换wifi或4g网络, 部分设备实在没办法走通登陆流程的,
+              尝试切换另一域名进行重试. 受网络供应商影响,
+              请尝试切换wifi或4g网络, 部分设备实在没办法走通登陆流程,
               可点击这里前往辅助登陆 (需要使用PC) &gt;
             </Text>
           )}

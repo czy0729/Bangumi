@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-18 03:00:04
+ * @Last Modified time: 2020-02-22 09:44:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,10 +91,10 @@ function ItemCollections({
           >
             <Flex>
               <Flex.Item>
-                <Text numberOfLines={1}>
+                <Text size={15} numberOfLines={2}>
                   {HTMLDecode(nameCn)}
                   {hasName && name !== nameCn && (
-                    <Text type='sub' size={12} lineHeight={14}>
+                    <Text type='sub' size={13} lineHeight={15}>
                       {' '}
                       {HTMLDecode(name)}
                     </Text>
@@ -104,7 +104,7 @@ function ItemCollections({
               {!!type && <Tag style={_.ml.sm} value={type} />}
             </Flex>
             {hasTip && (
-              <Text style={_.mt.sm} size={12} numberOfLines={2}>
+              <Text style={_.mt.sm} size={13} numberOfLines={2}>
                 {HTMLDecode(tip)}
               </Text>
             )}
@@ -112,7 +112,7 @@ function ItemCollections({
               {hasScore && (
                 <Stars style={_.mr.xs} value={score} color='warning' />
               )}
-              <Text style={_.mr.sm} type='sub' size={12} numberOfLines={1}>
+              <Text style={_.mr.sm} type='sub' size={13} numberOfLines={1}>
                 {hasScore && '/ '}
                 {isDo && `${days}天 / `}
                 {isOnHold && `搁置${days}天 / `}
@@ -167,7 +167,7 @@ const memoStyles = _.memoStyles(_ => ({
     padding: _.sm,
     marginBottom: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: 1,
+    borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'

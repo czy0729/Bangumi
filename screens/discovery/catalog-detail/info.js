@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 02:24:59
+ * @Last Modified time: 2020-02-22 09:44:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -83,7 +83,7 @@ function Info(props, { $, navigation }) {
             })
           }}
         >
-          by {nickname} · {time}
+          by {nickname} / {time}
         </Text>
       </Flex>
       {!_loaded && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 03:33:25
+ * @Last Modified time: 2020-02-23 05:16:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { appNavigate } from '@utils/app'
 import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 
-const avatarWidth = 28
+const avatarWidth = 32
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
@@ -39,7 +39,7 @@ function ItemTopic({
 
   const styles = memoStyles()
   const baseFontStyle = {
-    fontSize: 14 + _.fontSizeAdjust,
+    fontSize: 15 + _.fontSizeAdjust,
     lineHeight: 22
   }
   const isOdd = (index + 1) % 2 === 0
@@ -58,17 +58,17 @@ function ItemTopic({
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>
           <Flex.Item>
-            <Text size={12}>
+            <Text size={13}>
               {userName}
               {isAuthor && (
-                <Text type='main' size={12}>
+                <Text type='main' size={13}>
                   {' '}
                   [作者]
                 </Text>
               )}
             </Text>
           </Flex.Item>
-          <Text style={_.ml.md} type='sub' size={12}>
+          <Text style={_.ml.md} type='sub' size={13}>
             {floor} / {simpleTime(time)}
           </Text>
         </Flex>
@@ -102,28 +102,28 @@ function ItemTopic({
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
                     <Flex.Item>
-                      <Text size={12}>
+                      <Text size={13}>
                         {item.userName}
                         {isAuthor && (
-                          <Text type='main' size={12}>
+                          <Text type='main' size={13}>
                             {' '}
                             [作者]
                           </Text>
                         )}
                         {isLayer && (
-                          <Text type='primary' size={12}>
+                          <Text type='primary' size={13}>
                             {' '}
                             [层主]
                           </Text>
                         )}
                       </Text>
                     </Flex.Item>
-                    <Text style={_.ml.md} type='sub' size={12}>
+                    <Text style={_.ml.md} type='sub' size={13}>
                       {item.floor} / {simpleTime(item.time)}
                     </Text>
                   </Flex>
                   <RenderHtml
-                    style={_.mt.xs}
+                    style={_.mt.sm}
                     baseFontStyle={baseFontStyle}
                     imagesMaxWidth={imagesMaxWidthSub}
                     html={item.message}

@@ -288,7 +288,7 @@ export default class ScreenTopic extends store {
 
   // -------------------- page --------------------
   /**
-   * 吐槽箱倒序
+   * 吐槽倒序
    */
   toggleReverseComments = () => {
     const { reverse } = this.state

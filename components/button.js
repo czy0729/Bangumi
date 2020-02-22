@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 23:33:35
+ * @Last Modified time: 2020-02-22 07:51:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -107,60 +107,60 @@ const memoStyles = _.memoStyles(_ => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: _.hairlineWidth
+    alignItems: 'center'
+    // borderWidth: 0
   },
 
   // type
   plain: {
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderColor: _.select('rgb(223, 223, 223)', _._colorDarkModeLevel1)
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+    // borderColor: _.select('rgb(223, 223, 223)', _._colorDarkModeLevel1)
   },
   main: {
-    backgroundColor: _.colorMain,
-    borderColor: _.select('rgb(255, 54, 76)', _.colorMain)
+    backgroundColor: _.colorMain
+    // borderColor: _.select('rgb(255, 54, 76)', _.colorMain)
   },
   primary: {
-    backgroundColor: _.colorPrimary,
-    borderColor: _.select('rgb(13, 156, 204)', _.colorPrimary)
+    backgroundColor: _.colorPrimary
+    // borderColor: _.select('rgb(13, 156, 204)', _.colorPrimary)
   },
   warning: {
-    backgroundColor: _.colorWarning,
-    borderColor: _.select('rgb(249, 163, 80)', _.colorWarning)
+    backgroundColor: _.colorWarning
+    // borderColor: _.select('rgb(249, 163, 80)', _.colorWarning)
   },
   wait: {
-    backgroundColor: _.colorWait,
-    borderColor: _.select('rgb(160, 160, 160)', _.colorWait)
+    backgroundColor: _.colorWait
+    // borderColor: _.select('rgb(160, 160, 160)', _.colorWait)
   },
   disabled: {
-    backgroundColor: _.select(_.colorDisabled, 'rgb(128, 128, 130)'),
-    borderColor: _.select('rgb(80, 80, 80)', 'rgb(128, 128, 130)')
+    backgroundColor: _.select(_.colorDisabled, 'rgb(128, 128, 130)')
+    // borderColor: _.select('rgb(80, 80, 80)', 'rgb(128, 128, 130)')
   },
   bid: {
-    backgroundColor: _.colorBid,
-    borderColor: _.colorBid
+    backgroundColor: _.colorBid
+    // borderColor: _.colorBid
   },
   ask: {
-    backgroundColor: _.colorAsk,
-    borderColor: _.colorAsk
+    backgroundColor: _.colorAsk
+    // borderColor: _.colorAsk
   },
 
   // ghost type
   ghostMain: {
-    backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel2),
-    borderColor: _.select(_.colorMainBorder, _._colorDarkModeLevel2)
+    backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel2)
+    // borderColor: _.select(_.colorMainBorder, _._colorDarkModeLevel2)
   },
   ghostPrimary: {
-    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
-    borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
+    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1)
+    // borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
   },
   ghostSuccess: {
-    backgroundColor: _.select(_.colorSuccessLight, _._colorDarkModeLevel1),
-    borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1)
+    backgroundColor: _.select(_.colorSuccessLight, _._colorDarkModeLevel1)
+    // borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1)
   },
   ghostPlain: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
-    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2)
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
+    // borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2)
   },
 
   // size
@@ -222,7 +222,9 @@ const memoStyles = _.memoStyles(_ => ({
   shadow: IOS
     ? {
         shadowColor: _.colorShadow,
-        shadowOffset: { height: 3 },
+        shadowOffset: {
+          height: 3
+        },
         shadowOpacity: 0.16,
         shadowRadius: 3
       }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 12:00:14
+ * @Last Modified time: 2020-02-22 12:03:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,7 +60,7 @@ function Jobs({ style }, { $, navigation }) {
                   <Text style={_.mt.xs}>{item.name}</Text>
                   <Flex style={_.mt.xs} align='start'>
                     <Tag value={item.staff} />
-                    <Text style={_.ml.xs} size={12} type='sub' lineHeight={14}>
+                    <Text style={_.ml.xs} size={13} type='sub' lineHeight={14}>
                       {item.nameCn}
                     </Text>
                   </Flex>
@@ -74,7 +74,7 @@ function Jobs({ style }, { $, navigation }) {
                     {item.cast}
                   </Text>
                   {!!item.castTag && (
-                    <Text style={_.mt.xs} size={12} type='sub' align='right'>
+                    <Text style={_.mt.xs} size={13} type='sub' align='right'>
                       {item.castTag}
                     </Text>
                   )}

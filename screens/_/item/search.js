@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:55:49
+ * @Last Modified time: 2020-02-23 04:31:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -123,11 +123,11 @@ function ItemSearch({
             </View>
             <Flex style={_.mt.xs}>
               <Stars style={_.mr.xs} value={score} color='warning' />
-              <Text style={_.mr.sm} type='sub' size={12}>
+              <Text style={_.mr.sm} type='sub' size={13}>
                 {total}
               </Text>
               {!!rank && (
-                <Text type='primary' size={12}>
+                <Text type='primary' size={13}>
                   #{rank}
                 </Text>
               )}

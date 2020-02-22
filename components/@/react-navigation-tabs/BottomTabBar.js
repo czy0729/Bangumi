@@ -94,7 +94,9 @@ class TabBarBottom extends React.Component<Props> {
             showIcon && this._shouldUseHorizontalLabels()
               ? styles.labelBeside
               : styles.labelBeneath,
-            labelStyle
+            {
+              fontSize: 12 + _.fontSizeAdjust
+            }
           ]}
           allowFontScaling={allowFontScaling}
         >
