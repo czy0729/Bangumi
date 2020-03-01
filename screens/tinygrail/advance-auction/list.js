@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:50:36
+ * @Last Modified time: 2020-02-29 12:25:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -30,7 +30,12 @@ function List(props, { $ }) {
       keyExtractor={keyExtractor}
       data={$.advanceAuctionList}
       renderItem={({ item, index }) => (
-        <ItemAdvance index={index} event={event} {...item} />
+        <ItemAdvance
+          index={index}
+          event={event}
+          isAuctioning={$.auctioningMap[item.id]}
+          {...item}
+        />
       )}
       onHeaderRefresh={$.fetchAdvanceAuctionList}
     />

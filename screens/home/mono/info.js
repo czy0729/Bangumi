@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 12:05:39
+ * @Last Modified time: 2020-03-01 17:49:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,7 +23,6 @@ import { _ } from '@stores'
 import { getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
-import TinygrailUsers from './tinygrail-users'
 import Voice from './voice'
 import Works from './works'
 import Jobs from './jobs'
@@ -91,7 +90,6 @@ function Info(props, { $, navigation }) {
         {!!$.detail && <RenderHtml style={_.mt.lg} html={$.detail} />}
       </View>
       <Divider />
-      <TinygrailUsers style={[_.container.inner, _.mt.md]} />
       <Voice style={_.mt.md} />
       <Works style={_.mt.md} />
       <Jobs style={_.mt.md} />

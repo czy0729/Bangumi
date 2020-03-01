@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 20:34:01
+ * @Last Modified time: 2020-02-29 12:28:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -31,7 +31,8 @@ function Item(props, { navigation }) {
     firstAsks,
     firstBids,
     firstAmount,
-    mark
+    mark,
+    isAuctioning
   } = props
   const { id: eventId, data: eventData } = event
   const isAuction = !firstBids && !firstAsks
@@ -113,6 +114,18 @@ function Item(props, { navigation }) {
                     lv{level}
                   </Text>
                 )}
+                {isAuctioning && (
+                  <Text
+                    style={{
+                      color: _.colorBid
+                    }}
+                    size={12}
+                    lineHeight={15}
+                  >
+                    {' '}
+                    [竞拍中]
+                  </Text>
+                )}
               </Text>
               <Text
                 style={[
@@ -175,6 +188,9 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer
+  },
+  active: {
+    backgroundColor: _.colorTinygrailActive
   },
   image: {
     marginRight: _.xs,

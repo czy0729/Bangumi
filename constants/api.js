@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 11:40:17
+ * @Last Modified time: 2020-03-01 17:52:13
  */
 import { HOST } from './index'
 
@@ -302,7 +302,7 @@ export const API_TINYGRAIL_JOIN = (icoId, amount) =>
  * @param {*} monoId
  */
 export const API_TINYGRAIL_USERS = monoId =>
-  `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/10`
+  `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/50`
 
 /**
  * 股息预测

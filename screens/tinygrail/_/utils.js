@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 15:50:15
+ * @Last Modified time: 2020-02-29 11:24:52
  */
 export const SORT_GX = {
   label: '流动股息',
@@ -32,6 +32,11 @@ export const SORT_DJ = {
 export const SORT_CGS = {
   label: '持股数',
   value: 'cgs'
+}
+
+export const SORT_GDZC = {
+  label: '固定资产',
+  value: 'gdzc'
 }
 
 export const SORT_CCJZ = {
@@ -103,6 +108,11 @@ export function sortList(sort, direction, list) {
 
     case SORT_CGS.value:
       return list.sort((a, b) => ((b.state || 0) - (a.state || 0)) * base)
+
+    case SORT_GDZC.value:
+      return list.sort(
+        (a, b) => ((b.sacrifices || 0) - (a.sacrifices || 0)) * base
+      )
 
     case SORT_CCJZ.value:
       return list.sort(

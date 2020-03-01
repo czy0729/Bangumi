@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 12:46:31
+ * @Last Modified time: 2020-03-01 17:49:45
  */
 import { computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -17,11 +17,7 @@ export default class ScreenMono extends store {
   init = () => {
     this.fetchMonoFormCDN()
     if (this.tinygrail) {
-      return Promise.all([
-        this.fetchMono(true),
-        this.fetchChara(),
-        this.fetchUsers()
-      ])
+      return Promise.all([this.fetchMono(true), this.fetchChara()])
     }
     return this.fetchMono(true)
   }
@@ -34,9 +30,6 @@ export default class ScreenMono extends store {
 
   fetchChara = () =>
     tinygrailStore.fetchCharacters([this.monoId.replace('character/', '')])
-
-  fetchUsers = () =>
-    tinygrailStore.fetchUsers(this.monoId.replace('character/', ''))
 
   /**
    * 私有CDN的条目信息
@@ -79,10 +72,6 @@ export default class ScreenMono extends store {
 
   @computed get tinygrail() {
     return systemStore.setting.tinygrail
-  }
-
-  @computed get users() {
-    return tinygrailStore.users(this.monoId.replace('character/', ''))
   }
 
   // -------------------- get: cdn fallback --------------------

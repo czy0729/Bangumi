@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 14:33:47
+ * @Last Modified time: 2020-03-01 17:38:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -17,6 +17,7 @@ import { t } from '@utils/fetch'
 const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }) {
+  const { showCover } = $.state
   const {
     icon,
     id,
@@ -44,7 +45,7 @@ function Info(props, { $, navigation }) {
 
   return (
     <View style={styles.container}>
-      {!!icon && (
+      {showCover && !!icon && (
         <Flex justify='center'>
           <Image
             src={tinygrailOSS(getCoverLarge(icon))}
@@ -62,52 +63,63 @@ function Info(props, { $, navigation }) {
           />
         </Flex>
       )}
-      <Touchable
-        style={_.mt.md}
-        onPress={() => {
-          t('资产重组.跳转', {
-            to: 'Mono',
-            from: '顶部',
-            monoId: $.monoId
-          })
+      <Flex style={showCover && _.mt.md} justify='center'>
+        <Touchable
+          onPress={() => {
+            t('资产重组.跳转', {
+              to: 'Mono',
+              from: '顶部',
+              monoId: $.monoId
+            })
 
-          navigation.push('Mono', {
-            monoId: `character/${id}`
-          })
-        }}
-      >
-        <Flex justify='center'>
-          <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
-            size={16}
-          >
-            #{id} - {name}
-            {!!bonus && (
-              <Text size={16} type='warning'>
-                {' '}
-                X{bonus}
-              </Text>
-            )}
+            navigation.push('Mono', {
+              monoId: `character/${id}`
+            })
+          }}
+        >
+          <Flex justify='center'>
             <Text
               style={{
-                color: _.colorAsk
+                color: _.colorTinygrailPlain
               }}
               size={16}
             >
-              {' '}
-              lv{level}
+              #{id} - {name}
+              {!!bonus && (
+                <Text size={16} type='warning'>
+                  {' '}
+                  X{bonus}
+                </Text>
+              )}
+              <Text
+                style={{
+                  color: _.colorAsk
+                }}
+                size={16}
+              >
+                {' '}
+                lv{level}
+              </Text>
             </Text>
-          </Text>
-          <Iconfont
-            style={_.ml.sm}
-            name='right'
+            <Iconfont
+              style={_.ml.sm}
+              name='right'
+              size={16}
+              color={_.colorTinygrailText}
+            />
+          </Flex>
+        </Touchable>
+        <Touchable style={_.ml.md} onPress={$.toggleCover}>
+          <Text
+            style={{
+              color: _.colorTinygrailText
+            }}
             size={16}
-            color={_.colorTinygrailText}
-          />
-        </Flex>
-      </Touchable>
+          >
+            [{showCover ? '收起' : '显示'}封面]
+          </Text>
+        </Touchable>
+      </Flex>
       <Flex
         style={[_.container.wind, _.mt.md]}
         justify='center'

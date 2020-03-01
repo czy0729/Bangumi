@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:43:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 19:55:24
+ * @Last Modified time: 2020-02-29 12:23:31
  */
 import { computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
@@ -53,5 +53,14 @@ export default class ScreenTinygrailAdvanceAuction extends store {
 
   @computed get myUserId() {
     return userStore.myUserId
+  }
+
+  @computed get auctioningMap() {
+    const auctioningMap = {}
+    tinygrailStore
+      .list('auction')
+      .list.filter(item => item.state === 0)
+      .forEach(item => (auctioningMap[item.monoId] = true))
+    return auctioningMap
   }
 }

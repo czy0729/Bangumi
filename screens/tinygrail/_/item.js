@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 06:46:23
+ * @Last Modified time: 2020-02-29 11:56:40
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -42,6 +42,7 @@ function Item(props, { $, navigation }) {
     amount,
     price,
     state,
+    sacrifices,
     rate,
     level,
     current,
@@ -237,6 +238,7 @@ function Item(props, { $, navigation }) {
                         {prevText}
                       </Text>
                     )}
+                    {!!sacrifices && ` / 固${sacrifices}`}
                     {isDeal && !isAuction && !isValhall && ' / '}
                     {extra}
                   </Text>

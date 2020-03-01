@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 15:31:13
+ * @Last Modified time: 2020-03-01 17:46:07
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -13,18 +13,20 @@ import { queue, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 
 const namespace = 'ScreenTinygrailSacrifice'
+const initState = {
+  loading: false,
+  amount: 0, // 只能是整数,
+  isSale: false, // 股权融资
+  expand: false, // 展开所有圣殿
+  auctionLoading: false,
+  auctionAmount: 0,
+  auctionPrice: 0
+}
 
 export default class ScreenTinygrailSacrifice extends store {
   state = observable({
-    loading: false,
-    amount: 0, // 只能是整数,
-    isSale: false, // 股权融资
-    expand: false, // 展开所有圣殿
-
-    auctionLoading: false,
-    auctionAmount: 0,
-    auctionPrice: 0,
-
+    showCover: true, // 显示封面
+    ...initState,
     lastAuction: {
       price: '',
       amount: '',
@@ -33,15 +35,18 @@ export default class ScreenTinygrailSacrifice extends store {
   })
 
   init = async () => {
-    const lastAuction = this.getStorage(
+    const state = await this.getStorage(undefined, namespace)
+    const lastAuction = (await this.getStorage(
       undefined,
       `${namespace}|lastAuction|${this.monoId}`
-    ) || {
+    )) || {
       price: '',
       amount: '',
       time: 0
     }
     this.setState({
+      ...state,
+      ...initState,
       lastAuction
     })
 
@@ -57,7 +62,8 @@ export default class ScreenTinygrailSacrifice extends store {
       () => tinygrailStore.fetchIssuePrice(this.monoId),
       () => this.fetchValhallChara(),
       () => tinygrailStore.fetchAuctionStatus(this.monoId),
-      () => tinygrailStore.fetchAuctionList(this.monoId) // 上周拍卖信息
+      () => tinygrailStore.fetchAuctionList(this.monoId), // 上周拍卖信息
+      () => tinygrailStore.fetchUsers(this.monoId.replace('character/', '')) // 董事会
     ])
 
   fetchValhallChara = async () => {
@@ -116,6 +122,10 @@ export default class ScreenTinygrailSacrifice extends store {
 
   @computed get issuePrice() {
     return tinygrailStore.issuePrice(this.monoId)
+  }
+
+  @computed get users() {
+    return tinygrailStore.users(this.monoId.replace('character/', ''))
   }
 
   // -------------------- action --------------------
@@ -371,5 +381,20 @@ export default class ScreenTinygrailSacrifice extends store {
     this.setState({
       isSale: !isSale
     })
+  }
+
+  /**
+   * 展开收起封面
+   */
+  toggleCover = () => {
+    const { showCover } = this.state
+    t('资产重组.展开收起封面', {
+      showCover: !showCover
+    })
+
+    this.setState({
+      showCover: !showCover
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 }

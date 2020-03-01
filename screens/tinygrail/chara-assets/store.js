@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 07:01:47
+ * @Last Modified time: 2020-02-29 11:25:10
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -16,6 +16,7 @@ import {
   SORT_SDGX,
   SORT_SDGXB,
   SORT_CGS,
+  SORT_GDZC,
   SORT_CCJZ,
   SORT_HYD,
   SORT_SCJ,
@@ -43,6 +44,7 @@ export const tabs = [
 export const sortDS = [
   SORT_HYD,
   SORT_CGS,
+  SORT_GDZC,
   SORT_GX,
   SORT_GXB,
   SORT_SDGX,

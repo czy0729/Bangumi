@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 11:44:53
+ * @Last Modified time: 2020-03-01 17:57:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,26 +14,27 @@ import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 
 const event = {
-  id: '人物.跳转',
+  id: '资产重组.跳转',
   data: {
     from: '董事会'
   }
 }
 
-function TinygrailUsers({ style }, { $, navigation }) {
-  if (!$.tinygrail || !$.chara._loaded) {
-    return null
-  }
-
+function Users({ style }, { $, navigation }) {
   const { total: amount } = $.chara
   const { list, total } = $.users
   return (
-    <View style={style}>
-      <Text type='warning' size={20}>
-        董事会 10
-        <Text type='desc' size={12} lineHeight={20}>
-          {' '}
-          / {total || '-'}
+    <View style={[_.container.inner, style]}>
+      <Text
+        style={{
+          color: _.colorTinygrailText
+        }}
+        size={13}
+        lineHeight={17}
+      >
+        董事会{' '}
+        <Text type='warning' size={17}>
+          {total || '-'}
         </Text>
       </Text>
       <Flex style={_.mt.sm} wrap='wrap'>
@@ -56,7 +57,16 @@ function TinygrailUsers({ style }, { $, navigation }) {
                   size={isTop ? 14 : 12}
                   numberOfLines={1}
                 >
-                  {item.lastIndex !== 0 && `[#${item.lastIndex}] `}
+                  {item.lastIndex !== 0 && (
+                    <Text
+                      style={{
+                        color: _.colorAsk
+                      }}
+                      size={isTop ? 14 : 12}
+                    >
+                      #{item.lastIndex}{' '}
+                    </Text>
+                  )}
                   {item.nickName}
                 </Text>
                 <Text
@@ -79,12 +89,12 @@ function TinygrailUsers({ style }, { $, navigation }) {
   )
 }
 
-TinygrailUsers.contextTypes = {
+Users.contextTypes = {
   $: PropTypes.object,
   navigation: PropTypes.object
 }
 
-export default observer(TinygrailUsers)
+export default observer(Users)
 
 const styles = StyleSheet.create({
   item: {

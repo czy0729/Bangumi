@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 07:22:54
+ * @Last Modified time: 2020-03-01 17:31:43
  */
 
 /**
@@ -300,6 +300,7 @@ export default {
   '资产重组.资产重组': 'TSacrifice.doSacrifice',
   '资产重组.竞拍': 'TSacrifice.doAuction',
   '资产重组.展开收起圣殿': 'TSacrifice.toggleExpand',
+  '资产重组.展开收起封面': 'TSacrifice.toggleCover',
   '资产重组.封面图查看': 'TSacrifice.imageView',
   '资产重组.圣殿图查看': 'TSacrifice.templeView',
   '资产重组.股息查看': 'TSacrifice.rate',

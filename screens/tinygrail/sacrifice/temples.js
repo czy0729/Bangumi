@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 21:46:20
+ * @Last Modified time: 2020-03-01 17:58:52
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -128,7 +128,7 @@ class Temples extends React.Component {
     const { rate } = $.chara
     const { list } = $.charaTemple
     return (
-      <View style={style}>
+      <View style={[styles.container, style]}>
         <Flex style={styles.info}>
           <Flex.Item>
             <Text
@@ -182,11 +182,10 @@ class Temples extends React.Component {
           <Text
             style={styles.expand}
             size={14}
-            type='warning'
             align='center'
             onPress={$.toggleExpand}
           >
-            [{expand ? '收起' : '展开'}]
+            [{expand ? '收起' : '展开'}圣殿]
           </Text>
         )}
       </View>
@@ -195,12 +194,16 @@ class Temples extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    minHeight: 120
+  },
   info: {
     paddingTop: _.md,
     paddingLeft: _.wind,
     paddingRight: _.wind - _.sm
   },
   expand: {
-    paddingVertical: _.md
+    paddingVertical: _.sm,
+    color: _.colorTinygrailText
   }
 })

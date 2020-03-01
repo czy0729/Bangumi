@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 12:24:32
+ * @Last Modified time: 2020-03-01 17:48:04
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -18,6 +18,7 @@ import Slider from './slider'
 import Temples from './temples'
 import Auction from './auction'
 import AuctionList from './auction-list'
+import Users from './users'
 import Store from './store'
 
 const title = '资产重组'
@@ -133,12 +134,7 @@ class TinygrailSacrifice extends React.Component {
     const { refreshing } = this.state
     return (
       <ScrollView
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
+        style={this.styles.container}
         contentContainerStyle={_.container.bottom}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
@@ -150,7 +146,19 @@ class TinygrailSacrifice extends React.Component {
         <Auction style={_.mt.md} />
         <AuctionList style={_.mt.sm} />
         <Temples />
+        <Users />
       </ScrollView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    ..._.container.flex,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

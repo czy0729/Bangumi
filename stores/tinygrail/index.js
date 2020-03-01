@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 08:54:10
+ * @Last Modified time: 2020-02-29 11:46:51
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -73,6 +73,10 @@ function _info(message) {
   info(message, 0.4)
 }
 const throttleInfo = throttle(_info, 400)
+const paginationOnePage = {
+  page: 1,
+  pageTotal: 1
+}
 
 class Tinygrail extends store {
   state = observable({
@@ -594,10 +598,7 @@ class Tinygrail extends store {
             }
           }
         ),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+        pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
       this.updateIconsCache(iconsCache)
@@ -635,10 +636,7 @@ class Tinygrail extends store {
           lastActiveDate: item.LastActiveDate,
           lastIndex: item.LastIndex
         })),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+        pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
     }
@@ -984,10 +982,7 @@ class Tinygrail extends store {
             level: item.Level
           }
         }),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+        pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
       this.updateIconsCache(iconsCache)
@@ -1039,10 +1034,7 @@ class Tinygrail extends store {
             level: item.Level
           }
         }),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+        pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
       this.updateIconsCache(iconsCache)
@@ -1091,10 +1083,7 @@ class Tinygrail extends store {
             lastOrder: item.Bid
           }
         }),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+        pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
       this.updateIconsCache(iconsCache)
@@ -1140,12 +1129,21 @@ class Tinygrail extends store {
    * 我的持仓
    */
   fetchMyCharaAssets = async () => {
-    const result = await this.fetch(API_TINYGRAIL_MY_CHARA_ASSETS())
+    await this.fetchCharaAll() // 从这里获取自己的固定资产数量
+    const result = await this.fetch(API_TINYGRAIL_MY_CHARA_ASSETS()) // 这个接口没有返回自己的固定资产数量
 
     let data = {
       ...INIT_MY_CHARA_ASSETS
     }
     if (result.data.State === 0) {
+      const sacrificesMap = {}
+      const { list } = this.charaAll(this.hash)
+      list.forEach(item => {
+        if (item.sacrifices) {
+          sacrificesMap[item.id] = item.sacrifices
+        }
+      })
+
       const iconsCache = toJS(this.state.iconsCache)
       data = {
         chara: {
@@ -1170,14 +1168,12 @@ class Tinygrail extends store {
               icon: item.Icon,
               bonus: item.Bonus,
               state: item.State,
+              sacrifices: sacrificesMap[item.Id] || 0,
               rate: item.Rate,
               level: item.Level
             }
           }),
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
+          pagination: paginationOnePage,
           _loaded: getTimestamp()
         },
         ico: {
@@ -1206,10 +1202,7 @@ class Tinygrail extends store {
               level: item.Level
             }
           }),
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
+          pagination: paginationOnePage,
           _loaded: getTimestamp()
         },
         _loaded: getTimestamp()
@@ -1247,10 +1240,7 @@ class Tinygrail extends store {
           name: item.Name,
           amount: item.Amount
         })),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+        pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
     }
@@ -1285,10 +1275,7 @@ class Tinygrail extends store {
           charaId: item.RelatedId,
           desc: item.Description
         })),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+        pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
     }
@@ -1320,10 +1307,7 @@ class Tinygrail extends store {
           name: item.Name,
           lastIndex: item.LastIndex
         })),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+        pagination: paginationOnePage,
         total: result.data.Value.TotalItems,
         _loaded: getTimestamp()
       }
@@ -1394,6 +1378,7 @@ class Tinygrail extends store {
           name: item.Name,
           current: item.Current,
           state: item.State,
+          sacrifices: item.Sacrifices,
           total: item.Total,
           bonus: item.Bonus,
           rate: item.Rate,
@@ -1673,10 +1658,7 @@ class Tinygrail extends store {
             })
             .filter(item => !!item && parseFloat(item.mark) > 1)
             .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
+          pagination: paginationOnePage,
           _loaded: getTimestamp()
         }
         info('分析完毕')
@@ -1748,10 +1730,7 @@ class Tinygrail extends store {
             })
             .filter(item => !!item)
             .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
+          pagination: paginationOnePage,
           _loaded: getTimestamp()
         }
         info('分析完毕')
@@ -1808,10 +1787,7 @@ class Tinygrail extends store {
           })
           .filter(item => parseFloat(item.mark) > 3)
           .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        },
+        pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
     }
@@ -1846,10 +1822,7 @@ class Tinygrail extends store {
           )
         }))
         .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
-      pagination: {
-        page: 1,
-        pageTotal: 1
-      },
+      pagination: paginationOnePage,
       _loaded: getTimestamp()
     }
 
