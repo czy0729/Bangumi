@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-01 17:52:13
+ * @Last Modified time: 2020-03-05 16:31:16
  */
 import { HOST } from './index'
 
@@ -421,3 +421,11 @@ export const API_TINYGRAIL_BONUS_DAILY = () =>
  */
 export const API_TINYGRAIL_BONUS_HOLIDAY = () =>
   `${API_HOST_TINYGRAIL}/api/event/holiday/bonus`
+
+/**
+ * 道具
+ * @param {*} monoId
+ * @param {*} type
+ */
+export const API_TINYGRAIL_MAGIC = (monoId, type = 'chaos') =>
+  `https://tinygrail.com/api/magic/${type}/${monoId}`

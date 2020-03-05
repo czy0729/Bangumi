@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 13:19:48
+ * @Last Modified time: 2020-03-04 12:08:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -47,7 +47,7 @@ function Top(props, { $, navigation }) {
   if ($.isMono) {
     groupPress = () => appNavigate(`${HOST}/${$.monoId}`, navigation, {}, event)
   }
-  log($.time)
+
   const isGroup = $.topicId.includes('group/')
   return (
     <>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 14:11:39
+ * @Last Modified time: 2020-03-04 14:24:35
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -89,4 +89,16 @@ export const INIT_GROUP_INFO = {
 
 export const INIT_GROUP_ITEM = {
   list: []
+}
+
+export const INIT_BLOG = {
+  avatar: '', // 作者头像
+  floor: '', // 楼层
+  formhash: '', // 回复表单凭据
+  message: '', // 帖子内容
+  time: '', // 发帖时间
+  title: '', // 帖子标题
+  userId: '', // 作者Id
+  userName: '', // 作者名称
+  userSign: '' // 作者签名
 }

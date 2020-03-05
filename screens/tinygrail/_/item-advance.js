@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-29 12:28:00
+ * @Last Modified time: 2020-03-01 19:42:21
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -119,8 +119,7 @@ function Item(props, { navigation }) {
                     style={{
                       color: _.colorBid
                     }}
-                    size={12}
-                    lineHeight={15}
+                    size={15}
                   >
                     {' '}
                     [竞拍中]

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 18:04:17
+ * @Last Modified time: 2020-03-04 14:39:43
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -16,7 +16,7 @@ import {
 } from '@utils/html'
 import { matchAvatar, matchUserId } from '@utils/match'
 import { HTML_RAKUEN } from '@constants/html'
-import { INIT_TOPIC, INIT_COMMENTS_ITEM } from './init'
+import { INIT_TOPIC, INIT_COMMENTS_ITEM, INIT_BLOG } from './init'
 
 export async function fetchRakuen({ scope, type } = {}) {
   // -------------------- 请求HTML --------------------
@@ -410,11 +410,120 @@ export function cheerioTopic(HTML) {
         })
         .get() || []
   } catch (ex) {
-    // do nothing
+    warn('stores/rakuen/common.js', 'cheerioTopic', ex)
   }
 
   return {
     topic,
     comments
+  }
+}
+
+/**
+ * 分析日志和留言
+ * @param {*} HTML
+ */
+export function cheerioBlog(HTML) {
+  let blog = INIT_BLOG
+  let blogComments = []
+
+  try {
+    const $ = cheerio(HTML)
+    const titleText = $('#pageHeader > h1').text() || ''
+    let title
+    if (titleText.includes(' » ')) {
+      title = String(titleText.split(' » ')[1]).replace('日志', '')
+    } else {
+      title = String(titleText.split(' / ')[1])
+    }
+    const $user = $('#pageHeader a.avatar')
+
+    blog = safeObject({
+      avatar: getCoverSmall(
+        $('#pageHeader img.avatar')
+          .attr('src')
+          .split('?')[0]
+      ),
+      floor: '#0',
+      message: HTMLTrim($('div#entry_content').html()),
+      time: $('hr + div.re_info')
+        .text()
+        .replace(' / ', ''),
+      title,
+      userId: matchUserId($user.attr('href')),
+      userName: $user.text().replace(' ', ''),
+      userSign: ''
+    })
+
+    // 回复
+    blogComments =
+      $('#comment_list > div.row_reply')
+        .map((index, element) => {
+          const $row = cheerio(element)
+
+          const [floor, time] = (
+            $row.find('> div.re_info > small').text() || ''
+          )
+            .split('/')[0] // 这里其实为了去除 / del / edit
+            .split(' - ')
+          return safeObject({
+            ...INIT_COMMENTS_ITEM,
+            avatar: getCoverSmall(
+              matchAvatar($row.find('span.avatarNeue').attr('style'))
+            ),
+            floor,
+            id: $row.attr('id').substring(5),
+            message: HTMLTrim(
+              $row.find('> div.inner > div.reply_content > div.message').html()
+            ),
+            replySub: $row
+              .find('> div.inner > span.userInfo > a.icons_cmt')
+              .attr('onclick'),
+            time,
+            userId: matchUserId($row.find('a.avatar').attr('href')),
+            userName:
+              $row.find('> div.inner > span.userInfo > strong > a.l').text() ||
+              $row.find('> div.inner > strong > a.l').text(),
+            userSign: $row.find('span.tip_j').text(),
+            erase: $row.find('> div.re_info a.erase_post').attr('href'),
+
+            // 子回复
+            sub:
+              $row
+                .find('div.sub_reply_bg')
+                .map((index, element) => {
+                  const $row = cheerio(element, {
+                    decodeEntities: false
+                  })
+                  const [floor, time] = ($row.find('small').text() || '')
+                    .split('/')[0] // 这里其实为了去除 / del / edit
+                    .split(' - ')
+                  return safeObject({
+                    ...INIT_COMMENTS_ITEM,
+                    avatar: getCoverSmall(
+                      matchAvatar($row.find('span.avatarNeue').attr('style'))
+                    ),
+                    floor,
+                    id: $row.attr('id').substring(5),
+                    message: HTMLTrim($row.find('div.cmt_sub_content').html()),
+                    replySub: $row.find('a.icons_cmt').attr('onclick'),
+                    time: trim(time),
+                    userId: matchUserId($row.find('a.avatar').attr('href')),
+                    userName: $row.find('strong > a.l').text(),
+                    userSign: $row.find('span.tip_j').text(),
+                    erase: $row.find('a.erase_post').attr('href')
+                  })
+                })
+                .get() || []
+          })
+        })
+        .get() || []
+  } catch (ex) {
+    warn('stores/rakuen/common.js', 'cheerioBlog', ex)
+  }
+
+  return {
+    blog,
+    blogComments
   }
 }

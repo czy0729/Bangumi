@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 20:51:06
+ * @Last Modified time: 2020-03-04 14:19:14
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -85,6 +85,12 @@ export const HTML_GROUP_INFO = groupId => `${HOST}/group/${groupId}`
  */
 export const HTML_GROUP = (groupId, page = 1) =>
   `${HOST}/group/${groupId}/forum?page=${page}`
+
+/**
+ * 日志
+ * @param {*} blogId
+ */
+export const HTML_BLOG = blogId => `${HOST}/blog/${blogId}`
 
 /**
  * 搜索
