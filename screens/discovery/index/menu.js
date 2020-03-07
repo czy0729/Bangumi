@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 03:40:16
+ * @Last Modified time: 2020-03-06 16:49:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,15 +95,15 @@ function Menu(props, { $, navigation }) {
                   {item.icon === 'anitama' ? (
                     <Image
                       src={ImageAnitama}
-                      size={32}
-                      radius={16}
+                      size={26}
+                      radius={13}
                       placeholder={false}
                       quality={false}
                     />
                   ) : (
                     <Iconfont
                       name={item.icon}
-                      size={28}
+                      size={26}
                       color={_.__colorPlain__}
                     />
                   )}

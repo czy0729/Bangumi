@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-07 15:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:49:22
+ * @Last Modified time: 2020-03-06 16:44:08
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -18,8 +18,8 @@ function IconTinygrail({ style, navigation, color, event }) {
     return (
       <IconTabsHeader
         style={style}
-        name='trophy-full'
-        color={_.colorYellow}
+        name='trophy'
+        color={_.colorDesc}
         onPress={() => {
           const { id, data } = event
           t(id, {

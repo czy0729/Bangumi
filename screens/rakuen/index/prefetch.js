@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 19:50:29
+ * @Last Modified time: 2020-03-06 17:36:36
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -52,15 +52,10 @@ function Prefetch({ $ }) {
   return (
     <IconTabsHeader
       style={{
-        marginRight: -6,
-        transform: [
-          {
-            rotate: '90deg'
-          }
-        ]
+        marginRight: -6
       }}
       size={18}
-      name='logout'
+      name='download'
       position='right'
       onPress={$.prefetchConfirm}
     />

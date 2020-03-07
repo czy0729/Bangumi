@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 17:21:57
+ * @Last Modified time: 2020-03-05 20:58:31
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
-import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -54,20 +53,13 @@ class TinygrailRich extends React.Component {
       title,
       extra: (
         <Flex>
-          <IconHeader
-            name='fen-xi'
-            color={_.colorTinygrailText}
-            size={18}
-            onPress={onPress}
-          />
           <Text
             style={{
-              marginLeft: -2,
               color: _.colorTinygrailText
             }}
             onPress={onPress}
           >
-            分析
+            [分析]
           </Text>
         </Flex>
       )

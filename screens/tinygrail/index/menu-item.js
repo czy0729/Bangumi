@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 19:33:27
+ * @Last Modified time: 2020-03-07 12:04:33
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -66,7 +66,7 @@ const memoStyles = _.memoStyles(_ => ({
   icon: {
     position: 'absolute',
     top: '50%',
-    right: -8,
+    right: -10,
     marginTop: -28,
     opacity: 0.16
   }
