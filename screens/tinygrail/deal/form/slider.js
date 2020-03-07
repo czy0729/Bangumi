@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 07:21:06
+ * @Last Modified time: 2020-03-08 04:15:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -84,8 +84,8 @@ function Slider({ style }, { $ }) {
         <Text style={styles.plain} size={12}>
           {amount == 0 ? '--' : formatNumber(amount * value)}
         </Text>
-        <Touchable style={_.ml.sm}>
-          <Text style={styles.text} size={12} onPress={$.switchIsIce}>
+        <Touchable style={_.ml.sm} onPress={$.switchIsIce}>
+          <Text style={styles.text} size={12}>
             [冰山: {isIce ? '开' : '关'}]
           </Text>
         </Touchable>

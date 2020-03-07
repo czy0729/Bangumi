@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 18:05:44
+ * @Last Modified time: 2020-03-07 23:22:43
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -1807,7 +1807,7 @@ class Tinygrail extends store {
         list: Value.Items.filter(item => {
           const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3
           return (
-            Math.max(parseFloat(item.Rate), templeRate) >= 4 &&
+            Math.max(parseFloat(item.Rate), templeRate) >= 2 &&
             item.State >= 100
           )
         })
@@ -1828,7 +1828,7 @@ class Tinygrail extends store {
               )
             }
           })
-          .filter(item => parseFloat(item.mark) > 3)
+          .filter(item => parseFloat(item.mark) >= 2)
           .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
         pagination: paginationOnePage,
         _loaded: getTimestamp()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 17:52:55
+ * @Last Modified time: 2020-03-08 05:06:54
  */
 
 /**
@@ -304,6 +304,7 @@ export default {
   '资产重组.封面图查看': 'TSacrifice.imageView',
   '资产重组.圣殿图查看': 'TSacrifice.templeView',
   '资产重组.股息查看': 'TSacrifice.rate',
+  '资产重组.菜单改变竞拍数量': 'TSacrifice.changeAmountByMenu',
 
   // 人物直达
   '人物直达.跳转': 'TSearch.to',

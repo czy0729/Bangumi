@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 17:55:56
+ * @Last Modified time: 2020-03-08 05:07:16
  */
 export default {
   initialRouteName: 'Tinygrail', // HomeTab TinygrailCharaAssets
@@ -11,7 +11,7 @@ export default {
     // blogId: 294448
     // catalogId: 29811,
     // groupId: 'tinygrail',
-    // monoId: 'character/21627', // 20391 character/70323 person/5745
+    // monoId: 'character/29283' // 20391 character/70323 person/5745
     // subjectId: 263750, // 103824 238923 279457 100444 204135
     // topicId: 'group/350677' // group/350677, ep/768491
     // userId: 419012, // 456208, 419012

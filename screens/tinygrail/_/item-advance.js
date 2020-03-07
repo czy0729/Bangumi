@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-01 19:42:21
+ * @Last Modified time: 2020-03-07 23:46:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -114,17 +114,6 @@ function Item(props, { navigation }) {
                     lv{level}
                   </Text>
                 )}
-                {isAuctioning && (
-                  <Text
-                    style={{
-                      color: _.colorBid
-                    }}
-                    size={15}
-                  >
-                    {' '}
-                    [竞拍中]
-                  </Text>
-                )}
               </Text>
               <Text
                 style={[
@@ -157,10 +146,26 @@ function Item(props, { navigation }) {
                 {toFixed(rate, 2)} / +{toFixed(rate * (level + 1) * 0.3, 2)}
               </Text>
             </Flex.Item>
+            {isAuctioning && (
+              <Text
+                style={[
+                  _.ml.sm,
+                  {
+                    color: _.colorBid
+                  }
+                ]}
+              >
+                {' '}
+                [竞拍中]
+              </Text>
+            )}
             <Text
-              style={{
-                color: _.colorTinygrailPlain
-              }}
+              style={[
+                _.ml.md,
+                {
+                  color: _.colorTinygrailPlain
+                }
+              ]}
               size={16}
             >
               {mark}

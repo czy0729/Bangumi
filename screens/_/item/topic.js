@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 14:43:21
+ * @Last Modified time: 2020-03-08 04:03:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -74,7 +74,7 @@ function ItemTopic({
         </Flex>
         {!!userSign && (
           <Text style={_.mt.xs} type='sub' size={12}>
-            {userSign.splice(1, userSign.length - 1)}
+            {userSign.slice(1, userSign.length - 1)}
           </Text>
         )}
         <RenderHtml

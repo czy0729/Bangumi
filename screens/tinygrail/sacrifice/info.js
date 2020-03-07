@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-01 17:38:22
+ * @Last Modified time: 2020-03-08 04:34:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -88,7 +88,7 @@ function Info(props, { $, navigation }) {
               {!!bonus && (
                 <Text size={16} type='warning'>
                   {' '}
-                  X{bonus}
+                  x{bonus}
                 </Text>
               )}
               <Text

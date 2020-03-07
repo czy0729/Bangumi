@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-01 17:46:07
+ * @Last Modified time: 2020-03-08 05:10:27
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -126,6 +126,11 @@ export default class ScreenTinygrailSacrifice extends store {
 
   @computed get users() {
     return tinygrailStore.users(this.monoId.replace('character/', ''))
+  }
+
+  @computed get myTemple() {
+    const { list } = this.charaTemple
+    return list.find(item => item.name === this.hash) || {}
   }
 
   // -------------------- action --------------------
@@ -311,6 +316,41 @@ export default class ScreenTinygrailSacrifice extends store {
     this.setState({
       auctionAmount: _amount
     })
+  }
+
+  /**
+   * 菜单选择改变竞拍数量
+   */
+  changeAuctionAmountByMenu = title => {
+    t('资产重组.菜单改变竞拍数量', {
+      monoId: this.monoId
+    })
+
+    const { sacrifices = 0 } = this.myTemple
+    const { amount: userAmount } = this.userLogs
+    const { amount } = this.valhallChara
+    switch (title) {
+      case '到500':
+        if (sacrifices + userAmount >= 500) {
+          info('已持有和献祭超过500股')
+          return
+        }
+        this.changeAuctionAmount(
+          Math.min(500 - sacrifices - userAmount, amount)
+        )
+        return
+      case '到2500':
+        if (sacrifices + userAmount >= 2500) {
+          info('已持有和献祭超过2500股')
+          return
+        }
+        this.changeAuctionAmount(
+          Math.min(2500 - sacrifices - userAmount, amount)
+        )
+        return
+      default:
+        this.changeAuctionAmount(amount)
+    }
   }
 
   /**

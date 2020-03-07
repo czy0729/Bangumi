@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 14:37:07
+ * @Last Modified time: 2020-03-07 22:53:01
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -73,7 +73,7 @@ class ToggleImage extends React.Component {
                 style={this.styles.textSrc}
                 size={10}
                 type='sub'
-                numberOfLines='1'
+                numberOfLines={1}
               >
                 {src}
               </Text>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 17:31:28
+ * @Last Modified time: 2020-03-08 04:05:40
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -51,7 +51,7 @@ class TinygrailAdvanceAuction extends React.Component {
 
             Alert.alert(
               '当前计算方式',
-              '从英灵殿里面查找\nMax(流动股息, 圣殿股息) > 4 且 数量 > 100\nMax(流动股息, 圣殿股息) / 竞拍底价 * 10 = 分数',
+              '从英灵殿里面查找\nMax(流动股息, 圣殿股息) > 2 且 数量 > 100\nMax(流动股息, 圣殿股息) / 竞拍底价 * 10 = 分数',
               [
                 {
                   text: '知道了'

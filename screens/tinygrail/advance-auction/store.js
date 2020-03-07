@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:43:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-29 12:23:31
+ * @Last Modified time: 2020-03-07 23:31:00
  */
 import { computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
@@ -13,6 +13,8 @@ import { info } from '@utils/ui'
 export default class ScreenTinygrailAdvanceAuction extends store {
   init = () => {
     const { _loaded } = this.advanceAuctionList
+    tinygrailStore.fetchAuction()
+
     if (!_loaded) {
       this.fetchAdvanceAuctionList(false)
     }
@@ -39,6 +41,7 @@ export default class ScreenTinygrailAdvanceAuction extends store {
       return true
     }
 
+    tinygrailStore.fetchAuction()
     return tinygrailStore.fetchAdvanceAuctionList()
   }
 

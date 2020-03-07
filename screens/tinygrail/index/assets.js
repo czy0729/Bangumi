@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 15:48:33
+ * @Last Modified time: 2020-03-08 04:04:39
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -87,6 +87,7 @@ function Assets(props, { $ }) {
                 size={12}
                 lineHeight={14}
               >
+                {' '}
                 {balanceChangeText}
               </Text>
             )}{' '}

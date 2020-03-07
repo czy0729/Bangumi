@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 17:11:43
+ * @Last Modified time: 2020-03-08 04:10:51
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -61,12 +61,7 @@ class TinygrailItems extends React.Component {
             .map((item, index) => {
               if (item.name === '混沌魔方') {
                 return (
-                  <Popover
-                    key={item.id}
-                    style={this.styles.item}
-                    data={$.templeDS.map(item => item.label)}
-                    onSelect={$.doUse}
-                  >
+                  <View key={item.id} style={this.styles.item}>
                     <Flex
                       style={[
                         this.styles.wrap,
@@ -95,17 +90,25 @@ class TinygrailItems extends React.Component {
                           {item.line}
                         </Text>
                       </Flex.Item>
-                      <Text style={_.ml.sm} size={15} type='warning'>
-                        x{item.amount}
-                      </Text>
-                      <Iconfont
+                      <Popover
                         style={_.ml.sm}
-                        name='right'
-                        size={16}
-                        color={_.colorTinygrailText}
-                      />
+                        data={$.templeDS.map(item => item.label)}
+                        onSelect={$.doUse}
+                      >
+                        <Flex>
+                          <Text size={15} type='warning'>
+                            x{item.amount}
+                          </Text>
+                          <Iconfont
+                            style={_.ml.sm}
+                            name='right'
+                            size={16}
+                            color={_.colorTinygrailText}
+                          />
+                        </Flex>
+                      </Popover>
                     </Flex>
-                  </Popover>
+                  </View>
                 )
               }
 
