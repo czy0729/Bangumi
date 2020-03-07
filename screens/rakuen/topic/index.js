@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-18 02:36:56
+ * @Last Modified time: 2020-03-07 13:38:00
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView, FixedTextarea } from '@components'
+import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
@@ -106,8 +107,8 @@ class Topic extends React.Component {
     })
 
     await $.init()
-    const { title } = $.topic
-    withTransitionHeader.setTitle(navigation, title)
+    // const { title } = $.topic
+    // withTransitionHeader.setTitle(navigation, title)
 
     if ($.postId) {
       this.jump()
@@ -238,6 +239,7 @@ class Topic extends React.Component {
     const { onScroll } = this.props
     return (
       <View style={_.container.content}>
+        <NavigationBarEvents />
         <ListView
           ref={this.connectListViewRef}
           style={_.container.content}

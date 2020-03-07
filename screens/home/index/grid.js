@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 08:16:10
+ * @Last Modified time: 2020-03-07 15:25:38
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView, Flex, Text, Mesume } from '@components'
@@ -54,7 +54,7 @@ class Grid extends React.Component {
 
   renderEmpty() {
     return (
-      <Flex style={styles.noSelect} justify='center' direction='column'>
+      <Flex style={this.styles.noSelect} justify='center' direction='column'>
         <Mesume size={80} />
         <Text style={_.mt.sm} type='sub' align='center'>
           请点击下方条目
@@ -74,8 +74,8 @@ class Grid extends React.Component {
     const userCollection = $.currentUserCollection(title)
     const find = userCollection.list.find(item => item.subject_id === current)
     return (
-      <View style={styles.container}>
-        <View style={styles.current}>
+      <View style={this.styles.container}>
+        <View style={this.styles.current}>
           {find ? (
             <GridInfo
               subjectId={find.subject_id}
@@ -88,10 +88,10 @@ class Grid extends React.Component {
         </View>
         <ListView
           ref={this.connectRef}
-          contentContainerStyle={styles.grid}
+          contentContainerStyle={this.styles.grid}
           keyExtractor={keyExtractor}
           data={userCollection}
-          numColumns={5}
+          numColumns={4}
           footerNoMoreDataComponent={footerNoMoreDataComponent}
           footerNoMoreDataText=''
           renderItem={renderItem}
@@ -101,14 +101,19 @@ class Grid extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
 export default observer(Grid)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
-    paddingTop: IOS ? _.tabsHeaderHeight - correctHeightIOS : 0
+    paddingTop: IOS ? _.tabsHeaderHeight - correctHeightIOS : 0,
+    backgroundColor: _.colorPlain
   },
   current: {
     width: '100%',
@@ -120,9 +125,10 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   grid: {
+    paddingLeft: _.wind - _.sm,
     paddingBottom: _.tabBarHeight + _.sm
   }
-})
+}))
 
 function keyExtractor(item) {
   return String(item.subject_id)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 05:21:32
+ * @Last Modified time: 2020-03-07 12:17:06
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -17,7 +17,6 @@ import StatusBtnGroup from './status-btn-group'
 const initState = {
   focus: false,
   loading: true,
-  doing: false,
   fetching: false,
   rating: 0,
   tags: '',
@@ -64,11 +63,6 @@ class ManageModal extends React.Component {
           privacy
         })
       }
-    } else {
-      // <Modal>有渐出动画
-      // setTimeout(() => {
-      //   this.setState(initState)
-      // }, 400)
     }
   }
 
@@ -140,9 +134,6 @@ class ManageModal extends React.Component {
   onSubmit = async () => {
     const { subjectId, onSubmit } = this.props
     const { rating, tags, comment, status, privacy } = this.state
-    this.setState({
-      doing: true
-    })
     await onSubmit({
       subjectId,
       rating,
@@ -150,10 +141,6 @@ class ManageModal extends React.Component {
       status,
       privacy,
       comment: comment || ''
-    })
-
-    this.setState({
-      doing: false
     })
   }
 
@@ -327,7 +314,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.sm,
     marginRight: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
-    borderWidth: 1,
+    borderWidth: _.select(1, 0),
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs
   },

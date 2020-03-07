@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 04:31:31
+ * @Last Modified time: 2020-03-07 14:07:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -151,7 +151,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   containerActive: {
-    backgroundColor: _.select(_.colorMainLight, 'rgb(59, 48 ,51)')
+    backgroundColor: _.colorMainLight
   },
   imgContainer: {
     width: imgWidth

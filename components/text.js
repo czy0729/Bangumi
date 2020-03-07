@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 23:23:22
+ * @Last Modified time: 2020-03-07 15:47:02
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -115,7 +115,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   underline: {
     textDecorationLine: 'underline',
-    textDecorationColor: _.colorMain
+    textDecorationColor: _.select(_.colorMain, _.colorSub)
   },
   alignCenter: {
     textAlign: 'center'

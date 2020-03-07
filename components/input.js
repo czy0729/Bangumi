@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 17:59:13
+ * @Last Modified time: 2020-03-07 12:18:05
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -162,7 +162,7 @@ const memoStyles = _.memoStyles(_ => ({
     color: _.colorDesc,
     ..._.fontSize(14),
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
-    borderWidth: _.hairlineWidth,
+    borderWidth: _.select(_.hairlineWidth, 0),
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
@@ -171,7 +171,7 @@ const memoStyles = _.memoStyles(_ => ({
     width: '100%',
     padding: 8,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
-    borderWidth: _.hairlineWidth,
+    borderWidth: _.select(_.hairlineWidth, 0),
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'

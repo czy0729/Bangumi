@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 10:12:33
+ * @Last Modified time: 2020-03-07 15:44:47
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -76,6 +76,7 @@ export function correctAgo(time = '') {
         .replace('d', '天')
         .replace('h', '时')
         .replace('m', '分')
+        .replace('s', '秒')
         .replace(' ago', '前')
         .replace(/ /g, '')
 }

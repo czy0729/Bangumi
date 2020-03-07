@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 09:44:44
+ * @Last Modified time: 2020-03-07 15:41:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -147,7 +147,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   containerActive: {
-    backgroundColor: _.select(_.colorMainLight, 'rgb(59, 48 ,51)')
+    backgroundColor: _.colorMainLight
   },
   imgContainer: {
     width: imgWidth
@@ -167,7 +167,7 @@ const memoStyles = _.memoStyles(_ => ({
     padding: _.sm,
     marginBottom: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderWidth: _.hairlineWidth,
+    borderWidth: _.select(_.hairlineWidth, 0),
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'

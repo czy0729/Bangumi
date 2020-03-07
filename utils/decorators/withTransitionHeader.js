@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 11:42:59
+ * @Last Modified time: 2020-03-07 14:51:57
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Popover, Menu, Flex, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
@@ -188,8 +188,8 @@ const withTransitionHeader = ({
                 _.colorPlainRaw,
                 _._colorDarkModeLevel1Raw
               ).join()}, ${opacity})`,
-              borderBottomWidth: isTransitioned ? StyleSheet.hairlineWidth : 0,
-              borderBottomColor: _.colorBorder
+              borderBottomWidth: 0,
+              ...(isTransitioned ? _.shadow : {})
             }
           })
         }

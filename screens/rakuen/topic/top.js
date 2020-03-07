@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-04 12:08:44
+ * @Last Modified time: 2020-03-07 14:30:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import {
   HeaderPlaceholder,
   Flex,
-  Image,
+  // Image,
   Text,
   RenderHtml,
   Divider,
@@ -63,7 +63,7 @@ function Top(props, { $, navigation }) {
           )}
         </Text>
         <Flex style={[styles.groupWrap, _.mt.sm]}>
-          <View style={styles.groupThumbWrap}>
+          {/* <View style={styles.groupThumbWrap}>
             {!!$.groupThumb && (
               <Image
                 size={28}
@@ -74,8 +74,8 @@ function Top(props, { $, navigation }) {
                 onPress={groupPress}
               />
             )}
-          </View>
-          <Text style={_.ml.sm}>
+          </View> */}
+          <Text>
             <Text size={13} underline numberOfLines={1} onPress={groupPress}>
               {findBangumiCn($.group)}
             </Text>
@@ -93,7 +93,7 @@ function Top(props, { $, navigation }) {
           </Text>
         </Flex>
         {isGroup && (
-          <Flex style={[styles.userWrap, _.mt.md]}>
+          <Flex style={[styles.userWrap, _.mt.sm]}>
             <View style={styles.userAvatarWrap}>
               {!!$.avatar && (
                 <Avatar
@@ -114,7 +114,7 @@ function Top(props, { $, navigation }) {
                 </Text>
                 {!!$.userSign && (
                   <Text style={_.mt.xs} type='sub' size={12}>
-                    {$.userSign}
+                    {$.userSign.slice(1, $.userSign.length - 1)}
                   </Text>
                 )}
               </Flex.Item>

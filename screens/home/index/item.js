@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 05:36:12
+ * @Last Modified time: 2020-03-07 12:22:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -241,7 +241,7 @@ class Item extends React.Component {
         <View style={this.styles.item}>
           <Flex style={this.styles.hd}>
             <Cover
-              size={82}
+              size={76}
               src={subject.images.medium}
               radius
               border={_.colorBorder}

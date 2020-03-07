@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 09:46:37
+ * @Last Modified time: 2020-03-07 15:49:48
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import {
@@ -202,7 +202,6 @@ export async function fetchTimeline(
               .replace('小时', '时')
               .replace('分钟', '分')
               .replace('· web', '')
-              .replace('·', '/')
           : ''
 
         // 评分

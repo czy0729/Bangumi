@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 05:04:59
+ * @Last Modified time: 2020-03-07 15:42:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -268,7 +268,7 @@ class Item extends React.Component {
           )
         }
       >
-        <Iconfont name='extra' size={14} />
+        <Iconfont name='extra' size={15} />
       </Popover>
     )
   }
@@ -330,7 +330,7 @@ class Item extends React.Component {
         {this.isFavor && (
           <Iconfont
             style={this.styles.favor}
-            size={13}
+            size={15}
             name='star-full'
             color={_.colorYellow}
           />
@@ -360,7 +360,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.md
   },
   extra: {
-    paddingVertical: 20,
+    paddingVertical: 19,
     paddingHorizontal: _.sm
   },
   border: {

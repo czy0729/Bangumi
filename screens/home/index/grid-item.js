@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 08:11:09
+ * @Last Modified time: 2020-03-07 15:28:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,8 @@ import { Progress } from '@ant-design/react-native'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
 
-const imageWidth = (_.window.width - 5 * _.sm) / 4
+const margin = 10
+const imageWidth = (_.window.width - 3 * margin - 2 * _.wind) / 4
 
 function GridItem({ subject, subject_id: subjectId }, { $ }) {
   const styles = memoStyles()
@@ -53,16 +54,16 @@ export default observer(GridItem)
 const memoStyles = _.memoStyles(_ => ({
   item: {
     width: imageWidth,
-    marginLeft: _.sm,
-    marginBottom: _.sm
+    marginLeft: margin,
+    marginBottom: margin
   },
   progress: {
-    borderRadius: 6,
+    borderRadius: _.radiusXs,
     backgroundColor: _.select('transparent', _._colorDarkModeLevel1)
   },
   bar: {
     borderBottomWidth: 6,
-    borderRadius: 6,
+    borderRadius: _.radiusXs,
     borderColor: _.colorWarning
   },
   opacity: {

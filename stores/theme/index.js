@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 07:58:38
+ * @Last Modified time: 2020-03-07 14:06:56
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -16,6 +16,7 @@ const DEFAULT_MODE = 'light'
 const DEFAULT_TINYGRAIL_MODE = 'green' // green: 绿涨红跌 | red: 红涨绿跌
 const lightStyles = {
   colorMain: _.colorMain,
+  colorMainLight: _.colorMainLight,
   colorPrimary: _.colorPrimary,
   colorSuccess: _.colorSuccess,
   colorYellow: _.colorYellow,
@@ -41,6 +42,7 @@ const lightStyles = {
 }
 const darkStyles = {
   colorMain: _._colorMain,
+  colorMainLight: _._colorMainLight,
   colorPrimary: _._colorPrimary,
   colorSuccess: _._colorSuccess,
   colorYellow: _._colorYellow,
@@ -127,6 +129,10 @@ class Theme extends store {
 
   @computed get colorMain() {
     return this.state.colorMain
+  }
+
+  @computed get colorMainLight() {
+    return this.state.colorMainLight
   }
 
   @computed get colorPrimary() {

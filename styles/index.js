@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-29 12:12:49
+ * @Last Modified time: 2020-03-07 15:38:41
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -13,7 +13,7 @@ import { IOS } from '@constants'
 const { width, height } = Dimensions.get('window')
 export const window = {
   width,
-  maxWidth: width, // @todo 以后兼容IPAD
+  maxWidth: width, // @todo 以后兼容IPAD, 咕咕咕
   height
 }
 export const logoWidth = 124 // logo宽度
@@ -86,16 +86,16 @@ export const colorDisabled = 'rgb(150, 150, 150)'
 export const colorIcon = 'rgb(200, 200, 200)'
 
 // -------------------- dark --------------------
-// 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
-// 架高层
-export const _colorDarkModeLevel1Raw = [58, 58, 60] // 40, 40, 42
+// 架高层, 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
+export const _colorDarkModeLevel1Raw = [58, 58, 60]
 export const _colorDarkModeLevel1 = `rgb(${_colorDarkModeLevel1Raw.join()})`
 export const _colorDarkModeLevel1Hex = '#3a3a3c'
-export const _colorDarkModeLevel2 = 'rgb(84, 84, 86)' // 64, 64, 66
+export const _colorDarkModeLevel2 = 'rgb(84, 84, 86)'
 
 // 基础层
-export const _colorMain = 'rgb(254, 138, 149)' // 254, 113, 127
-export const _colorPrimary = 'rgb(35, 149, 233)' //  0, 131, 252
+export const _colorMain = 'rgb(254, 138, 149)'
+export const _colorMainLight = 'rgb(59, 48 ,51)'
+export const _colorPrimary = 'rgb(35, 149, 233)'
 export const _colorSuccess = 'rgb(50, 209, 96)'
 export const _colorYellow = 'rgb(255, 214, 50)'
 export const _colorWarning = 'rgb(255, 160, 12)'
@@ -135,23 +135,25 @@ export const lineHeightRatio = 1.28
 
 // -------------------- 圆角 --------------------
 export const radiusXs = 4
-export const radiusSm = 10
-export const radiusMd = 16
-export const radiusLg = 32
+export const radiusSm = 8
+export const radiusMd = 12
+export const radiusLg = 16
 
 // -------------------- 其他 --------------------
 export const shadow = IOS
   ? {
       shadowColor: colorShadow,
-      shadowOffset: { height: 3 },
-      shadowOpacity: 0.16,
-      shadowRadius: 4
+      shadowOffset: {
+        height: 4
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 6
     }
   : {
       backgroundColor: colorPlain,
-      borderRadius: 5,
+      borderRadius: radiusSm,
       overflow: 'hidden',
-      elevation: 3
+      elevation: 2
     }
 
 // --------------------  函数 --------------------

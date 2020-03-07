@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 05:22:55
+ * @Last Modified time: 2020-03-07 14:37:07
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -43,7 +43,8 @@ class ToggleImage extends React.Component {
   render() {
     // RN不使用第三方link包暂时不支持webp, 暂时使用浏览器跳转
     const { src, onImageFallback } = this.props
-    if (typeof src === 'string' && src.includes('.webp')) {
+    const isRemote = typeof src === 'string'
+    if (isRemote && src.includes('.webp')) {
       return (
         <Touchable onPress={onImageFallback}>
           <Flex style={this.styles.imagePlaceholder} justify='center'>
@@ -59,10 +60,24 @@ class ToggleImage extends React.Component {
     if (!show) {
       return (
         <Touchable onPress={this.toggleShow}>
-          <Flex style={this.styles.imagePlaceholder} justify='center'>
+          <Flex
+            style={this.styles.imagePlaceholder}
+            direction='column'
+            justify='center'
+          >
             <Text size={13} type='sub'>
               点击显示图片
             </Text>
+            {isRemote && (
+              <Text
+                style={this.styles.textSrc}
+                size={10}
+                type='sub'
+                numberOfLines='1'
+              >
+                {src}
+              </Text>
+            )}
           </Flex>
         </Touchable>
       )
@@ -133,5 +148,9 @@ const memoStyles = _.memoStyles(_ => ({
     borderRadius: 32,
     backgroundColor: 'rgba(0, 0, 0, 0.12)',
     overflow: 'hidden'
+  },
+  textSrc: {
+    maxWidth: '64%',
+    marginTop: _.sm
   }
 }))

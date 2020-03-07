@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 11:40:12
+ * @Last Modified time: 2020-03-07 15:59:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -103,7 +103,7 @@ class Ranting extends React.Component {
           <Text size={13} type='main'>
             {$.rating.score}
           </Text>{' '}
-          / {$.rating.total} votes /{' '}
+          ({$.rating.total}){' '}
           <Text size={13} type='main'>
             #{rank}
           </Text>{' '}
@@ -111,7 +111,7 @@ class Ranting extends React.Component {
           <Text size={13} type='main'>
             {toFixed(this.deviation, 2)}
           </Text>{' '}
-          / {getDispute(this.deviation)}
+          {getDispute(this.deviation)}
         </Text>
         {!!friend.score && (
           <Text style={_.mt.sm} size={13}>

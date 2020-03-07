@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 22:42:32
+ * @Last Modified time: 2020-03-07 15:02:43
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -47,16 +47,8 @@ const memoStyles = _.memoStyles(_ => ({
     textAlign: 'center'
   },
   quoteText: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    marginBottom: 4,
-    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
-    borderWidth: _.hairlineWidth,
-    borderColor: _.colorBorder,
-    transform: [
-      {
-        scale: 0.96
-      }
-    ]
+    padding: 12,
+    marginBottom: 6,
+    backgroundColor: _.select('rgb(232, 232, 234)', _._colorDarkModeLevel2)
   }
 }))

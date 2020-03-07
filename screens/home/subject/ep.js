@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 09:55:37
+ * @Last Modified time: 2020-03-07 16:03:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,7 +39,7 @@ function Ep({ style }, { $, navigation }) {
           <>
             {$.showOnlinePlay && (
               <Popover data={$.onlineOrigins} onSelect={$.onlinePlaySelected}>
-                <Iconfont style={styles.iconPlay} name='search' size={16} />
+                <Iconfont style={styles.iconPlay} name='xin-fan' size={16} />
               </Popover>
             )}
             <IconReverse

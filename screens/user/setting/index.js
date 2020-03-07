@@ -2,12 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 10:49:11
+ * @Last Modified time: 2020-03-05 17:44:17
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
 import { Text, Switch } from '@components'
-import { Popover, ItemSetting, IconTouchable } from '@screens/_'
+import {
+  Popover,
+  ItemSetting,
+  IconTouchable,
+  NavigationBarEvents
+} from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
 import { toFixed } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
@@ -619,6 +624,7 @@ class Setting extends React.Component {
         style={_.container.screen}
         contentContainerStyle={_.container.bottom}
       >
+        <NavigationBarEvents />
         {this.renderModule()}
         {this.renderBasic()}
         {this.renderUI()}

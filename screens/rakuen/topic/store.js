@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 13:21:53
+ * @Last Modified time: 2020-03-07 14:22:37
  */
 import { observable, computed } from 'mobx'
 import {
@@ -40,9 +40,11 @@ export default class ScreenTopic extends store {
 
   init = async () => {
     const state = await this.getStorage(undefined, this.namespace)
+    const commonState = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
       ...initState,
+      reverse: commonState.reverse,
       _loaded: true
     })
 
@@ -161,6 +163,26 @@ export default class ScreenTopic extends store {
       ...comments,
       list
     }
+  }
+
+  @computed get commentMeCount() {
+    const { list } = rakuenStore.comments(this.topicId)
+    return list.filter(item => {
+      if (item.sub.findIndex(i => i.userId === this.myId) !== -1) {
+        return true
+      }
+      return item.userId === this.myId
+    }).length
+  }
+
+  @computed get commentFriendsCount() {
+    const { list } = rakuenStore.comments(this.topicId)
+    return list.filter(item => {
+      if (item.sub.findIndex(i => this.myFriendsMap[i.userId]) !== -1) {
+        return true
+      }
+      return this.myFriendsMap[item.userId]
+    }).length
   }
 
   @computed get isEp() {
@@ -300,7 +322,7 @@ export default class ScreenTopic extends store {
     this.setState({
       reverse: !reverse
     })
-    this.setStorage(undefined, undefined, this.namespace)
+    this.setStorage(undefined, undefined, namespace)
   }
 
   /**

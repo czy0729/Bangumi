@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 20:18:40
+ * @Last Modified time: 2020-03-05 17:43:43
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { FixedTextarea, Flex } from '@components'
+import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -87,6 +88,7 @@ class Say extends React.Component {
     const { _loaded } = $.say
     return (
       <View style={_.container.screen}>
+        <NavigationBarEvents />
         {_loaded ? (
           <>
             <ScrollView

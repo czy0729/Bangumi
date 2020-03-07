@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 04:13:24
+ * @Last Modified time: 2020-03-07 12:26:01
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -271,13 +271,13 @@ class ItemTimeline extends React.Component {
                 {!!reply.count && (
                   <Text
                     type='primary'
-                    size={13}
+                    size={12}
                     onPress={() => this.appNavigate(reply.url)}
                   >
                     {reply.count}
                   </Text>
                 )}
-                <Text style={_.mr.sm} type='sub' size={13}>
+                <Text style={_.mr.sm} type='sub' size={12}>
                   {time}
                 </Text>
                 <Stars value={star} />
