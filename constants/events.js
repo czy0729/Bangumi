@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-01 17:31:43
+ * @Last Modified time: 2020-03-07 17:52:55
  */
 
 /**
@@ -338,6 +338,8 @@ export default {
   '英灵殿.标签页切换': 'TValhall.tabsChange',
   '英灵殿.排序': 'TValhall.onSortPress',
   '英灵殿.设置前往': 'TValhall.onSelectGo',
+
+  '我的道具.使用': 'TItems.use',
 
   /* ==================== user ==================== */
   // 好友

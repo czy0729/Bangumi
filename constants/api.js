@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-05 16:31:16
+ * @Last Modified time: 2020-03-05 17:34:28
  */
 import { HOST } from './index'
 
@@ -423,9 +423,15 @@ export const API_TINYGRAIL_BONUS_HOLIDAY = () =>
   `${API_HOST_TINYGRAIL}/api/event/holiday/bonus`
 
 /**
- * 道具
+ * 我的道具
+ */
+export const API_TINYGRAIL_ITEMS = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/item/0/1/50`
+
+/**
+ * 使用道具
  * @param {*} monoId
  * @param {*} type
  */
 export const API_TINYGRAIL_MAGIC = (monoId, type = 'chaos') =>
-  `https://tinygrail.com/api/magic/${type}/${monoId}`
+  `${API_HOST_TINYGRAIL}/api/magic/${type}/${monoId}`

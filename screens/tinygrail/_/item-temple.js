@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 11:17:54
+ * @Last Modified time: 2020-03-07 18:13:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -27,6 +27,7 @@ function ItemTemple(
     avatar,
     name,
     nickname,
+    assets,
     sacrifices,
     event,
     type,
@@ -47,6 +48,12 @@ function ItemTemple(
   } else if (level === 2) {
     colorLevel = _.colorWarning
   }
+
+  const numText = assets
+    ? assets === sacrifices
+      ? assets
+      : `${assets} / ${sacrifices}`
+    : sacrifices
   return (
     <View style={styles.item}>
       <Image
@@ -70,9 +77,7 @@ function ItemTemple(
       {isView ? (
         <View style={_.mt.sm}>
           <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
+            style={styles.plain}
             numberOfLines={1}
             onPress={() => {
               t(eventId, {
@@ -89,12 +94,7 @@ function ItemTemple(
             {HTMLDecode(name)}
           </Text>
           <Text
-            style={[
-              {
-                color: _.colorTinygrailText
-              },
-              _.mt.xs
-            ]}
+            style={[styles.text, _.mt.xs]}
             size={12}
             numberOfLines={1}
             onPress={() => {
@@ -131,19 +131,19 @@ function ItemTemple(
             )}
             <Flex.Item>
               <Text
-                style={{
-                  color: _.colorTinygrailPlain
-                }}
-                size={isFormCharaAssets ? 16 : 14}
+                style={styles.plain}
+                size={isFormCharaAssets ? 14 : 12}
                 numberOfLines={1}
               >
-                {sacrifices}
+                {numText}
               </Text>
               <Text
-                style={{
-                  marginTop: 2,
-                  color: _.colorTinygrailText
-                }}
+                style={[
+                  styles.text,
+                  {
+                    marginTop: 2
+                  }
+                ]}
                 size={isFormCharaAssets ? 12 : 10}
                 numberOfLines={1}
               >
@@ -178,5 +178,11 @@ const styles = StyleSheet.create({
     width: imageWidth,
     marginTop: 24,
     marginLeft
+  },
+  text: {
+    color: _.colorTinygrailText
+  },
+  plain: {
+    color: _.colorTinygrailPlain
   }
 })

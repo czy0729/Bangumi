@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-04 13:59:25
+ * @Last Modified time: 2020-03-07 14:43:42
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -101,7 +101,7 @@ function Item(
         </Flex>
         {!!userSign && (
           <Text style={styles.sign} type='sub' size={12} numberOfLines={2}>
-            {userSign}
+            {userSign.splice(1, userSign.length - 1)}
           </Text>
         )}
         <RenderHtml
@@ -281,7 +281,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   itemNew: {
-    backgroundColor: _.select(_.colorMainLight, 'rgb(59, 48 ,51)')
+    backgroundColor: _.colorMainLight
   },
   itemJump: {
     borderWidth: 2,

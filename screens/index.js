@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 05:04:33
+ * @Last Modified time: 2020-03-05 22:26:21
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -64,6 +64,7 @@ export { default as TinygrailCharaAssets } from './tinygrail/chara-assets'
 export { default as TinygrailDeal } from './tinygrail/deal'
 export { default as TinygrailICO } from './tinygrail/ico'
 export { default as TinygrailICODeal } from './tinygrail/ico-deal'
+export { default as TinygrailItems } from './tinygrail/items'
 export { default as TinygrailLogs } from './tinygrail/logs'
 export { default as TinygrailNew } from './tinygrail/new'
 export { default as TinygrailOverview } from './tinygrail/overview'

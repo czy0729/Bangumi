@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 06:03:39
+ * @Last Modified time: 2020-03-07 16:32:14
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -12,6 +12,9 @@ import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { SAY_TINYGRAIL_ID } from '@constants'
+
+const dataToday = ['刮刮乐', '每周分红', '每日签到', '节日福利']
+const dataMore = ['重新授权', '人物直达', '小组讨论', '意见反馈', '设置']
 
 function Btns(props, { $, navigation }) {
   const styles = memoStyles()
@@ -33,21 +36,11 @@ function Btns(props, { $, navigation }) {
   return (
     <>
       <Popover
-        data={['刮刮乐', '每周分红', '每日签到', '节日福利']}
+        data={dataToday}
         onSelect={title => {
           setTimeout(() => {
             switch (title) {
               case '刮刮乐':
-                // Alert.alert('小圣杯助手', '消费₵1000购买一张刮刮乐彩票?', [
-                //   {
-                //     text: '取消',
-                //     style: 'cancel'
-                //   },
-                //   {
-                //     text: '确定',
-                //     onPress: () => $.doLottery(navigation)
-                //   }
-                // ])
                 $.doLottery(navigation)
                 break
               case '每周分红':
@@ -63,20 +56,6 @@ function Btns(props, { $, navigation }) {
                 ])
                 break
               case '每日签到':
-                // Alert.alert(
-                //   '警告',
-                //   '领取每日签到后，将不能再领取每周分红，暂每天₵1500，确定?',
-                //   [
-                //     {
-                //       text: '取消',
-                //       style: 'cancel'
-                //     },
-                //     {
-                //       text: '确定',
-                //       onPress: $.doGetBonusDaily
-                //     }
-                //   ]
-                // )
                 $.doGetBonusDaily()
                 break
               case '节日福利':
@@ -98,7 +77,7 @@ function Btns(props, { $, navigation }) {
         </Button>
       </Popover>
       <Popover
-        data={['重新授权', '人物直达', '意见反馈', '设置']}
+        data={dataMore}
         onSelect={title => {
           setTimeout(() => {
             switch (title) {
@@ -107,6 +86,11 @@ function Btns(props, { $, navigation }) {
                 break
               case '人物直达':
                 navigation.push('TinygrailSearch')
+                break
+              case '小组讨论':
+                navigation.push('Group', {
+                  groupId: 'tinygrail'
+                })
                 break
               case '意见反馈':
                 navigation.push('Say', {

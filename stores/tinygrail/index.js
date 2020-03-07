@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-29 11:46:51
+ * @Last Modified time: 2020-03-07 18:05:44
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -15,43 +15,45 @@ import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import { LIST_EMPTY } from '@constants'
 import {
-  API_TINYGRAIL_CHARAS,
-  API_TINYGRAIL_LIST,
-  API_TINYGRAIL_RICH,
-  API_TINYGRAIL_CHARTS,
-  API_TINYGRAIL_DEPTH,
-  API_TINYGRAIL_HASH,
-  API_TINYGRAIL_ASSETS,
-  API_TINYGRAIL_CHARA_ASSETS,
-  API_TINYGRAIL_USER_CHARA,
-  API_TINYGRAIL_BID,
   API_TINYGRAIL_ASK,
-  API_TINYGRAIL_CANCEL_BID,
-  API_TINYGRAIL_CANCEL_ASK,
-  API_TINYGRAIL_CHARA_BID,
-  API_TINYGRAIL_CHARA_ASKS,
-  API_TINYGRAIL_MY_CHARA_ASSETS,
-  API_TINYGRAIL_BALANCE,
-  API_TINYGRAIL_INITIAL,
-  API_TINYGRAIL_JOIN,
-  API_TINYGRAIL_USERS,
-  API_TINYGRAIL_TEMPLE,
-  API_TINYGRAIL_CHARA_ALL,
-  API_TINYGRAIL_CHARA_TEMPLE,
-  API_TINYGRAIL_VALHALL_CHARA,
-  API_TINYGRAIL_AUCTION_LIST,
+  API_TINYGRAIL_ASSETS,
   API_TINYGRAIL_AUCTION,
-  API_TINYGRAIL_AUCTION_STATUS,
   API_TINYGRAIL_AUCTION_CANCEL,
-  API_TINYGRAIL_SACRIFICE,
-  API_TINYGRAIL_VALHALL_LIST,
-  API_TINYGRAIL_MY_AUCTION_LIST,
-  API_TINYGRAIL_SCRATCH,
+  API_TINYGRAIL_AUCTION_LIST,
+  API_TINYGRAIL_AUCTION_STATUS,
+  API_TINYGRAIL_BALANCE,
+  API_TINYGRAIL_BID,
   API_TINYGRAIL_BONUS,
   API_TINYGRAIL_BONUS_DAILY,
   API_TINYGRAIL_BONUS_HOLIDAY,
+  API_TINYGRAIL_CANCEL_ASK,
+  API_TINYGRAIL_CANCEL_BID,
+  API_TINYGRAIL_CHARAS,
+  API_TINYGRAIL_CHARA_ALL,
+  API_TINYGRAIL_CHARA_ASKS,
+  API_TINYGRAIL_CHARA_ASSETS,
+  API_TINYGRAIL_CHARA_BID,
+  API_TINYGRAIL_CHARA_TEMPLE,
+  API_TINYGRAIL_CHARTS,
+  API_TINYGRAIL_DEPTH,
+  API_TINYGRAIL_HASH,
+  API_TINYGRAIL_INITIAL,
   API_TINYGRAIL_ISSUE_PRICE,
-  API_TINYGRAIL_TEMPLE_LAST
+  API_TINYGRAIL_ITEMS,
+  API_TINYGRAIL_JOIN,
+  API_TINYGRAIL_LIST,
+  API_TINYGRAIL_MAGIC,
+  API_TINYGRAIL_MY_AUCTION_LIST,
+  API_TINYGRAIL_MY_CHARA_ASSETS,
+  API_TINYGRAIL_RICH,
+  API_TINYGRAIL_SACRIFICE,
+  API_TINYGRAIL_SCRATCH,
+  API_TINYGRAIL_TEMPLE,
+  API_TINYGRAIL_TEMPLE_LAST,
+  API_TINYGRAIL_USERS,
+  API_TINYGRAIL_USER_CHARA,
+  API_TINYGRAIL_VALHALL_CHARA,
+  API_TINYGRAIL_VALHALL_LIST
 } from '@constants/api'
 import UserStore from '../user'
 import {
@@ -237,6 +239,11 @@ class Tinygrail extends store {
     valhallList: LIST_EMPTY,
 
     /**
+     * 我的道具
+     */
+    items: LIST_EMPTY,
+
+    /**
      * 我的拍卖列表
      */
     auction: LIST_EMPTY,
@@ -319,6 +326,7 @@ class Tinygrail extends store {
         'charaAll',
         'charaTemple',
         'valhallList',
+        'items',
         'auction',
         'issuePrice',
         'advanceList',
@@ -426,6 +434,10 @@ class Tinygrail extends store {
 
   @computed get valhallList() {
     return this.state.valhallList
+  }
+
+  @computed get items() {
+    return this.state.items
   }
 
   issuePrice(id) {
@@ -887,6 +899,36 @@ class Tinygrail extends store {
   }
 
   /**
+   * 我的道具
+   */
+  fetchItems = async () => {
+    const result = await this.fetch(API_TINYGRAIL_ITEMS())
+
+    const data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data._loaded = getTimestamp()
+      data.list = result.data.Value.Items.map(item => ({
+        id: item.Id,
+        name: item.Name,
+        icon: item.Icon,
+        line: item.Line,
+        amount: item.Amount,
+        last: item.Last
+      }))
+    }
+
+    const key = 'items'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
    * 用户挂单和交易记录
    */
   fetchUserLogs = async monoId => {
@@ -1339,7 +1381,8 @@ class Tinygrail extends store {
           id: item.CharacterId,
           cover: item.Cover,
           name: item.Name,
-          sacrifices: item.Sacrifices,
+          assets: item.Assets, // 剩余资产
+          sacrifices: item.Sacrifices, // 献祭总数
           rate: item.Rate,
           level: item.Level
         })),
@@ -1995,6 +2038,14 @@ class Tinygrail extends store {
       'https://tinygrail.com/api/event/send/sukaretto/2000',
       true
     )
+    return data
+  }
+
+  /**
+   * 使用道具
+   */
+  doMagic = async ({ monoId }) => {
+    const { data } = await this.fetch(API_TINYGRAIL_MAGIC(monoId), true)
     return data
   }
 }

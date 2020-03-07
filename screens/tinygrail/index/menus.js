@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 11:59:32
+ * @Last Modified time: 2020-03-07 16:24:33
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -71,14 +71,7 @@ function Menus(props, { $ }) {
         pathname='TinygrailAdvance'
         icon='meeting'
       />
-      <MenuItem
-        title='小组讨论'
-        pathname='Group'
-        config={{
-          groupId: 'tinygrail'
-        }}
-        icon='planet'
-      />
+      <MenuItem title='我的道具' pathname='TinygrailItems' icon='order' />
     </Flex>
   )
 }
