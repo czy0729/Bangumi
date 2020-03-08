@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 06:27:55
+ * @Last Modified time: 2020-03-08 14:31:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -191,8 +191,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   header: {
     paddingLeft: _.sm,
-    paddingRight: _.wind,
-    opacity: 0.5
+    paddingRight: _.wind
   },
   list: {
     minHeight: 128

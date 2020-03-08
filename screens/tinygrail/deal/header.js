@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 16:06:14
+ * @Last Modified time: 2020-03-08 14:40:08
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -24,7 +24,7 @@ function Header(props, { $, navigation }) {
     color = _.colorBid
   }
 
-  let fluctuationText = '- %'
+  let fluctuationText = ''
   if (fluctuation > 0) {
     fluctuationText = `+${toFixed(fluctuation, 2)}%`
   } else if (fluctuation < 0) {
@@ -63,16 +63,25 @@ function Header(props, { $, navigation }) {
                 style={{
                   color: _.colorTinygrailPlain
                 }}
-                size={16}
                 numberOfLines={1}
               >
                 {name}
                 {!!bonus && (
-                  <Text size={12} lineHeight={16} type='warning'>
+                  <Text size={12} lineHeight={14} type='warning'>
                     {' '}
-                    X{bonus}
+                    x{bonus}
                   </Text>
                 )}
+                <Text
+                  style={{
+                    color: _.colorAsk
+                  }}
+                  size={12}
+                  lineHeight={14}
+                >
+                  {' '}
+                  lv{level}
+                </Text>
               </Text>
               <Text
                 style={[
@@ -81,33 +90,21 @@ function Header(props, { $, navigation }) {
                     color
                   }
                 ]}
-                lineHeight={17}
                 align='center'
               >
                 {fluctuationText}
               </Text>
             </Flex>
-            <Flex>
-              <Text
-                style={{
-                  color: _.colorAsk
-                }}
-                size={12}
-                lineHeight={17}
-              >
-                lv{level}
-              </Text>
-              <Text
-                style={{
-                  color: _.colorTinygrailText
-                }}
-                size={12}
-                lineHeight={17}
-              >
-                {' '}
-                +{toFixed(rate, 2)} ({toFixed(rate * (level + 1) * 0.3, 2)})
-              </Text>
-            </Flex>
+            <Text
+              style={{
+                color: _.colorTinygrailText
+              }}
+              size={12}
+              lineHeight={13}
+            >
+              #{$.monoId} / +{toFixed(rate, 2)} / +
+              {toFixed(rate * (level + 1) * 0.3, 2)}
+            </Text>
           </Flex.Item>
         </Flex>
       </Flex.Item>

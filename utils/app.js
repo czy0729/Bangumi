@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:44:47
+ * @Last Modified time: 2020-03-08 14:24:49
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -570,4 +570,16 @@ export function tinygrailOSS(str, w = 150) {
   }
 
   return str
+}
+
+/**
+ * 修复时间
+ * 2019-10-04T13:34:03.4243768+08:00 => 2019-10-04 13:34:03
+ * @param {*} time
+ */
+export function tinygrailFixedTime(time) {
+  return (time || '')
+    .replace('T', ' ')
+    .split('+')[0]
+    .split('.')[0]
 }

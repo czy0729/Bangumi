@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 04:10:51
+ * @Last Modified time: 2020-03-08 21:21:36
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -68,7 +68,7 @@ class TinygrailItems extends React.Component {
                         index !== 0 && this.styles.border
                       ]}
                     >
-                      <Image size={40} src={tinygrailOSS(item.icon)} radius />
+                      <Image size={44} src={tinygrailOSS(item.icon)} radius />
                       <Flex.Item style={_.ml.md}>
                         <Text
                           style={{

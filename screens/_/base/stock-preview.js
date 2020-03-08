@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 16:03:09
+ * @Last Modified time: 2020-03-08 14:03:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -69,7 +69,7 @@ class StockPreview extends React.Component {
             this.styles.iconText,
             this.isDark && this.styles.iconTextDark
           ]}
-          size={10}
+          size={11}
           align='center'
         >
           lv.{level} {percent}%
@@ -213,7 +213,7 @@ class StockPreview extends React.Component {
                   ? _.colorTinygrailContainer
                   : _.colorPlain
               }}
-              size={10}
+              size={11}
             >
               量{change}
             </Text>
@@ -225,7 +225,7 @@ class StockPreview extends React.Component {
                   style={{
                     color: _.colorBid
                   }}
-                  size={10}
+                  size={11}
                 >
                   {bids}
                 </Text>
@@ -263,7 +263,7 @@ class StockPreview extends React.Component {
                       color: _.colorAsk
                     }
                   ]}
-                  size={10}
+                  size={11}
                 >
                   {asks}
                 </Text>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-05 17:34:28
+ * @Last Modified time: 2020-03-08 20:20:31
  */
 import { HOST } from './index'
 
@@ -435,3 +435,9 @@ export const API_TINYGRAIL_ITEMS = () =>
  */
 export const API_TINYGRAIL_MAGIC = (monoId, type = 'chaos') =>
   `${API_HOST_TINYGRAIL}/api/magic/${type}/${monoId}`
+
+/**
+ * 每周萌王
+ */
+export const API_TINYGRAIL_TOP_WEEK = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/topweek`

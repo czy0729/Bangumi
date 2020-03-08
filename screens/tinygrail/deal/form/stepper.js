@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:31:29
+ * @Last Modified time: 2020-03-08 14:06:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,14 +76,14 @@ const memoStyles = _.memoStyles(_ => ({
   },
   minus: {
     width: 14,
-    height: 2,
+    height: 1,
     backgroundColor: _.colorTinygrailText
   },
   plus: {
     position: 'absolute',
     top: 9,
-    left: 15,
-    width: 2,
+    left: 16,
+    width: 1,
     height: 14,
     backgroundColor: _.colorTinygrailText
   }

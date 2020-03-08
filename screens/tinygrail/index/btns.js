@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 16:32:14
+ * @Last Modified time: 2020-03-08 21:39:31
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -14,7 +14,7 @@ import { observer } from '@utils/decorators'
 import { SAY_TINYGRAIL_ID } from '@constants'
 
 const dataToday = ['刮刮乐', '每周分红', '每日签到', '节日福利']
-const dataMore = ['重新授权', '人物直达', '小组讨论', '意见反馈', '设置']
+const dataMore = ['重新授权', '人物直达', '意见反馈', '设置']
 
 function Btns(props, { $, navigation }) {
   const styles = memoStyles()
@@ -86,11 +86,6 @@ function Btns(props, { $, navigation }) {
                 break
               case '人物直达':
                 navigation.push('TinygrailSearch')
-                break
-              case '小组讨论':
-                navigation.push('Group', {
-                  groupId: 'tinygrail'
-                })
                 break
               case '意见反馈':
                 navigation.push('Say', {

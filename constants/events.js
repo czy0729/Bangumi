@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 05:06:54
+ * @Last Modified time: 2020-03-08 21:53:46
  */
 
 /**
@@ -340,7 +340,12 @@ export default {
   '英灵殿.排序': 'TValhall.onSortPress',
   '英灵殿.设置前往': 'TValhall.onSelectGo',
 
+  // 我的道具
   '我的道具.使用': 'TItems.use',
+
+  // 每周萌王
+  '每周萌王.跳转': 'TTopWeek.to',
+  '每周萌王.刷新': 'TTopWeek.refresh',
 
   /* ==================== user ==================== */
   // 好友

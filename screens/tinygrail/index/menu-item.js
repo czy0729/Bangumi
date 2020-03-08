@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 12:04:33
+ * @Last Modified time: 2020-03-08 21:52:12
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,7 +12,7 @@ import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
-const sectionHeight = sectionWidth / 2.6
+const sectionHeight = sectionWidth / 2.68
 
 function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
   const styles = memoStyles()

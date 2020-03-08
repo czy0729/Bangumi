@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:45:06
+ * @Last Modified time: 2020-03-08 21:27:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -81,7 +81,7 @@ class Mono extends React.Component {
       },
       extra: $.tinygrail && !!$.chara._loaded && (
         <IconHeader
-          name='trophy-full'
+          name='trophy'
           color={_.colorYellow}
           onPress={() => {
             const path = $.chara.users ? 'TinygrailICODeal' : 'TinygrailTrade'

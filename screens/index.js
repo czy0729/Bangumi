@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-05 22:26:21
+ * @Last Modified time: 2020-03-08 20:55:52
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -72,6 +72,7 @@ export { default as TinygrailRich } from './tinygrail/rich'
 export { default as TinygrailSacrifice } from './tinygrail/sacrifice'
 export { default as TinygrailSearch } from './tinygrail/search'
 export { default as TinygrailTemples } from './tinygrail/temples'
+export { default as TinygrailTopWeek } from './tinygrail/top-week'
 export { default as TinygrailTrade } from './tinygrail/trade'
 export { default as TinygrailTree } from './tinygrail/tree'
 export { default as TinygrailTreeRich } from './tinygrail/tree-rich'

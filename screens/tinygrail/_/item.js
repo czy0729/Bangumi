@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-29 11:56:40
+ * @Last Modified time: 2020-03-08 14:26:30
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Text, Touchable } from '@components'
 import { Avatar, StockPreview } from '@screens/_'
 import { _, tinygrailStore } from '@stores'
 import { lastDate, getTimestamp, formatNumber, toFixed } from '@utils'
-import { tinygrailOSS, formatTime } from '@utils/app'
+import { tinygrailOSS, tinygrailFixedTime, formatTime } from '@utils/app'
 import { t } from '@utils/fetch'
 import { EVENT, B, M } from '@constants'
 import Popover from './popover'
@@ -119,7 +119,7 @@ function Item(props, { $, navigation }) {
       extra += ` / 底价${toFixed(price, 1)} / 数量${formatNumber(state, 0)}`
     } else {
       if (show) {
-        extra += ` / ${lastDate(getTimestamp(fixedTime(lastOrder)))}`
+        extra += ` / ${lastDate(getTimestamp(tinygrailFixedTime(lastOrder)))}`
       }
       if (marketValueText) {
         extra += ` / 总${marketValueText}`
@@ -227,7 +227,7 @@ function Item(props, { $, navigation }) {
                       </Text>
                     )}
                   </Text>
-                  <Text style={styles.extraText} size={10}>
+                  <Text style={styles.extraText} size={11}>
                     {isDeal && (
                       <Text
                         style={{
@@ -238,7 +238,12 @@ function Item(props, { $, navigation }) {
                         {prevText}
                       </Text>
                     )}
-                    {!!sacrifices && ` / 固${sacrifices}`}
+                    {!!sacrifices && ' / '}
+                    {!!sacrifices && (
+                      <Text style={styles.textBid} size={11}>
+                        塔{sacrifices}
+                      </Text>
+                    )}
                     {isDeal && !isAuction && !isValhall && ' / '}
                     {extra}
                   </Text>
@@ -333,6 +338,9 @@ const memoStyles = _.memoStyles(_ => ({
   textAsk: {
     color: _.colorAsk
   },
+  textBid: {
+    color: _.colorBid
+  },
   extraText: {
     ..._.mt.xs,
     color: _.colorTinygrailText
@@ -352,18 +360,6 @@ const memoStyles = _.memoStyles(_ => ({
     marginRight: -12
   }
 }))
-
-/**
- * 修复时间
- * 2019-10-04T13:34:03.4243768+08:00 => 2019-10-04 13:34:03
- * @param {*} time
- */
-function fixedTime(time) {
-  return (time || '')
-    .replace('T', ' ')
-    .split('+')[0]
-    .split('.')[0]
-}
 
 /**
  * 路由跳转复写

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 16:24:33
+ * @Last Modified time: 2020-03-08 21:36:41
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -25,6 +25,15 @@ function Menus(props, { $ }) {
       <MenuItem title='番市首富' pathname='TinygrailRich' icon='shou-fu' />
       <MenuItem title='英灵殿' pathname='TinygrailValhall' icon='app' />
       <MenuItem title='最新圣殿' pathname='TinygrailTemples' icon='break' />
+      <MenuItem title='每周萌王' pathname='TinygrailTopWeek' icon='like' />
+      <MenuItem
+        title='小组讨论'
+        pathname='Group'
+        config={{
+          groupId: 'tinygrail'
+        }}
+        icon='planet'
+      />
       <Assets />
       <MenuItem
         style={{

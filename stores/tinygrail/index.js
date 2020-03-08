@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 23:22:43
+ * @Last Modified time: 2020-03-08 21:39:46
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -50,6 +50,7 @@ import {
   API_TINYGRAIL_SCRATCH,
   API_TINYGRAIL_TEMPLE,
   API_TINYGRAIL_TEMPLE_LAST,
+  API_TINYGRAIL_TOP_WEEK,
   API_TINYGRAIL_USERS,
   API_TINYGRAIL_USER_CHARA,
   API_TINYGRAIL_VALHALL_CHARA,
@@ -268,6 +269,11 @@ class Tinygrail extends store {
     templeLast: LIST_EMPTY,
 
     /**
+     * 每周萌王
+     */
+    topWeek: LIST_EMPTY,
+
+    /**
      * 卖一推荐
      */
     advanceList: LIST_EMPTY,
@@ -304,35 +310,36 @@ class Tinygrail extends store {
   init = () =>
     this.readStorage(
       [
-        'cookie',
         'advance',
+        'advanceAuctionList',
+        'advanceBidList',
+        'advanceList',
+        'advanceSacrificeList',
+        'asks',
+        'assets',
+        'auction',
+        'balance',
+        'bid',
+        'charaAll',
+        'charaAssets',
+        'charaTemple',
         'characters',
-        'mvi',
-        'recent',
-        'nbc',
-        'rich',
-        'kline',
+        'cookie',
         'depth',
         'hash',
-        'assets',
-        'charaAssets',
-        'userLogs',
-        'bid',
-        'asks',
-        'myCharaAssets',
-        'balance',
         'iconsCache',
-        'temple',
-        'charaAll',
-        'charaTemple',
-        'valhallList',
-        'items',
-        'auction',
         'issuePrice',
-        'advanceList',
-        'advanceBidList',
-        'advanceAuctionList',
-        'advanceSacrificeList'
+        'items',
+        'kline',
+        'mvi',
+        'myCharaAssets',
+        'nbc',
+        'recent',
+        'rich',
+        'temple',
+        'topWeek',
+        'userLogs',
+        'valhallList'
       ],
       NAMESPACE
     )
@@ -448,6 +455,10 @@ class Tinygrail extends store {
     return this.state.templeLast
   }
 
+  @computed get topWeek() {
+    return this.state.topWeek
+  }
+
   @computed get advanceList() {
     return this.state.advanceList
   }
@@ -520,7 +531,6 @@ class Tinygrail extends store {
    */
   fetchCharacters = async ids => {
     const result = await this.fetch(API_TINYGRAIL_CHARAS(), true, ids)
-
     const { characters } = this.state
     const data = {
       ...characters
@@ -547,6 +557,7 @@ class Tinygrail extends store {
           total: item.Total,
           marketValue: item.MarketValue,
           lastOrder: item.LastOrder,
+          lastDeal: item.LastDeal,
           end: item.End,
           users: item.Users,
           name: item.Name,
@@ -920,6 +931,47 @@ class Tinygrail extends store {
     }
 
     const key = 'items'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 我的道具
+   */
+  fetchTopWeek = async () => {
+    const result = await this.fetch(API_TINYGRAIL_TOP_WEEK())
+
+    const data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      const { list: lastList } = this.topWeek
+
+      data._loaded = getTimestamp()
+      data.list = result.data.Value.map((item, index) => {
+        const lastItem = lastList.find(i => i.id === item.CharacterId) || {
+          rank: 0,
+          extra: 0
+        }
+
+        const rank = index + 1
+        return {
+          id: item.CharacterId,
+          avatar: item.Avatar,
+          name: item.CharacterName,
+          extra: item.Extra,
+          extraChange: item.Extra - lastItem.extra,
+          rank,
+          rankChange: lastItem.rank === 0 ? 'new' : lastItem.rank - rank
+        }
+      })
+    }
+
+    const key = 'topWeek'
     this.setState({
       [key]: data
     })
