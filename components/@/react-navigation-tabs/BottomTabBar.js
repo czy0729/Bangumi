@@ -11,6 +11,7 @@ import {
 import { observer } from 'mobx-react'
 import { SafeAreaView } from '@react-navigation/native'
 import { _ } from '@stores'
+import { IOS } from '@constants'
 import CrossFadeIcon from './CrossFadeIcon'
 import withDimensions from './utils/withDimensions'
 
@@ -252,9 +253,14 @@ const COMPACT_HEIGHT = 29
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: '#fff',
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: 'rgba(0, 0, 0, .3)',
-    flexDirection: 'row'
+    borderTopWidth: 0,
+    // borderTopColor: 'rgba(0, 0, 0, .3)',
+    flexDirection: 'row',
+    ...(IOS
+      ? {}
+      : {
+          elevation: 4
+        })
   },
   tabBarCompact: {
     height: COMPACT_HEIGHT

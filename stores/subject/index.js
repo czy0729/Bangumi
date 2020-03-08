@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 11:37:46
+ * @Last Modified time: 2020-03-08 22:12:30
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -479,7 +479,10 @@ class Subject extends store {
   fetchMonoFormCDN = async monoId => {
     try {
       const { _response } = await xhrCustom({
-        url: CDN_MONO(monoId)
+        url: CDN_MONO(
+          monoId.replace(/character\/|person\//g, ''),
+          monoId.includes('character') ? 'data' : 'person'
+        )
       })
 
       const data = {

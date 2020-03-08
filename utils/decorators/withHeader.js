@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:56:07
+ * @Last Modified time: 2020-03-08 22:31:40
  */
 import React from 'react'
 import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
@@ -90,9 +90,10 @@ const withHeader = ({
               }
             : {
                 backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-                borderBottomColor: _.colorBorder,
-                borderBottomWidth: _.hairlineWidth,
-                elevation: 0,
+                // borderBottomColor: _.colorBorder,
+                // borderBottomWidth: _.hairlineWidth,
+                borderBottomWidth: 0,
+                elevation: 2,
                 ...defaultHeaderStyle,
                 ...headerStyle
               },

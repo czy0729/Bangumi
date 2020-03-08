@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-01 17:49:45
+ * @Last Modified time: 2020-03-08 22:13:59
  */
 import { computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -41,9 +41,7 @@ export default class ScreenMono extends store {
       return true
     }
 
-    return subjectStore.fetchMonoFormCDN(
-      this.monoId.replace(/character\/|person\//g, '')
-    )
+    return subjectStore.fetchMonoFormCDN(this.monoId)
   }
 
   // -------------------- get --------------------
@@ -61,9 +59,7 @@ export default class ScreenMono extends store {
   }
 
   @computed get monoFormCDN() {
-    return subjectStore.monoFormCDN(
-      this.monoId.replace(/character\/|person\//g, '')
-    )
+    return subjectStore.monoFormCDN(this.monoId)
   }
 
   @computed get chara() {

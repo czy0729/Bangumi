@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:38:41
+ * @Last Modified time: 2020-03-08 23:18:57
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -135,7 +135,7 @@ export const lineHeightRatio = 1.28
 
 // -------------------- 圆角 --------------------
 export const radiusXs = 4
-export const radiusSm = 8
+export const radiusSm = 6
 export const radiusMd = 12
 export const radiusLg = 16
 
@@ -150,9 +150,6 @@ export const shadow = IOS
       shadowRadius: 6
     }
   : {
-      backgroundColor: colorPlain,
-      borderRadius: radiusSm,
-      overflow: 'hidden',
       elevation: 2
     }
 

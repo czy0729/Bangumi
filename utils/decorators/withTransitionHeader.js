@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 14:51:57
+ * @Last Modified time: 2020-03-08 22:28:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -179,6 +179,18 @@ const withTransitionHeader = ({
             }
           })
         } else {
+          let shadowStyle = {}
+          if (isTransitioned) {
+            if (IOS) {
+              shadowStyle = _.shadow
+            } else {
+              shadowStyle = {
+                overflow: 'hidden',
+                elevation: 2
+              }
+            }
+          }
+
           navigation.setParams({
             title,
             headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
@@ -189,7 +201,7 @@ const withTransitionHeader = ({
                 _._colorDarkModeLevel1Raw
               ).join()}, ${opacity})`,
               borderBottomWidth: 0,
-              ...(isTransitioned ? _.shadow : {})
+              ...shadowStyle
             }
           })
         }

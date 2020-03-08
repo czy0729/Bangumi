@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 08:03:33
+ * @Last Modified time: 2020-03-08 21:57:26
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -94,6 +94,7 @@ class Tinygrail extends React.Component {
     return (
       <ScrollView
         style={this.styles.container}
+        contentContainerStyle={this.styles.contentContainerStyle}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
@@ -134,6 +135,9 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     ..._.container.flex,
     backgroundColor: _.colorTinygrailContainer
+  },
+  contentContainerStyle: {
+    paddingBottom: _.wind
   },
   statusBar: {
     backgroundColor: _.colorTinygrailContainer
