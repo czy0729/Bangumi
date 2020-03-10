@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-31 20:40:45
+ * @Last Modified time: 2020-03-09 14:48:41
  */
 import React from 'react'
 import { ScrollView, Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { Text, Switch } from '@components'
+import { Text, Switch, Touchable } from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
@@ -35,6 +35,16 @@ class DEV extends React.Component {
         <ItemSetting
           hd='调试'
           ft={<Switch checked={dev} onChange={systemStore.toggleDev} />}
+          withoutFeedback
+        />
+        <ItemSetting
+          hd='JSException'
+          ft={
+            // eslint-disable-next-line no-undef
+            <Touchable onPress={() => yijianmaojiao()}>
+              <Text>一键猫叫</Text>
+            </Touchable>
+          }
           withoutFeedback
         />
         <Text

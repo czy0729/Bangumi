@@ -10,4 +10,5 @@ dist/
 iPhoneDistribution.p12
 ios/
 node_modules
+node_modules2
 yarn.lock

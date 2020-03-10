@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 23:18:57
+ * @Last Modified time: 2020-03-10 00:34:33
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -144,10 +144,10 @@ export const shadow = IOS
   ? {
       shadowColor: colorShadow,
       shadowOffset: {
-        height: 4
+        height: 2
       },
-      shadowOpacity: 0.1,
-      shadowRadius: 6
+      shadowOpacity: 0.06,
+      shadowRadius: 4
     }
   : {
       elevation: 2

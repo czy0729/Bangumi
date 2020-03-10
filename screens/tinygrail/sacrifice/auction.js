@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 05:09:01
+ * @Last Modified time: 2020-03-10 00:26:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,15 +62,17 @@ function Auction({ style }, { $ }) {
               value={String(auctionAmount)}
               onChangeText={$.changeAuctionAmount}
             />
-            <Popover
-              style={styles.popover}
-              data={countDS}
-              onSelect={$.changeAuctionAmountByMenu}
-            >
-              <Flex style={styles.count} justify='center'>
-                <Iconfont name='down' size={18} color={_.colorTinygrailText} />
-              </Flex>
-            </Popover>
+            <View style={styles.popover}>
+              <Popover data={countDS} onSelect={$.changeAuctionAmountByMenu}>
+                <Flex style={styles.count} justify='center'>
+                  <Iconfont
+                    name='down'
+                    size={18}
+                    color={_.colorTinygrailText}
+                  />
+                </Flex>
+              </Popover>
+            </View>
           </Flex>
         </Flex.Item>
         <View style={[styles.btnSubmit, _.ml.sm]}>
@@ -171,7 +173,7 @@ const memoStyles = _.memoStyles(_ => ({
   count: {
     width: 34,
     height: 34,
-    borderLeftWidth: _.hairlineWidth,
+    borderLeftWidth: 1,
     borderColor: _.colorTinygrailBorder
   },
   placeholder: {

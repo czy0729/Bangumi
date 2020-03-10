@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 07:51:53
+ * @Last Modified time: 2020-03-10 00:29:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,9 +32,16 @@ function Button({
   const _wrap = [styles.button]
   const _text = [styles.text]
 
-  // @notice 安卓的阴影要保证有背景颜色才能显示, 所以为了不覆盖type的bg, 放在type前面
   if (shadow && !_.isDark) {
-    _wrap.push(styles.shadow)
+    if (IOS) {
+      _wrap.push(styles.shadow)
+    } else {
+      // 安卓的阴影要保证有背景颜色才能显示, 所以为了不覆盖type的bg, 放在type前面
+      _wrap.push({
+        ...styles.shadow,
+        backgroundColor: _.colorPlain
+      })
+    }
   }
   if (type) {
     _wrap.push(styles[type])

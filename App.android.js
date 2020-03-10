@@ -2,10 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 10:47:13
+ * @Last Modified time: 2020-03-09 14:32:00
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
+import RNRestart from 'react-native-restart'
+import {
+  setJSExceptionHandler,
+  setNativeExceptionHandler
+} from 'react-native-exception-handler'
 import SplashScreen from 'react-native-splash-screen'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
@@ -17,10 +22,6 @@ import { observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import theme from '@styles/theme'
 import Navigations from './navigations/index'
-
-bootApp()
-global.log = globalLog
-global.warn = globalWarn
 
 export default
 @observer
@@ -103,3 +104,34 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   }
 }))
+
+bootApp()
+global.log = globalLog
+global.warn = globalWarn
+
+const errorHandler = (e, isFatal) => {
+  if (isFatal) {
+    Alert.alert(
+      'Unexpected error occurred',
+      `
+        Error: ${isFatal ? 'Fatal:' : ''} ${e.name} ${e.message}
+
+        We will need to restart the app.
+        `,
+      [
+        {
+          text: '重启',
+          onPress: () => {
+            RNRestart.Restart()
+          }
+        }
+      ]
+    )
+  } else {
+    console.log(e)
+  }
+}
+
+setJSExceptionHandler(errorHandler)
+
+setNativeExceptionHandler(() => {})
