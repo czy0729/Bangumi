@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-10 00:29:09
+ * @Last Modified time: 2020-03-15 00:07:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -114,8 +114,8 @@ const memoStyles = _.memoStyles(_ => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
-    // borderWidth: 0
+    alignItems: 'center',
+    borderWidth: 0
   },
 
   // type
@@ -154,20 +154,24 @@ const memoStyles = _.memoStyles(_ => ({
 
   // ghost type
   ghostMain: {
-    backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel2)
-    // borderColor: _.select(_.colorMainBorder, _._colorDarkModeLevel2)
+    backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel2),
+    borderColor: _.select(_.colorMainBorder, _._colorDarkModeLevel2),
+    borderWidth: _.select(_.hairlineWidth, 0)
   },
   ghostPrimary: {
-    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1)
-    // borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
+    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1),
+    borderWidth: _.select(_.hairlineWidth, 0)
   },
   ghostSuccess: {
-    backgroundColor: _.select(_.colorSuccessLight, _._colorDarkModeLevel1)
-    // borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1)
+    backgroundColor: _.select(_.colorSuccessLight, _._colorDarkModeLevel1),
+    borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1),
+    borderWidth: _.select(_.hairlineWidth, 0)
   },
   ghostPlain: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
-    // borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2)
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
+    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2),
+    borderWidth: _.select(_.hairlineWidth, 0)
   },
 
   // size

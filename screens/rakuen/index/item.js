@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:42:59
+ * @Last Modified time: 2020-03-14 18:03:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -202,7 +202,7 @@ class Item extends React.Component {
                 </Text>
               )}
             </Text>
-            <Text style={_.mt.sm} type='sub' size={13}>
+            <Text style={_.mt.sm} type='sub' size={12}>
               {correctAgo(time)}
               {this.groupCn ? ' / ' : ''}
               {this.groupCn}

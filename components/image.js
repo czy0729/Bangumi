@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 05:14:49
+ * @Last Modified time: 2020-03-15 00:05:03
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -438,7 +438,12 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: 1,
     borderColor: _.colorBorder
   },
-  shadow: _.shadow,
+  shadow: IOS
+    ? _.shadow
+    : {
+        backgroundColor: _.colorPlain,
+        elevation: 2
+      },
   placeholder: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
   },

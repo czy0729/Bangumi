@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-10 00:34:33
+ * @Last Modified time: 2020-03-14 18:00:22
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -131,7 +131,7 @@ export const colorTinygrailActive = 'rgb(39, 40, 46)'
 // -------------------- 文字 --------------------
 export const colorAvatar = 'rgb(116, 116, 116)'
 export const colorIconPlain = `rgba(${colorPlainRaw.join()}, 0.88)`
-export const lineHeightRatio = 1.28
+export const lineHeightRatio = 1.32
 
 // -------------------- 圆角 --------------------
 export const radiusXs = 4

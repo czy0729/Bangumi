@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-10 00:31:16
+ * @Last Modified time: 2020-03-14 23:53:58
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Tabs as CompTabs, Text } from '@components'
 import { _ } from '@stores'
+import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
 import { tabs, height, headerHeight } from './store'
@@ -94,7 +95,12 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 2,
     left: 0,
     right: 0,
+    marginTop: -1,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    ..._.shadow
+    ...(IOS
+      ? _.shadow
+      : {
+          elevation: 1
+        })
   }
 }))

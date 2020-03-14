@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 12:22:12
+ * @Last Modified time: 2020-03-14 18:02:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -179,37 +179,32 @@ class Item extends React.Component {
       )
       return (
         <Flex style={_.mr.md} justify='end'>
-          <Flex align='baseline'>
-            <Text type='primary' size={12} lineHeight={1}>
-              Chap.
+          <Text type='primary' size={20}>
+            <Text type='primary' size={12} lineHeight={20}>
+              Chap.{' '}
             </Text>
-            <Text style={_.ml.xs} type='primary' size={20} lineHeight={1}>
-              {epStatus}
+            {epStatus}
+          </Text>
+          {this.renderBookNextBtn(epStatus + 1, volStatus)}
+          <Text style={_.ml.md} type='primary' size={20}>
+            <Text type='primary' size={12} lineHeight={20}>
+              Vol.{' '}
             </Text>
-            {this.renderBookNextBtn(epStatus + 1, volStatus)}
-          </Flex>
-          <Flex style={_.ml.md} align='baseline'>
-            <Text type='primary' size={12} lineHeight={1}>
-              Vol.
-            </Text>
-            <Text style={_.ml.xs} type='primary' size={20} lineHeight={1}>
-              {volStatus}
-            </Text>
-            {this.renderBookNextBtn(epStatus, volStatus + 1)}
-          </Flex>
+            {volStatus}
+          </Text>
+          {this.renderBookNextBtn(epStatus, volStatus + 1)}
         </Flex>
       )
     }
 
     return (
-      <Flex align='baseline'>
-        <Text type='primary' size={20} lineHeight={1}>
-          {epStatus || 1}
-        </Text>
-        <Text style={_.ml.xs} type='sub' size={12} lineHeight={1}>
+      <Text type='primary' size={20}>
+        {epStatus || 1}
+        <Text type='sub' size={12} lineHeight={20}>
+          {' '}
           / {subject.eps_count || '?'}
         </Text>
-      </Flex>
+      </Text>
     )
   }
 
@@ -362,5 +357,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   touchable: {
     padding: _.sm
+  },
+  placeholder: {
+    marginBottom: -1.5
   }
 }))

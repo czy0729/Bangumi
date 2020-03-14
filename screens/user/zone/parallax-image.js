@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-03 19:53:21
+ * @Last Modified time: 2020-03-14 19:05:43
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -205,7 +205,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     top: 0,
     right: 0,
-    bottom: 0,
+    bottom: -_.hairlineWidth,
     left: 0
   },
   head: {

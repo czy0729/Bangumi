@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 10:52:37
+ * @Last Modified time: 2020-03-15 01:16:12
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -18,7 +18,11 @@ import { Eps } from '@screens/_'
 import { t, queue } from '@utils/fetch'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
-import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
+import {
+  MODEL_SUBJECT_TYPE,
+  MODEL_EP_STATUS,
+  MODEL_COLLECTION_STATUS
+} from '@constants/model'
 
 export const tabs = [
   {
@@ -609,6 +613,10 @@ export default class ScreenHome extends store {
     })
 
     await collectionStore.doUpdateCollection(values)
+    if (values.status !== MODEL_COLLECTION_STATUS.getValue('在看')) {
+      userStore.fetchUserCollection()
+    }
+
     this.closeManageModal()
   }
 
