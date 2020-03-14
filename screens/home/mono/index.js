@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 21:27:09
+ * @Last Modified time: 2020-03-14 17:32:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -82,9 +82,8 @@ class Mono extends React.Component {
       extra: $.tinygrail && !!$.chara._loaded && (
         <IconHeader
           name='trophy'
-          color={_.colorYellow}
           onPress={() => {
-            const path = $.chara.users ? 'TinygrailICODeal' : 'TinygrailTrade'
+            const path = $.chara.users ? 'TinygrailICODeal' : 'TinygrailDeal'
             t('人物.跳转', {
               to: path,
               monoId: $.monoId

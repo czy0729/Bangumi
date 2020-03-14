@@ -2,10 +2,30 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-15 02:52:51
+ * @Last Modified time: 2020-03-14 16:58:28
  */
+import { Alert } from 'react-native'
 import { Toast } from '@ant-design/react-native'
 import ActionSheet from '@components/@/ant-design/action-sheet'
+
+/**
+ * 确定框
+ * @param {*} content
+ * @param {*} title
+ * @param {*} onPress
+ */
+export function confirm(content, onPress, title = '提示') {
+  return Alert.alert(title, content, [
+    {
+      text: '取消',
+      style: 'cancel'
+    },
+    {
+      text: '确定',
+      onPress
+    }
+  ])
+}
 
 /**
  * 轻提示

@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 14:24:49
+ * @Last Modified time: 2020-03-14 17:20:10
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
-// import { useScreens } from 'react-native-screens'
+import { useScreens } from 'react-native-screens'
 import { DEV, HOST, HOST_2 } from '@constants'
 import { t } from './fetch'
+import { globalLog, globalWarn } from './dev'
 
 const HOST_IMAGE = '//lain.bgm.tv'
 
@@ -18,11 +19,13 @@ const HOST_IMAGE = '//lain.bgm.tv'
  */
 export function bootApp() {
   console.disableYellowBox = true
+  global.log = globalLog
+  global.warn = globalWarn
 
   /**
    * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
    */
-  // useScreens()
+  useScreens()
 
   if (!DEV) {
     global.console = {
@@ -36,12 +39,24 @@ export function bootApp() {
 }
 
 /**
+ * 保存navigation引用
+ * @param {*} navigation
+ */
+let _navigationReference
+export function navigationReference(navigation) {
+  if (navigation) {
+    _navigationReference = navigation
+  }
+  return _navigationReference
+}
+
+/**
  * 查找番剧中文名
  */
-const _bangumiFindHistory = {}
+const cache = {}
 export function findBangumiCn(jp = '') {
-  if (_bangumiFindHistory[jp]) {
-    return _bangumiFindHistory[jp]
+  if (cache[jp]) {
+    return cache[jp]
   }
 
   const item = bangumiData.items.find(item => item.title === jp)
@@ -51,11 +66,11 @@ export function findBangumiCn(jp = '') {
         item.titleTranslate['zh-Hans'] &&
         item.titleTranslate['zh-Hans'][0]) ||
       jp
-    _bangumiFindHistory[jp] = cn
+    cache[jp] = cn
     return cn
   }
 
-  _bangumiFindHistory[jp] = jp
+  cache[jp] = jp
   return jp
 }
 
@@ -336,23 +351,23 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
  * 获取颜色type
  * @param {*} label
  */
+const typeMap = {
+  想看: 'main',
+  想玩: 'main',
+  想读: 'main',
+  想听: 'main',
+  看过: 'warning',
+  玩过: 'warning',
+  读过: 'warning',
+  听过: 'warning',
+  在看: 'primary',
+  在玩: 'primary',
+  在读: 'primary',
+  在听: 'primary',
+  搁置: 'wait',
+  抛弃: 'disabled'
+}
 export function getType(label) {
-  const typeMap = {
-    想看: 'main',
-    想玩: 'main',
-    想读: 'main',
-    想听: 'main',
-    看过: 'warning',
-    玩过: 'warning',
-    读过: 'warning',
-    听过: 'warning',
-    在看: 'primary',
-    在玩: 'primary',
-    在读: 'primary',
-    在听: 'primary',
-    搁置: 'wait',
-    抛弃: 'disabled'
-  }
   return typeMap[label] || 'plain'
 }
 
@@ -424,18 +439,14 @@ export function getCookie(cookies = '', name) {
 
 /**
  * bgm图片质量 g < s < m < c < l, 只用s, m(c), l
- * CDN开启下 不用s, s转成m(c)
+ * CDN开启下 <Avatar>组件会忽略s, 把s转成m(c)
  */
 /**
  * 获取低质量bgm图片
  * @param {*} src
  */
 export function getCoverSmall(src = '') {
-  if (typeof src !== 'string' || src === '') {
-    return src
-  }
-
-  if (!src.includes(HOST_IMAGE)) {
+  if (typeof src !== 'string' || src === '' || !src.includes(HOST_IMAGE)) {
     return src
   }
 
@@ -447,12 +458,13 @@ export function getCoverSmall(src = '') {
  * @param {*} src
  */
 export function getCoverMedium(src = '', mini = false) {
-  if (typeof src !== 'string' || src === '') {
-    return src
-  }
-
   // 角色图片因为是对头部划图的, 不要处理
-  if (src.includes('/crt/') || !src.includes(HOST_IMAGE)) {
+  if (
+    typeof src !== 'string' ||
+    src === '' ||
+    src.includes('/crt/') ||
+    !src.includes(HOST_IMAGE)
+  ) {
     return src
   }
 
@@ -468,11 +480,7 @@ export function getCoverMedium(src = '', mini = false) {
  * @param {*} src
  */
 export function getCoverLarge(src = '') {
-  if (typeof src !== 'string' || src === '') {
-    return src
-  }
-
-  if (!src.includes(HOST_IMAGE)) {
+  if (typeof src !== 'string' || src === '' || !src.includes(HOST_IMAGE)) {
     return src
   }
 
@@ -516,11 +524,10 @@ export function formatTime(time) {
     return `${hour}h ago`
   }
   return `${day}d ago`
-  // return '已结束'
 }
 
 /**
- * 计算ICO等级
+ * 小圣杯计算ICO等级
  * @param {*} ico
  */
 export function caculateICO(ico) {

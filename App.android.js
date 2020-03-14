@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-09 14:32:00
+ * @Last Modified time: 2020-03-14 17:09:31
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -14,14 +14,15 @@ import {
 import SplashScreen from 'react-native-splash-screen'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
-import { ImageViewer } from '@components'
-import Stores, { _, systemStore } from '@stores'
+import { AppCommon } from '@screens/_'
+import Stores, { _ } from '@stores'
 import { bootApp } from '@utils/app'
-import { globalLog, globalWarn } from '@utils/dev'
 import { observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import theme from '@styles/theme'
 import Navigations from './navigations/index'
+
+bootApp()
 
 export default
 @observer
@@ -68,27 +69,18 @@ class App extends React.Component {
     )
   }
 
-  closeImageViewer = () => {
-    systemStore.closeImageViewer()
-  }
-
   render() {
     const { isLoadingComplete } = this.state
     if (!isLoadingComplete) {
       return null
     }
 
-    const { visible, imageUrls } = systemStore.imageViewer
     return (
       <View style={this.styles.container}>
         <Provider theme={theme}>
           <Navigations />
         </Provider>
-        <ImageViewer
-          visible={visible}
-          imageUrls={imageUrls}
-          onCancel={this.closeImageViewer}
-        />
+        <AppCommon />
       </View>
     )
   }
@@ -105,11 +97,12 @@ const memoStyles = _.memoStyles(_ => ({
   }
 }))
 
-bootApp()
-global.log = globalLog
-global.warn = globalWarn
-
-const errorHandler = (e, isFatal) => {
+/**
+ * 崩溃处理
+ * @param {*} e
+ * @param {*} isFatal
+ */
+function errorHandler(e, isFatal) {
   if (isFatal) {
     Alert.alert(
       'Unexpected error occurred',
@@ -127,8 +120,6 @@ const errorHandler = (e, isFatal) => {
         }
       ]
     )
-  } else {
-    console.log(e)
   }
 }
 

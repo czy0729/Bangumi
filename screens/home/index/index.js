@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 10:54:45
+ * @Last Modified time: 2020-03-14 17:21:44
  */
 import React from 'react'
 import { NavigationEvents, SafeAreaView } from 'react-navigation'
@@ -20,6 +20,7 @@ import {
 import { _, userStore } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
+import { navigationReference } from '@utils/app'
 import { MODEL_INITIAL_PAGE } from '@constants/model'
 import Tabs from './tabs'
 import List from './list'
@@ -70,6 +71,8 @@ class Home extends React.Component {
 
   componentWillMount() {
     const { $, navigation } = this.context
+    navigationReference(navigation)
+
     $.init()
 
     // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
@@ -119,7 +122,12 @@ class Home extends React.Component {
   render() {
     const { $ } = this.context
     if (!$.isLogin) {
-      return <NavigationEvents onWillFocus={this.onWillFocus} />
+      return (
+        <>
+          <NavigationEvents onWillFocus={this.onWillFocus} />
+          <SafeAreaView style={_.container.screen} forceInset={forceInset} />
+        </>
+      )
     }
 
     const { grid, visible, subjectId, _loaded } = $.state
