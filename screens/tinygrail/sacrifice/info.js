@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 04:34:39
+ * @Last Modified time: 2020-03-15 05:20:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -116,7 +116,7 @@ function Info(props, { $, navigation }) {
             }}
             size={16}
           >
-            [{showCover ? '收起' : '显示'}封面]
+            [{showCover ? '隐藏' : '显示'}封面]
           </Text>
         </Touchable>
       </Flex>

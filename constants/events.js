@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 21:53:46
+ * @Last Modified time: 2020-03-15 05:28:23
  */
 
 /**
@@ -299,12 +299,15 @@ export default {
   '资产重组.跳转': 'TSacrifice.to',
   '资产重组.资产重组': 'TSacrifice.doSacrifice',
   '资产重组.竞拍': 'TSacrifice.doAuction',
-  '资产重组.展开收起圣殿': 'TSacrifice.toggleExpand',
-  '资产重组.展开收起封面': 'TSacrifice.toggleCover',
   '资产重组.封面图查看': 'TSacrifice.imageView',
   '资产重组.圣殿图查看': 'TSacrifice.templeView',
+  '资产重组.展开收起圣殿': 'TSacrifice.toggleExpand',
   '资产重组.股息查看': 'TSacrifice.rate',
   '资产重组.菜单改变竞拍数量': 'TSacrifice.changeAmountByMenu',
+  '资产重组.展开收起封面': 'TSacrifice.toggleCover',
+  '资产重组.展开收起记录': 'TSacrifice.toggleLogs',
+  '资产重组.展开收起圣殿板块': 'TSacrifice.toggleTemples',
+  '资产重组.展开收起董事会': 'TSacrifice.toggleUsers',
 
   // 人物直达
   '人物直达.跳转': 'TSearch.to',

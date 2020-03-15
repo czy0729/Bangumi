@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-01 17:58:52
+ * @Last Modified time: 2020-03-15 05:14:56
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -124,7 +124,7 @@ class Temples extends React.Component {
   render() {
     const { $ } = this.context
     const { style } = this.props
-    const { expand } = $.state
+    const { showTemples, expand } = $.state
     const { rate } = $.chara
     const { list } = $.charaTemple
     return (
@@ -163,31 +163,33 @@ class Temples extends React.Component {
             </Text>
           </Touchable>
         </Flex>
-        <Flex wrap='wrap'>
-          {this.list.map(item => (
-            <ItemTemple
-              key={item.nickname}
-              event={event}
-              cover={item.cover}
-              avatar={item.avatar}
-              name={item.name}
-              nickname={item.nickname}
-              sacrifices={item.sacrifices}
-              level={item.level}
-              count={item.count}
-            />
-          ))}
-        </Flex>
-        {list.length > 6 && (
-          <Text
-            style={styles.expand}
-            size={14}
-            align='center'
-            onPress={$.toggleExpand}
-          >
-            [{expand ? '收起' : '展开'}圣殿]
-          </Text>
+        {showTemples && (
+          <Flex wrap='wrap'>
+            {this.list.map(item => (
+              <ItemTemple
+                key={item.nickname}
+                event={event}
+                cover={item.cover}
+                avatar={item.avatar}
+                name={item.name}
+                nickname={item.nickname}
+                sacrifices={item.sacrifices}
+                level={item.level}
+                count={item.count}
+              />
+            ))}
+          </Flex>
         )}
+        <Flex style={_.mt.md} justify='center'>
+          <Text style={styles.expand} onPress={$.toggleTemples}>
+            [{showTemples ? '隐藏' : '显示'}圣殿]
+          </Text>
+          {showTemples && list.length > 6 && (
+            <Text style={[styles.expand, _.ml.md]} onPress={$.toggleExpand}>
+              [{expand ? '收起' : '展开'}圣殿]
+            </Text>
+          )}
+        </Flex>
       </View>
     )
   }

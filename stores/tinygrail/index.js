@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 21:39:46
+ * @Last Modified time: 2020-03-15 14:40:43
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -955,7 +955,8 @@ class Tinygrail extends store {
       data.list = result.data.Value.map((item, index) => {
         const lastItem = lastList.find(i => i.id === item.CharacterId) || {
           rank: 0,
-          extra: 0
+          extra: 0,
+          type: 0
         }
 
         const rank = index + 1
@@ -966,7 +967,9 @@ class Tinygrail extends store {
           extra: item.Extra,
           extraChange: item.Extra - lastItem.extra,
           rank,
-          rankChange: lastItem.rank === 0 ? 'new' : lastItem.rank - rank
+          rankChange: lastItem.rank === 0 ? 'new' : lastItem.rank - rank,
+          type: item.Type,
+          typeChange: item.Type - (lastItem.type || 0)
         }
       })
     }

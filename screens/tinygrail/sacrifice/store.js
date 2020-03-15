@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 05:10:27
+ * @Last Modified time: 2020-03-15 05:21:55
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -26,6 +26,9 @@ const initState = {
 export default class ScreenTinygrailSacrifice extends store {
   state = observable({
     showCover: true, // 显示封面
+    showLogs: true, // 显示记录
+    showTemples: true, // 显示圣殿
+    showUsers: true, // 显示董事会
     ...initState,
     lastAuction: {
       price: '',
@@ -434,6 +437,51 @@ export default class ScreenTinygrailSacrifice extends store {
 
     this.setState({
       showCover: !showCover
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起记录
+   */
+  toggleLogs = () => {
+    const { showLogs } = this.state
+    t('资产重组.展开收起记录', {
+      showLogs: !showLogs
+    })
+
+    this.setState({
+      showLogs: !showLogs
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起圣殿板块
+   */
+  toggleTemples = () => {
+    const { showTemples } = this.state
+    t('资产重组.展开收起圣殿板块', {
+      showTemples: !showTemples
+    })
+
+    this.setState({
+      showTemples: !showTemples
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起董事会
+   */
+  toggleUsers = () => {
+    const { showUsers } = this.state
+    t('资产重组.展开收起董事会', {
+      showUsers: !showUsers
+    })
+
+    this.setState({
+      showUsers: !showUsers
     })
     this.setStorage(undefined, undefined, namespace)
   }

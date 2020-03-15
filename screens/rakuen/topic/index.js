@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 13:38:00
+ * @Last Modified time: 2020-03-15 04:36:33
  */
 import React from 'react'
 import { StyleSheet, Alert, View } from 'react-native'
@@ -249,7 +249,7 @@ class Topic extends React.Component {
           scrollEventThrottle={16}
           initialNumToRender={50}
           removeClippedSubviews={false}
-          optimize={false}
+          // optimize={false}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
           onScroll={onScroll}

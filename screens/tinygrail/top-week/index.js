@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 21:51:27
+ * @Last Modified time: 2020-03-15 17:20:52
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -31,7 +31,7 @@ export default
   ...headerStyle
 })
 @observer
-class Tinygrail extends React.Component {
+class TinygrailTopWeek extends React.Component {
   static navigationOptions = {
     title
   }
@@ -49,7 +49,7 @@ class Tinygrail extends React.Component {
       extra: (
         <IconHeader
           name='refresh'
-          color={_.colorTinygrailText}
+          color={_.colorTinygrailTopWeekText}
           onPress={async () => {
             t('每周萌王.刷新')
             await $.fetchTopWeek()
@@ -80,18 +80,32 @@ class Tinygrail extends React.Component {
               changeColor = _.colorBid
             }
 
+            let extraText
+            if (item.extra > M) {
+              extraText = `${formatNumber(item.extra / M, 1)}万`
+            } else {
+              extraText = formatNumber(item.extra, 1)
+            }
+
             let extraChangeColor
-            if (item.extra < 0) {
+            if (item.extraChange < 0) {
               extraChangeColor = _.colorAsk
             } else {
               extraChangeColor = _.colorBid
             }
 
-            let extraText
-            if (item.extra > M) {
-              extraText = `${formatNumber(item.extra / M, 1)}万`
+            let extraChangeText
+            if (item.extraChange > M) {
+              extraChangeText = `${formatNumber(item.extraChange / M, 1)}万`
             } else {
-              extraText = item.extra
+              extraChangeText = formatNumber(Math.abs(item.extraChange), 1)
+            }
+
+            let typeChangeColor
+            if (item.typeChange < 0) {
+              typeChangeColor = _.colorAsk
+            } else {
+              typeChangeColor = _.colorBid
             }
 
             return (
@@ -159,22 +173,45 @@ class Tinygrail extends React.Component {
                             size={16}
                             align='right'
                           >
-                            +{extraText}
+                            +{extraText} / {item.type}人
                           </Text>
-                          {!!item.extraChange && (
-                            <Text
-                              style={[
-                                _.mt.xs,
-                                {
+                          <Flex style={_.mt.xs} justify='end'>
+                            {!!item.extraChange && (
+                              <Text
+                                style={{
                                   color: extraChangeColor
-                                }
-                              ]}
-                              align='right'
-                            >
-                              {item.extraChange > 0 && '+'}
-                              {formatNumber(item.extraChange, 2)}
-                            </Text>
-                          )}
+                                }}
+                                size={13}
+                              >
+                                {item.extraChange > 0 ? '+' : '-'}
+                                {extraChangeText}
+                              </Text>
+                            )}
+                            {!!item.typeChange && (
+                              <>
+                                <Text
+                                  style={{
+                                    color: _.colorTinygrailText
+                                  }}
+                                  size={13}
+                                >
+                                  {' '}
+                                  /{' '}
+                                </Text>
+                                <Text
+                                  style={[
+                                    {
+                                      color: typeChangeColor
+                                    }
+                                  ]}
+                                  size={13}
+                                >
+                                  {item.typeChange > 0 && '+'}
+                                  {item.typeChange}人
+                                </Text>
+                              </>
+                            )}
+                          </Flex>
                         </View>
                       </Flex>
                     </Touchable>
