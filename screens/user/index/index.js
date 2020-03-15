@@ -3,16 +3,18 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 19:03:11
+ * @Last Modified time: 2020-03-15 17:46:46
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
+import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, UM } from '@components'
 import { IconTabBar, Login } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { MODEL_COLLECTION_STATUS } from '@constants/model'
 import ParallaxImage from './parallax-image'
 import Tabs from './tabs'
 import ToolBar from './tool-bar'
@@ -92,6 +94,22 @@ class User extends React.Component {
     this.resetPageOffset(page)
   }
 
+  /**
+   * 登陆过期后登陆成功返回本页面, 没有正常触发请求
+   * 假如当前没有数据主动请求
+   */
+  onDidFocus = () => {
+    const { $ } = this.context
+    const { subjectType, page } = $.state
+    const { _loaded } = $.userCollections(
+      subjectType,
+      MODEL_COLLECTION_STATUS.getValue(tabs[page].title)
+    )
+    if (!_loaded) {
+      $.fetchUserCollections(true)
+    }
+  }
+
   resetPageOffset = page => {
     if (!this.loaded[page] && this.offsetZeroNativeEvent) {
       setTimeout(() => {
@@ -131,6 +149,7 @@ class User extends React.Component {
     return (
       <View style={_.container.screen}>
         <UM screen={title} />
+        <NavigationEvents onDidFocus={this.onDidFocus} />
         <StatusBarEvents
           barStyle='light-content'
           backgroundColor='transparent'

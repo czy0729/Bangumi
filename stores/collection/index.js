@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 14:12:25
+ * @Last Modified time: 2020-03-15 18:14:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -60,18 +60,21 @@ class Collection extends store {
     return computed(() => this.state.collection[subjectId] || {}).get()
   }
 
-  userCollections(userId = userStore.myUserId, subjectType, type) {
+  userCollections(userId, subjectType, type) {
     return computed(
       () =>
-        this.state.userCollections[`${userId}|${subjectType}|${type}`] ||
-        LIST_EMPTY
+        this.state.userCollections[
+          `${userId || userStore.myUserId}|${subjectType}|${type}`
+        ] || LIST_EMPTY
     ).get()
   }
 
-  userCollectionsTags(userId = userStore.myUserId, subjectType, type) {
+  userCollectionsTags(userId, subjectType, type) {
     return computed(
       () =>
-        this.state.userCollectionsTags[`${userId}|${subjectType}|${type}`] || []
+        this.state.userCollectionsTags[
+          `${userId || userStore.myUserId}|${subjectType}|${type}`
+        ] || []
     ).get()
   }
 
@@ -99,7 +102,7 @@ class Collection extends store {
    */
   async fetchUserCollections(
     {
-      userId = userStore.myUserId,
+      userId: _userId,
       subjectType = DEFAULT_SUBJECT_TYPE,
       type = DEFAULT_TYPE,
       order = DEFAULT_ORDER,
@@ -107,6 +110,7 @@ class Collection extends store {
     } = {},
     refresh
   ) {
+    const userId = _userId || userStore.myUserId
     const { list, pagination } = this.userCollections(userId, subjectType, type)
     let page // 下一页的页码
     if (refresh) {
@@ -150,6 +154,7 @@ class Collection extends store {
           [stateKey]: userCollectionsTags
         }
       })
+
       if (userId === userStore.myUserId) {
         this.setUserCollectionsTagsStroage()
       }
