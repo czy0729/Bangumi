@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-04 14:19:14
+ * @Last Modified time: 2020-03-17 00:10:20
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -304,6 +304,13 @@ export const HTML_SAY = (userId, id) =>
  */
 export const HTML_ACTION_RAKUEN_REPLY = (topicId, type = 'group/topic') =>
   `${HOST}/${type}/${topicId}/new_reply?ajax=1`
+
+/**
+ * 回复日志, 参数同上
+ * @param {*} topicId
+ */
+export const HTML_ACTION_BLOG_REPLY = topicId =>
+  `${HOST}/blog/entry/${topicId}/new_reply?ajax=1`
 
 /**
  * 回复吐槽

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 22:40:57
+ * @Last Modified time: 2020-03-17 00:29:17
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -447,6 +447,7 @@ export function cheerioBlog(HTML) {
           .split('?')[0]
       ),
       floor: '#0',
+      formhash: $('input[name=formhash]').attr('value'),
       message: HTMLTrim($('div#entry_content').html()),
       time: $('hr + div.re_info')
         .text()
@@ -482,9 +483,7 @@ export function cheerioBlog(HTML) {
             message: HTMLTrim(
               $row.find('> div.inner > div.reply_content > div.message').html()
             ),
-            replySub: $row
-              .find('> div.inner > span.userInfo > a.icons_cmt')
-              .attr('onclick'),
+            replySub: $row.find('> div.inner > a.icons_cmt').attr('onclick'),
             time,
             userId: matchUserId($row.find('a.avatar').attr('href')),
             userName:

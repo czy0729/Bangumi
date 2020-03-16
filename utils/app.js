@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 17:20:10
+ * @Last Modified time: 2020-03-17 00:37:03
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -328,6 +328,22 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
       navigation.push('CatalogDetail', {
         catalogId: _id,
+        ...passParams
+      })
+      return true
+    }
+
+    // 日志
+    if (_url.includes('/blog/')) {
+      const _id = _url.split('/blog/')[1]
+      t(id, {
+        to: 'Blog',
+        blogId: _id,
+        ...data
+      })
+
+      navigation.push('Blog', {
+        blogId: _id,
         ...passParams
       })
       return true

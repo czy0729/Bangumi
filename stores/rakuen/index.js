@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 22:02:00
+ * @Last Modified time: 2020-03-17 00:22:26
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -14,6 +14,7 @@ import {
   HTML_NOTIFY,
   HTML_TOPIC,
   HTML_ACTION_RAKUEN_REPLY,
+  HTML_ACTION_BLOG_REPLY,
   HTML_GROUP_INFO,
   HTML_GROUP,
   HTML_BLOG
@@ -577,6 +578,36 @@ class Rakuen extends store {
    * 删除回复
    */
   doDeleteReply = async ({ url }, success) => {
+    xhr(
+      {
+        url
+      },
+      success
+    )
+  }
+
+  /**
+   * 回复日志
+   */
+  doReplyBlog = async ({ blogId, ...other }, success) => {
+    xhr(
+      {
+        url: HTML_ACTION_BLOG_REPLY(blogId),
+        data: {
+          ...other,
+          related_photo: 0,
+          lastview: getTimestamp(),
+          submit: 'submit'
+        }
+      },
+      success
+    )
+  }
+
+  /**
+   * 删除日志回复
+   */
+  doDeleteReplyBlog = async ({ url }, success) => {
     xhr(
       {
         url

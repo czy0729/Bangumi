@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 20:13:08
+ * @Last Modified time: 2020-03-17 00:38:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -69,8 +69,6 @@ class Blog extends React.Component {
     })
 
     await $.init()
-    const { title } = $.blog
-    withTransitionHeader.setTitle(navigation, title)
 
     if ($.postId) {
       this.jump()
@@ -141,7 +139,7 @@ class Blog extends React.Component {
     })
 
     if (index === -1) {
-      info('#1', 0.8)
+      info('#0', 0.8)
       this.listView.scrollToOffset({
         animated: true,
         offset: 0 - _.headerHeight
@@ -210,7 +208,6 @@ class Blog extends React.Component {
           scrollEventThrottle={16}
           initialNumToRender={50}
           removeClippedSubviews={false}
-          optimize={false}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
           onScroll={onScroll}
