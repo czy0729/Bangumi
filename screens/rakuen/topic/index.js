@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 04:36:33
+ * @Last Modified time: 2020-03-16 22:44:48
  */
 import React from 'react'
-import { StyleSheet, Alert, View } from 'react-native'
+import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { ListView, FixedTextarea } from '@components'
+import { ListView, FixedTextarea, Flex, Text } from '@components'
 import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
-import { keyExtractor } from '@utils/app'
+import { keyExtractor, appNavigate } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST } from '@constants'
+import { HOST, IOS } from '@constants'
 import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
@@ -233,9 +233,51 @@ class Topic extends React.Component {
     )
   }
 
+  renderFixedBottom() {
+    const { $, navigation } = this.context
+    const { placeholder, value } = $.state
+    const { tip, close } = $.topic
+    if (tip) {
+      return (
+        <Flex style={this.styles.fixedBottom}>
+          <Text>半公开小组只有成员才能发言, </Text>
+          <Text
+            type='main'
+            onPress={() => appNavigate($.groupHref, navigation)}
+          >
+            点击加入
+          </Text>
+        </Flex>
+      )
+    }
+
+    if (close) {
+      return (
+        <Flex style={this.styles.fixedBottom}>
+          <Text>主题已被关闭: </Text>
+          <Text type='sub'>{close}</Text>
+        </Flex>
+      )
+    }
+
+    if (!$.isWebLogin) {
+      return null
+    }
+
+    return (
+      <FixedTextarea
+        ref={this.connectFixedTextareaRef}
+        placeholder={placeholder ? `回复 ${placeholder}` : undefined}
+        value={value}
+        onChange={$.onChange}
+        onClose={$.closeFixedTextarea}
+        onSubmit={$.doSubmit}
+      />
+    )
+  }
+
   render() {
     const { $ } = this.context
-    const { placeholder, value } = $.state
     const { onScroll } = this.props
     return (
       <View style={_.container.content}>
@@ -243,13 +285,12 @@ class Topic extends React.Component {
         <ListView
           ref={this.connectListViewRef}
           style={_.container.content}
-          contentContainerStyle={styles.contentContainerStyle}
+          contentContainerStyle={this.styles.contentContainerStyle}
           keyExtractor={keyExtractor}
           data={$.comments}
           scrollEventThrottle={16}
           initialNumToRender={50}
           removeClippedSubviews={false}
-          // optimize={false}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
           onScroll={onScroll}
@@ -259,24 +300,42 @@ class Topic extends React.Component {
           onEndReachedThreshold={0.5}
           {...withTransitionHeader.listViewProps}
         />
-        {$.isWebLogin && (
-          <FixedTextarea
-            ref={this.connectFixedTextareaRef}
-            placeholder={placeholder ? `回复 ${placeholder}` : undefined}
-            value={value}
-            onChange={$.onChange}
-            onClose={$.closeFixedTextarea}
-            onSubmit={$.doSubmit}
-          />
-        )}
+        {this.renderFixedBottom()}
         <TouchScroll onPress={this.scrollToThenFeedback} />
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   contentContainerStyle: {
     paddingBottom: _.bottom
+  },
+  fixedBottom: {
+    position: 'absolute',
+    zIndex: 1,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    height: 46,
+    paddingHorizontal: _.wind,
+    marginBottom: -4,
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    ...(IOS
+      ? {
+          shadowColor: _.colorShadow,
+          shadowOffset: {
+            height: -2
+          },
+          shadowOpacity: 0.06,
+          shadowRadius: 6
+        }
+      : {
+          elevation: 8
+        })
   }
-})
+}))

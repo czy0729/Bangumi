@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-04 14:24:35
+ * @Last Modified time: 2020-03-16 22:40:55
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -48,7 +48,9 @@ export const INIT_TOPIC = {
   title: '', // 帖子标题
   userId: '', // 作者Id
   userName: '', // 作者名称
-  userSign: '' // 作者签名
+  userSign: '', // 作者签名
+  tip: '', // 存在即代表需要加入小组才能回复
+  close: '' // 存在即代表主题被关闭
 }
 
 export const INIT_COMMENTS_ITEM = {

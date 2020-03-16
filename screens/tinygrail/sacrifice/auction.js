@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-10 00:26:21
+ * @Last Modified time: 2020-03-16 15:55:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ import { formatNumber, lastDate, toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 import Stepper from './stepper'
 
-const countDS = ['到500', '到2500', '最大']
+const countDS = ['到500', '到2500', '到12500', '最大']
 
 function Auction({ style }, { $ }) {
   const styles = memoStyles()

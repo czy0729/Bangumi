@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 05:21:55
+ * @Last Modified time: 2020-03-16 15:56:29
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -349,6 +349,15 @@ export default class ScreenTinygrailSacrifice extends store {
         }
         this.changeAuctionAmount(
           Math.min(2500 - sacrifices - userAmount, amount)
+        )
+        return
+      case '到12500':
+        if (sacrifices + userAmount >= 12500) {
+          info('已持有和献祭超过12500股')
+          return
+        }
+        this.changeAuctionAmount(
+          Math.min(12500 - sacrifices - userAmount, amount)
         )
         return
       default:

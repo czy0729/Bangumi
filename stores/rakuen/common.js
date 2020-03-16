@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-04 14:39:43
+ * @Last Modified time: 2020-03-16 22:40:57
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -343,7 +343,9 @@ export function cheerioTopic(HTML) {
       title,
       userId: matchUserId($user.attr('href')),
       userName: $user.text(),
-      userSign: $('div.postTopic span.tip_j').text()
+      userSign: $('div.postTopic span.tip_j').text(),
+      tip: $('#reply_wrapper span.tip.rr').text(),
+      close: $('div.row_state span.tip_j').text()
     })
 
     // 回复
@@ -448,10 +450,14 @@ export function cheerioBlog(HTML) {
       message: HTMLTrim($('div#entry_content').html()),
       time: $('hr + div.re_info')
         .text()
-        .replace(' / ', ''),
+        .replace(' / ', '')
+        .replace('del / edit', ''),
       title,
       userId: matchUserId($user.attr('href')),
-      userName: $user.text().replace(' ', ''),
+      userName: $user
+        .text()
+        .replace(' ', '')
+        .replace('\n\n', ''),
       userSign: ''
     })
 

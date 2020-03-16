@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 14:10:25
+ * @Last Modified time: 2020-03-16 22:54:52
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -49,7 +49,7 @@ class Timeline extends store {
     formhash: ''
   })
 
-  init = () => this.readStorage(['timeline'], NAMESPACE)
+  init = () => this.readStorage(['timeline', 'say'], NAMESPACE)
 
   // -------------------- get --------------------
   timeline(scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) {
@@ -157,6 +157,7 @@ class Timeline extends store {
         [id]: data
       }
     })
+    this.setStorage(key, undefined, NAMESPACE)
 
     return data
   }

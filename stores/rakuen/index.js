@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-04 14:56:56
+ * @Last Modified time: 2020-03-15 22:02:00
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -248,7 +248,7 @@ class Rakuen extends store {
    * @param {*} blogId
    */
   blog(blogId = 0) {
-    return computed(() => this.state.topic[blogId] || INIT_TOPIC).get()
+    return computed(() => this.state.blog[blogId] || INIT_TOPIC).get()
   }
 
   /**
@@ -257,6 +257,10 @@ class Rakuen extends store {
    */
   blogComments(blogId = 0) {
     return computed(() => this.state.blogComments[blogId] || LIST_EMPTY).get()
+  }
+
+  blogFormCDN() {
+    return INIT_TOPIC
   }
 
   // -------------------- fetch --------------------
@@ -525,6 +529,8 @@ class Rakuen extends store {
       blogComments
     })
   }
+
+  fetchBlogFormCDN = () => {}
 
   // -------------------- action --------------------
   /**

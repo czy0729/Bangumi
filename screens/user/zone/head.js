@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 03:54:55
+ * @Last Modified time: 2020-03-15 19:10:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,13 +29,13 @@ function Head({ style }, { $, navigation }) {
           size={88}
           src={avatar.large || _image}
         />
-        <Text style={styles.id} type={_.select('plain', 'title')} size={13}>
+        <Text style={styles.id} type={_.select('plain', 'title')} size={12}>
           {join || '- 加入'}
         </Text>
         <Text
           style={styles.percent}
           type={_.select('plain', 'title')}
-          size={13}
+          size={12}
         >
           同步率{isNaN(percent) ? '-' : percent}%
         </Text>
@@ -43,13 +43,13 @@ function Head({ style }, { $, navigation }) {
           <Text
             style={styles.friend}
             type={_.select('plain', 'title')}
-            size={13}
+            size={12}
           >
             是我的好友
           </Text>
         )}
         <Touchable style={styles.collect} onPress={() => $.toUser(navigation)}>
-          <Text type={_.select('plain', 'title')} size={13}>
+          <Text type={_.select('plain', 'title')} size={12}>
             [TA的收藏]
           </Text>
         </Touchable>
@@ -62,13 +62,13 @@ function Head({ style }, { $, navigation }) {
             })
           }
         >
-          <Text type={_.select('plain', 'title')} size={13}>
+          <Text type={_.select('plain', 'title')} size={12}>
             [发短信]
           </Text>
         </Touchable>
         {!!$.users.connectUrl && (
           <Touchable style={styles.connect} onPress={$.doConnectFriend}>
-            <Text type={_.select('plain', 'title')} size={13}>
+            <Text type={_.select('plain', 'title')} size={12}>
               [加好友]
             </Text>
           </Touchable>
@@ -99,40 +99,40 @@ const memoStyles = _.memoStyles(_ => ({
   id: {
     position: 'absolute',
     top: 20,
-    right: 92,
+    right: 90,
     opacity: 0.88
   },
   percent: {
     position: 'absolute',
     top: 50,
-    right: 104,
+    right: 102,
     opacity: 0.88
   },
   friend: {
     position: 'absolute',
     top: 80,
-    right: 92,
+    right: 90,
     opacity: 0.88
   },
   collect: {
     position: 'absolute',
     zIndex: 1,
     top: 20,
-    left: 92,
+    left: 90,
     opacity: 0.88
   },
   pm: {
     position: 'absolute',
     zIndex: 1,
     top: 50,
-    left: 104,
+    left: 102,
     opacity: 0.88
   },
   connect: {
     position: 'absolute',
     zIndex: 1,
     top: 80,
-    left: 92,
+    left: 90,
     opacity: 0.88
   }
 }))

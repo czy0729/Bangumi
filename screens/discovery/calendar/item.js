@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 04:51:47
+ * @Last Modified time: 2020-03-15 19:01:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -47,7 +47,7 @@ function Item(
   }
   return (
     <View style={[styles.item, style]}>
-      <View style={styles.cover}>
+      <View>
         <Cover
           width={imageWidth}
           height={imageHeight}
@@ -56,11 +56,10 @@ function Item(
           shadow
           onPress={onPress}
         />
-
         {!!score && (
           <>
             <LinearGradient
-              style={StyleSheet.absoluteFill}
+              style={styles.linear}
               colors={linearColorSm}
               pointerEvents='none'
             />
@@ -101,7 +100,9 @@ const styles = StyleSheet.create({
     marginBottom: _.wind,
     marginLeft
   },
-  cover: {
+  linear: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 1,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },

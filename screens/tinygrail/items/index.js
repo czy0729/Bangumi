@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 21:21:36
+ * @Last Modified time: 2020-03-15 19:32:51
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -92,7 +92,10 @@ class TinygrailItems extends React.Component {
                       </Flex.Item>
                       <Popover
                         style={_.ml.sm}
-                        data={$.templeDS.map(item => item.label)}
+                        data={[
+                          '消耗10点塔值使用',
+                          ...$.templeDS.map(item => item.label)
+                        ]}
                         onSelect={$.doUse}
                       >
                         <Flex>

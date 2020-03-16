@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 14:30:06
+ * @Last Modified time: 2020-03-16 22:48:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,6 @@ import { observer } from 'mobx-react'
 import {
   HeaderPlaceholder,
   Flex,
-  // Image,
   Text,
   RenderHtml,
   Divider,
@@ -129,9 +128,8 @@ function Top(props, { $, navigation }) {
           )}
           {!!$.html && (
             <RenderHtml
-              style={_.mt.lg}
+              style={_.mt.md}
               html={$.html}
-              // autoShowImage
               onLinkPress={href => appNavigate(href, navigation, {}, event)}
             />
           )}

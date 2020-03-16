@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 17:43:59
+ * @Last Modified time: 2020-03-15 21:50:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { cheerio } from '@utils/html'
-import { IOS } from '@constants'
 import HTML from '../@/react-native-render-html'
 import BgmText, { bgmMap } from '../bgm-text'
 import Error from './error'
@@ -213,9 +212,9 @@ class RenderHtml extends React.Component {
     const { html, baseFontStyle } = this.props
     try {
       // iOS碰到过文本里巨大会遇到Maximun stack size exceeded的错误
-      if (IOS && html.length > 20000) {
-        return html
-      }
+      // if (IOS && html.length > 100000) {
+      //   return html
+      // }
 
       let _html
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-05 17:39:38
+ * @Last Modified time: 2020-03-16 22:57:31
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -31,9 +31,8 @@ export default class ScreenSay extends store {
 
     const res = this.fetchSay()
     await res
-    timelineStore.fetchFormHash()
 
-    this.scrollToBottom(scrollView)
+    timelineStore.fetchFormHash()
     this.fetchAvatars()
     return res
   }

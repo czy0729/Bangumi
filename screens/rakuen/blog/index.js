@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-04 14:00:07
+ * @Last Modified time: 2020-03-15 20:13:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -44,8 +44,7 @@ class Blog extends React.Component {
   async componentDidMount() {
     const { $, navigation } = this.context
 
-    const url =
-      navigation.getParam('_url') || `${HOST}/blog/${$.blogId}`
+    const url = navigation.getParam('_url') || `${HOST}/blog/${$.blogId}`
     navigation.setParams({
       popover: {
         data: ['浏览器查看', '复制链接'],
@@ -70,7 +69,7 @@ class Blog extends React.Component {
     })
 
     await $.init()
-    const { title } = $.topic
+    const { title } = $.blog
     withTransitionHeader.setTitle(navigation, title)
 
     if ($.postId) {
@@ -188,7 +187,7 @@ class Blog extends React.Component {
       <Item
         index={index}
         postId={$.postId}
-        authorId={$.topic.userId}
+        authorId={$.blog.userId}
         {...item}
         showFixedTextare={this.showFixedTextare}
         event={event}

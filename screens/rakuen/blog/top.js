@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-04 13:57:58
+ * @Last Modified time: 2020-03-15 22:05:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -31,14 +31,13 @@ function Top(props, { $, navigation }) {
       <View style={_.container.inner}>
         <Text type='title' size={20} bold>
           {$.title}
-        </Text>
-        <Flex style={[styles.groupWrap, _.mt.sm]}>
           {!!$.time && (
-            <Text type='sub' size={13}>
+            <Text type='sub' size={13} lineHeight={20}>
+              {' '}
               {simpleTime($.time)}
             </Text>
           )}
-        </Flex>
+        </Text>
         <Flex style={[styles.userWrap, _.mt.md]}>
           <View style={styles.userAvatarWrap}>
             {!!$.avatar && (
@@ -64,7 +63,7 @@ function Top(props, { $, navigation }) {
         <View style={styles.html}>
           {!!$.html && (
             <RenderHtml
-              style={_.mt.lg}
+              style={_.mt.md}
               html={$.html}
               onLinkPress={href => appNavigate(href, navigation, {}, event)}
             />

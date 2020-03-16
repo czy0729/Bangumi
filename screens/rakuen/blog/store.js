@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-04 10:48:51
+ * @Last Modified time: 2020-03-15 19:56:00
  */
 import { observable, computed } from 'mobx'
 import {
@@ -73,7 +73,7 @@ export default class ScreenBlog extends store {
     if (!blogId) {
       return '0'
     }
-    return blogId.split('#')[0]
+    return String(blogId).split('#')[0]
   }
 
   /**
@@ -81,7 +81,7 @@ export default class ScreenBlog extends store {
    */
   @computed get postId() {
     const { blogId = '' } = this.params
-    const [, postId] = blogId.split('#post_')
+    const [, postId] = String(blogId).split('#post_')
     return postId
   }
 
@@ -314,7 +314,6 @@ export default class ScreenBlog extends store {
     //   this.doReplySub(content)
     //   return
     // }
-
     // this.doReply(content)
   }
 

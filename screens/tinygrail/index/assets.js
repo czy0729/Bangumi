@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 04:04:39
+ * @Last Modified time: 2020-03-15 19:30:56
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-// import { ActivityIndicator } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
@@ -100,7 +99,7 @@ function Assets(props, { $ }) {
                 size={12}
                 lineHeight={14}
               >
-                {totalChangeText}
+                {totalChangeText}{' '}
               </Text>
             )}
             {!!lastIndex && `/ #${lastIndex}`}
