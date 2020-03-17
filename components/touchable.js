@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 23:26:22
+ * @Last Modified time: 2020-03-17 20:36:18
  */
 import React from 'react'
 import {
@@ -20,14 +20,15 @@ import { IOS } from '@constants'
 let isCalled = false
 let timer
 
-function callOnceInInterval(functionTobeCalled, interval = 400) {
+function callOnceInInterval(functionTobeCalled, interval = 320) {
   if (!isCalled) {
     isCalled = true
     clearTimeout(timer)
     timer = setTimeout(() => {
       isCalled = false
     }, interval)
-    return functionTobeCalled()
+    // eslint-disable-next-line no-undef
+    return requestAnimationFrame(() => functionTobeCalled())
   }
   return false
 }

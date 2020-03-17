@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 22:44:48
+ * @Last Modified time: 2020-03-17 20:45:39
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -290,6 +290,8 @@ class Topic extends React.Component {
           data={$.comments}
           scrollEventThrottle={16}
           initialNumToRender={50}
+          windowSize={6}
+          maxToRenderPerBatch={20}
           removeClippedSubviews={false}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 11:15:26
+ * @Last Modified time: 2020-03-18 01:02:50
  */
 import React from 'react'
 import { InteractionManager, StyleSheet, View } from 'react-native'
@@ -38,7 +38,8 @@ export default
 class Subject extends React.Component {
   static contextTypes = {
     $: PropTypes.object,
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    rendered: PropTypes.bool
   }
 
   state = {
@@ -104,7 +105,11 @@ class Subject extends React.Component {
   }
 
   renderItem = ({ item, index }) => {
-    const { $, navigation } = this.context
+    const { $, navigation, rendered } = this.context
+    if (!rendered) {
+      return null
+    }
+
     const event = {
       id: '条目.跳转',
       data: {
@@ -129,11 +134,7 @@ class Subject extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { visible, _loaded } = $.state
-    if (!_loaded) {
-      return <View style={_.container.screen} />
-    }
-
+    const { visible } = $.state
     const { name_cn: nameCn, name, images = {} } = $.subject
     const { showBlurView } = this.state
     return (
