@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-10 00:38:57
+ * @Last Modified time: 2020-03-19 00:50:38
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -36,7 +36,10 @@ function TouchScroll({ onPress }, { $ }) {
     scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左边')
   return (
     <Flex
-      style={styles[`container${titleCase(scrollDirection)}`]}
+      style={[
+        styles[`container${titleCase(scrollDirection)}`],
+        !$.isWebLogin && !isVertical && styles.notLogin
+      ]}
       direction={isVertical ? 'column' : undefined}
     >
       <Flex.Item flex={isVertical ? 1 : 3}>
@@ -133,6 +136,11 @@ const memoStyles = _.memoStyles(_ => ({
     width: '100%',
     height: 24,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+  },
+  notLogin: {
+    bottom: 0,
+    height: 32,
+    paddingBottom: 8
   },
   itemVertical: {
     width: 16,

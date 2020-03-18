@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 21:12:12
+ * @Last Modified time: 2020-03-18 10:22:32
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -15,9 +15,9 @@ import { HTMLTrim, HTMLDecode } from '@utils/html'
 import {
   APP_ID,
   APP_SECRET,
-  OAUTH_REDIRECT_URL,
+  URL_OAUTH_REDIRECT,
   LIST_EMPTY,
-  USERID_TOURIST
+  APP_USERID_TOURIST
 } from '@constants'
 import {
   API_ACCESS_TOKEN,
@@ -313,7 +313,7 @@ class Store extends store {
           client_id: APP_ID,
           client_secret: APP_SECRET,
           code,
-          redirect_uri: OAUTH_REDIRECT_URL
+          redirect_uri: URL_OAUTH_REDIRECT
         },
         info: 'access_token'
       },
@@ -652,7 +652,7 @@ class Store extends store {
    * 打印游客登陆sercet
    */
   logTourist = () => {
-    if (this.myUserId !== USERID_TOURIST) {
+    if (this.myUserId !== APP_USERID_TOURIST) {
       return
     }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 05:28:23
+ * @Last Modified time: 2020-03-19 01:12:08
  */
 
 /**
@@ -119,6 +119,7 @@ export default {
   '条目.右上角菜单': 'Subject.topRightMenu',
   '条目.删除收藏': 'Subject.doEraseCollection',
   '条目.搜索源': 'Subject.searchEp',
+  '条目.翻译简介': 'Subject.doTranslate',
 
   // 用户标签
   '用户标签.跳转': 'Tag.to',
@@ -195,6 +196,7 @@ export default {
   '帖子.删除回复': 'Topic.doDeleteReply',
   '帖子.UCG': 'Topic.UCGAgree',
   '帖子.楼层跳转': 'Topic.scrollTo',
+  '帖子.翻译内容': 'Topic.doTranslate',
 
   // 社区指导原则
   '社区指导原则.跳转': 'UCG.to',

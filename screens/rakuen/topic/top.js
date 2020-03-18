@@ -2,25 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 22:48:01
+ * @Last Modified time: 2020-03-19 00:42:19
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import {
-  HeaderPlaceholder,
-  Flex,
-  Text,
-  RenderHtml,
-  Divider,
-  Loading
-} from '@components'
+import { HeaderPlaceholder, Flex, Text, Divider } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { findBangumiCn, appNavigate } from '@utils/app'
 import { HOST, IOS } from '@constants'
+import Content from './content'
 import SectionTitle from './section-title'
 
 function Top(props, { $, navigation }) {
@@ -62,18 +56,6 @@ function Top(props, { $, navigation }) {
           )}
         </Text>
         <Flex style={[styles.groupWrap, _.mt.sm]}>
-          {/* <View style={styles.groupThumbWrap}>
-            {!!$.groupThumb && (
-              <Image
-                size={28}
-                src={$.groupThumb}
-                radius
-                border={_.colorBorder}
-                placeholder={false}
-                onPress={groupPress}
-              />
-            )}
-          </View> */}
           <Text>
             <Text size={13} underline numberOfLines={1} onPress={groupPress}>
               {findBangumiCn($.group)}
@@ -120,20 +102,7 @@ function Top(props, { $, navigation }) {
             )}
           </Flex>
         )}
-        <View style={styles.html}>
-          {isGroup && !$.html && (
-            <Flex style={styles.loading} justify='center'>
-              <Loading />
-            </Flex>
-          )}
-          {!!$.html && (
-            <RenderHtml
-              style={_.mt.md}
-              html={$.html}
-              onLinkPress={href => appNavigate(href, navigation, {}, event)}
-            />
-          )}
-        </View>
+        <Content />
       </View>
       <Divider />
       <SectionTitle />
@@ -152,19 +121,10 @@ const styles = StyleSheet.create({
   groupWrap: {
     height: 32
   },
-  groupThumbWrap: {
-    width: 30
-  },
   userWrap: {
     height: 42
   },
   userAvatarWrap: {
     width: 40
-  },
-  html: {
-    minHeight: 120
-  },
-  loading: {
-    height: 120
   }
 })

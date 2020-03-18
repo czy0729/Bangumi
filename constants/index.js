@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 00:14:51
+ * @Last Modified time: 2020-03-18 17:53:03
  */
 import { Platform } from 'react-native'
 
@@ -26,26 +26,27 @@ export const HOST_2 = 'https://bangumi.tv' // 备用域名
 export const HOST_3 = 'https://chii.in'
 export const HOST_NING_MOE = 'https://www.ningmoe.com' // 柠萌瞬间地址
 export const HOST_ANITAMA = 'https://app.anitama.net' // Anitama api地址
-export const OAUTH_URL = `${HOST}/oauth/authorize` // 登陆v1.0 oauth地址
-export const OAUTH_REDIRECT_URL = `${HOST}/dev/app` // 登陆v1.0 授权跳转地址
-export const FEEDBACK_URL = `${HOST}/group/topic/350677` // bgm项目帖子地址
+
+// URL
+export const URL_OAUTH = `${HOST}/oauth/authorize` // 登陆v1.0 oauth地址
+export const URL_OAUTH_REDIRECT = `${HOST}/dev/app` // 登陆v1.0 授权跳转地址
+export const URL_FEEDBACK = `${HOST}/group/topic/350677` // bgm项目帖子地址
 
 // APP
 export const APP_ID = 'bgm8885c4d524cd61fc' // client_id
 export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd' // client_secret
-export const SAY_DEVELOP_ID = '19945783' // 功能留言板入口
-export const SAY_TINYGRAIL_ID = '19820034' // 小圣杯意见反馈入口
+export const APP_ID_SAY_DEVELOP = '19945783' // 功能留言板入口
+export const APP_ID_SAY_TINYGRAIL = '19820034' // 小圣杯意见反馈入口
+export const APP_ID_BAIDU = '20200130000378695' // 百度翻译
+export const APP_USERID_TOURIST = 476179 // 6907xxx59@qq.com (游客)
+export const APP_USERID_IOS_AUTH = 474489 // 2963xxx10@qq.com (iOS审核)
 
 // ENV
 export const IOS = Platform.OS === 'ios' // 是否iOS
 
-// USERID
-export const USERID_TOURIST = 476179 // 6907xxx59@qq.com (游客)
-export const USERID_IOS_AUTH = 474489 // 2963xxx10@qq.com
-
 // TINYGRAIL
 export const TINYGRAIL_APP_ID = 'bgm2525b0e4c7d93fec' // 小圣杯client_id
-export const TINYGRAIL_OAUTH_REDIRECT_URL =
+export const TINYGRAIL_URL_OAUTH_REDIRECT =
   'https://tinygrail.com/api/account/callback' // 小圣杯授权跳转地址
 export const TINYGRAIL_UPDATES_LOGS_URL = `${HOST}/group/topic/354698` // 更新内容帖子
 
@@ -82,13 +83,14 @@ export const LIMIT_LIST = 40 // 用于制造分页数据
 export const LIMIT_LIST_COMMENTS = 25 // 用于制造分页数据 (评论)
 export const LIMIT_TOPIC_PUSH = 400 // 对评论大于400的帖子进行网页跳转
 
+// EVENT
 export const EVENT = {
   id: '',
   data: {}
 }
 
 // 时间数组
-export const airtimeData = [
+export const DATA_AIRTIME = [
   '全部',
   '2020',
   '2019',
@@ -132,7 +134,7 @@ export const airtimeData = [
   '1981',
   '1980'
 ]
-export const monthData = [
+export const DATA_MONTH = [
   '全部',
   '1',
   '2',

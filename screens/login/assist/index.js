@@ -14,7 +14,7 @@ import { copy, getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
 import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
+import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 
 const title = '电脑辅助登陆'
 const code = `JSON.stringify({
@@ -166,7 +166,7 @@ class LoginAssist extends React.Component {
 
     try {
       const res = xhrCustom({
-        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
         headers: {
           Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
           'User-Agent': this.userAgent
@@ -198,7 +198,7 @@ class LoginAssist extends React.Component {
     try {
       const res = xhrCustom({
         method: 'POST',
-        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        url: `${HOST}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
@@ -248,7 +248,7 @@ class LoginAssist extends React.Component {
           client_id: APP_ID,
           client_secret: APP_SECRET,
           code: this.code,
-          redirect_uri: OAUTH_REDIRECT_URL,
+          redirect_uri: URL_OAUTH_REDIRECT,
           state: getTimestamp()
         }
       })

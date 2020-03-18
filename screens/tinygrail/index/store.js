@@ -16,7 +16,7 @@ import axios from '@utils/thirdParty/axios'
 import {
   HOST,
   TINYGRAIL_APP_ID,
-  TINYGRAIL_OAUTH_REDIRECT_URL
+  TINYGRAIL_URL_OAUTH_REDIRECT
 } from '@constants'
 import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 
@@ -424,7 +424,7 @@ export default class ScreenTinygrail extends store {
     axios.defaults.withCredentials = false
     const res = axios({
       method: 'get',
-      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}`,
+      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}`,
       headers: {
         Cookie: `chii_cookietime=2592000; ${cookie}`,
         'User-Agent': userAgent
@@ -452,7 +452,7 @@ export default class ScreenTinygrail extends store {
       method: 'post',
       maxRedirects: 0,
       validateStatus: null,
-      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}${errorStr}`,
+      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}${errorStr}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Cookie: `chii_cookietime=2592000; ${cookie}`,

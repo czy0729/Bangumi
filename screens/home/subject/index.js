@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-18 01:02:50
+ * @Last Modified time: 2020-03-18 23:26:14
  */
 import React from 'react'
 import { InteractionManager, StyleSheet, View } from 'react-native'
@@ -38,18 +38,20 @@ export default
 class Subject extends React.Component {
   static contextTypes = {
     $: PropTypes.object,
-    navigation: PropTypes.object,
-    rendered: PropTypes.bool
+    navigation: PropTypes.object
   }
 
   state = {
-    showBlurView: true
+    showBlurView: true,
+    rendered: false
   }
-
-  ListHeaderComponent = (<Header />)
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(async () => {
+      setTimeout(() => {
+        this.rendered()
+      }, 300)
+
       const { $, navigation } = this.context
       withTransitionHeader.setTitle(navigation, $.cn)
 
@@ -88,6 +90,8 @@ class Subject extends React.Component {
     const { onScroll } = this.props
     onScroll(e)
 
+    this.rendered()
+
     const { nativeEvent } = e
     const { y } = nativeEvent.contentOffset
     if (this.state.showBlurView && y > showBlurViewOffset) {
@@ -104,12 +108,21 @@ class Subject extends React.Component {
     }
   }
 
+  rendered = () => {
+    if (!this.state.rendered) {
+      this.setState({
+        rendered: true
+      })
+    }
+  }
+
   renderItem = ({ item, index }) => {
-    const { $, navigation, rendered } = this.context
+    const { rendered } = this.state
     if (!rendered) {
       return null
     }
 
+    const { $, navigation } = this.context
     const event = {
       id: '条目.跳转',
       data: {
@@ -136,7 +149,7 @@ class Subject extends React.Component {
     const { $ } = this.context
     const { visible } = $.state
     const { name_cn: nameCn, name, images = {} } = $.subject
-    const { showBlurView } = this.state
+    const { showBlurView, rendered } = this.state
     return (
       <View style={_.select(_.container.screen, _.container.content)}>
         {showBlurView && (
@@ -156,7 +169,7 @@ class Subject extends React.Component {
           data={$.subjectComments}
           scrollEventThrottle={16}
           refreshControlProps={refreshControlProps}
-          ListHeaderComponent={this.ListHeaderComponent}
+          ListHeaderComponent={<Header rendered={rendered} />}
           renderItem={this.renderItem}
           onScroll={this.onScroll}
           onHeaderRefresh={$.init}

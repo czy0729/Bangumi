@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 11:32:07
+ * @Last Modified time: 2020-03-19 01:03:24
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -17,7 +17,7 @@ import {
 } from '@stores'
 import { open, getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
-import { t, xhrCustom, queue } from '@utils/fetch'
+import { t, xhrCustom, queue, baiduTranslate } from '@utils/fetch'
 import {
   appNavigate,
   findBangumiCn,
@@ -26,7 +26,12 @@ import {
 } from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
-import { IOS, USERID_TOURIST, USERID_IOS_AUTH, HOST_NING_MOE } from '@constants'
+import {
+  IOS,
+  APP_USERID_TOURIST,
+  APP_USERID_IOS_AUTH,
+  HOST_NING_MOE
+} from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { NINGMOE_ID } from '@constants/online'
@@ -48,32 +53,30 @@ const sitesDS = [
   'qq',
   'mgtv'
 ]
+const excludeState = {
+  visible: false, // 是否显示管理模态框
+  chap: '', // 书籍章
+  vol: '', // 卷
+  translateResult: [] // 翻译缓存
+}
 
 export default class ScreenSubject extends store {
   state = observable({
-    visible: false, // 是否显示管理模态框
+    ...excludeState,
     epsReverse: false, // 章节是否倒序
-    chap: '', // 书籍
-    vol: '',
     bangumiInfo: {
       sites: [], // 动画在线地址
       type: '' // 动画类型
     },
-
-    // 播放源
-    epsData: {
-      _loaded: false
-    },
-    _loaded: true
+    epsData: { _loaded: false }, // 播放源
+    _loaded: false
   })
 
   init = async () => {
     const state = await this.getStorage(undefined, this.namespace)
     this.setState({
       ...state,
-      visible: false,
-      chap: '',
-      vol: '',
+      ...excludeState,
       _loaded: true
     })
 
@@ -357,8 +360,8 @@ export default class ScreenSubject extends store {
 
     if (
       !this.userId ||
-      this.userId == USERID_TOURIST ||
-      this.userId == USERID_IOS_AUTH
+      this.userId == APP_USERID_TOURIST ||
+      this.userId == APP_USERID_IOS_AUTH
     ) {
       return false
     }
@@ -923,5 +926,33 @@ export default class ScreenSubject extends store {
         userStore.fetchUserCollection()
       }
     )
+  }
+
+  /**
+   * 翻译简介
+   */
+  doTranslate = async () => {
+    if (this.state.translateResult.length) {
+      return
+    }
+
+    t('条目.翻译简介', {
+      subjectId: this.subjectId
+    })
+
+    try {
+      const response = await baiduTranslate(this.summary)
+      const { trans_result: translateResult } = JSON.parse(response)
+      if (Array.isArray(translateResult)) {
+        this.setState({
+          translateResult
+        })
+        info('翻译成功')
+        return
+      }
+      info('翻译失败, 请重试')
+    } catch (error) {
+      info('翻译失败, 请重试')
+    }
   }
 }

@@ -20,14 +20,14 @@ import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import {
   IOS,
-  FEEDBACK_URL,
+  URL_FEEDBACK,
   GITHUB_PROJECT,
   GITHUB_RELEASE,
   VERSION_GITHUB_RELEASE,
   VERSION_CODE_PUSH,
-  USERID_TOURIST,
-  USERID_IOS_AUTH,
-  SAY_DEVELOP_ID
+  APP_USERID_TOURIST,
+  APP_USERID_IOS_AUTH,
+  APP_ID_SAY_DEVELOP
 } from '@constants'
 import {
   MODEL_SETTING_QUALITY,
@@ -170,8 +170,8 @@ class Setting extends React.Component {
 
     if (
       !this.userId ||
-      this.userId == USERID_TOURIST ||
-      this.userId == USERID_IOS_AUTH
+      this.userId == APP_USERID_TOURIST ||
+      this.userId == APP_USERID_IOS_AUTH
     ) {
       return false
     }
@@ -535,7 +535,7 @@ class Setting extends React.Component {
             })
 
             navigation.push('Say', {
-              id: SAY_DEVELOP_ID
+              id: APP_ID_SAY_DEVELOP
             })
           }}
         />
@@ -545,7 +545,7 @@ class Setting extends React.Component {
           arrow
           highlight
           onPress={() =>
-            appNavigate(FEEDBACK_URL, navigation, undefined, {
+            appNavigate(URL_FEEDBACK, navigation, undefined, {
               id: '设置.跳转'
             })
           }

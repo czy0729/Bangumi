@@ -20,7 +20,7 @@ import { _, userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
 import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST_2, APP_ID, APP_SECRET, OAUTH_REDIRECT_URL } from '@constants'
+import { HOST_2, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 import Preview from './preview'
 import Form from './form'
 
@@ -345,7 +345,7 @@ class LoginV2 extends React.Component {
     const { host } = this.state
     const res = xhrCustom(
       this.getRetryData({
-        url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
         headers: {
           Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
           'User-Agent': this.userAgent
@@ -373,7 +373,7 @@ class LoginV2 extends React.Component {
     const res = xhrCustom(
       this.getRetryData({
         method: 'POST',
-        url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${OAUTH_REDIRECT_URL}`,
+        url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
@@ -419,7 +419,7 @@ class LoginV2 extends React.Component {
           client_id: APP_ID,
           client_secret: APP_SECRET,
           code: this.code,
-          redirect_uri: OAUTH_REDIRECT_URL,
+          redirect_uri: URL_OAUTH_REDIRECT,
           state: getTimestamp()
         }
       })

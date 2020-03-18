@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 14:22:37
+ * @Last Modified time: 2020-03-19 01:16:22
  */
 import { observable, computed } from 'mobx'
 import {
@@ -18,20 +18,21 @@ import { IOS, HOST } from '@constants'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
 import { info } from '@utils/ui'
-import { t } from '@utils/fetch'
+import { t, baiduTranslate } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 
 const namespace = 'ScreenTopic'
-const initState = {
+const excludeState = {
   placeholder: '', // 回复框placeholder
   value: '', // 回复框value
   replySub: '', // 存放bgm特有的子回复配置字符串
-  message: '' // 存放子回复html
+  message: '', // 存放子回复html
+  translateResult: [] // 翻译缓存
 }
 
 export default class ScreenTopic extends store {
   state = observable({
-    ...initState,
+    ...excludeState,
     filterMe: false,
     filterFriends: false,
     reverse: false,
@@ -43,7 +44,7 @@ export default class ScreenTopic extends store {
     const commonState = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
-      ...initState,
+      ...excludeState,
       reverse: commonState.reverse,
       _loaded: true
     })
@@ -567,5 +568,37 @@ export default class ScreenTopic extends store {
         this.fetchTopic()
       }
     )
+  }
+
+  /**
+   * 翻译内容
+   */
+  doTranslate = async () => {
+    if (this.state.translateResult.length) {
+      return
+    }
+
+    t('帖子.翻译内容', {
+      topicId: this.topicId
+    })
+
+    try {
+      const response = await baiduTranslate(
+        String(`${this.title}\n${this.html}`)
+          .replace(/<br \/>/g, '\n')
+          .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
+      )
+      const { trans_result: translateResult } = JSON.parse(response)
+      if (Array.isArray(translateResult)) {
+        this.setState({
+          translateResult
+        })
+        info('翻译成功')
+        return
+      }
+      info('翻译失败, 请重试')
+    } catch (error) {
+      info('翻译失败, 请重试')
+    }
   }
 }

@@ -11,7 +11,7 @@ import { Button } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { SAY_TINYGRAIL_ID } from '@constants'
+import { APP_ID_SAY_TINYGRAIL } from '@constants'
 
 const dataToday = ['刮刮乐', '每周分红', '每日签到', '节日福利']
 const dataMore = ['重新授权', '人物直达', '意见反馈', '设置']
@@ -89,7 +89,7 @@ function Btns(props, { $, navigation }) {
                 break
               case '意见反馈':
                 navigation.push('Say', {
-                  id: SAY_TINYGRAIL_ID
+                  id: APP_ID_SAY_TINYGRAIL
                 })
                 break
               case '设置':

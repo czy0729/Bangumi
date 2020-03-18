@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-01 07:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:10:51
+ * @Last Modified time: 2020-03-18 15:36:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,11 +13,7 @@ import { IOS } from '@constants'
 
 function Shadow({ style, children }) {
   const styles = memoStyles()
-  return (
-    <View style={[IOS ? styles.ios : styles.todoAndroid, style]}>
-      {children}
-    </View>
-  )
+  return <View style={[IOS ? styles.ios : null, style]}>{children}</View>
 }
 
 export default observer(Shadow)
@@ -25,15 +21,11 @@ export default observer(Shadow)
 const memoStyles = _.memoStyles(_ => ({
   ios: {
     shadowColor: _.colorShadow,
-    shadowOffset: { height: 4 },
+    shadowOffset: {
+      height: 4
+    },
     shadowOpacity: 0.08,
     shadowRadius: 8
-  },
-
-  // @todo 实测低端安卓机卡顿, 暂时不处理
-  todo: {
-    backgroundColor: _.colorPlain,
-    elevation: 2
   }
 }))
 

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 19:36:54
+ * @Last Modified time: 2020-03-18 18:24:29
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -13,15 +13,19 @@ import { Portal, Toast } from '@ant-design/react-native'
 import {
   IOS,
   APP_ID,
+  APP_ID_BAIDU,
   HOST_NAME,
   HOST,
   VERSION_GITHUB_RELEASE,
   DEV
 } from '@constants'
 import events from '@constants/events'
+import { BAIDU_KEY } from '@constants/secret'
 import fetch from './thirdParty/fetch-polyfill'
+import md5 from './thirdParty/md5'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
+import { HTMLTrim } from './html'
 import { info as UIInfo } from './ui'
 
 const UMAnalyticsModule = NativeModules.UMAnalyticsModule
@@ -273,6 +277,8 @@ export function xhrCustom({
           resolve(this)
         } else if (this.status === 404) {
           reject(new TypeError('404'))
+        } else if (this.status === 500) {
+          reject(new TypeError('500'))
         }
       }
     }
@@ -407,6 +413,35 @@ export async function queue(fetchs, num = 2) {
     })
   )
   return true
+}
+
+/**
+ * 百度翻译
+ * @param {*} query
+ */
+export async function baiduTranslate(query) {
+  try {
+    const appid = APP_ID_BAIDU
+    const salt = new Date().getTime()
+    const from = 'auto'
+    const to = 'zh'
+    const q = query.split('\r\n').join('\n')
+    const sign = md5(`${appid}${q}${salt}${BAIDU_KEY}`)
+    const { _response } = await xhrCustom({
+      url: `https://api.fanyi.baidu.com/api/trans/vip/translate?${urlStringify({
+        q,
+        appid,
+        salt,
+        from,
+        to,
+        sign
+      })}`
+    })
+    return _response
+  } catch (error) {
+    warn('utils/fetch.js', 'baiduTranslate', error)
+    return false
+  }
 }
 
 /**

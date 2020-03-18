@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-18 00:59:07
+ * @Last Modified time: 2020-03-18 23:23:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ import Recent from './recent'
 import Blog from './blog'
 import Topic from './topic'
 
-function Header(props, { $, rendered }) {
+function Header({ rendered }, { $ }) {
   const styles = memoStyles()
   const {
     pagination: { pageTotal = 0 },
@@ -84,8 +84,7 @@ function Header(props, { $, rendered }) {
 }
 
 Header.contextTypes = {
-  $: PropTypes.object,
-  rendered: PropTypes.bool
+  $: PropTypes.object
 }
 
 export default observer(Header)

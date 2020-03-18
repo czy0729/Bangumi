@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 22:53:01
+ * @Last Modified time: 2020-03-18 23:30:59
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -47,10 +47,24 @@ class ToggleImage extends React.Component {
     if (isRemote && src.includes('.webp')) {
       return (
         <Touchable onPress={onImageFallback}>
-          <Flex style={this.styles.imagePlaceholder} justify='center'>
+          <Flex
+            style={this.styles.imagePlaceholder}
+            direction='column'
+            justify='center'
+          >
             <Text size={13} type='sub'>
               暂不支持webp图片, 使用浏览器打开
             </Text>
+            {isRemote && (
+              <Text
+                style={this.styles.textSrc}
+                size={10}
+                type='sub'
+                numberOfLines={1}
+              >
+                {src}
+              </Text>
+            )}
           </Flex>
         </Touchable>
       )
