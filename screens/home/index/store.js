@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 01:16:12
+ * @Last Modified time: 2020-03-19 10:23:32
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -127,6 +127,10 @@ export default class ScreenHome extends store {
 
   @computed get initialPage() {
     return systemStore.setting.initialPage
+  }
+
+  @computed get heatMap() {
+    return systemStore.setting.heatMap
   }
 
   /**
@@ -256,38 +260,38 @@ export default class ScreenHome extends store {
   /**
    * 条目观看进度百分比
    */
-  percent(subjectId, subject = {}) {
-    return computed(() => {
-      const eps = this.eps(subjectId)
-      if (!subject.eps_count || !eps.length) {
-        return 0
-      }
+  // percent(subjectId, subject = {}) {
+  //   return computed(() => {
+  //     const eps = this.eps(subjectId)
+  //     if (!subject.eps_count || !eps.length) {
+  //       return 0
+  //     }
 
-      // 排除SP章节
-      let watchedCount = 0
-      const userProgress = this.userProgress(subjectId)
-      try {
-        const epsWithoutSP = eps.filter(item => item.type === 0)
-        epsWithoutSP.forEach(item => {
-          if (userProgress[item.id] === '看过') {
-            // 这里很坑, 有一些是多季度不是1开始的番, 还有一些是只显示4行的超长番组, 很容易混淆
-            if (
-              watchedCount === 0 &&
-              item.sort !== 1 &&
-              epsWithoutSP.length >= 32
-            ) {
-              watchedCount += parseInt(item.sort)
-            } else {
-              watchedCount += 1
-            }
-          }
-        })
-      } catch (error) {
-        // do nothing
-      }
-      return (watchedCount / subject.eps_count) * 100
-    }).get()
-  }
+  //     // 排除SP章节
+  //     let watchedCount = 0
+  //     const userProgress = this.userProgress(subjectId)
+  //     try {
+  //       const epsWithoutSP = eps.filter(item => item.type === 0)
+  //       epsWithoutSP.forEach(item => {
+  //         if (userProgress[item.id] === '看过') {
+  //           // 这里很坑, 有一些是多季度不是1开始的番, 还有一些是只显示4行的超长番组, 很容易混淆
+  //           if (
+  //             watchedCount === 0 &&
+  //             item.sort !== 1 &&
+  //             epsWithoutSP.length >= 32
+  //           ) {
+  //             watchedCount += parseInt(item.sort)
+  //           } else {
+  //             watchedCount += 1
+  //           }
+  //         }
+  //       })
+  //     } catch (error) {
+  //       // do nothing
+  //     }
+  //     return (watchedCount / subject.eps_count) * 100
+  //   }).get()
+  // }
 
   @computed get onAir() {
     return calendarStore.onAir

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 18:02:14
+ * @Last Modified time: 2020-03-19 10:42:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,11 @@ import { Flex, Iconfont, Shadow, Text, Touchable } from '@components'
 import { Eps, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const itemPadding = 12
+const layoutWidth = parseInt(_.window.width - _.wind * 2 - itemPadding) - 1
 const colorDark = {
   color: _.colorDark
 }
@@ -225,15 +227,20 @@ class Item extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { subjectId, subject } = this.props
+    const { subjectId, subject, epStatus } = this.props
     const { expand } = $.$Item(subjectId)
     const isToday = $.isToday(subjectId)
     const isNextDay = $.isNextDay(subjectId)
+    const percent = subject.eps_count
+      ? (parseInt(epStatus || 0) / parseInt(subject.eps_count)) * 100
+      : 0
     // const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     // const doing = isBook ? '读' : '看'
     return (
       <Shadow style={this.styles.shadow} initHeight={120}>
-        <View style={this.styles.item}>
+        <View
+          style={[this.styles.item, $.heatMap && this.styles.itemWithHeatMap]}
+        >
           <Flex style={this.styles.hd}>
             <Cover
               size={76}
@@ -275,7 +282,7 @@ class Item extends React.Component {
                 <Progress
                   style={this.styles.progress}
                   barStyle={this.styles.bar}
-                  percent={$.percent(subjectId, subject)}
+                  percent={percent}
                 />
               </View>
             </Flex.Item>
@@ -283,6 +290,7 @@ class Item extends React.Component {
           {expand && (
             <Eps
               style={this.styles.eps}
+              layoutWidth={layoutWidth}
               marginRight={itemPadding}
               login={$.isLogin}
               subjectId={subjectId}
@@ -313,8 +321,13 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: itemPadding,
     paddingLeft: itemPadding,
     backgroundColor: _.colorPlain,
+    borderWidth: _.select(0, IOS ? 0 : _.hairlineWidth),
+    borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  itemWithHeatMap: {
+    paddingBottom: itemPadding + 4
   },
   hd: {
     paddingRight: itemPadding

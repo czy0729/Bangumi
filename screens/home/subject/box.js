@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 11:46:21
+ * @Last Modified time: 2020-03-19 10:57:46
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -12,6 +12,7 @@ import { Flex, Button, Icon, Text, Touchable } from '@components'
 import { SectionTitle, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
+import { IOS } from '@constants'
 
 function Box({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -35,16 +36,12 @@ function Box({ style }, { $, navigation }) {
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle
-        style={{
-          height: 28
-        }}
+        style={styles.sectionTitle}
         right={
           showErase && (
             <IconTouchable
+              style={styles.iconErase}
               name='close'
-              style={{
-                marginRight: -_.sm
-              }}
               size={14}
               color={_.colorIcon}
               onPress={() => {
@@ -65,7 +62,7 @@ function Box({ style }, { $, navigation }) {
       >
         收藏
       </SectionTitle>
-      <View style={[_.select(_.shadow, undefined), _.mt.md]}>
+      <View style={styles.btn}>
         <Touchable onPress={onPress}>
           <Flex justify='center'>
             <Flex.Item>
@@ -122,13 +119,31 @@ const memoStyles = _.memoStyles(_ => ({
     minHeight: 120,
     backgroundColor: _.colorPlain
   },
+  sectionTitle: {
+    height: 28
+  },
+  iconErase: {
+    marginRight: -_.sm
+  },
+  btn: {
+    marginTop: _.md,
+    ..._.select(
+      IOS
+        ? _.shadow
+        : {
+            elevation: 2,
+            backgroundColor: _.colorPlain
+          },
+      undefined
+    )
+  },
   left: {
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
   },
   right: {
     borderLeftWidth: _.select(0, 1),
-    borderLeftColor: 'rgba(33, 33, 33, 0.1)',
+    borderLeftColor: 'rgba(255, 255, 255, 0.06)',
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   }

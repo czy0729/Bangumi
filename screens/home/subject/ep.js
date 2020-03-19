@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 16:03:44
+ * @Last Modified time: 2020-03-19 10:46:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,8 @@ import { SectionTitle, Eps, IconReverse, Popover } from '@screens/_'
 import { _ } from '@stores'
 import BookEp from './book-ep'
 import Disc from './disc'
+
+const layoutWidth = parseInt(_.window.width - _.wind) - 1
 
 function Ep({ style }, { $, navigation }) {
   // 书籍和游戏没有ep
@@ -60,6 +62,7 @@ function Ep({ style }, { $, navigation }) {
       </SectionTitle>
       <Eps
         style={_.mt.md}
+        layoutWidth={layoutWidth}
         marginRight={_.wind}
         advance
         pagination

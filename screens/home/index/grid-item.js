@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:28:03
+ * @Last Modified time: 2020-03-19 10:26:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,10 +15,16 @@ import { _ } from '@stores'
 const margin = 10
 const imageWidth = (_.window.width - 3 * margin - 2 * _.wind) / 4
 
-function GridItem({ subject, subject_id: subjectId }, { $ }) {
+function GridItem(
+  { subject, subject_id: subjectId, ep_status: epStatus },
+  { $ }
+) {
   const styles = memoStyles()
   const { current } = $.state
   const isCurrent = current === subjectId
+  const percent = subject.eps_count
+    ? (parseInt(epStatus || 0) / parseInt(subject.eps_count)) * 100
+    : 0
   return (
     <View style={styles.item}>
       <Cover
@@ -33,7 +39,7 @@ function GridItem({ subject, subject_id: subjectId }, { $ }) {
       <Progress
         style={styles.progress}
         barStyle={styles.bar}
-        percent={$.percent(subjectId, subject)}
+        percent={percent}
         unfilled
       />
     </View>
