@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 21:36:41
+ * @Last Modified time: 2020-03-19 20:59:02
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -93,7 +93,7 @@ export default observer(Menus)
 
 const styles = StyleSheet.create({
   section: {
-    paddingBottom: _.wind,
+    paddingBottom: _.sm,
     marginLeft: _.wind
   }
 })

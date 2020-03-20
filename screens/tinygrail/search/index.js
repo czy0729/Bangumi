@@ -60,7 +60,7 @@ class TinygrailSearch extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    ..._.container.flex,
+    flex: 1,
     backgroundColor: _.colorTinygrailContainer
   },
   searchBar: {

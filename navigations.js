@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 01:17:13
+ * @Last Modified time: 2020-03-21 00:56:03
  */
 export default {
-  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
+  initialRouteName: 'Tinygrail', // HomeTab TinygrailCharaAssets
   initialRouteParams: {
-    // id: 170597,
+    // id: 240929
     // blogId: 295515 // 294448
     // catalogId: 29811,
     // groupId: 'tinygrail',
-    // monoId: 'person/5745' // 20391 character/70323 person/5745
+    // monoId: 'character/15138' // 20391 character/70323 person/5745
     // subjectId: 296285 // 103824 238923 279457 100444 204135
     // topicId: 'ep/924227' // group/350677, ep/768491
     // userId: 419012, // 456208, 419012

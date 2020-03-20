@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 23:46:19
+ * @Last Modified time: 2020-03-20 18:03:21
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -41,7 +41,7 @@ function Item(props, { navigation }) {
   return (
     <Flex style={styles.container} align='start'>
       <Avatar
-        style={styles.image}
+        style={styles.avatar}
         src={tinygrailOSS(icon)}
         size={40}
         name={name}
@@ -89,12 +89,7 @@ function Item(props, { navigation }) {
         >
           <Flex>
             <Flex.Item>
-              <Text
-                style={{
-                  color: _.colorTinygrailPlain
-                }}
-                size={15}
-              >
+              <Text type='tinygrailPlain' size={15}>
                 {index + 1}.{name}
                 {!!bonus && (
                   <Text size={12} lineHeight={15} type='warning'>
@@ -103,27 +98,13 @@ function Item(props, { navigation }) {
                   </Text>
                 )}
                 {parseInt(level) > 1 && (
-                  <Text
-                    style={{
-                      color: _.colorAsk
-                    }}
-                    size={12}
-                    lineHeight={15}
-                  >
+                  <Text type='ask' size={12} lineHeight={15}>
                     {' '}
                     lv{level}
                   </Text>
                 )}
               </Text>
-              <Text
-                style={[
-                  _.mt.xs,
-                  {
-                    color: _.colorTinygrailText
-                  }
-                ]}
-                size={11}
-              >
+              <Text style={_.mt.xs} type='tinygrailText' size={11}>
                 {!!amount && (
                   <Text type='warning' size={11}>
                     {amount}股
@@ -131,12 +112,7 @@ function Item(props, { navigation }) {
                 )}
                 {!!amount && ' / '}
                 {!!firstAmount && (
-                  <Text
-                    style={{
-                      color: isBids ? _.colorBid : _.colorAsk
-                    }}
-                    size={11}
-                  >
+                  <Text type={isBids ? 'bid' : 'ask'} size={11}>
                     {isBids && '收'}
                     {firstAmount}股
                   </Text>
@@ -147,27 +123,12 @@ function Item(props, { navigation }) {
               </Text>
             </Flex.Item>
             {isAuctioning && (
-              <Text
-                style={[
-                  _.ml.sm,
-                  {
-                    color: _.colorBid
-                  }
-                ]}
-              >
+              <Text style={_.ml.sm} type='bid'>
                 {' '}
                 [竞拍中]
               </Text>
             )}
-            <Text
-              style={[
-                _.ml.md,
-                {
-                  color: _.colorTinygrailPlain
-                }
-              ]}
-              size={16}
-            >
+            <Text style={_.ml.md} type='tinygrailPlain' size={16}>
               {mark}
             </Text>
           </Flex>
@@ -196,9 +157,10 @@ const memoStyles = _.memoStyles(_ => ({
   active: {
     backgroundColor: _.colorTinygrailActive
   },
-  image: {
+  avatar: {
     marginRight: _.xs,
-    marginTop: _.md
+    marginTop: _.md,
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   item: {
     paddingVertical: _.md,

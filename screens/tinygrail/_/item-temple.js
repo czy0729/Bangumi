@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 18:13:47
+ * @Last Modified time: 2020-03-20 18:03:44
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
@@ -37,6 +37,7 @@ function ItemTemple(
   },
   { navigation }
 ) {
+  const styles = memoStyles()
   const { id: eventId, data: eventData } = event
   const isView = type === 'view' // 后来加的最近圣殿
   const isFormCharaAssets = !!onPress
@@ -57,6 +58,7 @@ function ItemTemple(
   return (
     <View style={styles.item}>
       <Image
+        style={styles.image}
         size={imageWidth}
         height={imageWidth * 1.28}
         src={tinygrailOSS(cover)}
@@ -77,7 +79,7 @@ function ItemTemple(
       {isView ? (
         <View style={_.mt.sm}>
           <Text
-            style={styles.plain}
+            type='tinygrailPlain'
             numberOfLines={1}
             onPress={() => {
               t(eventId, {
@@ -94,7 +96,8 @@ function ItemTemple(
             {HTMLDecode(name)}
           </Text>
           <Text
-            style={[styles.text, _.mt.xs]}
+            style={_.mt.xs}
+            type='tinygrailText'
             size={12}
             numberOfLines={1}
             onPress={() => {
@@ -119,7 +122,7 @@ function ItemTemple(
           <Flex>
             {!!avatar && (
               <Avatar
-                style={_.mr.sm}
+                style={[styles.avatar, _.mr.sm]}
                 navigation={navigation}
                 size={28}
                 src={avatar}
@@ -131,19 +134,15 @@ function ItemTemple(
             )}
             <Flex.Item>
               <Text
-                style={styles.plain}
+                type='tinygrailPlain'
                 size={isFormCharaAssets ? 14 : 12}
                 numberOfLines={1}
               >
                 {numText}
               </Text>
               <Text
-                style={[
-                  styles.text,
-                  {
-                    marginTop: 2
-                  }
-                ]}
+                style={styles.name}
+                type='tinygrailText'
                 size={isFormCharaAssets ? 12 : 10}
                 numberOfLines={1}
               >
@@ -173,16 +172,20 @@ ItemTemple.defaultProps = {
 
 export default observer(ItemTemple)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     width: imageWidth,
     marginTop: 24,
     marginLeft
   },
-  text: {
-    color: _.colorTinygrailText
+  avatar: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
-  plain: {
-    color: _.colorTinygrailPlain
+  image: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg),
+    ..._.tSelect(undefined, _.shadow)
+  },
+  name: {
+    marginTop: 2
   }
-})
+}))

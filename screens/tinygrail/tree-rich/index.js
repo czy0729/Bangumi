@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:04:49
+ * @Last Modified time: 2020-03-20 01:21:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,7 @@ class TinygrailTree extends React.Component {
       extra: (
         <IconHeader
           name='refresh'
-          color={_.colorTinygrailText}
+          color={_.colorTinygrailPlain}
           onPress={() => {
             t('前百首富.刷新')
             this.onRefresh()
@@ -63,15 +63,7 @@ class TinygrailTree extends React.Component {
     const { $, navigation } = this.context
     navigation.setParams({
       extra: (
-        <Text
-          style={[
-            _.mr.sm,
-            {
-              color: _.colorTinygrailText
-            }
-          ]}
-          size={12}
-        >
+        <Text style={_.mr.sm} type='tinygrailPlain' size={12}>
           请求中...
         </Text>
       )

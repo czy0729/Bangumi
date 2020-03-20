@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 14:34:08
+ * @Last Modified time: 2020-03-20 18:00:33
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -32,6 +32,7 @@ function Info(props, { $, navigation }) {
       {!!icon && (
         <Flex justify='center'>
           <Image
+            style={styles.image}
             src={tinygrailOSS(getCoverLarge(icon))}
             autoSize={maxSize}
             shadow
@@ -56,12 +57,7 @@ function Info(props, { $, navigation }) {
         }}
       >
         <Flex justify='center'>
-          <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
-            size={16}
-          >
+          <Text type='tinygrailPlain' size={16}>
             #{id} - {name}
           </Text>
           <Iconfont
@@ -73,12 +69,7 @@ function Info(props, { $, navigation }) {
         </Flex>
       </Touchable>
       <Flex style={_.mt.md} justify='center'>
-        <Text
-          style={{
-            color: _.colorTinygrailText
-          }}
-          size={16}
-        >
+        <Text type='tinygrailText' size={16}>
           剩余时间:{' '}
         </Text>
         <CountDown
@@ -89,27 +80,11 @@ function Info(props, { $, navigation }) {
           end={endTime}
         />
       </Flex>
-      <Text
-        style={[
-          _.mt.md,
-          {
-            color: _.colorTinygrailPlain
-          }
-        ]}
-        align='center'
-      >
+      <Text style={_.mt.md} type='tinygrailPlain' align='center'>
         <Text type='warning'>已筹集 {formatNumber(total, 0)}</Text> /
         下一等级需要 {formatNumber(next, 0)}
       </Text>
-      <Text
-        style={[
-          _.mt.sm,
-          {
-            color: _.colorTinygrailPlain
-          }
-        ]}
-        align='center'
-      >
+      <Text style={_.mt.sm} type='tinygrailPlain' align='center'>
         预计发行量 约{formatNumber(amount, 0)}股 / 发行价 ₵{formatNumber(price)}
       </Text>
       <Bar style={_.mt.md} total={total} level={level} next={next} />
@@ -127,5 +102,8 @@ export default observer(Info)
 const styles = StyleSheet.create({
   container: {
     padding: _.wind
+  },
+  image: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 05:40:44
+ * @Last Modified time: 2020-03-19 23:03:52
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -13,6 +13,10 @@ export const tabs = [
   {
     title: '全部',
     key: 'all'
+  },
+  {
+    title: '道具',
+    key: 'items'
   },
   {
     title: '刮刮乐',

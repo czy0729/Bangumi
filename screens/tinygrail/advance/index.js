@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 17:41:39
+ * @Last Modified time: 2020-03-20 12:01:05
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -33,7 +33,7 @@ class TinygrailAdvance extends React.Component {
       extra: (
         <IconHeader
           name='information'
-          color={_.__colorPlain__}
+          color={_.colorTinygrailPlain}
           onPress={() => {
             t('高级分析.提示')
 
@@ -55,17 +55,21 @@ class TinygrailAdvance extends React.Component {
   render() {
     const { navigation } = this.props
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
-      >
+      <View style={this.styles.container}>
         <StatusBarEvents />
         <Menus navigation={navigation} />
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

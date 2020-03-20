@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 14:26:30
+ * @Last Modified time: 2020-03-20 23:34:43
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
-import { Avatar, StockPreview } from '@screens/_'
+import { Avatar } from '@screens/_'
 import { _, tinygrailStore } from '@stores'
 import { lastDate, getTimestamp, formatNumber, toFixed } from '@utils'
 import { tinygrailOSS, tinygrailFixedTime, formatTime } from '@utils/app'
 import { t } from '@utils/fetch'
 import { EVENT, B, M } from '@constants'
 import Popover from './popover'
+import StockPreview from './stock-preview'
 
 const types = ['bid', 'asks', 'chara']
 let timezone = new Date().getTimezoneOffset() / -60
@@ -52,11 +53,11 @@ function Item(props, { $, navigation }) {
   const go = props.go || $.state.go
   const { id: eventId, data: eventData } = event
   const colorMap = {
-    bid: _.colorBid,
-    asks: _.colorAsk,
-    chara: _.colorWarning,
-    ico: _.colorPrimary,
-    auction: _.colorWarning
+    bid: 'bid',
+    asks: 'ask',
+    chara: 'warning',
+    ico: 'primary',
+    auction: 'warning'
   }
 
   // 用show判断是否精简模式
@@ -136,7 +137,7 @@ function Item(props, { $, navigation }) {
 
   let prevText
   let auctionText = '竞拍中'
-  let auctionTextColor = _.colorWarning
+  let auctionTextColor = 'warning'
   let auctionSubText = ''
   if (types.includes(type)) {
     prevText = `${state}股`
@@ -146,10 +147,10 @@ function Item(props, { $, navigation }) {
     auctionSubText = `₵${price} / ${formatNumber(amount, 0)}`
     if (state === 1) {
       auctionText = '成功'
-      auctionTextColor = _.colorBid
+      auctionTextColor = 'bid'
     } else if (state === 2) {
       auctionText = '失败'
-      auctionTextColor = _.colorAsk
+      auctionTextColor = 'ask'
     }
   }
   const auctioning = auctionText === '竞拍中'
@@ -157,7 +158,7 @@ function Item(props, { $, navigation }) {
   return (
     <Flex style={styles.container} align='start'>
       <Avatar
-        style={styles.image}
+        style={styles.avatar}
         src={tinygrailOSS(icon)}
         size={40}
         name={name}
@@ -211,36 +212,39 @@ function Item(props, { $, navigation }) {
             >
               <Flex align='start'>
                 <Flex.Item>
-                  <Text style={styles.textPlain} size={15}>
-                    {!isDeal && `${_index}. `}
+                  <Text
+                    type='tinygrailPlain'
+                    size={name.length > 8 ? 12 : 15}
+                    lineHeight={15}
+                  >
+                    {!isDeal && (
+                      <Text type='tinygrailPlain' size={15}>
+                        {_index}.{' '}
+                      </Text>
+                    )}
                     {name}
                     {!!bonus && (
-                      <Text size={12} lineHeight={15} type='warning'>
+                      <Text type='warning' size={12} lineHeight={15}>
                         {' '}
                         x{bonus}
                       </Text>
                     )}
                     {parseInt(level) > 1 && (
-                      <Text style={styles.textAsk} size={12} lineHeight={15}>
+                      <Text type='ask' size={12} lineHeight={15}>
                         {' '}
                         lv{level}
                       </Text>
                     )}
                   </Text>
-                  <Text style={styles.extraText} size={11}>
+                  <Text style={_.mt.xs} type='tinygrailText' size={11}>
                     {isDeal && (
-                      <Text
-                        style={{
-                          color: colorMap[type]
-                        }}
-                        size={11}
-                      >
+                      <Text type={colorMap[type]} size={11}>
                         {prevText}
                       </Text>
                     )}
                     {!!sacrifices && ' / '}
                     {!!sacrifices && (
-                      <Text style={styles.textBid} size={11}>
+                      <Text type='bid' size={11}>
                         塔{sacrifices}
                       </Text>
                     )}
@@ -250,16 +254,15 @@ function Item(props, { $, navigation }) {
                 </Flex.Item>
                 {isAuction && (
                   <View>
-                    <Text
-                      style={{
-                        color: auctionTextColor
-                      }}
-                      size={15}
-                      align='right'
-                    >
+                    <Text type={auctionTextColor} size={15} align='right'>
                       {auctionText}
                     </Text>
-                    <Text style={styles.auctionSubText} size={12} align='right'>
+                    <Text
+                      style={_.mt.xs}
+                      type='tinygrailText'
+                      size={12}
+                      align='right'
+                    >
                       {auctionSubText}
                     </Text>
                   </View>
@@ -283,18 +286,13 @@ function Item(props, { $, navigation }) {
                 ])
               }
             >
-              <Text style={styles.auctionCancelText} size={15}>
+              <Text type='tinygrailText' size={15}>
                 [取消]
               </Text>
             </Touchable>
           )}
           {!isAuction && (
-            <StockPreview
-              style={styles.stockPreview}
-              {...props}
-              _loaded
-              theme='dark'
-            />
+            <StockPreview style={styles.stockPreview} {...props} _loaded />
           )}
           {!isICO && <Popover id={monoId || id} event={event} />}
         </Flex>
@@ -320,9 +318,10 @@ const memoStyles = _.memoStyles(_ => ({
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer
   },
-  image: {
+  avatar: {
     marginRight: _.xs,
-    marginTop: _.md
+    marginTop: _.md,
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   item: {
     paddingVertical: _.md,
@@ -332,29 +331,9 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
   },
-  textPlain: {
-    color: _.colorTinygrailPlain
-  },
-  textAsk: {
-    color: _.colorAsk
-  },
-  textBid: {
-    color: _.colorBid
-  },
-  extraText: {
-    ..._.mt.xs,
-    color: _.colorTinygrailText
-  },
-  auctionSubText: {
-    ..._.mt.xs,
-    color: _.colorTinygrailText
-  },
   auctionCancel: {
     paddingVertical: _.md,
     paddingLeft: _.md
-  },
-  auctionCancelText: {
-    color: _.colorTinygrailText
   },
   stockPreview: {
     marginRight: -12

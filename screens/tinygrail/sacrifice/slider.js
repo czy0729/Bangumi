@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 15:44:47
+ * @Last Modified time: 2020-03-20 18:36:54
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -28,11 +28,7 @@ function Slider({ style }, { $ }) {
     <View style={[styles.container, style]}>
       <Flex>
         <Flex.Item>
-          <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
-          >
+          <Text type='tinygrailPlain'>
             {isSale
               ? '资产重组，股份出售给英灵殿获得现金'
               : '股权融资，股份转化为固定资产获得现金和道具'}
@@ -97,9 +93,9 @@ function Slider({ style }, { $ }) {
         <Touchable style={_.ml.sm} onPress={() => $.changeAmount(userAmount)}>
           <Text
             style={{
-              paddingVertical: _.sm,
-              color: _.colorTinygrailText
+              paddingVertical: _.sm
             }}
+            type='tinygrailText'
             size={13}
           >
             [最大]
@@ -108,11 +104,11 @@ function Slider({ style }, { $ }) {
       </Flex>
       <Flex>
         <Flex.Item>
-          <Text style={styles.text} size={12}>
+          <Text type='tinygrailText' size={12}>
             可用 0
           </Text>
         </Flex.Item>
-        <Text style={styles.text} size={12}>
+        <Text type='tinygrailText' size={12}>
           {formatNumber(userAmount, 0)}股
         </Text>
       </Flex>
@@ -155,13 +151,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 40,
     opacity: 0.8
   },
-  plain: {
-    color: _.colorTinygrailPlain
-  },
   btnSubmit: {
     width: 96
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))

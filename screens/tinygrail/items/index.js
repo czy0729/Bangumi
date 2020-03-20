@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 19:32:51
+ * @Last Modified time: 2020-03-20 18:25:29
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -68,25 +68,17 @@ class TinygrailItems extends React.Component {
                         index !== 0 && this.styles.border
                       ]}
                     >
-                      <Image size={44} src={tinygrailOSS(item.icon)} radius />
+                      <Image
+                        style={this.styles.image}
+                        size={44}
+                        src={tinygrailOSS(item.icon)}
+                        radius
+                      />
                       <Flex.Item style={_.ml.md}>
-                        <Text
-                          style={{
-                            color: _.colorTinygrailPlain
-                          }}
-                          size={15}
-                        >
+                        <Text type='tinygrailPlain' size={15}>
                           {item.name}
                         </Text>
-                        <Text
-                          style={[
-                            _.mt.xs,
-                            {
-                              color: _.colorTinygrailText
-                            }
-                          ]}
-                          size={12}
-                        >
+                        <Text style={_.mt.xs} type='tinygrailText' size={12}>
                           {item.line}
                         </Text>
                       </Flex.Item>
@@ -123,25 +115,17 @@ class TinygrailItems extends React.Component {
                       index !== 0 && this.styles.border
                     ]}
                   >
-                    <Image size={40} src={tinygrailOSS(item.icon)} radius />
+                    <Image
+                      style={this.styles.image}
+                      size={40}
+                      src={tinygrailOSS(item.icon)}
+                      radius
+                    />
                     <Flex.Item style={_.ml.md}>
-                      <Text
-                        style={{
-                          color: _.colorTinygrailPlain
-                        }}
-                        size={15}
-                      >
+                      <Text type='tinygrailPlain' size={15}>
                         {item.name}
                       </Text>
-                      <Text
-                        style={[
-                          _.mt.xs,
-                          {
-                            color: _.colorTinygrailText
-                          }
-                        ]}
-                        size={12}
-                      >
+                      <Text style={_.mt.xs} type='tinygrailText' size={12}>
                         {item.line}
                       </Text>
                     </Flex.Item>
@@ -164,7 +148,7 @@ class TinygrailItems extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    ..._.container.flex,
+    flex: 1,
     backgroundColor: _.colorTinygrailContainer
   },
   item: {
@@ -178,5 +162,8 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  image: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:20:58
+ * @Last Modified time: 2020-03-20 01:35:17
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -50,7 +50,7 @@ class TinygrailTree extends React.Component {
         <>
           <IconHeader
             name='refresh'
-            color={_.colorTinygrailText}
+            color={_.colorTinygrailPlain}
             onPress={() => {
               t('资产分析.刷新')
               this.onRefresh()
@@ -58,7 +58,7 @@ class TinygrailTree extends React.Component {
           />
           <IconHeader
             name='information'
-            color={_.colorTinygrailText}
+            color={_.colorTinygrailPlain}
             onPress={() => {
               t('资产分析.提醒')
               this.onAlert()
@@ -87,20 +87,12 @@ class TinygrailTree extends React.Component {
     navigation.setParams({
       extra: (
         <>
-          <Text
-            style={[
-              _.mr.sm,
-              {
-                color: _.colorTinygrailText
-              }
-            ]}
-            size={12}
-          >
+          <Text style={_.mr.sm} type='tinygrailPlain' size={12}>
             请求中...
           </Text>
           <IconHeader
             name='information'
-            color={_.colorTinygrailText}
+            color={_.colorTinygrailPlain}
             onPress={this.onAlert}
           />
         </>

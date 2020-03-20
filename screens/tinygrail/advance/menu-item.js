@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 22:10:53
+ * @Last Modified time: 2020-03-20 01:16:44
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -27,13 +27,7 @@ function MenuItem({ navigation, style, pathname, config, title, icon }) {
       }}
     >
       <Flex style={[styles.block, style]}>
-        <Text
-          style={{
-            color: _.colorTinygrailPlain
-          }}
-          size={20}
-          bold
-        >
+        <Text type='tinygrailPlain' size={20} bold>
           {title}
         </Text>
         <Iconfont style={styles.icon} name={icon} size={56} />
@@ -55,13 +49,14 @@ const memoStyles = _.memoStyles(_ => ({
     width: sectionWidth,
     height: sectionHeight,
     paddingLeft: 24,
-    backgroundColor: _.colorTinygrailBorder
+    backgroundColor: _.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg)
   },
   icon: {
     position: 'absolute',
     top: '50%',
-    right: -8,
+    right: -10,
     marginTop: -28,
+    color: _.colorTinygrailIcon,
     opacity: 0.16
   }
 }))

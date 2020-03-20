@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 15:18:34
+ * @Last Modified time: 2020-03-20 12:19:22
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -24,11 +24,7 @@ function ToolBar({ data, sort, direction, onSortPress }) {
               onPress={() => onSortPress(item.value)}
             >
               <Flex style={styles.item} justify='center'>
-                <Text
-                  style={{
-                    color: isActive ? _.colorWarning : _.colorTinygrailText
-                  }}
-                >
+                <Text type={isActive ? 'warning' : 'tinygrailText'}>
                   {item.label}
                 </Text>
                 <View style={{ width: 4 }}>

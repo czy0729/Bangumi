@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 19:30:56
+ * @Last Modified time: 2020-03-19 20:58:26
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -52,75 +52,47 @@ function Assets(props, { $ }) {
   let balanceTextColor
   if (changeBalance > 0) {
     balanceChangeText = `(+${formatNumber(changeBalance, 0)})`
-    balanceTextColor = _.colorBid
+    balanceTextColor = 'bid'
   } else if (changeBalance < 0) {
     balanceChangeText = `(-${formatNumber(Math.abs(changeBalance), 0)})`
-    balanceTextColor = _.colorAsk
+    balanceTextColor = 'ask'
   }
 
   let totalChangeText
   let totalTextColor
   if (changeTotal > 0) {
     totalChangeText = `(+${formatNumber(changeTotal, 0)})`
-    totalTextColor = _.colorBid
+    totalTextColor = 'bid'
   } else if (changeTotal < 0) {
     totalChangeText = `(-${formatNumber(Math.abs(changeTotal), 0)})`
-    totalTextColor = _.colorAsk
+    totalTextColor = 'ask'
   }
 
   return (
-    <Flex style={styles.assets}>
+    <Flex style={styles.container}>
       <Flex.Item>
         <Touchable onPress={$.toogleShort}>
-          <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
-          >
+          <Text type='tinygrailPlain'>
             ₵ {_balance}
             {balanceChangeText && (
-              <Text
-                style={{
-                  color: balanceTextColor
-                }}
-                size={12}
-                lineHeight={14}
-              >
+              <Text type={balanceTextColor} size={12} lineHeight={14}>
                 {' '}
                 {balanceChangeText}
               </Text>
             )}{' '}
             / {_total}{' '}
             {totalChangeText && (
-              <Text
-                style={{
-                  color: totalTextColor
-                }}
-                size={12}
-                lineHeight={14}
-              >
+              <Text type={totalTextColor} size={12} lineHeight={14}>
                 {totalChangeText}{' '}
               </Text>
             )}
             {!!lastIndex && `/ #${lastIndex}`}
-            <Text
-              style={{
-                color: _.colorTinygrailPlain
-              }}
-            >
-              {short ? ' [-]' : ' [+]'}
-            </Text>
+            <Text type='tinygrailPlain'>{short ? ' [-]' : ' [+]'}</Text>
           </Text>
         </Touchable>
       </Flex.Item>
       <Touchable style={_.ml.sm} onPress={$.doTest}>
-        <Text
-          style={{
-            color: _.colorTinygrailText
-          }}
-        >
-          [股息预测]
-        </Text>
+        <Text type='tinygrailText'>[股息预测]</Text>
       </Touchable>
     </Flex>
   )
@@ -133,10 +105,9 @@ Assets.contextTypes = {
 export default observer(Assets)
 
 const styles = StyleSheet.create({
-  assets: {
+  container: {
     width: '100%',
-    paddingRight: _.wind,
-    marginTop: _.md,
-    marginBottom: _.md
+    paddingVertical: _.sm,
+    paddingRight: _.wind
   }
 })

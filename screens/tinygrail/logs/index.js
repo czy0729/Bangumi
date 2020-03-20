@@ -5,7 +5,7 @@
  * @Last Modified time: 2020-02-14 05:35:16
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -70,7 +70,7 @@ class TinygrailLogs extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    ..._.container.flex,
+    flex: 1,
     backgroundColor: _.colorTinygrailContainer
   }
 }))

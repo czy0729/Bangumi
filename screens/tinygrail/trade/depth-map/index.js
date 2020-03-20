@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:25:44
+ * @Last Modified time: 2020-03-20 23:15:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,7 @@ function DepthMap({ style }, { $ }) {
   let calculateAsks = 0
   return (
     <View style={[styles.container, style]}>
-      <Text style={[styles.title, styles.text]} size={12}>
+      <Text style={styles.title} type='tinygrailText' size={12}>
         深度
       </Text>
       <Flex>
@@ -124,10 +124,10 @@ function DepthMap({ style }, { $ }) {
       <Flex style={styles.info}>
         <Flex.Item>
           <Flex justify='between'>
-            <Text style={styles.text} size={12}>
+            <Text type='tinygrailText' size={12}>
               {bidsLow && toFixed(bidsLow, 2)}
             </Text>
-            <Text style={styles.text} size={12}>
+            <Text type='tinygrailText' size={12}>
               {bidsHigh && toFixed(bidsHigh, 2)}
             </Text>
           </Flex>
@@ -138,29 +138,29 @@ function DepthMap({ style }, { $ }) {
           }}
         >
           <Flex justify='between'>
-            <Text style={styles.text} size={12}>
+            <Text type='tinygrailText' size={12}>
               {asksLow && toFixed(asksLow, 2)}
             </Text>
-            <Text style={styles.text} size={12}>
+            <Text type='tinygrailText' size={12}>
               {asksHigh && toFixed(asksHigh, 2)}
             </Text>
           </Flex>
         </Flex.Item>
       </Flex>
       <Flex style={styles.rod} direction='column' justify='between' align='end'>
-        <Text style={styles.text} size={12} align='right'>
+        <Text type='tinygrailText' size={12} align='right'>
           {getKStr(amount)}
         </Text>
-        <Text style={styles.text} size={12} align='right'>
+        <Text type='tinygrailText' size={12} align='right'>
           {getKStr((amount * 4) / 5)}
         </Text>
-        <Text style={styles.text} size={12} align='right'>
+        <Text type='tinygrailText' size={12} align='right'>
           {getKStr((amount * 3) / 5)}
         </Text>
-        <Text style={styles.text} size={12} align='right'>
+        <Text type='tinygrailText' size={12} align='right'>
           {getKStr((amount * 2) / 5)}
         </Text>
-        <Text style={styles.text} size={12} align='right'>
+        <Text type='tinygrailText' size={12} align='right'>
           {getKStr((amount * 1) / 5)}
         </Text>
       </Flex>
@@ -219,9 +219,6 @@ const memoStyles = _.memoStyles(_ => ({
     top: _.md + _.sm,
     right: _.sm,
     bottom: 56
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))
 

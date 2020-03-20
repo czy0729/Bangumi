@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 22:46:02
+ * @Last Modified time: 2020-03-19 15:27:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,11 +49,8 @@ function Chat(props, { $, navigation }) {
                   <Flex direction='column' align='end'>
                     <View style={[styles.text, styles.textActive]}>
                       <RenderHtml
-                        baseFontStyle={{
-                          fontSize: 14 + _.fontSizeAdjust,
-                          lineHeight: 22
-                        }}
-                        html={getBgmHtml(item.content)}
+                        baseFontStyle={styles.baseFontStyle}
+                        html={item.content}
                         onLinkPress={href =>
                           appNavigate(href, navigation, {}, event)
                         }
@@ -96,11 +93,8 @@ function Chat(props, { $, navigation }) {
                 <Flex direction='column' align='start'>
                   <View style={styles.text}>
                     <RenderHtml
-                      baseFontStyle={{
-                        fontSize: 14 + _.fontSizeAdjust,
-                        lineHeight: 22
-                      }}
-                      html={getBgmHtml(item.content)}
+                      baseFontStyle={styles.baseFontStyle}
+                      html={item.content}
                       onLinkPress={href =>
                         appNavigate(href, navigation, {}, event)
                       }
@@ -130,6 +124,10 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     padding: _.wind
   },
+  baseFontStyle: {
+    fontSize: 14 + _.fontSizeAdjust,
+    lineHeight: 22
+  },
   text: {
     padding: 12,
     marginRight: 24,
@@ -146,17 +144,17 @@ const memoStyles = _.memoStyles(_ => ({
   }
 }))
 
-function getBgmHtml(html = '') {
-  let _html = html
-  const matchs = _html.match(/\(bgm\d+\)/g) || []
-  if (matchs.length) {
-    matchs.forEach(item => {
-      const index = parseInt(item.match(/\d+/g)[0])
+// function getBgmHtml(html = '') {
+//   let _html = html
+//   const matchs = _html.match(/\(bgm\d+\)/g) || []
+//   if (matchs.length) {
+//     matchs.forEach(item => {
+//       const index = parseInt(item.match(/\d+/g)[0])
 
-      // 防止2连同一个bgm表情, 替换不了后面的
-      _html = _html.replace(item, `<img smileid alt="(bgm~~~${index})" />`)
-    })
-  }
+//       // 防止2连同一个bgm表情, 替换不了后面的
+//       _html = _html.replace(item, `<img smileid alt="(bgm~~~${index})" />`)
+//     })
+//   }
 
-  return _html.replace(/~~~/g, '')
-}
+//   return _html.replace(/~~~/g, '')
+// }

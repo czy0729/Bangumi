@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 05:34:56
+ * @Last Modified time: 2020-03-19 19:44:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -87,7 +87,7 @@ class TinygrailOverview extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    ..._.container.flex,
+    flex: 1,
     backgroundColor: _.colorTinygrailContainer
   }
 }))

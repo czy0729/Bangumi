@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-01 17:48:04
+ * @Last Modified time: 2020-03-20 18:35:42
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -53,9 +53,9 @@ class TinygrailSacrifice extends React.Component {
         <>
           <Text
             style={{
-              paddingVertical: _.sm,
-              color: _.colorTinygrailText
+              paddingVertical: _.sm
             }}
+            type='tinygrailText'
             size={15}
             onPress={() => {
               const { form, monoId } = $.params
@@ -80,11 +80,11 @@ class TinygrailSacrifice extends React.Component {
           <Text
             style={[
               {
-                paddingVertical: _.sm,
-                color: _.colorTinygrailText
+                paddingVertical: _.sm
               },
               _.ml.sm
             ]}
+            type='tinygrailText'
             size={15}
             onPress={() => {
               const { form, monoId } = $.params
@@ -158,7 +158,7 @@ class TinygrailSacrifice extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    ..._.container.flex,
+    flex: 1,
     backgroundColor: _.colorTinygrailContainer
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-16 18:03:19
+ * @Last Modified time: 2020-03-20 23:17:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,15 +55,15 @@ function Item({
 
   let left
   let right
-  let textColor = _.colorTinygrailText
+  let textColor = 'tinygrailText'
   if (label === '当前涨跌') {
     right = '%'
     if (fluctuation > 0) {
       left = '+'
-      textColor = _.colorBid
+      textColor = 'bid'
     } else if (fluctuation < 0) {
       left = '-'
-      textColor = _.colorAsk
+      textColor = 'ask'
     }
   }
 
@@ -108,9 +108,12 @@ function Item({
         >
           {showAvatar && (
             <Image
-              style={{
-                marginBottom: parseInt(5.6 * ratio)
-              }}
+              style={[
+                styles.image,
+                {
+                  marginBottom: parseInt(5.6 * ratio)
+                }
+              ]}
               src={icon}
               size={parseInt(ratioHeight * 240)}
               height={
@@ -124,9 +127,7 @@ function Item({
             />
           )}
           <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
+            type='tinygrailPlain'
             size={parseInt(11 * ratio)}
             numberOfLines={1}
             selectable={false}
@@ -135,20 +136,14 @@ function Item({
           </Text>
           <Text
             style={{
-              marginTop: parseInt(3 * ratio),
-              color: _.colorTinygrailText
+              marginTop: parseInt(3 * ratio)
             }}
+            type='tinygrailText'
             size={textSize}
             numberOfLines={1}
             selectable={false}
           >
-            <Text
-              style={{
-                color: textColor
-              }}
-              size={textSize}
-              selectable={false}
-            >
+            <Text type={textColor} size={textSize} selectable={false}>
               {extra}
               {left}
               {priceText}
@@ -175,5 +170,8 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: _.hairlineWidth,
     borderColor: _.colorTinygrailBorder,
     overflow: 'hidden'
+  },
+  image: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))

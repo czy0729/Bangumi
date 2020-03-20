@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 08:41:48
+ * @Last Modified time: 2020-03-19 23:34:06
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,6 +24,12 @@ function List({ index }, { $ }) {
       data = {
         ...$.balance,
         list: $.balance.list.filter(item => item.desc.includes('刮刮乐'))
+      }
+      break
+    case '道具':
+      data = {
+        ...$.balance,
+        list: $.balance.list.filter(item => item.desc.includes('混沌魔方'))
       }
       break
     case '卖出':

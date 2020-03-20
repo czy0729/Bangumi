@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 06:33:46
+ * @Last Modified time: 2020-03-20 18:07:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -85,7 +85,7 @@ class TinygrailBid extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    ..._.container.flex,
+    flex: 1,
     backgroundColor: _.colorTinygrailContainer
   }
 }))

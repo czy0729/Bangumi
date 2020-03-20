@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 17:21:10
+ * @Last Modified time: 2020-03-19 22:58:46
  */
 import React from 'react'
 import {
@@ -48,6 +48,7 @@ class ListView extends React.Component {
     footerFailureText: '居然失败了 =.=!',
     footerNoMoreDataText: '到底啦',
     footerEmptyDataText: '好像什么都没有',
+    footerTextType: 'sub',
     optimize: true, // 是否开启长列表优化
     onHeaderRefresh: undefined,
     onFooterRefresh: undefined
@@ -205,6 +206,7 @@ class ListView extends React.Component {
       footerFailureComponent,
       footerNoMoreDataComponent,
       footerEmptyDataComponent,
+      footerTextType,
       onHeaderRefresh,
       onFooterRefresh
     } = this.props
@@ -227,7 +229,9 @@ class ListView extends React.Component {
           >
             {footerFailureComponent || (
               <View style={this.styles.footerContainer}>
-                <Text style={this.styles.footerText}>{footerFailureText}</Text>
+                <Text style={this.styles.footerText} type={footerTextType}>
+                  {footerFailureText}
+                </Text>
               </View>
             )}
           </TouchableOpacity>
@@ -249,7 +253,10 @@ class ListView extends React.Component {
                 justify='center'
               >
                 <Mesume />
-                <Text style={[this.styles.footerText, _.mt.sm]}>
+                <Text
+                  style={[this.styles.footerText, _.mt.sm]}
+                  type={footerTextType}
+                >
                   {footerEmptyDataText}
                 </Text>
               </Flex>
@@ -265,7 +272,7 @@ class ListView extends React.Component {
             direction='column'
           >
             <ActivityIndicator size='small' />
-            <Text style={_.mt.sm} type='sub' align='center'>
+            <Text style={_.mt.sm} type={footerTextType} align='center'>
               {footerRefreshingText}
             </Text>
           </Flex>
@@ -280,7 +287,7 @@ class ListView extends React.Component {
           >
             <Mesume size={80} />
             {systemStore.setting.speech && (
-              <Text style={_.mt.sm} type='sub' align='center'>
+              <Text style={_.mt.sm} type={footerTextType} align='center'>
                 {randomSpeech()}
               </Text>
             )}
@@ -349,8 +356,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 40
   },
   footerText: {
-    fontSize: 14 + _.fontSizeAdjust,
-    color: _.colorSub
+    fontSize: 14 + _.fontSizeAdjust
   },
   footerEmpty: {
     minHeight: 240

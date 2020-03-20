@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 03:02:16
+ * @Last Modified time: 2020-03-20 18:22:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,13 +23,7 @@ function Initial({ style }, { $, navigation }) {
   }
   return (
     <View style={[styles.container, style]}>
-      <Text
-        style={{
-          color: _.colorTinygrailPlain
-        }}
-        size={12}
-        lineHeight={16}
-      >
+      <Text type='tinygrailPlain' size={12} lineHeight={16}>
         <Text type='warning' size={16}>
           参与者 {users}
         </Text>{' '}
@@ -43,6 +37,7 @@ function Initial({ style }, { $, navigation }) {
             // eslint-disable-next-line react/no-array-index-key
             <Flex key={index} style={styles.item}>
               <Avatar
+                style={styles.avatar}
                 navigation={navigation}
                 src={tinygrailOSS(item.avatar)}
                 size={isTop ? 56 : 40}
@@ -53,25 +48,16 @@ function Initial({ style }, { $, navigation }) {
               />
               <Flex.Item style={_.ml.sm}>
                 <Text
-                  style={{
-                    color:
-                      isTop || isMe ? _.colorWarning : _.colorTinygrailPlain
-                  }}
+                  type={isTop || isMe ? 'warning' : 'tinygrailPlain'}
                   size={isTop ? 14 : 12}
                 >
                   {item.nickName}
                 </Text>
                 <Text
-                  style={[
-                    _.mt.xs,
-                    {
-                      color: isTop
-                        ? _.colorWarning
-                        : item.amount
-                        ? _.colorBid
-                        : _.colorTinygrailText
-                    }
-                  ]}
+                  style={_.mt.xs}
+                  type={
+                    isTop ? 'warning' : item.amount ? 'bid' : 'tinygrailText'
+                  }
                   size={12}
                 >
                   +{item.amount ? formatNumber(item.amount, 0) : '???'}
@@ -100,5 +86,8 @@ const styles = StyleSheet.create({
   item: {
     paddingVertical: _.sm,
     width: '50%'
+  },
+  avatar: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 })

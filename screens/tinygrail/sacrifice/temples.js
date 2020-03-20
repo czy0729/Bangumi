@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 05:14:56
+ * @Last Modified time: 2020-03-20 18:37:56
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -131,13 +131,7 @@ class Temples extends React.Component {
       <View style={[styles.container, style]}>
         <Flex style={styles.info}>
           <Flex.Item>
-            <Text
-              style={{
-                color: _.colorTinygrailText
-              }}
-              size={13}
-              lineHeight={17}
-            >
+            <Text type='tinygrailText' size={13} lineHeight={17}>
               固定资产{list.length || '-'}{' '}
               {!!list.length &&
                 `(${this.levelMap[3]}+${this.levelMap[2]}+${this.levelMap[1]})`}{' '}
@@ -154,13 +148,7 @@ class Temples extends React.Component {
             }}
             onPress={this.onShowAlert}
           >
-            <Text
-              style={{
-                color: _.colorTinygrailText
-              }}
-            >
-              [角色计息]
-            </Text>
+            <Text type='tinygrailText'>[角色计息]</Text>
           </Touchable>
         </Flex>
         {showTemples && (
@@ -181,11 +169,19 @@ class Temples extends React.Component {
           </Flex>
         )}
         <Flex style={_.mt.md} justify='center'>
-          <Text style={styles.expand} onPress={$.toggleTemples}>
+          <Text
+            style={styles.expand}
+            type='tinygrailText'
+            onPress={$.toggleTemples}
+          >
             [{showTemples ? '隐藏' : '显示'}圣殿]
           </Text>
           {showTemples && list.length > 6 && (
-            <Text style={[styles.expand, _.ml.md]} onPress={$.toggleExpand}>
+            <Text
+              style={[styles.expand, _.ml.md]}
+              type='tinygrailText'
+              onPress={$.toggleExpand}
+            >
               [{expand ? '收起' : '展开'}圣殿]
             </Text>
           )}
@@ -205,7 +201,6 @@ const styles = StyleSheet.create({
     paddingRight: _.wind - _.sm
   },
   expand: {
-    paddingVertical: _.sm,
-    color: _.colorTinygrailText
+    paddingVertical: _.sm
   }
 })

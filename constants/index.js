@@ -3,15 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-18 17:53:03
+ * @Last Modified time: 2020-03-19 22:32:40
  */
 import { Platform } from 'react-native'
 
 /* ==================== DEV ==================== */
 export const DEV = true // 是否开发模式
 export const BARE = true // 裸工作流
-export const VERSION_GITHUB_RELEASE = '2.9.1' // 版本号
-export const VERSION_TINYGRAIL_PLUGIN = '1.4.1'
+export const VERSION_GITHUB_RELEASE = '3.0.0' // 版本号
+export const VERSION_TINYGRAIL_PLUGIN = '2.0.0'
 export const VERSION_CODE_PUSH = '' // 热推送副版本号
 export const ERRORS = {
   keys: [],

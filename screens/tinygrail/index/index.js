@@ -1,9 +1,8 @@
-/* eslint-disable no-trailing-spaces */
 /*
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 21:57:26
+ * @Last Modified time: 2020-03-19 20:58:01
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -105,20 +104,34 @@ class Tinygrail extends React.Component {
         <Auth />
         <Menus />
         <Flex justify='center'>
-          <Text style={this.styles.text} size={12}>
+          <Text type='tinygrailText' size={12}>
             - {VERSION_TINYGRAIL_PLUGIN} -
           </Text>
         </Flex>
         <Flex style={_.mt.sm} justify='center'>
-          <Text style={this.styles.text} size={12} onPress={this.alertScience}>
+          <Text type='tinygrailText' size={12} onPress={this.alertScience}>
             游戏指南
           </Text>
-          <Text style={this.styles.text2}>|</Text>
-          <Text style={this.styles.text2} size={12} onPress={this.alertUpdates}>
+          <Text style={_.ml.md} type='tinygrailText'>
+            |
+          </Text>
+          <Text
+            style={_.ml.md}
+            type='tinygrailText'
+            size={12}
+            onPress={this.alertUpdates}
+          >
             更新内容
           </Text>
-          <Text style={this.styles.text2}>|</Text>
-          <Text style={this.styles.text2} size={12} onPress={$.doSend}>
+          <Text style={_.ml.md} type='tinygrailText'>
+            |
+          </Text>
+          <Text
+            style={_.ml.md}
+            type='tinygrailText'
+            size={12}
+            onPress={$.doSend}
+          >
             点我看看
           </Text>
         </Flex>
@@ -133,7 +146,7 @@ class Tinygrail extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    ..._.container.flex,
+    flex: 1,
     backgroundColor: _.colorTinygrailContainer
   },
   contentContainerStyle: {
@@ -141,12 +154,5 @@ const memoStyles = _.memoStyles(_ => ({
   },
   statusBar: {
     backgroundColor: _.colorTinygrailContainer
-  },
-  text: {
-    color: _.colorTinygrailText
-  },
-  text2: {
-    ..._.ml.md,
-    color: _.colorTinygrailText
   }
 }))

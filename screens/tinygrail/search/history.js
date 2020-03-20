@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 22:06:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 06:23:42
+ * @Last Modified time: 2020-03-20 18:38:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,9 +23,7 @@ function History({ style }, { $, navigation }) {
           <Flex style={styles.content}>
             <Flex.Item>
               <Text
-                style={{
-                  color: _.colorTinygrailPlain
-                }}
+                type='tinygrailPlain'
                 size={15}
                 onPress={() => {
                   t('人物直达.跳转', {

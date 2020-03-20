@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 06:46:15
+ * @Last Modified time: 2020-03-19 23:00:15
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -42,6 +42,10 @@ function List({ index }, { $ }) {
     <ListView
       style={_.container.flex}
       keyExtractor={(item, index) => String(index)}
+      refreshControlProps={{
+        color: _.colorTinygrailText
+      }}
+      footerTextType='tinygrailText'
       data={_list}
       renderItem={({ item, index }) => (
         <Item

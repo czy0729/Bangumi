@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:47:02
+ * @Last Modified time: 2020-03-19 20:42:48
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -77,6 +77,23 @@ const memoStyles = _.memoStyles(_ => ({
         fontWeight: 'normal'
       }
     : {},
+  underline: {
+    textDecorationLine: 'underline',
+    textDecorationColor: _.select(_.colorMain, _.colorSub)
+  },
+  alignCenter: {
+    textAlign: 'center'
+  },
+  alignRight: {
+    textAlign: 'right'
+  },
+  bold: IOS
+    ? {
+        fontWeight: 'bold'
+      }
+    : {},
+
+  // theme
   plain: {
     color: _.colorPlain
   },
@@ -113,19 +130,21 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     color: _.colorBorder
   },
-  underline: {
-    textDecorationLine: 'underline',
-    textDecorationColor: _.select(_.colorMain, _.colorSub)
+
+  // tinygrail theme
+  bid: {
+    color: _.colorBid
   },
-  alignCenter: {
-    textAlign: 'center'
+  ask: {
+    color: _.colorAsk
   },
-  alignRight: {
-    textAlign: 'right'
+  tinygrailPlain: {
+    color: _.colorTinygrailPlain
   },
-  bold: IOS
-    ? {
-        fontWeight: 'bold'
-      }
-    : {}
+  tinygrailText: {
+    color: _.colorTinygrailText
+  },
+  tinygrailIcon: {
+    color: _.colorTinygrailIcon
+  }
 }))

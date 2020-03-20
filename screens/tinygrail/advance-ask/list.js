@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:55:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:50:09
+ * @Last Modified time: 2020-03-20 12:05:55
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,14 +24,16 @@ function List(props, { $ }) {
       userId: $.myUserId
     }
   }
+  const renderItem = ({ item, index }) => (
+    <ItemAdvance index={index} event={event} {...item} />
+  )
+
   return (
     <ListView
       style={_.container.flex}
       keyExtractor={keyExtractor}
       data={$.advanceList}
-      renderItem={({ item, index }) => (
-        <ItemAdvance index={index} event={event} {...item} />
-      )}
+      renderItem={renderItem}
       onHeaderRefresh={$.fetchAdvanceList}
     />
   )

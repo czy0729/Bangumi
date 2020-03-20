@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:55:38
+ * @Last Modified time: 2020-03-20 18:38:36
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -34,12 +34,7 @@ function SearchBar(props, { $, navigation }) {
         onPress={() => $.doSearch(navigation)}
       >
         <Flex style={styles.btn} justify='center'>
-          <Text
-            style={{
-              color: _.colorTinygrailText
-            }}
-            size={14}
-          >
+          <Text type='tinygrailText' size={14}>
             前往
           </Text>
         </Flex>

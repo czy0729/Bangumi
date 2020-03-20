@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 17:20:16
+ * @Last Modified time: 2020-03-20 18:26:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -74,15 +74,15 @@ function Item(
   let changeColor
   if (lastIndex === 0) {
     changeText = 'new'
-    changeColor = _.colorWarning
+    changeColor = 'warning'
   } else {
     const change = lastIndex - rank
     if (change < 0) {
       changeText = change
-      changeColor = _.colorAsk
+      changeColor = 'ask'
     } else if (change > 0) {
       changeText = `+${change}`
-      changeColor = _.colorBid
+      changeColor = 'bid'
     }
   }
 
@@ -91,7 +91,7 @@ function Item(
       <Flex align='start'>
         <View>
           <Avatar
-            style={styles.image}
+            style={styles.avatar}
             src={tinygrailOSS(avatar)}
             size={44}
             borderColor='transparent'
@@ -128,34 +128,16 @@ function Item(
               >
                 <Flex>
                   <Flex.Item>
-                    <Text
-                      style={{
-                        color: _.colorTinygrailPlain
-                      }}
-                      size={16}
-                    >
+                    <Text type='tinygrailPlain' size={16}>
                       {rank}. {nickname}
                       {!!changeText && (
-                        <Text
-                          style={{
-                            color: changeColor
-                          }}
-                          size={16}
-                        >
+                        <Text type={changeColor} size={16}>
                           {' '}
                           {changeText}
                         </Text>
                       )}
                     </Text>
-                    <Text
-                      style={[
-                        _.mt.sm,
-                        {
-                          color: _.colorTinygrailText
-                        }
-                      ]}
-                      size={12}
-                    >
+                    <Text style={_.mt.sm} type='tinygrailText' size={12}>
                       总{assetsText} / 余{totalText} / 初{principalText} /{' '}
                       {lastActiveDate
                         ? lastDate(
@@ -164,12 +146,7 @@ function Item(
                         : '-'}
                     </Text>
                   </Flex.Item>
-                  <Text
-                    style={{
-                      color: _.colorTinygrailPlain
-                    }}
-                    size={16}
-                  >
+                  <Text type='tinygrailPlain' size={16}>
                     {shareText}
                   </Text>
                   <Iconfont
@@ -200,9 +177,10 @@ const memoStyles = _.memoStyles(_ => ({
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer
   },
-  image: {
+  avatar: {
     marginRight: _.xs,
-    marginTop: _.md
+    marginTop: _.md,
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   item: {
     paddingVertical: _.md,

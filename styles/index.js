@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 18:00:22
+ * @Last Modified time: 2020-03-19 23:36:36
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -127,6 +127,20 @@ export const colorTinygrailBorder = 'rgb(29, 42, 61)'
 export const colorTinygrailIcon = 'rgb(62, 84, 108)'
 export const colorTinygrailText = 'rgb(99, 117, 144)'
 export const colorTinygrailActive = 'rgb(39, 40, 46)'
+
+export const _colorBid = 'rgb(1, 173, 145)'
+export const _colorDepthBid = 'rgb(226, 241, 238)'
+export const _colorAsk = 'rgb(206, 97, 117)'
+export const _colorDepthAsk = 'rgb(243, 233, 234)'
+export const _colorTinygrailPlain = 'rgb(39, 43, 48)'
+export const _colorTinygrailPrimary = 'rgb(42, 114, 241)'
+export const _colorTinygrailBg = 'rgb(240, 241, 243)'
+export const _colorTinygrailContainer = 'rgb(255, 255, 255)'
+export const _colorTinygrailContainerHex = '#ffffff'
+export const _colorTinygrailBorder = colorBorder
+export const _colorTinygrailIcon = 'rgb(172, 182, 188)'
+export const _colorTinygrailText = 'rgb(160, 160, 160)'
+export const _colorTinygrailActive = 'rgb(247, 242, 232)'
 
 // -------------------- 文字 --------------------
 export const colorAvatar = 'rgb(116, 116, 116)'
@@ -272,6 +286,9 @@ export const ml = StyleSheet.create({
   },
   md: {
     marginLeft: md
+  },
+  lg: {
+    marginLeft: lg
   },
   wind: {
     marginLeft: wind

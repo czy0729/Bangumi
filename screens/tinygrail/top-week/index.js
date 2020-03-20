@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 17:20:52
+ * @Last Modified time: 2020-03-20 23:10:31
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -49,7 +49,7 @@ class TinygrailTopWeek extends React.Component {
       extra: (
         <IconHeader
           name='refresh'
-          color={_.colorTinygrailTopWeekText}
+          color={_.colorTinygrailPlain}
           onPress={async () => {
             t('每周萌王.刷新')
             await $.fetchTopWeek()
@@ -73,11 +73,11 @@ class TinygrailTopWeek extends React.Component {
           {list.map((item, index) => {
             let changeColor
             if (item.rankChange === 'new') {
-              changeColor = _.colorWarning
+              changeColor = 'warning'
             } else if (item.rankChange < 0) {
-              changeColor = _.colorAsk
+              changeColor = 'ask'
             } else {
-              changeColor = _.colorBid
+              changeColor = 'bid'
             }
 
             let extraText
@@ -89,9 +89,9 @@ class TinygrailTopWeek extends React.Component {
 
             let extraChangeColor
             if (item.extraChange < 0) {
-              extraChangeColor = _.colorAsk
+              extraChangeColor = 'ask'
             } else {
-              extraChangeColor = _.colorBid
+              extraChangeColor = 'bid'
             }
 
             let extraChangeText
@@ -103,9 +103,9 @@ class TinygrailTopWeek extends React.Component {
 
             let typeChangeColor
             if (item.typeChange < 0) {
-              typeChangeColor = _.colorAsk
+              typeChangeColor = 'ask'
             } else {
-              typeChangeColor = _.colorBid
+              typeChangeColor = 'bid'
             }
 
             return (
@@ -114,6 +114,7 @@ class TinygrailTopWeek extends React.Component {
                   style={[this.styles.wrap, index !== 0 && this.styles.border]}
                 >
                   <Avatar
+                    style={this.styles.avatar}
                     src={tinygrailOSS(item.avatar)}
                     size={44}
                     borderColor='transparent'
@@ -144,20 +145,10 @@ class TinygrailTopWeek extends React.Component {
                     >
                       <Flex>
                         <Flex.Item>
-                          <Text
-                            style={{
-                              color: _.colorTinygrailPlain
-                            }}
-                            size={16}
-                          >
+                          <Text type='tinygrailPlain' size={16}>
                             {item.rank}. {item.name}
                             {!!item.rankChange && (
-                              <Text
-                                style={{
-                                  color: changeColor
-                                }}
-                                size={16}
-                              >
+                              <Text type={changeColor} size={16}>
                                 {' '}
                                 {item.rankChange > 0 && '+'}
                                 {item.rankChange}
@@ -166,46 +157,23 @@ class TinygrailTopWeek extends React.Component {
                           </Text>
                         </Flex.Item>
                         <View style={_.ml.sm}>
-                          <Text
-                            style={{
-                              color: _.colorTinygrailText
-                            }}
-                            size={16}
-                            align='right'
-                          >
+                          <Text type='tinygrailText' size={16} align='right'>
                             +{extraText} / {item.type}人
                           </Text>
                           <Flex style={_.mt.xs} justify='end'>
                             {!!item.extraChange && (
-                              <Text
-                                style={{
-                                  color: extraChangeColor
-                                }}
-                                size={13}
-                              >
+                              <Text type={extraChangeColor} size={13}>
                                 {item.extraChange > 0 ? '+' : '-'}
                                 {extraChangeText}
                               </Text>
                             )}
                             {!!item.typeChange && (
                               <>
-                                <Text
-                                  style={{
-                                    color: _.colorTinygrailText
-                                  }}
-                                  size={13}
-                                >
+                                <Text type='tinygrailText' size={13}>
                                   {' '}
                                   /{' '}
                                 </Text>
-                                <Text
-                                  style={[
-                                    {
-                                      color: typeChangeColor
-                                    }
-                                  ]}
-                                  size={13}
-                                >
+                                <Text type={typeChangeColor} size={13}>
                                   {item.typeChange > 0 && '+'}
                                   {item.typeChange}人
                                 </Text>
@@ -232,7 +200,7 @@ class TinygrailTopWeek extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    ..._.container.flex,
+    flex: 1,
     backgroundColor: _.colorTinygrailContainer
   },
   item: {
@@ -246,5 +214,8 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  avatar: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))

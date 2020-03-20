@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:19:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 20:35:15
+ * @Last Modified time: 2020-03-20 12:09:15
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -45,7 +45,7 @@ class TinygrailAdvanceSacrifice extends React.Component {
       extra: (
         <IconHeader
           name='information'
-          color={_.__colorPlain__}
+          color={_.colorTinygrailPlain}
           onPress={() => {
             t('献祭推荐.提示')
 
@@ -66,17 +66,21 @@ class TinygrailAdvanceSacrifice extends React.Component {
 
   render() {
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
-      >
+      <View style={this.styles.container}>
         <StatusBarEvents />
         <List />
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

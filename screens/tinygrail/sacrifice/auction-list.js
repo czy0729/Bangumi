@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 05:27:02
+ * @Last Modified time: 2020-03-20 18:30:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,25 +30,14 @@ function AuctionList({ style }, { $, navigation }) {
       {_loaded && (
         <View style={styles.info}>
           {list.length ? (
-            <Text
-              style={{
-                color: _.colorTinygrailPlain
-              }}
-            >
+            <Text type='tinygrailPlain'>
               上周公示：共 {list.length || '-'} 人拍卖，成功{' '}
               {successCount || '-'} 人 /{' '}
               {successAmount ? formatNumber(successAmount, 0) : '-'} 股
             </Text>
           ) : (
             <Flex style={_.mt.md} direction='column'>
-              <Text
-                style={[
-                  _.mt.sm,
-                  {
-                    color: _.colorTinygrailPlain
-                  }
-                ]}
-              >
+              <Text style={_.mt.sm} type='tinygrailPlain'>
                 上周没有拍卖纪录
               </Text>
             </Flex>
@@ -66,12 +55,12 @@ function AuctionList({ style }, { $, navigation }) {
                 key={`${item.time}|${item.price}|${item.amount}`}
                 style={styles.item}
               >
-                <Text style={styles.time} size={12}>
+                <Text style={styles.time} type='tinygrailText' size={12}>
                   {item.time}
                 </Text>
                 <Flex.Item style={_.ml.sm}>
                   <Text
-                    style={styles.plain}
+                    type='tinygrailPlain'
                     size={12}
                     onPress={() => {
                       t('资产重组.跳转', {
@@ -90,12 +79,13 @@ function AuctionList({ style }, { $, navigation }) {
                   </Text>
                 </Flex.Item>
                 <Flex.Item style={_.ml.sm}>
-                  <Text style={styles.text} size={12}>
+                  <Text type='tinygrailText' size={12}>
                     ₵{item.price} / {formatNumber(item.amount, 0)}
                   </Text>
                 </Flex.Item>
                 <Text
-                  style={isSuccess ? styles.statusBid : styles.statusAsk}
+                  style={_.ml.sm}
+                  type={isSuccess ? 'bid' : 'ask'}
                   size={12}
                 >
                   {isSuccess ? '成功' : '失败'}
@@ -106,7 +96,7 @@ function AuctionList({ style }, { $, navigation }) {
       {!!list.length && (
         <Touchable onPress={$.toggleLogs}>
           <Flex style={styles.notice} justify='center'>
-            <Text style={[styles.text, _.mt.md]}>
+            <Text style={_.mt.md} type='tinygrailText'>
               [{showLogs ? '隐藏' : '显示'}记录]
             </Text>
           </Flex>
@@ -139,21 +129,6 @@ const memoStyles = _.memoStyles(_ => ({
     borderBottomWidth: _.hairlineWidth
   },
   time: {
-    width: 96,
-    color: _.colorTinygrailText
-  },
-  plain: {
-    color: _.colorTinygrailPlain
-  },
-  text: {
-    color: _.colorTinygrailText
-  },
-  statusBid: {
-    ..._.ml.sm,
-    color: _.colorBid
-  },
-  statusAsk: {
-    ..._.ml.sm,
-    color: _.colorAsk
+    width: 96
   }
 }))

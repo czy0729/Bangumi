@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-29 12:25:00
+ * @Last Modified time: 2020-03-20 12:07:31
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,19 +24,21 @@ function List(props, { $ }) {
       userId: $.myUserId
     }
   }
+  const renderItem = ({ item, index }) => (
+    <ItemAdvance
+      index={index}
+      event={event}
+      isAuctioning={$.auctioningMap[item.id]}
+      {...item}
+    />
+  )
+
   return (
     <ListView
       style={_.container.flex}
       keyExtractor={keyExtractor}
       data={$.advanceAuctionList}
-      renderItem={({ item, index }) => (
-        <ItemAdvance
-          index={index}
-          event={event}
-          isAuctioning={$.auctioningMap[item.id]}
-          {...item}
-        />
-      )}
+      renderItem={renderItem}
       onHeaderRefresh={$.fetchAdvanceAuctionList}
     />
   )

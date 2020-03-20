@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 05:20:01
+ * @Last Modified time: 2020-03-20 18:38:14
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
@@ -21,18 +21,13 @@ const event = {
 }
 
 function Users({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { showUsers } = $.state
   const { total: amount } = $.chara
   const { list, total } = $.users
   return (
     <View style={[_.container.inner, style]}>
-      <Text
-        style={{
-          color: _.colorTinygrailText
-        }}
-        size={13}
-        lineHeight={17}
-      >
+      <Text type='tinygrailText' size={13} lineHeight={17}>
         董事会{' '}
         <Text type='warning' size={17}>
           {total || '-'}
@@ -46,6 +41,7 @@ function Users({ style }, { $, navigation }) {
               // eslint-disable-next-line react/no-array-index-key
               <Flex key={index} style={styles.item}>
                 <Avatar
+                  style={styles.avatar}
                   navigation={navigation}
                   src={item.avatar}
                   size={isTop ? 56 : 40}
@@ -55,19 +51,12 @@ function Users({ style }, { $, navigation }) {
                 />
                 <Flex.Item style={_.ml.sm}>
                   <Text
-                    style={{
-                      color: isTop ? _.colorWarning : _.__colorPlain__
-                    }}
+                    type={isTop ? ' warning' : 'tinygrailPlain'}
                     size={isTop ? 14 : 12}
                     numberOfLines={1}
                   >
                     {item.lastIndex !== 0 && (
-                      <Text
-                        style={{
-                          color: _.colorAsk
-                        }}
-                        size={isTop ? 14 : 12}
-                      >
+                      <Text type='ask' size={isTop ? 14 : 12}>
                         #{item.lastIndex}{' '}
                       </Text>
                     )}
@@ -75,15 +64,14 @@ function Users({ style }, { $, navigation }) {
                   </Text>
                   <Text
                     style={_.mt.xs}
-                    type={isTop ? 'warning' : 'sub'}
+                    type={isTop ? 'warning' : 'tinygrailText'}
                     size={12}
                   >
-                    {item.balance ? `+${formatNumber(item.balance, 0)}` : '--'}{' '}
-                    (
+                    {item.balance ? `+${formatNumber(item.balance, 0)}` : ''}{' '}
                     {item.balance
                       ? toFixed((item.balance / amount) * 100, 2)
                       : '??'}
-                    %)
+                    %
                   </Text>
                 </Flex.Item>
               </Flex>
@@ -92,7 +80,12 @@ function Users({ style }, { $, navigation }) {
         </Flex>
       )}
       <Flex style={_.mt.md} justify='center'>
-        <Text style={styles.expand} size={14} onPress={$.toggleUsers}>
+        <Text
+          style={styles.expand}
+          type='tinygrailText'
+          size={14}
+          onPress={$.toggleUsers}
+        >
           [{showUsers ? '隐藏' : '显示'}董事会]
         </Text>
       </Flex>
@@ -107,13 +100,15 @@ Users.contextTypes = {
 
 export default observer(Users)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingVertical: _.sm,
     width: '50%'
   },
+  avatar: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
+  },
   expand: {
-    paddingVertical: _.sm,
-    color: _.colorTinygrailText
+    paddingVertical: _.sm
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-05 20:58:31
+ * @Last Modified time: 2020-03-20 01:29:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,12 +53,7 @@ class TinygrailRich extends React.Component {
       title,
       extra: (
         <Flex>
-          <Text
-            style={{
-              color: _.colorTinygrailText
-            }}
-            onPress={onPress}
-          >
+          <Text type='tinygrailPlain' onPress={onPress}>
             [分析]
           </Text>
         </Flex>

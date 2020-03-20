@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-08 21:42:50
+ * @Last Modified time: 2020-03-20 18:23:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,7 +44,7 @@ function Slider({ style }, { $ }) {
           </Button>
         </View>
       </Flex>
-      <Text style={[styles.balance, styles.plain]} size={12}>
+      <Text style={styles.balance} type='tinygrailPlain' size={12}>
         {balanceText}
       </Text>
       <Flex style={[styles.slider, _.mt.sm]}>
@@ -62,11 +62,11 @@ function Slider({ style }, { $ }) {
       </Flex>
       <Flex>
         <Flex.Item>
-          <Text style={styles.text} size={12}>
+          <Text type='tinygrailText' size={12}>
             {formatNumber(5000, 0)}
           </Text>
         </Flex.Item>
-        <Text style={styles.text} size={12}>
+        <Text type='tinygrailText' size={12}>
           {formatNumber(balance < 5000 ? 5000 : balance, 0)}
         </Text>
       </Flex>
@@ -109,13 +109,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 40,
     opacity: 0.8
   },
-  plain: {
-    color: _.colorTinygrailPlain
-  },
   btnSubmit: {
     width: 96
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))

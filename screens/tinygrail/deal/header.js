@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 14:40:08
+ * @Last Modified time: 2020-03-20 00:50:58
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { Avatar, IconBack } from '@screens/_'
@@ -16,12 +15,13 @@ import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Header(props, { $, navigation }) {
+  const styles = memoStyles()
   const { icon, name, fluctuation, bonus, rate, level } = $.chara
-  let color = _.colorTinygrailPlain
+  let color = 'tinygrailPlain'
   if (fluctuation < 0) {
-    color = _.colorAsk
+    color = 'ask'
   } else if (fluctuation > 0) {
-    color = _.colorBid
+    color = 'bid'
   }
 
   let fluctuationText = ''
@@ -36,12 +36,12 @@ function Header(props, { $, navigation }) {
       <Flex.Item>
         <Flex>
           <IconBack
-            style={{
-              marginLeft: -8
-            }}
+            style={styles.back}
             navigation={navigation}
+            color={_.colorTinygrailPlain}
           />
           <Avatar
+            style={styles.avatar}
             src={tinygrailOSS(icon)}
             size={32}
             borderColor='transparent'
@@ -59,49 +59,24 @@ function Header(props, { $, navigation }) {
           />
           <Flex.Item style={_.ml.sm}>
             <Flex>
-              <Text
-                style={{
-                  color: _.colorTinygrailPlain
-                }}
-                numberOfLines={1}
-              >
+              <Text type='tinygrailPlain' numberOfLines={1}>
                 {name}
                 {!!bonus && (
-                  <Text size={12} lineHeight={14} type='warning'>
+                  <Text type='warning' size={12} lineHeight={14}>
                     {' '}
                     x{bonus}
                   </Text>
                 )}
-                <Text
-                  style={{
-                    color: _.colorAsk
-                  }}
-                  size={12}
-                  lineHeight={14}
-                >
+                <Text type='ask' size={12} lineHeight={14}>
                   {' '}
                   lv{level}
                 </Text>
               </Text>
-              <Text
-                style={[
-                  _.ml.sm,
-                  {
-                    color
-                  }
-                ]}
-                align='center'
-              >
+              <Text style={_.ml.sm} type={color} align='center'>
                 {fluctuationText}
               </Text>
             </Flex>
-            <Text
-              style={{
-                color: _.colorTinygrailText
-              }}
-              size={12}
-              lineHeight={13}
-            >
+            <Text type='tinygrailText' size={12} lineHeight={13}>
               #{$.monoId} / +{toFixed(rate, 2)} / +
               {toFixed(rate * (level + 1) * 0.3, 2)}
             </Text>
@@ -109,10 +84,8 @@ function Header(props, { $, navigation }) {
         </Flex>
       </Flex.Item>
       <Text
-        style={{
-          paddingVertical: _.sm,
-          color: _.colorTinygrailText
-        }}
+        style={styles.sacrifice}
+        type='tinygrailText'
         size={15}
         onPress={() => {
           t('交易.跳转', {
@@ -135,14 +108,8 @@ function Header(props, { $, navigation }) {
         [资产重组]
       </Text>
       <Text
-        style={[
-          {
-            paddingVertical: _.sm,
-            color: _.colorTinygrailText
-          },
-          _.ml.sm,
-          _.mr.sm
-        ]}
+        style={styles.trade}
+        type='tinygrailText'
         size={15}
         onPress={() => {
           t('交易.跳转', {
@@ -175,10 +142,23 @@ Header.contextTypes = {
 
 export default observer(Header)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingVertical: _.wind,
     paddingLeft: _.wind,
     paddingRight: 8
+  },
+  back: {
+    marginLeft: -8
+  },
+  avatar: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
+  },
+  sacrifice: {
+    paddingVertical: _.sm
+  },
+  trade: {
+    paddingVertical: _.sm,
+    marginHorizontal: _.sm
   }
-})
+}))

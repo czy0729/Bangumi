@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 21:39:31
+ * @Last Modified time: 2020-03-20 00:25:42
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -22,7 +22,7 @@ function Btns(props, { $, navigation }) {
   if (!_loaded) {
     return (
       <Button
-        style={[styles.btn, _.ml.sm]}
+        style={styles.btn}
         type='warning'
         size='sm'
         loading={loading}
@@ -68,8 +68,8 @@ function Btns(props, { $, navigation }) {
         }}
       >
         <Button
-          style={[styles.btn, _.ml.sm]}
-          type='warning'
+          style={styles.btn}
+          styleText={styles.text}
           size='sm'
           loading={loadingBonus}
         >
@@ -102,8 +102,8 @@ function Btns(props, { $, navigation }) {
         }}
       >
         <Button
-          style={[styles.btn, _.ml.sm]}
-          type='warning'
+          style={styles.btn}
+          styleText={styles.text}
           size='sm'
           loading={loading}
         >
@@ -124,7 +124,11 @@ export default observer(Btns)
 const memoStyles = _.memoStyles(_ => ({
   btn: {
     width: 72,
-    backgroundColor: _.colorTinygrailIcon,
-    borderColor: _.colorTinygrailIcon
+    marginLeft: _.sm,
+    backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
+    borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
+  },
+  text: {
+    color: _.tSelect(_.__colorPlain__, _.colorTinygrailPlain)
   }
 }))

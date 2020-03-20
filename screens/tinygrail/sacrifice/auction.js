@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 15:55:31
+ * @Last Modified time: 2020-03-20 18:32:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,16 +33,16 @@ function Auction({ style }, { $ }) {
     <View style={[styles.container, style]}>
       <Flex>
         <Flex.Item flex={1.4}>
-          <Text style={styles.plain}>
+          <Text type='tinygrailPlain'>
             竞拍
-            <Text style={styles.text} size={12} lineHeight={14}>
+            <Text type='tinygrailText' size={12} lineHeight={14}>
               {' '}
               底价 (₵{price ? toFixed(price + 0.01, 2) : '-'})
             </Text>
           </Text>
         </Flex.Item>
         <Flex.Item style={_.ml.sm}>
-          <Text style={styles.text} size={12}>
+          <Text type='tinygrailText' size={12}>
             数量 ({amount ? formatNumber(amount, 0) : '-'}股)
           </Text>
         </Flex.Item>
@@ -97,19 +97,14 @@ function Auction({ style }, { $ }) {
       )}
       <Flex style={_.mt.md}>
         <Flex.Item>
-          <Text style={styles.plain} size={12}>
+          <Text type='tinygrailPlain' size={12}>
             合计{' '}
-            <Text
-              style={{
-                color: _.colorAsk
-              }}
-              size={12}
-            >
+            <Text type='ask' size={12}>
               -₵{toFixed(auctionAmount * auctionPrice, 2)}
             </Text>
           </Text>
         </Flex.Item>
-        <Text style={[styles.text, _.ml.sm]} size={12}>
+        <Text style={_.ml.sm} type='tinygrailText' size={12}>
           当前竞拍 {state}人 / {formatNumber(type, 0)}股
         </Text>
       </Flex>
@@ -128,11 +123,11 @@ function Auction({ style }, { $ }) {
       </Flex>
       <Flex>
         <Flex.Item>
-          <Text style={styles.text} size={12}>
+          <Text type='tinygrailText' size={12}>
             余额 0
           </Text>
         </Flex.Item>
-        <Text style={styles.text} size={12}>
+        <Text type='tinygrailText' size={12}>
           ₵{formatNumber(balance, 2)}
         </Text>
       </Flex>
@@ -185,13 +180,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 40,
     opacity: 0.8
   },
-  plain: {
-    color: _.colorTinygrailPlain
-  },
   btnSubmit: {
     width: 64
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))

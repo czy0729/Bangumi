@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 08:41:38
+ * @Last Modified time: 2020-03-20 18:25:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,11 +33,11 @@ function Item(
 
   let onPress
   let icons
-  if (desc.includes('买入') || desc.includes('卖出') || desc.includes('交易')) {
+  if (['买入', '卖出', '交易', '混沌魔方'].some(item => desc.includes(item))) {
     // 这些类型有charaId
     icons = $.icons(charaId)
     onPress = getOnPress(charaId, go, navigation)
-  } else if (desc.includes('竞拍') || desc.includes('ICO')) {
+  } else if (['竞拍', 'ICO'].some(item => desc.includes(item))) {
     icons = $.icons(charaId)
 
     // 竞拍、ICO根据#id
@@ -45,7 +45,7 @@ function Item(
     if (match) {
       onPress = getOnPress(match[0].replace('#', ''), go, navigation)
     }
-  } else if (desc.includes('刮刮乐获奖')) {
+  } else if (['刮刮乐获奖'].some(item => desc.includes(item))) {
     // 刮刮乐根据#id
     const match = desc.match(/#\d+/g)
     if (match) {
@@ -55,26 +55,30 @@ function Item(
     }
   }
 
+  let changeType
+  let changeNum
+  if (!change) {
+    const match = desc.match(/\d+股/g)
+    if (match.length) {
+      if (['买入', '获得'].some(item => desc.includes(item))) {
+        changeType = 'bid'
+        changeNum = `+${match[0].replace('股', '')}`
+      } else {
+        changeType = 'ask'
+        changeNum = `-${match[0].replace('股', '')}`
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Touchable onPress={onPress}>
         <Flex style={[styles.wrap, !isTop && styles.border]}>
           <Flex.Item style={_.mr.sm}>
             <View style={styles.item}>
-              <Text
-                style={{
-                  color: _.colorTinygrailPlain
-                }}
-                size={16}
-              >
+              <Text type='tinygrailPlain' size={16}>
                 {formatNumber(balance)}{' '}
-                <Text
-                  style={{
-                    color: _.colorTinygrailText
-                  }}
-                  size={12}
-                  lineHeight={16}
-                >
+                <Text type='tinygrailText' size={12} lineHeight={16}>
                   {' '}
                   {lastDate(getTimestamp((time || '').replace('T', ' ')))}
                 </Text>
@@ -82,9 +86,9 @@ function Item(
               <Flex style={_.mt.sm}>
                 {!!icons && (
                   <Avatar
-                    style={_.mr.sm}
+                    style={[styles.avatar, _.mr.sm]}
                     src={tinygrailOSS(icons)}
-                    size={24}
+                    size={32}
                     borderColor='transparent'
                     onPress={() => {
                       // ICO的记录没有人物id
@@ -103,25 +107,32 @@ function Item(
                     }}
                   />
                 )}
-                <Text
-                  style={{
-                    color: _.colorTinygrailPlain
-                  }}
-                  size={12}
-                >
+                <Text type='tinygrailPlain' size={12}>
                   {desc}
                 </Text>
               </Flex>
             </View>
           </Flex.Item>
-          <Flex style={_.ml.md} justify='end'>
-            <Text style={[_.ml.sm, { color }]} size={16} align='right'>
-              {change
-                ? `${color === _.colorBid ? '+' : '-'}${formatNumber(
-                    Math.abs(change)
-                  )}`
-                : ''}
-            </Text>
+          <Flex style={_.ml.lg} justify='end'>
+            {change ? (
+              <Text
+                style={{
+                  color
+                }}
+                size={16}
+                align='right'
+              >
+                {change
+                  ? `${color === _.colorBid ? '+' : '-'}${formatNumber(
+                      Math.abs(change)
+                    )}`
+                  : ''}
+              </Text>
+            ) : (
+              <Text type={changeType} size={16} align='right'>
+                {changeNum}
+              </Text>
+            )}
             {!!onPress && (
               <Iconfont
                 style={_.ml.sm}
@@ -154,6 +165,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   item: {
     paddingVertical: _.md
+  },
+  avatar: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   border: {
     borderTopColor: _.colorTinygrailBorder,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:43:04
+ * @Last Modified time: 2020-03-20 18:19:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,10 +25,10 @@ function Records({ style }, { $ }) {
     <View style={[styles.container, style]}>
       <Flex align='start'>
         <Flex.Item>
-          <Text style={styles.bid} size={16}>
+          <Text style={_.mb.sm} type='bid' size={16}>
             买入记录
           </Text>
-          {bidHistory.length === 0 && <Text style={styles.text}>-</Text>}
+          {bidHistory.length === 0 && <Text type='tinygrailText'>-</Text>}
           {bidHistory
             .filter((item, index) => (expand ? true : index < LIMIT))
             .map((item, index) => (
@@ -46,24 +46,14 @@ function Records({ style }, { $ }) {
               >
                 <Flex>
                   <Flex.Item>
-                    <Text
-                      size={12}
-                      style={{
-                        color: _.colorTinygrailPlain
-                      }}
-                    >
+                    <Text size={12} type='tinygrailPlain'>
                       {formatNumber(item.price)} /{' '}
-                      <Text style={styles.text} size={12}>
+                      <Text type='tinygrailText' size={12}>
                         {formatNumber(item.amount, 0)}
                       </Text>
                     </Text>
                   </Flex.Item>
-                  <Text
-                    size={12}
-                    style={{
-                      color: _.colorTinygrailPlain
-                    }}
-                  >
+                  <Text size={12} type='tinygrailPlain'>
                     -{formatNumber(item.price * item.amount)}
                   </Text>
                 </Flex>
@@ -71,10 +61,10 @@ function Records({ style }, { $ }) {
             ))}
         </Flex.Item>
         <Flex.Item style={_.ml.wind}>
-          <Text style={styles.ask} size={16}>
+          <Text style={_.mb.sm} type='ask' size={16}>
             卖出记录
           </Text>
-          {askHistory.length === 0 && <Text style={styles.text}>-</Text>}
+          {askHistory.length === 0 && <Text type='tinygrailText'>-</Text>}
           {askHistory
             .filter((item, index) => (expand ? true : index < LIMIT))
             .map((item, index) => (
@@ -92,24 +82,14 @@ function Records({ style }, { $ }) {
               >
                 <Flex>
                   <Flex.Item>
-                    <Text
-                      size={12}
-                      style={{
-                        color: _.colorTinygrailPlain
-                      }}
-                    >
+                    <Text type='tinygrailPlain' size={12}>
                       {formatNumber(item.price)} /{' '}
-                      <Text style={styles.text} size={12}>
+                      <Text type='tinygrailText' size={12}>
                         {formatNumber(item.amount, 0)}
                       </Text>
                     </Text>
                   </Flex.Item>
-                  <Text
-                    size={12}
-                    style={{
-                      color: _.colorTinygrailPlain
-                    }}
-                  >
+                  <Text type='tinygrailPlain' size={12}>
                     +{formatNumber(item.price * item.amount)}
                   </Text>
                 </Flex>
@@ -147,20 +127,9 @@ const memoStyles = _.memoStyles(_ => ({
     width: '100%',
     paddingVertical: 6
   },
-  bid: {
-    marginBottom: _.sm,
-    color: _.colorBid
-  },
-  ask: {
-    marginBottom: _.sm,
-    color: _.colorAsk
-  },
   cancel: {
     paddingVertical: _.sm,
     paddingLeft: _.sm
-  },
-  text: {
-    color: _.colorTinygrailText
   },
   expand: {
     paddingVertical: _.sm
