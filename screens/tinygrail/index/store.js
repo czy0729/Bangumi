@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 20:08:49
+ * @Last Modified time: 2020-03-21 16:51:42
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -236,7 +236,7 @@ export default class ScreenTinygrail extends store {
   /**
    * 刮刮乐
    */
-  doLottery = async navigation => {
+  doLottery = async (navigation, isBonus2) => {
     if (!tinygrailStore.cookie) {
       info('请先授权')
       return
@@ -248,7 +248,7 @@ export default class ScreenTinygrail extends store {
       this.setState({
         loadingBonus: true
       })
-      const { State, Value, Message } = await tinygrailStore.doLottery()
+      const { State, Value, Message } = await tinygrailStore.doLottery(isBonus2)
       this.setState({
         loadingBonus: false
       })

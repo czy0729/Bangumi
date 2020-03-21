@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-05 17:44:17
+ * @Last Modified time: 2020-03-21 17:52:29
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -203,7 +203,7 @@ class Setting extends React.Component {
             />
           }
           withoutFeedback
-          information='建议开启, 针对静态数据, 使用CDN访问快照加速渲染, bgm卡的时候效果更为明显. 缺点是数据不会及时同步, 流量稍微变高. (支持条目、封面图、用户头像)'
+          information='建议开启, 针对静态数据使用CDN访问快照加速渲染, 主站卡的时候效果更为明显. 缺点是数据不会及时同步, 流量稍微变高. (已支持条目、帖子、人物、人物封面和用户头像)'
         />
         <ItemSetting
           border
@@ -367,6 +367,7 @@ class Setting extends React.Component {
           }
           arrow
           highlight
+          information='修改后图片CDN加速读取会失效, 不建议修改'
         />
       </>
     )
@@ -376,6 +377,8 @@ class Setting extends React.Component {
     const {
       // iosMenu,
       avatarRound,
+      ripple,
+      imageTransition,
       heatMap,
       speech,
       transition
@@ -429,6 +432,45 @@ class Setting extends React.Component {
         />
         <ItemSetting
           border
+          hd='图片渐出动画'
+          ft={
+            <Switch
+              checked={imageTransition}
+              onChange={() => {
+                t('设置.切换', {
+                  title: '图片渐出动画',
+                  checked: !imageTransition
+                })
+
+                systemStore.switchSetting('imageTransition')
+              }}
+            />
+          }
+          withoutFeedback
+        />
+        {!IOS && (
+          <ItemSetting
+            border
+            hd='点击水纹效果'
+            ft={
+              <Switch
+                checked={ripple}
+                onChange={() => {
+                  t('设置.切换', {
+                    title: '点击水纹',
+                    checked: !ripple
+                  })
+
+                  systemStore.switchSetting('ripple')
+                }}
+              />
+            }
+            withoutFeedback
+            information='当按钮被按下时产生一个涟漪状的背景, 关闭可以提升性能'
+          />
+        )}
+        <ItemSetting
+          border
           hd='章节讨论热力图'
           ft={
             <Switch
@@ -479,7 +521,7 @@ class Setting extends React.Component {
           }
           arrow
           highlight
-          information='部分安卓10用户会遇到页面布局错位问题, 可把动画设置成垂直暂时解决'
+          // information='部分安卓10用户会遇到页面布局错位问题, 可把动画设置成垂直暂时解决'
         />
       </>
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 10:42:20
+ * @Last Modified time: 2020-03-21 17:18:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -321,7 +321,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: itemPadding,
     paddingLeft: itemPadding,
     backgroundColor: _.colorPlain,
-    borderWidth: _.select(0, IOS ? 0 : _.hairlineWidth),
+    borderWidth: IOS ? 0 : _.hairlineWidth,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'

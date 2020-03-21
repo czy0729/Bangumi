@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 14:40:43
+ * @Last Modified time: 2020-03-21 16:44:27
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -48,6 +48,7 @@ import {
   API_TINYGRAIL_RICH,
   API_TINYGRAIL_SACRIFICE,
   API_TINYGRAIL_SCRATCH,
+  API_TINYGRAIL_SCRATCH2,
   API_TINYGRAIL_TEMPLE,
   API_TINYGRAIL_TEMPLE_LAST,
   API_TINYGRAIL_TOP_WEEK,
@@ -2056,8 +2057,11 @@ class Tinygrail extends store {
   /**
    * 刮刮乐
    */
-  doLottery = async () => {
-    const { data } = await this.fetch(API_TINYGRAIL_SCRATCH(), true)
+  doLottery = async (isBonus2 = false) => {
+    const { data } = await this.fetch(
+      isBonus2 ? API_TINYGRAIL_SCRATCH2() : API_TINYGRAIL_SCRATCH(),
+      true
+    )
     return data
   }
 

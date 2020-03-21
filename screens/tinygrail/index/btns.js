@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 00:25:42
+ * @Last Modified time: 2020-03-21 16:51:24
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -13,7 +13,7 @@ import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'
 
-const dataToday = ['刮刮乐', '每周分红', '每日签到', '节日福利']
+const dataToday = ['刮刮乐', '幻想乡刮刮乐', '每周分红', '每日签到', '节日福利']
 const dataMore = ['重新授权', '人物直达', '意见反馈', '设置']
 
 function Btns(props, { $, navigation }) {
@@ -42,6 +42,9 @@ function Btns(props, { $, navigation }) {
             switch (title) {
               case '刮刮乐':
                 $.doLottery(navigation)
+                break
+              case '幻想乡刮刮乐':
+                $.doLottery(navigation, true)
                 break
               case '每周分红':
                 Alert.alert('警告', '确定领取每周分红? (每周日0点刷新)', [

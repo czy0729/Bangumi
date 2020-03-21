@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-09 14:48:41
+ * @Last Modified time: 2020-03-21 17:31:39
  */
 import React from 'react'
 import { ScrollView, Platform } from 'react-native'
@@ -12,7 +12,7 @@ import { ItemSetting } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 
-const title = 'DEV'
+const title = '开发菜单'
 
 export default
 @withHeader({

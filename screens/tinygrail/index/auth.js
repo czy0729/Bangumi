@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 01:08:41
+ * @Last Modified time: 2020-03-21 15:45:28
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { IconBack, IconTouchable, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils/app'
@@ -35,7 +35,7 @@ function Auth(props, { $, navigation }) {
         />
         <Flex.Item style={_.ml.sm}>
           <Flex>
-            <View>
+            <Touchable onPress={() => navigation.push('Qiafan')}>
               <Text type='tinygrailPlain'>{nickname}</Text>
               {$.advance ? (
                 <Text size={12} type='warning'>
@@ -48,7 +48,7 @@ function Auth(props, { $, navigation }) {
                   </Text>
                 )
               )}
-            </View>
+            </Touchable>
             <IconTouchable
               style={_.ml.xs}
               name={_.tSelect('night', 'sun')}

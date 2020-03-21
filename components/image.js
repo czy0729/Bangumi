@@ -10,17 +10,20 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 19:03:00
+ * @Last Modified time: 2020-03-21 17:51:28
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
-import { CacheManager } from 'react-native-expo-image-cache'
+import {
+  CacheManager,
+  Image as AnimatedImage
+} from 'react-native-expo-image-cache'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { IOS, IMG_ERROR, EVENT } from '@constants'
+import { IOS, IMG_ERROR, IMG_EMPTY, EVENT } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import Touchable from './touchable'
 
@@ -229,7 +232,10 @@ class Image extends React.Component {
     RNImage.getSize(uri, cb)
   }
 
-  onError = () =>
+  /**
+   * 加载失败
+   */
+  onError = () => {
     this.setState(
       {
         error: true
@@ -241,6 +247,7 @@ class Image extends React.Component {
         }
       }
     )
+  }
 
   render() {
     const {
@@ -333,36 +340,52 @@ class Image extends React.Component {
     }
 
     let image
+    const { imageTransition } = systemStore.setting
+    const fadeDuration = imageTransition ? undefined : 0
     if (error) {
       // 错误显示本地的错误提示图片
       image = (
         <RNImage
           style={[_image, this.styles.error]}
           source={IMG_ERROR}
-          fadeDuration={0}
+          fadeDuration={fadeDuration}
           {...other}
         />
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
-        image = (
-          <RNImage
-            style={_image}
-            source={
-              headers
-                ? {
-                    uri,
-                    headers
-                  }
-                : {
-                    uri
-                  }
-            }
-            fadeDuration={0}
-            onError={this.onError}
-            {...other}
-          />
-        )
+        if (IOS && imageTransition) {
+          image = (
+            <AnimatedImage
+              style={_image}
+              headers={headers}
+              tint='light'
+              preview={IMG_EMPTY}
+              uri={uri}
+              onError={this.onError}
+              {...other}
+            />
+          )
+        } else {
+          image = (
+            <RNImage
+              style={_image}
+              source={
+                headers
+                  ? {
+                      uri,
+                      headers
+                    }
+                  : {
+                      uri
+                    }
+              }
+              fadeDuration={fadeDuration}
+              onError={this.onError}
+              {...other}
+            />
+          )
+        }
       } else {
         image = <View style={_image} />
       }
@@ -378,7 +401,7 @@ class Image extends React.Component {
                 }
               : src
           }
-          fadeDuration={0}
+          fadeDuration={fadeDuration}
           onError={this.onError}
           {...other}
         />

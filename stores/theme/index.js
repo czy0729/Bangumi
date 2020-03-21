@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 01:12:47
+ * @Last Modified time: 2020-03-21 17:01:04
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -521,6 +521,24 @@ class Theme extends store {
       )
     } catch (error) {
       console.warn('[ThemeStore] changeNavigationBarColor', error)
+    }
+  }
+
+  /**
+   * 小圣杯模块, 安卓改变底部菜单颜色
+   */
+  changeNavigationBarColorTinygrail = () => {
+    if (IOS) {
+      return
+    }
+
+    try {
+      changeNavigationBarColor(
+        _.colorTinygrailContainerHex,
+        !this.isTinygrailDark
+      )
+    } catch (error) {
+      console.warn('[ThemeStore] changeNavigationBarColorTinygrail', error)
     }
   }
 

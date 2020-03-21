@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 10:49:18
+ * @Last Modified time: 2020-03-21 16:42:48
  */
 import { HOST } from './index'
 
@@ -338,10 +338,16 @@ export const API_TINYGRAIL_TEMPLE_LAST = (page = 1, limit = 24) =>
   `${API_HOST_TINYGRAIL}/api/chara/temple/last/${page}/${limit}`
 
 /**
- * 司法刮刮乐
+ * 环保刮刮乐
  */
 export const API_TINYGRAIL_SCRATCH = () =>
   `${API_HOST_TINYGRAIL}/api/event/scratch/bonus`
+
+/**
+ * 幻想乡刮刮乐
+ */
+export const API_TINYGRAIL_SCRATCH2 = () =>
+  `${API_HOST_TINYGRAIL}/api/event/scratch/bonus2/true`
 
 /**
  * 可拍卖信息
