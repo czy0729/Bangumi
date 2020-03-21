@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 16:44:27
+ * @Last Modified time: 2020-03-21 20:55:40
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -1225,6 +1225,7 @@ class Tinygrail extends store {
 
   /**
    * 我的持仓
+   * @notice 这个接口只显示有流动股的角色
    */
   fetchMyCharaAssets = async () => {
     await this.fetchCharaAll() // 从这里获取自己的固定资产数量

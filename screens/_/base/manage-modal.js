@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 12:17:06
+ * @Last Modified time: 2020-03-21 19:57:23
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { ActivityIndicator, Modal } from '@ant-design/react-native'
+import { ActivityIndicator } from '@ant-design/react-native'
 import { Button, Flex, Input, Text, Touchable } from '@components'
+import Modal from '@components/@/ant-design/modal'
 import { _, collectionStore, subjectStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
 import StarGroup from './star-group'

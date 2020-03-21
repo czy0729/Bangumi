@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 17:01:04
+ * @Last Modified time: 2020-03-21 20:11:15
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -534,7 +534,7 @@ class Theme extends store {
 
     try {
       changeNavigationBarColor(
-        _.colorTinygrailContainerHex,
+        this.colorTinygrailContainerHex,
         !this.isTinygrailDark
       )
     } catch (error) {

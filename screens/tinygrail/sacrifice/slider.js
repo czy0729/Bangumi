@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 15:41:12
+ * @Last Modified time: 2020-03-21 20:21:20
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -44,6 +44,7 @@ function Slider({ style }, { $ }) {
               style={styles.input}
               keyboardType='numeric'
               value={String(parseInt(amount))}
+              clearButtonMode='never'
               onChangeText={$.changeAmount}
             />
             {!!sacrifices && (

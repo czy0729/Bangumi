@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 01:09:59
+ * @Last Modified time: 2020-03-21 19:11:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,7 +45,7 @@ function Summary({ style }, { $ }) {
               <Text style={_.mt.md} type='sub'>
                 {item.src}
               </Text>
-              <Text style={_.mt.sm} size={16} lineHeight={26}>
+              <Text style={_.mt.sm} size={16}>
                 {item.dst}
               </Text>
             </View>

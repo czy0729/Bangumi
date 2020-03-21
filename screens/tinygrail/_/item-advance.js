@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:03:21
+ * @Last Modified time: 2020-03-21 21:03:02
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -19,6 +19,7 @@ function Item(props, { navigation }) {
   const styles = memoStyles()
   const {
     event,
+    assets,
     index,
     id,
     name,
@@ -117,6 +118,12 @@ function Item(props, { navigation }) {
                     {firstAmount}股
                   </Text>
                 )}
+                {assets && (
+                  <Text type='bid' size={11}>
+                    {assets.state || '-'} ({assets.sacrifices || '-'})
+                  </Text>
+                )}
+                {assets && ' / '}
                 {!!firstAmount && ' / '}₵
                 {toFixed(firstAsks || firstBids || current, 2)} / +
                 {toFixed(rate, 2)} / +{toFixed(rate * (level + 1) * 0.3, 2)}
@@ -144,7 +151,8 @@ Item.contextTypes = {
 }
 
 Item.defaultProps = {
-  event: EVENT
+  event: EVENT,
+  assets: undefined
 }
 
 export default observer(Item)

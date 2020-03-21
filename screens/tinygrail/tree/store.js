@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 17:42:47
+ * @Last Modified time: 2020-03-21 21:54:12
  */
 import { observable, computed, toJS } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -184,7 +184,7 @@ export default class ScreenTinygrailTree extends store {
     const _list = list.filter(item => !filterIds.includes(item.id))
     const currentTotal = caculateTotal(_list, label, this.isTemple) // 过滤后总值
 
-    const filterRate = 0.0088 // 过滤比例
+    const filterRate = 0.0072 // 过滤比例
     let filterCount = 0 // 过滤的个数
     let filterTotal = 0 // 过滤的总值
     const nodes = _list

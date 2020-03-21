@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:18:58
+ * @Last Modified time: 2020-03-21 21:56:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ function Item({
   const styles = memoStyles()
   const ratio = (percent + 1) ** 2
   const ratioHeight = (h / _.window.height) * 1.2
-  const showAvatar = !!icon && (w * h) / area > 0.016
+  const showAvatar = !!icon && (w * h) / area > 0.012
   const _percent = percent * 100
   const textSize = parseInt(9 * ratio)
 

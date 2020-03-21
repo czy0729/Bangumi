@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:18:07
+ * @Last Modified time: 2020-03-21 20:59:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,14 +24,6 @@ function List(props, { $ }) {
       userId: $.myUserId
     }
   }
-  const renderItem = ({ item, index }) => (
-    <ItemAdvance
-      index={index}
-      event={event}
-      isAuctioning={$.auctioningMap[item.id]}
-      {...item}
-    />
-  )
 
   return (
     <ListView
@@ -42,7 +34,15 @@ function List(props, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={$.advanceAuctionList}
-      renderItem={renderItem}
+      renderItem={({ item, index }) => (
+        <ItemAdvance
+          index={index}
+          event={event}
+          isAuctioning={$.auctioningMap[item.id]}
+          assets={$.myCharaAssetsMap[item.id]}
+          {...item}
+        />
+      )}
       onHeaderRefresh={$.fetchAdvanceAuctionList}
     />
   )

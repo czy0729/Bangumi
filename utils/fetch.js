@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-18 18:24:29
+ * @Last Modified time: 2020-03-21 20:18:29
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -25,14 +25,12 @@ import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
-import { HTMLTrim } from './html'
 import { info as UIInfo } from './ui'
 
 const UMAnalyticsModule = NativeModules.UMAnalyticsModule
-
-const SHOW_LOG = true
-const FETCH_TIMEOUT = 10000
-const FETCH_RETRY = 5 // GET请求失败重试次数
+const SHOW_LOG = true // 开发显示请求信息
+const FETCH_TIMEOUT = 8000 // api超时时间
+const FETCH_RETRY = 4 // get请求失败自动重试次数
 
 const defaultHeaders = {
   Accept:
@@ -310,7 +308,7 @@ export function xhrCustom({
 }
 
 /**
- * hm v4.0
+ * hm v5.0
  * @param {*} url
  * @param {*} screen
  */
@@ -323,11 +321,22 @@ export function hm(url, screen) {
   try {
     // 保证这种低优先级的操作在UI响应之后再执行
     InteractionManager.runAfterInteractions(async () => {
-      if (!ua) ua = await Constants.getWebViewUserAgentAsync()
+      if (!ua) {
+        ua = await Constants.getWebViewUserAgentAsync()
+      }
 
+      const themeStore = require('../stores/theme').default
       let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
       u += `${u.includes('?') ? '&' : '?'}v=${VERSION_GITHUB_RELEASE}`
-      u += `${require('../stores/theme').default.isDark ? '&dark=1' : ''}`
+      u += `${themeStore.isDark ? '&dark=1' : ''}`
+
+      if (
+        screen &&
+        screen.includes('Tinygrail') &&
+        themeStore.isTinygrailDark
+      ) {
+        u += '&tdark=1'
+      }
       u += `${screen ? `&s=${screen}` : ''}`
 
       const request = new XMLHttpRequest()
@@ -355,6 +364,7 @@ export function hm(url, screen) {
     console.warn('[fetch] hm', error)
   }
 }
+
 /**
  * track
  * @param {*} u
@@ -421,7 +431,7 @@ export async function queue(fetchs, num = 2) {
  */
 export async function baiduTranslate(query) {
   try {
-    const appid = APP_ID_BAIDU
+    const appid = APP_ID_BAIDU // 秘密
     const salt = new Date().getTime()
     const from = 'auto'
     const to = 'zh'

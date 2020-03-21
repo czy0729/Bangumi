@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:32:09
+ * @Last Modified time: 2020-03-21 20:21:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,6 +60,7 @@ function Auction({ style }, { $ }) {
               style={styles.input}
               keyboardType='numeric'
               value={String(auctionAmount)}
+              clearButtonMode='never'
               onChangeText={$.changeAuctionAmount}
             />
             <View style={styles.popover}>

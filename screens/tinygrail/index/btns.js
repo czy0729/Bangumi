@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 16:51:24
+ * @Last Modified time: 2020-03-21 20:12:56
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -23,7 +23,7 @@ function Btns(props, { $, navigation }) {
     return (
       <Button
         style={styles.btn}
-        type='warning'
+        styleText={styles.text}
         size='sm'
         loading={loading}
         onPress={$.doAuth}
