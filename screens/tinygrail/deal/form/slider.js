@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 00:59:57
+ * @Last Modified time: 2020-03-21 15:18:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -66,7 +66,7 @@ function Slider({ style }, { $ }) {
           </Text>
         </Flex.Item>
         <Text type='tinygrailText' size={12}>
-          {formatNumber($.max)}
+          {parseInt($.max)}
         </Text>
       </Flex>
       <Flex style={_.mt.md}>

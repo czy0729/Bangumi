@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-08 21:42:05
+ * @Last Modified time: 2020-03-21 15:24:47
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
@@ -126,7 +126,7 @@ export default class ScreenTinygrailICODeal extends store {
 
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(_amount)) {
-      _amount = 5000
+      _amount = 0
     }
 
     this.setState({

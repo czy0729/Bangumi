@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:36:54
+ * @Last Modified time: 2020-03-21 15:41:12
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -24,6 +24,7 @@ function Slider({ style }, { $ }) {
   const styles = memoStyles()
   const { loading, amount, isSale } = $.state
   const { amount: userAmount } = $.userLogs
+  const { sacrifices = 0 } = $.myTemple
   return (
     <View style={[styles.container, style]}>
       <Flex>
@@ -45,6 +46,16 @@ function Slider({ style }, { $ }) {
               value={String(parseInt(amount))}
               onChangeText={$.changeAmount}
             />
+            {!!sacrifices && (
+              <Text
+                style={styles.sacrifices}
+                type='ask'
+                size={12}
+                pointerEvent='none'
+              >
+                已献祭{sacrifices}股
+              </Text>
+            )}
           </View>
         </Flex.Item>
         <View style={[styles.btnSubmit, _.ml.sm]}>
@@ -138,6 +149,12 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: 'transparent',
     borderWidth: 0,
     borderRadius: 0
+  },
+  sacrifices: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 8,
+    right: 12
   },
   placeholder: {
     position: 'absolute',

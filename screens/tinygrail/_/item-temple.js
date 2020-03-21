@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:03:44
+ * @Last Modified time: 2020-03-21 15:33:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -66,7 +66,7 @@ function ItemTemple(
         imageViewer={!onPress}
         imageViewerSrc={tinygrailOSS(cover, 480)}
         border={colorLevel}
-        borderWidth={3}
+        borderWidth={_.tSelect(3, 2)}
         event={{
           id: eventId,
           data: {
@@ -150,7 +150,7 @@ function ItemTemple(
               </Text>
             </Flex.Item>
             {count > 1 && (
-              <Text style={_.ml.xs} type='warning'>
+              <Text style={_.ml.xs} type='warning' size={12}>
                 x{count}
               </Text>
             )}
@@ -186,6 +186,6 @@ const memoStyles = _.memoStyles(_ => ({
     ..._.tSelect(undefined, _.shadow)
   },
   name: {
-    marginTop: 2
+    marginTop: 1
   }
 }))
