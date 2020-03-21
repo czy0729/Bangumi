@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:13:11
+ * @Last Modified time: 2020-03-21 22:25:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -103,7 +103,7 @@ function Depth({ style }, { $ }) {
                         {toFixed(item.price, 2)}
                       </Text>
                     </Flex.Item>
-                    <Text style={[styles.text, _.mr.wind]} size={12}>
+                    <Text style={_.mr.wind} type='tinygrailText' size={12}>
                       {item.amount}
                     </Text>
                     <View
@@ -153,7 +153,7 @@ function Depth({ style }, { $ }) {
                         {toFixed(item.price, 2)}
                       </Text>
                     </Flex.Item>
-                    <Text style={[styles.text, _.mr.wind]} size={12}>
+                    <Text style={_.mr.wind} type='tinygrailText' size={12}>
                       {item.amount}
                     </Text>
                     <View

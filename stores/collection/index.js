@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 18:14:54
+ * @Last Modified time: 2020-03-21 22:59:58
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -172,10 +172,7 @@ class Collection extends store {
         const pageHTML =
           HTML.match(
             /<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
-          ) ||
-          HTML.match(
-            /\?page=\d+" class="p">(\d+)<\/a><a href="(.*)page=2" class="p">&rsaquo;&rsaquo;<\/a>/
-          )
+          ) || HTML.match(/(\d+)<\/a>([^>]*>&rsaquo)/)
         if (pageHTML) {
           pageTotal = pageHTML[1]
         } else {
