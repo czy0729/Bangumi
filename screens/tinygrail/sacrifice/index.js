@@ -11,7 +11,7 @@ import { Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Info from './info'
 import Slider from './slider'
@@ -27,7 +27,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailSacrifice extends React.Component {

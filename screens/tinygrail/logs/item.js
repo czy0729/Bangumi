@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:25:59
+ * @Last Modified time: 2020-03-21 11:44:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { lastDate, getTimestamp, formatNumber } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
+import { observer } from '@utils/decorators'
 
 function Item(
   { index, balance, desc, change, time, charaId },

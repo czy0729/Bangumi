@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 12:06:55
+ * @Last Modified time: 2020-03-21 11:17:56
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
 import Store from './store'
@@ -24,7 +23,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/advance-auction', 'TinygrailAdvanceAuction'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailAdvanceAuction extends React.Component {

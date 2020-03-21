@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:52:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:20:40
+ * @Last Modified time: 2020-03-21 11:41:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
+import { observer } from '@utils/decorators'
 
 function Bar({ style, total, level, next }) {
   const styles = memoStyles()

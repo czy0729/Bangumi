@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:00:33
+ * @Last Modified time: 2020-03-21 11:42:45
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Image, Iconfont, Touchable, CountDown } from '@components'
 import { _ } from '@stores'
@@ -18,6 +18,7 @@ import Bar from './bar'
 const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }) {
+  const styles = memoStyles()
   const { icon, id, name, total, end = '' } = $.chara
   const { next, level, price, amount } = caculateICO($.chara)
   const endTime = getTimestamp(end.replace('T', ' '))
@@ -99,11 +100,11 @@ Info.contextTypes = {
 
 export default observer(Info)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     padding: _.wind
   },
   image: {
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
-})
+}))

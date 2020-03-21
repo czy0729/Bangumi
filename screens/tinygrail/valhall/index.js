@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
 import IconGo from '../_/icon-go'
@@ -24,7 +24,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/valhall', 'TinygrailValhall'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailValhall extends React.Component {

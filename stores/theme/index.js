@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 01:08:18
+ * @Last Modified time: 2020-03-21 01:12:47
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -69,6 +69,7 @@ function getMemoStylesId() {
   return {
     _id: _memoStylesId,
     _mode: '',
+    _tMode: '',
     _styles: ''
   }
 }
@@ -531,11 +532,14 @@ class Theme extends store {
   memoStyles = (styles, dev) => {
     const memoId = getMemoStylesId()
     return () => {
-      if (!memoId._mode || !memoId._styles || memoId._mode !== this.mode) {
-        // eslint-disable-next-line no-param-reassign
+      if (
+        !memoId._mode ||
+        !memoId._styles ||
+        memoId._mode !== this.mode ||
+        memoId._tMode !== this.tinygrailThemeMode
+      ) {
         memoId._mode = this.mode
-
-        // eslint-disable-next-line no-param-reassign
+        memoId._tMode = this.tinygrailThemeMode
         memoId._styles = StyleSheet.create(styles(this))
 
         if (dev) {

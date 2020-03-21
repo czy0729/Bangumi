@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 12:01:05
+ * @Last Modified time: 2020-03-21 11:13:14
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { withHeader } from '@utils/decorators'
+import { withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Menus from './menus'
 
@@ -20,8 +20,9 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/advance', 'TinygrailAdvance'],
-  ...headerStyle
+  withHeaderParams
 })
+@observer
 class TinygrailAdvance extends React.Component {
   static navigationOptions = {
     title

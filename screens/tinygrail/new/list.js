@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 06:41:56
+ * @Last Modified time: 2020-03-21 11:47:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
+import { observer } from '@utils/decorators'
 import Item from '../_/item'
 import { sortList } from '../_/utils'
 import { tabs } from './store'
@@ -38,10 +38,12 @@ function List({ index }, { $ }) {
     <ListView
       style={_.container.flex}
       keyExtractor={keyExtractor}
+      refreshControlProps={{
+        color: _.colorTinygrailText
+      }}
+      footerTextType='tinygrailText'
       data={_list}
-      renderItem={({ item, index }) => (
-        <Item index={index} event={event} {...item} />
-      )}
+      renderItem={renderItem}
       onHeaderRefresh={() => $.fetchList(key)}
     />
   )
@@ -56,3 +58,7 @@ List.contextTypes = {
 }
 
 export default observer(List)
+
+function renderItem({ item, index }) {
+  return <Item index={index} event={event} {...item} />
+}

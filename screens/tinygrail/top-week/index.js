@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:10:31
+ * @Last Modified time: 2020-03-21 15:05:35
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, observer } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { M } from '@constants'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Store from './store'
 
@@ -28,7 +27,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/top-week', 'TopWeek'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailTopWeek extends React.Component {

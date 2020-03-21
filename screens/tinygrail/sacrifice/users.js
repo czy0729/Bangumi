@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:38:14
+ * @Last Modified time: 2020-03-21 15:03:12
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
+import { observer } from '@utils/decorators'
 
 const event = {
   id: '资产重组.跳转',

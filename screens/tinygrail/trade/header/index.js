@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:06:21
+ * @Last Modified time: 2020-03-21 15:06:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from '@utils/decorators'
 import { Flex, Text } from '@components'
 import { Avatar, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
+import { observer } from '@utils/decorators'
 import Today from './today'
 
 function Header({ goBack }, { $, navigation }) {

@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 07:01:13
+ * @Last Modified time: 2020-03-21 11:23:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { inject, withHeader } from '@utils/decorators'
-import { headerStyle } from '../styles'
+import { inject, withHeader, observer } from '@utils/decorators'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
 import Tabs from '../_/tabs'
@@ -25,7 +24,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/chara/assets', 'TinygrailCharaAssets'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailCharaAssets extends React.Component {

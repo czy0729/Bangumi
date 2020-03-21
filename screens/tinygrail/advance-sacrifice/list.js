@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:20:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 12:09:35
+ * @Last Modified time: 2020-03-21 11:20:50
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
+import { observer } from '@utils/decorators'
 import ItemAdvance from '../_/item-advance'
 
 function List(props, { $ }) {
@@ -32,6 +32,10 @@ function List(props, { $ }) {
     <ListView
       style={_.container.flex}
       keyExtractor={keyExtractor}
+      refreshControlProps={{
+        color: _.colorTinygrailText
+      }}
+      footerTextType='tinygrailText'
       data={$.advanceSacrificeList}
       renderItem={renderItem}
       onHeaderRefresh={$.fetchAdvanceSacrificeList}

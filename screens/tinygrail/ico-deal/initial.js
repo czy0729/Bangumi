@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:22:27
+ * @Last Modified time: 2020-03-21 11:43:16
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Text, Flex } from '@components'
 import { _ } from '@stores'
@@ -15,6 +15,7 @@ import { tinygrailOSS } from '@utils/app'
 import { observer } from '@utils/decorators'
 
 function Initial({ style }, { $, navigation }) {
+  const styles = memoStyles()
   const { users } = $.chara
   const { list } = $.initial
   const { username } = $.userInfo
@@ -78,7 +79,7 @@ Initial.contextTypes = {
 
 export default observer(Initial)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingHorizontal: _.wind,
     paddingBottom: _.bottom
@@ -90,4 +91,4 @@ const styles = StyleSheet.create({
   avatar: {
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
-})
+}))

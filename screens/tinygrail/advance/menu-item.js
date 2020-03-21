@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 01:16:44
+ * @Last Modified time: 2020-03-21 11:14:40
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { observer } from '@utils/decorators'
 
 const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
 const sectionHeight = sectionWidth / 2.4
@@ -36,7 +37,7 @@ function MenuItem({ navigation, style, pathname, config, title, icon }) {
   )
 }
 
-export default MenuItem
+export default observer(MenuItem)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

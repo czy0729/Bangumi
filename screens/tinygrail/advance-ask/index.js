@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 12:03:31
+ * @Last Modified time: 2020-03-21 11:15:17
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
 import Store from './store'
@@ -24,7 +23,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/advance-ask', 'TinygrailAdvanceAsk'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailAdvanceAsk extends React.Component {

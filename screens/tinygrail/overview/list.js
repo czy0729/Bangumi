@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 06:03:59
+ * @Last Modified time: 2020-03-21 11:48:23
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
+import { observer } from '@utils/decorators'
 import Item from '../_/item'
 import { sortList } from '../_/utils'
 import { tabs } from './store'
@@ -54,6 +54,10 @@ class List extends React.Component {
       <ListView
         style={_.container.flex}
         keyExtractor={keyExtractor}
+        refreshControlProps={{
+          color: _.colorTinygrailText
+        }}
+        footerTextType='tinygrailText'
         data={_list}
         renderItem={this.renderItem}
         onHeaderRefresh={() => $.fetchList(key)}

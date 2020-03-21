@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import SearchBar from './search-bar'
 import History from './history'
@@ -23,7 +23,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/search', 'TinygrailSearch'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailSearch extends React.Component {

@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 01:29:36
+ * @Last Modified time: 2020-03-21 11:49:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
 import List from './list'
@@ -25,7 +24,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/rich', 'TinygrailRich'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailRich extends React.Component {
@@ -65,14 +64,7 @@ class TinygrailRich extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
-      >
+      <View style={this.styles.container}>
         <StatusBarEvents />
         {!!_loaded && (
           <Tabs tabs={tabs}>
@@ -84,4 +76,15 @@ class TinygrailRich extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

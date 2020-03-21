@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 05:12:19
+ * @Last Modified time: 2020-03-21 11:23:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { observer } from '@utils/decorators'
 import Item from '../_/item'
 import ItemTemple from '../_/item-temple'
 import { sortList } from '../_/utils'
@@ -51,6 +51,10 @@ function List({ index }, { $, navigation }) {
       key={String(numColumns)}
       style={_.container.flex}
       keyExtractor={(item, index) => String(index)}
+      refreshControlProps={{
+        color: _.colorTinygrailText
+      }}
+      footerTextType='tinygrailText'
       data={data}
       numColumns={numColumns}
       renderItem={({ item, index }) => {

@@ -14,7 +14,7 @@ import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import StatusBarEvents from '../_/status-bar-events'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
@@ -26,7 +26,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/tree-rich', 'TinygrailTreeRich'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailTree extends React.Component {

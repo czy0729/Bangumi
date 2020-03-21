@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:07:51
+ * @Last Modified time: 2020-03-21 11:22:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
 import ToolBar from '../_/tool-bar'
@@ -24,7 +23,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailBid extends React.Component {
