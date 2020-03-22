@@ -1,33 +1,30 @@
 /*
  * @Author: czy0729
- * @Date: 2019-09-09 17:34:47
+ * @Date: 2020-03-22 18:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 20:57:35
+ * @Last Modified time: 2020-03-22 20:21:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { _ } from '@stores'
-import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { HOST } from '@constants'
+import { hm } from '@utils/fetch'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
 
-const title = '收藏的人物'
+const title = '用户目录'
 
 export default
 @inject(Store)
 @withHeader({
-  screen: title,
-  hm: ['character', 'Character']
+  screen: title
 })
 @observer
-class Character extends React.Component {
+class Catelogs extends React.Component {
   static navigationOptions = {
-    title: '用户人物'
+    title
   }
 
   static contextTypes = {
@@ -36,28 +33,10 @@ class Character extends React.Component {
   }
 
   componentDidMount() {
-    const { $, navigation } = this.context
+    const { $ } = this.context
     $.init()
 
-    const { userName } = $.params
-    navigation.setParams({
-      popover: {
-        data: ['浏览器查看'],
-        onSelect: key => {
-          t('收藏的人物.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open(`${HOST}/user/${userName}/mono`)
-              break
-            default:
-              break
-          }
-        }
-      }
-    })
+    hm(`user/${$.userId}/index`, 'Catelogs')
   }
 
   render() {

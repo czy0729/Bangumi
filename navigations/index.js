@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 14:20:42
+ * @Last Modified time: 2020-03-22 20:03:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ import {
   Calendar,
   Catalog,
   CatalogDetail,
+  Catalogs,
   Character,
   DEV,
   Discovery,
@@ -129,6 +130,7 @@ const HomeStack = createStackNavigator(
     Calendar,
     Catalog,
     CatalogDetail,
+    Catalogs,
     Character,
     DEV,
     Discovery,

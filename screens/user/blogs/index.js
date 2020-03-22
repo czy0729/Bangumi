@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 16:58:44
+ * @Last Modified time: 2020-03-22 20:58:13
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,7 +14,7 @@ import { hm } from '@utils/fetch'
 import { keyExtractor } from '@utils/app'
 import Store from './store'
 
-const title = '日志'
+const title = '用户日志'
 const event = {
   id: '用户日志.跳转'
 }
@@ -26,9 +26,9 @@ export default
 })
 @observer
 class Blogs extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('title', '日志')
-  })
+  static navigationOptions = {
+    title
+  }
 
   static contextTypes = {
     $: PropTypes.object,

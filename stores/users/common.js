@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 17:15:30
+ * @Last Modified time: 2020-03-22 20:31:23
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
+import { matchAvatar } from '@utils/match'
 
 /**
  * 分析好友列表
@@ -189,33 +190,83 @@ export function cheerioRecents(HTML) {
  */
 export function cheerioBlogs(HTML) {
   const $ = cheerio(HTML)
-  const list = $('div#entry_list > div.item')
-    .map((index, element) => {
-      const $li = cheerio(element)
-      const $a = $li.find('h2.title a')
-      return safeObject({
-        id: $a.attr('href').replace('/blog/', ''),
-        title: $a.text(),
-        cover: $li.find('span.pictureFrameGroup img').attr('src'),
-        time: $li.find('div.time .time').text(),
-        replies: $li
-          .find('div.time .orange')
-          .text()
-          .replace(/\(|\)/g, ''),
-        content: $li
-          .find('div.content')
-          .text()
-          .replace(' (more)', '')
-          .replace(/^\n/, ''),
-        tags: $li
-          .find('div.tags')
-          .text()
-          .replace('Tags: ', '')
-          .split(' ')
-          .filter(item => !!item)
+  return (
+    $('div#entry_list > div.item')
+      .map((index, element) => {
+        const $li = cheerio(element)
+        const $a = $li.find('h2.title a')
+        return safeObject({
+          id: $a.attr('href').replace('/blog/', ''),
+          title: $a.text(),
+          cover: $li.find('span.pictureFrameGroup img').attr('src'),
+          time: $li.find('div.time .time').text(),
+          replies: $li
+            .find('div.time .orange')
+            .text()
+            .replace(/\(|\)/g, ''),
+          content: $li
+            .find('div.content')
+            .text()
+            .replace(' (more)', '')
+            .replace(/^\n/, ''),
+          tags: $li
+            .find('div.tags')
+            .text()
+            .replace('Tags: ', '')
+            .split(' ')
+            .filter(item => !!item)
+        })
       })
-    })
-    .get()
+      .get() || []
+  )
+}
 
-  return list || []
+/**
+ * 分析用户目录列表
+ * @param {*} HTML
+ * @param {*} isCollect
+ */
+export function cheerioCatalogs(HTML, isCollect) {
+  const $ = cheerio(HTML)
+  if (isCollect) {
+    return (
+      $('div#timeline li')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $catalog = $li.find('h3 a.l')
+          const $user = $li.find('span.tip_j a.l')
+          return safeObject({
+            id: $catalog.attr('href').replace('/index/', ''),
+            title: $catalog.text(),
+            userId: $user.attr('href').replace('/user/', ''),
+            userName: $user.text(),
+            avatar: matchAvatar($li.find('span.avatarSize32').attr('style')),
+            time: $li.find('span.tip').text(),
+            num: ''
+          })
+        })
+        .get() || []
+    )
+  }
+
+  return (
+    $('ul.line_list > li')
+      .map((index, element) => {
+        const $li = cheerio(element)
+        const $a = $li.find('a')
+        return safeObject({
+          id: $a.attr('href').replace('/index/', ''),
+          title: $a.text(),
+          userId: '',
+          userName: '',
+          avatar: '',
+          time: $li.find('small.grey').text(),
+          num: $li
+            .find('span.tip_j')
+            .text()
+            .replace(/\(|\)/g, '')
+        })
+      })
+      .get() || []
+  )
 }

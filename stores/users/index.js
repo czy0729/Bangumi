@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 15:39:49
+ * @Last Modified time: 2020-03-22 20:47:59
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -15,7 +15,8 @@ import {
   HTML_USERS_CHARCTER,
   HTML_USERS_PERSON,
   HTML_USERS_MONO_RECENTS,
-  HTML_USERS_BLOGS
+  HTML_USERS_BLOGS,
+  HTML_USERS_CATALOGS
 } from '@constants/html'
 import userStore from '../user'
 import { NAMESPACE, INIT_USERS } from './init'
@@ -24,7 +25,8 @@ import {
   cheerioUsers,
   cheerioCharacters,
   cheerioRecents,
-  cheerioBlogs
+  cheerioBlogs,
+  cheerioCatalogs
 } from './common'
 
 class Users extends store {
@@ -65,13 +67,24 @@ class Users extends store {
     /**
      * 我收藏人物的最近作品
      */
-    recents: LIST_EMPTY,
+    recents: LIST_EMPTY, // INIT_RECENTS_ITEM
 
     /**
      * 用户日志
      */
     blogs: {
       // [userId]: LIST_EMPTY<INIT_BLOGS>
+    },
+
+    /**
+     * 用户目录
+     */
+    catalogs: {
+      // [userId]: LIST_EMPTY<INIT_CATALOGS>
+    },
+
+    catalogsCollect: {
+      // [userId]: LIST_EMPTY<INIT_CATALOGS>
     }
   })
 
@@ -84,7 +97,9 @@ class Users extends store {
         'characters',
         'persons',
         'recents',
-        'blogs'
+        'blogs',
+        'catalogs',
+        'catalogsCollect'
       ],
       NAMESPACE
     )
@@ -132,6 +147,11 @@ class Users extends store {
 
   blogs(userId = userStore.myId) {
     return computed(() => this.state.blogs[userId] || LIST_EMPTY).get()
+  }
+
+  catalogs(userId = userStore.myId, isCollect) {
+    const key = `catalogs${isCollect ? 'Collect' : ''}`
+    return computed(() => this.state[key][userId] || LIST_EMPTY).get()
   }
 
   // -------------------- fetch --------------------
@@ -364,6 +384,39 @@ class Users extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return this[key](userId)
+  }
+
+  /**
+   * 用户日志
+   */
+  fetchCatalogs = async (
+    { userId = userStore.myId, isCollect } = {},
+    refresh
+  ) => {
+    const key = 'catalogs'
+    const limit = 30
+    const { list, pagination } = this[key](userId, isCollect)
+    const page = refresh ? 1 : pagination.page + 1
+
+    const html = await fetchHTML({
+      url: HTML_USERS_CATALOGS(userId, page, isCollect)
+    })
+    const _list = cheerioCatalogs(html, isCollect)
+    this.setState({
+      [`${key}${isCollect ? 'Collect' : ''}`]: {
+        [userId]: {
+          list: refresh ? _list : [...list, ..._list],
+          pagination: {
+            page,
+            pageTotal: _list.length === limit ? 100 : page
+          },
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return this[key](userId, isCollect)
   }
 }
 

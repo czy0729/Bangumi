@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 13:58:54
+ * @Last Modified time: 2020-03-22 18:54:17
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -164,6 +164,15 @@ export const HTML_CATALOG = (type = '', page = 1) =>
  * @param {*} id
  */
 export const HTML_CATALOG_DETAIL = id => `${HOST}/index/${id}`
+
+/**
+ * 用户的目录
+ * @param {*} userId
+ * @param {*} page
+ * @param {*} isCollect
+ */
+export const HTML_USERS_CATALOGS = (userId = '', page = 1, isCollect = false) =>
+  `${HOST}/user/${userId}/index${isCollect ? '/collect' : ''}?page=${page}`
 
 /**
  * 添加新讨论

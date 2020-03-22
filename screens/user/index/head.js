@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 18:40:36
+ * @Last Modified time: 2020-03-22 20:59:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ function Head({ style }, { $, navigation }) {
         </Touchable>
         <Touchable
           style={styles.r3}
-          onPress={() => navigation.push('Catelogs')}
+          onPress={() => navigation.push('Catalogs')}
         >
           <Text type={_.select('plain', 'title')} size={13}>
             [目录]
