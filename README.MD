@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 2.9.0" src="https://img.shields.io/badge/Version-2.9.0-0366d6" />
+  <img alt="Version: 3.0.0" src="https://img.shields.io/badge/Version-3.0.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -108,6 +108,10 @@ v3.0.0 - 2020/03/22
 ## Page Preview
 
 单独预览 [日间模式](https://github.com/czy0729/Bangumi/blob/master/web/LIGHT-MODE.MD) | [黑暗模式](https://github.com/czy0729/Bangumi/blob/master/web/DARK-MODE.MD)
+
+#### 展示用
+
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-1.png" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/allpreview-1.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.png" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.png" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.png" />
 
 #### 基础功能
 
