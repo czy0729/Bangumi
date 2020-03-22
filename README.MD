@@ -111,7 +111,7 @@ v3.0.0 - 2020/03/22
 
 #### 展示用
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-1.png" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/allpreview-1.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.png" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.png" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.png" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-1.pjpg width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-1.jpg" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.jpg" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.jpg" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.jpg" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.jpg" />
 
 #### 基础功能
 
