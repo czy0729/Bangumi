@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:42:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 23:21:53
+ * @Last Modified time: 2020-03-19 16:36:42
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,12 +14,13 @@ import WebViewEvents from './web-view-events'
 function StatusBarEvents() {
   return (
     <>
-      <NavigationBarEvents tinygrail />
-      <WebViewEvents />
       <CompStatusBarEvents
-        barStyle='light-content'
+        tinygrail
+        barStyle={_.isTinygrailDark ? 'light-content' : 'dark-content'}
         backgroundColor={_.colorTinygrailContainer}
       />
+      <WebViewEvents />
+      <NavigationBarEvents tinygrail />
     </>
   )
 }

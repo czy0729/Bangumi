@@ -3,20 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-09-29 11:21:07
+ * @Last Modified time: 2020-03-08 22:12:30
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
+import { CDN_SUBJECT, CDN_MONO } from '@constants/cdn'
 import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_EP } from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, xhrCustom } from '@utils/fetch'
 import {
   NAMESPACE,
   INIT_SUBJECT_ITEM,
   INIT_SUBJECT_FROM_HTML_ITEM,
+  INIT_SUBJECT_FROM_CDN_ITEM,
   INIT_MONO
 } from './init'
 import { fetchMono, cheerioSubjectFormHTML } from './common'
@@ -38,7 +40,15 @@ class Subject extends store {
     },
 
     /**
-     * 条目章节
+     * 条目CDN自维护数据
+     * 用于条目首次渲染加速
+     */
+    subjectFormCDN: {
+      // [subjectId]: INIT_SUBJECT_FROM_CDN_ITEM
+    },
+
+    /**
+     * [待废弃] 条目章节
      */
     subjectEp: {
       // [subjectId]: {}
@@ -70,19 +80,20 @@ class Subject extends store {
      */
     monoComments: {
       // [monoId]: LIST_EMPTY | INIT_MONO_COMMENTS_ITEM
+    },
+
+    /**
+     * 人物CDN自维护数据
+     * 用于人物首次渲染加速
+     */
+    monoFormCDN: {
+      // [monoId]: INIT_MONO
     }
   })
 
   init = () =>
-    this.readStorageThenSetState(
-      {
-        subject: {},
-        subjectFormHTML: {},
-        subjectEp: {},
-        subjectComments: {},
-        mono: {},
-        monoComments: {}
-      },
+    this.readStorage(
+      ['subject', 'subjectFormHTML', 'subjectComments', 'mono', 'monoComments'],
       NAMESPACE
     )
 
@@ -104,6 +115,16 @@ class Subject extends store {
   subjectFormHTML(subjectId) {
     return computed(
       () => this.state.subjectFormHTML[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
+    ).get()
+  }
+
+  /**
+   * 条目CDN自维护数据
+   * @param {*} subjectId
+   */
+  subjectFormCDN(subjectId) {
+    return computed(
+      () => this.state.subjectFormCDN[subjectId] || INIT_SUBJECT_FROM_CDN_ITEM
     ).get()
   }
 
@@ -149,6 +170,14 @@ class Subject extends store {
     return computed(() => this.state.monoComments[monoId] || LIST_EMPTY).get()
   }
 
+  /**
+   * 人物CDN自维护数据
+   * @param {*} monoId
+   */
+  monoFormCDN(monoId) {
+    return computed(() => this.state.monoFormCDN[monoId] || INIT_MONO).get()
+  }
+
   // -------------------- fetch --------------------
   /**
    * 条目信息
@@ -174,11 +203,13 @@ class Subject extends store {
   /**
    * 网页获取条目信息
    * @param {*} subjectId
+   * @param {*} cdn 是否请求自建cdn
    */
-  async fetchSubjectFormHTML(subjectId) {
+  fetchSubjectFormHTML = async subjectId => {
     const HTML = await fetchHTML({
       url: HTML_SUBJECT(subjectId)
     })
+
     const key = 'subjectFormHTML'
     const data = {
       ...cheerioSubjectFormHTML(HTML),
@@ -191,6 +222,33 @@ class Subject extends store {
     })
     this.setStorage(key, undefined, NAMESPACE)
     return Promise.resolve(data)
+  }
+
+  /**
+   * CDN获取条目信息
+   * @param {*} subjectId
+   */
+  fetchSubjectFormCDN = async subjectId => {
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_SUBJECT(subjectId)
+      })
+
+      const data = {
+        ...INIT_SUBJECT_FROM_CDN_ITEM,
+        ...JSON.parse(_response)
+      }
+      const key = 'subjectFormCDN'
+      this.setState({
+        [key]: {
+          [subjectId]: data
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      warn('subjectStore', 'fetchSubjectFormCDN', 404)
+      return Promise.resolve(INIT_SUBJECT_FROM_CDN_ITEM)
+    }
   }
 
   /**
@@ -412,6 +470,36 @@ class Subject extends store {
       this.setStorage(commentsKey, undefined, NAMESPACE)
     }
     return res
+  }
+
+  /**
+   * CDN获取人物信息
+   * @param {*} subjectId
+   */
+  fetchMonoFormCDN = async monoId => {
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_MONO(
+          monoId.replace(/character\/|person\//g, ''),
+          monoId.includes('character') ? 'data' : 'person'
+        )
+      })
+
+      const data = {
+        ...INIT_MONO,
+        ...JSON.parse(_response)
+      }
+      const key = 'monoFormCDN'
+      this.setState({
+        [key]: {
+          [monoId]: data
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      warn('subjectStore', 'fetchMonoFormCDN', 404)
+      return Promise.resolve(INIT_MONO)
+    }
   }
 }
 

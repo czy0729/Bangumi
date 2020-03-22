@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 16:56:23
+ * @Last Modified time: 2020-02-14 05:41:03
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,10 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
   SORT_GX,
+  SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
+  SORT_DJ,
   SORT_HYD,
   SORT_SCJ,
   SORT_FHL,
@@ -43,11 +47,15 @@ export const tabs = [
 export const sortDS = [
   SORT_HYD,
   SORT_GX,
-  SORT_SCJ,
-  SORT_FHL,
+  SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
   SORT_DQJ,
+  SORT_SCJ,
   SORT_DQZD,
-  SORT_XFJL
+  SORT_DJ,
+  SORT_XFJL,
+  SORT_FHL
 ]
 const namespace = 'ScreenTinygrailOverview'
 
@@ -56,6 +64,7 @@ export default class ScreenTinygrailOverview extends store {
     page: 0,
     sort: '',
     direction: '',
+    go: '卖出',
     _loaded: false
   })
 
@@ -102,6 +111,17 @@ export default class ScreenTinygrailOverview extends store {
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)
+  }
+
+  onSelectGo = title => {
+    t('热门榜单.设置前往', {
+      title
+    })
+
+    this.setState({
+      go: title
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   tabChangeCallback = page => {

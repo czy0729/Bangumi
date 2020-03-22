@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 19:58:44
+ * @Last Modified time: 2020-02-22 09:44:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -34,7 +34,7 @@ function Info(props, { $, navigation }) {
     _loaded
   } = $.catalogDetail
   return (
-    <View style={[_.container.inner, styles.container]}>
+    <View style={styles.container}>
       {!IOS && <HeaderPlaceholder />}
       <Text size={20} bold>
         {title}
@@ -83,7 +83,7 @@ function Info(props, { $, navigation }) {
             })
           }}
         >
-          by {nickname} · {time}
+          by {nickname} / {time}
         </Text>
       </Flex>
       {!_loaded && (
@@ -104,6 +104,7 @@ export default observer(Info)
 
 const styles = StyleSheet.create({
   container: {
+    ..._.container.inner,
     minHeight: 248
   },
   loading: {

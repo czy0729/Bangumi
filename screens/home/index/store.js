@@ -1,25 +1,28 @@
-/* eslint-disable no-await-in-loop, no-restricted-syntax */
 /*
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 16:59:08
+ * @Last Modified time: 2020-03-19 10:23:32
  */
+import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
 import {
   _,
   userStore,
   subjectStore,
   collectionStore,
-  calendarStore
+  calendarStore,
+  systemStore
 } from '@stores'
 import { Eps } from '@screens/_'
-import { sleep } from '@utils'
-import { t } from '@utils/fetch'
+import { t, queue } from '@utils/fetch'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
-import { IOS } from '@constants'
-import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
+import {
+  MODEL_SUBJECT_TYPE,
+  MODEL_EP_STATUS,
+  MODEL_COLLECTION_STATUS
+} from '@constants/model'
 
 export const tabs = [
   {
@@ -64,14 +67,11 @@ export default class ScreenHome extends store {
     /**
      * layout
      */
-    grid: IOS, // 是否格子布局, iOS默认使用格子
+    grid: false,
     current: 0
   })
 
   init = async () => {
-    userStore.logTourist()
-    calendarStore.fetchOnAir()
-
     let res
     if (this.isLogin) {
       res = this.getStorage(undefined, namespace)
@@ -82,6 +82,12 @@ export default class ScreenHome extends store {
       })
       this.initFetch()
     }
+
+    InteractionManager.runAfterInteractions(() => {
+      userStore.logTourist()
+      calendarStore.fetchOnAir()
+    })
+
     return res
   }
 
@@ -93,25 +99,38 @@ export default class ScreenHome extends store {
     const data = await res
 
     if (data[0]) {
-      // @issue 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
-      const list = this.sortList(data[0])
-      for (const item of list) {
-        const { subject_id: subjectId } = item
-        const { _loaded } = this.subjectEp(subjectId)
-
-        // 被动请求
-        if (refresh || !_loaded) {
-          await subjectStore.fetchSubjectEp(subjectId)
-          await sleep(400)
-        }
-      }
+      /**
+       * 被动请求
+       * 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
+       * cloudfare请求太快会被拒绝
+       */
+      InteractionManager.runAfterInteractions(() => {
+        const fetchs = []
+        this.sortList(data[0]).forEach(({ subject_id: subjectId }) => {
+          const { _loaded } = this.subject(subjectId)
+          if (refresh || !_loaded) {
+            fetchs.push(() => subjectStore.fetchSubject(subjectId))
+          }
+        })
+        queue(fetchs, 1)
+      })
     }
     return res
   }
 
+  onHeaderRefresh = () => this.initFetch(true)
+
   // -------------------- get --------------------
   @computed get backgroundColor() {
     return _.isDark ? _._colorDarkModeLevel1 : _.colorPlain
+  }
+
+  @computed get initialPage() {
+    return systemStore.setting.initialPage
+  }
+
+  @computed get heatMap() {
+    return systemStore.setting.heatMap
   }
 
   /**
@@ -143,6 +162,26 @@ export default class ScreenHome extends store {
   }
 
   /**
+   * 列表当前数据
+   */
+  currentUserCollection(title) {
+    return computed(() => {
+      const userCollection = {
+        ...this.userCollection
+      }
+      const type = MODEL_SUBJECT_TYPE.getValue(title)
+      if (type) {
+        userCollection.list = userCollection.list.filter(
+          item => item.subject.type == type
+        )
+      }
+      userCollection.list = this.sortList(userCollection.list)
+
+      return userCollection
+    }).get()
+  }
+
+  /**
    * 用户条目收视进度
    */
   userProgress(subjectId) {
@@ -153,97 +192,106 @@ export default class ScreenHome extends store {
    * 条目信息
    */
   subject(subjectId) {
-    return computed(() => {
-      const { subject } =
-        this.userCollection.list.find(item => item.subject_id === subjectId) ||
-        {}
-      return subject || {}
-    }).get()
+    return computed(() => subjectStore.subject(subjectId)).get()
   }
 
   /**
    * 条目章节
    */
-  subjectEp(subjectId) {
-    return computed(() => subjectStore.subjectEp(subjectId)).get()
-  }
+  // subjectEp(subjectId) {
+  //   return computed(() => subjectStore.subjectEp(subjectId)).get()
+  // }
 
   /**
    * 条目章节数据
    */
   eps(subjectId) {
-    return computed(() => {
-      const eps = subjectStore.subjectEp(subjectId).eps || []
-      const { length } = eps
+    try {
+      return computed(() => {
+        const eps = this.subject(subjectId).eps || []
+        const { length } = eps
 
-      // 集数超过了1页的显示个数
-      if (length > Eps.pageLimit) {
-        const userProgress = this.userProgress(subjectId)
-        const index = eps.findIndex(
-          item => item.type === 0 && userProgress[item.id] !== '看过'
-        )
+        // 集数超过了1页的显示个数
+        if (length > Eps.pageLimit) {
+          const userProgress = this.userProgress(subjectId)
+          const index = eps.findIndex(
+            item => item.type === 0 && userProgress[item.id] !== '看过'
+          )
 
-        // 找不到未看集数, 返回最后的数据
-        if (index === -1) {
-          return eps.slice(length - Eps.pageLimit - 1, length - 1)
+          // 找不到未看集数, 返回最后的数据
+          if (index === -1) {
+            return eps.slice(length - Eps.pageLimit - 1, length - 1)
+          }
+
+          // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
+          // @notice 注意这里第一个值不能小于0, 不然会返回空
+          return eps.slice(index < 1 ? 0 : index - 1, index + Eps.pageLimit - 1)
         }
-
-        // 找到第1个未看过的集数, 返回1个看过的集数和剩余的集数
-        // @notice 注意这里第一个值不能小于0, 不然会返回空
-        return eps.slice(index < 1 ? 0 : index - 1, index + Eps.pageLimit - 1)
-      }
-      return eps
-    }).get()
+        return eps
+      }).get()
+    } catch (error) {
+      warn(namespace, 'eps', error)
+      return []
+    }
   }
 
   /**
    * 条目下一个未看章节
    */
   nextWatchEp(subjectId) {
-    return computed(() => {
-      const eps = this.eps(subjectId)
-      const userProgress = this.userProgress(subjectId)
-      const index = eps.findIndex(
-        item => item.type === 0 && userProgress[item.id] !== '看过'
-      )
-      if (index === -1) {
-        return {}
-      }
-      return eps[index]
-    }).get()
+    try {
+      return computed(() => {
+        const eps = this.eps(subjectId) || []
+        const userProgress = this.userProgress(subjectId)
+        const index = eps.findIndex(
+          item => item.type === 0 && userProgress[item.id] !== '看过'
+        )
+        if (index === -1) {
+          return {}
+        }
+        return eps[index]
+      }).get()
+    } catch (error) {
+      warn(namespace, 'nextWatchEp', error)
+      return {}
+    }
   }
 
   /**
    * 条目观看进度百分比
    */
-  percent(subjectId, subject = {}) {
-    return computed(() => {
-      const eps = this.eps(subjectId)
-      if (!subject.eps_count || !eps.length) {
-        return 0
-      }
+  // percent(subjectId, subject = {}) {
+  //   return computed(() => {
+  //     const eps = this.eps(subjectId)
+  //     if (!subject.eps_count || !eps.length) {
+  //       return 0
+  //     }
 
-      // 排除SP章节
-      let watchedCount = 0
-      const userProgress = this.userProgress(subjectId)
-      try {
-        eps
-          .filter(item => item.type === 0)
-          .forEach(item => {
-            if (userProgress[item.id] === '看过') {
-              if (watchedCount === 0) {
-                watchedCount += parseInt(item.sort)
-              } else {
-                watchedCount += 1
-              }
-            }
-          })
-      } catch (error) {
-        // do nothing
-      }
-      return (watchedCount / subject.eps_count) * 100
-    }).get()
-  }
+  //     // 排除SP章节
+  //     let watchedCount = 0
+  //     const userProgress = this.userProgress(subjectId)
+  //     try {
+  //       const epsWithoutSP = eps.filter(item => item.type === 0)
+  //       epsWithoutSP.forEach(item => {
+  //         if (userProgress[item.id] === '看过') {
+  //           // 这里很坑, 有一些是多季度不是1开始的番, 还有一些是只显示4行的超长番组, 很容易混淆
+  //           if (
+  //             watchedCount === 0 &&
+  //             item.sort !== 1 &&
+  //             epsWithoutSP.length >= 32
+  //           ) {
+  //             watchedCount += parseInt(item.sort)
+  //           } else {
+  //             watchedCount += 1
+  //           }
+  //         }
+  //       })
+  //     } catch (error) {
+  //       // do nothing
+  //     }
+  //     return (watchedCount / subject.eps_count) * 100
+  //   }).get()
+  // }
 
   @computed get onAir() {
     return calendarStore.onAir
@@ -569,6 +617,10 @@ export default class ScreenHome extends store {
     })
 
     await collectionStore.doUpdateCollection(values)
+    if (values.status !== MODEL_COLLECTION_STATUS.getValue('在看')) {
+      userStore.fetchUserCollection()
+    }
+
     this.closeManageModal()
   }
 

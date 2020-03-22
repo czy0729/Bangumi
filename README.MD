@@ -1,47 +1,42 @@
-# Bangumi
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
-> 一个基于`React-Native`的 [Bangumi](https://bgm.tv) 第三方客户端
->
-> 安卓和 iOS 都做了兼容, 并最大限度保持一致, 目前已开发不少于 50 个页面, 持续开发中...
->
-> 尽量做到每个版本再各个板块都有新功能或优化
+<p align="center">
+  <img alt="Version: 3.0.0" src="https://img.shields.io/badge/Version-3.0.0-0366d6" />
+  <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
+  <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
+  <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
+</p>
 
 ---
 
-#### Download
+一个基于`React-Native`的 [Bangumi](https://bgm.tv) 第三方客户端
 
-安卓 [[APK 下载]](https://github.com/czy0729/Bangumi/releases) | [[酷安下载]](https://www.coolapk.com/apk/235642)
+安卓和 iOS 都做了兼容, 并最大限度保持一致, 目前已开发不少于 50 个页面, 持续开发中...
+
+Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG），发现和讨论番组的第三方客户端。
+
+## Download
+
+安卓 [APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安下载](https://www.coolapk.com/apk/235642)
 
 苹果好难审, 短时间内都没办法通过, 会跟苹果做长久作战. 目前有方法可以试用, 不会太复杂
 [TestFlight] | [[iOS 试用方法]](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
 
----
+## PowerBy
 
-#### Versions
+[[bangumi-subject]](https://github.com/czy0729/Bangumi-Subject) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) 本人维护的条目静态数据 CDN
 
-[CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
+[[bangumi-oss]](https://github.com/czy0729/Bangumi-OSS) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS) 本人维护的热门条目封面和活跃用户头像对象存储 CDN
 
----
+[[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
-#### Update
+[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) 单集播放数据源
 
-v2.4.0 - 2020/01/07
+[[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
 
-—— 新功能 ——
+[[tinygrail.com]](https://tinygrail.com) 小圣杯接口
 
-- [x] [发现] 目录 (自己收藏和创建的目录待下版本)
-- [x] [条目] 章节右侧增加 [搜索] 功能 (暂支持一个动漫和三次元都非常齐全的源头, 未来会增加更多源头)
-
-—— 优化 ——
-
-- [x] [条目] 人工修正了最近新番的在线源头
-- [x] [条目] 设置里可选择隐藏他人 bgm 评分
-- [x] [小圣杯助手] 稍微再优化了部分业务流程
-- [x] [小圣杯助手] 拖动条右方加入 [最大] 按钮
-
----
-
-#### Features
+## Features
 
 - 小圣杯 (更适合移动端交互的角色交易 air game)
 - 素材使用了主站上能找到的 (b38 求大佬贡献)
@@ -56,47 +51,79 @@ v2.4.0 - 2020/01/07
 - 好友 / 用户空间
 - 热门 / 随便看看 /每日放送 / 历年年鉴
 
----
+## Versions
 
-#### Page Preview
+[CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
-#### 进度
+## Update
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/11.png" width="200" alt="11" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/12.png" width="200" alt="12" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/13.png" width="200" alt="13" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/14.png" width="200" alt="14" />
+v3.0.0 - 2020/03/22
 
-#### 条目 / 人物
+—— 新功能 ——
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/21.png" width="200" alt="21" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/22.png" width="200" alt="22" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/23.png" width="200" alt="23" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/24.png" width="200" alt="24" />
+- [x] [日志] 基本功能实现
+- [x] [我的] 我的日志, 用户日志
+- [x] [我的] 我的目录, 用户目录
+- [x] [条目] 的详情和 [帖子] 的章节内容, 添加日中翻译功能
+- [x] 打开 app 时剪贴板匹配到 bgm 链接后询问是否跳转
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/31.png" width="200" alt="31" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/32.png" width="200" alt="32" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/33.png" width="200" alt="33" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/34.png" width="200" alt="34" />
+—— 优化 ——
 
-#### 发现
+- [x] [首页] 优化不同大小的文字行高对齐
+- [x] [首页] 当条目状态改成`在看`以外后, 会自动刷新列表
+- [x] [索引] 添加更多年份月份
+- [x] [帖子] 优化楼层过长时卡顿问题
+- [x] [帖子] 部分小组需要加入了才能回复
+- [x] [帖子] 被关闭的主题不应能回复
+- [x] [设置] 更多 UI 设置, 点击水纹效果(安卓), 图片渐出动画
+- [x] [安卓] 优化点击的响应时间、图片渐变控制、页面切换流畅性
+- [x] [安卓] 应用崩溃时会报错并提示重启 (系统级别报错信息可以的话请截图发我)
+- [x] bangumi-data@0.3.8 -> 0.3.14
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/41.png" width="200" alt="41" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/42.png" width="200" alt="42" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/43.png" width="200" alt="43" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/44.png" width="200" alt="44" />
+—— 修复 ——
 
-#### 超展开
+- [x] [个人中心] 修复了登陆过期后登陆成功后返回本页面, 数据没有重新请求的问题
+- [x] [个人中心] 修复了自己的筛选标签丢失的问题
+- [x] [个人中心] 修复了方格视图条目超过 48 个之后的获取不到数据的问题
+- [x] [私聊] 修复了 bgm 表情解析错误的问题
+- [x] [吐槽] 修复了不能发新吐槽和首次载入列表不滚动在最底的问题
+- [x] [安卓] 修复了部分机型因渲染过大启动图而导致闪退的问题
+- [x] [安卓] 修复了部分机型切换页面后 UI 有概率错位的问题 (需验证)
+- [x] [安卓] 修复了切换页面左侧有一条不同颜色的线条的问题
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/51.png" width="200" alt="51" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/52.png" width="200" alt="52" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/53.png" width="200" alt="53" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/54.png" width="200" alt="54" />
+—— 小圣杯助手 v2.0.0 ——
 
-#### 时间胶囊
+- [x] [首页] 增加幻想乡刮刮乐
+- [x] [每周萌王] 列表显示优化
+- [x] [资产重组] 在醒目处显示自己献祭过的数量
+- [x] [资产重组] 修复数量输入框的 UI 问题
+- [x] [资产重组] 页面内各板块可以隐藏/显示
+- [x] [资产重组] 修复了白天模式董事会用户名黑色字的问题
+- [x] [道具列表] 增加道具使用说明
+- [x] [资金日志] 增加道具类型筛选, 道具的项也能跳转
+- [x] [拍卖推荐] 列表显示自己的持仓
+- [x] [ICO] 修复了输入框不允许输入 0 的问题
+- [x] 新增白天主题
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/61.png" width="200" alt="61" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/62.png" width="200" alt="62" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/63.png" width="200" alt="63" />
+## Page Preview
 
-#### 索引
+单独预览 [日间模式](https://github.com/czy0729/Bangumi/blob/master/web/LIGHT-MODE.MD) | [黑暗模式](https://github.com/czy0729/Bangumi/blob/master/web/DARK-MODE.MD)
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/71.png" width="200" alt="71" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/72.png" width="200" alt="72" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/73.png" width="200" alt="73" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/74.png" width="200" alt="74" />
+#### 展示用
 
-#### 空间 / 时光机
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-1.png" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/allpreview-1.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.png" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.png" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.png" />
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/81.png" width="200" alt="81" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/82.png" width="200" alt="82" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/83.png" width="200" alt="83" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/84.png" width="200" alt="84" />
+#### 基础功能
 
-#### 小圣杯 (新)
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/1.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/1.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/d-2.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/d-2.png" />
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/01.png" width="200" alt="01" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/02.png" width="200" alt="02" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/03.png" width="200" alt="03" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/04.png" width="200" alt="04" />
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/05.png" width="200" alt="05" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/06.png" width="200" alt="06" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/07.png" width="200" alt="07" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/08.png" width="200" alt="08" />
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/09.png" width="200" alt="09" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/10.png" width="200" alt="10" />
+#### 小圣杯模块
 
-#### Demo
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-1.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-1.png" />
+
+(被墙看不见图的可以复制 alt 打开)
+
+## Demo
 
 [若要在线预览, 请先安装 expo app](https://expo.io/tools)
 
@@ -106,25 +133,7 @@ v2.4.0 - 2020/01/07
 
 [expo 项目主页](https://expo.io/@a402731062/bangumi)
 
----
-
-#### PowerBy
-
-[[bangumi-api]](https://github.com/bangumi/api) 官方接口
-
-[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) 单集播放数据源
-
-[[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
-
-[[tinygrail.com]](https://tinygrail.com) 小圣杯接口
-
-[[www.ningmoe.com]](https://www.ningmoe.com) 柠萌瞬间接口
-
-[[app.anitama.net]](https://app.anitama.net) Anitama 接口
-
----
-
-#### Getting Started
+## Getting Started
 
 ** 下载 **
 

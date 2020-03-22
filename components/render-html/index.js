@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 11:13:24
+ * @Last Modified time: 2020-03-22 17:55:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,9 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { cheerio } from '@utils/html'
-import { IOS } from '@constants'
 import HTML from '../@/react-native-render-html'
 import BgmText, { bgmMap } from '../bgm-text'
+import Error from './error'
 import MaskText from './mask-text'
 import QuoteText from './quote-text'
 import LineThroughtText from './line-throught-text'
@@ -42,6 +42,16 @@ class RenderHtml extends React.Component {
     autoShowImage: false,
     onLinkPress: Function.prototype,
     onImageFallback: Function.prototype
+  }
+
+  state = {
+    error: false
+  }
+
+  componentDidCatch() {
+    this.setState({
+      error: true
+    })
   }
 
   /**
@@ -175,7 +185,7 @@ class RenderHtml extends React.Component {
             )
           }
         } catch (error) {
-          // do nothing
+          warn('RenderHtml', 'generateConfig', error)
         }
 
         return children
@@ -202,9 +212,9 @@ class RenderHtml extends React.Component {
     const { html, baseFontStyle } = this.props
     try {
       // iOS碰到过文本里巨大会遇到Maximun stack size exceeded的错误
-      if (IOS && html.length > 20000) {
-        return html
-      }
+      // if (IOS && html.length > 100000) {
+      //   return html
+      // }
 
       let _html
 
@@ -246,6 +256,9 @@ class RenderHtml extends React.Component {
     }
   }
 
+  /**
+   * @issue iOS开发遇到奇怪bug, 文字太多当lineHeight大于15, 不显示?
+   */
   get defaultBaseFontStyle() {
     return {
       fontSize: 16 + _.fontSizeAdjust,
@@ -265,6 +278,11 @@ class RenderHtml extends React.Component {
       onLinkPress,
       ...other
     } = this.props
+    const { error } = this.state
+    if (error) {
+      return <Error />
+    }
+
     return (
       <View style={style}>
         <HTML

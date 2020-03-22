@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 14:49:36
+ * @Last Modified time: 2020-03-21 20:12:56
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -11,7 +11,10 @@ import { Button } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { SAY_TINYGRAIL_ID } from '@constants'
+import { APP_ID_SAY_TINYGRAIL } from '@constants'
+
+const dataToday = ['刮刮乐', '幻想乡刮刮乐', '每周分红', '每日签到', '节日福利']
+const dataMore = ['重新授权', '人物直达', '意见反馈', '设置']
 
 function Btns(props, { $, navigation }) {
   const styles = memoStyles()
@@ -19,8 +22,8 @@ function Btns(props, { $, navigation }) {
   if (!_loaded) {
     return (
       <Button
-        style={[styles.btn, _.ml.sm]}
-        type='warning'
+        style={styles.btn}
+        styleText={styles.text}
         size='sm'
         loading={loading}
         onPress={$.doAuth}
@@ -33,53 +36,33 @@ function Btns(props, { $, navigation }) {
   return (
     <>
       <Popover
-        data={['刮刮乐', '每周分红', '每日签到']}
+        data={dataToday}
         onSelect={title => {
           setTimeout(() => {
             switch (title) {
               case '刮刮乐':
-                Alert.alert('小圣杯助手', '消费₵1000购买一张刮刮乐彩票?', [
+                $.doLottery(navigation)
+                break
+              case '幻想乡刮刮乐':
+                $.doLottery(navigation, true)
+                break
+              case '每周分红':
+                Alert.alert('警告', '确定领取每周分红? (每周日0点刷新)', [
                   {
                     text: '取消',
                     style: 'cancel'
                   },
                   {
                     text: '确定',
-                    onPress: () => $.doLottery(navigation)
+                    onPress: $.doGetBonusWeek
                   }
                 ])
                 break
-              case '每周分红':
-                Alert.alert(
-                  '警告',
-                  '领取每周分红后，将不能再领取每日奖励，确定? (每周日0点刷新)',
-                  [
-                    {
-                      text: '取消',
-                      style: 'cancel'
-                    },
-                    {
-                      text: '确定',
-                      onPress: $.doGetBonusWeek
-                    }
-                  ]
-                )
-                break
               case '每日签到':
-                Alert.alert(
-                  '警告',
-                  '领取每日签到后，将不能再领取每周分红，暂每天₵1500，确定?',
-                  [
-                    {
-                      text: '取消',
-                      style: 'cancel'
-                    },
-                    {
-                      text: '确定',
-                      onPress: $.doGetBonusDaily
-                    }
-                  ]
-                )
+                $.doGetBonusDaily()
+                break
+              case '节日福利':
+                $.doGetBonusHoliday()
                 break
               default:
                 break
@@ -88,8 +71,8 @@ function Btns(props, { $, navigation }) {
         }}
       >
         <Button
-          style={[styles.btn, _.ml.sm]}
-          type='warning'
+          style={styles.btn}
+          styleText={styles.text}
           size='sm'
           loading={loadingBonus}
         >
@@ -97,7 +80,7 @@ function Btns(props, { $, navigation }) {
         </Button>
       </Popover>
       <Popover
-        data={['重新授权', '人物直达', '意见反馈', '设置']}
+        data={dataMore}
         onSelect={title => {
           setTimeout(() => {
             switch (title) {
@@ -109,7 +92,7 @@ function Btns(props, { $, navigation }) {
                 break
               case '意见反馈':
                 navigation.push('Say', {
-                  id: SAY_TINYGRAIL_ID
+                  id: APP_ID_SAY_TINYGRAIL
                 })
                 break
               case '设置':
@@ -122,8 +105,8 @@ function Btns(props, { $, navigation }) {
         }}
       >
         <Button
-          style={[styles.btn, _.ml.sm]}
-          type='warning'
+          style={styles.btn}
+          styleText={styles.text}
           size='sm'
           loading={loading}
         >
@@ -144,7 +127,11 @@ export default observer(Btns)
 const memoStyles = _.memoStyles(_ => ({
   btn: {
     width: 72,
-    backgroundColor: _.colorTinygrailIcon,
-    borderColor: _.colorTinygrailIcon
+    marginLeft: _.sm,
+    backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
+    borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
+  },
+  text: {
+    color: _.tSelect(_.__colorPlain__, _.colorTinygrailPlain)
   }
 }))

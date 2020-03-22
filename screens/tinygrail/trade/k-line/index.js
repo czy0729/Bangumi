@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 17:14:51
+ * @Last Modified time: 2020-03-20 23:16:41
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -11,9 +11,11 @@ import { Loading, Text } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
+import { HOST_CDN } from '@constants/cdn'
 import html from './html'
 import { getKData } from './utils'
 
+const H_WEBVIEW = _.window.height * 0.64
 let renderCount = 0
 
 export default
@@ -52,9 +54,28 @@ class KLine extends React.Component {
     }
   }
 
+  get coverStyle() {
+    return {
+      upColor: _.colorBid,
+      downColor: _.colorAsk,
+      bgColor: _.colorTinygrailBg,
+      ma5Color: _.colorTinygrailPrimary,
+      ma10Color: '#da6ee8',
+      ma20Color: _.colorWarning,
+      ma30Color: _.colorMain,
+      maTextColor: _.colorTinygrailText,
+      dateTextColor: _.colorTinygrailText,
+      axisNumColor: _.colorTinygrailText,
+      zoomColor: _.colorTinygrailIcon,
+      zoomTextColor: _.colorTinygrailText,
+      zoomBorderColor: _.colorTinygrailIcon
+    }
+  }
+
   render() {
     const { $ } = this.context
     const { loading, distance } = $.state
+    const { _webview } = tinygrailStore.state
     return (
       <View style={this.styles.chart}>
         {!!$.kline._loaded && (
@@ -66,10 +87,10 @@ class KLine extends React.Component {
             source={{
               html: html(
                 JSON.stringify(getKData($.kline.data, distance)),
-                _.colorBid,
-                _.colorAsk
+                this.coverStyle,
+                _
               ),
-              baseUrl: 'https://cdn.jsdelivr.net'
+              baseUrl: HOST_CDN
             }}
             bounces={false}
             scrollEnabled={false}
@@ -77,9 +98,9 @@ class KLine extends React.Component {
             onError={this.onError}
           />
         )}
-        {(!tinygrailStore.state._webview || loading) && (
+        {(!_webview || loading) && (
           <Loading style={this.styles.loading} color={_.colorTinygrailText}>
-            <Text style={[this.styles.text, _.mt.md]} size={12}>
+            <Text style={_.mt.md} type='tinygrailText' size={12}>
               K线图加载中...
             </Text>
           </Loading>
@@ -95,7 +116,7 @@ class KLine extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   chart: {
-    height: _.window.height * 0.64,
+    height: H_WEBVIEW,
     paddingTop: _.sm,
     backgroundColor: _.colorTinygrailBg,
     borderBottomWidth: _.sm,
@@ -103,15 +124,12 @@ const memoStyles = _.memoStyles(_ => ({
     overflow: 'hidden'
   },
   webview: {
-    height: _.window.height * 0.64,
+    height: H_WEBVIEW,
     backgroundColor: _.colorTinygrailBg
   },
   loading: {
     ...StyleSheet.absoluteFill,
     zIndex: 100,
     backgroundColor: _.colorTinygrailBg
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))

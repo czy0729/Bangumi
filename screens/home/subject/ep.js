@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 21:21:17
+ * @Last Modified time: 2020-03-19 10:46:13
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Text } from '@components'
-import { SectionTitle, Eps, IconReverse, IconTouchable } from '@screens/_'
+import { Text, Iconfont } from '@components'
+import { SectionTitle, Eps, IconReverse, Popover } from '@screens/_'
 import { _ } from '@stores'
 import BookEp from './book-ep'
 import Disc from './disc'
+
+const layoutWidth = parseInt(_.window.width - _.wind) - 1
 
 function Ep({ style }, { $, navigation }) {
   // 书籍和游戏没有ep
@@ -28,16 +30,19 @@ function Ep({ style }, { $, navigation }) {
     return <Disc style={style} />
   }
 
-  const { eps } = $.subjectEp
+  const styles = memoStyles()
   const { epsReverse } = $.state
   const canPlay = $.onlinePlayActionSheetData.length >= 2
+  const showPlay = $.showOnlinePlay && canPlay
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
         right={
           <>
-            {['动画', '三次元'].includes($.type) && (
-              <IconTouchable name='search' onPress={$.jumpXunBo} />
+            {$.showOnlinePlay && (
+              <Popover data={$.onlineOrigins} onSelect={$.onlinePlaySelected}>
+                <Iconfont style={styles.iconPlay} name='xin-fan' size={16} />
+              </Popover>
             )}
             <IconReverse
               style={_.mr.sm}
@@ -48,23 +53,24 @@ function Ep({ style }, { $, navigation }) {
         }
       >
         章节
-        {$.showOnlinePlay && canPlay && (
+        {showPlay && (
           <Text size={12} type='sub' lineHeight={24}>
             {' '}
-            (可播放)
+            可播放
           </Text>
         )}
       </SectionTitle>
       <Eps
         style={_.mt.md}
+        layoutWidth={layoutWidth}
         marginRight={_.wind}
         advance
         pagination
         login={$.isLogin}
         subjectId={$.params.subjectId}
-        eps={epsReverse ? eps.reverse() : eps}
+        eps={epsReverse ? $.eps.reverse() : $.eps}
         userProgress={$.userProgress}
-        canPlay={$.showOnlinePlay && canPlay}
+        canPlay={showPlay}
         onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
         onLongPress={item => $.doEpsLongPress(item)}
       />
@@ -79,9 +85,13 @@ Ep.contextTypes = {
 
 export default observer(Ep)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     minHeight: 146,
-    marginLeft: _.wind
+    marginLeft: _.wind,
+    backgroundColor: _.colorPlain
+  },
+  iconPlay: {
+    paddingHorizontal: _.sm
   }
-})
+}))

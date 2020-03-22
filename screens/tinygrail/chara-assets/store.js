@@ -2,23 +2,29 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:20:33
+ * @Last Modified time: 2020-02-29 11:25:10
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { toFixed } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
   SORT_GX,
+  SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
   SORT_CGS,
+  SORT_GDZC,
   SORT_CCJZ,
   SORT_HYD,
   SORT_SCJ,
   SORT_FHL,
   SORT_DQJ,
   SORT_DQZD,
-  SORT_XFJL
+  SORT_XFJL,
+  SORT_DJ
 } from '../_/utils'
 
 export const tabs = [
@@ -36,15 +42,20 @@ export const tabs = [
   }
 ]
 export const sortDS = [
-  SORT_GX,
-  SORT_CGS,
-  SORT_CCJZ,
   SORT_HYD,
-  SORT_SCJ,
-  SORT_FHL,
+  SORT_CGS,
+  SORT_GDZC,
+  SORT_GX,
+  SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
   SORT_DQJ,
+  SORT_SCJ,
   SORT_DQZD,
-  SORT_XFJL
+  SORT_DJ,
+  SORT_CCJZ,
+  SORT_XFJL,
+  SORT_FHL
 ]
 const namespace = 'ScreenTinygrailCharaAssets'
 
@@ -53,6 +64,7 @@ export default class ScreenTinygrailCharaAssets extends store {
     page: 0,
     sort: '',
     direction: '', // void | down | up
+    go: '卖出',
     _loaded: false
   })
 
@@ -105,7 +117,7 @@ export default class ScreenTinygrailCharaAssets extends store {
         '小圣杯助手',
         `本次刮刮乐：${items
           .map(item => `${item.name}x${item.num}`)
-          .join('，')}，价值₵${total}`,
+          .join('，')}，价值₵${toFixed(total, 2)}`,
         [
           {
             text: '知道了'
@@ -148,6 +160,17 @@ export default class ScreenTinygrailCharaAssets extends store {
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)
+  }
+
+  onSelectGo = title => {
+    t('我的持仓.设置前往', {
+      title
+    })
+
+    this.setState({
+      go: title
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   tabChangeCallback = page => {

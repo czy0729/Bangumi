@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 19:53:14
+ * @Last Modified time: 2020-01-22 02:18:05
  */
 import React from 'react'
-import { ScrollView, View, Alert } from 'react-native'
+import { StyleSheet, ScrollView, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { Pagination, IconHeader } from '@screens/_'
 import { _ } from '@stores'
@@ -94,11 +94,7 @@ class Catalog extends React.Component {
         {this.renderPaganation()}
         {show && (
           <>
-            <View
-              style={{
-                minHeight: _.window.height
-              }}
-            >
+            <View style={styles.list}>
               {$.catalog.list.map(item => (
                 <Item key={item.id} {...item} />
               ))}
@@ -110,3 +106,9 @@ class Catalog extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  list: {
+    minHeight: _.window.height
+  }
+})

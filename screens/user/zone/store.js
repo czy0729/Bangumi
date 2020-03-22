@@ -4,12 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 20:18:23
+ * @Last Modified time: 2020-02-03 19:46:12
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, usersStore, timelineStore } from '@stores'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
+import { HTMLDecode } from '@utils/html'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
 
@@ -161,6 +162,16 @@ export default class ScreenZone extends store {
       }
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  toUser = navigation => {
+    const { _name } = this.params
+    const { avatar = {}, nickname, username } = this.usersInfo
+    navigation.push('User', {
+      userId: username,
+      _name: HTMLDecode(nickname || _name),
+      _image: avatar.large
+    })
   }
 
   // -------------------- action --------------------

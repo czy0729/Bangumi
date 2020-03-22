@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-04-30 18:47:12
+ * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:44:45
+ * @Last Modified time: 2020-03-07 15:05:23
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -15,14 +15,10 @@ import { getTimestamp, simpleTime, open } from '@utils'
 import { appNavigate } from '@utils/app'
 import { HOST, EVENT } from '@constants'
 
-const avatarWidth = 28
+const avatarWidth = 32
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
-const baseFontStyle = {
-  fontSize: 14 + _.fontSizeAdjust,
-  lineHeight: 22
-}
 
 function Item(
   {
@@ -46,6 +42,10 @@ function Item(
   { $, navigation }
 ) {
   const styles = memoStyles()
+  const baseFontStyle = {
+    fontSize: 15 + _.fontSizeAdjust,
+    lineHeight: 22
+  }
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   const isFriend = $.myFriendsMap[userId]
@@ -58,7 +58,6 @@ function Item(
 
   const { _url } = $.params
   const url = _url || `${HOST}/rakuen/topic/${$.topicId}`
-
   return (
     <Flex
       style={[
@@ -80,29 +79,34 @@ function Item(
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>
           <Flex.Item>
-            <Text size={12}>
+            <Text>
               {userName}
               {isAuthor && (
-                <Text type='main' size={12}>
+                <Text type='main' size={12} lineHeight={14}>
                   {' '}
-                  [作者]
+                  作者
                 </Text>
               )}
-              {isFriend && (
-                <Text type='warning' size={12}>
+              {isFriend && !isAuthor && (
+                <Text type='warning' size={12} lineHeight={14}>
                   {' '}
-                  [好友]
+                  好友
                 </Text>
               )}
             </Text>
           </Flex.Item>
-          <Text style={[styles.time, _.ml.md]} type='sub' size={12}>
+          <Text
+            style={[styles.time, _.ml.md]}
+            type='sub'
+            size={12}
+            lineHeight={14}
+          >
             {floor} / {simpleTime(time)}
           </Text>
         </Flex>
         {!!userSign && (
-          <Text style={styles.sign} type='sub' size={12} numberOfLines={2}>
-            {userSign}
+          <Text style={styles.sign} type='sub' size={12} numberOfLines={1}>
+            {userSign.slice(1, userSign.length - 1)}
           </Text>
         )}
         <RenderHtml
@@ -176,29 +180,34 @@ function Item(
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
                     <Flex.Item>
-                      <Text size={12}>
+                      <Text size={14}>
                         {item.userName}
                         {isAuthor && (
-                          <Text type='main' size={12}>
+                          <Text type='main' size={12} lineHeight={14}>
                             {' '}
-                            [作者]
+                            作者
                           </Text>
                         )}
-                        {isLayer && (
-                          <Text type='primary' size={12}>
+                        {isFriend && !isAuthor && (
+                          <Text type='warning' size={12} lineHeight={14}>
                             {' '}
-                            [层主]
+                            好友
                           </Text>
                         )}
-                        {isFriend && (
-                          <Text type='warning' size={12}>
+                        {isLayer && !isAuthor && !isFriend && (
+                          <Text type='primary' size={12} lineHeight={14}>
                             {' '}
-                            [好友]
+                            层主
                           </Text>
                         )}
                       </Text>
                     </Flex.Item>
-                    <Text style={[styles.time, _.ml.md]} type='sub' size={12}>
+                    <Text
+                      style={[styles.time, _.ml.md]}
+                      type='sub'
+                      size={12}
+                      lineHeight={14}
+                    >
                       {item.floor} / {simpleTime(item.time)}
                     </Text>
                   </Flex>
@@ -282,7 +291,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   itemNew: {
-    backgroundColor: _.select(_.colorMainLight, 'rgb(59, 48 ,51)')
+    backgroundColor: _.colorMainLight
   },
   itemJump: {
     borderWidth: 2,
@@ -297,7 +306,8 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind
   },
   sign: {
-    marginTop: _.xs
+    marginTop: _.xs,
+    opacity: _.select(1, 0.64)
   },
   border: {
     borderTopColor: _.colorBorder,
@@ -314,15 +324,12 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.md
   },
   reply: {
-    // position: 'absolute',
-    // right: 0,
-    // bottom: 0,
     padding: _.sm,
     marginRight: -_.sm,
     marginBottom: -_.sm,
-    opacity: 0.64
+    opacity: _.select(1, 0.64)
   },
   time: {
-    opacity: 0.5
+    opacity: _.select(1, 0.64)
   }
 }))

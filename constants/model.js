@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 13:41:19
+ * @Last Modified time: 2020-02-16 10:57:49
  */
 class Model {
   constructor(data) {
@@ -348,6 +348,34 @@ export const MODEL_SEARCH_LEGACY = new Model([
   }
 ])
 
+// 设置 - 启动页面
+export const MODEL_INITIAL_PAGE = new Model([
+  {
+    label: '进度',
+    value: 'Home'
+  },
+  {
+    label: '发现',
+    value: 'Discovery'
+  },
+  {
+    label: '时间胶囊',
+    value: 'Timeline'
+  },
+  {
+    label: '超展开',
+    value: 'Rakuen'
+  },
+  {
+    label: '我的',
+    value: 'User'
+  },
+  {
+    label: '小圣杯',
+    value: 'Tinygrail'
+  }
+])
+
 // 设置 - 图片质量
 export const MODEL_SETTING_QUALITY = new Model([
   {
@@ -365,6 +393,62 @@ export const MODEL_SETTING_QUALITY = new Model([
   {
     label: '低质量',
     value: 'mini'
+  }
+])
+
+// 设置 - 字号
+export const MODEL_SETTING_FONTSIZEADJUST = new Model([
+  {
+    label: '小',
+    value: '-1'
+  },
+  {
+    label: '标准',
+    value: '0'
+  },
+  {
+    label: '大',
+    value: '+1'
+  },
+  {
+    label: '超大',
+    value: '+2'
+  },
+  {
+    label: '巨无霸',
+    value: '+4'
+  }
+])
+
+// 设置 - 切页动画
+export const MODEL_SETTING_TRANSITION = new Model([
+  {
+    label: '水平',
+    value: 'horizontal'
+  },
+  {
+    label: '垂直',
+    value: 'vertical'
+  }
+])
+
+// 超展开设置 - 切页动画
+export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
+  {
+    label: '右边',
+    value: 'right'
+  },
+  {
+    label: '左边',
+    value: 'left'
+  },
+  {
+    label: '底部',
+    value: 'bottom'
+  },
+  {
+    label: '隐藏',
+    value: 'none'
   }
 ])
 

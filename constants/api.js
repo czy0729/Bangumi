@@ -3,14 +3,19 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:28:07
+ * @Last Modified time: 2020-03-21 16:42:48
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
 const TINYGRAIL_LIMIT = 150
-const TINYGRAIL_START = '2019-12-06T00:00:00+08:00'
+
+/**
+ * @todo correct
+ */
+const d = new Date()
+const TINYGRAIL_START = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}T00:00:00+08:00`
 
 /**
  * oauth获取access_token
@@ -225,18 +230,20 @@ export const API_TINYGRAIL_USER_CHARA = monoId =>
  * @param {*} monoId
  * @param {*} price
  * @param {*} amount
+ * @param {*} ice    冰山委托
  */
-export const API_TINYGRAIL_BID = (monoId, price, amount) =>
-  `${API_HOST_TINYGRAIL}/api/chara/bid/${monoId}/${price}/${amount}`
+export const API_TINYGRAIL_BID = (monoId, price, amount, ice = false) =>
+  `${API_HOST_TINYGRAIL}/api/chara/bid/${monoId}/${price}/${amount}/${ice}`
 
 /**
  * 卖出
  * @param {*} monoId
  * @param {*} price
  * @param {*} amount
+ * @param {*} ice    冰山委托
  */
-export const API_TINYGRAIL_ASK = (monoId, price, amount) =>
-  `${API_HOST_TINYGRAIL}/api/chara/ask/${monoId}/${price}/${amount}`
+export const API_TINYGRAIL_ASK = (monoId, price, amount, ice = false) =>
+  `${API_HOST_TINYGRAIL}/api/chara/ask/${monoId}/${price}/${amount}/${ice}`
 
 /**
  * 取消买入
@@ -295,7 +302,7 @@ export const API_TINYGRAIL_JOIN = (icoId, amount) =>
  * @param {*} monoId
  */
 export const API_TINYGRAIL_USERS = monoId =>
-  `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/10`
+  `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/50`
 
 /**
  * 股息预测
@@ -324,22 +331,30 @@ export const API_TINYGRAIL_TEMPLE = hash =>
 
 /**
  * 最近圣殿
+ * @param {*} page
+ * @param {*} limit
  */
-export const API_TINYGRAIL_TEMPLE_LAST = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/temple/last/1/36`
+export const API_TINYGRAIL_TEMPLE_LAST = (page = 1, limit = 24) =>
+  `${API_HOST_TINYGRAIL}/api/chara/temple/last/${page}/${limit}`
 
 /**
- * 司法刮刮乐
+ * 环保刮刮乐
  */
 export const API_TINYGRAIL_SCRATCH = () =>
   `${API_HOST_TINYGRAIL}/api/event/scratch/bonus`
+
+/**
+ * 幻想乡刮刮乐
+ */
+export const API_TINYGRAIL_SCRATCH2 = () =>
+  `${API_HOST_TINYGRAIL}/api/event/scratch/bonus2/true`
 
 /**
  * 可拍卖信息
  * @param {*} monoId
  */
 export const API_TINYGRAIL_VALHALL_CHARA = monoId =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/${monoId}/valhalla@tinygrail.com/false`
+  `${API_HOST_TINYGRAIL}/api/chara/user/${monoId}/tinygrail/false`
 
 /**
  * 英灵殿
@@ -347,7 +362,7 @@ export const API_TINYGRAIL_VALHALL_CHARA = monoId =>
  * @param {*} limit
  */
 export const API_TINYGRAIL_VALHALL_LIST = (page, limit = 20) =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/chara/valhalla@tinygrail.com/${page}/${limit}`
+  `${API_HOST_TINYGRAIL}/api/chara/user/chara/tinygrail/${page}/${limit}`
 
 /**
  * 上周拍卖结果
@@ -355,6 +370,14 @@ export const API_TINYGRAIL_VALHALL_LIST = (page, limit = 20) =>
  */
 export const API_TINYGRAIL_AUCTION_LIST = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/auction/list/${monoId}/1`
+
+/**
+ * 本周竞拍
+ * @method POST
+ * @param [monoId]
+ */
+export const API_TINYGRAIL_AUCTION_STATUS = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/auction/list`
 
 /**
  * 拍卖
@@ -381,6 +404,13 @@ export const API_TINYGRAIL_MY_AUCTION_LIST = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/200`
 
 /**
+ * 取消竞拍
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_AUCTION_CANCEL = id =>
+  `${API_HOST_TINYGRAIL}/api/chara/auction/cancel/${id}`
+
+/**
  * 每周分红
  */
 export const API_TINYGRAIL_BONUS = () =>
@@ -391,3 +421,29 @@ export const API_TINYGRAIL_BONUS = () =>
  */
 export const API_TINYGRAIL_BONUS_DAILY = () =>
   `${API_HOST_TINYGRAIL}/api/event/bangumi/bonus/daily`
+
+/**
+ * 节日奖励
+ */
+export const API_TINYGRAIL_BONUS_HOLIDAY = () =>
+  `${API_HOST_TINYGRAIL}/api/event/holiday/bonus`
+
+/**
+ * 我的道具
+ */
+export const API_TINYGRAIL_ITEMS = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/item/0/1/50`
+
+/**
+ * 使用道具
+ * @param {*} monoId
+ * @param {*} type
+ */
+export const API_TINYGRAIL_MAGIC = (monoId, type = 'chaos') =>
+  `${API_HOST_TINYGRAIL}/api/magic/${type}/${monoId}`
+
+/**
+ * 每周萌王
+ */
+export const API_TINYGRAIL_TOP_WEEK = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/topweek`

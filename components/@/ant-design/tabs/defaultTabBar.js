@@ -295,7 +295,7 @@ export class DefaultTabBar extends React.PureComponent {
                           style={[
                             tabBarUnderlineStyle,
                             {
-                              width: 24,
+                              width: 16,
                               borderRadius: 4
                             }
                           ]}

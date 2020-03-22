@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 19:12:19
+ * @Last Modified time: 2020-01-23 19:53:08
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 
 export default
@@ -31,6 +32,7 @@ class List extends React.Component {
       this.setState({
         hide: true
       })
+
       setTimeout(() => {
         this.setState({
           hide: false
@@ -39,8 +41,42 @@ class List extends React.Component {
     }
   }
 
-  render() {
+  renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
+    const { list } = $.state
+    const isDo = $.type === 'do'
+    const isOnHold = $.type === 'on_hold'
+    const isDropped = $.type === 'dropped'
+    const event = {
+      id: '我的.跳转'
+    }
+
+    if (list) {
+      return (
+        <ItemCollections
+          navigation={navigation}
+          index={index}
+          isDo={isDo}
+          isOnHold={isOnHold}
+          isDropped={isDropped}
+          event={event}
+          {...item}
+        />
+      )
+    }
+    return (
+      <ItemCollectionsGrid
+        navigation={navigation}
+        index={index}
+        isOnHold={isOnHold}
+        event={event}
+        {...item}
+      />
+    )
+  }
+
+  render() {
+    const { $ } = this.context
     const { subjectType, title, ...other } = this.props
     const { hide } = this.state
     if (hide) {
@@ -57,41 +93,15 @@ class List extends React.Component {
 
     const { list } = $.state
     const numColumns = list ? undefined : 4
-    const isDo = $.type === 'do'
-    const isOnHold = $.type === 'on_hold'
-    const isDropped = $.type === 'dropped'
-    const event = {
-      id: '我的.跳转'
-    }
     return (
       <ListView
         key={String(numColumns)}
-        numColumns={numColumns}
+        keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
-        keyExtractor={item => item.id}
         data={userCollections}
-        renderItem={({ item, index }) =>
-          list ? (
-            <ItemCollections
-              navigation={navigation}
-              index={index}
-              isDo={isDo}
-              isOnHold={isOnHold}
-              isDropped={isDropped}
-              event={event}
-              {...item}
-            />
-          ) : (
-            <ItemCollectionsGrid
-              navigation={navigation}
-              index={index}
-              isOnHold={isOnHold}
-              event={event}
-              {...item}
-            />
-          )
-        }
-        onHeaderRefresh={() => $.fetchUserCollections(true)}
+        numColumns={numColumns}
+        renderItem={this.renderItem}
+        onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchUserCollections}
         {...other}
       />

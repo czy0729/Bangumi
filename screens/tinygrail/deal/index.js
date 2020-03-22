@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 02:21:49
+ * @Last Modified time: 2020-03-20 00:33:32
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -85,14 +85,7 @@ class TinygrailDeal extends React.Component {
             <Flex.Item>
               <Form />
             </Flex.Item>
-            <View
-              style={[
-                _.ml.wind,
-                {
-                  width: 160
-                }
-              ]}
-            >
+            <View style={this.styles.depth}>
               <Depth />
             </View>
           </Flex>
@@ -111,5 +104,9 @@ class TinygrailDeal extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   dark: {
     backgroundColor: _.colorTinygrailContainer
+  },
+  depth: {
+    width: 176,
+    marginLeft: _.sm
   }
 }))

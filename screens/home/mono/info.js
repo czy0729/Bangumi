@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 16:05:06
+ * @Last Modified time: 2020-03-01 17:49:09
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,37 +23,26 @@ import { _ } from '@stores'
 import { getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
-import TinygrailUsers from './tinygrail-users'
 import Voice from './voice'
 import Works from './works'
 import Jobs from './jobs'
 
-const maxSize = _.window.width - _.wind * 2
+const maxSize = (_.window.width - 2 * _.wind) * 0.5
 
 function Info(props, { $, navigation }) {
-  const {
-    name,
-    nameCn,
-    cover,
-    info,
-    detail,
-    collectUrl,
-    eraseCollectUrl
-  } = $.mono
-  const { _name, _jp, _image } = $.params
-  const _cover = cover || getCoverLarge(_image)
+  const { collectUrl, eraseCollectUrl } = $.mono
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
-      <View style={[_.container.inner, styles.container]}>
+      <View style={styles.container}>
         <Flex align='start'>
           <Flex.Item>
             <Flex align='baseline'>
               <Text size={20} bold>
-                {name || _jp}
+                {$.jp}
                 <Text type='sub' lineHeight={20}>
                   {' '}
-                  {nameCn || _name}
+                  {$.cn}
                 </Text>
               </Text>
             </Flex>
@@ -79,10 +68,10 @@ function Info(props, { $, navigation }) {
             </Touchable>
           )}
         </Flex>
-        {!!_cover && (
+        {!!$.cover && (
           <Flex style={_.mt.md} justify='center'>
             <Image
-              src={_cover}
+              src={getCoverLarge($.cover)}
               autoSize={maxSize}
               border
               shadow
@@ -97,16 +86,15 @@ function Info(props, { $, navigation }) {
             />
           </Flex>
         )}
-        <TinygrailUsers style={_.mt.lg} />
-        {!!info && <RenderHtml style={[styles.info, _.mt.md]} html={info} />}
-        {!!detail && <RenderHtml style={_.mt.lg} html={detail} />}
+        {!!$.info && <RenderHtml style={styles.info} html={$.info} />}
+        {!!$.detail && <RenderHtml style={_.mt.lg} html={$.detail} />}
       </View>
       <Divider />
       <Voice style={_.mt.md} />
       <Works style={_.mt.md} />
       <Jobs style={_.mt.md} />
       <SectionTitle
-        style={[styles.title, _.mt.lg, _.mb.md]}
+        style={styles.title}
         right={
           <Touchable
             onPress={() => {
@@ -118,7 +106,7 @@ function Info(props, { $, navigation }) {
 
               const type = $.monoId.includes('character/') ? 'crt' : 'prsn'
               navigation.push('Topic', {
-                topicId: `${type}/${$.monoId.match(/\d+/g)[0]}`
+                topicId: `${type}/${($.monoId || '').match(/\d+/g)[0]}`
               })
             }}
           >
@@ -129,7 +117,7 @@ function Info(props, { $, navigation }) {
           </Touchable>
         }
       >
-        吐槽箱
+        吐槽
       </SectionTitle>
     </>
   )
@@ -144,15 +132,19 @@ export default observer(Info)
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: _.window.height * 0.56
+    minHeight: _.window.height * 0.56,
+    ..._.container.inner
   },
   loading: {
     minHeight: _.window.height * 0.48
   },
   info: {
-    paddingHorizontal: _.wind
+    paddingHorizontal: _.xs,
+    ..._.mt.md
   },
   title: {
-    paddingHorizontal: _.wind
+    paddingHorizontal: _.wind,
+    ..._.mt.lg,
+    ..._.mb.md
   }
 })

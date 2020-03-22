@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 17:48:19
+ * @Last Modified time: 2020-03-22 22:38:56
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -13,11 +13,12 @@ import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import {
+  HOST,
   APP_ID,
   APP_SECRET,
-  OAUTH_REDIRECT_URL,
+  URL_OAUTH_REDIRECT,
   LIST_EMPTY,
-  USERID_TOURIST
+  APP_USERID_TOURIST
 } from '@constants'
 import {
   API_ACCESS_TOKEN,
@@ -29,7 +30,16 @@ import {
   API_USER_COLLECTIONS,
   API_USER_COLLECTIONS_STATUS
 } from '@constants/api'
-import { HTML_USERS, HTML_ACTION_ERASE_COLLECTION } from '@constants/html'
+import {
+  HTML_USERS,
+  HTML_ACTION_ERASE_COLLECTION,
+  HTML_PM,
+  HTML_PM_OUT,
+  HTML_PM_DETAIL,
+  HTML_PM_CREATE,
+  HTML_PM_PARAMS
+} from '@constants/html'
+import RakuenStore from '../rakuen'
 import {
   NAMESPACE,
   DEFAULT_SCOPE,
@@ -37,7 +47,7 @@ import {
   INIT_USER_INFO,
   INIT_USER_COOKIE
 } from './init'
-import RakuenStore from '../rakuen'
+import { cheerioPM, cheerioPMDetail, cheerioPMParams } from './common'
 
 class Store extends store {
   state = observable({
@@ -96,20 +106,48 @@ class Store extends store {
      */
     users: {
       // [userId]: ''
-    }
+    },
+
+    /**
+     * 短信
+     */
+    pmIn: LIST_EMPTY,
+    pmOut: LIST_EMPTY,
+
+    /**
+     * 短信详情
+     */
+    pmDetail: {
+      // [id]: LIST_EMPTY
+    },
+
+    /**
+     * 新短信参数
+     */
+    pmParams: {
+      // [userId]: {}
+    },
+
+    /**
+     * 登出地址
+     */
+    logout: ''
   })
 
   init = async () => {
-    await this.readStorageThenSetState(
-      {
-        accessToken: INIT_ACCESS_TOKEN,
-        userInfo: INIT_USER_INFO,
-        userCookie: INIT_USER_COOKIE,
-        userCollection: LIST_EMPTY,
-        userProgress: {},
-        usersInfo: {},
-        userCollectionsStatus: {}
-      },
+    await this.readStorage(
+      [
+        'accessToken',
+        'userInfo',
+        'userCookie',
+        'userCollection',
+        'userProgress',
+        'usersInfo',
+        'userCollectionsStatus',
+        'pmIn',
+        'pmOut',
+        'pmDetail'
+      ],
       NAMESPACE
     )
 
@@ -206,6 +244,37 @@ class Store extends store {
   }
 
   /**
+   * 短信
+   */
+  @computed get pmIn() {
+    return this.state.pmIn
+  }
+  @computed get pmOut() {
+    return this.state.pmOut
+  }
+
+  /**
+   * 有新短信
+   */
+  @computed get hasNewPM() {
+    return this.state.pmIn.list.findIndex(item => item.new) !== -1
+  }
+
+  /**
+   * 短信详情
+   */
+  pmDetail(id) {
+    return computed(() => this.state.pmDetail[id] || LIST_EMPTY).get()
+  }
+
+  /**
+   * 新短信参数
+   */
+  pmParams(userId) {
+    return computed(() => this.state.pmParams[userId] || {}).get()
+  }
+
+  /**
    * 取自己用户Id
    */
   @computed get myUserId() {
@@ -240,8 +309,8 @@ class Store extends store {
    * 获取授权信息
    * @param {*} code 回调获取的 code
    */
-  fetchAccessToken(code) {
-    return this.fetch(
+  fetchAccessToken = code =>
+    this.fetch(
       {
         method: 'POST',
         url: API_ACCESS_TOKEN(),
@@ -250,7 +319,7 @@ class Store extends store {
           client_id: APP_ID,
           client_secret: APP_SECRET,
           code,
-          redirect_uri: OAUTH_REDIRECT_URL
+          redirect_uri: URL_OAUTH_REDIRECT
         },
         info: 'access_token'
       },
@@ -260,14 +329,13 @@ class Store extends store {
         namespace: NAMESPACE
       }
     )
-  }
 
   /**
    * 用户信息
    * @param {*} userId
    */
-  fetchUserInfo(userId = this.myUserId) {
-    return this.fetch(
+  fetchUserInfo = (userId = this.myUserId) =>
+    this.fetch(
       {
         url: API_USER_INFO(userId),
         info: '用户信息'
@@ -278,14 +346,13 @@ class Store extends store {
         namespace: NAMESPACE
       }
     )
-  }
 
   /**
    * 获取某人的在看收藏
    * @param {*} userId
    */
-  fetchUserCollection(userId = this.myUserId) {
-    return this.fetch(
+  fetchUserCollection = (userId = this.myUserId) =>
+    this.fetch(
       {
         url: `${API_USER_COLLECTION(userId)}?cat=all_watching`,
         info: '在看收藏'
@@ -297,14 +364,13 @@ class Store extends store {
         namespace: NAMESPACE
       }
     )
-  }
 
   /**
    * 获取某人的收视进度
    * @param {*} subjectId
    * @param {*} userId
    */
-  async fetchUserProgress(subjectId, userId = this.myUserId) {
+  fetchUserProgress = async (subjectId, userId = this.myUserId) => {
     const config = {
       url: API_USER_PROGRESS(userId),
       data: {},
@@ -358,7 +424,10 @@ class Store extends store {
    * @param {*} scope
    * @param {*} userId
    */
-  async fetchUserCollections(scope = DEFAULT_SCOPE, userId = this.myUserId) {
+  fetchUserCollections = async (
+    scope = DEFAULT_SCOPE,
+    userId = this.myUserId
+  ) => {
     const config = {
       url: API_USER_COLLECTIONS(scope, userId),
       data: {
@@ -401,8 +470,8 @@ class Store extends store {
    * 获取某用户信息
    * @param {*} userId
    */
-  fetchUsersInfo(userId = this.myUserId) {
-    return this.fetch(
+  fetchUsersInfo = (userId = this.myUserId) =>
+    this.fetch(
       {
         url: API_USER_INFO(userId),
         info: '某用户信息'
@@ -413,14 +482,13 @@ class Store extends store {
         namespace: NAMESPACE
       }
     )
-  }
 
   /**
    * 获取用户收藏统计
    * @param {*} userId
    */
-  fetchUserCollectionsStatus(userId = this.myUserId) {
-    return this.fetch(
+  fetchUserCollectionsStatus = (userId = this.myUserId) =>
+    this.fetch(
       {
         url: API_USER_COLLECTIONS_STATUS(userId),
         info: '用户收藏统计'
@@ -431,13 +499,12 @@ class Store extends store {
         namespace: NAMESPACE
       }
     )
-  }
 
   /**
    * 用户介绍
    * @param {*} userId
    */
-  async fetchUsers({ userId }) {
+  fetchUsers = async ({ userId } = {}) => {
     // -------------------- 请求HTML --------------------
     const raw = await fetchHTML({
       url: `!${HTML_USERS(userId)}`
@@ -461,26 +528,125 @@ class Store extends store {
     return Promise.resolve(users)
   }
 
+  /**
+   * 短信
+   * @param {*} key pmIn | pmOut
+   */
+  fetchPM = async (refresh, key = 'pmIn') => {
+    const { list, pagination } = this[key]
+    let page
+    if (refresh) {
+      page = 1
+    } else {
+      page = pagination.page + 1
+    }
+
+    const HTML = await fetchHTML({
+      url: key === 'pmOut' ? HTML_PM_OUT(page) : HTML_PM(page)
+    })
+    const data = {
+      list: refresh ? cheerioPM(HTML) : [...list, ...cheerioPM(HTML)],
+      pagination: {
+        page,
+        pageTotal: 100
+      },
+      _loaded: getTimestamp()
+    }
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 短信详情
+   */
+  fetchPMDetail = async ({ id }) => {
+    const raw = await fetchHTML({
+      url: HTML_PM_DETAIL(id),
+      raw: true
+    })
+
+    // 这个接口会30
+    const { url } = raw
+    let HTML
+    if (url.includes(id)) {
+      HTML = await raw.text()
+    } else {
+      HTML = await fetchHTML({
+        url: HTML_PM_DETAIL(url.match(/\d+/g)[0])
+      })
+    }
+
+    const key = 'pmDetail'
+    const data = {
+      ...cheerioPMDetail(HTML),
+      pagination: {
+        page: 1,
+        pageTotal: 1
+      },
+      _loaded: getTimestamp()
+    }
+    this.setState({
+      [key]: {
+        [id]: data
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 新短信参数
+   */
+  fetchPMParams = async ({ userId }) => {
+    const HTML = await fetchHTML({
+      url: HTML_PM_PARAMS(userId)
+    })
+    const key = 'pmParams'
+    const data = {
+      ...cheerioPMParams(HTML),
+      _loaded: getTimestamp()
+    }
+    this.setState({
+      [key]: {
+        [userId]: data
+      }
+    })
+    return Promise.resolve(data)
+  }
+
   // -------------------- page --------------------
   /**
    * 登出
    */
-  logout() {
-    this.setState({
-      accessToken: INIT_ACCESS_TOKEN,
-      userCookie: INIT_USER_COOKIE,
-      userInfo: INIT_USER_INFO
-    })
-    this.setStorage('accessToken', undefined, NAMESPACE)
-    this.setStorage('userCookie', undefined, NAMESPACE)
-    this.setStorage('userInfo', undefined, NAMESPACE)
+  logout = () => {
+    const { logout } = this.state
+    if (logout) {
+      xhr({
+        method: 'GET',
+        url: logout
+      })
+    }
+
+    setTimeout(() => {
+      this.setState({
+        accessToken: INIT_ACCESS_TOKEN,
+        userCookie: INIT_USER_COOKIE,
+        userInfo: INIT_USER_INFO
+      })
+      this.setStorage('accessToken', undefined, NAMESPACE)
+      this.setStorage('userCookie', undefined, NAMESPACE)
+      this.setStorage('userInfo', undefined, NAMESPACE)
+    }, 0)
   }
 
   /**
    * 更新accessToken
    * @param {*} accessToken
    */
-  updateAccessToken(accessToken = INIT_ACCESS_TOKEN) {
+  updateAccessToken = (accessToken = INIT_ACCESS_TOKEN) => {
     this.setState({
       accessToken
     })
@@ -491,7 +657,7 @@ class Store extends store {
    * 更新用户cookie
    * @param {*} data
    */
-  updateUserCookie(userCookie = INIT_USER_COOKIE) {
+  updateUserCookie = (userCookie = INIT_USER_COOKIE) => {
     this.setState({
       userCookie
     })
@@ -502,7 +668,7 @@ class Store extends store {
    * 打印游客登陆sercet
    */
   logTourist = () => {
-    if (this.myUserId !== USERID_TOURIST) {
+    if (this.myUserId !== APP_USERID_TOURIST) {
       return
     }
 
@@ -517,37 +683,43 @@ class Store extends store {
   /**
    * 更新收视进度
    */
-  async doUpdateEpStatus({ id, status }) {
-    return fetch({
+  doUpdateEpStatus = async ({ id, status }) =>
+    fetch({
       url: API_EP_STATUS(id, status),
       method: 'POST'
     })
-  }
 
   /**
    * 批量更新收视进度
    */
-  async doUpdateSubjectWatched({ subjectId, sort }) {
-    return fetch({
+  doUpdateSubjectWatched = async ({ subjectId, sort }) =>
+    fetch({
       url: API_SUBJECT_UPDATE_WATCHED(subjectId),
       method: 'POST',
       data: {
         watched_eps: sort
       }
     })
-  }
 
   /**
    * 检测cookie有没有过期
    * 访问任意个人中心的页面就可以判断
+   * 顺便记录formhash用于登出
    */
-  async doCheckCookie() {
+  doCheckCookie = async () => {
     const res = RakuenStore.fetchNotify()
     const raw = await res
     const HTML = HTMLTrim(raw)
 
     if (HTML.includes('抱歉，当前操作需要您')) {
       this.updateUserCookie()
+    } else {
+      const matchLogout = HTML.match(/.tv\/logout(.+?)">登出<\/a>/)
+      if (Array.isArray(matchLogout) && matchLogout[1]) {
+        this.setState({
+          logout: `${HOST}/logout${matchLogout[1]}`
+        })
+      }
     }
 
     return res
@@ -556,7 +728,7 @@ class Store extends store {
   /**
    * 删除收藏
    */
-  async doEraseCollection({ subjectId, formhash }, success, fail) {
+  doEraseCollection = async ({ subjectId, formhash }, success, fail) =>
     xhr(
       {
         url: HTML_ACTION_ERASE_COLLECTION(subjectId, formhash)
@@ -564,7 +736,19 @@ class Store extends store {
       success,
       fail
     )
-  }
+
+  /**
+   * 发短信
+   */
+  doPM = async (data, success, fail) =>
+    xhr(
+      {
+        url: HTML_PM_CREATE(),
+        data
+      },
+      success,
+      fail
+    )
 }
 
 export default new Store()

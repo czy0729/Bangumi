@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 15:38:08
+ * @Last Modified time: 2020-03-19 01:16:22
  */
 import { observable, computed } from 'mobx'
 import {
@@ -18,20 +18,21 @@ import { IOS, HOST } from '@constants'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
 import { info } from '@utils/ui'
-import { t } from '@utils/fetch'
+import { t, baiduTranslate } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 
 const namespace = 'ScreenTopic'
-const initState = {
+const excludeState = {
   placeholder: '', // 回复框placeholder
   value: '', // 回复框value
   replySub: '', // 存放bgm特有的子回复配置字符串
-  message: '' // 存放子回复html
+  message: '', // 存放子回复html
+  translateResult: [] // 翻译缓存
 }
 
 export default class ScreenTopic extends store {
   state = observable({
-    ...initState,
+    ...excludeState,
     filterMe: false,
     filterFriends: false,
     reverse: false,
@@ -40,11 +41,15 @@ export default class ScreenTopic extends store {
 
   init = async () => {
     const state = await this.getStorage(undefined, this.namespace)
+    const commonState = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
-      ...initState,
+      ...excludeState,
+      reverse: commonState.reverse,
       _loaded: true
     })
+
+    this.fetchTopicFromCDN()
 
     // 章节需要请求章节详情
     if (this.isEp) {
@@ -68,6 +73,23 @@ export default class ScreenTopic extends store {
   fetchEpFormHTML = () => {
     const epId = this.topicId.replace('ep/', '')
     return subjectStore.fetchEpFormHTML(epId)
+  }
+
+  /**
+   * 私有CDN的帖子内容信息
+   */
+  fetchTopicFromCDN = () => {
+    if (!this.topicId.includes('group/')) {
+      return false
+    }
+
+    const { setting } = systemStore
+    const { _loaded } = this.topic
+    if (!setting.cdn || _loaded) {
+      return true
+    }
+
+    return rakuenStore.fetchTopicFormCDN(this.topicId.replace('group/', ''))
   }
 
   // -------------------- get --------------------
@@ -96,15 +118,8 @@ export default class ScreenTopic extends store {
     return rakuenStore.topic(this.topicId)
   }
 
-  @computed get groupThumb() {
-    const { _group, _groupThumb } = this.params
-    if (_groupThumb) {
-      return _groupThumb
-    }
-    if (_group) {
-      return rakuenStore.groupThumb(_group)
-    }
-    return ''
+  @computed get topicFormCDN() {
+    return rakuenStore.topicFormCDN(this.topicId.replace('group/', ''))
   }
 
   @computed get comments() {
@@ -149,6 +164,26 @@ export default class ScreenTopic extends store {
       ...comments,
       list
     }
+  }
+
+  @computed get commentMeCount() {
+    const { list } = rakuenStore.comments(this.topicId)
+    return list.filter(item => {
+      if (item.sub.findIndex(i => i.userId === this.myId) !== -1) {
+        return true
+      }
+      return item.userId === this.myId
+    }).length
+  }
+
+  @computed get commentFriendsCount() {
+    const { list } = rakuenStore.comments(this.topicId)
+    return list.filter(item => {
+      if (item.sub.findIndex(i => this.myFriendsMap[i.userId]) !== -1) {
+        return true
+      }
+      return this.myFriendsMap[item.userId]
+    }).length
   }
 
   @computed get isEp() {
@@ -202,9 +237,81 @@ export default class ScreenTopic extends store {
     return rakuenStore.favor(this.topicId)
   }
 
+  @computed get setting() {
+    return rakuenStore.setting
+  }
+
+  // -------------------- get: cdn fallback --------------------
+  @computed get title() {
+    return (
+      this.topic.title || this.params._title || this.topicFormCDN.title || ''
+    )
+  }
+
+  @computed get group() {
+    if (this.isMono) {
+      return this.topic.title || this.params._title
+    }
+    return (
+      this.topic.group || this.params._group || this.topicFormCDN.group || ''
+    )
+  }
+
+  @computed get groupThumb() {
+    const { _group, _groupThumb } = this.params
+    if (_groupThumb) {
+      return _groupThumb
+    }
+    if (_group) {
+      return rakuenStore.groupThumb(_group)
+    }
+    return this.topicFormCDN.groupThumb || ''
+  }
+
+  @computed get groupHref() {
+    return this.topic.groupHref || this.topicFormCDN.groupHref || ''
+  }
+
+  @computed get time() {
+    return this.topic.time || this.topicFormCDN.time || ''
+  }
+
+  @computed get avatar() {
+    return (
+      this.topic.avatar || this.params._avatar || this.topicFormCDN.avatar || ''
+    )
+  }
+
+  @computed get userId() {
+    return (
+      this.topic.userId || this.params._userId || this.topicFormCDN.userId || ''
+    )
+  }
+
+  @computed get userName() {
+    return (
+      this.topic.userName ||
+      this.params._userName ||
+      this.topicFormCDN.userName ||
+      ''
+    )
+  }
+
+  @computed get userSign() {
+    return this.topic.userSign || this.topicFormCDN.userSign || ''
+  }
+
+  @computed get html() {
+    // ep带上章节详情
+    if (this.isEp) {
+      return this.epFormHTML || this.params._desc
+    }
+    return this.topic.message || this.topicFormCDN.message || ''
+  }
+
   // -------------------- page --------------------
   /**
-   * 吐槽箱倒序
+   * 吐槽倒序
    */
   toggleReverseComments = () => {
     const { reverse } = this.state
@@ -216,7 +323,7 @@ export default class ScreenTopic extends store {
     this.setState({
       reverse: !reverse
     })
-    this.setStorage(undefined, undefined, this.namespace)
+    this.setStorage(undefined, undefined, namespace)
   }
 
   /**
@@ -461,5 +568,37 @@ export default class ScreenTopic extends store {
         this.fetchTopic()
       }
     )
+  }
+
+  /**
+   * 翻译内容
+   */
+  doTranslate = async () => {
+    if (this.state.translateResult.length) {
+      return
+    }
+
+    t('帖子.翻译内容', {
+      topicId: this.topicId
+    })
+
+    try {
+      const response = await baiduTranslate(
+        String(`${this.title}\n${this.html}`)
+          .replace(/<br \/>/g, '\n')
+          .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
+      )
+      const { trans_result: translateResult } = JSON.parse(response)
+      if (Array.isArray(translateResult)) {
+        this.setState({
+          translateResult
+        })
+        info('翻译成功')
+        return
+      }
+      info('翻译失败, 请重试')
+    } catch (error) {
+      info('翻译失败, 请重试')
+    }
   }
 }

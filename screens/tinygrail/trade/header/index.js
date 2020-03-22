@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:48:37
+ * @Last Modified time: 2020-03-21 15:06:22
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from '@utils/decorators'
 import { Flex, Text } from '@components'
 import { Avatar, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
+import { observer } from '@utils/decorators'
 import Today from './today'
 
 function Header({ goBack }, { $, navigation }) {
+  const styles = memoStyles()
   const { icon, name, current, fluctuation, bonus } = $.chara
   let color = _.colorTinygrailPlain
   if (fluctuation < 0) {
@@ -46,6 +47,7 @@ function Header({ goBack }, { $, navigation }) {
               onPress={goBack}
             />
             <Avatar
+              style={styles.avatar}
               src={tinygrailOSS(icon)}
               size={32}
               borderColor='transparent'
@@ -62,12 +64,8 @@ function Header({ goBack }, { $, navigation }) {
               }}
             />
             <Text
-              style={[
-                _.ml.sm,
-                {
-                  color: _.colorTinygrailPlain
-                }
-              ]}
+              style={_.ml.sm}
+              type='tinygrailPlain'
               size={16}
               numberOfLines={1}
             >
@@ -82,11 +80,11 @@ function Header({ goBack }, { $, navigation }) {
             <Text
               style={[
                 {
-                  paddingVertical: _.sm,
-                  color: _.colorTinygrailText
+                  paddingVertical: _.sm
                 },
                 _.ml.sm
               ]}
+              type='tinygrailText'
               size={15}
               onPress={() => {
                 t('K线.跳转', {
@@ -110,12 +108,7 @@ function Header({ goBack }, { $, navigation }) {
             </Text>
           </Flex>
           <Flex style={_.mt.md}>
-            <Text
-              style={{
-                color: _.colorTinygrailPlain
-              }}
-              size={24}
-            >
+            <Text type='tinygrailPlain' size={24}>
               {current && toFixed(current, 2)}
             </Text>
             <Text
@@ -156,11 +149,14 @@ Header.contextTypes = {
 
 export default observer(Header)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     zIndex: 1,
     paddingTop: _.wind,
     paddingHorizontal: _.wind,
     paddingBottom: _.sm
+  },
+  avatar: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
-})
+}))

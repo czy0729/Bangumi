@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:36:56
+ * @Last Modified time: 2020-03-21 15:18:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { observer } from '@utils/decorators'
 
 function Slider({ style }, { $ }) {
   const styles = memoStyles()
-  const { value, amount } = $.state
+  const { value, amount, isIce } = $.state
   const { balance } = $.assets
   const { amount: userAmount } = $.userLogs
   const min = 0
@@ -33,16 +33,16 @@ function Slider({ style }, { $ }) {
           value={String(amount)}
           onChangeText={$.changeAmount}
         />
-        <Text style={[styles.placeholder, styles.text]} size={12}>
+        <Text style={styles.placeholder} type='tinygrailText' size={12}>
           股
         </Text>
       </View>
-      <Text style={[styles.balance, styles.plain]} size={12}>
+      <Text style={styles.balance} type='tinygrailPlain' size={12}>
         {balanceText}
       </Text>
-      <Flex style={[styles.slider, _.mt.sm]}>
+      <Flex style={styles.slider}>
         <Flex.Item>
-          <View style={{ width: '100%' }}>
+          <View style={styles.sliderWrap}>
             <CompSlider
               value={amount}
               min={min}
@@ -54,36 +54,35 @@ function Slider({ style }, { $ }) {
           </View>
         </Flex.Item>
         <Touchable style={_.ml.sm} onPress={() => $.changeAmount($.max)}>
-          <Text
-            style={{
-              paddingVertical: _.sm,
-              color: _.colorTinygrailText
-            }}
-            size={13}
-          >
+          <Text style={styles.max} type='tinygrailText' size={13}>
             [最大]
           </Text>
         </Touchable>
       </Flex>
       <Flex>
         <Flex.Item>
-          <Text style={styles.text} size={12}>
+          <Text type='tinygrailText' size={12}>
             {min}
           </Text>
         </Flex.Item>
-        <Text style={styles.text} size={12}>
-          {$.max}
+        <Text type='tinygrailText' size={12}>
+          {parseInt($.max)}
         </Text>
       </Flex>
       <Flex style={_.mt.md}>
         <Flex.Item>
-          <Text style={styles.text} size={12}>
+          <Text type='tinygrailText' size={12}>
             交易额
           </Text>
         </Flex.Item>
-        <Text style={styles.plain} size={12}>
+        <Text type='tinygrailPlain' size={12}>
           {amount == 0 ? '--' : formatNumber(amount * value)}
         </Text>
+        <Touchable style={_.ml.sm} onPress={$.switchIsIce}>
+          <Text type='tinygrailText' size={12}>
+            [冰山: {isIce ? '开' : '关'}]
+          </Text>
+        </Touchable>
       </Flex>
     </View>
   )
@@ -118,12 +117,13 @@ const memoStyles = _.memoStyles(_ => ({
   },
   slider: {
     height: 40,
+    marginTop: _.sm,
     opacity: 0.8
   },
-  plain: {
-    color: _.colorTinygrailPlain
+  sliderWrap: {
+    width: '100%'
   },
-  text: {
-    color: _.colorTinygrailText
+  max: {
+    paddingVertical: _.sm
   }
 }))

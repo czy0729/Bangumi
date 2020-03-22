@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:54:07
+ * @Last Modified time: 2020-03-19 01:12:08
  */
 
 /**
@@ -119,6 +119,7 @@ export default {
   '条目.右上角菜单': 'Subject.topRightMenu',
   '条目.删除收藏': 'Subject.doEraseCollection',
   '条目.搜索源': 'Subject.searchEp',
+  '条目.翻译简介': 'Subject.doTranslate',
 
   // 用户标签
   '用户标签.跳转': 'Tag.to',
@@ -141,6 +142,7 @@ export default {
   // 登陆
   '登陆.跳转': 'Login.to',
   '登陆.游客访问': 'Login.onTour',
+  '登陆.切换域名': 'Login.onSelect',
   '登陆.登陆': 'Login.onLogin',
   '登陆.成功': 'Login.onSuccess',
   '登陆.错误': 'Login.onError',
@@ -194,6 +196,7 @@ export default {
   '帖子.删除回复': 'Topic.doDeleteReply',
   '帖子.UCG': 'Topic.UCGAgree',
   '帖子.楼层跳转': 'Topic.scrollTo',
+  '帖子.翻译内容': 'Topic.doTranslate',
 
   // 社区指导原则
   '社区指导原则.跳转': 'UCG.to',
@@ -226,18 +229,22 @@ export default {
   '卖一推荐.提示': 'TAdvanceAsk.alert',
   '买一推荐.跳转': 'TAdvanceBid.to',
   '买一推荐.提示': 'TAdvanceBid.alert',
-  '拍卖推荐.跳转': 'TAdvanceAuction.to',
-  '拍卖推荐.提示': 'TAdvanceAuction.alert',
+  '竞拍推荐.跳转': 'TAdvanceAuction.to',
+  '竞拍推荐.提示': 'TAdvanceAuction.alert',
+  '献祭推荐.跳转': 'TAdvanceSacrifice.to',
+  '献祭推荐.提示': 'TAdvanceSacrifice.alert',
 
   // 我的委托
   '我的委托.跳转': 'TBid.to',
   '我的委托.标签页切换': 'TBid.tabsChange',
   '我的委托.排序': 'TBid.onSortPress',
+  '我的委托.取消拍卖': 'TBid.onAuctionCancel',
 
   // 我的持仓
   '我的持仓.跳转': 'TCharaAssets.to',
   '我的持仓.标签页切换': 'TCharaAssets.tabsChange',
   '我的持仓.排序': 'TCharaAssets.onSortPress',
+  '我的持仓.设置前往': 'TCharaAssets.onSelectGo',
 
   // 交易
   '交易.跳转': 'TDeal.to',
@@ -247,6 +254,7 @@ export default {
   '交易.切换买卖类型': 'TDeal.toggleType',
   '交易.展开收起记录': 'TDeal.toggleExpand',
   '交易.显示时间': 'TDeal.showTime',
+  '交易.切换冰山': 'TDeal.switchIsIce',
 
   // ICO
   'ICO.跳转': 'TICO.to',
@@ -265,20 +273,25 @@ export default {
   '小圣杯.刮刮乐': 'TIndex.lottery',
   '小圣杯.每周分红': 'TIndex.bonusWeek',
   '小圣杯.每日签到': 'TIndex.bonusDaily',
+  '小圣杯.节日福利': 'TIndex.bonusHoliday',
+  '小圣杯.缩略资金': 'TIndex.toggleShort',
 
   // 资金日志
   '资金日志.跳转': 'TLogs.to',
   '资金日志.标签页切换': 'TLogs.tabsChange',
+  '资金日志.设置前往': 'TLogs.onSelectGo',
 
   // 新番榜单
   '新番榜单.跳转': 'TNew.to',
   '新番榜单.标签页切换': 'TNew.tabsChange',
   '新番榜单.排序': 'TNew.onSortPress',
+  '新番榜单.设置前往': 'TNew.onSelectGo',
 
   // 热门榜单
   '热门榜单.跳转': 'TOverview.to',
   '热门榜单.标签页切换': 'TOverview.tabsChange',
   '热门榜单.排序': 'TOverview.onSortPress',
+  '热门榜单.设置前往': 'TOverview.onSelectGo',
 
   // 番市首富
   '番市首富.跳转': 'TRich.to',
@@ -288,10 +301,15 @@ export default {
   '资产重组.跳转': 'TSacrifice.to',
   '资产重组.资产重组': 'TSacrifice.doSacrifice',
   '资产重组.竞拍': 'TSacrifice.doAuction',
-  '资产重组.展开收起圣殿': 'TSacrifice.toggleExpand',
   '资产重组.封面图查看': 'TSacrifice.imageView',
   '资产重组.圣殿图查看': 'TSacrifice.templeView',
+  '资产重组.展开收起圣殿': 'TSacrifice.toggleExpand',
   '资产重组.股息查看': 'TSacrifice.rate',
+  '资产重组.菜单改变竞拍数量': 'TSacrifice.changeAmountByMenu',
+  '资产重组.展开收起封面': 'TSacrifice.toggleCover',
+  '资产重组.展开收起记录': 'TSacrifice.toggleLogs',
+  '资产重组.展开收起圣殿板块': 'TSacrifice.toggleTemples',
+  '资产重组.展开收起董事会': 'TSacrifice.toggleUsers',
 
   // 人物直达
   '人物直达.跳转': 'TSearch.to',
@@ -325,6 +343,14 @@ export default {
   '英灵殿.跳转': 'TValhall.to',
   '英灵殿.标签页切换': 'TValhall.tabsChange',
   '英灵殿.排序': 'TValhall.onSortPress',
+  '英灵殿.设置前往': 'TValhall.onSelectGo',
+
+  // 我的道具
+  '我的道具.使用': 'TItems.use',
+
+  // 每周萌王
+  '每周萌王.跳转': 'TTopWeek.to',
+  '每周萌王.刷新': 'TTopWeek.refresh',
 
   /* ==================== user ==================== */
   // 好友
@@ -340,6 +366,12 @@ export default {
   '我的.排序选择': 'User.onOrderSelect',
   '我的.筛选选择': 'User.onFilterSelect',
   '我的.布局选择': 'User.toggleList',
+
+  // 短信
+  '短信.跳转': 'PM.to',
+  '短信.显示评论框': 'PM.showFixedTextarea',
+  '短信.回复短信': 'PM.doReply',
+  '短信.新短信': 'PM.doCreate',
 
   // 设置
   '设置.跳转': 'Setting.to',

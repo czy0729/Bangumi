@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 22:37:50
+ * @Last Modified time: 2020-01-23 16:52:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -24,7 +24,7 @@ function Info(props, { $ }) {
   const { _title } = $.params
   const { title, content, create, _loaded } = $.groupInfo
   return (
-    <View style={[_.container.inner, styles.container]}>
+    <View style={styles.container}>
       {!IOS && <HeaderPlaceholder />}
       <Text size={20} bold>
         {title || _title}
@@ -71,7 +71,8 @@ export default observer(Info)
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 328
+    minHeight: 328,
+    ..._.container.inner
   },
   loading: {
     height: 200

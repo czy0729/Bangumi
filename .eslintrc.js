@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 17:58:31
+ * @Last Modified time: 2020-03-21 23:21:58
  */
 module.exports = {
   root: true,
@@ -11,7 +11,8 @@ module.exports = {
     fetch: true, // react-native的fetch
     log: true, // 测试打印函数, 能规避循环引用
     warn: true,
-    require: true
+    require: true,
+    requestAnimationFrame: true
   },
   env: {
     commonjs: true,
@@ -86,7 +87,12 @@ module.exports = {
     // https://github.com/yannickcr/eslint-plugin-react
     'react/destructuring-assignment': 0,
     'react/forbid-prop-types': 0,
-    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [
+      'error',
+      {
+        extensions: ['.js', '.jsx']
+      }
+    ],
     'react/jsx-indent': ['error', 2], // Validate JSX indentation
     'react/jsx-indent-props': ['error', 2], // Validate props indentation in JSX
     'react/jsx-one-expression-per-line': 0,
@@ -94,6 +100,7 @@ module.exports = {
     'react/no-multi-comp': 0,
     'react/prop-types': 0, // Prevent missing props validation in a React component definition
     'react/sort-comp': 0,
+    'react/state-in-constructor': 0,
 
     // https://github.com/evcohen/eslint-plugin-jsx-a11y
     'jsx-a11y/anchor-is-valid': [

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 22:45:27
+ * @Last Modified time: 2020-02-23 03:43:48
  */
 import React from 'react'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
@@ -14,30 +15,27 @@ import Award from './award'
 import Menu from './menu'
 
 function Header(props, { $ }) {
+  const styles = memoStyles()
   const { online } = $.state
   const { today } = $.home
   return (
-    <>
-      <StatusBarPlaceholder
-        style={{
-          backgroundColor: _.colorBg
-        }}
-      />
+    <View style={styles.container}>
+      <StatusBarPlaceholder style={styles.statusBar} />
       <Award />
       <Menu />
-      <Flex style={[_.container.wind, _.mt.lg]}>
+      <Flex style={styles.wrap}>
         {!!online && (
-          <Text align='right' size={11}>
-            online: {online}
+          <Text align='right' size={12}>
+            online {online}
           </Text>
         )}
         <Flex.Item>
-          <Text align='right' size={11}>
+          <Text align='right' size={12} numberOfLines={1}>
             {today}
           </Text>
         </Flex.Item>
       </Flex>
-    </>
+    </View>
   )
 }
 
@@ -46,3 +44,16 @@ Header.contextTypes = {
 }
 
 export default observer(Header)
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    paddingBottom: _.sm
+  },
+  statusBar: {
+    backgroundColor: _.colorBg
+  },
+  wrap: {
+    ..._.container.wind,
+    ..._.mt.lg
+  }
+}))

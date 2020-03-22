@@ -412,23 +412,17 @@ export class Tabs extends React.PureComponent {
     const { renderTabBar, renderTabBarLeft, renderTabBarRight } = this.props
     if (renderTabBar === false) {
       return null
-    } else if (renderTabBar) {
-      return renderTabBar(tabBarProps)
-    } else {
-      // @add
-      if (renderTabBarLeft) {
-        return (
-          <Flex>
-            {renderTabBarLeft}
-            <DefaultTabBar {...tabBarProps} />
-          </Flex>
-        )
-      }
+    }
 
-      // @add
+    if (renderTabBar) {
+      return renderTabBar(tabBarProps)
+    }
+
+    if (renderTabBarLeft) {
       if (renderTabBarRight) {
         return (
           <Flex>
+            {renderTabBarLeft}
             <Flex.Item>
               <DefaultTabBar {...tabBarProps} />
             </Flex.Item>
@@ -436,8 +430,29 @@ export class Tabs extends React.PureComponent {
           </Flex>
         )
       }
-      return <DefaultTabBar {...tabBarProps} />
+
+      return (
+        <Flex>
+          {renderTabBarLeft}
+          <Flex.Item>
+            <DefaultTabBar {...tabBarProps} />
+          </Flex.Item>
+        </Flex>
+      )
     }
+
+    if (renderTabBarRight) {
+      return (
+        <Flex>
+          <Flex.Item>
+            <DefaultTabBar {...tabBarProps} />
+          </Flex.Item>
+          {renderTabBarRight}
+        </Flex>
+      )
+    }
+
+    return <DefaultTabBar {...tabBarProps} />
   }
 
   getSubElements = () => {

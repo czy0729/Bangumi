@@ -2,15 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 21:01:47
+ * @Last Modified time: 2020-02-01 05:47:29
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
+import { info } from '@utils/ui'
 import {
-  SORT_HYD,
   SORT_GX,
+  SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
+  SORT_DJ,
+  SORT_HYD,
   SORT_SCJ,
   SORT_FHL,
   SORT_DQJ,
@@ -35,11 +40,15 @@ export const tabs = [
 export const sortDS = [
   SORT_HYD,
   SORT_GX,
-  SORT_SCJ,
-  SORT_FHL,
+  SORT_GXB,
+  SORT_SDGX,
+  SORT_SDGXB,
   SORT_DQJ,
+  SORT_SCJ,
   SORT_DQZD,
-  SORT_XFJL
+  SORT_DJ,
+  SORT_XFJL,
+  SORT_FHL
 ]
 
 export default class ScreenTinygrailBid extends store {
@@ -136,5 +145,27 @@ export default class ScreenTinygrailBid extends store {
         direction: 'down'
       })
     }
+  }
+
+  // -------------------- action --------------------
+  doAuctionCancel = async id => {
+    if (!id) {
+      return
+    }
+
+    t('我的委托.取消拍卖', {
+      id
+    })
+
+    const result = await tinygrailStore.doAuctionCancel({
+      id
+    })
+    if (!result) {
+      info('取消失败')
+      return
+    }
+
+    info('已取消')
+    this.fetchList()
   }
 }

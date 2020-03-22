@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 15:45:54
+ * @Last Modified time: 2020-01-12 22:51:41
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Input, Button } from '@components'
 import { SectionTitle } from '@screens/_'
@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 
 function BookEp({ style }, { $ }) {
+  const styles = memoStyles()
   const { chap, vol } = $.state
   const { book = {} } = $.subjectFormHTML
   const {
@@ -96,9 +97,10 @@ BookEp.contextTypes = {
 
 export default observer(BookEp)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
-    height: 120
+    height: 120,
+    backgroundColor: _.colorPlain
   },
   label: {
     width: 40
@@ -115,4 +117,4 @@ const styles = StyleSheet.create({
     width: 40,
     height: 34
   }
-})
+}))

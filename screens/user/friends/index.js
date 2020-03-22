@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 18:25:20
+ * @Last Modified time: 2020-01-23 20:51:54
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,6 +14,9 @@ import { hm } from '@utils/fetch'
 import Store from './store'
 
 const title = '好友'
+const event = {
+  id: '好友.跳转'
+}
 
 export default
 @inject(Store)
@@ -51,27 +54,33 @@ class Friends extends React.Component {
     hm(`user/${$.params.userId}/friends`, 'Friends')
   }
 
-  render() {
+  renderItem = ({ item }) => {
     const { $, navigation } = this.context
-    const event = {
-      id: '好友.跳转'
-    }
+    return (
+      <ItemFriends
+        key={item.userId}
+        navigation={navigation}
+        event={event}
+        {...item}
+        {...$.users(item.userId)}
+      />
+    )
+  }
+
+  render() {
+    const { $ } = this.context
     return (
       <ListView
         style={_.container.screen}
         data={$.friends}
-        keyExtractor={item => item.userId}
-        renderItem={({ item }) => (
-          <ItemFriends
-            key={item.userId}
-            navigation={navigation}
-            event={event}
-            {...item}
-            {...$.users(item.userId)}
-          />
-        )}
+        keyExtractor={keyExtractor}
+        renderItem={this.renderItem}
         onHeaderRefresh={$.refresh}
       />
     )
   }
+}
+
+function keyExtractor(item) {
+  return String(item.userId)
 }

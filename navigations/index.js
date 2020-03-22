@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 19:51:28
+ * @Last Modified time: 2020-03-22 20:03:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,11 +17,15 @@ import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
 import {
   Anitama,
   Award,
+  Blog,
+  Blogs,
   Browser,
   Calendar,
   Catalog,
   CatalogDetail,
+  Catalogs,
   Character,
+  DEV,
   Discovery,
   Friends,
   Group,
@@ -30,6 +34,7 @@ import {
   LoginV2,
   Mono,
   Notify,
+  PM,
   Qiafan,
   Rakuen,
   RakuenHistory,
@@ -48,18 +53,21 @@ import {
   TinygrailAdvanceAsk,
   TinygrailAdvanceAuction,
   TinygrailAdvanceBid,
+  TinygrailAdvanceSacrifice,
   TinygrailBid,
   TinygrailCharaAssets,
   TinygrailDeal,
   TinygrailICO,
   TinygrailICODeal,
+  TinygrailItems,
   TinygrailLogs,
   TinygrailNew,
-  TinygrailSacrifice,
   TinygrailOverview,
   TinygrailRich,
+  TinygrailSacrifice,
   TinygrailSearch,
   TinygrailTemples,
+  TinygrailTopWeek,
   TinygrailTrade,
   TinygrailTree,
   TinygrailTreeRich,
@@ -116,11 +124,15 @@ const HomeStack = createStackNavigator(
   {
     Anitama,
     Award,
+    Blog,
+    Blogs,
     Browser,
     Calendar,
     Catalog,
     CatalogDetail,
+    Catalogs,
     Character,
+    DEV,
     Discovery,
     Friends,
     Group,
@@ -130,6 +142,7 @@ const HomeStack = createStackNavigator(
     LoginV2,
     Mono,
     Notify,
+    PM,
     Qiafan,
     Rakuen,
     RakuenHistory,
@@ -148,11 +161,13 @@ const HomeStack = createStackNavigator(
     TinygrailAdvanceAsk,
     TinygrailAdvanceAuction,
     TinygrailAdvanceBid,
+    TinygrailAdvanceSacrifice,
     TinygrailBid,
     TinygrailCharaAssets,
     TinygrailDeal,
     TinygrailICO,
     TinygrailICODeal,
+    TinygrailItems,
     TinygrailLogs,
     TinygrailNew,
     TinygrailOverview,
@@ -160,6 +175,7 @@ const HomeStack = createStackNavigator(
     TinygrailSacrifice,
     TinygrailSearch,
     TinygrailTemples,
+    TinygrailTopWeek,
     TinygrailTrade,
     TinygrailTree,
     TinygrailTreeRich,
@@ -199,7 +215,6 @@ const memoStyles = _.memoStyles(_ => ({
       }
     : {
         backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-        borderTopWidth: _.hairlineWidth,
-        borderTopColor: _.colorBorder
+        borderTopWidth: 0
       }
 }))

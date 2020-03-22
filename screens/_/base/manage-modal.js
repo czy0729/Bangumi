@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 16:52:43
+ * @Last Modified time: 2020-03-21 19:57:23
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { ActivityIndicator, Modal } from '@ant-design/react-native'
+import { ActivityIndicator } from '@ant-design/react-native'
 import { Button, Flex, Input, Text, Touchable } from '@components'
+import Modal from '@components/@/ant-design/modal'
 import { _, collectionStore, subjectStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
 import StarGroup from './star-group'
@@ -17,7 +18,6 @@ import StatusBtnGroup from './status-btn-group'
 const initState = {
   focus: false,
   loading: true,
-  doing: false,
   fetching: false,
   rating: 0,
   tags: '',
@@ -64,11 +64,6 @@ class ManageModal extends React.Component {
           privacy
         })
       }
-    } else {
-      // <Modal>有渐出动画
-      // setTimeout(() => {
-      //   this.setState(initState)
-      // }, 400)
     }
   }
 
@@ -140,9 +135,6 @@ class ManageModal extends React.Component {
   onSubmit = async () => {
     const { subjectId, onSubmit } = this.props
     const { rating, tags, comment, status, privacy } = this.state
-    this.setState({
-      doing: true
-    })
     await onSubmit({
       subjectId,
       rating,
@@ -150,10 +142,6 @@ class ManageModal extends React.Component {
       status,
       privacy,
       comment: comment || ''
-    })
-
-    this.setState({
-      doing: false
     })
   }
 
@@ -243,7 +231,7 @@ class ManageModal extends React.Component {
         closable
         onClose={onClose}
       >
-        <Text style={_.mt.sm} type='sub' size={12} align='center'>
+        <Text style={_.mt.sm} type='sub' size={13} align='center'>
           {desc}
         </Text>
         <Flex style={[this.styles.wrap, _.mt.sm]} justify='center'>
@@ -327,7 +315,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.sm,
     marginRight: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
-    borderWidth: 1,
+    borderWidth: _.select(1, 0),
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs
   },

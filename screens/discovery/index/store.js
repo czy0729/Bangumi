@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-01 22:37:07
+ * @Last Modified time: 2020-01-19 16:07:43
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { xhrCustom } from '@utils/fetch'
+import { GITHUB_DATA } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const namespace = 'ScreenDiscovery'
 export const sectionWidth = (_.window.width - _.wind * 3) / 2
 export const sectionHeight = sectionWidth / 2
+const namespace = 'ScreenDiscovery'
 
 export default class ScreenDiscovery extends store {
   state = observable({
@@ -45,6 +46,7 @@ export default class ScreenDiscovery extends store {
     return calendarStore.fetchHome()
   }
 
+  // -------------------- fetch --------------------
   fetchHome = () => {
     this.setState({
       home: {
@@ -63,7 +65,7 @@ export default class ScreenDiscovery extends store {
   fetchOnline = async () => {
     try {
       const { _response } = await xhrCustom({
-        url: 'https://czy0729.github.io/Bangumi/web/data.json'
+        url: GITHUB_DATA
       })
       const { online = '' } = JSON.parse(_response)
       this.setState({

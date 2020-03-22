@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-16 18:03:27
+ * @Last Modified time: 2020-03-21 21:56:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ function Item({
   const styles = memoStyles()
   const ratio = (percent + 1) ** 2
   const ratioHeight = (h / _.window.height) * 1.2
-  const showAvatar = !!icon && (w * h) / area > 0.016
+  const showAvatar = !!icon && (w * h) / area > 0.012
   const _percent = percent * 100
   const textSize = parseInt(9 * ratio)
 
@@ -90,9 +90,12 @@ function Item({
         >
           {showAvatar && (
             <Image
-              style={{
-                marginBottom: parseInt(5.6 * ratio)
-              }}
+              style={[
+                styles.image,
+                {
+                  marginBottom: parseInt(5.6 * ratio)
+                }
+              ]}
               src={icon}
               size={parseInt(ratioHeight * 240)}
               height={parseInt(ratioHeight * 240)}
@@ -102,9 +105,7 @@ function Item({
             />
           )}
           <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
+            type='tinygrailPlain'
             size={parseInt(11 * ratio)}
             numberOfLines={1}
             selectable={false}
@@ -113,20 +114,14 @@ function Item({
           </Text>
           <Text
             style={{
-              marginTop: parseInt(3 * ratio),
-              color: _.colorTinygrailText
+              marginTop: parseInt(3 * ratio)
             }}
+            type='tinygrailText'
             size={textSize}
             numberOfLines={1}
             selectable={false}
           >
-            <Text
-              style={{
-                color: _.colorTinygrailText
-              }}
-              size={textSize}
-              selectable={false}
-            >
+            <Text type='tinygrailText' size={textSize} selectable={false}>
               {priceText}
             </Text>{' '}
             / {toFixed(_percent, _percent < 0.1 ? 2 : 1)}%
@@ -150,5 +145,8 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: _.hairlineWidth,
     borderColor: _.colorTinygrailBorder,
     overflow: 'hidden'
+  },
+  image: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:21:02
+ * @Last Modified time: 2020-03-22 22:49:29
  */
 import React from 'react'
 import { Alert, Animated, View } from 'react-native'
@@ -13,9 +13,14 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { getCoverMedium } from '@utils/app'
 import { IOS } from '@constants'
+import { CDN_OSS_SUBJECT } from '@constants/cdn'
 import Head from './head'
 import { height, headerHeight } from './store'
+
+const dataMe = ['我的好友', 'netaba.re', '缺少收藏?']
+const dataOther = ['TA的好友', 'TA的netaba.re']
 
 function ParallaxImage({ scrollY }, { $, navigation }) {
   const styles = memoStyles()
@@ -46,20 +51,14 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
     ]
   }
 
-  let data
-  if (isMe) {
-    data = ['我的好友', 'netabare', '缺少收藏?']
-  } else {
-    data = ['TA的好友', 'TA的netabare']
-  }
-
+  const data = isMe ? dataMe : dataOther
   return (
     <>
-      <View style={styles.parallax} pointerEvents='none'>
+      <View style={styles.parallax}>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
           source={{
-            uri: avatar.large
+            uri: CDN_OSS_SUBJECT(getCoverMedium(avatar.medium))
           }}
           blurRadius={IOS ? 2 : 1}
         />
@@ -112,12 +111,12 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
       </View>
       {!!$.params.userId && (
         <IconBack
-          style={[_.header.left, styles.btn]}
+          style={styles.back}
           navigation={navigation}
           color={_.__colorPlain__}
         />
       )}
-      <View style={[_.header.right, styles.btn, styles.more]}>
+      <View style={[isMe ? styles.menu : styles.more]}>
         <Popover
           data={data}
           onSelect={key => {
@@ -129,15 +128,18 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
               case '我的好友':
                 navigation.push('Friends')
                 break
+
               case 'TA的好友':
                 navigation.push('Friends', {
                   userId: id
                 })
                 break
-              case 'netabare':
-              case 'TA的netabare':
+
+              case 'netaba.re':
+              case 'TA的netaba.re':
                 open(`https://netaba.re/user/${id}`)
                 break
+
               case '缺少收藏?':
                 setTimeout(() => {
                   Alert.alert(
@@ -151,17 +153,18 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
                   )
                 }, 400)
                 break
+
               default:
                 break
             }
           }}
         >
-          <Iconfont name='more' color={_.__colorPlain__} />
+          <Iconfont name={isMe ? 'list' : 'more'} color={_.__colorPlain__} />
         </Popover>
       </View>
       {!$.params.userId && (
         <IconHeader
-          style={[_.header.right, styles.btn, styles.setting]}
+          style={styles.setting}
           name='setting'
           color={_.__colorPlain__}
           onPress={() => {
@@ -200,7 +203,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     top: 0,
     right: 0,
-    bottom: 0,
+    bottom: -_.hairlineWidth,
     left: 0
   },
   head: {
@@ -218,13 +221,22 @@ const memoStyles = _.memoStyles(_ => ({
       }
     ]
   },
-  btn: {
+  back: {
+    ..._.header.left,
     zIndex: 1
   },
-  more: {
+  menu: {
+    ..._.header.left,
+    zIndex: 1,
     padding: _.sm
   },
   setting: {
-    right: 44
+    ..._.header.right,
+    zIndex: 1
+  },
+  more: {
+    ..._.header.right,
+    zIndex: 1,
+    padding: _.sm
   }
 }))

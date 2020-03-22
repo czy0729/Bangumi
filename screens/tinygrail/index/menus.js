@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 16:44:52
+ * @Last Modified time: 2020-03-19 20:59:02
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -24,7 +24,16 @@ function Menus(props, { $ }) {
       <MenuItem title='ICO榜单' pathname='TinygrailICO' icon='ico' />
       <MenuItem title='番市首富' pathname='TinygrailRich' icon='shou-fu' />
       <MenuItem title='英灵殿' pathname='TinygrailValhall' icon='app' />
-      <MenuItem title='最近圣殿' pathname='TinygrailTemples' icon='paihang' />
+      <MenuItem title='最新圣殿' pathname='TinygrailTemples' icon='break' />
+      <MenuItem title='每周萌王' pathname='TinygrailTopWeek' icon='like' />
+      <MenuItem
+        title='小组讨论'
+        pathname='Group'
+        config={{
+          groupId: 'tinygrail'
+        }}
+        icon='planet'
+      />
       <Assets />
       <MenuItem
         style={{
@@ -59,26 +68,19 @@ function Menus(props, { $ }) {
       <MenuItem
         title='我的持仓'
         pathname='TinygrailCharaAssets'
-        icon='chi-cang'
+        icon='package'
       />
       <MenuItem title='资金日志' pathname='TinygrailLogs' icon='ri-zhi' />
       <MenuItem title='资金分析' pathname='TinygrailTree' icon='fen-xi' />
       <MenuItem
         style={{
-          backgroundColor: 'rgb(39, 40, 46)'
+          backgroundColor: _.colorTinygrailActive
         }}
         title='高级分析'
         pathname='TinygrailAdvance'
-        icon='search'
+        icon='meeting'
       />
-      <MenuItem
-        title='小组讨论'
-        pathname='Group'
-        config={{
-          groupId: 'tinygrail'
-        }}
-        icon='planet'
-      />
+      <MenuItem title='我的道具' pathname='TinygrailItems' icon='order' />
     </Flex>
   )
 }
@@ -91,7 +93,7 @@ export default observer(Menus)
 
 const styles = StyleSheet.create({
   section: {
-    paddingBottom: _.wind,
+    paddingBottom: _.sm,
     marginLeft: _.wind
   }
 })

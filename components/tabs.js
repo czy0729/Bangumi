@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 01:32:44
+ * @Last Modified time: 2020-02-19 17:36:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,7 @@ function Tabs({
   tabBarUnderlineStyle,
   prerenderingSiblingsNumber,
   renderTabBarLeft,
+  renderTabBarRight,
   children,
   ...other
 }) {
@@ -43,11 +44,12 @@ function Tabs({
         tabBarInactiveTextColor={_.colorDesc}
         prerenderingSiblingsNumber={prerenderingSiblingsNumber}
         renderTabBarLeft={renderTabBarLeft}
+        renderTabBarRight={renderTabBarRight}
         {...other}
       >
         {children}
       </AntdTabs>
-      {IOS && children && <View style={styles.block} />}
+      {IOS && children && <View style={styles.touchBlock} />}
     </>
   )
 }
@@ -56,7 +58,8 @@ Tabs.defaultProps = {
   tabs: [],
   prerenderingSiblingsNumber: 0,
   tabBarUnderlineStyle: undefined,
-  renderTabBarLeft: undefined // 导航栏左边插入
+  renderTabBarLeft: undefined, // 导航栏左边插入
+  renderTabBarRight: undefined
 }
 
 export default observer(Tabs)
@@ -66,7 +69,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 4,
     backgroundColor: _.colorMain
   },
-  block: {
+  touchBlock: {
     position: 'absolute',
     top: 0,
     bottom: 0,

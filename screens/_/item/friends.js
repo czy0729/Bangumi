@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:47:59
+ * @Last Modified time: 2020-02-23 05:21:38
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -55,7 +55,7 @@ function ItemFriends({
             <Flex.Item>
               <Text numberOfLines={1}>{userName}</Text>
             </Flex.Item>
-            <Text style={_.ml.sm} size={12}>
+            <Text style={_.ml.sm} size={13}>
               {recent}
             </Text>
           </Flex>
@@ -72,7 +72,7 @@ function ItemFriends({
             percent={percent}
           />
         </Flex.Item>
-        <Text style={styles.hobby} size={12} type='sub'>
+        <Text style={styles.hobby} size={13} type='sub'>
           {hobby || '-'} / {percent || '-'}%
         </Text>
       </Flex>

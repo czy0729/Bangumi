@@ -3,24 +3,29 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 10:47:07
+ * @Last Modified time: 2020-03-17 17:05:01
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
-// import { useScreens } from 'react-native-screens'
+import { useScreens } from 'react-native-screens'
 import { DEV, HOST, HOST_2 } from '@constants'
 import { t } from './fetch'
+import { globalLog, globalWarn } from './dev'
+
+const HOST_IMAGE = '//lain.bgm.tv'
 
 /**
  * 启动
  */
 export function bootApp() {
   console.disableYellowBox = true
+  global.log = globalLog
+  global.warn = globalWarn
 
   /**
    * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
    */
-  // useScreens()
+  useScreens()
 
   if (!DEV) {
     global.console = {
@@ -34,12 +39,24 @@ export function bootApp() {
 }
 
 /**
+ * 保存navigation引用
+ * @param {*} navigation
+ */
+let _navigationReference
+export function navigationReference(navigation) {
+  if (navigation) {
+    _navigationReference = navigation
+  }
+  return _navigationReference
+}
+
+/**
  * 查找番剧中文名
  */
-const _bangumiFindHistory = {}
+const cache = {}
 export function findBangumiCn(jp = '') {
-  if (_bangumiFindHistory[jp]) {
-    return _bangumiFindHistory[jp]
+  if (cache[jp]) {
+    return cache[jp]
   }
 
   const item = bangumiData.items.find(item => item.title === jp)
@@ -49,12 +66,42 @@ export function findBangumiCn(jp = '') {
         item.titleTranslate['zh-Hans'] &&
         item.titleTranslate['zh-Hans'][0]) ||
       jp
-    _bangumiFindHistory[jp] = cn
+    cache[jp] = cn
     return cn
   }
 
-  _bangumiFindHistory[jp] = jp
+  cache[jp] = jp
   return jp
+}
+
+/**
+ * 修正和缩略ago时间
+ * @param {*} time
+ */
+const date = new Date()
+const y = date.getFullYear()
+export function correctAgo(time = '') {
+  let _time = time.replace('...', '')
+  if (_time.indexOf(' ago') === -1) {
+    _time = _time.replace('ago', ' ago')
+  }
+  return _time.includes('-')
+    ? _time.replace(`${y}-`, '')
+    : _time
+        .replace('d', '天')
+        .replace('h', '时')
+        .replace('m', '分')
+        .replace('s', '秒')
+        .replace(' ago', '前')
+        .replace(/ /g, '')
+}
+
+/**
+ * keyExtractor
+ * @param {*} item
+ */
+export function keyExtractor(item = {}) {
+  return String(item.id)
 }
 
 /**
@@ -286,6 +333,22 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
       return true
     }
 
+    // 日志
+    if (_url.includes('/blog/')) {
+      const _id = _url.split('/blog/')[1]
+      t(id, {
+        to: 'Blog',
+        blogId: _id,
+        ...data
+      })
+
+      navigation.push('Blog', {
+        blogId: _id,
+        ...passParams
+      })
+      return true
+    }
+
     t(id, {
       to: 'WebBrowser',
       url: _url,
@@ -304,23 +367,23 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
  * 获取颜色type
  * @param {*} label
  */
+const typeMap = {
+  想看: 'main',
+  想玩: 'main',
+  想读: 'main',
+  想听: 'main',
+  看过: 'warning',
+  玩过: 'warning',
+  读过: 'warning',
+  听过: 'warning',
+  在看: 'primary',
+  在玩: 'primary',
+  在读: 'primary',
+  在听: 'primary',
+  搁置: 'wait',
+  抛弃: 'disabled'
+}
 export function getType(label) {
-  const typeMap = {
-    想看: 'main',
-    想玩: 'main',
-    想读: 'main',
-    想听: 'main',
-    看过: 'warning',
-    玩过: 'warning',
-    读过: 'warning',
-    听过: 'warning',
-    在看: 'primary',
-    在玩: 'primary',
-    在读: 'primary',
-    在听: 'primary',
-    搁置: 'wait',
-    抛弃: 'disabled'
-  }
   return typeMap[label] || 'plain'
 }
 
@@ -390,16 +453,20 @@ export function getCookie(cookies = '', name) {
   return ''
 }
 
-// bgm图片质量 g < s < m < c < l, 只用s, m(c), l
+/**
+ * bgm图片质量 g < s < m < c < l, 只用s, m(c), l
+ * CDN开启下 <Avatar>组件会忽略s, 把s转成m(c)
+ */
 /**
  * 获取低质量bgm图片
  * @param {*} src
  */
 export function getCoverSmall(src = '') {
-  if (typeof src !== 'string' || src === '') {
-    return ''
+  if (typeof src !== 'string' || src === '' || !src.includes(HOST_IMAGE)) {
+    return src
   }
-  return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
+
+  return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/s/')
 }
 
 /**
@@ -407,12 +474,13 @@ export function getCoverSmall(src = '') {
  * @param {*} src
  */
 export function getCoverMedium(src = '', mini = false) {
-  if (typeof src !== 'string' || src === '') {
-    return ''
-  }
-
-  // 角色图片不要处理
-  if (src.includes('/crt/')) {
+  // 角色图片因为是对头部划图的, 不要处理
+  if (
+    typeof src !== 'string' ||
+    src === '' ||
+    src.includes('/crt/') ||
+    !src.includes(HOST_IMAGE)
+  ) {
     return src
   }
 
@@ -428,9 +496,10 @@ export function getCoverMedium(src = '', mini = false) {
  * @param {*} src
  */
 export function getCoverLarge(src = '') {
-  if (typeof src !== 'string' || src === '') {
-    return ''
+  if (typeof src !== 'string' || src === '' || !src.includes(HOST_IMAGE)) {
+    return src
   }
+
   return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
 }
 
@@ -471,31 +540,42 @@ export function formatTime(time) {
     return `${hour}h ago`
   }
   return `${day}d ago`
-  // return '已结束'
 }
 
 /**
- * 计算ICO等级
+ * 小圣杯计算ICO等级
  * @param {*} ico
  */
 export function caculateICO(ico) {
   let level = 0
   let price = 10
-  let amount = 10000
-  // let total = 0
+  let amount = 0
   let next = 100000
+  let nextUser = 15
 
-  if (ico.total < 100000 || ico.users < 10) {
-    return { level, next, price: 0, amount: 0 }
+  // 人数等级
+  const heads = ico.users
+  let headLevel = Math.floor((heads - 10) / 5)
+  if (headLevel < 0) headLevel = 0
+
+  // 资金等级
+  while (ico.total >= next && level < headLevel) {
+    level += 1
+    // eslint-disable-next-line no-restricted-properties
+    next += Math.pow(level + 1, 2) * 100000
   }
 
-  level = Math.floor(Math.sqrt(ico.total / 100000))
   amount = 10000 + (level - 1) * 7500
   price = ico.total / amount
-  // eslint-disable-next-line no-restricted-properties
-  next = Math.pow(level + 1, 2) * 100000
+  nextUser = (level + 1) * 5 + 10
 
-  return { level, next, price, amount }
+  return {
+    level,
+    next,
+    price,
+    amount,
+    users: nextUser - ico.Users
+  }
 }
 
 /**
@@ -513,4 +593,16 @@ export function tinygrailOSS(str, w = 150) {
   }
 
   return str
+}
+
+/**
+ * 修复时间
+ * 2019-10-04T13:34:03.4243768+08:00 => 2019-10-04 13:34:03
+ * @param {*} time
+ */
+export function tinygrailFixedTime(time) {
+  return (time || '')
+    .replace('T', ' ')
+    .split('+')[0]
+    .split('.')[0]
 }

@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:47:16
+ * @Last Modified time: 2020-02-22 09:28:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Touchable, Text, Image } from '@components'
+import { Touchable, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
-import { getCoverMedium } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT, EVENT } from '@constants'
+import { EVENT } from '@constants'
+import Cover from '../base/cover'
 
 const imageWidth = _.window.width * 0.2
 const marginLeft = (_.window.width - 4 * imageWidth) / 5
@@ -33,7 +33,6 @@ function CollectionsGrid({
   if (isOnHold) {
     holdDays = Math.ceil((getTimestamp() - getTimestamp(time)) / 86400)
   }
-  const _image = getCoverMedium(cover, false)
   const onPress = () => {
     const { id: eventId, eventData } = event
     const subjectId = String(id).replace('/subject/', '')
@@ -48,25 +47,25 @@ function CollectionsGrid({
       subjectId,
       _jp: name,
       _cn: nameCn,
-      _image
+      _image: cover
     })
   }
   return (
     <View style={[styles.item, style]}>
-      <Image
+      <Cover
         size={imageWidth}
-        src={_image || IMG_DEFAULT}
+        src={cover}
         border
         radius
         shadow
         onPress={onPress}
       />
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} size={12} numberOfLines={2}>
+        <Text style={_.mt.sm} size={13} numberOfLines={2}>
           {HTMLDecode(nameCn || name)}
         </Text>
         {!!holdDays && (
-          <Text style={_.mt.xs} size={12} type='sub'>
+          <Text style={_.mt.xs} size={13} type='sub'>
             搁置{holdDays}天
           </Text>
         )}

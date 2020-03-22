@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 22:36:40
+ * @Last Modified time: 2020-01-23 20:46:55
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -104,16 +104,16 @@ class RakuenGroup extends React.Component {
     const { show, _loaded } = $.state
     if (!_loaded) {
       return (
-        <>
+        <View style={_.container.content}>
           <NavigationBarEvents />
           <View style={_.container.flex} />
-        </>
+        </View>
       )
     }
 
     const { onScroll } = this.props
     return (
-      <>
+      <View style={_.container.content}>
         <NavigationBarEvents />
         <ScrollView
           style={_.container.content}
@@ -140,7 +140,7 @@ class RakuenGroup extends React.Component {
             </>
           )}
         </ScrollView>
-      </>
+      </View>
     )
   }
 }

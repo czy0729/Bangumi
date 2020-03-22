@@ -2,9 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 18:04:19
+ * @Last Modified time: 2020-03-16 22:40:55
  */
-import { MODEL_RAKUEN_SCOPE, MODEL_RAKUEN_TYPE } from '@constants/model'
+import {
+  MODEL_RAKUEN_SCOPE,
+  MODEL_RAKUEN_TYPE,
+  MODEL_RAKUEN_SCROLL_DIRECTION
+} from '@constants/model'
 
 export const NAMESPACE = 'Rakuen'
 export const LIMIT_LIST_COMMENTS = 20
@@ -44,7 +48,9 @@ export const INIT_TOPIC = {
   title: '', // 帖子标题
   userId: '', // 作者Id
   userName: '', // 作者名称
-  userSign: '' // 作者签名
+  userSign: '', // 作者签名
+  tip: '', // 存在即代表需要加入小组才能回复
+  close: '' // 存在即代表主题被关闭
 }
 
 export const INIT_COMMENTS_ITEM = {
@@ -70,7 +76,8 @@ export const INIT_SETTING = {
   isBlockDefaultUser: false, // 是否屏蔽默认头像用户帖子
   blockGroups: [], // 屏蔽的小组
   blockUserIds: [], // 屏蔽的用户 `${userName}@${userId}`
-  isMarkOldTopic: true // 标记坟贴
+  isMarkOldTopic: true, // 标记坟贴
+  scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右边') // 帖子楼层滚动导航条方向
 }
 
 export const INIT_GROUP_INFO = {
@@ -84,4 +91,16 @@ export const INIT_GROUP_INFO = {
 
 export const INIT_GROUP_ITEM = {
   list: []
+}
+
+export const INIT_BLOG = {
+  avatar: '', // 作者头像
+  floor: '', // 楼层
+  formhash: '', // 回复表单凭据
+  message: '', // 帖子内容
+  time: '', // 发帖时间
+  title: '', // 帖子标题
+  userId: '', // 作者Id
+  userName: '', // 作者名称
+  userSign: '' // 作者签名
 }

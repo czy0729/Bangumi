@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:55:40
+ * @Last Modified time: 2020-03-21 20:21:20
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -24,27 +24,15 @@ function Slider({ style }, { $ }) {
   const styles = memoStyles()
   const { loading, amount, isSale } = $.state
   const { amount: userAmount } = $.userLogs
-  const balanceText = `可用 ${formatNumber(userAmount, 0)} 股`
+  const { sacrifices = 0 } = $.myTemple
   return (
     <View style={[styles.container, style]}>
-      <Text
-        style={{
-          color: _.colorTinygrailText
-        }}
-        size={12}
-      >
-        融资累计超过500股获得「光辉圣殿」股息+0.2，2500股「闪耀圣殿」股息+0.4，12500股「奇迹圣殿」股息+0.8
-      </Text>
-      <Flex style={_.mt.md}>
+      <Flex>
         <Flex.Item>
-          <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
-          >
+          <Text type='tinygrailPlain'>
             {isSale
-              ? '将股份出售给英灵殿，立刻获取现金。'
-              : '将股份转化为固定资产，获得现金和道具。'}
+              ? '资产重组，股份出售给英灵殿获得现金'
+              : '股权融资，股份转化为固定资产获得现金和道具'}
           </Text>
         </Flex.Item>
         <Switch style={_.ml.sm} checked={isSale} onChange={$.switchIsSale} />
@@ -56,8 +44,19 @@ function Slider({ style }, { $ }) {
               style={styles.input}
               keyboardType='numeric'
               value={String(parseInt(amount))}
+              clearButtonMode='never'
               onChangeText={$.changeAmount}
             />
+            {!!sacrifices && (
+              <Text
+                style={styles.sacrifices}
+                type='ask'
+                size={12}
+                pointerEvent='none'
+              >
+                已献祭{sacrifices}股
+              </Text>
+            )}
           </View>
         </Flex.Item>
         <View style={[styles.btnSubmit, _.ml.sm]}>
@@ -89,9 +88,6 @@ function Slider({ style }, { $ }) {
           </Button>
         </View>
       </Flex>
-      <Text style={[styles.balance, styles.plain]} size={12}>
-        {balanceText}
-      </Text>
       <Flex style={[styles.slider, _.mt.sm]}>
         <Flex.Item>
           <View style={{ width: '100%' }}>
@@ -109,9 +105,9 @@ function Slider({ style }, { $ }) {
         <Touchable style={_.ml.sm} onPress={() => $.changeAmount(userAmount)}>
           <Text
             style={{
-              paddingVertical: _.sm,
-              color: _.colorTinygrailText
+              paddingVertical: _.sm
             }}
+            type='tinygrailText'
             size={13}
           >
             [最大]
@@ -120,12 +116,12 @@ function Slider({ style }, { $ }) {
       </Flex>
       <Flex>
         <Flex.Item>
-          <Text style={styles.text} size={12}>
-            0
+          <Text type='tinygrailText' size={12}>
+            可用 0
           </Text>
         </Flex.Item>
-        <Text style={styles.text} size={12}>
-          {formatNumber(userAmount, 0)}
+        <Text type='tinygrailText' size={12}>
+          {formatNumber(userAmount, 0)}股
         </Text>
       </Flex>
     </View>
@@ -155,6 +151,12 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: 0,
     borderRadius: 0
   },
+  sacrifices: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 8,
+    right: 12
+  },
   placeholder: {
     position: 'absolute',
     top: 8,
@@ -167,13 +169,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 40,
     opacity: 0.8
   },
-  plain: {
-    color: _.colorTinygrailPlain
-  },
   btnSubmit: {
     width: 96
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))

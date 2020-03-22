@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 20:31:44
+ * @Last Modified time: 2020-02-16 06:27:01
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -56,32 +56,54 @@ export default class ScreenTinygrailSearch extends store {
   }
 
   // -------------------- action --------------------
-  doSearch = async navigation => {
+  doSearch = async (navigation, lastValue) => {
     const { history, value } = this.state
-    if (value === '') {
+    const checkValue = lastValue || value
+    if (checkValue === '') {
       info('请输入人物id')
       return
     }
 
+    let callback
+    try {
+      const characters = await tinygrailStore.fetchCharacters([checkValue])
+      if (characters[checkValue].users) {
+        callback = () =>
+          navigation.push('TinygrailICODeal', {
+            monoId: checkValue
+          })
+      } else {
+        callback = () =>
+          navigation.push('TinygrailDeal', {
+            monoId: checkValue,
+            type: 'asks'
+          })
+      }
+    } catch (error) {
+      info('未有找到该id人物信息')
+      return
+    }
+
     t('人物直达.搜索', {
-      value
+      value: checkValue
     })
 
-    const _history = [...history]
-    if (!history.includes(value)) {
-      _history.unshift(value)
+    let _history = [...history]
+    if (!history.includes(checkValue)) {
+      _history.unshift(checkValue)
+    } else {
+      _history = [checkValue, ..._history.filter(item => item !== checkValue)]
     }
     if (_history.length > 10) {
       _history.pop()
     }
+
     this.setState({
       value: '',
       history: _history
     })
     this.setStorage(undefined, undefined, namespace)
 
-    navigation.push('TinygrailTrade', {
-      monoId: value
-    })
+    callback()
   }
 }

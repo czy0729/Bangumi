@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-03 17:50:38
+ * @Last Modified time: 2020-03-22 18:54:17
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -41,7 +41,7 @@ export const HTML_MONO = monoId => {
 }
 
 /**
- * 时间胶囊 (需登陆)
+ * 时间胶囊
  * @param {*} scope
  * @param {*} type
  * @param {*} userId
@@ -85,6 +85,12 @@ export const HTML_GROUP_INFO = groupId => `${HOST}/group/${groupId}`
  */
 export const HTML_GROUP = (groupId, page = 1) =>
   `${HOST}/group/${groupId}/forum?page=${page}`
+
+/**
+ * 日志
+ * @param {*} blogId
+ */
+export const HTML_BLOG = blogId => `${HOST}/blog/${blogId}`
 
 /**
  * 搜索
@@ -160,20 +166,61 @@ export const HTML_CATALOG = (type = '', page = 1) =>
 export const HTML_CATALOG_DETAIL = id => `${HOST}/index/${id}`
 
 /**
- * 添加新讨论 (需登陆)
+ * 用户的目录
+ * @param {*} userId
+ * @param {*} page
+ * @param {*} isCollect
+ */
+export const HTML_USERS_CATALOGS = (userId = '', page = 1, isCollect = false) =>
+  `${HOST}/user/${userId}/index${isCollect ? '/collect' : ''}?page=${page}`
+
+/**
+ * 添加新讨论
  */
 export const HTML_NEW_TOPIC = () => `${HOST}/rakuen/new_topic`
 
 /**
- * 添加新时间线 (需登陆)
+ * 添加新时间线
  */
 export const HTML_NEW_TIMELINE = userId =>
   `${HOST}/user/${userId}/timeline?type=say`
 
 /**
- * 电波提醒 (需登陆)
+ * 电波提醒
  */
 export const HTML_NOTIFY = () => `${HOST}/notify/all`
+
+/**
+ * 短信
+ * @param {*} page
+ */
+export const HTML_PM = (page = 1) => `${HOST}/pm/inbox.chii?page=${page}`
+export const HTML_PM_OUT = (page = 1) => `${HOST}/pm/outbox.chii?page=${page}`
+
+/**
+ * 短信详情
+ * @param {*} id
+ */
+export const HTML_PM_DETAIL = id => `${HOST}/pm/view/${id}.chii`
+
+/**
+ * [POST] 发短信
+ * @param {*} related
+ * @param {*} msg_receivers
+ * @param {*} current_msg_id
+ * @param {*} formhash
+ * @param {*} msg_title
+ * @param {*} msg_body
+ * @param {*} chat on
+ * @param {*} submit 回复
+ */
+export const HTML_PM_CREATE = () => `${HOST}/pm/create.chii`
+
+/**
+ * 新短信参数
+ * @param {*} userId
+ */
+export const HTML_PM_PARAMS = userId => `${HOST}/pm/compose/${userId}.chii`
 
 /**
  * 每日放送
@@ -236,6 +283,14 @@ export const HTML_USERS_MONO_RECENTS = (page = 1) =>
   `${HOST}/mono/update?page=${page}`
 
 /**
+ * 用户日志列表
+ * @param {*} userId
+ * @param {*} page
+ */
+export const HTML_USERS_BLOGS = (userId = '', page = 1) =>
+  `${HOST}/user/${userId}/blog?page=${page}`
+
+/**
  * 标签
  */
 export const HTML_TAGS = (type, page = 1) => `${HOST}/${type}/tag?page=${page}`
@@ -266,6 +321,13 @@ export const HTML_SAY = (userId, id) =>
  */
 export const HTML_ACTION_RAKUEN_REPLY = (topicId, type = 'group/topic') =>
   `${HOST}/${type}/${topicId}/new_reply?ajax=1`
+
+/**
+ * 回复日志, 参数同上
+ * @param {*} topicId
+ */
+export const HTML_ACTION_BLOG_REPLY = topicId =>
+  `${HOST}/blog/entry/${topicId}/new_reply?ajax=1`
 
 /**
  * 回复吐槽

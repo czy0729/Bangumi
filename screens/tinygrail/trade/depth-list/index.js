@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-16 17:06:24
+ * @Last Modified time: 2020-03-20 23:14:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,22 +54,28 @@ function DepthList({ style }, { $ }) {
   return (
     <View style={[styles.container, style]}>
       <Flex style={styles.header}>
-        <Text style={[styles.index, styles.text, _.ml.md]} size={10}>
+        <Text style={[styles.index, _.ml.md]} type='tinygrailText' size={10}>
           买盘
         </Text>
-        <Text style={[styles.amount, styles.text]} size={10}>
+        <Text style={styles.amount} type='tinygrailText' size={10}>
           数量
         </Text>
         <Flex.Item>
-          <Text style={styles.text} size={10} align='center'>
+          <Text type='tinygrailText' size={10} align='center'>
             价格
           </Text>
         </Flex.Item>
-        <Text style={[styles.amount, styles.text]} size={10} align='right'>
+        <Text
+          style={styles.amount}
+          type='tinygrailText'
+          size={10}
+          align='right'
+        >
           数量
         </Text>
         <Text
-          style={[styles.index, styles.text, _.mr.md]}
+          style={[styles.index, _.mr.md]}
+          type='tinygrailText'
           size={10}
           align='right'
         >
@@ -83,15 +89,15 @@ function DepthList({ style }, { $ }) {
             return (
               <Flex key={index} style={styles.item}>
                 <View style={[styles.index, _.ml.md]}>
-                  <Text style={styles.text} size={12}>
+                  <Text type='tinygrailText' size={12}>
                     {index + 1}
                   </Text>
                 </View>
-                <Text style={[styles.amount, styles.text]} size={12}>
+                <Text style={styles.amount} type='tinygrailText' size={12}>
                   {item.amount}
                 </Text>
                 <Flex.Item style={_.mr.sm}>
-                  <Text style={styles.bids} size={12} align='right'>
+                  <Text type='bid' size={12} align='right'>
                     {item.price && toFixed(item.price, 2)}
                   </Text>
                 </Flex.Item>
@@ -113,19 +119,20 @@ function DepthList({ style }, { $ }) {
             return (
               <Flex key={index} style={styles.item}>
                 <Flex.Item style={_.ml.sm}>
-                  <Text style={styles.asks} size={12}>
+                  <Text type='ask' size={12}>
                     {item.price && toFixed(item.price, 2)}
                   </Text>
                 </Flex.Item>
                 <Text
-                  style={[styles.amount, styles.text]}
+                  style={styles.amount}
+                  type='tinygrailText'
                   size={12}
                   align='right'
                 >
                   {item.amount}
                 </Text>
                 <View style={[styles.index, _.mr.md]}>
-                  <Text style={styles.text} size={12} align='right'>
+                  <Text type='tinygrailText' size={12} align='right'>
                     {index + 1}
                   </Text>
                 </View>
@@ -168,12 +175,6 @@ const memoStyles = _.memoStyles(_ => ({
   amount: {
     minWidth: 40
   },
-  bids: {
-    color: _.colorBid
-  },
-  asks: {
-    color: _.colorAsk
-  },
   depthBids: {
     position: 'absolute',
     zIndex: -1,
@@ -189,8 +190,5 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     bottom: 0,
     backgroundColor: _.colorDepthAsk
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))

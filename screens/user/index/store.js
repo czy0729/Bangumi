@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 19:06:34
+ * @Last Modified time: 2020-03-22 22:28:33
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore } from '@stores'
@@ -34,8 +34,8 @@ export default class ScreenUser extends store {
     order: defaultOrder,
     list: true, // list | grid
     tag: '',
-    page: 1, // <Tabs>当前页数
-    _page: 1, // header上的假<Tabs>当前页数,
+    page: 2, // <Tabs>当前页数
+    _page: 2, // header上的假<Tabs>当前页数,
     _loaded: false
   })
 
@@ -58,6 +58,29 @@ export default class ScreenUser extends store {
     // 用户收藏记录
     this.fetchUserCollections(true)
     return res
+  }
+
+  onHeaderRefresh = () => this.fetchUserCollections(true)
+
+  // -------------------- fetch --------------------
+  fetchUsersInfo = () => {
+    const { userId } = this.params
+    return userStore.fetchUsersInfo(userId)
+  }
+
+  fetchUserCollections = refresh => {
+    const { userId } = this.params
+    const { subjectType, order, tag } = this.state
+    return collectionStore.fetchUserCollections(
+      {
+        subjectType,
+        type: this.type,
+        order,
+        tag,
+        userId: this.usersInfo.username || userId
+      },
+      refresh
+    )
   }
 
   // -------------------- get --------------------
@@ -100,8 +123,8 @@ export default class ScreenUser extends store {
   }
 
   userCollections(subjectType, type) {
-    const { username } = this.usersInfo
     const { userId } = this.params
+    const { username } = this.usersInfo
     return computed(() =>
       collectionStore.userCollections(username || userId, subjectType, type)
     ).get()
@@ -109,30 +132,10 @@ export default class ScreenUser extends store {
 
   userCollectionsTags(subjectType, type) {
     const { userId } = this.params
+    const { username } = this.usersInfo
     return computed(() =>
-      collectionStore.userCollectionsTags(userId, subjectType, type)
+      collectionStore.userCollectionsTags(username || userId, subjectType, type)
     ).get()
-  }
-
-  // -------------------- fetch --------------------
-  fetchUsersInfo = () => {
-    const { userId } = this.params
-    return userStore.fetchUsersInfo(userId)
-  }
-
-  fetchUserCollections = refresh => {
-    const { userId } = this.params
-    const { subjectType, order, tag } = this.state
-    return collectionStore.fetchUserCollections(
-      {
-        subjectType,
-        type: this.type,
-        order,
-        tag,
-        userId: this.usersInfo.username || userId
-      },
-      refresh
-    )
   }
 
   // -------------------- page --------------------

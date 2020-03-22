@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-10 23:15:04
+ * @Last Modified time: 2020-03-19 23:36:36
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -13,7 +13,7 @@ import { IOS } from '@constants'
 const { width, height } = Dimensions.get('window')
 export const window = {
   width,
-  maxWidth: width, // @todo 以后兼容IPAD
+  maxWidth: width, // @todo 以后兼容IPAD, 咕咕咕
   height
 }
 export const logoWidth = 124 // logo宽度
@@ -45,14 +45,20 @@ export const wind = 16 // 两翼
 export const bottom = tabBarHeight + lg + md // 底部留空
 
 // -------------------- 主题色 --------------------
+export const colorMainRaw = [254, 138, 149]
+export const colorPrimaryRaw = [68, 207, 252]
+export const colorSuccessRaw = [50, 200, 64]
+export const colorWarningRaw = [254, 190, 88]
+export const colorPlainRaw = [255, 255, 255]
+
 export const colorDark = 'rgb(0, 0, 0)'
-export const colorMainLight = 'rgb(255, 243, 244)'
+export const colorMainLight = `rgba(${colorMainRaw.join()}, 0.1)`
 export const colorMainBorder = 'rgb(252, 128, 138)'
-export const colorPrimaryLight = 'rgb(248, 253, 255)'
+export const colorPrimaryLight = `rgba(${colorPrimaryRaw.join()}, 0.1)`
 export const colorPrimaryBorder = 'rgb(159, 230, 254)'
-export const colorSuccessLight = 'rgb(236, 255, 236)'
+export const colorSuccessLight = `rgba(${colorSuccessRaw.join()}, 0.1)`
 export const colorSuccessBorder = 'rgb(115, 241, 115)'
-export const colorWarningLight = 'rgb(255, 248, 238)'
+export const colorWarningLight = `rgba(${colorWarningRaw.join()}, 0.1)`
 export const colorWarningBorder = 'rgb(254, 190, 88)'
 export const colorPlaceholder = 'rgb(250, 250, 250)'
 export const colorHighLight = 'rgba(0, 0, 0, 0.16)'
@@ -60,15 +66,14 @@ export const colorShadow = 'rgb(0, 0, 0)'
 export const colorMask = 'rgba(0, 0, 0, 0.5)'
 
 // -------------------- light --------------------
-export const colorMain = 'rgb(254, 138, 149)'
-export const colorPrimary = 'rgb(68, 207, 252)'
-export const colorSuccess = 'rgb(50, 200, 64)'
-export const colorYellow = 'rgb(255, 202, 40)'
-export const colorWarning = 'rgb(254, 190, 88)'
+export const colorMain = `rgb(${colorMainRaw.join()})`
+export const colorPrimary = `rgb(${colorPrimaryRaw.join()})`
+export const colorSuccess = `rgb(${colorSuccessRaw.join()})`
+export const colorWarning = `rgb(${colorWarningRaw.join()})`
 export const colorDanger = 'rgb(232, 8, 13)'
-export const colorPlainRaw = [255, 255, 255]
 export const colorPlain = `rgb(${colorPlainRaw.join()})`
 export const colorPlainHex = '#ffffff'
+export const colorYellow = 'rgb(255, 202, 40)'
 export const colorWait = 'rgb(200, 200, 200)'
 export const colorBg = 'rgb(243, 243, 243)'
 export const colorBorder = 'rgb(225, 225, 232)'
@@ -81,16 +86,16 @@ export const colorDisabled = 'rgb(150, 150, 150)'
 export const colorIcon = 'rgb(200, 200, 200)'
 
 // -------------------- dark --------------------
-// 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
-// 架高层
-export const _colorDarkModeLevel1Raw = [58, 58, 60] // 40, 40, 42
+// 架高层, 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
+export const _colorDarkModeLevel1Raw = [58, 58, 60]
 export const _colorDarkModeLevel1 = `rgb(${_colorDarkModeLevel1Raw.join()})`
 export const _colorDarkModeLevel1Hex = '#3a3a3c'
-export const _colorDarkModeLevel2 = 'rgb(84, 84, 86)' // 64, 64, 66
+export const _colorDarkModeLevel2 = 'rgb(84, 84, 86)'
 
 // 基础层
-export const _colorMain = 'rgb(254, 138, 149)' // 254, 113, 127
-export const _colorPrimary = 'rgb(35, 149, 233)' //  0, 131, 252
+export const _colorMain = 'rgb(254, 138, 149)'
+export const _colorMainLight = 'rgb(59, 48 ,51)'
+export const _colorPrimary = 'rgb(35, 149, 233)'
 export const _colorSuccess = 'rgb(50, 209, 96)'
 export const _colorYellow = 'rgb(255, 214, 50)'
 export const _colorWarning = 'rgb(255, 160, 12)'
@@ -121,36 +126,50 @@ export const colorTinygrailContainerHex = '#141e32'
 export const colorTinygrailBorder = 'rgb(29, 42, 61)'
 export const colorTinygrailIcon = 'rgb(62, 84, 108)'
 export const colorTinygrailText = 'rgb(99, 117, 144)'
+export const colorTinygrailActive = 'rgb(39, 40, 46)'
+
+export const _colorBid = 'rgb(1, 173, 145)'
+export const _colorDepthBid = 'rgb(226, 241, 238)'
+export const _colorAsk = 'rgb(206, 97, 117)'
+export const _colorDepthAsk = 'rgb(243, 233, 234)'
+export const _colorTinygrailPlain = 'rgb(39, 43, 48)'
+export const _colorTinygrailPrimary = 'rgb(42, 114, 241)'
+export const _colorTinygrailBg = 'rgb(240, 241, 243)'
+export const _colorTinygrailContainer = 'rgb(255, 255, 255)'
+export const _colorTinygrailContainerHex = '#ffffff'
+export const _colorTinygrailBorder = colorBorder
+export const _colorTinygrailIcon = 'rgb(172, 182, 188)'
+export const _colorTinygrailText = 'rgb(160, 160, 160)'
+export const _colorTinygrailActive = 'rgb(247, 242, 232)'
 
 // -------------------- 文字 --------------------
 export const colorAvatar = 'rgb(116, 116, 116)'
 export const colorIconPlain = `rgba(${colorPlainRaw.join()}, 0.88)`
-export const lineHeightRatio = 1.28
+export const lineHeightRatio = 1.32
 
 // -------------------- 圆角 --------------------
 export const radiusXs = 4
-export const radiusSm = 10
-export const radiusMd = 16
-export const radiusLg = 32
+export const radiusSm = 6
+export const radiusMd = 12
+export const radiusLg = 16
 
 // -------------------- 其他 --------------------
 export const shadow = IOS
   ? {
       shadowColor: colorShadow,
-      shadowOffset: { height: 3 },
-      shadowOpacity: 0.16,
+      shadowOffset: {
+        height: 2
+      },
+      shadowOpacity: 0.06,
       shadowRadius: 4
     }
   : {
-      backgroundColor: colorPlain,
-      borderRadius: 5,
-      overflow: 'hidden',
-      elevation: 3
+      elevation: 2
     }
 
 // --------------------  函数 --------------------
 export const fontSizeAdjust = 0
-export function fontSize(pt) {
+export function fontSize(pt, fontSizeAdjust = 0) {
   return {
     fontSize: pt + fontSizeAdjust,
     lineHeight: (pt + fontSizeAdjust) * lineHeightRatio
@@ -267,6 +286,9 @@ export const ml = StyleSheet.create({
   },
   md: {
     marginLeft: md
+  },
+  lg: {
+    marginLeft: lg
   },
   wind: {
     marginLeft: wind

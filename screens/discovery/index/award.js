@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 19:55:56
+ * @Last Modified time: 2020-02-23 03:52:00
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,6 +12,11 @@ import { Touchable, Image, Text, Flex } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import ImageHero from '@assets/images/hero.png'
+import ImageHeroTitle from '@assets/images/hero_title.png'
+
+const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
+const itemWidth = 132
 
 function Award(props, { navigation }) {
   const styles = memoStyles()
@@ -22,6 +27,30 @@ function Award(props, { navigation }) {
       showsHorizontalScrollIndicator={false}
     >
       <Touchable
+        style={_.mr.md}
+        withoutFeedback
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Award',
+            year: 2019
+          })
+
+          navigation.push('Award', {
+            uri: `${HOST}/award/2019`
+          })
+        }}
+      >
+        <View style={styles.border} />
+        <Flex style={styles.itemSquare} justify='center' direction='column'>
+          <Text size={18} type={_.select('plain', 'title')} bold>
+            2019
+          </Text>
+          <Text size={16} type={_.select('plain', 'title')} bold>
+            年鉴
+          </Text>
+        </Flex>
+      </Touchable>
+      <Touchable
         style={styles.item}
         withoutFeedback
         onPress={() => {
@@ -29,6 +58,7 @@ function Award(props, { navigation }) {
             to: 'Award',
             year: 2018
           })
+
           navigation.push('Award', {
             uri: `${HOST}/award/2018`
           })
@@ -38,21 +68,21 @@ function Award(props, { navigation }) {
         <View style={styles.image}>
           <Image
             style={styles.imageHero}
-            src={require('@assets/images/hero.png')}
-            size={148}
+            src={ImageHero}
+            size={itemWidth}
             placeholder={false}
           />
         </View>
         <Image
           style={styles.imageTitle}
-          src={require('@assets/images/hero_title.png')}
-          size={184}
-          height={148}
+          src={ImageHeroTitle}
+          size={itemWidth * 1.25}
+          height={itemWidth}
           resizeMode='contain'
           placeholder={false}
         />
       </Touchable>
-      {[2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010].map((item, index) => (
+      {years.map(item => (
         <Touchable
           key={item}
           style={_.ml.md}
@@ -62,6 +92,7 @@ function Award(props, { navigation }) {
               to: 'Award',
               year: item
             })
+
             navigation.push('Award', {
               uri: `${HOST}/award/${item}`
             })
@@ -69,12 +100,7 @@ function Award(props, { navigation }) {
         >
           <View style={styles.border} />
           <Flex style={styles.itemSquare} justify='center' direction='column'>
-            {index === 0 && (
-              <Text size={20} type={_.select('plain', 'title')} bold>
-                BEST OF
-              </Text>
-            )}
-            <Text size={20} type={_.select('plain', 'title')} bold>
+            <Text size={18} type={_.select('plain', 'title')} bold>
               {item}
             </Text>
           </Flex>
@@ -95,37 +121,13 @@ const memoStyles = _.memoStyles(_ => ({
     padding: _.wind
   },
   item: {
-    width: 312,
-    paddingRight: 4,
-    borderWidth: _.select(0, 1),
-    borderColor: _.colorBorder,
+    width: itemWidth * 2.12,
     borderRadius: _.radiusMd
   },
   itemSquare: {
-    width: 148,
-    height: 148,
-    marginRight: 4,
-    backgroundColor: _.select(_.colorDark, _._colorDarkModeLevel1),
-    borderRadius: _.radiusMd
-  },
-  borderAward: {
-    position: 'absolute',
-    zIndex: 0,
-    top: 0,
-    right: 0,
-    width: 48,
-    height: 148,
-    backgroundColor: _.select(_.colorDark, _._colorDarkModeLevel1),
-    borderRadius: _.radiusMd
-  },
-  border: {
-    position: 'absolute',
-    zIndex: 0,
-    top: 0,
-    right: 0,
-    width: 48,
-    height: 148,
-    backgroundColor: _.colorDanger,
+    width: itemWidth,
+    height: itemWidth,
+    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
     borderRadius: _.radiusMd
   },
   image: {

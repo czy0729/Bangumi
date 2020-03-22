@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 18:08:23
+ * @Last Modified time: 2020-03-16 23:07:20
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-import { FixedTextarea } from '@components'
+import { ActivityIndicator } from '@ant-design/react-native'
+import { FixedTextarea, Flex } from '@components'
+import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -37,10 +39,10 @@ class Say extends React.Component {
   scrollView
   fixedTextarea
 
-  componentDidMount() {
+  async componentDidMount() {
     const { $, navigation } = this.context
     const { userId, id } = $.params
-    $.init(this.scrollView)
+    await $.init(this.scrollView)
 
     navigation.setParams({
       title: $.isNew ? '新吐槽' : '吐槽',
@@ -66,6 +68,10 @@ class Say extends React.Component {
       }
     })
 
+    setTimeout(() => {
+      $.scrollToBottom(this.scrollView)
+    }, 0)
+
     hm(
       $.isNew
         ? `${HOST}/timeline?type=say`
@@ -74,15 +80,19 @@ class Say extends React.Component {
     )
   }
 
+  connectRefScrollView = ref => (this.scrollView = ref)
+
+  connectRefFixedTextarea = ref => (this.fixedTextarea = ref)
+
   showFixedTextare = () => this.fixedTextarea.onFocus()
 
-  render() {
+  renderNew() {
     const { $, navigation } = this.context
     const { value } = $.state
     return (
       <>
         <ScrollView
-          ref={ref => (this.scrollView = ref)}
+          ref={this.connectRefScrollView}
           style={_.container.screen}
           contentContainerStyle={_.container.bottom}
         >
@@ -90,8 +100,8 @@ class Say extends React.Component {
         </ScrollView>
         {$.isWebLogin && (
           <FixedTextarea
-            ref={ref => (this.fixedTextarea = ref)}
-            placeholder={$.isNew ? '新吐槽' : '回复吐槽, 长按头像@某人'}
+            ref={this.connectRefFixedTextarea}
+            placeholder='新吐槽'
             simple
             value={value}
             onChange={$.onChange}
@@ -100,6 +110,52 @@ class Say extends React.Component {
           />
         )}
       </>
+    )
+  }
+
+  renderList() {
+    const { $, navigation } = this.context
+    const { value } = $.state
+    const { _loaded } = $.say
+    if (!_loaded) {
+      return (
+        <Flex style={_.container.screen} justify='center'>
+          <ActivityIndicator />
+        </Flex>
+      )
+    }
+
+    return (
+      <>
+        <ScrollView
+          ref={this.connectRefScrollView}
+          style={_.container.screen}
+          contentContainerStyle={_.container.bottom}
+        >
+          <Chat />
+        </ScrollView>
+        {$.isWebLogin && (
+          <FixedTextarea
+            ref={this.connectRefFixedTextarea}
+            placeholder='回复吐槽, 长按头像@某人'
+            simple
+            value={value}
+            onChange={$.onChange}
+            onClose={$.closeFixedTextarea}
+            onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
+          />
+        )}
+      </>
+    )
+  }
+
+  render() {
+    const { $ } = this.context
+    return (
+      <View style={_.container.screen}>
+        <NavigationBarEvents />
+        {$.isNew ? this.renderNew() : this.renderList()}
+      </View>
     )
   }
 }

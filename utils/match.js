@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-04 14:39:33
+ * @Last Modified time: 2020-03-11 18:19:00
  */
 
 /**
@@ -57,4 +57,16 @@ export function matchCover(str = '') {
  */
 export function matchStar(str = '') {
   return str.substring(15)
+}
+
+/**
+ * 匹配字符串中第一个bgm地址
+ * @param {*} str
+ */
+export function matchBgmUrl(str = '') {
+  const matchs =
+    str.match(
+      /https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g
+    ) || []
+  return matchs[0] || ''
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:46:39
+ * @Last Modified time: 2020-03-20 18:35:42
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -11,13 +11,14 @@ import { Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Info from './info'
 import Slider from './slider'
 import Temples from './temples'
 import Auction from './auction'
 import AuctionList from './auction-list'
+import Users from './users'
 import Store from './store'
 
 const title = '资产重组'
@@ -26,7 +27,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailSacrifice extends React.Component {
@@ -52,9 +53,9 @@ class TinygrailSacrifice extends React.Component {
         <>
           <Text
             style={{
-              paddingVertical: _.sm,
-              color: _.colorTinygrailText
+              paddingVertical: _.sm
             }}
+            type='tinygrailText'
             size={15}
             onPress={() => {
               const { form, monoId } = $.params
@@ -79,11 +80,11 @@ class TinygrailSacrifice extends React.Component {
           <Text
             style={[
               {
-                paddingVertical: _.sm,
-                color: _.colorTinygrailText
+                paddingVertical: _.sm
               },
               _.ml.sm
             ]}
+            type='tinygrailText'
             size={15}
             onPress={() => {
               const { form, monoId } = $.params
@@ -133,12 +134,7 @@ class TinygrailSacrifice extends React.Component {
     const { refreshing } = this.state
     return (
       <ScrollView
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
+        style={this.styles.container}
         contentContainerStyle={_.container.bottom}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
@@ -147,10 +143,22 @@ class TinygrailSacrifice extends React.Component {
         <StatusBarEvents />
         <Info />
         <Slider style={_.mt.sm} />
-        <Temples style={_.mt.sm} />
-        <Auction style={_.mt.lg} />
-        <AuctionList style={_.mt.md} />
+        <Auction style={_.mt.md} />
+        <AuctionList style={_.mt.sm} />
+        <Temples />
+        <Users />
       </ScrollView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

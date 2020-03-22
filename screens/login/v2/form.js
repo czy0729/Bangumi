@@ -2,19 +2,33 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 16:33:47
+ * @Last Modified time: 2020-02-21 04:19:34
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, Input, Button, Mesume } from '@components'
+import { ActivityIndicator } from '@ant-design/react-native'
+import {
+  Flex,
+  Text,
+  Touchable,
+  Input,
+  Button,
+  Mesume,
+  Iconfont
+} from '@components'
+import { Popover } from '@screens/_'
 import { _ } from '@stores'
+import { HOST, HOST_2, HOST_3 } from '@constants'
+
+const data = [HOST, HOST_2, HOST_3]
 
 export default
 @observer
 class Form extends React.Component {
   static defaultProps = {
     forwardRef: Function.prototype,
+    host: '',
     onGetCaptcha: Function.prototype,
     onFocus: Function.prototype,
     onBlur: Function.prototype,
@@ -31,11 +45,13 @@ class Form extends React.Component {
       base64,
       loading,
       info,
+      host,
       forwardRef,
       onGetCaptcha,
       onFocus,
       onBlur,
       onChange,
+      onSelect,
       onLogin
     } = this.props
     const isError = info.includes('错误')
@@ -82,17 +98,31 @@ class Form extends React.Component {
                 onChange={evt => onChange(evt, 'captcha')}
               />
             </Flex.Item>
-            <Touchable
-              style={this.styles.captchaContainer}
-              onPress={onGetCaptcha}
-            >
-              {!!base64 && (
-                <RNImage style={this.styles.captcha} source={{ uri: base64 }} />
-              )}
+            <Touchable onPress={onGetCaptcha}>
+              <Flex style={this.styles.captchaContainer} justify='center'>
+                {base64 ? (
+                  <RNImage
+                    style={this.styles.captcha}
+                    source={{ uri: base64 }}
+                  />
+                ) : (
+                  <ActivityIndicator size='small' />
+                )}
+              </Flex>
             </Touchable>
           </Flex>
+          <Popover data={data} onSelect={onSelect}>
+            <Flex style={this.styles.popover}>
+              <Flex.Item>
+                <Text type='sub' size={12}>
+                  使用 {host} 进行登陆
+                </Text>
+              </Flex.Item>
+              <Iconfont name='down' type='sub' size={12} />
+            </Flex>
+          </Popover>
           <Button
-            style={_.mt.lg}
+            style={_.mt.md}
             type='main'
             shadow
             loading={loading}
@@ -121,8 +151,9 @@ class Form extends React.Component {
               type='sub'
               onPress={() => navigation.push('LoginAssist')}
             >
-              部分设备实在没办法走通登陆流程的, 可点击这里前往辅助登陆
-              (需要使用PC) &gt;
+              尝试切换另一域名进行重试. 受网络供应商影响,
+              请尝试切换wifi或4g网络, 部分设备实在没办法走通登陆流程,
+              可点击这里前往辅助登陆 (需要使用PC) &gt;
             </Text>
           )}
         </View>
@@ -140,7 +171,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   form: {
-    width: 280,
+    width: 320,
     paddingBottom: 82
   },
   input: {
@@ -150,10 +181,16 @@ const memoStyles = _.memoStyles(_ => ({
     width: 118,
     height: 44,
     marginLeft: _.sm,
-    backgroundColor: _.colorBg
+    backgroundColor: _.colorBg,
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
   },
   captcha: {
     width: 118,
     height: 44
+  },
+  popover: {
+    paddingTop: _.md,
+    paddingBottom: _.md
   }
 }))

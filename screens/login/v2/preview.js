@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 16:27:59
+ * @Last Modified time: 2020-02-04 21:53:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,7 +39,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   bottomContainer: {
-    width: 280,
+    width: 320,
     height: 350
   }
 }))

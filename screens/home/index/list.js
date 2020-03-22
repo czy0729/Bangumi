@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-12 20:16:28
+ * @Last Modified time: 2020-02-14 01:26:14
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,7 +10,6 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { withTabsHeader } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Item from './item'
 
 function List({ title }, { $ }) {
@@ -18,35 +17,15 @@ function List({ title }, { $ }) {
     return <Loading />
   }
 
-  // 置顶
-  const { top } = $.state
-
-  // 筛选当前类型
-  const userCollection = {
-    ...$.userCollection
-  }
-  const type = MODEL_SUBJECT_TYPE.getValue(title)
-  if (type) {
-    userCollection.list = userCollection.list.filter(
-      item => item.subject.type == type
-    )
-  }
-  userCollection.list = $.sortList(userCollection.list)
   return (
     <ListView
       contentContainerStyle={_.container.outer}
-      keyExtractor={item => String(item.subject_id)}
-      data={userCollection}
-      renderItem={({ item }) => (
-        <Item
-          top={top.indexOf(item.subject_id) !== -1}
-          subjectId={item.subject_id}
-          subject={item.subject}
-          epStatus={item.ep_status}
-        />
-      )}
+      keyExtractor={keyExtractor}
+      data={$.currentUserCollection(title)}
       footerNoMoreDataText=''
-      onHeaderRefresh={() => $.initFetch(true)}
+      footerEmptyDataText='当前没有在看的条目哦'
+      renderItem={renderItem}
+      onHeaderRefresh={$.onHeaderRefresh}
       {...withTabsHeader.listViewProps}
     />
   )
@@ -61,3 +40,17 @@ List.contextTypes = {
 }
 
 export default observer(List)
+
+function keyExtractor(item) {
+  return String(item.subject_id)
+}
+
+function renderItem({ item }) {
+  return (
+    <Item
+      subjectId={item.subject_id}
+      subject={item.subject}
+      epStatus={item.ep_status}
+    />
+  )
+}

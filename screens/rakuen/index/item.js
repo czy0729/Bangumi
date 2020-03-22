@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 21:43:36
+ * @Last Modified time: 2020-03-14 18:03:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Popover, Avatar, StockPreview } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { findBangumiCn, appNavigate } from '@utils/app'
+import { correctAgo, findBangumiCn, appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
@@ -151,7 +151,7 @@ class Item extends React.Component {
           navigation,
           {
             _title: title,
-            _replies: `(+${this.replyCount})`,
+            _replies: `+${this.replyCount}`,
             _group: group,
             _time: time,
             _avatar: avatar,
@@ -183,29 +183,29 @@ class Item extends React.Component {
               {$.cnFirst ? name || title : title}
               <Text
                 type={this.isReaded ? 'sub' : 'main'}
-                size={12}
+                size={13}
                 lineHeight={16}
               >
                 {' '}
-                ({replyText})
+                {replyText}
               </Text>
               {!!replyAdd && (
-                <Text type='main' size={12} lineHeight={16}>
+                <Text type='main' size={13} lineHeight={16}>
                   {' '}
                   {replyAdd}
                 </Text>
               )}
               {isOldTopic && (
-                <Text size={12} lineHeight={16} type='warning'>
+                <Text size={13} lineHeight={16} type='warning'>
                   {' '}
-                  (旧帖)
+                  旧帖
                 </Text>
               )}
             </Text>
             <Text style={_.mt.sm} type='sub' size={12}>
-              {correctTime(time)}
+              {correctAgo(time)}
               {this.groupCn ? ' / ' : ''}
-              <Text size={12}>{this.groupCn}</Text>
+              {this.groupCn}
             </Text>
           </Flex.Item>
         </Flex>
@@ -268,7 +268,7 @@ class Item extends React.Component {
           )
         }
       >
-        <Iconfont name='extra' />
+        <Iconfont name='extra' size={15} />
       </Popover>
     )
   }
@@ -319,7 +319,7 @@ class Item extends React.Component {
             userId={this.userId}
             event={event}
           />
-          <Flex.Item style={!isTop && this.styles.border}>
+          <Flex.Item style={[!isTop && this.styles.border, _.ml.sm]}>
             <Flex align='start'>
               <Flex.Item>{this.renderContent()}</Flex.Item>
               {this.renderStockPreview()}
@@ -330,7 +330,7 @@ class Item extends React.Component {
         {this.isFavor && (
           <Iconfont
             style={this.styles.favor}
-            size={12}
+            size={15}
             name='star-full'
             color={_.colorYellow}
           />
@@ -357,11 +357,10 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: _.md
   },
   item: {
-    paddingVertical: _.md,
-    paddingLeft: _.sm
+    paddingVertical: _.md
   },
   extra: {
-    paddingVertical: _.md,
+    paddingVertical: 19,
     paddingHorizontal: _.sm
   },
   border: {
@@ -374,11 +373,3 @@ const memoStyles = _.memoStyles(_ => ({
     bottom: 20
   }
 }))
-
-function correctTime(time = '') {
-  let _time = time.replace('...', '')
-  if (_time.indexOf(' ago') === -1) {
-    _time = _time.replace('ago', ' ago')
-  }
-  return _time
-}

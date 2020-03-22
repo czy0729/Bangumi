@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:56:07
+ * @Last Modified time: 2020-03-21 01:41:44
  */
 import React from 'react'
 import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
@@ -24,7 +24,8 @@ const withHeader = ({
   headerTitleStyle,
   iconBackColor,
   statusBarEvents = true,
-  hm
+  hm,
+  withHeaderParams // function
 } = {}) => ComposedComponent =>
   observer(
     class withHeaderComponent extends React.Component {
@@ -73,11 +74,16 @@ const withHeader = ({
           headerRight = <Flex>{extra}</Flex>
         }
 
+        // withHeaderParams动态生成的params优先级最高
+        let _params = {}
+        if (withHeaderParams) {
+          _params = withHeaderParams()
+        }
         const params = {
           headerLeft: (
             <IconBack
               navigation={navigation}
-              color={iconBackColor || _.colorTitle}
+              color={_params.iconBackColor || iconBackColor || _.colorTitle}
             />
           ),
           headerRight,
@@ -86,22 +92,22 @@ const withHeader = ({
                 backgroundColor: _.colorPlain,
                 borderBottomColor: _.colorBorder,
                 borderBottomWidth: _.hairlineWidth,
-                ...headerStyle
+                ..._.shadow,
+                ...(_params.headerStyle || headerStyle)
               }
             : {
                 backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-                borderBottomColor: _.colorBorder,
-                borderBottomWidth: _.hairlineWidth,
-                elevation: 0,
+                borderBottomWidth: 0,
+                elevation: 2,
                 ...defaultHeaderStyle,
-                ...headerStyle
+                ...(_params.headerStyle || headerStyle)
               },
           headerTitleStyle: {
             width: '100%',
             color: _.colorTitle,
             fontSize: 16 + _.fontSizeAdjust,
             fontWeight: 'normal',
-            ...headerTitleStyle
+            ...(_params.headerTitleStyle || headerTitleStyle)
           },
           ...(typeof ComposedComponent.navigationOptions === 'function'
             ? ComposedComponent.navigationOptions({
@@ -128,10 +134,20 @@ const withHeader = ({
         if (!IOS && _.isDark) {
           backgroundColor = _._colorDarkModeLevel1Hex
         }
+
+        // withHeaderParams动态生成的params优先级最高
+        let _params = {}
+        if (withHeaderParams) {
+          _params = withHeaderParams()
+        }
+        const _statusBarEvents =
+          _params.statusBarEvents === undefined
+            ? statusBarEvents
+            : _params.statusBarEvents
         return (
           <>
             <UM screen={screen} />
-            {statusBarEvents && (
+            {_statusBarEvents && (
               <StatusBarEvents backgroundColor={backgroundColor} />
             )}
             <ComposedComponent navigation={navigation} />

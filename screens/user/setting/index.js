@@ -2,30 +2,39 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 14:25:26
+ * @Last Modified time: 2020-03-21 17:52:29
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
 import { Text, Switch } from '@components'
-import { Popover, ItemSetting } from '@screens/_'
+import {
+  Popover,
+  ItemSetting,
+  IconTouchable,
+  NavigationBarEvents
+} from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
 import { toFixed } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
-import { info } from '@utils/ui'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import {
   IOS,
-  FEEDBACK_URL,
-  GITHUB_URL,
-  GITHUB_RELEASE_URL,
+  URL_FEEDBACK,
+  GITHUB_PROJECT,
+  GITHUB_RELEASE,
   VERSION_GITHUB_RELEASE,
   VERSION_CODE_PUSH,
-  USERID_TOURIST,
-  USERID_IOS_AUTH,
-  SAY_DEVELOP_ID
+  APP_USERID_TOURIST,
+  APP_USERID_IOS_AUTH,
+  APP_ID_SAY_DEVELOP
 } from '@constants'
-import { MODEL_SETTING_QUALITY } from '@constants/model'
+import {
+  MODEL_SETTING_QUALITY,
+  MODEL_SETTING_FONTSIZEADJUST,
+  MODEL_SETTING_TRANSITION,
+  MODEL_INITIAL_PAGE
+} from '@constants/model'
 
 const title = '设置'
 
@@ -41,17 +50,27 @@ class Setting extends React.Component {
   }
 
   state = {
-    showDev: false,
     storageSize: ''
   }
 
   componentDidMount() {
     this.caculateStorageSize()
+    this.setParams()
   }
 
   setParams = () => {
     const { navigation } = this.props
-    navigation.setParams({})
+    navigation.setParams({
+      extra: (
+        <IconTouchable
+          style={{
+            opacity: 0
+          }}
+          name='more'
+          onPress={() => navigation.push('DEV')}
+        />
+      )
+    })
   }
 
   caculateStorageSize = async () => {
@@ -90,13 +109,46 @@ class Setting extends React.Component {
     }
   }
 
-  toggleDev = () => {
-    const { showDev } = this.state
-    this.setState({
-      showDev: !showDev
+  setFontSizeAdjust = label => {
+    t('设置.切换', {
+      title: '字号',
+      label
     })
-    info(`调式模式 ${!showDev ? '开' : '关'}`)
-    systemStore.toggleDev()
+
+    _.changeFontSizeAdjust(MODEL_SETTING_FONTSIZEADJUST.getValue(label))
+  }
+
+  setTransition = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '切页动画',
+        label
+      })
+
+      systemStore.setTransition(label)
+    }
+  }
+
+  setTransition = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '切页动画',
+        label
+      })
+
+      systemStore.setTransition(label)
+    }
+  }
+
+  setInitialPage = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '启动页',
+        label
+      })
+
+      systemStore.setInitialPage(label)
+    }
   }
 
   get userId() {
@@ -118,8 +170,8 @@ class Setting extends React.Component {
 
     if (
       !this.userId ||
-      this.userId == USERID_TOURIST ||
-      this.userId == USERID_IOS_AUTH
+      this.userId == APP_USERID_TOURIST ||
+      this.userId == APP_USERID_IOS_AUTH
     ) {
       return false
     }
@@ -128,7 +180,7 @@ class Setting extends React.Component {
   }
 
   renderModule() {
-    const { tinygrail } = systemStore.setting
+    const { cdn, tinygrail } = systemStore.setting
     return (
       <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
@@ -136,6 +188,25 @@ class Setting extends React.Component {
         </Text>
         <ItemSetting
           style={_.mt.sm}
+          hd='CDN加速'
+          ft={
+            <Switch
+              checked={cdn}
+              onChange={() => {
+                t('设置.切换', {
+                  title: 'CDN加速',
+                  checked: !cdn
+                })
+
+                systemStore.switchSetting('cdn')
+              }}
+            />
+          }
+          withoutFeedback
+          information='建议开启, 针对静态数据使用CDN访问快照加速渲染, 主站卡的时候效果更为明显. 缺点是数据不会及时同步, 流量稍微变高. (已支持条目、帖子、人物、人物封面和用户头像)'
+        />
+        <ItemSetting
+          border
           hd='黑暗模式'
           ft={
             <Switch
@@ -207,7 +278,7 @@ class Setting extends React.Component {
   }
 
   renderBasic() {
-    const { quality, hideScore, cnFirst, autoFetch } = systemStore.setting
+    const { quality, hideScore, cnFirst, initialPage } = systemStore.setting
     return (
       <>
         <Text style={[_.container.wind, _.mt.md]} type='sub'>
@@ -215,22 +286,6 @@ class Setting extends React.Component {
         </Text>
         <ItemSetting
           style={_.mt.sm}
-          hd='图片质量'
-          ft={
-            <Popover
-              data={MODEL_SETTING_QUALITY.data.map(({ label }) => label)}
-              onSelect={this.setQuality}
-            >
-              <Text size={16} type='sub'>
-                {MODEL_SETTING_QUALITY.getLabel(quality)}
-              </Text>
-            </Popover>
-          }
-          arrow
-          highlight
-        />
-        <ItemSetting
-          border
           hd='隐藏他人评分'
           ft={
             <Switch
@@ -267,22 +322,52 @@ class Setting extends React.Component {
         />
         <ItemSetting
           border
-          hd='优化请求量'
+          hd='启动页'
           ft={
-            <Switch
-              checked={!autoFetch}
-              onChange={() => {
-                t('设置.切换', {
-                  title: '优化请求量',
-                  checked: !autoFetch
-                })
-
-                systemStore.switchSetting('autoFetch')
-              }}
-            />
+            <Popover
+              data={MODEL_INITIAL_PAGE.data.map(({ label }) => label)}
+              onSelect={this.setInitialPage}
+            >
+              <Text size={16} type='sub'>
+                {MODEL_INITIAL_PAGE.getLabel(initialPage)}
+              </Text>
+            </Popover>
           }
-          withoutFeedback
-          information='因维护成本大且效果不好, 即将废弃, 请勿开启'
+          arrow
+          highlight
+        />
+        <ItemSetting
+          border
+          hd='字号'
+          ft={
+            <Popover
+              data={MODEL_SETTING_FONTSIZEADJUST.data.map(({ label }) => label)}
+              onSelect={this.setFontSizeAdjust}
+            >
+              <Text size={16} type='sub'>
+                {MODEL_SETTING_FONTSIZEADJUST.getLabel(_.fontSizeAdjust)}
+              </Text>
+            </Popover>
+          }
+          arrow
+          highlight
+        />
+        <ItemSetting
+          border
+          hd='图片质量'
+          ft={
+            <Popover
+              data={MODEL_SETTING_QUALITY.data.map(({ label }) => label)}
+              onSelect={this.setQuality}
+            >
+              <Text size={16} type='sub'>
+                {MODEL_SETTING_QUALITY.getLabel(quality)}
+              </Text>
+            </Popover>
+          }
+          arrow
+          highlight
+          information='修改后图片CDN加速读取会失效, 不建议修改'
         />
       </>
     )
@@ -292,8 +377,11 @@ class Setting extends React.Component {
     const {
       // iosMenu,
       avatarRound,
+      ripple,
+      imageTransition,
       heatMap,
-      speech
+      speech,
+      transition
     } = systemStore.setting
     return (
       <>
@@ -344,6 +432,45 @@ class Setting extends React.Component {
         />
         <ItemSetting
           border
+          hd='图片渐出动画'
+          ft={
+            <Switch
+              checked={imageTransition}
+              onChange={() => {
+                t('设置.切换', {
+                  title: '图片渐出动画',
+                  checked: !imageTransition
+                })
+
+                systemStore.switchSetting('imageTransition')
+              }}
+            />
+          }
+          withoutFeedback
+        />
+        {!IOS && (
+          <ItemSetting
+            border
+            hd='点击水纹效果'
+            ft={
+              <Switch
+                checked={ripple}
+                onChange={() => {
+                  t('设置.切换', {
+                    title: '点击水纹',
+                    checked: !ripple
+                  })
+
+                  systemStore.switchSetting('ripple')
+                }}
+              />
+            }
+            withoutFeedback
+            information='当按钮被按下时产生一个涟漪状的背景, 关闭可以提升性能'
+          />
+        )}
+        <ItemSetting
+          border
           hd='章节讨论热力图'
           ft={
             <Switch
@@ -379,6 +506,23 @@ class Setting extends React.Component {
           }
           withoutFeedback
         />
+        <ItemSetting
+          border
+          hd='切页动画'
+          ft={
+            <Popover
+              data={MODEL_SETTING_TRANSITION.data.map(({ label }) => label)}
+              onSelect={this.setTransition}
+            >
+              <Text size={16} type='sub'>
+                {MODEL_SETTING_TRANSITION.getLabel(transition)}
+              </Text>
+            </Popover>
+          }
+          arrow
+          highlight
+          // information='部分安卓10用户会遇到页面布局错位问题, 可把动画设置成垂直暂时解决'
+        />
       </>
     )
   }
@@ -409,7 +553,7 @@ class Setting extends React.Component {
                 </Text>
               </Text>
             ) : (
-              `当前版本${version}`
+              `当前${version}`
             )
           }
           arrow={!IOS}
@@ -417,14 +561,14 @@ class Setting extends React.Component {
             IOS
               ? undefined
               : () =>
-                  appNavigate(GITHUB_RELEASE_URL, undefined, undefined, {
+                  appNavigate(GITHUB_RELEASE, undefined, undefined, {
                     id: '设置.跳转'
                   })
           }
         />
         <ItemSetting
           border
-          hd='功能需求反馈'
+          hd='反馈'
           arrow
           highlight
           onPress={() => {
@@ -433,7 +577,7 @@ class Setting extends React.Component {
             })
 
             navigation.push('Say', {
-              id: SAY_DEVELOP_ID
+              id: APP_ID_SAY_DEVELOP
             })
           }}
         />
@@ -443,19 +587,19 @@ class Setting extends React.Component {
           arrow
           highlight
           onPress={() =>
-            appNavigate(FEEDBACK_URL, navigation, undefined, {
+            appNavigate(URL_FEEDBACK, navigation, undefined, {
               id: '设置.跳转'
             })
           }
         />
         <ItemSetting
           border
-          hd='项目地址'
-          ft='求个星星'
+          hd='github地址'
+          ft='欢迎star'
           arrow
           highlight
           onPress={() =>
-            appNavigate(GITHUB_URL, undefined, undefined, {
+            appNavigate(GITHUB_PROJECT, undefined, undefined, {
               id: '设置.跳转'
             })
           }
@@ -487,7 +631,7 @@ class Setting extends React.Component {
         </Text>
         <ItemSetting
           style={_.mt.sm}
-          hd='清除数据缓存'
+          hd='清除缓存'
           ft={
             <Text size={16} type='sub'>
               {storageSize}
@@ -522,6 +666,7 @@ class Setting extends React.Component {
         style={_.container.screen}
         contentContainerStyle={_.container.bottom}
       >
+        <NavigationBarEvents />
         {this.renderModule()}
         {this.renderBasic()}
         {this.renderUI()}

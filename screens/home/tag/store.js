@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 16:51:45
+ * @Last Modified time: 2020-01-23 16:49:05
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
@@ -42,13 +42,6 @@ export default class ScreenTag extends store {
     return this.fetchTag(true)
   }
 
-  // -------------------- get --------------------
-  @computed get tag() {
-    const { type, tag } = this.params
-    const { airtime, month } = this.state
-    return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime)
-  }
-
   // -------------------- fetch --------------------
   fetchTag = refresh => {
     const { type, tag } = this.params
@@ -62,6 +55,13 @@ export default class ScreenTag extends store {
       },
       refresh
     )
+  }
+
+  // -------------------- get --------------------
+  @computed get tag() {
+    const { type, tag } = this.params
+    const { airtime, month } = this.state
+    return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime)
   }
 
   // -------------------- page --------------------

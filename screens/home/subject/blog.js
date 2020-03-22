@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 15:53:30
+ * @Last Modified time: 2020-01-15 20:53:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,15 +18,16 @@ function Blog({ style }, { $, navigation }) {
     return null
   }
 
+  const styles = memoStyles()
   return (
-    <Expand style={style} ratio={2}>
-      <SectionTitle style={{ paddingLeft: _.wind }}>评论</SectionTitle>
+    <Expand style={[styles.container, style]} ratio={2}>
+      <SectionTitle style={styles.left}>评论</SectionTitle>
       <View style={_.mt.sm}>
         {blog.map((item, index) => (
           <ItemArticle
             // eslint-disable-next-line react/no-array-index-key
             key={index}
-            style={{ paddingLeft: _.wind }}
+            style={styles.left}
             navigation={navigation}
             index={index}
             avatar={item.user.avatar.small}
@@ -56,3 +57,12 @@ Blog.contextTypes = {
 }
 
 export default observer(Blog)
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    backgroundColor: _.colorPlain
+  },
+  left: {
+    paddingLeft: _.wind
+  }
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 15:48:11
+ * @Last Modified time: 2020-03-07 14:25:48
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -29,36 +29,38 @@ function SectionTitle(props, { $ }) {
   })
   return (
     <CompSectionTitle
-      style={[styles.title, _.mt.lg, _.mb.md]}
+      style={styles.title}
       right={
         <>
-          {hasLogin && (
+          {hasLogin && !!$.commentMeCount && (
             <IconTouchable
               name='me'
               color={filterMe ? _.colorMain : _.colorIcon}
+              count={$.commentMeCount}
               onPress={$.toggleFilterMe}
             />
           )}
-          {hasLogin && (
+          {hasLogin && !!$.commentFriendsCount && (
             <IconTouchable
               style={_.ml.sm}
               name='friends'
               color={filterFriends ? _.colorMain : _.colorIcon}
+              count={$.commentFriendsCount}
               onPress={$.toggleFilterFriends}
             />
           )}
           <IconReverse
-            style={[styles.sort, _.ml.xs]}
+            style={styles.sort}
             color={reverse ? _.colorMain : _.colorIcon}
             onPress={$.toggleReverseComments}
           />
         </>
       }
     >
-      吐槽箱{' '}
+      吐槽{' '}
       {commentsCount !== 0 && (
         <Text size={12} type='sub' lineHeight={24}>
-          ({commentsCount})
+          {commentsCount}
         </Text>
       )}
     </CompSectionTitle>
@@ -73,9 +75,12 @@ export default observer(SectionTitle)
 
 const styles = StyleSheet.create({
   title: {
-    paddingHorizontal: _.wind
+    paddingHorizontal: _.wind,
+    marginTop: _.lg,
+    marginBottom: _.md
   },
   sort: {
-    marginRight: -_.sm
+    marginRight: -_.sm,
+    marginLeft: _.xs
   }
 })

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 16:41:37
+ * @Last Modified time: 2020-03-21 11:45:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
+import { observer } from '@utils/decorators'
 import Item from './item'
 import { tabs } from './store'
 
@@ -19,11 +20,23 @@ function List({ index }, { $ }) {
 
   let data
   switch (tabs[index].title) {
+    case '刮刮乐':
+      data = {
+        ...$.balance,
+        list: $.balance.list.filter(item => item.desc.includes('刮刮乐'))
+      }
+      break
+    case '道具':
+      data = {
+        ...$.balance,
+        list: $.balance.list.filter(item => item.desc.includes('混沌魔方'))
+      }
+      break
     case '卖出':
       data = {
         ...$.balance,
         list: $.balance.list.filter(
-          item => item.desc.includes('卖出委托') && item.change > 0
+          item => item.desc.includes('卖出') && item.change > 0
         )
       }
       break
@@ -31,7 +44,7 @@ function List({ index }, { $ }) {
       data = {
         ...$.balance,
         list: $.balance.list.filter(
-          item => item.desc.includes('买入委托') && item.change < 0
+          item => item.desc.includes('买入') && item.change < 0
         )
       }
       break
@@ -69,9 +82,13 @@ function List({ index }, { $ }) {
   return (
     <ListView
       style={_.container.flex}
-      keyExtractor={item => String(item.id)}
+      keyExtractor={keyExtractor}
+      refreshControlProps={{
+        color: _.colorTinygrailText
+      }}
+      footerTextType='tinygrailText'
       data={data}
-      renderItem={({ item, index }) => <Item index={index} {...item} />}
+      renderItem={renderItem}
       onHeaderRefresh={() => $.fetchBalance()}
     />
   )
@@ -86,3 +103,7 @@ List.contextTypes = {
 }
 
 export default observer(List)
+
+function renderItem({ item, index }) {
+  return <Item index={index} {...item} />
+}

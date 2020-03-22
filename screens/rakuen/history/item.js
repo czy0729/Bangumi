@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 12:27:45
+ * @Last Modified time: 2020-02-23 05:19:03
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -51,8 +51,8 @@ function Item(
           <Flex align='start'>
             <Flex.Item>
               <Text size={16}>{title}</Text>
-              <Text style={_.mt.sm} type='sub' size={12}>
-                {time.split(' ')[1]} / <Text size={12}>{group}</Text> /{' '}
+              <Text style={_.mt.sm} type='sub' size={13}>
+                {time.split(' ')[1]} / <Text size={13}>{group}</Text> /{' '}
                 {userName}
               </Text>
             </Flex.Item>

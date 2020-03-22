@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 15:44:24
+ * @Last Modified time: 2020-02-22 12:03:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,24 +13,24 @@ import { SectionTitle, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate, getCoverMedium } from '@utils/app'
 
+const event = {
+  id: '人物.跳转',
+  data: {
+    from: '出演'
+  }
+}
+
 function Jobs({ style }, { $, navigation }) {
-  const { jobs = [] } = $.mono
-  if (!jobs.length) {
+  if (!$.jobs.length) {
     return null
   }
 
   const styles = memoStyles()
-  const event = {
-    id: '人物.跳转',
-    data: {
-      from: '出演'
-    }
-  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle>出演</SectionTitle>
       <View style={_.mt.md}>
-        {jobs.map((item, index) => (
+        {$.jobs.map((item, index) => (
           <Flex
             key={item.href}
             style={[styles.item, index !== 0 && styles.border]}
@@ -60,7 +60,7 @@ function Jobs({ style }, { $, navigation }) {
                   <Text style={_.mt.xs}>{item.name}</Text>
                   <Flex style={_.mt.xs} align='start'>
                     <Tag value={item.staff} />
-                    <Text style={_.ml.xs} size={12} type='sub' lineHeight={14}>
+                    <Text style={_.ml.xs} size={13} type='sub' lineHeight={14}>
                       {item.nameCn}
                     </Text>
                   </Flex>
@@ -74,7 +74,7 @@ function Jobs({ style }, { $, navigation }) {
                     {item.cast}
                   </Text>
                   {!!item.castTag && (
-                    <Text style={_.mt.xs} size={12} type='sub' align='right'>
+                    <Text style={_.mt.xs} size={13} type='sub' align='right'>
                       {item.castTag}
                     </Text>
                   )}

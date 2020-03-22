@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:42:23
+ * @Last Modified time: 2020-02-23 05:23:12
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -13,11 +13,17 @@ import { open } from '@utils'
 import { observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
-import { hm } from '@utils/fetch'
+import { hm, xhrCustom, fetchHTML } from '@utils/fetch'
+import { removeCF } from '@utils/html'
 import { HOST } from '@constants'
-import staticHTML from './static-html'
+import { CDN_AWARD } from '@constants/cdn'
+import resetStyle from './reset-style'
+import { injectedStaticJavaScript } from './utils'
 
 const title = '年鉴'
+const originWhitelist = ['*']
+const lightContentYears = ['2016', '2015', '2012', '2011']
+const htmlCache = {}
 
 export default
 @observer
@@ -28,14 +34,71 @@ class Award extends React.Component {
 
   state = {
     loading: true,
-    redirectCount: 0
+    redirectCount: 0,
+    html: ''
   }
 
   loaded = false // 是否已到达目的页面
   redirectCount = 0 // 跳转次数
 
   componentDidMount() {
+    if (htmlCache[this.year]) {
+      this.setState({
+        html: htmlCache[this.year]
+      })
+    } else {
+      this.fetchHTML()
+    }
+
     hm(`award/${this.year}`, 'Award')
+  }
+
+  fetchHTML = async () => {
+    if (this.year == 2019) {
+      this.fetch2019()
+      return
+    }
+
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_AWARD(this.year)
+      })
+      const { html } = JSON.parse(_response)
+      htmlCache[this.year] = html
+      this.setState({
+        html
+      })
+    } catch (error) {
+      warn('discovery/award/index.js', 'fetchHTML', error)
+    }
+  }
+
+  fetch2019 = async () => {
+    try {
+      const html = await fetchHTML({
+        url: `${HOST}/award/2019`
+      })
+
+      this.setState({
+        html: `${removeCF(html)
+          .replace(/>\s+</g, '><')
+          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+          .replace(
+            /<div id="headerNeue2">(.+?)<div id="awardWrapper"/g,
+            '<div id="awardWrapper"'
+          )
+          .replace(/<div class="shareBtn">(.+?)<\/div>/, '')
+          .replace(/<div id="dock">(.+?)<div id="robot"/g, '<div id="robot"')
+          .replace(
+            /<div id="main" class="png_bg"><div id="footer">(.+?)<\/div><div class="homeBg">/g,
+            '</div><div class="homeBg">'
+          )}<style>${
+          resetStyle[2019]
+        }</style><script>${injectedStaticJavaScript}</script>`
+      })
+    } catch (error) {
+      this.onError()
+    }
   }
 
   onError = () => {
@@ -78,11 +141,10 @@ class Award extends React.Component {
     }
   }
 
-  onLoad = () => {
+  onLoad = () =>
     this.setState({
       loading: false
     })
-  }
 
   get year() {
     const { navigation } = this.props
@@ -93,16 +155,24 @@ class Award extends React.Component {
 
   get barStyle() {
     const { loading } = this.state
-    if (!loading && ['2016', '2015', '2012', '2011'].includes(this.year)) {
+    if (!loading && lightContentYears.includes(this.year)) {
       return 'dark-content'
     }
     return 'light-content'
   }
 
+  get source() {
+    const { html } = this.state
+    return {
+      html,
+      baseUrl: HOST
+    }
+  }
+
   render() {
-    const { loading, redirectCount } = this.state
+    const { loading, redirectCount, html } = this.state
     return (
-      <View style={[_.container.flex, styles.dark]}>
+      <View style={styles.container}>
         <UM screen={title} />
         <StatusBarEvents
           barStyle={this.barStyle}
@@ -110,28 +180,14 @@ class Award extends React.Component {
           action='onWillFocus'
         />
         {loading && (
-          <Loading
-            style={[
-              {
-                ...StyleSheet.absoluteFill,
-                zIndex: 1
-              },
-              styles.dark
-            ]}
-            color={_.colorPlain}
-          >
-            <Text style={_.mt.md} size={12} type={_.select('plain', 'title')}>
+          <Loading style={styles.loading} color={_.colorPlain}>
+            <Text style={_.mt.md} size={13} type={_.select('plain', 'title')}>
               {redirectCount
                 ? `第${redirectCount}次重试`
                 : '网页加载中, 请稍等'}
             </Text>
             <Text
-              style={[
-                _.mt.sm,
-                {
-                  opacity: 0.6
-                }
-              ]}
+              style={styles.extra}
               size={10}
               type={_.select('plain', 'title')}
               onPress={this.onOpen}
@@ -140,28 +196,40 @@ class Award extends React.Component {
             </Text>
           </Loading>
         )}
-        <WebView
-          style={[
-            styles.dark,
-            {
-              paddingTop: _.statusBarHeight
-            }
-          ]}
-          useWebKit
-          thirdPartyCookiesEnabled={false}
-          originWhitelist={['*']}
-          source={{ html: staticHTML(this.year), baseUrl: HOST }}
-          onLoad={this.onLoad}
-          onError={this.onError}
-          onMessage={this.onMessage}
-        />
+        {!!html && (
+          <WebView
+            style={styles.webview}
+            useWebKit
+            thirdPartyCookiesEnabled={false}
+            originWhitelist={originWhitelist}
+            source={this.source}
+            onLoad={this.onLoad}
+            onError={this.onError}
+            onMessage={this.onMessage}
+          />
+        )}
       </View>
     )
   }
 }
 
+const backgroundColor = 'rgb(0, 0, 0)'
 const styles = StyleSheet.create({
-  dark: {
-    backgroundColor: 'rgb(0, 0, 0)'
+  container: {
+    ..._.container.flex,
+    backgroundColor
+  },
+  loading: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 1,
+    backgroundColor
+  },
+  extra: {
+    ..._.mt.sm,
+    opacity: 0.6
+  },
+  webview: {
+    paddingTop: _.statusBarHeight,
+    backgroundColor
   }
 })

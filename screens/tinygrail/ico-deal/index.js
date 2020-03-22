@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 17:52:14
+ * @Last Modified time: 2020-03-21 11:41:54
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Info from './info'
 import Slider from './slider'
@@ -23,7 +23,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailICODeal extends React.Component {
@@ -68,12 +68,7 @@ class TinygrailICODeal extends React.Component {
     const { refreshing } = this.state
     return (
       <ScrollView
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
+        style={this.styles.container}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
@@ -85,4 +80,15 @@ class TinygrailICODeal extends React.Component {
       </ScrollView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

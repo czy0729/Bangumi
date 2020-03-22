@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 15:04:05
+ * @Last Modified time: 2020-03-22 15:53:54
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -23,7 +23,7 @@ import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { IOS, DEV, IMG_EMPTY, IMG_ERROR, EVENT } from '@constants'
+import { IOS, IMG_ERROR, IMG_EMPTY, EVENT } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import Touchable from './touchable'
 
@@ -232,7 +232,10 @@ class Image extends React.Component {
     RNImage.getSize(uri, cb)
   }
 
-  onError = () =>
+  /**
+   * 加载失败
+   */
+  onError = () => {
     this.setState(
       {
         error: true
@@ -244,6 +247,7 @@ class Image extends React.Component {
         }
       }
     )
+  }
 
   render() {
     const {
@@ -286,17 +290,17 @@ class Image extends React.Component {
       })
     }
 
-    // 黑暗模式不显示border比较好看
-    if (border) {
-      if (!_.isDark || (_.isDark && borderWidth !== _.hairlineWidth)) {
-        if (typeof border === 'string') {
-          _image.push({
-            borderWidth,
-            borderColor: border
-          })
-        } else {
-          _image.push(this.styles.border)
-        }
+    /**
+     * @todo 全局hairlineWidth宽border已不显示
+     */
+    if (border && borderWidth !== _.hairlineWidth) {
+      if (typeof border === 'string') {
+        _image.push({
+          borderWidth,
+          borderColor: border
+        })
+      } else {
+        _image.push(this.styles.border)
       }
     }
 
@@ -336,22 +340,24 @@ class Image extends React.Component {
     }
 
     let image
+    const { imageTransition } = systemStore.setting
+    const fadeDuration = imageTransition ? undefined : 0
     if (error) {
       // 错误显示本地的错误提示图片
       image = (
         <RNImage
           style={[_image, this.styles.error]}
           source={IMG_ERROR}
+          fadeDuration={fadeDuration}
           {...other}
         />
       )
     } else if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
-        if (IOS && !DEV) {
+        if (IOS && imageTransition) {
           image = (
             <AnimatedImage
               style={_image}
-              // source={headers ? { uri, headers } : { uri }}
               headers={headers}
               tint='light'
               preview={IMG_EMPTY}
@@ -374,6 +380,7 @@ class Image extends React.Component {
                       uri
                     }
               }
+              fadeDuration={fadeDuration}
               onError={this.onError}
               {...other}
             />
@@ -394,6 +401,7 @@ class Image extends React.Component {
                 }
               : src
           }
+          fadeDuration={fadeDuration}
           onError={this.onError}
           {...other}
         />
@@ -453,7 +461,19 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: 1,
     borderColor: _.colorBorder
   },
-  shadow: _.shadow,
+  shadow: IOS
+    ? {
+        shadowColor: _.colorShadow,
+        shadowOffset: {
+          height: 4
+        },
+        shadowOpacity: 0.12,
+        shadowRadius: 6
+      }
+    : {
+        backgroundColor: _.colorPlain,
+        elevation: 2
+      },
   placeholder: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
   },

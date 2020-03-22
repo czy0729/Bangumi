@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 17:25:10
+ * @Last Modified time: 2020-03-18 10:20:03
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,7 +10,7 @@ import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { airtimeData, monthData } from '@constants'
+import { DATA_AIRTIME, DATA_MONTH } from '@constants'
 import { MODEL_TAG_ORDERBY } from '@constants/model'
 
 const orderData = MODEL_TAG_ORDERBY.data.map(item => item.label)
@@ -41,7 +41,7 @@ function ToolBar(props, { $ }) {
         </Popover>
       </Flex.Item>
       <Flex.Item flex={0.8}>
-        <Popover data={airtimeData} onSelect={$.onAirdateSelect}>
+        <Popover data={DATA_AIRTIME} onSelect={$.onAirdateSelect}>
           <Flex style={styles.item} justify='center'>
             <Iconfont
               name='calendar'
@@ -55,7 +55,7 @@ function ToolBar(props, { $ }) {
         </Popover>
       </Flex.Item>
       <Flex.Item flex={0.64}>
-        <Popover data={monthData} onSelect={$.onMonthSelect}>
+        <Popover data={DATA_MONTH} onSelect={$.onMonthSelect}>
           <Flex style={styles.item} justify='center'>
             <Text style={_.ml.sm} type={isEmptyMonth ? 'sub' : 'main'}>
               {month || '月'}

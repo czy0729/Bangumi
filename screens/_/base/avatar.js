@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 16:00:30
+ * @Last Modified time: 2020-02-23 04:12:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
+import { CDN_OSS_AVATAR } from '@constants/cdn'
 
 function Avatar({
   style,
@@ -27,8 +28,11 @@ function Avatar({
   onLongPress
 }) {
   const styles = memoStyles()
-  const { avatarRound } = systemStore.setting
-  const _src = getCoverMedium(src, true)
+  const { dev } = systemStore.state
+  const { cdn, avatarRound } = systemStore.setting
+  const _src = cdn
+    ? CDN_OSS_AVATAR(getCoverMedium(src, true))
+    : getCoverMedium(src, true)
   const radius = avatarRound ? size / 2 : true
   const _onPress = () => {
     if (onPress) {
@@ -88,7 +92,7 @@ function Avatar({
 
   return (
     <Image
-      style={style}
+      style={[style, dev && styles.dev]}
       size={size}
       src={_src}
       radius={radius}
@@ -104,7 +108,7 @@ Avatar.defaultProps = {
   navigation: undefined,
   userId: undefined,
   src: undefined,
-  size: 28,
+  size: 32,
   borderColor: undefined,
   event: {},
   onPress: undefined,
@@ -119,5 +123,9 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  dev: {
+    borderWidth: 1,
+    borderColor: _.colorDanger
   }
 }))

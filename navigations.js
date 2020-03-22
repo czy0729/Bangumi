@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:55:28
+ * @Last Modified time: 2020-03-22 22:25:34
  */
 export default {
-  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
+  initialRouteName: 'HomeTab', // HomeTab TinygrailSacrifice
   initialRouteParams: {
-    // id: 19402913
-    // subjectId: 266372 // 103824 238923 279457 100444 204135
-    // topicId: 'group/353820' // group/350677, ep/768491
-    // userId: 456208 // 456208, 419012
-    // catalogId: 29811
-    // userName: 'sukaretto' //
-    // name: '小耳兔'
-    // monoId: 'character/20391' // 20391 character/70323 person/5745
-    // groupId: 'tinygrail'
-    // type: 'anime',
-    // tag: '水树奈奈'
-    // uri: 'https://bangumi.tv/award/2010',
+    // id: 240929
+    // blogId: 286710 // 294448
+    // catalogId: 29811,
+    // groupId: 'tinygrail',
+    // monoId: 'character/11811' // 20391 character/70323 person/5745
+    // subjectId: 296285 // 103824 238923 279457 100444 204135
+    // topicId: 'ep/924227' // group/350677, ep/768491
+    // userId: 'ekibun' // 456208, 419012
     // form: 'lottery',
-    // message:
-    //   '彩票刮刮乐共获得： #20391「双叶杏」64股 #709「神原骏河」36股'
+    // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #709「神原骏河」36股',
+    // name: '小耳兔',
+    // tag: '水树奈奈',
+    // type: 'anime',
+    // uri: 'https://bgm.tv/award/2019',
+    // userName: 'ekibun',
   }
 }
 

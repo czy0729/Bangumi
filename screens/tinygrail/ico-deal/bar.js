@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:52:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 12:35:15
+ * @Last Modified time: 2020-03-21 11:41:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
+import { observer } from '@utils/decorators'
 
 function Bar({ style, total, level, next }) {
   const styles = memoStyles()
@@ -40,7 +40,7 @@ function Bar({ style, total, level, next }) {
   }
   return (
     <View style={[styles.ico, style]}>
-      <Text style={[styles.iconText, styles.iconTextDark]} align='center'>
+      <Text style={styles.iconText} type='tinygrailPlain' align='center'>
         lv.{level} {percent}%
       </Text>
       <View style={[styles.icoBar, styles.icoBarDark]}>
@@ -84,8 +84,5 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     top: 3,
     right: _.wind
-  },
-  iconTextDark: {
-    color: _.colorTinygrailPlain
   }
 }))

@@ -2,16 +2,41 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-11-29 20:34:10
+ * @Last Modified time: 2020-02-29 11:24:52
  */
 export const SORT_GX = {
-  label: '股息',
+  label: '流动股息',
   value: 'gx'
+}
+
+export const SORT_GXB = {
+  label: '流动股息比',
+  value: 'gxb'
+}
+
+export const SORT_SDGX = {
+  label: '圣殿股息',
+  value: 'sdgx'
+}
+
+export const SORT_SDGXB = {
+  label: '圣殿股息比',
+  value: 'sdgxb'
+}
+
+export const SORT_DJ = {
+  label: '等级',
+  value: 'dj'
 }
 
 export const SORT_CGS = {
   label: '持股数',
   value: 'cgs'
+}
+
+export const SORT_GDZC = {
+  label: '固定资产',
+  value: 'gdzc'
 }
 
 export const SORT_CCJZ = {
@@ -55,8 +80,39 @@ export function sortList(sort, direction, list) {
     case SORT_GX.value:
       return list.sort((a, b) => ((b.rate || 0) - (a.rate || 0)) * base)
 
+    case SORT_GXB.value:
+      return list.sort(
+        (a, b) =>
+          ((b.rate || 0) / (b.current || 10) -
+            (a.rate || 0) / (a.current || 10)) *
+          base
+      )
+
+    case SORT_SDGX.value:
+      return list.sort(
+        (a, b) =>
+          ((b.rate || 0) * (b.level || 0) - (a.rate || 0) * (a.level || 0)) *
+          base
+      )
+
+    case SORT_SDGXB.value:
+      return list.sort(
+        (a, b) =>
+          (((b.rate || 0) * (b.level || 0)) / (b.current || 10) -
+            ((a.rate || 0) * (a.level || 0)) / (a.current || 10)) *
+          base
+      )
+
+    case SORT_DJ.value:
+      return list.sort((a, b) => ((b.level || 1) - (a.level || 1)) * base)
+
     case SORT_CGS.value:
       return list.sort((a, b) => ((b.state || 0) - (a.state || 0)) * base)
+
+    case SORT_GDZC.value:
+      return list.sort(
+        (a, b) => ((b.sacrifices || 0) - (a.sacrifices || 0)) * base
+      )
 
     case SORT_CCJZ.value:
       return list.sort(

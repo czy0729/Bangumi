@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:06:10
+ * @Last Modified time: 2020-03-20 23:19:30
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -82,14 +82,8 @@ function ToolBar(props, { $ }) {
               size={14}
             />
             <Text
-              style={[
-                _.ml.sm,
-                {
-                  color: filterItems.length
-                    ? _.colorWarning
-                    : _.colorTinygrailText
-                }
-              ]}
+              style={_.ml.sm}
+              type={filterItems.length ? 'warning' : 'tinygrailText'}
             >
               {filterItems.length || '-'}
             </Text>
@@ -109,9 +103,6 @@ export default observer(ToolBar)
 const memoStyles = _.memoStyles(_ => ({
   container: {
     height: 44,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: _.colorTinygrailBorder,
     backgroundColor: _.colorTinygrailContainer
   },
   item: {

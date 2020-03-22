@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 16:43:50
+ * @Last Modified time: 2020-02-01 04:10:41
  */
 import { observable, computed } from 'mobx'
-import { _, systemStore, userStore, timelineStore } from '@stores'
+import { _, userStore, timelineStore } from '@stores'
 import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
@@ -30,24 +30,22 @@ export default class ScreenTimeline extends store {
       ...state,
       _loaded: true
     })
-
-    const { scope, page } = this.state
-    const type = tabs[page].title
-    const { _loaded } = this.timeline(scope, MODEL_TIMELINE_TYPE.getValue(type))
-    if (!_loaded || this.autoFetch) {
-      this.fetchTimeline(true)
-    }
-
+    this.fetchTimeline(true)
     return res
+  }
+
+  onHeaderRefresh = () => this.fetchTimeline(true)
+
+  // -------------------- fetch --------------------
+  fetchTimeline = refresh => {
+    const { scope, page } = this.state
+    const type = MODEL_TIMELINE_TYPE.getValue(tabs[page].title)
+    return timelineStore.fetchTimeline({ scope, type }, refresh)
   }
 
   // -------------------- get --------------------
   @computed get backgroundColor() {
     return _.select(_.colorPlain, _._colorDarkModeLevel1)
-  }
-
-  @computed get autoFetch() {
-    return systemStore.setting.autoFetch
   }
 
   @computed get isWebLogin() {
@@ -60,13 +58,6 @@ export default class ScreenTimeline extends store {
 
   timeline(scope, type) {
     return computed(() => timelineStore.timeline(scope, type)).get()
-  }
-
-  // -------------------- fetch --------------------
-  fetchTimeline = refresh => {
-    const { scope, page } = this.state
-    const type = MODEL_TIMELINE_TYPE.getValue(tabs[page].title)
-    return timelineStore.fetchTimeline({ scope, type }, refresh)
   }
 
   // -------------------- page --------------------

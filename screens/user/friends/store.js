@@ -1,15 +1,14 @@
-/* eslint-disable no-restricted-syntax, no-await-in-loop */
 /*
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 18:24:45
+ * @Last Modified time: 2020-02-04 21:33:49
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
-import { sleep, getTimestamp } from '@utils'
+import { getTimestamp } from '@utils'
 import store from '@utils/store'
-import { t } from '@utils/fetch'
+import { t, queue } from '@utils/fetch'
 
 const namespace = 'ScreenFriends'
 
@@ -29,11 +28,7 @@ export default class ScreenFriends extends store {
     const res = this.fetchUsers()
     await res
 
-    const { _loaded } = this.friends
-    if (!_loaded) {
-      this.refresh()
-    }
-
+    this.refresh()
     return res
   }
 
@@ -56,16 +51,14 @@ export default class ScreenFriends extends store {
     return usersStore.fetchUsers({ userId })
   }
 
-  fetchUsersBatch = async () => {
-    let res
-    for (const item of this.friends.list) {
-      const { userId } = item
-      res = usersStore.fetchUsers({ userId })
-      await res
-      await sleep(200)
-    }
-    return res
-  }
+  fetchUsersBatch = () =>
+    queue(
+      this.friends.list.map(item => () =>
+        usersStore.fetchUsers({
+          userId: item.userId
+        })
+      )
+    )
 
   // -------------------- get --------------------
   @computed get friends() {

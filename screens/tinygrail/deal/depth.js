@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:42:03
+ * @Last Modified time: 2020-03-21 22:25:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,11 +22,11 @@ function Depth({ style }, { $ }) {
   const styles = memoStyles()
   const { current, fluctuation } = $.chara
   const { bids: userBids, asks: userAsks } = $.userLogs
-  let color = _.colorTinygrailPlain
+  let color = 'tinygrailPlain'
   if (fluctuation > 0) {
-    color = _.colorBid
+    color = 'bid'
   } else if (fluctuation < 0) {
-    color = _.colorAsk
+    color = 'ask'
   }
 
   let bidsLow = 0
@@ -62,11 +62,11 @@ function Depth({ style }, { $ }) {
     <View style={[styles.container, style]}>
       <Flex style={styles.header}>
         <Flex.Item>
-          <Text style={styles.text} size={11}>
+          <Text type='tinygrailText' size={11}>
             价格
           </Text>
         </Flex.Item>
-        <Text style={styles.text} size={11}>
+        <Text type='tinygrailText' size={11}>
           数量
         </Text>
       </Flex>
@@ -99,11 +99,11 @@ function Depth({ style }, { $ }) {
                   <Flex style={styles.item}>
                     {isMyOrder && <View style={styles.dotAsk} />}
                     <Flex.Item>
-                      <Text style={styles.asks} size={12}>
+                      <Text style={_.ml.sm} type='ask' size={12}>
                         {toFixed(item.price, 2)}
                       </Text>
                     </Flex.Item>
-                    <Text style={[styles.text, _.mr.wind]} size={12}>
+                    <Text style={_.mr.wind} type='tinygrailText' size={12}>
                       {item.amount}
                     </Text>
                     <View
@@ -122,19 +122,14 @@ function Depth({ style }, { $ }) {
         <Flex style={styles.current}>
           <Flex.Item>
             <Touchable onPress={() => $.changeValue(toFixed(current, 1))}>
-              <Text style={{ color }} size={18} bold>
+              <Text type={color} size={18} bold>
                 {toFixed(current, 2)}
               </Text>
             </Touchable>
           </Flex.Item>
           {!!$.issuePrice && (
-            <Text
-              style={{
-                color: _.colorTinygrailText
-              }}
-              size={11}
-            >
-              发行价 ₵{toFixed($.issuePrice, 1)}
+            <Text type='tinygrailText' size={11}>
+              发行价 {toFixed($.issuePrice, 1)}
             </Text>
           )}
         </Flex>
@@ -154,11 +149,11 @@ function Depth({ style }, { $ }) {
                   <Flex style={styles.item}>
                     {isMyOrder && <View style={styles.dotBid} />}
                     <Flex.Item>
-                      <Text style={styles.bids} size={12}>
+                      <Text style={_.ml.sm} type='bid' size={12}>
                         {toFixed(item.price, 2)}
                       </Text>
                     </Flex.Item>
-                    <Text style={[styles.text, _.mr.wind]} size={12}>
+                    <Text style={_.mr.wind} type='tinygrailText' size={12}>
                       {item.amount}
                     </Text>
                     <View
@@ -191,8 +186,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   header: {
     paddingLeft: _.sm,
-    paddingRight: _.wind,
-    opacity: 0.5
+    paddingRight: _.wind
   },
   list: {
     minHeight: 128
@@ -204,14 +198,6 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     width: '100%',
     paddingVertical: 5
-  },
-  bids: {
-    marginLeft: _.sm,
-    color: _.colorBid
-  },
-  asks: {
-    marginLeft: _.sm,
-    color: _.colorAsk
   },
   depthBids: {
     position: 'absolute',
@@ -242,8 +228,5 @@ const memoStyles = _.memoStyles(_ => ({
     marginLeft: -5,
     borderRadius: 5,
     backgroundColor: _.colorAsk
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))

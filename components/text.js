@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:52:27
+ * @Last Modified time: 2020-03-19 20:42:48
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -31,12 +31,14 @@ function Text({
     _style.push(styles.underline)
   }
   if (size) {
-    _style.push(styles[size])
+    _style.push(_[`fontSize${size}`])
   }
   if (lineHeight !== undefined) {
     _style.push({
       lineHeight:
-        lineHeight <= 2 ? lineHeight * size : lineHeight * _.lineHeightRatio
+        lineHeight <= 2
+          ? lineHeight * (size + _.fontSizeAdjust)
+          : (lineHeight + _.fontSizeAdjust) * _.lineHeightRatio
     })
   }
   if (align) {
@@ -75,25 +77,23 @@ const memoStyles = _.memoStyles(_ => ({
         fontWeight: 'normal'
       }
     : {},
-  8: _.fontSize(8),
-  9: _.fontSize(9),
-  10: _.fontSize(10),
-  11: _.fontSize(11),
-  12: _.fontSize(12),
-  13: _.fontSize(13),
-  14: _.fontSize(14),
-  15: _.fontSize(15),
-  16: _.fontSize(16),
-  17: _.fontSize(17),
-  18: _.fontSize(18),
-  19: _.fontSize(19),
-  20: _.fontSize(20),
-  21: _.fontSize(21),
-  22: _.fontSize(22),
-  23: _.fontSize(23),
-  24: _.fontSize(24),
-  26: _.fontSize(26),
-  28: _.fontSize(28),
+  underline: {
+    textDecorationLine: 'underline',
+    textDecorationColor: _.select(_.colorMain, _.colorSub)
+  },
+  alignCenter: {
+    textAlign: 'center'
+  },
+  alignRight: {
+    textAlign: 'right'
+  },
+  bold: IOS
+    ? {
+        fontWeight: 'bold'
+      }
+    : {},
+
+  // theme
   plain: {
     color: _.colorPlain
   },
@@ -130,19 +130,21 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     color: _.colorBorder
   },
-  underline: {
-    textDecorationLine: 'underline',
-    textDecorationColor: _.colorMain
+
+  // tinygrail theme
+  bid: {
+    color: _.colorBid
   },
-  alignCenter: {
-    textAlign: 'center'
+  ask: {
+    color: _.colorAsk
   },
-  alignRight: {
-    textAlign: 'right'
+  tinygrailPlain: {
+    color: _.colorTinygrailPlain
   },
-  bold: IOS
-    ? {
-        fontWeight: 'bold'
-      }
-    : {}
+  tinygrailText: {
+    color: _.colorTinygrailText
+  },
+  tinygrailIcon: {
+    color: _.colorTinygrailIcon
+  }
 }))

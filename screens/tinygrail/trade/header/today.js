@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 15:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-15 13:26:43
+ * @Last Modified time: 2020-03-20 23:17:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,16 +35,12 @@ function Today({ style }, { $ }) {
   return (
     <View style={style}>
       <Flex justify='between'>
-        <Text style={styles.text} size={13}>
+        <Text type='tinygrailText' size={13}>
           高
         </Text>
         <Text
-          style={[
-            styles.value,
-            {
-              color: _.colorTinygrailPlain
-            }
-          ]}
+          style={styles.value}
+          type='tinygrailPlain'
           align='right'
           size={13}
         >
@@ -52,16 +48,12 @@ function Today({ style }, { $ }) {
         </Text>
       </Flex>
       <Flex style={_.mt.sm} justify='between'>
-        <Text style={styles.text} size={13}>
+        <Text type='tinygrailText' size={13}>
           低
         </Text>
         <Text
-          style={[
-            styles.value,
-            {
-              color: _.colorTinygrailPlain
-            }
-          ]}
+          style={styles.value}
+          type='tinygrailPlain'
           align='right'
           size={13}
         >
@@ -69,16 +61,12 @@ function Today({ style }, { $ }) {
         </Text>
       </Flex>
       <Flex style={_.mt.sm} justify='between'>
-        <Text style={styles.text} size={13}>
+        <Text type='tinygrailText' size={13}>
           量
         </Text>
         <Text
-          style={[
-            styles.value,
-            {
-              color: _.colorTinygrailPlain
-            }
-          ]}
+          style={styles.value}
+          type='tinygrailPlain'
           align='right'
           size={13}
         >
@@ -99,8 +87,5 @@ const memoStyles = _.memoStyles(_ => ({
   value: {
     minWidth: 24,
     marginLeft: _.md
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))

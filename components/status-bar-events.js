@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 22:21:23
+ * @Last Modified time: 2020-03-19 16:37:42
  */
 import React from 'react'
 import { StatusBar } from 'react-native'
@@ -15,14 +15,20 @@ import { IOS } from '@constants'
 import { _ } from '@stores'
 
 function StatusBarEvents({
+  tinygrail,
   backgroundColor,
   barStyle,
   translucent,
   animated,
   action
 }) {
-  // 黑暗模式可以一直设置为light-content
-  const _barStyle = _.mode === 'light' ? barStyle : 'light-content'
+  let _barStyle
+  if (tinygrail) {
+    _barStyle = barStyle
+  } else {
+    // 黑暗模式可以一直设置为light-content
+    _barStyle = _.mode === 'light' ? barStyle : 'light-content'
+  }
   const events = () => {
     if (!IOS) {
       StatusBar.setBackgroundColor(backgroundColor, animated)
@@ -50,6 +56,7 @@ function StatusBarEvents({
 }
 
 StatusBarEvents.defaultProps = {
+  tinygrail: false,
   backgroundColor: '#ffffff',
   barStyle: 'dark-content',
   translucent: !IOS,

@@ -2,23 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 20:53:18
+ * @Last Modified time: 2020-03-15 19:01:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Text, Image } from '@components'
+import { LinearGradient } from 'expo-linear-gradient'
+import { Touchable, Text } from '@components'
+import { Cover } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
-import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT } from '@constants'
+import { imageWidth, imageHeight, marginLeft } from './store'
 
-const imageWidth = _.window.width * 0.288
-const imageHeight = imageWidth * 1.28
-const marginLeft = (_.window.width - 3 * imageWidth) / 4
+const linearColorSm = [
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0)',
+  'rgba(0, 0, 0, 0.8)'
+]
 
 function Item(
   { style, subjectId, images = {}, name, score },
@@ -30,7 +33,6 @@ function Item(
     list.findIndex(item => item.subject_id === subjectId) !== -1
 
   const { air, timeCN } = $.onAir[subjectId] || {}
-  const _image = getCoverMedium(images.medium)
   const onPress = () => {
     t('每日放送.跳转', {
       to: 'Subject',
@@ -40,44 +42,46 @@ function Item(
     navigation.push('Subject', {
       subjectId,
       _cn: name,
-      _image
+      _image: images.medium
     })
   }
   return (
     <View style={[styles.item, style]}>
-      <Image
-        width={imageWidth}
-        height={imageHeight}
-        src={_image || IMG_DEFAULT}
-        radius
-        shadow
-        onPress={onPress}
-      />
+      <View>
+        <Cover
+          width={imageWidth}
+          height={imageHeight}
+          src={images.medium}
+          radius
+          shadow
+          onPress={onPress}
+        />
+        {!!score && (
+          <>
+            <LinearGradient
+              style={styles.linear}
+              colors={linearColorSm}
+              pointerEvents='none'
+            />
+            <Text style={styles.score}>{toFixed(score, 1)}</Text>
+          </>
+        )}
+      </View>
       <Touchable withoutFeedback onPress={onPress}>
         <Text
           style={_.mt.sm}
-          type={isCollected ? _.select('main', 'warning') : 'desc'}
+          size={15}
+          type={isCollected ? 'main' : 'desc'}
           numberOfLines={2}
         >
           {HTMLDecode(name)}
         </Text>
-        <Flex style={_.mt.xs}>
-          {!!air && (
-            <Text style={_.mr.xs} size={12} type='sub'>
-              {air}话
-            </Text>
-          )}
-          {!!score && (
-            <Text size={12} type='sub'>
-              ({toFixed(score, 1)}){' '}
-            </Text>
-          )}
-          {!!timeCN && (
-            <Text size={12} type='sub'>
-              {`- ${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}{' '}
-            </Text>
-          )}
-        </Flex>
+        {(!!air || !!timeCN) && (
+          <Text style={_.mt.xs} size={13} type='sub' numberOfLines={2}>
+            {air}话{!!timeCN && ' / '}
+            {`${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
+          </Text>
+        )}
       </Touchable>
     </View>
   )
@@ -95,5 +99,19 @@ const styles = StyleSheet.create({
     width: imageWidth,
     marginBottom: _.wind,
     marginLeft
+  },
+  linear: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 1,
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
+  },
+  score: {
+    position: 'absolute',
+    zIndex: 1,
+    right: _.sm,
+    bottom: _.sm,
+    left: _.sm,
+    color: _.__colorPlain__
   }
 })

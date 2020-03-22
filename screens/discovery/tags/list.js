@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-05 09:46:22
+ * @Last Modified time: 2020-01-22 17:25:46
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,32 +12,56 @@ import { _ } from '@stores'
 import Item from './item'
 import { tabs } from './store'
 
-function List({ index }, { $ }) {
-  const { key } = tabs[index]
-  const list = $.list(key)
-  if (!list._loaded) {
-    return <Loading style={_.container.screen} />
+export default
+@observer
+class List extends React.Component {
+  static defaultProps = {
+    title: '全部'
   }
 
-  return (
-    <ListView
-      style={_.container.screen}
-      keyExtractor={item => `${item.title}|${item.nums}`}
-      data={list}
-      numColumns={4}
-      renderItem={({ item }) => <Item type={key} {...item} />}
-      onHeaderRefresh={() => $.fetchList(key, true)}
-      onFooterRefresh={() => $.fetchList(key)}
-    />
-  )
+  static contextTypes = {
+    $: PropTypes.object
+  }
+
+  renderItem = ({ item }) => <Item type={this.key} {...item} />
+
+  onHeaderRefresh = () => {
+    const { $ } = this.context
+    return $.fetchList(this.key, true)
+  }
+
+  onFooterRefresh = () => {
+    const { $ } = this.context
+    return $.fetchList(this.key)
+  }
+
+  get key() {
+    const { index } = this.props
+    const { key } = tabs[index]
+    return key
+  }
+
+  render() {
+    const { $ } = this.context
+    const list = $.list(this.key)
+    if (!list._loaded) {
+      return <Loading style={_.container.screen} />
+    }
+
+    return (
+      <ListView
+        style={_.container.screen}
+        keyExtractor={keyExtractor}
+        data={list}
+        numColumns={4}
+        renderItem={this.renderItem}
+        onHeaderRefresh={this.onHeaderRefresh}
+        onFooterRefresh={this.onFooterRefresh}
+      />
+    )
+  }
 }
 
-List.defaultProps = {
-  title: '全部'
+function keyExtractor(item) {
+  return `${item.title}|${item.nums}`
 }
-
-List.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(List)

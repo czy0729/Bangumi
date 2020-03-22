@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 09:48:57
+ * @Last Modified time: 2020-02-04 21:11:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,20 +25,22 @@ class Notify extends React.Component {
     if (!isSetTimeout) {
       isSetTimeout = true
 
-      // 一分钟检查一次消息
       setTimeout(() => {
         if (userStore.isWebLogin) {
           rakuenStore.fetchNotify()
+          userStore.fetchPM(true, 'pmIn')
         }
-      }, 60000)
+      }, 30000)
     }
   }
 
   render() {
     const { navigation, event } = this.props
+    const hasNewNotify = !!rakuenStore.notify.unread
+    const { hasNewPM } = userStore
     return (
       <View>
-        {!!rakuenStore.notify.unread && <View style={this.styles.dot} />}
+        {(hasNewNotify || hasNewPM) && <View style={this.styles.dot} />}
         <IconTabsHeader
           name='mail'
           onPress={() => {
@@ -48,7 +50,9 @@ class Notify extends React.Component {
                 to: 'Notify',
                 ...data
               })
-              navigation.push('Notify')
+              navigation.push('Notify', {
+                type: hasNewPM ? 'pm' : 'notify'
+              })
             } else {
               navigation.push('LoginV2')
             }

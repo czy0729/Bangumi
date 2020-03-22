@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:12:59
+ * @Last Modified time: 2020-02-23 04:25:00
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Image, Text, Touchable } from '@components'
+import { Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { findBangumiCn } from '@utils/app'
-import { IMG_DEFAULT } from '@constants'
+import Cover from './cover'
 
 function HorizontalList({
   style,
@@ -28,38 +28,41 @@ function HorizontalList({
       horizontal
       showsHorizontalScrollIndicator={false}
     >
-      {data.map((item, index) => (
-        <View
-          key={item.id}
-          style={[
-            {
-              width
-            },
-            index !== 0 && _.ml.md
-          ]}
-        >
-          <Image
-            size={width}
-            height={height}
-            src={item.image || IMG_DEFAULT}
-            radius
-            border
-            shadow
-            quality={quality}
-            onPress={() => onPress(item)}
-          />
-          <Touchable withoutFeedback onPress={() => onPress(item)}>
-            <Text style={_.mt.sm} numberOfLines={2}>
-              {findCn ? findBangumiCn(item.name) : item.name}
-            </Text>
-            {!!item.desc && (
-              <Text style={_.mt.xs} type='sub' size={12} numberOfLines={1}>
-                {item.desc}
+      {data
+        // 没封面图的置后
+        .sort((a, b) => (b.image ? 1 : 0) - (a.image ? 1 : 0))
+        .map((item, index) => (
+          <View
+            key={item.id}
+            style={[
+              {
+                width
+              },
+              index !== 0 && styles.item
+            ]}
+          >
+            <Cover
+              size={width}
+              height={height}
+              src={item.image}
+              radius
+              border
+              shadow
+              quality={quality}
+              onPress={() => onPress(item)}
+            />
+            <Touchable withoutFeedback onPress={() => onPress(item)}>
+              <Text style={_.mt.sm} size={13} numberOfLines={2}>
+                {findCn ? findBangumiCn(item.name) : item.name}
               </Text>
-            )}
-          </Touchable>
-        </View>
-      ))}
+              {!!item.desc && (
+                <Text style={_.mt.xs} type='sub' size={13} numberOfLines={1}>
+                  {item.desc}
+                </Text>
+              )}
+            </Touchable>
+          </View>
+        ))}
     </ScrollView>
   )
 }
@@ -79,5 +82,8 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingVertical: 4,
     paddingHorizontal: _.wind
+  },
+  item: {
+    marginLeft: 12
   }
 })

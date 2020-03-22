@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 14:59:57
+ * @Last Modified time: 2020-03-22 22:39:39
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -11,9 +11,10 @@ import { observer } from 'mobx-react'
 import { Iconfont, Text } from '@components'
 import { Popover, IconBack } from '@screens/_'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { open, copy } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { info } from '@utils/ui'
 import { IOS, HOST } from '@constants'
 import Head from './head'
 import { height, headerHeight } from './store'
@@ -46,7 +47,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
       }
     ]
   }
-  const data = ['浏览器查看', 'TA的好友', 'TA的收藏信息']
+  const data = ['浏览器查看', '复制链接', '发短信', 'TA的收藏', 'TA的好友']
   if ($.users.connectUrl) {
     data.push('加为好友')
   } else if ($.users.disconnectUrl) {
@@ -63,7 +64,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
   }
   return (
     <>
-      <View style={styles.parallax} pointerEvents='none'>
+      <View style={styles.parallax}>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
           source={{ uri }} // blurView可以优先使用缩略图
@@ -144,16 +145,22 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
               case '浏览器查看':
                 open(`${HOST}/user/${username}`)
                 break
+              case '复制链接':
+                copy(`${HOST}/user/${username}`)
+                info('已复制')
+                break
+              case '发短信':
+                navigation.push('PM', {
+                  userId: id, // 必须是数字id
+                  userName: HTMLDecode(nickname || _name)
+                })
+                break
+              case 'TA的收藏':
+                $.toUser(navigation)
+                break
               case 'TA的好友':
                 navigation.push('Friends', {
                   userId: username || id
-                })
-                break
-              case 'TA的收藏信息':
-                navigation.push('User', {
-                  userId: username,
-                  _name: HTMLDecode(nickname || _name),
-                  _image: avatar.large
                 })
                 break
               case '加为好友':
@@ -207,7 +214,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     top: 0,
     right: 0,
-    bottom: 0,
+    bottom: -_.hairlineWidth,
     left: 0
   },
   head: {

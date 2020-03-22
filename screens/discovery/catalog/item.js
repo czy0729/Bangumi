@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:02:52
+ * @Last Modified time: 2020-02-22 09:44:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Shadow, Flex, Text, Touchable, Image } from '@components'
-import { getCoverSmall } from '@utils/app'
+import { Shadow, Flex, Text, Touchable } from '@components'
+import { Cover } from '@screens/_'
 import { t } from '@utils/fetch'
 import { _ } from '@stores'
 
 const width = _.window.width - _.wind * 2
-const height = width * 0.4
+const height = width * 0.42
 
 function Item(
   { id, name, title, info, last, book, anime, music, game, real },
@@ -26,13 +26,7 @@ function Item(
   const styles = memoStyles()
   const { list, collect = '-' } = $.catalogDetail(id)
   return (
-    <Shadow
-      style={{
-        marginTop: _.wind,
-        marginLeft: _.wind
-      }}
-      initHeight={154}
-    >
+    <Shadow style={styles.shadow} initHeight={154}>
       <Touchable
         onPress={() => {
           t('目录.跳转', {
@@ -54,14 +48,14 @@ function Item(
           </Text>
           <Flex style={[styles.images, _.mt.sm]}>
             {list
-              .filter((item, index) => index < 4)
+              .filter((item, index) => index < 3)
               .map(item => (
-                <Image
+                <Cover
                   key={item.id}
                   style={styles.image}
                   size={56}
                   radius={4}
-                  src={getCoverSmall(item.image)}
+                  src={item.image}
                 />
               ))}
             {list.length ? (
@@ -75,8 +69,8 @@ function Item(
             )}
           </Flex>
           <Text style={_.mt.sm} size={12}>
-            {name} · {last}
-            {collect ? ` · ${collect}收藏` : ''}
+            {name} / {last}
+            {collect ? ` / ${collect}收藏` : ''}
           </Text>
         </Flex>
       </Touchable>
@@ -92,6 +86,10 @@ Item.contextTypes = {
 export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
+  shadow: {
+    marginTop: _.wind,
+    marginLeft: _.wind
+  },
   item: {
     width,
     height,

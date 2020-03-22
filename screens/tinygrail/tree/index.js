@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:20:58
+ * @Last Modified time: 2020-03-21 15:08:27
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -14,7 +14,7 @@ import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import StatusBarEvents from '../_/status-bar-events'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
@@ -26,7 +26,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/tree', 'TinygrailTree'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailTree extends React.Component {
@@ -50,7 +50,7 @@ class TinygrailTree extends React.Component {
         <>
           <IconHeader
             name='refresh'
-            color={_.colorTinygrailText}
+            color={_.colorTinygrailPlain}
             onPress={() => {
               t('资产分析.刷新')
               this.onRefresh()
@@ -58,7 +58,7 @@ class TinygrailTree extends React.Component {
           />
           <IconHeader
             name='information'
-            color={_.colorTinygrailText}
+            color={_.colorTinygrailPlain}
             onPress={() => {
               t('资产分析.提醒')
               this.onAlert()
@@ -87,20 +87,12 @@ class TinygrailTree extends React.Component {
     navigation.setParams({
       extra: (
         <>
-          <Text
-            style={[
-              _.mr.sm,
-              {
-                color: _.colorTinygrailText
-              }
-            ]}
-            size={12}
-          >
+          <Text style={_.mr.sm} type='tinygrailPlain' size={12}>
             请求中...
           </Text>
           <IconHeader
             name='information'
-            color={_.colorTinygrailText}
+            color={_.colorTinygrailPlain}
             onPress={this.onAlert}
           />
         </>
@@ -165,21 +157,11 @@ class TinygrailTree extends React.Component {
     const { $ } = this.context
     const { loading, caculateType, data } = $.state
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: _.colorTinygrailContainer
-        }}
-      >
+      <View style={this.styles.container}>
         <StatusBarEvents />
         <ToolBar />
         {loading ? (
-          <Loading
-            style={{
-              flex: 1,
-              backgroundColor: _.colorTinygrailContainer
-            }}
-          />
+          <Loading style={this.styles.container} />
         ) : (
           <Chart
             data={data}
@@ -198,4 +180,15 @@ class TinygrailTree extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

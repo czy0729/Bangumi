@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 21:29:52
+ * @Last Modified time: 2020-03-06 17:36:36
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -11,10 +11,9 @@ import { ActivityIndicator } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
 import { IconTabsHeader } from '@screens/_'
 import { _ } from '@stores'
-import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
-function Prefetch({ $, navigation }) {
+function Prefetch({ $ }) {
   const { prefetching, prefetchTotal, prefetchCurrent } = $.state
   if (prefetching) {
     return (
@@ -51,35 +50,15 @@ function Prefetch({ $, navigation }) {
   }
 
   return (
-    <>
-      <IconTabsHeader
-        style={{
-          marginRight: 4
-        }}
-        name='star'
-        position='right'
-        onPress={() => {
-          t('超展开.跳转', {
-            to: 'RakuenHistory'
-          })
-          navigation.push('RakuenHistory')
-        }}
-      />
-      <IconTabsHeader
-        style={{
-          marginRight: -6,
-          transform: [
-            {
-              rotate: '90deg'
-            }
-          ]
-        }}
-        size={18}
-        name='logout'
-        position='right'
-        onPress={$.prefetchConfirm}
-      />
-    </>
+    <IconTabsHeader
+      style={{
+        marginRight: -6
+      }}
+      size={18}
+      name='download'
+      position='right'
+      onPress={$.prefetchConfirm}
+    />
   )
 }
 

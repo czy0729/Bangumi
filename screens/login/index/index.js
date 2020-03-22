@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 19:41:52
+ * @Last Modified time: 2020-02-04 21:54:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,13 +25,13 @@ import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
 import { hm, t } from '@utils/fetch'
-import { IOS, APP_ID, HOST, OAUTH_URL, OAUTH_REDIRECT_URL } from '@constants'
+import { IOS, APP_ID, HOST, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 
 const title = '登陆V1'
-const uri = `${OAUTH_URL}?${urlStringify({
+const uri = `${URL_OAUTH}?${urlStringify({
   response_type: 'code',
   client_id: APP_ID,
-  redirect_uri: OAUTH_REDIRECT_URL
+  redirect_uri: URL_OAUTH_REDIRECT
 })}`
 const injectedJavaScript = `(function(){
   var __isBridgeOk = false
@@ -90,7 +90,7 @@ class Login extends React.Component {
           if (data) {
             if (data.href.indexOf(`${HOST}/login?`) !== -1) {
               // do nothing
-            } else if (data.href.indexOf(`${OAUTH_URL}?`) !== -1) {
+            } else if (data.href.indexOf(`${URL_OAUTH}?`) !== -1) {
               // @issue 首次登陆跳转后redirect_uri丢失了, 不清楚是什么问题
               // 这个时候刷新当前页面就回到正常的页面?
               if (data.href.indexOf('redirect_uri') === -1) {
@@ -100,7 +100,7 @@ class Login extends React.Component {
                 this.refreshWebView()
               }
             } else if (
-              data.href.indexOf(`${OAUTH_REDIRECT_URL}?code=`) !== -1
+              data.href.indexOf(`${URL_OAUTH_REDIRECT}?code=`) !== -1
             ) {
               // 得到code之后获取access_token
               this.doLogin(data)
@@ -160,7 +160,7 @@ class Login extends React.Component {
 
   doLogin = async ({ href = '' } = {}) => {
     const { navigation } = this.props
-    const code = href.replace(`${OAUTH_REDIRECT_URL}?code=`, '')
+    const code = href.replace(`${URL_OAUTH_REDIRECT}?code=`, '')
     try {
       info('获取token中, 请稍等...', 6)
       await userStore.fetchAccessToken(code)
@@ -283,11 +283,11 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   bottomContainer: {
-    width: 280,
+    width: 320,
     height: 350
   },
   loading: {
-    width: 280,
+    width: 320,
     height: 64
   },
   ps: {

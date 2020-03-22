@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 17:10:02
+ * @Last Modified time: 2020-03-21 20:11:15
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -14,8 +14,11 @@ import _ from '@styles'
 const NAMESPACE = 'Theme'
 const DEFAULT_MODE = 'light'
 const DEFAULT_TINYGRAIL_MODE = 'green' // green: 绿涨红跌 | red: 红涨绿跌
+const DEFAULT_TINYGRAIL_THEME_MODE = 'dark'
 const lightStyles = {
+  // theme
   colorMain: _.colorMain,
+  colorMainLight: _.colorMainLight,
   colorPrimary: _.colorPrimary,
   colorSuccess: _.colorSuccess,
   colorYellow: _.colorYellow,
@@ -23,24 +26,21 @@ const lightStyles = {
   colorPlainRaw: _.colorPlainRaw,
   colorPlain: _.colorPlain,
   colorWait: _.colorWait,
-
   colorBg: _.colorBg,
   colorBorder: _.colorBorder,
 
+  // text
   colorTitleRaw: _.colorTitleRaw,
   colorTitle: _.colorTitle,
   colorDesc: _.colorDesc,
   colorSub: _.colorSub,
   colorDisabled: _.colorDisabled,
-  colorIcon: _.colorIcon,
-
-  colorBid: _.colorBid,
-  colorDepthBid: _.colorDepthBid,
-  colorAsk: _.colorAsk,
-  colorDepthAsk: _.colorDepthAsk
+  colorIcon: _.colorIcon
 }
 const darkStyles = {
+  // theme
   colorMain: _._colorMain,
+  colorMainLight: _._colorMainLight,
   colorPrimary: _._colorPrimary,
   colorSuccess: _._colorSuccess,
   colorYellow: _._colorYellow,
@@ -48,21 +48,16 @@ const darkStyles = {
   colorPlainRaw: _._colorPlainRaw,
   colorPlain: _._colorPlain,
   colorWait: _._colorWait,
-
   colorBg: _._colorBg,
   colorBorder: _._colorBorder,
 
+  // text
   colorTitleRaw: _._colorTitleRaw,
   colorTitle: _._colorTitle,
   colorDesc: _._colorDesc,
   colorSub: _._colorSub,
   colorDisabled: _._colorDisabled,
-  colorIcon: _._colorIcon,
-
-  colorBid: _.colorBid,
-  colorDepthBid: _.colorDepthBid,
-  colorAsk: _.colorAsk,
-  colorDepthAsk: _.colorDepthAsk
+  colorIcon: _._colorIcon
 }
 
 /**
@@ -74,6 +69,7 @@ function getMemoStylesId() {
   return {
     _id: _memoStylesId,
     _mode: '',
+    _tMode: '',
     _styles: ''
   }
 }
@@ -90,7 +86,9 @@ class Theme extends store {
 
   state = observable({
     mode: DEFAULT_MODE,
+    tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
     tinygrailMode: DEFAULT_TINYGRAIL_MODE,
+    fontSizeAdjust: 0,
     ...lightStyles
   })
 
@@ -106,8 +104,16 @@ class Theme extends store {
       NAMESPACE,
       DEFAULT_TINYGRAIL_MODE
     )
+    const tinygrailThemeMode = await this.getStorage(
+      'tinygrailThemeMode',
+      NAMESPACE,
+      DEFAULT_TINYGRAIL_MODE
+    )
+    const fontSizeAdjust = await this.getStorage('fontSizeAdjust', NAMESPACE, 0)
     this.setState({
-      tinygrailMode
+      tinygrailMode,
+      tinygrailThemeMode,
+      fontSizeAdjust
     })
 
     return res
@@ -124,6 +130,10 @@ class Theme extends store {
 
   @computed get colorMain() {
     return this.state.colorMain
+  }
+
+  @computed get colorMainLight() {
+    return this.state.colorMainLight
   }
 
   @computed get colorPrimary() {
@@ -191,25 +201,91 @@ class Theme extends store {
   }
 
   // -------------------- tinygrail --------------------
+  @computed get tinygrailThemeMode() {
+    return this.state.tinygrailThemeMode
+  }
+
+  @computed get isTinygrailDark() {
+    return this.tinygrailThemeMode === 'dark'
+  }
+
   @computed get isGreen() {
     const { tinygrailMode } = this.state
     return tinygrailMode === DEFAULT_TINYGRAIL_MODE
   }
 
   @computed get colorBid() {
-    return this.isGreen ? this.state.colorBid : this.state.colorAsk
+    if (this.isGreen) {
+      return this.isTinygrailDark ? _.colorBid : _._colorBid
+    }
+    return this.isTinygrailDark ? _.colorAsk : _._colorAsk
   }
 
   @computed get colorDepthBid() {
-    return this.isGreen ? this.state.colorDepthBid : this.state.colorDepthAsk
+    if (this.isGreen) {
+      return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
+    }
+    return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
   }
 
   @computed get colorAsk() {
-    return this.isGreen ? this.state.colorAsk : this.state.colorBid
+    if (this.isGreen) {
+      return this.isTinygrailDark ? _.colorAsk : _._colorAsk
+    }
+    return this.isTinygrailDark ? _.colorBid : _._colorBid
   }
 
   @computed get colorDepthAsk() {
-    return this.isGreen ? this.state.colorDepthAsk : this.state.colorDepthBid
+    if (this.isGreen) {
+      return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
+    }
+    return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
+  }
+
+  @computed get colorTinygrailPlain() {
+    return this.isTinygrailDark ? _.colorTinygrailPlain : _._colorTinygrailPlain
+  }
+
+  @computed get colorTinygrailPrimary() {
+    return this.isTinygrailDark
+      ? _.colorTinygrailPrimary
+      : _._colorTinygrailPrimary
+  }
+
+  @computed get colorTinygrailBg() {
+    return this.isTinygrailDark ? _.colorTinygrailBg : _._colorTinygrailBg
+  }
+
+  @computed get colorTinygrailContainer() {
+    return this.isTinygrailDark
+      ? _.colorTinygrailContainer
+      : _._colorTinygrailContainer
+  }
+
+  @computed get colorTinygrailContainerHex() {
+    return this.isTinygrailDark
+      ? _.colorTinygrailContainerHex
+      : _._colorTinygrailContainerHex
+  }
+
+  @computed get colorTinygrailBorder() {
+    return this.isTinygrailDark
+      ? _.colorTinygrailBorder
+      : _._colorTinygrailBorder
+  }
+
+  @computed get colorTinygrailIcon() {
+    return this.isTinygrailDark ? _.colorTinygrailIcon : _._colorTinygrailIcon
+  }
+
+  @computed get colorTinygrailText() {
+    return this.isTinygrailDark ? _.colorTinygrailText : _._colorTinygrailText
+  }
+
+  @computed get colorTinygrailActive() {
+    return this.isTinygrailDark
+      ? _.colorTinygrailActive
+      : _._colorTinygrailActive
   }
 
   // -------------------- tool styles --------------------
@@ -261,11 +337,127 @@ class Theme extends store {
     })
   }
 
+  @computed get fontSizeAdjust() {
+    return this.state.fontSizeAdjust
+  }
+
+  fontSize(pt) {
+    return computed(() => _.fontSize(pt, this.fontSizeAdjust)).get()
+  }
+
+  @computed get fontSize6() {
+    return this.fontSize(6)
+  }
+
+  @computed get fontSize7() {
+    return this.fontSize(7)
+  }
+
+  @computed get fontSize8() {
+    return this.fontSize(8)
+  }
+
+  @computed get fontSize9() {
+    return this.fontSize(9)
+  }
+
+  @computed get fontSize10() {
+    return this.fontSize(10)
+  }
+
+  @computed get fontSize11() {
+    return this.fontSize(11)
+  }
+
+  @computed get fontSize12() {
+    return this.fontSize(12)
+  }
+
+  @computed get fontSize13() {
+    return this.fontSize(13)
+  }
+
+  @computed get fontSize14() {
+    return this.fontSize(14)
+  }
+
+  @computed get fontSize15() {
+    return this.fontSize(15)
+  }
+
+  @computed get fontSize16() {
+    return this.fontSize(16)
+  }
+
+  @computed get fontSize17() {
+    return this.fontSize(17)
+  }
+
+  @computed get fontSize18() {
+    return this.fontSize(18)
+  }
+
+  @computed get fontSize19() {
+    return this.fontSize(19)
+  }
+
+  @computed get fontSize20() {
+    return this.fontSize(20)
+  }
+
+  @computed get fontSize21() {
+    return this.fontSize(21)
+  }
+
+  @computed get fontSize22() {
+    return this.fontSize(22)
+  }
+
+  @computed get fontSize23() {
+    return this.fontSize(23)
+  }
+
+  @computed get fontSize24() {
+    return this.fontSize(24)
+  }
+
+  @computed get fontSize25() {
+    return this.fontSize(25)
+  }
+
+  @computed get fontSize26() {
+    return this.fontSize(26)
+  }
+
+  @computed get fontSize27() {
+    return this.fontSize(27)
+  }
+
+  @computed get fontSize28() {
+    return this.fontSize(28)
+  }
+
+  @computed get fontSize29() {
+    return this.fontSize(29)
+  }
+
+  @computed get fontSize30() {
+    return this.fontSize(30)
+  }
+
   // -------------------- page --------------------
   /**
+   * 主题选择
    * 黑暗模式使用第二个值
    */
   select = (lightValue, darkValue) => (this.isDark ? darkValue : lightValue)
+
+  /**
+   * 小圣杯主题选择
+   * 白天模式使用第二个值
+   */
+  tSelect = (lightValue, darkValue) =>
+    this.isTinygrailDark ? lightValue : darkValue
 
   /**
    * 切换模式
@@ -283,11 +475,33 @@ class Theme extends store {
   /**
    * 切换小圣杯主题模式
    */
+  toggleTinygrailThemeMode = () => {
+    const key = 'tinygrailThemeMode'
+    this.setState({
+      [key]: this.tSelect('light', 'dark')
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 切换小圣杯涨跌颜色
+   */
   toggleTinygrailMode = () => {
     const { tinygrailMode } = this.state
     const key = 'tinygrailMode'
     this.setState({
       [key]: tinygrailMode === 'green' ? 'red' : 'green'
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 改变整体字号
+   */
+  changeFontSizeAdjust = (fontSizeAdjust = 0) => {
+    const key = 'fontSizeAdjust'
+    this.setState({
+      [key]: parseInt(fontSizeAdjust)
     })
     this.setStorage(key, undefined, NAMESPACE)
   }
@@ -311,6 +525,24 @@ class Theme extends store {
   }
 
   /**
+   * 小圣杯模块, 安卓改变底部菜单颜色
+   */
+  changeNavigationBarColorTinygrail = () => {
+    if (IOS) {
+      return
+    }
+
+    try {
+      changeNavigationBarColor(
+        this.colorTinygrailContainerHex,
+        !this.isTinygrailDark
+      )
+    } catch (error) {
+      console.warn('[ThemeStore] changeNavigationBarColorTinygrail', error)
+    }
+  }
+
+  /**
    * 生成记忆styles函数
    * 原理: 通过闭包使每一个组件里面的StyleSheet.create都被记忆
    * 只有mode改变了, 才会重新StyleSheet.create, 配合mobx的observer触发重新渲染
@@ -318,11 +550,14 @@ class Theme extends store {
   memoStyles = (styles, dev) => {
     const memoId = getMemoStylesId()
     return () => {
-      if (!memoId._mode || !memoId._styles || memoId._mode !== this.mode) {
-        // eslint-disable-next-line no-param-reassign
+      if (
+        !memoId._mode ||
+        !memoId._styles ||
+        memoId._mode !== this.mode ||
+        memoId._tMode !== this.tinygrailThemeMode
+      ) {
         memoId._mode = this.mode
-
-        // eslint-disable-next-line no-param-reassign
+        memoId._tMode = this.tinygrailThemeMode
         memoId._styles = StyleSheet.create(styles(this))
 
         if (dev) {

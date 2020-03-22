@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:55:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:10:04
+ * @Last Modified time: 2020-02-14 06:40:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,9 +10,10 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { inject, withHeader } from '@utils/decorators'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
+import IconGo from '../_/icon-go'
 import List from './list'
 import Store, { sortDS } from './store'
 
@@ -23,7 +24,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/valhall', 'TinygrailValhall'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailValhall extends React.Component {
@@ -37,8 +38,12 @@ class TinygrailValhall extends React.Component {
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     $.init()
+
+    navigation.setParams({
+      extra: <IconGo $={$} />
+    })
   }
 
   renderContentHeaderComponent() {
@@ -56,18 +61,22 @@ class TinygrailValhall extends React.Component {
 
   render() {
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
-      >
+      <View style={this.styles.container}>
         <StatusBarEvents />
         {this.renderContentHeaderComponent()}
         <List />
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

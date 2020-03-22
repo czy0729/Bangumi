@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-12-10 22:47:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 00:16:56
+ * @Last Modified time: 2020-03-21 17:01:12
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
-import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { IOS } from '@constants'
@@ -20,7 +19,7 @@ function NavigationBarEvents({ tinygrail }) {
       onWillFocus={() => {
         try {
           if (tinygrail) {
-            changeNavigationBarColor(_.colorTinygrailContainerHex, false)
+            _.changeNavigationBarColorTinygrail()
           } else {
             _.changeNavigationBarColor()
           }

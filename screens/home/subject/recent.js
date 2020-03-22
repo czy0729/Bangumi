@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 18:41:31
+ * @Last Modified time: 2020-02-22 11:38:26
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
@@ -17,6 +17,8 @@ function Recent({ style }, { $, navigation }) {
   if (!who || !who.length) {
     return null
   }
+
+  const styles = memoStyles()
   return (
     <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>动态</SectionTitle>
@@ -44,7 +46,7 @@ function Recent({ style }, { $, navigation }) {
             />
             <View style={_.ml.sm}>
               <Flex>
-                <Text size={12}>{item.name}</Text>
+                <Text size={13}>{item.name}</Text>
                 {!$.hideScore && <Stars style={_.ml.xs} value={item.star} />}
               </Flex>
               <Text style={_.mt.xs} size={12} type='sub'>
@@ -65,11 +67,14 @@ Recent.contextTypes = {
 
 export default observer(Recent)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    backgroundColor: _.colorPlain
+  },
   contentContainerStyle: {
     paddingHorizontal: _.wind
   },
   item: {
     paddingRight: _.wind
   }
-})
+}))

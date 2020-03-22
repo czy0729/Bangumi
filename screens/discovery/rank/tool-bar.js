@@ -10,7 +10,7 @@ import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { airtimeData, monthData } from '@constants'
+import { DATA_AIRTIME, DATA_MONTH } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_RANK_ANIME_FILTER,
@@ -80,7 +80,7 @@ function ToolBar(props, { $, navigation }) {
       )}
       <Flex.Item flex={0.8}>
         <Popover
-          data={airtimeData}
+          data={DATA_AIRTIME}
           onSelect={title => $.onAirdateSelect(title, navigation)}
         >
           <Flex style={styles.item} justify='center'>
@@ -96,7 +96,7 @@ function ToolBar(props, { $, navigation }) {
         </Popover>
       </Flex.Item>
       <Flex.Item flex={0.64}>
-        <Popover data={monthData} onSelect={$.onMonthSelect}>
+        <Popover data={DATA_MONTH} onSelect={$.onMonthSelect}>
           <Flex style={styles.item} justify='center'>
             <Text style={_.ml.sm} type={isEmptyMonth ? 'sub' : 'main'}>
               {month || '月'}

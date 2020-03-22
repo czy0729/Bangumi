@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 21:59:16
+ * @Last Modified time: 2020-03-21 21:03:02
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
+import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
@@ -18,6 +19,7 @@ function Item(props, { navigation }) {
   const styles = memoStyles()
   const {
     event,
+    assets,
     index,
     id,
     name,
@@ -30,7 +32,8 @@ function Item(props, { navigation }) {
     firstAsks,
     firstBids,
     firstAmount,
-    mark
+    mark,
+    isAuctioning
   } = props
   const { id: eventId, data: eventData } = event
   const isAuction = !firstBids && !firstAsks
@@ -39,7 +42,7 @@ function Item(props, { navigation }) {
   return (
     <Flex style={styles.container} align='start'>
       <Avatar
-        style={styles.image}
+        style={styles.avatar}
         src={tinygrailOSS(icon)}
         size={40}
         name={name}
@@ -87,12 +90,7 @@ function Item(props, { navigation }) {
         >
           <Flex>
             <Flex.Item>
-              <Text
-                style={{
-                  color: _.colorTinygrailPlain
-                }}
-                size={15}
-              >
+              <Text type='tinygrailPlain' size={15}>
                 {index + 1}.{name}
                 {!!bonus && (
                   <Text size={12} lineHeight={15} type='warning'>
@@ -101,27 +99,13 @@ function Item(props, { navigation }) {
                   </Text>
                 )}
                 {parseInt(level) > 1 && (
-                  <Text
-                    style={{
-                      color: _.colorAsk
-                    }}
-                    size={12}
-                    lineHeight={15}
-                  >
+                  <Text type='ask' size={12} lineHeight={15}>
                     {' '}
                     lv{level}
                   </Text>
                 )}
               </Text>
-              <Text
-                style={[
-                  _.mt.xs,
-                  {
-                    color: _.colorTinygrailText
-                  }
-                ]}
-                size={11}
-              >
+              <Text style={_.mt.xs} type='tinygrailText' size={11}>
                 {!!amount && (
                   <Text type='warning' size={11}>
                     {amount}股
@@ -129,26 +113,29 @@ function Item(props, { navigation }) {
                 )}
                 {!!amount && ' / '}
                 {!!firstAmount && (
-                  <Text
-                    style={{
-                      color: isBids ? _.colorBid : _.colorAsk
-                    }}
-                    size={11}
-                  >
+                  <Text type={isBids ? 'bid' : 'ask'} size={11}>
                     {isBids && '收'}
                     {firstAmount}股
                   </Text>
                 )}
-                {!!firstAmount && ' / '}₵{firstAsks || firstBids || current} / +
-                {rate}
+                {assets && (
+                  <Text type='bid' size={11}>
+                    {assets.state || '-'} ({assets.sacrifices || '-'})
+                  </Text>
+                )}
+                {assets && ' / '}
+                {!!firstAmount && ' / '}₵
+                {toFixed(firstAsks || firstBids || current, 2)} / +
+                {toFixed(rate, 2)} / +{toFixed(rate * (level + 1) * 0.3, 2)}
               </Text>
             </Flex.Item>
-            <Text
-              style={{
-                color: _.colorTinygrailPlain
-              }}
-              size={16}
-            >
+            {isAuctioning && (
+              <Text style={_.ml.sm} type='bid'>
+                {' '}
+                [竞拍中]
+              </Text>
+            )}
+            <Text style={_.ml.md} type='tinygrailPlain' size={16}>
               {mark}
             </Text>
           </Flex>
@@ -164,7 +151,8 @@ Item.contextTypes = {
 }
 
 Item.defaultProps = {
-  event: EVENT
+  event: EVENT,
+  assets: undefined
 }
 
 export default observer(Item)
@@ -174,9 +162,13 @@ const memoStyles = _.memoStyles(_ => ({
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer
   },
-  image: {
+  active: {
+    backgroundColor: _.colorTinygrailActive
+  },
+  avatar: {
     marginRight: _.xs,
-    marginTop: _.md
+    marginTop: _.md,
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   item: {
     paddingVertical: _.md,

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 02:54:24
+ * @Last Modified time: 2020-03-21 11:32:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs'
 import List from './list'
@@ -22,7 +22,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/ico', 'TinygrailICO'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailICO extends React.Component {
@@ -44,14 +44,7 @@ class TinygrailICO extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
-      >
+      <View style={this.styles.container}>
         <StatusBarEvents />
         {!!_loaded && (
           <Tabs tabs={tabs}>
@@ -63,4 +56,15 @@ class TinygrailICO extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

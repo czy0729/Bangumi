@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 15:53:29
+ * @Last Modified time: 2020-02-22 12:03:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,20 +13,20 @@ import { SectionTitle, Tag, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 
+const event = {
+  id: '人物.跳转',
+  data: {
+    from: '最近演出角色'
+  }
+}
+
 function Voice({ style }, { $, navigation }) {
-  const { voice = [] } = $.mono
-  if (!voice.length) {
+  if (!$.voices.length) {
     return null
   }
 
   const styles = memoStyles()
   const { monoId } = $.params
-  const event = {
-    id: '人物.跳转',
-    data: {
-      from: '最近演出角色'
-    }
-  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
@@ -43,7 +43,7 @@ function Voice({ style }, { $, navigation }) {
         最近演出角色
       </SectionTitle>
       <View style={_.mt.md}>
-        {voice.map((item, index) => (
+        {$.voices.map((item, index) => (
           <Flex
             key={item.href}
             style={[styles.item, index !== 0 && styles.border]}
@@ -72,7 +72,7 @@ function Voice({ style }, { $, navigation }) {
                 <Flex.Item style={_.ml.sm}>
                   <Text style={_.mt.xs}>{item.name}</Text>
                   {!!item.nameCn && (
-                    <Text style={_.mt.xs} size={12} type='sub'>
+                    <Text style={_.mt.xs} size={13} type='sub'>
                       {item.nameCn}
                     </Text>
                   )}
@@ -87,7 +87,7 @@ function Voice({ style }, { $, navigation }) {
                   </Text>
                   <Flex style={_.mt.xs} align='start'>
                     <Flex.Item>
-                      <Text size={12} type='sub' align='right' lineHeight={14}>
+                      <Text size={13} type='sub' align='right' lineHeight={14}>
                         {item.subjectNameCn}
                       </Text>
                     </Flex.Item>

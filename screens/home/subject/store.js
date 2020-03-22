@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 21:17:42
+ * @Last Modified time: 2020-03-19 01:03:24
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -16,47 +16,83 @@ import {
   systemStore
 } from '@stores'
 import { open, getTimestamp } from '@utils'
-import { t, xhrCustom, queue } from '@utils/fetch'
-import { appNavigate, getBangumiUrl, getCoverMedium } from '@utils/app'
+import { HTMLDecode } from '@utils/html'
+import { t, xhrCustom, queue, baiduTranslate } from '@utils/fetch'
+import {
+  appNavigate,
+  findBangumiCn,
+  getBangumiUrl,
+  getCoverMedium
+} from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
-import { IOS, USERID_TOURIST, USERID_IOS_AUTH, HOST_NING_MOE } from '@constants'
+import {
+  IOS,
+  APP_USERID_TOURIST,
+  APP_USERID_IOS_AUTH,
+  HOST_NING_MOE
+} from '@constants'
+import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { NINGMOE_ID } from '@constants/online'
 
 const namespace = 'ScreenSubject'
 const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
+const initRating = {
+  count: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+  score: '',
+  total: ''
+}
+const sitesDS = [
+  'bilibili',
+  'iqiyi',
+  'pptv',
+  'youku',
+  'acfun',
+  'nicovideo',
+  'qq',
+  'mgtv'
+]
+const excludeState = {
+  visible: false, // 是否显示管理模态框
+  chap: '', // 书籍章
+  vol: '', // 卷
+  translateResult: [] // 翻译缓存
+}
 
 export default class ScreenSubject extends store {
   state = observable({
-    visible: false, // 是否显示管理模态框
+    ...excludeState,
     epsReverse: false, // 章节是否倒序
-    chap: '', // 书籍
-    vol: '',
     bangumiInfo: {
       sites: [], // 动画在线地址
       type: '' // 动画类型
     },
-
-    // 播放源
-    epsData: {
-      _loaded: false
-    },
-    _loaded: true
+    epsData: { _loaded: false }, // 播放源
+    _loaded: false
   })
 
   init = async () => {
     const state = await this.getStorage(undefined, this.namespace)
     this.setState({
       ...state,
-      visible: false,
-      chap: '',
-      vol: '',
+      ...excludeState,
       _loaded: true
     })
 
+    /**
+     * 访问私有cdn, 加速未缓存条目首屏数据渲染
+     * 因为有cdn, 下面2个用户相关的接口可以提前
+     */
+    this.fetchSubjectFormCDN()
+    userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
+    this.fetchCollection() // 用户每集收看进度
+
+    // API条目信息
     const res = this.fetchSubject()
     const data = await res
+
+    // bangumi-data数据扩展
     const item = bangumiData.items.find(item => item.title === data.name)
     if (item) {
       this.setState({
@@ -85,12 +121,12 @@ export default class ScreenSubject extends store {
     }
 
     queue([
-      () => this.fetchCollection(),
-      () => userStore.fetchUserProgress(this.subjectId),
-      () => subjectStore.fetchSubjectEp(this.subjectId),
-      () => this.fetchSubjectFormHTML(),
-      () => this.fetchEpsData(),
-      () => this.fetchSubjectComments(true)
+      // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
+      // () => subjectStore.fetchSubjectEp(this.subjectId), // [废弃] 跟条目API重复
+      // () => this.fetchCollection(), // 用户每集收看进度
+      () => this.fetchSubjectComments(true), // 吐槽
+      () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
+      () => this.fetchEpsData() // 单集播放源
     ])
     return res
   }
@@ -116,6 +152,18 @@ export default class ScreenSubject extends store {
   }
 
   /**
+   * 私有CDN的条目信息
+   */
+  fetchSubjectFormCDN = async () => {
+    const { setting } = systemStore
+    const { _loaded } = this.subjectFormHTML
+    if (!setting.cdn || _loaded) {
+      return true
+    }
+    return subjectStore.fetchSubjectFormCDN(this.subjectId)
+  }
+
+  /**
    * 用户收藏信息
    */
   fetchCollection = () => collectionStore.fetchCollection(this.subjectId)
@@ -136,14 +184,8 @@ export default class ScreenSubject extends store {
   fetchEpsData = async () => {
     if (this.type === '动画') {
       try {
-        /**
-         * 旧源头
-         * https://raw.githubusercontent.com/ekibun/bangumi_onair/master
-         */
         const { _response } = await xhrCustom({
-          url: `https://cdn.jsdelivr.net/gh/ekibun/bangumi_onair@latest/onair/${parseInt(
-            parseInt(this.subjectId) / 1000
-          )}/${this.subjectId}.json`
+          url: CDN_EPS(this.subjectId)
         })
 
         const epsData = {
@@ -216,11 +258,18 @@ export default class ScreenSubject extends store {
   }
 
   /**
+   * 条目CDN自维护数据
+   */
+  @computed get subjectFormCDN() {
+    return subjectStore.subjectFormCDN(this.subjectId)
+  }
+
+  /**
    * 章节信息
    */
-  @computed get subjectEp() {
-    return subjectStore.subjectEp(this.subjectId)
-  }
+  // @computed get subjectEp() {
+  //   return subjectStore.subjectEp(this.subjectId)
+  // }
 
   /**
    * 条目留言
@@ -256,10 +305,10 @@ export default class ScreenSubject extends store {
 
   // Ep偏移
   @computed get ningMoeEpOffset() {
+    const { eps = [] } = this.subject
     return (
-      this.subjectEp.eps
-        .filter(item => item.type === 0)
-        .sort((a, b) => a.sort - b.sort)[0].sort - 1
+      eps.filter(item => item.type === 0).sort((a, b) => a.sort - b.sort)[0]
+        .sort - 1
     )
   }
 
@@ -311,8 +360,8 @@ export default class ScreenSubject extends store {
 
     if (
       !this.userId ||
-      this.userId == USERID_TOURIST ||
-      this.userId == USERID_IOS_AUTH
+      this.userId == APP_USERID_TOURIST ||
+      this.userId == APP_USERID_IOS_AUTH
     ) {
       return false
     }
@@ -322,6 +371,193 @@ export default class ScreenSubject extends store {
 
   @computed get hideScore() {
     return systemStore.setting.hideScore
+  }
+
+  @computed get onlineOrigins() {
+    const { bangumiInfo } = this.state
+    const { sites = [] } = bangumiInfo
+    const _data = []
+    if (this.ningMoeDetail.id) {
+      _data.push('柠萌瞬间')
+    }
+
+    const data = [
+      ..._data,
+      ...sites
+        .filter(item => sitesDS.includes(item.site))
+        .map(item => item.site)
+    ]
+    if (['动画', '三次元'].includes(this.type)) {
+      data.push('AGE动漫')
+      data.push('迅播动漫')
+    }
+    return data
+  }
+
+  // -------------------- get: cdn fallback --------------------
+  @computed get coverPlaceholder() {
+    const { _image } = this.params
+    if (typeof _image === 'string') {
+      return _image || this.subjectFormCDN.image
+    }
+    return this.subject.images.medium
+  }
+
+  @computed get jp() {
+    const { _jp } = this.params
+    return HTMLDecode(this.subject.name || _jp || this.subjectFormCDN.name)
+  }
+
+  @computed get cn() {
+    const { _cn } = this.params
+    return HTMLDecode(this.subject.name_cn || _cn || findBangumiCn(this.jp))
+  }
+
+  @computed get subjectType() {
+    if (this.subject._loaded) {
+      return this.subject.type
+    }
+    return this.subjectFormCDN.type
+  }
+
+  @computed get rating() {
+    if (this.subject._loaded) {
+      return {
+        ...initRating,
+        ...this.subject.rating
+      }
+    }
+    if (this.subjectFormCDN._loaded) {
+      return {
+        ...initRating,
+        ...this.subjectFormCDN.rating
+      }
+    }
+    return initRating
+  }
+
+  @computed get lock() {
+    if (this.subjectFormHTML._loaded) {
+      return this.subjectFormHTML.lock
+    }
+    return this.subjectFormCDN.lock
+  }
+
+  @computed get subjectCollection() {
+    if (this.subject._loaded) {
+      return this.subject.collection || {}
+    }
+    return this.subjectFormCDN.collection || {}
+  }
+
+  @computed get eps() {
+    if (this.subject._loaded) {
+      return this.subject.eps || []
+    }
+    return this.subjectFormCDN.eps || []
+  }
+
+  @computed get disc() {
+    if (this.subjectFormHTML._loaded) {
+      return this.subjectFormHTML.disc || []
+    }
+    return this.subjectFormCDN.disc || []
+  }
+
+  @computed get summary() {
+    if (this.subject._loaded) {
+      return this.subject.summary
+    }
+    const { _summary = '' } = this.params
+    return this.subjectFormCDN.summary || _summary
+  }
+
+  @computed get tags() {
+    if (this.subjectFormHTML._loaded) {
+      return this.subjectFormHTML.tags || []
+    }
+    return this.subjectFormCDN.tags || []
+  }
+
+  @computed get info() {
+    if (this.subjectFormHTML._loaded) {
+      return this.subjectFormHTML.info
+    }
+    return this.subjectFormCDN.info
+  }
+
+  @computed get crt() {
+    if (this.subject._loaded) {
+      const { crt } = this.subject
+      return (crt || []).map(
+        ({
+          id,
+          images = {},
+          name,
+          name_cn: nameCn,
+          role_name: roleName,
+          actors = []
+        }) => ({
+          id,
+          image: images.grid,
+          _image: images.medium,
+          name: nameCn || name,
+          nameJP: name,
+          desc: (actors[0] && actors[0].name) || roleName
+        })
+      )
+    }
+    return this.subjectFormCDN.crt || []
+  }
+
+  @computed get staff() {
+    if (this.subject._loaded) {
+      const { staff } = this.subject
+      return (staff || []).map(
+        ({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
+          id,
+          image: images.grid,
+          _image: images.medium,
+          name: nameCn || name,
+          nameJP: name,
+          desc: jobs[0]
+        })
+      )
+    }
+    return this.subjectFormCDN.staff || []
+  }
+
+  @computed get relations() {
+    if (this.subject._loaded) {
+      return (this.subjectFormHTML.relations || []).map(
+        ({ id, image, title, type }) => ({
+          id,
+          image,
+          name: title,
+          desc: type
+        })
+      )
+    }
+    return (this.subjectFormCDN.relations || []).map(item => ({
+      id: item.id,
+      image: item.image,
+      name: item.title,
+      desc: item.type
+    }))
+  }
+
+  @computed get comic() {
+    if (this.subject._loaded) {
+      return this.subjectFormHTML.comic || []
+    }
+    return this.subjectFormCDN.comic || []
+  }
+
+  @computed get like() {
+    if (this.subject._loaded) {
+      return this.subjectFormHTML.like || []
+    }
+    return this.subjectFormCDN.like || []
   }
 
   // -------------------- page --------------------
@@ -362,10 +598,10 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 吐槽箱倒序
+   * 吐槽倒序
    */
   toggleReverseComments = () => {
-    t('条目.吐槽箱倒序', {
+    t('条目.吐槽倒序', {
       subjectId: this.subjectId
     })
 
@@ -389,21 +625,47 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 迅播动漫
+   * 在线源头选择
+   * @params {*} key
    */
-  jumpXunBo = () => {
+  onlinePlaySelected = key => {
     t('条目.搜索源', {
-      type: '迅播',
+      type: key,
       subjectId: this.subjectId,
       subjectType: this.type
     })
 
-    const { name_cn: nameCn, name } = this.subject
-    open(
-      `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
-        nameCn || name
-      )}`
-    )
+    const { bangumiInfo } = this.state
+    const { sites = [] } = bangumiInfo
+    let item
+    switch (key) {
+      case '柠萌瞬间':
+        open(
+          `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
+        )
+        break
+      case 'AGE动漫':
+        open(
+          `https://www.agefans.tv/search?query=${encodeURIComponent(
+            this.cn
+          )}&page=1`
+        )
+        break
+      case '迅播动漫':
+        open(
+          `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
+            this.cn
+          )}`
+        )
+        break
+      default:
+        item = sites.find(item => item.site === key)
+        if (item) {
+          const url = getBangumiUrl(item)
+          open(url)
+        }
+        break
+    }
   }
 
   // -------------------- action --------------------
@@ -477,7 +739,7 @@ export default class ScreenSubject extends store {
           } else {
             // @todo 逻辑比较复杂, 暂时不处理EP偏移
             const { epsData } = this.state
-            const { eps } = this.subjectEp
+            const { eps = [] } = this.subject
             const site = this.onlinePlayActionSheetData[index]
             let epIndex
             if (sites.includes(site)) {
@@ -539,7 +801,7 @@ export default class ScreenSubject extends store {
          * 批量更新收视进度
          * @issue 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
          */
-        const { eps = [] } = this.subjectEp
+        const { eps = [] } = this.subject
         const sort = eps
           .filter(i => i.type === 0)
           .sort((a, b) => (a.sort || 0) - (b.sort || 0))
@@ -664,5 +926,33 @@ export default class ScreenSubject extends store {
         userStore.fetchUserCollection()
       }
     )
+  }
+
+  /**
+   * 翻译简介
+   */
+  doTranslate = async () => {
+    if (this.state.translateResult.length) {
+      return
+    }
+
+    t('条目.翻译简介', {
+      subjectId: this.subjectId
+    })
+
+    try {
+      const response = await baiduTranslate(this.summary)
+      const { trans_result: translateResult } = JSON.parse(response)
+      if (Array.isArray(translateResult)) {
+        this.setState({
+          translateResult
+        })
+        info('翻译成功')
+        return
+      }
+      info('翻译失败, 请重试')
+    } catch (error) {
+      info('翻译失败, 请重试')
+    }
   }
 }

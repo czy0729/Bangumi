@@ -3,26 +3,26 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 15:38:14
+ * @Last Modified time: 2020-03-08 22:13:59
  */
 import { computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
+import { HTMLDecode } from '@utils/html'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
 
 export default class ScreenMono extends store {
   init = () => {
+    this.fetchMonoFormCDN()
     if (this.tinygrail) {
-      return Promise.all([
-        this.fetchMono(true),
-        this.fetchChara(),
-        this.fetchUsers()
-      ])
+      return Promise.all([this.fetchMono(true), this.fetchChara()])
     }
     return this.fetchMono(true)
   }
+
+  onHeaderRefresh = () => this.fetchMono(true)
 
   // -------------------- fetch --------------------
   fetchMono = refresh =>
@@ -31,8 +31,18 @@ export default class ScreenMono extends store {
   fetchChara = () =>
     tinygrailStore.fetchCharacters([this.monoId.replace('character/', '')])
 
-  fetchUsers = () =>
-    tinygrailStore.fetchUsers(this.monoId.replace('character/', ''))
+  /**
+   * 私有CDN的条目信息
+   */
+  fetchMonoFormCDN = async () => {
+    const { setting } = systemStore
+    const { _loaded } = this.mono
+    if (!setting.cdn || _loaded) {
+      return true
+    }
+
+    return subjectStore.fetchMonoFormCDN(this.monoId)
+  }
 
   // -------------------- get --------------------
   @computed get monoId() {
@@ -48,6 +58,10 @@ export default class ScreenMono extends store {
     return subjectStore.monoComments(this.monoId)
   }
 
+  @computed get monoFormCDN() {
+    return subjectStore.monoFormCDN(this.monoId)
+  }
+
   @computed get chara() {
     return tinygrailStore.characters(this.monoId.replace('character/', ''))
   }
@@ -56,8 +70,48 @@ export default class ScreenMono extends store {
     return systemStore.setting.tinygrail
   }
 
-  @computed get users() {
-    return tinygrailStore.users(this.monoId.replace('character/', ''))
+  // -------------------- get: cdn fallback --------------------
+  @computed get jp() {
+    const { _jp } = this.params
+    return HTMLDecode(this.mono.name || _jp || this.monoFormCDN.name)
+  }
+
+  @computed get cn() {
+    const { _name } = this.params
+    return HTMLDecode(this.mono.nameCn || _name || this.monoFormCDN.nameCn)
+  }
+
+  @computed get cover() {
+    return this.mono.cover || this.monoFormCDN.cover
+  }
+
+  @computed get info() {
+    return this.mono.info || this.monoFormCDN.info
+  }
+
+  @computed get detail() {
+    return this.mono.detail || this.monoFormCDN.detail
+  }
+
+  @computed get voices() {
+    if (this.mono._loaded) {
+      return this.mono.voice || []
+    }
+    return this.monoFormCDN.voices || []
+  }
+
+  @computed get works() {
+    if (this.mono._loaded) {
+      return this.mono.works || []
+    }
+    return this.monoFormCDN.works || []
+  }
+
+  @computed get jobs() {
+    if (this.mono._loaded) {
+      return this.mono.jobs || []
+    }
+    return this.monoFormCDN.jobs || []
   }
 
   // -------------------- action --------------------

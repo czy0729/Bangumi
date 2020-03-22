@@ -1,32 +1,37 @@
-/* eslint-disable space-before-function-paren, func-names */
+/* eslint-disable space-before-function-paren */
+/* eslint-disable func-names */
 /*
  * 请求相关
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 14:08:39
+ * @Last Modified time: 2020-03-22 02:49:55
  */
-import { Alert, NativeModules } from 'react-native'
+import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
 import { Portal, Toast } from '@ant-design/react-native'
 import {
   IOS,
   APP_ID,
+  APP_ID_BAIDU,
   HOST_NAME,
   HOST,
   VERSION_GITHUB_RELEASE,
   DEV
 } from '@constants'
 import events from '@constants/events'
+import { BAIDU_KEY } from '@constants/secret'
 import fetch from './thirdParty/fetch-polyfill'
+import md5 from './thirdParty/md5'
 import { urlStringify, sleep, getTimestamp, randomn } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
 
 const UMAnalyticsModule = NativeModules.UMAnalyticsModule
-const SHOW_LOG = true
-const TIMEOUT = 10000
-const FETCH_RETRY_COUNT = 5 // GET请求失败重试次数
+const SHOW_LOG = true // 开发显示请求信息
+const FETCH_TIMEOUT = 8000 // api超时时间
+const FETCH_RETRY = 4 // get请求失败自动重试次数
+
 const defaultHeaders = {
   Accept:
     'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
@@ -57,7 +62,7 @@ export default async function fetchAPI({
   const userStore = require('../stores/user').default
   const { accessToken } = userStore
   const _config = {
-    timeout: TIMEOUT,
+    timeout: FETCH_TIMEOUT,
     headers: {
       Authorization: `${accessToken.token_type} ${accessToken.access_token}`
     }
@@ -84,7 +89,7 @@ export default async function fetchAPI({
     }
   }
   if (SHOW_LOG) {
-    log(`[fetchAPI] ${info || _url}`)
+    log(`[fetchAPI] ${info} ${_url}`)
   }
 
   return fetch(_url, _config)
@@ -121,7 +126,7 @@ export default async function fetchAPI({
 
         const key = `${url}|${urlStringify(data)}`
         _retry[key] = (_retry[key] || 0) + 1
-        if (_retry[key] < FETCH_RETRY_COUNT) {
+        if (_retry[key] < FETCH_RETRY) {
           return retryCb()
         }
       }
@@ -141,13 +146,14 @@ export async function fetchHTML({
   url,
   data = {},
   headers = {},
-  cookie
+  cookie,
+  raw = false
 } = {}) {
   const isGet = method === 'GET'
   const userStore = require('../stores/user').default
   const { cookie: userCookie, userAgent } = userStore.userCookie
   const _config = {
-    timeout: TIMEOUT,
+    timeout: FETCH_TIMEOUT,
     headers: {}
   }
   const body = {
@@ -195,35 +201,20 @@ export async function fetchHTML({
     log(`[fetchHTML] ${_url}`)
   }
 
-  const isDev = require('../stores/system').default.state.dev
   return fetch(_url, _config)
     .then(res => {
-      // 开发模式
-      if (isDev) {
-        Alert.alert(
-          'dev',
-          `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${res._bodyInit}`
-        )
-      }
       if (!isGet) log(method, 'success', _url, _config, res)
       if (toastId) Portal.remove(toastId)
-      return Promise.resolve(res.text())
+      return Promise.resolve(raw ? res : res.text())
     })
     .catch(err => {
-      if (isDev) {
-        Alert.alert(
-          `${JSON.stringify(_url)} ${JSON.stringify(_config)} ${JSON.stringify(
-            err
-          )}`
-        )
-      }
       if (toastId) Portal.remove(toastId)
       return Promise.reject(err)
     })
 }
 
 /**
- * [待废弃] XMLHttpRequest
+ * [待废弃] 带登陆信息的XMLHttpRequest
  * @param {*} params
  * @param {*} success
  * @param {*} fail
@@ -261,7 +252,7 @@ export function xhr(
   request.setRequestHeader('Cookie', userCookie)
   request.setRequestHeader('User-Agent', userAgent)
   request.setRequestHeader('Host', HOST_NAME)
-  request.setRequestHeader('accept-encoding', 'br, gzip, deflate')
+  request.setRequestHeader('accept-encoding', 'gzip, deflate')
   request.send(urlStringify(data))
 }
 
@@ -279,8 +270,14 @@ export function xhrCustom({
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        resolve(this)
+      if (this.readyState === 4) {
+        if (this.status === 200) {
+          resolve(this)
+        } else if (this.status === 404) {
+          reject(new TypeError('404'))
+        } else if (this.status === 500) {
+          reject(new TypeError('500'))
+        }
       }
     }
     request.onerror = function() {
@@ -311,49 +308,63 @@ export function xhrCustom({
 }
 
 /**
- * hm v4.0
+ * hm v5.0
  * @param {*} url
  * @param {*} screen
  */
-export async function hm(url, screen) {
+export function hm(url, screen) {
   if (DEV) {
     log(`[hm] ${url} ${screen}`)
     return
   }
 
   try {
-    if (!ua) ua = await Constants.getWebViewUserAgentAsync()
+    // 保证这种低优先级的操作在UI响应之后再执行
+    InteractionManager.runAfterInteractions(async () => {
+      if (!ua) {
+        ua = await Constants.getWebViewUserAgentAsync()
+      }
 
-    let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
-    u += `${u.includes('?') ? '&' : '?'}v=${VERSION_GITHUB_RELEASE}`
-    u += `${require('../stores/theme').default.isDark ? '&dark=1' : ''}`
-    u += `${screen ? `&s=${screen}` : ''}`
+      const themeStore = require('../stores/theme').default
+      let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
+      u += `${u.includes('?') ? '&' : '?'}v=${VERSION_GITHUB_RELEASE}`
+      u += `${themeStore.isDark ? '&dark=1' : ''}`
 
-    const request = new XMLHttpRequest()
-    request.open(
-      'GET',
-      `https://hm.baidu.com/hm.gif?${urlStringify({
-        rnd: randomn(10),
-        si: IOS
-          ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
-          : '2dcb6644739ae08a1748c45fb4cea087',
-        v: '1.2.51',
-        api: '4_0',
-        u
-        // lt: getTimestamp()
-      })}`,
-      true
-    )
-    request.withCredentials = false
-    request.setRequestHeader(
-      'User-Agent',
-      ua || require('../stores/user').default.userCookie.userAgent
-    )
-    request.send(null)
+      if (
+        screen &&
+        screen.includes('Tinygrail') &&
+        themeStore.isTinygrailDark
+      ) {
+        u += '&tdark=1'
+      }
+      u += `${screen ? `&s=${screen}` : ''}`
+
+      const request = new XMLHttpRequest()
+      request.open(
+        'GET',
+        `https://hm.baidu.com/hm.gif?${urlStringify({
+          rnd: randomn(10),
+          si: IOS
+            ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
+            : '2dcb6644739ae08a1748c45fb4cea087',
+          v: '1.2.51',
+          api: '4_0',
+          u
+        })}`,
+        true
+      )
+      request.withCredentials = false
+      request.setRequestHeader(
+        'User-Agent',
+        ua || require('../stores/user').default.userCookie.userAgent
+      )
+      request.send(null)
+    })
   } catch (error) {
     console.warn('[fetch] hm', error)
   }
 }
+
 /**
  * track
  * @param {*} u
@@ -367,12 +378,19 @@ export function t(desc, eventData) {
     if (!DEV) {
       return
     }
-    log(`[track] ${desc} ${eventData ? JSON.stringify(eventData) : ''}`)
+
+    const eventId = events[desc]
+    log(
+      `${eventId ? '' : '找不到eventId '}[track] ${desc} ${
+        eventData ? JSON.stringify(eventData) : ''
+      }`
+    )
     return
   }
 
-  setTimeout(() => {
-    try {
+  try {
+    // 保证这种低优先级的操作在UI响应之后再执行
+    InteractionManager.runAfterInteractions(() => {
       const eventId = events[desc]
       if (eventId) {
         if (eventData) {
@@ -380,15 +398,11 @@ export function t(desc, eventData) {
         } else {
           UMAnalyticsModule.onEvent(eventId)
         }
-
-        if (DEV) {
-          log(`[track] ${desc} ${eventData ? JSON.stringify(eventData) : ''}`)
-        }
       }
-    } catch (error) {
-      warn('utils/fetch', 't', error)
-    }
-  }, 800)
+    })
+  } catch (error) {
+    warn('utils/fetch', 't', error)
+  }
 }
 
 /**
@@ -396,6 +410,10 @@ export function t(desc, eventData) {
  * @param {*} fetchs
  */
 export async function queue(fetchs, num = 2) {
+  if (!fetchs.length) {
+    return false
+  }
+
   await Promise.all(
     new Array(num).fill(0).map(async () => {
       while (fetchs.length) {
@@ -405,6 +423,35 @@ export async function queue(fetchs, num = 2) {
     })
   )
   return true
+}
+
+/**
+ * 百度翻译
+ * @param {*} query
+ */
+export async function baiduTranslate(query) {
+  try {
+    const appid = APP_ID_BAIDU // 秘密
+    const salt = new Date().getTime()
+    const from = 'auto'
+    const to = 'zh'
+    const q = query.split('\r\n').join('\n')
+    const sign = md5(`${appid}${q}${salt}${BAIDU_KEY}`)
+    const { _response } = await xhrCustom({
+      url: `https://api.fanyi.baidu.com/api/trans/vip/translate?${urlStringify({
+        q,
+        appid,
+        salt,
+        from,
+        to,
+        sign
+      })}`
+    })
+    return _response
+  } catch (error) {
+    warn('utils/fetch.js', 'baiduTranslate', error)
+    return false
+  }
 }
 
 /**

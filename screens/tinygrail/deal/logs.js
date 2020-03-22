@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 03:17:27
+ * @Last Modified time: 2020-03-20 18:16:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function Logs({ style }, { $ }) {
           }}
         >
           <Flex.Item>
-            <Text style={styles.bid} size={16}>
+            <Text type='bid' size={16}>
               买入委托
             </Text>
           </Flex.Item>
@@ -37,7 +37,7 @@ function Logs({ style }, { $ }) {
             </Touchable>
           )}
         </Flex>
-        {!bids.length && <Text style={styles.text}>-</Text>}
+        {!bids.length && <Text type='tinygrailText'>-</Text>}
         {bids
           .sort((a, b) => b.price - a.price)
           .map((item, index) => (
@@ -45,16 +45,17 @@ function Logs({ style }, { $ }) {
             <View key={index} style={styles.item}>
               <Flex>
                 <Flex.Item>
-                  <Text
-                    size={12}
-                    style={{
-                      color: _.colorTinygrailPlain
-                    }}
-                  >
+                  <Text size={12} type='tinygrailPlain'>
                     {formatNumber(item.price)}
+                    {item.type === 1 && (
+                      <Text size={12} type='tinygrailText'>
+                        {' '}
+                        [冰山]
+                      </Text>
+                    )}
                   </Text>
                 </Flex.Item>
-                <Text style={styles.text} size={12}>
+                <Text type='tinygrailText' size={12}>
                   {formatNumber(item.amount, 0)}
                 </Text>
                 <Touchable
@@ -74,7 +75,7 @@ function Logs({ style }, { $ }) {
       <Flex.Item style={_.ml.wind}>
         <Flex>
           <Flex.Item>
-            <Text style={styles.ask} size={16}>
+            <Text type='ask' size={16}>
               卖出委托
             </Text>
           </Flex.Item>
@@ -87,7 +88,7 @@ function Logs({ style }, { $ }) {
             </Touchable>
           )}
         </Flex>
-        {!asks.length && <Text style={styles.text}>-</Text>}
+        {!asks.length && <Text type='tinygrailText'>-</Text>}
         {asks
           .sort((a, b) => a.price - b.price)
           .map((item, index) => (
@@ -95,16 +96,17 @@ function Logs({ style }, { $ }) {
             <View key={index} style={styles.item}>
               <Flex>
                 <Flex.Item>
-                  <Text
-                    size={12}
-                    style={{
-                      color: _.colorTinygrailPlain
-                    }}
-                  >
+                  <Text size={12} type='tinygrailPlain'>
                     {formatNumber(item.price)}
+                    {item.type === 1 && (
+                      <Text size={12} type='tinygrailText'>
+                        {' '}
+                        [冰山]
+                      </Text>
+                    )}
                   </Text>
                 </Flex.Item>
-                <Text style={styles.text} size={12}>
+                <Text type='tinygrailText' size={12}>
                   {formatNumber(item.amount, 0)}
                 </Text>
                 <Touchable
@@ -142,17 +144,8 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     width: '100%'
   },
-  bid: {
-    color: _.colorBid
-  },
-  ask: {
-    color: _.colorAsk
-  },
   cancel: {
     paddingVertical: _.sm,
     paddingLeft: _.sm
-  },
-  text: {
-    color: _.colorTinygrailText
   }
 }))

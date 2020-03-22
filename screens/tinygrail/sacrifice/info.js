@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 18:04:45
+ * @Last Modified time: 2020-03-20 01:05:25
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Image, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
@@ -14,9 +14,11 @@ import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
 
-const maxSize = _.window.width / 2.4
+const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }) {
+  const styles = memoStyles()
+  const { showCover } = $.state
   const {
     icon,
     id,
@@ -25,13 +27,14 @@ function Info(props, { $, navigation }) {
     marketValue,
     current,
     total,
+    level,
     fluctuation
   } = $.chara
-  let color = _.colorTinygrailPlain
+  let color = 'tinygrailPlain'
   if (fluctuation < 0) {
-    color = _.colorAsk
+    color = 'ask'
   } else if (fluctuation > 0) {
-    color = _.colorBid
+    color = 'bid'
   }
 
   let fluctuationText = '-%'
@@ -43,9 +46,10 @@ function Info(props, { $, navigation }) {
 
   return (
     <View style={styles.container}>
-      {!!icon && (
+      {showCover && !!icon && (
         <Flex justify='center'>
           <Image
+            style={styles.image}
             src={tinygrailOSS(getCoverLarge(icon))}
             autoSize={maxSize}
             shadow
@@ -61,69 +65,61 @@ function Info(props, { $, navigation }) {
           />
         </Flex>
       )}
-      <Touchable
-        style={_.mt.md}
-        onPress={() => {
-          t('资产重组.跳转', {
-            to: 'Mono',
-            from: '顶部',
-            monoId: $.monoId
-          })
+      <Flex style={showCover && _.mt.md} justify='center'>
+        <Touchable
+          onPress={() => {
+            t('资产重组.跳转', {
+              to: 'Mono',
+              from: '顶部',
+              monoId: $.monoId
+            })
 
-          navigation.push('Mono', {
-            monoId: `character/${id}`
-          })
-        }}
-      >
-        <Flex justify='center'>
-          <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
-            size={16}
-          >
-            #{id} - {name}
-            {!!bonus && (
-              <Text size={12} lineHeight={16} type='warning'>
-                {' '}
-                X{bonus}
-              </Text>
-            )}
-          </Text>
-          <Iconfont
-            style={_.ml.sm}
-            name='right'
-            size={16}
-            color={_.colorTinygrailText}
-          />
-        </Flex>
-      </Touchable>
-      <Flex style={_.mt.md} justify='center' align='baseline'>
-        <Text
-          style={{
-            color: _.colorTinygrailText
+            navigation.push('Mono', {
+              monoId: `character/${id}`
+            })
           }}
         >
+          <Flex justify='center'>
+            <Text type='tinygrailPlain' size={16}>
+              #{id} - {name}
+              {!!bonus && (
+                <Text type='warning' size={16}>
+                  {' '}
+                  x{bonus}
+                </Text>
+              )}
+              <Text type='ask' size={16}>
+                {' '}
+                lv{level}
+              </Text>
+            </Text>
+            <Iconfont
+              style={_.ml.sm}
+              name='right'
+              size={16}
+              color={_.colorTinygrailText}
+            />
+          </Flex>
+        </Touchable>
+        <Touchable style={_.ml.md} onPress={$.toggleCover}>
+          <Text type='tinygrailText' size={16}>
+            [{showCover ? '隐藏' : '显示'}封面]
+          </Text>
+        </Touchable>
+      </Flex>
+      <Flex
+        style={[_.container.wind, _.mt.md]}
+        justify='center'
+        align='baseline'
+      >
+        <Text type='tinygrailText' align='center'>
           市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} /
           发行价 ₵{toFixed($.issuePrice, 1)} /{' '}
-          <Text
-            style={{
-              color: _.colorTinygrailPlain
-            }}
-          >
-            ₵{current && toFixed(current, 2)}
+          <Text type='tinygrailPlain'>₵{current && toFixed(current, 2)}</Text>
+          <Text type={color} align='center'>
+            {' '}
+            {fluctuationText}
           </Text>
-        </Text>
-        <Text
-          style={[
-            _.ml.sm,
-            {
-              color
-            }
-          ]}
-          align='center'
-        >
-          {fluctuationText}
         </Text>
       </Flex>
     </View>
@@ -137,8 +133,11 @@ Info.contextTypes = {
 
 export default observer(Info)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
+  image: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
+  },
   container: {
     padding: _.wind
   }
-})
+}))

@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 03:21:07
+ * @Last Modified time: 2020-03-21 11:44:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { lastDate, getTimestamp, formatNumber } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
+import { observer } from '@utils/decorators'
 
 function Item(
   { index, balance, desc, change, time, charaId },
   { $, navigation }
 ) {
   const styles = memoStyles()
+  const { go } = $.state
   const isTop = index === 0
   let color
   if (change > 0) {
@@ -31,45 +32,53 @@ function Item(
   }
 
   let onPress
-  if (
-    (charaId && desc.includes('买入委托')) ||
-    desc.includes('卖出委托') ||
-    desc.includes('交易')
-  ) {
-    onPress = () => {
-      t('资金日志.跳转', {
-        to: 'TinygrailTrade',
-        monoId: charaId
-      })
+  let icons
+  if (['买入', '卖出', '交易', '混沌魔方'].some(item => desc.includes(item))) {
+    // 这些类型有charaId
+    icons = $.icons(charaId)
+    onPress = getOnPress(charaId, go, navigation)
+  } else if (['竞拍', 'ICO'].some(item => desc.includes(item))) {
+    icons = $.icons(charaId)
 
-      navigation.push('TinygrailTrade', {
-        monoId: `character/${charaId}`
-      })
+    // 竞拍、ICO根据#id
+    const match = desc.match(/#\d+/g)
+    if (match) {
+      onPress = getOnPress(match[0].replace('#', ''), go, navigation)
+    }
+  } else if (['刮刮乐获奖'].some(item => desc.includes(item))) {
+    // 刮刮乐根据#id
+    const match = desc.match(/#\d+/g)
+    if (match) {
+      const charaId = match[0].replace('#', '')
+      icons = $.icons(charaId)
+      onPress = getOnPress(charaId, go, navigation)
     }
   }
 
-  // @notice 刮刮乐的id有问题, 不显示头像
-  const icons = !desc.includes('刮刮乐') && $.icons(charaId)
+  let changeType
+  let changeNum
+  if (!change) {
+    const match = desc.match(/\d+股/g)
+    if (match.length) {
+      if (['买入', '获得'].some(item => desc.includes(item))) {
+        changeType = 'bid'
+        changeNum = `+${match[0].replace('股', '')}`
+      } else {
+        changeType = 'ask'
+        changeNum = `-${match[0].replace('股', '')}`
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Touchable onPress={onPress}>
         <Flex style={[styles.wrap, !isTop && styles.border]}>
           <Flex.Item style={_.mr.sm}>
             <View style={styles.item}>
-              <Text
-                style={{
-                  color: _.colorTinygrailPlain
-                }}
-                size={16}
-              >
+              <Text type='tinygrailPlain' size={16}>
                 {formatNumber(balance)}{' '}
-                <Text
-                  style={{
-                    color: _.colorTinygrailText
-                  }}
-                  size={12}
-                  lineHeight={16}
-                >
+                <Text type='tinygrailText' size={12} lineHeight={16}>
                   {' '}
                   {lastDate(getTimestamp((time || '').replace('T', ' ')))}
                 </Text>
@@ -77,9 +86,9 @@ function Item(
               <Flex style={_.mt.sm}>
                 {!!icons && (
                   <Avatar
-                    style={_.mr.sm}
+                    style={[styles.avatar, _.mr.sm]}
                     src={tinygrailOSS(icons)}
-                    size={24}
+                    size={32}
                     borderColor='transparent'
                     onPress={() => {
                       // ICO的记录没有人物id
@@ -98,22 +107,32 @@ function Item(
                     }}
                   />
                 )}
-                <Text
-                  style={{
-                    color: _.colorTinygrailPlain
-                  }}
-                  size={12}
-                >
+                <Text type='tinygrailPlain' size={12}>
                   {desc}
                 </Text>
               </Flex>
             </View>
           </Flex.Item>
-          <Flex style={[styles.change, _.ml.md]} justify='end'>
-            <Text style={[_.ml.sm, { color }]} size={16} align='right'>
-              {color === _.colorBid ? '+' : '-'}
-              {formatNumber(Math.abs(change))}
-            </Text>
+          <Flex style={_.ml.lg} justify='end'>
+            {change ? (
+              <Text
+                style={{
+                  color
+                }}
+                size={16}
+                align='right'
+              >
+                {change
+                  ? `${color === _.colorBid ? '+' : '-'}${formatNumber(
+                      Math.abs(change)
+                    )}`
+                  : ''}
+              </Text>
+            ) : (
+              <Text type={changeType} size={16} align='right'>
+                {changeNum}
+              </Text>
+            )}
             {!!onPress && (
               <Iconfont
                 style={_.ml.sm}
@@ -147,11 +166,50 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingVertical: _.md
   },
+  avatar: {
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
+  },
   border: {
     borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
-  },
-  change: {
-    minWidth: 120
   }
 }))
+
+function getOnPress(charaId, go, navigation) {
+  return () => {
+    let to
+    let params
+    switch (go) {
+      case 'K线':
+        to = 'TinygrailTrade'
+        break
+      case '买入':
+        to = 'TinygrailDeal'
+        params = {
+          type: 'bid'
+        }
+        break
+      case '卖出':
+        to = 'TinygrailDeal'
+        params = {
+          type: 'asks'
+        }
+        break
+      case '资产重组':
+        to = 'TinygrailSacrifice'
+        break
+      default:
+        return
+    }
+
+    t('资金日志.跳转', {
+      to,
+      monoId: charaId
+    })
+
+    navigation.push(to, {
+      monoId: `character/${charaId}`,
+      ...params
+    })
+  }
+}

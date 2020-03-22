@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 14:34:06
+ * @Last Modified time: 2020-03-21 16:51:42
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -16,7 +16,7 @@ import axios from '@utils/thirdParty/axios'
 import {
   HOST,
   TINYGRAIL_APP_ID,
-  TINYGRAIL_OAUTH_REDIRECT_URL
+  TINYGRAIL_URL_OAUTH_REDIRECT
 } from '@constants'
 import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 
@@ -33,6 +33,7 @@ export default class ScreenTinygrail extends store {
     currentTotal: 0,
     lastBalance: 0,
     lastTotal: 0,
+    short: false,
     _loaded: false
   })
 
@@ -140,13 +141,8 @@ export default class ScreenTinygrail extends store {
   }
 
   @computed get total() {
-    const { balance } = this.assets
-    const { characters, initials } = this.charaAssets
-    return (
-      characters.reduce((prev, cur) => prev + cur.state * cur.current, 0) +
-      initials.reduce((prev, cur) => prev + cur.state, 0) +
-      balance
-    )
+    const { assets } = this.assets
+    return assets
   }
 
   list(key = 'bid') {
@@ -212,18 +208,26 @@ export default class ScreenTinygrail extends store {
       })
 
       const data = await res
-      const { Total, Share, Tax } = data.data.Value
-      Alert.alert(
-        '股息预测',
-        `本期计息股份共${formatNumber(Total, 0)}股, 预期股息₵${formatNumber(
-          Share
-        )}, 需缴纳个人所得税₵${formatNumber(Tax)}`,
-        [
-          {
-            text: '知道了'
-          }
-        ]
-      )
+      const { Total, Temples, Share, Tax, Daily } = data.data.Value
+      let message = `本期计息共${formatNumber(
+        Total,
+        0
+      )}股, 圣殿${Temples}座, 预期股息₵${formatNumber(Share, 2)}`
+      if (Tax) {
+        message += `, 个人所得税₵${formatNumber(Tax, 2)}, 税后₵${formatNumber(
+          Share - Tax,
+          2
+        )}`
+      }
+      if (Daily) {
+        message += `, 签到奖励₵${Daily}`
+      }
+
+      Alert.alert('股息预测', message, [
+        {
+          text: '知道了'
+        }
+      ])
     } catch (error) {
       info('获取股息预测失败')
     }
@@ -232,7 +236,7 @@ export default class ScreenTinygrail extends store {
   /**
    * 刮刮乐
    */
-  doLottery = async navigation => {
+  doLottery = async (navigation, isBonus2) => {
     if (!tinygrailStore.cookie) {
       info('请先授权')
       return
@@ -244,7 +248,7 @@ export default class ScreenTinygrail extends store {
       this.setState({
         loadingBonus: true
       })
-      const { State, Value, Message } = await tinygrailStore.doLottery()
+      const { State, Value, Message } = await tinygrailStore.doLottery(isBonus2)
       this.setState({
         loadingBonus: false
       })
@@ -347,6 +351,62 @@ export default class ScreenTinygrail extends store {
   }
 
   /**
+   * 节日福利
+   */
+  doGetBonusHoliday = async () => {
+    if (!tinygrailStore.cookie) {
+      info('请先授权')
+      return
+    }
+
+    t('小圣杯.节日福利')
+
+    try {
+      this.setState({
+        loadingBonus: true
+      })
+      const { State, Value, Message } = await tinygrailStore.doBonusHoliday()
+      this.setState({
+        loadingBonus: false
+      })
+
+      if (State === 0) {
+        info(Value)
+        await tinygrailStore.fetchAssets()
+        this.caculateChange()
+      } else {
+        info(Message)
+      }
+    } catch (error) {
+      this.setState({
+        loadingBonus: false
+      })
+      info('操作失败，可能授权过期了')
+    }
+  }
+
+  doSend = () =>
+    Alert.alert('小圣杯助手', '是否给作者发送2000cc?', [
+      {
+        text: '取消',
+        style: 'cancel'
+      },
+      {
+        text: '确定',
+        onPress: async () => {
+          const { State, Value, Message } = await tinygrailStore.doSend()
+          if (State === 0) {
+            info(Value)
+            await tinygrailStore.fetchAssets()
+            this.caculateChange()
+          } else {
+            info(Message)
+          }
+        }
+      }
+    ])
+
+  /**
    * 登出
    */
   logout = async () =>
@@ -364,7 +424,7 @@ export default class ScreenTinygrail extends store {
     axios.defaults.withCredentials = false
     const res = axios({
       method: 'get',
-      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}`,
+      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}`,
       headers: {
         Cookie: `chii_cookietime=2592000; ${cookie}`,
         'User-Agent': userAgent
@@ -392,7 +452,7 @@ export default class ScreenTinygrail extends store {
       method: 'post',
       maxRedirects: 0,
       validateStatus: null,
-      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_OAUTH_REDIRECT_URL}${errorStr}`,
+      url: `${HOST}/oauth/authorize?client_id=${TINYGRAIL_APP_ID}&response_type=code&redirect_uri=${TINYGRAIL_URL_OAUTH_REDIRECT}${errorStr}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Cookie: `chii_cookietime=2592000; ${cookie}`,
@@ -438,6 +498,21 @@ export default class ScreenTinygrail extends store {
       currentTotal: this.total,
       lastBalance: currentBalance,
       lastTotal: currentTotal
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 开启/关闭缩略资金
+   */
+  toogleShort = () => {
+    const { short } = this.state
+    t('小圣杯.缩略资金', {
+      short: !short
+    })
+
+    this.setState({
+      short: !short
     })
     this.setStorage(undefined, undefined, namespace)
   }

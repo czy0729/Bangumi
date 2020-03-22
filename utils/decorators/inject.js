@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 11:16:43
+ * @Last Modified time: 2020-03-18 01:01:46
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -23,7 +23,8 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
 
       static childContextTypes = {
         $: PropTypes.object,
-        navigation: PropTypes.object
+        navigation: PropTypes.object,
+        rendered: PropTypes.bool
       }
 
       constructor(props) {
@@ -56,13 +57,27 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
         }
       }
 
+      state = {
+        rendered: false
+      }
+
+      componentDidMount() {
+        setTimeout(() => {
+          this.setState({
+            rendered: true
+          })
+        }, 0)
+      }
+
       $ // 页面独立状态机引用
 
       getChildContext() {
         const { navigation } = this.props
+        const { rendered } = this.state
         return {
           $: this.$,
-          navigation
+          navigation,
+          rendered
         }
       }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-23 12:20:48
+ * @Last Modified time: 2020-03-16 15:56:29
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -13,18 +13,23 @@ import { queue, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 
 const namespace = 'ScreenTinygrailSacrifice'
+const initState = {
+  loading: false,
+  amount: 0, // 只能是整数,
+  isSale: false, // 股权融资
+  expand: false, // 展开所有圣殿
+  auctionLoading: false,
+  auctionAmount: 0,
+  auctionPrice: 0
+}
 
 export default class ScreenTinygrailSacrifice extends store {
   state = observable({
-    loading: false,
-    amount: 0, // 只能是整数,
-    isSale: false, // 股权融资
-    expand: false, // 展开所有圣殿
-
-    auctionLoading: false,
-    auctionAmount: 0,
-    auctionPrice: 0,
-
+    showCover: true, // 显示封面
+    showLogs: true, // 显示记录
+    showTemples: true, // 显示圣殿
+    showUsers: true, // 显示董事会
+    ...initState,
     lastAuction: {
       price: '',
       amount: '',
@@ -33,15 +38,18 @@ export default class ScreenTinygrailSacrifice extends store {
   })
 
   init = async () => {
-    const lastAuction = this.getStorage(
+    const state = await this.getStorage(undefined, namespace)
+    const lastAuction = (await this.getStorage(
       undefined,
       `${namespace}|lastAuction|${this.monoId}`
-    ) || {
+    )) || {
       price: '',
       amount: '',
       time: 0
     }
     this.setState({
+      ...state,
+      ...initState,
       lastAuction
     })
 
@@ -56,7 +64,9 @@ export default class ScreenTinygrailSacrifice extends store {
       () => tinygrailStore.fetchAssets(), // 自己的资产
       () => tinygrailStore.fetchIssuePrice(this.monoId),
       () => this.fetchValhallChara(),
-      () => tinygrailStore.fetchAuctionList(this.monoId) // 上周拍卖信息
+      () => tinygrailStore.fetchAuctionStatus(this.monoId),
+      () => tinygrailStore.fetchAuctionList(this.monoId), // 上周拍卖信息
+      () => tinygrailStore.fetchUsers(this.monoId.replace('character/', '')) // 董事会
     ])
 
   fetchValhallChara = async () => {
@@ -109,8 +119,21 @@ export default class ScreenTinygrailSacrifice extends store {
     return tinygrailStore.auctionList(this.monoId)
   }
 
+  @computed get auctionStatus() {
+    return tinygrailStore.auctionStatus(this.monoId)
+  }
+
   @computed get issuePrice() {
     return tinygrailStore.issuePrice(this.monoId)
+  }
+
+  @computed get users() {
+    return tinygrailStore.users(this.monoId.replace('character/', ''))
+  }
+
+  @computed get myTemple() {
+    const { list } = this.charaTemple
+    return list.find(item => item.name === this.hash) || {}
   }
 
   // -------------------- action --------------------
@@ -299,6 +322,50 @@ export default class ScreenTinygrailSacrifice extends store {
   }
 
   /**
+   * 菜单选择改变竞拍数量
+   */
+  changeAuctionAmountByMenu = title => {
+    t('资产重组.菜单改变竞拍数量', {
+      monoId: this.monoId
+    })
+
+    const { sacrifices = 0 } = this.myTemple
+    const { amount: userAmount } = this.userLogs
+    const { amount } = this.valhallChara
+    switch (title) {
+      case '到500':
+        if (sacrifices + userAmount >= 500) {
+          info('已持有和献祭超过500股')
+          return
+        }
+        this.changeAuctionAmount(
+          Math.min(500 - sacrifices - userAmount, amount)
+        )
+        return
+      case '到2500':
+        if (sacrifices + userAmount >= 2500) {
+          info('已持有和献祭超过2500股')
+          return
+        }
+        this.changeAuctionAmount(
+          Math.min(2500 - sacrifices - userAmount, amount)
+        )
+        return
+      case '到12500':
+        if (sacrifices + userAmount >= 12500) {
+          info('已持有和献祭超过12500股')
+          return
+        }
+        this.changeAuctionAmount(
+          Math.min(12500 - sacrifices - userAmount, amount)
+        )
+        return
+      default:
+        this.changeAuctionAmount(amount)
+    }
+  }
+
+  /**
    * 减少
    */
   stepMinus = () => {
@@ -366,5 +433,65 @@ export default class ScreenTinygrailSacrifice extends store {
     this.setState({
       isSale: !isSale
     })
+  }
+
+  /**
+   * 展开收起封面
+   */
+  toggleCover = () => {
+    const { showCover } = this.state
+    t('资产重组.展开收起封面', {
+      showCover: !showCover
+    })
+
+    this.setState({
+      showCover: !showCover
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起记录
+   */
+  toggleLogs = () => {
+    const { showLogs } = this.state
+    t('资产重组.展开收起记录', {
+      showLogs: !showLogs
+    })
+
+    this.setState({
+      showLogs: !showLogs
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起圣殿板块
+   */
+  toggleTemples = () => {
+    const { showTemples } = this.state
+    t('资产重组.展开收起圣殿板块', {
+      showTemples: !showTemples
+    })
+
+    this.setState({
+      showTemples: !showTemples
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起董事会
+   */
+  toggleUsers = () => {
+    const { showUsers } = this.state
+    t('资产重组.展开收起董事会', {
+      showUsers: !showUsers
+    })
+
+    this.setState({
+      showUsers: !showUsers
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 15:25:43
+ * @Last Modified time: 2020-03-18 23:23:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ import Recent from './recent'
 import Blog from './blog'
 import Topic from './topic'
 
-function Header(props, { $ }) {
+function Header({ rendered }, { $ }) {
   const styles = memoStyles()
   const {
     pagination: { pageTotal = 0 },
@@ -36,46 +36,50 @@ function Header(props, { $ }) {
     _loaded
   } = $.subjectComments
   return (
-    <>
+    <View style={styles.container}>
       <Head />
       <View style={styles.content}>
         <Lock />
         <Box style={_.mt.md} />
         <Ep style={_.mt.lg} />
-        <Summary style={_.mt.lg} />
         <Tags style={_.mt.lg} />
-        <Info style={_.mt.lg} />
-        <Rating style={_.mt.lg} />
-        <Character style={_.mt.lg} />
-        <Staff style={_.mt.lg} />
-        <Relations style={_.mt.lg} />
-        <Comic style={_.mt.lg} />
-        <Like style={_.mt.lg} />
-        <Recent style={_.mt.lg} />
-        <Blog style={_.mt.lg} />
-        <Topic style={_.mt.lg} />
-        <SectionTitle
-          style={[styles.title, _.mt.lg]}
-          right={
-            <IconReverse
-              style={styles.sort}
-              color={_reverse ? _.colorMain : _.colorIcon}
-              onPress={$.toggleReverseComments}
-            />
-          }
-        >
-          吐槽箱{' '}
-          <Text size={12} type='sub' lineHeight={24}>
-            ({20 * pageTotal}+)
-          </Text>
-        </SectionTitle>
+        <Summary style={_.mt.lg} />
+        {rendered && (
+          <>
+            <Info style={_.mt.lg} />
+            <Rating style={_.mt.lg} />
+            <Character style={_.mt.lg} />
+            <Staff style={_.mt.lg} />
+            <Relations style={_.mt.lg} />
+            <Comic style={_.mt.lg} />
+            <Like style={_.mt.lg} />
+            <Recent style={_.mt.lg} />
+            <Blog style={_.mt.lg} />
+            <Topic style={_.mt.lg} />
+            <SectionTitle
+              style={[styles.title, _.mt.lg]}
+              right={
+                <IconReverse
+                  style={styles.sort}
+                  color={_reverse ? _.colorMain : _.colorIcon}
+                  onPress={$.toggleReverseComments}
+                />
+              }
+            >
+              吐槽{' '}
+              <Text size={12} type='sub' lineHeight={24}>
+                {20 * pageTotal}+
+              </Text>
+            </SectionTitle>
+          </>
+        )}
         {!_loaded && (
           <Flex style={styles.loading} justify='center'>
             <Loading />
           </Flex>
         )}
       </View>
-    </>
+    </View>
   )
 }
 
@@ -86,6 +90,10 @@ Header.contextTypes = {
 export default observer(Header)
 
 const memoStyles = _.memoStyles(_ => ({
+  container: {
+    position: 'relative',
+    zIndex: 0
+  },
   content: {
     minHeight: _.window.height * 0.5,
     backgroundColor: _.colorPlain

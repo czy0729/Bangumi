@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 17:15:25
+ * @Last Modified time: 2020-01-15 15:21:26
  */
 export const NAMESPACE = 'Subject'
 
@@ -47,6 +47,26 @@ export const INIT_SUBJECT_FROM_HTML_ITEM = {
   like: [], // 猜你喜欢
   who: [], // 谁在看
   info: '' // 详情
+}
+
+export const INIT_SUBJECT_FROM_CDN_ITEM = {
+  id: '',
+  type: '',
+  name: '',
+  image: '',
+  rating: {},
+  summary: '',
+  info: '',
+  collection: {},
+  tags: [],
+  eps: [],
+  disc: [],
+  crt: [],
+  staff: [],
+  relations: [],
+  comic: [],
+  like: [],
+  lock: ''
 }
 
 export const INIT_MONO = {

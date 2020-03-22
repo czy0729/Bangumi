@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 20:36:10
+ * @Last Modified time: 2020-01-23 18:07:14
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,45 +10,56 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { SectionHeader, ItemTimeline } from '@screens/_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 
-function TimelineList(props, { $, navigation }) {
-  if (!$.usersTimeline._loaded) {
-    return <Loading />
+const event = {
+  id: '空间.跳转',
+  data: {
+    from: '时间胶囊'
+  }
+}
+
+export default
+@observer
+class TimelineList extends React.Component {
+  static contextTypes = {
+    $: PropTypes.object,
+    navigation: PropTypes.object
   }
 
-  const event = {
-    id: '空间.跳转',
-    data: {
-      from: '时间胶囊'
-    }
-  }
-  return (
-    <ListView
-      contentContainerStyle={_.container.bottom}
-      keyExtractor={item => String(item.id)}
-      data={$.usersTimeline}
-      sectionKey='date'
-      stickySectionHeadersEnabled={false}
-      renderSectionHeader={({ section: { title } }) => (
-        <SectionHeader>{title}</SectionHeader>
-      )}
-      renderItem={({ item, index }) => (
-        <ItemTimeline
-          navigation={navigation}
-          index={index}
-          event={event}
-          {...item}
-        />
-      )}
-      onFooterRefresh={$.fetchUsersTimeline}
-      {...props}
-    />
+  renderSectionHeader = ({ section: { title } }) => (
+    <SectionHeader>{title}</SectionHeader>
   )
-}
 
-TimelineList.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+  renderItem = ({ item, index }) => {
+    const { navigation } = this.context
+    return (
+      <ItemTimeline
+        navigation={navigation}
+        index={index}
+        event={event}
+        {...item}
+      />
+    )
+  }
 
-export default observer(TimelineList)
+  render() {
+    const { $ } = this.context
+    if (!$.usersTimeline._loaded) {
+      return <Loading />
+    }
+    return (
+      <ListView
+        contentContainerStyle={_.container.bottom}
+        keyExtractor={keyExtractor}
+        data={$.usersTimeline}
+        sectionKey='date'
+        stickySectionHeadersEnabled={false}
+        renderSectionHeader={this.renderSectionHeader}
+        renderItem={this.renderItem}
+        onFooterRefresh={$.fetchUsersTimeline}
+        {...this.props}
+      />
+    )
+  }
+}

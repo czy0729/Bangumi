@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:57:10
+ * @Last Modified time: 2020-03-21 20:59:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
+import { observer } from '@utils/decorators'
 import ItemAdvance from '../_/item-advance'
 
 function List(props, { $ }) {
@@ -23,13 +24,24 @@ function List(props, { $ }) {
       userId: $.myUserId
     }
   }
+
   return (
     <ListView
       style={_.container.flex}
-      keyExtractor={item => String(item.id)}
+      keyExtractor={keyExtractor}
+      refreshControlProps={{
+        color: _.colorTinygrailText
+      }}
+      footerTextType='tinygrailText'
       data={$.advanceAuctionList}
       renderItem={({ item, index }) => (
-        <ItemAdvance index={index} event={event} {...item} />
+        <ItemAdvance
+          index={index}
+          event={event}
+          isAuctioning={$.auctioningMap[item.id]}
+          assets={$.myCharaAssetsMap[item.id]}
+          {...item}
+        />
       )}
       onHeaderRefresh={$.fetchAdvanceAuctionList}
     />

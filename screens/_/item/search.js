@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 00:24:01
+ * @Last Modified time: 2020-03-07 14:07:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Image, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { appNavigate, getCoverMedium } from '@utils/app'
+import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { EVENT, IOS, IMG_DEFAULT } from '@constants'
+import { EVENT, IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Tag from '../base/tag'
+import Cover from '../base/cover'
 import Stars from '../base/stars'
 
 const imgWidth = 96
@@ -36,7 +37,6 @@ function ItemSearch({
   event
 }) {
   const styles = memoStyles()
-  const _image = getCoverMedium(cover)
 
   // 人物高清图不是正方形的图, 所以要特殊处理
   const isMono = !id.includes('/subject/')
@@ -52,7 +52,7 @@ function ItemSearch({
           {
             _jp: name,
             _cn: nameCn,
-            _image
+            _image: cover
           },
           event
         )
@@ -60,9 +60,9 @@ function ItemSearch({
     >
       <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
         <View style={styles.imgContainer}>
-          <Image
+          <Cover
             style={styles.image}
-            src={_image || IMG_DEFAULT}
+            src={cover}
             resizeMode={isMono ? 'contain' : undefined}
             placeholder={!isMono}
             width={imgWidth}
@@ -123,11 +123,11 @@ function ItemSearch({
             </View>
             <Flex style={_.mt.xs}>
               <Stars style={_.mr.xs} value={score} color='warning' />
-              <Text style={_.mr.sm} type='sub' size={12}>
+              <Text style={_.mr.sm} type='sub' size={13}>
                 {total}
               </Text>
               {!!rank && (
-                <Text type='primary' size={12}>
+                <Text type='primary' size={13}>
                   #{rank}
                 </Text>
               )}
@@ -151,7 +151,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   containerActive: {
-    backgroundColor: _.select(_.colorMainLight, 'rgb(59, 48 ,51)')
+    backgroundColor: _.colorMainLight
   },
   imgContainer: {
     width: imgWidth

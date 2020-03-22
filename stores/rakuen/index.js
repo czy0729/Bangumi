@@ -3,20 +3,23 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 19:54:31
+ * @Last Modified time: 2020-03-17 00:22:26
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
-import { fetchHTML, xhr } from '@utils/fetch'
+import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
 import { HOST, LIST_EMPTY, LIMIT_LIST } from '@constants'
 import {
   HTML_NOTIFY,
   HTML_TOPIC,
   HTML_ACTION_RAKUEN_REPLY,
+  HTML_ACTION_BLOG_REPLY,
   HTML_GROUP_INFO,
-  HTML_GROUP
+  HTML_GROUP,
+  HTML_BLOG
 } from '@constants/html'
+import { CDN_RAKUEN } from '@constants/cdn'
 import store from '@utils/store'
 import {
   NAMESPACE,
@@ -35,7 +38,8 @@ import {
   cheerioGroupInfo,
   analysisGroup,
   cheerioNotify,
-  cheerioTopic
+  cheerioTopic,
+  cheerioBlog
 } from './common'
 
 class Rakuen extends store {
@@ -44,7 +48,7 @@ class Rakuen extends store {
      * 超展开列表
      */
     rakuen: {
-      // [`${scope}|${type}`]: LIST_EMPTY | INIT_RAKUEN_ITEM
+      // [`${scope}|${type}`]: LIST_EMPTY<INIT_RAKUEN_ITEM>
     },
 
     /**
@@ -65,7 +69,15 @@ class Rakuen extends store {
      * 帖子回复
      */
     comments: {
-      // [topicId]: LIST_EMPTY | INIT_COMMENTS_ITEM
+      // [topicId]: LIST_EMPTY<INIT_COMMENTS_ITEM>
+    },
+
+    /**
+     * 帖子内容CDN自维护数据
+     * 用于帖子首次渲染加速
+     */
+    topicFormCDN: {
+      // [topicId]: INIT_TOPIC
     },
 
     /**
@@ -89,7 +101,7 @@ class Rakuen extends store {
      * 小组帖子列表
      */
     group: {
-      // [groupId|page]: [] | INIT_GROUP_ITEM
+      // [groupId|page]: []<INIT_GROUP_ITEM>
     },
 
     /**
@@ -104,6 +116,20 @@ class Rakuen extends store {
      */
     groupThumb: {
       // [name]: ''
+    },
+
+    /**
+     * 日志内容
+     */
+    blog: {
+      // [blogId]: INIT_TOPIC
+    },
+
+    /**
+     * 日志回复
+     */
+    blogComments: {
+      // [blogId]: LIST_EMPTY<INIT_COMMENTS_ITEM>
     }
   })
 
@@ -118,7 +144,8 @@ class Rakuen extends store {
         'setting',
         'groupInfo',
         'favor',
-        'groupThumb'
+        'groupThumb',
+        'blog'
       ],
       NAMESPACE
     )
@@ -157,6 +184,14 @@ class Rakuen extends store {
    */
   comments(topicId = 0) {
     return computed(() => this.state.comments[topicId] || LIST_EMPTY).get()
+  }
+
+  /**
+   * 帖子内容CDN自维护数据
+   * @param {*} monoId
+   */
+  topicFormCDN(topicId = 0) {
+    return computed(() => this.state.topicFormCDN[topicId] || INIT_TOPIC).get()
   }
 
   /**
@@ -207,6 +242,26 @@ class Rakuen extends store {
    */
   groupThumb(name) {
     return computed(() => this.state.groupThumb[name] || '').get()
+  }
+
+  /**
+   * 日志内容
+   * @param {*} blogId
+   */
+  blog(blogId = 0) {
+    return computed(() => this.state.blog[blogId] || INIT_TOPIC).get()
+  }
+
+  /**
+   * 日志回复
+   * @param {*} blogId
+   */
+  blogComments(blogId = 0) {
+    return computed(() => this.state.blogComments[blogId] || LIST_EMPTY).get()
+  }
+
+  blogFormCDN() {
+    return INIT_TOPIC
   }
 
   // -------------------- fetch --------------------
@@ -310,6 +365,33 @@ class Rakuen extends store {
   }
 
   /**
+   * CDN获取人物信息
+   * @param {*} subjectId
+   */
+  fetchTopicFormCDN = async topicId => {
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_RAKUEN(topicId)
+      })
+
+      const data = {
+        ...INIT_TOPIC,
+        ...JSON.parse(_response)
+      }
+      const key = 'topicFormCDN'
+      this.setState({
+        [key]: {
+          [topicId]: data
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      warn('rakuenStore', 'fetchTopicFormCDN', 404)
+      return Promise.resolve(INIT_TOPIC)
+    }
+  }
+
+  /**
    * 电波提醒
    * @param {*} analysis 是否分析回复内容
    */
@@ -403,6 +485,54 @@ class Rakuen extends store {
     return Promise.resolve(group)
   }
 
+  /**
+   * 获取日志内容和留言
+   */
+  fetchBlog = async ({ blogId = 0 }) => {
+    const HTML = await fetchHTML({
+      url: HTML_BLOG(blogId)
+    })
+    const { blog, blogComments } = cheerioBlog(HTML)
+    const _loaded = getTimestamp()
+
+    // 缓存帖子内容
+    const stateKey = blogId
+    const blogKey = 'blog'
+    this.setState({
+      [blogKey]: {
+        [stateKey]: {
+          ...blog,
+          _loaded
+        }
+      }
+    })
+    this.setStorage(blogKey, undefined, NAMESPACE)
+
+    // 缓存帖子回复
+    const commentsKey = 'blogComments'
+    this.setState({
+      [commentsKey]: {
+        [stateKey]: {
+          list: blogComments,
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _list: [],
+          _loaded
+        }
+      }
+    })
+    this.setStorage(commentsKey, undefined, NAMESPACE)
+
+    return Promise.resolve({
+      blog,
+      blogComments
+    })
+  }
+
+  fetchBlogFormCDN = () => {}
+
   // -------------------- action --------------------
   /**
    * 清除电波提醒未读
@@ -456,6 +586,36 @@ class Rakuen extends store {
     )
   }
 
+  /**
+   * 回复日志
+   */
+  doReplyBlog = async ({ blogId, ...other }, success) => {
+    xhr(
+      {
+        url: HTML_ACTION_BLOG_REPLY(blogId),
+        data: {
+          ...other,
+          related_photo: 0,
+          lastview: getTimestamp(),
+          submit: 'submit'
+        }
+      },
+      success
+    )
+  }
+
+  /**
+   * 删除日志回复
+   */
+  doDeleteReplyBlog = async ({ url }, success) => {
+    xhr(
+      {
+        url
+      },
+      success
+    )
+  }
+
   // -------------------- page --------------------
   /**
    * 更新帖子历史查看信息
@@ -473,6 +633,20 @@ class Rakuen extends store {
           time,
           _time: readed.time === 0 ? time : readed.time
         }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 设置`楼层导航条方向`
+   */
+  setScrollDirection = scrollDirection => {
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        scrollDirection
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

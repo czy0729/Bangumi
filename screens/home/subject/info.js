@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 16:07:05
+ * @Last Modified time: 2020-02-22 09:51:33
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, RenderHtml } from '@components'
@@ -14,17 +14,23 @@ import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 
 function Info({ style }, { $, navigation }) {
-  const { info } = $.subjectFormHTML
+  const styles = memoStyles()
+  let html = $.info
+  try {
+    html = decodeURIComponent(html)
+  } catch (error) {
+    warn('home/subject/info.js', 'Info', error)
+  }
   return (
     <View style={[styles.container, style]}>
       <SectionTitle style={_.container.wind}>详情</SectionTitle>
-      {!!info && (
+      {!!$.info && (
         <Expand>
           <RenderHtml
             style={styles.info}
-            html={info}
+            html={html}
             baseFontStyle={{
-              fontSize: 13 + _.fontSizeAdjust,
+              fontSize: 14 + _.fontSizeAdjust,
               lineHeight: 22,
               color: _.colorTitle
             }}
@@ -56,11 +62,13 @@ Info.contextTypes = {
 
 export default observer(Info)
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 120
+    minHeight: 120,
+    backgroundColor: _.colorPlain
   },
   info: {
+    paddingVertical: _.sm,
     paddingHorizontal: _.wind
   }
-})
+}))

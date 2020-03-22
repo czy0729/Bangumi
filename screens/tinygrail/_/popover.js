@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 21:13:18
+ * @Last Modified time: 2020-02-14 03:26:26
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,6 +14,8 @@ import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 
+const data = ['K线', '买入', '卖出', '资产重组']
+
 function Popover({ id, event }, { navigation }) {
   const { id: eventId, data: eventData } = event
   return (
@@ -21,7 +23,7 @@ function Popover({ id, event }, { navigation }) {
       contentStyle={{
         borderTopRightRadius: 0
       }}
-      data={['K线', '买入', '卖出', '资产重组']}
+      data={data}
       onSelect={title => {
         switch (title) {
           case 'K线':

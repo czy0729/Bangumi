@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-11 15:57:10
+ * @Last Modified time: 2020-03-16 23:15:13
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import {
@@ -197,7 +197,15 @@ export async function fetchTimeline(
 
         // 时间
         node = findTreeNode(children, 'p|text&class=date')
-        const time = node ? node[0].text[0] : ''
+        let time = node
+          ? String(node[0].text[0])
+              .replace('小时', '时')
+              .replace('分钟', '分')
+              .replace('· web', '')
+          : ''
+        if (time && time.includes('· ') && !time.includes('mobile')) {
+          time += 'onAir'
+        }
 
         // 评分
         node = findTreeNode(children, 'div > span|class=starstop-s > span')

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 20:48:39
+ * @Last Modified time: 2020-03-10 00:37:09
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -467,7 +467,7 @@ class FixedTextarea extends React.Component {
           </>
         ) : (
           <>
-            <Text style={_.container.wind} size={12} type='sub'>
+            <Text style={_.container.wind} size={13} type='sub'>
               常用
             </Text>
             <Flex wrap='wrap'>
@@ -484,7 +484,7 @@ class FixedTextarea extends React.Component {
                 </Touchable>
               ))}
             </Flex>
-            <Text style={[_.container.wind, _.mt.sm]} size={12} type='sub'>
+            <Text style={[_.container.wind, _.mt.sm]} size={13} type='sub'>
               全部
             </Text>
             <Flex wrap='wrap'>
@@ -508,6 +508,7 @@ class FixedTextarea extends React.Component {
   }
 
   render() {
+    const { children } = this.props
     const { showTextarea, showBgm, showKeyboardSpacer } = this.state
     return (
       <>
@@ -519,6 +520,7 @@ class FixedTextarea extends React.Component {
           />
         )}
         <View style={this.styles.container}>
+          {children}
           {this.renderToolBar()}
           {this.renderTextarea()}
           {this.renderContent()}
@@ -554,8 +556,18 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     marginBottom: -4,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderTopWidth: _.hairlineWidth,
-    borderTopColor: _.colorBorder
+    ...(IOS
+      ? {
+          shadowColor: _.colorShadow,
+          shadowOffset: {
+            height: -2
+          },
+          shadowOpacity: 0.06,
+          shadowRadius: 6
+        }
+      : {
+          elevation: 8
+        })
   },
   toolBar: {
     paddingVertical: _.sm,

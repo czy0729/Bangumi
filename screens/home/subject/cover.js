@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 15:58:01
+ * @Last Modified time: 2020-01-25 19:20:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Image } from '@components'
+import { Cover as CompCover } from '@screens/_'
+import { getCoverMedium, getCoverLarge } from '@utils/app'
+import { CDN_OSS_SUBJECT } from '@constants/cdn'
 import { _ } from '@stores'
 
 const imageWidth = 120
@@ -24,13 +26,12 @@ class Cover extends React.Component {
     onLoad: false
   }
 
-  onLoad = () => {
+  onLoad = () =>
     setTimeout(() => {
       this.setState({
         onLoad: true
       })
-    }, 300)
-  }
+    }, 400)
 
   render() {
     const { $ } = this.context
@@ -39,8 +40,8 @@ class Cover extends React.Component {
     return (
       <View style={styles.container}>
         {!!image && (
-          <Image
-            src={image}
+          <CompCover
+            src={CDN_OSS_SUBJECT(getCoverMedium(image))}
             size={imageWidth}
             height={160}
             radius
@@ -48,6 +49,7 @@ class Cover extends React.Component {
             shadow
             placeholder={false}
             imageViewer
+            imageViewerSrc={getCoverLarge(image || placeholder)}
             fadeDuration={0}
             event={{
               id: '条目.封面图查看',
@@ -55,18 +57,19 @@ class Cover extends React.Component {
                 subjectId: $.subjectId
               }
             }}
+            noDefault
             onLoad={this.onLoad}
           />
         )}
         {!onLoad && (
-          <Image
+          <CompCover
             style={styles.placeholder}
-            src={placeholder}
+            src={CDN_OSS_SUBJECT(getCoverMedium(placeholder))}
             size={imageWidth}
             height={160}
             radius
-            shadow
             border
+            noDefault
           />
         )}
       </View>
@@ -77,13 +80,13 @@ class Cover extends React.Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    zIndex: 10,
+    zIndex: 1,
     top: _.wind,
     left: _.wind
   },
   placeholder: {
     position: 'absolute',
-    zIndex: 11,
+    zIndex: 1,
     top: 0,
     left: 0
   }

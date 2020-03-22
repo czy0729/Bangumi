@@ -2,12 +2,51 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 11:23:53
+ * @Last Modified time: 2020-02-22 11:53:25
  */
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Clipboard } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import { DEV } from '@constants'
 import { info } from './ui'
+
+/**
+ * 节流
+ * @param {*} callback
+ */
+export function throttle(callback, delay = 400) {
+  let timeoutID
+  let lastExec = 0
+
+  function wrapper() {
+    const self = this
+    const elapsed = Number(new Date()) - lastExec
+    // eslint-disable-next-line prefer-rest-params
+    const args = arguments
+
+    function exec() {
+      lastExec = Number(new Date())
+      callback.apply(self, args)
+    }
+
+    clearTimeout(timeoutID)
+
+    if (elapsed > delay) {
+      exec()
+    } else {
+      timeoutID = setTimeout(exec, delay - elapsed)
+    }
+  }
+
+  return wrapper
+}
+
+/**
+ * 复制到剪贴板
+ * @param {*} string
+ */
+export function copy(string) {
+  return Clipboard.setString(string)
+}
 
 /**
  * 安全toFixed
@@ -159,7 +198,8 @@ export function date(format, timestamp) {
   ]
   let f = {
     d: function() {
-      return pad(f.j(), 2)
+      return f.j()
+      // return pad(f.j(), 2)
     },
     D: function() {
       t = f.l()
@@ -205,7 +245,8 @@ export function date(format, timestamp) {
       return txt_months[f.n()]
     },
     m: function() {
-      return pad(f.n(), 2)
+      return f.n()
+      // return pad(f.n(), 2)
     },
     M: function() {
       t = f.F()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 03:16:15
+ * @Last Modified time: 2020-03-19 23:03:52
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -15,6 +15,14 @@ export const tabs = [
     key: 'all'
   },
   {
+    title: '道具',
+    key: 'items'
+  },
+  {
+    title: '刮刮乐',
+    key: 'lottery'
+  },
+  {
     title: '卖出',
     key: 'asks'
   },
@@ -22,21 +30,22 @@ export const tabs = [
     title: '买入',
     key: 'bid'
   },
-  {
-    title: '圣殿',
-    key: 'temple'
-  },
+
   {
     title: '竞拍',
     key: 'auction'
   },
   {
-    title: 'ICO',
-    key: 'ico'
+    title: '圣殿',
+    key: 'temple'
   },
   {
     title: '分红',
     key: 'award'
+  },
+  {
+    title: 'ICO',
+    key: 'ico'
   }
 ]
 const namespace = 'ScreenTinygrailLogs'
@@ -44,6 +53,7 @@ const namespace = 'ScreenTinygrailLogs'
 export default class ScreenTinygrailLogs extends store {
   state = observable({
     page: 0,
+    go: '卖出',
     _loaded: false
   })
 
@@ -86,6 +96,17 @@ export default class ScreenTinygrailLogs extends store {
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)
+  }
+
+  onSelectGo = title => {
+    t('资金日志.设置前往', {
+      title
+    })
+
+    this.setState({
+      go: title
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   tabChangeCallback = () => {

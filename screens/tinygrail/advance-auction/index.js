@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 20:46:18
+ * @Last Modified time: 2020-03-21 11:17:56
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { headerStyle } from '../styles'
+import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
 import Store from './store'
@@ -24,7 +23,7 @@ export default
 @withHeader({
   screen: title,
   hm: ['tinygrail/advance-auction', 'TinygrailAdvanceAuction'],
-  ...headerStyle
+  withHeaderParams
 })
 @observer
 class TinygrailAdvanceAuction extends React.Component {
@@ -45,12 +44,13 @@ class TinygrailAdvanceAuction extends React.Component {
       extra: (
         <IconHeader
           name='information'
+          color={_.colorTinygrailPlain}
           onPress={() => {
             t('竞拍推荐.提示')
 
             Alert.alert(
               '当前计算方式',
-              '从英灵殿里面查找\n股息 > 2 且 数量 > 100\n股息 / 竞拍底价 * 10 = 分数',
+              '从英灵殿里面查找\nMax(流动股息, 圣殿股息) > 2 且 数量 > 100\nMax(流动股息, 圣殿股息) / 竞拍底价 * 10 = 分数',
               [
                 {
                   text: '知道了'
@@ -65,17 +65,21 @@ class TinygrailAdvanceAuction extends React.Component {
 
   render() {
     return (
-      <View
-        style={[
-          _.container.flex,
-          {
-            backgroundColor: _.colorTinygrailContainer
-          }
-        ]}
-      >
+      <View style={this.styles.container}>
         <StatusBarEvents />
         <List />
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorTinygrailContainer
+  }
+}))

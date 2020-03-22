@@ -2,15 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 02:55:43
+ * @Last Modified time: 2020-03-21 11:40:29
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
+import { observer } from '@utils/decorators'
 import Item from '../_/item'
 import { tabs } from './store'
+
+const event = {
+  id: 'ICO.跳转'
+}
 
 function List({ index }, { $ }) {
   const { key } = tabs[index]
@@ -19,17 +24,16 @@ function List({ index }, { $ }) {
     return <Loading style={_.container.flex} />
   }
 
-  const event = {
-    id: 'ICO.跳转'
-  }
   return (
     <ListView
       style={_.container.flex}
-      keyExtractor={item => String(item.id)}
+      keyExtractor={keyExtractor}
+      refreshControlProps={{
+        color: _.colorTinygrailText
+      }}
+      footerTextType='tinygrailText'
       data={list}
-      renderItem={({ item, index }) => (
-        <Item index={index} event={event} {...item} />
-      )}
+      renderItem={renderItem}
       onHeaderRefresh={() => $.fetchList(key)}
     />
   )
@@ -44,3 +48,7 @@ List.contextTypes = {
 }
 
 export default observer(List)
+
+function renderItem({ item, index }) {
+  return <Item index={index} event={event} {...item} />
+}

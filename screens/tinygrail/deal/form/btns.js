@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:17:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:29:06
+ * @Last Modified time: 2020-03-20 00:54:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -23,7 +23,7 @@ function Btns(props, { $ }) {
         >
           <Text
             style={{
-              color: isBid ? _.colorTinygrailPlain : _.colorTinygrailText
+              color: isBid ? _.__colorPlain__ : _.colorTinygrailText
             }}
             align='center'
           >
@@ -38,7 +38,7 @@ function Btns(props, { $ }) {
         >
           <Text
             style={{
-              color: !isBid ? _.colorTinygrailPlain : _.colorTinygrailText
+              color: !isBid ? _.__colorPlain__ : _.colorTinygrailText
             }}
             align='center'
           >
@@ -60,7 +60,7 @@ const memoStyles = _.memoStyles(_ => ({
   btn: {
     padding: 8,
     marginBottom: 8,
-    backgroundColor: 'rgb(23, 41, 65)'
+    backgroundColor: _.colorTinygrailBorder
   },
   btnBid: {
     backgroundColor: _.colorBid

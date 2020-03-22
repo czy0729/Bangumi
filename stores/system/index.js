@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 18:03:52
+ * @Last Modified time: 2020-02-16 10:37:06
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { IOS, GITHUB_RELEASE_REPOS, VERSION_GITHUB_RELEASE } from '@constants'
 import {
-  IOS,
-  GITHUB_RELEASE_REPOS_URL,
-  VERSION_GITHUB_RELEASE
-} from '@constants'
-import { MODEL_SETTING_QUALITY } from '@constants/model'
+  MODEL_SETTING_QUALITY,
+  MODEL_SETTING_TRANSITION,
+  MODEL_INITIAL_PAGE
+} from '@constants/model'
 import {
   NAMESPACE,
   INIT_SETTING,
@@ -55,7 +55,10 @@ class System extends store {
   })
 
   init = async () => {
-    await this.readStorage(['setting', 'release', 'iosUGCAgree'], NAMESPACE)
+    await this.readStorage(
+      ['setting', 'release', 'dev', 'iosUGCAgree'],
+      NAMESPACE
+    )
 
     const res = NetInfo.getConnectionInfo()
     const { type } = await res
@@ -104,7 +107,7 @@ class System extends store {
   fetchRelease = async () => {
     let res
     try {
-      res = fetch(GITHUB_RELEASE_REPOS_URL).then(response => response.json())
+      res = fetch(GITHUB_RELEASE_REPOS).then(response => response.json())
       const data = await res
 
       const { name: githubVersion, assets = [] } = data[0]
@@ -152,6 +155,40 @@ class System extends store {
   }
 
   /**
+   * 设置`切页动画`
+   */
+  setTransition = label => {
+    const transition = MODEL_SETTING_TRANSITION.getValue(label)
+    if (transition) {
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          transition
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  /**
+   * 设置`启动页`
+   */
+  setInitialPage = label => {
+    const initialPage = MODEL_INITIAL_PAGE.getValue(label)
+    if (initialPage) {
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          initialPage
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  /**
    * 切换
    */
   switchSetting = switchKey => {
@@ -192,9 +229,11 @@ class System extends store {
    */
   toggleDev = () => {
     const { dev } = this.state
+    const key = 'dev'
     this.setState({
-      dev: !dev
+      [key]: !dev
     })
+    this.setStorage(key, undefined, NAMESPACE)
   }
 
   /**
