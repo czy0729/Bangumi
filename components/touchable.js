@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 17:44:10
+ * @Last Modified time: 2020-03-21 23:23:23
  */
 import React from 'react'
 import {
@@ -30,7 +30,6 @@ function callOnceInInterval(functionTobeCalled, interval = 320) {
     /**
      * 把点击事件放在requestAnimationFrame里面, 在安卓上面是两个完全不同的体验
      */
-    // eslint-disable-next-line no-undef
     return requestAnimationFrame(() => functionTobeCalled())
   }
   return false

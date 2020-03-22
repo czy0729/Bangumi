@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 20:18:29
+ * @Last Modified time: 2020-03-22 02:49:55
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -252,7 +252,7 @@ export function xhr(
   request.setRequestHeader('Cookie', userCookie)
   request.setRequestHeader('User-Agent', userAgent)
   request.setRequestHeader('Host', HOST_NAME)
-  request.setRequestHeader('accept-encoding', 'br, gzip, deflate')
+  request.setRequestHeader('accept-encoding', 'gzip, deflate')
   request.send(urlStringify(data))
 }
 

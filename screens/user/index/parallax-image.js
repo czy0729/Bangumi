@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 19:04:34
+ * @Last Modified time: 2020-03-22 00:14:42
  */
 import React from 'react'
 import { Alert, Animated, View } from 'react-native'
@@ -54,7 +54,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
   const data = isMe ? dataMe : dataOther
   return (
     <>
-      <View style={styles.parallax} pointerEvents='none'>
+      <View style={styles.parallax}>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
           source={{

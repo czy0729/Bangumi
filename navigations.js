@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 17:51:38
+ * @Last Modified time: 2020-03-22 17:56:05
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailSacrifice
   initialRouteParams: {
     // id: 240929
-    // blogId: 295515 // 294448
+    // blogId: 286710 // 294448
     // catalogId: 29811,
     // groupId: 'tinygrail',
     // monoId: 'character/11811' // 20391 character/70323 person/5745

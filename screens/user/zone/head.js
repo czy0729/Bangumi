@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 19:10:00
+ * @Last Modified time: 2020-03-22 00:11:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,32 +29,24 @@ function Head({ style }, { $, navigation }) {
           size={88}
           src={avatar.large || _image}
         />
-        <Text style={styles.id} type={_.select('plain', 'title')} size={12}>
+        <Text style={styles.l1} type={_.select('plain', 'title')} size={13}>
           {join || '- 加入'}
         </Text>
-        <Text
-          style={styles.percent}
-          type={_.select('plain', 'title')}
-          size={12}
-        >
+        <Text style={styles.l2} type={_.select('plain', 'title')} size={13}>
           同步率{isNaN(percent) ? '-' : percent}%
         </Text>
         {isFriend && (
-          <Text
-            style={styles.friend}
-            type={_.select('plain', 'title')}
-            size={12}
-          >
+          <Text style={styles.l3} type={_.select('plain', 'title')} size={13}>
             是我的好友
           </Text>
         )}
-        <Touchable style={styles.collect} onPress={() => $.toUser(navigation)}>
-          <Text type={_.select('plain', 'title')} size={12}>
+        <Touchable style={styles.r1} onPress={() => $.toUser(navigation)}>
+          <Text type={_.select('plain', 'title')} size={13}>
             [TA的收藏]
           </Text>
         </Touchable>
         <Touchable
-          style={styles.pm}
+          style={styles.r2}
           onPress={() =>
             navigation.push('PM', {
               userId,
@@ -62,13 +54,13 @@ function Head({ style }, { $, navigation }) {
             })
           }
         >
-          <Text type={_.select('plain', 'title')} size={12}>
+          <Text type={_.select('plain', 'title')} size={13}>
             [发短信]
           </Text>
         </Touchable>
         {!!$.users.connectUrl && (
-          <Touchable style={styles.connect} onPress={$.doConnectFriend}>
-            <Text type={_.select('plain', 'title')} size={12}>
+          <Touchable style={styles.r3} onPress={$.doConnectFriend}>
+            <Text type={_.select('plain', 'title')} size={13}>
               [加好友]
             </Text>
           </Touchable>
@@ -92,47 +84,47 @@ export default observer(Head)
 const memoStyles = _.memoStyles(_ => ({
   avatar: {
     borderWidth: 2,
-    borderColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    borderColor: _.__colorPlain__,
     borderRadius: 88,
     overflow: 'hidden'
   },
-  id: {
+  l1: {
     position: 'absolute',
-    top: 20,
-    right: 90,
-    opacity: 0.88
+    top: 16,
+    right: 100,
+    opacity: 0.72
   },
-  percent: {
+  l2: {
     position: 'absolute',
-    top: 50,
-    right: 102,
-    opacity: 0.88
+    top: 52,
+    right: 116,
+    opacity: 0.72
   },
-  friend: {
+  l3: {
     position: 'absolute',
-    top: 80,
-    right: 90,
-    opacity: 0.88
+    top: 88,
+    right: 100,
+    opacity: 0.72
   },
-  collect: {
+  r1: {
     position: 'absolute',
     zIndex: 1,
-    top: 20,
-    left: 90,
-    opacity: 0.88
+    top: 16,
+    left: 100,
+    opacity: 0.72
   },
-  pm: {
+  r2: {
     position: 'absolute',
     zIndex: 1,
-    top: 50,
-    left: 102,
-    opacity: 0.88
+    top: 52,
+    left: 116,
+    opacity: 0.72
   },
-  connect: {
+  r3: {
     position: 'absolute',
     zIndex: 1,
-    top: 80,
-    left: 90,
-    opacity: 0.88
+    top: 88,
+    left: 100,
+    opacity: 0.72
   }
 }))

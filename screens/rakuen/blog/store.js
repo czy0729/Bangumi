@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 00:35:14
+ * @Last Modified time: 2020-03-22 17:02:29
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
@@ -118,7 +118,7 @@ export default class ScreenBlog extends store {
   }
 
   @computed get time() {
-    return this.blog.time || this.blogFormCDN.time || ''
+    return this.blog.time || this.blogFormCDN.time || this.params._time || ''
   }
 
   @computed get avatar() {

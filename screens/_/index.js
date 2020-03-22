@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 15:58:45
+ * @Last Modified time: 2020-03-22 15:38:24
  */
 // base
 // export { default as Drawer } from './base/drawer'
@@ -47,6 +47,7 @@ export { default as IconTouchable } from './icon/touchable'
 // item
 export { default as ItemArticle } from './item/article'
 export { default as ItemBangumiList } from './item/bangumi-list'
+export { default as ItemBlog } from './item/blog'
 export { default as ItemCollections } from './item/collections'
 export { default as ItemCollectionsGrid } from './item/collections-grid'
 export { default as ItemComment } from './item/comment'

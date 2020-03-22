@@ -45,6 +45,7 @@ export { default as Topic } from './rakuen/topic'
 export { default as UGCAgree } from './rakuen/ugc-agree'
 
 // User
+export { default as Blogs } from './user/blogs'
 export { default as DEV } from './user/dev'
 export { default as Friends } from './user/friends'
 export { default as PM } from './user/pm'

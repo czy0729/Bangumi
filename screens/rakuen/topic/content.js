@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 01:05:27
+ * @Last Modified time: 2020-03-21 23:20:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -48,12 +48,14 @@ function Content(props, { $, navigation }) {
       ) : (
         !!$.html && (
           <>
-            <IconTouchable
-              style={styles.iconTranslate}
-              name='translate'
-              size={18}
-              onPress={$.doTranslate}
-            />
+            {$.isEp && (
+              <IconTouchable
+                style={styles.iconTranslate}
+                name='translate'
+                size={18}
+                onPress={$.doTranslate}
+              />
+            )}
             <RenderHtml
               style={_.mt.md}
               html={$.html}

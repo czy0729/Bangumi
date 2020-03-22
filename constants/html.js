@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 00:10:20
+ * @Last Modified time: 2020-03-22 13:58:54
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -272,6 +272,14 @@ export const HTML_USERS_PERSON = (userId = '', page = 1) =>
  */
 export const HTML_USERS_MONO_RECENTS = (page = 1) =>
   `${HOST}/mono/update?page=${page}`
+
+/**
+ * 用户日志列表
+ * @param {*} userId
+ * @param {*} page
+ */
+export const HTML_USERS_BLOGS = (userId = '', page = 1) =>
+  `${HOST}/user/${userId}/blog?page=${page}`
 
 /**
  * 标签

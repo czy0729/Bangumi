@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-09 13:50:30
+ * @Last Modified time: 2020-03-21 23:21:58
  */
 module.exports = {
   root: true,
@@ -11,7 +11,8 @@ module.exports = {
     fetch: true, // react-native的fetch
     log: true, // 测试打印函数, 能规避循环引用
     warn: true,
-    require: true
+    require: true,
+    requestAnimationFrame: true
   },
   env: {
     commonjs: true,

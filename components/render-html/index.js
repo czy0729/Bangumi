@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-15 21:50:29
+ * @Last Modified time: 2020-03-22 17:55:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -185,7 +185,7 @@ class RenderHtml extends React.Component {
             )
           }
         } catch (error) {
-          // do nothing
+          warn('RenderHtml', 'generateConfig', error)
         }
 
         return children
@@ -256,6 +256,9 @@ class RenderHtml extends React.Component {
     }
   }
 
+  /**
+   * @issue iOS开发遇到奇怪bug, 文字太多当lineHeight大于15, 不显示?
+   */
   get defaultBaseFontStyle() {
     return {
       fontSize: 16 + _.fontSizeAdjust,

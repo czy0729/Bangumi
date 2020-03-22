@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 20:56:35
+ * @Last Modified time: 2020-03-21 23:23:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -191,18 +191,20 @@ const withTransitionHeader = ({
             }
           }
 
-          navigation.setParams({
-            title,
-            headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
-            headerStyle: {
-              ...defaultHeaderStyle,
-              backgroundColor: `rgba(${_.select(
-                _.colorPlainRaw,
-                _._colorDarkModeLevel1Raw
-              ).join()}, ${opacity})`,
-              borderBottomWidth: 0,
-              ...shadowStyle
-            }
+          requestAnimationFrame(() => {
+            navigation.setParams({
+              title,
+              headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
+              headerStyle: {
+                ...defaultHeaderStyle,
+                backgroundColor: `rgba(${_.select(
+                  _.colorPlainRaw,
+                  _._colorDarkModeLevel1Raw
+                ).join()}, ${opacity})`,
+                borderBottomWidth: 0,
+                ...shadowStyle
+              }
+            })
           })
         }
       }

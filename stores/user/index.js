@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-18 10:22:32
+ * @Last Modified time: 2020-03-22 02:48:26
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -13,6 +13,7 @@ import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import {
+  HOST,
   APP_ID,
   APP_SECRET,
   URL_OAUTH_REDIRECT,
@@ -125,7 +126,12 @@ class Store extends store {
      */
     pmParams: {
       // [userId]: {}
-    }
+    },
+
+    /**
+     * 登出地址
+     */
+    logout: ''
   })
 
   init = async () => {
@@ -616,14 +622,24 @@ class Store extends store {
    * 登出
    */
   logout = () => {
-    this.setState({
-      accessToken: INIT_ACCESS_TOKEN,
-      userCookie: INIT_USER_COOKIE,
-      userInfo: INIT_USER_INFO
-    })
-    this.setStorage('accessToken', undefined, NAMESPACE)
-    this.setStorage('userCookie', undefined, NAMESPACE)
-    this.setStorage('userInfo', undefined, NAMESPACE)
+    const { logout } = this.state
+    if (logout) {
+      xhr({
+        method: 'GET',
+        url: logout
+      })
+    }
+
+    setTimeout(() => {
+      this.setState({
+        accessToken: INIT_ACCESS_TOKEN,
+        userCookie: INIT_USER_COOKIE,
+        userInfo: INIT_USER_INFO
+      })
+      this.setStorage('accessToken', undefined, NAMESPACE)
+      this.setStorage('userCookie', undefined, NAMESPACE)
+      this.setStorage('userInfo', undefined, NAMESPACE)
+    }, 0)
   }
 
   /**
@@ -688,6 +704,7 @@ class Store extends store {
   /**
    * 检测cookie有没有过期
    * 访问任意个人中心的页面就可以判断
+   * 顺便记录formhash用于登出
    */
   doCheckCookie = async () => {
     const res = RakuenStore.fetchNotify()
@@ -696,6 +713,13 @@ class Store extends store {
 
     if (HTML.includes('抱歉，当前操作需要您')) {
       this.updateUserCookie()
+    } else {
+      const matchLogout = HTML.match(/.tv\/logout(.+?)">登出<\/a>/)
+      if (Array.isArray(matchLogout) && matchLogout[1]) {
+        this.setState({
+          logout: `${HOST}/logout${matchLogout[1]}`
+        })
+      }
     }
 
     return res
