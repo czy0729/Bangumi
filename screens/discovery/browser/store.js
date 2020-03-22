@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 16:11:08
+ * @Last Modified time: 2020-03-22 23:00:05
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
@@ -12,11 +12,12 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const namespace = 'ScreenBrowser'
 const defaultType = MODEL_SUBJECT_TYPE.getLabel('动画')
+const year = 40
 
 export default class ScreenBrowser extends store {
   state = observable({
     tabs: [],
-    page: 24,
+    page: 12 * year,
     type: defaultType,
     hide: false, // 用于列表置顶
     _loaded: false
@@ -61,7 +62,7 @@ export default class ScreenBrowser extends store {
 
   // -------------------- page --------------------
   /**
-   * 计算前2年和后1年的tabs
+   * 计算前20年和后1年的tabs
    */
   caculateTabs = () => {
     const date = new Date()
@@ -81,7 +82,7 @@ export default class ScreenBrowser extends store {
       }
       tabs.push(`${y}-${m + 1}`)
     }
-    for (let prev = 24; prev > 0; prev -= 1) {
+    for (let prev = 12 * year; prev > 0; prev -= 1) {
       if (mm === 0) {
         yy -= 1
         mm = 11
@@ -115,6 +116,8 @@ export default class ScreenBrowser extends store {
     if (!_loaded) {
       this.fetchBrowser(true)
     }
+
+    this.setStorage(undefined, undefined, namespace)
   }
 
   /**

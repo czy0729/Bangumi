@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 02:40:34
+ * @Last Modified time: 2020-03-22 21:23:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -29,7 +29,14 @@ function Item({ avatar, name, id }, { navigation }) {
   }
   return (
     <View style={styles.item}>
-      <Image size={imageWidth} src={avatar} border radius onPress={onPress} />
+      <Image
+        size={imageWidth}
+        src={avatar}
+        border
+        radius
+        shadow
+        onPress={onPress}
+      />
       <Touchable withoutFeedback onPress={onPress}>
         <Text style={_.mt.sm} size={12} numberOfLines={2} align='center'>
           {HTMLDecode(name)}

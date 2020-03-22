@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 00:11:24
+ * @Last Modified time: 2020-03-22 22:25:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { observer } from 'mobx-react'
 import { Touchable, Flex, Image, Text } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
+import { t } from '@utils/fetch'
 
 function Head({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -40,31 +41,57 @@ function Head({ style }, { $, navigation }) {
             是我的好友
           </Text>
         )}
-        <Touchable style={styles.r1} onPress={() => $.toUser(navigation)}>
+        <Touchable
+          style={styles.r1}
+          onPress={() => {
+            t('空间.跳转', {
+              userId: $.userId,
+              to: 'Character'
+            })
+
+            navigation.push('Character', {
+              userName: $.userId
+            })
+          }}
+        >
           <Text type={_.select('plain', 'title')} size={13}>
-            [TA的收藏]
+            [人物]
           </Text>
         </Touchable>
         <Touchable
           style={styles.r2}
-          onPress={() =>
-            navigation.push('PM', {
-              userId,
-              userName
+          onPress={() => {
+            t('空间.跳转', {
+              userId: $.userId,
+              to: 'Blogs'
             })
-          }
+
+            navigation.push('Blogs', {
+              userId: $.userId
+            })
+          }}
         >
           <Text type={_.select('plain', 'title')} size={13}>
-            [发短信]
+            [日志]
           </Text>
         </Touchable>
-        {!!$.users.connectUrl && (
-          <Touchable style={styles.r3} onPress={$.doConnectFriend}>
-            <Text type={_.select('plain', 'title')} size={13}>
-              [加好友]
-            </Text>
-          </Touchable>
-        )}
+        <Touchable
+          style={styles.r3}
+          onPress={() => {
+            t('空间.跳转', {
+              userId: $.userId,
+              to: 'Catalogs'
+            })
+
+            navigation.push('Catalogs', {
+              userId: $.userId
+            })
+          }}
+        >
+          <Text type={_.select('plain', 'title')} size={13}>
+            [目录]
+          </Text>
+        </Touchable>
       </View>
       <Text style={_.mt.md} type={_.select('plain', 'title')} size={16}>
         {userName}

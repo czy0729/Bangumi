@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 19:59:19
+ * @Last Modified time: 2020-03-22 23:04:04
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -34,14 +34,15 @@ class Qiafan extends React.Component {
         <Text lineHeight={2}>
           　　自19年2月开始，项目已持续开发快一年了。最初仅是为了练手而建立，也是第一次做app
           (现实中就是个做网页的)
-          ，后来发现比想象的有趣太多，便一直开发至今。回头一算，实际撸码时间已经不少于5000个小时。
+          ，后来发现比想象的有趣太多，便一直开发至今。回头一算，实际撸码时间已经不少于6000个小时。
         </Text>
         <Text style={_.mt.sm} lineHeight={2}>
           　　现阶段功能越堆越多，需求有点混乱了，感觉有点大杂烩了，需要认真思考一下，把项目拉回正轨。另外也知道性能有点比不上友商，大前提下还是框架的问题
           (当然也是水平问题)。
         </Text>
         <Text style={_.mt.sm} lineHeight={2}>
-          　　接下来作者会花更多心思，打磨[细节]和优化[性能]，绝对不咕。觉得好用的，可以在github上给星星，也可以在分发平台
+          　　最近花了很多时间打磨细节,
+          自感觉已经有肉眼可见的提升。觉得好用的，可以在github上给星星，也可以在分发平台
           (比如酷安) 上打分,
           这会极大地鼓励作者继续开发，这些无形的资产都会对作者以后的职业生涯产生重要的帮助。
         </Text>
@@ -50,7 +51,7 @@ class Qiafan extends React.Component {
           (当然会优先并尽可能满足付费用户)。接下来有计划爬取轻小说、漫画和真人剧的直接观看地址。
         </Text>
         <Text style={_.mt.sm} lineHeight={2} align='right'>
-          　　19/12/14
+          　　2020/03/22
         </Text>
         <Text
           style={{

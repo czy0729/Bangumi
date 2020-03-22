@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 22:40:07
+ * @Last Modified time: 2020-03-22 22:35:56
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -57,6 +57,7 @@ export default class ScreenPM extends store {
 
   @computed get pmParams() {
     const { userId } = this.params
+    console.log(userId)
     return userStore.pmParams(userId)
   }
 

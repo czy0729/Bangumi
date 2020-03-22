@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 10:57:46
+ * @Last Modified time: 2020-03-22 23:08:24
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -142,8 +142,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderBottomRightRadius: 0
   },
   right: {
-    borderLeftWidth: _.select(0, 1),
-    borderLeftColor: 'rgba(255, 255, 255, 0.06)',
+    borderLeftWidth: 0,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   }

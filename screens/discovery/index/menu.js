@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-06 16:49:33
+ * @Last Modified time: 2020-03-22 22:44:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,10 +51,9 @@ const menus = [
     path: 'Catalog'
   },
   {
-    title: '我的人物',
-    icon: 'like',
-    path: 'Character',
-    login: true
+    title: '日志',
+    icon: 'ri-zhi',
+    path: ''
   }
 ]
 const itemWidth = (_.window.width - 2 * _.wind) / 4
@@ -68,6 +67,11 @@ function Menu(props, { $, navigation }) {
         <Touchable
           key={item.path}
           onPress={() => {
+            if (!item.path) {
+              info('全站日志仍在开发中')
+              return
+            }
+
             if (item.login && !username && !id) {
               info('请先登陆')
               return

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 00:14:42
+ * @Last Modified time: 2020-03-22 22:49:29
  */
 import React from 'react'
 import { Alert, Animated, View } from 'react-native'
@@ -116,7 +116,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
           color={_.__colorPlain__}
         />
       )}
-      <View style={styles.more}>
+      <View style={[isMe ? styles.menu : styles.more]}>
         <Popover
           data={data}
           onSelect={key => {
@@ -159,7 +159,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont name='more' color={_.__colorPlain__} />
+          <Iconfont name={isMe ? 'list' : 'more'} color={_.__colorPlain__} />
         </Popover>
       </View>
       {!$.params.userId && (
@@ -225,14 +225,18 @@ const memoStyles = _.memoStyles(_ => ({
     ..._.header.left,
     zIndex: 1
   },
-  more: {
-    ..._.header.right,
+  menu: {
+    ..._.header.left,
     zIndex: 1,
     padding: _.sm
   },
   setting: {
     ..._.header.right,
+    zIndex: 1
+  },
+  more: {
+    ..._.header.right,
     zIndex: 1,
-    right: 44
+    padding: _.sm
   }
 }))

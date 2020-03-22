@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 19:44:46
+ * @Last Modified time: 2020-03-22 22:10:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,7 +12,6 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import Item from './item'
 import ItemRecents from './item-recents'
-import { tabs } from './store'
 
 export default
 @observer
@@ -33,15 +32,16 @@ class List extends React.Component {
   }
 
   get isRecents() {
+    const { $ } = this.context
     const { index } = this.props
-    const { key } = tabs[index]
+    const { key } = $.tabs[index]
     return key === 'recents'
   }
 
   render() {
     const { $ } = this.context
     const { index } = this.props
-    const { key } = tabs[index]
+    const { key } = $.tabs[index]
     const list = $.list(key)
     if (!list._loaded) {
       return <Loading style={_.container.screen} />

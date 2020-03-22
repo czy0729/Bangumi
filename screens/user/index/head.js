@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 20:59:24
+ * @Last Modified time: 2020-03-22 22:29:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,31 +14,40 @@ import { _ } from '@stores'
 function Head({ style }, { $, navigation }) {
   const styles = memoStyles()
   const { avatar = {}, nickname, id } = $.usersInfo
+  const { userId } = $.params
+  const isMe = !userId || userId === $.myUserId
   return (
     <Flex style={style} justify='center' direction='column'>
       <View>
         <Image style={[styles.avatar, _.mt.md]} size={88} src={avatar.large} />
-        <Touchable
-          style={styles.r1}
-          onPress={() => navigation.push('Character')}
-        >
-          <Text type={_.select('plain', 'title')} size={13}>
-            [人物]
-          </Text>
-        </Touchable>
-        <Touchable style={styles.r2} onPress={() => navigation.push('Blogs')}>
-          <Text type={_.select('plain', 'title')} size={13}>
-            [日志]
-          </Text>
-        </Touchable>
-        <Touchable
-          style={styles.r3}
-          onPress={() => navigation.push('Catalogs')}
-        >
-          <Text type={_.select('plain', 'title')} size={13}>
-            [目录]
-          </Text>
-        </Touchable>
+        {isMe && (
+          <>
+            <Touchable
+              style={styles.r1}
+              onPress={() => navigation.push('Character')}
+            >
+              <Text type={_.select('plain', 'title')} size={13}>
+                [人物]
+              </Text>
+            </Touchable>
+            <Touchable
+              style={styles.r2}
+              onPress={() => navigation.push('Blogs')}
+            >
+              <Text type={_.select('plain', 'title')} size={13}>
+                [日志]
+              </Text>
+            </Touchable>
+            <Touchable
+              style={styles.r3}
+              onPress={() => navigation.push('Catalogs')}
+            >
+              <Text type={_.select('plain', 'title')} size={13}>
+                [目录]
+              </Text>
+            </Touchable>
+          </>
+        )}
       </View>
       <Text style={_.mt.md} type={_.select('plain', 'title')} size={16}>
         {nickname}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 16:07:28
+ * @Last Modified time: 2020-03-22 22:56:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,6 +60,7 @@ class Browser extends React.Component {
             initialPage={page}
             page={page}
             prerenderingSiblingsNumber={1}
+            animated={false}
             renderTabBarLeft={renderTabBarLeft}
             onChange={$.onChange}
           >

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 19:05:43
+ * @Last Modified time: 2020-03-22 22:39:39
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -47,7 +47,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
       }
     ]
   }
-  const data = ['浏览器查看', '复制链接', 'TA的好友']
+  const data = ['浏览器查看', '复制链接', '发短信', 'TA的收藏', 'TA的好友']
   if ($.users.connectUrl) {
     data.push('加为好友')
   } else if ($.users.disconnectUrl) {
@@ -148,6 +148,15 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
               case '复制链接':
                 copy(`${HOST}/user/${username}`)
                 info('已复制')
+                break
+              case '发短信':
+                navigation.push('PM', {
+                  userId: id, // 必须是数字id
+                  userName: HTMLDecode(nickname || _name)
+                })
+                break
+              case 'TA的收藏':
+                $.toUser(navigation)
                 break
               case 'TA的好友':
                 navigation.push('Friends', {
