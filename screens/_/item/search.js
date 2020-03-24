@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 14:07:41
+ * @Last Modified time: 2020-03-23 15:42:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,13 +11,13 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { EVENT, IOS } from '@constants'
+import { EVENT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Tag from '../base/tag'
 import Cover from '../base/cover'
 import Stars from '../base/stars'
 
-const imgWidth = 96
+const imgWidth = 88
 const imgHeight = 1.28 * imgWidth
 
 function ItemSearch({
@@ -68,7 +68,7 @@ function ItemSearch({
             width={imgWidth}
             height={imgHeight}
             radius
-            shadow={IOS}
+            shadow
           />
         </View>
         <Flex.Item style={[styles.item, _.ml.wind]}>

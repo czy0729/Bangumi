@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 01:03:24
+ * @Last Modified time: 2020-03-24 17:23:19
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -704,11 +704,6 @@ export default class ScreenSubject extends store {
     }
 
     if (value === '在线播放') {
-      t('条目.章节菜单操作', {
-        title: '在线播放',
-        subjectId: this.subjectId
-      })
-
       // @todo 查找视频数据源地址
       // const find = this.ningMoeDetail.eps.find(i => i.sort === item.sort)
       // if (find && find.bakUrl) {
@@ -725,6 +720,11 @@ export default class ScreenSubject extends store {
 
       setTimeout(() => {
         showActionSheet(this.onlinePlayActionSheetData, index => {
+          t('条目.章节菜单操作', {
+            title: this.onlinePlayActionSheetData[index],
+            subjectId: this.subjectId
+          })
+
           const isSp = item.type === 1
           let url
 

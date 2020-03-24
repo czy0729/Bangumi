@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 02:49:55
+ * @Last Modified time: 2020-03-24 17:27:11
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -394,7 +394,11 @@ export function t(desc, eventData) {
       const eventId = events[desc]
       if (eventId) {
         if (eventData) {
-          UMAnalyticsModule.onEventWithMap(eventId, eventData)
+          const _eventData = {}
+          Object.keys(eventData).forEach(key => {
+            _eventData[key] = encodeURIComponent(eventData[key])
+          })
+          UMAnalyticsModule.onEventWithMap(eventId, _eventData)
         } else {
           UMAnalyticsModule.onEvent(eventId)
         }
