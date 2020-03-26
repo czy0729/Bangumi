@@ -17,7 +17,7 @@ import Tag from '../base/tag'
 import Cover from '../base/cover'
 import Stars from '../base/stars'
 
-const imgWidth = 88
+const imgWidth = 80
 const imgHeight = 1.28 * imgWidth
 
 function ItemSearch({

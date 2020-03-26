@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 17:05:01
+ * @Last Modified time: 2020-03-26 23:35:06
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -583,12 +583,13 @@ export function caculateICO(ico) {
  * @param {*} str
  */
 export function tinygrailOSS(str, w = 150) {
-  if (typeof str !== 'string') {
+  if (typeof str !== 'string' || str.includes('!w')) {
     return str
   }
 
   // https://tinygrail.oss-cn-hangzhou.aliyuncs.com
-  if (str.includes('aliyuncs.com')) {
+  // https://tinygrail.mange.cn/cover/1e5f9be0dfe62372a69e9a4f04acd0e1.jpg!w150
+  if (str.includes('aliyuncs.com') || str.includes('tinygrail.mange.cn')) {
     return `${str}!w${w}`
   }
 

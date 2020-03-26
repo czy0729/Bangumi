@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 15:53:54
+ * @Last Modified time: 2020-03-25 20:33:53
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -49,6 +49,7 @@ class Image extends React.Component {
     imageViewerSrc: undefined, // 若有值, 打开ImageViewer时使用此src
     event: EVENT,
     delay: true,
+    cache: true,
     onPress: undefined,
     onLongPress: undefined,
     onError: undefined
@@ -65,7 +66,14 @@ class Image extends React.Component {
   timeoutId = null
 
   async componentDidMount() {
-    const { src, autoSize } = this.props
+    const { src, cache, autoSize } = this.props
+    if (!cache) {
+      this.setState({
+        uri: src
+      })
+      return
+    }
+
     await this.cache(src)
     if (autoSize) {
       this.getSize()
@@ -268,6 +276,7 @@ class Image extends React.Component {
       headers,
       event,
       delay,
+      cache,
       onPress,
       onLongPress,
       onError,

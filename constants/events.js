@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 01:12:08
+ * @Last Modified time: 2020-03-26 23:23:25
  */
 
 /**
@@ -202,6 +202,13 @@ export default {
   '社区指导原则.跳转': 'UCG.to',
   '社区指导原则.不同意': 'UCG.disagree',
   '社区指导原则.同意': 'UCG.agree',
+
+  /* ==================== reader ==================== */
+  // 漫画
+  '漫画.初始化': 'Comic.init',
+  '漫画.搜索章节': 'Comic.searchEps',
+  '漫画.搜索图片': 'Comic.searchImages',
+  '漫画.搜索': 'Comic.onSearch',
 
   /* ==================== timeline ==================== */
   // 时间胶囊

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-29 17:09:41
+ * @Last Modified time: 2020-03-26 23:40:38
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './thirdParty/html-parser'
@@ -155,12 +155,12 @@ export function findTreeNode(children, cmd = '', defaultValue) {
           if (_value) {
             match =
               match &&
-              (item.tag === _tag &&
-                item.attrs[_attr] &&
-                item.attrs[_attr].indexOf(_value) !== -1)
+              item.tag === _tag &&
+              item.attrs[_attr] &&
+              item.attrs[_attr].indexOf(_value) !== -1
           } else if (_attr) {
             match =
-              match && (item.tag === _tag && item.attrs[_attr] !== undefined)
+              match && item.tag === _tag && item.attrs[_attr] !== undefined
           }
         } else {
           // =
@@ -168,13 +168,13 @@ export function findTreeNode(children, cmd = '', defaultValue) {
           const _attr = temp[0]
           const _value = temp[1]
           if (_value) {
-            match = match && (item.tag === _tag && item.attrs[_attr] == _value)
+            match = match && item.tag === _tag && item.attrs[_attr] == _value
           } else if (_attr) {
             if (_attr === 'text') {
-              match = match && (item.tag === _tag && item.text.length !== 0)
+              match = match && item.tag === _tag && item.text.length !== 0
             } else {
               match =
-                match && (item.tag === _tag && item.attrs[_attr] !== undefined)
+                match && item.tag === _tag && item.attrs[_attr] !== undefined
             }
           }
         }
@@ -215,9 +215,12 @@ export function removeCF(HTML = '') {
  * cheerio.load
  * @param {*} HTML
  */
-export function cheerio(target) {
+export function cheerio(target, remove = true) {
   if (typeof target === 'string') {
-    return cheerioRN.load(removeCF(target))
+    if (remove) {
+      return cheerioRN.load(removeCF(target))
+    }
+    return cheerioRN.load(target)
   }
   return cheerioRN(target)
 }

@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:51:41
+ * @Last Modified time: 2020-03-26 23:28:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text, Input, Button } from '@components'
+import { Flex, Touchable, Text, Input, Button, Iconfont } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 
-function BookEp({ style }, { $ }) {
+function BookEp({ style }, { $, navigation }) {
   const styles = memoStyles()
   const { chap, vol } = $.state
   const { book = {} } = $.subjectFormHTML
@@ -23,7 +23,24 @@ function BookEp({ style }, { $ }) {
   } = $.collection
   return (
     <View style={[styles.container, _.container.wind, style]}>
-      <SectionTitle>章节</SectionTitle>
+      <SectionTitle
+        right={
+          <Touchable
+            style={styles.iconPlay}
+            onPress={() =>
+              navigation.push('Comic', {
+                cn: $.cn,
+                jp: $.jp,
+                subjectId: $.subjectId
+              })
+            }
+          >
+            <Iconfont name='xin-fan' size={16} />
+          </Touchable>
+        }
+      >
+        章节
+      </SectionTitle>
       <Flex style={_.mt.md} align='start'>
         {status.name === '未收藏' ? (
           <Text type='sub'>收藏后开启管理进度</Text>
@@ -92,7 +109,8 @@ function BookEp({ style }, { $ }) {
 }
 
 BookEp.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(BookEp)
@@ -116,5 +134,9 @@ const memoStyles = _.memoStyles(_ => ({
   btnPlus: {
     width: 40,
     height: 34
+  },
+  iconPlay: {
+    padding: _.sm,
+    marginRight: -_.sm
   }
 }))

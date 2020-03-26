@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:41:08
+ * @Last Modified time: 2020-03-25 20:25:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import Tag from '../base/tag'
 import Stars from '../base/stars'
 import Cover from '../base/cover'
 
-const imgWidth = 88
+const imgWidth = 80
 const imgHeight = 1.28 * imgWidth
 
 function ItemCollections({
