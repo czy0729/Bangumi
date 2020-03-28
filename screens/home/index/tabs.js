@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 16:44:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 23:19:07
+ * @Last Modified time: 2020-03-29 01:56:56
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,7 +13,11 @@ import TabBarRight from './tab-bar-right'
 import { tabs } from './store'
 
 function Tabs({ tabBarStyle = {}, $, children, ...other }) {
-  const { page, _page } = $.state
+  const { page, _page, _loaded } = $.state
+  if (!_loaded) {
+    return null
+  }
+
   const _tabBarStyle = IOS
     ? {
         ...tabBarStyle

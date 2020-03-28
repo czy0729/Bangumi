@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:20:49
+ * @Last Modified time: 2020-03-27 09:58:59
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -27,6 +27,7 @@ function Pagination({ style, input, onPrev, onNext, onChange, onSearch }) {
           keyboardType='number-pad'
           placeholder='页'
           returnKeyType='search'
+          returnKeyLabel='跳转'
           onChange={onChange}
           onSubmitEditing={onSearch}
         />

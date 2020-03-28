@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 14:06:36
+ * @Last Modified time: 2020-03-28 19:55:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,10 @@ function Stepper({ style }, { $ }) {
           value={String(auctionPrice)}
           colorClear={_.colorTinygrailText}
           clearButtonMode='never'
+          returnKeyType='done'
+          returnKeyLabel='竞拍'
           onChangeText={$.changeAuctionPrice}
+          onSubmitEditing={$.doAuction}
         />
       </Flex.Item>
       <Touchable onPress={$.stepMinus}>

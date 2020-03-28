@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:28:33
+ * @Last Modified time: 2020-03-29 02:18:42
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore } from '@stores'
@@ -21,9 +21,6 @@ export const headerHeight = _.headerHeight + 6
 export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
   title: item.label
 }))
-tabs.push({
-  title: ' '
-})
 const namespace = 'ScreenUser'
 const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
 const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
@@ -172,23 +169,12 @@ export default class ScreenUser extends store {
       page
     })
 
-    // 这里最后一个tab是假占位, 跳回到第一个tab
-    if (page + 1 === tabs.length) {
-      setTimeout(() => {
-        this.setState({
-          page: 0,
-          _page: 0,
-          tag: ''
-        })
-      }, 400)
-    } else {
-      this.setState({
-        page,
-        _page: page,
-        tag: ''
-      })
-      this.fetchUserCollections(true)
-    }
+    this.setState({
+      page,
+      _page: page,
+      tag: ''
+    })
+    this.fetchUserCollections(true)
     this.setStorage(undefined, undefined, namespace)
   }
 

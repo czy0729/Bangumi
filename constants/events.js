@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-26 23:23:25
+ * @Last Modified time: 2020-03-28 10:47:03
  */
 
 /**
@@ -10,26 +10,26 @@
  */
 export default {
   /* ==================== discovery ==================== */
-  // Anitama
+  // - [x] Anitama
   'Anitama.跳转': 'Anitama.to',
   'Anitama.右上角菜单': 'Anitama.topRightMenu',
   'Anitama.上一页': 'Anitama.prev',
   'Anitama.下一页': 'Anitama.next',
   'Anitama.页码跳转': 'Anitama.doSearch',
 
-  // 年鉴
+  // - [x] 年鉴
   '年鉴.跳转': 'Award.to',
 
-  // 索引
+  // - [x] 索引
   '索引.跳转': 'Browser.to',
   '索引.标签页切换': 'Browser.onChange',
   '索引.类型选择': 'Browser.onSelect',
 
-  // 每日放送
+  // - [x] 每日放送
   '每日放送.跳转': 'Calendar.to',
   '每日放送.右上角菜单': 'Calendar.topRightMenu',
 
-  // 目录
+  // - [x] 目录
   '目录.跳转': 'Catalog.to',
   '目录.切换类型': 'Catalog.toggleType',
   '目录.上一页': 'Catalog.prev',
@@ -37,7 +37,7 @@ export default {
   '目录.页码跳转': 'Catalog.doSearch',
   '目录.提示': 'Catalog.alert',
 
-  // 目录详情
+  // - [x] 目录详情
   '目录详情.跳转': 'CatalogDetail.to',
   '目录详情.右上角菜单': 'CatalogDetail.topRightMenu',
   '目录详情.收藏': 'CatalogDetail.doCollect',
@@ -204,7 +204,7 @@ export default {
   '社区指导原则.同意': 'UCG.agree',
 
   /* ==================== reader ==================== */
-  // 漫画
+  // - [x] 漫画
   '漫画.初始化': 'Comic.init',
   '漫画.搜索章节': 'Comic.searchEps',
   '漫画.搜索图片': 'Comic.searchImages',

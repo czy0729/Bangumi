@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:49:29
+ * @Last Modified time: 2020-03-29 02:20:33
  */
 import React from 'react'
 import { Alert, Animated, View } from 'react-native'
@@ -228,7 +228,8 @@ const memoStyles = _.memoStyles(_ => ({
   menu: {
     ..._.header.left,
     zIndex: 1,
-    padding: _.sm
+    padding: _.sm,
+    marginLeft: 2
   },
   setting: {
     ..._.header.right,

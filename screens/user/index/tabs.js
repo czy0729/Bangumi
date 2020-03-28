@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 23:53:58
+ * @Last Modified time: 2020-03-29 02:50:41
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,8 +15,12 @@ import TabBarLeft from './tab-bar-left'
 import { tabs, height, headerHeight } from './store'
 
 function Tabs({ scrollY, children, onSelect, onChange, ...other }, { $ }) {
+  const { subjectType, _page, _loaded } = $.state
+  if (!_loaded) {
+    return null
+  }
+
   const styles = memoStyles()
-  const { subjectType, _page } = $.state
   const counts = {
     动画: {},
     书籍: {},
@@ -24,7 +28,6 @@ function Tabs({ scrollY, children, onSelect, onChange, ...other }, { $ }) {
     音乐: {},
     三次元: {}
   }
-
   if ($.userCollectionsStatus.length) {
     $.userCollectionsStatus.forEach(item => {
       item.collects.forEach(i => {

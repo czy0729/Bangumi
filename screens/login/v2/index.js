@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 16:03:28
+ * @Last Modified time: 2020-03-29 02:41:19
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -283,7 +283,11 @@ class LoginV2 extends React.Component {
       setStorage(`${namespace}|password`, password)
       this.inStore()
     } catch (ex) {
-      this.retryLogin('登陆失败, 请重试或点击这里前往旧版授权登陆 >')
+      this.retryLogin(
+        `[${String(
+          ex
+        )}] 登陆失败, 请重试或重启APP, 或点击前往旧版授权登陆 >`
+      )
     }
   }
 
