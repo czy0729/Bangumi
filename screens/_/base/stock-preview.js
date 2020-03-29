@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 14:03:37
+ * @Last Modified time: 2020-03-29 14:18:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -190,7 +190,7 @@ class StockPreview extends React.Component {
             <Text
               style={[
                 {
-                  color: _.colorTinygrailPlain
+                  color: _.__colorPlain__
                 },
                 fluctuationStyle
               ]}

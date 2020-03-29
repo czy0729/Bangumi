@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-26 23:29:57
+ * @Last Modified time: 2020-03-29 23:36:17
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -18,6 +18,7 @@ import {
   Input,
   Button
 } from '@components'
+import { Tag } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import Store from './store'
@@ -51,7 +52,7 @@ class Comic extends React.Component {
   renderInfo(item) {
     const { $ } = this.context
     return (
-      <Touchable onPress={() => $.searchEps(item.url)}>
+      <Touchable onPress={() => $.searchEps(item)}>
         <Flex style={this.styles.info} align='start'>
           <Image
             src={item.cover}
@@ -82,6 +83,7 @@ class Comic extends React.Component {
               </Text>
             </Flex>
           </Flex.Item>
+          <Tag style={this.styles.tag} type={item.type} value={item.tag} />
         </Flex>
       </Touchable>
     )
@@ -94,13 +96,17 @@ class Comic extends React.Component {
     return (
       <Expand ratio={1.6}>
         <Flex style={this.styles.eps} wrap='wrap'>
-          {!!_loaded && !list.length && <Text>没有搜索到章节</Text>}
+          {!!_loaded && !list.length && (
+            <Text style={_.mt.sm} type='sub'>
+              没有搜索到章节
+            </Text>
+          )}
           {list.map((i, index) => (
             <Touchable
               key={i.url}
               style={this.styles.ep}
               onPress={() =>
-                $.searchThenOpen(i.url, `${i.text} - ${item.title}`, index)
+                $.searchThenOpen(i, `${i.text} - ${item.title}`, index)
               }
             >
               <Text size={13}>{i.text}</Text>
@@ -195,13 +201,16 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
   },
-  info: {},
   content: {
     paddingVertical: 2,
     height: imgHeight
   },
+  tag: {
+    marginTop: 2,
+    marginLeft: _.sm
+  },
   eps: {
-    paddingTop: _.sm
+    paddingTop: _.md
   },
   ep: {
     paddingVertical: 4,

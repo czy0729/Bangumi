@@ -1,9 +1,9 @@
-/* eslint-disable camelcase, no-undef, no-eval */
+/* eslint-disable no-inner-declarations, camelcase, no-undef, no-eval */
 /*
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-26 23:25:52
+ * @Last Modified time: 2020-03-29 23:55:04
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -99,12 +99,13 @@ export default class ScreenComic extends store {
   }
 
   searchOrigins = async key => {
-    const HTML = await fetchHTML({
+    // 新新漫画
+    const HTML1 = await fetchHTML({
       url: `https://so.177mh.net/m.php?k=${encodeURIComponent(key)}`
     })
-    const $ = cheerio(HTML)
-    const list =
-      $('div.clist > ul > a')
+    const $1 = cheerio(HTML1)
+    const list1 =
+      $1('div.clist > ul > a')
         .map((index, element) => {
           const $li = cheerio(element)
           return safeObject({
@@ -122,6 +123,34 @@ export default class ScreenComic extends store {
         })
         .get() || []
 
+    // 漫画123
+    const HTML2 = await fetchHTML({
+      url: `https://m.comic123.net/index.php?m=vod-search-pg-1-wd-${encodeURIComponent(
+        key
+      )}.html`
+    })
+    const $2 = cheerio(HTML2)
+    const list2 =
+      $2('li.vbox')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $a = $li.find('a.vbox_t')
+          return safeObject({
+            url: `https://m.comic123.net${$a.attr('href')}`,
+            title: $a.attr('title'),
+            cover: $a.find('mip-img').attr('src'),
+            sub: $a.find('mip-img + span').text(),
+            extra: $li.find('h4 + h4').text(),
+            headers: {
+              Referer: 'https://m.comic123.net/'
+            },
+            type: 'main',
+            tag: '漫画123'
+          })
+        })
+        .get() || []
+
+    const list = [...list1, ...list2]
     if (list.length) {
       this.setState({
         key,
@@ -137,33 +166,55 @@ export default class ScreenComic extends store {
     return list
   }
 
-  searchEps = async url => {
+  searchEps = async item => {
     t('漫画.搜索章节', {
       subjectId: this.subjectId
     })
 
-    const { eps } = this.state
-    const HTML = await fetchHTML({
-      url
-    })
-    const $ = cheerio(HTML)
-    const list = (
-      $('ul.chapter > li > a')
-        .map((index, element) => {
-          const $li = cheerio(element)
-          return safeObject({
-            url: `https://m.177mh.net/${$li.attr('href')}`,
-            text: $li.text()
+    let list = []
+    if (item.tag === '新新漫画') {
+      const HTML = await fetchHTML({
+        url: item.url
+      })
+      const $ = cheerio(HTML)
+      list = (
+        $('ul.chapter > li > a')
+          .map((index, element) => {
+            const $li = cheerio(element)
+            return safeObject({
+              url: `https://m.177mh.net/${$li.attr('href')}`,
+              text: $li.text(),
+              tag: '新新漫画'
+            })
           })
-        })
-        .get() || []
-    ).reverse()
+          .get() || []
+      ).reverse()
+    }
+
+    if (item.tag === '漫画123') {
+      const HTML = await fetchHTML({
+        url: item.url
+      })
+      const $ = cheerio(HTML)
+      list =
+        $('ul.list_block > li > a')
+          .map((index, element) => {
+            const $a = cheerio(element)
+            return safeObject({
+              url: `https://m.comic123.net${$a.attr('href')}`,
+              text: $a.text(),
+              tag: '漫画123'
+            })
+          })
+          .get() || []
+    }
 
     if (list.length) {
+      const { eps } = this.state
       this.setState({
         eps: {
           ...eps,
-          [url]: {
+          [item.url]: {
             list,
             _loaded: getTimestamp()
           }
@@ -171,36 +222,45 @@ export default class ScreenComic extends store {
       })
       this.setStorage(undefined, undefined, this.namespace)
     }
-
-    return list
   }
 
-  searchImages = async (url, title, index) => {
+  searchImages = async (item, title, index) => {
     t('漫画.搜索图片', {
       subjectId: this.subjectId,
       index
     })
 
-    const { images } = this.state
-    if (images[url]) {
-      return images[url]
+    const { url, tag } = item
+    let href = ''
+    if (tag === '新新漫画') {
+      const HTML = await fetchHTML({
+        url
+      })
+      const script = trim(cheerio(HTML, false)('section + script').text())
+
+      function getImagesScript(script, title) {
+        eval(script)
+        return `title='${title}';images='${msg}'.split('|').map(it=>'https://picsh.77dm.top/h${img_s}/'+it)`
+      }
+      const urlScript = getImagesScript(script, title)
+      href = `https://tinygrail.mange.cn/app/index.html?script=${encodeURIComponent(
+        urlScript
+      )}`
     }
 
-    const HTML = await fetchHTML({
-      url
-    })
-    const script = trim(cheerio(HTML, false)('section + script').text())
-
-    function getImagesScript(script, title) {
-      eval(script)
-      return `title='${title}';images='${msg}'.split('|').map(it=>'https://picsh.77dm.top/h${img_s}/'+it)`
+    if (tag === '漫画123') {
+      const HTML = await fetchHTML({
+        url
+      })
+      const images = HTML.match(/var z_img='(.+?)';/)[1]
+      const urlScript = `title='${title}';images=${images}.map(it=>it.replace('https://', 'https://m.comic123.net/pic-dmzj/'))`
+      href = `https://tinygrail.mange.cn/app/index.html?script=${encodeURIComponent(
+        urlScript
+      )}`
     }
-    const urlScript = getImagesScript(script, title)
-    const href = `https://tinygrail.mange.cn/app/index.html?script=${encodeURIComponent(
-      urlScript
-    )}`
 
     // 这个不缓存
+    const { images } = this.state
     this.setState({
       images: {
         ...images,
@@ -210,9 +270,13 @@ export default class ScreenComic extends store {
     return href
   }
 
-  searchThenOpen = async (url, title, index) => {
-    const href = await this.searchImages(url, title, index)
-    open(href)
+  searchThenOpen = async (item, title, index) => {
+    try {
+      const href = await this.searchImages(item, title, index)
+      open(href)
+    } catch (error) {
+      info('图片地址分析出错')
+    }
   }
 
   onChange = key => {

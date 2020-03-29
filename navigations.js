@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-26 23:27:42
+ * @Last Modified time: 2020-03-29 23:54:12
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailSacrifice
@@ -12,7 +12,9 @@ export default {
     // catalogId: 29811,
     // groupId: 'tinygrail',
     // monoId: 'character/11811' // 20391 character/70323 person/5745
-    // subjectId: 245782 // 103824 238923 279457 100444 204135
+    // subjectId: 298429, // 103824 238923 279457 100444 204135
+    // jp: '宫本樱非常可爱',
+    // cn: '宫本樱非常可爱',
     // topicId: 'ep/924227' // group/350677, ep/768491
     // userId: 'ekibun' // 456208, 419012
     // form: 'lottery',
