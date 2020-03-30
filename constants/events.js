@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-28 10:47:03
+ * @Last Modified time: 2020-03-30 22:54:09
  */
 
 /**
@@ -120,6 +120,7 @@ export default {
   '条目.删除收藏': 'Subject.doEraseCollection',
   '条目.搜索源': 'Subject.searchEp',
   '条目.翻译简介': 'Subject.doTranslate',
+  '条目.查看奖杯': 'Subject.toPSNINE',
 
   // 用户标签
   '用户标签.跳转': 'Tag.to',

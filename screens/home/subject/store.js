@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-24 17:23:19
+ * @Last Modified time: 2020-03-30 22:56:39
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -296,11 +296,11 @@ export default class ScreenSubject extends store {
    * 条目类型中文
    */
   @computed get type() {
-    const { _loaded, type: _type } = this.subject
+    const { _loaded, type } = this.subject
     if (!_loaded) {
       return ''
     }
-    return MODEL_SUBJECT_TYPE.getTitle(_type)
+    return MODEL_SUBJECT_TYPE.getTitle(type)
   }
 
   // Ep偏移
@@ -392,6 +392,16 @@ export default class ScreenSubject extends store {
       data.push('迅播动漫')
     }
     return data
+  }
+
+  // 是否PS游戏, 跳转psnine查看奖杯
+  @computed get isPS() {
+    return (
+      this.type === '游戏' &&
+      (this.info.includes('PS4') ||
+        this.info.includes('PS3') ||
+        this.info.includes('PS5'))
+    )
   }
 
   // -------------------- get: cdn fallback --------------------
@@ -666,6 +676,21 @@ export default class ScreenSubject extends store {
         }
         break
     }
+  }
+
+  /**
+   * 前往PSNINE查看游戏奖杯
+   */
+  toPSNINE = () => {
+    t('条目.查看奖杯', {
+      subjectId: this.subjectId
+    })
+
+    open(
+      `https://psnine.com/psngame?title=${encodeURIComponent(
+        this.cn || this.jp
+      )}`
+    )
   }
 
   // -------------------- action --------------------

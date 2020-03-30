@@ -4,14 +4,17 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-16 09:47:12
+ * @Last Modified time: 2020-03-30 22:34:06
  */
 import React from 'react'
-import { Modal } from 'react-native'
+import { StyleSheet, Modal, View } from 'react-native'
 import RNImageViewer from 'react-native-image-zoom-viewer'
+import { ActivityIndicator } from '@ant-design/react-native'
 import { open } from '@utils'
 import { showActionSheet } from '@utils/ui'
 import { IOS } from '@constants'
+import Touchable from './touchable'
+import Iconfont from './iconfont'
 
 export default class ImageViewer extends React.Component {
   static defaultProps = {
@@ -53,15 +56,50 @@ export default class ImageViewer extends React.Component {
     const { visible, imageUrls, onCancel, ...other } = this.props
     return (
       <Modal visible={visible} transparent onRequestClose={this.onRequestClose}>
-        <RNImageViewer
-          imageUrls={imageUrls}
-          backgroundColor='rgba(0, 0, 0, 0.88)'
-          enableSwipeDown
-          menus={() => this.renderMenus(imageUrls[0]._url, onCancel)}
-          onCancel={onCancel}
-          {...other}
-        />
+        <View style={styles.container}>
+          <View style={styles.activityIndicator}>
+            <ActivityIndicator />
+          </View>
+          <RNImageViewer
+            style={styles.viewer}
+            imageUrls={imageUrls}
+            backgroundColor='transparent'
+            enableSwipeDown
+            menus={() => this.renderMenus(imageUrls[0]._url, onCancel)}
+            onCancel={onCancel}
+            {...other}
+          />
+          <Touchable style={styles.close} onPress={onCancel}>
+            <Iconfont style={styles.iconfont} name='close' size={24} />
+          </Touchable>
+        </View>
       </Modal>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.88)'
+  },
+  activityIndicator: {
+    position: 'absolute',
+    zIndex: 1,
+    top: '50%',
+    left: '50%'
+  },
+  viewer: {
+    zIndex: 2
+  },
+  close: {
+    position: 'absolute',
+    zIndex: 3,
+    top: 40,
+    right: 0,
+    padding: 16
+  },
+  iconfont: {
+    color: '#fff'
+  }
+})

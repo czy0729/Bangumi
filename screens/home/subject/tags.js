@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 09:49:55
+ * @Last Modified time: 2020-03-30 22:51:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, Flex, Text, Touchable } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -19,7 +19,19 @@ function Tags({ style }, { $, navigation }) {
   const { tag = [] } = $.collection
   return (
     <View style={[_.container.wind, styles.container, style]}>
-      <SectionTitle>标签</SectionTitle>
+      <SectionTitle
+        right={
+          $.isPS && (
+            <IconTouchable
+              style={styles.trophy}
+              name='trophy'
+              onPress={$.toPSNINE}
+            />
+          )
+        }
+      >
+        标签
+      </SectionTitle>
       {!!$.tags.length && (
         <Expand style={_.mt.sm}>
           <Flex wrap='wrap'>
@@ -97,5 +109,8 @@ const memoStyles = _.memoStyles(_ => ({
   selected: {
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
+  },
+  trophy: {
+    marginRight: -_.sm
   }
 }))
