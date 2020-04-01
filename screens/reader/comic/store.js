@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-29 23:55:04
+ * @Last Modified time: 2020-04-01 21:58:53
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -30,12 +30,19 @@ export default class ScreenComic extends store {
     })
 
     const { cn, jp } = this.params
-    const state = await this.getStorage(undefined, this.namespace)
+    const state = (await this.getStorage(undefined, this.namespace)) || {}
     this.setState({
       ...state,
       key: cn || jp,
+      eps: {},
       images: {}
     })
+    if (state.origins && state.origins.list.length) {
+      this.setState({
+        _loaded: true
+      })
+      return
+    }
 
     // 中文
     const list1 = await this.searchOrigins(cn)
@@ -184,7 +191,7 @@ export default class ScreenComic extends store {
             return safeObject({
               url: `https://m.177mh.net/${$li.attr('href')}`,
               text: $li.text(),
-              tag: '新新漫画'
+              tag: item.tag
             })
           })
           .get() || []
@@ -203,25 +210,22 @@ export default class ScreenComic extends store {
             return safeObject({
               url: `https://m.comic123.net${$a.attr('href')}`,
               text: $a.text(),
-              tag: '漫画123'
+              tag: item.tag
             })
           })
           .get() || []
     }
 
-    if (list.length) {
-      const { eps } = this.state
-      this.setState({
-        eps: {
-          ...eps,
-          [item.url]: {
-            list,
-            _loaded: getTimestamp()
-          }
+    const { eps } = this.state
+    this.setState({
+      eps: {
+        ...eps,
+        [item.url]: {
+          list,
+          _loaded: getTimestamp()
         }
-      })
-      this.setStorage(undefined, undefined, this.namespace)
-    }
+      }
+    })
   }
 
   searchImages = async (item, title, index) => {
@@ -252,11 +256,31 @@ export default class ScreenComic extends store {
       const HTML = await fetchHTML({
         url
       })
-      const images = HTML.match(/var z_img='(.+?)';/)[1]
-      const urlScript = `title='${title}';images=${images}.map(it=>it.replace('https://', 'https://m.comic123.net/pic-dmzj/'))`
-      href = `https://tinygrail.mange.cn/app/index.html?script=${encodeURIComponent(
-        urlScript
-      )}`
+
+      if (HTML.includes('images.dmzj.com')) {
+        let mark = ''
+        const images = JSON.stringify(
+          JSON.parse(HTML.match(/var z_img='(.+?)';/)[1]).map(item => {
+            const s = item.split('/')
+            if (!mark) {
+              mark = `${s[4]}/${s[5]}`
+            }
+            s[4] = '$'
+            s[5] = '$'
+            return s.join('/') // https://images.dmzj.com/z/$/$/001.jpg
+          })
+        )
+        const urlScript = `title='${title}';images=${images}.map(it=>it.replace('$/$', '${mark}').replace('https://', 'https://m.comic123.net/pic-dmzj/'))`
+        href = `https://tinygrail.mange.cn/app/index.html?script=${encodeURIComponent(
+          urlScript
+        )}`
+      } else {
+        const images = HTML.match(/var z_img='(.+?)';/)[1]
+        const urlScript = `title='${title}';images=JSON.parse('${images}').map(it=>'https://img.detatu.com/'+it)`
+        href = `https://tinygrail.mange.cn/app/index.html?script=${encodeURIComponent(
+          urlScript
+        )}`
+      }
     }
 
     // 这个不缓存
