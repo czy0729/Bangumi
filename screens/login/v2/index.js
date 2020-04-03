@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-29 02:41:19
+ * @Last Modified time: 2020-04-04 02:37:30
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -41,6 +41,7 @@ class LoginV2 extends React.Component {
     password: '',
     captcha: '',
     base64: '',
+    isCommonUA: false,
     loading: false,
     info: '',
     retry: 0,
@@ -78,6 +79,13 @@ class LoginV2 extends React.Component {
     if (password) {
       this.setState({
         password
+      })
+    }
+
+    const isCommonUA = await getStorage(`${namespace}|isCommonUA`)
+    if (password) {
+      this.setState({
+        isCommonUA
       })
     }
 
@@ -129,6 +137,15 @@ class LoginV2 extends React.Component {
    * 随机生成一个UserAgent
    */
   getUA = async () => {
+    const { isCommonUA } = this.state
+    if (isCommonUA) {
+      // 与ekibun的bangumi一样的ua
+      const ua =
+        'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
+      this.userAgent = ua
+      return ua
+    }
+
     const res = Constants.getWebViewUserAgentAsync()
     const UA = await res
     this.userAgent = `${UA} ${getTimestamp()}`
@@ -284,9 +301,7 @@ class LoginV2 extends React.Component {
       this.inStore()
     } catch (ex) {
       this.retryLogin(
-        `[${String(
-          ex
-        )}] 登陆失败, 请重试或重启APP, 或点击前往旧版授权登陆 >`
+        `[${String(ex)}] 登陆失败, 请重试或重启APP, 或点击前往旧版授权登陆 >`
       )
     }
   }
@@ -505,6 +520,21 @@ class LoginV2 extends React.Component {
   }
 
   /**
+   * 切换是否使用固定UA登陆
+   */
+  onUAChange = () => {
+    const { isCommonUA } = this.state
+    const next = !isCommonUA
+
+    setStorage(`${namespace}|isCommonUA`, next)
+    this.setState({
+      isCommonUA: next
+    })
+
+    this.reset()
+  }
+
+  /**
    * 重试登陆文案
    */
   get retryText() {
@@ -541,7 +571,16 @@ class LoginV2 extends React.Component {
 
   renderForm() {
     const { navigation } = this.props
-    const { host, email, password, captcha, base64, loading, info } = this.state
+    const {
+      host,
+      email,
+      password,
+      captcha,
+      base64,
+      isCommonUA,
+      loading,
+      info
+    } = this.state
     return (
       <Form
         forwardRef={ref => (this.inputRef = ref)}
@@ -550,6 +589,7 @@ class LoginV2 extends React.Component {
         password={password}
         captcha={captcha}
         base64={base64}
+        isCommonUA={isCommonUA}
         loading={loading}
         info={info}
         host={host}
@@ -558,6 +598,7 @@ class LoginV2 extends React.Component {
         onFocus={this.onFocus}
         onChange={this.onChange}
         onSelect={this.onSelect}
+        onUAChange={this.onUAChange}
         onLogin={this.onLogin}
       />
     )
@@ -586,7 +627,7 @@ class LoginV2 extends React.Component {
           <Flex style={this.styles.old}>
             <Flex.Item>
               <Text
-                type='sub'
+                size={13}
                 align='center'
                 onPress={() => {
                   t('登陆.跳转', {
@@ -595,7 +636,7 @@ class LoginV2 extends React.Component {
                   Alert.alert(
                     '温馨提示',
                     // eslint-disable-next-line max-len
-                    '在移动端浏览器注册会经常遇到验证码错误，若碰到建议在浏览器里使用电脑版UA，不行就使用电脑浏览器，再不行使用电脑Chrome注册(这个一定可以)。 \n\n注册后会有激活码发到邮箱，短时间内只会发送一次，反正一直用邮箱那个就行。输入激活码有可能激活失败，主要是之前太多人注册进来打广告，站主写了很多限制。若激活不能再换一个不同的电脑浏览器，比如IE或者Safari激活。',
+                    '在移动端浏览器注册会经常遇到验证码错误，建议在浏览器里使用电脑版UA，不行就使用电脑浏览器，再不行使用电脑Chrome注册。 \n\n注册后会有激活码发到邮箱，测试过只会发送一次，请务必在激活有效时间激活，否则这个账号就废了。输入激活码有可能激活失败，主要是之前太多人注册进来打广告，站主写了很多限制。若激活不能再换一个不同的电脑浏览器，比如IE或者Safari激活。',
                     [
                       {
                         text: '取消',
@@ -614,7 +655,7 @@ class LoginV2 extends React.Component {
             </Flex.Item>
             <Flex.Item style={this.styles.border}>
               <Text
-                type='sub'
+                size={13}
                 align='center'
                 onPress={() => {
                   t('登陆.跳转', {
@@ -630,7 +671,7 @@ class LoginV2 extends React.Component {
             </Flex.Item>
             <Flex.Item style={this.styles.border}>
               <Text
-                type='sub'
+                size={13}
                 align='center'
                 onPress={() => {
                   t('登陆.跳转', {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-30 22:54:09
+ * @Last Modified time: 2020-04-04 02:22:57
  */
 
 /**
@@ -147,6 +147,7 @@ export default {
   '登陆.登陆': 'Login.onLogin',
   '登陆.成功': 'Login.onSuccess',
   '登陆.错误': 'Login.onError',
+  '登陆.配置提示': 'Login.onTips',
 
   /* ==================== rakuen ==================== */
   // 超展开

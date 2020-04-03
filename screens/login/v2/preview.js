@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 21:53:19
+ * @Last Modified time: 2020-04-04 01:50:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ function Preview({ onLogin, onTour }) {
   return (
     <View style={[_.container.column, styles.gray]}>
       <Mesume />
-      <View style={[styles.bottomContainer, _.mt.md]}>
+      <View style={[styles.bottomContainer, _.mt.lg]}>
         <Button type='main' shadow onPress={onLogin}>
           账号登陆
         </Button>

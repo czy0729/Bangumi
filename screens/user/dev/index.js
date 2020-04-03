@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 17:31:39
+ * @Last Modified time: 2020-04-04 02:36:19
  */
 import React from 'react'
 import { ScrollView, Platform } from 'react-native'
 import Constants from 'expo-constants'
 import { Text, Switch, Touchable } from '@components'
 import { ItemSetting } from '@screens/_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 
 const title = '开发菜单'
@@ -47,6 +47,17 @@ class DEV extends React.Component {
           }
           withoutFeedback
         />
+        <Text
+          style={[this.styles.code, _.mt.md]}
+          size={12}
+          lineHeight={16}
+          type='sub'
+        >
+          {JSON.stringify({
+            accessToken: userStore.accessToken,
+            userCookie: userStore.userCookie
+          })}
+        </Text>
         <Text
           style={[this.styles.code, _.mt.md]}
           size={12}

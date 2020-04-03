@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:38:56
+ * @Last Modified time: 2020-04-04 02:39:07
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -622,13 +622,13 @@ class Store extends store {
    * 登出
    */
   logout = () => {
-    const { logout } = this.state
-    if (logout) {
-      xhr({
-        method: 'GET',
-        url: logout
-      })
-    }
+    // const { logout } = this.state
+    // if (logout) {
+    //   xhr({
+    //     method: 'GET',
+    //     url: logout
+    //   })
+    // }
 
     setTimeout(() => {
       this.setState({

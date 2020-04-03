@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-21 04:19:34
+ * @Last Modified time: 2020-04-04 02:20:26
  */
 import React from 'react'
-import { View, Image as RNImage } from 'react-native'
+import { Alert, View, Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import {
@@ -19,6 +19,7 @@ import {
 } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
 import { HOST, HOST_2, HOST_3 } from '@constants'
 
 const data = [HOST, HOST_2, HOST_3]
@@ -33,96 +34,219 @@ class Form extends React.Component {
     onFocus: Function.prototype,
     onBlur: Function.prototype,
     onChange: Function.prototype,
+    onSelect: Function.prototype,
+    onUAChange: Function.prototype,
     onLogin: Function.prototype
   }
 
-  render() {
+  state = {
+    config: false
+  }
+
+  showConfig = () =>
+    this.setState({
+      config: true
+    })
+
+  renderForm() {
     const {
-      navigation,
       email,
       password,
       captcha,
       base64,
-      loading,
-      info,
-      host,
       forwardRef,
       onGetCaptcha,
       onFocus,
       onBlur,
-      onChange,
-      onSelect,
-      onLogin
+      onChange
     } = this.props
+    return (
+      <>
+        <Flex style={_.mt.lg}>
+          <Flex.Item>
+            <Input
+              style={this.styles.input}
+              value={email}
+              placeholder='Email'
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onChange={evt => onChange(evt, 'email')}
+            />
+          </Flex.Item>
+        </Flex>
+        <Flex style={_.mt.md}>
+          <Flex.Item>
+            <Input
+              style={this.styles.input}
+              value={password}
+              placeholder='密码'
+              secureTextEntry
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onChange={evt => onChange(evt, 'password')}
+            />
+          </Flex.Item>
+        </Flex>
+        <Flex style={_.mt.md}>
+          <Flex.Item>
+            <Input
+              ref={forwardRef}
+              style={this.styles.input}
+              value={captcha}
+              placeholder='验证码'
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onChange={evt => onChange(evt, 'captcha')}
+            />
+          </Flex.Item>
+          <Touchable onPress={onGetCaptcha}>
+            <Flex style={this.styles.captchaContainer} justify='center'>
+              {base64 ? (
+                <RNImage style={this.styles.captcha} source={{ uri: base64 }} />
+              ) : (
+                <ActivityIndicator size='small' />
+              )}
+            </Flex>
+          </Touchable>
+        </Flex>
+      </>
+    )
+  }
+
+  renderConfig() {
+    const { isCommonUA, host, onSelect, onUAChange } = this.props
+    const { config } = this.state
+    if (!config) {
+      return (
+        <Touchable style={_.mt.sm} onPress={this.showConfig}>
+          <Flex style={this.styles.touch}>
+            <Text type='sub' size={12}>
+              登陆配置
+            </Text>
+            <Iconfont style={_.ml.sm} name='right' size={12} />
+          </Flex>
+        </Touchable>
+      )
+    }
+
+    return (
+      <>
+        <Popover style={_.mt.sm} data={data} onSelect={onSelect}>
+          <Flex style={this.styles.touch}>
+            <Flex.Item>
+              <Flex>
+                <Text type='sub' size={12}>
+                  使用 {host} 进行登陆
+                </Text>
+                <Iconfont style={_.ml.xs} name='down' size={12} />
+              </Flex>
+            </Flex.Item>
+            <Touchable
+              style={[this.styles.touch, _.ml.md]}
+              onPress={() => {
+                t('登陆.配置提示', {
+                  name: 'host'
+                })
+                Alert.alert(
+                  '温馨提示',
+                  '三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n登陆建议优先使用 bangumi.tv，出现问题再尝试 chii.in，最后尝试 bgm.tv。',
+                  [
+                    {
+                      text: '知道了'
+                    }
+                  ]
+                )
+              }}
+            >
+              <Iconfont name='information' type='sub' size={15} />
+            </Touchable>
+          </Flex>
+        </Popover>
+        <Flex>
+          <Flex.Item>
+            <Touchable onPress={onUAChange}>
+              <Flex style={this.styles.touch}>
+                <Iconfont
+                  name={isCommonUA ? 'radio-select' : 'radio'}
+                  color={isCommonUA ? _.colorMain : _.colorSub}
+                  size={12}
+                />
+                <Text style={_.ml.xs} type='sub' size={12}>
+                  使用固定UA登陆
+                </Text>
+              </Flex>
+            </Touchable>
+          </Flex.Item>
+          <Touchable
+            style={[this.styles.touch, _.ml.md]}
+            onPress={() => {
+              t('登陆.配置提示', {
+                name: 'ua'
+              })
+              Alert.alert(
+                '温馨提示',
+                '假如您频繁掉登陆，不妨试试把这个选项勾上，通常登录状态生存时间为7天。 \n\n这是个不稳定的选项，若登陆正常不建议勾上，可能会遇到预测不能的状况。',
+                [
+                  {
+                    text: '知道了'
+                  }
+                ]
+              )
+            }}
+          >
+            <Iconfont name='information' type='sub' size={15} />
+          </Touchable>
+        </Flex>
+      </>
+    )
+  }
+
+  renderError() {
+    const { navigation, info } = this.props
     const isError = info.includes('错误')
+    return (
+      <>
+        <Text
+          style={_.mt.md}
+          size={12}
+          lineHeight={16}
+          type='sub'
+          onPress={() => {
+            if (isError) {
+              navigation.push('Login')
+            }
+          }}
+        >
+          {info}
+        </Text>
+        {isError && (
+          <Text
+            style={_.mt.md}
+            size={12}
+            lineHeight={16}
+            type='sub'
+            onPress={() => navigation.push('LoginAssist')}
+          >
+            请尝试切换另一域名进行重试, 或尝试切换wifi或4g网络, 实在没法登陆,
+            可点击这里前往辅助登陆
+          </Text>
+        )}
+      </>
+    )
+  }
+
+  render() {
+    const { loading, onLogin } = this.props
     return (
       <View style={[_.container.column, this.styles.gray]}>
         <View style={this.styles.form}>
           <Flex justify='center'>
             <Mesume />
           </Flex>
-          <Flex style={_.mt.md}>
-            <Flex.Item>
-              <Input
-                style={this.styles.input}
-                value={email}
-                placeholder='Email'
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onChange={evt => onChange(evt, 'email')}
-              />
-            </Flex.Item>
-          </Flex>
-          <Flex style={_.mt.md}>
-            <Flex.Item>
-              <Input
-                style={this.styles.input}
-                value={password}
-                placeholder='密码'
-                secureTextEntry
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onChange={evt => onChange(evt, 'password')}
-              />
-            </Flex.Item>
-          </Flex>
-          <Flex style={_.mt.md}>
-            <Flex.Item>
-              <Input
-                ref={forwardRef}
-                style={this.styles.input}
-                value={captcha}
-                placeholder='验证'
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onChange={evt => onChange(evt, 'captcha')}
-              />
-            </Flex.Item>
-            <Touchable onPress={onGetCaptcha}>
-              <Flex style={this.styles.captchaContainer} justify='center'>
-                {base64 ? (
-                  <RNImage
-                    style={this.styles.captcha}
-                    source={{ uri: base64 }}
-                  />
-                ) : (
-                  <ActivityIndicator size='small' />
-                )}
-              </Flex>
-            </Touchable>
-          </Flex>
-          <Popover data={data} onSelect={onSelect}>
-            <Flex style={this.styles.popover}>
-              <Flex.Item>
-                <Text type='sub' size={12}>
-                  使用 {host} 进行登陆
-                </Text>
-              </Flex.Item>
-              <Iconfont name='down' type='sub' size={12} />
-            </Flex>
-          </Popover>
+          {this.renderForm()}
+          {this.renderConfig()}
           <Button
-            style={_.mt.md}
+            style={_.mt.lg}
             type='main'
             shadow
             loading={loading}
@@ -130,32 +254,7 @@ class Form extends React.Component {
           >
             登陆
           </Button>
-          <Text
-            style={_.mt.md}
-            size={12}
-            lineHeight={16}
-            type='sub'
-            onPress={() => {
-              if (isError) {
-                navigation.push('Login')
-              }
-            }}
-          >
-            {info}
-          </Text>
-          {isError && (
-            <Text
-              style={_.mt.md}
-              size={12}
-              lineHeight={16}
-              type='sub'
-              onPress={() => navigation.push('LoginAssist')}
-            >
-              尝试切换另一域名进行重试. 受网络供应商影响,
-              请尝试切换wifi或4g网络, 部分设备实在没办法走通登陆流程,
-              可点击这里前往辅助登陆 (需要使用PC) &gt;
-            </Text>
-          )}
+          {this.renderError()}
         </View>
       </View>
     )
@@ -189,8 +288,7 @@ const memoStyles = _.memoStyles(_ => ({
     width: 118,
     height: 44
   },
-  popover: {
-    paddingTop: _.md,
-    paddingBottom: _.md
+  touch: {
+    paddingVertical: 6
   }
 }))
