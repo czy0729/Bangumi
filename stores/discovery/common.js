@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:11:18
+ * @Last Modified time: 2020-04-05 01:26:18
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
@@ -133,4 +133,49 @@ export function analysisCatalogDetail(HTML) {
     joinUrl,
     byeUrl
   }
+}
+
+/**
+ * 分析全站日志
+ * @param {*} HTML
+ */
+export function cheerioBlog(HTML) {
+  const $ = cheerio(HTML)
+  return (
+    $('div#news_list > div.item')
+      .map((index, element) => {
+        const $li = cheerio(element)
+        const $a = $li.find('h2.title a')
+        const times = $li
+          .find('div.time')
+          .text()
+          .split('/ ')
+        return safeObject({
+          id: $a.attr('href').replace('/blog/', ''),
+          title: $a.text(),
+          cover: $li.find('span.pictureFrameGroup img').attr('src'),
+          time: String(times[times.length - 1]).replace('\n', ''),
+          replies: $li
+            .find('div.content .blue')
+            .text()
+            .replace(/\(|\)/g, ''),
+          content: `${
+            $li
+              .find('div.content')
+              .text()
+              .split('...')[0]
+          }...`,
+          username: String($li.find('div.time small.blue a').text()).replace(
+            '\n',
+            ''
+          ),
+          subject: String($li.find('div.time small.grey a').text()).replace(
+            '\n',
+            ''
+          ),
+          tags: ''
+        })
+      })
+      .get() || []
+  ).filter(item => item.cover !== '//lain.bgm.tv/pic/user/l/icon.jpg')
 }

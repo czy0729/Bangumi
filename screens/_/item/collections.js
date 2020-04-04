@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-29 02:13:20
+ * @Last Modified time: 2020-04-04 15:32:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -119,7 +119,7 @@ function ItemCollections({
               {!!type && <Tag style={_.ml.sm} value={type} />}
             </Flex>
             {hasTip && (
-              <Text style={_.mt.sm} size={13} numberOfLines={2}>
+              <Text style={_.mt.sm} size={12} numberOfLines={2}>
                 {HTMLDecode(tip)}
               </Text>
             )}

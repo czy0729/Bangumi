@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 18:54:17
+ * @Last Modified time: 2020-04-04 17:14:25
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -91,6 +91,14 @@ export const HTML_GROUP = (groupId, page = 1) =>
  * @param {*} blogId
  */
 export const HTML_BLOG = blogId => `${HOST}/blog/${blogId}`
+
+/**
+ * 全站日志列表
+ * @param {*} type all => ''
+ * @param {*} page
+ */
+export const HTML_BLOG_LIST = (type = '', page = 1) =>
+  `${HOST}/${type !== 'all' ? `${type}/` : ''}blog/${page}.html`
 
 /**
  * 搜索

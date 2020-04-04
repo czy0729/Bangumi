@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-26 23:28:20
+ * @Last Modified time: 2020-04-04 15:16:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -124,7 +124,7 @@ const memoStyles = _.memoStyles(_ => ({
     width: 40
   },
   input: {
-    width: 80,
+    width: 104,
     height: 34
   },
   btn: {

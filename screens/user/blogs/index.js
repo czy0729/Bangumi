@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 20:58:13
+ * @Last Modified time: 2020-04-04 16:22:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ListView, Text } from '@components'
+import { ListView } from '@components'
 import { ItemBlog } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 19:20:51
+ * @Last Modified time: 2020-04-04 15:36:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -69,6 +69,7 @@ class Cover extends React.Component {
             height={160}
             radius
             border
+            shadow
             noDefault
           />
         )}

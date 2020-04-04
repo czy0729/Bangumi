@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 02:22:57
+ * @Last Modified time: 2020-04-05 02:20:27
  */
 
 /**
@@ -77,6 +77,14 @@ export default {
   '标签索引.跳转': 'Tags.to',
   '标签索引.右上角菜单': 'Tags.topRightMenu',
   '标签索引.标签页切换': 'Tags.tabsChange',
+
+  // 全站日志
+  '全站日志.跳转': 'DiscoveryBlog.to',
+  '全站日志.右上角菜单': 'DiscoveryBlog.topRightMenu',
+  '全站日志.标签页切换': 'DiscoveryBlog.tabsChange',
+  '全站日志.上一页': 'DiscoveryBlog.prev',
+  '全站日志.下一页': 'DiscoveryBlog.next',
+  '全站日志.页码跳转': 'DiscoveryBlog.doSearch',
 
   /* ==================== home ==================== */
   // 首页

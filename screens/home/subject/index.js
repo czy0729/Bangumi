@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-18 23:26:14
+ * @Last Modified time: 2020-04-04 15:16:12
  */
 import React from 'react'
 import { InteractionManager, StyleSheet, View } from 'react-native'
@@ -167,6 +167,7 @@ class Subject extends React.Component {
           contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={keyExtractor}
           data={$.subjectComments}
+          removeClippedSubviews={false}
           scrollEventThrottle={16}
           refreshControlProps={refreshControlProps}
           ListHeaderComponent={<Header rendered={rendered} />}

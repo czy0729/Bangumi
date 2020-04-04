@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-19 20:38:41
+ * @Last Modified time: 2020-04-04 22:14:52
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
@@ -26,6 +26,7 @@ export default class ScreenAnitama extends store {
     const state = await res
     this.setState({
       ...state,
+      show: true,
       _loaded: true
     })
 
@@ -46,7 +47,7 @@ export default class ScreenAnitama extends store {
   }
 
   // -------------------- page --------------------
-  prev = async () => {
+  prev = () => {
     const { page } = this.state
     if (page === 1) {
       return
@@ -71,7 +72,7 @@ export default class ScreenAnitama extends store {
     }, 400)
   }
 
-  next = async () => {
+  next = () => {
     const { page } = this.state
     t('Anitama.下一页', {
       page: page + 1

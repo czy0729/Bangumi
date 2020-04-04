@@ -1,7 +1,13 @@
+/*
+ * @Author: czy0729
+ * @Date: 2020-04-04 02:53:28
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2020-04-04 02:54:54
+ */
 import React, { isValidElement } from 'react'
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
 import { Popover as Pop, PopoverController } from 'react-native-modal-popover'
-import _ from '@styles'
+import { _ } from '@stores'
 import { WithTheme } from '../style'
 import PopoverStyles from './style'
 
@@ -71,7 +77,12 @@ export default class Popover extends React.PureComponent {
       return renderOverlayComponent(items)
     }
     return (
-      <ScrollView style={{ maxHeight: _.window.height * 0.48 }}>
+      <ScrollView
+        style={{
+          maxHeight: _.window.height * 0.48,
+          backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
+        }}
+      >
         {items}
       </ScrollView>
     )

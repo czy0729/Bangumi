@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:44:06
+ * @Last Modified time: 2020-04-05 02:08:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,7 @@ const menus = [
   {
     title: '日志',
     icon: 'ri-zhi',
-    path: ''
+    path: 'DiscoveryBlog'
   }
 ]
 const itemWidth = (_.window.width - 2 * _.wind) / 4
