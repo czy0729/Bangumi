@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 16:07:43
+ * @Last Modified time: 2020-04-06 03:57:48
  */
 import { observable, computed } from 'mobx'
-import { _, calendarStore, userStore } from '@stores'
+import { _, systemStore, calendarStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { xhrCustom } from '@utils/fetch'
@@ -41,8 +41,12 @@ export default class ScreenDiscovery extends store {
     this.setState({
       online
     })
-
     this.fetchOnline()
+
+    const { setting } = systemStore
+    if (setting.cdn) {
+      return calendarStore.fetchHomeFromCDN()
+    }
     return calendarStore.fetchHome()
   }
 
@@ -84,6 +88,10 @@ export default class ScreenDiscovery extends store {
   }
 
   @computed get home() {
+    const { setting } = systemStore
+    if (setting.cdn) {
+      return calendarStore.homeFromCDN
+    }
     return calendarStore.home
   }
 }

@@ -2,5 +2,7 @@
   "tabWidth": 2,
   "singleQuote": true,
   "jsxSingleQuote": true,
-  "semi": false
+  "semi": false,
+  "arrowParens": "avoid",
+  "trailingComma": "none"
 }

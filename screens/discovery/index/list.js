@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-20 12:08:57
+ * @Last Modified time: 2020-04-06 04:09:58
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -19,7 +19,7 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const imageWidthLg = _.window.width - _.wind * 2
 const imageHeightLg = imageWidthLg * 1.28
-const imageWidth = _.window.width * 0.32
+const imageWidth = _.window.width * 0.34
 const imageHeight = imageWidth * 1.28
 const linearColorLg = [
   'rgba(0, 0, 0, 0)',
@@ -211,12 +211,12 @@ const memoStyles = _.memoStyles(_ => ({
   desc: {
     position: 'absolute',
     zIndex: 1,
-    right: _.wind,
-    bottom: _.wind,
-    left: _.wind
+    right: _.wind - 2,
+    bottom: _.wind - 2,
+    left: _.wind - 2
   },
   info: {
-    opacity: 0.88
+    opacity: 0.92
   },
   title: {
     opacity: 0.92

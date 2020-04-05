@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-26 23:32:18
+ * @Last Modified time: 2020-04-06 03:04:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,7 @@ function Item(
   let changeNum
   if (!change) {
     const match = desc.match(/\d+股/g)
-    if (match.length) {
+    if (match && match.length) {
       if (['买入', '获得', '获奖'].some(item => desc.includes(item))) {
         changeType = 'bid'
         changeNum = `+${match[0].replace('股', '')}`

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 14:11:48
+ * @Last Modified time: 2020-04-06 04:00:37
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -12,7 +12,7 @@ import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import { HOST, LIST_EMPTY } from '@constants'
 import { API_CALENDAR } from '@constants/api'
-import { CDN_ONAIR } from '@constants/cdn'
+import { CDN_ONAIR, CDN_DISCOVERY_HOME } from '@constants/cdn'
 import { NAMESPACE, INIT_HOME } from './init'
 import { cheerioToday } from './common'
 
@@ -29,6 +29,11 @@ class Calendar extends store {
     home: INIT_HOME,
 
     /**
+     * 首页信息聚合 (CDN)
+     */
+    homeFromCDN: INIT_HOME,
+
+    /**
      * ekibun的线上爬虫数据
      */
     onAir: {
@@ -36,7 +41,8 @@ class Calendar extends store {
     }
   })
 
-  init = () => this.readStorage(['calendar', 'home', 'onAir'], NAMESPACE)
+  init = () =>
+    this.readStorage(['calendar', 'home', 'homeFromCDN', 'onAir'], NAMESPACE)
 
   // -------------------- get --------------------
   @computed get calendar() {
@@ -45,6 +51,10 @@ class Calendar extends store {
 
   @computed get home() {
     return this.state.home
+  }
+
+  @computed get homeFromCDN() {
+    return this.state.homeFromCDN
   }
 
   @computed get onAir() {
@@ -153,6 +163,33 @@ class Calendar extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return res
+  }
+
+  /**
+   * 首页信息聚合 (CDN)
+   */
+  fetchHomeFromCDN = async () => {
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_DISCOVERY_HOME()
+      })
+
+      const data = {
+        ...INIT_HOME,
+        ...JSON.parse(_response)
+      }
+      const key = 'homeFromCDN'
+      this.setState({
+        [key]: {
+          ...data,
+          _loaded: getTimestamp()
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      warn('calendarStore', 'fetchHomeFromCDN', 404)
+      return Promise.resolve(INIT_HOME)
+    }
   }
 
   /**
