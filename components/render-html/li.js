@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 11:27:32
+ * @Last Modified time: 2020-04-06 14:02:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,7 @@ export default observer(Li)
 const memoStyles = _.memoStyles(_ => ({
   li: {
     paddingVertical: _.sm,
-    borderBottomWidth: 1,
+    borderBottomWidth: _.hairlineWidth,
     borderBottomColor: _.select(_.colorBg, _.colorBorder)
   }
 }))

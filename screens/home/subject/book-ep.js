@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 15:16:58
+ * @Last Modified time: 2020-04-06 15:22:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,11 +56,17 @@ function BookEp({ style }, { $, navigation }) {
                     keyboardType='numeric'
                     value={chap}
                     placeholder={book.chap || '0'}
+                    clearButtonMode='never'
                     onChangeText={text => {
                       const newText = text.replace(/[^\d]+/, '')
                       $.changeText('chap', newText)
                     }}
                   />
+                  {!!book.totalChap && (
+                    <Text style={styles.total} type='sub' pointerEvent='none'>
+                      / {book.totalChap}
+                    </Text>
+                  )}
                 </View>
                 <Button
                   style={[styles.btnPlus, _.ml.sm]}
@@ -79,11 +85,17 @@ function BookEp({ style }, { $, navigation }) {
                     keyboardType='numeric'
                     value={vol}
                     placeholder={book.vol || '0'}
+                    clearButtonMode='never'
                     onChangeText={text => {
                       const newText = text.replace(/[^\d]+/, '')
                       $.changeText('vol', newText)
                     }}
                   />
+                  {!!book.totalVol && (
+                    <Text style={styles.total} type='sub' pointerEvent='none'>
+                      / {book.totalVol}
+                    </Text>
+                  )}
                 </View>
                 <Button
                   style={[styles.btnPlus, _.ml.sm]}
@@ -124,7 +136,7 @@ const memoStyles = _.memoStyles(_ => ({
     width: 40
   },
   input: {
-    width: 104,
+    width: 120,
     height: 34
   },
   btn: {
@@ -138,5 +150,11 @@ const memoStyles = _.memoStyles(_ => ({
   iconPlay: {
     padding: _.sm,
     marginRight: -_.sm
+  },
+  total: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 8,
+    right: 12
   }
 }))

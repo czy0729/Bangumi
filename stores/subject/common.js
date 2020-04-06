@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 11:28:35
+ * @Last Modified time: 2020-04-06 15:18:11
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -253,7 +253,6 @@ export function cheerioSubjectFormHTML(HTML) {
       )
     }
   })
-
   return {
     // 标签
     tags:
@@ -291,17 +290,22 @@ export function cheerioSubjectFormHTML(HTML) {
     // 好友评分
     friend: {
       score: $('div.frdScore > span.num').text() || 0,
-      total:
-        $('div.frdScore > a.l')
-          .text()
-          .replace(' 人评分', '') || 0
+      total: $('div.frdScore > a.l').text().replace(' 人评分', '') || 0
     },
     disc,
 
     // 书籍章节信息
     book: {
       chap: $('#watchedeps').attr('value') || 0,
-      vol: $('#watched_vols').attr('value') || 0
+      vol: $('#watched_vols').attr('value') || 0,
+      totalChap: String($('#watchedeps').parent().text().trim()).replace(
+        'Chap.  / ',
+        ''
+      ),
+      totalVol: String($('#watched_vols').parent().text().trim()).replace(
+        'Vol.  / ',
+        ''
+      )
     },
 
     // 单行本

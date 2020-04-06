@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:44:15
+ * @Last Modified time: 2020-04-06 14:07:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,7 @@ function Comic({ style }, { $, navigation }) {
         data={$.comic}
         width={80}
         height={106}
+        ellipsizeMode='middle'
         onPress={({ id, name, image }) => {
           t('条目.跳转', {
             to: 'Subject',

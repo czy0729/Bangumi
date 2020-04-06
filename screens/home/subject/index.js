@@ -2,30 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 15:16:12
+ * @Last Modified time: 2020-04-06 05:53:53
  */
 import React from 'react'
-import { InteractionManager, StyleSheet, View } from 'react-native'
+import { InteractionManager, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { BlurView, ListView } from '@components'
-import { ManageModal, ItemComment } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
 import { inject, withTransitionHeader } from '@utils/decorators'
-import { keyExtractor, getCoverMedium } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST, IOS } from '@constants'
-import { CDN_OSS_SUBJECT } from '@constants/cdn'
-import Header from './header'
+import { HOST } from '@constants'
+import Bg from './bg'
+import List from './list'
+import Modal from './modal'
 import Store from './store'
 
 const title = '条目'
-const refreshControlProps = {
-  tintColor: _.__colorPlain__,
-  titleColor: _.__colorPlain__
-}
 const showBlurViewOffset = 200
 
 export default
@@ -94,14 +88,15 @@ class Subject extends React.Component {
 
     const { nativeEvent } = e
     const { y } = nativeEvent.contentOffset
-    if (this.state.showBlurView && y > showBlurViewOffset) {
+    const { showBlurView } = this.state
+    if (showBlurView && y > showBlurViewOffset) {
       this.setState({
         showBlurView: false
       })
       return
     }
 
-    if (!this.state.showBlurView && y <= showBlurViewOffset) {
+    if (!showBlurView && y <= showBlurViewOffset) {
       this.setState({
         showBlurView: true
       })
@@ -109,101 +104,24 @@ class Subject extends React.Component {
   }
 
   rendered = () => {
-    if (!this.state.rendered) {
+    const { rendered } = this.state
+    if (!rendered) {
       this.setState({
         rendered: true
       })
     }
   }
 
-  renderItem = ({ item, index }) => {
-    const { rendered } = this.state
-    if (!rendered) {
-      return null
-    }
-
-    const { $, navigation } = this.context
-    const event = {
-      id: '条目.跳转',
-      data: {
-        from: '吐槽',
-        subjectId: $.subjectId
-      }
-    }
-    return (
-      <ItemComment
-        navigation={navigation}
-        event={event}
-        index={index}
-        time={item.time}
-        avatar={item.avatar}
-        userId={item.userId}
-        userName={item.userName}
-        star={$.hideScore ? undefined : item.star}
-        comment={item.comment}
-      />
-    )
-  }
-
   render() {
     const { $ } = this.context
-    const { visible } = $.state
-    const { name_cn: nameCn, name, images = {} } = $.subject
+    const { images = {} } = $.subject
     const { showBlurView, rendered } = this.state
     return (
       <View style={_.select(_.container.screen, _.container.content)}>
-        {showBlurView && (
-          <BlurView
-            style={styles.blurView}
-            theme='dark'
-            tint={_.select('default', 'dark')}
-            src={CDN_OSS_SUBJECT(
-              getCoverMedium($.coverPlaceholder || images.common)
-            )}
-          />
-        )}
-        <ListView
-          style={_.container.flex}
-          contentContainerStyle={styles.contentContainerStyle}
-          keyExtractor={keyExtractor}
-          data={$.subjectComments}
-          removeClippedSubviews={false}
-          scrollEventThrottle={16}
-          refreshControlProps={refreshControlProps}
-          ListHeaderComponent={<Header rendered={rendered} />}
-          renderItem={this.renderItem}
-          onScroll={this.onScroll}
-          onHeaderRefresh={$.init}
-          onFooterRefresh={$.fetchSubjectComments}
-        />
-        <ManageModal
-          visible={visible}
-          subjectId={$.params.subjectId}
-          title={nameCn || name}
-          desc={name}
-          action={$.action}
-          onSubmit={$.doUpdateCollection}
-          onClose={$.closeManageModal}
-        />
+        <Bg show={showBlurView} image={images.common} />
+        <List rendered={rendered} onScroll={this.onScroll} />
+        <Modal />
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  blurView: {
-    position: 'absolute',
-    zIndex: -1,
-    top: 0,
-    left: 0,
-    right: 0,
-    height: IOS ? _.window.height * 0.32 : 160 // iOS有弹簧, 所以拉下来太矮会看见背景
-  },
-  listView: {
-    ..._.container.flex
-  },
-  contentContainerStyle: {
-    paddingTop: _.headerHeight,
-    paddingBottom: _.space
-  }
-})

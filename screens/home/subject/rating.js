@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:59:35
+ * @Last Modified time: 2020-04-06 05:56:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -78,26 +78,39 @@ class Ranting extends React.Component {
         <Flex style={[this.styles.container, _.mt.md]}>
           {Object.keys($.rating.count)
             .reverse()
-            .map((item, index) => (
-              <Flex.Item key={item} style={index > 0 && _.ml.xs}>
-                <Flex style={this.styles.item} justify='center' align='end'>
-                  <View
-                    style={[
-                      this.styles.itemFill,
-                      {
-                        height: getHeight($.rating.total, $.rating.count[item])
-                      }
-                    ]}
-                  />
-                  <Text size={10} type='sub'>
-                    {$.rating.count[item]}
+            .map((item, index) => {
+              const height = getHeight($.rating.total, $.rating.count[item])
+              return (
+                <Flex.Item key={item} style={index > 0 && _.ml.xs}>
+                  <Flex style={this.styles.item} justify='center' align='end'>
+                    <View
+                      style={[
+                        this.styles.itemFill,
+                        {
+                          height
+                        }
+                      ]}
+                    />
+                    <Text
+                      style={[
+                        this.styles.total,
+                        {
+                          bottom: height
+                        }
+                      ]}
+                      size={10}
+                      type='sub'
+                      align='center'
+                    >
+                      {$.rating.count[item]}
+                    </Text>
+                  </Flex>
+                  <Text style={_.mt.xs} size={13} align='center'>
+                    {item}
                   </Text>
-                </Flex>
-                <Text style={_.mt.xs} size={13} align='center'>
-                  {item}
-                </Text>
-              </Flex.Item>
-            ))}
+                </Flex.Item>
+              )
+            })}
         </Flex>
         <Text style={_.mt.sm} size={13} type='sub'>
           <Text size={13} type='main'>
@@ -159,14 +172,23 @@ const memoStyles = _.memoStyles(_ => ({
   },
   item: {
     height: 80,
-    paddingBottom: _.xs,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
+    paddingBottom: _.xs
+    // backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   itemFill: {
     position: 'absolute',
+    left: '50%',
+    width: 8,
+    marginLeft: -4,
+    backgroundColor: _.select(_.colorWait, _._colorSub),
+    borderRadius: 4
+  },
+  total: {
+    position: 'absolute',
+    zIndex: 1,
     right: 0,
     left: 0,
-    backgroundColor: _.select(_.colorWait, _._colorDarkModeLevel2)
+    marginBottom: 4
   },
   hideScore: {
     height: 120
@@ -179,14 +201,15 @@ const memoStyles = _.memoStyles(_ => ({
  * @param {*} current
  */
 function getHeight(total, current) {
-  if (!total) {
+  if (!total || !current) {
     return 0
   }
+
   let percent = current / total
-  if (percent > 0 && percent < 0.01) {
-    percent = 0.01
+  if (percent > 0 && percent < 0.04) {
+    percent = 0.04
   }
-  return `${percent * 100}%`
+  return `${Math.min(percent * 1.2 + 0.06, 1) * 100}%`
 }
 
 /**

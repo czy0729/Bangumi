@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 15:21:26
+ * @Last Modified time: 2020-04-06 15:12:02
  */
 export const NAMESPACE = 'Subject'
 
@@ -42,7 +42,14 @@ export const INIT_SUBJECT_FROM_HTML_ITEM = {
     total: 0 // 总共多少人评分
   },
   disc: [], // 曲目列表
-  book: {}, // 书籍章节信息
+
+  // 书籍章节信息
+  book: {
+    chap: 0,
+    vol: 0,
+    totalChap: '',
+    totalVol: ''
+  },
   comic: [], // 单行本
   like: [], // 猜你喜欢
   who: [], // 谁在看

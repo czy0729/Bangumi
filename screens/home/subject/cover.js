@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 15:36:13
+ * @Last Modified time: 2020-04-06 14:15:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -64,7 +64,7 @@ class Cover extends React.Component {
         {!onLoad && (
           <CompCover
             style={styles.placeholder}
-            src={CDN_OSS_SUBJECT(getCoverMedium(placeholder))}
+            src={placeholder}
             size={imageWidth}
             height={160}
             radius
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 2,
     top: 0,
     left: 0
   }

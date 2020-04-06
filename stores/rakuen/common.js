@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 17:18:49
+ * @Last Modified time: 2020-04-06 04:27:05
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -283,10 +283,7 @@ export function cheerioNotify(HTML) {
 
       if (title) {
         // eslint-disable-next-line no-extra-semi
-        ;[message, message2] = $tr
-          .find('div.reply_content')
-          .text()
-          .split(title)
+        ;[message, message2] = $tr.find('div.reply_content').text().split(title)
       } else {
         message = $tr.find('div.reply_content').text()
       }
@@ -369,9 +366,12 @@ export function cheerioTopic(HTML) {
             message: HTMLTrim(
               $row.find('> div.inner > div.reply_content > div.message').html()
             ),
-            replySub: $row
-              .find('> div.inner > span.userInfo > a.icons_cmt')
-              .attr('onclick'),
+            replySub:
+              $row
+                .find('> div.inner > span.userInfo > a.icons_cmt')
+                .attr('onclick') ||
+              // ep不一样
+              $row.find('> div.inner > a.icons_cmt').attr('onclick'),
             time,
             userId: matchUserId($row.find('a.avatar').attr('href')),
             userName:
@@ -442,9 +442,7 @@ export function cheerioBlog(HTML) {
 
     blog = safeObject({
       avatar: getCoverSmall(
-        $('#pageHeader img.avatar')
-          .attr('src')
-          .split('?')[0]
+        $('#pageHeader img.avatar').attr('src').split('?')[0]
       ),
       floor: '#0',
       formhash: $('input[name=formhash]').attr('value'),
@@ -455,10 +453,7 @@ export function cheerioBlog(HTML) {
         .replace('del / edit', ''),
       title,
       userId: matchUserId($user.attr('href')),
-      userName: $user
-        .text()
-        .replace(' ', '')
-        .replace('\n\n', ''),
+      userName: $user.text().replace(' ', '').replace('\n\n', ''),
       userSign: ''
     })
 

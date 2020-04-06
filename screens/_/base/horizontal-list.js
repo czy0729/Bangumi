@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 04:25:00
+ * @Last Modified time: 2020-04-06 14:07:14
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -19,6 +19,7 @@ function HorizontalList({
   height,
   quality,
   findCn,
+  ellipsizeMode,
   onPress
 }) {
   return (
@@ -52,7 +53,12 @@ function HorizontalList({
               onPress={() => onPress(item)}
             />
             <Touchable withoutFeedback onPress={() => onPress(item)}>
-              <Text style={_.mt.sm} size={13} numberOfLines={2}>
+              <Text
+                style={_.mt.sm}
+                size={13}
+                numberOfLines={2}
+                ellipsizeMode={ellipsizeMode}
+              >
                 {findCn ? findBangumiCn(item.name) : item.name}
               </Text>
               {!!item.desc && (
@@ -69,10 +75,11 @@ function HorizontalList({
 
 HorizontalList.defaultProps = {
   data: [],
-  width: 72,
-  height: 72,
+  width: 68,
+  height: 68,
   quality: false,
   findCn: false,
+  ellipsizeMode: 'tail',
   onPress: Function.prototype
 }
 

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-30 22:56:39
+ * @Last Modified time: 2020-04-06 05:28:57
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -68,7 +68,11 @@ export default class ScreenSubject extends store {
       sites: [], // 动画在线地址
       type: '' // 动画类型
     },
-    epsData: { _loaded: false }, // 播放源
+
+    // 播放源
+    epsData: {
+      _loaded: false
+    },
     _loaded: false
   })
 
@@ -85,8 +89,8 @@ export default class ScreenSubject extends store {
      * 因为有cdn, 下面2个用户相关的接口可以提前
      */
     this.fetchSubjectFormCDN()
-    userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
     this.fetchCollection() // 用户每集收看进度
+    userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
 
     // API条目信息
     const res = this.fetchSubject()
@@ -758,8 +762,9 @@ export default class ScreenSubject extends store {
             if (isSp) {
               url = `${HOST_NING_MOE}/detail?line=1&eps=1&bangumi_id=${this.ningMoeDetail.id}`
             } else {
-              url = `${HOST_NING_MOE}/detail?line=1&eps=${item.sort -
-                this.ningMoeEpOffset}&bangumi_id=${this.ningMoeDetail.id}`
+              url = `${HOST_NING_MOE}/detail?line=1&eps=${
+                item.sort - this.ningMoeEpOffset
+              }&bangumi_id=${this.ningMoeDetail.id}`
             }
           } else {
             // @todo 逻辑比较复杂, 暂时不处理EP偏移
