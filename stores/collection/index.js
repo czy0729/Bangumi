@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 22:59:58
+ * @Last Modified time: 2020-04-06 16:08:34
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -83,8 +83,8 @@ class Collection extends store {
    * 获取指定条目收藏信息
    * @param {*} subjectId
    */
-  fetchCollection(subjectId) {
-    return this.fetch(
+  fetchCollection = subjectId =>
+    this.fetch(
       {
         url: API_COLLECTION(subjectId),
         info: '条目收藏信息'
@@ -95,12 +95,11 @@ class Collection extends store {
         namespace: NAMESPACE
       }
     )
-  }
 
   /**
    * HTML用户收藏概览(全部)
    */
-  async fetchUserCollections(
+  fetchUserCollections = async (
     {
       userId: _userId,
       subjectType = DEFAULT_SUBJECT_TYPE,
@@ -109,15 +108,10 @@ class Collection extends store {
       tag = ''
     } = {},
     refresh
-  ) {
+  ) => {
     const userId = _userId || userStore.myUserId
     const { list, pagination } = this.userCollections(userId, subjectType, type)
-    let page // 下一页的页码
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
+    const page = refresh ? 1 : pagination.page + 1
 
     // -------------------- 请求HTML --------------------
     // 需要携带cookie请求, 不然会查询不到自己隐藏了的条目
@@ -135,7 +129,7 @@ class Collection extends store {
     if (page === 1) {
       const userCollectionsTags = []
       const userCollectionsTagsHTML = HTML.match(
-        /<ul id="userTagList" class="tagList">(.+?)<\/ul><\/div><div class="menu_inner"/
+        /<ul id="userTagList" class="tagList">(.*?)<\/ul>/
       )
 
       if (userCollectionsTagsHTML) {
@@ -301,8 +295,15 @@ class Collection extends store {
   /**
    * 管理收藏
    */
-  doUpdateCollection({ subjectId, status, tags, comment, rating, privacy }) {
-    return fetch({
+  doUpdateCollection = ({
+    subjectId,
+    status,
+    tags,
+    comment,
+    rating,
+    privacy
+  } = {}) =>
+    fetch({
       url: API_COLLECTION_ACTION(subjectId),
       method: 'POST',
       data: {
@@ -313,13 +314,12 @@ class Collection extends store {
         privacy
       }
     })
-  }
 
   /**
    * 更新书籍章节
    */
-  doUpdateBookEp({ subjectId, chap, vol }) {
-    return fetch({
+  doUpdateBookEp = ({ subjectId, chap, vol } = {}) =>
+    fetch({
       url: API_SUBJECT_UPDATE_WATCHED(subjectId),
       method: 'POST',
       data: {
@@ -327,7 +327,6 @@ class Collection extends store {
         watched_vols: vol
       }
     })
-  }
 }
 
 export default new Collection()
