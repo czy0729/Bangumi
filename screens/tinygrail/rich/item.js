@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:49:32
+ * @Last Modified time: 2020-04-06 20:36:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -103,7 +103,8 @@ function Item(
               })
 
               navigation.push('Zone', {
-                userId
+                userId,
+                from: 'tinygrail'
               })
             }}
           />

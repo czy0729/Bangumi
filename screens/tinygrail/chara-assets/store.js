@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-29 11:25:10
+ * @Last Modified time: 2020-04-06 20:19:07
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { toFixed } from '@utils'
+import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
@@ -76,7 +76,12 @@ export default class ScreenTinygrailCharaAssets extends store {
       _loaded: true
     })
 
-    this.fetchMyCharaAssets()
+    if (this.userId) {
+      this.fetchMyCharaAssets()
+      this.fetchTemple()
+    } else {
+      this.fetchMyCharaAssets()
+    }
     return res
   }
 
@@ -103,7 +108,11 @@ export default class ScreenTinygrailCharaAssets extends store {
         .split('#')
         .map(v => /(\d+)「(.+)」(\d+)股/.exec(v))
         .filter(v => v)
-        .map(v => ({ id: Number(v[1]), name: v[2], num: Number(v[3]) }))
+        .map(v => ({
+          id: Number(v[1]),
+          name: v[2],
+          num: Number(v[3])
+        }))
 
       let total = 0
       items.forEach(item => {
@@ -132,17 +141,51 @@ export default class ScreenTinygrailCharaAssets extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchMyCharaAssets = () => tinygrailStore.fetchMyCharaAssets()
+  fetchMyCharaAssets = () => {
+    if (this.userId) {
+      return tinygrailStore.fetchCharaAssets(this.userId)
+    }
+    return tinygrailStore.fetchMyCharaAssets()
+  }
 
-  fetchTemple = () => tinygrailStore.fetchTemple()
+  fetchTemple = () => tinygrailStore.fetchTemple(this.userId)
 
   // -------------------- get --------------------
+  @computed get userId() {
+    const { userId } = this.params
+    return userId
+  }
+
   @computed get myCharaAssets() {
+    if (this.userId) {
+      // 统一他人和自己持仓的数据结构
+      const { characters, initials } = tinygrailStore.charaAssets(this.userId)
+      const _loaded = getTimestamp()
+      return {
+        chara: {
+          list: characters,
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded
+        },
+        ico: {
+          list: initials,
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded
+        },
+        _loaded
+      }
+    }
     return tinygrailStore.myCharaAssets
   }
 
   @computed get temple() {
-    return tinygrailStore.temple()
+    return tinygrailStore.temple(this.userId)
   }
 
   // -------------------- page --------------------
@@ -174,6 +217,10 @@ export default class ScreenTinygrailCharaAssets extends store {
   }
 
   tabChangeCallback = page => {
+    if (this.userId) {
+      return
+    }
+
     const { _loaded } = this.myCharaAssets
     if (!_loaded) {
       this.fetchMyCharaAssets()

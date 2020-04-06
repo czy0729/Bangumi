@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 22:25:13
+ * @Last Modified time: 2020-04-06 17:59:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,6 +73,8 @@ function Depth({ style }, { $ }) {
       <View style={_.mt.sm}>
         <Flex style={styles.list} direction='column' justify='end'>
           {asks
+            // 冰山挂单永远显示
+            .sort((a, b) => (b.price || 10000000) - (a.price || 10000000))
             .filter((item, index) => {
               if (index < 5) {
                 return true
@@ -135,6 +137,7 @@ function Depth({ style }, { $ }) {
         </Flex>
         <View style={styles.list}>
           {bids
+            .sort((a, b) => (b.price || 10000000) - (a.price || 10000000))
             .filter((item, index) => index < 5)
             .map((item, index) => {
               const price = toFixed(item.price, 0)

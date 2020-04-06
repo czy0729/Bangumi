@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 15:03:12
+ * @Last Modified time: 2020-04-06 20:38:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,9 @@ const event = {
   data: {
     from: '董事会'
   }
+}
+const params = {
+  from: 'tinygrail'
 }
 
 function Users({ style }, { $, navigation }) {
@@ -48,10 +51,11 @@ function Users({ style }, { $, navigation }) {
                   userId={item.name}
                   name={item.nickName}
                   event={event}
+                  params={params}
                 />
                 <Flex.Item style={_.ml.sm}>
                   <Text
-                    type={isTop ? ' warning' : 'tinygrailPlain'}
+                    type={isTop ? 'warning' : 'tinygrailPlain'}
                     size={isTop ? 14 : 12}
                     numberOfLines={1}
                   >

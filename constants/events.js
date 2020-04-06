@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-05 02:20:27
+ * @Last Modified time: 2020-04-06 21:24:18
  */
 
 /**
@@ -207,6 +207,15 @@ export default {
   '帖子.UCG': 'Topic.UCGAgree',
   '帖子.楼层跳转': 'Topic.scrollTo',
   '帖子.翻译内容': 'Topic.doTranslate',
+
+  // 日志
+  '日志.跳转': 'Blog.to',
+  '日志.右上角菜单': 'Blog.topRightMenu',
+  '日志.显示评论框': 'Blog.showFixedTextarea',
+  '日志.回复': 'Blog.doReply',
+  '日志.回复失败': 'Blog.recoveryContent',
+  '日志.删除回复': 'Blog.doDeleteReply',
+  '日志.楼层跳转': 'Blog.scrollTo',
 
   // 社区指导原则
   '社区指导原则.跳转': 'UCG.to',

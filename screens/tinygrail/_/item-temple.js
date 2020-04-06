@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 15:33:17
+ * @Last Modified time: 2020-04-06 20:36:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -109,6 +109,7 @@ function ItemTemple(
 
               navigation.push('Zone', {
                 userId,
+                from: 'tinygrail',
                 _id: userId,
                 _name: nickname
               })

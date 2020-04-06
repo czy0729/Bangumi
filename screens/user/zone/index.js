@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:54:05
+ * @Last Modified time: 2020-04-06 19:20:34
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -18,6 +18,7 @@ import Tabs from './tabs'
 import BangumiList from './bangumi-list'
 import TimelineList from './timeline-list'
 import About from './about'
+import Tinygrail from './tinygrail'
 import Store, { height } from './store'
 
 const title = '空间'
@@ -88,6 +89,7 @@ class Zone extends React.Component {
           <BangumiList {...listViewProps} />
           <TimelineList {...listViewProps} />
           <About {...listViewProps} />
+          <Tinygrail {...listViewProps} />
         </Tabs>
         <ParallaxImage scrollY={scrollY} />
       </View>

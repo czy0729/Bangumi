@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 13:00:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 23:54:17
+ * @Last Modified time: 2020-04-06 20:55:57
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Tabs as CompTabs } from '@components'
 import { _ } from '@stores'
 import { IOS } from '@constants'
-import { tabs, height, headerHeight } from './store'
+import { height, headerHeight } from './store'
 
 function Tabs({ $, scrollY, children, ...other }) {
   const styles = memoStyles()
@@ -25,7 +25,7 @@ function Tabs({ $, scrollY, children, ...other }) {
           })
         }
       ]}
-      tabs={tabs}
+      tabs={$.tabs}
       initialPage={page}
       page={children ? page : _page}
       onTabClick={$.onTabClick}

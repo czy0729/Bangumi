@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 16:51:42
+ * @Last Modified time: 2020-04-06 17:31:18
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -248,12 +248,37 @@ export default class ScreenTinygrail extends store {
       this.setState({
         loadingBonus: true
       })
+
       const { State, Value, Message } = await tinygrailStore.doLottery(isBonus2)
       this.setState({
         loadingBonus: false
       })
 
       if (State === 0) {
+        if (isBonus2) {
+          let text = '彩票刮刮乐共获得：'
+          Value.forEach(item => {
+            text += ` #${item.Id}「${item.Name}」${item.Amount}股`
+          })
+
+          Alert.alert('操作成功', `${text}，前往持仓查看吗`, [
+            {
+              text: '取消',
+              style: 'cancel'
+            },
+            {
+              text: '确定',
+              onPress: () => {
+                navigation.push('TinygrailCharaAssets', {
+                  form: 'lottery',
+                  message: text
+                })
+              }
+            }
+          ])
+          return
+        }
+
         Alert.alert('操作成功', `${Value}，前往持仓查看吗`, [
           {
             text: '取消',

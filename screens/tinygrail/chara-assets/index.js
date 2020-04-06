@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:23:06
+ * @Last Modified time: 2020-04-06 20:44:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,8 +28,17 @@ export default
 })
 @observer
 class TinygrailCharaAssets extends React.Component {
-  static navigationOptions = {
-    title
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state
+    const { userName } = params
+    if (userName) {
+      return {
+        title: `${userName}的持仓`
+      }
+    }
+    return {
+      title
+    }
   }
 
   static contextTypes = {

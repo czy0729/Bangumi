@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 17:51:00
+ * @Last Modified time: 2020-04-06 21:16:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { HeaderPlaceholder, Flex, Text, RenderHtml, Divider } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar, HorizontalList } from '@screens/_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { appNavigate } from '@utils/app'
+import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import SectionTitle from './section-title'
 
 function Top(props, { $, navigation }) {
+  const { related = [] } = $.blog
   const event = {
     id: '日志.跳转',
     data: {
@@ -24,7 +26,6 @@ function Top(props, { $, navigation }) {
       blogId: $.blogId
     }
   }
-
   return (
     <>
       {!IOS && <HeaderPlaceholder />}
@@ -71,6 +72,27 @@ function Top(props, { $, navigation }) {
         </View>
       </View>
       <Divider />
+      {!!related.length && (
+        <HorizontalList
+          style={_.mt.sm}
+          data={related}
+          width={80}
+          height={106}
+          findCn
+          onPress={({ id, name, image }) => {
+            t('日志.跳转', {
+              to: 'Subject',
+              from: '关联条目',
+              subjectId: id
+            })
+            navigation.push('Subject', {
+              subjectId: id,
+              _jp: name,
+              _image: image
+            })
+          }}
+        />
+      )}
       <SectionTitle />
     </>
   )

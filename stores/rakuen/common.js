@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 04:27:05
+ * @Last Modified time: 2020-04-06 21:12:44
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -439,6 +439,18 @@ export function cheerioBlog(HTML) {
       title = String(titleText.split(' / ')[1])
     }
     const $user = $('#pageHeader a.avatar')
+    const related =
+      $('ul#related_subject_list > li')
+        .map((index, element) => {
+          const $row = cheerio(element)
+          const $a = $row.find('> a.avatar')
+          return safeObject({
+            id: String($a.attr('href')).replace('/subject/', ''),
+            name: $a.attr('title'),
+            image: $row.find('img.avatar').attr('src')
+          })
+        })
+        .get() || []
 
     blog = safeObject({
       avatar: getCoverSmall(
@@ -454,7 +466,8 @@ export function cheerioBlog(HTML) {
       title,
       userId: matchUserId($user.attr('href')),
       userName: $user.text().replace(' ', '').replace('\n\n', ''),
-      userSign: ''
+      userSign: '',
+      related
     })
 
     // 回复

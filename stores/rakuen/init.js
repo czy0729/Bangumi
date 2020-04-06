@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 22:40:55
+ * @Last Modified time: 2020-04-06 21:13:00
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -102,5 +102,6 @@ export const INIT_BLOG = {
   title: '', // 帖子标题
   userId: '', // 作者Id
   userName: '', // 作者名称
-  userSign: '' // 作者签名
+  userSign: '', // 作者签名
+  related: [] // 关联条目
 }

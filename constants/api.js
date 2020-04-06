@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 16:42:48
+ * @Last Modified time: 2020-04-06 20:44:04
  */
 import { HOST } from './index'
 
@@ -209,8 +209,8 @@ export const API_TINYGRAIL_HASH = () =>
 /**
  * 资产信息
  */
-export const API_TINYGRAIL_ASSETS = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/assets`
+export const API_TINYGRAIL_ASSETS = hash =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/assets${hash ? `/${hash}` : ''}`
 
 /**
  * 用户资产概览信息
@@ -263,13 +263,13 @@ export const API_TINYGRAIL_CANCEL_ASK = id =>
  * 我的买单
  */
 export const API_TINYGRAIL_CHARA_BID = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/200`
+  `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/400`
 
 /**
  * 我的卖单
  */
 export const API_TINYGRAIL_CHARA_ASKS = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/200`
+  `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/400`
 
 /**
  * 我的持仓
@@ -281,7 +281,7 @@ export const API_TINYGRAIL_MY_CHARA_ASSETS = () =>
  * 资金日志
  */
 export const API_TINYGRAIL_BALANCE = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/100`
+  `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/200`
 
 /**
  * ICO参与者
@@ -302,7 +302,7 @@ export const API_TINYGRAIL_JOIN = (icoId, amount) =>
  * @param {*} monoId
  */
 export const API_TINYGRAIL_USERS = monoId =>
-  `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/50`
+  `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/80`
 
 /**
  * 股息预测
@@ -321,13 +321,13 @@ export const API_TINYGRAIL_CHARA_TEMPLE = monoId =>
  * 用户所有角色信息
  */
 export const API_TINYGRAIL_CHARA_ALL = hash =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/1000`
+  `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/2000`
 
 /**
  * 用户所有圣殿信息
  */
 export const API_TINYGRAIL_TEMPLE = hash =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/1000`
+  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/2000`
 
 /**
  * 最近圣殿
@@ -401,7 +401,7 @@ export const API_TINYGRAIL_SACRIFICE = (monoId, amount, isSale = false) =>
  * 我的拍卖列表
  */
 export const API_TINYGRAIL_MY_AUCTION_LIST = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/200`
+  `${API_HOST_TINYGRAIL}/api/chara/user/auction/1/400`
 
 /**
  * 取消竞拍
@@ -447,3 +447,17 @@ export const API_TINYGRAIL_MAGIC = (monoId, type = 'chaos') =>
  */
 export const API_TINYGRAIL_TOP_WEEK = () =>
   `${API_HOST_TINYGRAIL}/api/chara/topweek`
+
+/**
+ * 检测用户有多少圣殿
+ * @param {*} hash
+ */
+export const API_TINYGRAIL_USER_TEMPLE_TOTAL = hash =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/1`
+
+/**
+ * 检测用户有多少人物
+ * @param {*} hash
+ */
+export const API_TINYGRAIL_USER_CHARA_TOTAL = hash =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/1`

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 04:12:55
+ * @Last Modified time: 2020-04-06 20:37:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ function Avatar({
   size,
   borderColor = _.colorBorder,
   event,
+  params,
   onPress,
   onLongPress
 }) {
@@ -52,7 +53,8 @@ function Avatar({
         userId,
         _id: userId,
         _image: _src,
-        _name: name
+        _name: name,
+        ...params
       })
     }
   }
@@ -111,6 +113,7 @@ Avatar.defaultProps = {
   size: 32,
   borderColor: undefined,
   event: {},
+  params: {},
   onPress: undefined,
   onLongPress: undefined
 }

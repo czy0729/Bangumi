@@ -4,10 +4,17 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-03 19:46:12
+ * @Last Modified time: 2020-04-06 20:56:16
  */
 import { observable, computed } from 'mobx'
-import { _, userStore, usersStore, timelineStore } from '@stores'
+import {
+  _,
+  userStore,
+  usersStore,
+  timelineStore,
+  tinygrailStore,
+  systemStore
+} from '@stores'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
@@ -27,6 +34,12 @@ export const tabs = [
   },
   {
     title: '关于TA'
+  }
+]
+export const tabsWithTinygrail = [
+  ...tabs,
+  {
+    title: '小圣杯'
   }
 ]
 const namespace = 'ScreenZone'
@@ -49,20 +62,37 @@ export default class ScreenZone extends store {
     const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
-      page: 0,
-      _page: 0,
+      page: this.isFromTinygrail ? 3 : 0,
+      _page: this.isFromTinygrail ? 3 : 0,
       _loaded: true
     })
 
-    const res = this.fetchUsersInfo()
-    await res
+    if (this.isFromTinygrail) {
+      this.fetchCharaAssets()
+      this.fetchTempleTotal()
+      this.fetchCharaTotal()
+    } else {
+      this.fetchUserCollections()
+      this.fetchUsers()
+    }
 
-    this.fetchUserCollections()
-    this.fetchUsers()
-    return res
+    return this.fetchUsersInfo()
   }
 
   // -------------------- get --------------------
+  @computed get tabs() {
+    const { tinygrail } = systemStore.setting
+    if (tinygrail) {
+      return tabsWithTinygrail
+    }
+    return tabs
+  }
+
+  @computed get isFromTinygrail() {
+    const { from } = this.params
+    return from === 'tinygrail'
+  }
+
   @computed get userId() {
     const { userId = '' } = this.params
     return userId
@@ -70,6 +100,11 @@ export default class ScreenZone extends store {
 
   @computed get usersInfo() {
     return userStore.usersInfo(this.userId)
+  }
+
+  @computed get username() {
+    const { username } = this.usersInfo
+    return username
   }
 
   @computed get userCollections() {
@@ -82,6 +117,18 @@ export default class ScreenZone extends store {
 
   @computed get users() {
     return usersStore.users(this.userId)
+  }
+
+  @computed get userAssets() {
+    return tinygrailStore.userAssets(this.username)
+  }
+
+  @computed get templeTotal() {
+    return tinygrailStore.templeTotal(this.username)
+  }
+
+  @computed get charaTotal() {
+    return tinygrailStore.charaTotal(this.username)
   }
 
   // -------------------- fetch --------------------
@@ -100,6 +147,12 @@ export default class ScreenZone extends store {
       userId: this.userId
     })
 
+  fetchCharaAssets = () => tinygrailStore.fetchUserAssets(this.username)
+
+  fetchTempleTotal = () => tinygrailStore.fetchTempleTotal(this.username)
+
+  fetchCharaTotal = () => tinygrailStore.fetchCharaTotal(this.username)
+
   // -------------------- page --------------------
   onTabClick = (item, page) => {
     if (page === this.state.page) {
@@ -114,6 +167,7 @@ export default class ScreenZone extends store {
     this.setState({
       page
     })
+
     // @issue onTabClick与onChange在用受控模式的时候有冲突, 暂时这样解决
     setTimeout(() => {
       this.setState({
@@ -141,9 +195,22 @@ export default class ScreenZone extends store {
   }
 
   tabChangeCallback = page => {
+    const { title } = this.tabs[page]
+
     // 延迟请求
-    if (tabs[page].title === '时间胶囊') {
+    if (title === '时间胶囊') {
       this.fetchUsersTimeline()
+    }
+
+    if (title === '番剧' && this.isFromTinygrail) {
+      this.fetchUserCollections()
+      this.fetchUsers()
+    }
+
+    if (title === '小圣杯' && !this.isFromTinygrail) {
+      this.fetchCharaAssets()
+      this.fetchTempleTotal()
+      this.fetchCharaTotal()
     }
   }
 

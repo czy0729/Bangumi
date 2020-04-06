@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 20:55:40
+ * @Last Modified time: 2020-04-06 20:10:28
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -55,7 +55,9 @@ import {
   API_TINYGRAIL_USERS,
   API_TINYGRAIL_USER_CHARA,
   API_TINYGRAIL_VALHALL_CHARA,
-  API_TINYGRAIL_VALHALL_LIST
+  API_TINYGRAIL_VALHALL_LIST,
+  API_TINYGRAIL_USER_TEMPLE_TOTAL,
+  API_TINYGRAIL_USER_CHARA_TOTAL
 } from '@constants/api'
 import UserStore from '../user'
 import {
@@ -144,6 +146,13 @@ class Tinygrail extends store {
      * 用户资产
      */
     assets: INIT_ASSETS,
+
+    /**
+     * 其他用户资产
+     */
+    userAssets: {
+      // [hash]: INIT_ASSETS
+    },
 
     /**
      * 用户资产概览信息
@@ -275,6 +284,20 @@ class Tinygrail extends store {
     topWeek: LIST_EMPTY,
 
     /**
+     * 检测用户有多少圣殿
+     */
+    templeTotal: {
+      // [hash]: 0
+    },
+
+    /**
+     * 检测用户有多少角色
+     */
+    charaTotal: {
+      // [hash]: 0
+    },
+
+    /**
      * 卖一推荐
      */
     advanceList: LIST_EMPTY,
@@ -384,6 +407,10 @@ class Tinygrail extends store {
     return this.state.assets
   }
 
+  userAssets(hash) {
+    return computed(() => this.state.userAssets[hash]).get() || INIT_ASSETS
+  }
+
   charaAssets(hash) {
     return (
       computed(() => this.state.charaAssets[hash]).get() || INIT_CHARA_ASSETS
@@ -458,6 +485,14 @@ class Tinygrail extends store {
 
   @computed get topWeek() {
     return this.state.topWeek
+  }
+
+  templeTotal(id) {
+    return computed(() => this.state.templeTotal[id]).get() || 0
+  }
+
+  charaTotal(id) {
+    return computed(() => this.state.charaTotal[id]).get() || 0
   }
 
   @computed get advanceList() {
@@ -796,6 +831,35 @@ class Tinygrail extends store {
   }
 
   /**
+   * 其他用户资产信息
+   */
+  fetchUserAssets = async hash => {
+    const result = await this.fetch(API_TINYGRAIL_ASSETS(hash))
+
+    let data = {
+      ...INIT_ASSETS
+    }
+    if (result.data.State === 0) {
+      data = {
+        id: result.data.Value.Id,
+        balance: result.data.Value.Balance,
+        assets: result.data.Value.Assets,
+        lastIndex: result.data.Value.LastIndex,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'userAssets'
+    this.setState({
+      [key]: {
+        [hash]: data
+      }
+    })
+
+    return Promise.resolve(data)
+  }
+
+  /**
    * 用户资产概览信息
    */
   fetchCharaAssets = async hash => {
@@ -941,7 +1005,7 @@ class Tinygrail extends store {
   }
 
   /**
-   * 我的道具
+   * 每周萌王
    */
   fetchTopWeek = async () => {
     const result = await this.fetch(API_TINYGRAIL_TOP_WEEK())
@@ -982,6 +1046,44 @@ class Tinygrail extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return Promise.resolve(data)
+  }
+
+  /**
+   * 检测用户有多少圣殿
+   */
+  fetchTempleTotal = async hash => {
+    const result = await this.fetch(API_TINYGRAIL_USER_TEMPLE_TOTAL(hash))
+    let total = 0
+    if (result.data.State === 0) {
+      total = result.data.Value.TotalItems
+    }
+
+    const key = 'templeTotal'
+    this.setState({
+      [key]: {
+        [hash]: total
+      }
+    })
+    return Promise.resolve(total)
+  }
+
+  /**
+   * 检测用户有多少人物
+   */
+  fetchCharaTotal = async hash => {
+    const result = await this.fetch(API_TINYGRAIL_USER_CHARA_TOTAL(hash))
+    let total = 0
+    if (result.data.State === 0) {
+      total = result.data.Value.TotalItems
+    }
+
+    const key = 'charaTotal'
+    this.setState({
+      [key]: {
+        [hash]: total
+      }
+    })
+    return Promise.resolve(total)
   }
 
   /**
