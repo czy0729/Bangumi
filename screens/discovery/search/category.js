@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 13:43:38
+ * @Last Modified time: 2020-04-10 14:33:51
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,13 +12,12 @@ import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
 import { MODEL_SEARCH_CAT } from '@constants/model'
 
+const data = MODEL_SEARCH_CAT.data.map(item => item.label)
+
 function Category(props, { $ }) {
   const { cat } = $.state
   return (
-    <Popover
-      data={MODEL_SEARCH_CAT.data.map(item => item.label)}
-      onSelect={$.onSelect}
-    >
+    <Popover data={data} onSelect={$.onSelect}>
       <Button
         style={styles.btn}
         styleText={styles.text}

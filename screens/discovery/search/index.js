@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 17:08:52
+ * @Last Modified time: 2020-04-10 14:32:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -77,7 +77,12 @@ class Search extends React.Component {
             <SearchBar />
           </Flex.Item>
           <Legacy />
-          <Button style={styles.btn} size='sm' onPress={this.onPress}>
+          <Button
+            style={styles.btn}
+            type='ghostPlain'
+            size='sm'
+            onPress={this.onPress}
+          >
             查询
           </Button>
         </Flex>
@@ -95,7 +100,7 @@ const styles = StyleSheet.create({
   btn: {
     width: 68,
     height: 34,
-    ..._.ml.sm,
+    marginLeft: _.sm,
     borderRadius: 34
   }
 })

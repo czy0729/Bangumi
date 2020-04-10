@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-28 14:09:31
+ * @Last Modified time: 2020-04-10 14:36:29
  */
 import { observable, computed } from 'mobx'
 import { searchStore } from '@stores'
@@ -14,14 +14,17 @@ import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants/model'
 const namespace = 'ScreenSearch'
 const initCat = MODEL_SEARCH_CAT.getValue('条目')
 const initLegacy = MODEL_SEARCH_LEGACY.getValue('模糊')
+const excludeState = {
+  value: '',
+  searching: false
+}
 
 export default class ScreenSearch extends store {
   state = observable({
     history: [],
     cat: initCat,
     legacy: initLegacy, // 是否精准查询
-    value: '',
-    searching: false,
+    ...excludeState,
     _loaded: false
   })
 
@@ -30,8 +33,7 @@ export default class ScreenSearch extends store {
     const state = await res
     this.setState({
       ...state,
-      value: '',
-      searching: false,
+      ...excludeState,
       _loaded: true
     })
     return res
@@ -56,6 +58,11 @@ export default class ScreenSearch extends store {
         cat: nextCat
       })
       this.setStorage(undefined, undefined, namespace)
+
+      const { value } = this.state
+      if (value) {
+        this.doSearch()
+      }
     }
   }
 
@@ -71,6 +78,11 @@ export default class ScreenSearch extends store {
         legacy: nextLegacy
       })
       this.setStorage(undefined, undefined, namespace)
+
+      const { value } = this.state
+      if (value) {
+        this.doSearch()
+      }
     }
   }
 

@@ -2,7 +2,7 @@
  * 图片
  * 1. 支持各种样式设置
  * 2. 支持本地和远端图片
- * 3. 图片缓存到本地, @todo 安卓
+ * 3. 图片缓存到本地
  * 4. 远端图片自动获取高度
  * 5. 错误处理
  * 6. 自动选择Bangumi图片质量
@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-25 20:33:53
+ * @Last Modified time: 2020-04-10 11:46:47
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -162,7 +162,7 @@ class Image extends React.Component {
           this.timeoutId = setTimeout(() => {
             this.errorCount += 1
             this.cache(src)
-          }, 800)
+          }, 400)
         } else {
           this.timeoutId = null
           this.onError()

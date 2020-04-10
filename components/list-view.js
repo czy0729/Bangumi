@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 22:58:46
+ * @Last Modified time: 2020-04-10 11:30:46
  */
 import React from 'react'
 import {
@@ -58,8 +58,17 @@ class ListView extends React.Component {
     refreshState: RefreshState.Idle
   }
 
+  componentDidMount() {
+    const { data } = this.props
+    this.updateRefreshState(data)
+  }
+
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps
+    this.updateRefreshState(data)
+  }
+
+  updateRefreshState = data => {
     const { list = [], pagination = {}, _loaded } = data
     let refreshState
 

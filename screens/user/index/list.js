@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:53:08
+ * @Last Modified time: 2020-04-10 11:29:15
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -95,7 +95,7 @@ class List extends React.Component {
     const numColumns = list ? undefined : 4
     return (
       <ListView
-        key={String(numColumns)}
+        key={`${$.subjectType}${String(numColumns)}`}
         keyExtractor={keyExtractor}
         contentContainerStyle={_.container.bottom}
         data={userCollections}

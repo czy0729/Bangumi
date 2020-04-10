@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 11:30:10
+ * @Last Modified time: 2020-04-10 14:14:33
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Icon, Text } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 
 function Stars({ style, simple, value }) {
-  if (!value) {
+  if (systemStore.setting.hideScore || !value) {
     return null
   }
 
