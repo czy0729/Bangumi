@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-29 02:20:33
+ * @Last Modified time: 2020-04-10 10:52:14
  */
 import React from 'react'
-import { Alert, Animated, View } from 'react-native'
+import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Text, Iconfont } from '@components'
 import { Popover, IconHeader, IconBack } from '@screens/_'
@@ -19,7 +19,11 @@ import { CDN_OSS_SUBJECT } from '@constants/cdn'
 import Head from './head'
 import { height, headerHeight } from './store'
 
-const dataMe = ['我的好友', 'netaba.re', '缺少收藏?']
+const dataMe = [
+  '我的好友',
+  'netaba.re'
+  // '缺少收藏?'
+]
 const dataOther = ['TA的好友', 'TA的netaba.re']
 
 function ParallaxImage({ scrollY }, { $, navigation }) {
@@ -140,19 +144,19 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
                 open(`https://netaba.re/user/${id}`)
                 break
 
-              case '缺少收藏?':
-                setTimeout(() => {
-                  Alert.alert(
-                    '提示',
-                    '因隐藏条目受登陆状态影响, 若条目没找到, 可以尝试重新登陆',
-                    [
-                      {
-                        text: '知道了'
-                      }
-                    ]
-                  )
-                }, 400)
-                break
+              // case '缺少收藏?':
+              //   setTimeout(() => {
+              //     Alert.alert(
+              //       '提示',
+              //       '因隐藏条目受登陆状态影响, 若条目没找到, 可以尝试重新登陆',
+              //       [
+              //         {
+              //           text: '知道了'
+              //         }
+              //       ]
+              //     )
+              //   }, 400)
+              //   break
 
               default:
                 break

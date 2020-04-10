@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:51:54
+ * @Last Modified time: 2020-04-10 10:46:22
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -48,7 +48,7 @@ class Friends extends React.Component {
           $.sort(key)
         }
       },
-      element: <Text size={16}>排序</Text>
+      element: <Text>排序</Text>
     })
 
     hm(`user/${$.params.userId}/friends`, 'Friends')

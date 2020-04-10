@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 21:33:49
+ * @Last Modified time: 2020-04-10 10:50:49
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
+import { info } from '@utils/ui'
 
 const namespace = 'ScreenFriends'
 
@@ -51,14 +52,17 @@ export default class ScreenFriends extends store {
     return usersStore.fetchUsers({ userId })
   }
 
-  fetchUsersBatch = () =>
-    queue(
-      this.friends.list.map(item => () =>
-        usersStore.fetchUsers({
+  fetchUsersBatch = () => {
+    const { list } = this.friends
+    return queue(
+      list.map((item, index) => () => {
+        info(`${index + 1} / ${list.length}`)
+        return usersStore.fetchUsers({
           userId: item.userId
         })
-      )
+      })
     )
+  }
 
   // -------------------- get --------------------
   @computed get friends() {

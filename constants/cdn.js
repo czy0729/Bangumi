@@ -4,8 +4,9 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 03:41:56
+ * @Last Modified time: 2020-04-10 09:51:44
  */
+import { getTimestamp } from '@utils'
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
@@ -36,7 +37,7 @@ function hash(input) {
  * 每日放送
  * @url https://github.com/ekibun/bangumi_onair
  */
-export const CDN_ONAIR = `${HOST_CDN}/gh/ekibun/bangumi_onair@master/calendar.json`
+export const CDN_ONAIR = `${HOST_CDN}/gh/ekibun/bangumi_onair@master/calendar.json?t=${getTimestamp()}`
 
 /**
  * 单集数据源
@@ -46,7 +47,7 @@ export const CDN_ONAIR = `${HOST_CDN}/gh/ekibun/bangumi_onair@master/calendar.js
 export const CDN_EPS = subjectId =>
   `${HOST_CDN}/gh/ekibun/bangumi_onair@master/onair/${parseInt(
     parseInt(subjectId) / 1000
-  )}/${subjectId}.json`
+  )}/${subjectId}.json?t=${getTimestamp()}`
 
 /**
  * 条目CDN自维护数据
@@ -159,7 +160,7 @@ export const CDN_OSS_SUBJECT = src => {
  * @url https://github.com/czy0729/Bangumi-Static
  */
 export const CDN_DISCOVERY_HOME = () =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Static@master/data/discovery/index.json`
+  `${HOST_CDN}/gh/czy0729/Bangumi-Static@master/data/discovery/index.json?t=${getTimestamp()}`
 
 /**
  * 年鉴
