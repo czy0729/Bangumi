@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 17:49:22
+ * @Last Modified time: 2020-04-12 01:53:10
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -218,7 +218,8 @@ class Calendar extends store {
         data[item.id] = {
           timeCN: item.timeCN,
           timeJP: item.timeJP,
-          weekDayCN: item.weekDayCN
+          weekDayCN: item.weekDayCN,
+          weekDayJP: item.weekDayJP
         }
         if (airEps.length) {
           data[item.id].air = airEps[airEps.length - 1].sort

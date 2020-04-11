@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 15:32:22
+ * @Last Modified time: 2020-04-11 19:03:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -106,10 +106,10 @@ function ItemCollections({
           >
             <Flex>
               <Flex.Item>
-                <Text size={15} numberOfLines={2}>
+                <Text size={15} numberOfLines={2} bold>
                   {HTMLDecode(nameCn)}
                   {hasName && name !== nameCn && (
-                    <Text type='sub' size={13} lineHeight={15}>
+                    <Text type='sub' size={13} lineHeight={15} bold>
                       {' '}
                       {HTMLDecode(name)}
                     </Text>

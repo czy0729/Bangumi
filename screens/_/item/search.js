@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 15:32:22
+ * @Last Modified time: 2020-04-11 19:04:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,7 +82,7 @@ function ItemSearch({
               <Flex align='start' style={{ width: '100%' }}>
                 <Flex.Item>
                   {!!(nameCn || name) && (
-                    <Text size={15} numberOfLines={1}>
+                    <Text size={15} numberOfLines={1} bold>
                       {HTMLDecode(nameCn || name)}
                       {!!comments && (
                         <Text type='main' lineHeight={15}>

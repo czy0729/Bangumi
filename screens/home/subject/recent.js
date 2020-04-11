@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 11:38:26
+ * @Last Modified time: 2020-04-12 02:07:09
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -35,7 +35,6 @@ function Recent({ style }, { $, navigation }) {
               userId={item.userId}
               name={item.name}
               src={item.avatar}
-              size={40}
               event={{
                 id: '条目.跳转',
                 data: {
@@ -49,7 +48,7 @@ function Recent({ style }, { $, navigation }) {
                 <Text size={13}>{item.name}</Text>
                 {!$.hideScore && <Stars style={_.ml.xs} value={item.star} />}
               </Flex>
-              <Text style={_.mt.xs} size={12} type='sub'>
+              <Text style={_.mt.xs} size={10} type='sub'>
                 {item.status}
               </Text>
             </View>

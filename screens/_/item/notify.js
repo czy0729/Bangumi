@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 04:14:51
+ * @Last Modified time: 2020-04-12 02:13:08
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -44,6 +44,7 @@ function ItemNotify({
           <Text
             lineHeight={1.8}
             type='main'
+            bold
             onPress={() =>
               appNavigate(
                 href,

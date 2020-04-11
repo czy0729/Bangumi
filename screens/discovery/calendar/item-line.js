@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 18:35:04
+ * @Last Modified time: 2020-04-11 18:50:28
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text } from '@components'
 import { Cover } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
@@ -25,6 +25,7 @@ function ItemLine(
   const { list } = $.userCollection
   const isCollected =
     list.findIndex(item => item.subject_id === subjectId) !== -1
+  const showScore = !systemStore.setting.hideScore && !!score
   return (
     <Touchable
       style={[styles.item, isCollected && styles.itemActive]}
@@ -73,7 +74,7 @@ function ItemLine(
                   第{air}话
                 </Text>
               )}
-              {!!score && (
+              {showScore && (
                 <Text style={styles.score} type='sub' size={13} bold>
                   {toFixed(score, 1)}
                 </Text>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 12:00:03
+ * @Last Modified time: 2020-04-12 02:02:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,7 +68,7 @@ function Works({ style }, { $, navigation }) {
               }
             />
             <Flex.Item style={_.ml.sm}>
-              <Text>{item.name}</Text>
+              <Text bold>{item.name}</Text>
               <Flex style={_.mt.xs}>
                 <Tag value={item.staff} />
               </Flex>

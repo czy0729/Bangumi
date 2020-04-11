@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 05:03:02
+ * @Last Modified time: 2020-04-12 01:34:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,7 @@ function Item(
                 <Flex align='start' style={{ width: '100%' }}>
                   <Flex.Item>
                     {!!name && (
-                      <Text size={15} numberOfLines={2}>
+                      <Text size={15} numberOfLines={2} bold>
                         {HTMLDecode(name)}
                       </Text>
                     )}
@@ -122,7 +122,7 @@ function Item(
                   }}
                 />
                 <Flex.Item style={_.ml.sm}>
-                  <Text size={12} numberOfLines={1}>
+                  <Text size={12} numberOfLines={1} bold>
                     {item.name}
                   </Text>
                   <Text style={_.mt.xs} size={12} type='sub' numberOfLines={1}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 18:09:14
+ * @Last Modified time: 2020-04-12 02:28:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -50,7 +50,7 @@ function ItemBangumiList({
         onPress={onPress}
       />
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} size={11} numberOfLines={2}>
+        <Text style={_.mt.sm} size={11} numberOfLines={2} bold>
           {HTMLDecode(name)}
         </Text>
       </Touchable>

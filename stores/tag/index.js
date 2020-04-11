@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 14:14:02
+ * @Last Modified time: 2020-04-11 20:05:24
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -79,10 +79,10 @@ class Tag extends store {
    * @param {*} order 排序
    * @param {*} refresh 是否刷新
    */
-  async fetchTag(
+  fetchTag = async (
     { text = '', type = DEFAULT_TYPE, order, airtime = '' } = {},
     refresh
-  ) {
+  ) => {
     const _text = text.replace(/ /g, '+')
 
     const { list, pagination } = this.tag(_text, type, airtime)
@@ -132,23 +132,21 @@ class Tag extends store {
    * @param {*} airtime 2020-1960
    * @param {*} refresh 是否刷新
    */
-  async fetchRank({ type = DEFAULT_TYPE, filter, airtime } = {}, refresh) {
+  fetchRank = async (
+    { type = DEFAULT_TYPE, filter, airtime } = {},
+    refresh
+  ) => {
+    const key = 'rank'
+    const limit = 24
     const { list, pagination } = this.rank(type)
-    let page // 下一页的页码
-    if (refresh) {
-      page = 1
-    } else {
-      page = pagination.page + 1
-    }
+    const page = refresh ? 1 : pagination.page + 1
 
-    // -------------------- 请求HTML --------------------
     const res = fetchHTML({
       url: HTML_RANK(type, 'rank', page, filter, airtime)
     })
     const raw = await res
-    const { pageTotal, tag } = analysisTags(raw, page, pagination)
+    const { tag } = analysisTags(raw, page, pagination)
 
-    const key = 'rank'
     const stateKey = type
     this.setState({
       [key]: {
@@ -156,7 +154,7 @@ class Tag extends store {
           list: refresh ? tag : [...list, ...tag],
           pagination: {
             page,
-            pageTotal: parseInt(pageTotal)
+            pageTotal: tag.length === limit ? 1000 : page
           },
           _loaded: getTimestamp()
         }
@@ -172,7 +170,7 @@ class Tag extends store {
    * @param {*} param0
    * @param {*} refresh
    */
-  async fetchBrowser({ type = DEFAULT_TYPE, airtime } = {}, refresh) {
+  fetchBrowser = async ({ type = DEFAULT_TYPE, airtime } = {}, refresh) => {
     const { list, pagination } = this.browser(type, airtime)
     let page // 下一页的页码
     if (refresh) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 08:15:27
+ * @Last Modified time: 2020-04-12 01:55:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Eps, Cover } from '@screens/_'
 import { _ } from '@stores'
+import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -172,8 +173,8 @@ class GridInfo extends React.Component {
     const { subjectId, subject } = this.props
     const isToday = $.isToday(subjectId)
     const isNextDay = $.isNextDay(subjectId)
-    // const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
-    // const doing = isBook ? '读' : '看'
+    const onAir = $.onAir[subjectId] || {}
+    const time = onAir.timeCN || onAir.timeJP || ''
     return (
       <Flex style={styles.item} align='start'>
         <View>
@@ -188,13 +189,11 @@ class GridInfo extends React.Component {
           />
           {isToday ? (
             <Text style={_.mt.sm} type='success' align='center'>
-              {$.onAir[subjectId].timeCN.slice(0, 2)}:
-              {$.onAir[subjectId].timeCN.slice(2, 4)}
+              {time.slice(0, 2)}:{time.slice(2, 4)}
             </Text>
           ) : isNextDay ? (
             <Text style={_.mt.sm} type='sub' align='center'>
-              明天{$.onAir[subjectId].timeCN.slice(0, 2)}:
-              {$.onAir[subjectId].timeCN.slice(2, 4)}
+              明天{time.slice(0, 2)}:{time.slice(2, 4)}
             </Text>
           ) : null}
         </View>
@@ -202,13 +201,10 @@ class GridInfo extends React.Component {
           <Touchable onPress={this.onPress}>
             <Flex align='start'>
               <Flex.Item>
-                <Text size={18} numberOfLines={1}>
-                  {subject.name_cn || subject.name}
+                <Text size={18} numberOfLines={1} bold>
+                  {HTMLDecode(subject.name_cn || subject.name)}
                 </Text>
               </Flex.Item>
-              {/* <Text type='sub' lineHeight={18}>
-                {subject.collection.doing} 人在{doing}
-              </Text> */}
             </Flex>
           </Touchable>
           <Flex style={_.mt.sm}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 18:41:20
+ * @Last Modified time: 2020-04-12 02:23:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -113,7 +113,7 @@ function Menu(props, { $, navigation }) {
                   )}
                 </Flex>
               </View>
-              <Text style={_.mt.sm} size={13} align='center'>
+              <Text style={_.mt.sm} size={13} align='center' bold>
                 {item.title}
               </Text>
             </Flex>

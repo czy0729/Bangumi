@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 14:07:14
+ * @Last Modified time: 2020-04-12 02:04:09
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -58,6 +58,7 @@ function HorizontalList({
                 size={13}
                 numberOfLines={2}
                 ellipsizeMode={ellipsizeMode}
+                bold
               >
                 {findCn ? findBangumiCn(item.name) : item.name}
               </Text>

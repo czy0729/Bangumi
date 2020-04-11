@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 10:48:45
+ * @Last Modified time: 2020-04-11 20:10:24
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { HTML_TAGS } from '@constants/html'
 
 export const tabs = MODEL_SUBJECT_TYPE.data.map(item => ({
   title: item.title,
@@ -40,11 +41,23 @@ export default class ScreenTags extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchList = (type, refresh) => discoveryStore.fetchTags({ type }, refresh)
+  fetchList = (type, refresh) =>
+    discoveryStore.fetchTags(
+      {
+        type
+      },
+      refresh
+    )
 
   // -------------------- get --------------------
   list(type) {
     return computed(() => discoveryStore.tags(type)).get()
+  }
+
+  @computed get url() {
+    const { page } = this.state
+    const { key } = tabs[page]
+    return HTML_TAGS(key)
   }
 
   // -------------------- page --------------------

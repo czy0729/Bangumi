@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 10:23:32
+ * @Last Modified time: 2020-04-12 01:53:15
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -43,10 +43,7 @@ const initItem = {
   expand: false,
   doing: false
 }
-let day = new Date().getDay()
-if (day === 0) {
-  day = 7
-}
+const day = new Date().getDay()
 
 export default class ScreenHome extends store {
   state = observable({
@@ -311,7 +308,7 @@ export default class ScreenHome extends store {
       if (!item) {
         return false
       }
-      return item.weekDayCN === day
+      return item.weekDayCN === day || item.weekDayJP === day
     }).get()
   }
 
@@ -324,7 +321,9 @@ export default class ScreenHome extends store {
       if (!item) {
         return false
       }
-      return day === 7 ? item.weekDayCN === 1 : item.weekDayCN === day + 1
+      return day === 7
+        ? item.weekDayCN === 1 || item.weekDayJP === 1
+        : item.weekDayCN === day + 1 || item.weekDayJP === day + 1
     }).get()
   }
 

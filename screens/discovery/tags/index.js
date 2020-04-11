@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 17:18:06
+ * @Last Modified time: 2020-04-11 20:08:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST } from '@constants'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
@@ -47,10 +46,9 @@ class Tags extends React.Component {
             key
           })
 
-          const { page } = $.state
           switch (key) {
             case '浏览器查看':
-              open(`${HOST}/${tabs[page].key}/tag`)
+              open($.url)
               break
             default:
               break

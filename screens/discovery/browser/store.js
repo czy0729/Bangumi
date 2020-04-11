@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 23:00:05
+ * @Last Modified time: 2020-04-11 19:22:26
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { HTML_BROSWER } from '@constants/html'
 
 const namespace = 'ScreenBrowser'
 const defaultType = MODEL_SUBJECT_TYPE.getLabel('动画')
@@ -58,6 +59,11 @@ export default class ScreenBrowser extends store {
   browser(airtime) {
     const { type } = this.state
     return computed(() => tagStore.browser(type, airtime)).get()
+  }
+
+  get url() {
+    const { type, tabs, page } = this.state
+    return HTML_BROSWER(type, tabs[page])
   }
 
   // -------------------- page --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 18:15:55
+ * @Last Modified time: 2020-04-11 19:24:07
  */
 
 /**
@@ -22,6 +22,7 @@ export default {
 
   // - [x] 索引
   '索引.跳转': 'Browser.to',
+  '索引.右上角菜单': 'Browser.topRightMenu',
   '索引.标签页切换': 'Browser.onChange',
   '索引.类型选择': 'Browser.onSelect',
 

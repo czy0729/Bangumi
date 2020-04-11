@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 17:18:00
+ * @Last Modified time: 2020-04-12 01:53:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { Progress, Modal } from '@ant-design/react-native'
 import { Flex, Iconfont, Shadow, Text, Touchable } from '@components'
 import { Eps, Cover } from '@screens/_'
 import { _ } from '@stores'
+import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -234,8 +235,8 @@ class Item extends React.Component {
     const percent = subject.eps_count
       ? (parseInt(epStatus || 0) / parseInt(subject.eps_count)) * 100
       : 0
-    // const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
-    // const doing = isBook ? '读' : '看'
+    const onAir = $.onAir[subjectId] || {}
+    const time = onAir.timeCN || onAir.timeJP || ''
     return (
       <Shadow style={this.styles.shadow} initHeight={120}>
         <View
@@ -254,22 +255,17 @@ class Item extends React.Component {
               <Touchable withoutFeedback onPress={this.onPress}>
                 <Flex align='start'>
                   <Flex.Item style={this.styles.title}>
-                    <Text size={15} numberOfLines={1}>
-                      {subject.name_cn || subject.name}
+                    <Text size={15} numberOfLines={1} bold>
+                      {HTMLDecode(subject.name_cn || subject.name)}
                     </Text>
-                    {/* <Text style={_.mt.xs} type='sub' size={11}>
-                      {subject.collection.doing} 人在{doing}
-                    </Text> */}
                   </Flex.Item>
                   {isToday ? (
                     <Text style={_.ml.sm} type='success' lineHeight={15}>
-                      {$.onAir[subjectId].timeCN.slice(0, 2)}:
-                      {$.onAir[subjectId].timeCN.slice(2, 4)}
+                      {time.slice(0, 2)}:{time.slice(2, 4)}
                     </Text>
                   ) : isNextDay ? (
                     <Text style={_.ml.sm} type='sub' lineHeight={15}>
-                      明天{$.onAir[subjectId].timeCN.slice(0, 2)}:
-                      {$.onAir[subjectId].timeCN.slice(2, 4)}
+                      明天{time.slice(0, 2)}:{time.slice(2, 4)}
                     </Text>
                   ) : null}
                 </Flex>

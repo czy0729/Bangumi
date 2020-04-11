@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 12:26:01
+ * @Last Modified time: 2020-04-12 02:20:52
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -60,6 +60,7 @@ class ItemTimeline extends React.Component {
             key={item}
             type={isSubject ? undefined : 'main'}
             underline={isSubject}
+            bold={isSubject}
             onPress={() =>
               this.appNavigate(
                 url,
@@ -87,6 +88,7 @@ class ItemTimeline extends React.Component {
         <Text
           type={isSubject ? undefined : 'main'}
           underline={isSubject}
+          bold={isSubject}
           onPress={() =>
             this.appNavigate(
               !!p3.url.length && p3.url[0],
@@ -157,6 +159,7 @@ class ItemTimeline extends React.Component {
           <Text
             style={_.mt.sm}
             underline
+            bold
             onPress={() => {
               t(id, {
                 to: 'Subject',

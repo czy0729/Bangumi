@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 09:44:52
+ * @Last Modified time: 2020-04-12 01:26:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -25,6 +25,11 @@ function Item(
 
   const styles = memoStyles()
   const { list, collect = '-' } = $.catalogDetail(id)
+
+  const text = []
+  if (name) text.push(name)
+  if (last) text.push(last)
+  if (collect) text.push(`${collect}收藏`)
   return (
     <Shadow style={styles.shadow} initHeight={154}>
       <Touchable
@@ -43,7 +48,7 @@ function Item(
           <Text type='title' bold size={15} align='center' numberOfLines={1}>
             {title}
           </Text>
-          <Text style={_.mt.xs} size={11} align='center' numberOfLines={1}>
+          <Text style={_.mt.xs} size={12} align='center' numberOfLines={1}>
             {info}
           </Text>
           <Flex style={[styles.images, _.mt.sm]}>
@@ -59,7 +64,7 @@ function Item(
                 />
               ))}
             {list.length ? (
-              <Text style={_.ml.xs} type='sub' size={12}>
+              <Text style={_.ml.xs} type='sub' size={13} bold>
                 +{list.length}
               </Text>
             ) : (
@@ -68,10 +73,11 @@ function Item(
               </Text>
             )}
           </Flex>
-          <Text style={_.mt.sm} size={12}>
-            {name} / {last}
-            {collect ? ` / ${collect}收藏` : ''}
-          </Text>
+          {!!text.length && (
+            <Text style={_.mt.sm} size={12}>
+              {text.join(' / ')}
+            </Text>
+          )}
         </Flex>
       </Touchable>
     </Shadow>

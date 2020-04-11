@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-29 23:36:17
+ * @Last Modified time: 2020-04-12 02:16:09
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -71,10 +71,16 @@ class Comic extends React.Component {
               align='start'
             >
               <View>
-                <Text size={15} numberOfLines={2}>
+                <Text size={15} numberOfLines={2} bold>
                   {item.title}
                 </Text>
-                <Text style={_.mt.sm} type='sub' size={13} numberOfLines={2}>
+                <Text
+                  style={_.mt.sm}
+                  type='sub'
+                  size={13}
+                  numberOfLines={2}
+                  bold
+                >
                   {item.sub}
                 </Text>
               </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 10:49:49
+ * @Last Modified time: 2020-04-12 02:27:37
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -53,7 +53,9 @@ function ItemFriends({
         <Flex.Item style={[styles.item, _.ml.md]}>
           <Flex>
             <Flex.Item>
-              <Text numberOfLines={1}>{userName}</Text>
+              <Text numberOfLines={1} bold>
+                {userName}
+              </Text>
             </Flex.Item>
             <Text style={_.ml.sm} size={13}>
               {recent}

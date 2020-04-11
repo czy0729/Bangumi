@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 04:27:29
+ * @Last Modified time: 2020-04-12 02:03:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,11 @@ function Head({ style }, { $ }) {
               {/* {!!label && ` · ${label}`} */}
             </Text>
           )}
-          <Text style={!!$.cn && _.mt.xs} size={$.cn.length > 16 ? 15 : 18}>
+          <Text
+            style={!!$.cn && _.mt.xs}
+            size={$.cn.length > 16 ? 15 : 18}
+            bold
+          >
             {$.cn}
           </Text>
         </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:56:07
+ * @Last Modified time: 2020-04-11 19:22:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,9 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Tabs } from '@components'
 import { _ } from '@stores'
+import { open } from '@utils'
 import { inject, withHeader } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import List from './list'
 import TabBarLeft from './tab-bar-left'
 import Store from './store'
@@ -36,8 +38,27 @@ class Browser extends React.Component {
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     $.init()
+
+    navigation.setParams({
+      popover: {
+        data: ['浏览器查看'],
+        onSelect: key => {
+          t('索引.右上角菜单', {
+            key
+          })
+
+          switch (key) {
+            case '浏览器查看':
+              open($.url)
+              break
+            default:
+              break
+          }
+        }
+      }
+    })
   }
 
   get tabs() {

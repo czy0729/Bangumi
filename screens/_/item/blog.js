@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-05 02:06:56
+ * @Last Modified time: 2020-04-12 01:32:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -69,7 +69,7 @@ function ItemBlog(
           </View>
         )}
         <Flex.Item>
-          <Text size={15} numberOfLines={2}>
+          <Text size={15} numberOfLines={2} bold>
             {title}{' '}
             <Text size={12} type='main' lineHeight={15}>
               {replies}

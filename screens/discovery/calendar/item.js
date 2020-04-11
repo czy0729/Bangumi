@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 18:05:44
+ * @Last Modified time: 2020-04-11 18:50:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -47,7 +47,6 @@ function Item(
   }
 
   const showScore = !systemStore.setting.hideScore && !!score
-
   const splitText = []
   if (air) splitText.push(`${air}话`)
   if (timeCN) splitText.push(`${timeCN.slice(0, 2)}:${timeCN.slice(2)}`)

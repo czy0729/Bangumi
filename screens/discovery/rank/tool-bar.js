@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-18 17:24:56
+ * @Last Modified time: 2020-04-11 19:33:58
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -47,10 +47,7 @@ function ToolBar(props, { $, navigation }) {
   return (
     <Flex style={styles.container}>
       <Flex.Item>
-        <Popover
-          data={typeData}
-          onSelect={title => $.onTypeSelect(title, navigation)}
-        >
+        <Popover data={typeData} onSelect={$.onTypeSelect}>
           <Flex style={styles.item} justify='center'>
             <Iconfont name='app' size={14} color={_.colorMain} />
             <Text style={_.ml.sm} type='main'>
@@ -63,7 +60,7 @@ function ToolBar(props, { $, navigation }) {
         <Flex.Item>
           <Popover
             data={filterData.data.map(item => item.label)}
-            onSelect={title => $.onFilterSelect(title, filterData, navigation)}
+            onSelect={title => $.onFilterSelect(title, filterData)}
           >
             <Flex style={styles.item} justify='center'>
               <Iconfont
@@ -79,10 +76,7 @@ function ToolBar(props, { $, navigation }) {
         </Flex.Item>
       )}
       <Flex.Item flex={0.8}>
-        <Popover
-          data={DATA_AIRTIME}
-          onSelect={title => $.onAirdateSelect(title, navigation)}
-        >
+        <Popover data={DATA_AIRTIME} onSelect={$.onAirdateSelect}>
           <Flex style={styles.item} justify='center'>
             <Iconfont
               name='calendar'

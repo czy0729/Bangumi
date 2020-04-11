@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-01 17:49:09
+ * @Last Modified time: 2020-04-12 01:57:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -40,7 +40,7 @@ function Info(props, { $, navigation }) {
             <Flex align='baseline'>
               <Text size={20} bold>
                 {$.jp}
-                <Text type='sub' lineHeight={20}>
+                <Text type='sub' lineHeight={20} bold>
                   {' '}
                   {$.cn}
                 </Text>

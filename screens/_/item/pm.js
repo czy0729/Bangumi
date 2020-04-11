@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 21:18:25
+ * @Last Modified time: 2020-04-12 02:13:16
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -61,7 +61,7 @@ function ItemPM({
               <Text size={13} type='sub'>
                 {name} / {time}
               </Text>
-              <Text style={_.mt.xs} lineHeight={1.8} type='main'>
+              <Text style={_.mt.xs} lineHeight={1.8} type='main' bold>
                 {title}
               </Text>
               <Text size={13} lineHeight={1.8} type='title'>

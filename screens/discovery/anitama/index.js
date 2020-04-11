@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:39:46
+ * @Last Modified time: 2020-04-12 01:31:27
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -126,9 +126,11 @@ class Anitama extends React.Component {
                     <Text style={_.mt.sm} size={16} lineHeight={20}>
                       {item.subtitle}
                     </Text>
-                    <Text style={_.mt.md} type='sub' lineHeight={20}>
-                      {item.intro}
-                    </Text>
+                    {!!item.intro && (
+                      <Text style={_.mt.md} type='sub' lineHeight={20}>
+                        {item.intro}
+                      </Text>
+                    )}
                   </View>
                 </Touchable>
               ))}

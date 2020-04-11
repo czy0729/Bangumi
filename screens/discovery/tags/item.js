@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-20 10:39:21
+ * @Last Modified time: 2020-04-11 19:09:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -39,10 +39,10 @@ function Item({ type, name, nums }, { navigation }) {
       }}
     >
       <Flex style={styles.item} direction='column' justify='center'>
-        <Text align='center' bold>
+        <Text align='center' size={13} bold>
           {tag}
         </Text>
-        <Text style={_.mt.xs} type='sub' align='center'>
+        <Text style={_.mt.xs} type='sub' align='center' size={12}>
           {numsText}
         </Text>
       </Flex>

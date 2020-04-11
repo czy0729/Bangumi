@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 09:28:26
+ * @Last Modified time: 2020-04-11 19:05:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -61,7 +61,7 @@ function CollectionsGrid({
         onPress={onPress}
       />
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} size={13} numberOfLines={2}>
+        <Text style={_.mt.sm} size={13} numberOfLines={2} bold>
           {HTMLDecode(nameCn || name)}
         </Text>
         {!!holdDays && (
