@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 23:21:58
+ * @Last Modified time: 2020-04-10 16:09:42
  */
 module.exports = {
   root: true,
@@ -101,6 +101,7 @@ module.exports = {
     'react/prop-types': 0, // Prevent missing props validation in a React component definition
     'react/sort-comp': 0,
     'react/state-in-constructor': 0,
+    'react/static-property-placement': 0,
 
     // https://github.com/evcohen/eslint-plugin-jsx-a11y
     'jsx-a11y/anchor-is-valid': [

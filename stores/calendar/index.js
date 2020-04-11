@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 04:00:37
+ * @Last Modified time: 2020-04-11 17:49:22
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -204,19 +204,20 @@ class Calendar extends store {
 
     try {
       const { _response } = await xhrCustom({
-        url: CDN_ONAIR
+        url: CDN_ONAIR()
       })
+
       const data = {
         _loaded: true
       }
       JSON.parse(_response).forEach(item => {
-        const airEps = item.eps.filter(item => item.status === 'Air')
-        if (!item.weekDayCN || !item.timeCN) {
-          return
-        }
+        const airEps = item.eps.filter(
+          item => item.status === 'Air' || item.status === 'Today'
+        )
 
         data[item.id] = {
           timeCN: item.timeCN,
+          timeJP: item.timeJP,
           weekDayCN: item.weekDayCN
         }
         if (airEps.length) {

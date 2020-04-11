@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 09:51:44
+ * @Last Modified time: 2020-04-11 17:31:28
  */
 import { getTimestamp } from '@utils'
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
@@ -37,7 +37,8 @@ function hash(input) {
  * 每日放送
  * @url https://github.com/ekibun/bangumi_onair
  */
-export const CDN_ONAIR = `${HOST_CDN}/gh/ekibun/bangumi_onair@master/calendar.json?t=${getTimestamp()}`
+export const CDN_ONAIR = () =>
+  `${HOST_CDN}/gh/ekibun/bangumi_onair@master/calendar.json?t=${getTimestamp()}`
 
 /**
  * 单集数据源

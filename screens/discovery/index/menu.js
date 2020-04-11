@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-05 02:08:55
+ * @Last Modified time: 2020-04-11 18:41:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,9 +26,9 @@ const menus = [
     path: 'Browser'
   },
   {
-    title: '每日放送',
-    icon: 'calendar',
-    path: 'Calendar'
+    title: '标签',
+    icon: 'paihang',
+    path: 'Tags'
   },
   {
     title: '随便看看',
@@ -36,14 +36,9 @@ const menus = [
     path: 'Random'
   },
   {
-    title: 'Anitama',
-    icon: 'anitama',
-    path: 'Anitama'
-  },
-  {
-    title: '标签',
-    icon: 'paihang',
-    path: 'Tags'
+    title: '每日放送',
+    icon: 'calendar',
+    path: 'Calendar'
   },
   {
     title: '目录',
@@ -54,6 +49,11 @@ const menus = [
     title: '日志',
     icon: 'ri-zhi',
     path: 'DiscoveryBlog'
+  },
+  {
+    title: 'Anitama',
+    icon: 'anitama',
+    path: 'Anitama'
   }
 ]
 const itemWidth = (_.window.width - 2 * _.wind) / 4

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 04:49:20
+ * @Last Modified time: 2020-04-11 18:08:42
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,17 +12,58 @@ import { SectionHeader } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import Item from './item'
+import ItemLine from './item-line'
 import { marginLeft } from './store'
 
 function List(props, { $ }) {
+  const { layout } = $.state
   return (
     <ListView
+      key={layout}
       style={_.container.screen}
       keyExtractor={keyExtractor}
       sections={$.sections}
-      numColumns={3}
+      numColumns={$.isList ? undefined : 3}
       renderSectionHeader={renderSectionHeader}
-      renderItem={renderItem}
+      renderItem={({ item, title }) => {
+        const { items } = item
+        return (
+          <Flex key={title} wrap='wrap' align='start'>
+            {items.map((i, index) => {
+              let { timeCN } = i
+              if (index > 0 && items[index - 1].timeCN === timeCN) {
+                timeCN = ''
+              }
+
+              if ($.isList) {
+                return (
+                  <ItemLine
+                    key={i.id}
+                    subjectId={i.id}
+                    images={i.images}
+                    name={i.name_cn || i.name}
+                    score={i.rating && i.rating.score}
+                    air={i.air}
+                    timeCN={timeCN}
+                  />
+                )
+              }
+
+              return (
+                <Item
+                  key={i.id}
+                  subjectId={i.id}
+                  images={i.images}
+                  name={i.name_cn || i.name}
+                  score={i.rating && i.rating.score}
+                  air={i.air}
+                  timeCN={timeCN}
+                />
+              )
+            })}
+          </Flex>
+        )
+      }}
     />
   )
 }
@@ -37,6 +78,7 @@ function renderSectionHeader({ section: { title } }) {
   return (
     <SectionHeader
       style={{
+        paddingVertical: _.sm + 2,
         paddingLeft: marginLeft
       }}
       size={14}
@@ -44,36 +86,4 @@ function renderSectionHeader({ section: { title } }) {
       {title}
     </SectionHeader>
   )
-}
-
-function renderItem({ item, title }) {
-  return (
-    <Flex key={title} wrap='wrap' align='start'>
-      {item.items.sort(sort).map(item => (
-        <Item
-          key={item.id}
-          subjectId={item.id}
-          images={item.images}
-          name={item.name_cn || item.name}
-          score={item.rating && item.rating.score}
-        />
-      ))}
-    </Flex>
-  )
-}
-
-/**
- * 尝试优化一下排序, 以引导用户关注到更好看的番
- * @todo 寻找更好的算法
- */
-function sort(a, b) {
-  let scoreA = 0
-  let scoreB = 0
-  if (a.rating && a.rating.score) {
-    scoreA = a.rating.score * 0.6 + Math.min(a.rating.total * 0.004, 4)
-  }
-  if (b.rating && b.rating.score) {
-    scoreB = b.rating.score * 0.6 + Math.min(b.rating.total * 0.004, 4)
-  }
-  return scoreB - scoreA
 }

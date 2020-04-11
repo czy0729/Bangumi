@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-20 17:12:25
+ * @Last Modified time: 2020-04-11 17:18:43
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,6 +12,7 @@ import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_CALENDAR } from '@constants/html'
+import IconLayout from './icon-layout'
 import List from './list'
 import Store from './store'
 
@@ -39,6 +40,7 @@ class Calendar extends React.Component {
     $.init()
 
     navigation.setParams({
+      extra: <IconLayout $={$} />,
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {

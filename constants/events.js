@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 21:24:18
+ * @Last Modified time: 2020-04-10 18:15:55
  */
 
 /**
@@ -28,6 +28,7 @@ export default {
   // - [x] 每日放送
   '每日放送.跳转': 'Calendar.to',
   '每日放送.右上角菜单': 'Calendar.topRightMenu',
+  '每日放送.切换布局': 'Calendar.switchLayout',
 
   // - [x] 目录
   '目录.跳转': 'Catalog.to',

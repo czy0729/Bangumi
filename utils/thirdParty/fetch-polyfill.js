@@ -65,11 +65,11 @@ export default function fetchPolyfill(input, init) {
     }
 
     xhr.onerror = function() {
-      reject(new TypeError('Network request failed'))
+      reject(new TypeError('Network request onerror'))
     }
 
     xhr.ontimeout = function() {
-      reject(new TypeError('Network request failed'))
+      reject(new TypeError('Network request ontimeout'))
     }
 
     xhr.open(request.method, request.url, true)
