@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 05:28:57
+ * @Last Modified time: 2020-04-12 03:04:05
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -77,62 +77,70 @@ export default class ScreenSubject extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, this.namespace)
-    this.setState({
-      ...state,
-      ...excludeState,
-      _loaded: true
-    })
-
-    /**
-     * 访问私有cdn, 加速未缓存条目首屏数据渲染
-     * 因为有cdn, 下面2个用户相关的接口可以提前
-     */
-    this.fetchSubjectFormCDN()
-    this.fetchCollection() // 用户每集收看进度
-    userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
-
-    // API条目信息
-    const res = this.fetchSubject()
-    const data = await res
-
-    // bangumi-data数据扩展
-    const item = bangumiData.items.find(item => item.title === data.name)
-    if (item) {
+    try {
+      const state = await this.getStorage(undefined, this.namespace)
       this.setState({
-        bangumiInfo: {
-          sites: item.sites,
-          type: item.type
-        }
+        ...state,
+        ...excludeState,
+        _loaded: true
       })
-    }
 
-    // 获取其他源头eps在线地址
-    const name = data.name_cn || data.name
-    if (this.type === '动画') {
-      const { _ningMoeId = NINGMOE_ID[name] } = this.params
-      if (_ningMoeId) {
-        discoveryStore.fetchNingMoeDetail({
-          id: _ningMoeId,
-          bgmId: this.subjectId
-        })
-      } else {
-        // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
-        discoveryStore.fetchNingMoeDetailBySearch({
-          keyword: name
+      /**
+       * 访问私有cdn, 加速未缓存条目首屏数据渲染
+       * 因为有cdn, 下面2个用户相关的接口可以提前
+       */
+      this.fetchSubjectFormCDN()
+      this.fetchCollection() // 用户每集收看进度
+      userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
+
+      // API条目信息
+      const res = this.fetchSubject()
+      const data = await res
+
+      // bangumi-data数据扩展
+      const item = bangumiData.items.find(item => item.title === data.name)
+      if (item) {
+        this.setState({
+          bangumiInfo: {
+            sites: item.sites,
+            type: item.type
+          }
         })
       }
-    }
 
-    queue([
-      // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
-      // () => subjectStore.fetchSubjectEp(this.subjectId), // [废弃] 跟条目API重复
-      // () => this.fetchCollection(), // 用户每集收看进度
-      () => this.fetchSubjectComments(true), // 吐槽
-      () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
-      () => this.fetchEpsData() // 单集播放源
-    ])
-    return res
+      // 获取其他源头eps在线地址
+      const name = data.name_cn || data.name
+      if (this.type === '动画') {
+        const { _ningMoeId = NINGMOE_ID[name] } = this.params
+        if (_ningMoeId) {
+          discoveryStore.fetchNingMoeDetail({
+            id: _ningMoeId,
+            bgmId: this.subjectId
+          })
+        } else {
+          // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
+          discoveryStore.fetchNingMoeDetailBySearch({
+            keyword: name
+          })
+        }
+      }
+
+      queue([
+        // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
+        // () => subjectStore.fetchSubjectEp(this.subjectId), // [废弃] 跟条目API重复
+        // () => this.fetchCollection(), // 用户每集收看进度
+        () => this.fetchSubjectComments(true), // 吐槽
+        () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
+        () => this.fetchEpsData() // 单集播放源
+      ])
+      return res
+    } catch (error) {
+      this.setState({
+        ...excludeState,
+        _loaded: true
+      })
+      return true
+    }
   }
 
   // -------------------- fetch --------------------
@@ -633,9 +641,13 @@ export default class ScreenSubject extends store {
       subjectId: this.subjectId
     })
 
-    this.setState({
-      [name]: String(text)
-    })
+    try {
+      this.setState({
+        [name]: String(text)
+      })
+    } catch (error) {
+      warn(namespace, 'changeText', error)
+    }
   }
 
   /**
@@ -649,36 +661,40 @@ export default class ScreenSubject extends store {
       subjectType: this.type
     })
 
-    const { bangumiInfo } = this.state
-    const { sites = [] } = bangumiInfo
-    let item
-    switch (key) {
-      case '柠萌瞬间':
-        open(
-          `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
-        )
-        break
-      case 'AGE动漫':
-        open(
-          `https://www.agefans.tv/search?query=${encodeURIComponent(
-            this.cn
-          )}&page=1`
-        )
-        break
-      case '迅播动漫':
-        open(
-          `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
-            this.cn
-          )}`
-        )
-        break
-      default:
-        item = sites.find(item => item.site === key)
-        if (item) {
-          const url = getBangumiUrl(item)
-          open(url)
-        }
-        break
+    try {
+      const { bangumiInfo } = this.state
+      const { sites = [] } = bangumiInfo
+      let item
+      switch (key) {
+        case '柠萌瞬间':
+          open(
+            `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
+          )
+          break
+        case 'AGE动漫':
+          open(
+            `https://www.agefans.tv/search?query=${encodeURIComponent(
+              this.cn
+            )}&page=1`
+          )
+          break
+        case '迅播动漫':
+          open(
+            `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
+              this.cn
+            )}`
+          )
+          break
+        default:
+          item = sites.find(item => item.site === key)
+          if (item) {
+            const url = getBangumiUrl(item)
+            open(url)
+          }
+          break
+      }
+    } catch (error) {
+      warn(namespace, 'onlinePlaySelected', error)
     }
   }
 
@@ -702,152 +718,156 @@ export default class ScreenSubject extends store {
    * 章节菜单操作
    */
   doEpsSelect = async (value, item, navigation) => {
-    // iOS是本集讨论, 安卓是(+N)...
-    if (value.includes('本集讨论') || value.includes('(+')) {
-      t('条目.章节菜单操作', {
-        title: '本集讨论',
-        subjectId: this.subjectId
-      })
-
-      // 数据占位
-      appNavigate(
-        item.url,
-        navigation,
-        {
-          _title: `ep${item.sort}.${item.name || item.name_cn}`,
-          _group: this.subject.name || this.subject.name_cn,
-          _groupThumb: getCoverMedium((this.subject.images || {}).medium),
-          _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
-            item.desc || ''
-          ).replace(/\r\n/g, '<br />')}`
-        },
-        {
-          id: '条目.跳转',
-          data: {
-            from: '章节',
-            subjectId: this.subjectId
-          }
-        }
-      )
-      return
-    }
-
-    if (value === '在线播放') {
-      // @todo 查找视频数据源地址
-      // const find = this.ningMoeDetail.eps.find(i => i.sort === item.sort)
-      // if (find && find.bakUrl) {
-      //   const realUrl = await discoveryStore.fetchNingMoeRealYunUrl({
-      //     url: find.bakUrl
-      //   })
-      //   if (realUrl) {
-      //     navigation.push('Video', {
-      //       url: realUrl
-      //     })
-      //     return
-      //   }
-      // }
-
-      setTimeout(() => {
-        showActionSheet(this.onlinePlayActionSheetData, index => {
-          t('条目.章节菜单操作', {
-            title: this.onlinePlayActionSheetData[index],
-            subjectId: this.subjectId
-          })
-
-          const isSp = item.type === 1
-          let url
-
-          if (this.onlinePlayActionSheetData[index] === '柠萌瞬间') {
-            // @notice 像一拳超人第二季这种 要处理EP偏移
-            if (isSp) {
-              url = `${HOST_NING_MOE}/detail?line=1&eps=1&bangumi_id=${this.ningMoeDetail.id}`
-            } else {
-              url = `${HOST_NING_MOE}/detail?line=1&eps=${
-                item.sort - this.ningMoeEpOffset
-              }&bangumi_id=${this.ningMoeDetail.id}`
-            }
-          } else {
-            // @todo 逻辑比较复杂, 暂时不处理EP偏移
-            const { epsData } = this.state
-            const { eps = [] } = this.subject
-            const site = this.onlinePlayActionSheetData[index]
-            let epIndex
-            if (sites.includes(site)) {
-              if (isSp) {
-                url = getBangumiUrl({
-                  id: item.id,
-                  site
-                })
-              } else {
-                epIndex = eps
-                  .filter(item => item.type === 0)
-                  .findIndex(i => i.id === item.id)
-                url =
-                  epsData[site][epIndex] ||
-                  getBangumiUrl({
-                    id: item.id,
-                    site
-                  })
-              }
-            }
-          }
-
-          if (url) {
-            open(url)
-          }
-        })
-      }, 320)
-
-      return
-    }
-
-    // 未收藏不能更改进度
-    const { status = { name: '未收藏' } } = this.collection
-    if (status.name !== '未收藏') {
-      const status = MODEL_EP_STATUS.getValue(value)
-      if (status) {
+    try {
+      // iOS是本集讨论, 安卓是(+N)...
+      if (value.includes('本集讨论') || value.includes('(+')) {
         t('条目.章节菜单操作', {
-          title: '更新收视进度',
-          subjectId: this.subjectId,
-          status
-        })
-
-        // 更新收视进度
-        await userStore.doUpdateEpStatus({
-          id: item.id,
-          status
-        })
-        userStore.fetchUserCollection()
-        userStore.fetchUserProgress(this.subjectId)
-      }
-
-      if (value === '看到') {
-        t('条目.章节菜单操作', {
-          title: '批量更新收视进度',
+          title: '本集讨论',
           subjectId: this.subjectId
         })
 
-        /**
-         * 批量更新收视进度
-         * @issue 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
-         */
-        const { eps = [] } = this.subject
-        const sort = eps
-          .filter(i => i.type === 0)
-          .sort((a, b) => (a.sort || 0) - (b.sort || 0))
-          .findIndex(i => i.sort === item.sort)
-        await userStore.doUpdateSubjectWatched({
-          subjectId: this.subjectId,
-          sort: sort === -1 ? item.sort : sort + 1
-        })
-        userStore.fetchUserCollection()
-        userStore.fetchUserProgress(this.subjectId)
+        // 数据占位
+        appNavigate(
+          item.url,
+          navigation,
+          {
+            _title: `ep${item.sort}.${item.name || item.name_cn}`,
+            _group: this.subject.name || this.subject.name_cn,
+            _groupThumb: getCoverMedium((this.subject.images || {}).medium),
+            _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
+              item.desc || ''
+            ).replace(/\r\n/g, '<br />')}`
+          },
+          {
+            id: '条目.跳转',
+            data: {
+              from: '章节',
+              subjectId: this.subjectId
+            }
+          }
+        )
+        return
       }
 
-      return
-    }
+      if (value === '在线播放') {
+        // @todo 查找视频数据源地址
+        // const find = this.ningMoeDetail.eps.find(i => i.sort === item.sort)
+        // if (find && find.bakUrl) {
+        //   const realUrl = await discoveryStore.fetchNingMoeRealYunUrl({
+        //     url: find.bakUrl
+        //   })
+        //   if (realUrl) {
+        //     navigation.push('Video', {
+        //       url: realUrl
+        //     })
+        //     return
+        //   }
+        // }
 
-    info('收藏了才能管理哦')
+        setTimeout(() => {
+          showActionSheet(this.onlinePlayActionSheetData, index => {
+            t('条目.章节菜单操作', {
+              title: this.onlinePlayActionSheetData[index],
+              subjectId: this.subjectId
+            })
+
+            const isSp = item.type === 1
+            let url
+
+            if (this.onlinePlayActionSheetData[index] === '柠萌瞬间') {
+              // @notice 像一拳超人第二季这种 要处理EP偏移
+              if (isSp) {
+                url = `${HOST_NING_MOE}/detail?line=1&eps=1&bangumi_id=${this.ningMoeDetail.id}`
+              } else {
+                url = `${HOST_NING_MOE}/detail?line=1&eps=${
+                  item.sort - this.ningMoeEpOffset
+                }&bangumi_id=${this.ningMoeDetail.id}`
+              }
+            } else {
+              // @todo 逻辑比较复杂, 暂时不处理EP偏移
+              const { epsData } = this.state
+              const { eps = [] } = this.subject
+              const site = this.onlinePlayActionSheetData[index]
+              let epIndex
+              if (sites.includes(site)) {
+                if (isSp) {
+                  url = getBangumiUrl({
+                    id: item.id,
+                    site
+                  })
+                } else {
+                  epIndex = eps
+                    .filter(item => item.type === 0)
+                    .findIndex(i => i.id === item.id)
+                  url =
+                    epsData[site][epIndex] ||
+                    getBangumiUrl({
+                      id: item.id,
+                      site
+                    })
+                }
+              }
+            }
+
+            if (url) {
+              open(url)
+            }
+          })
+        }, 320)
+
+        return
+      }
+
+      // 未收藏不能更改进度
+      const { status = { name: '未收藏' } } = this.collection
+      if (status.name !== '未收藏') {
+        const status = MODEL_EP_STATUS.getValue(value)
+        if (status) {
+          t('条目.章节菜单操作', {
+            title: '更新收视进度',
+            subjectId: this.subjectId,
+            status
+          })
+
+          // 更新收视进度
+          await userStore.doUpdateEpStatus({
+            id: item.id,
+            status
+          })
+          userStore.fetchUserCollection()
+          userStore.fetchUserProgress(this.subjectId)
+        }
+
+        if (value === '看到') {
+          t('条目.章节菜单操作', {
+            title: '批量更新收视进度',
+            subjectId: this.subjectId
+          })
+
+          /**
+           * 批量更新收视进度
+           * @issue 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
+           */
+          const { eps = [] } = this.subject
+          const sort = eps
+            .filter(i => i.type === 0)
+            .sort((a, b) => (a.sort || 0) - (b.sort || 0))
+            .findIndex(i => i.sort === item.sort)
+          await userStore.doUpdateSubjectWatched({
+            subjectId: this.subjectId,
+            sort: sort === -1 ? item.sort : sort + 1
+          })
+          userStore.fetchUserCollection()
+          userStore.fetchUserProgress(this.subjectId)
+        }
+
+        return
+      }
+
+      info('收藏了才能管理哦')
+    } catch (error) {
+      warn(namespace, 'doEpsSelect', error)
+    }
   }
 
   /**
@@ -858,9 +878,13 @@ export default class ScreenSubject extends store {
       subjectId: this.subjectId
     })
 
-    await collectionStore.doUpdateCollection(values)
-    collectionStore.fetchCollection(this.subjectId)
-    this.closeManageModal()
+    try {
+      await collectionStore.doUpdateCollection(values)
+      collectionStore.fetchCollection(this.subjectId)
+      this.closeManageModal()
+    } catch (error) {
+      warn(namespace, 'doUpdateCollection', error)
+    }
   }
 
   /**
@@ -871,21 +895,25 @@ export default class ScreenSubject extends store {
       subjectId: this.subjectId
     })
 
-    const { chap, vol } = this.state
+    try {
+      const { chap, vol } = this.state
 
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    const next = String(parseInt(this.state[name] || 0) + 1)
-    await collectionStore.doUpdateBookEp({
-      subjectId: this.subjectId,
-      chap,
-      vol,
-      [name]: next
-    })
+      // eslint-disable-next-line react/no-access-state-in-setstate
+      const next = String(parseInt(this.state[name] || 0) + 1)
+      await collectionStore.doUpdateBookEp({
+        subjectId: this.subjectId,
+        chap,
+        vol,
+        [name]: next
+      })
 
-    this.setState({
-      [name]: next
-    })
-    info('更新成功')
+      this.setState({
+        [name]: next
+      })
+      info('更新成功')
+    } catch (error) {
+      warn(namespace, 'doUpdateNext', error)
+    }
   }
 
   /**
@@ -896,13 +924,17 @@ export default class ScreenSubject extends store {
       subjectId: this.subjectId
     })
 
-    const { chap, vol } = this.state
-    await collectionStore.doUpdateBookEp({
-      subjectId: this.subjectId,
-      chap,
-      vol
-    })
-    info('更新成功')
+    try {
+      const { chap, vol } = this.state
+      await collectionStore.doUpdateBookEp({
+        subjectId: this.subjectId,
+        chap,
+        vol
+      })
+      info('更新成功')
+    } catch (error) {
+      warn(namespace, 'doUpdateBookEp', error)
+    }
   }
 
   /**
@@ -913,22 +945,26 @@ export default class ScreenSubject extends store {
       subjectId: this.subjectId
     })
 
-    const userProgress = this.userProgress
-    let status
-    if (userProgress[id]) {
-      // 已观看 -> 撤销
-      status = MODEL_EP_STATUS.getValue('撤销')
-    } else {
-      // 未观看 -> 看过
-      status = MODEL_EP_STATUS.getValue('看过')
-    }
+    try {
+      const userProgress = this.userProgress
+      let status
+      if (userProgress[id]) {
+        // 已观看 -> 撤销
+        status = MODEL_EP_STATUS.getValue('撤销')
+      } else {
+        // 未观看 -> 看过
+        status = MODEL_EP_STATUS.getValue('看过')
+      }
 
-    await userStore.doUpdateEpStatus({
-      id,
-      status
-    })
-    userStore.fetchUserCollection()
-    userStore.fetchUserProgress(this.subjectId)
+      await userStore.doUpdateEpStatus({
+        id,
+        status
+      })
+      userStore.fetchUserCollection()
+      userStore.fetchUserProgress(this.subjectId)
+    } catch (error) {
+      warn(namespace, 'doEpsLongPress', error)
+    }
   }
 
   /**
@@ -944,18 +980,22 @@ export default class ScreenSubject extends store {
       subjectId: this.subjectId
     })
 
-    await userStore.doEraseCollection(
-      {
-        subjectId: this.subjectId,
-        formhash
-      },
-      () => {}, // 因为删除后是302, 使用fail去触发
-      () => {
-        info('删除收藏成功')
-        this.fetchCollection()
-        userStore.fetchUserCollection()
-      }
-    )
+    try {
+      await userStore.doEraseCollection(
+        {
+          subjectId: this.subjectId,
+          formhash
+        },
+        () => {}, // 因为删除后是302, 使用fail去触发
+        () => {
+          info('删除收藏成功')
+          this.fetchCollection()
+          userStore.fetchUserCollection()
+        }
+      )
+    } catch (error) {
+      warn(namespace, 'doEraseCollection', error)
+    }
   }
 
   /**

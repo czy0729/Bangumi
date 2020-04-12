@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 02:36:19
+ * @Last Modified time: 2020-04-12 19:47:44
  */
 import React from 'react'
 import { ScrollView, Platform } from 'react-native'
@@ -53,6 +53,16 @@ class DEV extends React.Component {
           lineHeight={16}
           type='sub'
         >
+          设备视窗{'\n'}
+          {JSON.stringify(_.window)}
+        </Text>
+        <Text
+          style={[this.styles.code, _.mt.md]}
+          size={12}
+          lineHeight={16}
+          type='sub'
+        >
+          登陆信息{'\n'}
           {JSON.stringify({
             accessToken: userStore.accessToken,
             userCookie: userStore.userCookie
@@ -64,6 +74,7 @@ class DEV extends React.Component {
           lineHeight={16}
           type='sub'
         >
+          平台信息{'\n'}
           {JSON.stringify(Platform)}
         </Text>
         <Text
@@ -72,6 +83,7 @@ class DEV extends React.Component {
           lineHeight={16}
           type='sub'
         >
+          平台常量{'\n'}
           {JSON.stringify(Constants)}
         </Text>
       </ScrollView>

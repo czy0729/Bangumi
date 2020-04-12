@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 12:02:06
+ * @Last Modified time: 2020-04-12 03:54:00
  */
 export { default as Bgm } from './bgm'
 export { default as BgmText } from './bgm-text'
@@ -22,6 +22,7 @@ export { default as Input } from './input'
 export { default as KeyboardSpacer } from './keyboard-spacer'
 export { default as ListView } from './list-view'
 export { default as Loading } from './loading'
+export { default as MaxWidth } from './max-width'
 export { default as Menu } from './menu'
 export { default as Mesume } from './mesume'
 export { default as Popover } from './popover'

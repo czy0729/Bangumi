@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 02:03:17
+ * @Last Modified time: 2020-04-12 18:44:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,14 +40,10 @@ function Head({ style }, { $ }) {
           {!!$.jp && (
             <Text type='sub' size={$.jp.length > 16 ? 11 : 15}>
               {$.jp}
-              {/* {!!label && ` · ${label}`} */}
+              {!!label && ` · ${label}`}
             </Text>
           )}
-          <Text
-            style={!!$.cn && _.mt.xs}
-            size={$.cn.length > 16 ? 15 : 18}
-            bold
-          >
+          <Text style={!!$.cn && _.mt.xs} size={$.cn.length > 16 ? 15 : 18}>
             {$.cn}
           </Text>
         </View>
@@ -80,7 +76,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   content: {
     height: 144,
-    paddingVertical: _.wind,
+    paddingVertical: _.space,
     paddingLeft: imageWidth + _.wind + 12,
     paddingRight: _.wind,
     backgroundColor: _.colorPlain,

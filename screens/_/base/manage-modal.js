@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 19:57:23
+ * @Last Modified time: 2020-04-12 18:57:37
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -292,6 +292,7 @@ class ManageModal extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   modal: {
     width: _.window.width - 2 * _.wind,
+    maxWidth: 400,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   focus: {

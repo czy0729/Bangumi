@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:25:38
+ * @Last Modified time: 2020-04-12 19:40:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,7 +91,7 @@ class Grid extends React.Component {
           contentContainerStyle={this.styles.grid}
           keyExtractor={keyExtractor}
           data={userCollection}
-          numColumns={4}
+          numColumns={_.isPad ? 5 : 4}
           footerNoMoreDataComponent={footerNoMoreDataComponent}
           footerNoMoreDataText=''
           renderItem={renderItem}
@@ -117,8 +117,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   current: {
     width: '100%',
-    height: 276,
-    paddingHorizontal: _.sm
+    height: 276
   },
   noSelect: {
     width: '100%',

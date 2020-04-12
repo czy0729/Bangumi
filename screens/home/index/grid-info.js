@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 01:55:30
+ * @Last Modified time: 2020-04-12 19:36:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,6 +14,9 @@ import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+
+const imageWidth = 104 * (_.isPad ? 1.2 : 1)
+const imageHeight = imageWidth * 1.4
 
 class GridInfo extends React.Component {
   static defaultProps = {
@@ -179,8 +182,8 @@ class GridInfo extends React.Component {
       <Flex style={styles.item} align='start'>
         <View>
           <Cover
-            size={104}
-            height={146}
+            size={imageWidth}
+            height={imageHeight}
             src={subject.images.medium}
             radius
             border
@@ -232,7 +235,7 @@ export default observer(GridInfo)
 const styles = StyleSheet.create({
   item: {
     paddingVertical: 16,
-    paddingHorizontal: _.sm
+    paddingHorizontal: _.wind
   },
   icon: {
     marginBottom: -1

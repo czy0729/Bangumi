@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 11:01:16
+ * @Last Modified time: 2020-04-12 04:19:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,7 +20,7 @@ class Eps extends React.Component {
   static defaultProps = {
     layoutWidth: 0, // 容器宽度, 存在此值则不计算onLayout, 加速渲染
     marginRight: 0, // 容器右侧的margin值
-    numbersOfLine: 8, // 1行多少个, 为了美观, 通过计算按钮占满1行
+    numbersOfLine: 8, // 1行多少个, 为了美观, 通过计算按钮占满1行, iPad会忽略
     pagination: false, // 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示Carousel
     advance: false, // 详情页模式, 显示SP和更多的操作按钮
     login: false, // 是否已登陆
@@ -63,6 +63,13 @@ class Eps extends React.Component {
   }
 
   get style() {
+    if (_.isPad) {
+      return {
+        width: 36,
+        margin: _.sm
+      }
+    }
+
     const { width } = this.state
     const { numbersOfLine } = this.props
     if (!width) {
@@ -151,7 +158,7 @@ class Eps extends React.Component {
       <Popover
         key={item.id}
         style={{
-          marginRight: isSide ? 0 : margin,
+          marginRight: _.isPad ? margin : isSide ? 0 : margin,
           marginBottom: margin
         }}
         onLongPress={() => onLongPress(item)}

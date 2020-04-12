@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 14:15:13
+ * @Last Modified time: 2020-04-12 18:51:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     zIndex: 1,
-    top: _.wind,
+    top: _.space,
     left: _.wind
   },
   placeholder: {

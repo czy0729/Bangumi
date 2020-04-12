@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 18:08:42
+ * @Last Modified time: 2020-04-12 19:59:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,6 +14,11 @@ import { keyExtractor } from '@utils/app'
 import Item from './item'
 import ItemLine from './item-line'
 import { marginLeft } from './store'
+
+let day = new Date().getDay()
+if (day === 0) {
+  day = 7
+}
 
 function List(props, { $ }) {
   const { layout } = $.state
@@ -35,6 +40,11 @@ function List(props, { $ }) {
                 timeCN = ''
               }
 
+              let { air } = i
+              if (i.air_weekday !== day && air !== 0) {
+                air = parseInt(air) + 1
+              }
+
               if ($.isList) {
                 return (
                   <ItemLine
@@ -43,7 +53,7 @@ function List(props, { $ }) {
                     images={i.images}
                     name={i.name_cn || i.name}
                     score={i.rating && i.rating.score}
-                    air={i.air}
+                    air={air}
                     timeCN={timeCN}
                   />
                 )
@@ -56,7 +66,7 @@ function List(props, { $ }) {
                   images={i.images}
                   name={i.name_cn || i.name}
                   score={i.rating && i.rating.score}
-                  air={i.air}
+                  air={air}
                   timeCN={timeCN}
                 />
               )

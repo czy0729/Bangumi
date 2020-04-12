@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 10:26:39
+ * @Last Modified time: 2020-04-12 19:37:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,8 @@ import { Cover } from '@screens/_'
 import { _ } from '@stores'
 
 const margin = 10
-const imageWidth = (_.window.width - 3 * margin - 2 * _.wind) / 4
+const num = _.isPad ? 5 : 4
+const imageWidth = (_.window.width - (num - 1) * margin - 2 * _.wind) / num
 
 function GridItem(
   { subject, subject_id: subjectId, ep_status: epStatus },
