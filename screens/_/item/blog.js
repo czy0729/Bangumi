@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 01:32:41
+ * @Last Modified time: 2020-04-19 17:43:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -118,10 +118,10 @@ const memoStyles = _.memoStyles(_ => ({
   },
   imgContainer: {
     width: imgWidth,
-    marginRight: _.wind
+    marginRight: _._wind
   },
   wrap: {
-    paddingVertical: _.wind,
+    paddingVertical: _.space,
     paddingRight: _.wind
   },
   border: {

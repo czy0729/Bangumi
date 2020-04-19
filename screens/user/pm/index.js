@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 21:09:39
+ * @Last Modified time: 2020-04-19 17:52:37
  */
 import React from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
@@ -110,10 +110,12 @@ class PM extends React.Component {
 
 const styles = StyleSheet.create({
   form: {
-    padding: _.wind
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind
   },
   ipt: {
-    padding: _.wind,
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind,
     borderRadius: 0
   }
 })

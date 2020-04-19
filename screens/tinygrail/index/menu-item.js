@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 20:57:15
+ * @Last Modified time: 2020-04-19 21:52:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,8 +11,8 @@ import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
-const sectionWidth = parseInt((_.window.width - _.wind * 3) / 2)
-const sectionHeight = sectionWidth / 2.68
+const sectionWidth = parseInt((_.window.width - _.wind * 2 - _._wind) / 2)
+const sectionHeight = Math.min(sectionWidth / 2.68, 88)
 
 function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
   const styles = memoStyles()
@@ -46,8 +46,8 @@ export default observer(MenuItem)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    marginRight: _.wind,
-    marginBottom: _.wind,
+    marginRight: _._wind,
+    marginBottom: _.isPad ? 16 : _.space,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:37:56
+ * @Last Modified time: 2020-04-19 18:41:46
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -38,7 +38,7 @@ export default observer(TabBarLeft)
 const memoStyles = _.memoStyles(_ => ({
   tabBarLeft: {
     height: 42,
-    paddingLeft: _.wind,
+    paddingLeft: _._wind,
     paddingRight: _.sm,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 19:40:00
+ * @Last Modified time: 2020-04-14 20:15:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -112,8 +112,7 @@ export default observer(Grid)
 const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
-    paddingTop: IOS ? _.tabsHeaderHeight - correctHeightIOS : 0,
-    backgroundColor: _.colorPlain
+    paddingTop: IOS ? _.tabsHeaderHeight - correctHeightIOS : 0
   },
   current: {
     width: '100%',

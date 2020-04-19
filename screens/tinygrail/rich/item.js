@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:36:19
+ * @Last Modified time: 2020-04-19 21:29:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -109,7 +109,7 @@ function Item(
             }}
           />
         </View>
-        <Flex.Item style={!isTop && styles.border}>
+        <Flex.Item style={[styles.wrap, !isTop && styles.border]}>
           <Flex align='start'>
             <Flex.Item style={_.mr.sm}>
               <Touchable
@@ -177,6 +177,9 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer
+  },
+  wrap: {
+    paddingRight: _.wind - _._wind
   },
   avatar: {
     marginRight: _.xs,

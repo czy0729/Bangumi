@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 19:09:16
+ * @Last Modified time: 2020-04-15 16:29:06
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,8 +13,8 @@ import { formatNumber } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
-const width = _.window.width * 0.2
-const marginLeft = (_.window.width - 4 * width) / 5
+const width = _.window.contentWidth * 0.2
+const marginLeft = (_.window.contentWidth - 4 * width) / 5
 
 function Item({ type, name, nums }, { navigation }) {
   const styles = memoStyles()
@@ -59,7 +59,7 @@ export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    marginTop: _.wind,
+    marginTop: _.space,
     marginLeft
   },
   item: {

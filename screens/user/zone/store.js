@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:56:16
+ * @Last Modified time: 2020-04-19 19:08:04
  */
 import { observable, computed } from 'mobx'
 import {
@@ -21,7 +21,7 @@ import { HTMLDecode } from '@utils/html'
 import { info } from '@utils/ui'
 import { HOST } from '@constants'
 
-export const height = _.window.width * 0.64
+export const height = Math.min(_.window.width * 0.64, 288)
 
 // @todo 偏差了6pt, 有空再纠正
 export const headerHeight = _.headerHeight + 6

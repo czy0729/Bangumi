@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 04:09:58
+ * @Last Modified time: 2020-04-14 20:51:30
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -194,15 +194,16 @@ export default observer(List)
 
 const memoStyles = _.memoStyles(_ => ({
   contentContainerStyle: {
-    padding: _.wind,
-    paddingRight: 0
+    paddingVertical: _.space,
+    paddingRight: _.wind - _._wind,
+    paddingLeft: _.wind
   },
   section: {
-    marginTop: _.wind,
+    marginTop: _.space,
     marginHorizontal: _.wind
   },
   big: {
-    marginTop: _.wind,
+    marginTop: _.space,
     marginHorizontal: _.wind,
     backgroundColor: _.colorIcon,
     borderRadius: _.radiusMd,
@@ -211,9 +212,9 @@ const memoStyles = _.memoStyles(_ => ({
   desc: {
     position: 'absolute',
     zIndex: 1,
-    right: _.wind - 2,
-    bottom: _.wind - 2,
-    left: _.wind - 2
+    right: _._wind - 2,
+    bottom: _.space - 2,
+    left: _._wind - 2
   },
   info: {
     opacity: 0.92
@@ -222,7 +223,7 @@ const memoStyles = _.memoStyles(_ => ({
     opacity: 0.92
   },
   image: {
-    marginRight: _.wind,
+    marginRight: _._wind,
     backgroundColor: _.colorIcon,
     borderRadius: _.radiusSm,
     overflow: 'hidden'

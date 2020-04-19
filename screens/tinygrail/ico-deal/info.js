@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:42:45
+ * @Last Modified time: 2020-04-19 17:51:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -102,7 +102,8 @@ export default observer(Info)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    padding: _.wind
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind
   },
   image: {
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)

@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-02 23:05:21
+ * @Last Modified time: 2020-04-19 19:48:09
  */
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView, Flex, Touchable, Iconfont } from '@components'
 import { SectionHeader, ItemBangumiList } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
+import { height } from './store'
 
 const event = {
   id: '空间.跳转'
@@ -35,6 +37,7 @@ class List extends React.Component {
         onPress={() => $.toggleSection(title)}
       >
         <SectionHeader
+          style={styles.sectionHeader}
           size={14}
           right={
             <Iconfont
@@ -71,6 +74,7 @@ class List extends React.Component {
     })
     return (
       <ListView
+        contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         sections={sections}
         renderSectionHeader={this.renderSectionHeader}
@@ -101,3 +105,13 @@ class List extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  contentContainerStyle: {
+    paddingHorizontal: _.wind - _._wind,
+    paddingBottom: height
+  },
+  sectionHeader: {
+    paddingHorizontal: _._wind
+  }
+})

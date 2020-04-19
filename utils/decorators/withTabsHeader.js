@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-21 16:46:07
+ * @Last Modified time: 2020-04-14 20:05:16
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -44,6 +44,9 @@ const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
             ),
             headerLeft,
             headerRight,
+            headerRightContainerStyle: {
+              marginRight: _._wind
+            },
             headerBackground: <BlurView />
           }
         } else {
@@ -73,7 +76,7 @@ const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
               paddingLeft: _.xs
             },
             headerRightContainerStyle: {
-              marginRight: _.wind - _.sm
+              marginRight: _._wind - _.sm
             },
             headerBackground
           }

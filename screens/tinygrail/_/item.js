@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 02:26:09
+ * @Last Modified time: 2020-04-19 21:26:02
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -175,7 +175,7 @@ function Item(props, { $, navigation }) {
           })
         }}
       />
-      <Flex.Item style={index !== 0 && styles.border}>
+      <Flex.Item style={[styles.wrap, index !== 0 && styles.border]}>
         <Flex align='start'>
           <Flex.Item>
             <Touchable
@@ -317,6 +317,9 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorTinygrailContainer
+  },
+  wrap: {
+    paddingRight: _.wind - _._wind
   },
   avatar: {
     marginRight: _.xs,

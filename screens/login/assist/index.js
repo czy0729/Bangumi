@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 20:09:10
+ * @Last Modified time: 2020-04-19 17:51:11
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -213,10 +213,7 @@ class LoginAssist extends React.Component {
       })
 
       const { responseURL } = await res
-      this.code = responseURL
-        .split('=')
-        .slice(1)
-        .join('=')
+      this.code = responseURL.split('=').slice(1).join('=')
       return res
     } catch (error) {
       this.setState({
@@ -364,7 +361,8 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.wind
   },
   code: {
-    padding: _.wind,
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.colorBorder,

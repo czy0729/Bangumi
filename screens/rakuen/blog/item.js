@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 04:03:04
+ * @Last Modified time: 2020-04-19 17:47:54
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -288,11 +288,11 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorWarning
   },
   image: {
-    marginTop: _.wind,
+    marginTop: _.space,
     marginLeft: _.wind
   },
   content: {
-    paddingVertical: _.wind,
+    paddingVertical: _.space,
     paddingRight: _.wind
   },
   sign: {
@@ -313,9 +313,6 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.md
   },
   reply: {
-    // position: 'absolute',
-    // right: 0,
-    // bottom: 0,
     padding: _.sm,
     marginRight: -_.sm,
     marginBottom: -_.sm,

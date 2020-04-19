@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:29:32
+ * @Last Modified time: 2020-04-19 18:45:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,9 +26,11 @@ function Head({ style }, { $, navigation }) {
               style={styles.r1}
               onPress={() => navigation.push('Character')}
             >
-              <Text type={_.select('plain', 'title')} size={13}>
-                [人物]
-              </Text>
+              <View>
+                <Text type={_.select('plain', 'title')} size={13}>
+                  [人物]
+                </Text>
+              </View>
             </Touchable>
             <Touchable
               style={styles.r2}

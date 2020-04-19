@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 3.1.0" src="https://img.shields.io/badge/Version-3.1.0-0366d6" />
+  <img alt="Version: 3.1.4" src="https://img.shields.io/badge/Version-3.1.4-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -56,6 +56,19 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 [CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
 ## Update
+
+v3.1.4 - 2020/04/12
+
+—— 优化 ——
+
+- [x] [每日放送] 新增时间线 UI, 并修复了数据的正确性
+- [x] [搜索] 当设置了隐藏评分时结果不显示评分; 选择分类后会自动搜索
+- [x] 调整所有文字的粗细 (iOS)
+
+—— 修复 ——
+
+- [x] [条目] 修复了一个存在已久的问题, 当条目信息没加载完前点击了页面的按钮, 有机会崩溃的问题
+- [x] [排行榜] 修复了筛选条件下条目过少会一直请求下一页的问题
 
 v3.1.0 - 2020/04/06
 

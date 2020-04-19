@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 20:52:38
+ * @Last Modified time: 2020-04-19 17:58:42
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -111,7 +111,7 @@ export default observer(CatalogItem)
 
 const memoStyles = _.memoStyles(_ => ({
   shadow: {
-    marginTop: _.wind,
+    marginTop: _.space,
     marginLeft: _.wind
   },
   item: {

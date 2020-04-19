@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:37:56
+ * @Last Modified time: 2020-04-19 22:40:26
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -152,7 +152,7 @@ class Temples extends React.Component {
           </Touchable>
         </Flex>
         {showTemples && (
-          <Flex wrap='wrap'>
+          <Flex style={styles.temples} wrap='wrap'>
             {this.list.map(item => (
               <ItemTemple
                 key={item.nickname}
@@ -194,6 +194,9 @@ class Temples extends React.Component {
 const styles = StyleSheet.create({
   container: {
     minHeight: 120
+  },
+  temples: {
+    paddingHorizontal: _.wind - _._wind
   },
   info: {
     paddingTop: _.md,

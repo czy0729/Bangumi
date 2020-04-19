@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 14:16:39
+ * @Last Modified time: 2020-04-19 17:55:26
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -38,7 +38,7 @@ export default observer(SearchBar)
 const memoStyles = _.memoStyles(_ => ({
   searchIpt: {
     height: 34,
-    paddingHorizontal: _.wind,
+    paddingHorizontal: _._wind,
     fontSize: 12 + _.fontSizeAdjust,
     lineHeight: 14,
     backgroundColor: _.colorPlain,

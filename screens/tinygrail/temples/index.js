@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 15:10:50
+ * @Last Modified time: 2020-04-19 21:30:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,6 +52,7 @@ class TinygrailTemples extends React.Component {
         {_loaded ? (
           <ListView
             style={_.container.flex}
+            contentContainerStyle={this.styles.contentContainerStyle}
             keyExtractor={keyExtractor}
             refreshControlProps={{
               color: _.colorTinygrailText
@@ -79,6 +80,9 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer
+  },
+  contentContainerStyle: {
+    paddingHorizontal: _.wind - _._wind
   }
 }))
 

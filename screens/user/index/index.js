@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 23:26:33
+ * @Last Modified time: 2020-04-19 19:03:36
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -48,7 +48,8 @@ class User extends React.Component {
   }
 
   state = {
-    scrollY: new Animated.Value(0)
+    scrollY: new Animated.Value(0),
+    fixed: false // 头部是否置顶
   }
 
   offsetZeroNativeEvent
@@ -68,7 +69,8 @@ class User extends React.Component {
       this.offsetZeroNativeEvent.contentOffset.y = 0
     }
 
-    const { scrollY } = this.state
+    // 触发动画
+    const { scrollY, fixed } = this.state
     Animated.event([
       {
         nativeEvent: {
@@ -78,6 +80,19 @@ class User extends React.Component {
         }
       }
     ])(e)
+
+    // 更新头部是否置顶
+    const { contentOffset } = e.nativeEvent
+    const { y } = contentOffset
+    if (fixed && y < height) {
+      this.setState({
+        fixed: false
+      })
+    } else if (!fixed && y >= height) {
+      this.setState({
+        fixed: true
+      })
+    }
   }
 
   onTabsChange = page => {
@@ -145,7 +160,7 @@ class User extends React.Component {
     }
 
     const { subjectType } = $.state
-    const { scrollY } = this.state
+    const { scrollY, fixed } = this.state
     return (
       <View style={_.container.screen}>
         <UM screen={title} />
@@ -172,7 +187,7 @@ class User extends React.Component {
             />
           ))}
         </Tabs>
-        <ParallaxImage scrollY={scrollY} />
+        <ParallaxImage scrollY={scrollY} fixed={fixed} />
       </View>
     )
   }

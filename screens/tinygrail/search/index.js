@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 06:08:54
+ * @Last Modified time: 2020-04-19 17:51:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,6 +64,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorTinygrailContainer
   },
   searchBar: {
-    padding: _.wind
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 16:04:13
+ * @Last Modified time: 2020-04-19 20:45:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,13 +44,13 @@ class Auth extends React.Component {
         <IconTabsHeader
           style={_.header.left}
           name='setting'
-          color={_.colorSub}
+          color={_.colorDesc}
           onPress={() => navigation.push('Setting')}
         />
         <IconTabsHeader
           style={_.header.right}
           name='search'
-          color={_.colorSub}
+          color={_.colorDesc}
           onPress={() => navigation.push('Search')}
         />
         <IconTinygrail
@@ -60,7 +60,7 @@ class Auth extends React.Component {
               right: 44
             }
           ]}
-          color={_.colorSub}
+          color={_.colorDesc}
           navigation={navigation}
         />
         <NavigationEvents

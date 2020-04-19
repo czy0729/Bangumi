@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 01:26:16
+ * @Last Modified time: 2020-04-19 14:51:41
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,7 +13,7 @@ import { t } from '@utils/fetch'
 import { _ } from '@stores'
 
 const width = _.window.width - _.wind * 2
-const height = width * 0.42
+const height = width * (_.isPad ? 0.32 : 0.42)
 
 function Item(
   { id, name, title, info, last, book, anime, music, game, real },
@@ -25,7 +25,6 @@ function Item(
 
   const styles = memoStyles()
   const { list, collect = '-' } = $.catalogDetail(id)
-
   const text = []
   if (name) text.push(name)
   if (last) text.push(last)
@@ -53,7 +52,7 @@ function Item(
           </Text>
           <Flex style={[styles.images, _.mt.sm]}>
             {list
-              .filter((item, index) => index < 3)
+              .filter((item, index) => index < (_.isPad ? 4 : 3))
               .map(item => (
                 <Cover
                   key={item.id}
@@ -93,7 +92,7 @@ export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   shadow: {
-    marginTop: _.wind,
+    marginTop: _.space,
     marginLeft: _.wind
   },
   item: {

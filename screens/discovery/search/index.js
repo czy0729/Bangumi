@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 14:32:13
+ * @Last Modified time: 2020-04-19 17:51:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -95,7 +95,8 @@ class Search extends React.Component {
 
 const styles = StyleSheet.create({
   searchBar: {
-    padding: _.wind
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind
   },
   btn: {
     width: 68,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 15:27:04
+ * @Last Modified time: 2020-04-19 17:52:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -122,7 +122,8 @@ const memoStyles = _.memoStyles(_ => ({
     height: 240
   },
   container: {
-    padding: _.wind
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind
   },
   baseFontStyle: {
     fontSize: 14 + _.fontSizeAdjust,

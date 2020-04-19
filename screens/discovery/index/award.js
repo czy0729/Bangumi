@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 03:52:00
+ * @Last Modified time: 2020-04-14 20:35:02
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -118,7 +118,8 @@ export default observer(Award)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    padding: _.wind
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind
   },
   item: {
     width: itemWidth * 2.12,

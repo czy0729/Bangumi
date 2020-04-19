@@ -297,7 +297,7 @@ class StockPreview extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   container: {
     height: '100%',
-    paddingVertical: _.wind,
+    paddingVertical: _.space,
     paddingHorizontal: _.sm
   },
   current: {

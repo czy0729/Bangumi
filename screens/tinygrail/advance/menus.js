@@ -53,7 +53,7 @@ export default observer(Menus)
 
 const memoStyles = _.memoStyles(_ => ({
   section: {
-    paddingVertical: _.wind,
+    paddingVertical: _.space,
     marginLeft: _.wind
   },
   bid: {

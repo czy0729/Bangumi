@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:16:41
+ * @Last Modified time: 2020-04-19 22:56:58
  */
 import React from 'react'
 import { StyleSheet, View, WebView } from 'react-native'
@@ -15,7 +15,7 @@ import { HOST_CDN } from '@constants/cdn'
 import html from './html'
 import { getKData } from './utils'
 
-const H_WEBVIEW = _.window.height * 0.64
+const H_WEBVIEW = Math.min(_.window.height * 0.64, 480)
 let renderCount = 0
 
 export default

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 01:41:44
+ * @Last Modified time: 2020-04-15 15:56:26
  */
 import React from 'react'
 import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
@@ -87,6 +87,9 @@ const withHeader = ({
             />
           ),
           headerRight,
+          headerRightContainerStyle: {
+            marginRight: _._wind
+          },
           headerStyle: IOS
             ? {
                 backgroundColor: _.colorPlain,

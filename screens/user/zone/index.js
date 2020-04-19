@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 19:20:34
+ * @Last Modified time: 2020-04-19 20:00:32
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -36,8 +36,12 @@ class Zone extends React.Component {
   }
 
   state = {
-    scrollY: new Animated.Value(0)
+    scrollY: new Animated.Value(0),
+    fixed: false // 头部是否置顶
   }
+
+  offsetZeroNativeEvent
+  loaded = {}
 
   componentDidMount() {
     const { $ } = this.context
@@ -47,7 +51,14 @@ class Zone extends React.Component {
   }
 
   onScroll = e => {
-    const { scrollY } = this.state
+    // 记录一个nativeEvent
+    if (!this.offsetZeroNativeEvent && e.nativeEvent) {
+      this.offsetZeroNativeEvent = e.nativeEvent
+      this.offsetZeroNativeEvent.contentOffset.y = 0
+    }
+
+    // 触发动画
+    const { scrollY, fixed } = this.state
     Animated.event([
       {
         nativeEvent: {
@@ -57,6 +68,45 @@ class Zone extends React.Component {
         }
       }
     ])(e)
+
+    // 更新头部是否置顶
+    const { contentOffset } = e.nativeEvent
+    const { y } = contentOffset
+    if (fixed && y < height) {
+      this.setState({
+        fixed: false
+      })
+    } else if (!fixed && y >= height) {
+      this.setState({
+        fixed: true
+      })
+    }
+  }
+
+  onTabsChange = page => {
+    if (!this.loaded[page]) {
+      this.resetPageOffset(page)
+    }
+  }
+
+  resetPageOffset = page => {
+    if (!this.loaded[page] && this.offsetZeroNativeEvent) {
+      setTimeout(() => {
+        const { scrollY } = this.state
+        Animated.event([
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrollY
+              }
+            }
+          }
+        ])({
+          nativeEvent: this.offsetZeroNativeEvent
+        })
+        this.loaded[page] = true
+      }, 0)
+    }
   }
 
   render() {
@@ -65,7 +115,7 @@ class Zone extends React.Component {
       return <View style={_.container.screen} />
     }
 
-    const { scrollY } = this.state
+    const { scrollY, fixed } = this.state
     const listViewProps = {
       ListHeaderComponent: (
         <View
@@ -85,13 +135,18 @@ class Zone extends React.Component {
           backgroundColor='transparent'
         />
         <NavigationBarEvents />
-        <Tabs style={_.container.screen} $={$} scrollY={scrollY}>
+        <Tabs
+          style={_.container.screen}
+          $={$}
+          scrollY={scrollY}
+          onChange={(item, page) => this.onTabsChange(page)}
+        >
           <BangumiList {...listViewProps} />
           <TimelineList {...listViewProps} />
           <About {...listViewProps} />
           <Tinygrail {...listViewProps} />
         </Tabs>
-        <ParallaxImage scrollY={scrollY} />
+        <ParallaxImage scrollY={scrollY} fixed={fixed} />
       </View>
     )
   }

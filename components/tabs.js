@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-19 17:36:52
+ * @Last Modified time: 2020-04-19 19:06:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -71,7 +71,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   touchBlock: {
     position: 'absolute',
-    top: 0,
+    top: 160,
     bottom: 0,
     left: 0,
     width: _.wind

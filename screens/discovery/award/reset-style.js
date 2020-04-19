@@ -3,24 +3,24 @@
  * @Author: czy0729
  * @Date: 2019-08-18 22:44:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 19:21:58
+ * @Last Modified time: 2020-04-19 22:59:27
  */
 import _ from '@styles'
 
 const widthSubject = parseInt((_.window.width - 24) / 3)
 const widthMono = parseInt((_.window.width - 48) / 4)
 const heightMono = widthMono * 1.32
-const hiddenStyle = `
-  /* 隐藏 */
-  .shareBtn,
-  #headerNeue2,
-  #personalStatsWrapper,
-  #personalTabStats,
-  #main,
-  #dock {
-    display: none;
-  }
-`
+// const hiddenStyle = `
+//   /* 隐藏 */
+//   .shareBtn,
+//   #headerNeue2,
+//   #personalStatsWrapper,
+//   #personalTabStats,
+//   #main,
+//   #dock {
+//     display: none;
+//   }
+// `
 
 /**
  * 样式遍历加上important

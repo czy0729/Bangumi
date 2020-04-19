@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:36:26
+ * @Last Modified time: 2020-04-19 17:51:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -116,7 +116,8 @@ export default observer(AuctionList)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    padding: _.wind
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind
   },
   info: {
     paddingBottom: _.sm

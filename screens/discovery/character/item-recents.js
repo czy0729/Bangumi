@@ -154,7 +154,7 @@ const memoStyles = _.memoStyles(_ => ({
     width: imgWidth
   },
   wrap: {
-    paddingVertical: _.wind,
+    paddingVertical: _.space,
     paddingRight: _.wind
   },
   border: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:36:14
+ * @Last Modified time: 2020-04-19 22:13:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,11 +16,12 @@ import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 
-const imageWidth = _.window.width * 0.28
-const marginLeft = (_.window.width - 3 * imageWidth) / 4
+const imageWidth = _.window.contentWidth * 0.28
+const marginLeft = (_.window.contentWidth - 3 * imageWidth) / 4
 
 function ItemTemple(
   {
+    style,
     id,
     userId,
     cover,
@@ -56,7 +57,7 @@ function ItemTemple(
       : `${assets} / ${sacrifices}`
     : sacrifices
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, style]}>
       <Image
         style={styles.image}
         size={imageWidth}

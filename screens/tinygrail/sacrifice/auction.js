@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-28 19:55:27
+ * @Last Modified time: 2020-04-19 17:51:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -148,7 +148,8 @@ export default observer(Auction)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    padding: _.wind,
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind,
     backgroundColor: _.colorTinygrailBg
   },
   inputWrap: {

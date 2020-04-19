@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-29 02:18:42
+ * @Last Modified time: 2020-04-19 18:42:33
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore } from '@stores'
@@ -14,7 +14,7 @@ import {
   MODEL_COLLECTIONS_ORDERBY
 } from '@constants/model'
 
-export const height = _.window.width * 0.64
+export const height = Math.min(_.window.width * 0.64, 288)
 
 // @todo 偏差了6pt, 有空再纠正
 export const headerHeight = _.headerHeight + 6

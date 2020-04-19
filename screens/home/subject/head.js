@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 18:44:54
+ * @Last Modified time: 2020-04-19 20:55:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,8 @@ import { ScoreTag } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import { imageWidth, imageHeight } from './store'
 import Cover from './cover'
-
-const imageWidth = 120
 
 function Head({ style }, { $ }) {
   const styles = memoStyles()
@@ -75,7 +74,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: 48
   },
   content: {
-    height: 144,
+    height: imageHeight,
     paddingVertical: _.space,
     paddingLeft: imageWidth + _.wind + 12,
     paddingRight: _.wind,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 10:52:14
+ * @Last Modified time: 2020-04-19 19:05:13
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -26,7 +26,7 @@ const dataMe = [
 ]
 const dataOther = ['TA的好友', 'TA的netaba.re']
 
-function ParallaxImage({ scrollY }, { $, navigation }) {
+function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   const styles = memoStyles()
   const { id, avatar = {}, nickname } = $.usersInfo
   const isMe = $.myUserId === id
@@ -58,7 +58,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
   const data = isMe ? dataMe : dataOther
   return (
     <>
-      <View style={styles.parallax}>
+      <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
           source={{
@@ -143,20 +143,6 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
               case 'TA的netaba.re':
                 open(`https://netaba.re/user/${id}`)
                 break
-
-              // case '缺少收藏?':
-              //   setTimeout(() => {
-              //     Alert.alert(
-              //       '提示',
-              //       '因隐藏条目受登陆状态影响, 若条目没找到, 可以尝试重新登陆',
-              //       [
-              //         {
-              //           text: '知道了'
-              //         }
-              //       ]
-              //     )
-              //   }, 400)
-              //   break
 
               default:
                 break

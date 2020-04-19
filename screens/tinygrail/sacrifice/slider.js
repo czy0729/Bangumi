@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 20:21:20
+ * @Last Modified time: 2020-04-19 17:51:52
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -136,7 +136,8 @@ export default observer(Slider)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    padding: _.wind,
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind,
     backgroundColor: _.colorTinygrailBg
   },
   inputWrap: {

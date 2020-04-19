@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 19:05:29
+ * @Last Modified time: 2020-04-15 15:58:36
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,8 +15,8 @@ import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import Cover from '../base/cover'
 
-const imageWidth = _.window.width * 0.2
-const marginLeft = (_.window.width - 4 * imageWidth) / 5
+const imageWidth = _.window.contentWidth * 0.2
+const marginLeft = (_.window.contentWidth - 4 * imageWidth) / 5
 
 function CollectionsGrid({
   style,
@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
   item: {
     width: imageWidth,
     marginLeft,
-    marginBottom: _.wind
+    marginBottom: _.space
   }
 })

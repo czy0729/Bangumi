@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 10:46:13
+ * @Last Modified time: 2020-04-14 20:28:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,7 @@ function Ep({ style }, { $, navigation }) {
       <Eps
         style={_.mt.md}
         layoutWidth={layoutWidth}
-        marginRight={_.wind}
+        marginRight={_._wind}
         advance
         pagination
         login={$.isLogin}
@@ -89,6 +89,7 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     minHeight: 146,
     marginLeft: _.wind,
+    marginRight: _.wind - _._wind,
     backgroundColor: _.colorPlain
   },
   iconPlay: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 02:11:14
+ * @Last Modified time: 2020-04-19 20:38:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -319,7 +319,9 @@ class Item extends React.Component {
             userId={this.userId}
             event={event}
           />
-          <Flex.Item style={[!isTop && this.styles.border, _.ml.sm]}>
+          <Flex.Item
+            style={[this.styles.wrap, !isTop && this.styles.border, _.ml.sm]}
+          >
             <Flex align='start'>
               <Flex.Item>{this.renderContent()}</Flex.Item>
               {this.renderStockPreview()}
@@ -351,6 +353,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   readed: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
+  },
+  wrap: {
+    paddingRight: _.wind - _._wind
   },
   image: {
     marginRight: _.xs,

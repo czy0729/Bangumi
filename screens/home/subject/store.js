@@ -4,11 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 03:04:05
+ * @Last Modified time: 2020-04-19 20:55:28
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
 import {
+  _,
   subjectStore,
   discoveryStore,
   userStore,
@@ -35,6 +36,9 @@ import {
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { NINGMOE_ID } from '@constants/online'
+
+export const imageWidth = _.isPad ? 152 : 120
+export const imageHeight = imageWidth * 1.33
 
 const namespace = 'ScreenSubject'
 const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']

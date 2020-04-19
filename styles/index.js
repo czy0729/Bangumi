@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 19:44:18
+ * @Last Modified time: 2020-04-14 21:05:34
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -10,15 +10,15 @@ import { IOS } from '@constants'
 
 // -------------------- 设备 --------------------
 const { width, height } = Dimensions.get('window')
+const maxWidth = 544
 export const window = {
   width,
-  maxWidth: 616,
-  contentWidth: Math.min(width, 616),
+  maxWidth,
+  contentWidth: Math.min(width, maxWidth),
   height
 }
 export const logoWidth = 124 // logo宽度
-export const isPad = false
-// export const isPad = width > 600
+export const isPad = width > 616
 
 let _statusBarHeight = Constants.statusBarHeight // 状态栏高度
 
@@ -42,9 +42,9 @@ export const xs = isPad ? 8 : 4
 export const sm = isPad ? 12 : 8
 export const md = isPad ? 24 : 16
 export const lg = isPad ? 48 : 32
-export const space = isPad ? 24 : 16 // 上下
-export const wind = isPad ? width * 0.148 : 16 // 两翼
+export const wind = isPad ? parseInt((width - maxWidth) / 2) : 16 // 两翼
 export const _wind = 16
+export const space = isPad ? 24 : 16 // 上下
 export const bottom = tabBarHeight + lg + md // 底部留空
 
 // -------------------- 主题色 --------------------

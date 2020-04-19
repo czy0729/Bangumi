@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:47:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 02:58:40
+ * @Last Modified time: 2020-04-15 16:30:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -91,7 +91,7 @@ export default observer(Item)
 
 const styles = StyleSheet.create({
   big: {
-    marginTop: _.wind,
+    marginTop: _.space,
     marginHorizontal: _.wind,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
@@ -99,9 +99,9 @@ const styles = StyleSheet.create({
   desc: {
     position: 'absolute',
     zIndex: 1,
-    right: _.wind,
-    bottom: _.wind,
-    left: _.wind
+    right: _._wind,
+    bottom: _.space,
+    left: _._wind
   },
   title: {
     opacity: 0.88

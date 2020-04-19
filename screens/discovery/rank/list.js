@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:47:38
+ * @Last Modified time: 2020-04-15 16:02:05
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -76,7 +76,7 @@ class List extends React.Component {
       <ListView
         key={String(numColumns)}
         numColumns={numColumns}
-        contentContainerStyle={_.container.bottom}
+        contentContainerStyle={list ? this.styles.list : this.styles.grid}
         keyExtractor={keyExtractor}
         data={$.rank}
         renderItem={this.renderItem}
@@ -85,4 +85,18 @@ class List extends React.Component {
       />
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  list: {
+    paddingBottom: _.bottom
+  },
+  grid: {
+    paddingHorizontal: _.wind - _._wind,
+    paddingBottom: _.bottom
+  }
+}))

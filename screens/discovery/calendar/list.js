@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 19:59:37
+ * @Last Modified time: 2020-04-15 16:49:31
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -21,11 +21,13 @@ if (day === 0) {
 }
 
 function List(props, { $ }) {
+  const styles = memoStyles()
   const { layout } = $.state
   return (
     <ListView
       key={layout}
       style={_.container.screen}
+      contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       sections={$.sections}
       numColumns={$.isList ? undefined : 3}
@@ -83,6 +85,12 @@ List.contextTypes = {
 }
 
 export default observer(List)
+
+const memoStyles = _.memoStyles(_ => ({
+  contentContainerStyle: {
+    paddingHorizontal: _.wind - _._wind
+  }
+}))
 
 function renderSectionHeader({ section: { title } }) {
   return (

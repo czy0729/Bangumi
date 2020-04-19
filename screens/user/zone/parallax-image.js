@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:39:39
+ * @Last Modified time: 2020-04-19 19:11:22
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -19,7 +19,7 @@ import { IOS, HOST } from '@constants'
 import Head from './head'
 import { height, headerHeight } from './store'
 
-function ParallaxImage({ scrollY }, { $, navigation }) {
+function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   const styles = memoStyles()
   const { _image, _name } = $.params
   const { avatar = {}, nickname, id, username } = $.usersInfo
@@ -64,7 +64,7 @@ function ParallaxImage({ scrollY }, { $, navigation }) {
   }
   return (
     <>
-      <View style={styles.parallax}>
+      <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
           source={{ uri }} // blurView可以优先使用缩略图

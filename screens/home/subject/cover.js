@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 18:51:03
+ * @Last Modified time: 2020-04-19 20:55:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,8 +12,7 @@ import { Cover as CompCover } from '@screens/_'
 import { getCoverMedium, getCoverLarge } from '@utils/app'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 import { _ } from '@stores'
-
-const imageWidth = 120
+import { imageWidth, imageHeight } from './store'
 
 export default
 @observer
@@ -43,7 +42,7 @@ class Cover extends React.Component {
           <CompCover
             src={CDN_OSS_SUBJECT(getCoverMedium(image))}
             size={imageWidth}
-            height={160}
+            height={imageHeight}
             radius
             border
             shadow
@@ -66,7 +65,7 @@ class Cover extends React.Component {
             style={styles.placeholder}
             src={placeholder}
             size={imageWidth}
-            height={160}
+            height={imageHeight}
             radius
             border
             shadow

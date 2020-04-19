@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 15:06:22
+ * @Last Modified time: 2020-04-19 22:15:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -152,8 +152,8 @@ export default observer(Header)
 const memoStyles = _.memoStyles(_ => ({
   container: {
     zIndex: 1,
-    paddingTop: _.wind,
-    paddingHorizontal: _.wind,
+    paddingTop: _.space,
+    paddingHorizontal: _._wind,
     paddingBottom: _.sm
   },
   avatar: {

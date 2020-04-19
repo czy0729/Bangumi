@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 22:09:21
+ * @Last Modified time: 2020-04-14 20:57:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -34,7 +34,7 @@ export default observer(TabBarLeft)
 const memoStyles = _.memoStyles(_ => ({
   tabBarLeft: {
     height: 42,
-    paddingLeft: _.wind,
+    paddingLeft: _._wind,
     paddingRight: _.sm,
     backgroundColor: IOS
       ? 'transparent'

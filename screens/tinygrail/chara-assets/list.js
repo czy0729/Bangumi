@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:18:44
+ * @Last Modified time: 2020-04-19 22:13:08
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -59,8 +59,14 @@ function List({ index }, { $, navigation }) {
       numColumns={numColumns}
       renderItem={({ item, index }) => {
         if (isTemple) {
+          const needResetMarginLeft = _.isPad && index % 3 === 0
           return (
             <ItemTemple
+              style={
+                needResetMarginLeft && {
+                  marginLeft: _.wind + _._wind
+                }
+              }
               index={index}
               {...item}
               onPress={() => {

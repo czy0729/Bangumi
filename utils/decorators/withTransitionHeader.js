@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 23:23:12
+ * @Last Modified time: 2020-04-14 20:22:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -109,6 +109,9 @@ const withTransitionHeader = ({
             <IconBack navigation={navigation} color={headerTintColor} />
           ),
           headerRight,
+          headerRightContainerStyle: {
+            marginRight: _._wind
+          },
           ...ComposedComponent.navigationOptions
         }
       }

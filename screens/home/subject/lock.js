@@ -39,7 +39,7 @@ export default observer(Lock)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingVertical: _.wind,
+    paddingVertical: _.space,
     paddingRight: _.wind,
     paddingLeft: _.xs,
     margin: _.wind,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:18:30
+ * @Last Modified time: 2020-04-19 21:38:59
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -125,7 +125,7 @@ export default observer(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    height: 44,
+    height: _.isPad ? 50 : 44,
     backgroundColor: _.colorTinygrailContainer
   },
   item: {

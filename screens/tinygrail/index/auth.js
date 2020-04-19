@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 15:45:28
+ * @Last Modified time: 2020-04-19 22:52:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,47 +19,58 @@ function Auth(props, { $, navigation }) {
   const { _loaded } = $.state
   const { nickname, avatar = {} } = $.userInfo
   return (
-    <View style={styles.container}>
-      <Flex>
+    <View>
+      {_.isPad && (
         <IconBack
-          style={styles.back}
+          style={styles.backIsPad}
           navigation={navigation}
           color={_.colorTinygrailPlain}
         />
-        <Avatar
-          style={styles.avatar}
-          size={32}
-          src={tinygrailOSS(avatar && avatar.large)}
-          name={nickname}
-          borderColor='transparent'
-        />
-        <Flex.Item style={_.ml.sm}>
-          <Flex>
-            <Touchable onPress={() => navigation.push('Qiafan')}>
-              <Text type='tinygrailPlain'>{nickname}</Text>
-              {$.advance ? (
-                <Text size={12} type='warning'>
-                  高级会员
-                </Text>
-              ) : (
-                !!_loaded && (
-                  <Text type='tinygrailText' size={12}>
-                    普通会员
-                  </Text>
-                )
-              )}
-            </Touchable>
-            <IconTouchable
-              style={_.ml.xs}
-              name={_.tSelect('night', 'sun')}
-              color={_.colorTinygrailText}
-              size={18}
-              onPress={_.toggleTinygrailThemeMode}
+      )}
+      <View style={styles.container}>
+        <Flex>
+          {!_.isPad && (
+            <IconBack
+              style={styles.back}
+              navigation={navigation}
+              color={_.colorTinygrailPlain}
             />
-          </Flex>
-        </Flex.Item>
-        <Btns />
-      </Flex>
+          )}
+          <Avatar
+            style={styles.avatar}
+            size={32}
+            src={tinygrailOSS(avatar && avatar.large)}
+            name={nickname}
+            borderColor='transparent'
+          />
+          <Flex.Item style={_.ml.sm}>
+            <Flex>
+              <Touchable onPress={() => navigation.push('Qiafan')}>
+                <Text type='tinygrailPlain'>{nickname}</Text>
+                {$.advance ? (
+                  <Text size={12} type='warning'>
+                    高级会员
+                  </Text>
+                ) : (
+                  !!_loaded && (
+                    <Text type='tinygrailText' size={12}>
+                      普通会员
+                    </Text>
+                  )
+                )}
+              </Touchable>
+              <IconTouchable
+                style={_.ml.xs}
+                name={_.tSelect('night', 'sun')}
+                color={_.colorTinygrailText}
+                size={18}
+                onPress={_.toggleTinygrailThemeMode}
+              />
+            </Flex>
+          </Flex.Item>
+          <Btns />
+        </Flex>
+      </View>
     </View>
   )
 }
@@ -78,6 +89,12 @@ const memoStyles = _.memoStyles(_ => ({
   },
   back: {
     marginLeft: -8
+  },
+  backIsPad: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 10,
+    left: _._wind
   },
   avatar: {
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)

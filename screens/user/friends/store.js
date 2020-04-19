@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 10:50:49
+ * @Last Modified time: 2020-04-19 20:33:44
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
@@ -54,13 +54,13 @@ export default class ScreenFriends extends store {
 
   fetchUsersBatch = () => {
     const { list } = this.friends
+    info('刷新好友信息中...')
     return queue(
-      list.map((item, index) => () => {
-        info(`${index + 1} / ${list.length}`)
-        return usersStore.fetchUsers({
+      list.map(item => () =>
+        usersStore.fetchUsers({
           userId: item.userId
         })
-      })
+      )
     )
   }
 

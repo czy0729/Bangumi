@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 11:29:15
+ * @Last Modified time: 2020-04-19 20:30:05
  */
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
@@ -64,8 +65,15 @@ class List extends React.Component {
         />
       )
     }
+
+    const needResetMarginLeft = _.isPad && index % 4 === 0
     return (
       <ItemCollectionsGrid
+        style={
+          needResetMarginLeft && {
+            marginLeft: _.wind + _._wind
+          }
+        }
         navigation={navigation}
         index={index}
         isOnHold={isOnHold}
@@ -97,7 +105,7 @@ class List extends React.Component {
       <ListView
         key={`${$.subjectType}${String(numColumns)}`}
         keyExtractor={keyExtractor}
-        contentContainerStyle={_.container.bottom}
+        contentContainerStyle={styles.contentContainerStyle}
         data={userCollections}
         numColumns={numColumns}
         renderItem={this.renderItem}
@@ -108,3 +116,9 @@ class List extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  contentContainerStyle: {
+    paddingBottom: _.bottom
+  }
+})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:05:23
+ * @Last Modified time: 2020-04-19 17:59:23
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -298,11 +298,11 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorWarning
   },
   image: {
-    marginTop: _.wind,
+    marginTop: _.space,
     marginLeft: _.wind
   },
   content: {
-    paddingVertical: _.wind,
+    paddingVertical: _.space,
     paddingRight: _.wind
   },
   sign: {

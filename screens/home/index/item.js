@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 01:53:53
+ * @Last Modified time: 2020-04-19 20:47:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
+const imageWidth = _.isPad ? 88 : 76
 const itemPadding = 12
 const layoutWidth = parseInt(_.window.width - _.wind * 2 - itemPadding) - 1
 const colorDark = {
@@ -244,7 +245,7 @@ class Item extends React.Component {
         >
           <Flex style={this.styles.hd}>
             <Cover
-              size={76}
+              size={imageWidth}
               src={subject.images.medium}
               radius
               border={_.colorBorder}

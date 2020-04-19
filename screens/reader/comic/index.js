@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 02:16:09
+ * @Last Modified time: 2020-04-19 17:51:18
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -179,7 +179,8 @@ class Comic extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   search: {
-    padding: _.wind
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind
   },
   ipt: {
     height: 34,
@@ -200,7 +201,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   wrap: {
-    paddingVertical: _.wind,
+    paddingVertical: _.space,
     paddingRight: _.wind
   },
   border: {

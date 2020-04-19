@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:10:28
+ * @Last Modified time: 2020-04-19 22:06:44
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -1840,8 +1840,8 @@ class Tinygrail extends store {
             .map(item => {
               const { asks } = this.depth(item.id)
 
-              // 列表有时有卖单数, 但是实际又没有人卖
-              if (!asks.length) {
+              // 列表有时有卖单数, 但是实际又没有人卖, 过滤冰山价格
+              if (!asks.length || asks[0].price === 0) {
                 return null
               }
 
@@ -1889,7 +1889,9 @@ class Tinygrail extends store {
     let data = {
       ...LIST_EMPTY
     }
-    const list = chara.list.filter(item => item.bids)
+
+    // 为了筛选掉过多数据, 当前价钱 > 20
+    const list = chara.list.filter(item => item.bids && item.current >= 20)
     if (list.length) {
       try {
         // 循环请求获取第一买单价

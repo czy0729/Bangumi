@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 05:18:12
+ * @Last Modified time: 2020-04-19 20:57:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -120,11 +120,11 @@ export default observer(List)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
-    paddingLeft: _.md
+    paddingLeft: _.wind - _._wind + _.md
   },
   wrap: {
     paddingVertical: _.md,
-    paddingRight: _.wind
+    paddingRight: _.wind - _._wind
   },
   border: {
     borderTopColor: _.colorBorder,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-22 17:25:46
+ * @Last Modified time: 2020-04-15 16:28:17
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -51,6 +51,7 @@ class List extends React.Component {
     return (
       <ListView
         style={_.container.screen}
+        contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={list}
         numColumns={4}
@@ -60,7 +61,17 @@ class List extends React.Component {
       />
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  contentContainerStyle: {
+    paddingHorizontal: _.wind - _._wind
+  }
+}))
 
 function keyExtractor(item) {
   return `${item.title}|${item.nums}`

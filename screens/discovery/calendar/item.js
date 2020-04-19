@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 18:50:16
+ * @Last Modified time: 2020-04-15 17:02:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -104,7 +104,7 @@ export default observer(Item)
 const styles = StyleSheet.create({
   item: {
     width: imageWidth,
-    marginBottom: _.wind,
+    marginBottom: _.space,
     marginLeft
   },
   linear: {

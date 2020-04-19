@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 01:05:25
+ * @Last Modified time: 2020-04-19 17:51:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -138,6 +138,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   container: {
-    padding: _.wind
+    paddingVertical: _.space,
+    paddingHorizontal: _.wind
   }
 }))
