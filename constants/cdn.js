@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 20:21:46
+ * @Last Modified time: 2020-04-21 00:44:58
  */
 import { getTimestamp } from '@utils'
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
@@ -110,7 +110,7 @@ export const CDN_OSS_AVATAR = src => {
   const _hash = hash(_src)
   if (_hash in HASH_AVATAR) {
     const path = _hash.slice(0, 1).toLocaleLowerCase()
-    const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@master/data/avatar/m/${path}/${_hash}.jpg`
+    const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@20200414/data/avatar/m/${path}/${_hash}.jpg`
     avatarCache[src] = cdnSrc
     return cdnSrc
   }
@@ -161,7 +161,7 @@ export const CDN_OSS_SUBJECT = src => {
  * @url https://github.com/czy0729/Bangumi-Static
  */
 export const CDN_DISCOVERY_HOME = () =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Static@20200412/data/discovery/index.json?t=${getTimestamp()}`
+  `${HOST_CDN}/gh/czy0729/Bangumi-Static@20200421/data/discovery/index.json`
 
 /**
  * 年鉴
