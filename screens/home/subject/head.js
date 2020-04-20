@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:55:44
+ * @Last Modified time: 2020-04-20 23:37:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -74,7 +74,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: 48
   },
   content: {
-    height: imageHeight,
+    height: imageHeight - _.space,
     paddingVertical: _.space,
     paddingLeft: imageWidth + _.wind + 12,
     paddingRight: _.wind,

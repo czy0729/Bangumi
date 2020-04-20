@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 23:14:16
+ * @Last Modified time: 2020-04-20 23:27:02
  */
 import { Platform } from 'react-native'
 
 /* ==================== DEV ==================== */
-export const DEV = false // 是否开发模式
+export const DEV = true // 是否开发模式
 export const BARE = true // 裸工作流
 export const VERSION_GITHUB_RELEASE = '3.1.4' // 版本号
 export const VERSION_TINYGRAIL_PLUGIN = '2.1.1'

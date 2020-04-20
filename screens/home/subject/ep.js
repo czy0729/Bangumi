@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-14 20:28:57
+ * @Last Modified time: 2020-04-21 00:23:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Text, Iconfont } from '@components'
+import { Text, Iconfont, Flex, Input, Button } from '@components'
 import { SectionTitle, Eps, IconReverse, Popover } from '@screens/_'
 import { _ } from '@stores'
 import BookEp from './book-ep'
@@ -31,7 +31,8 @@ function Ep({ style }, { $, navigation }) {
   }
 
   const styles = memoStyles()
-  const { epsReverse } = $.state
+  const { epsReverse, watchedEps } = $.state
+  const { totalEps } = $.subjectFormHTML
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   const showPlay = $.showOnlinePlay && canPlay
   return (
@@ -74,6 +75,32 @@ function Ep({ style }, { $, navigation }) {
         onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
         onLongPress={item => $.doEpsLongPress(item)}
       />
+      <Flex style={_.mt.md}>
+        <View style={styles.input}>
+          <Input
+            keyboardType='numeric'
+            value={watchedEps}
+            placeholder={watchedEps || '0'}
+            clearButtonMode='never'
+            onChangeText={text => {
+              const newText = text.replace(/[^\d]+/, '')
+              $.changeText('watchedEps', newText)
+            }}
+          />
+          {!!totalEps && (
+            <Text style={styles.total} type='sub' pointerEvent='none'>
+              / {totalEps}
+            </Text>
+          )}
+        </View>
+        <Button
+          style={styles.btn}
+          type='ghostPrimary'
+          onPress={$.doUpdateSubjectEp}
+        >
+          更新
+        </Button>
+      </Flex>
     </View>
   )
 }
@@ -94,5 +121,20 @@ const memoStyles = _.memoStyles(_ => ({
   },
   iconPlay: {
     paddingHorizontal: _.sm
+  },
+  input: {
+    width: 120,
+    height: 34
+  },
+  total: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 8,
+    right: 12
+  },
+  btn: {
+    width: 80,
+    height: 34,
+    marginLeft: 12
   }
 }))

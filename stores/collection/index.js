@@ -3,20 +3,23 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 16:08:34
+ * @Last Modified time: 2020-04-21 00:23:03
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
-import fetch, { fetchHTML } from '@utils/fetch'
+import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 import {
   API_COLLECTION,
   API_COLLECTION_ACTION,
   API_SUBJECT_UPDATE_WATCHED
 } from '@constants/api'
-import { HTML_USER_COLLECTIONS } from '@constants/html'
+import {
+  HTML_USER_COLLECTIONS,
+  HTML_ACTION_SUBJECT_SET_WATCHED
+} from '@constants/html'
 import userStore from '../user'
 import {
   NAMESPACE,
@@ -327,6 +330,22 @@ class Collection extends store {
         watched_vols: vol
       }
     })
+
+  /**
+   * 输入框更新章节进度
+   */
+  doUpdateSubjectEp = ({ subjectId, watchedEps } = {}, success) =>
+    xhr(
+      {
+        url: HTML_ACTION_SUBJECT_SET_WATCHED(subjectId),
+        data: {
+          referer: 'subject',
+          submit: '更新',
+          watchedeps: watchedEps
+        }
+      },
+      success
+    )
 }
 
 export default new Collection()

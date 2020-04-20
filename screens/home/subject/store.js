@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:55:28
+ * @Last Modified time: 2020-04-21 00:25:45
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -59,6 +59,7 @@ const sitesDS = [
 ]
 const excludeState = {
   visible: false, // 是否显示管理模态框
+
   chap: '', // 书籍章
   vol: '', // 卷
   translateResult: [] // 翻译缓存
@@ -68,6 +69,7 @@ export default class ScreenSubject extends store {
   state = observable({
     ...excludeState,
     epsReverse: false, // 章节是否倒序
+    watchedEps: '', // 普通条目章节
     bangumiInfo: {
       sites: [], // 动画在线地址
       type: '' // 动画类型
@@ -159,8 +161,9 @@ export default class ScreenSubject extends store {
    */
   fetchSubjectFormHTML = async () => {
     const res = subjectStore.fetchSubjectFormHTML(this.subjectId)
-    const { book } = await res
+    const { watchedEps, book } = await res
     this.setState({
+      watchedEps: watchedEps || '0',
       chap: book.chap || '0',
       vol: book.vol || '0'
     })
@@ -938,6 +941,34 @@ export default class ScreenSubject extends store {
       info('更新成功')
     } catch (error) {
       warn(namespace, 'doUpdateBookEp', error)
+    }
+  }
+
+  /**
+   * 输入框更新章节
+   */
+  doUpdateSubjectEp = async () => {
+    const { watchedEps } = this.state
+    t('条目.输入框更新章节', {
+      subjectId: this.subjectId
+    })
+
+    try {
+      collectionStore.doUpdateSubjectEp(
+        {
+          subjectId: this.subjectId,
+          watchedEps
+        },
+        async () => {
+          userStore.fetchUserCollection()
+          userStore.fetchUserProgress(this.subjectId)
+          this.fetchSubjectFormHTML()
+          this.setStorage(undefined, undefined, this.namespace)
+          info('更新成功')
+        }
+      )
+    } catch (error) {
+      warn(namespace, 'doUpdateSubjectEp', error)
     }
   }
 

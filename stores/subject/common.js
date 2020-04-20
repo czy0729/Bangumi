@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 15:18:11
+ * @Last Modified time: 2020-04-20 23:48:16
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -254,6 +254,9 @@ export function cheerioSubjectFormHTML(HTML) {
     }
   })
   return {
+    watchedEps: $('#watchedeps').attr('value') || 0,
+    totalEps: $('div.prgText').text().trim().replace('/ ', ''),
+
     // 标签
     tags:
       $('div.subject_tag_section > div.inner > a.l')

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 17:14:25
+ * @Last Modified time: 2020-04-20 23:59:46
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -356,3 +356,14 @@ export const HTML_ACTION_TIMELINE_SAY = () => `${HOST}/update/user/say?ajax=1`
  */
 export const HTML_ACTION_ERASE_COLLECTION = (subjectId, formhash) =>
   `${HOST}/subject/${subjectId}/remove?gh=${formhash}`
+
+/**
+ * 输入框更新章节进度
+ * @param {*} subjectId
+ *
+ * referer: subject
+ * submit: 更新
+ * watchedeps: 3
+ */
+export const HTML_ACTION_SUBJECT_SET_WATCHED = subjectId =>
+  `${HOST}/subject/set/watched/${subjectId}`

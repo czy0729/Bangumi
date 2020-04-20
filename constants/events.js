@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 19:24:07
+ * @Last Modified time: 2020-04-21 00:22:06
  */
 
 /**
@@ -123,6 +123,7 @@ export default {
   '条目.管理收藏': 'Subject.doUpdateCollection',
   '条目.更新书籍下一个章节': 'Subject.doUpdateNext',
   '条目.更新书籍章节': 'Subject.doUpdateBookEp',
+  '条目.输入框更新章节': 'Subject.doUpdateSubjectEp',
   '条目.章节按钮长按': 'Subject.doEpsLongPress',
   '条目.跳到条目': 'Subject.toSubject',
   '条目.封面图查看': 'Subject.imageView',
