@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:41:15
+ * @Last Modified time: 2020-04-21 17:50:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,6 @@ import List from './list'
 import Store from './store'
 
 const title = '发现'
-const ListHeaderComponent = <Header />
 
 export default
 @inject(Store)
@@ -40,6 +39,8 @@ class Discovery extends React.Component {
     hm('discovery', 'Discovery')
   }
 
+  ListHeaderComponent = (<Header />)
+
   render() {
     const { $ } = this.context
     const { _loaded } = $.home
@@ -53,7 +54,7 @@ class Discovery extends React.Component {
             contentContainerStyle={_.container.bottom}
             keyExtractor={keyExtractor}
             data={$.state.home}
-            ListHeaderComponent={ListHeaderComponent}
+            ListHeaderComponent={this.ListHeaderComponent}
             renderItem={renderItem}
             onHeaderRefresh={$.init}
             onFooterRefresh={$.fetchHome}

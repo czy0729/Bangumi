@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 00:25:45
+ * @Last Modified time: 2020-04-21 11:20:41
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -28,6 +28,7 @@ import {
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
 import {
+  HOST,
   IOS,
   APP_USERID_TOURIST,
   APP_USERID_IOS_AUTH,
@@ -239,6 +240,13 @@ export default class ScreenSubject extends store {
    */
   @computed get namespace() {
     return `${namespace}|${this.subjectId}`
+  }
+
+  /**
+   * bgm链接
+   */
+  @computed get url() {
+    return `${HOST}/subject/${this.subjectId}`
   }
 
   /**

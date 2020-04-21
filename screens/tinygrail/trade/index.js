@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 20:41:58
+ * @Last Modified time: 2020-04-21 18:01:42
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
-import { SafeAreaView, NavigationEvents } from 'react-navigation'
+import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { Flex, Button, Touchable, UM } from '@components'
-import { StatusBarPlaceholder } from '@screens/_'
+import { SafeAreaView, StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
@@ -109,10 +109,7 @@ class TinygrailTrade extends React.Component {
   render() {
     const { showMask, focus } = this.state
     return (
-      <SafeAreaView
-        style={[_.container.flex, this.styles.dark]}
-        forceInset={{ top: 'never' }}
-      >
+      <SafeAreaView style={this.styles.dark}>
         <UM screen={title} />
         {this.renderFocus()}
         <StatusBarEvents />

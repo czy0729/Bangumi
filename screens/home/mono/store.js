@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 22:13:59
+ * @Last Modified time: 2020-04-21 12:13:36
  */
 import { computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -26,7 +26,12 @@ export default class ScreenMono extends store {
 
   // -------------------- fetch --------------------
   fetchMono = refresh =>
-    subjectStore.fetchMono({ monoId: this.monoId }, refresh)
+    subjectStore.fetchMono(
+      {
+        monoId: this.monoId
+      },
+      refresh
+    )
 
   fetchChara = () =>
     tinygrailStore.fetchCharacters([this.monoId.replace('character/', '')])
@@ -48,6 +53,10 @@ export default class ScreenMono extends store {
   @computed get monoId() {
     const { monoId = '' } = this.params
     return monoId
+  }
+
+  @computed get url() {
+    return `${HOST}/${this.monoId}`
   }
 
   @computed get mono() {

@@ -2,18 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 05:53:53
+ * @Last Modified time: 2020-04-21 12:09:01
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
-import { inject, withTransitionHeader } from '@utils/decorators'
+import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST } from '@constants'
 import Bg from './bg'
 import List from './list'
 import Modal from './modal'
@@ -41,49 +39,55 @@ class Subject extends React.Component {
   }
 
   componentDidMount() {
-    InteractionManager.runAfterInteractions(async () => {
+    InteractionManager.runAfterInteractions(() => {
       setTimeout(() => {
         this.rendered()
       }, 300)
 
       const { $, navigation } = this.context
+      $.init()
       withTransitionHeader.setTitle(navigation, $.cn)
-
-      // 右上角头部按钮
-      const data = await $.init()
-      if (data) {
-        const url = String(data.url).replace('http://', 'https://')
-        navigation.setParams({
-          headerTransitionTitle: $.cn,
-          popover: {
-            data: ['Bangumi', '复制链接'],
-            onSelect: key => {
-              t('条目.右上角菜单', {
-                subjectId: $.subjectId,
-                key
-              })
-              switch (key) {
-                case '复制链接':
-                  copy(`${HOST}/subject/${$.params.subjectId}`)
-                  info('已复制')
-                  break
-                default:
-                  open(url)
-                  break
-              }
-            }
-          }
-        })
-      }
+      this.updateNavigation()
 
       hm(`subject/${$.params.subjectId}`, 'Subject')
     })
   }
 
+  /**
+   * 右上角头部按钮
+   */
+  updateNavigation = () => {
+    const { $, navigation } = this.context
+    navigation.setParams({
+      headerTransitionTitle: $.cn,
+      popover: {
+        data: ['Bangumi', '复制链接'],
+        onSelect: key => {
+          t('条目.右上角菜单', {
+            subjectId: $.subjectId,
+            key
+          })
+          switch (key) {
+            case '复制链接':
+              copy($.url)
+              info('已复制')
+              break
+            default:
+              open($.url)
+              break
+          }
+        }
+      }
+    })
+  }
+
+  /**
+   * - 滚动判断是否显示头部毛玻璃背景
+   * - 滚动过马上设置成能渲染底部块
+   */
   onScroll = e => {
     const { onScroll } = this.props
     onScroll(e)
-
     this.rendered()
 
     const { nativeEvent } = e
@@ -103,6 +107,10 @@ class Subject extends React.Component {
     }
   }
 
+  /**
+   * 用于延迟底部块渲染
+   * 优化条目页面进入渲染时, 同时渲染过多块导致掉帧的问题
+   */
   rendered = () => {
     const { rendered } = this.state
     if (!rendered) {
@@ -113,12 +121,10 @@ class Subject extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
-    const { images = {} } = $.subject
-    const { showBlurView, rendered } = this.state
+    const { showBlurView, rendered = [] } = this.state
     return (
       <View style={_.select(_.container.screen, _.container.content)}>
-        <Bg show={showBlurView} image={images.common} />
+        <Bg show={showBlurView} />
         <List rendered={rendered} onScroll={this.onScroll} />
         <Modal />
       </View>

@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-19 17:08:02
+ * @Last Modified time: 2020-04-21 17:55:41
  */
 import React from 'react'
-import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { IconTabsHeader, IconTabBar, HeaderBackground } from '@screens/_'
-import { _ } from '@stores'
+import {
+  HeaderBackground,
+  IconTabBar,
+  IconTabsHeader,
+  SafeAreaView
+} from '@screens/_'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
@@ -17,9 +20,6 @@ import List from './list'
 import Store, { tabs } from './store'
 
 const title = '时间胶囊'
-const forceInset = {
-  top: 'never'
-}
 
 export default
 @inject(Store)
@@ -72,7 +72,7 @@ class Timeline extends React.Component {
     const { $ } = this.context
     const { scope, _loaded } = $.state
     return (
-      <SafeAreaView style={_.container.screen} forceInset={forceInset}>
+      <SafeAreaView>
         {_loaded && (
           <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
             {tabs.map(item => (

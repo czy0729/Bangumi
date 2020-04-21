@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 17:32:45
+ * @Last Modified time: 2020-04-21 17:48:19
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
-import { ItemTopic, IconHeader, NavigationBarEvents } from '@screens/_'
+import { ItemTopic, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
 import { keyExtractor } from '@utils/app'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST } from '@constants'
+import Extra from './extra'
 import Info from './info'
 import Store from './store'
 
@@ -26,7 +26,6 @@ const event = {
     from: '吐槽'
   }
 }
-const ListHeaderComponent = <Info />
 
 export default
 @inject(Store)
@@ -68,10 +67,10 @@ class Mono extends React.Component {
 
           switch (key) {
             case '浏览器查看':
-              open(`${HOST}/${$.monoId}`)
+              open($.url)
               break
             case '复制链接':
-              copy(`${HOST}/${$.monoId}`)
+              copy($.url)
               info('已复制')
               break
             default:
@@ -79,24 +78,11 @@ class Mono extends React.Component {
           }
         }
       },
-      extra: $.tinygrail && !!$.chara._loaded && (
-        <IconHeader
-          name='trophy'
-          onPress={() => {
-            const path = $.chara.users ? 'TinygrailICODeal' : 'TinygrailDeal'
-            t('人物.跳转', {
-              to: path,
-              monoId: $.monoId
-            })
-
-            navigation.push(path, {
-              monoId: $.monoId
-            })
-          }}
-        />
-      )
+      extra: <Extra $={$} navigation={navigation} />
     })
   }
+
+  ListHeaderComponent = (<Info />)
 
   renderItem = ({ item, index }) => {
     const { navigation } = this.context
@@ -122,7 +108,7 @@ class Mono extends React.Component {
           keyExtractor={keyExtractor}
           data={$.monoComments}
           scrollEventThrottle={16}
-          ListHeaderComponent={ListHeaderComponent}
+          ListHeaderComponent={this.ListHeaderComponent}
           renderItem={this.renderItem}
           onScroll={onScroll}
           onHeaderRefresh={$.onHeaderRefresh}

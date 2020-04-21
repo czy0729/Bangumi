@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-26 20:10:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 10:53:35
+ * @Last Modified time: 2020-04-21 19:32:17
  */
 import React from 'react'
 import { NativeModules } from 'react-native'
@@ -11,7 +11,7 @@ import { IOS } from '@constants'
 
 const UMAnalyticsModule = NativeModules.UMAnalyticsModule
 
-function UM({ screen = '' }) {
+function UM({ screen }) {
   if (IOS || !screen) {
     return null
   }
@@ -22,6 +22,10 @@ function UM({ screen = '' }) {
       onWillBlur={() => UMAnalyticsModule.onPageEnd(screen)}
     />
   )
+}
+
+UM.defaultProps = {
+  screen: ''
 }
 
 export default UM

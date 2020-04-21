@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 19:03:36
+ * @Last Modified time: 2020-04-21 19:30:37
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -16,22 +16,10 @@ import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 import ParallaxImage from './parallax-image'
-import Tabs from './tabs'
-import ToolBar from './tool-bar'
-import List from './list'
+import TabsMain from './tabs-main'
 import Store, { tabs, height } from './store'
 
 const title = '我的'
-const ListHeaderComponent = (
-  <>
-    <View
-      style={{
-        height: height + _.tabsHeight
-      }}
-    />
-    <ToolBar />
-  </>
-)
 
 export default
 @inject(Store)
@@ -95,7 +83,7 @@ class User extends React.Component {
     }
   }
 
-  onTabsChange = page => {
+  onTabsChange = (item, page) => {
     if (!this.loaded[page]) {
       this.resetPageOffset(page)
     }
@@ -159,7 +147,6 @@ class User extends React.Component {
       return <View style={_.container.screen} />
     }
 
-    const { subjectType } = $.state
     const { scrollY, fixed } = this.state
     return (
       <View style={_.container.screen}>
@@ -169,24 +156,12 @@ class User extends React.Component {
           barStyle='light-content'
           backgroundColor='transparent'
         />
-        <Tabs
-          style={_.container.screen}
-          $={$}
+        <TabsMain
           scrollY={scrollY}
-          onSelect={this.onSelectSubjectType}
-          onChange={(item, page) => this.onTabsChange(page)}
-        >
-          {tabs.map(item => (
-            <List
-              key={item.title}
-              title={item.title}
-              subjectType={subjectType}
-              ListHeaderComponent={ListHeaderComponent}
-              scrollEventThrottle={16}
-              onScroll={this.onScroll}
-            />
-          ))}
-        </Tabs>
+          onSelectSubjectType={this.onSelectSubjectType}
+          onTabsChange={this.onTabsChange}
+          onScroll={this.onScroll}
+        />
         <ParallaxImage scrollY={scrollY} fixed={fixed} />
       </View>
     )

@@ -2,14 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-29 14:28:06
+ * @Last Modified time: 2020-04-21 17:58:11
  */
 import React from 'react'
-import { SafeAreaView } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex } from '@components'
-import { IconTabBar, IconNotify, HeaderBackground } from '@screens/_'
+import {
+  HeaderBackground,
+  IconNotify,
+  IconTabBar,
+  SafeAreaView
+} from '@screens/_'
 import { _ } from '@stores'
 import { inject, withTabsHeader } from '@utils/decorators'
 import Prefetch from './prefetch'
@@ -19,9 +23,6 @@ import List from './list'
 import Store from './store'
 
 const title = '超展开'
-const forceInset = {
-  top: 'never'
-}
 const event = {
   id: '超展开.跳转'
 }
@@ -68,7 +69,7 @@ class Rakuen extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <SafeAreaView style={_.container.screen} forceInset={forceInset}>
+      <SafeAreaView>
         {_loaded && (
           <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
             {$.tabs.map((item, index) => (

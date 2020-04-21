@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": false,
+    "experimentalDecorators": true,
+    "baseUrl": "./",
+    "paths": {
+      "@utils/*": ["utils/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "android", "assets", "web"]
+}

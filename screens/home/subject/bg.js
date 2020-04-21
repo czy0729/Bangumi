@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
- * @Last Modified by:   czy0729
- * @Last Modified time: 2020-04-06 05:31:17
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2020-04-21 10:58:27
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,17 +14,18 @@ import { getCoverMedium } from '@utils/app'
 import { IOS } from '@constants'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
-function Bg({ show, image }, { $ }) {
+function Bg({ show }, { $ }) {
   if (!show) {
     return null
   }
 
+  const { images = {} } = $.subject
   return (
     <BlurView
       style={styles.blurView}
       theme='dark'
       tint={_.select('default', 'dark')}
-      src={CDN_OSS_SUBJECT(getCoverMedium($.coverPlaceholder || image))}
+      src={CDN_OSS_SUBJECT(getCoverMedium($.coverPlaceholder || images.common))}
     />
   )
 }

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 15:57:11
+ * @Last Modified time: 2020-04-21 11:51:21
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -464,7 +464,16 @@ export async function baiduTranslate(query) {
 /**
  * 接口某些字段为空返回null, 影响到es6函数初始值的正常使用, 统一处理成空字符串
  * @param {*} data
+ * @url https://jsperf.com/moved-null-2
  */
 function safe(data) {
-  return JSON.parse(JSON.stringify(data).replace(/:null/g, ':""'))
+  if (data instanceof Object) {
+    // eslint-disable-next-line no-param-reassign
+    Object.keys(data).forEach(k => (data[k] = safe(data[k])))
+  }
+  return data === null ? '' : data
 }
+
+// function safe(data) {
+//   return JSON.parse(JSON.stringify(data).replace(/:null/g, ':""'))
+// }
