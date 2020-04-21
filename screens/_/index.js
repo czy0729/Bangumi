@@ -3,9 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 19:52:54
+ * @Last Modified time: 2020-04-21 10:19:54
  */
-// base
+
+/**
+ * base
+ */
 // export { default as Drawer } from './base/drawer'
 export { default as AppCommon } from './base/app-common'
 export { default as Avatar } from './base/avatar'
@@ -22,6 +25,7 @@ export { default as ManageModal } from './base/manage-modal'
 export { default as NavigationBarEvents } from './base/navigation-bar-events'
 export { default as Pagination } from './base/pagination'
 export { default as Popover } from './base/popover'
+export { default as SafeAreaView } from './base/safe-area-view'
 export { default as ScoreTag } from './base/score-tag'
 export { default as SectionHeader } from './base/section-header'
 export { default as SectionTitle } from './base/section-title'
@@ -32,7 +36,9 @@ export { default as StatusBtnGroup } from './base/status-btn-group'
 export { default as StockPreview } from './base/stock-preview'
 export { default as Tag } from './base/tag'
 
-// icon
+/**
+ * icon
+ */
 export { default as IconBack } from './icon/back'
 export { default as IconDrawer } from './icon/drawer'
 export { default as IconHeader } from './icon/header'
@@ -44,7 +50,9 @@ export { default as IconTabsHeader } from './icon/tabs-header'
 export { default as IconTinygrail } from './icon/tinygrail'
 export { default as IconTouchable } from './icon/touchable'
 
-// item
+/**
+ * item
+ */
 export { default as ItemArticle } from './item/article'
 export { default as ItemBangumiList } from './item/bangumi-list'
 export { default as ItemBlog } from './item/blog'

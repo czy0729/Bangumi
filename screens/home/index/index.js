@@ -2,35 +2,30 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 17:36:03
+ * @Last Modified time: 2020-04-21 10:45:19
  */
 import React from 'react'
-import { NavigationEvents, SafeAreaView } from 'react-navigation'
+import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import {
-  IconTabBar,
-  IconTabsHeader,
-  IconTinygrail,
+  HeaderBackground,
   IconNotify,
-  ManageModal,
+  IconTabBar,
   NavigationBarEvents,
-  HeaderBackground
+  SafeAreaView
 } from '@screens/_'
-import { _, userStore } from '@stores'
-import { inject, withTabsHeader } from '@utils/decorators'
-import { hm, t } from '@utils/fetch'
+import { userStore } from '@stores'
 import { navigationReference } from '@utils/app'
+import { inject, withTabsHeader, observer } from '@utils/decorators'
+import { hm, t } from '@utils/fetch'
 import { MODEL_INITIAL_PAGE } from '@constants/model'
+import HeaderRight from './header-right'
 import Tabs from './tabs'
-import List from './list'
-import Grid from './grid'
-import Store, { tabs } from './store'
+import TabsMain from './tabs-main'
+import Modal from './modal'
+import Store from './store'
 
 const title = '首页'
-const forceInset = {
-  top: 'never'
-}
 
 export default
 @inject(Store)
@@ -40,26 +35,7 @@ export default
 @observer
 class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <>
-        <IconTinygrail
-          navigation={navigation}
-          event={{
-            id: '首页.跳转'
-          }}
-        />
-        <IconTabsHeader
-          name='search'
-          position='right'
-          onPress={() => {
-            t('首页.跳转', {
-              to: 'Search'
-            })
-            navigation.push('Search')
-          }}
-        />
-      </>
-    ),
+    headerRight: <HeaderRight navigation={navigation} />,
     tabBarIcon: ({ tintColor }) => <IconTabBar name='star' color={tintColor} />,
     tabBarLabel: '进度'
   })
@@ -71,11 +47,12 @@ class Home extends React.Component {
 
   componentWillMount() {
     const { $, navigation } = this.context
-    navigationReference(navigation)
 
+    // App生命周期内保存首页的navigation引用
+    navigationReference(navigation)
     $.init()
 
-    // $不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
+    // 注意$不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
     navigation.setParams({
       headerLeft: (
@@ -88,7 +65,6 @@ class Home extends React.Component {
       ),
       headerBackground: <HeaderBackground />
     })
-
     this.updateInitialPage()
 
     setTimeout(() => {
@@ -97,7 +73,7 @@ class Home extends React.Component {
         userId: id
       })
       hm(`?id=${id}`, 'Home')
-    }, 8000)
+    }, 6400)
   }
 
   onWillFocus = () => {
@@ -105,6 +81,9 @@ class Home extends React.Component {
     navigation.navigate('Auth')
   }
 
+  /**
+   * 设置应用初始页面
+   */
   updateInitialPage = () => {
     const { $, navigation } = this.context
     if ($.initialPage === MODEL_INITIAL_PAGE.getValue('进度')) {
@@ -125,37 +104,21 @@ class Home extends React.Component {
       return (
         <>
           <NavigationEvents onWillFocus={this.onWillFocus} />
-          <SafeAreaView style={_.container.screen} forceInset={forceInset} />
+          <SafeAreaView />
         </>
       )
     }
 
-    const { grid, visible, subjectId, _loaded } = $.state
+    const { _loaded } = $.state
     if (!_loaded) {
-      return <SafeAreaView style={_.container.screen} forceInset={forceInset} />
+      return <SafeAreaView />
     }
 
-    const { name, name_cn: nameCn } = $.subject(subjectId)
     return (
-      <SafeAreaView style={_.container.screen} forceInset={forceInset}>
+      <SafeAreaView>
         <NavigationBarEvents />
-        <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
-          {tabs.map(({ title }) =>
-            grid ? (
-              <Grid key={title} title={title} />
-            ) : (
-              <List key={title} title={title} />
-            )
-          )}
-        </Tabs>
-        <ManageModal
-          visible={visible}
-          subjectId={subjectId}
-          title={nameCn || name}
-          desc={name}
-          onSubmit={$.doUpdateCollection}
-          onClose={$.closeManageModal}
-        />
+        <TabsMain />
+        <Modal />
       </SafeAreaView>
     )
   }
