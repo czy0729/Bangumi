@@ -5,6 +5,7 @@
     "experimentalDecorators": true,
     "baseUrl": "./",
     "paths": {
+      "@utils": ["utils/index.js"],
       "@utils/*": ["utils/*"]
     }
   },

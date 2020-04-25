@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 15:12:02
+ * @Last Modified time: 2020-04-25 16:00:00
  */
+import { LIST_EMPTY } from '@constants'
+
 export const NAMESPACE = 'Subject'
 
 // -------------------- init --------------------
@@ -87,6 +89,11 @@ export const INIT_MONO = {
   jobs: [], // 出演
   collectUrl: '', // 加入收藏
   eraseCollectUrl: '' // 取消收藏
+}
+
+export const INIT_MONO_WORKS = {
+  ...LIST_EMPTY,
+  filters: []
 }
 
 export const INIT_MONO_COMMENTS_ITEM = {}

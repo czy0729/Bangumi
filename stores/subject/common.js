@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-20 23:48:16
+ * @Last Modified time: 2020-04-25 17:36:11
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -370,5 +370,71 @@ export function cheerioSubjectFormHTML(HTML) {
 
     // hash 比如删除等网页操作需要
     formhash: $('input[name=formhash]').attr('value')
+  }
+}
+
+/**
+ * 分析人物作品
+ * @param {*} HTML
+ */
+const _type = {
+  1: 'book',
+  2: 'anime',
+  3: 'music',
+  4: 'game',
+  6: 'real'
+}
+export function cheerioMonoWorks(HTML) {
+  const $ = cheerio(HTML)
+  return {
+    filters:
+      $('div.subjectFilter > ul.grouped')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          return safeObject({
+            title: $li.find('li.title').text().trim(),
+            data:
+              $li
+                .find('a.l')
+                .map((idx, el) => {
+                  const $a = cheerio(el)
+                  return safeObject({
+                    title: $a.text().trim(),
+                    value: $a.attr('href').split('/works')[1]
+                  })
+                })
+                .get() || []
+          })
+        })
+        .get() || [],
+    list:
+      $('ul#browserItemList > li.item')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          return safeObject({
+            id: $li.find('a.cover').attr('href'),
+            cover: getCoverMedium($li.find('img.cover').attr('src')),
+            name: $li.find('small.grey').text().trim(),
+            nameCn: $li.find('h3 a.l').text().trim(),
+            tip: $li.find('p.tip').text().trim(),
+            position:
+              $li
+                .find('span.badge_job')
+                .map((idx, el) => cheerio(el).text().trim())
+                .get() || [],
+            score: $li.find('small.fade').text().trim(),
+            total: $li.find('span.tip_j').text().trim(),
+            rank: $li.find('span.rank').text().trim().replace('Rank ', ''),
+            collected: !!$li.find('p.collectModify').text(),
+            type:
+              _type[
+                $li
+                  .find('span.ico_subject_type')
+                  .attr('class')
+                  .replace(/ico_subject_type subject_type_| ll/g, '')
+              ]
+          })
+        })
+        .get() || []
   }
 }

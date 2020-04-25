@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 22:24:20
+ * @Last Modified time: 2020-04-25 15:54:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -78,6 +78,7 @@ import {
   UGCAgree,
   User,
   WebView,
+  Works,
   Zone
 } from '@screens'
 import { BlurView } from '@screens/_'
@@ -188,6 +189,7 @@ const HomeStack = createStackNavigator(
     UGCAgree,
     User,
     WebView,
+    Works,
     Zone
   },
   {

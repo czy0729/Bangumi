@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 22:23:47
+ * @Last Modified time: 2020-04-25 15:54:27
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -37,6 +37,7 @@ export { default as Home } from './home/index'
 export { default as Mono } from './home/mono'
 export { default as Subject } from './home/subject'
 export { default as Tag } from './home/tag'
+export { default as Works } from './home/works'
 
 // Rakuen
 export { default as Blog } from './rakuen/blog'

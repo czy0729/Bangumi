@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 00:22:06
+ * @Last Modified time: 2020-04-25 19:24:10
  */
 
 /**
@@ -139,6 +139,13 @@ export default {
   '用户标签.年选择': 'Tag.onAirdateSelect',
   '用户标签.月选择': 'Tag.onMonthSelect',
   '用户标签.切换布局': 'Tag.toggleList',
+
+  // 作品
+  '作品.跳转': 'Works.to',
+  '作品.右上角菜单': 'Works.topRightMenu',
+  '作品.切换布局': 'Works.toggleList',
+  '作品.排序选择': 'Works.onOrderSelect',
+  '作品.职位选择': 'Works.onFilterSelect',
 
   /* ==================== login ==================== */
   // 辅助登陆

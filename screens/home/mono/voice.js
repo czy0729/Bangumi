@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 02:01:32
+ * @Last Modified time: 2020-04-25 19:54:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
-import { SectionTitle, Tag, IconHeader } from '@screens/_'
+import { SectionTitle, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
+import SectionRight from './section-right'
 
 const event = {
   id: '人物.跳转',
@@ -26,19 +27,10 @@ function Voice({ style }, { $, navigation }) {
   }
 
   const styles = memoStyles()
-  const { monoId } = $.params
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
-        right={
-          <IconHeader
-            name='right'
-            color={_.title}
-            onPress={() =>
-              appNavigate(`/${monoId}/works/voice`, undefined, {}, event)
-            }
-          />
-        }
+        right={<SectionRight event={event} text='更多角色' to='voice' />}
       >
         最近演出角色
       </SectionTitle>
@@ -130,7 +122,8 @@ export default observer(Voice)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: _.wind
+    paddingLeft: _.wind,
+    paddingBottom: _.md
   },
   item: {
     paddingVertical: _.md,

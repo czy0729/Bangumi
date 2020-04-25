@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 02:02:26
+ * @Last Modified time: 2020-04-25 20:05:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
-import { SectionTitle, Tag, IconHeader } from '@screens/_'
+import { SectionTitle, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
+import SectionRight from './section-right'
 
 const event = {
   id: '人物.跳转',
@@ -26,19 +27,10 @@ function Works({ style }, { $, navigation }) {
   }
 
   const styles = memoStyles()
-  const { monoId } = $.params
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
-        right={
-          <IconHeader
-            name='right'
-            color={_.title}
-            onPress={() =>
-              appNavigate(`/${monoId}/works`, undefined, {}, event)
-            }
-          />
-        }
+        right={<SectionRight event={event} text='更多作品' to='Works' />}
       >
         最近参与
       </SectionTitle>
@@ -89,7 +81,8 @@ export default observer(Works)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: _.wind
+    paddingLeft: _.wind,
+    paddingBottom: _.md
   },
   item: {
     paddingVertical: _.md,

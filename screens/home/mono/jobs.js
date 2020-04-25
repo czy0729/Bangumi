@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 01:59:18
+ * @Last Modified time: 2020-04-25 19:53:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -123,7 +123,8 @@ export default observer(Jobs)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: _.wind
+    paddingLeft: _.wind,
+    paddingBottom: _.md
   },
   item: {
     paddingVertical: _.md,

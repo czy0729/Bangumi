@@ -3,13 +3,18 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-08 22:12:30
+ * @Last Modified time: 2020-04-25 18:40:47
  */
 import { observable, computed } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { CDN_SUBJECT, CDN_MONO } from '@constants/cdn'
-import { HTML_SUBJECT, HTML_SUBJECT_COMMENTS, HTML_EP } from '@constants/html'
+import {
+  HTML_SUBJECT,
+  HTML_SUBJECT_COMMENTS,
+  HTML_EP,
+  HTML_MONO_WORKS
+} from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import store from '@utils/store'
@@ -19,9 +24,10 @@ import {
   INIT_SUBJECT_ITEM,
   INIT_SUBJECT_FROM_HTML_ITEM,
   INIT_SUBJECT_FROM_CDN_ITEM,
-  INIT_MONO
+  INIT_MONO,
+  INIT_MONO_WORKS
 } from './init'
-import { fetchMono, cheerioSubjectFormHTML } from './common'
+import { fetchMono, cheerioSubjectFormHTML, cheerioMonoWorks } from './common'
 
 class Subject extends store {
   state = observable({
@@ -88,12 +94,26 @@ class Subject extends store {
      */
     monoFormCDN: {
       // [monoId]: INIT_MONO
+    },
+
+    /**
+     * 人物作品
+     */
+    monoWorks: {
+      // [monoId]: INIT_MONO_WORKS
     }
   })
 
   init = () =>
     this.readStorage(
-      ['subject', 'subjectFormHTML', 'subjectComments', 'mono', 'monoComments'],
+      [
+        'subject',
+        'subjectFormHTML',
+        'subjectComments',
+        'mono',
+        'monoComments',
+        'monoWorks'
+      ],
       NAMESPACE
     )
 
@@ -178,13 +198,21 @@ class Subject extends store {
     return computed(() => this.state.monoFormCDN[monoId] || INIT_MONO).get()
   }
 
+  /**
+   * 人物作品
+   * @param {*} monoId
+   */
+  monoWorks(monoId) {
+    return computed(() => this.state.monoWorks[monoId] || INIT_MONO_WORKS).get()
+  }
+
   // -------------------- fetch --------------------
   /**
    * 条目信息
    * @param {*} subjectId
    */
-  fetchSubject(subjectId) {
-    return this.fetch(
+  fetchSubject = subjectId =>
+    this.fetch(
       {
         url: API_SUBJECT(subjectId),
         data: {
@@ -198,7 +226,6 @@ class Subject extends store {
         namespace: NAMESPACE
       }
     )
-  }
 
   /**
    * 网页获取条目信息
@@ -255,8 +282,8 @@ class Subject extends store {
    * 章节数据
    * @param {*} subjectId
    */
-  fetchSubjectEp(subjectId) {
-    return this.fetch(
+  fetchSubjectEp = subjectId =>
+    this.fetch(
       {
         url: API_SUBJECT_EP(subjectId),
         info: '章节数据'
@@ -267,7 +294,6 @@ class Subject extends store {
         namespace: NAMESPACE
       }
     )
-  }
 
   /**
    * 网页获取留言
@@ -275,7 +301,7 @@ class Subject extends store {
    * @param {*} refresh 是否重新获取
    * @param {*} reverse 是否倒序
    */
-  async fetchSubjectComments({ subjectId }, refresh, reverse) {
+  fetchSubjectComments = async ({ subjectId }, refresh, reverse) => {
     const { list, pagination, _reverse } = this.subjectComments(subjectId)
     let page // 下一页的页码
 
@@ -387,7 +413,7 @@ class Subject extends store {
    * 章节内容
    * @param {*} epId
    */
-  async fetchEpFormHTML(epId) {
+  fetchEpFormHTML = async epId => {
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
       url: `!${HTML_EP(epId)}`
@@ -413,7 +439,7 @@ class Subject extends store {
    * 为了提高体验, 吐槽箱做模拟分页加载效果, 逻辑与超展开回复一致
    * @param {*} monoId
    */
-  async fetchMono({ monoId }, refresh) {
+  fetchMono = async ({ monoId }, refresh) => {
     let res
     const monoKey = 'mono'
     const commentsKey = 'monoComments'
@@ -500,6 +526,37 @@ class Subject extends store {
       warn('subjectStore', 'fetchMonoFormCDN', 404)
       return Promise.resolve(INIT_MONO)
     }
+  }
+
+  /**
+   * 人物作品
+   */
+  fetchMonoWorks = async ({ monoId, position, order } = {}, refresh) => {
+    const key = 'monoWorks'
+    const limit = 24
+    const { list, pagination } = this[key](monoId)
+    const page = refresh ? 1 : pagination.page + 1
+
+    const html = await fetchHTML({
+      url: HTML_MONO_WORKS(monoId, position, order, page)
+    })
+    const { list: _list, filters } = cheerioMonoWorks(html)
+    this.setState({
+      [key]: {
+        [monoId]: {
+          list: refresh ? _list : [...list, ..._list],
+          pagination: {
+            page,
+            pageTotal: _list.length === limit ? 100 : page
+          },
+          filters,
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return this[key](monoId)
   }
 }
 

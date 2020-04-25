@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 10:57:49
+ * @Last Modified time: 2020-04-25 17:50:55
  */
 class Model {
   constructor(data) {
@@ -293,6 +293,21 @@ export const MODEL_RAKUEN_TYPE_MONO = new Model([
   {
     label: '现实', // 现实人物
     value: 'mono&filter=person'
+  }
+])
+
+export const MODEL_MONO_WORKS_ORDERBY = new Model([
+  {
+    label: '名称',
+    value: 'title'
+  },
+  {
+    label: '日期',
+    value: 'date'
+  },
+  {
+    label: '排名',
+    value: 'rank'
   }
 ])
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 12:13:36
+ * @Last Modified time: 2020-04-22 18:15:14
  */
 import { computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -16,7 +16,9 @@ import { HOST } from '@constants'
 export default class ScreenMono extends store {
   init = () => {
     this.fetchMonoFormCDN()
-    if (this.tinygrail) {
+
+    // 设置开启小圣杯和是虚拟人物
+    if (this.tinygrail && this.monoId.includes('character/')) {
       return Promise.all([this.fetchMono(true), this.fetchChara()])
     }
     return this.fetchMono(true)

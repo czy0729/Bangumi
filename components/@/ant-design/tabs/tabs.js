@@ -66,6 +66,9 @@ export class Tabs extends React.PureComponent {
       const scrollValue = value / this.state.containerWidth
       this.state.scrollValue.setValue(scrollValue)
     })
+    requestAnimationFrame(() => {
+      this.scrollTo(this.state.currentTab, false)
+    })
   }
 
   setScrollView = sv => {
