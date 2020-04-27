@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 16:00:00
+ * @Last Modified time: 2020-04-27 11:37:22
  */
 import { LIST_EMPTY } from '@constants'
 
 export const NAMESPACE = 'Subject'
 
 // -------------------- init --------------------
-export const INIT_SUBJECT_ITEM = {
+export const INIT_SUBJECT = {
   air_date: '',
   air_weekday: '',
   blog: null,

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-09 21:55:03
+ * @Last Modified time: 2020-04-27 20:12:42
  */
 import { AsyncStorage, Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
@@ -54,7 +54,6 @@ class Stores {
         rakuenStore.init(),
         searchStore.init(),
         timelineStore.init(),
-        // tinygrailStore.init(),
         tagStore.init(),
         usersStore.init()
       ])

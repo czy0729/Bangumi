@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 02:39:07
+ * @Last Modified time: 2020-04-27 20:05:31
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -49,7 +49,7 @@ import {
 } from './init'
 import { cheerioPM, cheerioPMDetail, cheerioPMParams } from './common'
 
-class Store extends store {
+class User extends store {
   state = observable({
     /**
      * 授权信息
@@ -62,7 +62,7 @@ class Store extends store {
     userInfo: INIT_USER_INFO,
 
     /**
-     * 用户cookie
+     * 用户cookie (请求HTML用)
      */
     userCookie: INIT_USER_COOKIE,
 
@@ -73,59 +73,77 @@ class Store extends store {
 
     /**
      * 收视进度
+     * [subjectId]
+     * {
+     *   [epId]: '看过'
+     * }
      */
     userProgress: {
-      // [subjectId]: {
-      //   [epId]: '看过'
-      // }
+      0: {}
     },
 
     /**
      * 用户收藏概览
+     * [scope]
+     * [userId]
      */
     userCollections: {
-      // [`${type}|${userId}`]: LIST_EMPTY
+      _key: (scope = DEFAULT_SCOPE, userId) =>
+        `${scope}|${userId || this.myUserId}`,
+      0: LIST_EMPTY
     },
 
     /**
      * 某用户信息
+     * [userId]
      */
     usersInfo: {
-      // [userId]: INIT_USER_INFO
+      _key: userId => userId || this.myUserId,
+      0: INIT_USER_INFO
     },
 
     /**
      * 用户收藏统计
+     * [userId]
      */
     userCollectionsStatus: {
-      // [userId]: initUserCollectionsStatus
+      _key: userId => userId || this.myUserId,
+      0: {}
     },
 
     /**
      * 用户介绍
+     * [userId]
      */
     users: {
-      // [userId]: ''
+      _key: userId => userId || this.myUserId,
+      0: ''
     },
 
     /**
-     * 短信
+     * 短信收信
      */
     pmIn: LIST_EMPTY,
+
+    /**
+     * 短信发信
+     */
     pmOut: LIST_EMPTY,
 
     /**
      * 短信详情
+     * [id]
      */
     pmDetail: {
-      // [id]: LIST_EMPTY
+      0: LIST_EMPTY
     },
 
     /**
      * 新短信参数
+     * [userId]
      */
     pmParams: {
-      // [userId]: {}
+      0: {}
     },
 
     /**
@@ -138,15 +156,15 @@ class Store extends store {
     await this.readStorage(
       [
         'accessToken',
-        'userInfo',
-        'userCookie',
-        'userCollection',
-        'userProgress',
-        'usersInfo',
-        'userCollectionsStatus',
+        'pmDetail',
         'pmIn',
         'pmOut',
-        'pmDetail'
+        'userCollection',
+        'userCollectionsStatus',
+        'userCookie',
+        'userInfo',
+        'userProgress',
+        'usersInfo'
       ],
       NAMESPACE
     )
@@ -162,7 +180,7 @@ class Store extends store {
 
       try {
         this.doCheckCookie()
-      } catch (e) {
+      } catch (ex) {
         // do nothing
       }
     }
@@ -172,106 +190,10 @@ class Store extends store {
 
   // -------------------- get --------------------
   /**
-   * 取授权信息
-   */
-  @computed get accessToken() {
-    return this.state.accessToken
-  }
-
-  /**
-   * 取自己用户信息
-   */
-  @computed get userInfo() {
-    return this.state.userInfo
-  }
-
-  /**
-   * 取用户cookie (请求HTML用)
-   */
-  @computed get userCookie() {
-    return this.state.userCookie
-  }
-
-  /**
-   * 取在看收藏
-   * @param {*} userId
-   */
-  @computed get userCollection() {
-    return this.state.userCollection
-  }
-
-  /**
-   * 取收视进度
-   * @param {*} subjectId
-   */
-  userProgress(subjectId) {
-    return computed(() => this.state.userProgress[subjectId] || {}).get()
-  }
-
-  /**
-   * 取用户收藏概览
-   * @param {*} scope
-   * @param {*} userId
-   */
-  userCollections(scope = DEFAULT_SCOPE, userId = this.myUserId) {
-    return computed(
-      () => this.state.userCollections[`${scope}|${userId}`] || LIST_EMPTY
-    ).get()
-  }
-
-  /**
-   * 取某用户信息
-   * @param {*} userId
-   */
-  usersInfo(userId = this.myUserId) {
-    return computed(() => this.state.usersInfo[userId] || INIT_USER_INFO).get()
-  }
-
-  /**
-   * 取某用户收藏统计
-   * @param {*} userId
-   */
-  userCollectionsStatus(userId = this.myUserId) {
-    return computed(() => this.state.userCollectionsStatus[userId] || {}).get()
-  }
-
-  /**
-   * 取某用户介绍
-   * @param {*} userId
-   */
-  users(userId = this.myUserId) {
-    return computed(() => this.state.users[userId] || '').get()
-  }
-
-  /**
-   * 短信
-   */
-  @computed get pmIn() {
-    return this.state.pmIn
-  }
-  @computed get pmOut() {
-    return this.state.pmOut
-  }
-
-  /**
    * 有新短信
    */
   @computed get hasNewPM() {
-    return this.state.pmIn.list.findIndex(item => item.new) !== -1
-  }
-
-  /**
-   * 短信详情
-   */
-  pmDetail(id) {
-    return computed(() => this.state.pmDetail[id] || LIST_EMPTY).get()
-  }
-
-  /**
-   * 新短信参数
-   */
-  pmParams(userId) {
-    return computed(() => this.state.pmParams[userId] || {}).get()
+    return this.pmIn.list.findIndex(item => item.new) !== -1
   }
 
   /**
@@ -751,4 +673,7 @@ class Store extends store {
     )
 }
 
-export default new Store()
+const Store = new User()
+Store.setup()
+
+export default Store

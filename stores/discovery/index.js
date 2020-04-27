@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-05 02:05:00
+ * @Last Modified time: 2020-04-27 20:22:45
  */
-import { observable, computed } from 'mobx'
+import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
@@ -42,53 +42,64 @@ class Discovery extends store {
 
     /**
      * 柠萌条目信息
+     * [bgmId]
      */
     ningMoeDetail: {
-      // [bgmId]: INIT_NINGMOE_DETAIL_ITEM
+      0: INIT_NINGMOE_DETAIL_ITEM
     },
 
     /**
      * Anitama文章列表
+     * [page]
      */
     anitamaTimeline: {
-      // [page]: INIT_ANITAMA_TIMELINE_ITEM
+      _key: (page = 1) => page,
+      0: INIT_ANITAMA_TIMELINE_ITEM
     },
 
     /**
      * 标签
+     * [type]
      */
     tags: {
-      // [type]: LIST_EMPTY<INIT_TAGS_ITEM>
+      _key: (type = DEFAULT_TYPE) => type,
+      0: LIST_EMPTY // <INIT_TAGS_ITEM>
     },
 
     /**
      * 目录
-     * @params {*} type '' | collect | me
+     * [type] '' | collect | me
+     * [page]
      */
     catalog: {
-      // [`${type}|${page}`]: INIT_CATALOG_ITEM
+      _key: (type = '', page = 1) => `${type}|${page}`,
+      0: INIT_CATALOG_ITEM
     },
 
     /**
      * 目录详情
+     * [id]
      */
     catalogDetail: {
-      // [id]: INIT_CATELOG_DETAIL_ITEM
+      0: INIT_CATELOG_DETAIL_ITEM
     },
 
     /**
      * 全站日志
-     * @params {*} type all => '' | anime | book | game | music | real
+     * [type] all => '' | anime | book | game | music | real
+     * [page]
      */
     blog: {
-      // [`${type}|${page}`]: INIT_BLOG_ITEM
+      _key: (type = '', page = 1) => `${type}|${page}`,
+      0: INIT_BLOG_ITEM
     },
 
     /**
      * 日志查看历史
+     * [blogId]
      */
     blogReaded: {
-      // [blogId]: true
+      0: false
     }
   })
 
@@ -104,41 +115,6 @@ class Discovery extends store {
       ],
       NAMESPACE
     )
-
-  // -------------------- get --------------------
-  @computed get random() {
-    return this.state.random || LIST_EMPTY
-  }
-
-  ningMoeDetail(bgmId) {
-    return computed(
-      () => this.state.ningMoeDetail[bgmId] || INIT_NINGMOE_DETAIL_ITEM
-    ).get()
-  }
-
-  anitamaTimeline(page = 1) {
-    return this.state.anitamaTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
-  }
-
-  tags(type = DEFAULT_TYPE) {
-    return this.state.tags[type] || LIST_EMPTY
-  }
-
-  catalog(type = '', page = 1) {
-    return this.state.catalog[`${type}|${page}`] || INIT_CATALOG_ITEM
-  }
-
-  catalogDetail(id) {
-    return this.state.catalogDetail[id] || INIT_CATELOG_DETAIL_ITEM
-  }
-
-  blog(type = '', page = 1) {
-    return this.state.blog[`${type}|${page}`] || INIT_BLOG_ITEM
-  }
-
-  blogReaded(blogId) {
-    return this.state.blogReaded[blogId]
-  }
 
   // -------------------- fetch --------------------
   /**
@@ -481,4 +457,7 @@ class Discovery extends store {
   }
 }
 
-export default new Discovery()
+const Store = new Discovery()
+Store.setup()
+
+export default Store

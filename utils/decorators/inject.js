@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-18 01:01:46
+ * @Last Modified time: 2020-04-27 10:46:40
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -23,8 +23,7 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
 
       static childContextTypes = {
         $: PropTypes.object,
-        navigation: PropTypes.object,
-        rendered: PropTypes.bool
+        navigation: PropTypes.object
       }
 
       constructor(props) {
@@ -47,37 +46,27 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
         const screenKey = `${state.routeName}?${urlStringify(params)}`
         this.$ = Stores.get(screenKey)
         if (!this.$) {
-          this.$ = new Store()
+          this.$ = new Store() // 新建store
+          // this.$.setup() // store约定初始化
+
+          // 把navigation的页面参数插入store方便使用
           this.$.params = {
             ...navigation.state.params
           }
         }
+
         if (cache) {
           Stores.add(screenKey, this.$)
         }
-      }
-
-      state = {
-        rendered: false
-      }
-
-      componentDidMount() {
-        setTimeout(() => {
-          this.setState({
-            rendered: true
-          })
-        }, 0)
       }
 
       $ // 页面独立状态机引用
 
       getChildContext() {
         const { navigation } = this.props
-        const { rendered } = this.state
         return {
           $: this.$,
-          navigation,
-          rendered
+          navigation
         }
       }
 

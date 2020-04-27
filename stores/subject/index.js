@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 18:40:47
+ * @Last Modified time: 2020-04-27 20:17:19
  */
-import { observable, computed } from 'mobx'
+import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { CDN_SUBJECT, CDN_MONO } from '@constants/cdn'
@@ -21,7 +21,7 @@ import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import {
   NAMESPACE,
-  INIT_SUBJECT_ITEM,
+  INIT_SUBJECT,
   INIT_SUBJECT_FROM_HTML_ITEM,
   INIT_SUBJECT_FROM_CDN_ITEM,
   INIT_MONO,
@@ -33,74 +33,94 @@ class Subject extends store {
   state = observable({
     /**
      * 条目
+     * [subjectId]
      */
     subject: {
-      // [subjectId]: INIT_SUBJECT_ITEM
+      0: INIT_SUBJECT
     },
 
     /**
      * 条目HTML
+     * [subjectId]
      */
     subjectFormHTML: {
-      // [subjectId]: INIT_SUBJECT_FROM_HTML_ITEM
+      0: INIT_SUBJECT_FROM_HTML_ITEM
     },
 
     /**
      * 条目CDN自维护数据
      * 用于条目首次渲染加速
+     * [subjectId]
      */
     subjectFormCDN: {
-      // [subjectId]: INIT_SUBJECT_FROM_CDN_ITEM
+      0: INIT_SUBJECT_FROM_CDN_ITEM
     },
 
     /**
      * [待废弃] 条目章节
+     * [subjectId]
      */
     subjectEp: {
-      // [subjectId]: {}
+      0: {}
     },
 
     /**
      * 条目吐槽箱
+     * [subjectId]
      */
     subjectComments: {
-      // [subjectId]: LIST_EMPTY
+      0: LIST_EMPTY
     },
 
     /**
      * 章节内容
+     * [epId]
      */
     epFormHTML: {
-      // [epId]: ''
+      0: ''
     },
 
     /**
      * 人物
+     * [monoId]
      */
     mono: {
-      // [monoId]: INIT_MONO
+      0: INIT_MONO
     },
 
     /**
      * 人物吐槽箱
+     * [monoId]
      */
     monoComments: {
-      // [monoId]: LIST_EMPTY | INIT_MONO_COMMENTS_ITEM
+      0: LIST_EMPTY // <INIT_MONO_COMMENTS_ITEM>
     },
 
     /**
      * 人物CDN自维护数据
      * 用于人物首次渲染加速
+     * [monoId]
      */
     monoFormCDN: {
-      // [monoId]: INIT_MONO
+      0: INIT_MONO
     },
 
     /**
      * 人物作品
+     * [monoId]
+     * https://bgm.tv/person/8138/works
      */
     monoWorks: {
-      // [monoId]: INIT_MONO_WORKS
+      0: INIT_MONO_WORKS
+    },
+
+    /**
+     * 人物角色列表
+     * [monoId]
+     * https://bgm.tv/person/8138/works/voice
+     */
+    monoVoices: {
+      0: INIT_MONO_WORKS
     }
   })
 
@@ -112,99 +132,11 @@ class Subject extends store {
         'subjectComments',
         'mono',
         'monoComments',
-        'monoWorks'
+        'monoWorks',
+        'monoVoices'
       ],
       NAMESPACE
     )
-
-  // -------------------- get --------------------
-  /**
-   * 取条目信息
-   * @param {*} subjectId
-   */
-  subject(subjectId) {
-    return computed(
-      () => this.state.subject[subjectId] || INIT_SUBJECT_ITEM
-    ).get()
-  }
-
-  /**
-   * 取条目信息
-   * @param {*} subjectId
-   */
-  subjectFormHTML(subjectId) {
-    return computed(
-      () => this.state.subjectFormHTML[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
-    ).get()
-  }
-
-  /**
-   * 条目CDN自维护数据
-   * @param {*} subjectId
-   */
-  subjectFormCDN(subjectId) {
-    return computed(
-      () => this.state.subjectFormCDN[subjectId] || INIT_SUBJECT_FROM_CDN_ITEM
-    ).get()
-  }
-
-  /**
-   * 取章节数据
-   * @param {*} subjectId
-   */
-  subjectEp(subjectId) {
-    return computed(() => this.state.subjectEp[subjectId] || {}).get()
-  }
-
-  /**
-   * 取条目吐槽
-   * @param {*} subjectId
-   */
-  subjectComments(subjectId) {
-    return computed(
-      () => this.state.subjectComments[subjectId] || LIST_EMPTY
-    ).get()
-  }
-
-  /**
-   * 取章节内容
-   * @param {*} epId
-   */
-  epFormHTML(epId) {
-    return computed(() => this.state.epFormHTML[epId] || '').get()
-  }
-
-  /**
-   * 取人物信息
-   * @param {*} monoId
-   */
-  mono(monoId) {
-    return computed(() => this.state.mono[monoId] || INIT_MONO).get()
-  }
-
-  /**
-   * 取人物信息吐槽
-   * @param {*} monoId
-   */
-  monoComments(monoId) {
-    return computed(() => this.state.monoComments[monoId] || LIST_EMPTY).get()
-  }
-
-  /**
-   * 人物CDN自维护数据
-   * @param {*} monoId
-   */
-  monoFormCDN(monoId) {
-    return computed(() => this.state.monoFormCDN[monoId] || INIT_MONO).get()
-  }
-
-  /**
-   * 人物作品
-   * @param {*} monoId
-   */
-  monoWorks(monoId) {
-    return computed(() => this.state.monoWorks[monoId] || INIT_MONO_WORKS).get()
-  }
 
   // -------------------- fetch --------------------
   /**
@@ -560,4 +492,7 @@ class Subject extends store {
   }
 }
 
-export default new Subject()
+const Store = new Subject()
+Store.setup()
+
+export default Store

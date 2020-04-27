@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 10:37:06
+ * @Last Modified time: 2020-04-25 16:04:58
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -70,7 +70,7 @@ class System extends store {
 
     // 检查新版本
     setTimeout(() => {
-      this.fetchRelease()
+      // this.fetchRelease()
     }, 4000)
 
     return res

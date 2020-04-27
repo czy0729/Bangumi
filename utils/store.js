@@ -3,72 +3,96 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-10-01 22:48:47
+ * @Last Modified time: 2020-04-27 20:23:21
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
-import { LIST_EMPTY } from '@constants'
 import { getTimestamp } from '@utils'
+import { LIST_EMPTY } from '@constants'
 import fetch from './fetch'
 
 configure({
   enforceActions: 'observed'
 })
 
+export function setup(store) {
+  console.log(store.state)
+}
+
 export default class Store {
+  /**
+   * Store new后调用的方法
+   */
   setup = () => {
-    this.generateComputed()
+    console.info('\n')
+    console.info(`========== ${this.getName()} store setup start ==========`)
+    this.initComputed()
+    console.info(`========== ${this.getName()} store setup end ==========`)
   }
 
   /**
-   * 根据配置[this.computed]自动生成get
-   * @param {*} config
-   * computed = [
-   *   'key', // case 1
-   *   ['key', defaultValue], // case 2
-   *   ['key', defaultValue, stringArg], // case 3
-   *   ['key', defaultValue, funcArg] // case 4
+   * 自动使用Store.state来遍历配置初始MobX的computed
+   * 所有state里的键值, 都可以通过this.key的方式调用而不需要this.state.key
    */
-  generateComputed = () => {
-    if (!Array.isArray(this.computed)) {
-      return
-    }
-
-    this.computed.forEach(item => {
-      // case 1
-      if (typeof item === 'string') {
-        Object.defineProperty(this, item, {
-          get() {
-            return computed(() => this.state[item]).get()
-          }
-        })
+  initComputed = () => {
+    Object.keys(this.state).forEach(key => {
+      /**
+       * 已有computed跳过
+       */
+      if (this[key] !== undefined) {
+        console.info(`skip [computed] ${key}`)
         return
       }
 
-      const [key, defaultValue, defaultArg] = item
-
-      // case 4
-      if (typeof defaultArg === 'function') {
-        this[key] = (...arg) =>
-          computed(() => this.state[key][defaultArg(...arg)]).get() ||
-          defaultValue
-      } else {
-        // case 2, 3
-        this[key] = () =>
-          computed(() => this.state[key][defaultArg]).get() || defaultValue
+      /**
+       * 情况1
+       * @computed get userInfo() {
+       *   return this.state.userInfo
+       * }
+       */
+      if (this.state[key][0] === undefined) {
+        Object.defineProperty(this, key, {
+          get() {
+            return computed(() => this.state[key]).get()
+          }
+        })
+        console.info(`[computed] ${key}`)
+        return
       }
+
+      /**
+       * 情况3
+       * userCollections(scope = DEFAULT_SCOPE, userId = this.myUserId) {
+       *   return computed(
+       *     () => this.state.userCollections[`${scope}|${userId}`] || LIST_EMPTY
+       *   ).get()
+       * }
+       */
+      if (
+        typeof this.state[key] === 'object' &&
+        typeof this.state[key]._key === 'function'
+      ) {
+        this[key] = (...arg) => {
+          const id = this.state[key]._key(...arg)
+          return computed(() => this.state[key][id] || this.state[key][0]).get()
+        }
+        console.info(`[computed] ${key}(...arg)`)
+        return
+      }
+
+      /**
+       * 情况2
+       * subject(subjectId) {
+       *   return computed(
+       *     () => this.state.subject[subjectId] || INIT_SUBJECT
+       *   ).get()
+       * }
+       */
+      this[key] = id =>
+        computed(() => this.state[key][id] || this.state[key][0]).get()
+      console.info(`[computed] ${key}(id)`)
     })
   }
-
-  /**
-   * MobX计算
-   * @param {*} *key         state的键值
-   * @param {*} arg          第一个参数
-   * @param {*} defaultValue 默认值
-   */
-  computed = (key, arg, defaultValue = '') =>
-    computed(() => (arg ? this.state[key][arg] : this.state[key])).get() ||
-    defaultValue
 
   /**
    * 统一setState方法
@@ -119,7 +143,7 @@ export default class Store {
    * @param {*}             otherConfig.storage 是否本地化
    * @return {Promise}
    */
-  async fetch(fetchConfig, stateKey, otherConfig = {}) {
+  fetch = async (fetchConfig, stateKey, otherConfig = {}) => {
     const { list, storage, namespace } = otherConfig
     let _fetchConfig = {}
     if (typeof fetchConfig === 'object') {
@@ -179,7 +203,7 @@ export default class Store {
    * @param {*} value
    * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
-  setStorage(key, value, namesapce) {
+  setStorage = (key, value, namesapce) => {
     let _key = namesapce || this.getName()
     if (key) {
       _key += `|${key}`
@@ -198,7 +222,7 @@ export default class Store {
    * @param {*} value
    * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
-  async getStorage(key, namesapce, defaultValue) {
+  getStorage = async (key, namesapce, defaultValue) => {
     let _key = namesapce || this.getName()
     if (key) {
       _key += `|${key}`
@@ -209,33 +233,11 @@ export default class Store {
   }
 
   /**
-   * 批量读取缓存并入库
-   * @param {*} *config    约定的配置
-   * @param {*} *namespace 命名空间
-   */
-  async readStorageThenSetState(config, namespace) {
-    const keys = Object.keys(config)
-    const data = await Promise.all(
-      keys.map(key => this.getStorage(key, namespace, config[key]))
-    )
-
-    const state = Object.assign(
-      {},
-      ...keys.map((key, index) => ({
-        [key]: data[index]
-      }))
-    )
-    this.setState(state)
-
-    return state
-  }
-
-  /**
    * 批量读取缓存并入库V2
    * @param {*} *config    约定的配置
    * @param {*} *namespace 命名空间
    */
-  async readStorage(config = [], namespace) {
+  readStorage = async (config = [], namespace) => {
     const data = await Promise.all(
       config.map(key => this.getStorage(key, namespace, this.state[key]))
     )
@@ -258,18 +260,18 @@ export default class Store {
    * @param  {String} key 保存值的键值
    * @return {Object}
    */
-  toJS(key) {
-    return toJS(this.state[key] || this.state)
-  }
+  toJS = key => toJS(this.state[key] || this.state)
 
   /**
-   * [已废弃]取类名
+   * 取类名
+   * @notice apk打包后类名会丢失, 请勿在非dev情况下调用
    */
-  getName() {
+  getName = () => {
     let s = this.constructor.toString()
     if (s.indexOf('function') == -1) {
       return null
     }
+
     s = s.replace('function', '')
     const idx = s.indexOf('(')
     s = s.substring(0, idx)
