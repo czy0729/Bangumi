@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 19:24:10
+ * @Last Modified time: 2020-04-28 12:17:58
  */
 
 /**
@@ -146,6 +146,11 @@ export default {
   '作品.切换布局': 'Works.toggleList',
   '作品.排序选择': 'Works.onOrderSelect',
   '作品.职位选择': 'Works.onFilterSelect',
+
+  // 角色
+  '角色.跳转': 'Voices.to',
+  '角色.右上角菜单': 'Voices.topRightMenu',
+  '角色.职位选择': 'Voices.onFilterSelect',
 
   /* ==================== login ==================== */
   // 辅助登陆

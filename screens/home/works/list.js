@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 17:31:46
+ * @Last Modified time: 2020-04-28 14:06:45
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -60,11 +60,6 @@ class List extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { hide } = $.state
-    if (hide) {
-      return null
-    }
-
     const { _loaded } = $.monoWorks
     if (!_loaded) {
       return <Loading />

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-27 20:17:19
+ * @Last Modified time: 2020-04-28 11:43:16
  */
 import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -13,7 +13,8 @@ import {
   HTML_SUBJECT,
   HTML_SUBJECT_COMMENTS,
   HTML_EP,
-  HTML_MONO_WORKS
+  HTML_MONO_WORKS,
+  HTML_MONO_VOICES
 } from '@constants/html'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
@@ -27,7 +28,12 @@ import {
   INIT_MONO,
   INIT_MONO_WORKS
 } from './init'
-import { fetchMono, cheerioSubjectFormHTML, cheerioMonoWorks } from './common'
+import {
+  fetchMono,
+  cheerioSubjectFormHTML,
+  cheerioMonoWorks,
+  cheerioMonoVoices
+} from './common'
 
 class Subject extends store {
   state = observable({
@@ -179,6 +185,7 @@ class Subject extends store {
         [subjectId]: data
       }
     })
+
     this.setStorage(key, undefined, NAMESPACE)
     return Promise.resolve(data)
   }
@@ -480,6 +487,33 @@ class Subject extends store {
           pagination: {
             page,
             pageTotal: _list.length === limit ? 100 : page
+          },
+          filters,
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return this[key](monoId)
+  }
+
+  /**
+   * 人物角色
+   */
+  fetchMonoVoices = async ({ monoId, position, order } = {}) => {
+    const key = 'monoVoices'
+    const html = await fetchHTML({
+      url: HTML_MONO_VOICES(monoId, position, order)
+    })
+    const { list, filters } = cheerioMonoVoices(html)
+    this.setState({
+      [key]: {
+        [monoId]: {
+          list,
+          pagination: {
+            page: 1,
+            pageTotal: 1
           },
           filters,
           _loaded: getTimestamp()

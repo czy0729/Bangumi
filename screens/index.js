@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 15:54:27
+ * @Last Modified time: 2020-04-28 00:26:04
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -37,6 +37,7 @@ export { default as Home } from './home/index'
 export { default as Mono } from './home/mono'
 export { default as Subject } from './home/subject'
 export { default as Tag } from './home/tag'
+export { default as Voices } from './home/voices'
 export { default as Works } from './home/works'
 
 // Rakuen

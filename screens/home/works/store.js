@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 20:03:42
+ * @Last Modified time: 2020-04-28 14:08:18
  *
  * @Params: monoId person/{Int}
  * @Params: name   {String}
@@ -22,7 +22,7 @@ const excludeState = {
 export default class ScreenWorks extends store {
   state = observable({
     order: MODEL_MONO_WORKS_ORDERBY.getValue('名称'),
-    list: true, // list | grid
+    list: true,
     ...excludeState,
     _loaded: false
   })
@@ -79,20 +79,11 @@ export default class ScreenWorks extends store {
     })
     this.fetchMonoWorks(true)
     this.setStorage(undefined, undefined, namespace)
-
-    this.setState({
-      hide: true
-    })
-    setTimeout(() => {
-      this.setState({
-        hide: false
-      })
-    }, 200)
   }
 
   onFilterSelect = (label, data) => {
     t('作品.职位选择', {
-      label
+      label: label.split(' ')[0]
     })
 
     const { value = '' } = data.find(item => item.title === label) || {}
@@ -101,15 +92,6 @@ export default class ScreenWorks extends store {
     })
     this.fetchMonoWorks(true)
     this.setStorage(undefined, undefined, namespace)
-
-    this.setState({
-      hide: true
-    })
-    setTimeout(() => {
-      this.setState({
-        hide: false
-      })
-    }, 200)
   }
 
   toggleList = () => {
@@ -122,14 +104,5 @@ export default class ScreenWorks extends store {
       list: !list
     })
     this.setStorage(undefined, undefined, namespace)
-
-    this.setState({
-      hide: true
-    })
-    setTimeout(() => {
-      this.setState({
-        hide: false
-      })
-    }, 0)
   }
 }

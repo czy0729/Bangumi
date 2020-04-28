@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 10:19:54
+ * @Last Modified time: 2020-04-28 12:14:05
  */
 
 /**
@@ -67,3 +67,4 @@ export { default as ItemSearch } from './item/search'
 export { default as ItemSetting } from './item/setting'
 export { default as ItemTimeline } from './item/timeline'
 export { default as ItemTopic } from './item/topic'
+export { default as ItemVoice } from './item/voice'

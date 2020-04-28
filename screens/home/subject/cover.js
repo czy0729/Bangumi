@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:55:50
+ * @Last Modified time: 2020-04-28 14:29:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -68,7 +68,6 @@ class Cover extends React.Component {
             height={imageHeight}
             radius
             border
-            shadow
             noDefault
           />
         )}

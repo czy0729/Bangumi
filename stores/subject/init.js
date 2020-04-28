@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-27 11:37:22
+ * @Last Modified time: 2020-04-28 11:19:34
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -92,8 +92,43 @@ export const INIT_MONO = {
 }
 
 export const INIT_MONO_WORKS = {
-  ...LIST_EMPTY,
-  filters: []
+  ...LIST_EMPTY, // <INIT_MONO_WORKS_ITEM>
+  filters: [] // <INIT_MONO_WORKS_FILTERS_ITEM>
+}
+
+export const INIT_MONO_WORKS_ITEM = {
+  id: '',
+  cover: '',
+  name: '',
+  nameCn: '',
+  tip: '',
+  position: [], // <string>
+  score: '',
+  total: '',
+  rank: '',
+  collected: false,
+  type: '' // book | anime | music | game | real
+}
+
+export const INIT_MONO_VOICES = {
+  ...LIST_EMPTY, // <INIT_MONO_VOICES_ITEM>
+  filters: [] // <INIT_MONO_WORKS_FILTERS_ITEM>
+}
+
+export const INIT_MONO_VOICES_ITEM = {
+  cover: '',
+  id: '',
+  name: '',
+  nameCn: '',
+  subject: [] // <INIT_MONO_VOICES_SUBJECT_ITEM>
+}
+
+export const INIT_MONO_VOICES_SUBJECT_ITEM = {
+  cover: '',
+  id: '',
+  name: '',
+  nameCn: '',
+  staff: '' // 职位: 主角 | 配角 | 客串 | ...
 }
 
 export const INIT_MONO_COMMENTS_ITEM = {}

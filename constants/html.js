@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 18:38:45
+ * @Last Modified time: 2020-04-28 11:47:45
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -41,7 +41,7 @@ export const HTML_MONO = monoId => {
 }
 
 /**
- * 现实人物作品
+ * 人物作品
  * @param {*} monoId person/{INT}
  * @param {*} sort   date 按日期 | rank 按排名 | title 按名称
  * @param {*} page
@@ -49,10 +49,6 @@ export const HTML_MONO = monoId => {
  * 作品列表
  * 类型: anime | book | game | music | real
  * 职位: /position/{INT}
- *
- * 角色列表
- * 类型: /voice/{anime | book | game | music | real}
- * 角色: /voice/position/{INT}
  */
 export const HTML_MONO_WORKS = (
   monoId,
@@ -60,6 +56,17 @@ export const HTML_MONO_WORKS = (
   sort = 'title',
   page = 1
 ) => `${HOST}/${monoId}/works${position}?sort=${sort}&page=${page}`
+
+/**
+ * 人物角色
+ * @param {*} monoId person/{INT}
+ *
+ * 角色列表
+ * 类型: /voice/{anime | book | game | music | real}
+ * 角色: /voice/position/{INT}
+ */
+export const HTML_MONO_VOICES = (monoId, position = '') =>
+  `${HOST}/${monoId}/works/voice${position}`
 
 /**
  * 时间胶囊

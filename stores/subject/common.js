@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 17:36:11
+ * @Last Modified time: 2020-04-28 00:55:16
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -433,6 +433,67 @@ export function cheerioMonoWorks(HTML) {
                   .attr('class')
                   .replace(/ico_subject_type subject_type_| ll/g, '')
               ]
+          })
+        })
+        .get() || []
+  }
+}
+
+/**
+ * 分析人物角色
+ * @param {*} HTML
+ */
+export function cheerioMonoVoices(HTML) {
+  const $ = cheerio(HTML)
+  return {
+    filters:
+      $('div.subjectFilter > ul.grouped')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          return safeObject({
+            title: $li.find('li.title').text().trim(),
+            data:
+              $li
+                .find('a.l')
+                .map((idx, el) => {
+                  const $a = cheerio(el)
+                  return safeObject({
+                    title: $a.text().trim(),
+                    value: $a.attr('href').split('/works/voice')[1]
+                  })
+                })
+                .get() || []
+          })
+        })
+        .get() || [],
+    list:
+      $('ul.browserList > li.item')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $leftItem = $li.find('div.innerLeftItem')
+          return safeObject({
+            id: $leftItem
+              .find('h3 > a.l')
+              .attr('href')
+              .replace('/character/', ''),
+            name: $leftItem.find('h3 > a.l').text().trim(),
+            nameCn: $leftItem.find('h3 > p.tip').text().trim(),
+            cover: $leftItem.find('img.avatar').attr('src').split('?')[0],
+            subject:
+              $li
+                .find('ul.innerRightList > li')
+                .map((idx, el) => {
+                  const $l = cheerio(el)
+                  const $a = $l.find('h3 > a.l')
+                  return safeObject({
+                    id: $a.attr('href').replace('/subject/', ''),
+                    name: $a.text().trim(),
+                    nameCn: $l.find('div.inner small.grey').text().trim(),
+                    cover: $l.find('img.cover').attr('src'),
+                    staff: $l.find('div.inner span.badge_job').text().trim()
+                  })
+                })
+                .get() || []
           })
         })
         .get() || []

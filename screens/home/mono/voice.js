@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 19:54:15
+ * @Last Modified time: 2020-04-28 14:28:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ function Voice({ style }, { $, navigation }) {
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
-        right={<SectionRight event={event} text='更多角色' to='voice' />}
+        right={<SectionRight event={event} text='更多角色' to='Voices' />}
       >
         最近演出角色
       </SectionTitle>
@@ -73,7 +73,7 @@ function Voice({ style }, { $, navigation }) {
                 </Flex.Item>
               </Flex>
             </Flex.Item>
-            <Flex.Item style={_.ml.md} flex={3}>
+            <Flex.Item style={_.ml.sm} flex={3.2}>
               <Flex align='start'>
                 <Flex.Item>
                   <Text style={_.mt.xs} align='right'>
