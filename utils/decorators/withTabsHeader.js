@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-14 20:05:16
+ * @Last Modified time: 2020-04-29 18:22:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -33,21 +33,29 @@ const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
               height: _.headerHeight - correctHeightIOS
             },
             headerTitle: (
-              <View>
-                <Logo />
-                <View style={{ height: _.tabsHeight }}>
-                  <View style={styles.headerTabsIOS}>
-                    {navigation.getParam('headerTabs')}
+              <>
+                <BlurView style={styles.headerBackgroundIOS} />
+                <View>
+                  <Logo />
+                  <View style={styles.headerTabsWrapIOS}>
+                    <View style={styles.headerTabsIOS}>
+                      {navigation.getParam('headerTabs')}
+                    </View>
                   </View>
                 </View>
-              </View>
+              </>
             ),
             headerLeft,
             headerRight,
             headerRightContainerStyle: {
               marginRight: _._wind
-            },
-            headerBackground: <BlurView />
+            }
+
+            /**
+             * @issue 这个属性在页面切换时会被隐藏掉?
+             * 暂使用headerTitle插入BlurView并适应位置代替
+             */
+            // headerBackground: <BlurView />
           }
         } else {
           const headerBackground = navigation.getParam(
@@ -148,12 +156,24 @@ withTabsHeader.listViewProps = IOS
 export default withTabsHeader
 
 const styles = StyleSheet.create({
+  headerBackgroundIOS: {
+    position: 'absolute',
+    top: 0,
+    left: '50%',
+    width: _.window.width,
+    height: _.tabsHeaderHeight,
+    marginTop: -_.tabsHeight - 8, // 8pt为headerTitle内的paddingTop
+    marginLeft: -_.window.width * 0.5
+  },
+  headerTabsWrapIOS: {
+    height: _.tabsHeight
+  },
   headerTabsIOS: {
     position: 'absolute',
+    zIndex: 1,
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 1,
     width: _.window.width,
     transform: [
       {
