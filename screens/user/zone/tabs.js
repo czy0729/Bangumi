@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 13:00:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 19:15:01
+ * @Last Modified time: 2020-04-29 15:32:56
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { IOS } from '@constants'
 import { height, headerHeight } from './store'
 
-function Tabs({ $, scrollY, children, ...other }) {
+function Tabs({ $, scrollY, children, onChange, ...other }) {
   const styles = memoStyles()
   const { page, _page } = $.state
   return (
@@ -29,7 +29,10 @@ function Tabs({ $, scrollY, children, ...other }) {
       initialPage={page}
       page={children ? page : _page}
       onTabClick={$.onTabClick}
-      onChange={$.onChange}
+      onChange={(...arg) => {
+        onChange(...arg)
+        $.onChange(...arg)
+      }}
       {...other}
     >
       {children}
