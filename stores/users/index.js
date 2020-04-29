@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 20:47:59
+ * @Last Modified time: 2020-04-29 14:21:01
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -33,9 +33,11 @@ class Users extends store {
   state = observable({
     /**
      * 好友列表
+     * @param {*} userId
      */
     friends: {
-      // [userId]: LIST_EMPTY<INIT_FRIENDS_ITEM>
+      _key: userId => userId || userStore.myId,
+      0: LIST_EMPTY // <INIT_FRIENDS_ITEM>
     },
 
     /**
@@ -45,23 +47,29 @@ class Users extends store {
 
     /**
      * 用户介绍
+     * @param {*} userId
      */
     users: {
-      // [userId]: INIT_USERS
+      _key: userId => userId || userStore.myId,
+      0: INIT_USERS
     },
 
     /**
      * 用户收藏的虚拟角色
+     * @param {*} userId
      */
     characters: {
-      // [userId]: LIST_EMPTY<INIT_CHARACTER>
+      _key: userId => userId || userStore.myId,
+      0: LIST_EMPTY // <INIT_CHARACTER>
     },
 
     /**
      * 用户收藏的现实人物
+     * @param {*} userId
      */
     persons: {
-      // [userId]: LIST_EMPTY<INIT_CHARACTER>
+      _key: userId => userId || userStore.myId,
+      0: LIST_EMPTY // <INIT_CHARACTER>
     },
 
     /**
@@ -71,9 +79,11 @@ class Users extends store {
 
     /**
      * 用户日志
+     * @param {*} userId
      */
     blogs: {
-      // [userId]: LIST_EMPTY<INIT_BLOGS>
+      _key: userId => userId || userStore.myId,
+      0: LIST_EMPTY // <INIT_BLOGS>
     },
 
     /**
@@ -82,7 +92,6 @@ class Users extends store {
     catalogs: {
       // [userId]: LIST_EMPTY<INIT_CATALOGS>
     },
-
     catalogsCollect: {
       // [userId]: LIST_EMPTY<INIT_CATALOGS>
     }
@@ -121,34 +130,6 @@ class Users extends store {
   }
 
   // -------------------- get --------------------
-  friends(userId = userStore.myId) {
-    return this.state.friends[userId] || LIST_EMPTY
-  }
-
-  @computed get myFriendsMap() {
-    return this.state.myFriendsMap
-  }
-
-  users(userId = userStore.myId) {
-    return computed(() => this.state.users[userId] || INIT_USERS).get()
-  }
-
-  characters(userId = userStore.myId) {
-    return computed(() => this.state.characters[userId] || LIST_EMPTY).get()
-  }
-
-  persons(userId = userStore.myId) {
-    return computed(() => this.state.persons[userId] || LIST_EMPTY).get()
-  }
-
-  @computed get recents() {
-    return this.state.recents
-  }
-
-  blogs(userId = userStore.myId) {
-    return computed(() => this.state.blogs[userId] || LIST_EMPTY).get()
-  }
-
   catalogs(userId = userStore.myId, isCollect) {
     const key = `catalogs${isCollect ? 'Collect' : ''}`
     return computed(() => this.state[key][userId] || LIST_EMPTY).get()
@@ -420,4 +401,7 @@ class Users extends store {
   }
 }
 
-export default new Users()
+const Store = new Users()
+Store.setup()
+
+export default Store

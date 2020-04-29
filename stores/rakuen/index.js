@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 00:22:26
+ * @Last Modified time: 2020-04-28 15:36:51
  */
-import { observable, computed } from 'mobx'
+import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
@@ -25,7 +25,6 @@ import {
   NAMESPACE,
   DEFAULT_SCOPE,
   DEFAULT_TYPE,
-  // LIMIT_LIST_COMMENTS,
   INIT_READED_ITEM,
   INIT_TOPIC,
   INIT_NOTIFY,
@@ -46,38 +45,45 @@ class Rakuen extends store {
   state = observable({
     /**
      * 超展开列表
+     * [scope] 范围
+     * [type]  类型
      */
     rakuen: {
-      // [`${scope}|${type}`]: LIST_EMPTY<INIT_RAKUEN_ITEM>
+      _key: (scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) => `${scope}|${type}`,
+      0: LIST_EMPTY // <INIT_RAKUEN_ITEM>
     },
 
     /**
      * 帖子历史查看信息
+     * [topicId]
      */
     readed: {
-      // [topicId]: INIT_READED_ITEM
+      0: INIT_READED_ITEM
     },
 
     /**
      * 帖子内容
+     * [topicId]
      */
     topic: {
-      // [topicId]: INIT_TOPIC
+      0: INIT_TOPIC
     },
 
     /**
      * 帖子回复
+     * [topicId]
      */
     comments: {
-      // [topicId]: LIST_EMPTY<INIT_COMMENTS_ITEM>
+      0: LIST_EMPTY // <INIT_COMMENTS_ITEM>
     },
 
     /**
      * 帖子内容CDN自维护数据
      * 用于帖子首次渲染加速
+     * [topicId]
      */
     topicFormCDN: {
-      // [topicId]: INIT_TOPIC
+      0: INIT_TOPIC
     },
 
     /**
@@ -92,44 +98,52 @@ class Rakuen extends store {
 
     /**
      * 小组信息
+     * [groupId]
      */
     groupInfo: {
-      // [groupId]: INIT_GROUP_INFO
+      0: INIT_GROUP_INFO
     },
 
     /**
      * 小组帖子列表
+     * [groupId]
+     * [page]
      */
     group: {
-      // [groupId|page]: []<INIT_GROUP_ITEM>
+      _key: (groupId, page = 1) => `${groupId}|${page}`,
+      0: INIT_GROUP_ITEM
     },
 
     /**
      * 本地收藏
+     *  [topicId]
      */
     favor: {
-      // [topicId]: true
+      0: false
     },
 
     /**
      * 小组缩略图缓存
+     * [name]
      */
     groupThumb: {
-      // [name]: ''
+      0: ''
     },
 
     /**
      * 日志内容
+     * [blogId]
      */
     blog: {
-      // [blogId]: INIT_TOPIC
+      0: INIT_TOPIC
     },
 
     /**
      * 日志回复
+     * [blogId]
      */
     blogComments: {
-      // [blogId]: LIST_EMPTY<INIT_COMMENTS_ITEM>
+      0: LIST_EMPTY // <INIT_COMMENTS_ITEM>
     }
   })
 
@@ -151,115 +165,6 @@ class Rakuen extends store {
     )
 
   // -------------------- get --------------------
-  /**
-   * 超展开
-   * @param {*} scope 范围
-   * @param {*} type 类型
-   */
-  rakuen(scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) {
-    return computed(
-      () => this.state.rakuen[`${scope}|${type}`] || LIST_EMPTY
-    ).get()
-  }
-
-  /**
-   * 帖子历史查看信息
-   * @param {*} topicId
-   */
-  readed(topicId = 0) {
-    return computed(() => this.state.readed[topicId] || INIT_READED_ITEM).get()
-  }
-
-  /**
-   * 帖子内容
-   * @param {*} topicId
-   */
-  topic(topicId = 0) {
-    return computed(() => this.state.topic[topicId] || INIT_TOPIC).get()
-  }
-
-  /**
-   * 帖子回复
-   * @param {*} topicId
-   */
-  comments(topicId = 0) {
-    return computed(() => this.state.comments[topicId] || LIST_EMPTY).get()
-  }
-
-  /**
-   * 帖子内容CDN自维护数据
-   * @param {*} monoId
-   */
-  topicFormCDN(topicId = 0) {
-    return computed(() => this.state.topicFormCDN[topicId] || INIT_TOPIC).get()
-  }
-
-  /**
-   * 电波提醒
-   */
-  @computed get notify() {
-    return this.state.notify
-  }
-
-  /**
-   * 超展开设置
-   */
-  @computed get setting() {
-    return this.state.setting
-  }
-
-  /**
-   * 小组信息
-   * @param {*} groupId
-   */
-  groupInfo(groupId) {
-    return computed(
-      () => this.state.groupInfo[groupId] || INIT_GROUP_INFO
-    ).get()
-  }
-
-  /**
-   * 小组帖子列表
-   * @param {*} groupId
-   * @param {*} page
-   */
-  group(groupId, page = 1) {
-    return computed(
-      () => this.state.group[`${groupId}|${page}`] || INIT_GROUP_ITEM
-    ).get()
-  }
-
-  /**
-   * 本地收藏
-   * @param {*} topicId
-   */
-  favor(topicId = 0) {
-    return computed(() => this.state.favor[topicId] || false).get()
-  }
-
-  /**
-   * 小组缩略图缓存
-   */
-  groupThumb(name) {
-    return computed(() => this.state.groupThumb[name] || '').get()
-  }
-
-  /**
-   * 日志内容
-   * @param {*} blogId
-   */
-  blog(blogId = 0) {
-    return computed(() => this.state.blog[blogId] || INIT_TOPIC).get()
-  }
-
-  /**
-   * 日志回复
-   * @param {*} blogId
-   */
-  blogComments(blogId = 0) {
-    return computed(() => this.state.blogComments[blogId] || LIST_EMPTY).get()
-  }
-
   blogFormCDN() {
     return INIT_TOPIC
   }
@@ -270,10 +175,10 @@ class Rakuen extends store {
    * @issue 官网没有分页, 这接口居然一次返回250项
    * 为了提高体验, 做模拟分页加载效果
    */
-  async fetchRakuen(
+  fetchRakuen = async (
     { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE } = {},
     refresh
-  ) {
+  ) => {
     let res
     const key = 'rakuen'
     const stateKey = `${scope}|${type}`
@@ -320,7 +225,7 @@ class Rakuen extends store {
   /**
    * 获取帖子内容和留言
    */
-  async fetchTopic({ topicId = 0 }) {
+  fetchTopic = async ({ topicId = 0 }) => {
     const HTML = await fetchHTML({
       url: HTML_TOPIC(topicId)
     })
@@ -395,7 +300,7 @@ class Rakuen extends store {
    * 电波提醒
    * @param {*} analysis 是否分析回复内容
    */
-  async fetchNotify(analysis = false) {
+  fetchNotify = async (analysis = false) => {
     const res = fetchHTML({
       url: HTML_NOTIFY()
     })
@@ -796,4 +701,7 @@ class Rakuen extends store {
   }
 }
 
-export default new Rakuen()
+const Store = new Rakuen()
+Store.setup()
+
+export default Store

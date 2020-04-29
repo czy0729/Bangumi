@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:06:44
+ * @Last Modified time: 2020-04-29 14:09:13
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -98,9 +98,10 @@ class Tinygrail extends store {
 
     /**
      * 人物数据
+     * @param {*} monoId
      */
     characters: {
-      // [monoId]: INIT_CHARACTERS_ITEM
+      0: INIT_CHARACTERS_ITEM
     },
 
     /**
@@ -120,21 +121,28 @@ class Tinygrail extends store {
 
     /**
      * 番市首富
+     * @param {*} sort
      */
-    rich: INIT_RICH,
+    rich: {
+      _key: (sort = defaultSort) => sort,
+      0: LIST_EMPTY, // <INIT_RICH_ITEM>
+      ...INIT_RICH
+    },
 
     /**
      * K线
+     * @param {*} monoId
      */
     kline: {
-      // [monoId]: INIT_KLINE_ITEM
+      0: INIT_KLINE_ITEM
     },
 
     /**
      * 深度图
+     * @param {*} monoId
      */
     depth: {
-      // [monoId]: INIT_DEPTH_ITEM
+      0: INIT_DEPTH_ITEM
     },
 
     /**
@@ -149,23 +157,26 @@ class Tinygrail extends store {
 
     /**
      * 其他用户资产
+     * @param {*} hash
      */
     userAssets: {
-      // [hash]: INIT_ASSETS
+      0: INIT_ASSETS
     },
 
     /**
      * 用户资产概览信息
+     * @param {*} hash
      */
     charaAssets: {
-      // [hash]: INIT_CHARA_ASSETS
+      0: INIT_CHARA_ASSETS
     },
 
     /**
      * 我的挂单和交易记录
+     * @param {*} monoId
      */
     userLogs: {
-      // [monoId]: INIT_USER_LOGS
+      0: INIT_USER_LOGS
     },
 
     /**
@@ -190,58 +201,68 @@ class Tinygrail extends store {
 
     /**
      * 记录所有角色的头像Map (用于没有头像的列表)
+     * @param {*} monoId
      */
     iconsCache: {
-      // [monoId]: ''
+      0: ''
     },
 
     /**
      * ICO参与者
+     * @param {*} monoId
      */
     initial: {
-      // [monoId]: {}
+      0: LIST_EMPTY
     },
 
     /**
      * 董事会
+     * @param {*} monoId
      */
     users: {
-      // [monoId]: LIST_EMPTY
+      0: LIST_EMPTY
     },
 
     /**
      * 用户圣殿
+     * @param {*} hash
      */
     temple: {
-      // [hash]: LIST_EMPTY<INIT_TEMPLE_ITEM>
+      _key: hash => hash || this.hash,
+      0: LIST_EMPTY // <INIT_TEMPLE_ITEM>
     },
 
     /**
      * 用户所有角色信息
+     * @param {*} hash
      */
     charaAll: {
-      // [hash]: LIST_EMPTY<INIT_CHATACTER_ITEM>
+      _key: hash => hash || this.hash,
+      0: LIST_EMPTY // <INIT_CHATACTER_ITEM>
     },
 
     /**
      * 角色圣殿
+     * @param {*} monoId
      */
     charaTemple: {
-      // [monoId]: LIST_EMPTY
+      0: LIST_EMPTY
     },
 
     /**
      * 可拍卖信息
+     * @param {*} monoId
      */
     valhallChara: {
-      // [monoId]: {}
+      0: {}
     },
 
     /**
      * 上周拍卖记录
+     * @param {*} monoId
      */
     auctionList: {
-      // [monoId]: LIST_EMPTY
+      0: LIST_EMPTY
     },
 
     /**
@@ -261,16 +282,18 @@ class Tinygrail extends store {
 
     /**
      * 当前拍卖状态
+     * @param {*} monoId
      */
     auctionStatus: {
-      // [monoId]: INIT_AUCTION_STATUS
+      0: INIT_AUCTION_STATUS
     },
 
     /**
      * 角色发行价
+     * @param {*} monoId
      */
     issuePrice: {
-      // [monoId]: 0
+      0: 0
     },
 
     /**
@@ -285,16 +308,18 @@ class Tinygrail extends store {
 
     /**
      * 检测用户有多少圣殿
+     * @param {*} hash
      */
     templeTotal: {
-      // [hash]: 0
+      0: 0
     },
 
     /**
      * 检测用户有多少角色
+     * @param {*} hash
      */
     charaTotal: {
-      // [hash]: 0
+      0: 0
     },
 
     /**
@@ -369,146 +394,8 @@ class Tinygrail extends store {
     )
 
   // -------------------- get --------------------
-  @computed get cookie() {
-    return this.state.cookie
-  }
-
-  @computed get advance() {
-    return this.state.advance
-  }
-
-  characters(id) {
-    return (
-      computed(() => this.state.characters[id]).get() || INIT_CHARACTERS_ITEM
-    )
-  }
-
   list(key = defaultKey) {
     return computed(() => this.state[key]).get() || LIST_EMPTY
-  }
-
-  rich(sort = defaultSort) {
-    return computed(() => this.state.rich[sort]).get() || LIST_EMPTY
-  }
-
-  kline(id) {
-    return computed(() => this.state.kline[id]).get() || INIT_KLINE_ITEM
-  }
-
-  depth(id) {
-    return computed(() => this.state.depth[id]).get() || INIT_DEPTH_ITEM
-  }
-
-  @computed get hash() {
-    return this.state.hash
-  }
-
-  @computed get assets() {
-    return this.state.assets
-  }
-
-  userAssets(hash) {
-    return computed(() => this.state.userAssets[hash]).get() || INIT_ASSETS
-  }
-
-  charaAssets(hash) {
-    return (
-      computed(() => this.state.charaAssets[hash]).get() || INIT_CHARA_ASSETS
-    )
-  }
-
-  userLogs(id) {
-    return computed(() => this.state.userLogs[id]).get() || INIT_USER_LOGS
-  }
-
-  @computed get myCharaAssets() {
-    return this.state.myCharaAssets
-  }
-
-  @computed get balance() {
-    return this.state.balance
-  }
-
-  iconsCache(id) {
-    return computed(() => this.state.iconsCache[id]).get() || ''
-  }
-
-  initial(id) {
-    return computed(() => this.state.initial[id]).get() || LIST_EMPTY
-  }
-
-  users(id) {
-    return computed(() => this.state.users[id]).get() || LIST_EMPTY
-  }
-
-  temple(hash = this.hash) {
-    return computed(() => this.state.temple[hash]).get() || LIST_EMPTY
-  }
-
-  charaAll(hash = this.hash) {
-    return computed(() => this.state.charaAll[hash]).get() || LIST_EMPTY
-  }
-
-  charaTemple(id) {
-    return computed(() => this.state.charaTemple[id]).get() || LIST_EMPTY
-  }
-
-  valhallChara(id) {
-    return computed(() => this.state.valhallChara[id]).get() || {}
-  }
-
-  auctionList(id) {
-    return computed(() => this.state.auctionList[id]).get() || LIST_EMPTY
-  }
-
-  auctionStatus(id) {
-    return (
-      computed(() => this.state.auctionStatus[id]).get() || INIT_AUCTION_STATUS
-    )
-  }
-
-  @computed get valhallList() {
-    return this.state.valhallList
-  }
-
-  @computed get items() {
-    return this.state.items
-  }
-
-  issuePrice(id) {
-    return computed(() => this.state.issuePrice[id]).get() || 0
-  }
-
-  @computed get templeLast() {
-    return this.state.templeLast
-  }
-
-  @computed get topWeek() {
-    return this.state.topWeek
-  }
-
-  templeTotal(id) {
-    return computed(() => this.state.templeTotal[id]).get() || 0
-  }
-
-  charaTotal(id) {
-    return computed(() => this.state.charaTotal[id]).get() || 0
-  }
-
-  @computed get advanceList() {
-    return this.state.advanceList
-  }
-
-  @computed get advanceBidList() {
-    return this.state.advanceBidList
-  }
-
-  @computed get advanceAuctionList() {
-    return this.state.advanceAuctionList
-  }
-
-  @computed get advanceSacrificeList() {
-    return this.state.advanceSacrificeList
   }
 
   // -------------------- fetch --------------------
@@ -2214,4 +2101,7 @@ class Tinygrail extends store {
   }
 }
 
-export default new Tinygrail()
+const Store = new Tinygrail()
+Store.setup()
+
+export default Store

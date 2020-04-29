@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-27 20:23:21
+ * @Last Modified time: 2020-04-28 15:31:56
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
@@ -88,7 +88,7 @@ export default class Store {
        *   ).get()
        * }
        */
-      this[key] = id =>
+      this[key] = (id = 0) =>
         computed(() => this.state[key][id] || this.state[key][0]).get()
       console.info(`[computed] ${key}(id)`)
     })

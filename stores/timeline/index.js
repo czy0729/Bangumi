@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 22:54:52
+ * @Last Modified time: 2020-04-28 16:01:26
  */
-import { observable, computed } from 'mobx'
+import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhr } from '@utils/fetch'
@@ -24,23 +24,29 @@ class Timeline extends store {
   state = observable({
     /**
      * 自己的时间胶囊
+     * @param {*} scope
+     * @param {*} type
      */
     timeline: {
-      // [`${scope}|${type}`]: LIST_EMPTY
+      _key: (scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) => `${scope}|${type}`,
+      0: LIST_EMPTY
     },
 
     /**
      * 其他人的时间胶囊
+     * @param {*} userId
      */
     usersTimeline: {
-      // [userId]: LIST_EMPTY
+      _key: userId => userId || userStore.myUserId,
+      0: LIST_EMPTY
     },
 
     /**
      * 吐槽
+     * @param {*} id
      */
     say: {
-      // [id]: LIST_EMPTY<INIT_SAY_ITEM>
+      0: LIST_EMPTY // <INIT_SAY_ITEM>
     },
 
     /**
@@ -50,25 +56,6 @@ class Timeline extends store {
   })
 
   init = () => this.readStorage(['timeline', 'say'], NAMESPACE)
-
-  // -------------------- get --------------------
-  timeline(scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) {
-    return computed(
-      () => this.state.timeline[`${scope}|${type}`] || LIST_EMPTY
-    ).get()
-  }
-
-  usersTimeline(userId = userStore.myUserId) {
-    return computed(() => this.state.usersTimeline[userId] || LIST_EMPTY).get()
-  }
-
-  say(id = 0) {
-    return computed(() => this.state.say[id] || LIST_EMPTY).get()
-  }
-
-  @computed get formhash() {
-    return this.state.formhash
-  }
 
   // -------------------- fetch --------------------
   /**
@@ -215,4 +202,7 @@ class Timeline extends store {
   }
 }
 
-export default new Timeline()
+const Store = new Timeline()
+Store.setup()
+
+export default Store

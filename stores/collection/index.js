@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 00:23:03
+ * @Last Modified time: 2020-04-28 15:07:35
  */
-import { observable, computed } from 'mobx'
+import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
@@ -32,23 +32,31 @@ class Collection extends store {
   state = observable({
     /**
      * API条目收藏信息
+     * [subjectId]
      */
     collection: {
-      // [subjectId]: {}
+      0: {}
     },
 
     /**
      * HTML用户收藏概览(全部)
+     * [userId]
+     * [subjectType]
+     * [type]
      */
     userCollections: {
-      // [${userId}|${subjectType}|${type}]: LIST_EMPTY
+      _key: (userId, subjectType, type) =>
+        `${userId || userStore.myUserId}|${subjectType}|${type}`,
+      0: LIST_EMPTY
     },
 
     /**
      * HTML用户收藏概览的看过的标签
      */
     userCollectionsTags: {
-      // [${userId}|${subjectType}|${type}]: []
+      _key: (userId, subjectType, type) =>
+        `${userId || userStore.myUserId}|${subjectType}|${type}`,
+      0: []
     }
   })
 
@@ -57,29 +65,6 @@ class Collection extends store {
       ['collection', 'userCollections', 'userCollectionsTags'],
       NAMESPACE
     )
-
-  // -------------------- get --------------------
-  collection(subjectId) {
-    return computed(() => this.state.collection[subjectId] || {}).get()
-  }
-
-  userCollections(userId, subjectType, type) {
-    return computed(
-      () =>
-        this.state.userCollections[
-          `${userId || userStore.myUserId}|${subjectType}|${type}`
-        ] || LIST_EMPTY
-    ).get()
-  }
-
-  userCollectionsTags(userId, subjectType, type) {
-    return computed(
-      () =>
-        this.state.userCollectionsTags[
-          `${userId || userStore.myUserId}|${subjectType}|${type}`
-        ] || []
-    ).get()
-  }
 
   // -------------------- fetch --------------------
   /**
@@ -348,4 +333,7 @@ class Collection extends store {
     )
 }
 
-export default new Collection()
+const Store = new Collection()
+Store.setup()
+
+export default Store

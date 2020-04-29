@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 01:53:10
+ * @Last Modified time: 2020-04-28 15:05:07
  */
-import { observable, computed } from 'mobx'
+import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
@@ -43,23 +43,6 @@ class Calendar extends store {
 
   init = () =>
     this.readStorage(['calendar', 'home', 'homeFromCDN', 'onAir'], NAMESPACE)
-
-  // -------------------- get --------------------
-  @computed get calendar() {
-    return this.state.calendar
-  }
-
-  @computed get home() {
-    return this.state.home
-  }
-
-  @computed get homeFromCDN() {
-    return this.state.homeFromCDN
-  }
-
-  @computed get onAir() {
-    return this.state.onAir
-  }
 
   // -------------------- fetch --------------------
   /**
@@ -236,4 +219,7 @@ class Calendar extends store {
   }
 }
 
-export default new Calendar()
+const Store = new Calendar()
+Store.setup()
+
+export default Store

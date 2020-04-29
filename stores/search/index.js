@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-24 14:13:03
+ * @Last Modified time: 2020-04-28 15:41:54
  */
-import { observable, computed } from 'mobx'
+import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
@@ -17,37 +17,22 @@ class Search extends store {
   state = observable({
     /**
      * 搜索
+     * [text] 搜索关键字
+     * [cat]
+     * [?legacy]
      */
     search: {
-      // [`${text}|${cat}|?legacy`]: LIST_EMPTY | INIT_SEARCH_ITEM
+      _key: (text, cat = DEFAULT_CAT, legacy) => {
+        const _text = text.replace(/ /g, '+')
+        let key = `${_text}|${cat}`
+        if (legacy) key += '|legacy'
+        return key
+      },
+      0: LIST_EMPTY // <INIT_SEARCH_ITEM>
     }
   })
 
   init = () => this.readStorage(['search'], NAMESPACE)
-
-  async init() {
-    const res = Promise.all([this.getStorage('search', NAMESPACE)])
-    const state = await res
-    this.setState({
-      search: state[0] || {}
-    })
-
-    return res
-  }
-
-  // -------------------- get --------------------
-  /**
-   * 取搜索结果
-   * @param {*} text 搜索关键字
-   */
-  search(text, cat = DEFAULT_CAT, legacy) {
-    const _text = text.replace(/ /g, '+')
-    let key = `${_text}|${cat}`
-    if (legacy) {
-      key += '|legacy'
-    }
-    return computed(() => this.state.search[key] || LIST_EMPTY).get()
-  }
 
   // -------------------- fetch --------------------
   /**
@@ -57,10 +42,10 @@ class Search extends store {
    * @param {*} legacy  1为精准匹配
    * @param {*} refresh 是否刷新
    */
-  async fetchSearch(
+  fetchSearch = async (
     { text = '', cat = DEFAULT_CAT, legacy = '' } = {},
     refresh
-  ) {
+  ) => {
     const _text = text.replace(/ /g, '+')
 
     const { list, pagination } = this.search(_text, cat, legacy)
@@ -262,4 +247,7 @@ class Search extends store {
   }
 }
 
-export default new Search()
+const Store = new Search()
+Store.setup()
+
+export default Store

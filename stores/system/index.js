@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 16:04:58
+ * @Last Modified time: 2020-04-28 15:49:20
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { info } from '@utils/ui'
-import { IOS, GITHUB_RELEASE_REPOS, VERSION_GITHUB_RELEASE } from '@constants'
+import {
+  DEV,
+  IOS,
+  GITHUB_RELEASE_REPOS,
+  VERSION_GITHUB_RELEASE
+} from '@constants'
 import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
@@ -69,30 +74,16 @@ class System extends store {
     }
 
     // 检查新版本
-    setTimeout(() => {
-      // this.fetchRelease()
-    }, 4000)
+    if (!DEV) {
+      setTimeout(() => {
+        this.fetchRelease()
+      }, 4000)
+    }
 
     return res
   }
 
   // -------------------- get --------------------
-  @computed get setting() {
-    return this.state.setting
-  }
-
-  @computed get release() {
-    return this.state.release
-  }
-
-  @computed get isWifi() {
-    return this.state.wifi
-  }
-
-  @computed get imageViewer() {
-    return this.state.imageViewer
-  }
-
   @computed get isUGCAgree() {
     if (!IOS) {
       return true
@@ -248,4 +239,7 @@ class System extends store {
   }
 }
 
-export default new System()
+const Store = new System()
+Store.setup()
+
+export default Store
