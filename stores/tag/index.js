@@ -23,7 +23,7 @@ class Tag extends store {
      * @param {*} airtime
      */
     tag: {
-      _key: (text = '', type = DEFAULT_TYPE, airtime = '') =>
+      _: (text = '', type = DEFAULT_TYPE, airtime = '') =>
         `${text.replace(/ /g, '+')}|${type}|${airtime}`,
       0: LIST_EMPTY // <INIT_TAG_ITEM>
     },
@@ -33,7 +33,7 @@ class Tag extends store {
      * @param {*} type
      */
     rank: {
-      _key: (type = DEFAULT_TYPE) => type,
+      _: (type = DEFAULT_TYPE) => type,
       0: LIST_EMPTY // <INIT_RANK_ITEM>
     },
 
@@ -43,7 +43,7 @@ class Tag extends store {
      * @param {*} airtime
      */
     browser: {
-      _key: (type = DEFAULT_TYPE, airtime = '') => `${type}|${airtime}`,
+      _: (type = DEFAULT_TYPE, airtime = '') => `${type}|${airtime}`,
       0: LIST_EMPTY // <INIT_RANK_ITEM>
     }
   })

@@ -124,7 +124,7 @@ class Tinygrail extends store {
      * @param {*} sort
      */
     rich: {
-      _key: (sort = defaultSort) => sort,
+      _: (sort = defaultSort) => sort,
       0: LIST_EMPTY, // <INIT_RICH_ITEM>
       ...INIT_RICH
     },
@@ -228,7 +228,7 @@ class Tinygrail extends store {
      * @param {*} hash
      */
     temple: {
-      _key: hash => hash || this.hash,
+      _: hash => hash || this.hash,
       0: LIST_EMPTY // <INIT_TEMPLE_ITEM>
     },
 
@@ -237,7 +237,7 @@ class Tinygrail extends store {
      * @param {*} hash
      */
     charaAll: {
-      _key: hash => hash || this.hash,
+      _: hash => hash || this.hash,
       0: LIST_EMPTY // <INIT_CHATACTER_ITEM>
     },
 

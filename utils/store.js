@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 15:31:56
+ * @Last Modified time: 2020-04-29 14:30:31
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
@@ -14,10 +14,6 @@ import fetch from './fetch'
 configure({
   enforceActions: 'observed'
 })
-
-export function setup(store) {
-  console.log(store.state)
-}
 
 export default class Store {
   /**
@@ -70,10 +66,10 @@ export default class Store {
        */
       if (
         typeof this.state[key] === 'object' &&
-        typeof this.state[key]._key === 'function'
+        typeof this.state[key]._ === 'function'
       ) {
         this[key] = (...arg) => {
-          const id = this.state[key]._key(...arg)
+          const id = this.state[key]._(...arg)
           return computed(() => this.state[key][id] || this.state[key][0]).get()
         }
         console.info(`[computed] ${key}(...arg)`)

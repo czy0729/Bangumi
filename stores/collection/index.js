@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 15:07:35
+ * @Last Modified time: 2020-04-29 14:37:13
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -32,7 +32,7 @@ class Collection extends store {
   state = observable({
     /**
      * API条目收藏信息
-     * [subjectId]
+     * @param {*} subjectId
      */
     collection: {
       0: {}
@@ -40,12 +40,12 @@ class Collection extends store {
 
     /**
      * HTML用户收藏概览(全部)
-     * [userId]
-     * [subjectType]
-     * [type]
+     * @param {*} userId
+     * @param {*} subjectType
+     * @param {*} type
      */
     userCollections: {
-      _key: (userId, subjectType, type) =>
+      _: (userId, subjectType, type) =>
         `${userId || userStore.myUserId}|${subjectType}|${type}`,
       0: LIST_EMPTY
     },
@@ -54,7 +54,7 @@ class Collection extends store {
      * HTML用户收藏概览的看过的标签
      */
     userCollectionsTags: {
-      _key: (userId, subjectType, type) =>
+      _: (userId, subjectType, type) =>
         `${userId || userStore.myUserId}|${subjectType}|${type}`,
       0: []
     }

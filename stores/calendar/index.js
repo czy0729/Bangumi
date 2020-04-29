@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 15:05:07
+ * @Last Modified time: 2020-04-29 14:33:27
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -35,6 +35,7 @@ class Calendar extends store {
 
     /**
      * ekibun的线上爬虫数据
+     * @param {*} subjectId
      */
     onAir: {
       // [subjectId]: INIT_ONAIR_ITEM

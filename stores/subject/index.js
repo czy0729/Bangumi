@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 11:43:16
+ * @Last Modified time: 2020-04-29 14:45:38
  */
 import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -39,7 +39,7 @@ class Subject extends store {
   state = observable({
     /**
      * 条目
-     * [subjectId]
+     * @param {*} subjectId
      */
     subject: {
       0: INIT_SUBJECT
@@ -47,7 +47,7 @@ class Subject extends store {
 
     /**
      * 条目HTML
-     * [subjectId]
+     * @param {*} subjectId
      */
     subjectFormHTML: {
       0: INIT_SUBJECT_FROM_HTML_ITEM
@@ -56,7 +56,7 @@ class Subject extends store {
     /**
      * 条目CDN自维护数据
      * 用于条目首次渲染加速
-     * [subjectId]
+     * @param {*} subjectId
      */
     subjectFormCDN: {
       0: INIT_SUBJECT_FROM_CDN_ITEM
@@ -64,7 +64,7 @@ class Subject extends store {
 
     /**
      * [待废弃] 条目章节
-     * [subjectId]
+     * @param {*} subjectId
      */
     subjectEp: {
       0: {}
@@ -72,7 +72,7 @@ class Subject extends store {
 
     /**
      * 条目吐槽箱
-     * [subjectId]
+     * @param {*} subjectId
      */
     subjectComments: {
       0: LIST_EMPTY
@@ -80,7 +80,7 @@ class Subject extends store {
 
     /**
      * 章节内容
-     * [epId]
+     * @param {*} epId
      */
     epFormHTML: {
       0: ''
@@ -88,7 +88,7 @@ class Subject extends store {
 
     /**
      * 人物
-     * [monoId]
+     * @param {*} monoId
      */
     mono: {
       0: INIT_MONO
@@ -96,7 +96,7 @@ class Subject extends store {
 
     /**
      * 人物吐槽箱
-     * [monoId]
+     * @param {*} monoId
      */
     monoComments: {
       0: LIST_EMPTY // <INIT_MONO_COMMENTS_ITEM>
@@ -105,7 +105,7 @@ class Subject extends store {
     /**
      * 人物CDN自维护数据
      * 用于人物首次渲染加速
-     * [monoId]
+     * @param {*} monoId
      */
     monoFormCDN: {
       0: INIT_MONO
@@ -113,7 +113,7 @@ class Subject extends store {
 
     /**
      * 人物作品
-     * [monoId]
+     * @param {*} monoId
      * https://bgm.tv/person/8138/works
      */
     monoWorks: {
@@ -122,7 +122,7 @@ class Subject extends store {
 
     /**
      * 人物角色列表
-     * [monoId]
+     * @param {*} monoId
      * https://bgm.tv/person/8138/works/voice
      */
     monoVoices: {

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-27 20:05:31
+ * @Last Modified time: 2020-04-29 14:48:31
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -73,7 +73,7 @@ class User extends store {
 
     /**
      * 收视进度
-     * [subjectId]
+     * @param {*} subjectId
      * {
      *   [epId]: '看过'
      * }
@@ -84,39 +84,39 @@ class User extends store {
 
     /**
      * 用户收藏概览
-     * [scope]
-     * [userId]
+     * @param {*} scope
+     * @param {*} userId
      */
     userCollections: {
-      _key: (scope = DEFAULT_SCOPE, userId) =>
+      _: (scope = DEFAULT_SCOPE, userId) =>
         `${scope}|${userId || this.myUserId}`,
       0: LIST_EMPTY
     },
 
     /**
      * 某用户信息
-     * [userId]
+     * @param {*} userId
      */
     usersInfo: {
-      _key: userId => userId || this.myUserId,
+      _: userId => userId || this.myUserId,
       0: INIT_USER_INFO
     },
 
     /**
      * 用户收藏统计
-     * [userId]
+     * @param {*} userId
      */
     userCollectionsStatus: {
-      _key: userId => userId || this.myUserId,
+      _: userId => userId || this.myUserId,
       0: {}
     },
 
     /**
      * 用户介绍
-     * [userId]
+     * @param {*} userId
      */
     users: {
-      _key: userId => userId || this.myUserId,
+      _: userId => userId || this.myUserId,
       0: ''
     },
 
@@ -132,7 +132,7 @@ class User extends store {
 
     /**
      * 短信详情
-     * [id]
+     * @param {*} id
      */
     pmDetail: {
       0: LIST_EMPTY
@@ -140,7 +140,7 @@ class User extends store {
 
     /**
      * 新短信参数
-     * [userId]
+     * @param {*} userId
      */
     pmParams: {
       0: {}

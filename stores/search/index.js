@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 15:41:54
+ * @Last Modified time: 2020-04-29 14:43:59
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -17,12 +17,12 @@ class Search extends store {
   state = observable({
     /**
      * 搜索
-     * [text] 搜索关键字
-     * [cat]
-     * [?legacy]
+     * @param {*} text    搜索关键字
+     * @param {*} cat
+     * @param {*} ?legacy
      */
     search: {
-      _key: (text, cat = DEFAULT_CAT, legacy) => {
+      _: (text, cat = DEFAULT_CAT, legacy) => {
         const _text = text.replace(/ /g, '+')
         let key = `${_text}|${cat}`
         if (legacy) key += '|legacy'

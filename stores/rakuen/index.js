@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 15:36:51
+ * @Last Modified time: 2020-04-29 14:43:37
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -45,17 +45,17 @@ class Rakuen extends store {
   state = observable({
     /**
      * 超展开列表
-     * [scope] 范围
-     * [type]  类型
+     * @param {*} scope 范围
+     * @param {*} type  类型
      */
     rakuen: {
-      _key: (scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) => `${scope}|${type}`,
+      _: (scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) => `${scope}|${type}`,
       0: LIST_EMPTY // <INIT_RAKUEN_ITEM>
     },
 
     /**
      * 帖子历史查看信息
-     * [topicId]
+     * @param {*} topicId
      */
     readed: {
       0: INIT_READED_ITEM
@@ -63,7 +63,7 @@ class Rakuen extends store {
 
     /**
      * 帖子内容
-     * [topicId]
+     * @param {*} topicId
      */
     topic: {
       0: INIT_TOPIC
@@ -71,7 +71,7 @@ class Rakuen extends store {
 
     /**
      * 帖子回复
-     * [topicId]
+     * @param {*} topicId
      */
     comments: {
       0: LIST_EMPTY // <INIT_COMMENTS_ITEM>
@@ -80,7 +80,7 @@ class Rakuen extends store {
     /**
      * 帖子内容CDN自维护数据
      * 用于帖子首次渲染加速
-     * [topicId]
+     * @param {*} topicId
      */
     topicFormCDN: {
       0: INIT_TOPIC
@@ -98,7 +98,7 @@ class Rakuen extends store {
 
     /**
      * 小组信息
-     * [groupId]
+     * @param {*} groupId
      */
     groupInfo: {
       0: INIT_GROUP_INFO
@@ -106,17 +106,17 @@ class Rakuen extends store {
 
     /**
      * 小组帖子列表
-     * [groupId]
-     * [page]
+     * @param {*} groupId
+     * @param {*} page
      */
     group: {
-      _key: (groupId, page = 1) => `${groupId}|${page}`,
+      _: (groupId, page = 1) => `${groupId}|${page}`,
       0: INIT_GROUP_ITEM
     },
 
     /**
      * 本地收藏
-     *  [topicId]
+     *  [topicId
      */
     favor: {
       0: false
@@ -124,7 +124,7 @@ class Rakuen extends store {
 
     /**
      * 小组缩略图缓存
-     * [name]
+     * @param {*} name
      */
     groupThumb: {
       0: ''
@@ -132,7 +132,7 @@ class Rakuen extends store {
 
     /**
      * 日志内容
-     * [blogId]
+     * @param {*} blogId
      */
     blog: {
       0: INIT_TOPIC
@@ -140,7 +140,7 @@ class Rakuen extends store {
 
     /**
      * 日志回复
-     * [blogId]
+     * @param {*} blogId
      */
     blogComments: {
       0: LIST_EMPTY // <INIT_COMMENTS_ITEM>

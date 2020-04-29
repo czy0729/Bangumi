@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-27 20:22:45
+ * @Last Modified time: 2020-04-29 14:38:32
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -42,7 +42,7 @@ class Discovery extends store {
 
     /**
      * 柠萌条目信息
-     * [bgmId]
+     * @param {*} bgmId
      */
     ningMoeDetail: {
       0: INIT_NINGMOE_DETAIL_ITEM
@@ -50,35 +50,35 @@ class Discovery extends store {
 
     /**
      * Anitama文章列表
-     * [page]
+     * @param {*} page
      */
     anitamaTimeline: {
-      _key: (page = 1) => page,
+      _: (page = 1) => page,
       0: INIT_ANITAMA_TIMELINE_ITEM
     },
 
     /**
      * 标签
-     * [type]
+     * @param {*} type
      */
     tags: {
-      _key: (type = DEFAULT_TYPE) => type,
+      _: (type = DEFAULT_TYPE) => type,
       0: LIST_EMPTY // <INIT_TAGS_ITEM>
     },
 
     /**
      * 目录
-     * [type] '' | collect | me
-     * [page]
+     * @param {*} type '' | collect | me
+     * @param {*} page
      */
     catalog: {
-      _key: (type = '', page = 1) => `${type}|${page}`,
+      _: (type = '', page = 1) => `${type}|${page}`,
       0: INIT_CATALOG_ITEM
     },
 
     /**
      * 目录详情
-     * [id]
+     * @param {*} id
      */
     catalogDetail: {
       0: INIT_CATELOG_DETAIL_ITEM
@@ -86,17 +86,17 @@ class Discovery extends store {
 
     /**
      * 全站日志
-     * [type] all => '' | anime | book | game | music | real
-     * [page]
+     * @param {*} type all => '' | anime | book | game | music | real
+     * @param {*} page
      */
     blog: {
-      _key: (type = '', page = 1) => `${type}|${page}`,
+      _: (type = '', page = 1) => `${type}|${page}`,
       0: INIT_BLOG_ITEM
     },
 
     /**
      * 日志查看历史
-     * [blogId]
+     * @param {*} blogId
      */
     blogReaded: {
       0: false

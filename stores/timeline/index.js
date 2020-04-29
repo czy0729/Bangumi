@@ -28,7 +28,7 @@ class Timeline extends store {
      * @param {*} type
      */
     timeline: {
-      _key: (scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) => `${scope}|${type}`,
+      _: (scope = DEFAULT_SCOPE, type = DEFAULT_TYPE) => `${scope}|${type}`,
       0: LIST_EMPTY
     },
 
@@ -37,7 +37,7 @@ class Timeline extends store {
      * @param {*} userId
      */
     usersTimeline: {
-      _key: userId => userId || userStore.myUserId,
+      _: userId => userId || userStore.myUserId,
       0: LIST_EMPTY
     },
 

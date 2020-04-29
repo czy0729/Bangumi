@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:21:01
+ * @Last Modified time: 2020-04-29 14:48:51
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -36,7 +36,7 @@ class Users extends store {
      * @param {*} userId
      */
     friends: {
-      _key: userId => userId || userStore.myId,
+      _: userId => userId || userStore.myId,
       0: LIST_EMPTY // <INIT_FRIENDS_ITEM>
     },
 
@@ -50,7 +50,7 @@ class Users extends store {
      * @param {*} userId
      */
     users: {
-      _key: userId => userId || userStore.myId,
+      _: userId => userId || userStore.myId,
       0: INIT_USERS
     },
 
@@ -59,7 +59,7 @@ class Users extends store {
      * @param {*} userId
      */
     characters: {
-      _key: userId => userId || userStore.myId,
+      _: userId => userId || userStore.myId,
       0: LIST_EMPTY // <INIT_CHARACTER>
     },
 
@@ -68,7 +68,7 @@ class Users extends store {
      * @param {*} userId
      */
     persons: {
-      _key: userId => userId || userStore.myId,
+      _: userId => userId || userStore.myId,
       0: LIST_EMPTY // <INIT_CHARACTER>
     },
 
@@ -82,12 +82,13 @@ class Users extends store {
      * @param {*} userId
      */
     blogs: {
-      _key: userId => userId || userStore.myId,
+      _: userId => userId || userStore.myId,
       0: LIST_EMPTY // <INIT_BLOGS>
     },
 
     /**
      * 用户目录
+     * @param {*} userId
      */
     catalogs: {
       // [userId]: LIST_EMPTY<INIT_CATALOGS>
