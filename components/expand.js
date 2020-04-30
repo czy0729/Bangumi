@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 14:17:49
+ * @Last Modified time: 2020-04-30 19:53:54
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
@@ -66,11 +66,15 @@ class Expand extends React.Component {
     const { style, children } = this.props
     const { maxHeight, height, layouted, expand } = this.state
 
-    // 算出内容实际高度
+    /**
+     * 算出内容实际高度
+     * 有时候文字太长, 最后一行文字高度没算上, 插入一个placeholder来规避这个问题
+     */
     if (!layouted) {
       return (
         <View style={styles.layout} onLayout={this.onLayout}>
-          {children}
+          <View>{children}</View>
+          <View style={styles.placeholder} />
         </View>
       )
     }
@@ -85,7 +89,10 @@ class Expand extends React.Component {
           }
         ]}
       >
-        <View style={{ height }}>{children}</View>
+        <View style={{ height }}>
+          {children}
+          <View style={styles.placeholder} />
+        </View>
         {!expand && (
           <>
             <LinearGradient
@@ -130,5 +137,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     padding: _.sm,
     marginLeft: -16
+  },
+  placeholder: {
+    height: 64
   }
 })
