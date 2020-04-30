@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 03:57:48
+ * @Last Modified time: 2020-04-30 18:50:28
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, calendarStore, userStore } from '@stores'
@@ -41,12 +41,14 @@ export default class ScreenDiscovery extends store {
     this.setState({
       online
     })
-    this.fetchOnline()
 
     const { setting } = systemStore
     if (setting.cdn) {
-      return calendarStore.fetchHomeFromCDN()
+      const { discovery } = await this.fetchOnline()
+      return calendarStore.fetchHomeFromCDN(discovery)
     }
+
+    this.fetchOnline()
     return calendarStore.fetchHome()
   }
 
@@ -71,14 +73,17 @@ export default class ScreenDiscovery extends store {
       const { _response } = await xhrCustom({
         url: GITHUB_DATA
       })
-      const { online = '' } = JSON.parse(_response)
+      const data = JSON.parse(_response)
+      const { online = '' } = data
       this.setState({
         online
       })
 
       this.setStorage(undefined, undefined, namespace)
+      return data
     } catch (error) {
       warn(namespace, 'fetchOnline', error)
+      return {}
     }
   }
 

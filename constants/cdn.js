@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 00:44:58
+ * @Last Modified time: 2020-04-30 18:03:45
  */
 import { getTimestamp } from '@utils'
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
@@ -159,9 +159,10 @@ export const CDN_OSS_SUBJECT = src => {
 /**
  * 发现首页
  * @url https://github.com/czy0729/Bangumi-Static
+ * @param {*} version
  */
-export const CDN_DISCOVERY_HOME = () =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Static@20200421/data/discovery/index.json`
+export const CDN_DISCOVERY_HOME = (version = 20200421) =>
+  `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/discovery/index.json`
 
 /**
  * 年鉴

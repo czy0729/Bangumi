@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:33:27
+ * @Last Modified time: 2020-04-30 18:52:19
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -152,10 +152,10 @@ class Calendar extends store {
   /**
    * 首页信息聚合 (CDN)
    */
-  fetchHomeFromCDN = async () => {
+  fetchHomeFromCDN = async version => {
     try {
       const { _response } = await xhrCustom({
-        url: CDN_DISCOVERY_HOME()
+        url: CDN_DISCOVERY_HOME(version)
       })
 
       const data = {
@@ -169,6 +169,8 @@ class Calendar extends store {
           _loaded: getTimestamp()
         }
       })
+
+      this.setStorage(key, undefined, NAMESPACE)
       return Promise.resolve(data)
     } catch (error) {
       warn('calendarStore', 'fetchHomeFromCDN', 404)
