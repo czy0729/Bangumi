@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 18:22:06
+ * @Last Modified time: 2020-04-30 09:48:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -20,8 +20,10 @@ const correctHeightIOS = 14 // @issue iOS端头部高度误差修正值
 const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
   observer(
     class withTabsHeaderComponent extends React.Component {
-      // @notice 把tabbar通过某些手段放进去header里面, 才能实现比较好的毛玻璃效果
-      // 安卓没有毛玻璃效果, 不设置
+      /**
+       * @notice 把tabbar通过某些手段放进去header里面, 才能实现比较好的毛玻璃效果
+       * 安卓没有毛玻璃效果, 不设置
+       */
       static navigationOptions = ({ navigation }) => {
         let withTabsHeaderOptions
         const headerLeft = navigation.getParam('headerLeft')
