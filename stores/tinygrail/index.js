@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:09:13
+ * @Last Modified time: 2020-05-01 21:15:28
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -343,6 +343,14 @@ class Tinygrail extends store {
     advanceSacrificeList: LIST_EMPTY,
 
     /**
+     * 角色本地收藏
+     * @param {*} monoId
+     */
+    collected: {
+      0: 0
+    },
+
+    /**
      * iOS此刻是否显示WebView
      * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
@@ -373,6 +381,7 @@ class Tinygrail extends store {
         'charaAssets',
         'charaTemple',
         'characters',
+        'collected',
         'cookie',
         'depth',
         'hash',
@@ -1952,6 +1961,25 @@ class Tinygrail extends store {
     this.setState({
       _stockPreview: !_stockPreview
     })
+  }
+
+  toggleCollect = monoId => {
+    const { collected } = this.state
+
+    const _collected = {
+      ...collected
+    }
+
+    if (_collected[monoId]) {
+      _collected[monoId] = 0
+    } else {
+      _collected[monoId] = getTimestamp()
+    }
+    this.setState({
+      collected: _collected
+    })
+
+    this.setStorage('collected', undefined, NAMESPACE)
   }
 
   // -------------------- action --------------------

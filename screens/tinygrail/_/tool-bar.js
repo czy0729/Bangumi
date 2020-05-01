@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 01:45:18
+ * @Last Modified time: 2020-05-01 20:40:22
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -15,11 +15,12 @@ function ToolBar({ data, sort, direction, onSortPress }) {
   return (
     <Flex style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {data.map(item => {
+        {data.map((item, index) => {
           const isActive = sort === item.value
           return (
             <Touchable
               key={item.label}
+              style={index === 0 && _.ml.sm}
               withoutFeedback
               onPress={() => onSortPress(item.value)}
             >

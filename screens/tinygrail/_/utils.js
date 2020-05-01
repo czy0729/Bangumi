@@ -2,8 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-29 11:24:52
+ * @Last Modified time: 2020-05-01 21:15:37
  */
+import { tinygrailStore } from '@stores'
+
+export const SORT_SC = {
+  label: '收藏',
+  value: 'sc'
+}
+
 export const SORT_GX = {
   label: '流动股息',
   value: 'gx'
@@ -77,6 +84,13 @@ export const SORT_XFJL = {
 export function sortList(sort, direction, list) {
   const base = direction === 'down' ? 1 : -1
   switch (sort) {
+    case SORT_SC.value:
+      return list.sort((a, b) => {
+        const aCollected = tinygrailStore.collected(a.id || 0)
+        const bCollected = tinygrailStore.collected(b.id || 0)
+        return (bCollected - aCollected) * base
+      })
+
     case SORT_GX.value:
       return list.sort((a, b) => ((b.rate || 0) - (a.rate || 0)) * base)
 

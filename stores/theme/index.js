@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 20:11:15
+ * @Last Modified time: 2020-05-01 21:06:53
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
-import { IOS } from '@constants'
+import { DEV, IOS } from '@constants'
 import _ from '@styles'
+import { initialDevDark } from '../../navigations'
 
 const NAMESPACE = 'Theme'
 const DEFAULT_MODE = 'light'
@@ -569,4 +570,26 @@ class Theme extends store {
   }
 }
 
-export default new Theme()
+const Store = new Theme()
+
+setTimeout(() => {
+  if (DEV) {
+    if (
+      (initialDevDark && !Store.isDark) ||
+      (!initialDevDark && Store.isDark)
+    ) {
+      Store.toggleMode()
+      console.info('Store.toggleMode')
+    }
+
+    if (
+      (initialDevDark && !Store.isTinygrailDark) ||
+      (!initialDevDark && Store.isTinygrailDark)
+    ) {
+      Store.toggleTinygrailThemeMode()
+      console.info('Store.toggleTinygrailThemeMode')
+    }
+  }
+}, 1000)
+
+export default Store

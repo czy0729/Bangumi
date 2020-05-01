@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 21:26:02
+ * @Last Modified time: 2020-05-01 21:37:39
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
 import { _, tinygrailStore } from '@stores'
 import { lastDate, getTimestamp, formatNumber, toFixed } from '@utils'
@@ -154,7 +154,6 @@ function Item(props, { $, navigation }) {
     }
   }
   const auctioning = auctionText === '竞拍中'
-
   return (
     <Flex style={styles.container} align='start'>
       <Avatar
@@ -294,7 +293,21 @@ function Item(props, { $, navigation }) {
           {!isAuction && (
             <StockPreview style={styles.stockPreview} {...props} _loaded />
           )}
-          {!isICO && <Popover id={monoId || id} event={event} />}
+          {tinygrailStore.collected(id) && (
+            <Iconfont
+              style={styles.favor}
+              size={12}
+              name='star-full'
+              color={_.tSelect(_.colorTinygrailText, _.colorYellow)}
+            />
+          )}
+          {!isICO && (
+            <Popover
+              id={monoId || id}
+              event={event}
+              onCollect={tinygrailStore.toggleCollect}
+            />
+          )}
         </Flex>
       </Flex.Item>
     </Flex>
@@ -308,7 +321,8 @@ Item.contextTypes = {
 
 Item.defaultProps = {
   event: EVENT,
-  onAuctionCancel: Function.prototype
+  onAuctionCancel: Function.prototype,
+  onCollect: Function.prototype
 }
 
 export default observer(Item)
@@ -340,6 +354,11 @@ const memoStyles = _.memoStyles(_ => ({
   },
   stockPreview: {
     marginRight: -12
+  },
+  favor: {
+    position: 'absolute',
+    right: 11,
+    top: 40
   }
 }))
 

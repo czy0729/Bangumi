@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:19:07
+ * @Last Modified time: 2020-05-01 21:08:41
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -11,6 +11,7 @@ import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
+  SORT_SC,
   SORT_GX,
   SORT_GXB,
   SORT_SDGX,
@@ -42,6 +43,7 @@ export const tabs = [
   }
 ]
 export const sortDS = [
+  SORT_SC,
   SORT_HYD,
   SORT_CGS,
   SORT_GDZC,

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:37:16
+ * @Last Modified time: 2020-05-01 18:36:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { _, systemStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
-import { CDN_OSS_AVATAR } from '@constants/cdn'
+import { HOST_CDN, CDN_OSS_AVATAR } from '@constants/cdn'
 
 function Avatar({
   style,
@@ -94,7 +94,10 @@ function Avatar({
 
   return (
     <Image
-      style={[style, dev && styles.dev]}
+      style={[
+        style,
+        dev && typeof _src === 'string' && _src.includes(HOST_CDN) && styles.dev
+      ]}
       size={size}
       src={_src}
       radius={radius}

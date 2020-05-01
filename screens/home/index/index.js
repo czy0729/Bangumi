@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 10:45:19
+ * @Last Modified time: 2020-05-01 19:35:20
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -14,7 +14,7 @@ import {
   NavigationBarEvents,
   SafeAreaView
 } from '@screens/_'
-import { userStore } from '@stores'
+import { _, userStore } from '@stores'
 import { navigationReference } from '@utils/app'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
@@ -70,7 +70,8 @@ class Home extends React.Component {
     setTimeout(() => {
       const id = userStore.userInfo.username || userStore.myUserId
       t('其他.启动', {
-        userId: id
+        userId: id,
+        device: _.isPad ? 'pad' : 'mobile'
       })
       hm(`?id=${id}`, 'Home')
     }, 6400)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-14 03:26:26
+ * @Last Modified time: 2020-05-01 20:05:28
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,9 +14,9 @@ import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 
-const data = ['K线', '买入', '卖出', '资产重组']
+const data = ['收藏', 'K线', '买入', '卖出', '资产重组']
 
-function Popover({ id, event }, { navigation }) {
+function Popover({ id, event, onCollect }, { navigation }) {
   const { id: eventId, data: eventData } = event
   return (
     <CompPopover
@@ -26,6 +26,10 @@ function Popover({ id, event }, { navigation }) {
       data={data}
       onSelect={title => {
         switch (title) {
+          case '收藏':
+            onCollect(id)
+            break
+
           case 'K线':
             t(eventId, {
               to: 'TinygrailTrade',
@@ -101,7 +105,8 @@ Popover.contextTypes = {
 }
 
 Popover.defaultProps = {
-  event: EVENT
+  event: EVENT,
+  onCollect: Function.prototype
 }
 
 export default observer(Popover)
@@ -110,6 +115,7 @@ const styles = StyleSheet.create({
   extra: {
     height: 56,
     paddingVertical: _.md,
-    paddingHorizontal: _.sm
+    paddingRight: _.sm,
+    paddingLeft: _.sm + 2
   }
 })

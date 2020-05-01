@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:30:31
+ * @Last Modified time: 2020-05-01 19:37:18
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
@@ -20,10 +20,10 @@ export default class Store {
    * Store new后调用的方法
    */
   setup = () => {
-    console.info('\n')
-    console.info(`========== ${this.getName()} store setup start ==========`)
+    // console.info('\n')
+    // console.info(`========== ${this.getName()} store setup start ==========`)
     this.initComputed()
-    console.info(`========== ${this.getName()} store setup end ==========`)
+    // console.info(`========== ${this.getName()} store setup end ==========`)
   }
 
   /**
@@ -36,7 +36,7 @@ export default class Store {
        * 已有computed跳过
        */
       if (this[key] !== undefined) {
-        console.info(`skip [computed] ${key}`)
+        // console.info(`skip [computed] ${key}`)
         return
       }
 
@@ -52,7 +52,7 @@ export default class Store {
             return computed(() => this.state[key]).get()
           }
         })
-        console.info(`[computed] ${key}`)
+        // console.info(`[computed] ${key}`)
         return
       }
 
@@ -72,7 +72,7 @@ export default class Store {
           const id = this.state[key]._(...arg)
           return computed(() => this.state[key][id] || this.state[key][0]).get()
         }
-        console.info(`[computed] ${key}(...arg)`)
+        // console.info(`[computed] ${key}(...arg)`)
         return
       }
 
@@ -86,7 +86,7 @@ export default class Store {
        */
       this[key] = (id = 0) =>
         computed(() => this.state[key][id] || this.state[key][0]).get()
-      console.info(`[computed] ${key}(id)`)
+      // console.info(`[computed] ${key}(id)`)
     })
   }
 
