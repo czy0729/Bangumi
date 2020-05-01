@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 20:12:56
+ * @Last Modified time: 2020-05-01 23:01:25
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -126,7 +126,7 @@ export default observer(Btns)
 
 const memoStyles = _.memoStyles(_ => ({
   btn: {
-    width: 72,
+    width: 68,
     marginLeft: _.sm,
     backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
     borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
