@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:44:04
+ * @Last Modified time: 2020-05-01 22:25:40
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
+export const TINYGRAIL_ASSETS_LIMIT = 2000
 const TINYGRAIL_LIMIT = 150
 
 /**
@@ -321,13 +322,13 @@ export const API_TINYGRAIL_CHARA_TEMPLE = monoId =>
  * 用户所有角色信息
  */
 export const API_TINYGRAIL_CHARA_ALL = hash =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/2000`
+  `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/${TINYGRAIL_ASSETS_LIMIT}`
 
 /**
  * 用户所有圣殿信息
  */
 export const API_TINYGRAIL_TEMPLE = hash =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/2000`
+  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/${TINYGRAIL_ASSETS_LIMIT}`
 
 /**
  * 最近圣殿

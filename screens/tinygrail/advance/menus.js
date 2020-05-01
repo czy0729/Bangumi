@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 12:02:43
+ * @Last Modified time: 2020-05-01 22:43:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -33,6 +33,12 @@ function Menus({ navigation }) {
         navigation={navigation}
         title='拍卖推荐'
         pathname='TinygrailAdvanceAuction'
+        icon='auction'
+      />
+      <MenuItem
+        navigation={navigation}
+        title='拍卖推荐 (塔)'
+        pathname='TinygrailAdvanceAuction2'
         icon='auction'
       />
       <MenuItem

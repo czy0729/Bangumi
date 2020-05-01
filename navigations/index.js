@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 00:26:36
+ * @Last Modified time: 2020-05-01 22:11:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,6 +54,7 @@ import {
   TinygrailAdvance,
   TinygrailAdvanceAsk,
   TinygrailAdvanceAuction,
+  TinygrailAdvanceAuction2,
   TinygrailAdvanceBid,
   TinygrailAdvanceSacrifice,
   TinygrailBid,
@@ -166,6 +167,7 @@ const HomeStack = createStackNavigator(
     TinygrailAdvance,
     TinygrailAdvanceAsk,
     TinygrailAdvanceAuction,
+    TinygrailAdvanceAuction2,
     TinygrailAdvanceBid,
     TinygrailAdvanceSacrifice,
     TinygrailBid,

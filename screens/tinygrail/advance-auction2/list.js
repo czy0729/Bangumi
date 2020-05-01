@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 22:34:10
+ * @Last Modified time: 2020-05-01 22:34:24
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -22,7 +22,7 @@ function List(props, { $ }) {
     id: '竞拍推荐.跳转',
     data: {
       userId: $.myUserId,
-      type: 1
+      type: 2
     }
   }
 

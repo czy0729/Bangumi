@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 21:15:28
+ * @Last Modified time: 2020-05-01 22:33:01
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -57,7 +57,8 @@ import {
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
   API_TINYGRAIL_USER_TEMPLE_TOTAL,
-  API_TINYGRAIL_USER_CHARA_TOTAL
+  API_TINYGRAIL_USER_CHARA_TOTAL,
+  TINYGRAIL_ASSETS_LIMIT
 } from '@constants/api'
 import UserStore from '../user'
 import {
@@ -338,6 +339,11 @@ class Tinygrail extends store {
     advanceAuctionList: LIST_EMPTY,
 
     /**
+     * 竞拍推荐 (按固定资产)
+     */
+    advanceAuctionList2: LIST_EMPTY,
+
+    /**
      * 献祭推荐
      */
     advanceSacrificeList: LIST_EMPTY,
@@ -369,6 +375,7 @@ class Tinygrail extends store {
       [
         'advance',
         'advanceAuctionList',
+        'advanceAuctionList2',
         'advanceBidList',
         'advanceList',
         'advanceSacrificeList',
@@ -1853,7 +1860,54 @@ class Tinygrail extends store {
    * 从英灵殿中查找
    */
   fetchAdvanceAuctionList = async () => {
-    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 1000))
+    const result = await this.fetch(
+      API_TINYGRAIL_VALHALL_LIST(1, TINYGRAIL_ASSETS_LIMIT)
+    )
+    const { State, Value } = result.data
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (State === 0) {
+      data = {
+        list: Value.Items.filter(
+          item => parseFloat(item.Rate) >= 2 && item.State >= 100
+        )
+          .map(item => ({
+            id: item.Id,
+            name: item.Name,
+            icon: item.Icon,
+            current: item.Current,
+            bonus: item.Bonus,
+            rate: toFixed(item.Rate, 2),
+            level: item.Level,
+            amount: item.State,
+            mark: toFixed((parseFloat(item.Rate) / item.Price) * 10, 1)
+          }))
+          .filter(item => parseFloat(item.mark) >= 2)
+          .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
+        pagination: paginationOnePage,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'advanceAuctionList'
+    this.setState({
+      [key]: data
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 拍卖推荐 (按固定资产)
+   * 从英灵殿中查找
+   */
+  fetchAdvanceAuctionList2 = async () => {
+    const result = await this.fetch(
+      API_TINYGRAIL_VALHALL_LIST(1, TINYGRAIL_ASSETS_LIMIT)
+    )
     const { State, Value } = result.data
 
     let data = {
@@ -1863,10 +1917,7 @@ class Tinygrail extends store {
       data = {
         list: Value.Items.filter(item => {
           const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3
-          return (
-            Math.max(parseFloat(item.Rate), templeRate) >= 2 &&
-            item.State >= 100
-          )
+          return templeRate >= 2 && item.State >= 100
         })
           .map(item => {
             const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3
@@ -1879,10 +1930,7 @@ class Tinygrail extends store {
               rate: toFixed(item.Rate, 2),
               level: item.Level,
               amount: item.State,
-              mark: toFixed(
-                (Math.max(parseFloat(item.Rate), templeRate) / item.Price) * 10,
-                1
-              )
+              mark: toFixed((templeRate / item.Price) * 10, 1)
             }
           })
           .filter(item => parseFloat(item.mark) >= 2)
@@ -1892,7 +1940,7 @@ class Tinygrail extends store {
       }
     }
 
-    const key = 'advanceAuctionList'
+    const key = 'advanceAuctionList2'
     this.setState({
       [key]: data
     })
