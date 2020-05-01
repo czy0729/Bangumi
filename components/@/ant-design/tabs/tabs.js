@@ -33,11 +33,11 @@ export class Tabs extends React.PureComponent {
     style: {}, // @add
     tabBarStyle: {} // @add
   }
+
   static DefaultTabBar = DefaultTabBar
 
   scrollView = {}
   viewPager
-
   instanceId
   prevCurrentTab
   tabCache = {}
@@ -167,7 +167,9 @@ export class Tabs extends React.PureComponent {
                 }
               }
             ],
-            { useNativeDriver: true } // <-- Add this
+            {
+              useNativeDriver: true
+            }
           )}
           onMomentumScrollEnd={this.onMomentumScrollEnd}
           scrollEventThrottle={32}

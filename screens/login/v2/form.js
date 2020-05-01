@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 02:20:26
+ * @Last Modified time: 2020-05-01 15:15:28
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -28,8 +28,8 @@ export default
 @observer
 class Form extends React.Component {
   static defaultProps = {
-    forwardRef: Function.prototype,
     host: '',
+    forwardRef: Function.prototype,
     onGetCaptcha: Function.prototype,
     onFocus: Function.prototype,
     onBlur: Function.prototype,
@@ -43,10 +43,45 @@ class Form extends React.Component {
     config: false
   }
 
+  passwordRef
+  codeRef
+
   showConfig = () =>
     this.setState({
       config: true
     })
+
+  onNoticeHost = () => {
+    t('登陆.配置提示', {
+      name: 'host'
+    })
+
+    Alert.alert(
+      '温馨提示',
+      '三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n登陆建议优先使用 bangumi.tv，出现问题再尝试 chii.in，最后尝试 bgm.tv。',
+      [
+        {
+          text: '知道了'
+        }
+      ]
+    )
+  }
+
+  onNoticeUA = () => {
+    t('登陆.配置提示', {
+      name: 'ua'
+    })
+
+    Alert.alert(
+      '温馨提示',
+      '假如您频繁掉登陆，不妨试试把这个选项勾上，通常登录状态生存时间为7天。 \n\n这是个不稳定的选项，若登陆正常不建议勾上，可能会遇到预测不能的状况。',
+      [
+        {
+          text: '知道了'
+        }
+      ]
+    )
+  }
 
   renderForm() {
     const {
@@ -58,7 +93,8 @@ class Form extends React.Component {
       onGetCaptcha,
       onFocus,
       onBlur,
-      onChange
+      onChange,
+      onLogin
     } = this.props
     return (
       <>
@@ -68,41 +104,57 @@ class Form extends React.Component {
               style={this.styles.input}
               value={email}
               placeholder='Email'
+              returnKeyType='next'
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={evt => onChange(evt, 'email')}
+              onSubmitEditing={() => this.passwordRef.inputRef.focus()}
             />
           </Flex.Item>
         </Flex>
         <Flex style={_.mt.md}>
           <Flex.Item>
             <Input
+              ref={ref => (this.passwordRef = ref)}
               style={this.styles.input}
               value={password}
               placeholder='密码'
               secureTextEntry
+              returnKeyType='next'
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={evt => onChange(evt, 'password')}
+              onSubmitEditing={() => this.codeRef.inputRef.focus()}
             />
           </Flex.Item>
         </Flex>
         <Flex style={_.mt.md}>
           <Flex.Item>
             <Input
-              ref={forwardRef}
+              ref={ref => {
+                forwardRef(ref)
+                this.codeRef = ref
+              }}
               style={this.styles.input}
               value={captcha}
               placeholder='验证码'
+              returnKeyType='done'
+              returnKeyLabel='登陆'
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={evt => onChange(evt, 'captcha')}
+              onSubmitEditing={onLogin}
             />
           </Flex.Item>
           <Touchable onPress={onGetCaptcha}>
             <Flex style={this.styles.captchaContainer} justify='center'>
               {base64 ? (
-                <RNImage style={this.styles.captcha} source={{ uri: base64 }} />
+                <RNImage
+                  style={this.styles.captcha}
+                  source={{
+                    uri: base64
+                  }}
+                />
               ) : (
                 <ActivityIndicator size='small' />
               )}
@@ -143,20 +195,7 @@ class Form extends React.Component {
             </Flex.Item>
             <Touchable
               style={[this.styles.touch, _.ml.md]}
-              onPress={() => {
-                t('登陆.配置提示', {
-                  name: 'host'
-                })
-                Alert.alert(
-                  '温馨提示',
-                  '三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n登陆建议优先使用 bangumi.tv，出现问题再尝试 chii.in，最后尝试 bgm.tv。',
-                  [
-                    {
-                      text: '知道了'
-                    }
-                  ]
-                )
-              }}
+              onPress={this.onNoticeHost}
             >
               <Iconfont name='information' type='sub' size={15} />
             </Touchable>
@@ -179,20 +218,7 @@ class Form extends React.Component {
           </Flex.Item>
           <Touchable
             style={[this.styles.touch, _.ml.md]}
-            onPress={() => {
-              t('登陆.配置提示', {
-                name: 'ua'
-              })
-              Alert.alert(
-                '温馨提示',
-                '假如您频繁掉登陆，不妨试试把这个选项勾上，通常登录状态生存时间为7天。 \n\n这是个不稳定的选项，若登陆正常不建议勾上，可能会遇到预测不能的状况。',
-                [
-                  {
-                    text: '知道了'
-                  }
-                ]
-              )
-            }}
+            onPress={this.onNoticeUA}
           >
             <Iconfont name='information' type='sub' size={15} />
           </Touchable>

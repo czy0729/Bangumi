@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-30 22:34:06
+ * @Last Modified time: 2020-05-01 15:00:54
  */
 import React from 'react'
 import { StyleSheet, Modal, View } from 'react-native'
@@ -55,7 +55,15 @@ export default class ImageViewer extends React.Component {
   render() {
     const { visible, imageUrls, onCancel, ...other } = this.props
     return (
-      <Modal visible={visible} transparent onRequestClose={this.onRequestClose}>
+      <Modal
+        visible={visible}
+        transparent
+        hardwareAccelerated
+        animationType='fade'
+        statusBarTranslucent
+        // presentationStyle='fullScreen'
+        onRequestClose={this.onRequestClose}
+      >
         <View style={styles.container}>
           <View style={styles.activityIndicator}>
             <ActivityIndicator />

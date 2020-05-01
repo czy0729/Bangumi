@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 00:23:50
+ * @Last Modified time: 2020-04-30 20:50:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,10 +82,13 @@ function Ep({ style }, { $, navigation }) {
             value={watchedEps}
             placeholder={watchedEps || '0'}
             clearButtonMode='never'
+            returnKeyType='done'
+            returnKeyLabel='更新'
             onChangeText={text => {
               const newText = text.replace(/[^\d]+/, '')
               $.changeText('watchedEps', newText)
             }}
+            onSubmitEditing={$.doUpdateSubjectEp}
           />
           {!!totalEps && (
             <Text style={styles.total} type='sub' pointerEvent='none'>

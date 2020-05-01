@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-30 19:53:54
+ * @Last Modified time: 2020-05-01 12:01:52
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
@@ -55,7 +55,8 @@ class Expand extends React.Component {
     const { maxHeight, height } = this.state
     Animated.timing(maxHeight, {
       toValue: height,
-      duration: 600
+      duration: 600,
+      useNativeDriver: true
     }).start()
     this.setState({
       expand: true

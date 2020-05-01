@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:51:11
+ * @Last Modified time: 2020-04-30 20:51:09
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -326,7 +326,10 @@ class LoginAssist extends React.Component {
           placeholder='粘贴结果'
           multiline
           numberOfLines={6}
+          returnKeyType='done'
+          returnKeyLabel='登陆'
           onChangeText={this.onChangeText}
+          onSubmitEditing={this.submit}
         />
         <Button
           style={_.mt.lg}

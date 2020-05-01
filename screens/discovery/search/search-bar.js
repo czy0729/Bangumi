@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:55:26
+ * @Last Modified time: 2020-04-30 20:46:10
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -22,6 +22,7 @@ function SearchBar(props, { $ }) {
       ]}
       value={value}
       returnKeyType='search'
+      returnKeyLabel='搜索'
       placeholder='输入关键字'
       onChange={$.onChange}
       onSubmitEditing={() => $.doSearch(true)}

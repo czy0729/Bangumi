@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 15:22:04
+ * @Last Modified time: 2020-04-30 20:46:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,10 +57,13 @@ function BookEp({ style }, { $, navigation }) {
                     value={chap}
                     placeholder={book.chap || '0'}
                     clearButtonMode='never'
+                    returnKeyType='done'
+                    returnKeyLabel='更新'
                     onChangeText={text => {
                       const newText = text.replace(/[^\d]+/, '')
                       $.changeText('chap', newText)
                     }}
+                    onSubmitEditing={$.doUpdateBookEp}
                   />
                   {!!book.totalChap && (
                     <Text style={styles.total} type='sub' pointerEvent='none'>
@@ -86,10 +89,13 @@ function BookEp({ style }, { $, navigation }) {
                     value={vol}
                     placeholder={book.vol || '0'}
                     clearButtonMode='never'
+                    returnKeyType='done'
+                    returnKeyLabel='更新'
                     onChangeText={text => {
                       const newText = text.replace(/[^\d]+/, '')
                       $.changeText('vol', newText)
                     }}
+                    onSubmitEditing={$.doUpdateBookEp}
                   />
                   {!!book.totalVol && (
                     <Text style={styles.total} type='sub' pointerEvent='none'>

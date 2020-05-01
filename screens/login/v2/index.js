@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-30 17:07:27
+ * @Last Modified time: 2020-05-01 14:56:32
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -54,7 +54,7 @@ class LoginV2 extends React.Component {
   accessToken = ''
   retryCount = 0
 
-  inputRef
+  codeRef
 
   async componentDidMount() {
     const state = {}
@@ -219,7 +219,7 @@ class LoginV2 extends React.Component {
     try {
       if (this.lastCaptcha !== captcha) {
         t('登陆.登陆')
-        this.inputRef.inputRef.blur()
+        this.codeRef.inputRef.blur()
         setStorage(`${namespace}|email`, email)
 
         await this.login()
@@ -513,7 +513,7 @@ class LoginV2 extends React.Component {
     } = this.state
     return (
       <Form
-        forwardRef={ref => (this.inputRef = ref)}
+        forwardRef={ref => (this.codeRef = ref)}
         navigation={navigation}
         email={email}
         password={password}
