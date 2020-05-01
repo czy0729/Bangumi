@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-30 09:48:27
+ * @Last Modified time: 2020-05-01 15:56:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     left: '50%',
     width: _.window.width,
     height: _.tabsHeaderHeight,
-    marginTop: -_.tabsHeight - 8, // 8pt为headerTitle内的paddingTop
+    marginTop: -_.tabsHeight - correctHeightIOS,
     marginLeft: -_.window.width * 0.5
   },
   headerTabsWrapIOS: {

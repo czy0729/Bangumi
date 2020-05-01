@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 18:57:37
+ * @Last Modified time: 2020-05-01 15:51:32
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -40,6 +40,7 @@ class ManageModal extends React.Component {
   }
 
   state = initState
+  commentRef
 
   async componentWillReceiveProps(nextProps) {
     const { visible, subjectId } = nextProps
@@ -244,10 +245,13 @@ class ManageModal extends React.Component {
                 style={_.mt.md}
                 defaultValue={tags}
                 placeholder='我的标签'
+                returnKeyType='next'
                 onChangeText={text => this.changeText('tags', text)}
+                onSubmitEditing={() => this.commentRef.inputRef.focus()}
               />
               <Flex style={this.styles.tags}>{this.renderTags()}</Flex>
               <Input
+                ref={ref => (this.commentRef = ref)}
                 style={_.mt.xs}
                 defaultValue={comment}
                 placeholder='吐槽点什么'

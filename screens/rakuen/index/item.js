@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:38:15
+ * @Last Modified time: 2020-05-01 16:13:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,9 @@ import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 
 const adRepliesCount = 4 // 回复数少于的数字, 判断为广告姬
 const oldGroupId = 346568 // 少于这个数字的, 为坟贴
+const event = {
+  id: '超展开.跳转'
+}
 
 export default
 @observer
@@ -268,7 +271,7 @@ class Item extends React.Component {
           )
         }
       >
-        <Iconfont name='extra' size={15} />
+        <Iconfont name='extra' size={15} color={_.colorSub} />
       </Popover>
     )
   }
@@ -300,9 +303,6 @@ class Item extends React.Component {
     }
 
     const isTop = index === 0
-    const event = {
-      id: '超展开.跳转'
-    }
     return (
       <View
         style={[
