@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 17:19:31
+ * @Last Modified time: 2020-05-03 04:27:38
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailSacrifice
@@ -28,5 +28,5 @@ export default {
   }
 }
 
-export const initialDevDark = false
+export const initialDevDark = true
 export const initialHomeTabName = 'Home'

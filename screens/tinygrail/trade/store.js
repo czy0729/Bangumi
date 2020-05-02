@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-25 16:12:32
+ * @Last Modified time: 2020-05-03 04:22:26
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 
@@ -29,18 +30,25 @@ export default class ScreenTinygrailTrade extends store {
   })
 
   init = async () => {
+    const { _loaded } = this.state
+    const current = getTimestamp()
+    const needFetch = !_loaded || current - _loaded > 60
+
     const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
       loading: true,
-      _loaded: true
+      _loaded: needFetch ? current : _loaded
     })
 
-    queue([
-      () => this.fetchChara(),
-      () => this.fetchKline(),
-      () => this.fetchDepth()
-    ])
+    if (needFetch) {
+      return queue([
+        () => this.fetchChara(),
+        () => this.fetchKline(),
+        () => this.fetchDepth()
+      ])
+    }
+    return true
   }
 
   fetchChara = () => tinygrailStore.fetchCharacters([this.monoId])

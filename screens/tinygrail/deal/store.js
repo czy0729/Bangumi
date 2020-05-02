@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 17:46:35
+ * @Last Modified time: 2020-05-03 04:17:10
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { toFixed } from '@utils'
+import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { info, confirm } from '@utils/ui'
 
 const namespace = 'ScreenTinygrailDeal'
 const defaultType = 'bid'
-const initState = {
-  loading: false,
+const excludeState = {
   type: defaultType, // 买卖类型
   value: 0, // 只能到一位小数
   amount: 0, // 只能是整数
@@ -23,7 +22,7 @@ const initState = {
 
 export default class ScreenTinygrailDeal extends store {
   state = observable({
-    ...initState,
+    ...excludeState,
     isIce: false, // 是否冰山委托
     _loaded: false
   })
@@ -31,17 +30,24 @@ export default class ScreenTinygrailDeal extends store {
   prev = 0
 
   init = async () => {
+    const { _loaded } = this.state
+    const current = getTimestamp()
+    const needFetch = !_loaded || current - _loaded > 60
+
     const res = this.getStorage(undefined, namespace)
     const state = await res
     const { type = defaultType } = this.params
     this.setState({
       ...state,
-      ...initState,
+      ...excludeState,
       type,
-      _loaded: true
+      _loaded: needFetch ? current : _loaded
     })
 
-    this.refresh()
+    if (needFetch) {
+      return this.refresh()
+    }
+    return true
   }
 
   refresh = () =>

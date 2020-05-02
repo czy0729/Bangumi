@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 15:56:29
+ * @Last Modified time: 2020-05-03 04:17:52
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -13,8 +13,7 @@ import { queue, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 
 const namespace = 'ScreenTinygrailSacrifice'
-const initState = {
-  loading: false,
+const excludeState = {
   amount: 0, // 只能是整数,
   isSale: false, // 股权融资
   expand: false, // 展开所有圣殿
@@ -29,15 +28,20 @@ export default class ScreenTinygrailSacrifice extends store {
     showLogs: true, // 显示记录
     showTemples: true, // 显示圣殿
     showUsers: true, // 显示董事会
-    ...initState,
+    ...excludeState,
     lastAuction: {
       price: '',
       amount: '',
       time: 0
-    }
+    },
+    loading: false
   })
 
   init = async () => {
+    const { _loaded } = this.state
+    const current = getTimestamp()
+    const needFetch = !_loaded || current - _loaded > 60
+
     const state = await this.getStorage(undefined, namespace)
     const lastAuction = (await this.getStorage(
       undefined,
@@ -49,11 +53,15 @@ export default class ScreenTinygrailSacrifice extends store {
     }
     this.setState({
       ...state,
-      ...initState,
-      lastAuction
+      ...excludeState,
+      lastAuction,
+      _loaded: needFetch ? current : _loaded
     })
 
-    return this.refresh()
+    if (needFetch) {
+      return this.refresh()
+    }
+    return true
   }
 
   refresh = () =>

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 15:24:47
+ * @Last Modified time: 2020-05-03 04:19:37
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
+import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
@@ -16,7 +17,20 @@ export default class ScreenTinygrailICODeal extends store {
     amount: 5000 // 只能是整数
   })
 
-  init = () => this.refresh()
+  init = () => {
+    const { _loaded } = this.state
+    const current = getTimestamp()
+    const needFetch = !_loaded || current - _loaded > 60
+
+    this.setState({
+      _loaded: needFetch ? current : _loaded
+    })
+
+    if (needFetch) {
+      return this.refresh()
+    }
+    return true
+  }
 
   refresh = async () => {
     await Promise.all([

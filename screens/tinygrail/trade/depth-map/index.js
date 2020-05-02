@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:15:11
+ * @Last Modified time: 2020-05-03 04:26:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -77,7 +77,8 @@ function DepthMap({ style }, { $ }) {
                       styles.bids,
                       {
                         height:
-                          ((bidsAmount - calculateBids) / bidsAmount) * height +
+                          ((bidsAmount - calculateBids) / (bidsAmount || 1)) *
+                            height +
                           4,
                         marginLeft: -1.5
                       }

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 20:22:24
+ * @Last Modified time: 2020-05-03 04:00:23
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 
@@ -36,15 +37,22 @@ export default class ScreenTinygrailRich extends store {
   })
 
   init = async () => {
+    const { _loaded } = this.state
+    const current = getTimestamp()
+    const needFetch = !_loaded || current - _loaded > 60
+
     const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
       ...state,
-      _loaded: true
+      _loaded: needFetch ? current : _loaded
     })
 
-    const { page } = this.state
-    this.fetchRich(this.key(page))
+    if (needFetch) {
+      const { page } = this.state
+      this.fetchRich(this.key(page))
+    }
+
     return res
   }
 

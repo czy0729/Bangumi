@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 21:08:41
+ * @Last Modified time: 2020-05-03 04:06:11
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -71,19 +71,24 @@ export default class ScreenTinygrailCharaAssets extends store {
   })
 
   init = async () => {
+    const { _loaded } = this.state
+    const current = getTimestamp()
+    const needFetch = !_loaded || current - _loaded > 60
+
     const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
       ...state,
-      _loaded: true
+      _loaded: needFetch ? current : _loaded
     })
 
     if (this.userId) {
       this.fetchMyCharaAssets()
       this.fetchTemple()
-    } else {
+    } else if (needFetch) {
       this.fetchMyCharaAssets()
     }
+
     return res
   }
 
