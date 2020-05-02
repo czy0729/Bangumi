@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 17:31:18
+ * @Last Modified time: 2020-05-02 22:21:10
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore } from '@stores'
-import { urlStringify, getTimestamp, formatNumber } from '@utils'
+import { urlStringify, getTimestamp, formatNumber, toFixed } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { queue, t } from '@utils/fetch'
@@ -16,7 +16,8 @@ import axios from '@utils/thirdParty/axios'
 import {
   HOST,
   TINYGRAIL_APP_ID,
-  TINYGRAIL_URL_OAUTH_REDIRECT
+  TINYGRAIL_URL_OAUTH_REDIRECT,
+  M
 } from '@constants'
 import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 
@@ -209,19 +210,33 @@ export default class ScreenTinygrail extends store {
 
       const data = await res
       const { Total, Temples, Share, Tax, Daily } = data.data.Value
-      let message = `本期计息共${formatNumber(
-        Total,
-        0
-      )}股, 圣殿${Temples}座, 预期股息₵${formatNumber(Share, 2)}`
-      if (Tax) {
-        message += `, 个人所得税₵${formatNumber(Tax, 2)}, 税后₵${formatNumber(
-          Share - Tax,
-          2
-        )}`
+      const { short } = this.state
+
+      const AfterTax = Share - Tax
+      let _Total
+      let _Share
+      let _Tax
+      let _AfterTax
+      if (short) {
+        _Total =
+          Total > M ? `${toFixed(Total / M, 1)}万` : formatNumber(Total, 2)
+        _Share =
+          Share > M ? `${toFixed(Share / M, 1)}万` : formatNumber(Share, 2)
+        _Tax = Tax > M ? `${toFixed(Tax / M, 1)}万` : formatNumber(Tax, 2)
+        _AfterTax =
+          AfterTax > M
+            ? `${toFixed(AfterTax / M, 1)}万`
+            : formatNumber(AfterTax, 2)
+      } else {
+        _Total = formatNumber(Share, 0)
+        _Share = formatNumber(Share, 2)
+        _Tax = formatNumber(Tax, 2)
+        _AfterTax = formatNumber(AfterTax, 2)
       }
-      if (Daily) {
-        message += `, 签到奖励₵${Daily}`
-      }
+
+      let message = `本期计息共${_Total}股, 圣殿${Temples}座, 预期股息₵${_Share}`
+      if (Tax) message += `, 个人所得税₵${_Tax}, 税后₵${_AfterTax}`
+      if (Daily) message += `, 签到奖励₵${Daily}`
 
       Alert.alert('股息预测', message, [
         {
