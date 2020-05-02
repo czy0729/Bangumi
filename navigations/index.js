@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 22:11:24
+ * @Last Modified time: 2020-05-02 16:01:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,6 +34,7 @@ import {
   Login,
   LoginAssist,
   LoginV2,
+  Mine,
   Mono,
   Notify,
   PM,
@@ -147,6 +148,7 @@ const HomeStack = createStackNavigator(
     Login,
     LoginAssist,
     LoginV2,
+    Mine,
     Mono,
     Notify,
     PM,

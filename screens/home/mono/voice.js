@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 14:28:49
+ * @Last Modified time: 2020-05-02 17:56:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ function Voice({ style }, { $, navigation }) {
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
+        style={styles.section}
         right={<SectionRight event={event} text='更多角色' to='Voices' />}
       >
         最近演出角色
@@ -124,6 +125,9 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
     paddingBottom: _.md
+  },
+  section: {
+    paddingRight: _.wind - _._wind
   },
   item: {
     paddingVertical: _.md,

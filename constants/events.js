@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 12:17:58
+ * @Last Modified time: 2020-05-02 16:56:16
  */
 
 /**
@@ -193,6 +193,10 @@ export default {
   '小组.加入': 'Group.doJoin',
   '小组.退出': 'Group.doBye',
   '小组.封面图查看': 'Group.imageView',
+
+  // 我的小组
+  '我的小组.跳转': 'Mine.to',
+  '我的小组.右上角菜单': 'Mine.topRightMenu',
 
   // 本地帖子
   '本地帖子.跳转': 'RakuenHistory.to',

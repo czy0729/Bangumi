@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 12:04:10
+ * @Last Modified time: 2020-05-02 18:03:34
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -59,20 +59,15 @@ class User extends React.Component {
 
     // 触发动画
     const { scrollY, fixed } = this.state
-    Animated.event(
-      [
-        {
-          nativeEvent: {
-            contentOffset: {
-              y: scrollY
-            }
+    Animated.event([
+      {
+        nativeEvent: {
+          contentOffset: {
+            y: scrollY
           }
         }
-      ],
-      {
-        useNativeDriver: true
       }
-    )(e)
+    ])(e)
 
     // 更新头部是否置顶
     const { contentOffset } = e.nativeEvent
@@ -122,20 +117,15 @@ class User extends React.Component {
     if (!this.loaded[page] && this.offsetZeroNativeEvent) {
       setTimeout(() => {
         const { scrollY } = this.state
-        Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  y: scrollY
-                }
+        Animated.event([
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrollY
               }
             }
-          ],
-          {
-            useNativeDriver: true
           }
-        )({
+        ])({
           nativeEvent: this.offsetZeroNativeEvent
         })
         this.loaded[page] = true

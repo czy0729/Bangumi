@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:43:37
+ * @Last Modified time: 2020-05-02 16:39:04
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -11,34 +11,36 @@ import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
 import { HOST, LIST_EMPTY, LIMIT_LIST } from '@constants'
 import {
-  HTML_NOTIFY,
-  HTML_TOPIC,
-  HTML_ACTION_RAKUEN_REPLY,
   HTML_ACTION_BLOG_REPLY,
-  HTML_GROUP_INFO,
+  HTML_ACTION_RAKUEN_REPLY,
+  HTML_BLOG,
   HTML_GROUP,
-  HTML_BLOG
+  HTML_GROUP_INFO,
+  HTML_GROUP_MINE,
+  HTML_NOTIFY,
+  HTML_TOPIC
 } from '@constants/html'
 import { CDN_RAKUEN } from '@constants/cdn'
 import store from '@utils/store'
 import {
-  NAMESPACE,
   DEFAULT_SCOPE,
   DEFAULT_TYPE,
-  INIT_READED_ITEM,
-  INIT_TOPIC,
-  INIT_NOTIFY,
-  INIT_SETTING,
   INIT_GROUP_INFO,
-  INIT_GROUP_ITEM
+  INIT_GROUP_ITEM,
+  INIT_NOTIFY,
+  INIT_READED_ITEM,
+  INIT_SETTING,
+  INIT_TOPIC,
+  NAMESPACE
 } from './init'
 import {
-  fetchRakuen,
-  cheerioGroupInfo,
   analysisGroup,
+  cheerioBlog,
+  cheerioGroupInfo,
   cheerioNotify,
+  cheerioMine,
   cheerioTopic,
-  cheerioBlog
+  fetchRakuen
 } from './common'
 
 class Rakuen extends store {
@@ -97,6 +99,14 @@ class Rakuen extends store {
     setting: INIT_SETTING,
 
     /**
+     * 本地收藏
+     *  [topicId
+     */
+    favor: {
+      0: false
+    },
+
+    /**
      * 小组信息
      * @param {*} groupId
      */
@@ -115,20 +125,17 @@ class Rakuen extends store {
     },
 
     /**
-     * 本地收藏
-     *  [topicId
-     */
-    favor: {
-      0: false
-    },
-
-    /**
      * 小组缩略图缓存
      * @param {*} name
      */
     groupThumb: {
       0: ''
     },
+
+    /**
+     * 我的小组
+     */
+    mine: LIST_EMPTY, // <INIT_MINE_ITEM>
 
     /**
      * 日志内容
@@ -150,16 +157,17 @@ class Rakuen extends store {
   init = () =>
     this.readStorage(
       [
+        'blog',
+        'comments',
+        'favor',
+        'groupInfo',
+        'groupThumb',
+        'mine',
+        'notify',
         'rakuen',
         'readed',
-        'topic',
-        'comments',
-        'notify',
         'setting',
-        'groupInfo',
-        'favor',
-        'groupThumb',
-        'blog'
+        'topic'
       ],
       NAMESPACE
     )
@@ -388,6 +396,31 @@ class Rakuen extends store {
     })
 
     return Promise.resolve(group)
+  }
+
+  /**
+   * 我的小组
+   */
+  fetchMine = async () => {
+    const key = 'mine'
+
+    const html = await fetchHTML({
+      url: HTML_GROUP_MINE()
+    })
+    const { list } = cheerioMine(html)
+    this.setState({
+      [key]: {
+        list,
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return this[key]
   }
 
   /**

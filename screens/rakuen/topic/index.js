@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 20:45:39
+ * @Last Modified time: 2020-05-02 15:44:26
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -107,8 +107,8 @@ class Topic extends React.Component {
     })
 
     await $.init()
-    // const { title } = $.topic
-    // withTransitionHeader.setTitle(navigation, title)
+    const { title } = $.topic
+    withTransitionHeader.setTitle(navigation, title)
 
     if ($.postId) {
       this.jump()

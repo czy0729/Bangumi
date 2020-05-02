@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 20:46:55
+ * @Last Modified time: 2020-05-02 16:59:08
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -47,12 +47,8 @@ class RakuenGroup extends React.Component {
     const { $, navigation } = this.context
     const { joinUrl, byeUrl } = $.groupInfo
     const data = ['浏览器查看', '小组成员']
-    if (joinUrl) {
-      data.push('加入小组')
-    }
-    if (byeUrl) {
-      data.push('退出小组')
-    }
+    if (joinUrl) data.push('加入小组')
+    if (byeUrl) data.push('退出小组')
     navigation.setParams({
       popover: {
         data,
