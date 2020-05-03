@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 01:36:51
+ * @Last Modified time: 2020-05-04 02:55:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import Disc from './disc'
 const layoutWidth = parseInt(_.window.width - _.wind) - 1
 
 function Ep({ style }, { $, navigation }) {
-  // 书籍和游戏没有ep
+  // 游戏没有ep
   if ($.type === '游戏') {
     return null
   }
@@ -31,18 +31,35 @@ function Ep({ style }, { $, navigation }) {
   }
 
   const styles = memoStyles()
-  const { epsReverse, watchedEps } = $.state
+  const { epsReverse, watchedEps, filterEps } = $.state
   const { totalEps } = $.subjectFormHTML
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   const showPlay = $.showOnlinePlay && canPlay
+  const showFilter = $.eps.length > 160 // 32 * 5 = 160
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
         right={
           <>
+            {showFilter && (
+              <Popover
+                style={{
+                  marginRight: 4
+                }}
+                data={$.filterEpsData}
+                onSelect={$.updateFilterEps}
+              >
+                <Iconfont
+                  style={styles.icon}
+                  name='filter'
+                  color={filterEps ? _.colorMain : _.colorIcon}
+                  size={16}
+                />
+              </Popover>
+            )}
             {$.showOnlinePlay && (
               <Popover data={$.onlineOrigins} onSelect={$.onlinePlaySelected}>
-                <Iconfont style={styles.iconPlay} name='xin-fan' size={16} />
+                <Iconfont style={styles.icon} name='xin-fan' size={16} />
               </Popover>
             )}
             <IconReverse
@@ -69,7 +86,7 @@ function Ep({ style }, { $, navigation }) {
         pagination
         login={$.isLogin}
         subjectId={$.params.subjectId}
-        eps={epsReverse ? $.eps.reverse() : $.eps}
+        eps={$.toEps}
         userProgress={$.userProgress}
         canPlay={showPlay}
         onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
@@ -122,7 +139,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginRight: _.wind - _._wind,
     backgroundColor: _.colorPlain
   },
-  iconPlay: {
+  icon: {
     paddingHorizontal: _.sm
   },
   input: {

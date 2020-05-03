@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 00:39:49
+ * @Last Modified time: 2020-05-04 02:48:45
  */
 
 /**
@@ -132,6 +132,7 @@ export default {
   '条目.搜索源': 'Subject.searchEp',
   '条目.翻译简介': 'Subject.doTranslate',
   '条目.查看奖杯': 'Subject.toPSNINE',
+  '条目.设置章节筛选': 'Subject.updateFilterEps',
 
   // 用户标签
   '用户标签.跳转': 'Tag.to',

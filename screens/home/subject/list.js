@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 05:49:41
+ * @Last Modified time: 2020-05-04 02:05:18
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -71,7 +71,7 @@ class List extends React.Component {
         ListHeaderComponent={<Header rendered={rendered} />}
         renderItem={this.renderItem}
         onScroll={onScroll}
-        onHeaderRefresh={$.init}
+        onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchSubjectComments}
       />
     )

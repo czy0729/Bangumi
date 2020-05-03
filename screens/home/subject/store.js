@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 11:20:41
+ * @Last Modified time: 2020-05-04 02:56:46
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -71,6 +71,7 @@ export default class ScreenSubject extends store {
     ...excludeState,
     epsReverse: false, // 章节是否倒序
     watchedEps: '', // 普通条目章节
+    filterEps: 0, // 筛选章节的开头
     bangumiInfo: {
       sites: [], // 动画在线地址
       type: '' // 动画类型
@@ -84,70 +85,81 @@ export default class ScreenSubject extends store {
   })
 
   init = async () => {
+    const { _loaded } = this.state
+    const current = getTimestamp()
+    const needFetch = !_loaded || current - _loaded > 60
+
     try {
       const state = await this.getStorage(undefined, this.namespace)
       this.setState({
         ...state,
         ...excludeState,
-        _loaded: true
+        _loaded: needFetch ? current : _loaded
       })
 
-      /**
-       * 访问私有cdn, 加速未缓存条目首屏数据渲染
-       * 因为有cdn, 下面2个用户相关的接口可以提前
-       */
-      this.fetchSubjectFormCDN()
-      this.fetchCollection() // 用户每集收看进度
-      userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
-
-      // API条目信息
-      const res = this.fetchSubject()
-      const data = await res
-
-      // bangumi-data数据扩展
-      const item = bangumiData.items.find(item => item.title === data.name)
-      if (item) {
-        this.setState({
-          bangumiInfo: {
-            sites: item.sites,
-            type: item.type
-          }
-        })
+      if (needFetch) {
+        return this.onHeaderRefresh()
       }
-
-      // 获取其他源头eps在线地址
-      const name = data.name_cn || data.name
-      if (this.type === '动画') {
-        const { _ningMoeId = NINGMOE_ID[name] } = this.params
-        if (_ningMoeId) {
-          discoveryStore.fetchNingMoeDetail({
-            id: _ningMoeId,
-            bgmId: this.subjectId
-          })
-        } else {
-          // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
-          discoveryStore.fetchNingMoeDetailBySearch({
-            keyword: name
-          })
-        }
-      }
-
-      queue([
-        // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
-        // () => subjectStore.fetchSubjectEp(this.subjectId), // [废弃] 跟条目API重复
-        // () => this.fetchCollection(), // 用户每集收看进度
-        () => this.fetchSubjectComments(true), // 吐槽
-        () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
-        () => this.fetchEpsData() // 单集播放源
-      ])
-      return res
+      return true
     } catch (error) {
       this.setState({
         ...excludeState,
-        _loaded: true
+        _loaded: needFetch ? current : _loaded
       })
       return true
     }
+  }
+
+  onHeaderRefresh = async () => {
+    /**
+     * 访问私有cdn, 加速未缓存条目首屏数据渲染
+     * 因为有cdn, 下面2个用户相关的接口可以提前
+     */
+    this.fetchSubjectFormCDN()
+    this.fetchCollection() // 用户每集收看进度
+    userStore.fetchUserProgress(this.subjectId) // 用户收藏状态
+
+    // API条目信息
+    const res = this.fetchSubject()
+    const data = await res
+
+    // bangumi-data数据扩展
+    const item = bangumiData.items.find(item => item.title === data.name)
+    if (item) {
+      this.setState({
+        bangumiInfo: {
+          sites: item.sites,
+          type: item.type
+        }
+      })
+    }
+
+    // 获取其他源头eps在线地址
+    const name = data.name_cn || data.name
+    if (this.type === '动画') {
+      const { _ningMoeId = NINGMOE_ID[name] } = this.params
+      if (_ningMoeId) {
+        discoveryStore.fetchNingMoeDetail({
+          id: _ningMoeId,
+          bgmId: this.subjectId
+        })
+      } else {
+        // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
+        discoveryStore.fetchNingMoeDetailBySearch({
+          keyword: name
+        })
+      }
+    }
+
+    queue([
+      // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
+      // () => subjectStore.fetchSubjectEp(this.subjectId), // [废弃] 跟条目API重复
+      // () => this.fetchCollection(), // 用户每集收看进度
+      () => this.fetchSubjectComments(true), // 吐槽
+      () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
+      () => this.fetchEpsData() // 单集播放源
+    ])
+    return res
   }
 
   // -------------------- fetch --------------------
@@ -421,7 +433,9 @@ export default class ScreenSubject extends store {
     return data
   }
 
-  // 是否PS游戏, 跳转psnine查看奖杯
+  /**
+   * 是否PS游戏, 跳转psnine查看奖杯
+   */
   @computed get isPS() {
     return (
       this.type === '游戏' &&
@@ -429,6 +443,22 @@ export default class ScreenSubject extends store {
         this.info.includes('PS3') ||
         this.info.includes('PS5'))
     )
+  }
+
+  /**
+   * 筛选章节构造数据, 每100章节一个选项
+   */
+  @computed get filterEpsData() {
+    const data = ['从 1 起']
+    if (this.eps.length < 100) {
+      return data
+    }
+
+    const count = parseInt(this.eps.length / 100)
+    for (let i = 1; i <= count; i += 1) {
+      data.push(`从 ${i * 100} 开始`)
+    }
+    return data
   }
 
   // -------------------- get: cdn fallback --------------------
@@ -492,6 +522,19 @@ export default class ScreenSubject extends store {
       return this.subject.eps || []
     }
     return this.subjectFormCDN.eps || []
+  }
+
+  /**
+   * 经过计算后传递到<Eps>的data
+   */
+  @computed get toEps() {
+    const { epsReverse, filterEps } = this.state
+    if (filterEps) {
+      const eps = this.eps.filter((item, index) => index >= filterEps)
+      return epsReverse ? eps.reverse() : eps
+    }
+
+    return epsReverse ? this.eps.reverse() : this.eps
   }
 
   @computed get disc() {
@@ -726,6 +769,24 @@ export default class ScreenSubject extends store {
         this.cn || this.jp
       )}`
     )
+  }
+
+  /**
+   * 设置章节筛选
+   */
+  updateFilterEps = key => {
+    let filterEps = parseInt(key.match(/\d+/g)[0])
+    if (filterEps === 1) filterEps = 0
+
+    t('条目.设置章节筛选', {
+      subjectId: this.subjectId,
+      filterEps
+    })
+
+    this.setState({
+      filterEps
+    })
+    this.setStorage(undefined, undefined, this.namespace)
   }
 
   // -------------------- action --------------------
