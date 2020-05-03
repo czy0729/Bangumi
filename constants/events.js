@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 16:56:16
+ * @Last Modified time: 2020-05-04 00:39:49
  */
 
 /**
@@ -287,9 +287,11 @@ export default {
 
   // 我的持仓
   '我的持仓.跳转': 'TCharaAssets.to',
+  '我的持仓.右上角菜单': 'TCharaAssets.topRightMenu',
   '我的持仓.标签页切换': 'TCharaAssets.tabsChange',
   '我的持仓.排序': 'TCharaAssets.onSortPress',
   '我的持仓.设置前往': 'TCharaAssets.onSelectGo',
+  '我的持仓.批量献祭': 'TCharaAssets.doBatchSacrifice',
 
   // 交易
   '交易.跳转': 'TDeal.to',

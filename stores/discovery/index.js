@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:38:32
+ * @Last Modified time: 2020-05-02 21:41:30
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -15,7 +15,8 @@ import {
   HTML_TAGS,
   HTML_CATALOG,
   HTML_CATALOG_DETAIL,
-  HTML_BLOG_LIST
+  HTML_BLOG_LIST,
+  HTML_CHANNEL
 } from '@constants/html'
 import {
   NAMESPACE,
@@ -24,13 +25,15 @@ import {
   INIT_ANITAMA_TIMELINE_ITEM,
   INIT_CATALOG_ITEM,
   INIT_CATELOG_DETAIL_ITEM,
-  INIT_BLOG_ITEM
+  INIT_BLOG_ITEM,
+  INIT_CHANNEL
 } from './init'
 import {
   analysisTags,
   analysisCatalog,
   analysisCatalogDetail,
-  cheerioBlog
+  cheerioBlog,
+  cheerioChannel
 } from './common'
 
 class Discovery extends store {
@@ -100,6 +103,14 @@ class Discovery extends store {
      */
     blogReaded: {
       0: false
+    },
+
+    /**
+     * 频道聚合
+     * @param {*} type
+     */
+    channel: {
+      0: INIT_CHANNEL
     }
   })
 
@@ -111,7 +122,8 @@ class Discovery extends store {
         'catalog',
         'catalogDetail',
         'blog',
-        'blogReaded'
+        'blogReaded',
+        'channel'
       ],
       NAMESPACE
     )
@@ -440,6 +452,30 @@ class Discovery extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return list
+  }
+
+  /**
+   * 频道聚合
+   */
+  fetchChannel = async ({ type = '' }) => {
+    const key = 'channel'
+    const html = await fetchHTML({
+      url: HTML_CHANNEL(type)
+    })
+
+    const data = cheerioChannel(html)
+    log(data)
+    // this.setState({
+    //   [key]: {
+    //     [type]: {
+    //       ...data,
+    //       _loaded: getTimestamp()
+    //     }
+    //   }
+    // })
+    // this.setStorage(key, undefined, NAMESPACE)
+
+    // return this.channel(type)
   }
 
   // -------------------- page --------------------

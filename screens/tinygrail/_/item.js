@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 21:37:39
+ * @Last Modified time: 2020-05-03 21:32:33
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -28,6 +28,7 @@ function Item(props, { $, navigation }) {
   const styles = memoStyles()
   const {
     _index,
+    style,
     index,
     id,
     monoId,
@@ -48,6 +49,7 @@ function Item(props, { $, navigation }) {
     level,
     current,
     event,
+    showMenu,
     onAuctionCancel
   } = props
   const go = props.go || $.state.go
@@ -155,7 +157,7 @@ function Item(props, { $, navigation }) {
   }
   const auctioning = auctionText === '竞拍中'
   return (
-    <Flex style={styles.container} align='start'>
+    <Flex style={[styles.container, style]} align='start'>
       <Avatar
         style={styles.avatar}
         src={tinygrailOSS(icon)}
@@ -301,7 +303,7 @@ function Item(props, { $, navigation }) {
               color={_.tSelect(_.colorTinygrailText, _.colorYellow)}
             />
           )}
-          {!isICO && (
+          {showMenu && !isICO && (
             <Popover
               id={monoId || id}
               event={event}
@@ -321,6 +323,7 @@ Item.contextTypes = {
 
 Item.defaultProps = {
   event: EVENT,
+  showMenu: true,
   onAuctionCancel: Function.prototype,
   onCollect: Function.prototype
 }

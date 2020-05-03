@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:44:51
+ * @Last Modified time: 2020-05-03 14:25:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
 import Tabs from '../_/tabs'
-import IconGo from '../_/icon-go'
+import Right from './right'
 import List from './list'
 import Store, { tabs, sortDS } from './store'
 
@@ -56,7 +56,7 @@ class TinygrailCharaAssets extends React.Component {
     }
 
     navigation.setParams({
-      extra: <IconGo $={$} />
+      extra: <Right $={$} />
     })
   }
 

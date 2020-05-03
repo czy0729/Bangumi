@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-05 01:26:18
+ * @Last Modified time: 2020-05-02 21:40:44
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
@@ -59,10 +59,7 @@ export function analysisCatalog(HTML) {
         last: $li.find('span.tip_j').text(),
         title: $title.text(),
         id: ($title.attr('href') || '').replace('/index/', ''),
-        info: $li
-          .find('span.info > p')
-          .text()
-          .replace(/\n/g, ' '),
+        info: $li.find('span.info > p').text().replace(/\n/g, ' '),
         book: $li.find('span.subject_type_1').text(),
         anime: $li.find('span.subject_type_2').text(),
         music: $li.find('span.subject_type_3').text(),
@@ -146,25 +143,14 @@ export function cheerioBlog(HTML) {
       .map((index, element) => {
         const $li = cheerio(element)
         const $a = $li.find('h2.title a')
-        const times = $li
-          .find('div.time')
-          .text()
-          .split('/ ')
+        const times = $li.find('div.time').text().split('/ ')
         return safeObject({
           id: $a.attr('href').replace('/blog/', ''),
           title: $a.text(),
           cover: $li.find('span.pictureFrameGroup img').attr('src'),
           time: String(times[times.length - 1]).replace('\n', ''),
-          replies: $li
-            .find('div.content .blue')
-            .text()
-            .replace(/\(|\)/g, ''),
-          content: `${
-            $li
-              .find('div.content')
-              .text()
-              .split('...')[0]
-          }...`,
+          replies: $li.find('div.content .blue').text().replace(/\(|\)/g, ''),
+          content: `${$li.find('div.content').text().split('...')[0]}...`,
           username: String($li.find('div.time small.blue a').text()).replace(
             '\n',
             ''
@@ -178,4 +164,39 @@ export function cheerioBlog(HTML) {
       })
       .get() || []
   ).filter(item => item.cover !== '//lain.bgm.tv/pic/user/l/icon.jpg')
+}
+
+/**
+ * 分析频道聚合
+ * @param {*} HTML
+ */
+export function cheerioChannel(HTML) {
+  const $ = cheerio(HTML)
+  return {
+    blog:
+      $('div#news_list > div.item')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $a = $li.find('h2.title a')
+          const times = $li.find('div.time').text().trim().split('/ ')
+          return safeObject({
+            id: $a.attr('href').replace('/blog/', ''),
+            title: $a.text().trim(),
+            cover: $li.find('span.pictureFrameGroup img').attr('src'),
+            time: String(times[times.length - 1]).replace('\n', ''),
+            replies: $li
+              .find('div.content .blue')
+              .text()
+              .trim()
+              .replace(/\(|\)/g, ''),
+            content: `${
+              $li.find('div.content').text().trim().split('...')[0]
+            }...`,
+            username: $li.find('div.time small.blue a').text().trim(),
+            subject: $li.find('div.time small.grey a').text().trim(),
+            tags: ''
+          })
+        })
+        .get() || []
+  }
 }

@@ -1,8 +1,10 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /*
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 04:06:11
+ * @Last Modified time: 2020-05-04 00:47:03
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -10,6 +12,7 @@ import { tinygrailStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
+import { confirm, info } from '@utils/ui'
 import {
   SORT_SC,
   SORT_GX,
@@ -67,6 +70,8 @@ export default class ScreenTinygrailCharaAssets extends store {
     sort: '',
     direction: '', // void | down | up
     go: '卖出',
+    editing: false, // 是否批量选择中
+    editingIds: {}, // 选中的角色id
     _loaded: false
   })
 
@@ -79,8 +84,10 @@ export default class ScreenTinygrailCharaAssets extends store {
     const state = await res
     this.setState({
       ...state,
+      editing: false,
       _loaded: needFetch ? current : _loaded
     })
+    this.clearState('editingIds', {})
 
     if (this.userId) {
       this.fetchMyCharaAssets()
@@ -236,6 +243,11 @@ export default class ScreenTinygrailCharaAssets extends store {
     if (page === 2) {
       this.fetchTemple()
     }
+
+    const { editing } = this.state
+    if (editing) {
+      this.toggleBatchEdit()
+    }
   }
 
   onSortPress = item => {
@@ -272,5 +284,78 @@ export default class ScreenTinygrailCharaAssets extends store {
     }
 
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  toggleBatchEdit = () => {
+    const { editing } = this.state
+    this.setState({
+      editing: !editing
+    })
+    this.clearState('editingIds', {})
+  }
+
+  toggleEditingId = (id, count) => {
+    const { editingIds } = this.state
+    const _editingIds = {
+      ...editingIds
+    }
+
+    if (_editingIds[id]) {
+      delete _editingIds[id]
+    } else {
+      _editingIds[id] = count
+    }
+
+    this.clearState('editingIds', _editingIds)
+  }
+
+  // -------------------- action --------------------
+  doBatchSacrifice = () => {
+    const { editingIds } = this.state
+    const ids = Object.keys(editingIds)
+    if (!ids.length) {
+      return
+    }
+
+    confirm(
+      `批量献祭${ids.length}个角色的所有流动股份, 该操作不能撤回, 确定? (若角色当前有挂单, 可用数与显示数对不上时, 不会自动献祭成功)`,
+      async () => {
+        t('我的持仓.批量献祭', {
+          length: ids.length
+        })
+
+        const errorIds = []
+        for (const id of ids) {
+          try {
+            const { State } = await tinygrailStore.doSacrifice({
+              monoId: id,
+              amount: editingIds[id],
+              isSale: false
+            })
+            if (State === 1) {
+              errorIds.push(id)
+            }
+          } catch (error) {
+            errorIds.push(id)
+          }
+          info(
+            `正在献祭 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`
+          )
+        }
+
+        this.fetchMyCharaAssets()
+        if (errorIds.length) {
+          Alert.alert('小圣杯助手', `共有${errorIds.length}个角色献祭失败`, [
+            {
+              text: '知道了'
+            }
+          ])
+        } else {
+          info('操作完成')
+        }
+        this.toggleBatchEdit()
+      },
+      '警告'
+    )
   }
 }

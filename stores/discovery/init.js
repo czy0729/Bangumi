@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:55:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 16:36:23
+ * @Last Modified time: 2020-05-02 21:20:49
  */
 export const NAMESPACE = 'Discovery'
 
@@ -36,3 +36,5 @@ export const INIT_CATELOG_DETAIL_ITEM = {
 export const INIT_BLOG_ITEM = {
   list: []
 }
+
+export const INIT_CHANNEL = {}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 20:05:28
+ * @Last Modified time: 2020-05-03 21:50:50
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -20,9 +20,7 @@ function Popover({ id, event, onCollect }, { navigation }) {
   const { id: eventId, data: eventData } = event
   return (
     <CompPopover
-      contentStyle={{
-        borderTopRightRadius: 0
-      }}
+      contentStyle={styles.content}
       data={data}
       onSelect={title => {
         switch (title) {
@@ -112,10 +110,13 @@ Popover.defaultProps = {
 export default observer(Popover)
 
 const styles = StyleSheet.create({
+  content: {
+    borderTopRightRadius: 0
+  },
   extra: {
     height: 56,
     paddingVertical: _.md,
     paddingRight: _.sm,
-    paddingLeft: _.sm + 2
+    paddingLeft: _.sm
   }
 })
