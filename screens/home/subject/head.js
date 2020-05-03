@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-20 23:37:18
+ * @Last Modified time: 2020-05-04 01:27:41
  */
 import React from 'react'
-import { View } from 'react-native'
+import { View, Clipboard } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { ScoreTag } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
+import { info } from '@utils/ui'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { imageWidth, imageHeight } from './store'
 import Cover from './cover'
@@ -37,12 +38,28 @@ function Head({ style }, { $ }) {
       >
         <View>
           {!!$.jp && (
-            <Text type='sub' size={$.jp.length > 16 ? 11 : 15}>
+            <Text
+              type='sub'
+              size={$.jp.length > 16 ? 11 : 15}
+              selectable={false}
+              onLongPress={() => {
+                Clipboard.setString($.jp)
+                info(`已复制 ${$.jp}`)
+              }}
+            >
               {$.jp}
               {!!label && ` · ${label}`}
             </Text>
           )}
-          <Text style={!!$.cn && _.mt.xs} size={$.cn.length > 16 ? 15 : 18}>
+          <Text
+            style={!!$.cn && _.mt.xs}
+            size={$.cn.length > 16 ? 15 : 18}
+            selectable={false}
+            onLongPress={() => {
+              Clipboard.setString($.cn)
+              info(`已复制 ${$.cn}`)
+            }}
+          >
             {$.cn}
           </Text>
         </View>
