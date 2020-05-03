@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 16:08:13
+ * @Last Modified time: 2020-05-02 21:16:48
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -343,6 +343,12 @@ export const HTML_TAGS = (type, page = 1) => `${HOST}/${type}/tag?page=${page}`
  */
 export const HTML_SAY = (userId, id) =>
   `${HOST}/user/${userId}/timeline/status/${id}`
+
+/**
+ * 频道聚合
+ * @param {*} channel
+ */
+export const HTML_CHANNEL = channel => `${HOST}/${channel}`
 
 // -------------------- action --------------------
 /**
