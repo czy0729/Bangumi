@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:51:33
+ * @Last Modified time: 2020-05-04 01:40:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -97,11 +97,6 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: 'transparent',
     borderWidth: 0,
     borderRadius: 0
-  },
-  placeholder: {
-    position: 'absolute',
-    top: 8,
-    right: 8
   },
   balance: {
     marginTop: 16

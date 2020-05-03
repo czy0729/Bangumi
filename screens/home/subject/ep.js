@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-30 20:50:50
+ * @Last Modified time: 2020-05-04 01:36:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,7 +91,7 @@ function Ep({ style }, { $, navigation }) {
             onSubmitEditing={$.doUpdateSubjectEp}
           />
           {!!totalEps && (
-            <Text style={styles.total} type='sub' pointerEvent='none'>
+            <Text style={styles.total} type='sub'>
               / {totalEps}
             </Text>
           )}
@@ -131,7 +131,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   total: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 100,
     top: 8,
     right: 12
   },

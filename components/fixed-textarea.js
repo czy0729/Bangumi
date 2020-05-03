@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-10 00:37:09
+ * @Last Modified time: 2020-05-04 01:34:21
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -91,9 +91,8 @@ class FixedTextarea extends React.Component {
     })
 
     setTimeout(() => {
-      const ref = this.ref.textAreaRef
-      ref.focus()
-    }, 0)
+      this.ref.textAreaRef.focus()
+    }, 40)
   }
 
   onBlur = () => {
@@ -108,9 +107,8 @@ class FixedTextarea extends React.Component {
     })
 
     setTimeout(() => {
-      const ref = this.ref.textAreaRef
-      ref.blur()
-    }, 0)
+      this.ref.textAreaRef.blur()
+    }, 40)
   }
 
   onChange = value => {

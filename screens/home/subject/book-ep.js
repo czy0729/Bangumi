@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-30 20:46:46
+ * @Last Modified time: 2020-05-04 01:37:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -66,7 +66,7 @@ function BookEp({ style }, { $, navigation }) {
                     onSubmitEditing={$.doUpdateBookEp}
                   />
                   {!!book.totalChap && (
-                    <Text style={styles.total} type='sub' pointerEvent='none'>
+                    <Text style={styles.total} type='sub'>
                       / {book.totalChap}
                     </Text>
                   )}
@@ -98,7 +98,7 @@ function BookEp({ style }, { $, navigation }) {
                     onSubmitEditing={$.doUpdateBookEp}
                   />
                   {!!book.totalVol && (
-                    <Text style={styles.total} type='sub' pointerEvent='none'>
+                    <Text style={styles.total} type='sub'>
                       / {book.totalVol}
                     </Text>
                   )}
@@ -159,7 +159,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   total: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 100,
     top: 8,
     right: 12
   }

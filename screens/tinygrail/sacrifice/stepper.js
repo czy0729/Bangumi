@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-28 19:55:26
+ * @Last Modified time: 2020-05-04 01:41:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -79,6 +79,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   plus: {
     position: 'absolute',
+    zIndex: 1,
     top: 9,
     left: 16,
     width: 1,

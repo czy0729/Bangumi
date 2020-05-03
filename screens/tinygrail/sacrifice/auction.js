@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:51:46
+ * @Last Modified time: 2020-05-04 01:41:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -175,11 +175,6 @@ const memoStyles = _.memoStyles(_ => ({
     height: 34,
     borderLeftWidth: 1,
     borderColor: _.colorTinygrailBorder
-  },
-  placeholder: {
-    position: 'absolute',
-    top: 8,
-    right: 8
   },
   slider: {
     height: 40,

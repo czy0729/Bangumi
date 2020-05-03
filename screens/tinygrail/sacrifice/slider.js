@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:51:52
+ * @Last Modified time: 2020-05-04 01:41:16
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -157,11 +157,6 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     top: 8,
     right: 12
-  },
-  placeholder: {
-    position: 'absolute',
-    top: 8,
-    right: 8
   },
   balance: {
     marginTop: 16
