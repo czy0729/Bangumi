@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 12:18:05
+ * @Last Modified time: 2020-05-04 04:36:36
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -134,11 +134,13 @@ class Input extends React.Component {
           ref={ref => (this.inputRef = ref)}
           style={[this.styles.input, style]}
           numberOfLines={numberOfLines}
-          underlineColorAndroid='transparent'
-          autoCorrect={false}
-          clearButtonMode='while-editing'
           allowFontScaling={false}
+          autoCapitalize='none'
+          autoCorrect={false}
+          underlineColorAndroid='transparent'
+          clearButtonMode='while-editing'
           placeholderTextColor={placeholderTextColor || _.colorDisabled}
+          selectionColor={_.colorMain}
           {...other}
           onChange={this.onChange}
         />

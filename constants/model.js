@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 17:50:55
+ * @Last Modified time: 2020-05-04 17:52:48
  */
 class Model {
   constructor(data) {
@@ -492,12 +492,12 @@ export const MODEL_TAG_ORDERBY = new Model([
     value: ''
   },
   {
-    label: '排名',
-    value: 'rank'
-  },
-  {
     label: '日期',
     value: 'date'
+  },
+  {
+    label: '排名',
+    value: 'rank'
   }
 ])
 

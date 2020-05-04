@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 02:48:45
+ * @Last Modified time: 2020-05-04 17:12:27
  */
 
 /**
@@ -87,6 +87,10 @@ export default {
   '全站日志.上一页': 'DiscoveryBlog.prev',
   '全站日志.下一页': 'DiscoveryBlog.next',
   '全站日志.页码跳转': 'DiscoveryBlog.doSearch',
+
+  // 频道
+  '频道.跳转': 'Channel.to',
+  '频道.右上角菜单': 'Channel.topRightMenu',
 
   /* ==================== home ==================== */
   // 首页

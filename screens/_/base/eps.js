@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 04:19:52
+ * @Last Modified time: 2020-05-04 15:31:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -180,7 +180,7 @@ class Eps extends React.Component {
               this.styles.hotBar,
               {
                 opacity:
-                  (item.comment - this.commentMin / 1.68) / this.commentMax
+                  (item.comment - this.commentMin / 1.68) / this.commentMax // 1.68是比率, 增大少回复与高回复的透明度幅度
               }
             ]}
           />
@@ -253,7 +253,7 @@ class Eps extends React.Component {
         style={this.styles.carousel}
         dotStyle={this.styles.dotStyle}
         dotActiveStyle={this.styles.dotActiveStyle}
-        infinite
+        infinite={false}
       >
         {epsGroup
           // 渲染过多会卡顿, 暂时只取前5页

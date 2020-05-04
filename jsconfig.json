@@ -5,6 +5,8 @@
     "experimentalDecorators": true,
     "baseUrl": "./",
     "paths": {
+      "@constants": ["constants/index.js"],
+      "@constants/*": ["constants/*"],
       "@utils": ["utils/index.js"],
       "@utils/*": ["utils/*"]
     }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:43:44
+ * @Last Modified time: 2020-05-04 21:42:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,14 @@ import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image } from '@components'
 import { _, discoveryStore } from '@stores'
 import { t } from '@utils/fetch'
-import { IOS, EVENT } from '@constants'
+import { findBangumiCn } from '@utils/app'
+import { EVENT } from '@constants'
 
 const imgWidth = 80
 
 function ItemBlog(
   {
+    style,
     index,
     id,
     cover,
@@ -35,16 +37,16 @@ function ItemBlog(
   const readed = discoveryStore.blogReaded(id)
   const line = []
   if (username) line.push(username)
-  if (subject) line.push(subject)
+  if (subject) line.push(findBangumiCn(subject))
   if (time) line.push(time)
   return (
     <Touchable
-      style={[styles.container, readed && styles.readed]}
+      style={[styles.container, readed && styles.readed, style]}
       onPress={() => {
         const { eventId, eventData } = event
         t(eventId, {
           to: 'Blog',
-          subjeblogIdctId: id,
+          subjectId: id,
           ...eventData
         })
 
@@ -59,12 +61,11 @@ function ItemBlog(
         {!!cover && (
           <View style={styles.imgContainer}>
             <Image
-              style={styles.image}
               src={cover}
               width={imgWidth}
               height={imgWidth}
               placeholder={false}
-              shadow={IOS}
+              shadow
             />
           </View>
         )}

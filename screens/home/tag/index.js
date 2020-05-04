@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 17:41:45
+ * @Last Modified time: 2020-05-04 18:01:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ class Tag extends React.Component {
     const { type, tag } = navigation.state.params
     const _type = MODEL_SUBJECT_TYPE.getTitle(type)
     return {
-      title: `${_type}标签: ${tag}`
+      title: `${_type}标签 ${tag}`
     }
   }
 
@@ -42,7 +42,7 @@ class Tag extends React.Component {
     $.init()
 
     const { type, tag, airtime } = navigation.state.params
-    hm(`${type}/${tag}/${airtime}`, 'Tag')
+    hm([type, tag, airtime].filter(item => !!item).join('/'), 'Tag')
   }
 
   render() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 01:34:49
+ * @Last Modified time: 2020-05-04 19:48:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,7 @@ function Item(
               resizeMode='contain'
               placeholder={false}
               radius
-              shadow={IOS}
+              shadow
               onPress={onPress}
             />
           )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 03:01:38
+ * @Last Modified time: 2020-05-04 21:35:29
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
@@ -23,7 +23,7 @@ export default {
     // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #709「神原骏河」36股',
     // name: '种田梨沙'
     // tag: '水树奈奈',
-    // type: 'anime',
+    // type: 'anime'
     // uri: 'https://bgm.tv/award/2019',
   }
 }

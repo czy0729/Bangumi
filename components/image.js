@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 11:46:47
+ * @Last Modified time: 2020-05-04 21:09:13
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -23,7 +23,7 @@ import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { IOS, IMG_ERROR, IMG_EMPTY, EVENT } from '@constants'
+import { IOS, IMG_DEFAULT, IMG_EMPTY, EVENT } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import Touchable from './touchable'
 
@@ -133,6 +133,7 @@ class Image extends React.Component {
 
           // 空地址不作处理
           if (_src === 'https:') {
+            this.onError()
             return false
           }
 
@@ -141,7 +142,11 @@ class Image extends React.Component {
           const { headers } = this.props
 
           // @issue to fixed
-          if (_src === 'https:/img/no_icon_subject.png') {
+          if (
+            _src === 'https:/img/no_icon_subject.png' ||
+            _src === 'https:/img/no_img.gif'
+          ) {
+            this.onError()
             return false
           }
 
@@ -356,7 +361,7 @@ class Image extends React.Component {
       image = (
         <RNImage
           style={[_image, this.styles.error]}
-          source={IMG_ERROR}
+          source={IMG_DEFAULT}
           fadeDuration={fadeDuration}
           {...other}
         />

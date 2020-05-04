@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 21:41:30
+ * @Last Modified time: 2020-05-04 21:37:44
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -110,7 +110,12 @@ class Discovery extends store {
      * @param {*} type
      */
     channel: {
-      0: INIT_CHANNEL
+      0: INIT_CHANNEL,
+      anime: INIT_CHANNEL,
+      book: INIT_CHANNEL,
+      game: INIT_CHANNEL,
+      music: INIT_CHANNEL,
+      real: INIT_CHANNEL
     }
   })
 
@@ -457,25 +462,24 @@ class Discovery extends store {
   /**
    * 频道聚合
    */
-  fetchChannel = async ({ type = '' }) => {
+  fetchChannel = async ({ type }) => {
     const key = 'channel'
     const html = await fetchHTML({
       url: HTML_CHANNEL(type)
     })
 
     const data = cheerioChannel(html)
-    log(data)
-    // this.setState({
-    //   [key]: {
-    //     [type]: {
-    //       ...data,
-    //       _loaded: getTimestamp()
-    //     }
-    //   }
-    // })
-    // this.setStorage(key, undefined, NAMESPACE)
+    this.setState({
+      [key]: {
+        [type]: {
+          ...data,
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
 
-    // return this.channel(type)
+    return this.channel(type)
   }
 
   // -------------------- page --------------------

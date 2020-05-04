@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 21:40:44
+ * @Last Modified time: 2020-05-04 21:23:23
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
+import { getCoverMedium } from '@utils/app'
 import { matchAvatar, matchUserId } from '@utils/match'
 
 /**
@@ -173,6 +174,83 @@ export function cheerioBlog(HTML) {
 export function cheerioChannel(HTML) {
   const $ = cheerio(HTML)
   return {
+    rankTop:
+      $('table.mediumImageChart tr')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $a = $li.find('span.subject a')
+          return safeObject({
+            id: $a.attr('href').replace('/subject/', ''),
+            name: $a.text().trim(),
+            cover: getCoverMedium($li.find('img').attr('src')),
+            follow: $li.find('div.chartbar').text().trim()
+          })
+        })
+        .get() || [],
+    rank:
+      $('div#chl_subitem li')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $a = $li.find('strong a')
+          return safeObject({
+            id: $a.attr('href').replace('/subject/', ''),
+            name: $a.text().trim(),
+            cover: getCoverMedium($li.find('img').attr('src')),
+            follow: $li.find('small.feed').text().trim()
+          })
+        })
+        .get() || [],
+    friends:
+      $('ul.coversSmall > li')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $subject = $li.find('> a')
+          const $user = $li.find('a.l')
+          return safeObject({
+            id: $subject.attr('href').replace('/subject/', ''),
+            name: $subject.attr('title'),
+            cover: $subject.find('img').attr('src'),
+            userId: $user.attr('href').replace('/user/', ''),
+            userName: $user.text().trim(),
+            action: $li.find('p.info').text().trim().split(' ')[1]
+          })
+        })
+        .get() || [],
+    tags:
+      $('a.level8')
+        .map((index, element) => {
+          const $a = cheerio(element)
+          return $a.text().trim()
+        })
+        .get() || [],
+    discuss: (
+      $('table.topic_list tr')
+        .map((index, element) => {
+          if (index === 0) {
+            return {}
+          }
+
+          const $li = cheerio(element)
+          const $a = $li.find(' > td > a.l')
+          const $subject = $li.find(' > td > small.feed > a')
+          const $user = $li.find(' > td[align=right] > a')
+          return safeObject({
+            id: $a.attr('href').replace('/subject/topic', 'subject'),
+            title: $a.text().trim(),
+            replies: $li
+              .find(' > td > a.l + small.grey')
+              .text()
+              .trim()
+              .replace(/\(|\)/g, ''),
+            subjectId: $subject.attr('href').replace('/subject/', ''),
+            subjectName: $subject.text().trim().replace(/"/g, ''),
+            userId: $user.attr('href').replace('/user/', ''),
+            userName: $user.text().trim(),
+            time: $li.find(' > td[align=right] > small').text().trim()
+          })
+        })
+        .get() || []
+    ).filter(item => !!item.id),
     blog:
       $('div#news_list > div.item')
         .map((index, element) => {
