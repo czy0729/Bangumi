@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 03:43:48
+ * @Last Modified time: 2020-05-04 21:51:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ function Header(props, { $ }) {
         )}
         <Flex.Item>
           <Text align='right' size={12} numberOfLines={1}>
-            {today}
+            {$.today || today}
           </Text>
         </Flex.Item>
       </Flex>

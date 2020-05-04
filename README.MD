@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 3.1.4" src="https://img.shields.io/badge/Version-3.1.4-0366d6" />
+  <img alt="Version: 3.3.0" src="https://img.shields.io/badge/Version-3.3.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -24,9 +24,15 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## PowerBy
 
-[[bangumi-subject]](https://github.com/czy0729/Bangumi-Subject) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) 本人维护的条目静态数据 CDN
+[[bangumi-subject]](https://github.com/czy0729/Bangumi-Subject) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Subject/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Subject) 条目快照 CDN
 
-[[bangumi-oss]](https://github.com/czy0729/Bangumi-OSS) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS) 本人维护的热门条目封面和活跃用户头像对象存储 CDN
+[[bangumi-oss]](https://github.com/czy0729/Bangumi-OSS) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS) 热门条目封面和活跃用户头像对象存储 CDN
+
+[[bangumi-rakuen]](https://github.com/czy0729/Bangumi-Rakuen) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Rakuen/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Rakuen) 帖子快照 CDN
+
+[[bangumi-mono]](https://github.com/czy0729/Bangumi-Mono) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Mono/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Mono) 人物快照 CDN
+
+[[bangumi-static]](https://github.com/czy0729/Bangumi-Static) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Static/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Static) 发现数据快照 CDN
 
 [[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
@@ -57,48 +63,46 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v3.1.4 - 2020/04/12
-
-—— 优化 ——
-
-- [x] [每日放送] 新增时间线 UI, 并修复了数据的正确性
-- [x] [搜索] 当设置了隐藏评分时结果不显示评分; 选择分类后会自动搜索
-- [x] 调整所有文字的粗细 (iOS)
-
-—— 修复 ——
-
-- [x] [条目] 修复了一个存在已久的问题, 当条目信息没加载完前点击了页面的按钮, 有机会崩溃的问题
-- [x] [排行榜] 修复了筛选条件下条目过少会一直请求下一页的问题
-
-v3.1.0 - 2020/04/06
+v3.3.0 - 2020/05/04
 
 —— 新功能 ——
 
-- [x] [发现] 全站日志模块 (带过滤游客日志)
-- [x] [条目] PS4 游戏可以跳转到 psnine 查看奖杯
+- [x] [超展开] 我的小组页面
+- [x] [人物] 增加页面, 现实人物的作品列表
+- [x] [人物] 增加页面, CV 的角色列表
+- [x] [发现] 各类型板块增加频道页
 
 —— 优化 ——
 
-- [x] [条目] 漫画若有数据, 显示正确的 chap 和 vol 数目
-- [x] [条目] 漫画的单行本板块, 漫画卷号一定显示 (例 `ダーリン・イン・ザ…` 改为 `ダーリン・… (001)`)
-- [x] [条目] 添加了 2 个搜索 comic 的源头(新新漫画, 漫画 123)
-- [x] [条目] 分数新 UI
-- [x] [发现] 首页热门条目 CDN 化, 加速渲染
-- [x] [日志] 详情页补充关联条目
+- [x] [登陆] 步骤 4/5 获取 token 失败后会自动重试 5 次, 之后才会触发失败 (实测能显著解决失败过多问题)
+- [x] [条目] 中文和日文名字长按直接复制
+- [x] [条目] 针对超多章节的条目(如柯南、火影), 添加一个从某集(如 100 集)起的功能, 做到能通过操作看到所有章节按钮
+- [x] [发现] 优化首屏的条目数据
+- [x] [标签] 页面默认排序取消默认排名排序 (标签页面慎用排名排序, 不然可能会出现什么标签内容都差不多的现象 )
+- [x] 高频页面如条目优化请求量, 1 分钟内重复进入相同页面不会主动请求
+- [x] 优化黑暗主题下部分页面<Loading>提示的颜色
+- [x] 所有输入框, 手机键盘添加对应提交操作
+- [x] 升级 bangumi-data@0.3.21 => 0.3.24
 
 —— 修复 ——
 
-- [x] [条目] 修复了条目页面, 文字不能自由选择复制的问题 (安卓)
-- [x] [帖子] 修复了章节讨论, 每个首楼层没有回复按钮的问题
-- [x] [我的] 修复了标签过多, 没有匹配到标签的问题
+- [x] [条目] 修复了详细展开后, 有时候底部文字缺失的问题
+- [x] [条目] 修复了多章节条目, 章节按钮轮播显示的情况, 轮播第一页数据不符的问题
+- [x] [用户空间] 修复了切换<Tab>没请求数据的问题
+- [x] 修复了某些情况点击输入框, 输入法弹不出来的问题
+- [x] 检查<Input>里面靠后显示的数字, 部分机型不显示的问题
 
-—— 小圣杯助手 v2.1.0 ——
+—— 小圣杯助手 v2.3.0 ——
 
-- [x] [幻想乡刮刮乐] 修复了抽奖后数据显示的问题
-- [x] [资金日志] 修复了遇到 ICO 失败记录闪退的问题
-- [x] [用户中心] 可以查看别人的小圣杯信息
-- [x] [交易] 买入总额大于 2W 的订单增加确认提示, 防止误操作
-- [x] [交易] 冰山订单价格永远置前
+- [x] 全局人物收藏
+- [x] 一键勾选角色进行献祭
+- [x] 金额缩略模式下, 股息预测显示的数据也会缩略
+- [x] 部分大列表页面优化请求量, 1 分钟内重复进入相同页面不会主动请求
+- [x] [高级分析] 推荐拍卖流动股和固定资产分开两个页面
+
+—— iOS ——
+
+- [x] [iOS] 修复切页动画中, 首页几个使用毛玻璃的头部 , 样式暂时丢失的问题
 
 ## Page Preview
 
