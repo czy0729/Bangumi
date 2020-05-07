@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-14 20:22:10
+ * @Last Modified time: 2020-05-06 10:47:50
  */
 import React from 'react'
 import { View } from 'react-native'
+import { computed } from 'mobx'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Popover, Menu, Flex, Iconfont, UM } from '@components'
 import { IconBack } from '@screens/_'
@@ -194,26 +195,24 @@ const withTransitionHeader = ({
             }
           }
 
-          requestAnimationFrame(() => {
-            navigation.setParams({
-              title,
-              headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
-              headerStyle: {
-                ...defaultHeaderStyle,
-                backgroundColor: `rgba(${_.select(
-                  _.colorPlainRaw,
-                  _._colorDarkModeLevel1Raw
-                ).join()}, ${opacity})`,
-                borderBottomWidth: 0,
-                ...shadowStyle
-              }
-            })
+          navigation.setParams({
+            title,
+            headerTintColor: this.gradientColorSteps[parseInt(opacity * 100)],
+            headerStyle: {
+              ...defaultHeaderStyle,
+              backgroundColor: `rgba(${_.select(
+                _.colorPlainRaw,
+                _._colorDarkModeLevel1Raw
+              ).join()}, ${opacity})`,
+              borderBottomWidth: 0,
+              ...shadowStyle
+            }
           })
         }
       }
 
       // 生成colorPlain过渡到colorTitle的所有颜色
-      get gradientColorSteps() {
+      @computed get gradientColorSteps() {
         return gradientColor(
           colorStart || _.colorTitleRaw,
           _.select(colorEnd, colorStart || _.colorTitleRaw),

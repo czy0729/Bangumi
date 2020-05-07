@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 23:00:15
+ * @Last Modified time: 2020-05-04 22:35:31
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -22,7 +22,7 @@ function ItemEdit({ index, item, type, users, event }, { $ }) {
       onPress={editing ? () => $.toggleEditingId(id, state) : undefined}
     >
       <Flex style={editing && styles.item}>
-        {editing && (
+        {!!editing && (
           <IconTouchable
             style={_.mr.sm}
             name={isActive ? 'radio-select' : 'radio'}
