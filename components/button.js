@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 22:30:40
+ * @Last Modified time: 2020-05-10 03:24:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -113,35 +113,27 @@ const memoStyles = _.memoStyles(_ => ({
   // type
   plain: {
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
-    // borderColor: _.select('rgb(223, 223, 223)', _._colorDarkModeLevel1)
   },
   main: {
     backgroundColor: _.colorMain
-    // borderColor: _.select('rgb(255, 54, 76)', _.colorMain)
   },
   primary: {
     backgroundColor: _.colorPrimary
-    // borderColor: _.select('rgb(13, 156, 204)', _.colorPrimary)
   },
   warning: {
     backgroundColor: _.colorWarning
-    // borderColor: _.select('rgb(249, 163, 80)', _.colorWarning)
   },
   wait: {
     backgroundColor: _.colorWait
-    // borderColor: _.select('rgb(160, 160, 160)', _.colorWait)
   },
   disabled: {
     backgroundColor: _.select(_.colorDisabled, 'rgb(128, 128, 130)')
-    // borderColor: _.select('rgb(80, 80, 80)', 'rgb(128, 128, 130)')
   },
   bid: {
     backgroundColor: _.colorBid
-    // borderColor: _.colorBid
   },
   ask: {
     backgroundColor: _.colorAsk
-    // borderColor: _.colorAsk
   },
 
   // ghost type

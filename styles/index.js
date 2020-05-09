@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-09 00:40:16
+ * @Last Modified time: 2020-05-10 03:19:12
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -49,7 +49,7 @@ export const bottom = tabBarHeight + lg + md // 底部留空
 
 // -------------------- 主题色 --------------------
 export const colorMainRaw = [254, 138, 149]
-export const colorPrimaryRaw = [68, 207, 252]
+export const colorPrimaryRaw = [13, 183, 243]
 export const colorSuccessRaw = [50, 200, 64]
 export const colorWarningRaw = [254, 190, 88]
 export const colorPlainRaw = [255, 255, 255]
@@ -57,7 +57,7 @@ export const colorPlainRaw = [255, 255, 255]
 export const colorDark = 'rgb(0, 0, 0)'
 export const colorMainLight = `rgba(${colorMainRaw.join()}, 0.1)`
 export const colorMainBorder = 'rgb(252, 128, 138)'
-export const colorPrimaryLight = `rgba(${colorPrimaryRaw.join()}, 0.1)`
+export const colorPrimaryLight = 'rgb(237, 250, 254)'
 export const colorPrimaryBorder = 'rgb(159, 230, 254)'
 export const colorSuccessLight = `rgba(${colorSuccessRaw.join()}, 0.1)`
 export const colorSuccessBorder = 'rgb(115, 241, 115)'
@@ -84,7 +84,7 @@ export const colorBorder = 'rgb(225, 225, 232)'
 export const colorTitleRaw = [0, 0, 0]
 export const colorTitle = `rgb(${colorTitleRaw.join()})`
 export const colorDesc = 'rgb(12, 12, 12)'
-export const colorSub = 'rgb(142, 142, 142)'
+export const colorSub = 'rgb(128, 128, 128)'
 export const colorDisabled = 'rgb(150, 150, 150)'
 export const colorIcon = 'rgb(200, 200, 200)'
 
@@ -163,7 +163,7 @@ export const shadow = IOS
       shadowOffset: {
         height: 2
       },
-      shadowOpacity: 0.06,
+      shadowOpacity: 0.1,
       shadowRadius: 4
     }
   : {

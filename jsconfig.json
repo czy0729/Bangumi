@@ -7,6 +7,8 @@
     "paths": {
       "@components": ["components/index.js"],
       "@components/*": ["components/*"],
+      "@screens/_": ["screens/_/index.js"],
+      "@screens/_/*": ["screens/_/*"],
       "@stores": ["stores/index.js"],
       "@stores/*": ["stores/*"],
       "@utils": ["utils/index.js"],

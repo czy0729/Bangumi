@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 21:43:23
+ * @Last Modified time: 2020-05-10 00:58:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -220,15 +220,11 @@ const memoStyles = _.memoStyles(_ => ({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: _.colorPlain
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    elevation: 40
   },
-  tabBarComponent: IOS
-    ? {
-        borderTopWidth: 0,
-        backgroundColor: 'transparent'
-      }
-    : {
-        backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-        borderTopWidth: 0
-      }
+  tabBarComponent: {
+    borderTopWidth: 0,
+    backgroundColor: 'transparent'
+  }
 }))

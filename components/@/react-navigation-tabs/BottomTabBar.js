@@ -11,7 +11,6 @@ import {
 import { observer } from 'mobx-react'
 import { SafeAreaView } from '@react-navigation/native'
 import { _ } from '@stores'
-import { IOS } from '@constants'
 import CrossFadeIcon from './CrossFadeIcon'
 import withDimensions from './utils/withDimensions'
 
@@ -200,7 +199,8 @@ class TabBarBottom extends React.Component<Props> {
       this._shouldUseHorizontalLabels() && !Platform.isPad
         ? styles.tabBarCompact
         : styles.tabBarRegular,
-      style
+      style,
+      { backgroundColor: 'transparent' }
     ]
 
     return (
@@ -234,7 +234,8 @@ class TabBarBottom extends React.Component<Props> {
                 this._shouldUseHorizontalLabels()
                   ? styles.tabLandscape
                   : styles.tabPortrait,
-                tabStyle
+                tabStyle,
+                { backgroundColor: 'transparent' }
               ]}
             >
               {this._renderIcon(scene)}
@@ -252,15 +253,10 @@ const COMPACT_HEIGHT = 29
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     borderTopWidth: 0,
     // borderTopColor: 'rgba(0, 0, 0, .3)',
-    flexDirection: 'row',
-    ...(IOS
-      ? {}
-      : {
-          elevation: 40
-        })
+    flexDirection: 'row'
   },
   tabBarCompact: {
     height: COMPACT_HEIGHT

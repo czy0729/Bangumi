@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:47:55
+ * @Last Modified time: 2020-05-10 03:37:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Progress, Modal } from '@ant-design/react-native'
-import { Flex, Iconfont, Shadow, Text, Touchable } from '@components'
+import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Eps, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
@@ -17,7 +17,7 @@ import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const imageWidth = _.isPad ? 88 : 76
+const imageWidth = _.isPad ? 88 : 80
 const itemPadding = 12
 const layoutWidth = parseInt(_.window.width - _.wind * 2 - itemPadding) - 1
 const colorDark = {
@@ -239,67 +239,75 @@ class Item extends React.Component {
     const onAir = $.onAir[subjectId] || {}
     const time = onAir.timeCN || onAir.timeJP || ''
     return (
-      <Shadow style={this.styles.shadow} initHeight={120}>
-        <View
-          style={[this.styles.item, $.heatMap && this.styles.itemWithHeatMap]}
-        >
-          <Flex style={this.styles.hd}>
-            <Cover
-              size={imageWidth}
-              src={subject.images.medium}
-              radius
-              border={_.colorBorder}
-              onPress={this.onPress}
-              onLongPress={this.onLongPress}
-            />
-            <Flex.Item style={this.styles.content}>
-              <Touchable withoutFeedback onPress={this.onPress}>
-                <Flex align='start'>
-                  <Flex.Item style={this.styles.title}>
-                    <Text size={15} numberOfLines={1} bold>
-                      {HTMLDecode(subject.name_cn || subject.name)}
-                    </Text>
-                  </Flex.Item>
-                  {isToday ? (
-                    <Text style={_.ml.sm} type='success' lineHeight={15}>
-                      {time.slice(0, 2)}:{time.slice(2, 4)}
-                    </Text>
-                  ) : isNextDay ? (
-                    <Text style={_.ml.sm} type='sub' lineHeight={15}>
-                      明天{time.slice(0, 2)}:{time.slice(2, 4)}
-                    </Text>
-                  ) : null}
-                </Flex>
-              </Touchable>
-              <View style={_.mt.md}>
-                <Flex>
-                  <Flex.Item>{this.renderCount()}</Flex.Item>
-                  {this.renderToolBar()}
-                </Flex>
-                <Progress
-                  style={this.styles.progress}
-                  barStyle={this.styles.bar}
-                  percent={percent}
-                />
-              </View>
-            </Flex.Item>
-          </Flex>
-          {expand && (
-            <Eps
-              style={this.styles.eps}
-              layoutWidth={layoutWidth}
-              marginRight={itemPadding}
-              login={$.isLogin}
-              subjectId={subjectId}
-              eps={$.eps(subjectId)}
-              userProgress={$.userProgress(subjectId)}
-              onSelect={this.onEpsSelect}
-              onLongPress={this.onEpsLongPress}
-            />
-          )}
-          {this.isTop && <View style={this.styles.dot} />}
-        </View>
-      </Shadow>
+      <View
+        style={[
+          this.styles.item,
+          $.heatMap && expand && this.styles.itemWithHeatMap
+        ]}
+      >
+        <Flex style={this.styles.hd}>
+          <Cover
+            size={imageWidth}
+            src={subject.images.medium}
+            radius
+            border={_.colorBorder}
+            onPress={this.onPress}
+            onLongPress={this.onLongPress}
+          />
+          <Flex.Item style={this.styles.content}>
+            <Touchable withoutFeedback onPress={this.onPress}>
+              <Flex align='start'>
+                <Flex.Item style={this.styles.title}>
+                  <Text size={15} numberOfLines={1} bold>
+                    {HTMLDecode(subject.name_cn || subject.name)}
+                  </Text>
+                </Flex.Item>
+                {isToday ? (
+                  <Text style={_.ml.sm} type='success' lineHeight={15}>
+                    {time.slice(0, 2)}:{time.slice(2, 4)}
+                  </Text>
+                ) : isNextDay ? (
+                  <Text style={_.ml.sm} type='sub' lineHeight={15}>
+                    明天{time.slice(0, 2)}:{time.slice(2, 4)}
+                  </Text>
+                ) : null}
+              </Flex>
+            </Touchable>
+            <View style={_.mt.md}>
+              <Flex>
+                <Flex.Item>
+                  <Touchable
+                    style={this.styles.touchablePlaceholder}
+                    onPress={this.onGridPress}
+                  >
+                    {this.renderCount()}
+                  </Touchable>
+                </Flex.Item>
+                {this.renderToolBar()}
+              </Flex>
+              <Progress
+                style={this.styles.progress}
+                barStyle={this.styles.bar}
+                percent={percent}
+              />
+            </View>
+          </Flex.Item>
+        </Flex>
+        {expand && (
+          <Eps
+            style={this.styles.eps}
+            layoutWidth={layoutWidth}
+            marginRight={itemPadding}
+            login={$.isLogin}
+            subjectId={subjectId}
+            eps={$.eps(subjectId)}
+            userProgress={$.userProgress(subjectId)}
+            onSelect={this.onEpsSelect}
+            onLongPress={this.onEpsLongPress}
+          />
+        )}
+        {this.isTop && <View style={this.styles.dot} />}
+      </View>
     )
   }
 
@@ -311,17 +319,24 @@ class Item extends React.Component {
 export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
-  shadow: {
-    marginBottom: itemPadding
-  },
   item: {
     paddingVertical: itemPadding,
     paddingLeft: itemPadding,
+    marginBottom: itemPadding,
     backgroundColor: _.colorPlain,
-    borderWidth: IOS ? 0 : _.hairlineWidth,
-    borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
-    overflow: 'hidden'
+    ...(IOS
+      ? {
+          shadowColor: _.colorShadow,
+          shadowOffset: {
+            height: 4
+          },
+          shadowOpacity: 0.1,
+          shadowRadius: 8
+        }
+      : {
+          elevation: 16
+        })
   },
   itemWithHeatMap: {
     paddingBottom: itemPadding + 4
@@ -333,7 +348,11 @@ const memoStyles = _.memoStyles(_ => ({
     marginLeft: itemPadding
   },
   toolBar: {
-    marginRight: -itemPadding / 2
+    marginRight: -itemPadding / 2 - 3
+  },
+  touchablePlaceholder: {
+    width: '100%',
+    minHeight: 24
   },
   icon: {
     marginBottom: -1

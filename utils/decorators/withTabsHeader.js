@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-09 01:14:31
+ * @Last Modified time: 2020-05-09 15:40:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import { StatusBarEvents, UM } from '@components'
 import { BlurView, Logo } from '@screens/_'
 import { _ } from '@stores'
 import { hm as utilsHM } from '@utils/fetch'
-import { IOS, BARE } from '@constants'
+import { IOS } from '@constants'
 import observer from './observer'
 
 const correctHeightIOS = 14 // @issue iOS端头部高度误差修正值
@@ -66,9 +66,9 @@ const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
           )
           withTabsHeaderOptions = {
             headerStyle: {
-              height: _.headerHeight - (BARE ? 0 : _.statusBarHeight),
-              paddingTop: BARE ? _.statusBarHeight : 0,
-              backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+              height: _.headerHeight - _.statusBarHeight + _.space,
+              paddingTop: _.statusBarHeight,
+              backgroundColor: _.select('transparent', _._colorDarkModeLevel1),
               elevation: 0
             },
             headerTitle: (
@@ -83,7 +83,7 @@ const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
             headerLeft,
             headerRight,
             headerLeftContainerStyle: {
-              paddingLeft: _.xs
+              paddingLeft: _.xs + 4
             },
             headerRightContainerStyle: {
               marginRight: _._wind - _.sm

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-09 00:56:25
+ * @Last Modified time: 2020-05-09 22:57:20
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
