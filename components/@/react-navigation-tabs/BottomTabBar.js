@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     ...(IOS
       ? {}
       : {
-          elevation: 8
+          elevation: 40
         })
   },
   tabBarCompact: {

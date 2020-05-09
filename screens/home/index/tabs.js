@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-29 16:44:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-29 01:56:56
+ * @Last Modified time: 2020-05-09 11:23:18
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Tabs as CompTabs, Text } from '@components'
-import { _ } from '@stores'
 import { IOS } from '@constants'
 import TabBarRight from './tab-bar-right'
 import { tabs } from './store'
@@ -24,7 +23,7 @@ function Tabs({ tabBarStyle = {}, $, children, ...other }) {
       }
     : {
         ...tabBarStyle,
-        ..._.shadow
+        elevation: 24
       }
   if (!IOS) {
     _tabBarStyle.backgroundColor = $.backgroundColor

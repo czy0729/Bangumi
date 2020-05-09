@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 15:56:04
+ * @Last Modified time: 2020-05-09 01:14:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -139,8 +139,7 @@ withTabsHeader.tabBarStyle = IOS
       display: 'none'
     }
   : {
-      marginTop: -_.sm,
-      backgroundColor: _.colorPlain
+      marginTop: -_.sm
     }
 
 // (4) ListView设置参数

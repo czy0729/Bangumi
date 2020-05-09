@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 19:13:00
+ * @Last Modified time: 2020-05-08 14:27:52
  */
 import React from 'react'
 import {
@@ -169,9 +169,9 @@ class ListView extends React.Component {
       onEndReachedThreshold: 0.64,
 
       // optimize
-      windowSize: optimize ? 4 : undefined,
-      maxToRenderPerBatch: optimize ? 10 : undefined,
-      updateCellsBatchingPeriod: optimize ? 32 : undefined
+      windowSize: optimize ? 6 : undefined,
+      maxToRenderPerBatch: optimize ? 20 : undefined,
+      updateCellsBatchingPeriod: optimize ? 40 : undefined
     }
   }
 
@@ -261,7 +261,7 @@ class ListView extends React.Component {
                 direction='column'
                 justify='center'
               >
-                <Mesume />
+                <Mesume size={80} />
                 <Text
                   style={[this.styles.footerText, _.mt.sm]}
                   type={footerTextType}

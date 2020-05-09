@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 23:23:23
+ * @Last Modified time: 2020-05-08 09:47:17
  */
 import React from 'react'
 import {
@@ -76,6 +76,7 @@ function Touchable({
       )
     }
 
+    // 绝大部分情况会return这个
     return (
       <TouchableOpacity
         style={style}

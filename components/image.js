@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:09:13
+ * @Last Modified time: 2020-05-08 15:00:49
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -340,9 +340,9 @@ class Image extends React.Component {
       _wrap.push(this.styles.shadow)
     }
 
-    if (placeholder) {
-      _wrap.push(this.styles.placeholder)
-    }
+    // if (placeholder) {
+    //   _wrap.push(this.styles.placeholder)
+    // }
 
     if (style) {
       _wrap.push(style)
@@ -488,9 +488,9 @@ const memoStyles = _.memoStyles(_ => ({
         backgroundColor: _.colorPlain,
         elevation: 2
       },
-  placeholder: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
-  },
+  // placeholder: {
+  //   backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
+  // },
   error: {
     padding: 4
   }

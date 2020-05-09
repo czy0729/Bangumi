@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-14 21:05:34
+ * @Last Modified time: 2020-05-09 00:40:16
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -78,7 +78,7 @@ export const colorPlain = `rgb(${colorPlainRaw.join()})`
 export const colorPlainHex = '#ffffff'
 export const colorYellow = 'rgb(255, 202, 40)'
 export const colorWait = 'rgb(200, 200, 200)'
-export const colorBg = 'rgb(248, 248, 248)'
+export const colorBg = 'rgb(248, 248, 248)' // #f8f8f8
 export const colorBorder = 'rgb(225, 225, 232)'
 
 export const colorTitleRaw = [0, 0, 0]
@@ -167,7 +167,7 @@ export const shadow = IOS
       shadowRadius: 4
     }
   : {
-      elevation: 2
+      elevation: 8
     }
 
 // --------------------  函数 --------------------
@@ -189,8 +189,8 @@ export const container = StyleSheet.create({
     backgroundColor: colorPlain
   },
   screen: {
-    flex: 1,
-    backgroundColor: colorBg
+    flex: 1
+    // backgroundColor: colorBg
   },
   column: {
     flex: 1,

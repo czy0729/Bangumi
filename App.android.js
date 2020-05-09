@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 17:09:31
+ * @Last Modified time: 2020-05-08 11:57:59
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -76,7 +76,7 @@ class App extends React.Component {
     }
 
     return (
-      <View style={this.styles.container}>
+      <View style={_.container.flex}>
         <Provider theme={theme}>
           <Navigations />
         </Provider>
@@ -84,18 +84,7 @@ class App extends React.Component {
       </View>
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorBg
-  }
-}))
 
 /**
  * 崩溃处理
