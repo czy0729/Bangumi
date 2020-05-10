@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 17:50:33
+ * @Last Modified time: 2020-05-10 04:12:50
  */
 import React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Loading, ListView, UM } from '@components'
 import { IconTabBar } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { IOS } from '@constants'
 import Header from './header'
 import List from './list'
 import Store from './store'
@@ -45,13 +46,13 @@ class Discovery extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.home
     return (
-      <View style={_.container.content}>
+      <View style={_.container.flex}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? (
           <ListView
-            style={_.container.screen}
-            contentContainerStyle={_.container.bottom}
+            style={IOS ? _.container.flex : styles.androidWrap}
+            contentContainerStyle={styles.contentContainerStyle}
             keyExtractor={keyExtractor}
             data={$.state.home}
             ListHeaderComponent={this.ListHeaderComponent}
@@ -60,12 +61,22 @@ class Discovery extends React.Component {
             onFooterRefresh={$.fetchHome}
           />
         ) : (
-          <Loading style={_.container.screen} />
+          <Loading style={_.container.flex} />
         )}
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  androidWrap: {
+    flex: 1,
+    marginBottom: _.tabBarHeight - 1
+  },
+  contentContainerStyle: {
+    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
+  }
+})
 
 function tabBarIcon({ tintColor }) {
   return <IconTabBar name='home' color={tintColor} />

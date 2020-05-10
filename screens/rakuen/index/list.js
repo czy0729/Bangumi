@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 19:26:28
+ * @Last Modified time: 2020-05-10 03:42:27
  */
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
-import { withTabsHeader } from '@utils/decorators'
+import { withTabsHeader, observer } from '@utils/decorators'
+import { IOS } from '@constants'
 import Item from './item'
 
 function List({ index }, { $ }) {
@@ -21,7 +22,8 @@ function List({ index }, { $ }) {
 
   return (
     <ListView
-      contentContainerStyle={_.container.bottom}
+      style={!IOS && styles.androidWrap}
+      contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       data={rakuen}
       renderItem={renderItem}
@@ -37,6 +39,15 @@ List.contextTypes = {
 }
 
 export default observer(List)
+
+const styles = StyleSheet.create({
+  androidWrap: {
+    marginBottom: _.tabBarHeight - 1
+  },
+  contentContainerStyle: {
+    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
+  }
+})
 
 function keyExtractor(item) {
   return item.href

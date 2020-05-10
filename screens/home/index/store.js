@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 01:53:15
+ * @Last Modified time: 2020-05-10 03:55:22
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -119,7 +119,7 @@ export default class ScreenHome extends store {
 
   // -------------------- get --------------------
   @computed get backgroundColor() {
-    return _.isDark ? _._colorDarkModeLevel1 : _.colorPlain
+    return _.select(_.colorPlain, _._colorDarkModeLevel1)
   }
 
   @computed get initialPage() {

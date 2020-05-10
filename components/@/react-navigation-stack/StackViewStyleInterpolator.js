@@ -8,10 +8,10 @@ function getSceneIndicesForInterpolationInputRange(props) {
   var lastSceneIndexInScenes = scenes.length - 1
   var isBack = !scenes[lastSceneIndexInScenes].isActive
   if (isBack) {
-    var currentSceneIndexInScenes = scenes.findIndex(function(item) {
+    var currentSceneIndexInScenes = scenes.findIndex(function (item) {
       return item === scene
     })
-    var targetSceneIndexInScenes = scenes.findIndex(function(item) {
+    var targetSceneIndexInScenes = scenes.findIndex(function (item) {
       return item.isActive
     })
     var targetSceneIndex = scenes[targetSceneIndexInScenes].index

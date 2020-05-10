@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-09 22:57:20
+ * @Last Modified time: 2020-05-10 12:03:11
  */
-import { StyleSheet } from 'react-native'
+import { StyleSheet, InteractionManager } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -522,10 +522,12 @@ class Theme extends store {
     }
 
     try {
-      changeNavigationBarColor(
-        this.select(_.colorPlainHex, _._colorDarkModeLevel1Hex),
-        !this.isDark
-      )
+      InteractionManager.runAfterInteractions(() => {
+        changeNavigationBarColor(
+          this.select(_.colorPlainHex, _._colorDarkModeLevel1Hex),
+          !this.isDark
+        )
+      })
     } catch (error) {
       console.warn('[ThemeStore] changeNavigationBarColor', error)
     }
@@ -540,10 +542,12 @@ class Theme extends store {
     }
 
     try {
-      changeNavigationBarColor(
-        this.colorTinygrailContainerHex,
-        !this.isTinygrailDark
-      )
+      InteractionManager.runAfterInteractions(() => {
+        changeNavigationBarColor(
+          this.colorTinygrailContainerHex,
+          !this.isTinygrailDark
+        )
+      })
     } catch (error) {
       console.warn('[ThemeStore] changeNavigationBarColorTinygrail', error)
     }

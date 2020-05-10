@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 16:13:28
+ * @Last Modified time: 2020-05-10 03:46:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -179,7 +179,7 @@ class Item extends React.Component {
 
     const { name } = this.characters
     return (
-      <Touchable style={this.styles.item} highlight onPress={onPress}>
+      <Touchable style={this.styles.item} onPress={onPress}>
         <Flex align='start'>
           <Flex.Item>
             <Text size={16}>
@@ -271,7 +271,7 @@ class Item extends React.Component {
           )
         }
       >
-        <Iconfont name='extra' size={15} color={_.colorSub} />
+        <Iconfont name='extra' size={17} color={_.colorSub} />
       </Popover>
     )
   }
@@ -348,8 +348,8 @@ class Item extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
+    paddingLeft: _.wind
+    // backgroundColor: _.colorPlain
   },
   readed: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
@@ -365,7 +365,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.md
   },
   extra: {
-    paddingVertical: 19,
+    paddingVertical: 17,
     paddingHorizontal: _.sm
   },
   border: {

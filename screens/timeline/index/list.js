@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:49:38
+ * @Last Modified time: 2020-05-10 04:03:19
  */
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
@@ -12,6 +13,7 @@ import { Login, SectionHeader, ItemTimeline } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { withTabsHeader } from '@utils/decorators'
+import { IOS } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 
 export default
@@ -85,7 +87,8 @@ class List extends React.Component {
 
     return (
       <ListView
-        contentContainerStyle={_.container.bottom}
+        style={styles.androidWrap}
+        contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={timeline}
         sectionKey='date'
@@ -99,6 +102,15 @@ class List extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  androidWrap: {
+    marginBottom: _.tabBarHeight - 1
+  },
+  contentContainerStyle: {
+    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
+  }
+})
 
 function renderSectionHeader({ section: { title } }) {
   return <SectionHeader>{title}</SectionHeader>

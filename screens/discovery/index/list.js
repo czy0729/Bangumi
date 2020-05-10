@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:31:53
+ * @Last Modified time: 2020-05-10 04:23:23
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -21,17 +21,7 @@ const imageWidthLg = _.window.width - _.wind * 2
 const imageHeightLg = imageWidthLg * 1.28
 const imageWidth = _.window.width * 0.34
 const imageHeight = imageWidth * 1.28
-const linearColorLg = [
-  'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0.8)'
-]
-const linearColorSm = [
-  'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0.8)'
-]
+const linearColor = ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.8)']
 const dataCache = {}
 
 function List({ style, type }, { $, navigation }) {
@@ -99,8 +89,8 @@ function List({ style, type }, { $, navigation }) {
           }}
         />
         <LinearGradient
-          style={StyleSheet.absoluteFill}
-          colors={linearColorLg}
+          style={styles.linear}
+          colors={linearColor}
           pointerEvents='none'
         />
         <View style={styles.desc} pointerEvents='none'>
@@ -153,8 +143,8 @@ function List({ style, type }, { $, navigation }) {
                   }}
                 />
                 <LinearGradient
-                  style={StyleSheet.absoluteFill}
-                  colors={linearColorSm}
+                  style={styles.linear}
+                  colors={linearColor}
                   pointerEvents='none'
                 />
                 <View style={styles.desc} pointerEvents='none'>
@@ -210,6 +200,13 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorIcon,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
+  },
+  linear: {
+    position: 'absolute',
+    height: 88,
+    right: 0,
+    bottom: 0,
+    left: 0
   },
   desc: {
     position: 'absolute',

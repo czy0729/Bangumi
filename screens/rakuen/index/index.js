@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 18:18:04
+ * @Last Modified time: 2020-05-10 03:43:09
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import {
   HeaderBackground,
@@ -15,7 +14,7 @@ import {
   SafeAreaView
 } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withTabsHeader } from '@utils/decorators'
+import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import Prefetch from './prefetch'

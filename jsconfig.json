@@ -12,6 +12,7 @@
       "@stores": ["stores/index.js"],
       "@stores/*": ["stores/*"],
       "@utils": ["utils/index.js"],
+      "@utils/decorators": ["utils/decorators/index.js"],
       "@utils/*": ["utils/*"],
       "@constants": ["constants/index.js"],
       "@constants/*": ["constants/*"]

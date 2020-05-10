@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:51:24
+ * @Last Modified time: 2020-05-10 04:08:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ function Header(props, { $ }) {
   const { today } = $.home
   return (
     <View style={styles.container}>
-      <StatusBarPlaceholder style={styles.statusBar} />
+      <StatusBarPlaceholder />
       <Award />
       <Menu />
       <Flex style={styles.wrap}>
@@ -48,9 +48,6 @@ export default observer(Header)
 const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingBottom: _.sm
-  },
-  statusBar: {
-    backgroundColor: _.colorBg
   },
   wrap: {
     ..._.container.wind,

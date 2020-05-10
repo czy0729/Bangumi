@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-14 20:57:30
+ * @Last Modified time: 2020-05-10 04:24:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -38,7 +38,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.sm,
     backgroundColor: IOS
       ? 'transparent'
-      : _.select(_.colorPlain, _._colorDarkModeLevel1)
+      : _.select('transparent', _._colorDarkModeLevel1)
   },
   btn: {
     width: 48,
