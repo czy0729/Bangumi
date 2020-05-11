@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:57:44
+ * @Last Modified time: 2020-05-10 13:56:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,7 +50,6 @@ function List({ style }, { $, navigation }) {
           <Touchable
             key={href}
             style={[styles.item, isReaded && styles.readed]}
-            highlight
             onPress={() => {
               if (replies > LIMIT_TOPIC_PUSH) {
                 const url = `${HOST}${href}`

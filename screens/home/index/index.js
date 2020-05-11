@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 00:04:57
+ * @Last Modified time: 2020-05-12 00:31:29
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -103,23 +103,23 @@ class Home extends React.Component {
     const { $ } = this.context
     if (!$.isLogin) {
       return (
-        <>
+        <SafeAreaView style={_.container.bg}>
+          <NavigationBarEvents />
           <NavigationEvents onWillFocus={this.onWillFocus} />
-          <SafeAreaView />
-        </>
+        </SafeAreaView>
       )
     }
 
     const { _loaded } = $.state
-    if (!_loaded) {
-      return <SafeAreaView />
-    }
-
     return (
-      <SafeAreaView>
+      <SafeAreaView style={_.container.bg}>
         <NavigationBarEvents />
-        <TabsMain />
-        <Modal />
+        {_loaded && (
+          <>
+            <TabsMain />
+            <Modal />
+          </>
+        )}
       </SafeAreaView>
     )
   }

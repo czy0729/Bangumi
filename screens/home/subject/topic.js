@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 22:51:01
+ * @Last Modified time: 2020-05-10 13:21:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,9 +18,8 @@ function Topic({ style }, { $, navigation }) {
     return null
   }
 
-  const styles = memoStyles()
   return (
-    <Expand style={[styles.container, style]} ratio={2}>
+    <Expand style={style} ratio={2}>
       <SectionTitle style={{ paddingLeft: _.wind }}>讨论版</SectionTitle>
       <View style={_.mt.sm}>
         {topic.map((item, index) => (
@@ -58,9 +57,3 @@ Topic.contextTypes = {
 }
 
 export default observer(Topic)
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    backgroundColor: _.colorPlain
-  }
-}))

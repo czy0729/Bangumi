@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 17:52:29
+ * @Last Modified time: 2020-05-11 23:20:09
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -183,11 +183,10 @@ class Setting extends React.Component {
     const { cdn, tinygrail } = systemStore.setting
     return (
       <>
-        <Text style={[_.container.wind, _.mt.md]} type='sub'>
+        <Text style={this.styles.section} type='sub'>
           模块
         </Text>
         <ItemSetting
-          style={_.mt.sm}
           hd='CDN加速'
           ft={
             <Switch
@@ -281,11 +280,10 @@ class Setting extends React.Component {
     const { quality, hideScore, cnFirst, initialPage } = systemStore.setting
     return (
       <>
-        <Text style={[_.container.wind, _.mt.md]} type='sub'>
+        <Text style={this.styles.section} type='sub'>
           基本
         </Text>
         <ItemSetting
-          style={_.mt.sm}
           hd='隐藏他人评分'
           ft={
             <Switch
@@ -385,12 +383,11 @@ class Setting extends React.Component {
     } = systemStore.setting
     return (
       <>
-        <Text style={[_.container.wind, _.mt.md]} type='sub'>
+        <Text style={this.styles.section} type='sub'>
           UI
         </Text>
         {/* {!IOS && (
           <ItemSetting
-            style={_.mt.sm}
             hd='iOS风格菜单'
             ft={
               <Switch
@@ -412,7 +409,6 @@ class Setting extends React.Component {
         <ItemSetting
           // style={IOS ? _.mt.sm : undefined}
           // border={!IOS}
-          style={_.mt.sm}
           // border
           hd='圆形头像'
           ft={
@@ -537,11 +533,10 @@ class Setting extends React.Component {
     }
     return (
       <>
-        <Text style={[_.container.wind, _.mt.md]} type='sub'>
+        <Text style={this.styles.section} type='sub'>
           联系
         </Text>
         <ItemSetting
-          style={_.mt.sm}
           hd='版本'
           ft={
             hasNewVersion && !IOS ? (
@@ -626,11 +621,10 @@ class Setting extends React.Component {
     const { storageSize } = this.state
     return (
       <>
-        <Text style={[_.container.wind, _.mt.md]} type='sub'>
+        <Text style={this.styles.section} type='sub'>
           系统
         </Text>
         <ItemSetting
-          style={_.mt.sm}
           hd='清除缓存'
           ft={
             <Text size={16} type='sub'>
@@ -663,7 +657,7 @@ class Setting extends React.Component {
   render() {
     return (
       <ScrollView
-        style={_.container.screen}
+        style={this.styles.container}
         contentContainerStyle={_.container.bottom}
       >
         <NavigationBarEvents />
@@ -675,4 +669,20 @@ class Setting extends React.Component {
       </ScrollView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.colorBg
+  },
+  section: {
+    paddingTop: _.md,
+    paddingHorizontal: _.wind,
+    paddingBottom: _.sm
+  }
+}))

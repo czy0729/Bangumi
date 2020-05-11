@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:53:25
+ * @Last Modified time: 2020-05-10 12:18:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ function Blog({ style }, { $, navigation }) {
 
   const styles = memoStyles()
   return (
-    <Expand style={[styles.container, style]} ratio={2}>
+    <Expand style={style} ratio={2}>
       <SectionTitle style={styles.left}>评论</SectionTitle>
       <View style={_.mt.sm}>
         {blog.map((item, index) => (
@@ -59,9 +59,6 @@ Blog.contextTypes = {
 export default observer(Blog)
 
 const memoStyles = _.memoStyles(_ => ({
-  container: {
-    backgroundColor: _.colorPlain
-  },
   left: {
     paddingLeft: _.wind
   }

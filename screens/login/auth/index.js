@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:45:21
+ * @Last Modified time: 2020-05-11 12:15:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,14 +31,7 @@ class Auth extends React.Component {
   render() {
     const { navigation } = this.props
     return (
-      <View
-        style={[
-          _.container.column,
-          {
-            backgroundColor: _.colorBg
-          }
-        ]}
-      >
+      <View style={this.styles.container}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <IconTabsHeader
@@ -54,12 +47,7 @@ class Auth extends React.Component {
           onPress={() => navigation.push('Search')}
         />
         <IconTinygrail
-          style={[
-            _.header.right,
-            {
-              right: 44
-            }
-          ]}
+          style={this.styles.icon}
           color={_.colorDesc}
           navigation={navigation}
         />
@@ -72,13 +60,7 @@ class Auth extends React.Component {
         />
         <Mesume />
         <Button
-          style={[
-            {
-              width: 160,
-              marginBottom: _.lg
-            },
-            _.mt.md
-          ]}
+          style={this.styles.btn}
           shadow
           onPress={() => navigation.push('LoginV2')}
         >
@@ -87,4 +69,24 @@ class Auth extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    ..._.container.column,
+    backgroundColor: _.colorBg
+  },
+  icon: {
+    ..._.header.right,
+    right: 44
+  },
+  btn: {
+    width: 160,
+    marginTop: _.md,
+    marginBottom: _.lg
+  }
+}))

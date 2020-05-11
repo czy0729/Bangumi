@@ -1,9 +1,8 @@
-/* eslint-disable indent */
 /*
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-09 15:40:26
+ * @Last Modified time: 2020-05-12 00:38:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -49,8 +48,11 @@ const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
             ),
             headerLeft,
             headerRight,
+            headerLeftContainerStyle: {
+              paddingLeft: _.sm + 2
+            },
             headerRightContainerStyle: {
-              marginRight: _._wind
+              marginRight: _._wind + 2
             }
 
             /**

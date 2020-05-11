@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 12:03:11
+ * @Last Modified time: 2020-05-12 00:32:35
  */
 import { StyleSheet, InteractionManager } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -292,22 +292,36 @@ class Theme extends store {
   // -------------------- tool styles --------------------
   @computed get container() {
     return StyleSheet.create({
+      /**
+       * 特殊布局, background与item应配合使用
+       * 安卓为了防止过渡绘制, 全局底色为白色, 所以Item为白色时可以使用透明
+       * iOS因为有弹簧, 所以不设置成灰色时, 列表下拉会很奇怪, Item相应也要设置成白色
+       */
+      bg: {
+        flex: 1,
+        backgroundColor: IOS
+          ? this.colorBg
+          : this.select('transparent', _._colorPlain)
+      },
+      item: {
+        backgroundColor: IOS
+          ? this.colorPlain
+          : this.select('transparent', _._colorPlan)
+      },
+
+      /**
+       * 普通布局
+       */
       flex: {
         flex: 1
       },
       screen: {
         flex: 1,
-        backgroundColor: this.select('transparent', this.colorBg)
+        backgroundColor: this.select('transparent', _._colorPlain)
       },
       content: {
         flex: 1,
         backgroundColor: this.colorPlain
-      },
-      shadowContent: {
-        flex: 1,
-        backgroundColor: IOS
-          ? this.colorBg
-          : this.select(this.colorPlain, this.colorBg)
       },
       column: {
         flex: 1,

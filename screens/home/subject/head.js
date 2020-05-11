@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 01:27:41
+ * @Last Modified time: 2020-05-11 12:10:38
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -66,7 +66,7 @@ function Head({ style }, { $ }) {
         <Flex>
           {!$.hideScore && (
             <>
-              <Text type='main' size={22} lineHeight={1}>
+              <Text type='main' size={22}>
                 {$.rating.score === '' ? '-' : toFixed($.rating.score, 1)}
               </Text>
               {$.rating.score !== '' && (

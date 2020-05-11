@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-14 20:15:31
+ * @Last Modified time: 2020-05-12 00:45:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -88,7 +88,8 @@ class Grid extends React.Component {
         </View>
         <ListView
           ref={this.connectRef}
-          contentContainerStyle={this.styles.grid}
+          style={!IOS && this.styles.androidWrap}
+          contentContainerStyle={this.styles.contentContainerStyle}
           keyExtractor={keyExtractor}
           data={userCollection}
           numColumns={_.isPad ? 5 : 4}
@@ -122,15 +123,21 @@ const memoStyles = _.memoStyles(_ => ({
     width: '100%',
     height: '100%'
   },
-  grid: {
+  androidWrap: {
+    marginBottom: _.tabBarHeight - 1
+  },
+  contentContainerStyle: {
     paddingLeft: _.wind - _.sm,
-    paddingBottom: _.tabBarHeight + _.sm
+    paddingBottom: IOS
+      ? _.tabBarHeight + _.space
+      : _.tabBarHeight + _.space - _.tabBarHeight
   }
 }))
 
 function keyExtractor(item) {
   return String(item.subject_id)
 }
+
 function renderItem({ item }) {
   return <GridItem {...item} />
 }

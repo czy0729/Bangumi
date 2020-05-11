@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 12:08:16
+ * @Last Modified time: 2020-05-11 14:29:53
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -28,6 +28,7 @@ export default observer(TabBarRight)
 const styles = StyleSheet.create({
   icon: {
     width: 42,
-    height: 42
+    height: 42,
+    paddingRight: 9
   }
 })

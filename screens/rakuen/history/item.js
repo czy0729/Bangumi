@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-23 05:19:03
+ * @Last Modified time: 2020-05-10 13:56:59
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -29,7 +29,6 @@ function Item(
       <Flex.Item style={index !== 0 && styles.border}>
         <Touchable
           style={styles.item}
-          highlight
           onPress={() => {
             t('本地帖子.跳转', {
               to: 'Topic',

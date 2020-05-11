@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 04:12:50
+ * @Last Modified time: 2020-05-11 14:26:10
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Loading, ListView, UM } from '@components'
 import { IconTabBar } from '@screens/_'
@@ -46,13 +46,13 @@ class Discovery extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.home
     return (
-      <View style={_.container.flex}>
+      <View style={this.styles.container}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? (
           <ListView
-            style={IOS ? _.container.flex : styles.androidWrap}
-            contentContainerStyle={styles.contentContainerStyle}
+            style={IOS ? _.container.flex : this.styles.androidWrap}
+            contentContainerStyle={this.styles.contentContainerStyle}
             keyExtractor={keyExtractor}
             data={$.state.home}
             ListHeaderComponent={this.ListHeaderComponent}
@@ -66,9 +66,17 @@ class Discovery extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
+  container: {
+    flex: 1,
+    backgroundColor: _.select('transparent', _.colorBg)
+  },
   androidWrap: {
     flex: 1,
     marginBottom: _.tabBarHeight - 1
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
   }
-})
+}))
 
 function tabBarIcon({ tintColor }) {
   return <IconTabBar name='home' color={tintColor} />

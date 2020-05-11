@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-27 09:58:59
+ * @Last Modified time: 2020-05-10 13:57:22
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,7 +14,7 @@ function Pagination({ style, input, onPrev, onNext, onChange, onSearch }) {
   return (
     <Flex style={[_.container.wind, style]}>
       <Flex.Item>
-        <Touchable highlight onPress={onPrev}>
+        <Touchable onPress={onPrev}>
           <Flex style={styles.pagination} justify='center'>
             <Text>上一页</Text>
           </Flex>
@@ -33,7 +33,7 @@ function Pagination({ style, input, onPrev, onNext, onChange, onSearch }) {
         />
       </Flex.Item>
       <Flex.Item style={_.ml.sm}>
-        <Touchable highlight onPress={onNext}>
+        <Touchable onPress={onNext}>
           <Flex style={styles.pagination} justify='center'>
             <Text>下一页</Text>
           </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 19:36:36
+ * @Last Modified time: 2020-05-11 23:46:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -187,7 +187,7 @@ class GridInfo extends React.Component {
             src={subject.images.medium}
             radius
             border
-            shadow
+            shadow='lg'
             onPress={this.onPress}
           />
           {isToday ? (

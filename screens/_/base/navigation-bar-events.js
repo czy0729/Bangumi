@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-10 22:47:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 17:01:12
+ * @Last Modified time: 2020-05-11 11:46:59
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -14,6 +14,7 @@ function NavigationBarEvents({ tinygrail }) {
   if (IOS) {
     return null
   }
+
   return (
     <NavigationEvents
       onWillFocus={() => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 19:11:53
+ * @Last Modified time: 2020-05-10 13:14:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,8 +72,7 @@ export default observer(Summary)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 120,
-    backgroundColor: _.colorPlain
+    minHeight: 120
   },
   iconTranslate: {
     marginRight: -_.sm

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 02:27:37
+ * @Last Modified time: 2020-05-10 13:56:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -32,7 +32,6 @@ function ItemFriends({
   return (
     <Touchable
       style={styles.container}
-      highlight
       onPress={() => {
         const { id, data = {} } = event
         t(id, {

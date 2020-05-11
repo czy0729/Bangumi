@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:37:12
+ * @Last Modified time: 2020-05-10 12:19:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,9 +17,8 @@ function Character({ style }, { $, navigation }) {
     return null
   }
 
-  const styles = memoStyles()
   return (
-    <View style={[styles.container, style]}>
+    <View style={style}>
       <SectionTitle style={_.container.wind}>角色</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
@@ -49,9 +48,3 @@ Character.contextTypes = {
 }
 
 export default observer(Character)
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    backgroundColor: _.colorPlain
-  }
-}))

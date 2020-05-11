@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 14:07:46
+ * @Last Modified time: 2020-05-10 13:19:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,9 +17,8 @@ function Comic({ style }, { $, navigation }) {
     return null
   }
 
-  const styles = memoStyles()
   return (
-    <View style={[styles.container, style]}>
+    <View style={style}>
       <SectionTitle style={_.container.wind}>单行本</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
@@ -50,9 +49,3 @@ Comic.contextTypes = {
 }
 
 export default observer(Comic)
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    backgroundColor: _.colorPlain
-  }
-}))

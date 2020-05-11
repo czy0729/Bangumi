@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 03:24:15
+ * @Last Modified time: 2020-05-10 13:07:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -224,10 +224,7 @@ const memoStyles = _.memoStyles(_ => ({
         shadowRadius: 3
       }
     : {
-        backgroundColor: 'rgba(255, 255, 255, 0.01)',
-        borderRadius: _.radiusXs,
-        elevation: 2,
-        overflow: 'hidden'
+        elevation: 8
       },
   radius: {
     borderRadius: _.radiusXs

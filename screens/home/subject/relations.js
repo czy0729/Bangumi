@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:40:28
+ * @Last Modified time: 2020-05-10 13:19:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,9 +17,8 @@ function Relations({ style }, { $, navigation }) {
     return null
   }
 
-  const styles = memoStyles()
   return (
-    <View style={[styles.container, style]}>
+    <View style={style}>
       <SectionTitle style={_.container.wind}>关联</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
@@ -50,9 +49,3 @@ Relations.contextTypes = {
 }
 
 export default observer(Relations)
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    backgroundColor: _.colorPlain
-  }
-}))

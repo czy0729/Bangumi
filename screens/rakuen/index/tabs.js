@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-28 18:38:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 03:59:04
+ * @Last Modified time: 2020-05-10 13:51:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,7 +21,7 @@ function Tabs({ tabBarStyle, $, children, ...other }) {
       }
     : {
         ...tabBarStyle,
-        elevation: 16
+        elevation: 12
       }
   if (!IOS) {
     _tabBarStyle.backgroundColor = $.backgroundColor

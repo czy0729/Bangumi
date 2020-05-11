@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-02 01:23:14
+ * @Last Modified time: 2020-05-10 13:26:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -45,10 +45,12 @@ function BlurView({ style, src, theme, tint, intensity, children }) {
           intensity={intensity}
         />
       ) : (
-        <LinearGradient
-          colors={backgroundColor[theme]}
-          style={StyleSheet.absoluteFill}
-        />
+        !!theme && (
+          <LinearGradient
+            colors={backgroundColor[theme]}
+            style={StyleSheet.absoluteFill}
+          />
+        )
       )}
       {children}
     </View>

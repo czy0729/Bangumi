@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 11:51:11
+ * @Last Modified time: 2020-05-10 13:56:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -38,8 +38,7 @@ function ItemArticle({
   }
   return (
     <Touchable
-      style={[styles.container, style]}
-      highlight
+      style={style}
       onPress={() => appNavigate(url, navigation, {}, event)}
     >
       <Flex align='start'>
@@ -70,9 +69,6 @@ ItemArticle.defaultProps = {
 export default observer(ItemArticle)
 
 const memoStyles = _.memoStyles(_ => ({
-  container: {
-    backgroundColor: _.colorPlain
-  },
   image: {
     marginTop: _.md
   },

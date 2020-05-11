@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:42:12
+ * @Last Modified time: 2020-05-10 14:11:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -111,8 +111,7 @@ export default observer(ItemBlog)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
+    paddingLeft: _.wind
   },
   readed: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)

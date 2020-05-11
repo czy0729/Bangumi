@@ -23,7 +23,7 @@ function Tabs({ tabBarStyle, $, children, ...other }) {
       }
     : {
         ...tabBarStyle,
-        elevation: 16
+        elevation: 12
       }
   if (!IOS) {
     _tabBarStyle.backgroundColor = $.backgroundColor

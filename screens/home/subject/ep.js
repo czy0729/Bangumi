@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 02:55:42
+ * @Last Modified time: 2020-05-10 12:20:22
  */
 import React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Text, Iconfont, Flex, Input, Button } from '@components'
@@ -30,7 +30,6 @@ function Ep({ style }, { $, navigation }) {
     return <Disc style={style} />
   }
 
-  const styles = memoStyles()
   const { epsReverse, watchedEps, filterEps } = $.state
   const { totalEps } = $.subjectFormHTML
   const canPlay = $.onlinePlayActionSheetData.length >= 2
@@ -132,12 +131,11 @@ Ep.contextTypes = {
 
 export default observer(Ep)
 
-const memoStyles = _.memoStyles(_ => ({
+const styles = StyleSheet.create({
   container: {
     minHeight: 146,
     marginLeft: _.wind,
-    marginRight: _.wind - _._wind,
-    backgroundColor: _.colorPlain
+    marginRight: _.wind - _._wind
   },
   icon: {
     paddingHorizontal: _.sm
@@ -157,4 +155,4 @@ const memoStyles = _.memoStyles(_ => ({
     height: 34,
     marginLeft: 12
   }
-}))
+})

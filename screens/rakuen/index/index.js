@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 03:43:09
+ * @Last Modified time: 2020-05-12 00:40:19
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -83,7 +83,7 @@ class Rakuen extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <SafeAreaView>
+      <SafeAreaView style={_.container.bg}>
         {_loaded && (
           <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
             {$.tabs.map((item, index) => (

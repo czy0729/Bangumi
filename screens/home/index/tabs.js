@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 16:44:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 03:59:08
+ * @Last Modified time: 2020-05-10 13:52:06
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -23,7 +23,7 @@ function Tabs({ tabBarStyle = {}, $, children, ...other }) {
       }
     : {
         ...tabBarStyle,
-        elevation: 16
+        elevation: 16 // 首页16, 其他页面是12
       }
   if (!IOS) {
     _tabBarStyle.backgroundColor = $.backgroundColor

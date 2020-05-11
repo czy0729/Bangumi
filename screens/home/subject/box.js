@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 23:08:24
+ * @Last Modified time: 2020-05-10 13:08:20
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -66,13 +66,17 @@ function Box({ style }, { $, navigation }) {
         <Touchable onPress={onPress}>
           <Flex justify='center'>
             <Flex.Item>
-              <Button style={leftStyle} type={getType(btnText)}>
+              <Button style={leftStyle} type={getType(btnText)} shadow={!IOS}>
                 {btnText}
               </Button>
             </Flex.Item>
             {!!rating && (
               <Flex.Item>
-                <Button style={rightStyle} type={getType(btnText)}>
+                <Button
+                  style={rightStyle}
+                  type={getType(btnText)}
+                  shadow={!IOS}
+                >
                   {getRating(rating)}{' '}
                   {[1, 2, 3, 4, 5].map(item => {
                     let type
@@ -87,7 +91,7 @@ function Box({ style }, { $, navigation }) {
                       <Icon
                         key={item}
                         name={type}
-                        size={16}
+                        size={14}
                         color={_.__colorPlain__}
                       />
                     )
@@ -116,8 +120,7 @@ export default observer(Box)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 120,
-    backgroundColor: _.colorPlain
+    minHeight: 120
   },
   sectionTitle: {
     height: 28
@@ -127,15 +130,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   btn: {
     marginTop: _.md,
-    ..._.select(
-      IOS
-        ? _.shadow
-        : {
-            elevation: 2,
-            backgroundColor: _.colorPlain
-          },
-      undefined
-    )
+    ...(IOS ? _.shadow : {})
   },
   left: {
     borderTopRightRadius: 0,

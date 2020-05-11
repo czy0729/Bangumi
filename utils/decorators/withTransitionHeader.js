@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-06 10:47:50
+ * @Last Modified time: 2020-05-10 13:49:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -189,8 +189,7 @@ const withTransitionHeader = ({
               shadowStyle = _.shadow
             } else {
               shadowStyle = {
-                overflow: 'hidden',
-                elevation: 2
+                elevation: 12
               }
             }
           }

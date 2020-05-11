@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 17:40:55
+ * @Last Modified time: 2020-05-10 14:11:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,7 +45,6 @@ function ItemSearch({
   return (
     <Touchable
       style={[styles.container, collected && styles.containerActive]}
-      highlight
       onPress={() => {
         appNavigate(
           id,
@@ -150,8 +149,7 @@ export default observer(ItemSearch)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
+    paddingLeft: _.wind
   },
   containerActive: {
     backgroundColor: _.colorMainLight

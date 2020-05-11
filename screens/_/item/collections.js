@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:33:09
+ * @Last Modified time: 2020-05-11 14:31:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,7 +68,6 @@ function ItemCollections({
   return (
     <Touchable
       style={[styles.container, isCollect && styles.containerActive]}
-      highlight
       onPress={() => {
         const { eventId, eventData } = event
         t(eventId, {
@@ -151,8 +150,7 @@ export default observer(ItemCollections)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
+    paddingLeft: _.wind
   },
   containerActive: {
     backgroundColor: _.colorMainLight

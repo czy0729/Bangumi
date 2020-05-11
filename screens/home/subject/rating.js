@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 05:56:00
+ * @Last Modified time: 2020-05-10 12:17:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -75,7 +75,7 @@ class Ranting extends React.Component {
     const { friend = {} } = $.subjectFormHTML
     return (
       <>
-        <Flex style={[this.styles.container, _.mt.md]}>
+        <Flex style={_.mt.md}>
           {Object.keys($.rating.count)
             .reverse()
             .map((item, index) => {
@@ -167,13 +167,9 @@ class Ranting extends React.Component {
 export default observer(Ranting)
 
 const memoStyles = _.memoStyles(_ => ({
-  container: {
-    backgroundColor: _.colorPlain
-  },
   item: {
     height: 80,
     paddingBottom: _.xs
-    // backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   itemFill: {
     position: 'absolute',
@@ -234,26 +230,12 @@ function calculateSD(scores, score, n) {
  * @param {*} deviation
  */
 function getDispute(deviation) {
-  if (deviation === 0) {
-    return '-'
-  }
-  if (deviation < 1) {
-    return '异口同声'
-  }
-  if (deviation < 1.15) {
-    return '基本一致'
-  }
-  if (deviation < 1.3) {
-    return '略有分歧'
-  }
-  if (deviation < 1.45) {
-    return '莫衷一是'
-  }
-  if (deviation < 1.6) {
-    return '各执一词'
-  }
-  if (deviation < 1.75) {
-    return '你死我活'
-  }
+  if (deviation === 0) return '-'
+  if (deviation < 1) return '异口同声'
+  if (deviation < 1.15) return '基本一致'
+  if (deviation < 1.3) return '略有分歧'
+  if (deviation < 1.45) return '莫衷一是'
+  if (deviation < 1.6) return '各执一词'
+  if (deviation < 1.75) return '你死我活'
   return '厨黑大战'
 }

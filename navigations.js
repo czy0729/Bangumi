@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 12:09:35
+ * @Last Modified time: 2020-05-10 13:40:39
  */
 export default {
-  initialRouteName: 'Subject', // HomeTab TinygrailCharaAssets
+  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
   initialRouteParams: {
     // id: 240929
     // blogId: 295843 // 294448
     // catalogId: 29811,
     // groupId: 'tinygrail',
     // monoId: 'person/8138', // 20391 character/70323 person/5745
-    subjectId: 204135 // 103824 238923 279457 100444 204135
+    // subjectId: 100444 // 103824 238923 279457 100444 204135
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '欢迎来到实力至上主义的教室',
     // topicId: 'ep/880824' // group/350677, ep/768491
@@ -28,5 +28,5 @@ export default {
   }
 }
 
-export const initialDevDark = false
+export const initialDevDark = !true
 export const initialHomeTabName = 'Home'

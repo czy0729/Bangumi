@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 09:51:33
+ * @Last Modified time: 2020-05-10 13:14:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,8 +64,7 @@ export default observer(Info)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 120,
-    backgroundColor: _.colorPlain
+    minHeight: 120
   },
   info: {
     paddingVertical: _.sm,

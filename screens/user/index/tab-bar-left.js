@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 18:41:46
+ * @Last Modified time: 2020-05-10 13:53:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -40,7 +40,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 42,
     paddingLeft: _._wind,
     paddingRight: _.sm,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+    backgroundColor: _.select('transparent', _._colorDarkModeLevel1)
   },
   btn: {
     width: 48,

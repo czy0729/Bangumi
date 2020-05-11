@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:30:05
+ * @Last Modified time: 2020-05-10 14:00:04
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
+import { observer } from '@utils/decorators'
+import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 
 export default
@@ -105,6 +106,7 @@ class List extends React.Component {
       <ListView
         key={`${$.subjectType}${String(numColumns)}`}
         keyExtractor={keyExtractor}
+        style={!IOS && styles.androidWrap}
         contentContainerStyle={styles.contentContainerStyle}
         data={userCollections}
         numColumns={numColumns}
@@ -118,7 +120,10 @@ class List extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  androidWrap: {
+    marginBottom: _.tabBarHeight - 1
+  },
   contentContainerStyle: {
-    paddingBottom: _.bottom
+    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
   }
 })

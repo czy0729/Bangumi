@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-29 02:50:41
+ * @Last Modified time: 2020-05-10 14:02:59
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -103,7 +103,7 @@ const memoStyles = _.memoStyles(_ => ({
     ...(IOS
       ? _.shadow
       : {
-          elevation: 1
+          elevation: 8
         })
   }
 }))

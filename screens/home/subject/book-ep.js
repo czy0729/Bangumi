@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 01:37:25
+ * @Last Modified time: 2020-05-10 13:19:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -135,8 +135,7 @@ export default observer(BookEp)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    height: 120,
-    backgroundColor: _.colorPlain
+    height: 120
   },
   label: {
     width: 40

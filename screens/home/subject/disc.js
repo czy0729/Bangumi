@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:49:43
+ * @Last Modified time: 2020-05-10 13:19:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -67,8 +67,7 @@ export default observer(Disc)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 146,
-    backgroundColor: _.colorPlain
+    minHeight: 146
   },
   odd: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)

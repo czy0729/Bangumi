@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-15 20:39:03
+ * @Last Modified time: 2020-05-10 13:19:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,9 +17,8 @@ function Staff({ style }, { $, navigation }) {
     return null
   }
 
-  const styles = memoStyles()
   return (
-    <View style={[styles.container, style]}>
+    <View style={style}>
       <SectionTitle style={_.container.wind}>制作人员</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
@@ -49,9 +48,3 @@ Staff.contextTypes = {
 }
 
 export default observer(Staff)
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    backgroundColor: _.colorPlain
-  }
-}))
