@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 00:58:56
+ * @Last Modified time: 2020-05-12 15:45:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -122,7 +122,9 @@ const HomeTab = observer(
       initialRouteName: initialHomeTabName,
       tabBarComponent: props => <TarBarComponent {...props} />,
       navigationOptions: ({ navigation, screenProps }) =>
-        getActiveChildNavigationOptions(navigation, screenProps)
+        getActiveChildNavigationOptions(navigation, screenProps),
+      animationEnabled: false
+      // lazy: false
     }
   )
 )

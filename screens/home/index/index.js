@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 00:31:29
+ * @Last Modified time: 2020-05-12 20:59:37
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
 import {
+  OptimizeTabbarTransition,
   HeaderBackground,
   IconNotify,
   IconTabBar,
@@ -18,6 +19,7 @@ import { _, userStore } from '@stores'
 import { navigationReference } from '@utils/app'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
+import { IOS } from '@constants'
 import { MODEL_INITIAL_PAGE } from '@constants/model'
 import HeaderRight from './header-right'
 import Tabs from './tabs'
@@ -113,12 +115,13 @@ class Home extends React.Component {
     const { _loaded } = $.state
     return (
       <SafeAreaView style={_.container.bg}>
+        {!IOS && <NavigationEvents onWillBlur={this.onWillBlur} />}
         <NavigationBarEvents />
         {_loaded && (
-          <>
+          <OptimizeTabbarTransition header>
             <TabsMain />
             <Modal />
-          </>
+          </OptimizeTabbarTransition>
         )}
       </SafeAreaView>
     )

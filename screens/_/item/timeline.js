@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 04:05:48
+ * @Last Modified time: 2020-05-12 10:21:54
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -200,6 +200,7 @@ class ItemTimeline extends React.Component {
         src={item}
         size={coverWidth}
         radius
+        shadow
         border={_.colorBorder}
         onPress={() =>
           this.appNavigate(!!p3.url.length && p3.url[index], {
@@ -294,6 +295,7 @@ class ItemTimeline extends React.Component {
                   src={_image}
                   size={coverWidth}
                   radius
+                  shadow
                   border={_.colorBorder}
                   onPress={() =>
                     this.appNavigate(!!p3.url.length && p3.url[0], {

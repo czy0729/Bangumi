@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 00:40:19
+ * @Last Modified time: 2020-05-12 21:02:51
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import {
+  OptimizeTabbarTransition,
   HeaderBackground,
   IconTabsHeader,
   IconTabBar,
@@ -85,11 +86,13 @@ class Rakuen extends React.Component {
     return (
       <SafeAreaView style={_.container.bg}>
         {_loaded && (
-          <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
-            {$.tabs.map((item, index) => (
-              <List key={item._title} index={index} />
-            ))}
-          </Tabs>
+          <OptimizeTabbarTransition header>
+            <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
+              {$.tabs.map((item, index) => (
+                <List key={item._title} index={index} />
+              ))}
+            </Tabs>
+          </OptimizeTabbarTransition>
         )}
       </SafeAreaView>
     )

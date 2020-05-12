@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 17:55:41
+ * @Last Modified time: 2020-05-12 21:03:38
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
+  OptimizeTabbarTransition,
   HeaderBackground,
   IconTabBar,
   IconTabsHeader,
@@ -74,11 +75,13 @@ class Timeline extends React.Component {
     return (
       <SafeAreaView>
         {_loaded && (
-          <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
-            {tabs.map(item => (
-              <List key={item.title} title={item.title} scope={scope} />
-            ))}
-          </Tabs>
+          <OptimizeTabbarTransition header>
+            <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>
+              {tabs.map(item => (
+                <List key={item.title} title={item.title} scope={scope} />
+              ))}
+            </Tabs>
+          </OptimizeTabbarTransition>
         )}
       </SafeAreaView>
     )

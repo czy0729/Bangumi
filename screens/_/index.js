@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 12:14:05
+ * @Last Modified time: 2020-05-12 20:49:45
  */
 
 /**
@@ -23,6 +23,7 @@ export { default as Login } from './base/login'
 export { default as Logo } from './base/logo'
 export { default as ManageModal } from './base/manage-modal'
 export { default as NavigationBarEvents } from './base/navigation-bar-events'
+export { default as OptimizeTabbarTransition } from './base/optimize-tabbar-transition'
 export { default as Pagination } from './base/pagination'
 export { default as Popover } from './base/popover'
 export { default as SafeAreaView } from './base/safe-area-view'

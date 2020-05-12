@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-26 23:35:06
+ * @Last Modified time: 2020-05-12 16:48:42
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -29,11 +29,11 @@ export function bootApp() {
 
   if (!DEV) {
     global.console = {
-      info: () => {},
-      log: () => {},
-      warn: () => {},
-      debug: () => {},
-      error: () => {}
+      info: Function.prototype,
+      log: Function.prototype,
+      warn: Function.prototype,
+      debug: Function.prototype,
+      error: Function.prototype
     }
   }
 }
@@ -602,8 +602,5 @@ export function tinygrailOSS(str, w = 150) {
  * @param {*} time
  */
 export function tinygrailFixedTime(time) {
-  return (time || '')
-    .replace('T', ' ')
-    .split('+')[0]
-    .split('.')[0]
+  return (time || '').replace('T', ' ').split('+')[0].split('.')[0]
 }

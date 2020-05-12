@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 03:59:55
+ * @Last Modified time: 2020-05-12 16:36:40
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -45,7 +45,7 @@ export const lg = isPad ? 48 : 32
 export const wind = isPad ? parseInt((width - maxWidth) / 2) : 16 // 两翼
 export const _wind = 16
 export const space = isPad ? 24 : 16 // 上下
-export const bottom = tabBarHeight + lg + md // 底部留空
+export const bottom = tabBarHeight + lg // 底部留空
 
 // -------------------- 主题色 --------------------
 export const colorMainRaw = [254, 138, 149]
@@ -161,10 +161,10 @@ export const shadow = IOS
   ? {
       shadowColor: colorShadow,
       shadowOffset: {
-        height: 2
+        height: 4
       },
-      shadowOpacity: 0.1,
-      shadowRadius: 4
+      shadowOpacity: 0.12,
+      shadowRadius: 6
     }
   : {
       elevation: 8

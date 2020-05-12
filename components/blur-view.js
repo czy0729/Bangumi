@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:26:26
+ * @Last Modified time: 2020-05-12 16:29:22
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -35,6 +35,7 @@ function BlurView({ style, src, theme, tint, intensity, children }) {
             height: 'auto'
           }}
           src={src}
+          fadeDuration={0}
           blurRadius={IOS ? undefined : 40}
         />
       )}

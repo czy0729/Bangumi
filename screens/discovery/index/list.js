@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 04:23:23
+ * @Last Modified time: 2020-05-12 16:35:47
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Touchable, Flex, Image, Text, Iconfont } from '@components'
+import { Touchable, Flex, Text, Iconfont } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { findBangumiCn, getCoverLarge } from '@utils/app'
@@ -65,8 +65,8 @@ function List({ style, type }, { $, navigation }) {
       >
         {title}
       </SectionTitle>
-      <View style={styles.big}>
-        <Image
+      <View style={[styles.item, styles.itemLg]}>
+        <Cover
           src={src}
           size={imageWidthLg}
           height={imageHeightLg}
@@ -89,16 +89,16 @@ function List({ style, type }, { $, navigation }) {
           }}
         />
         <LinearGradient
-          style={styles.linear}
+          style={[styles.linear, styles.linearLg]}
           colors={linearColor}
           pointerEvents='none'
         />
         <View style={styles.desc} pointerEvents='none'>
-          <Text style={styles.info} type={_.select('plain', 'desc')} bold>
+          <Text type={_.select('plain', 'desc')} bold>
             {data[0].info}
           </Text>
           <Text
-            style={[styles.title, _.mt.xs]}
+            style={_.mt.xs}
             size={26}
             type={_.select('plain', 'title')}
             bold
@@ -119,7 +119,7 @@ function List({ style, type }, { $, navigation }) {
             const src = item.cover || IMG_DEFAULT
             const cn = findBangumiCn(item.title)
             return (
-              <View key={item.subjectId} style={styles.image}>
+              <View key={item.subjectId} style={[styles.item, styles.itemSm]}>
                 <Cover
                   src={src}
                   size={imageWidth}
@@ -143,13 +143,12 @@ function List({ style, type }, { $, navigation }) {
                   }}
                 />
                 <LinearGradient
-                  style={styles.linear}
+                  style={[styles.linear, styles.linearSm]}
                   colors={linearColor}
                   pointerEvents='none'
                 />
                 <View style={styles.desc} pointerEvents='none'>
                   <Text
-                    style={styles.info}
                     size={12}
                     type={_.select('plain', 'title')}
                     numberOfLines={1}
@@ -157,7 +156,7 @@ function List({ style, type }, { $, navigation }) {
                     {item.info}
                   </Text>
                   <Text
-                    style={[styles.title, _.mt.xs]}
+                    style={_.mt.xs}
                     type={_.select('plain', 'title')}
                     numberOfLines={1}
                     bold
@@ -194,37 +193,42 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: _.space,
     marginHorizontal: _.wind
   },
-  big: {
+  item: {
+    backgroundColor: _.colorBg,
+    ..._.shadow
+  },
+  itemLg: {
     marginTop: _.space,
     marginHorizontal: _.wind,
-    backgroundColor: _.colorIcon,
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
+    borderRadius: _.radiusMd
+  },
+  itemSm: {
+    marginRight: _._wind,
+    borderRadius: _.radiusSm
   },
   linear: {
     position: 'absolute',
+    zIndex: 1,
     height: 88,
     right: 0,
     bottom: 0,
-    left: 0
+    left: 0,
+    marginBottom: -0.5
+  },
+  linearLg: {
+    borderBottomRightRadius: _.radiusMd,
+    borderBottomLeftRadius: _.radiusMd
+  },
+  linearSm: {
+    borderBottomRightRadius: _.radiusSm,
+    borderBottomLeftRadius: _.radiusSm
   },
   desc: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 2,
     right: _._wind - 2,
     bottom: _.space - 2,
-    left: _._wind - 2
-  },
-  info: {
+    left: _._wind - 2,
     opacity: 0.92
-  },
-  title: {
-    opacity: 0.92
-  },
-  image: {
-    marginRight: _._wind,
-    backgroundColor: _.colorIcon,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
   }
 }))

@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-09 23:05:13
+ * @Last Modified time: 2020-05-12 21:01:40
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, UM } from '@components'
-import { IconTabBar, Login } from '@screens/_'
+import { OptimizeTabbarTransition, IconTabBar, Login } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -156,13 +156,15 @@ class User extends React.Component {
           barStyle='light-content'
           backgroundColor='transparent'
         />
-        <TabsMain
-          scrollY={scrollY}
-          onSelectSubjectType={this.onSelectSubjectType}
-          onTabsChange={this.onTabsChange}
-          onScroll={this.onScroll}
-        />
-        <ParallaxImage scrollY={scrollY} fixed={fixed} />
+        <OptimizeTabbarTransition>
+          <TabsMain
+            scrollY={scrollY}
+            onSelectSubjectType={this.onSelectSubjectType}
+            onTabsChange={this.onTabsChange}
+            onScroll={this.onScroll}
+          />
+          <ParallaxImage scrollY={scrollY} fixed={fixed} />
+        </OptimizeTabbarTransition>
       </View>
     )
   }

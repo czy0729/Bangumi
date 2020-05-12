@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-08 14:27:52
+ * @Last Modified time: 2020-05-12 16:37:19
  */
 import React from 'react'
 import {
@@ -44,7 +44,7 @@ class ListView extends React.Component {
     progressViewOffset: undefined,
     refreshControlProps: {},
     renderItem: undefined,
-    footerRefreshingText: '玩命加载中 >.<',
+    footerRefreshingText: '加载中...',
     footerFailureText: '居然失败了 =.=!',
     footerNoMoreDataText: '到底啦',
     footerEmptyDataText: '好像什么都没有',

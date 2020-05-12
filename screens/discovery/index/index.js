@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 14:26:10
+ * @Last Modified time: 2020-05-12 20:52:28
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Loading, ListView, UM } from '@components'
-import { IconTabBar } from '@screens/_'
+import { OptimizeTabbarTransition, IconTabBar } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -50,16 +50,18 @@ class Discovery extends React.Component {
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? (
-          <ListView
-            style={IOS ? _.container.flex : this.styles.androidWrap}
-            contentContainerStyle={this.styles.contentContainerStyle}
-            keyExtractor={keyExtractor}
-            data={$.state.home}
-            ListHeaderComponent={this.ListHeaderComponent}
-            renderItem={renderItem}
-            onHeaderRefresh={$.init}
-            onFooterRefresh={$.fetchHome}
-          />
+          <OptimizeTabbarTransition>
+            <ListView
+              style={IOS ? _.container.flex : this.styles.androidWrap}
+              contentContainerStyle={this.styles.contentContainerStyle}
+              keyExtractor={keyExtractor}
+              data={$.state.home}
+              ListHeaderComponent={this.ListHeaderComponent}
+              renderItem={renderItem}
+              onHeaderRefresh={$.init}
+              onFooterRefresh={$.fetchHome}
+            />
+          </OptimizeTabbarTransition>
         ) : (
           <Loading style={_.container.flex} />
         )}
@@ -73,6 +75,9 @@ class Discovery extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
+  hide: {
+    display: 'none'
+  },
   container: {
     flex: 1,
     backgroundColor: _.select('transparent', _.colorBg)

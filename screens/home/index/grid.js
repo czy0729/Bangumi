@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 00:45:02
+ * @Last Modified time: 2020-05-12 01:02:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -117,7 +117,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   current: {
     width: '100%',
-    height: 276
+    height: 256
   },
   noSelect: {
     width: '100%',
@@ -127,10 +127,11 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: _.tabBarHeight - 1
   },
   contentContainerStyle: {
-    paddingLeft: _.wind - _.sm,
+    paddingTop: _.sm,
     paddingBottom: IOS
       ? _.tabBarHeight + _.space
-      : _.tabBarHeight + _.space - _.tabBarHeight
+      : _.tabBarHeight + _.space - _.tabBarHeight,
+    paddingLeft: _.wind - _.sm
   }
 }))
 

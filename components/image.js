@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 14:32:13
+ * @Last Modified time: 2020-05-12 16:39:22
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -282,6 +282,7 @@ class Image extends React.Component {
       event,
       delay,
       cache,
+      fadeDuration,
       onPress,
       onLongPress,
       onError,
@@ -359,14 +360,14 @@ class Image extends React.Component {
 
     let image
     const { imageTransition } = systemStore.setting
-    const fadeDuration = imageTransition ? undefined : 0
+    const _fadeDuration = (imageTransition ? undefined : 0) || fadeDuration
     if (error) {
       // 错误显示本地的错误提示图片
       image = (
         <RNImage
           style={[_image, this.styles.error]}
           source={IMG_DEFAULT}
-          fadeDuration={fadeDuration}
+          fadeDuration={_fadeDuration}
           {...other}
         />
       )
@@ -398,7 +399,7 @@ class Image extends React.Component {
                       uri
                     }
               }
-              fadeDuration={fadeDuration}
+              fadeDuration={_fadeDuration}
               onError={this.onError}
               {...other}
             />
@@ -419,7 +420,7 @@ class Image extends React.Component {
                 }
               : src
           }
-          fadeDuration={fadeDuration}
+          fadeDuration={_fadeDuration}
           onError={this.onError}
           {...other}
         />
@@ -479,18 +480,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: 1,
     borderColor: _.colorBorder
   },
-  shadow: IOS
-    ? {
-        shadowColor: _.colorShadow,
-        shadowOffset: {
-          height: 4
-        },
-        shadowOpacity: 0.12,
-        shadowRadius: 6
-      }
-    : {
-        elevation: 8
-      },
+  shadow: _.shadow,
   shadowLg: IOS
     ? {
         shadowColor: _.colorShadow,

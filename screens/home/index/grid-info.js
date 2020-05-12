@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 23:46:54
+ * @Last Modified time: 2020-05-12 01:01:07
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -115,44 +115,33 @@ class GridInfo extends React.Component {
         item => item.subject_id === subjectId
       )
       return (
-        <Flex>
-          <Flex align='baseline'>
-            <Text type='primary' size={12} lineHeight={1}>
-              Chap.
+        <Flex justify='end'>
+          <Text type='primary' size={20}>
+            <Text type='primary' size={12} lineHeight={20}>
+              Chap.{' '}
             </Text>
-            <Text style={_.ml.xs} type='primary' size={28} lineHeight={1}>
-              {epStatus}
-            </Text>
-            <Text style={_.ml.xs} type='sub' size={10} lineHeight={1}>
-              / ?
-            </Text>
-          </Flex>
+            {epStatus}
+          </Text>
           {this.renderBookNextBtn(epStatus + 1, volStatus)}
-          <Flex style={_.ml.md} align='baseline'>
-            <Text type='primary' size={12} lineHeight={1}>
-              Vol.
+          <Text style={_.ml.md} type='primary' size={20}>
+            <Text type='primary' size={12} lineHeight={20}>
+              Vol.{' '}
             </Text>
-            <Text style={_.ml.xs} type='primary' size={28} lineHeight={1}>
-              {volStatus}
-            </Text>
-            <Text style={_.ml.xs} type='sub' size={12} lineHeight={1}>
-              / ?
-            </Text>
-          </Flex>
+            {volStatus}
+          </Text>
           {this.renderBookNextBtn(epStatus, volStatus + 1)}
         </Flex>
       )
     }
 
     return (
-      <Flex align='baseline'>
-        <Text type='primary' size={20} lineHeight={1}>
-          {epStatus || 1}
-        </Text>
-        <Text style={_.ml.xs} type='sub' size={12} lineHeight={1}>
+      <Text type='primary' size={20}>
+        {epStatus || 1}
+        <Text type='sub' size={12} lineHeight={20}>
+          {' '}
           / {subject.eps_count || '?'}
         </Text>
-      </Flex>
+      </Text>
     )
   }
 
@@ -204,13 +193,13 @@ class GridInfo extends React.Component {
           <Touchable onPress={this.onPress}>
             <Flex align='start'>
               <Flex.Item>
-                <Text size={18} numberOfLines={1} bold>
+                <Text size={15} numberOfLines={1} bold>
                   {HTMLDecode(subject.name_cn || subject.name)}
                 </Text>
               </Flex.Item>
             </Flex>
           </Touchable>
-          <Flex style={_.mt.sm}>
+          <Flex>
             <Flex.Item>{this.renderCount()}</Flex.Item>
             {this.renderToolBar()}
           </Flex>
