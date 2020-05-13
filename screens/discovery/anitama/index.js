@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:49:30
+ * @Last Modified time: 2020-05-12 22:40:00
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -95,7 +95,7 @@ class Anitama extends React.Component {
 
     return (
       <ScrollView
-        style={_.container.screen}
+        style={_.container.bg}
         contentContainerStyle={_.container.bottom}
       >
         {this.renderPaganation()}

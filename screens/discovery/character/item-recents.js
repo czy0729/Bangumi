@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 19:48:07
+ * @Last Modified time: 2020-05-13 15:58:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,13 +13,12 @@ import { Tag, Stars, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const imgWidth = 80
 const imgHeight = 1.28 * imgWidth
 
-function Item(
+function ItemRecents(
   { index, id, cover, name, nameJP, type, info, star, starInfo, actors = [] },
   { navigation }
 ) {
@@ -47,8 +46,6 @@ function Item(
               src={cover}
               width={imgWidth}
               height={imgHeight}
-              resizeMode='contain'
-              placeholder={false}
               radius
               shadow
               onPress={onPress}
@@ -85,13 +82,13 @@ function Item(
                   )}
                 </Flex>
                 {!!info && (
-                  <Text style={_.mt.md} size={12}>
+                  <Text style={_.mt.sm} size={12}>
                     {HTMLDecode(info)}
                   </Text>
                 )}
               </View>
               {!!star && !!starInfo && (
-                <Flex style={_.mt.md}>
+                <Flex style={_.mt.sm}>
                   {!!star && (
                     <Stars style={_.mr.xs} value={star} color='warning' />
                   )}
@@ -102,14 +99,15 @@ function Item(
               )}
             </Flex>
           </Touchable>
-          <Flex wrap='wrap'>
+          <Flex style={_.mt.sm} wrap='wrap'>
             {actors.map(item => (
-              <Flex key={item.id} style={[styles.actors, _.mt.md]}>
+              <Flex key={item.id} style={[styles.actors, _.mt.sm]}>
                 <Cover
                   src={item.avatar}
-                  size={40}
+                  size={32}
                   border
                   radius
+                  shadow
                   onPress={() => {
                     t('收藏的人物.跳转', {
                       to: 'Mono',
@@ -138,12 +136,12 @@ function Item(
   )
 }
 
-Item.contextTypes = {
+ItemRecents.contextTypes = {
   $: PropTypes.object,
   navigation: PropTypes.object
 }
 
-export default observer(Item)
+export default observer(ItemRecents)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

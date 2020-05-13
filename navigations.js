@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 20:31:42
+ * @Last Modified time: 2020-05-13 22:37:19
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
@@ -11,16 +11,16 @@ export default {
     // blogId: 295843 // 294448
     // catalogId: 29811,
     // groupId: 'tinygrail',
-    // monoId: 'person/8138', // 20391 character/70323 person/5745
+    // monoId: 'person/5745', // 20391 character/70323 person/5745
     // subjectId: 100444 // 103824 238923 279457 100444 204135
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '欢迎来到实力至上主义的教室',
-    // topicId: 'ep/880824' // group/350677, ep/768491
+    // topicId: 'group/356474' // group/350677, ep/768491
     // userId: 'ekibun' // 456208, 419012
     // userName: 'ekibun',
     // from: 'tinygrail',
     // form: 'lottery', // lottery
-    // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #709「神原骏河」36股',
+    // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #70900「神原骏河」36股',
     // name: '种田梨沙'
     // tag: '水树奈奈',
     // type: 'anime'

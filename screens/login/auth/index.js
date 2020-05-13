@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 12:15:11
+ * @Last Modified time: 2020-05-13 22:18:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ class Auth extends React.Component {
   render() {
     const { navigation } = this.props
     return (
-      <View style={this.styles.container}>
+      <View style={[_.container.column, _.container.plain]}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <IconTabsHeader
@@ -76,10 +76,6 @@ class Auth extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
-  container: {
-    ..._.container.column,
-    backgroundColor: _.colorBg
-  },
   icon: {
     ..._.header.right,
     right: 44

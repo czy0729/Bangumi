@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 17:56:27
+ * @Last Modified time: 2020-05-13 20:33:30
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
-import { SectionTitle, Tag } from '@screens/_'
+import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import SectionRight from './section-right'
@@ -45,10 +45,10 @@ function Voice({ style }, { $, navigation }) {
             <Flex.Item flex={2}>
               <Flex align='start'>
                 <Image
-                  size={48}
+                  size={40}
                   src={item.cover}
                   radius
-                  border={_.colorBorder}
+                  shadow
                   onPress={() =>
                     appNavigate(
                       item.href,
@@ -63,11 +63,9 @@ function Voice({ style }, { $, navigation }) {
                   }
                 />
                 <Flex.Item style={_.ml.sm}>
-                  <Text style={_.mt.xs} bold>
-                    {item.name}
-                  </Text>
+                  <Text bold>{item.name}</Text>
                   {!!item.nameCn && (
-                    <Text style={_.mt.xs} size={13} type='sub'>
+                    <Text style={_.mt.xs} size={11} type='sub'>
                       {item.nameCn}
                     </Text>
                   )}
@@ -77,13 +75,11 @@ function Voice({ style }, { $, navigation }) {
             <Flex.Item style={_.ml.sm} flex={3.2}>
               <Flex align='start'>
                 <Flex.Item>
-                  <Text style={_.mt.xs} align='right'>
-                    {item.subjectName}
-                  </Text>
-                  <Flex style={_.mt.xs} align='start'>
+                  <Text align='right'>{item.subjectName}</Text>
+                  <Flex style={styles.mt}>
                     <Flex.Item>
                       <Text
-                        size={13}
+                        size={11}
                         type='sub'
                         align='right'
                         lineHeight={14}
@@ -95,12 +91,12 @@ function Voice({ style }, { $, navigation }) {
                     <Tag style={_.ml.xs} value={item.staff} />
                   </Flex>
                 </Flex.Item>
-                <Image
+                <Cover
                   style={_.ml.sm}
-                  size={48}
+                  size={40}
                   src={item.subjectCover}
                   radius
-                  border={_.colorBorder}
+                  shadow
                   onPress={() =>
                     appNavigate(item.subjectHref, navigation, {}, event)
                   }
@@ -136,5 +132,8 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  mt: {
+    marginTop: 2
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:51:01
+ * @Last Modified time: 2020-05-13 20:08:37
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -70,7 +70,7 @@ class Search extends React.Component {
 
   render() {
     return (
-      <View style={_.container.screen}>
+      <View style={_.select(_.container.plain, _.container.bg)}>
         <Flex style={styles.searchBar}>
           <Category />
           <Flex.Item>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:34:50
+ * @Last Modified time: 2020-05-13 14:19:19
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -85,7 +85,7 @@ class Channel extends React.Component {
 
     return (
       <ScrollView
-        style={_.container.screen}
+        style={_.container.plain}
         contentContainerStyle={_.container.bottom}
       >
         <Rank />

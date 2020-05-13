@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 15:40:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:36:54
+ * @Last Modified time: 2020-05-13 14:20:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,9 +20,6 @@ function Blog(props, { $ }) {
         {blog.map((item, index) => (
           <ItemBlog
             key={item.id}
-            style={{
-              backgroundColor: 'transparent'
-            }}
             {...item}
             index={index}
             event={{

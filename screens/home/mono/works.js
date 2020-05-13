@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 17:58:06
+ * @Last Modified time: 2020-05-13 20:25:27
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text } from '@components'
-import { SectionTitle, Tag } from '@screens/_'
+import { Flex, Text } from '@components'
+import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
-import { appNavigate } from '@utils/app'
+import { appNavigate, findBangumiCn } from '@utils/app'
 import SectionRight from './section-right'
 
 const event = {
@@ -42,11 +42,11 @@ function Works({ style }, { $, navigation }) {
             style={[styles.item, index !== 0 && styles.border]}
             align='start'
           >
-            <Image
-              size={48}
+            <Cover
+              size={40}
               src={item.cover}
               radius
-              border={_.colorBorder}
+              shadow
               onPress={() =>
                 appNavigate(
                   item.href,
@@ -61,9 +61,11 @@ function Works({ style }, { $, navigation }) {
               }
             />
             <Flex.Item style={_.ml.sm}>
-              <Text bold>{item.name}</Text>
-              <Flex style={_.mt.xs}>
-                <Tag value={item.staff} />
+              <Flex align='start'>
+                <Flex.Item>
+                  <Text bold>{findBangumiCn(item.name)}</Text>
+                </Flex.Item>
+                <Tag style={_.ml.sm} value={item.staff} />
               </Flex>
             </Flex.Item>
           </Flex>

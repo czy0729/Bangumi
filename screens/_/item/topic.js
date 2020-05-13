@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:59:10
+ * @Last Modified time: 2020-05-13 20:36:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
 function ItemTopic({
+  style,
   navigation,
   index,
   authorId,
@@ -45,7 +46,7 @@ function ItemTopic({
   const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   return (
-    <Flex style={[styles.item, isOdd && styles.itemOdd]} align='start'>
+    <Flex style={[style, isOdd && styles.itemOdd]} align='start'>
       <Avatar
         style={styles.image}
         navigation={navigation}
@@ -149,9 +150,6 @@ ItemTopic.defaultProps = {
 export default observer(ItemTopic)
 
 const memoStyles = _.memoStyles(_ => ({
-  item: {
-    backgroundColor: _.colorPlain
-  },
   itemOdd: {
     backgroundColor: _.colorBg
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 02:04:09
+ * @Last Modified time: 2020-05-12 23:58:52
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -76,8 +76,8 @@ function HorizontalList({
 
 HorizontalList.defaultProps = {
   data: [],
-  width: 68,
-  height: 68,
+  width: 58,
+  height: 58,
   quality: false,
   findCn: false,
   ellipsizeMode: 'tail',

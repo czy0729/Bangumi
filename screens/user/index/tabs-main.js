@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 19:25:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 19:30:43
+ * @Last Modified time: 2020-05-13 22:13:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,6 @@ function TabsMain(
   const { subjectType } = $.state
   return (
     <Tabs
-      style={_.container.screen}
       $={$}
       scrollY={scrollY}
       onSelect={onSelectSubjectType}

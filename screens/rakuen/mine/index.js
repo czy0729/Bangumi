@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 17:16:26
+ * @Last Modified time: 2020-05-13 22:04:49
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -63,7 +63,7 @@ class Mine extends React.Component {
     const { list } = $.mine
     return (
       <ScrollView
-        style={_.container.screen}
+        style={_.container.bg}
         contentContainerStyle={_.container.outer}
       >
         <Flex wrap='wrap'>

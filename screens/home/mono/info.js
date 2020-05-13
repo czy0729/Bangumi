@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 01:57:31
+ * @Last Modified time: 2020-05-13 20:42:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -140,11 +140,11 @@ const styles = StyleSheet.create({
   },
   info: {
     paddingHorizontal: _.xs,
-    ..._.mt.md
+    marginTop: _.md
   },
   title: {
     paddingHorizontal: _.wind,
-    ..._.mt.lg,
-    ..._.mb.md
+    marginTop: _.lg,
+    marginBottom: _.md
   }
 })

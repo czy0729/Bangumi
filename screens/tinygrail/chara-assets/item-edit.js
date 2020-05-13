@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 22:35:31
+ * @Last Modified time: 2020-05-13 22:36:04
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -19,6 +19,7 @@ function ItemEdit({ index, item, type, users, event }, { $ }) {
   const isActive = editingIds[id]
   return (
     <Touchable
+      withoutFeedback={!editing}
       onPress={editing ? () => $.toggleEditingId(id, state) : undefined}
     >
       <Flex style={editing && styles.item}>
@@ -39,6 +40,7 @@ function ItemEdit({ index, item, type, users, event }, { $ }) {
             users={users}
             event={event}
             showMenu={!editing}
+            withoutFeedback={editing}
           />
         </Flex.Item>
       </Flex>

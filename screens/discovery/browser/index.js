@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 19:22:37
+ * @Last Modified time: 2020-05-13 00:27:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -74,7 +74,7 @@ class Browser extends React.Component {
     const { $ } = this.context
     const { page, _loaded } = $.state
     return (
-      <View style={_.container.screen}>
+      <View style={_.container.bg}>
         {!!_loaded && (
           <Tabs
             tabs={this.tabs}

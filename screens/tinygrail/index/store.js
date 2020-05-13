@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 22:21:10
+ * @Last Modified time: 2020-05-13 22:28:51
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -228,7 +228,7 @@ export default class ScreenTinygrail extends store {
             ? `${toFixed(AfterTax / M, 1)}万`
             : formatNumber(AfterTax, 2)
       } else {
-        _Total = formatNumber(Share, 0)
+        _Total = formatNumber(Total, 0)
         _Share = formatNumber(Share, 2)
         _Tax = formatNumber(Tax, 2)
         _AfterTax = formatNumber(AfterTax, 2)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 18:02:36
+ * @Last Modified time: 2020-05-13 21:25:50
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
@@ -25,7 +25,7 @@ export default class ScreenTag extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
     const _state = {
       ...state,
 

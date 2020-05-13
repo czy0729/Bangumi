@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 01:01:07
+ * @Last Modified time: 2020-05-12 21:58:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -231,5 +231,8 @@ const styles = StyleSheet.create({
   },
   touchable: {
     padding: _.sm
+  },
+  placeholder: {
+    marginBottom: -1.5
   }
 })

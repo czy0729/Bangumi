@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:02:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-05 01:44:42
+ * @Last Modified time: 2020-05-13 00:10:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,7 @@ class DiscoveryBlog extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.screen}>
+      <View style={_.container.bg}>
         {!!_loaded && (
           <Tabs tabs={tabs}>
             {tabs.map(item => (

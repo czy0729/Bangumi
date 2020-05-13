@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-15 16:49:31
+ * @Last Modified time: 2020-05-13 00:38:22
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -26,11 +26,11 @@ function List(props, { $ }) {
   return (
     <ListView
       key={layout}
-      style={_.container.screen}
+      style={_.container.bg}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       sections={$.sections}
-      numColumns={$.isList ? undefined : 3}
+      numColumns={$.isList ? undefined : 4}
       renderSectionHeader={renderSectionHeader}
       renderItem={({ item, title }) => {
         const { items } = item

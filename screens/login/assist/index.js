@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-30 20:51:09
+ * @Last Modified time: 2020-05-13 21:53:51
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -283,7 +283,7 @@ class LoginAssist extends React.Component {
     const { loading, info } = this.state
     return (
       <ScrollView
-        style={this.styles.screen}
+        style={_.container.bg}
         contentContainerStyle={this.styles.container}
       >
         <Text type='danger' size={12}>
@@ -354,9 +354,6 @@ class LoginAssist extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
-  screen: {
-    backgroundColor: _.colorBg
-  },
   container: {
     display: 'flex',
     flexDirection: 'column',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 20:08:21
+ * @Last Modified time: 2020-05-13 20:09:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,7 @@ class Tags extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.screen}>
+      <View style={_.container.bg}>
         {!!_loaded && (
           <Tabs tabs={tabs}>
             {tabs.map((item, index) => (

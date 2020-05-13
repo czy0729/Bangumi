@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 19:53:04
+ * @Last Modified time: 2020-05-13 21:02:13
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
-import { SectionTitle, Tag } from '@screens/_'
+import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate, getCoverMedium } from '@utils/app'
 
@@ -38,11 +38,11 @@ function Jobs({ style }, { $, navigation }) {
           >
             <Flex.Item flex={3}>
               <Flex align='start'>
-                <Image
-                  size={48}
+                <Cover
+                  size={40}
                   src={item.cover}
                   radius
-                  border={_.colorBorder}
+                  shadow
                   onPress={() =>
                     appNavigate(
                       item.href,
@@ -57,12 +57,12 @@ function Jobs({ style }, { $, navigation }) {
                   }
                 />
                 <Flex.Item style={_.ml.sm}>
-                  <Text style={_.mt.xs}>{item.name}</Text>
+                  <Text>{item.name}</Text>
                   <Flex style={_.mt.xs} align='start'>
                     <Tag value={item.staff} />
                     <Text
                       style={_.ml.xs}
-                      size={13}
+                      size={11}
                       type='sub'
                       lineHeight={14}
                       bold
@@ -80,7 +80,7 @@ function Jobs({ style }, { $, navigation }) {
                     {item.cast}
                   </Text>
                   {!!item.castTag && (
-                    <Text style={_.mt.xs} size={13} type='sub' align='right'>
+                    <Text style={_.mt.xs} size={11} type='sub' align='right'>
                       {item.castTag}
                     </Text>
                   )}
@@ -88,10 +88,10 @@ function Jobs({ style }, { $, navigation }) {
                 {!!item.castCover && (
                   <Image
                     style={_.ml.sm}
-                    size={48}
+                    size={40}
                     src={item.castCover}
                     radius
-                    border={_.colorBorder}
+                    shadow
                     onPress={() =>
                       appNavigate(
                         item.castHref,

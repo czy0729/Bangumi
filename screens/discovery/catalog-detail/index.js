@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 18:21:48
+ * @Last Modified time: 2020-05-13 14:02:15
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -89,7 +89,7 @@ class CatalogDetail extends React.Component {
     const { onScroll } = this.props
     return (
       <ListView
-        style={_.container.content}
+        style={_.container.plain}
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={$.catalogDetail}

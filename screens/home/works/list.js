@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 14:06:45
+ * @Last Modified time: 2020-05-13 21:49:15
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -30,6 +30,7 @@ class List extends React.Component {
     if (list) {
       return (
         <ItemSearch
+          style={_.container.item}
           navigation={navigation}
           index={index}
           event={{

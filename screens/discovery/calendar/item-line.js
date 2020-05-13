@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 18:50:28
+ * @Last Modified time: 2020-05-13 00:37:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
-const imageWidth = 80
+const imageWidth = 64
 
 function ItemLine(
   { subjectId, images = {}, name, air, timeCN, score },
@@ -56,6 +56,7 @@ function ItemLine(
             height={imageWidth}
             src={images.medium}
             radius
+            shadow
           />
         </View>
         <Flex.Item style={_.ml.md}>
@@ -97,7 +98,7 @@ export default observer(ItemLine)
 const styles = StyleSheet.create({
   item: {
     width: '100%',
-    paddingVertical: 12
+    paddingVertical: 8
   },
   itemActive: {
     backgroundColor: _.colorMainLight

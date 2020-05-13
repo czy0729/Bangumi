@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 14:11:23
+ * @Last Modified time: 2020-05-13 14:41:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Text, Image } from '@components'
+import { Touchable, Flex, Text } from '@components'
 import { _, discoveryStore } from '@stores'
 import { t } from '@utils/fetch'
 import { findBangumiCn } from '@utils/app'
 import { EVENT } from '@constants'
+import Cover from '../base/cover'
 
 const imgWidth = 80
 
@@ -41,7 +42,7 @@ function ItemBlog(
   if (time) line.push(time)
   return (
     <Touchable
-      style={[styles.container, readed && styles.readed, style]}
+      style={[styles.container, style, readed && styles.readed]}
       onPress={() => {
         const { eventId, eventData } = event
         t(eventId, {
@@ -60,13 +61,7 @@ function ItemBlog(
       <Flex align='start' style={[styles.wrap, index !== 0 && styles.border]}>
         {!!cover && (
           <View style={styles.imgContainer}>
-            <Image
-              src={cover}
-              width={imgWidth}
-              height={imgWidth}
-              placeholder={false}
-              shadow
-            />
+            <Cover src={cover} width={imgWidth} height={imgWidth} shadow />
           </View>
         )}
         <Flex.Item>

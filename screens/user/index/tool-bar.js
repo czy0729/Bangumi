@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 12:08:21
+ * @Last Modified time: 2020-05-12 23:52:40
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -26,7 +26,7 @@ function ToolBar(props, { $ }) {
     filterData.push(`${item.tag} (${item.count})`)
   )
   return (
-    <Flex style={styles.container}>
+    <Flex style={list && styles.bg}>
       <Flex.Item>
         <Popover
           data={MODEL_COLLECTIONS_ORDERBY.data.map(item => item.label)}
@@ -90,7 +90,7 @@ ToolBar.contextTypes = {
 export default observer(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
-  container: {
+  bg: {
     backgroundColor: _.colorBg
   },
   item: {

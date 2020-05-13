@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 17:48:19
+ * @Last Modified time: 2020-05-13 20:12:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -100,10 +100,9 @@ class Mono extends React.Component {
     const { $ } = this.context
     const { onScroll } = this.props
     return (
-      <View style={_.container.content}>
+      <View style={_.container.plain}>
         <NavigationBarEvents />
         <ListView
-          style={_.container.content}
           contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={keyExtractor}
           data={$.monoComments}

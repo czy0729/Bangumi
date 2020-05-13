@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 21:03:38
+ * @Last Modified time: 2020-05-12 23:29:07
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,6 +13,7 @@ import {
   IconTabsHeader,
   SafeAreaView
 } from '@screens/_'
+import { _ } from '@stores'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
@@ -73,7 +74,7 @@ class Timeline extends React.Component {
     const { $ } = this.context
     const { scope, _loaded } = $.state
     return (
-      <SafeAreaView>
+      <SafeAreaView style={_.container._plain}>
         {_loaded && (
           <OptimizeTabbarTransition header>
             <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>

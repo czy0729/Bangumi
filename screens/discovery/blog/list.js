@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-05 01:46:11
+ * @Last Modified time: 2020-05-13 00:29:52
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -47,10 +47,7 @@ class List extends React.Component {
     const { show } = $.state
     const { list, _loaded } = $.blog(type)
     return (
-      <ScrollView
-        style={_.container.screen}
-        contentContainerStyle={_.container.bottom}
-      >
+      <ScrollView contentContainerStyle={_.container.bottom}>
         {this.renderPagination()}
         {show && (
           <>
@@ -59,6 +56,7 @@ class List extends React.Component {
                 {list.map((item, index) => (
                   <ItemBlog
                     key={item.id}
+                    style={_.container.item}
                     navigation={navigation}
                     event={event}
                     index={index}

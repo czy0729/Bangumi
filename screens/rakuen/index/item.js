@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 00:40:24
+ * @Last Modified time: 2020-05-12 23:33:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -306,6 +306,7 @@ class Item extends React.Component {
     return (
       <View
         style={[
+          _.container.item,
           this.styles.container,
           this.isReaded && this.styles.readed,
           style
@@ -348,8 +349,7 @@ class Item extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: _.wind,
-    ..._.container.item
+    paddingLeft: _.wind
   },
   readed: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 14:47:12
+ * @Last Modified time: 2020-05-13 00:39:37
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore } from '@stores'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 
-const num = _.isPad ? 4 : 3
-const percent = _.isPad ? 0.2 : 0.3
+const num = 4
+const percent = 0.22
 
 export const imageWidth = (_.window.width - _.wind * 2) * percent
 export const imageHeight = imageWidth * 1.28

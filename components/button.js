@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:07:22
+ * @Last Modified time: 2020-05-13 16:29:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,6 @@ import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { titleCase } from '@utils'
 import { _ } from '@stores'
-import { IOS } from '@constants'
 import Flex from './flex'
 import Text from './text'
 import Touchable from './touchable'
@@ -214,18 +213,15 @@ const memoStyles = _.memoStyles(_ => ({
   },
 
   // other
-  shadow: IOS
-    ? {
-        shadowColor: _.colorShadow,
-        shadowOffset: {
-          height: 3
-        },
-        shadowOpacity: 0.16,
-        shadowRadius: 3
-      }
-    : {
-        elevation: 8
-      },
+  shadow: {
+    shadowColor: _.colorShadow,
+    shadowOffset: {
+      height: 3
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 3,
+    elevation: 8
+  },
   radius: {
     borderRadius: _.radiusXs
   }

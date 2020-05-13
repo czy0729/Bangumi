@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 14:31:16
+ * @Last Modified time: 2020-05-13 17:27:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -67,7 +67,11 @@ function ItemCollections({
 
   return (
     <Touchable
-      style={[styles.container, isCollect && styles.containerActive]}
+      style={[
+        _.container.item,
+        styles.container,
+        isCollect && styles.containerActive
+      ]}
       onPress={() => {
         const { eventId, eventData } = event
         t(eventId, {
@@ -85,7 +89,7 @@ function ItemCollections({
         })
       }}
     >
-      <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
+      <Flex style={[styles.wrap, !isFirst && styles.border]} align='start'>
         <View style={styles.imgContainer}>
           <Cover
             style={styles.image}
@@ -103,7 +107,7 @@ function ItemCollections({
             justify={isCatalog ? undefined : 'between'}
             align='start'
           >
-            <Flex>
+            <Flex align='start'>
               <Flex.Item>
                 <Text size={15} numberOfLines={2} bold>
                   {HTMLDecode(nameCn)}

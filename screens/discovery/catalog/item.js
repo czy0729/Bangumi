@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 14:51:41
+ * @Last Modified time: 2020-05-13 13:59:48
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Shadow, Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { Cover } from '@screens/_'
-import { t } from '@utils/fetch'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
+import { IOS } from '@constants'
 
 const width = _.window.width - _.wind * 2
 const height = width * (_.isPad ? 0.32 : 0.42)
@@ -30,56 +31,55 @@ function Item(
   if (last) text.push(last)
   if (collect) text.push(`${collect}收藏`)
   return (
-    <Shadow style={styles.shadow} initHeight={154}>
-      <Touchable
-        onPress={() => {
-          t('目录.跳转', {
-            to: 'CatalogDetail',
-            catalogId: id
-          })
+    <Touchable
+      style={styles.item}
+      onPress={() => {
+        t('目录.跳转', {
+          to: 'CatalogDetail',
+          catalogId: id
+        })
 
-          navigation.push('CatalogDetail', {
-            catalogId: id
-          })
-        }}
-      >
-        <Flex style={styles.item} direction='column' justify='center'>
-          <Text type='title' bold size={15} align='center' numberOfLines={1}>
-            {title}
-          </Text>
-          <Text style={_.mt.xs} size={12} align='center' numberOfLines={1}>
-            {info}
-          </Text>
-          <Flex style={[styles.images, _.mt.sm]}>
-            {list
-              .filter((item, index) => index < (_.isPad ? 4 : 3))
-              .map(item => (
-                <Cover
-                  key={item.id}
-                  style={styles.image}
-                  size={56}
-                  radius={4}
-                  src={item.image}
-                />
-              ))}
-            {list.length ? (
-              <Text style={_.ml.xs} type='sub' size={13} bold>
-                +{list.length}
-              </Text>
-            ) : (
-              <Text type='sub' size={12}>
-                ...
-              </Text>
-            )}
-          </Flex>
-          {!!text.length && (
-            <Text style={_.mt.sm} size={12}>
-              {text.join(' / ')}
+        navigation.push('CatalogDetail', {
+          catalogId: id
+        })
+      }}
+    >
+      <Flex style={styles.container} direction='column' justify='center'>
+        <Text type='title' bold size={15} align='center' numberOfLines={1}>
+          {title}
+        </Text>
+        <Text style={_.mt.xs} size={12} align='center' numberOfLines={1}>
+          {info}
+        </Text>
+        <Flex style={[styles.images, _.mt.sm]}>
+          {list
+            .filter((item, index) => index < (_.isPad ? 4 : 3))
+            .map(item => (
+              <Cover
+                key={item.id}
+                style={styles.image}
+                size={56}
+                radius={4}
+                src={item.image}
+              />
+            ))}
+          {list.length ? (
+            <Text style={_.ml.xs} type='sub' size={13} bold>
+              +{list.length}
+            </Text>
+          ) : (
+            <Text type='sub' size={12}>
+              ...
             </Text>
           )}
         </Flex>
-      </Touchable>
-    </Shadow>
+        {!!text.length && (
+          <Text style={_.mt.sm} size={12}>
+            {text.join(' / ')}
+          </Text>
+        )}
+      </Flex>
+    </Touchable>
   )
 }
 
@@ -91,26 +91,29 @@ Item.contextTypes = {
 export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
-  shadow: {
-    marginTop: _.space,
-    marginLeft: _.wind
-  },
   item: {
     width,
     height,
-    paddingHorizontal: _.lg,
+    marginTop: _.space,
+    marginLeft: _.wind,
     backgroundColor: _.colorPlain,
-    borderColor: _.colorBorder,
-    borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
-    overflow: 'hidden'
+    ...(IOS
+      ? {
+          shadowColor: _.colorShadow,
+          shadowOffset: {
+            height: 4
+          },
+          shadowOpacity: 0.1,
+          shadowRadius: 8
+        }
+      : {
+          elevation: 16
+        })
   },
-  blurView: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width,
-    height
+  container: {
+    paddingHorizontal: _.lg,
+    height: '100%'
   },
   images: {
     height: 56

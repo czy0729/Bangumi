@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 15:44:26
+ * @Last Modified time: 2020-05-12 22:25:34
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
+import { InteractionManager, Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView, FixedTextarea, Flex, Text } from '@components'
@@ -39,87 +39,116 @@ class Topic extends React.Component {
     navigation: PropTypes.object
   }
 
+  state = {
+    rendered: false
+  }
+
   listView
   fixedTextarea
   scrollFailCount = 0
 
-  async componentDidMount() {
-    const { $, navigation } = this.context
-    if (!$.isUGCAgree) {
-      /**
-       * @issue 这里注意在iOS上面, 一定要延迟,
-       * 不然首页点击讨论跳进来popover + alert直接就不能操作了
-       */
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(async () => {
       setTimeout(() => {
-        t('帖子.UCG')
+        this.rendered()
+      }, 300)
 
-        Alert.alert(
-          '社区指导原则',
-          '生命有限, Bangumi 是一个纯粹的ACG网络, 请查看社区指导原则并且同意才能继续操作',
-          [
-            {
-              text: '取消',
-              style: 'cancel',
-              onPress: () => navigation.goBack()
-            },
-            {
-              text: '查看',
-              onPress: () => {
-                navigation.goBack()
-                navigation.push('UGCAgree', {
-                  topicId: $.topicId
-                })
+      const { $, navigation } = this.context
+      if (!$.isUGCAgree) {
+        /**
+         * @issue 这里注意在iOS上面, 一定要延迟,
+         * 不然首页点击讨论跳进来popover + alert直接就不能操作了
+         */
+        setTimeout(() => {
+          t('帖子.UCG')
+
+          Alert.alert(
+            '社区指导原则',
+            '生命有限, Bangumi 是一个纯粹的ACG网络, 请查看社区指导原则并且同意才能继续操作',
+            [
+              {
+                text: '取消',
+                style: 'cancel',
+                onPress: () => navigation.goBack()
+              },
+              {
+                text: '查看',
+                onPress: () => {
+                  navigation.goBack()
+                  navigation.push('UGCAgree', {
+                    topicId: $.topicId
+                  })
+                }
               }
+            ]
+          )
+        }, 800)
+        return
+      }
+
+      const url =
+        navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
+      navigation.setParams({
+        extra: <IconFavor $={$} />,
+        popover: {
+          data: ['浏览器查看', '复制链接', '举报'],
+          onSelect: key => {
+            t('帖子.右上角菜单', {
+              key
+            })
+
+            switch (key) {
+              case '浏览器查看':
+                open(url)
+                break
+              case '复制链接':
+                copy(url)
+                info('已复制')
+                break
+              case '举报':
+                open(`${HOST}/group/forum`)
+                break
+              default:
+                break
             }
-          ]
-        )
-      }, 800)
-      return
-    }
-
-    const url =
-      navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
-    navigation.setParams({
-      extra: <IconFavor $={$} />,
-      popover: {
-        data: ['浏览器查看', '复制链接', '举报'],
-        onSelect: key => {
-          t('帖子.右上角菜单', {
-            key
-          })
-
-          switch (key) {
-            case '浏览器查看':
-              open(url)
-              break
-            case '复制链接':
-              copy(url)
-              info('已复制')
-              break
-            case '举报':
-              open(`${HOST}/group/forum`)
-              break
-            default:
-              break
           }
         }
+      })
+
+      await $.init()
+      const { title } = $.topic
+      withTransitionHeader.setTitle(navigation, title)
+
+      if ($.postId) {
+        this.jump()
       }
+
+      hm(`rakuen/topic/${$.topicId}`, 'Topic')
     })
-
-    await $.init()
-    const { title } = $.topic
-    withTransitionHeader.setTitle(navigation, title)
-
-    if ($.postId) {
-      this.jump()
-    }
-
-    hm(`rakuen/topic/${$.topicId}`, 'Topic')
   }
 
   connectListViewRef = ref => (this.listView = ref)
 
   connectFixedTextareaRef = ref => (this.fixedTextarea = ref)
+
+  onScroll = e => {
+    const { onScroll } = this.props
+    onScroll(e)
+    this.rendered()
+  }
+
+  /**
+   * 用于延迟底部块渲染
+   * 优化条目页面进入渲染时, 同时渲染过多块导致掉帧的问题
+   */
+  rendered = () => {
+    const { rendered } = this.state
+    if (!rendered) {
+      this.setState({
+        rendered: true
+      })
+    }
+  }
 
   jump = () => {
     const { $ } = this.context
@@ -215,6 +244,11 @@ class Topic extends React.Component {
 
   renderItem = ({ item, index }) => {
     const { $ } = this.context
+    const { rendered } = this.state
+    if (!rendered && index > 4 && !$.postId) {
+      return null
+    }
+
     const event = {
       id: '帖子.跳转',
       data: {
@@ -278,9 +312,8 @@ class Topic extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { onScroll } = this.props
     return (
-      <View style={_.container.content}>
+      <View style={_.container.flex}>
         <NavigationBarEvents />
         <ListView
           ref={this.connectListViewRef}
@@ -295,7 +328,7 @@ class Topic extends React.Component {
           removeClippedSubviews={false}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
-          onScroll={onScroll}
+          onScroll={this.onScroll}
           onScrollToIndexFailed={this.onScrollToIndexFailed}
           onHeaderRefresh={$.fetchTopic}
           onFooterRefresh={$.fetchTopic}

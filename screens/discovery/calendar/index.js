@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 17:18:43
+ * @Last Modified time: 2020-05-13 00:33:30
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -64,9 +64,7 @@ class Calendar extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.calendar
     if (!_loaded) {
-      return (
-        <Loading style={_.select(_.container.content, _.container.screen)} />
-      )
+      return <Loading style={_.container.bg} />
     }
     return <List />
   }

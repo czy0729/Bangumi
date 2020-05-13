@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 19:47:04
+ * @Last Modified time: 2020-05-13 16:08:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -26,17 +26,10 @@ class List extends React.Component {
     const { $ } = this.context
     return (
       <ListView
-        style={_.container.screen}
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={$.random}
-        ListHeaderComponent={
-          <StatusBarPlaceholder
-            style={{
-              backgroundColor: _.colorBg
-            }}
-          />
-        }
+        ListHeaderComponent={<StatusBarPlaceholder />}
         renderItem={renderItem}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchRandom}

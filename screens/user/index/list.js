@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 14:00:04
+ * @Last Modified time: 2020-05-13 22:22:46
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -97,7 +97,7 @@ class List extends React.Component {
       MODEL_COLLECTION_STATUS.getValue(title)
     )
     if (!userCollections._loaded) {
-      return <Loading />
+      return <Loading style={_.container._plain} />
     }
 
     const { list } = $.state

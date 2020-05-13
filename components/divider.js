@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 03:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 12:34:51
+ * @Last Modified time: 2020-05-12 22:17:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,8 @@ export default observer(Divider)
 const memoStyles = _.memoStyles(_ => ({
   divider: {
     width: '100%',
-    paddingVertical: _.md
+    paddingTop: _.md,
+    paddingBottom: _.sm
   },
   text: {
     marginHorizontal: _.wind

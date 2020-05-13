@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 21:01:40
+ * @Last Modified time: 2020-05-13 22:23:19
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -144,12 +144,12 @@ class User extends React.Component {
 
     // 页面状态没加载完成
     if (!$.state._loaded) {
-      return <View style={_.container.screen} />
+      return <View style={_.container._plain} />
     }
 
     const { scrollY, fixed } = this.state
     return (
-      <View style={_.container.screen}>
+      <View style={_.container._plain}>
         <UM screen={title} />
         <NavigationEvents onDidFocus={this.onDidFocus} />
         <StatusBarEvents

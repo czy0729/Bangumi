@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 14:31:35
+ * @Last Modified time: 2020-05-13 21:47:54
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image } from '@components'
+import { Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import Tag from '../base/tag'
 
 function ItemVoice({
+  style,
   navigation,
   event,
   index,
@@ -25,15 +27,15 @@ function ItemVoice({
 }) {
   const styles = memoStyles()
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, style]}>
       <Flex style={[styles.wrap, index !== 0 && styles.border]} align='start'>
         <Flex.Item flex={2}>
           <Flex align='start'>
             <Image
-              size={48}
+              size={40}
               src={cover}
               radius
-              border={_.colorBorder}
+              shadow
               onPress={() => {
                 t(event.id, {
                   ...event.data,
@@ -50,9 +52,7 @@ function ItemVoice({
               }}
             />
             <Flex.Item style={_.ml.sm}>
-              <Text style={_.mt.xs} bold>
-                {name}
-              </Text>
+              <Text bold>{name}</Text>
               {!!nameCn && (
                 <Text style={_.mt.xs} size={13} type='sub'>
                   {nameCn}
@@ -65,9 +65,7 @@ function ItemVoice({
           {subject.map((item, idx) => (
             <Flex key={item.id} style={idx !== 0 && _.mt.md} align='start'>
               <Flex.Item>
-                <Text style={_.mt.xs} align='right'>
-                  {item.name}
-                </Text>
+                <Text align='right'>{item.name}</Text>
                 <Flex style={_.mt.xs} align='start'>
                   <Flex.Item>
                     <Text
@@ -83,12 +81,12 @@ function ItemVoice({
                   <Tag style={_.ml.xs} value={item.staff} />
                 </Flex>
               </Flex.Item>
-              <Image
+              <Cover
                 style={_.ml.sm}
-                size={48}
+                size={40}
                 src={item.cover}
                 radius
-                border={_.colorBorder}
+                shadow
                 onPress={() => {
                   t(event.id, {
                     ...event.data,
@@ -121,8 +119,7 @@ export default observer(ItemVoice)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
-    paddingLeft: _.wind,
-    backgroundColor: _.colorPlain
+    paddingLeft: _.wind
   },
   wrap: {
     paddingVertical: _.md,

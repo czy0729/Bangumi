@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 14:11:40
+ * @Last Modified time: 2020-05-13 16:50:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,6 +21,7 @@ const imgWidth = 80
 const imgHeight = 1.28 * imgWidth
 
 function ItemSearch({
+  style,
   navigation,
   index,
   id,
@@ -44,7 +45,7 @@ function ItemSearch({
   const isFirst = index === 0
   return (
     <Touchable
-      style={[styles.container, collected && styles.containerActive]}
+      style={[styles.container, style, collected && styles.containerActive]}
       onPress={() => {
         appNavigate(
           id,

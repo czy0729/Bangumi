@@ -40,7 +40,7 @@ class Random extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.random
     return (
-      <View style={_.container.content}>
+      <View style={_.container.plain}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? <List /> : <Loading style={_.container.screen} />}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 20:52:28
+ * @Last Modified time: 2020-05-12 23:36:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,7 @@ class Discovery extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.home
     return (
-      <View style={this.styles.container}>
+      <View style={_.select(_.container._plain, _.container._bg)}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? (
@@ -77,10 +77,6 @@ class Discovery extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   hide: {
     display: 'none'
-  },
-  container: {
-    flex: 1,
-    backgroundColor: _.select('transparent', _.colorBg)
   },
   androidWrap: {
     flex: 1,

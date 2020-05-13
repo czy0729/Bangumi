@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-15 16:28:17
+ * @Last Modified time: 2020-05-13 20:09:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -45,12 +45,11 @@ class List extends React.Component {
     const { $ } = this.context
     const list = $.list(this.key)
     if (!list._loaded) {
-      return <Loading style={_.container.screen} />
+      return <Loading />
     }
 
     return (
       <ListView
-        style={_.container.screen}
         contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={list}

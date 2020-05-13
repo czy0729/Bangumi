@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 16:48:42
+ * @Last Modified time: 2020-05-13 14:40:49
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -462,7 +462,12 @@ export function getCookie(cookies = '', name) {
  * @param {*} src
  */
 export function getCoverSmall(src = '') {
-  if (typeof src !== 'string' || src === '' || !src.includes(HOST_IMAGE)) {
+  if (
+    typeof src !== 'string' ||
+    src === '' ||
+    src.includes('/photo/') ||
+    !src.includes(HOST_IMAGE)
+  ) {
     return src
   }
 
@@ -474,11 +479,15 @@ export function getCoverSmall(src = '') {
  * @param {*} src
  */
 export function getCoverMedium(src = '', mini = false) {
-  // 角色图片因为是对头部划图的, 不要处理
+  /**
+   * 角色图片因为是对头部划图的, 不要处理
+   * 用户图床也没有其他质量
+   */
   if (
     typeof src !== 'string' ||
     src === '' ||
     src.includes('/crt/') ||
+    src.includes('/photo/') ||
     !src.includes(HOST_IMAGE)
   ) {
     return src
@@ -496,7 +505,12 @@ export function getCoverMedium(src = '', mini = false) {
  * @param {*} src
  */
 export function getCoverLarge(src = '') {
-  if (typeof src !== 'string' || src === '' || !src.includes(HOST_IMAGE)) {
+  if (
+    typeof src !== 'string' ||
+    src === '' ||
+    src.includes('/photo/') ||
+    !src.includes(HOST_IMAGE)
+  ) {
     return src
   }
 

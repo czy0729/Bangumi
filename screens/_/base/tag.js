@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-17 20:09:12
+ * @Last Modified time: 2020-05-13 14:06:02
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 
 function Tag({ style, type, value }) {
@@ -43,13 +43,11 @@ function Tag({ style, type, value }) {
   }
 
   return (
-    <Text
-      style={[styles.tag, styles[_type], style]}
-      type={_.select('sub', _type)}
-      size={11}
-    >
-      {value}
-    </Text>
+    <Flex style={[styles.tag, styles[_type], style]}>
+      <Text type={_.select('sub', _type)} size={10}>
+        {value}
+      </Text>
+    </Flex>
   )
 }
 

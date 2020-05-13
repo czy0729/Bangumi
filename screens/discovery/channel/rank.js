@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:40:49
+ * @Last Modified time: 2020-05-13 14:21:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Touchable, Image, Text } from '@components'
-import { SectionTitle } from '@screens/_'
+import { Flex, Touchable, Text } from '@components'
+import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { findBangumiCn } from '@utils/app'
@@ -44,11 +44,10 @@ function Friends(props, { $, navigation }) {
           >
             <Flex align='start'>
               <View style={styles.image}>
-                <Image
+                <Cover
                   src={item.cover}
                   width={imgWidth}
                   height={imgWidth * 1.2}
-                  placeholder={false}
                   shadow
                 />
               </View>
@@ -97,11 +96,10 @@ function Friends(props, { $, navigation }) {
             >
               <Flex align='start'>
                 <View style={styles.imageSm}>
-                  <Image
+                  <Cover
                     src={item.cover}
                     width={imgWidthSm}
                     height={imgWidthSm}
-                    placeholder={false}
                     shadow
                   />
                 </View>

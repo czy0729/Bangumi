@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:59:23
+ * @Last Modified time: 2020-05-12 22:15:09
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -285,7 +285,7 @@ export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
-    backgroundColor: _.colorPlain
+    ..._.container.item
   },
   itemOdd: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)

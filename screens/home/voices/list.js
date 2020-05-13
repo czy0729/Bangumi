@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 14:03:38
+ * @Last Modified time: 2020-05-13 21:45:58
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -28,6 +28,7 @@ class List extends React.Component {
     const { navigation } = this.context
     return (
       <ItemVoice
+        style={_.container.item}
         navigation={navigation}
         index={index}
         event={event}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-20 22:29:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-03 10:26:47
+ * @Last Modified time: 2020-05-13 22:16:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { _ } from '@stores'
 
 function Login(props, { navigation }) {
   return (
-    <View style={[_.container.screen, _.container.column]}>
+    <View style={[_.container.column, _.container._plain]}>
       <Text type='sub' size={16}>
         cookie已过期
       </Text>

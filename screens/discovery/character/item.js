@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:59:19
+ * @Last Modified time: 2020-05-13 16:03:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
-const imageWidth = _.window.width * 0.16
+const imageWidth = _.window.width * 0.13
 const marginLeft = (_.window.width - 5 * imageWidth) / 6
 
 function Item({ avatar, name, id }, { navigation }) {
@@ -38,7 +38,7 @@ function Item({ avatar, name, id }, { navigation }) {
         onPress={onPress}
       />
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} size={12} numberOfLines={2} align='center' bold>
+        <Text style={_.mt.sm} size={10} numberOfLines={2} align='center' bold>
           {HTMLDecode(name)}
         </Text>
       </Touchable>

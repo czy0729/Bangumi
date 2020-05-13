@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 14:32:29
+ * @Last Modified time: 2020-05-13 14:17:23
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Cover as CompCover } from '@screens/_'
@@ -37,7 +37,7 @@ class Cover extends React.Component {
     const { image, placeholder } = this.props
     const { onLoad } = this.state
     return (
-      <View style={styles.container}>
+      <View style={[this.styles.container, onLoad && this.styles.shadow]}>
         {!!image && (
           <CompCover
             src={CDN_OSS_SUBJECT(getCoverMedium(image))}
@@ -45,7 +45,6 @@ class Cover extends React.Component {
             height={imageHeight}
             radius
             border
-            shadow='lg'
             placeholder={false}
             imageViewer
             imageViewerSrc={getCoverLarge(image || placeholder)}
@@ -62,21 +61,26 @@ class Cover extends React.Component {
         )}
         {!onLoad && (
           <CompCover
-            style={styles.placeholder}
+            style={[this.styles.placeholder, this.styles.shadow]}
             src={placeholder}
             size={imageWidth}
             height={imageHeight}
             radius
             border
+            placeholder={false}
             noDefault
           />
         )}
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   container: {
     position: 'absolute',
     zIndex: 1,
@@ -88,5 +92,16 @@ const styles = StyleSheet.create({
     zIndex: 2,
     top: 0,
     left: 0
+  },
+  shadow: {
+    backgroundColor: _.colorBg,
+    borderRadius: _.radiusXs,
+    shadowColor: _.colorShadow,
+    shadowOffset: {
+      height: 4
+    },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 16
   }
-})
+}))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:08:20
+ * @Last Modified time: 2020-05-13 20:58:49
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -12,7 +12,6 @@ import { Flex, Button, Icon, Text, Touchable } from '@components'
 import { SectionTitle, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
-import { IOS } from '@constants'
 
 function Box({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -62,46 +61,40 @@ function Box({ style }, { $, navigation }) {
       >
         收藏
       </SectionTitle>
-      <View style={styles.btn}>
-        <Touchable onPress={onPress}>
-          <Flex justify='center'>
+      <Touchable style={styles.btn} onPress={onPress}>
+        <Flex justify='center'>
+          <Flex.Item>
+            <Button style={leftStyle} type={getType(btnText)}>
+              {btnText}
+            </Button>
+          </Flex.Item>
+          {!!rating && (
             <Flex.Item>
-              <Button style={leftStyle} type={getType(btnText)} shadow={!IOS}>
-                {btnText}
+              <Button style={rightStyle} type={getType(btnText)}>
+                {getRating(rating)}{' '}
+                {[1, 2, 3, 4, 5].map(item => {
+                  let type
+                  if (rating / 2 >= item) {
+                    type = 'ios-star'
+                  } else if (rating / 2 >= item - 0.5) {
+                    type = 'ios-star-half'
+                  } else {
+                    type = 'ios-star-outline'
+                  }
+                  return (
+                    <Icon
+                      key={item}
+                      name={type}
+                      size={16}
+                      color={_.__colorPlain__}
+                    />
+                  )
+                })}
               </Button>
             </Flex.Item>
-            {!!rating && (
-              <Flex.Item>
-                <Button
-                  style={rightStyle}
-                  type={getType(btnText)}
-                  shadow={!IOS}
-                >
-                  {getRating(rating)}{' '}
-                  {[1, 2, 3, 4, 5].map(item => {
-                    let type
-                    if (rating / 2 >= item) {
-                      type = 'ios-star'
-                    } else if (rating / 2 >= item - 0.5) {
-                      type = 'ios-star-half'
-                    } else {
-                      type = 'ios-star-outline'
-                    }
-                    return (
-                      <Icon
-                        key={item}
-                        name={type}
-                        size={14}
-                        color={_.__colorPlain__}
-                      />
-                    )
-                  })}
-                </Button>
-              </Flex.Item>
-            )}
-          </Flex>
-        </Touchable>
-      </View>
+          )}
+        </Flex>
+      </Touchable>
       <Text style={_.mt.md} size={12} type='sub'>
         {wish || '-'}人想{$.action} / {collect || '-'}人{$.action}过 /{' '}
         {doing || '-'}人在{$.action} / {onHold || '-'}
@@ -130,7 +123,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   btn: {
     marginTop: _.md,
-    ...(IOS ? _.shadow : {})
+    backgroundColor: _.colorPlain,
+    borderRadius: _.radiusSm,
+    ..._.shadow
   },
   left: {
     borderTopRightRadius: 0,

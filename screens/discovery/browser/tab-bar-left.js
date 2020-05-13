@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-15 16:20:27
+ * @Last Modified time: 2020-05-13 00:20:33
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -39,8 +39,7 @@ const memoStyles = _.memoStyles(_ => ({
   tabBarLeft: {
     height: 42,
     paddingLeft: _._wind,
-    paddingRight: _.sm,
-    backgroundColor: _.colorBg
+    paddingRight: _.sm
   },
   btn: {
     width: 48,

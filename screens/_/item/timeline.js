@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 10:21:54
+ * @Last Modified time: 2020-05-12 23:31:03
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -247,7 +247,7 @@ class ItemTimeline extends React.Component {
     } = this.props
     const _image = !!image.length && image[0]
     return (
-      <Flex style={style} align='start'>
+      <Flex style={[_.container.item, style]} align='start'>
         <View style={this.styles.image}>
           {!!avatar.src && (
             <Avatar

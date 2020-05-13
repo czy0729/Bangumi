@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 14:14:33
+ * @Last Modified time: 2020-05-13 21:31:01
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -18,7 +18,7 @@ function Stars({ style, simple, value }) {
     return (
       <Flex style={style}>
         <Icon name='ios-star' size={13} color={_.colorWarning} />
-        <Text style={_.ml.xs} type='sub' size={13} lineHeight={13}>
+        <Text style={_.ml.xs} type='sub' size={13}>
           {value}
         </Text>
       </Flex>
