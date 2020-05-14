@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 19:52:01
+ * @Last Modified time: 2020-05-14 22:22:05
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { StyleSheet, View, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Text } from '@components'
@@ -19,7 +19,10 @@ function Tinygrail(props, { $, navigation }) {
   const { assets, balance, lastIndex } = $.userAssets
   const { nickname } = $.usersInfo
   return (
-    <ScrollView contentContainerStyle={styles.contentContainerStyle} {...props}>
+    <Animated.ScrollView
+      contentContainerStyle={styles.contentContainerStyle}
+      {...props}
+    >
       <View style={styles.page}>
         <Text style={_.mt.lg}>
           总资产: ₵{formatNumber(assets)} / {formatNumber(balance)}
@@ -45,7 +48,7 @@ function Tinygrail(props, { $, navigation }) {
           <Text underline>查看TA的持仓</Text>
         </Touchable>
       </View>
-    </ScrollView>
+    </Animated.ScrollView>
   )
 }
 

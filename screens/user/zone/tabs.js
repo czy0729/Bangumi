@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-06 13:00:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 15:32:56
+ * @Last Modified time: 2020-05-14 22:31:02
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Tabs as CompTabs } from '@components'
 import { _ } from '@stores'
-import { IOS } from '@constants'
 import { height, headerHeight } from './store'
 
 function Tabs({ $, scrollY, children, onChange, ...other }) {
@@ -19,10 +18,14 @@ function Tabs({ $, scrollY, children, onChange, ...other }) {
       tabBarStyle={[
         styles.tabs,
         {
-          top: scrollY.interpolate({
-            inputRange: [-height, 0, height - headerHeight, height],
-            outputRange: [height * 2, height, headerHeight, headerHeight]
-          })
+          transform: [
+            {
+              translateY: scrollY.interpolate({
+                inputRange: [-height, 0, height - headerHeight, height],
+                outputRange: [height * 2, height, headerHeight, headerHeight]
+              })
+            }
+          ]
         }
       ]}
       tabs={$.tabs}
@@ -46,13 +49,11 @@ const memoStyles = _.memoStyles(_ => ({
   tabs: {
     position: 'absolute',
     zIndex: 2,
+    top: 0,
     left: 0,
     right: 0,
+    marginTop: -1,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    ...(IOS
-      ? _.shadow
-      : {
-          elevation: 1
-        })
+    ..._.shadow
   }
 }))

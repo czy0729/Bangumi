@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 18:03:56
+ * @Last Modified time: 2020-05-14 22:22:25
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -36,10 +36,10 @@ class Zone extends React.Component {
   }
 
   state = {
-    scrollY: new Animated.Value(0),
     fixed: false // 头部是否置顶
   }
 
+  scrollY = new Animated.Value(0)
   offsetZeroNativeEvent
   loaded = {}
 
@@ -57,26 +57,18 @@ class Zone extends React.Component {
       this.offsetZeroNativeEvent.contentOffset.y = 0
     }
 
-    // 触发动画
-    const { scrollY, fixed } = this.state
-    Animated.event([
-      {
-        nativeEvent: {
-          contentOffset: {
-            y: scrollY
-          }
-        }
-      }
-    ])(e)
-
     // 更新头部是否置顶
     const { contentOffset } = e.nativeEvent
     const { y } = contentOffset
+    const { fixed } = this.state
     if (fixed && y < height) {
       this.setState({
         fixed: false
       })
-    } else if (!fixed && y >= height) {
+      return
+    }
+
+    if (!fixed && y >= height) {
       this.setState({
         fixed: true
       })
@@ -92,12 +84,11 @@ class Zone extends React.Component {
   resetPageOffset = page => {
     if (!this.loaded[page] && this.offsetZeroNativeEvent) {
       setTimeout(() => {
-        const { scrollY } = this.state
         Animated.event([
           {
             nativeEvent: {
               contentOffset: {
-                y: scrollY
+                y: this.scrollY
               }
             }
           }
@@ -111,11 +102,12 @@ class Zone extends React.Component {
 
   render() {
     const { $ } = this.context
-    if (!$.state._loaded) {
-      return <View style={_.container.screen} />
+    const { _loaded } = $.state
+    if (!_loaded) {
+      return <View style={_.container.bg} />
     }
 
-    const { scrollY, fixed } = this.state
+    const { fixed } = this.state
     const listViewProps = {
       ListHeaderComponent: (
         <View
@@ -125,10 +117,24 @@ class Zone extends React.Component {
         />
       ),
       scrollEventThrottle: 16,
-      onScroll: this.onScroll
+      onScroll: Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: this.scrollY
+              }
+            }
+          }
+        ],
+        {
+          useNativeDriver: true,
+          listener: this.onScroll
+        }
+      )
     }
     return (
-      <View style={_.container.screen}>
+      <View style={_.container.bg}>
         <UM screen={title} />
         <StatusBarEvents
           barStyle='light-content'
@@ -136,9 +142,8 @@ class Zone extends React.Component {
         />
         <NavigationBarEvents />
         <Tabs
-          style={_.container.screen}
           $={$}
-          scrollY={scrollY}
+          scrollY={this.scrollY}
           onChange={(item, page) => this.onTabsChange(page)}
         >
           <BangumiList {...listViewProps} />
@@ -146,7 +151,7 @@ class Zone extends React.Component {
           <About {...listViewProps} />
           <Tinygrail {...listViewProps} />
         </Tabs>
-        <ParallaxImage scrollY={scrollY} fixed={fixed} />
+        <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
       </View>
     )
   }

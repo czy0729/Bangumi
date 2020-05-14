@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 17:39:19
+ * @Last Modified time: 2020-05-14 22:08:59
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -148,6 +148,7 @@ class User extends React.Component {
             <OptimizeTabbarTransition>
               <TabsMain
                 scrollY={this.scrollY}
+                scrollEventThrottle={16}
                 onSelectSubjectType={this.onSelectSubjectType}
                 onTabsChange={this.onTabsChange}
                 onScroll={Animated.event(

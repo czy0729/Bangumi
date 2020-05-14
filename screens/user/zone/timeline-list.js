@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 18:07:14
+ * @Last Modified time: 2020-05-14 22:22:51
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -57,6 +57,7 @@ class TimelineList extends React.Component {
         stickySectionHeadersEnabled={false}
         renderSectionHeader={this.renderSectionHeader}
         renderItem={this.renderItem}
+        animated
         onFooterRefresh={$.fetchUsersTimeline}
         {...this.props}
       />

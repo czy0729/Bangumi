@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:25:13
+ * @Last Modified time: 2020-05-14 22:31:20
  */
 import React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Image, Text } from '@components'
@@ -15,7 +15,6 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
 function Head({ style }, { $, navigation }) {
-  const styles = memoStyles()
   const { _id, _name, _image } = $.params
   const { avatar = {}, nickname, id } = $.usersInfo
   const { join, percent, disconnectUrl } = $.users
@@ -26,9 +25,13 @@ function Head({ style }, { $, navigation }) {
     <Flex style={style} justify='center' direction='column'>
       <View>
         <Image
-          style={[styles.avatar, _.mt.md]}
+          style={_.mt.md}
           size={88}
-          src={avatar.large || _image}
+          radius={44}
+          border={_.__colorPlain__}
+          borderWidth={2}
+          shadow
+          src={$.avatar || avatar.large || _image}
         />
         <Text style={styles.l1} type={_.select('plain', 'title')} size={13}>
           {join || '- 加入'}
@@ -108,7 +111,7 @@ Head.contextTypes = {
 
 export default observer(Head)
 
-const memoStyles = _.memoStyles(_ => ({
+const styles = StyleSheet.create({
   avatar: {
     borderWidth: 2,
     borderColor: _.__colorPlain__,
@@ -154,4 +157,4 @@ const memoStyles = _.memoStyles(_ => ({
     left: 100,
     opacity: 0.72
   }
-}))
+})

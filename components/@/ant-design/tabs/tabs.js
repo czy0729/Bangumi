@@ -172,7 +172,7 @@ export class Tabs extends React.PureComponent {
             }
           )}
           onMomentumScrollEnd={this.onMomentumScrollEnd}
-          scrollEventThrottle={32}
+          scrollEventThrottle={16}
           scrollsToTop={false}
           showsHorizontalScrollIndicator={false}
           scrollEnabled={this.props.swipeable}

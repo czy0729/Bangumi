@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 12:11:43
+ * @Last Modified time: 2020-05-14 22:23:50
  */
 import { observable, computed } from 'mobx'
 import {
@@ -24,7 +24,7 @@ import { HOST } from '@constants'
 export const height = Math.min(_.window.width * 0.64, 288)
 
 // @todo 偏差了6pt, 有空再纠正
-export const headerHeight = _.headerHeight + 6
+export const headerHeight = _.headerHeight
 export const tabs = [
   {
     title: '番剧'
@@ -123,6 +123,12 @@ export default class ScreenZone extends store {
     const { sign = '' } = this.users
     const bgs = sign.match(/\[bg\](.+?)\[\/bg\]/)
     return bgs ? String(bgs[1]).trim() : ''
+  }
+
+  @computed get avatar() {
+    const { sign = '' } = this.users
+    const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
+    return avatars ? String(avatars[1]).trim() : ''
   }
 
   @computed get userAssets() {

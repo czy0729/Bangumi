@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 17:13:34
+ * @Last Modified time: 2020-05-14 22:27:05
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,7 +21,7 @@ function Head({ style }, { $, navigation }) {
         <Image
           style={_.mt.md}
           size={88}
-          radius={88}
+          radius={44}
           border={_.__colorPlain__}
           borderWidth={2}
           shadow

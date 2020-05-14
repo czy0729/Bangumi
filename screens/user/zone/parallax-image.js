@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 12:14:45
+ * @Last Modified time: 2020-05-14 22:15:27
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -35,18 +35,23 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             -(height - headerHeight)
           ]
         })
-      },
-      {
-        scale: scrollY.interpolate({
-          inputRange: [-height, 0, height],
-
-          // -h: 2, 0: 1, h: 1 当scrollY在-h到0时, scale按照2-1的动画运动
-          // 当scrollY在0-h时, scale不变. 可以输入任意数量对应的值, 但必须是递增或者相等
-          outputRange: [2, 1, 1]
-        })
       }
     ]
   }
+
+  // 安卓没有弹簧效果不需要形变
+  if (IOS) {
+    parallaxStyle.transform.push({
+      scale: scrollY.interpolate({
+        inputRange: [-height, 0, height],
+
+        // -h: 2, 0: 1, h: 1 当scrollY在-h到0时, scale按照2-1的动画运动
+        // 当scrollY在0-h时, scale不变. 可以输入任意数量对应的值, 但必须是递增或者相等
+        outputRange: [2, 1, 1]
+      })
+    })
+  }
+
   const data = ['浏览器查看', '复制链接', '发短信', 'TA的收藏', 'TA的好友']
   if ($.users.connectUrl) {
     data.push('加为好友')
@@ -62,7 +67,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
       uri = `https:${_image}`
     }
   }
-  const blurRadius = $.bg ? 1 : IOS ? 2 : 1
+  const blurRadius = IOS ? 2 : 1
   return (
     <>
       <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
@@ -71,7 +76,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           source={{
             uri: $.bg || uri
           }}
-          blurRadius={blurRadius}
+          blurRadius={blurRadius - $.bg ? 1 : 0}
         />
         <Animated.View
           style={[
@@ -148,27 +153,33 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
               case '浏览器查看':
                 open(`${HOST}/user/${username}`)
                 break
+
               case '复制链接':
                 copy(`${HOST}/user/${username}`)
                 info('已复制')
                 break
+
               case '发短信':
                 navigation.push('PM', {
                   userId: id, // 必须是数字id
                   userName: HTMLDecode(nickname || _name)
                 })
                 break
+
               case 'TA的收藏':
                 $.toUser(navigation)
                 break
+
               case 'TA的好友':
                 navigation.push('Friends', {
                   userId: username || id
                 })
                 break
+
               case '加为好友':
                 $.doConnectFriend()
                 break
+
               case '解除好友':
                 setTimeout(() => {
                   Alert.alert('警告', '确定解除好友?', [
@@ -183,6 +194,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
                   ])
                 }, 400)
                 break
+
               default:
                 break
             }
@@ -241,6 +253,7 @@ const memoStyles = _.memoStyles(_ => ({
     right: 0
   },
   btn: {
-    zIndex: 1
+    zIndex: 1,
+    marginTop: -5
   }
 }))

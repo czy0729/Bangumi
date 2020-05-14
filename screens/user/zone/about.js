@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 19:50:55
+ * @Last Modified time: 2020-05-14 22:21:39
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { StyleSheet, View, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { RenderHtml } from '@components'
@@ -15,7 +15,10 @@ import { height } from './store'
 
 function About(props, { $, navigation }) {
   return (
-    <ScrollView contentContainerStyle={styles.contentContainerStyle} {...props}>
+    <Animated.ScrollView
+      contentContainerStyle={styles.contentContainerStyle}
+      {...props}
+    >
       <View style={styles.page}>
         <RenderHtml
           style={_.mt.lg}
@@ -36,7 +39,7 @@ function About(props, { $, navigation }) {
           }
         />
       </View>
-    </ScrollView>
+    </Animated.ScrollView>
   )
 }
 
