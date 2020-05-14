@@ -2,24 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 18:45:54
+ * @Last Modified time: 2020-05-14 17:13:34
  */
 import React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
 
 function Head({ style }, { $, navigation }) {
-  const styles = memoStyles()
   const { avatar = {}, nickname, id } = $.usersInfo
   const { userId } = $.params
   const isMe = !userId || userId === $.myUserId
   return (
     <Flex style={style} justify='center' direction='column'>
       <View>
-        <Image style={[styles.avatar, _.mt.md]} size={88} src={avatar.large} />
+        <Image
+          style={_.mt.md}
+          size={88}
+          radius={88}
+          border={_.__colorPlain__}
+          borderWidth={2}
+          shadow
+          src={$.avatar || avatar.large}
+        />
         {isMe && (
           <>
             <Touchable
@@ -73,13 +80,7 @@ Head.contextTypes = {
 
 export default observer(Head)
 
-const memoStyles = _.memoStyles(_ => ({
-  avatar: {
-    borderWidth: 2,
-    borderColor: _.__colorPlain__,
-    borderRadius: 88,
-    overflow: 'hidden'
-  },
+const styles = StyleSheet.create({
   l1: {
     position: 'absolute',
     top: 16,
@@ -119,4 +120,4 @@ const memoStyles = _.memoStyles(_ => ({
     left: 100,
     opacity: 0.72
   }
-}))
+})

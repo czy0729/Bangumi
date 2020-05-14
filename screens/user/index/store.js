@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 11:37:48
+ * @Last Modified time: 2020-05-14 19:30:23
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -15,9 +15,7 @@ import {
 } from '@constants/model'
 
 export const height = Math.min(_.window.width * 0.64, 288)
-
-// @todo 偏差了6pt, 有空再纠正
-export const headerHeight = _.headerHeight + 6
+export const headerHeight = _.headerHeight // @todo 偏差了6pt, 有空再纠正
 export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
   title: item.label
 }))
@@ -106,6 +104,12 @@ export default class ScreenUser extends store {
 
   @computed get users() {
     return usersStore.users(this.userId)
+  }
+
+  @computed get avatar() {
+    const { sign = '' } = this.users
+    const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
+    return avatars ? String(avatars[1]).trim() : ''
   }
 
   @computed get bg() {

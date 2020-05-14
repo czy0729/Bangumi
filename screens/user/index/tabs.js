@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 23:48:30
+ * @Last Modified time: 2020-05-14 19:16:07
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Tabs as CompTabs, Text } from '@components'
 import { _ } from '@stores'
-import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
 import { tabs, height, headerHeight } from './store'
@@ -60,10 +59,14 @@ function Tabs({ scrollY, children, onSelect, onChange, ...other }, { $ }) {
       tabBarStyle={[
         styles.tabs,
         {
-          top: scrollY.interpolate({
-            inputRange: [-height, 0, height - headerHeight, height],
-            outputRange: [height * 2, height, headerHeight, headerHeight]
-          })
+          transform: [
+            {
+              translateY: scrollY.interpolate({
+                inputRange: [-height, 0, height - headerHeight, height],
+                outputRange: [height * 2, height, headerHeight, headerHeight]
+              })
+            }
+          ]
         }
       ]}
       tabs={_tabs}
@@ -96,14 +99,11 @@ const memoStyles = _.memoStyles(_ => ({
   tabs: {
     position: 'absolute',
     zIndex: 2,
+    top: 0,
     left: 0,
     right: 0,
     marginTop: -1,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    ...(IOS
-      ? _.shadow
-      : {
-          elevation: 8
-        })
+    ..._.shadow
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 22:37:19
+ * @Last Modified time: 2020-05-14 20:27:10
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
@@ -16,7 +16,7 @@ export default {
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '欢迎来到实力至上主义的教室',
     // topicId: 'group/356474' // group/350677, ep/768491
-    // userId: 'ekibun' // 456208, 419012
+    // userId: 'sukaretto' // 456208, 419012
     // userName: 'ekibun',
     // from: 'tinygrail',
     // form: 'lottery', // lottery

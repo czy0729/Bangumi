@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 16:37:19
+ * @Last Modified time: 2020-05-14 17:43:10
  */
 import React from 'react'
 import {
@@ -11,7 +11,8 @@ import {
   RefreshControl,
   SectionList,
   TouchableOpacity,
-  View
+  View,
+  Animated
 } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
@@ -23,6 +24,8 @@ import Flex from './flex'
 import Mesume from './mesume'
 import Text from './text'
 
+const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 const RefreshState = {
   Idle: 0,
   HeaderRefreshing: 1,
@@ -337,11 +340,27 @@ class ListView extends React.Component {
       progressViewOffset,
       refreshControlProps,
       optimize,
+      animated,
       ...other
     } = this.props
     if (sectionKey || sections) {
+      if (animated) {
+        return (
+          <AnimatedSectionList
+            sections={this.section}
+            {...this.commonProps}
+            {...other}
+          />
+        )
+      }
       return (
         <SectionList sections={this.section} {...this.commonProps} {...other} />
+      )
+    }
+
+    if (animated) {
+      return (
+        <AnimatedFlatList data={this.data} {...this.commonProps} {...other} />
       )
     }
     return <FlatList data={this.data} {...this.commonProps} {...other} />

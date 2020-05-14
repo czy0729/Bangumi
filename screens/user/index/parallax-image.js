@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 12:15:52
+ * @Last Modified time: 2020-05-14 20:15:43
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -17,12 +17,7 @@ import { IOS } from '@constants'
 import Head from './head'
 import { height, headerHeight } from './store'
 
-const dataMe = [
-  '我的空间',
-  '我的好友',
-  'netaba.re'
-  // '缺少收藏?'
-]
+const dataMe = ['我的空间', '我的好友', 'netaba.re']
 const dataOther = ['TA的好友', 'TA的netaba.re']
 
 function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
@@ -41,21 +36,25 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             -(height - headerHeight)
           ]
         })
-      },
-      {
-        scale: scrollY.interpolate({
-          inputRange: [-height, 0, height],
-
-          // -h: 2, 0: 1, h: 1 当scrollY在-h到0时, scale按照2-1的动画运动
-          // 当scrollY在0-h时, scale不变. 可以输入任意数量对应的值, 但必须是递增或者相等
-          outputRange: [2, 1, 1]
-        })
       }
     ]
   }
 
+  // 安卓没有弹簧效果不需要形变
+  if (IOS) {
+    parallaxStyle.transform.push({
+      scale: scrollY.interpolate({
+        inputRange: [-height, 0, height],
+
+        // -h: 2, 0: 1, h: 1 当scrollY在-h到0时, scale按照2-1的动画运动
+        // 当scrollY在0-h时, scale不变. 可以输入任意数量对应的值, 但必须是递增或者相等
+        outputRange: [2, 1, 1]
+      })
+    })
+  }
+
   const data = isMe ? dataMe : dataOther
-  const blurRadius = $.bg ? 1 : IOS ? 2 : 1
+  const blurRadius = IOS ? 2 : 1
   return (
     <>
       <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
@@ -64,7 +63,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           source={{
             uri: $.bg || avatar.large
           }}
-          blurRadius={blurRadius}
+          blurRadius={blurRadius - $.bg ? 1 : 0}
         />
         <Animated.View
           style={[
@@ -192,7 +191,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0
   },
   parallaxImage: {
-    height
+    height: height + 0.5
   },
   parallaxMask: {
     position: 'absolute',
@@ -218,21 +217,25 @@ const memoStyles = _.memoStyles(_ => ({
   },
   back: {
     ..._.header.left,
-    zIndex: 1
+    zIndex: 1,
+    marginTop: -5
   },
   menu: {
     ..._.header.left,
     zIndex: 1,
     padding: _.sm,
+    marginTop: -5,
     marginLeft: 2
-  },
-  setting: {
-    ..._.header.right,
-    zIndex: 1
   },
   more: {
     ..._.header.right,
     zIndex: 1,
-    padding: _.sm
+    padding: _.sm,
+    marginTop: -5
+  },
+  setting: {
+    ..._.header.right,
+    zIndex: 1,
+    marginTop: -5
   }
 }))

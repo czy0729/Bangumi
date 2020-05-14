@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 22:22:46
+ * @Last Modified time: 2020-05-14 17:44:20
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -111,6 +111,7 @@ class List extends React.Component {
         data={userCollections}
         numColumns={numColumns}
         renderItem={this.renderItem}
+        animated
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchUserCollections}
         {...other}

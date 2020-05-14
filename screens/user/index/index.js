@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 11:11:49
+ * @Last Modified time: 2020-05-14 17:39:19
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -36,10 +36,10 @@ class User extends React.Component {
   }
 
   state = {
-    scrollY: new Animated.Value(0),
     fixed: false // 头部是否置顶
   }
 
+  scrollY = new Animated.Value(0)
   offsetZeroNativeEvent
   loaded = {}
 
@@ -51,32 +51,24 @@ class User extends React.Component {
   }
 
   onScroll = e => {
-    // 记录一个nativeEvent
+    // 记录一个nativeEvent用于切页重置
     if (!this.offsetZeroNativeEvent && e.nativeEvent) {
       this.offsetZeroNativeEvent = e.nativeEvent
       this.offsetZeroNativeEvent.contentOffset.y = 0
     }
 
-    // 触发动画
-    const { scrollY, fixed } = this.state
-    Animated.event([
-      {
-        nativeEvent: {
-          contentOffset: {
-            y: scrollY
-          }
-        }
-      }
-    ])(e)
-
     // 更新头部是否置顶
     const { contentOffset } = e.nativeEvent
     const { y } = contentOffset
+    const { fixed } = this.state
     if (fixed && y < height) {
       this.setState({
         fixed: false
       })
-    } else if (!fixed && y >= height) {
+      return
+    }
+
+    if (!fixed && y >= height) {
       this.setState({
         fixed: true
       })
@@ -116,12 +108,11 @@ class User extends React.Component {
   resetPageOffset = page => {
     if (!this.loaded[page] && this.offsetZeroNativeEvent) {
       setTimeout(() => {
-        const { scrollY } = this.state
         Animated.event([
           {
             nativeEvent: {
               contentOffset: {
-                y: scrollY
+                y: this.scrollY
               }
             }
           }
@@ -142,29 +133,43 @@ class User extends React.Component {
       return <Login />
     }
 
-    // 页面状态没加载完成
-    if (!$.state._loaded) {
-      return <View style={_.container._plain} />
-    }
-
-    const { scrollY, fixed } = this.state
+    const { _loaded } = $.state
+    const { fixed } = this.state
     return (
       <View style={_.container._plain}>
-        <UM screen={title} />
-        <NavigationEvents onDidFocus={this.onDidFocus} />
-        <StatusBarEvents
-          barStyle='light-content'
-          backgroundColor='transparent'
-        />
-        <OptimizeTabbarTransition>
-          <TabsMain
-            scrollY={scrollY}
-            onSelectSubjectType={this.onSelectSubjectType}
-            onTabsChange={this.onTabsChange}
-            onScroll={this.onScroll}
-          />
-          <ParallaxImage scrollY={scrollY} fixed={fixed} />
-        </OptimizeTabbarTransition>
+        {_loaded && (
+          <>
+            <UM screen={title} />
+            <NavigationEvents onDidFocus={this.onDidFocus} />
+            <StatusBarEvents
+              barStyle='light-content'
+              backgroundColor='transparent'
+            />
+            <OptimizeTabbarTransition>
+              <TabsMain
+                scrollY={this.scrollY}
+                onSelectSubjectType={this.onSelectSubjectType}
+                onTabsChange={this.onTabsChange}
+                onScroll={Animated.event(
+                  [
+                    {
+                      nativeEvent: {
+                        contentOffset: {
+                          y: this.scrollY
+                        }
+                      }
+                    }
+                  ],
+                  {
+                    useNativeDriver: true,
+                    listener: this.onScroll
+                  }
+                )}
+              />
+              <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
+            </OptimizeTabbarTransition>
+          </>
+        )}
       </View>
     )
   }
