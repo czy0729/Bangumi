@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 19:11:22
+ * @Last Modified time: 2020-05-14 12:14:45
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -62,13 +62,16 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
       uri = `https:${_image}`
     }
   }
+  const blurRadius = $.bg ? 1 : IOS ? 2 : 1
   return (
     <>
       <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
-          source={{ uri }} // blurView可以优先使用缩略图
-          blurRadius={2}
+          source={{
+            uri: $.bg || uri
+          }}
+          blurRadius={blurRadius}
         />
         <Animated.View
           style={[

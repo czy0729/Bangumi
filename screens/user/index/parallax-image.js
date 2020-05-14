@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 23:39:35
+ * @Last Modified time: 2020-05-14 12:15:52
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -13,13 +13,12 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { getCoverMedium } from '@utils/app'
 import { IOS } from '@constants'
-import { CDN_OSS_SUBJECT } from '@constants/cdn'
 import Head from './head'
 import { height, headerHeight } from './store'
 
 const dataMe = [
+  '我的空间',
   '我的好友',
   'netaba.re'
   // '缺少收藏?'
@@ -56,15 +55,16 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   }
 
   const data = isMe ? dataMe : dataOther
+  const blurRadius = $.bg ? 1 : IOS ? 2 : 1
   return (
     <>
       <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
           source={{
-            uri: CDN_OSS_SUBJECT(getCoverMedium(avatar.medium))
+            uri: $.bg || avatar.large
           }}
-          blurRadius={IOS ? 2 : 1}
+          blurRadius={blurRadius}
         />
         <Animated.View
           style={[
@@ -129,6 +129,12 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             })
 
             switch (key) {
+              case '我的空间':
+                navigation.push('Zone', {
+                  userId: $.userId
+                })
+                break
+
               case '我的好友':
                 navigation.push('Friends')
                 break

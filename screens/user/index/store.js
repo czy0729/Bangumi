@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 18:42:33
+ * @Last Modified time: 2020-05-14 11:37:48
  */
 import { observable, computed } from 'mobx'
-import { _, userStore, collectionStore } from '@stores'
+import { _, userStore, collectionStore, usersStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
@@ -49,24 +49,20 @@ export default class ScreenUser extends store {
     await this.fetchUsersInfo()
 
     // 用户收藏概览统计
-    const { userId } = this.params
-    userStore.fetchUserCollectionsStatus(userId)
+    userStore.fetchUserCollectionsStatus(this.userId)
 
     // 用户收藏记录
     this.fetchUserCollections(true)
+    this.fetchUsers()
     return res
   }
 
   onHeaderRefresh = () => this.fetchUserCollections(true)
 
   // -------------------- fetch --------------------
-  fetchUsersInfo = () => {
-    const { userId } = this.params
-    return userStore.fetchUsersInfo(userId)
-  }
+  fetchUsersInfo = () => userStore.fetchUsersInfo(this.userId)
 
   fetchUserCollections = refresh => {
-    const { userId } = this.params
     const { subjectType, order, tag } = this.state
     return collectionStore.fetchUserCollections(
       {
@@ -74,10 +70,16 @@ export default class ScreenUser extends store {
         type: this.type,
         order,
         tag,
-        userId: this.usersInfo.username || userId
+        userId: this.usersInfo.username || this.userId
       },
       refresh
     )
+  }
+
+  fetchUsers = () => {
+    usersStore.fetchUsers({
+      userId: this.userId
+    })
   }
 
   // -------------------- get --------------------
@@ -85,18 +87,31 @@ export default class ScreenUser extends store {
     return userStore.isLogin
   }
 
-  @computed get usersInfo() {
+  @computed get myUserId() {
+    return userStore.myUserId
+  }
+
+  @computed get userId() {
     const { userId } = this.params
-    return userStore.usersInfo(userId)
+    return userId || this.myUserId
+  }
+
+  @computed get usersInfo() {
+    return userStore.usersInfo(this.userId)
   }
 
   @computed get userCollectionsStatus() {
-    const { userId } = this.params
-    return userStore.userCollectionsStatus(userId)
+    return userStore.userCollectionsStatus(this.userId)
   }
 
-  @computed get myUserId() {
-    return userStore.myUserId
+  @computed get users() {
+    return usersStore.users(this.userId)
+  }
+
+  @computed get bg() {
+    const { sign = '' } = this.users
+    const bgs = sign.match(/\[bg\](.+?)\[\/bg\]/)
+    return bgs ? String(bgs[1]).trim() : ''
   }
 
   @computed get type() {
@@ -120,18 +135,24 @@ export default class ScreenUser extends store {
   }
 
   userCollections(subjectType, type) {
-    const { userId } = this.params
     const { username } = this.usersInfo
     return computed(() =>
-      collectionStore.userCollections(username || userId, subjectType, type)
+      collectionStore.userCollections(
+        username || this.userId,
+        subjectType,
+        type
+      )
     ).get()
   }
 
   userCollectionsTags(subjectType, type) {
-    const { userId } = this.params
     const { username } = this.usersInfo
     return computed(() =>
-      collectionStore.userCollectionsTags(username || userId, subjectType, type)
+      collectionStore.userCollectionsTags(
+        username || this.userId,
+        subjectType,
+        type
+      )
     ).get()
   }
 

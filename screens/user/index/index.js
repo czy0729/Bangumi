@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 22:23:19
+ * @Last Modified time: 2020-05-14 11:11:49
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -19,7 +19,7 @@ import ParallaxImage from './parallax-image'
 import TabsMain from './tabs-main'
 import Store, { tabs, height } from './store'
 
-const title = '我的'
+const title = '时光机'
 
 export default
 @inject(Store)

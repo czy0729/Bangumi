@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 19:08:04
+ * @Last Modified time: 2020-05-14 12:11:43
  */
 import { observable, computed } from 'mobx'
 import {
@@ -73,9 +73,9 @@ export default class ScreenZone extends store {
       this.fetchCharaTotal()
     } else {
       this.fetchUserCollections()
-      this.fetchUsers()
     }
 
+    this.fetchUsers()
     return this.fetchUsersInfo()
   }
 
@@ -117,6 +117,12 @@ export default class ScreenZone extends store {
 
   @computed get users() {
     return usersStore.users(this.userId)
+  }
+
+  @computed get bg() {
+    const { sign = '' } = this.users
+    const bgs = sign.match(/\[bg\](.+?)\[\/bg\]/)
+    return bgs ? String(bgs[1]).trim() : ''
   }
 
   @computed get userAssets() {
@@ -204,7 +210,6 @@ export default class ScreenZone extends store {
 
     if (title === '番剧' && this.isFromTinygrail) {
       this.fetchUserCollections()
-      this.fetchUsers()
     }
 
     if (title === '小圣杯' && !this.isFromTinygrail) {

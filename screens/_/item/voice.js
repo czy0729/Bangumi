@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 21:47:54
+ * @Last Modified time: 2020-05-14 10:03:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image } from '@components'
-import { Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
+import Cover from '../base/cover'
 import Tag from '../base/tag'
 
 function ItemVoice({
