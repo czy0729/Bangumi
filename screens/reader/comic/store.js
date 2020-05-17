@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-01 21:58:53
+ * @Last Modified time: 2020-05-17 20:22:01
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -132,9 +132,11 @@ export default class ScreenComic extends store {
 
     // 漫画123
     const HTML2 = await fetchHTML({
-      url: `https://m.comic123.net/index.php?m=vod-search-pg-1-wd-${encodeURIComponent(
-        key
-      )}.html`
+      method: 'POST',
+      url: 'https://m.comic123.net/index.php/search.html',
+      data: {
+        keyword: key
+      }
     })
     const $2 = cheerio(HTML2)
     const list2 =

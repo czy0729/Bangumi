@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-12 20:40:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 21:02:11
+ * @Last Modified time: 2020-05-17 20:50:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -68,6 +68,6 @@ export default OptimizeTabbarTransition
 
 const styles = StyleSheet.create({
   hide: {
-    display: 'none'
+    opacity: 0
   }
 })

@@ -5,7 +5,7 @@
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": ["ios", "android"],
-    "version": "3.4.0",
+    "version": "3.4.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "com.czy0729.bangumi",
-      "versionCode": 340,
+      "versionCode": 341,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/foreground.png",
         "backgroundColor": "#000000"
