@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 16:35:47
+ * @Last Modified time: 2020-05-17 13:43:03
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -14,7 +14,7 @@ import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { findBangumiCn, getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT } from '@constants'
+import { IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const imageWidthLg = _.window.width - _.wind * 2
@@ -195,6 +195,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   item: {
     backgroundColor: _.colorBg,
+    overflow: IOS ? 'hidden' : undefined,
     ..._.shadow
   },
   itemLg: {

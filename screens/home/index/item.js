@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 03:37:53
+ * @Last Modified time: 2020-05-17 18:56:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -242,7 +242,8 @@ class Item extends React.Component {
       <View
         style={[
           this.styles.item,
-          $.heatMap && expand && this.styles.itemWithHeatMap
+          $.heatMap && expand && this.styles.itemWithHeatMap,
+          $.itemShadow ? this.styles.itemShadow : this.styles.itemBorder
         ]}
       >
         <Flex style={this.styles.hd}>
@@ -324,7 +325,16 @@ const memoStyles = _.memoStyles(_ => ({
     paddingLeft: itemPadding,
     marginBottom: itemPadding,
     backgroundColor: _.colorPlain,
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusXs
+  },
+  itemWithHeatMap: {
+    paddingBottom: itemPadding + 4
+  },
+  itemBorder: {
+    borderWidth: _.hairlineWidth,
+    borderColor: _.colorBorder
+  },
+  itemShadow: {
     ...(IOS
       ? {
           shadowColor: _.colorShadow,
@@ -337,9 +347,6 @@ const memoStyles = _.memoStyles(_ => ({
       : {
           elevation: 16
         })
-  },
-  itemWithHeatMap: {
-    paddingBottom: itemPadding + 4
   },
   hd: {
     paddingRight: itemPadding

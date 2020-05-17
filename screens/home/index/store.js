@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 03:55:22
+ * @Last Modified time: 2020-05-17 18:54:30
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -18,6 +18,7 @@ import { Eps } from '@screens/_'
 import { t, queue } from '@utils/fetch'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
+import { IOS } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_EP_STATUS,
@@ -128,6 +129,10 @@ export default class ScreenHome extends store {
 
   @computed get heatMap() {
     return systemStore.setting.heatMap
+  }
+
+  @computed get itemShadow() {
+    return IOS ? true : systemStore.setting.itemShadow
   }
 
   /**

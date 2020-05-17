@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 23:20:09
+ * @Last Modified time: 2020-05-17 18:53:08
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -374,6 +374,7 @@ class Setting extends React.Component {
   renderUI() {
     const {
       // iosMenu,
+      itemShadow,
       avatarRound,
       ripple,
       imageTransition,
@@ -406,6 +407,7 @@ class Setting extends React.Component {
             information='模拟菜单, 非原生性能略弱, 但显示信息更多并且支持黑暗模式'
           />
         )} */}
+
         <ItemSetting
           // style={IOS ? _.mt.sm : undefined}
           // border={!IOS}
@@ -426,6 +428,26 @@ class Setting extends React.Component {
           }
           withoutFeedback
         />
+        {!IOS && (
+          <ItemSetting
+            border
+            hd='首页收藏阴影'
+            ft={
+              <Switch
+                checked={itemShadow}
+                onChange={() => {
+                  t('设置.切换', {
+                    title: '首页收藏阴影',
+                    checked: !itemShadow
+                  })
+
+                  systemStore.switchSetting('itemShadow')
+                }}
+              />
+            }
+            withoutFeedback
+          />
+        )}
         <ItemSetting
           border
           hd='图片渐出动画'

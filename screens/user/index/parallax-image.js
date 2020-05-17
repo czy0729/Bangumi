@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 20:15:43
+ * @Last Modified time: 2020-05-17 13:47:14
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -54,7 +54,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   }
 
   const data = isMe ? dataMe : dataOther
-  const blurRadius = IOS ? 2 : 1
+  const blurRadius = (IOS ? 2 : 1) - ($.bg ? 1 : 0)
   return (
     <>
       <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
@@ -63,7 +63,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           source={{
             uri: $.bg || avatar.large
           }}
-          blurRadius={blurRadius - $.bg ? 1 : 0}
+          blurRadius={blurRadius}
         />
         <Animated.View
           style={[
