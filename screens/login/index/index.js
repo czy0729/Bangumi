@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 21:54:38
+ * @Last Modified time: 2020-05-17 20:00:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,6 +25,7 @@ import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
 import { hm, t } from '@utils/fetch'
+import { HTMLTrim } from '@utils/html'
 import { IOS, APP_ID, HOST, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 
 const title = '登陆V1'
@@ -33,25 +34,6 @@ const uri = `${URL_OAUTH}?${urlStringify({
   client_id: APP_ID,
   redirect_uri: URL_OAUTH_REDIRECT
 })}`
-const injectedJavaScript = `(function(){
-  var __isBridgeOk = false
-  function waitForBridge() {
-    if (!__isBridgeOk && window.postMessage.length !== 1) {
-      setTimeout(waitForBridge, 200);
-    } else {
-      __isBridgeOk = true
-      window.postMessage(JSON.stringify({
-        type: 'onload',
-        data: {
-          href: document.location.href,
-          userAgent: navigator.userAgent,
-          cookie: document.cookie
-        }
-      }));
-    }
-  }
-  setTimeout(() => { waitForBridge() }, 800);
-}());`
 
 export default
 @observer
@@ -238,6 +220,45 @@ class Login extends React.Component {
       return null
     }
 
+    const injectedJavaScript = `(function(){
+      // 注入优化样式
+      document.querySelector('html').dataset.theme = "${_.select(
+        'light',
+        'dark'
+      )}";
+      var resetStyle = document.createElement("style");
+      try {
+        resetStyle.appendChild(document.createTextNode("${HTMLTrim(
+          `
+            #headerNeue2,
+            #columnLoginB,
+            .family {
+              display: none;
+            }
+          `
+        )}"));
+      } catch (ex) {}
+      document.body.append(resetStyle);
+
+      // postMessage
+      var __isBridgeOk = false;
+      function waitForBridge() {
+        if (!__isBridgeOk && window.postMessage.length !== 1) {
+          setTimeout(waitForBridge, 200);
+        } else {
+          __isBridgeOk = true
+          window.postMessage(JSON.stringify({
+            type: 'onload',
+            data: {
+              href: document.location.href,
+              userAgent: navigator.userAgent,
+              cookie: document.cookie
+            }
+          }));
+        }
+      }
+      setTimeout(() => { waitForBridge() }, 800);
+    }());`
     return (
       <WebView
         ref={ref => (this.ref = ref)}
