@@ -12,7 +12,7 @@ import { Touchable, Flex, Text } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { findBangumiCn } from '@utils/app'
+import { findSubjectCn } from '@utils/app'
 
 function Discuss(props, { $, navigation }) {
   const styles = memoStyles()
@@ -53,7 +53,7 @@ function Discuss(props, { $, navigation }) {
                     </Text>
                   </Text>
                   <Text style={_.mt.xs} type='sub' size={12}>
-                    {findBangumiCn(item.subjectName)}
+                    {findSubjectCn(item.subjectName)}
                   </Text>
                 </Flex.Item>
                 <View style={_.ml.md}>

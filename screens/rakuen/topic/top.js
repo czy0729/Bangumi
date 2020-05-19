@@ -12,7 +12,7 @@ import { HeaderPlaceholder, Flex, Text, Divider } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
-import { findBangumiCn, appNavigate } from '@utils/app'
+import { findSubjectCn, appNavigate } from '@utils/app'
 import { HOST, IOS } from '@constants'
 import Content from './content'
 import SectionTitle from './section-title'
@@ -58,7 +58,7 @@ function Top(props, { $, navigation }) {
         <Flex style={[styles.groupWrap, _.mt.sm]}>
           <Text>
             <Text size={13} underline numberOfLines={1} onPress={groupPress}>
-              {findBangumiCn($.group)}
+              {findSubjectCn($.group)}
             </Text>
             {!!$.time && (
               <>

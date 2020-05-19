@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:22:48
+ * @Last Modified time: 2020-05-19 19:35:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Text } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { findBangumiCn } from '@utils/app'
+import { findSubjectCn } from '@utils/app'
 
 const itemWidth = (_.window.width - 2 * _.wind - _._wind) / 2
 const imgWidth = 56
@@ -55,7 +55,7 @@ function Friends(props, { $, navigation }) {
               </View>
               <Flex.Item style={_.ml.sm}>
                 <Text numberOfLines={2} onPress={onPress}>
-                  {findBangumiCn(item.name)}
+                  {findSubjectCn(item.name, item.id)}
                 </Text>
                 <Text style={_.mt.xs} size={12} numberOfLines={1}>
                   <Text

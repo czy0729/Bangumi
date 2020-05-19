@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 23:31:03
+ * @Last Modified time: 2020-05-19 19:51:32
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
-import { appNavigate, findBangumiCn, getCoverMedium } from '@utils/app'
+import { appNavigate, findSubjectCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
 import { t } from '@utils/fetch'
 import { HOST, HOST_NAME, EVENT } from '@constants'
@@ -56,6 +56,7 @@ class ItemTimeline extends React.Component {
         const url = String(p3.url[index])
         const isSubject =
           url.includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
+        const subjectId = isSubject ? matchSubjectId(url) : 0
         $p3.push(
           <Text
             key={item}
@@ -67,14 +68,14 @@ class ItemTimeline extends React.Component {
                 url,
                 isSubject && {
                   _jp: item,
-                  _cn: findBangumiCn(item),
+                  _cn: findSubjectCn(item, subjectId),
                   _name: item,
                   _image: getCoverMedium(image[index] || '')
                 }
               )
             }
           >
-            {isSubject ? findBangumiCn(item) : item}
+            {isSubject ? findSubjectCn(item, subjectId) : item}
           </Text>,
           <Text key={`${item}.`}>、</Text>
         )
@@ -85,6 +86,9 @@ class ItemTimeline extends React.Component {
         !!String(!!p3.url.length && p3.url[0]).includes(
           `${HOST_NAME}/subject/`
         ) && !p3.url[0].includes('/ep/')
+      const subjectId = isSubject
+        ? matchSubjectId(!!p3.url.length && p3.url[0])
+        : 0
       $p3 = (
         <Text
           type={isSubject ? undefined : 'main'}
@@ -95,7 +99,7 @@ class ItemTimeline extends React.Component {
               !!p3.url.length && p3.url[0],
               isSubject && {
                 _jp: !!p3.text.length && p3.text[0],
-                _cn: findBangumiCn(!!p3.text.length && p3.text[0]),
+                _cn: findSubjectCn(!!p3.text.length && p3.text[0], subjectId),
                 _name: !!p3.text.length && p3.text[0],
                 _image: getCoverMedium((!!image.length && image[0]) || '')
               }
@@ -103,7 +107,7 @@ class ItemTimeline extends React.Component {
           }
         >
           {isSubject
-            ? findBangumiCn(!!p3.text.length && p3.text[0])
+            ? findSubjectCn(!!p3.text.length && p3.text[0], subjectId)
             : !!p3.text.length && p3.text[0]}
         </Text>
       )
@@ -169,13 +173,13 @@ class ItemTimeline extends React.Component {
               })
               navigation.push('Subject', {
                 subjectId,
-                _cn: findBangumiCn(subject),
+                _cn: findSubjectCn(subject, subjectId),
                 _jp: subject,
                 _image: getCoverMedium(!!image.length && image[0])
               })
             }}
           >
-            {findBangumiCn(subject)}
+            {findSubjectCn(subject, subjectId)}
           </Text>
         )}
         {!!(comment || reply.content) && (
@@ -202,14 +206,16 @@ class ItemTimeline extends React.Component {
         radius
         shadow
         border={_.colorBorder}
-        onPress={() =>
-          this.appNavigate(!!p3.url.length && p3.url[index], {
-            _cn: findBangumiCn(!!p3.text.length && p3.text[index]),
+        onPress={() => {
+          const url = (!!p3.url.length && p3.url[index]) || ''
+          const subjectId = matchSubjectId(url)
+          this.appNavigate(url, {
+            _cn: findSubjectCn(!!p3.text.length && p3.text[index], subjectId),
             _jp: !!p3.text.length && p3.text[index],
             _name: !!p3.text.length && p3.text[index],
             _image: image
           })
-        }
+        }}
       />
     ))
 
@@ -359,3 +365,15 @@ const memoStyles = _.memoStyles(_ => ({
     height: 12 + _.sm * 2
   }
 }))
+
+function matchSubjectId(url = '') {
+  if (typeof url !== 'string') {
+    return 0
+  }
+
+  const match = url.match(/\d+/)
+  if (match && match.length) {
+    return match[0]
+  }
+  return 0
+}

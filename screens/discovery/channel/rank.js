@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:21:44
+ * @Last Modified time: 2020-05-19 19:36:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Touchable, Text } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { findBangumiCn } from '@utils/app'
+import { findSubjectCn } from '@utils/app'
 
 const imgWidth = 80
 const imgWidthSm = 56
@@ -55,7 +55,7 @@ function Friends(props, { $, navigation }) {
                 <Flex style={_.mt.sm} align='start'>
                   <Flex.Item>
                     <Text size={15} bold numberOfLines={2}>
-                      {findBangumiCn(item.name)}
+                      {findSubjectCn(item.name, item.id)}
                     </Text>
                     <Text style={_.mt.sm} size={13} type='sub'>
                       {item.follow}
@@ -107,7 +107,7 @@ function Friends(props, { $, navigation }) {
                   <Flex align='start'>
                     <Flex.Item>
                       <Text size={13} bold numberOfLines={2}>
-                        {findBangumiCn(item.name)}
+                        {findSubjectCn(item.name, item.id)}
                       </Text>
                       <Text style={_.mt.xs} size={11} type='sub'>
                         {item.follow}

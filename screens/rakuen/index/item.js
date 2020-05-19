@@ -12,7 +12,7 @@ import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Popover, Avatar, StockPreview } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { correctAgo, findBangumiCn, appNavigate } from '@utils/app'
+import { correctAgo, findSubjectCn, appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
@@ -34,7 +34,7 @@ class Item extends React.Component {
   // 小组中文
   get groupCn() {
     const { group } = this.props
-    return findBangumiCn(group)
+    return findSubjectCn(group)
   }
 
   get topicId() {

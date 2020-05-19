@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 13:43:03
+ * @Last Modified time: 2020-05-19 19:36:49
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,7 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Touchable, Flex, Text, Iconfont } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
-import { findBangumiCn, getCoverLarge } from '@utils/app'
+import { findSubjectCn, getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS, IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -38,7 +38,7 @@ function List({ style, type }, { $, navigation }) {
 
   const title = MODEL_SUBJECT_TYPE.getTitle(type)
   const src = getCoverLarge(data[0].cover) || IMG_DEFAULT
-  const cn = findBangumiCn(data[0].title)
+  const cn = findSubjectCn(data[0].title, data[0].subjectId)
   return (
     <>
       <SectionTitle
@@ -117,7 +117,7 @@ function List({ style, type }, { $, navigation }) {
           .filter((item, index) => index > 0)
           .map(item => {
             const src = item.cover || IMG_DEFAULT
-            const cn = findBangumiCn(item.title)
+            const cn = findSubjectCn(item.title, item.subjectId)
             return (
               <View key={item.subjectId} style={[styles.item, styles.itemSm]}>
                 <Cover

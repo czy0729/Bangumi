@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
-import { appNavigate, findBangumiCn } from '@utils/app'
+import { appNavigate, findSubjectCn } from '@utils/app'
 import SectionRight from './section-right'
 
 const event = {
@@ -63,7 +63,7 @@ function Works({ style }, { $, navigation }) {
             <Flex.Item style={_.ml.sm}>
               <Flex align='start'>
                 <Flex.Item>
-                  <Text bold>{findBangumiCn(item.name)}</Text>
+                  <Text bold>{findSubjectCn(item.name)}</Text>
                 </Flex.Item>
                 <Tag style={_.ml.sm} value={item.staff} />
               </Flex>

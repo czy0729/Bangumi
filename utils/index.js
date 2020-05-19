@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-25 21:25:58
+ * @Last Modified time: 2020-05-19 11:21:27
  */
 import { AsyncStorage, Clipboard } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -38,6 +38,24 @@ export function throttle(callback, delay = 400) {
   }
 
   return wrapper
+}
+
+/**
+ * 防抖
+ * @param {*} fn
+ * @param {*} ms
+ */
+export function debounce(fn, ms = 400) {
+  let timeout = null // 创建一个标记用来存放定时器的返回值
+  // eslint-disable-next-line func-names
+  return function () {
+    clearTimeout(timeout) // 每当用户输入的时候把前一个 setTimeout clear 掉
+    timeout = setTimeout(() => {
+      // 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
+      // eslint-disable-next-line prefer-rest-params
+      fn.apply(this, arguments)
+    }, ms)
+  }
 }
 
 /**
@@ -197,35 +215,35 @@ export function date(format, timestamp) {
     'December'
   ]
   let f = {
-    d: function() {
+    d: function () {
       return f.j()
       // return pad(f.j(), 2)
     },
-    D: function() {
+    D: function () {
       t = f.l()
       return t.substr(0, 3)
     },
-    j: function() {
+    j: function () {
       return jsdate.getDate()
     },
-    l: function() {
+    l: function () {
       return txt_weekdays[f.w()]
     },
-    N: function() {
+    N: function () {
       return f.w() + 1
     },
-    S: function() {
+    S: function () {
       return txt_ordin[f.j()] ? txt_ordin[f.j()] : 'th'
     },
-    w: function() {
+    w: function () {
       return jsdate.getDay()
     },
-    z: function() {
+    z: function () {
       return (
         ((jsdate - new Date(jsdate.getFullYear() + '/1/1')) / 86400000) >> 0
       )
     },
-    W: function() {
+    W: function () {
       let a = f.z(),
         b = 364 + f.L() - a
       let nd2,
@@ -241,21 +259,21 @@ export function date(format, timestamp) {
         }
       }
     },
-    F: function() {
+    F: function () {
       return txt_months[f.n()]
     },
-    m: function() {
+    m: function () {
       return f.n()
       // return pad(f.n(), 2)
     },
-    M: function() {
+    M: function () {
       t = f.F()
       return t.substr(0, 3)
     },
-    n: function() {
+    n: function () {
       return jsdate.getMonth() + 1
     },
-    t: function() {
+    t: function () {
       let n
       if ((n = jsdate.getMonth() + 1) == 2) {
         return 28 + f.L()
@@ -267,23 +285,23 @@ export function date(format, timestamp) {
         }
       }
     },
-    L: function() {
+    L: function () {
       let y = f.Y()
       return !(y & 3) && (y % 100 || !(y % 400)) ? 1 : 0
     },
-    Y: function() {
+    Y: function () {
       return jsdate.getFullYear()
     },
-    y: function() {
+    y: function () {
       return (jsdate.getFullYear() + '').slice(2)
     },
-    a: function() {
+    a: function () {
       return jsdate.getHours() > 11 ? 'pm' : 'am'
     },
-    A: function() {
+    A: function () {
       return f.a().toUpperCase()
     },
-    B: function() {
+    B: function () {
       let off = (jsdate.getTimezoneOffset() + 60) * 60
       let theSeconds =
         jsdate.getHours() * 3600 +
@@ -305,25 +323,25 @@ export function date(format, timestamp) {
       }
       return beat
     },
-    g: function() {
+    g: function () {
       return jsdate.getHours() % 12 || 12
     },
-    G: function() {
+    G: function () {
       return jsdate.getHours()
     },
-    h: function() {
+    h: function () {
       return pad(f.g(), 2)
     },
-    H: function() {
+    H: function () {
       return pad(jsdate.getHours(), 2)
     },
-    i: function() {
+    i: function () {
       return pad(jsdate.getMinutes(), 2)
     },
-    s: function() {
+    s: function () {
       return pad(jsdate.getSeconds(), 2)
     },
-    O: function() {
+    O: function () {
       let t = pad(Math.abs((jsdate.getTimezoneOffset() / 60) * 100), 4)
       if (jsdate.getTimezoneOffset() > 0) {
         t = '-' + t
@@ -332,11 +350,11 @@ export function date(format, timestamp) {
       }
       return t
     },
-    P: function() {
+    P: function () {
       let O = f.O()
       return O.substr(0, 3) + ':' + O.substr(3, 2)
     },
-    c: function() {
+    c: function () {
       return (
         f.Y() +
         '-' +
@@ -352,11 +370,11 @@ export function date(format, timestamp) {
         f.P()
       )
     },
-    U: function() {
+    U: function () {
       return Math.round(jsdate.getTime() / 1000)
     }
   }
-  return format.replace(/[\\]?([a-zA-Z])/g, function(t, s) {
+  return format.replace(/[\\]?([a-zA-Z])/g, function (t, s) {
     let ret = ''
     if (t != s) {
       ret = s
@@ -537,10 +555,7 @@ export function formatNumber(s, n = 2) {
     return Number(s).toFixed(n)
   }
 
-  let l = s
-      .split('.')[0]
-      .split('')
-      .reverse(),
+  let l = s.split('.')[0].split('').reverse(),
     r = s.split('.')[1]
 
   let t = ''
@@ -550,20 +565,10 @@ export function formatNumber(s, n = 2) {
   }
 
   if (typeof r === 'undefined') {
-    return t
-      .split('')
-      .reverse()
-      .join('')
+    return t.split('').reverse().join('')
   }
 
-  return (
-    t
-      .split('')
-      .reverse()
-      .join('') +
-    '.' +
-    r
-  )
+  return t.split('').reverse().join('') + '.' + r
 }
 
 /**
@@ -577,8 +582,9 @@ export function formatNumber(s, n = 2) {
  */
 export function lastDate(timestamp, overDaysToShowTime = 365, simple = true) {
   const d = new Date(timestamp * 1000)
-  const _date = `${d.getFullYear()}/${d.getMonth() +
-    1}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+  const _date = `${d.getFullYear()}/${
+    d.getMonth() + 1
+  }/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
   const dateTime = new Date(_date)
   const currentTime = new Date()
 

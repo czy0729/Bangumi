@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 23:58:52
+ * @Last Modified time: 2020-05-19 19:33:33
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { findBangumiCn } from '@utils/app'
+import { findSubjectCn } from '@utils/app'
 import Cover from './cover'
 
 function HorizontalList({
@@ -60,7 +60,7 @@ function HorizontalList({
                 ellipsizeMode={ellipsizeMode}
                 bold
               >
-                {findCn ? findBangumiCn(item.name) : item.name}
+                {findCn ? findSubjectCn(item.name, item.id) : item.name}
               </Text>
               {!!item.desc && (
                 <Text style={_.mt.xs} type='sub' size={13} numberOfLines={1}>

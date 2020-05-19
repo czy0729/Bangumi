@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:12:42
+ * @Last Modified time: 2020-05-19 19:38:00
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -21,7 +21,7 @@ import { HTMLDecode } from '@utils/html'
 import { t, xhrCustom, queue, baiduTranslate } from '@utils/fetch'
 import {
   appNavigate,
-  findBangumiCn,
+  findSubjectCn,
   getBangumiUrl,
   getCoverMedium
 } from '@utils/app'
@@ -474,7 +474,9 @@ export default class ScreenSubject extends store {
 
   @computed get cn() {
     const { _cn } = this.params
-    return HTMLDecode(this.subject.name_cn || _cn || findBangumiCn(this.jp))
+    return HTMLDecode(
+      this.subject.name_cn || _cn || findSubjectCn(this.jp, this.subjectId)
+    )
   }
 
   @computed get subjectType() {

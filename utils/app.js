@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:40:49
+ * @Last Modified time: 2020-05-19 18:03:04
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
 import { useScreens } from 'react-native-screens'
 import { DEV, HOST, HOST_2 } from '@constants'
+import { SUBJECT_CN } from '@constants/cn'
 import { t } from './fetch'
 import { globalLog, globalWarn } from './dev'
 
@@ -51,14 +52,35 @@ export function navigationReference(navigation) {
 }
 
 /**
- * 查找番剧中文名
+ * 查找条目中文名
+ * @param {*} jp
+ * @param {*} subjectId
  */
 const cache = {}
-export function findBangumiCn(jp = '') {
+export function findSubjectCn(jp = '', subjectId) {
+  const systemStore = require('../stores/system').default
+  if (!systemStore.setting.cnFirst) {
+    return jp
+  }
+
   if (cache[jp]) {
     return cache[jp]
   }
 
+  /**
+   * 若带id使用本地SUBJECT_CN加速查找
+   */
+  if (subjectId) {
+    const cn = SUBJECT_CN[subjectId]
+    if (cn) {
+      cache[jp] = cn
+      return cn
+    }
+  }
+
+  /**
+   * 没有id则使用jp在bangumi-data里面匹配
+   */
   const item = bangumiData.items.find(item => item.title === jp)
   if (item) {
     const cn =

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:41:05
+ * @Last Modified time: 2020-05-19 19:35:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Touchable, Flex, Text } from '@components'
 import { _, discoveryStore } from '@stores'
 import { t } from '@utils/fetch'
-import { findBangumiCn } from '@utils/app'
+import { findSubjectCn } from '@utils/app'
 import { EVENT } from '@constants'
 import Cover from '../base/cover'
 
@@ -38,7 +38,7 @@ function ItemBlog(
   const readed = discoveryStore.blogReaded(id)
   const line = []
   if (username) line.push(username)
-  if (subject) line.push(findBangumiCn(subject))
+  if (subject) line.push(findSubjectCn(subject, id))
   if (time) line.push(time)
   return (
     <Touchable

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:02:15
+ * @Last Modified time: 2020-05-19 19:35:21
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { ItemCollections } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
-import { findBangumiCn, keyExtractor } from '@utils/app'
+import { findSubjectCn, keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import IconFavor from './icon-favor'
@@ -75,7 +75,7 @@ class CatalogDetail extends React.Component {
         type={item.type}
         cover={item.image}
         name={item.title}
-        nameCn={findBangumiCn(item.title)}
+        nameCn={findSubjectCn(item.title, item.id)}
         tip={item.info}
         comments={item.comment}
         isCatalog
