@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 16:43:20
+ * @Last Modified time: 2020-05-21 20:04:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,7 @@ import {
   Mono,
   Notify,
   PM,
+  Persons,
   Qiafan,
   Rakuen,
   RakuenHistory,
@@ -158,6 +159,7 @@ const HomeStack = createStackNavigator(
     Mono,
     Notify,
     PM,
+    Persons,
     Qiafan,
     Rakuen,
     RakuenHistory,

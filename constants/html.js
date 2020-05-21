@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 15:37:16
+ * @Last Modified time: 2020-05-21 19:49:01
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -358,6 +358,13 @@ export const HTML_CHANNEL = channel => `${HOST}/${channel}`
  */
 export const HTML_SUBJECT_CHARACTERS = subjectId =>
   `${HOST}/subject/${subjectId}/characters`
+
+/**
+ * 条目更多制作人员
+ * @param {*} subjectId
+ */
+export const HTML_SUBJECT_PERSONS = subjectId =>
+  `${HOST}/subject/${subjectId}/persons`
 
 // -------------------- action --------------------
 /**

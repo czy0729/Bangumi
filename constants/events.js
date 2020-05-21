@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 17:49:15
+ * @Last Modified time: 2020-05-21 20:21:38
  */
 
 /**
@@ -162,6 +162,10 @@ export default {
   // 更多角色
   '更多角色.跳转': 'Characters.to',
   '更多角色.右上角菜单': 'Characters.topRightMenu',
+
+  // 制作人员
+  '制作人员.跳转': 'Persons.to',
+  '制作人员.右上角菜单': 'Persons.topRightMenu',
 
   /* ==================== login ==================== */
   // 辅助登陆

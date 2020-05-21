@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 17:44:34
+ * @Last Modified time: 2020-05-21 20:15:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text } from '@components'
-import { Tag, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
+import Tag from '../base/tag'
+import Cover from '../base/cover'
 
 const imgWidth = 56
 
@@ -21,6 +22,7 @@ function ItemCharacter(
   {
     event,
     index,
+    type,
     id,
     cover,
     name,
@@ -40,10 +42,10 @@ function ItemCharacter(
   const onPress = () => {
     t(event.id, {
       to: 'Mono',
-      monoId: `character/${id}`
+      monoId: `${type}/${id}`
     })
     navigation.push('Mono', {
-      monoId: `character/${id}`,
+      monoId: `${type}/${id}`,
       _name: nameCn,
       _jp: name,
       _image: cover
@@ -97,31 +99,33 @@ function ItemCharacter(
               </View>
             </Flex>
           </Touchable>
-          <Touchable
-            style={_.mt.md}
-            onPress={() => {
-              t(event.id, {
-                to: 'Mono',
-                monoId: `person/${actorId}`
-              })
+          {!!actorId && (
+            <Touchable
+              style={_.mt.md}
+              onPress={() => {
+                t(event.id, {
+                  to: 'Mono',
+                  monoId: `person/${actorId}`
+                })
 
-              navigation.push('Mono', {
-                monoId: `person/${actorId}`
-              })
-            }}
-          >
-            <Flex>
-              <Cover src={actorCover} size={32} border radius shadow />
-              <Flex.Item style={_.ml.sm}>
-                <Text size={12} numberOfLines={1} bold>
-                  {actor}
-                </Text>
-                <Text style={_.mt.xs} size={12} type='sub' numberOfLines={1}>
-                  {actorCn}
-                </Text>
-              </Flex.Item>
-            </Flex>
-          </Touchable>
+                navigation.push('Mono', {
+                  monoId: `person/${actorId}`
+                })
+              }}
+            >
+              <Flex>
+                <Cover src={actorCover} size={32} border radius shadow />
+                <Flex.Item style={_.ml.sm}>
+                  <Text size={12} numberOfLines={1} bold>
+                    {actor}
+                  </Text>
+                  <Text style={_.mt.xs} size={12} type='sub' numberOfLines={1}>
+                    {actorCn}
+                  </Text>
+                </Flex.Item>
+              </Flex>
+            </Touchable>
+          )}
         </Flex.Item>
       </Flex>
     </View>
@@ -134,7 +138,8 @@ ItemCharacter.contextTypes = {
 }
 
 ItemCharacter.defaultProps = {
-  event: EVENT
+  event: EVENT,
+  type: 'character' // character | person
 }
 
 export default observer(ItemCharacter)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 17:57:18
+ * @Last Modified time: 2020-05-21 20:08:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,7 @@ function Character({ style }, { $, navigation }) {
             }}
           >
             <Flex>
-              <Text type='sub'>更多角色</Text>
+              <Text type='sub'>更多</Text>
               <Iconfont name='right' size={16} />
             </Flex>
           </Touchable>
