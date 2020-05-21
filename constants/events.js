@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 20:21:38
+ * @Last Modified time: 2020-05-22 00:38:33
  */
 
 /**
@@ -120,6 +120,7 @@ export default {
   '人物.封面图查看': 'Mono.imageView',
 
   // 条目
+  '条目.查看': 'Subject.view',
   '条目.跳转': 'Subject.to',
   '条目.显示收藏管理': 'Subject.showManageModel',
   '条目.章节倒序': 'Subject.toggleReverseEps',
@@ -137,6 +138,7 @@ export default {
   '条目.删除收藏': 'Subject.doEraseCollection',
   '条目.搜索源': 'Subject.searchEp',
   '条目.翻译简介': 'Subject.doTranslate',
+  '条目.翻译曲目': 'Subject.doDiscTranslate',
   '条目.查看奖杯': 'Subject.toPSNINE',
   '条目.设置章节筛选': 'Subject.updateFilterEps',
 

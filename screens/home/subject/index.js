@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 12:09:01
+ * @Last Modified time: 2020-05-22 00:43:27
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -39,17 +39,22 @@ class Subject extends React.Component {
   }
 
   componentDidMount() {
-    InteractionManager.runAfterInteractions(() => {
+    InteractionManager.runAfterInteractions(async () => {
       setTimeout(() => {
         this.rendered()
       }, 300)
 
       const { $, navigation } = this.context
-      $.init()
+      const res = $.init()
       withTransitionHeader.setTitle(navigation, $.cn)
       this.updateNavigation()
-
       hm(`subject/${$.params.subjectId}`, 'Subject')
+
+      await res
+      t('条目.查看', {
+        subjectId: $.subjectId,
+        type: $.type
+      })
     })
   }
 

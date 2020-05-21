@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 19:38:00
+ * @Last Modified time: 2020-05-22 00:40:33
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -63,7 +63,8 @@ const excludeState = {
 
   chap: '', // 书籍章
   vol: '', // 卷
-  translateResult: [] // 翻译缓存
+  translateResult: [], // 翻译缓存
+  discTranslateResult: [] // 曲目名字翻译缓存
 }
 
 export default class ScreenSubject extends store {
@@ -1119,6 +1120,41 @@ export default class ScreenSubject extends store {
       if (Array.isArray(translateResult)) {
         this.setState({
           translateResult
+        })
+        info('翻译成功')
+        return
+      }
+      info('翻译失败, 请重试')
+    } catch (error) {
+      info('翻译失败, 请重试')
+    }
+  }
+
+  /**
+   * 翻译曲目
+   */
+  doDiscTranslate = async () => {
+    if (this.state.discTranslateResult.length) {
+      return
+    }
+
+    t('条目.翻译曲目', {
+      subjectId: this.subjectId
+    })
+
+    const discTitle = []
+    this.disc.forEach(item => {
+      item.disc.forEach((i, index) => {
+        discTitle.push(i.title.replace(`${index + 1} `, ''))
+      })
+    })
+
+    try {
+      const response = await baiduTranslate(discTitle.join('\n'))
+      const { trans_result: discTranslateResult } = JSON.parse(response)
+      if (Array.isArray(discTranslateResult)) {
+        this.setState({
+          discTranslateResult
         })
         info('翻译成功')
         return
