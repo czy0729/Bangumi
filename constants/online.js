@@ -1,8 +1,10 @@
 /*
+ * 手动站点条目id与Bangumi条目id映射
+ *
  * @Author: czy0729
  * @Date: 2020-01-05 14:39:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 12:32:08
+ * @Last Modified time: 2020-05-20 16:28:26
  */
 export const NINGMOE_ID = {
   // 19/07

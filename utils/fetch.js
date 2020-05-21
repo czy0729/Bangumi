@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 11:51:21
+ * @Last Modified time: 2020-05-19 11:27:06
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -23,7 +23,7 @@ import events from '@constants/events'
 import { BAIDU_KEY } from '@constants/secret'
 import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'
-import { urlStringify, sleep, getTimestamp, randomn } from './index'
+import { urlStringify, sleep, getTimestamp, randomn, debounce } from './index'
 import { log } from './dev'
 import { info as UIInfo } from './ui'
 
@@ -310,6 +310,76 @@ export function xhrCustom({
     request.send(body)
     if (SHOW_LOG) {
       log(`[xhrCustom] ${url}`)
+    }
+  })
+}
+
+/**
+ * 带progress的xhr
+ */
+export function sax({
+  method = 'GET',
+  url,
+  data,
+  headers = {},
+  responseType,
+  withCredentials = false,
+  onProgress = Function.prototype
+} = {}) {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest()
+    // eslint-disable-next-line prefer-arrow-callback
+    const cb = debounce(function (response) {
+      if (response.length < 1000) {
+        return
+      }
+
+      log('[utils/fetch] sax', response.length)
+      onProgress(response)
+    }, 80)
+    request.onreadystatechange = function () {
+      if (this.readyState !== 4) {
+        return cb(this._response)
+      }
+
+      if (this.status === 200) {
+        return resolve(this)
+      }
+
+      console.warn('[utils/fetch] sax', url)
+      if (this.status === 404) {
+        return reject(new TypeError('404'))
+      }
+
+      if (this.status === 500) {
+        return reject(new TypeError('500'))
+      }
+
+      return reject(new TypeError(this.status))
+    }
+    request.onerror = function () {
+      reject(new TypeError('Network request onerror'))
+    }
+    request.ontimeout = function () {
+      reject(new TypeError('Network request ontimeout'))
+    }
+    request.onabort = function () {
+      reject(new TypeError('Network request onabort'))
+    }
+
+    request.open(method, url, true)
+    request.withCredentials = withCredentials
+    if (responseType) {
+      request.responseType = responseType
+    }
+    Object.keys(headers).forEach(key => {
+      request.setRequestHeader(key, headers[key])
+    })
+
+    const body = data ? urlStringify(data) : null
+    request.send(body)
+    if (SHOW_LOG) {
+      log(`[sax] ${url}`)
     }
   })
 }

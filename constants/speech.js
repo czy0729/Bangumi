@@ -1,8 +1,10 @@
 /*
+ * Bangumi娘话语
+ *
  * @Author: czy0729
  * @Date: 2019-06-09 20:04:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-14 12:28:07
+ * @Last Modified time: 2020-05-20 16:28:43
  */
 const speech = [
   '"啊 欢迎回来 主人！"虽然想这么说，但这种做作的语气只会让我想用钢丝勒断说话人的脖子。',

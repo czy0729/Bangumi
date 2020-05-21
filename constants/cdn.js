@@ -1,10 +1,16 @@
-/* eslint-disable no-cond-assign */
-/* eslint-disable no-bitwise */
+/* eslint-disable no-cond-assign, no-bitwise */
 /*
+ * jsDelivr CDN
+ *  - 每日放送
+ *  - 上映中动画单集数据源
+ *  - 条目、角色、小组静态数据
+ *  - 发现首页、年鉴静态数据
+ *  - 头像、条目封面对象存储
+ *
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 20:24:34
+ * @Last Modified time: 2020-05-20 16:20:52
  */
 import { getTimestamp } from '@utils'
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
@@ -67,7 +73,7 @@ export const CDN_SUBJECT = (subjectId, version = VERSION_SUBJECT) =>
   )}/${subjectId}.json`
 
 /**
- * 人物CDN自维护数据
+ * 角色CDN自维护数据
  * @url https://github.com/czy0729/Bangumi-Mono
  * @param {int} monoId
  * @param {string} type data | person

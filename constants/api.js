@@ -1,9 +1,12 @@
 /*
  * 接口
+ *  - Bgm接口 https://github.com/bangumi/api
+ *  - 小圣杯接口 https://bgm.tv/dev/app/1143
+ *
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 22:25:40
+ * @Last Modified time: 2020-05-20 16:20:33
  */
 import { HOST } from './index'
 

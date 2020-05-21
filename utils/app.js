@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 18:03:04
+ * @Last Modified time: 2020-05-20 16:39:23
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
 import { useScreens } from 'react-native-screens'
 import { DEV, HOST, HOST_2 } from '@constants'
 import { SUBJECT_CN } from '@constants/cn'
+import x from '@constants/18x'
 import { t } from './fetch'
 import { globalLog, globalWarn } from './dev'
 
@@ -94,6 +95,15 @@ export function findSubjectCn(jp = '', subjectId) {
 
   cache[jp] = jp
   return jp
+}
+
+/**
+ * 是否敏感条目
+ * @param {*} subjectId
+ */
+export function x18(subjectId) {
+  if (!subjectId) return false
+  return subjectId in x
 }
 
 /**
