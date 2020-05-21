@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-20 16:23:37
+ * @Last Modified time: 2020-05-21 17:49:15
  */
 
 /**
@@ -158,6 +158,10 @@ export default {
   '角色.跳转': 'Voices.to',
   '角色.右上角菜单': 'Voices.topRightMenu',
   '角色.职位选择': 'Voices.onFilterSelect',
+
+  // 更多角色
+  '更多角色.跳转': 'Characters.to',
+  '更多角色.右上角菜单': 'Characters.topRightMenu',
 
   /* ==================== login ==================== */
   // 辅助登陆

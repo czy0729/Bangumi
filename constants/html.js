@@ -1,11 +1,11 @@
 /*
  * HTML地址
  *  - 地址开头带叹号的代表不携带cookie进行请求
- * 
+ *
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 21:16:48
+ * @Last Modified time: 2020-05-21 15:37:16
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -351,6 +351,13 @@ export const HTML_SAY = (userId, id) =>
  * @param {*} channel
  */
 export const HTML_CHANNEL = channel => `${HOST}/${channel}`
+
+/**
+ * 条目更多角色
+ * @param {*} subjectId
+ */
+export const HTML_SUBJECT_CHARACTERS = subjectId =>
+  `${HOST}/subject/${subjectId}/characters`
 
 // -------------------- action --------------------
 /**

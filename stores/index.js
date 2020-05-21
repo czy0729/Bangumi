@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 21:26:08
+ * @Last Modified time: 2020-05-21 16:34:46
  */
 import { AsyncStorage, Alert } from 'react-native'
 import { CacheManager } from 'react-native-expo-image-cache'
@@ -11,6 +11,7 @@ import { info } from '@utils/ui'
 import calendarStore from './calendar'
 import collectionStore from './collection'
 import discoveryStore from './discovery'
+import monoStore from './mono'
 import rakuenStore from './rakuen'
 import searchStore from './search'
 import subjectStore from './subject'
@@ -51,6 +52,7 @@ class Stores {
       Promise.all([
         calendarStore.init(),
         discoveryStore.init(),
+        monoStore.init(),
         rakuenStore.init(),
         searchStore.init(),
         timelineStore.init(),
@@ -154,6 +156,7 @@ export {
   calendarStore,
   collectionStore,
   discoveryStore,
+  monoStore,
   rakuenStore,
   searchStore,
   subjectStore,

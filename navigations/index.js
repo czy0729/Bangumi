@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 15:45:19
+ * @Last Modified time: 2020-05-21 16:43:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,7 @@ import {
   Catalogs,
   Channel,
   Character,
+  Characters,
   Comic,
   DEV,
   Discovery,
@@ -143,6 +144,7 @@ const HomeStack = createStackNavigator(
     Channel,
     Comic,
     Character,
+    Characters,
     DEV,
     Discovery,
     DiscoveryBlog,
