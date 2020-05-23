@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-15 15:58:36
+ * @Last Modified time: 2020-05-24 00:36:49
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -21,13 +21,15 @@ const marginLeft = (_.window.contentWidth - 4 * imageWidth) / 5
 function CollectionsGrid({
   style,
   navigation,
+  event,
   id,
   cover,
   name,
   nameCn,
   time,
-  isOnHold,
-  event
+  score,
+  showScore,
+  isOnHold
 }) {
   let holdDays
   if (isOnHold) {
@@ -62,6 +64,11 @@ function CollectionsGrid({
       />
       <Touchable withoutFeedback onPress={onPress}>
         <Text style={_.mt.sm} size={13} numberOfLines={2} bold>
+          {showScore && score && (
+            <Text size={13} type='warning' bold>
+              {score}{' '}
+            </Text>
+          )}
           {HTMLDecode(nameCn || name)}
         </Text>
         {!!holdDays && (
@@ -75,7 +82,8 @@ function CollectionsGrid({
 }
 
 CollectionsGrid.defaultProps = {
-  event: EVENT
+  event: EVENT,
+  showScore: false
 }
 
 export default observer(CollectionsGrid)

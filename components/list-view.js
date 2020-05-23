@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 17:43:10
+ * @Last Modified time: 2020-05-23 22:57:26
  */
 import React from 'react'
 import {
@@ -53,6 +53,7 @@ class ListView extends React.Component {
     footerEmptyDataText: '好像什么都没有',
     footerTextType: 'sub',
     optimize: true, // 是否开启长列表优化
+    showFooter: true,
     onHeaderRefresh: undefined,
     onFooterRefresh: undefined
   }
@@ -154,7 +155,7 @@ class ListView extends React.Component {
   }
 
   get commonProps() {
-    const { optimize } = this.props
+    const { optimize, showFooter } = this.props
     const { refreshState } = this.state
     return {
       ref: this.connectRef,
@@ -166,7 +167,7 @@ class ListView extends React.Component {
 
       refreshing: refreshState === RefreshState.HeaderRefreshing,
       refreshControl: this.renderRefreshControl(),
-      ListFooterComponent: this.renderFooter(refreshState),
+      ListFooterComponent: showFooter ? this.renderFooter(refreshState) : null,
       onRefresh: this.onHeaderRefresh,
       onEndReached: this.onEndReached,
       onEndReachedThreshold: 0.64,
@@ -340,6 +341,7 @@ class ListView extends React.Component {
       progressViewOffset,
       refreshControlProps,
       optimize,
+      showFooter,
       animated,
       ...other
     } = this.props

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 15:56:21
+ * @Last Modified time: 2020-05-24 00:01:11
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -12,7 +12,7 @@ import { fetchHTML } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 import { HTML_TAG, HTML_RANK, HTML_BROSWER } from '@constants/html'
 import { NAMESPACE, DEFAULT_TYPE } from './init'
-import { analysisTags } from './common'
+import { analysisTags, analysiRank } from './common'
 
 class Tag extends store {
   state = observable({
@@ -33,7 +33,7 @@ class Tag extends store {
      * @param {*} type
      */
     rank: {
-      _: (type = DEFAULT_TYPE) => type,
+      _: (type = DEFAULT_TYPE, page = 1) => `${type}|${page}`,
       0: LIST_EMPTY // <INIT_RANK_ITEM>
     },
 
@@ -110,31 +110,28 @@ class Tag extends store {
    * 三次元: jp | en | cn | misc
    *
    * @param {*} airtime 2020-1960
-   * @param {*} refresh 是否刷新
    */
-  fetchRank = async (
-    { type = DEFAULT_TYPE, filter, airtime } = {},
-    refresh
-  ) => {
+  fetchRank = async ({
+    type = DEFAULT_TYPE,
+    filter,
+    airtime,
+    page = 1
+  } = {}) => {
     const key = 'rank'
-    const limit = 24
-    const { list, pagination } = this.rank(type)
-    const page = refresh ? 1 : pagination.page + 1
-
     const res = fetchHTML({
       url: HTML_RANK(type, 'rank', page, filter, airtime)
     })
     const raw = await res
-    const { tag } = analysisTags(raw, page, pagination)
+    const list = analysiRank(raw)
 
     const stateKey = type
     this.setState({
       [key]: {
-        [stateKey]: {
-          list: refresh ? tag : [...list, ...tag],
+        [`${stateKey}|${page}`]: {
+          list,
           pagination: {
-            page,
-            pageTotal: tag.length === limit ? 1000 : page
+            page: 1,
+            pageTotal: 1
           },
           _loaded: getTimestamp()
         }

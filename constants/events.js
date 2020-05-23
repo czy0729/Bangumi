@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-22 00:38:33
+ * @Last Modified time: 2020-05-24 00:37:44
  */
 
 /**
@@ -67,6 +67,9 @@ export default {
   '排行榜.年选择': 'Rank.onAirdateSelect',
   '排行榜.月选择': 'Rank.onMonthSelect',
   '排行榜.切换布局': 'Rank.toggleList',
+  '排行榜.上一页': 'Rank.prev',
+  '排行榜.下一页': 'Rank.next',
+  '排行榜.页码跳转': 'Rank.doSearch',
 
   // 搜索
   '搜索.跳转': 'Search.to',

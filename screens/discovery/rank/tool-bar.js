@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 19:33:58
+ * @Last Modified time: 2020-05-24 00:17:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -21,7 +21,7 @@ import {
 
 const typeData = MODEL_SUBJECT_TYPE.data.map(item => item.title)
 
-function ToolBar(props, { $, navigation }) {
+function ToolBar(props, { $ }) {
   const styles = memoStyles()
   const { type, filter, airtime, month, list } = $.state
   const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 16:15:24
+ * @Last Modified time: 2020-05-24 00:36:57
  */
 import React from 'react'
+import { View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { Loading, ListView } from '@components'
-import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
+import { ActivityIndicator } from '@ant-design/react-native'
+import { Flex, Empty } from '@components'
+import { Pagination, ItemSearch, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
-import { keyExtractor } from '@utils/app'
+import { observer } from '@utils/decorators'
 
 const event = {
   id: '排行榜.跳转'
@@ -24,66 +25,102 @@ class List extends React.Component {
     navigation: PropTypes.object
   }
 
-  renderItem = ({ item, index }) => {
-    const { $, navigation } = this.context
-    const { list } = $.state
-    if (list) {
-      return (
-        <ItemSearch
-          style={_.container.item}
-          navigation={navigation}
-          index={index}
-          event={{
-            ...event,
-            data: {
-              type: 'list'
-            }
-          }}
-          {...item}
-        />
-      )
-    }
+  renderPagination() {
+    const { $ } = this.context
+    const { type, ipt } = $.state
     return (
-      <ItemCollectionsGrid
-        navigation={navigation}
-        index={index}
-        event={{
-          ...event,
-          data: {
-            type: 'grid'
-          }
-        }}
-        {...item}
-        id={item.id.replace('/subject/', '')}
+      <Pagination
+        input={ipt[type]}
+        onPrev={$.prev}
+        onNext={$.next}
+        onChange={$.onChange}
+        onSearch={$.doSearch}
       />
+    )
+  }
+
+  renderList() {
+    const { $, navigation } = this.context
+    const { list } = $.rank
+    return (
+      <View style={this.styles.list}>
+        {list.length ? (
+          list.map((item, index) => (
+            <ItemSearch
+              key={item.id}
+              style={_.container.item}
+              navigation={navigation}
+              index={index}
+              event={{
+                ...event,
+                data: {
+                  type: 'list'
+                }
+              }}
+              {...item}
+            />
+          ))
+        ) : (
+          <Empty />
+        )}
+      </View>
+    )
+  }
+
+  renderGrid() {
+    const { $, navigation } = this.context
+    const { list } = $.rank
+    return (
+      <Flex style={this.styles.grid} wrap='wrap'>
+        {list.length ? (
+          list.map((item, index) => (
+            <ItemCollectionsGrid
+              key={item.id}
+              style={this.styles.itemGird}
+              navigation={navigation}
+              index={index}
+              event={{
+                ...event,
+                data: {
+                  type: 'grid'
+                }
+              }}
+              {...item}
+              id={item.id.replace('/subject/', '')}
+              showScore
+            />
+          ))
+        ) : (
+          <Empty />
+        )}
+      </Flex>
     )
   }
 
   render() {
     const { $ } = this.context
-    const { hide } = $.state
-    if (hide) {
-      return null
-    }
-
+    const { show, list: _list } = $.state
     const { _loaded } = $.rank
-    if (!_loaded) {
-      return <Loading />
-    }
-
-    const { list } = $.state
-    const numColumns = list ? undefined : 4
     return (
-      <ListView
-        key={String(numColumns)}
-        numColumns={numColumns}
-        contentContainerStyle={list ? this.styles.list : this.styles.grid}
-        keyExtractor={keyExtractor}
-        data={$.rank}
-        renderItem={this.renderItem}
-        onHeaderRefresh={$.onHeaderRefresh}
-        onFooterRefresh={$.fetchRank}
-      />
+      <ScrollView contentContainerStyle={this.styles.container}>
+        {this.renderPagination()}
+        {show && (
+          <>
+            {_loaded ? (
+              _list ? (
+                this.renderList()
+              ) : (
+                this.renderGrid()
+              )
+            ) : (
+              <Flex style={this.styles.loading} justify='center'>
+                <ActivityIndicator />
+              </Flex>
+            )}
+            {this.renderPagination()}
+          </>
+        )}
+      </ScrollView>
     )
   }
 
@@ -93,11 +130,23 @@ class List extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
+  container: {
+    paddingBottom: _.bottom,
+    minHeight: _.window.height
+  },
   list: {
-    paddingBottom: _.bottom
+    paddingVertical: _.md
   },
   grid: {
-    paddingHorizontal: _.wind - _._wind,
-    paddingBottom: _.bottom
+    paddingVertical: _.md,
+    paddingHorizontal: _.wind - _._wind
+  },
+  loading: {
+    paddingTop: _.md,
+    paddingBottom: 240,
+    minHeight: _.window.height
+  },
+  itemGird: {
+    height: 124
   }
 }))

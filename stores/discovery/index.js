@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:37:44
+ * @Last Modified time: 2020-05-23 22:43:57
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -439,7 +439,7 @@ class Discovery extends store {
   /**
    * 全站日志
    */
-  fetchBlog = async ({ type = '', page = 1 }) => {
+  fetchBlog = async ({ type = '', page = 1 } = {}) => {
     const key = 'blog'
     const html = await fetchHTML({
       url: HTML_BLOG_LIST(type, page)
