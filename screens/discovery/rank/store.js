@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-23 23:57:30
+ * @Last Modified time: 2020-05-24 02:01:41
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
@@ -88,74 +88,66 @@ export default class ScreenRank extends store {
   }
 
   // -------------------- page --------------------
-  onTypeSelect = async type => {
+  onTypeSelect = type => {
     t('排行榜.类型选择', {
       type
     })
 
     this.setState({
+      show: false,
       type: MODEL_SUBJECT_TYPE.getLabel(type),
-      filter: '',
-      airtime: '',
-      month: ''
-    })
-    await this.fetchRank()
-    this.setStorage(undefined, undefined, namespace)
-
-    this.setState({
-      hide: true
+      filter: ''
     })
     setTimeout(() => {
       this.setState({
-        hide: false
+        show: true
       })
-    }, 200)
+      this.setStorage(undefined, undefined, namespace)
+    }, 0)
+
+    this.fetchRank()
   }
 
-  onFilterSelect = async (filter, filterData) => {
+  onFilterSelect = (filter, filterData) => {
     t('排行榜.筛选选择', {
       filter
     })
 
     this.setState({
+      show: false,
       filter: filter === '全部' ? '' : filterData.getValue(filter)
-    })
-    await this.fetchRank()
-    this.setStorage(undefined, undefined, namespace)
-
-    this.setState({
-      hide: true
     })
     setTimeout(() => {
       this.setState({
-        hide: false
+        show: true
       })
-    }, 200)
+      this.setStorage(undefined, undefined, namespace)
+    }, 0)
+
+    this.fetchRank()
   }
 
-  onAirdateSelect = async airtime => {
+  onAirdateSelect = airtime => {
     t('排行榜.年选择', {
       airtime
     })
 
     this.setState({
+      show: false,
       airtime: airtime === '全部' ? '' : airtime,
       month: ''
     })
-    await this.fetchRank()
-    this.setStorage(undefined, undefined, namespace)
-
-    this.setState({
-      hide: true
-    })
     setTimeout(() => {
       this.setState({
-        hide: false
+        show: true
       })
-    }, 200)
+      this.setStorage(undefined, undefined, namespace)
+    }, 0)
+
+    this.fetchRank()
   }
 
-  onMonthSelect = async month => {
+  onMonthSelect = month => {
     const { airtime } = this.state
     if (airtime === '') {
       info('请先选择年')
@@ -165,20 +157,19 @@ export default class ScreenRank extends store {
     t('排行榜.月选择', {
       month
     })
-    this.setState({
-      month: month === '全部' ? '' : month
-    })
-    await this.fetchRank()
-    this.setStorage(undefined, undefined, namespace)
 
     this.setState({
-      hide: true
+      show: false,
+      month: month === '全部' ? '' : month
     })
     setTimeout(() => {
       this.setState({
-        hide: false
+        show: true
       })
+      this.setStorage(undefined, undefined, namespace)
     }, 0)
+
+    this.fetchRank()
   }
 
   toggleList = () => {
@@ -188,17 +179,14 @@ export default class ScreenRank extends store {
     })
 
     this.setState({
+      show: false,
       list: !list
-    })
-    this.setStorage(undefined, undefined, namespace)
-
-    this.setState({
-      hide: true
     })
     setTimeout(() => {
       this.setState({
-        hide: false
+        show: true
       })
+      this.setStorage(undefined, undefined, namespace)
     }, 0)
   }
 
@@ -225,14 +213,14 @@ export default class ScreenRank extends store {
         [type]: String(page - 1)
       }
     })
-    this.fetchRank()
-
     setTimeout(() => {
       this.setState({
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 400)
+    }, 0)
+
+    this.fetchRank()
   }
 
   next = () => {
@@ -254,14 +242,14 @@ export default class ScreenRank extends store {
         [type]: String(page + 1)
       }
     })
-    this.fetchRank()
-
     setTimeout(() => {
       this.setState({
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 400)
+    }, 0)
+
+    this.fetchRank()
   }
 
   onChange = ({ nativeEvent }) => {
@@ -299,13 +287,13 @@ export default class ScreenRank extends store {
         [type]: String(_ipt)
       }
     })
-    this.fetchRank()
-
     setTimeout(() => {
       this.setState({
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 400)
+    }, 0)
+
+    this.fetchRank()
   }
 }

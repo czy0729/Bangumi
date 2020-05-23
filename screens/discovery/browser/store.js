@@ -2,25 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 19:22:26
+ * @Last Modified time: 2020-05-24 01:52:33
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
 import store from '@utils/store'
+import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { HTML_BROSWER } from '@constants/html'
 
 const namespace = 'ScreenBrowser'
 const defaultType = MODEL_SUBJECT_TYPE.getLabel('动画')
-const year = 40
+const date = new Date()
+const y = date.getFullYear()
+const m = date.getMonth()
+const excludeState = {
+  show: true // 是否显示列表, 制造切页效果
+}
 
 export default class ScreenBrowser extends store {
   state = observable({
-    tabs: [],
-    page: 12 * year,
     type: defaultType,
-    hide: false, // 用于列表置顶
+    airtime: y,
+    month: m,
+    ...excludeState,
     _loaded: false
   })
 
@@ -28,13 +34,12 @@ export default class ScreenBrowser extends store {
     const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
-      tabs: this.caculateTabs(),
-      hide: false,
+      airtime: state.airtime || y,
+      month: state.month || m,
       _loaded: true
     })
 
-    const { tabs, page } = this.state
-    const { _loaded } = this.browser(tabs[page])
+    const { _loaded } = this.browser
     if (!_loaded) {
       return this.fetchBrowser(true)
     }
@@ -45,103 +50,94 @@ export default class ScreenBrowser extends store {
 
   // -------------------- fetch --------------------
   fetchBrowser = refresh => {
-    const { type, tabs, page } = this.state
+    const { type } = this.state
     return tagStore.fetchBrowser(
       {
         type,
-        airtime: tabs[page]
+        airtime: this.airtime
       },
       refresh
     )
   }
 
   // -------------------- get --------------------
-  browser(airtime) {
+  get airtime() {
+    const { airtime, month } = this.state
+    return month ? `${airtime}-${month}` : airtime
+  }
+
+  get browser() {
     const { type } = this.state
-    return computed(() => tagStore.browser(type, airtime)).get()
+    return computed(() => tagStore.browser(type, this.airtime)).get()
   }
 
   get url() {
-    const { type, tabs, page } = this.state
-    return HTML_BROSWER(type, tabs[page])
+    const { type } = this.state
+    return HTML_BROSWER(type, this.airtime)
   }
 
   // -------------------- page --------------------
-  /**
-   * 计算前20年和后1年的tabs
-   */
-  caculateTabs = () => {
-    const date = new Date()
-    let y = date.getFullYear()
-    let m = date.getMonth()
-    let yy = y
-    let mm = m
-
-    const now = `${y}-${m + 1}`
-    const tabs = [now]
-    for (let next = 12; next > 0; next -= 1) {
-      if (m === 11) {
-        y += 1
-        m = 0
-      } else {
-        m += 1
-      }
-      tabs.push(`${y}-${m + 1}`)
-    }
-    for (let prev = 12 * year; prev > 0; prev -= 1) {
-      if (mm === 0) {
-        yy -= 1
-        mm = 11
-      } else {
-        mm -= 1
-      }
-      tabs.unshift(`${yy}-${mm + 1}`)
-    }
-
-    return tabs
-  }
-
-  /**
-   * 标签页切换
-   */
-  onChange = (item, page) => {
-    if (page === this.state.page) {
-      return
-    }
-
-    t('索引.标签页切换', {
-      key: item.key
+  onTypeSelect = async type => {
+    t('索引.类型选择', {
+      type
     })
 
     this.setState({
-      page
+      show: false,
+      type: MODEL_SUBJECT_TYPE.getLabel(type)
     })
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+    }, 0)
 
-    const { tabs } = this.state
-    const { _loaded } = this.browser(tabs[page])
-    if (!_loaded) {
-      this.fetchBrowser(true)
-    }
-
+    await this.fetchBrowser(true)
     this.setStorage(undefined, undefined, namespace)
   }
 
-  /**
-   * 类型选择
-   */
-  onSelect = title => {
-    t('索引.类型选择', {
-      title
+  onAirdateSelect = async airtime => {
+    t('索引.年选择', {
+      airtime
     })
 
-    const { type } = this.state
-    const nextType = MODEL_SUBJECT_TYPE.getLabel(title)
-    if (nextType !== type) {
+    this.setState({
+      show: false,
+      airtime: airtime === '全部' ? '' : airtime,
+      month: ''
+    })
+    setTimeout(() => {
       this.setState({
-        type: nextType
+        show: true
       })
-      this.fetchBrowser(true)
-      this.setStorage(undefined, undefined, namespace)
+    }, 0)
+
+    await this.fetchBrowser(true)
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onMonthSelect = async month => {
+    const { airtime } = this.state
+    if (airtime === '') {
+      info('请先选择年')
+      return
     }
+
+    t('索引.月选择', {
+      month
+    })
+
+    this.setState({
+      show: false,
+      month: month === '全部' ? '' : month
+    })
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+    }, 0)
+
+    await this.fetchBrowser(true)
+    this.setStorage(undefined, undefined, namespace)
   }
 }

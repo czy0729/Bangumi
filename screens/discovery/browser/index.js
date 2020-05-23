@@ -2,23 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 00:27:24
+ * @Last Modified time: 2020-05-24 01:41:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Tabs } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import ToolBar from './tool-bar'
 import List from './list'
-import TabBarLeft from './tab-bar-left'
 import Store from './store'
 
 const title = '索引'
-const renderTabBarLeft = <TabBarLeft />
 
 export default
 @inject(Store)
@@ -61,35 +59,13 @@ class Browser extends React.Component {
     })
   }
 
-  get tabs() {
-    const { $ } = this.context
-    const { tabs } = $.state
-    return tabs.map(item => ({
-      title: item,
-      key: item
-    }))
-  }
-
   render() {
     const { $ } = this.context
-    const { page, _loaded } = $.state
+    const { _loaded } = $.state
     return (
       <View style={_.container.bg}>
-        {!!_loaded && (
-          <Tabs
-            tabs={this.tabs}
-            initialPage={page}
-            page={page}
-            prerenderingSiblingsNumber={1}
-            animated={false}
-            renderTabBarLeft={renderTabBarLeft}
-            onChange={$.onChange}
-          >
-            {this.tabs.map(item => (
-              <List key={item.key} airtime={item.key} />
-            ))}
-          </Tabs>
-        )}
+        <ToolBar />
+        {_loaded && <List />}
       </View>
     )
   }

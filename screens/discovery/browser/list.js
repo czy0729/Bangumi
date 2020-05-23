@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 00:27:43
+ * @Last Modified time: 2020-05-24 01:50:47
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -42,13 +42,12 @@ class List extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { airtime } = this.props
-    const { hide } = $.state
-    if (hide) {
+    const { show } = $.state
+    if (!show) {
       return null
     }
 
-    const data = $.browser(airtime)
+    const data = $.browser
     const { _loaded } = data
     if (!_loaded) {
       return <Loading />
