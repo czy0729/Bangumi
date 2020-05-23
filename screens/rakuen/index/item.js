@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 23:33:35
+ * @Last Modified time: 2020-05-23 12:54:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,12 +13,12 @@ import { Popover, Avatar, StockPreview } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { correctAgo, findSubjectCn, appNavigate } from '@utils/app'
-import { info } from '@utils/ui'
+import { confirm } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 
 const adRepliesCount = 4 // 回复数少于的数字, 判断为广告姬
-const oldGroupId = 346568 // 少于这个数字的, 为坟贴
+const oldGroupId = 354697 // 少于这个数字的, 为坟贴
 const event = {
   id: '超展开.跳转'
 }
@@ -134,37 +134,45 @@ class Item extends React.Component {
     }
 
     // 帖子点击
+    const go = () => {
+      // 记录帖子查看历史详情
+      $.onItemPress(this.topicId, this.replyCount)
+      appNavigate(
+        href,
+        navigation,
+        {
+          _title: title,
+          _replies: `+${this.replyCount}`,
+          _group: group,
+          _time: time,
+          _avatar: avatar,
+          _userName: userName,
+          _userId: this.userId
+        },
+        {
+          id: '超展开.跳转'
+        }
+      )
+    }
     const onPress = () => {
       if (this.replyCount > LIMIT_TOPIC_PUSH) {
-        const url = `${HOST}${href}`
-        t('超展开.跳转', {
-          to: 'WebBrowser',
-          url
-        })
-
-        info('该帖评论多, 自动使用浏览器打开')
-        setTimeout(() => {
-          open(url)
-        }, 1600)
-      } else {
-        // 记录帖子查看历史详情
-        $.onItemPress(this.topicId, this.replyCount)
-        appNavigate(
-          href,
-          navigation,
-          {
-            _title: title,
-            _replies: `+${this.replyCount}`,
-            _group: group,
-            _time: time,
-            _avatar: avatar,
-            _userName: userName,
-            _userId: this.userId
-          },
-          {
-            id: '超展开.跳转'
+        confirm(
+          '帖子内容基于网页分析, 帖子回复数过大可能会导致闪退, 仍使用App打开?',
+          () => go(),
+          undefined,
+          () => {
+            const url = `${HOST}${href}`
+            t('超展开.跳转', {
+              to: 'WebBrowser',
+              url
+            })
+            setTimeout(() => {
+              open(url)
+            }, 800)
           }
         )
+      } else {
+        go()
       }
     }
 

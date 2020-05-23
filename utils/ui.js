@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 16:58:28
+ * @Last Modified time: 2020-05-23 12:16:23
  */
 import { Alert } from 'react-native'
 import { Toast } from '@ant-design/react-native'
@@ -13,12 +13,19 @@ import ActionSheet from '@components/@/ant-design/action-sheet'
  * @param {*} content
  * @param {*} title
  * @param {*} onPress
+ * @param {*} onCancelPress
  */
-export function confirm(content, onPress, title = '提示') {
+export function confirm(
+  content,
+  onPress,
+  title = '提示',
+  onCancelPress = Function.prototype
+) {
   return Alert.alert(title, content, [
     {
       text: '取消',
-      style: 'cancel'
+      style: 'cancel',
+      onPress: onCancelPress
     },
     {
       text: '确定',

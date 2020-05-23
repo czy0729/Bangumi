@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-20 17:09:17
+ * @Last Modified time: 2020-05-23 12:52:57
  */
 import { Platform } from 'react-native'
 
@@ -82,7 +82,7 @@ export const LIST_EMPTY = {
 // LIMIT
 export const LIMIT_LIST = 40 // 用于制造分页数据
 export const LIMIT_LIST_COMMENTS = 25 // 用于制造分页数据 (评论)
-export const LIMIT_TOPIC_PUSH = 400 // 对评论大于400的帖子进行网页跳转
+export const LIMIT_TOPIC_PUSH = 500 // 对评论数多的帖子进行网页跳转
 
 // EVENT
 export const EVENT = {
