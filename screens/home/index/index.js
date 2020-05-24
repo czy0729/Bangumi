@@ -20,7 +20,7 @@ import { navigationReference } from '@utils/app'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { IOS } from '@constants'
-import { MODEL_INITIAL_PAGE } from '@constants/model'
+import { MODEL_SETTING_INITIAL_PAGE } from '@constants/model'
 import HeaderRight from './header-right'
 import Tabs from './tabs'
 import TabsMain from './tabs-main'
@@ -89,11 +89,11 @@ class Home extends React.Component {
    */
   updateInitialPage = () => {
     const { $, navigation } = this.context
-    if ($.initialPage === MODEL_INITIAL_PAGE.getValue('进度')) {
+    if ($.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('进度')) {
       return
     }
 
-    if ($.initialPage === MODEL_INITIAL_PAGE.getValue('小圣杯')) {
+    if ($.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('小圣杯')) {
       navigation.push('Tinygrail')
       return
     }

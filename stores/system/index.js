@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 15:49:20
+ * @Last Modified time: 2020-05-24 04:04:58
  */
 import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -17,7 +17,9 @@ import {
 import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
-  MODEL_INITIAL_PAGE
+  MODEL_SETTING_INITIAL_PAGE,
+  MODEL_SETTING_HOME_LAYOUT,
+  MODEL_SETTING_HOME_SORTING
 } from '@constants/model'
 import {
   NAMESPACE,
@@ -166,13 +168,47 @@ class System extends store {
    * 设置`启动页`
    */
   setInitialPage = label => {
-    const initialPage = MODEL_INITIAL_PAGE.getValue(label)
+    const initialPage = MODEL_SETTING_INITIAL_PAGE.getValue(label)
     if (initialPage) {
       const key = 'setting'
       this.setState({
         [key]: {
           ...this.setting,
           initialPage
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  /**
+   * 设置`首页布局`
+   */
+  setHomeLayout = label => {
+    const homeLayout = MODEL_SETTING_HOME_LAYOUT.getValue(label)
+    if (homeLayout) {
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          homeLayout
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+  }
+
+  /**
+   * 设置`首页排序`
+   */
+  setHomeSorting = label => {
+    const homeSorting = MODEL_SETTING_HOME_SORTING.getValue(label)
+    if (homeSorting) {
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          homeSorting
         }
       })
       this.setStorage(key, undefined, NAMESPACE)

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 18:53:08
+ * @Last Modified time: 2020-05-24 15:45:40
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
-import { Text, Switch } from '@components'
+import { Touchable, Flex, Iconfont, Text, Switch } from '@components'
 import {
   Popover,
   ItemSetting,
@@ -14,7 +14,7 @@ import {
   NavigationBarEvents
 } from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
-import { toFixed } from '@utils'
+import { toFixed, setStorage, getStorage } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -33,10 +33,13 @@ import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_FONTSIZEADJUST,
   MODEL_SETTING_TRANSITION,
-  MODEL_INITIAL_PAGE
+  MODEL_SETTING_INITIAL_PAGE,
+  MODEL_SETTING_HOME_LAYOUT,
+  MODEL_SETTING_HOME_SORTING
 } from '@constants/model'
 
 const title = '设置'
+const namespace = 'Setting'
 
 export default
 @withHeader({
@@ -50,12 +53,25 @@ class Setting extends React.Component {
   }
 
   state = {
-    storageSize: ''
+    storageSize: '',
+    module: true,
+    basic: true,
+    ui: true,
+    contact: true,
+    system: true
   }
 
-  componentDidMount() {
-    this.caculateStorageSize()
-    this.setParams()
+  async componentDidMount() {
+    const state = await getStorage(`${namespace}|state`)
+    this.setState(
+      {
+        ...state
+      },
+      () => {
+        this.caculateStorageSize()
+        this.setParams()
+      }
+    )
   }
 
   setParams = () => {
@@ -129,17 +145,6 @@ class Setting extends React.Component {
     }
   }
 
-  setTransition = label => {
-    if (label) {
-      t('设置.切换', {
-        title: '切页动画',
-        label
-      })
-
-      systemStore.setTransition(label)
-    }
-  }
-
   setInitialPage = label => {
     if (label) {
       t('设置.切换', {
@@ -149,6 +154,38 @@ class Setting extends React.Component {
 
       systemStore.setInitialPage(label)
     }
+  }
+
+  setHomeLayout = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '首页布局',
+        label
+      })
+
+      systemStore.setHomeLayout(label)
+    }
+  }
+
+  setHomeSorting = label => {
+    if (label) {
+      t('设置.切换', {
+        title: '首页排序',
+        label
+      })
+
+      systemStore.setHomeSorting(label)
+    }
+  }
+
+  toggle = key => {
+    const state = this.state[key]
+    this.setState(
+      {
+        [key]: !state
+      },
+      () => setStorage(`${namespace}|state`, this.state)
+    )
   }
 
   get userId() {
@@ -179,199 +216,253 @@ class Setting extends React.Component {
     return true
   }
 
+  renderSection(text, key) {
+    return (
+      <Touchable style={this.styles.section} onPress={() => this.toggle(key)}>
+        <Flex>
+          <Flex.Item>
+            <Text size={15} type='sub'>
+              {text}
+            </Text>
+          </Flex.Item>
+          <Iconfont
+            style={_.ml.sm}
+            size={15}
+            name={this.state[key] ? 'up' : 'down'}
+          />
+        </Flex>
+      </Touchable>
+    )
+  }
+
   renderModule() {
-    const { cdn, tinygrail } = systemStore.setting
+    const { module: _module } = this.state
+    const { tinygrail, homeLayout, homeSorting } = systemStore.setting
     return (
       <>
-        <Text style={this.styles.section} type='sub'>
-          模块
-        </Text>
-        <ItemSetting
-          hd='CDN加速'
-          ft={
-            <Switch
-              checked={cdn}
-              onChange={() => {
-                t('设置.切换', {
-                  title: 'CDN加速',
-                  checked: !cdn
-                })
+        {this.renderSection('模块', 'module')}
+        {_module && (
+          <>
+            <ItemSetting
+              hd='黑暗模式'
+              ft={
+                <Switch
+                  checked={_.isDark}
+                  onChange={() => {
+                    t('设置.切换', {
+                      title: '黑暗模式',
+                      checked: !_.isDark
+                    })
 
-                systemStore.switchSetting('cdn')
-              }}
+                    _.toggleMode()
+                    if (!IOS) {
+                      setTimeout(() => {
+                        // 安卓需要刷新头
+                        this.setParams()
+                      }, 0)
+                    }
+                  }}
+                />
+              }
+              withoutFeedback
+              information='首页点击头部Bangumi的Logo也可以快速切换主题'
             />
-          }
-          withoutFeedback
-          information='建议开启, 针对静态数据使用CDN访问快照加速渲染, 主站卡的时候效果更为明显. 缺点是数据不会及时同步, 流量稍微变高. (已支持条目、帖子、人物、人物封面和用户头像)'
-        />
-        <ItemSetting
-          border
-          hd='黑暗模式'
-          ft={
-            <Switch
-              checked={_.isDark}
-              onChange={() => {
-                t('设置.切换', {
-                  title: '黑暗模式',
-                  checked: !_.isDark
-                })
+            <ItemSetting
+              border
+              hd='小圣杯'
+              ft={
+                <Switch
+                  checked={tinygrail}
+                  onChange={() => {
+                    t('设置.切换', {
+                      title: '小圣杯',
+                      checked: !tinygrail
+                    })
 
-                _.toggleMode()
-                if (!IOS) {
-                  setTimeout(() => {
-                    // 安卓需要刷新头
-                    this.setParams()
-                  }, 0)
+                    systemStore.switchSetting('tinygrail')
+                  }}
+                />
+              }
+              withoutFeedback
+            />
+            {tinygrail && (
+              <ItemSetting
+                border
+                hd='小圣杯涨跌色'
+                ft={
+                  <Popover
+                    data={['绿涨红跌', '红涨绿跌']}
+                    onSelect={() => {
+                      t('设置.切换', {
+                        title: '小圣杯涨跌色',
+                        label: !_.isGreen ? '绿涨红跌' : '红涨绿跌'
+                      })
+
+                      _.toggleTinygrailMode()
+                    }}
+                  >
+                    <Text size={16} type='sub'>
+                      {_.isGreen ? '绿涨红跌' : '红涨绿跌'}
+                    </Text>
+                  </Popover>
                 }
-              }}
+                arrow
+                highlight
+              />
+            )}
+            <ItemSetting
+              border
+              hd='首页布局'
+              ft={
+                <Popover
+                  data={MODEL_SETTING_HOME_LAYOUT.data.map(
+                    ({ label }) => label
+                  )}
+                  onSelect={this.setHomeLayout}
+                >
+                  <Text size={16} type='sub'>
+                    {MODEL_SETTING_HOME_LAYOUT.getLabel(homeLayout)}
+                  </Text>
+                </Popover>
+              }
+              arrow
+              highlight
             />
-          }
-          withoutFeedback
-          information='首页点击头部Bangumi的Logo也可以快速切换主题'
-        />
-        <ItemSetting
-          border
-          hd='小圣杯'
-          ft={
-            <Switch
-              checked={tinygrail}
-              onChange={() => {
-                t('设置.切换', {
-                  title: '小圣杯',
-                  checked: !tinygrail
-                })
-
-                systemStore.switchSetting('tinygrail')
-              }}
+            <ItemSetting
+              border
+              hd='首页排序'
+              ft={
+                <Popover
+                  data={MODEL_SETTING_HOME_SORTING.data.map(
+                    ({ label }) => label
+                  )}
+                  onSelect={this.setHomeSorting}
+                >
+                  <Text size={16} type='sub'>
+                    {MODEL_SETTING_HOME_SORTING.getLabel(homeSorting)}
+                  </Text>
+                </Popover>
+              }
+              arrow
+              highlight
             />
-          }
-          withoutFeedback
-        />
-        {tinygrail && (
-          <ItemSetting
-            border
-            hd='小圣杯主题色'
-            ft={
-              <Popover
-                data={['绿涨红跌', '红涨绿跌']}
-                onSelect={() => {
-                  t('设置.切换', {
-                    title: '小圣杯主题色',
-                    label: !_.isGreen ? '绿涨红跌' : '红涨绿跌'
-                  })
-
-                  _.toggleTinygrailMode()
-                }}
-              >
-                <Text size={16} type='sub'>
-                  {_.isGreen ? '绿涨红跌' : '红涨绿跌'}
-                </Text>
-              </Popover>
-            }
-            arrow
-            highlight
-          />
+          </>
         )}
       </>
     )
   }
 
   renderBasic() {
-    const { quality, hideScore, cnFirst, initialPage } = systemStore.setting
+    const { basic } = this.state
+    const {
+      cdn,
+      quality,
+      hideScore,
+      cnFirst,
+      initialPage
+    } = systemStore.setting
     return (
       <>
-        <Text style={this.styles.section} type='sub'>
-          基本
-        </Text>
-        <ItemSetting
-          hd='隐藏他人评分'
-          ft={
-            <Switch
-              checked={hideScore}
-              onChange={() => {
-                t('设置.切换', {
-                  title: '隐藏他人评分',
-                  checked: !hideScore
-                })
+        {this.renderSection('基本', 'basic')}
+        {basic && (
+          <>
+            <ItemSetting
+              hd='CDN加速'
+              ft={
+                <Switch
+                  checked={cdn}
+                  onChange={() => {
+                    t('设置.切换', {
+                      title: 'CDN加速',
+                      checked: !cdn
+                    })
 
-                systemStore.switchSetting('hideScore')
-              }}
+                    systemStore.switchSetting('cdn')
+                  }}
+                />
+              }
+              withoutFeedback
+              information='建议开启, 针对静态数据使用CDN访问快照加速渲染, 主站卡的时候效果更为明显. 缺点是数据不会及时同步, 流量稍微变高. (已支持条目、帖子、人物、人物封面和用户头像)'
             />
-          }
-          withoutFeedback
-        />
-        <ItemSetting
-          border
-          hd='优先中文'
-          ft={
-            <Switch
-              checked={cnFirst}
-              onChange={() => {
-                t('设置.切换', {
-                  title: '优先中文',
-                  checked: !cnFirst
-                })
+            <ItemSetting
+              hd='隐藏评分'
+              ft={
+                <Switch
+                  checked={hideScore}
+                  onChange={() => {
+                    t('设置.切换', {
+                      title: '隐藏评分',
+                      checked: !hideScore
+                    })
 
-                systemStore.switchSetting('cnFirst')
-              }}
+                    systemStore.switchSetting('hideScore')
+                  }}
+                />
+              }
+              border
+              withoutFeedback
             />
-          }
-          withoutFeedback
-        />
-        <ItemSetting
-          border
-          hd='启动页'
-          ft={
-            <Popover
-              data={MODEL_INITIAL_PAGE.data.map(({ label }) => label)}
-              onSelect={this.setInitialPage}
-            >
-              <Text size={16} type='sub'>
-                {MODEL_INITIAL_PAGE.getLabel(initialPage)}
-              </Text>
-            </Popover>
-          }
-          arrow
-          highlight
-        />
-        <ItemSetting
-          border
-          hd='字号'
-          ft={
-            <Popover
-              data={MODEL_SETTING_FONTSIZEADJUST.data.map(({ label }) => label)}
-              onSelect={this.setFontSizeAdjust}
-            >
-              <Text size={16} type='sub'>
-                {MODEL_SETTING_FONTSIZEADJUST.getLabel(_.fontSizeAdjust)}
-              </Text>
-            </Popover>
-          }
-          arrow
-          highlight
-        />
-        <ItemSetting
-          border
-          hd='图片质量'
-          ft={
-            <Popover
-              data={MODEL_SETTING_QUALITY.data.map(({ label }) => label)}
-              onSelect={this.setQuality}
-            >
-              <Text size={16} type='sub'>
-                {MODEL_SETTING_QUALITY.getLabel(quality)}
-              </Text>
-            </Popover>
-          }
-          arrow
-          highlight
-          information='修改后图片CDN加速读取会失效, 不建议修改'
-        />
+            <ItemSetting
+              border
+              hd='优先中文'
+              ft={
+                <Switch
+                  checked={cnFirst}
+                  onChange={() => {
+                    t('设置.切换', {
+                      title: '优先中文',
+                      checked: !cnFirst
+                    })
+
+                    systemStore.switchSetting('cnFirst')
+                  }}
+                />
+              }
+              withoutFeedback
+            />
+            <ItemSetting
+              border
+              hd='图片质量'
+              ft={
+                <Popover
+                  data={MODEL_SETTING_QUALITY.data.map(({ label }) => label)}
+                  onSelect={this.setQuality}
+                >
+                  <Text size={16} type='sub'>
+                    {MODEL_SETTING_QUALITY.getLabel(quality)}
+                  </Text>
+                </Popover>
+              }
+              arrow
+              highlight
+              information='修改后图片CDN加速读取会失效, 不建议修改'
+            />
+            <ItemSetting
+              border
+              hd='启动页'
+              ft={
+                <Popover
+                  data={MODEL_SETTING_INITIAL_PAGE.data.map(
+                    ({ label }) => label
+                  )}
+                  onSelect={this.setInitialPage}
+                >
+                  <Text size={16} type='sub'>
+                    {MODEL_SETTING_INITIAL_PAGE.getLabel(initialPage)}
+                  </Text>
+                </Popover>
+              }
+              arrow
+              highlight
+            />
+          </>
+        )}
       </>
     )
   }
 
   renderUI() {
+    const { ui } = this.state
     const {
       // iosMenu,
       itemShadow,
@@ -384,169 +475,250 @@ class Setting extends React.Component {
     } = systemStore.setting
     return (
       <>
-        <Text style={this.styles.section} type='sub'>
-          UI
-        </Text>
-        {/* {!IOS && (
-          <ItemSetting
-            hd='iOS风格菜单'
-            ft={
-              <Switch
-                checked={iosMenu}
-                onChange={() => {
-                  t('设置.切换', {
-                    title: 'iOS风格菜单',
-                    checked: !iosMenu
-                  })
+        {this.renderSection('UI', 'ui')}
+        {ui && (
+          <>
+            {/* {!IOS && (
+              <ItemSetting
+                hd='iOS风格菜单'
+                ft={
+                  <Switch
+                    checked={iosMenu}
+                    onChange={() => {
+                      t('设置.切换', {
+                        title: 'iOS风格菜单',
+                        checked: !iosMenu
+                      })
 
-                  systemStore.switchSetting('iosMenu')
-                }}
+                      systemStore.switchSetting('iosMenu')
+                    }}
+                  />
+                }
+                withoutFeedback
+                information='模拟菜单, 非原生性能略弱, 但显示信息更多并且支持黑暗模式'
               />
-            }
-            withoutFeedback
-            information='模拟菜单, 非原生性能略弱, 但显示信息更多并且支持黑暗模式'
-          />
-        )} */}
+            )} */}
+            <ItemSetting
+              hd='圆形头像'
+              ft={
+                <Switch
+                  checked={avatarRound}
+                  onChange={() => {
+                    t('设置.切换', {
+                      title: '圆形头像',
+                      checked: !avatarRound
+                    })
 
-        <ItemSetting
-          // style={IOS ? _.mt.sm : undefined}
-          // border={!IOS}
-          // border
-          hd='圆形头像'
-          ft={
-            <Switch
-              checked={avatarRound}
-              onChange={() => {
-                t('设置.切换', {
-                  title: '圆形头像',
-                  checked: !avatarRound
-                })
-
-                systemStore.switchSetting('avatarRound')
-              }}
+                    systemStore.switchSetting('avatarRound')
+                  }}
+                />
+              }
+              withoutFeedback
             />
-          }
-          withoutFeedback
-        />
-        {!IOS && (
-          <ItemSetting
-            border
-            hd='首页收藏阴影'
-            ft={
-              <Switch
-                checked={itemShadow}
-                onChange={() => {
-                  t('设置.切换', {
-                    title: '首页收藏阴影',
-                    checked: !itemShadow
-                  })
+            {!IOS && (
+              <ItemSetting
+                border
+                hd='首页收藏阴影'
+                ft={
+                  <Switch
+                    checked={itemShadow}
+                    onChange={() => {
+                      t('设置.切换', {
+                        title: '首页收藏阴影',
+                        checked: !itemShadow
+                      })
 
-                  systemStore.switchSetting('itemShadow')
-                }}
+                      systemStore.switchSetting('itemShadow')
+                    }}
+                  />
+                }
+                withoutFeedback
               />
-            }
-            withoutFeedback
-          />
+            )}
+            <ItemSetting
+              border
+              hd='图片渐出动画'
+              ft={
+                <Switch
+                  checked={imageTransition}
+                  onChange={() => {
+                    t('设置.切换', {
+                      title: '图片渐出动画',
+                      checked: !imageTransition
+                    })
+
+                    systemStore.switchSetting('imageTransition')
+                  }}
+                />
+              }
+              withoutFeedback
+            />
+            {!IOS && (
+              <ItemSetting
+                border
+                hd='点击水纹效果'
+                ft={
+                  <Switch
+                    checked={ripple}
+                    onChange={() => {
+                      t('设置.切换', {
+                        title: '点击水纹',
+                        checked: !ripple
+                      })
+
+                      systemStore.switchSetting('ripple')
+                    }}
+                  />
+                }
+                withoutFeedback
+                information='当按钮被按下时产生一个涟漪状的背景, 关闭可以提升性能'
+              />
+            )}
+            <ItemSetting
+              border
+              hd='章节讨论热力图'
+              ft={
+                <Switch
+                  checked={heatMap}
+                  onChange={() => {
+                    t('设置.切换', {
+                      title: '章节讨论热力图',
+                      checked: !heatMap
+                    })
+
+                    systemStore.switchSetting('heatMap')
+                  }}
+                />
+              }
+              withoutFeedback
+              information='章节按钮下方不同透明度的橙色条块, 可以快速了解到哪些章节讨论比较激烈'
+            />
+            <ItemSetting
+              border
+              hd='Bangumi娘话语'
+              ft={
+                <Switch
+                  checked={speech}
+                  onChange={() => {
+                    t('设置.切换', {
+                      title: 'Bangumi娘话语',
+                      checked: !speech
+                    })
+
+                    systemStore.switchSetting('speech')
+                  }}
+                />
+              }
+              withoutFeedback
+            />
+            <ItemSetting
+              border
+              hd='字号'
+              ft={
+                <Popover
+                  data={MODEL_SETTING_FONTSIZEADJUST.data.map(
+                    ({ label }) => label
+                  )}
+                  onSelect={this.setFontSizeAdjust}
+                >
+                  <Text size={16} type='sub'>
+                    {MODEL_SETTING_FONTSIZEADJUST.getLabel(_.fontSizeAdjust)}
+                  </Text>
+                </Popover>
+              }
+              arrow
+              highlight
+            />
+            <ItemSetting
+              border
+              hd='切页动画'
+              ft={
+                <Popover
+                  data={MODEL_SETTING_TRANSITION.data.map(({ label }) => label)}
+                  onSelect={this.setTransition}
+                >
+                  <Text size={16} type='sub'>
+                    {MODEL_SETTING_TRANSITION.getLabel(transition)}
+                  </Text>
+                </Popover>
+              }
+              arrow
+              highlight
+              // information='部分安卓10用户会遇到页面布局错位问题, 可把动画设置成垂直暂时解决'
+            />
+          </>
         )}
-        <ItemSetting
-          border
-          hd='图片渐出动画'
-          ft={
-            <Switch
-              checked={imageTransition}
-              onChange={() => {
-                t('设置.切换', {
-                  title: '图片渐出动画',
-                  checked: !imageTransition
-                })
-
-                systemStore.switchSetting('imageTransition')
-              }}
-            />
-          }
-          withoutFeedback
-        />
-        {!IOS && (
-          <ItemSetting
-            border
-            hd='点击水纹效果'
-            ft={
-              <Switch
-                checked={ripple}
-                onChange={() => {
-                  t('设置.切换', {
-                    title: '点击水纹',
-                    checked: !ripple
-                  })
-
-                  systemStore.switchSetting('ripple')
-                }}
-              />
-            }
-            withoutFeedback
-            information='当按钮被按下时产生一个涟漪状的背景, 关闭可以提升性能'
-          />
-        )}
-        <ItemSetting
-          border
-          hd='章节讨论热力图'
-          ft={
-            <Switch
-              checked={heatMap}
-              onChange={() => {
-                t('设置.切换', {
-                  title: '章节讨论热力图',
-                  checked: !heatMap
-                })
-
-                systemStore.switchSetting('heatMap')
-              }}
-            />
-          }
-          withoutFeedback
-          information='章节按钮下方不同透明度的橙色条块, 可以快速了解到哪些章节讨论比较激烈'
-        />
-        <ItemSetting
-          border
-          hd='Bangumi娘话语'
-          ft={
-            <Switch
-              checked={speech}
-              onChange={() => {
-                t('设置.切换', {
-                  title: 'Bangumi娘话语',
-                  checked: !speech
-                })
-
-                systemStore.switchSetting('speech')
-              }}
-            />
-          }
-          withoutFeedback
-        />
-        <ItemSetting
-          border
-          hd='切页动画'
-          ft={
-            <Popover
-              data={MODEL_SETTING_TRANSITION.data.map(({ label }) => label)}
-              onSelect={this.setTransition}
-            >
-              <Text size={16} type='sub'>
-                {MODEL_SETTING_TRANSITION.getLabel(transition)}
-              </Text>
-            </Popover>
-          }
-          arrow
-          highlight
-          // information='部分安卓10用户会遇到页面布局错位问题, 可把动画设置成垂直暂时解决'
-        />
       </>
     )
   }
 
   renderContact() {
     const { navigation } = this.props
+    const { contact } = this.state
+    return (
+      <>
+        {this.renderSection('联系', 'contact')}
+        {contact && (
+          <>
+            <ItemSetting
+              hd='反馈'
+              arrow
+              highlight
+              onPress={() => {
+                t('设置.跳转', {
+                  to: 'Say'
+                })
+
+                navigation.push('Say', {
+                  id: APP_ID_SAY_DEVELOP
+                })
+              }}
+            />
+            <ItemSetting
+              border
+              hd='项目帖子'
+              arrow
+              highlight
+              onPress={() =>
+                appNavigate(URL_FEEDBACK, navigation, undefined, {
+                  id: '设置.跳转'
+                })
+              }
+            />
+            <ItemSetting
+              border
+              hd='github地址'
+              ft='欢迎star'
+              arrow
+              highlight
+              onPress={() =>
+                appNavigate(GITHUB_PROJECT, undefined, undefined, {
+                  id: '设置.跳转'
+                })
+              }
+            />
+            <ItemSetting
+              border
+              hd='投食'
+              ft='🍚'
+              arrow
+              highlight
+              onPress={() => {
+                t('设置.跳转', {
+                  to: 'Qiafan'
+                })
+
+                navigation.push('Qiafan')
+              }}
+            />
+          </>
+        )}
+      </>
+    )
+  }
+
+  renderSystem() {
+    const { storageSize, system } = this.state
     const { name } = systemStore.release
     const hasNewVersion = name !== VERSION_GITHUB_RELEASE
     let version = VERSION_GITHUB_RELEASE
@@ -555,124 +727,70 @@ class Setting extends React.Component {
     }
     return (
       <>
-        <Text style={this.styles.section} type='sub'>
-          联系
-        </Text>
-        <ItemSetting
-          hd='版本'
-          ft={
-            hasNewVersion && !IOS ? (
-              <Text type='success' size={16}>
-                有新版本{name}
-                <Text type='sub' size={16}>
-                  {' '}
-                  / 当前{version}
+        {this.renderSection('系统', 'system')}
+        {system && (
+          <>
+            <ItemSetting
+              hd='版本'
+              ft={
+                hasNewVersion && !IOS ? (
+                  <Text type='success' size={16}>
+                    有新版本{name}
+                    <Text type='sub' size={16}>
+                      {' '}
+                      / 当前{version}
+                    </Text>
+                  </Text>
+                ) : (
+                  `当前${version}`
+                )
+              }
+              arrow={!IOS}
+              onPress={
+                IOS
+                  ? undefined
+                  : () =>
+                      appNavigate(GITHUB_RELEASE, undefined, undefined, {
+                        id: '设置.跳转'
+                      })
+              }
+            />
+            <ItemSetting
+              hd='清除缓存'
+              ft={
+                <Text size={16} type='sub'>
+                  {storageSize}
                 </Text>
-              </Text>
-            ) : (
-              `当前${version}`
-            )
-          }
-          arrow={!IOS}
-          onPress={
-            IOS
-              ? undefined
-              : () =>
-                  appNavigate(GITHUB_RELEASE, undefined, undefined, {
-                    id: '设置.跳转'
-                  })
-          }
-        />
-        <ItemSetting
-          border
-          hd='反馈'
-          arrow
-          highlight
-          onPress={() => {
-            t('设置.跳转', {
-              to: 'Say'
-            })
-
-            navigation.push('Say', {
-              id: APP_ID_SAY_DEVELOP
-            })
-          }}
-        />
-        <ItemSetting
-          border
-          hd='项目帖子'
-          arrow
-          highlight
-          onPress={() =>
-            appNavigate(URL_FEEDBACK, navigation, undefined, {
-              id: '设置.跳转'
-            })
-          }
-        />
-        <ItemSetting
-          border
-          hd='github地址'
-          ft='欢迎star'
-          arrow
-          highlight
-          onPress={() =>
-            appNavigate(GITHUB_PROJECT, undefined, undefined, {
-              id: '设置.跳转'
-            })
-          }
-        />
-        <ItemSetting
-          border
-          hd='🍚'
-          arrow
-          highlight
-          onPress={() => {
-            t('设置.跳转', {
-              to: 'Qiafan'
-            })
-
-            navigation.push('Qiafan')
-          }}
-        />
+              }
+              border
+              arrow
+              highlight
+              onPress={this.clearStorage}
+            />
+          </>
+        )}
       </>
     )
   }
 
-  renderSystem() {
+  renderLogout() {
     const { navigation } = this.props
-    const { storageSize } = this.state
     return (
-      <>
-        <Text style={this.styles.section} type='sub'>
-          系统
-        </Text>
-        <ItemSetting
-          hd='清除缓存'
-          ft={
-            <Text size={16} type='sub'>
-              {storageSize}
-            </Text>
-          }
-          arrow
-          highlight
-          onPress={this.clearStorage}
-        />
-        <ItemSetting
-          border
-          hd={
-            <Text size={16} type='danger'>
-              退出登陆
-            </Text>
-          }
-          arrow
-          highlight
-          onPress={() => {
-            t('设置.退出登陆')
+      <ItemSetting
+        style={_.mt.md}
+        hd={
+          <Text size={16} type='danger'>
+            退出登陆
+          </Text>
+        }
+        arrow
+        highlight
+        onPress={() => {
+          t('设置.退出登陆')
 
-            Stores.logout(navigation)
-          }}
-        />
-      </>
+          Stores.logout(navigation)
+        }}
+      />
     )
   }
 
@@ -688,6 +806,7 @@ class Setting extends React.Component {
         {this.renderUI()}
         {this.renderContact()}
         {this.renderSystem()}
+        {this.renderLogout()}
       </ScrollView>
     )
   }

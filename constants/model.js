@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 17:52:48
+ * @Last Modified time: 2020-05-24 04:09:07
  */
 class Model {
   constructor(data) {
@@ -364,8 +364,32 @@ export const MODEL_SEARCH_LEGACY = new Model([
   }
 ])
 
+// 设置 - 首页收藏布局
+export const MODEL_SETTING_HOME_LAYOUT = new Model([
+  {
+    label: '列表',
+    value: 'list'
+  },
+  {
+    label: '网格',
+    value: 'grid'
+  }
+])
+
+// 设置 - 首页收藏排序
+export const MODEL_SETTING_HOME_SORTING = new Model([
+  {
+    label: '默认',
+    value: 'default'
+  },
+  {
+    label: '网页',
+    value: 'web'
+  }
+])
+
 // 设置 - 启动页面
-export const MODEL_INITIAL_PAGE = new Model([
+export const MODEL_SETTING_INITIAL_PAGE = new Model([
   {
     label: '进度',
     value: 'Home'

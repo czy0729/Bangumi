@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 23:04:04
+ * @Last Modified time: 2020-05-24 03:43:27
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Text, Image } from '@components'
 import { _ } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 
-const title = '恰饭'
+const title = '投食'
 
 export default
 @withHeader({

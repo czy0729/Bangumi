@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 01:52:33
+ * @Last Modified time: 2020-05-24 02:10:52
  */
 import { observable, computed } from 'mobx'
 import { tagStore } from '@stores'
@@ -77,7 +77,7 @@ export default class ScreenBrowser extends store {
   }
 
   // -------------------- page --------------------
-  onTypeSelect = async type => {
+  onTypeSelect = type => {
     t('索引.类型选择', {
       type
     })
@@ -90,13 +90,13 @@ export default class ScreenBrowser extends store {
       this.setState({
         show: true
       })
+      this.setStorage(undefined, undefined, namespace)
     }, 0)
 
-    await this.fetchBrowser(true)
-    this.setStorage(undefined, undefined, namespace)
+    this.fetchBrowser(true)
   }
 
-  onAirdateSelect = async airtime => {
+  onAirdateSelect = airtime => {
     t('索引.年选择', {
       airtime
     })
@@ -110,13 +110,13 @@ export default class ScreenBrowser extends store {
       this.setState({
         show: true
       })
+      this.setStorage(undefined, undefined, namespace)
     }, 0)
 
-    await this.fetchBrowser(true)
-    this.setStorage(undefined, undefined, namespace)
+    this.fetchBrowser(true)
   }
 
-  onMonthSelect = async month => {
+  onMonthSelect = month => {
     const { airtime } = this.state
     if (airtime === '') {
       info('请先选择年')
@@ -135,9 +135,9 @@ export default class ScreenBrowser extends store {
       this.setState({
         show: true
       })
+      this.setStorage(undefined, undefined, namespace)
     }, 0)
 
-    await this.fetchBrowser(true)
-    this.setStorage(undefined, undefined, namespace)
+    this.fetchBrowser(true)
   }
 }
