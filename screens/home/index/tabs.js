@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-29 16:44:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:52:06
+ * @Last Modified time: 2020-05-24 21:40:11
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Tabs as CompTabs, Text } from '@components'
 import { IOS } from '@constants'
-import TabBarRight from './tab-bar-right'
+// import TabBarRight from './tab-bar-right'
 import { tabs } from './store'
 
 function Tabs({ tabBarStyle = {}, $, children, ...other }) {
@@ -41,7 +41,7 @@ function Tabs({ tabBarStyle = {}, $, children, ...other }) {
       initialPage={page}
       page={children ? page : _page}
       prerenderingSiblingsNumber={1}
-      renderTabBarRight={<TabBarRight $={$} />}
+      // renderTabBarRight={<TabBarRight $={$} />}
       onTabClick={$.onTabClick}
       onChange={$.onChange}
       {...other}

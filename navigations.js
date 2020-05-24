@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 02:29:11
+ * @Last Modified time: 2020-05-24 22:00:48
  */
 export default {
-  initialRouteName: 'Setting', // HomeTab TinygrailCharaAssets
+  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
   initialRouteParams: {
     // id: 240929
     // blogId: 295843 // 294448

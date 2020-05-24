@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-20 16:20:52
+ * @Last Modified time: 2020-05-24 22:02:31
  */
 import { getTimestamp } from '@utils'
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
@@ -19,9 +19,9 @@ export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
 const VERSION_SUBJECT = '20200502'
 const VERSION_MONO = '20200502'
-const VERSION_RAKUEN = '20200517'
+const VERSION_RAKUEN = '20200524'
 const VERSION_OSS = '20200502'
-const VERSION_STATIC = '20200517'
+const VERSION_STATIC = '20200524'
 
 const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
   ''

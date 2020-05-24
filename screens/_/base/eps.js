@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 15:31:35
+ * @Last Modified time: 2020-05-24 21:57:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -98,7 +98,7 @@ class Eps extends React.Component {
     return Math.max(...eps.map(item => item.comment || 1))
   }
 
-  getPopoverData = item => {
+  getPopoverData = (item, isSp) => {
     const { canPlay, login, advance, userProgress } = this.props
     let discuss
     if (IOS) {
@@ -110,10 +110,13 @@ class Eps extends React.Component {
     let data
     if (login) {
       data = [userProgress[item.id] === '看过' ? '撤销' : '看过']
+      if (!isSp) {
+        data.push('看到')
+      }
       if (advance) {
         data.push('想看', '抛弃')
       }
-      data.push('看到', discuss)
+      data.push(discuss)
     } else {
       data = [discuss]
     }
@@ -125,14 +128,14 @@ class Eps extends React.Component {
     return data
   }
 
-  renderOverlay(item) {
+  renderOverlay(item, isSp) {
     return (
       <Menu
         title={[
           `ep.${item.sort} ${item.name_cn || item.name}`,
           `${item.airdate} 讨论数：${item.comment}`
         ]}
-        data={this.getPopoverData(item)}
+        data={this.getPopoverData(item, isSp)}
         onSelect={value => this.onSelect(value, item)}
       />
     )
@@ -141,17 +144,18 @@ class Eps extends React.Component {
   /**
    * @param {*} item
    * @param {*} num  当前第几个
+   * @param {*} isSp 是否sp sp没有看到
    */
-  renderButton(item, num) {
+  renderButton(item, num, isSp) {
     const { numbersOfLine, userProgress, onLongPress } = this.props
     const { width, margin } = this.style
     const isSide = num % numbersOfLine === 0
     const popoverProps = IOS
       ? {
-          overlay: this.renderOverlay(item)
+          overlay: this.renderOverlay(item, isSp)
         }
       : {
-          data: this.getPopoverData(item),
+          data: this.getPopoverData(item, isSp),
           onSelect: value => this.onSelect(value, item)
         }
     return (
@@ -222,7 +226,7 @@ class Eps extends React.Component {
           </Flex>
         )}
         {itemsSp.map((item, index) =>
-          this.renderButton(item, preNum + index + 2)
+          this.renderButton(item, preNum + index + 2, true)
         )}
       </>
     )

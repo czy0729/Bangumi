@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 15:45:40
+ * @Last Modified time: 2020-05-24 21:50:25
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -237,7 +237,12 @@ class Setting extends React.Component {
 
   renderModule() {
     const { module: _module } = this.state
-    const { tinygrail, homeLayout, homeSorting } = systemStore.setting
+    const {
+      tinygrail,
+      homeLayout,
+      homeSorting,
+      itemShadow
+    } = systemStore.setting
     return (
       <>
         {this.renderSection('模块', 'module')}
@@ -346,6 +351,26 @@ class Setting extends React.Component {
               arrow
               highlight
             />
+            {!IOS && MODEL_SETTING_HOME_LAYOUT.getLabel(homeLayout) === '列表' && (
+              <ItemSetting
+                border
+                hd='首页阴影'
+                ft={
+                  <Switch
+                    checked={itemShadow}
+                    onChange={() => {
+                      t('设置.切换', {
+                        title: '首页阴影',
+                        checked: !itemShadow
+                      })
+
+                      systemStore.switchSetting('itemShadow')
+                    }}
+                  />
+                }
+                withoutFeedback
+              />
+            )}
           </>
         )}
       </>
@@ -465,7 +490,6 @@ class Setting extends React.Component {
     const { ui } = this.state
     const {
       // iosMenu,
-      itemShadow,
       avatarRound,
       ripple,
       imageTransition,
@@ -515,26 +539,6 @@ class Setting extends React.Component {
               }
               withoutFeedback
             />
-            {!IOS && (
-              <ItemSetting
-                border
-                hd='首页收藏阴影'
-                ft={
-                  <Switch
-                    checked={itemShadow}
-                    onChange={() => {
-                      t('设置.切换', {
-                        title: '首页收藏阴影',
-                        checked: !itemShadow
-                      })
-
-                      systemStore.switchSetting('itemShadow')
-                    }}
-                  />
-                }
-                withoutFeedback
-              />
-            )}
             <ItemSetting
               border
               hd='图片渐出动画'

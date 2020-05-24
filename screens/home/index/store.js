@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 18:54:30
+ * @Last Modified time: 2020-05-24 21:46:27
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -22,7 +22,8 @@ import { IOS } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_EP_STATUS,
-  MODEL_COLLECTION_STATUS
+  MODEL_COLLECTION_STATUS,
+  MODEL_SETTING_HOME_SORTING
 } from '@constants/model'
 
 export const tabs = [
@@ -65,7 +66,7 @@ export default class ScreenHome extends store {
     /**
      * layout
      */
-    grid: false,
+    grid: false, // [废弃]
     current: 0
   })
 
@@ -129,6 +130,14 @@ export default class ScreenHome extends store {
 
   @computed get heatMap() {
     return systemStore.setting.heatMap
+  }
+
+  @computed get homeLayout() {
+    return systemStore.setting.homeLayout
+  }
+
+  @computed get homeSorting() {
+    return systemStore.setting.homeSorting
   }
 
   @computed get itemShadow() {
@@ -379,6 +388,10 @@ export default class ScreenHome extends store {
    * 章节排序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 默认排序
    */
   sortList = (list = []) => {
+    if (this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('网页')) {
+      return list
+    }
+
     // 置顶排序
     const { top } = this.state
     const topMap = {}
