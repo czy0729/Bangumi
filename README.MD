@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 3.4.1" src="https://img.shields.io/badge/Version-3.4.1-0366d6" />
+  <img alt="Version: 3.5.0" src="https://img.shields.io/badge/Version-3.5.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -50,23 +50,21 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v3.4.1 - 2020/05/17
+v3.5.0 - 2020/05/24
+
+—— 新功能 ——
+
+- [x] [条目] 新增更多角色、制作人员页面
 
 —— 优化 ——
 
-- [x] [首页收藏] 列表阴影可在设置开启, 默认关闭
-- [x] [我的][用户空间] 头部动画优化
-
-v3.4.0 - 2020/05/13
-
-—— 优化 ——
-
-- [x] [安卓] 整体优化渲染, 调整部分 UI
-- [x] [安卓] 优化了首页收藏切换到发现内容交错闪屏的问题 (暂无法完全解决)
-
-—— 小圣杯助手 v2.3.1 ——
-
-- [x] [我的持仓] 修复安卓开了点击水纹效果的角色无法点击的问题
+- [x] [排行榜] 改成分页模式
+- [x] [索引] 页面不再使用 Tabs 布局, 使用筛选下拉框 Popover 选择具体日期
+- [x] [条目] 音乐的曲目名称也能中日翻译
+- [x] [条目] 现 SP 章节不允许 [看到]
+- [x] [超展开] 现在对于回复数大的帖子不再是直接打开浏览器, 而且询问是否 App 内打开
+- [x] [设置] 首页设置移到设置中; 因设置项变多, 设置块现可折叠
+- [x] [设置] 中文优先时, 增加使用自维护数据, 增大了找到中文的几率. 非优先时不转换日文
 
 ## PowerBy
 
