@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 23:29:07
+ * @Last Modified time: 2020-05-25 17:57:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -17,6 +17,7 @@ import { _ } from '@stores'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
+import { IOS } from '@constants'
 import Tabs from './tabs'
 import List from './list'
 import Store, { tabs } from './store'
@@ -70,11 +71,15 @@ class Timeline extends React.Component {
     })
   }
 
+  get style() {
+    return IOS ? _.container.bg : _.container._plain
+  }
+
   render() {
     const { $ } = this.context
     const { scope, _loaded } = $.state
     return (
-      <SafeAreaView style={_.container._plain}>
+      <SafeAreaView style={this.style}>
         {_loaded && (
           <OptimizeTabbarTransition header>
             <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>

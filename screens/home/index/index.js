@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 18:58:45
+ * @Last Modified time: 2020-05-25 17:52:10
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -103,7 +103,7 @@ class Home extends React.Component {
 
   get style() {
     if (IOS) {
-      return _.container._bg
+      return _.container.bg
     }
 
     const { $ } = this.context

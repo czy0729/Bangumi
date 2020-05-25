@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-09 23:30:26
+ * @Last Modified time: 2020-05-25 18:16:18
  */
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IOS } from '@constants'
 
 function Logo({ forceUpdate }) {
   return (
@@ -28,8 +30,9 @@ function Logo({ forceUpdate }) {
       }}
     >
       <Iconfont
-        size={32}
-        name='logo'
+        style={IOS && styles.tinygrail}
+        size={IOS ? 18 : 32}
+        name={IOS ? 'tinygrail' : 'bangumi'}
         color={_.select(_.colorTitle, _.colorDesc)}
       />
     </Touchable>
@@ -37,3 +40,9 @@ function Logo({ forceUpdate }) {
 }
 
 export default observer(Logo)
+
+const styles = StyleSheet.create({
+  tinygrail: {
+    marginVertical: 6
+  }
+})

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 21:59:24
+ * @Last Modified time: 2020-05-25 20:28:40
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -16,7 +16,7 @@ import { _, userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
 import { xhrCustom, hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST_2, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
+import { IOS, HOST_2, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 import Preview from './preview'
 import Form from './form'
 
@@ -86,7 +86,9 @@ class LoginV2 extends React.Component {
       info('正在从github获取游客cookie...')
 
       const { _response } = await xhrCustom({
-        url: 'https://czy0729.github.io/Bangumi/web/tourist.json'
+        url: IOS
+          ? 'https://czy0729.github.io/Bangumi/web/tourist.ios.json'
+          : 'https://czy0729.github.io/Bangumi/web/tourist.json'
       })
       const { accessToken, userCookie } = JSON.parse(_response)
       userStore.updateAccessToken(accessToken)

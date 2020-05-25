@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 23:33:08
+ * @Last Modified time: 2020-05-25 17:57:51
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -18,6 +18,7 @@ import { _ } from '@stores'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
+import { IOS } from '@constants'
 import Prefetch from './prefetch'
 import More from './more'
 import Tabs from './tabs'
@@ -80,11 +81,15 @@ class Rakuen extends React.Component {
     })
   }
 
+  get style() {
+    return IOS ? _.container.bg : _.container._plain
+  }
+
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <SafeAreaView style={_.container._plain}>
+      <SafeAreaView style={this.style}>
         {_loaded && (
           <OptimizeTabbarTransition header>
             <Tabs $={$} tabBarStyle={withTabsHeader.tabBarStyle}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 11:45:33
+ * @Last Modified time: 2020-05-25 17:56:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,11 +42,15 @@ class Discovery extends React.Component {
 
   ListHeaderComponent = (<Header />)
 
+  get style() {
+    return IOS ? _.container.bg : _.container._plain
+  }
+
   render() {
     const { $ } = this.context
     const { _loaded } = $.home
     return (
-      <View style={_.select(_.container._plain, _.container._bg)}>
+      <View style={_.select(this.style, _.container._bg)}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? (

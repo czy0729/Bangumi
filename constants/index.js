@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 22:01:00
+ * @Last Modified time: 2020-05-25 20:26:33
  */
 import { Platform } from 'react-native'
 
 /* ==================== DEV ==================== */
-export const DEV = false // 是否开发模式
+export const DEV = true // 是否开发模式
 export const BARE = true // 裸工作流
 export const VERSION_GITHUB_RELEASE = '3.5.0' // 版本号
 export const VERSION_TINYGRAIL_PLUGIN = '2.3.1'
@@ -39,8 +39,10 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd' // client_secret
 export const APP_ID_SAY_DEVELOP = '19945783' // 功能留言板入口
 export const APP_ID_SAY_TINYGRAIL = '19820034' // 小圣杯意见反馈入口
 export const APP_ID_BAIDU = '20200130000378695' // 百度翻译
-export const APP_USERID_TOURIST = 476179 // 6907xxx59@qq.com (游客)
-export const APP_USERID_IOS_AUTH = 474489 // 2963xxx10@qq.com (iOS审核)
+// export const APP_USERID_TOURIST = 476179 // 6907***59@qq.com (安卓游客)
+// export const APP_USERID_IOS_AUTH = 474489 // 2963***10@qq.com (iOS审核)
+export const APP_USERID_TOURIST = 542389 // say***02@163.com (iOS游客)
+export const APP_USERID_IOS_AUTH = 542389 // say***02@163.com (iOS审核)
 
 // ENV
 export const IOS = Platform.OS === 'ios' // 是否iOS

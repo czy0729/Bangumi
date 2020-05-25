@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 22:08:59
+ * @Last Modified time: 2020-05-25 17:58:24
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -14,6 +14,7 @@ import { OptimizeTabbarTransition, IconTabBar, Login } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 import ParallaxImage from './parallax-image'
 import TabsMain from './tabs-main'
@@ -124,6 +125,10 @@ class User extends React.Component {
     }
   }
 
+  get style() {
+    return IOS ? _.container.bg : _.container._plain
+  }
+
   render() {
     const { $ } = this.context
     const { id } = $.usersInfo
@@ -136,7 +141,7 @@ class User extends React.Component {
     const { _loaded } = $.state
     const { fixed } = this.state
     return (
-      <View style={_.container._plain}>
+      <View style={this.style}>
         {_loaded && (
           <>
             <UM screen={title} />
