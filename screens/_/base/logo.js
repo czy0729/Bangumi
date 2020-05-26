@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 10:44:11
+ * @Last Modified time: 2020-05-26 16:16:44
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -32,7 +32,7 @@ function Logo({ forceUpdate }) {
       <Flex style={styles.logo} justify='center'>
         <Iconfont
           style={IOS && styles.ios}
-          size={IOS ? 20 : 32}
+          size={IOS ? 22 : 32}
           name={IOS ? 'bgm' : 'bangumi'}
           color={_.select(_.colorTitle, _.colorDesc)}
         />

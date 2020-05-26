@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 21:11:36
+ * @Last Modified time: 2020-05-26 16:22:29
  */
 import React from 'react'
 import {
@@ -326,6 +326,7 @@ class ListView extends React.Component {
             : undefined
         }
         titleColor={_.colorSub}
+        tintColor={_.colorSub}
         progressViewOffset={progressViewOffset}
         refreshing={refreshState === RefreshState.HeaderRefreshing}
         onRefresh={this.onHeaderRefresh}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 15:26:31
+ * @Last Modified time: 2020-05-26 16:12:46
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -48,28 +48,31 @@ class List extends React.Component {
     const { $, navigation } = this.context
     const { list, _filter } = $.rank
     return (
-      <View style={this.styles.list}>
-        {list.length ? (
-          list.map((item, index) => (
-            <ItemSearch
-              key={item.id}
-              style={_.container.item}
-              navigation={navigation}
-              index={index}
-              event={{
-                ...event,
-                data: {
-                  type: 'list'
-                }
-              }}
-              {...item}
-            />
-          ))
-        ) : (
-          <Empty />
-        )}
-        {!!_filter && <FilterText value={_filter} />}
-      </View>
+      <>
+        <View style={this.styles.list}>
+          {list.length ? (
+            list.map((item, index) => (
+              <ItemSearch
+                key={item.id}
+                style={_.container.item}
+                navigation={navigation}
+                index={index}
+                event={{
+                  ...event,
+                  data: {
+                    type: 'list'
+                  }
+                }}
+                {...item}
+              />
+            ))
+          ) : (
+            <Empty />
+          )}
+          {!!_filter && <FilterText value={_filter} />}
+        </View>
+        {this.renderPagination()}
+      </>
     )
   }
 
@@ -77,30 +80,33 @@ class List extends React.Component {
     const { $, navigation } = this.context
     const { list, _filter } = $.rank
     return (
-      <Flex style={this.styles.grid} wrap='wrap'>
-        {list.length ? (
-          list.map((item, index) => (
-            <ItemCollectionsGrid
-              key={item.id}
-              style={this.styles.itemGird}
-              navigation={navigation}
-              index={index}
-              event={{
-                ...event,
-                data: {
-                  type: 'grid'
-                }
-              }}
-              {...item}
-              id={item.id.replace('/subject/', '')}
-              showScore
-            />
-          ))
-        ) : (
-          <Empty />
-        )}
-        {!!_filter && <FilterText value={_filter} />}
-      </Flex>
+      <>
+        <Flex style={this.styles.grid} wrap='wrap'>
+          {list.length ? (
+            list.map((item, index) => (
+              <ItemCollectionsGrid
+                key={item.id}
+                style={this.styles.itemGird}
+                navigation={navigation}
+                index={index}
+                event={{
+                  ...event,
+                  data: {
+                    type: 'grid'
+                  }
+                }}
+                {...item}
+                id={item.id.replace('/subject/', '')}
+                showScore
+              />
+            ))
+          ) : (
+            <Empty />
+          )}
+          {!!_filter && <FilterText value={_filter} />}
+        </Flex>
+        {this.renderPagination()}
+      </>
     )
   }
 
@@ -124,7 +130,6 @@ class List extends React.Component {
                 <ActivityIndicator />
               </Flex>
             )}
-            {this.renderPagination()}
           </>
         )}
       </ScrollView>
