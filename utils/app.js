@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-20 16:39:23
+ * @Last Modified time: 2020-05-26 12:04:12
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -38,6 +38,41 @@ export function bootApp() {
       error: Function.prototype
     }
   }
+}
+
+/**
+ * 是否敏感条目
+ * @param {*} subjectId
+ */
+export function x18(subjectId) {
+  if (!subjectId) return false
+  const filter =
+    typeof subjectId === 'string'
+      ? parseInt(subjectId.replace('/subject/', '')) in x
+      : parseInt(subjectId) in x
+  if (DEV) console.log(subjectId, filter)
+  return filter
+}
+
+/**
+ * 猜测是否敏感字符串
+ */
+export function x18s(str) {
+  const _str = String(str).toLowerCase()
+  return [
+    '里',
+    '成',
+    '18',
+    'gal',
+    'bl',
+    '禁',
+    '拔',
+    '淫',
+    '兵',
+    '肉',
+    '伪',
+    'ntr'
+  ].some(item => _str.includes(item))
 }
 
 /**
@@ -95,15 +130,6 @@ export function findSubjectCn(jp = '', subjectId) {
 
   cache[jp] = jp
   return jp
-}
-
-/**
- * 是否敏感条目
- * @param {*} subjectId
- */
-export function x18(subjectId) {
-  if (!subjectId) return false
-  return subjectId in x
 }
 
 /**

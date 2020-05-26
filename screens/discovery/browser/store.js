@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 02:10:52
+ * @Last Modified time: 2020-05-25 21:29:22
  */
 import { observable, computed } from 'mobx'
-import { tagStore } from '@stores'
+import { tagStore, userStore } from '@stores'
 import store from '@utils/store'
+import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -68,7 +69,23 @@ export default class ScreenBrowser extends store {
 
   get browser() {
     const { type } = this.state
-    return computed(() => tagStore.browser(type, this.airtime)).get()
+    return computed(() => {
+      const browser = tagStore.browser(type, this.airtime)
+      if (userStore.isLimit) {
+        let _filter = 0
+        const list = browser.list.filter(item => {
+          const filter = x18(item.id)
+          if (filter) _filter += 1
+          return !filter
+        })
+        return {
+          ...browser,
+          list,
+          _filter
+        }
+      }
+      return browser
+    }).get()
   }
 
   get url() {

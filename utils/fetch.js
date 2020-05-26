@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 11:27:06
+ * @Last Modified time: 2020-05-26 14:44:39
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'

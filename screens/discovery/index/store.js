@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:59:15
+ * @Last Modified time: 2020-05-25 20:48:23
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, calendarStore, userStore } from '@stores'
@@ -102,5 +102,9 @@ export default class ScreenDiscovery extends store {
   @computed get today() {
     const { today } = calendarStore.home
     return today
+  }
+
+  @computed get isLimit() {
+    return userStore.isLimit
   }
 }

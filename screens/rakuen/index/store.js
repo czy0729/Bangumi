@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 03:55:27
+ * @Last Modified time: 2020-05-26 14:59:12
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -111,7 +111,19 @@ export default class ScreenRakuen extends store {
 
   rakuen(type) {
     const { scope } = this.state
-    return computed(() => rakuenStore.rakuen(scope, type)).get()
+    return computed(() => {
+      const rakuen = rakuenStore.rakuen(scope, type)
+      if (userStore.isLimit) {
+        return {
+          ...rakuen,
+          list: rakuen.list.filter(item => {
+            const group = String(item.group).toLocaleLowerCase()
+            return !['gal', '性', '癖', '里番'].some(i => group.includes(i))
+          })
+        }
+      }
+      return rakuen
+    }).get()
   }
 
   /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 16:41:15
+ * @Last Modified time: 2020-05-25 22:00:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,6 +56,7 @@ const menus = [
     path: 'Anitama'
   }
 ]
+
 const itemWidth = (_.window.width - 2 * _.wind) / 4
 
 function Menu(props, { $, navigation }) {

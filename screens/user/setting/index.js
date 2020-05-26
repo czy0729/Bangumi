@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 21:50:25
+ * @Last Modified time: 2020-05-26 15:18:50
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -19,14 +19,13 @@ import { withHeader, observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import {
+  TITLE,
   IOS,
   URL_FEEDBACK,
   GITHUB_PROJECT,
   GITHUB_RELEASE,
   VERSION_GITHUB_RELEASE,
   VERSION_CODE_PUSH,
-  APP_USERID_TOURIST,
-  APP_USERID_IOS_AUTH,
   APP_ID_SAY_DEVELOP
 } from '@constants'
 import {
@@ -196,26 +195,6 @@ class Setting extends React.Component {
     return userStore.isLogin
   }
 
-  get showQiafan() {
-    if (!IOS) {
-      return true
-    }
-
-    if (!this.isLogin) {
-      return false
-    }
-
-    if (
-      !this.userId ||
-      this.userId == APP_USERID_TOURIST ||
-      this.userId == APP_USERID_IOS_AUTH
-    ) {
-      return false
-    }
-
-    return true
-  }
-
   renderSection(text, key) {
     return (
       <Touchable style={this.styles.section} onPress={() => this.toggle(key)}>
@@ -270,27 +249,29 @@ class Setting extends React.Component {
                 />
               }
               withoutFeedback
-              information='首页点击头部Bangumi的Logo也可以快速切换主题'
+              information={`首页点击头部${TITLE}的Logo也可以快速切换主题`}
             />
-            <ItemSetting
-              border
-              hd='小圣杯'
-              ft={
-                <Switch
-                  checked={tinygrail}
-                  onChange={() => {
-                    t('设置.切换', {
-                      title: '小圣杯',
-                      checked: !tinygrail
-                    })
+            {!userStore.isLimit && (
+              <ItemSetting
+                border
+                hd='小圣杯'
+                ft={
+                  <Switch
+                    checked={tinygrail}
+                    onChange={() => {
+                      t('设置.切换', {
+                        title: '小圣杯',
+                        checked: !tinygrail
+                      })
 
-                    systemStore.switchSetting('tinygrail')
-                  }}
-                />
-              }
-              withoutFeedback
-            />
-            {tinygrail && (
+                      systemStore.switchSetting('tinygrail')
+                    }}
+                  />
+                }
+                withoutFeedback
+              />
+            )}
+            {!userStore.isLimit && tinygrail && (
               <ItemSetting
                 border
                 hd='小圣杯涨跌色'
@@ -599,13 +580,13 @@ class Setting extends React.Component {
             />
             <ItemSetting
               border
-              hd='Bangumi娘话语'
+              hd='看板娘话语'
               ft={
                 <Switch
                   checked={speech}
                   onChange={() => {
                     t('设置.切换', {
-                      title: 'Bangumi娘话语',
+                      title: '看板娘话语',
                       checked: !speech
                     })
 
@@ -701,20 +682,22 @@ class Setting extends React.Component {
                 })
               }
             />
-            <ItemSetting
-              border
-              hd='投食'
-              ft='🍚'
-              arrow
-              highlight
-              onPress={() => {
-                t('设置.跳转', {
-                  to: 'Qiafan'
-                })
+            {!userStore.isLimit && (
+              <ItemSetting
+                border
+                hd='投食'
+                ft='🍚'
+                arrow
+                highlight
+                onPress={() => {
+                  t('设置.跳转', {
+                    to: 'Qiafan'
+                  })
 
-                navigation.push('Qiafan')
-              }}
-            />
+                  navigation.push('Qiafan')
+                }}
+              />
+            )}
           </>
         )}
       </>

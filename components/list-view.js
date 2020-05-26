@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-23 22:57:26
+ * @Last Modified time: 2020-05-25 21:11:36
  */
 import React from 'react'
 import {
@@ -301,7 +301,9 @@ class ListView extends React.Component {
             <Mesume size={80} />
             {systemStore.setting.speech && (
               <Text style={_.mt.sm} type={footerTextType} align='center'>
-                {randomSpeech()}
+                {data._filter
+                  ? `已过滤${data._filter}个敏感条目`
+                  : randomSpeech()}
               </Text>
             )}
           </Flex>

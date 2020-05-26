@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:48:31
+ * @Last Modified time: 2020-05-25 20:46:57
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -13,12 +13,14 @@ import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import {
+  IOS,
   HOST,
   APP_ID,
   APP_SECRET,
   URL_OAUTH_REDIRECT,
   LIST_EMPTY,
-  APP_USERID_TOURIST
+  APP_USERID_TOURIST,
+  APP_USERID_IOS_AUTH
 } from '@constants'
 import {
   API_ACCESS_TOKEN,
@@ -224,6 +226,26 @@ class User extends store {
    */
   @computed get isWebLogin() {
     return !!this.userCookie.cookie
+  }
+
+  /**
+   * 限制内容展示
+   */
+  @computed get isLimit() {
+    if (!IOS) {
+      return false
+    }
+
+    if (!this.isLogin) {
+      return true
+    }
+
+    const { id } = this.userInfo
+    if (!id || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH) {
+      return true
+    }
+
+    return false
   }
 
   // -------------------- fetch --------------------

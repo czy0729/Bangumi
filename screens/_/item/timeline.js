@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 19:51:32
+ * @Last Modified time: 2020-05-26 12:11:23
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -59,7 +59,7 @@ class ItemTimeline extends React.Component {
         const subjectId = isSubject ? matchSubjectId(url) : 0
         $p3.push(
           <Text
-            key={item}
+            key={item || index}
             type={isSubject ? undefined : 'main'}
             underline={isSubject}
             bold={isSubject}
@@ -199,7 +199,7 @@ class ItemTimeline extends React.Component {
 
     const images = image.map((item, index) => (
       <Cover
-        key={item}
+        key={item || index}
         style={_.mr.sm}
         src={item}
         size={coverWidth}

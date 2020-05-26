@@ -4,12 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 20:00:10
+ * @Last Modified time: 2020-05-26 14:55:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import {
+  TITLE,
   StatusBarEvents,
   WebView,
   Flex,
@@ -286,7 +287,7 @@ class Login extends React.Component {
         </View>
         {!clicked && (
           <Text style={this.styles.ps} size={12} type='sub'>
-            PS: 若登陆过程中出现问题, 请手动把授权网页里面的Bangumi账号登出,
+            PS: 若登陆过程中出现问题, 请手动把授权网页里面的{TITLE}账号登出,
             不然可能会出现cookie过期的情况.
           </Text>
         )}

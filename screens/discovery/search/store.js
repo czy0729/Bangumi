@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 14:36:29
+ * @Last Modified time: 2020-05-26 11:49:43
  */
 import { observable, computed } from 'mobx'
-import { searchStore } from '@stores'
+import { searchStore, userStore } from '@stores'
 import store from '@utils/store'
+import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants/model'
@@ -42,7 +43,16 @@ export default class ScreenSearch extends store {
   // -------------------- get --------------------
   search() {
     const { cat, legacy, value } = this.state
-    return computed(() => searchStore.search(value, cat, legacy)).get()
+    return computed(() => {
+      const search = searchStore.search(value, cat, legacy)
+      if (userStore.isLimit) {
+        return {
+          ...search,
+          list: search.list.filter(item => !x18(item.id))
+        }
+      }
+      return search
+    }).get()
   }
 
   // -------------------- page --------------------

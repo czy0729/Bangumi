@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 19:56:43
+ * @Last Modified time: 2020-05-26 10:50:31
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -71,8 +71,8 @@ function Award(props, { navigation }) {
         <Image
           style={styles.imageTitle}
           src={ImageHeroTitle}
-          size={itemWidth}
-          height={itemWidth}
+          size={itemWidth * 0.92}
+          height={itemWidth * 0.92}
           resizeMode='contain'
           placeholder={false}
         />
@@ -117,7 +117,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.wind
   },
   item: {
-    width: itemWidth * 2.12,
+    width: itemWidth * 2,
     borderRadius: _.radiusMd
   },
   itemSquare: {
@@ -133,7 +133,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   imageTitle: {
     position: 'absolute',
-    top: 0,
-    right: 24
+    top: 4,
+    right: 8
   }
 }))

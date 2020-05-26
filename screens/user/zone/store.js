@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 22:23:50
+ * @Last Modified time: 2020-05-26 15:13:33
  */
 import { observable, computed } from 'mobx'
 import {
@@ -16,6 +16,7 @@ import {
   systemStore
 } from '@stores'
 import store from '@utils/store'
+import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { info } from '@utils/ui'
@@ -108,7 +109,14 @@ export default class ScreenZone extends store {
   }
 
   @computed get userCollections() {
-    return userStore.userCollections(undefined, this.userId)
+    const userCollections = userStore.userCollections(undefined, this.userId)
+    if (userStore.isLimit) {
+      return {
+        ...userCollections,
+        list: userCollections.list.filter(item => !x18(item.id))
+      }
+    }
+    return userCollections
   }
 
   @computed get usersTimeline() {

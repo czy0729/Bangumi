@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 12:20:22
+ * @Last Modified time: 2020-05-26 15:20:19
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -33,7 +33,7 @@ function Ep({ style }, { $, navigation }) {
   const { epsReverse, watchedEps, filterEps } = $.state
   const { totalEps } = $.subjectFormHTML
   const canPlay = $.onlinePlayActionSheetData.length >= 2
-  const showPlay = $.showOnlinePlay && canPlay
+  const showPlay = !$.isLimit && canPlay
   const showFilter = $.eps.length > 160 // 32 * 5 = 160
   return (
     <View style={[styles.container, style]}>
@@ -56,7 +56,7 @@ function Ep({ style }, { $, navigation }) {
                 />
               </Popover>
             )}
-            {$.showOnlinePlay && (
+            {!$.isLimit && (
               <Popover data={$.onlineOrigins} onSelect={$.onlinePlaySelected}>
                 <Iconfont style={styles.icon} name='xin-fan' size={16} />
               </Popover>

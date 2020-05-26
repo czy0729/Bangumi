@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-22 00:43:27
+ * @Last Modified time: 2020-05-26 14:55:43
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -12,6 +12,7 @@ import { open, copy } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
+import { TITLE } from '@constants'
 import Bg from './bg'
 import List from './list'
 import Modal from './modal'
@@ -66,7 +67,7 @@ class Subject extends React.Component {
     navigation.setParams({
       headerTransitionTitle: $.cn,
       popover: {
-        data: ['Bangumi', '复制链接'],
+        data: [TITLE, '复制链接'],
         onSelect: key => {
           t('条目.右上角菜单', {
             subjectId: $.subjectId,

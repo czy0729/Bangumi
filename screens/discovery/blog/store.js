@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:04:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-05 01:37:37
+ * @Last Modified time: 2020-05-26 10:54:21
  */
 import { observable, computed } from 'mobx'
-import { discoveryStore } from '@stores'
+import { discoveryStore, userStore } from '@stores'
 import store from '@utils/store'
+import { x18s } from '@utils/app'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -79,7 +80,16 @@ export default class ScreenDiscoveryBlog extends store {
 
   blog(type) {
     const { currentPage } = this.state
-    return computed(() => discoveryStore.blog(type, currentPage[type])).get()
+    return computed(() => {
+      const blog = discoveryStore.blog(type, currentPage[type])
+      if (userStore.isLimit) {
+        return {
+          ...blog,
+          list: blog.list.filter(item => !x18s(item.title))
+        }
+      }
+      return blog
+    }).get()
   }
 
   // -------------------- page --------------------

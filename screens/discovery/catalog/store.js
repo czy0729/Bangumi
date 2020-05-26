@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 19:52:13
+ * @Last Modified time: 2020-05-26 09:42:24
  */
 import { observable, computed } from 'mobx'
-import { discoveryStore } from '@stores'
+import { discoveryStore, userStore } from '@stores'
 import store from '@utils/store'
+import { x18s } from '@utils/app'
 import { info } from '@utils/ui'
 import { t, queue } from '@utils/fetch'
 
@@ -61,7 +62,14 @@ export default class ScreenCatalog extends store {
   // -------------------- get --------------------
   @computed get catalog() {
     const { type, page } = this.state
-    return discoveryStore.catalog(type, page)
+    const catalog = discoveryStore.catalog(type, page)
+    if (userStore.isLimit) {
+      return {
+        ...catalog,
+        list: catalog.list.filter(item => !x18s(item.title))
+      }
+    }
+    return catalog
   }
 
   catalogDetail(id) {

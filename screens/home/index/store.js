@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 21:46:27
+ * @Last Modified time: 2020-05-26 14:07:07
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -16,7 +16,7 @@ import {
 } from '@stores'
 import { Eps } from '@screens/_'
 import { t, queue } from '@utils/fetch'
-import { appNavigate, getCoverMedium } from '@utils/app'
+import { x18, appNavigate, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
 import { IOS } from '@constants'
 import {
@@ -169,7 +169,14 @@ export default class ScreenHome extends store {
    * 用户收藏
    */
   @computed get userCollection() {
-    return userStore.userCollection
+    const { userCollection } = userStore
+    if (userStore.isLimit) {
+      return {
+        ...userCollection,
+        list: userCollection.list.filter(item => !x18(item.subject_id))
+      }
+    }
+    return userCollection
   }
 
   /**

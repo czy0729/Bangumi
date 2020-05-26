@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 02:01:41
+ * @Last Modified time: 2020-05-25 21:20:26
  */
 import { observable, computed } from 'mobx'
-import { tagStore } from '@stores'
+import { tagStore, userStore } from '@stores'
 import store from '@utils/store'
+import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -65,7 +66,21 @@ export default class ScreenRank extends store {
   // -------------------- get --------------------
   @computed get rank() {
     const { type, currentPage } = this.state
-    return tagStore.rank(type, currentPage[type])
+    const rank = tagStore.rank(type, currentPage[type])
+    if (userStore.isLimit) {
+      let _filter = 0
+      const list = rank.list.filter(item => {
+        const filter = x18(item.id)
+        if (filter) _filter += 1
+        return !filter
+      })
+      return {
+        ...rank,
+        list,
+        _filter
+      }
+    }
+    return rank
   }
 
   @computed get url() {
@@ -103,7 +118,7 @@ export default class ScreenRank extends store {
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 0)
+    }, 40)
 
     this.fetchRank()
   }
@@ -122,7 +137,7 @@ export default class ScreenRank extends store {
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 0)
+    }, 40)
 
     this.fetchRank()
   }
@@ -142,7 +157,7 @@ export default class ScreenRank extends store {
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 0)
+    }, 40)
 
     this.fetchRank()
   }
@@ -167,7 +182,7 @@ export default class ScreenRank extends store {
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 0)
+    }, 40)
 
     this.fetchRank()
   }
@@ -187,7 +202,7 @@ export default class ScreenRank extends store {
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 0)
+    }, 40)
   }
 
   prev = () => {
@@ -218,7 +233,7 @@ export default class ScreenRank extends store {
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 0)
+    }, 40)
 
     this.fetchRank()
   }
@@ -247,7 +262,7 @@ export default class ScreenRank extends store {
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 0)
+    }, 40)
 
     this.fetchRank()
   }
@@ -292,7 +307,7 @@ export default class ScreenRank extends store {
         show: true
       })
       this.setStorage(undefined, undefined, namespace)
-    }, 0)
+    }, 40)
 
     this.fetchRank()
   }

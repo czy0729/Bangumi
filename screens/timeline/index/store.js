@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-01 04:10:41
+ * @Last Modified time: 2020-05-26 12:10:12
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, timelineStore } from '@stores'
+import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
@@ -57,7 +58,25 @@ export default class ScreenTimeline extends store {
   }
 
   timeline(scope, type) {
-    return computed(() => timelineStore.timeline(scope, type)).get()
+    return computed(() => {
+      const timeline = timelineStore.timeline(scope, type)
+      if (userStore.isLimit) {
+        const list = timeline.list.filter(item => {
+          if (item.p3 && item.p3.url && item.p3.url.length && item.p3.url[0]) {
+            const url = String(item.p3.url[0])
+            if (url.match(/\/subject\/\d+/)) {
+              return !x18(url.replace('https://bgm.tv/subject/', ''))
+            }
+          }
+          return true
+        })
+        return {
+          ...timeline,
+          list
+        }
+      }
+      return timeline
+    }).get()
   }
 
   // -------------------- page --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 17:02:29
+ * @Last Modified time: 2020-05-26 15:31:52
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
@@ -148,6 +148,10 @@ export default class ScreenBlog extends store {
 
   @computed get html() {
     return this.blog.message || this.blogFormCDN.message || ''
+  }
+
+  @computed get isUGCAgree() {
+    return systemStore.isUGCAgree
   }
 
   // -------------------- page --------------------

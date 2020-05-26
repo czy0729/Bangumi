@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:19:45
+ * @Last Modified time: 2020-05-26 15:30:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,18 +25,20 @@ function BookEp({ style }, { $, navigation }) {
     <View style={[styles.container, _.container.wind, style]}>
       <SectionTitle
         right={
-          <Touchable
-            style={styles.iconPlay}
-            onPress={() =>
-              navigation.push('Comic', {
-                cn: $.cn,
-                jp: $.jp,
-                subjectId: $.subjectId
-              })
-            }
-          >
-            <Iconfont name='xin-fan' size={16} />
-          </Touchable>
+          !$.isLimit && (
+            <Touchable
+              style={styles.iconPlay}
+              onPress={() =>
+                navigation.push('Comic', {
+                  cn: $.cn,
+                  jp: $.jp,
+                  subjectId: $.subjectId
+                })
+              }
+            >
+              <Iconfont name='xin-fan' size={16} />
+            </Touchable>
+          )
         }
       >
         章节

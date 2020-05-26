@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 19:26:42
+ * @Last Modified time: 2020-05-26 15:23:29
  */
 export default {
-  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets
+  initialRouteName: 'HomeTab', // HomeTab Discovery TinygrailCharaAssets
   initialRouteParams: {
     // id: 240929
     // blogId: 295843 // 294448
     // catalogId: 29811,
     // groupId: 'tinygrail',
-    // monoId: 'person/5745', // 20391 character/70323 person/5745
+    // monoId: 'person/5745' // 20391 character/70323 person/5745
     // subjectId: 262940 // 103824 238923 279457 100444 204135
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '欢迎来到实力至上主义的教室',
@@ -29,4 +29,4 @@ export default {
 }
 
 export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
-export const initialHomeTabName = 'Discovery'
+export const initialHomeTabName = 'Home'

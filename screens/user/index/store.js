@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 19:30:23
+ * @Last Modified time: 2020-05-26 14:49:10
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
 import store from '@utils/store'
+import { x18 } from '@utils/app'
 import { t } from '@utils/fetch'
 import {
   MODEL_SUBJECT_TYPE,
@@ -140,13 +141,20 @@ export default class ScreenUser extends store {
 
   userCollections(subjectType, type) {
     const { username } = this.usersInfo
-    return computed(() =>
-      collectionStore.userCollections(
+    return computed(() => {
+      const userCollections = collectionStore.userCollections(
         username || this.userId,
         subjectType,
         type
       )
-    ).get()
+      if (userStore.isLimit) {
+        return {
+          ...userCollections,
+          list: userCollections.list.filter(item => !x18(item.id))
+        }
+      }
+      return userCollections
+    }).get()
   }
 
   userCollectionsTags(subjectType, type) {

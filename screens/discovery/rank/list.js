@@ -2,14 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 00:36:57
+ * @Last Modified time: 2020-05-26 15:26:31
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { Flex, Empty } from '@components'
-import { Pagination, ItemSearch, ItemCollectionsGrid } from '@screens/_'
+import {
+  Pagination,
+  ItemSearch,
+  ItemCollectionsGrid,
+  FilterText
+} from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 
@@ -41,7 +46,7 @@ class List extends React.Component {
 
   renderList() {
     const { $, navigation } = this.context
-    const { list } = $.rank
+    const { list, _filter } = $.rank
     return (
       <View style={this.styles.list}>
         {list.length ? (
@@ -63,13 +68,14 @@ class List extends React.Component {
         ) : (
           <Empty />
         )}
+        {!!_filter && <FilterText value={_filter} />}
       </View>
     )
   }
 
   renderGrid() {
     const { $, navigation } = this.context
-    const { list } = $.rank
+    const { list, _filter } = $.rank
     return (
       <Flex style={this.styles.grid} wrap='wrap'>
         {list.length ? (
@@ -93,6 +99,7 @@ class List extends React.Component {
         ) : (
           <Empty />
         )}
+        {!!_filter && <FilterText value={_filter} />}
       </Flex>
     )
   }
@@ -131,8 +138,7 @@ class List extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingBottom: _.bottom,
-    minHeight: _.window.height
+    paddingBottom: _.bottom
   },
   list: {
     paddingVertical: _.md
@@ -142,9 +148,8 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.wind - _._wind
   },
   loading: {
-    paddingTop: _.md,
-    paddingBottom: 240,
-    minHeight: _.window.height
+    minHeight: 400,
+    paddingTop: _.md
   },
   itemGird: {
     height: 124

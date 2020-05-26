@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-08 11:13:00
+ * @Last Modified time: 2020-05-26 11:53:57
  */
 import { DEV } from '@constants'
 
@@ -94,8 +94,8 @@ export function log(type = '', key = '', value = '', ...other) {
   }
 
   const res = [time, type]
-  if (key) res.push('\n', key)
-  if (value) res.push('\n', value)
+  if (key !== undefined) res.push('\n', key)
+  if (value !== undefined) res.push('\n', value)
   if (other && other.length) res.push('\n', other)
   res.push('\n', '|')
 

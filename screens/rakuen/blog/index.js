@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 00:38:35
+ * @Last Modified time: 2020-05-26 11:14:16
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { InteractionManager, Alert, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ListView, FixedTextarea } from '@components'
@@ -15,7 +15,7 @@ import { inject, withTransitionHeader } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST } from '@constants'
+import { TITLE, HOST } from '@constants'
 import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
@@ -41,40 +41,73 @@ class Blog extends React.Component {
   fixedTextarea
   scrollFailCount = 0
 
-  async componentDidMount() {
-    const { $, navigation } = this.context
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(async () => {
+      const { $, navigation } = this.context
+      if (!$.isUGCAgree) {
+        /**
+         * @issue 这里注意在iOS上面, 一定要延迟,
+         * 不然首页点击讨论跳进来popover + alert直接就不能操作了
+         */
+        setTimeout(() => {
+          t('帖子.UCG')
 
-    const url = navigation.getParam('_url') || `${HOST}/blog/${$.blogId}`
-    navigation.setParams({
-      popover: {
-        data: ['浏览器查看', '复制链接'],
-        onSelect: key => {
-          t('日志.右上角菜单', {
-            key
-          })
+          Alert.alert(
+            '社区指导原则',
+            `${TITLE} 是一个纯粹的ACG网络, 请查看社区指导原则并且同意后才能继续操作`,
+            [
+              {
+                text: '取消',
+                style: 'cancel',
+                onPress: () => navigation.goBack()
+              },
+              {
+                text: '查看',
+                onPress: () => {
+                  navigation.goBack()
+                  navigation.push('UGCAgree', {
+                    blogId: $.blogId
+                  })
+                }
+              }
+            ]
+          )
+        }, 800)
+        return
+      }
 
-          switch (key) {
-            case '浏览器查看':
-              open(url)
-              break
-            case '复制链接':
-              copy(url)
-              info('已复制')
-              break
-            default:
-              break
+      const url = navigation.getParam('_url') || `${HOST}/blog/${$.blogId}`
+      navigation.setParams({
+        popover: {
+          data: ['浏览器查看', '复制链接'],
+          onSelect: key => {
+            t('日志.右上角菜单', {
+              key
+            })
+
+            switch (key) {
+              case '浏览器查看':
+                open(url)
+                break
+              case '复制链接':
+                copy(url)
+                info('已复制')
+                break
+              default:
+                break
+            }
           }
         }
+      })
+
+      await $.init()
+
+      if ($.postId) {
+        this.jump()
       }
+
+      hm(`blog/${$.blogId}`, 'Blog')
     })
-
-    await $.init()
-
-    if ($.postId) {
-      this.jump()
-    }
-
-    hm(`blog/${$.blogId}`, 'Blog')
   }
 
   connectListViewRef = ref => (this.listView = ref)

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-11 20:10:24
+ * @Last Modified time: 2020-05-26 09:42:17
  */
 import { observable, computed } from 'mobx'
-import { discoveryStore } from '@stores'
+import { discoveryStore, userStore } from '@stores'
 import store from '@utils/store'
+import { x18s } from '@utils/app'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { HTML_TAGS } from '@constants/html'
@@ -51,7 +52,16 @@ export default class ScreenTags extends store {
 
   // -------------------- get --------------------
   list(type) {
-    return computed(() => discoveryStore.tags(type)).get()
+    return computed(() => {
+      const tags = discoveryStore.tags(type)
+      if (userStore.isLimit) {
+        return {
+          ...tags,
+          list: tags.list.filter(item => !x18s(item.name))
+        }
+      }
+      return tags
+    }).get()
   }
 
   @computed get url() {

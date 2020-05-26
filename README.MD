@@ -11,15 +11,15 @@
 
 一个基于`React-Native`的 [Bangumi](https://bgm.tv) 第三方客户端
 
-用于练手 RN, 安卓和 iOS 都做了兼容, 并最大限度保持一致, 目前已开发不少于 70 个页面, 几乎涵盖源网站所有页面
+项目对标 web, 本人并没有原生开发经验, 用于练手 RN, 安卓和 iOS 都做了兼容, 并最大限度保持一致
+
+目前已开发不少于 70 个页面, 几乎涵盖源网站所有页面
 
 Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）, 发现和讨论番组的第三方客户端
 
-仍在持续开发中...
-
 ## Download
 
-安卓 [APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安下载](https://www.coolapk.com/apk/235642)
+[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642)
 
 苹果好难审, 短时间内都没办法通过, 会跟苹果做长久作战. 目前有方法可以试用, 不会太复杂
 [TestFlight] | [[iOS 试用方法]](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
@@ -28,9 +28,9 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 [特有功能]
 
-- 大部分资源覆盖到自维护 CDN, 访问速度+++
-- 图片使用 CDN, 有后处理, 所以有比源网站更好的质量和更小的流量
-- 小圣杯 (更适合移动端交互的角色交易空气游戏)
+- 大部分资源覆盖到自维护 [CDN](https://github.com/czy0729/Bangumi-Subject), 访问速度+++
+- 图片使用 [CDN](https://github.com/czy0729/Bangumi-OSS), 有后处理, 所以有比源网站更好的质量和更小的流量
+- [小圣杯](https://bgm.tv/dev/app/1143) (角色交易空气游戏, App 独立设计 UI 和交互)
 - 章节播放源 / 漫画源查询
 - 资讯聚合
 
@@ -86,7 +86,7 @@ v3.5.0 - 2020/05/24
 
 [[tinygrail.com]](https://tinygrail.com) 小圣杯接口
 
-## Page Preview
+## Preview
 
 单独预览 [日间模式](https://github.com/czy0729/Bangumi/blob/master/web/LIGHT-MODE.MD) | [黑暗模式](https://github.com/czy0729/Bangumi/blob/master/web/DARK-MODE.MD)
 
@@ -108,8 +108,6 @@ v3.5.0 - 2020/05/24
 
 [若要在线预览, 请先安装 expo app](https://expo.io/tools)
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@latest/preview/expo-qr.png" width="200" alt="expo-qr" />
-
 [expo 项目主页](https://expo.io/@bangumi-ios-test/bangumi)
 
 ## Getting Started
@@ -130,7 +128,7 @@ cd ./Bangumi
 npm install // 不推荐使用yarn, 因为后面会魔改node_modules, 使用yarn会被识别并还原
 ```
 
-** 前置操作 **
+** 前置操作, 否则 App 内图标均为问号 **
 
 自定义 Iconfont, 把 assets/iconfont/ 下的目录 `vector-icons` 和 node_modules/@expo/ 下的目录 `vector-icons` 合并 (注意是合并不是替换, 假如不行, 就手动把文件夹下面的 2 个文件, 找到对应的地方替换, 观察文件修改日期是不是变化了), 原理其实就是用自己的字体文件把原有的 AntDesign 字体文件替换掉, 之后引用 Icon.AntDesign .
 

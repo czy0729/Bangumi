@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-22 00:40:33
+ * @Last Modified time: 2020-05-26 15:20:36
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -27,13 +27,7 @@ import {
 } from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
-import {
-  HOST,
-  IOS,
-  APP_USERID_TOURIST,
-  APP_USERID_IOS_AUTH,
-  HOST_NING_MOE
-} from '@constants'
+import { HOST, HOST_NING_MOE } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { NINGMOE_ID } from '@constants/online'
@@ -386,27 +380,8 @@ export default class ScreenSubject extends store {
     }
   }
 
-  /**
-   * 应付iOS审核, iOS且不登陆、游客模式、提供给审核人员的userId不显示
-   */
-  @computed get showOnlinePlay() {
-    if (!IOS) {
-      return true
-    }
-
-    if (!this.isLogin) {
-      return false
-    }
-
-    if (
-      !this.userId ||
-      this.userId == APP_USERID_TOURIST ||
-      this.userId == APP_USERID_IOS_AUTH
-    ) {
-      return false
-    }
-
-    return true
+  @computed get isLimit() {
+    return userStore.isLimit
   }
 
   @computed get hideScore() {

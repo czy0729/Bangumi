@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 22:25:34
+ * @Last Modified time: 2020-05-26 11:14:30
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -16,7 +16,7 @@ import { inject, withTransitionHeader } from '@utils/decorators'
 import { keyExtractor, appNavigate } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { HOST, IOS } from '@constants'
+import { TITLE, HOST, IOS } from '@constants'
 import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
@@ -64,7 +64,7 @@ class Topic extends React.Component {
 
           Alert.alert(
             '社区指导原则',
-            '生命有限, Bangumi 是一个纯粹的ACG网络, 请查看社区指导原则并且同意才能继续操作',
+            `${TITLE} 是一个纯粹的ACG网络, 请查看社区指导原则并且同意后才能继续操作`,
             [
               {
                 text: '取消',
