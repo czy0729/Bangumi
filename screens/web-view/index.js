@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:01:15
+ * @Last Modified time: 2020-05-27 14:16:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import { open } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { hm } from '@utils/fetch'
-import { HOST_NAME } from '@constants'
+import { SDK, HOST_NAME } from '@constants'
 
 const title = '浏览器'
 const redirectMaxCount = 8 // 最大跳转次数
@@ -105,11 +105,15 @@ class WebView extends React.Component {
 
       var __isBridgeOk = false
       function waitForBridge() {
-        if (!__isBridgeOk && window.postMessage.length !== 1) {
+        if (!__isBridgeOk && window${
+          SDK >= 37 ? '.ReactNativeWebView' : ''
+        }.postMessage.length !== 1) {
           setTimeout(waitForBridge, 200);
         } else {
           __isBridgeOk = true
-          window.postMessage(JSON.stringify({
+          window${
+            SDK >= 37 ? '.ReactNativeWebView' : ''
+          }.postMessage(JSON.stringify({
             type: 'onload',
             data: {
               href: document.location.href,

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 11:27:37
+ * @Last Modified time: 2020-05-27 14:28:41
  */
 import { DEV } from '@constants'
 
@@ -44,11 +44,12 @@ export function globalLog(value, space) {
  * @param {*} method
  * @param {*} error
  */
+const _warn = console.warn
 export function globalWarn(key, method, error) {
   if (!DEV) {
     return
   }
-  console.warn(`[${key}] ${method}`, error)
+  _warn(`[${key}] ${method}`, error)
 }
 
 /**

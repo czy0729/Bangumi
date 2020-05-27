@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 14:55:05
+ * @Last Modified time: 2020-05-27 14:15:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,14 @@ import { urlStringify } from '@utils'
 import { info } from '@utils/ui'
 import { hm, t } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
-import { IOS, APP_ID, HOST, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
+import {
+  SDK,
+  IOS,
+  APP_ID,
+  HOST,
+  URL_OAUTH,
+  URL_OAUTH_REDIRECT
+} from '@constants'
 
 const title = '登陆V1'
 const uri = `${URL_OAUTH}?${urlStringify({
@@ -244,11 +251,15 @@ class Login extends React.Component {
       // postMessage
       var __isBridgeOk = false;
       function waitForBridge() {
-        if (!__isBridgeOk && window.postMessage.length !== 1) {
+        if (!__isBridgeOk && window${
+          SDK >= 37 ? '.ReactNativeWebView' : ''
+        }.postMessage.length !== 1) {
           setTimeout(waitForBridge, 200);
         } else {
           __isBridgeOk = true
-          window.postMessage(JSON.stringify({
+          window${
+            SDK >= 37 ? '.ReactNativeWebView' : ''
+          }.postMessage(JSON.stringify({
             type: 'onload',
             data: {
               href: document.location.href,

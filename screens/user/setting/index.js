@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 15:18:50
+ * @Last Modified time: 2020-05-27 14:32:18
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -580,13 +580,13 @@ class Setting extends React.Component {
             />
             <ItemSetting
               border
-              hd='看板娘话语'
+              hd='看板娘吐槽'
               ft={
                 <Switch
                   checked={speech}
                   onChange={() => {
                     t('设置.切换', {
-                      title: '看板娘话语',
+                      title: '看板娘吐槽',
                       checked: !speech
                     })
 
@@ -614,23 +614,26 @@ class Setting extends React.Component {
               arrow
               highlight
             />
-            <ItemSetting
-              border
-              hd='切页动画'
-              ft={
-                <Popover
-                  data={MODEL_SETTING_TRANSITION.data.map(({ label }) => label)}
-                  onSelect={this.setTransition}
-                >
-                  <Text size={16} type='sub'>
-                    {MODEL_SETTING_TRANSITION.getLabel(transition)}
-                  </Text>
-                </Popover>
-              }
-              arrow
-              highlight
-              // information='部分安卓10用户会遇到页面布局错位问题, 可把动画设置成垂直暂时解决'
-            />
+            {!IOS && (
+              <ItemSetting
+                border
+                hd='切页动画'
+                ft={
+                  <Popover
+                    data={MODEL_SETTING_TRANSITION.data.map(
+                      ({ label }) => label
+                    )}
+                    onSelect={this.setTransition}
+                  >
+                    <Text size={16} type='sub'>
+                      {MODEL_SETTING_TRANSITION.getLabel(transition)}
+                    </Text>
+                  </Popover>
+                }
+                arrow
+                highlight
+              />
+            )}
           </>
         )}
       </>

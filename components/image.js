@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 10:26:42
+ * @Last Modified time: 2020-05-27 14:24:05
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -23,7 +23,7 @@ import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { IOS, IMG_DEFAULT, IMG_EMPTY, EVENT } from '@constants'
+import { IOS, IMG_EMPTY, EVENT } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import Touchable from './touchable'
 
@@ -142,10 +142,7 @@ class Image extends React.Component {
           const { headers } = this.props
 
           // @issue to fixed
-          if (
-            _src === 'https:/img/no_icon_subject.png' ||
-            _src === 'https:/img/no_img.gif'
-          ) {
+          if (typeof _src === 'string' && _src.includes('https:/img/')) {
             this.onError()
             return false
           }
@@ -366,7 +363,7 @@ class Image extends React.Component {
       image = (
         <RNImage
           style={[_image, this.styles.error]}
-          source={IMG_DEFAULT}
+          source={IMG_EMPTY}
           fadeDuration={_fadeDuration}
           {...other}
         />

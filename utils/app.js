@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 11:27:09
+ * @Last Modified time: 2020-05-27 14:26:29
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -35,12 +35,8 @@ export function bootApp() {
   if (DEV) {
     console.disableYellowBox = true
 
-    // 不想在开发刷新时看见满屏的不能解决的warning
-    const _warn = console.warn
+    // 不想在开发时看见满屏的不能解决的warning
     console.warn = Function.prototype
-    setTimeout(() => {
-      console.warn = _warn
-    }, 2000)
   } else {
     global.console = {
       ...global.console,
