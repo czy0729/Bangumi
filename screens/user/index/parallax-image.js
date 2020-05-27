@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 13:47:14
+ * @Last Modified time: 2020-05-27 16:10:58
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -17,7 +17,7 @@ import { IOS } from '@constants'
 import Head from './head'
 import { height, headerHeight } from './store'
 
-const dataMe = ['我的空间', '我的好友', 'netaba.re']
+const dataMe = ['我的空间', 'netaba.re']
 const dataOther = ['TA的好友', 'TA的netaba.re']
 
 function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
@@ -132,10 +132,6 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
                 navigation.push('Zone', {
                   userId: $.userId
                 })
-                break
-
-              case '我的好友':
-                navigation.push('Friends')
                 break
 
               case 'TA的好友':

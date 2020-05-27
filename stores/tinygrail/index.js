@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 22:33:01
+ * @Last Modified time: 2020-05-27 15:00:20
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
@@ -13,7 +13,7 @@ import { log } from '@utils/dev'
 import { queue, xhrCustom } from '@utils/fetch'
 import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
-import { LIST_EMPTY } from '@constants'
+import { SDK, LIST_EMPTY } from '@constants'
 import {
   API_TINYGRAIL_ASK,
   API_TINYGRAIL_ASSETS,
@@ -358,7 +358,8 @@ class Tinygrail extends store {
 
     /**
      * iOS此刻是否显示WebView
-     * @issue 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
+     *  - 此bug在sdk37下已不存在
+     *  - 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
      * 页面发生切换动作时, 会导致WebView重新渲染, 底色写死是白色, 在一些暗色调的页面里面,
      * 会导致闪白屏, 这个非常不友好, 暂时只想到通过维护一个全局变量去决定是否渲染WebView
      */
@@ -1999,6 +2000,13 @@ class Tinygrail extends store {
   }
 
   updateWebViewShow = show => {
+    if (SDK >= 37) {
+      this.setState({
+        _webview: true
+      })
+      return
+    }
+
     this.setState({
       _webview: show
     })

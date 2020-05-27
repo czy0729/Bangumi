@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 01:50:47
+ * @Last Modified time: 2020-05-27 15:52:34
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -47,8 +47,7 @@ class List extends React.Component {
       return null
     }
 
-    const data = $.browser
-    const { _loaded } = data
+    const { _loaded } = $.browser
     if (!_loaded) {
       return <Loading />
     }
@@ -57,7 +56,7 @@ class List extends React.Component {
       <ListView
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
-        data={data}
+        data={$.browser}
         renderItem={this.renderItem}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchBrowser}

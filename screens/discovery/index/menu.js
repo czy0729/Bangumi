@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 22:00:54
+ * @Last Modified time: 2020-05-27 15:40:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,10 +30,16 @@ const menus = [
     icon: 'paihang',
     path: 'Tags'
   },
+  // {
+  //   title: '随便看看',
+  //   icon: 'xin-fan',
+  //   path: 'Random'
+  // },
   {
-    title: '随便看看',
-    icon: 'xin-fan',
-    path: 'Random'
+    title: '我的人物',
+    icon: 'like',
+    path: 'Character',
+    login: true
   },
   {
     title: '每日放送',
@@ -140,12 +146,12 @@ const memoStyles = _.memoStyles(_ => ({
     width: itemWidth
   },
   iconWrap: {
-    width: 56
+    width: 52
   },
   icon: {
-    width: 56,
-    height: 56,
+    width: 52,
+    height: 52,
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    borderRadius: 56
+    borderRadius: 52
   }
 }))

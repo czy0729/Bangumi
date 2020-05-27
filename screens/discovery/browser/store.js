@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 21:29:22
+ * @Last Modified time: 2020-05-27 16:02:38
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore } from '@stores'
@@ -17,7 +17,7 @@ const namespace = 'ScreenBrowser'
 const defaultType = MODEL_SUBJECT_TYPE.getLabel('动画')
 const date = new Date()
 const y = date.getFullYear()
-const m = date.getMonth()
+const m = date.getMonth() + 1
 const excludeState = {
   show: true // 是否显示列表, 制造切页效果
 }
@@ -62,33 +62,31 @@ export default class ScreenBrowser extends store {
   }
 
   // -------------------- get --------------------
-  get airtime() {
+  @computed get airtime() {
     const { airtime, month } = this.state
     return month ? `${airtime}-${month}` : airtime
   }
 
-  get browser() {
+  @computed get browser() {
     const { type } = this.state
-    return computed(() => {
-      const browser = tagStore.browser(type, this.airtime)
-      if (userStore.isLimit) {
-        let _filter = 0
-        const list = browser.list.filter(item => {
-          const filter = x18(item.id)
-          if (filter) _filter += 1
-          return !filter
-        })
-        return {
-          ...browser,
-          list,
-          _filter
-        }
+    const browser = tagStore.browser(type, this.airtime)
+    if (userStore.isLimit) {
+      let _filter = 0
+      const list = browser.list.filter(item => {
+        const filter = x18(item.id)
+        if (filter) _filter += 1
+        return !filter
+      })
+      return {
+        ...browser,
+        list,
+        _filter
       }
-      return browser
-    }).get()
+    }
+    return browser
   }
 
-  get url() {
+  @computed get url() {
     const { type } = this.state
     return HTML_BROSWER(type, this.airtime)
   }

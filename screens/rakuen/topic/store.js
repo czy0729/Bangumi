@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:18:27
+ * @Last Modified time: 2020-05-27 14:51:24
  */
 import { observable, computed } from 'mobx'
 import {
@@ -15,6 +15,7 @@ import {
   usersStore
 } from '@stores'
 import { IOS, HOST } from '@constants'
+import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
 import { info } from '@utils/ui'
@@ -40,28 +41,44 @@ export default class ScreenTopic extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, this.namespace)
+    const { _loaded } = this.state
+    const current = getTimestamp()
+    const needFetch = !_loaded || current - _loaded > 60
     const commonState = (await this.getStorage(undefined, namespace)) || {}
-    this.setState({
-      ...state,
-      ...excludeState,
-      reverse: commonState.reverse,
-      _loaded: true
-    })
 
-    this.fetchTopicFromCDN()
+    try {
+      const state = await this.getStorage(undefined, this.namespace)
+      this.setState({
+        ...state,
+        ...excludeState,
+        reverse: commonState.reverse,
+        _loaded: needFetch ? current : _loaded
+      })
 
-    // 章节需要请求章节详情
-    if (this.isEp) {
-      this.fetchEpFormHTML()
-    }
+      if (needFetch) {
+        this.fetchTopicFromCDN()
 
-    // 本地帖子过来不主动请求
-    const { _noFetch } = this.params
-    if (_noFetch) {
+        // 章节需要请求章节详情
+        if (this.isEp) {
+          this.fetchEpFormHTML()
+        }
+
+        // 本地帖子过来不主动请求
+        const { _noFetch } = this.params
+        if (_noFetch) {
+          return true
+        }
+        return this.fetchTopic()
+      }
+      return true
+    } catch (error) {
+      this.setState({
+        ...excludeState,
+        reverse: commonState.reverse,
+        _loaded: needFetch ? current : _loaded
+      })
       return true
     }
-    return this.fetchTopic()
   }
 
   // -------------------- fetch --------------------

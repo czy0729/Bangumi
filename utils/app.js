@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 14:26:29
+ * @Last Modified time: 2020-05-27 15:01:01
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -26,7 +26,7 @@ export function bootApp() {
   /**
    * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
    */
-  if (SDK === 37) {
+  if (SDK >= 37) {
     ReactNativeScreens.enableScreens()
   } else {
     ReactNativeScreens.useScreens()

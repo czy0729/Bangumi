@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 14:24:05
+ * @Last Modified time: 2020-05-27 17:11:53
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -23,7 +23,7 @@ import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { IOS, IMG_EMPTY, EVENT } from '@constants'
+import { IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import Touchable from './touchable'
 
@@ -363,7 +363,7 @@ class Image extends React.Component {
       image = (
         <RNImage
           style={[_image, this.styles.error]}
-          source={IMG_EMPTY}
+          source={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
           fadeDuration={_fadeDuration}
           {...other}
         />
@@ -373,10 +373,15 @@ class Image extends React.Component {
         if (IOS && imageTransition) {
           image = (
             <AnimatedImage
-              style={_image}
+              style={[
+                _image,
+                {
+                  width: this.props.width || this.props.size
+                }
+              ]}
               headers={headers}
-              tint='light'
-              preview={IMG_EMPTY}
+              tint={_.select('light', 'dark')}
+              preview={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
               uri={uri}
               onError={this.onError}
               {...other}

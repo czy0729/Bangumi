@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 22:28:51
+ * @Last Modified time: 2020-05-27 14:53:10
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -165,7 +165,6 @@ export default class ScreenTinygrail extends store {
       await this.oauth()
       res = this.authorize()
 
-      // res = this.getAccessCookie()
       await res
       t('小圣杯.授权成功')
 

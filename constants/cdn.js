@@ -10,18 +10,19 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 22:02:31
+ * @Last Modified time: 2020-05-27 17:26:02
  */
 import { getTimestamp } from '@utils'
+import { SDK } from './index'
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
 const VERSION_SUBJECT = '20200502'
 const VERSION_MONO = '20200502'
-const VERSION_RAKUEN = '20200524'
+const VERSION_RAKUEN = '20200527'
 const VERSION_OSS = '20200502'
-const VERSION_STATIC = '20200524'
+const VERSION_STATIC = '20200528'
 
 const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
   ''
@@ -181,4 +182,6 @@ export const CDN_DISCOVERY_HOME = (version = VERSION_STATIC) =>
  * @url https://github.com/czy0729/Bangumi-Static
  */
 export const CDN_AWARD = (year, version = VERSION_STATIC) =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/award/${year}.json`
+  `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/award/${year}${
+    SDK >= 37 ? '.expo' : ''
+  }.json`

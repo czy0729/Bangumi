@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 12:02:00
+ * @Last Modified time: 2020-05-27 17:27:30
  */
 import { Platform } from 'react-native'
 
@@ -14,9 +14,9 @@ const appJson = require('../app.json')
 export const SDK = parseInt(appJson.expo.sdkVersion.split(',')[0]) // 打包apk和bangumi-ios-test线上expo使用35, 打包ipa提审需至少使用37
 export const BUNDLE_IDENTIFIER = appJson.name
 
-export const DEV = true // 是否开发模式
+export const DEV = false // 是否开发模式
 export const BARE = true // 裸工作流
-export const VERSION_GITHUB_RELEASE = '3.5.0' // 版本号
+export const VERSION_GITHUB_RELEASE = '3.5.1' // 版本号
 export const VERSION_TINYGRAIL_PLUGIN = '2.3.1'
 export const VERSION_CODE_PUSH = '' // 热推送副版本号
 export const ERRORS = {
@@ -71,8 +71,12 @@ export const GITHUB_DATA = `${GITHUB_PROJECT_GH}/web/data.json` // online数
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg' // 空头像
 export const IMG_EMPTY = {
   uri:
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP4////GQAJyAPKSOz6nwAAAABJRU5ErkJggg=='
-} // 白底1*1图片
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQAQMAAAC6caSPAAAAA1BMVEX///+nxBvIAAAAKklEQVR42u3BgQAAAADDoPtTH2AK1QAAAAAAAAAAAAAAAAAAAAAAAACAOE+wAAFrRnPdAAAAAElFTkSuQmCC'
+}
+export const IMG_EMPTY_DARK = {
+  uri:
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQAQMAAAC6caSPAAAAA1BMVEU+PkC+lq+tAAAAKklEQVR42u3BgQAAAADDoPtTH2AK1QAAAAAAAAAAAAAAAAAAAAAAAACAOE+wAAFrRnPdAAAAAElFTkSuQmCC'
+}
 export const IMG_DEFAULT = require('@assets/images/default.png') // 默认图
 export const IMG_ERROR = require('@assets/images/icon/pic-error-defult.png') // 图裂图
 

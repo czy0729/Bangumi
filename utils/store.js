@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 19:37:18
+ * @Last Modified time: 2020-05-27 16:00:38
  */
 import { AsyncStorage } from 'react-native'
 import { configure, extendObservable, computed, action, toJS } from 'mobx'
@@ -218,7 +218,7 @@ export default class Store {
    * @param {*} value
    * @param {*} namesapce 空间名其实一定要传递的, 不能依赖this.getName, 打包后会丢失
    */
-  getStorage = async (key, namesapce, defaultValue) => {
+  getStorage = async (key, namesapce, defaultValue = {}) => {
     let _key = namesapce || this.getName()
     if (key) {
       _key += `|${key}`
