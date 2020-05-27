@@ -23,7 +23,7 @@ class StarGroup extends React.Component {
     value: this.props.value || 0
   }
 
-  componentWillReceiveProps({ value }) {
+  UNSAFE_componentWillReceiveProps({ value }) {
     if (value !== this.state.value) {
       this.setState({
         value

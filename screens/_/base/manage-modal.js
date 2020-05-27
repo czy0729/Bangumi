@@ -42,7 +42,7 @@ class ManageModal extends React.Component {
   state = initState
   commentRef
 
-  async componentWillReceiveProps(nextProps) {
+  async UNSAFE_componentWillReceiveProps(nextProps) {
     const { visible, subjectId } = nextProps
     if (visible) {
       if (!this.props.visible) {

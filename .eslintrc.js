@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 16:09:42
+ * @Last Modified time: 2020-05-27 10:27:03
  */
 module.exports = {
   root: true,
@@ -66,17 +66,18 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     'lines-between-class-members': 0,
     'max-len': ['error', 200],
+    'no-confusing-arrow': 0, // 允许三元JSX结构
     'no-console': 0, // 方便开发
     'no-mixed-operators': 0,
     'no-nested-ternary': 0, // 允许三元
     'no-return-assign': 0, // return 不允许赋值, 与react的ref冲突
-    'no-confusing-arrow': 0, // 允许三元JSX结构
     'no-shadow': 0, // 解构需要, 比如 const { getUser } = this.props
     'no-underscore-dangle': 0,
     'no-use-before-define': 0,
     'object-curly-newline': 0,
     'operator-linebreak': 0,
     'prefer-destructuring': 0, // 不要求一定要析构
+    camelcase: 0, // UNSAFE_componentWillReceiveProps
     eqeqeq: 0, // 不要求使用全等
     experimentalDecorators: 0,
     indent: 0, // 经常与三元表达的自动格式化冲突, 所以关闭

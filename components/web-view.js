@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-13 10:38:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-26 11:36:59
+ * @Last Modified time: 2020-05-27 10:57:16
  */
 import React from 'react'
-import { WebView as RNWebView } from 'react-native'
+import RNWebView from '@components/@/web-view'
 import KeyboardSpacer from './keyboard-spacer'
 
 export default class WebView extends React.Component {

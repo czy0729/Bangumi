@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 04:09:07
+ * @Last Modified time: 2020-05-27 10:11:30
  */
 class Model {
   constructor(data) {
@@ -422,10 +422,10 @@ export const MODEL_SETTING_QUALITY = new Model([
     label: '默认',
     value: 'default'
   },
-  {
-    label: 'WiFi下高质量',
-    value: 'wifi-best'
-  },
+  // {
+  //   label: 'WiFi下高质量',
+  //   value: 'wifi-best'
+  // },
   {
     label: '高质量',
     value: 'best'

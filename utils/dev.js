@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 11:53:57
+ * @Last Modified time: 2020-05-27 11:27:37
  */
 import { DEV } from '@constants'
 
@@ -97,7 +97,5 @@ export function log(type = '', key = '', value = '', ...other) {
   if (key !== undefined) res.push('\n', key)
   if (value !== undefined) res.push('\n', value)
   if (other && other.length) res.push('\n', other)
-  res.push('\n', '|')
-
   console.info(...res)
 }

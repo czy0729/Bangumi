@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 04:09:16
+ * @Last Modified time: 2020-05-27 10:15:28
  */
 import { IOS, VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -26,7 +26,7 @@ export const INIT_SETTING = {
   itemShadow: false, // 首页收藏阴影
   heatMap: true, // 章节热力图
   ripple: false, // 点击水纹效果
-  imageTransition: true, // 图片渐出
+  imageTransition: false, // 图片渐出
   iosMenu: false, // iOS风格弹出菜单
   hideScore: false, // 隐藏他人评分
   cdn: true, // CDN加速

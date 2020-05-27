@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 21:57:38
+ * @Last Modified time: 2020-05-27 10:28:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -38,7 +38,7 @@ class Eps extends React.Component {
     width: 0
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { layoutWidth, marginRight } = this.props
     if (layoutWidth) {
       this.setState({

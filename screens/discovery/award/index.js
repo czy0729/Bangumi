@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 15:17:44
+ * @Last Modified time: 2020-05-27 10:56:29
  */
 import React from 'react'
-import { StyleSheet, View, WebView } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import WebView from '@components/@/web-view'
 import { StatusBarEvents, Loading, Text, UM } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'

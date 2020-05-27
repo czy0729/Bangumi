@@ -2,12 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-14 16:32:19
+ * @Last Modified time: 2020-05-27 10:55:25
  */
 import React from 'react'
-import { TouchableOpacity, Text, View, WebView, Platform } from 'react-native'
-import { _constructStyles, _getElementClassStyles } from 'react-native-render-html/src/HTMLStyles'
+import { TouchableOpacity, Text, View, Platform } from 'react-native'
+import {
+  _constructStyles,
+  _getElementClassStyles
+} from 'react-native-render-html/src/HTMLStyles'
 import HTMLImage from 'react-native-render-html/src/HTMLImage'
+import WebView from '@components/@/web-view'
 
 export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
   const style = _constructStyles({

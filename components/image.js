@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 16:39:22
+ * @Last Modified time: 2020-05-27 10:26:42
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -80,7 +80,7 @@ class Image extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
       this.cache(nextProps.src)
     }

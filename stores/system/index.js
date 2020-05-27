@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 04:04:58
+ * @Last Modified time: 2020-05-27 10:29:09
  */
-import { NetInfo } from 'react-native'
+// import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { info } from '@utils/ui'
@@ -67,13 +67,13 @@ class System extends store {
       NAMESPACE
     )
 
-    const res = NetInfo.getConnectionInfo()
-    const { type } = await res
-    if (type === 'wifi') {
-      this.setState({
-        wifi: true
-      })
-    }
+    // const res = NetInfo.getConnectionInfo()
+    // const { type } = await res
+    // if (type === 'wifi') {
+    //   this.setState({
+    //     wifi: true
+    //   })
+    // }
 
     // 检查新版本
     if (!DEV) {
@@ -82,7 +82,7 @@ class System extends store {
       }, 4000)
     }
 
-    return res
+    return true
   }
 
   // -------------------- get --------------------

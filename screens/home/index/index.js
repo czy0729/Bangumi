@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 17:52:10
+ * @Last Modified time: 2020-05-27 10:28:15
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
@@ -47,7 +47,7 @@ class Home extends React.Component {
     navigation: PropTypes.object
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { $, navigation } = this.context
 
     // App生命周期内保存首页的navigation引用

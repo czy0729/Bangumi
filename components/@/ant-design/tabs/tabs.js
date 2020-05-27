@@ -320,7 +320,7 @@ export class Tabs extends React.PureComponent {
     )
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.page !== nextProps.page && nextProps.page !== undefined) {
       this.goToTab(this.getTabIndex(nextProps), true)
     }

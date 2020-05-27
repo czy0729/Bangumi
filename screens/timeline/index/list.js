@@ -32,7 +32,7 @@ class List extends React.Component {
     hide: false
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.scope !== this.props.scope) {
       this.setState({
         hide: true

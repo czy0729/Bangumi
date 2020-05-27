@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-14 16:32:08
+ * @Last Modified time: 2020-05-27 10:28:10
  */
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
@@ -99,7 +99,7 @@ export default class HTML extends PureComponent {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.generateDefaultStyles()
   }
 
@@ -107,7 +107,7 @@ export default class HTML extends PureComponent {
     this.registerDOM()
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { html, uri, renderers } = this.props
 
     this.generateDefaultStyles(nextProps.baseFontStyle)

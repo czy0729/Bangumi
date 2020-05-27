@@ -29,7 +29,7 @@ class List extends React.Component {
     hide: false
   }
 
-  componentWillReceiveProps({ subjectType }) {
+  UNSAFE_componentWillReceiveProps({ subjectType }) {
     if (subjectType !== this.props.subjectType) {
       this.setState({
         hide: true

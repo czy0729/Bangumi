@@ -33,7 +33,7 @@ class Input extends React.Component {
     value: this.props.value
   }
 
-  componentWillReceiveProps({ value }) {
+  UNSAFE_componentWillReceiveProps({ value }) {
     this.setState({
       value
     })

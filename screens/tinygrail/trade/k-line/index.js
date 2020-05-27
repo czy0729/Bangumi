@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:56:58
+ * @Last Modified time: 2020-05-27 10:56:55
  */
 import React from 'react'
-import { StyleSheet, View, WebView } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
+import WebView from '@components/@/web-view'
 import { Loading, Text } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { observer } from '@utils/decorators'

@@ -67,7 +67,7 @@ class ListView extends React.Component {
     this.updateRefreshState(data)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { data } = nextProps
     this.updateRefreshState(data)
   }

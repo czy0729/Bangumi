@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 12:04:12
+ * @Last Modified time: 2020-05-27 11:27:09
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
-import { useScreens } from 'react-native-screens'
-import { DEV, HOST, HOST_2 } from '@constants'
+import * as ReactNativeScreens from 'react-native-screens'
+import { DEV, HOST, HOST_2, SDK } from '@constants'
 import { SUBJECT_CN } from '@constants/cn'
 import x from '@constants/18x'
 import { t } from './fetch'
@@ -20,22 +20,36 @@ const HOST_IMAGE = '//lain.bgm.tv'
  * 启动
  */
 export function bootApp() {
-  console.disableYellowBox = true
   global.log = globalLog
   global.warn = globalWarn
 
   /**
    * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
    */
-  useScreens()
+  if (SDK === 37) {
+    ReactNativeScreens.enableScreens()
+  } else {
+    ReactNativeScreens.useScreens()
+  }
 
-  if (!DEV) {
+  if (DEV) {
+    console.disableYellowBox = true
+
+    // 不想在开发刷新时看见满屏的不能解决的warning
+    const _warn = console.warn
+    console.warn = Function.prototype
+    setTimeout(() => {
+      console.warn = _warn
+    }, 2000)
+  } else {
     global.console = {
+      ...global.console,
       info: Function.prototype,
       log: Function.prototype,
       warn: Function.prototype,
       debug: Function.prototype,
-      error: Function.prototype
+      error: Function.prototype,
+      assert: Function.prototype
     }
   }
 }
@@ -50,7 +64,7 @@ export function x18(subjectId) {
     typeof subjectId === 'string'
       ? parseInt(subjectId.replace('/subject/', '')) in x
       : parseInt(subjectId) in x
-  if (DEV) console.log(subjectId, filter)
+  if (DEV && filter) console.log(subjectId, filter)
   return filter
 }
 
