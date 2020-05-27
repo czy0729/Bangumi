@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 17:44:20
+ * @Last Modified time: 2020-05-27 20:09:07
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,6 +14,7 @@ import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
+import { height } from './store'
 
 export default
 @observer
@@ -97,7 +98,7 @@ class List extends React.Component {
       MODEL_COLLECTION_STATUS.getValue(title)
     )
     if (!userCollections._loaded) {
-      return <Loading style={_.container._plain} />
+      return <Loading style={IOS ? _.container.bg : _.container._plain} />
     }
 
     const { list } = $.state
@@ -120,11 +121,13 @@ class List extends React.Component {
   }
 }
 
+const H_TOOLBAR = 42
 const styles = StyleSheet.create({
   androidWrap: {
     marginBottom: _.tabBarHeight - 1
   },
   contentContainerStyle: {
-    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
+    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight,
+    minHeight: _.window.height + height - _.tabBarHeight - H_TOOLBAR
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 22:21:39
+ * @Last Modified time: 2020-05-27 20:14:09
  */
 import React from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingTop: height + _.space * 2,
     paddingHorizontal: _.wind,
-    paddingBottom: _.bottom
+    minHeight: _.window.height + height - _.tabBarHeight
   },
   page: {
     minHeight: _.window.height - height

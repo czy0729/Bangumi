@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 17:27:13
+ * @Last Modified time: 2020-05-27 19:59:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -131,7 +131,7 @@ function ItemCollections({
                 <Stars style={_.mr.xs} value={score} color='warning' />
               )}
               <Text style={_.mr.sm} type='sub' size={13} numberOfLines={1}>
-                {hasScore && '/ '}
+                {hasScore && !!info.length && '/ '}
                 {info.join(' / ')}
               </Text>
             </Flex>

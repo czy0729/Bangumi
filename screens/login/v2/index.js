@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 20:28:40
+ * @Last Modified time: 2020-05-27 18:14:58
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
+import { Alert, View, KeyboardAvoidingView } from 'react-native'
 import { observer } from 'mobx-react'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
@@ -539,7 +539,7 @@ class LoginV2 extends React.Component {
   render() {
     const { clicked, focus } = this.state
     return (
-      <View style={this.styles.container}>
+      <KeyboardAvoidingView style={this.styles.container} behavior='padding'>
         <UM screen={title} />
         <StatusBarEvents backgroundColor={_.colorBg} />
         <StatusBarPlaceholder style={this.styles.gray} />
@@ -620,7 +620,7 @@ class LoginV2 extends React.Component {
           </Flex>
         )}
         <KeyboardSpacer />
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 

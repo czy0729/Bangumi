@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 17:58:24
+ * @Last Modified time: 2020-05-27 20:04:35
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -44,9 +44,11 @@ class User extends React.Component {
   offsetZeroNativeEvent
   loaded = {}
 
-  componentDidMount() {
+  async componentDidMount() {
     const { $ } = this.context
-    $.init()
+    await $.init()
+    const { page } = $.state
+    this.loaded[page] = true
 
     hm(`user/${$.myUserId}?route=user`, 'User')
   }
@@ -85,6 +87,7 @@ class User extends React.Component {
   onSelectSubjectType = title => {
     const { $ } = this.context
     $.onSelectSubjectType(title)
+    this.loaded = {}
 
     const { page } = $.state
     this.resetPageOffset(page)

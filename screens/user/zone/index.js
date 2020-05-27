@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 22:22:25
+ * @Last Modified time: 2020-05-27 20:12:17
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -43,9 +43,11 @@ class Zone extends React.Component {
   offsetZeroNativeEvent
   loaded = {}
 
-  componentDidMount() {
+  async componentDidMount() {
     const { $ } = this.context
-    $.init()
+    await $.init()
+    const { page } = $.state
+    this.loaded[page] = true
 
     hm(`user/${$.params.userId}?route=zone`, 'Zone')
   }

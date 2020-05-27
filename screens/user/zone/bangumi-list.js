@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 22:35:39
+ * @Last Modified time: 2020-05-27 20:13:33
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -110,7 +110,7 @@ class List extends React.Component {
 const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingHorizontal: _.wind - _._wind,
-    paddingBottom: height
+    minHeight: _.window.height + height - _.tabBarHeight
   },
   sectionHeader: {
     paddingHorizontal: _._wind
