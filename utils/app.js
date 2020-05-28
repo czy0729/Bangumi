@@ -26,7 +26,7 @@ export function bootApp() {
   /**
    * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
    */
-  if (SDK >= 37) {
+  if (SDK >= 36) {
     ReactNativeScreens.enableScreens()
   } else {
     ReactNativeScreens.useScreens()

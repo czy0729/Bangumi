@@ -183,5 +183,5 @@ export const CDN_DISCOVERY_HOME = (version = VERSION_STATIC) =>
  */
 export const CDN_AWARD = (year, version = VERSION_STATIC) =>
   `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/award/${year}${
-    SDK >= 37 ? '.expo' : ''
+    SDK >= 36 ? '.expo' : ''
   }.json`

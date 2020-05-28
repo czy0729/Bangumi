@@ -8,7 +8,7 @@ import { WebView } from 'react-native'
 import { SDK } from '@constants'
 
 let _WebView
-if (SDK >= 37) {
+if (SDK >= 36) {
   _WebView = require('react-native-webview').WebView
 } else {
   _WebView = WebView

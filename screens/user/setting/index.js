@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 14:32:18
+ * @Last Modified time: 2020-05-27 23:28:24
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -443,24 +443,26 @@ class Setting extends React.Component {
               highlight
               information='修改后图片CDN加速读取会失效, 不建议修改'
             />
-            <ItemSetting
-              border
-              hd='启动页'
-              ft={
-                <Popover
-                  data={MODEL_SETTING_INITIAL_PAGE.data.map(
-                    ({ label }) => label
-                  )}
-                  onSelect={this.setInitialPage}
-                >
-                  <Text size={16} type='sub'>
-                    {MODEL_SETTING_INITIAL_PAGE.getLabel(initialPage)}
-                  </Text>
-                </Popover>
-              }
-              arrow
-              highlight
-            />
+            {!userStore.isLimit && (
+              <ItemSetting
+                border
+                hd='启动页'
+                ft={
+                  <Popover
+                    data={MODEL_SETTING_INITIAL_PAGE.data.map(
+                      ({ label }) => label
+                    )}
+                    onSelect={this.setInitialPage}
+                  >
+                    <Text size={16} type='sub'>
+                      {MODEL_SETTING_INITIAL_PAGE.getLabel(initialPage)}
+                    </Text>
+                  </Popover>
+                }
+                arrow
+                highlight
+              />
+            )}
           </>
         )}
       </>

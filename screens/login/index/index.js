@@ -252,13 +252,13 @@ class Login extends React.Component {
       var __isBridgeOk = false;
       function waitForBridge() {
         if (!__isBridgeOk && window${
-          SDK >= 37 ? '.ReactNativeWebView' : ''
+          SDK >= 36 ? '.ReactNativeWebView' : ''
         }.postMessage.length !== 1) {
           setTimeout(waitForBridge, 200);
         } else {
           __isBridgeOk = true
           window${
-            SDK >= 37 ? '.ReactNativeWebView' : ''
+            SDK >= 36 ? '.ReactNativeWebView' : ''
           }.postMessage(JSON.stringify({
             type: 'onload',
             data: {

@@ -18,7 +18,7 @@ export const injectedStaticJavaScript = HTMLTrim(`(function(){
 
     function waitForBridge() {
       if (!__isBridgeOk && window${
-        SDK >= 37 ? '.ReactNativeWebView' : ''
+        SDK >= 36 ? '.ReactNativeWebView' : ''
       }.postMessage.length !== 1) {
         __timeoutId = setTimeout(waitForBridge, 400);
       } else {
@@ -36,7 +36,7 @@ export const injectedStaticJavaScript = HTMLTrim(`(function(){
               aNodes[i].removeAttribute("href");
               aNodes[i].addEventListener("click", function () {
                 window${
-                  SDK >= 37 ? '.ReactNativeWebView' : ''
+                  SDK >= 36 ? '.ReactNativeWebView' : ''
                 }.postMessage(JSON.stringify({
                   type: "onclick",
                   data: {

@@ -2000,7 +2000,7 @@ class Tinygrail extends store {
   }
 
   updateWebViewShow = show => {
-    if (SDK >= 37) {
+    if (SDK >= 36) {
       this.setState({
         _webview: true
       })
