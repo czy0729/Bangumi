@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-28 00:55:33
+ * @Last Modified time: 2020-05-28 19:37:01
  */
 import { Platform } from 'react-native'
 
@@ -16,7 +16,7 @@ export const BUNDLE_IDENTIFIER = appJson.name
 
 export const DEV = false // 是否开发模式
 export const BARE = true // 裸工作流
-export const VERSION_GITHUB_RELEASE = '3.5.2' // 版本号
+export const VERSION_GITHUB_RELEASE = '3.5.3' // 版本号
 export const VERSION_TINYGRAIL_PLUGIN = '2.3.1'
 export const VERSION_CODE_PUSH = '' // 热推送副版本号
 export const ERRORS = {

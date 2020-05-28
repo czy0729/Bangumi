@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 16:22:29
+ * @Last Modified time: 2020-05-28 19:21:11
  */
 import React from 'react'
 import {
@@ -280,7 +280,7 @@ class ListView extends React.Component {
       case RefreshState.FooterRefreshing:
         footer = footerRefreshingComponent || (
           <Flex
-            style={[this.styles.footerNoMore, _.container.wind]}
+            style={this.styles.footerNoMore}
             justify='center'
             direction='column'
           >
@@ -294,7 +294,7 @@ class ListView extends React.Component {
       case RefreshState.NoMoreData:
         footer = footerNoMoreDataComponent || (
           <Flex
-            style={[this.styles.footerNoMore, _.container.wind]}
+            style={this.styles.footerNoMore}
             justify='center'
             direction='column'
           >
