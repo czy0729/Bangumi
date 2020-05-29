@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-28 19:37:01
+ * @Last Modified time: 2020-05-29 15:04:43
  */
 import { Platform } from 'react-native'
 
@@ -16,7 +16,7 @@ export const BUNDLE_IDENTIFIER = appJson.name
 
 export const DEV = false // 是否开发模式
 export const BARE = true // 裸工作流
-export const VERSION_GITHUB_RELEASE = '3.5.3' // 版本号
+export const VERSION_GITHUB_RELEASE = '3.5.4' // 版本号
 export const VERSION_TINYGRAIL_PLUGIN = '2.3.1'
 export const VERSION_CODE_PUSH = '' // 热推送副版本号
 export const ERRORS = {
@@ -37,6 +37,7 @@ export const HOST_ANITAMA = 'https://app.anitama.net' // Anitama api地址
 export const URL_OAUTH = `${HOST}/oauth/authorize` // 登陆v1.0 oauth地址
 export const URL_OAUTH_REDIRECT = `${HOST}/dev/app` // 登陆v1.0 授权跳转地址
 export const URL_FEEDBACK = `${HOST}/group/topic/350677` // bgm项目帖子地址
+export const URL_DEFAULT_AVATAR = '/icon.jpg'
 
 // APP
 export const APP_ID = 'bgm8885c4d524cd61fc' // client_id

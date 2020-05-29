@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 12:10:12
+ * @Last Modified time: 2020-05-29 14:02:18
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, timelineStore } from '@stores'
 import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
+import { URL_DEFAULT_AVATAR } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 
 export const tabs = MODEL_TIMELINE_TYPE.data.map(item => ({
@@ -62,6 +63,10 @@ export default class ScreenTimeline extends store {
       const timeline = timelineStore.timeline(scope, type)
       if (userStore.isLimit) {
         const list = timeline.list.filter(item => {
+          if (item.avatar && item.avatar.src.includes(URL_DEFAULT_AVATAR)) {
+            return false
+          }
+
           if (item.p3 && item.p3.url && item.p3.url.length && item.p3.url[0]) {
             const url = String(item.p3.url[0])
             if (url.match(/\/subject\/\d+/)) {

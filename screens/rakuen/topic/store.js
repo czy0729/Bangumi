@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 14:51:24
+ * @Last Modified time: 2020-05-29 14:34:53
  */
 import { observable, computed } from 'mobx'
 import {
@@ -14,13 +14,13 @@ import {
   userStore,
   usersStore
 } from '@stores'
-import { IOS, HOST } from '@constants'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
 import { info } from '@utils/ui'
 import { t, baiduTranslate } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
+import { IOS, HOST, URL_DEFAULT_AVATAR } from '@constants'
 
 const namespace = 'ScreenTopic'
 const excludeState = {
@@ -142,8 +142,25 @@ export default class ScreenTopic extends store {
   @computed get comments() {
     const comments = rakuenStore.comments(this.topicId)
     const { filterMe, filterFriends, reverse } = this.state
-
     const list = reverse ? comments.list.reverse() : comments.list
+
+    // 排除没有头像用户的留言
+    if (this.isLimit) {
+      return {
+        ...comments,
+        list: list
+          .filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
+          .map(item => ({
+            ...item,
+            sub: item.sub.filter(i => !i.avatar.includes(URL_DEFAULT_AVATAR))
+          })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        }
+      }
+    }
+
     if (filterMe) {
       return {
         ...comments,
@@ -256,6 +273,10 @@ export default class ScreenTopic extends store {
 
   @computed get setting() {
     return rakuenStore.setting
+  }
+
+  @computed get isLimit() {
+    return userStore.isLimit
   }
 
   // -------------------- get: cdn fallback --------------------

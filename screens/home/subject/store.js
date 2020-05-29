@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 15:20:36
+ * @Last Modified time: 2020-05-29 14:16:40
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -27,7 +27,7 @@ import {
 } from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
-import { HOST, HOST_NING_MOE } from '@constants'
+import { HOST, HOST_NING_MOE, URL_DEFAULT_AVATAR } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { NINGMOE_ID } from '@constants/online'
@@ -309,7 +309,16 @@ export default class ScreenSubject extends store {
    * 条目留言
    */
   @computed get subjectComments() {
-    return subjectStore.subjectComments(this.subjectId)
+    const subjectComments = subjectStore.subjectComments(this.subjectId)
+    if (userStore.isLimit) {
+      return {
+        ...subjectComments,
+        list: subjectComments.list.filter(
+          item => !item.avatar.includes(URL_DEFAULT_AVATAR)
+        )
+      }
+    }
+    return subjectComments
   }
 
   /**

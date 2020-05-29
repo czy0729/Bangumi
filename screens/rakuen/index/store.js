@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 14:59:12
+ * @Last Modified time: 2020-05-29 14:02:57
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -15,7 +15,7 @@ import { _, systemStore, rakuenStore, userStore, tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { LIMIT_TOPIC_PUSH } from '@constants'
+import { URL_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE,
@@ -117,6 +117,10 @@ export default class ScreenRakuen extends store {
         return {
           ...rakuen,
           list: rakuen.list.filter(item => {
+            if (item.avatar.includes(URL_DEFAULT_AVATAR)) {
+              return false
+            }
+
             const group = String(item.group).toLocaleLowerCase()
             return !['gal', '性', '癖', '里番'].some(i => group.includes(i))
           })

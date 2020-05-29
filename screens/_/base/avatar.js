@@ -3,16 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 18:36:29
+ * @Last Modified time: 2020-05-29 14:37:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
-import { _, systemStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
+import { IOS, URL_DEFAULT_AVATAR, IMG_DEFAULT } from '@constants'
 import { HOST_CDN, CDN_OSS_AVATAR } from '@constants/cdn'
 
 function Avatar({
@@ -31,9 +31,13 @@ function Avatar({
   const styles = memoStyles()
   const { dev } = systemStore.state
   const { cdn, avatarRound } = systemStore.setting
-  const _src = cdn
+  let _src = cdn
     ? CDN_OSS_AVATAR(getCoverMedium(src, true))
     : getCoverMedium(src, true)
+  if (userStore.isLimit && _src.includes(URL_DEFAULT_AVATAR)) {
+    _src = IMG_DEFAULT
+  }
+
   const radius = avatarRound ? size / 2 : true
   const _onPress = () => {
     if (onPress) {

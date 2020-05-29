@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:21:03
+ * @Last Modified time: 2020-05-29 14:09:37
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -11,13 +11,17 @@ import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { SectionTitle, Avatar, Stars } from '@screens/_'
 import { _ } from '@stores'
+import { URL_DEFAULT_AVATAR } from '@constants'
 
 function Recent({ style }, { $, navigation }) {
   const { who } = $.subjectFormHTML
-  if (!who || !who.length) {
+  let _who = who || []
+  if ($.isLimit) {
+    _who = _who.filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
+  }
+  if (!_who.length) {
     return null
   }
-
   return (
     <View style={style}>
       <SectionTitle style={_.container.wind}>动态</SectionTitle>
@@ -27,7 +31,7 @@ function Recent({ style }, { $, navigation }) {
         horizontal
         showsHorizontalScrollIndicator={false}
       >
-        {who.map(item => (
+        {_who.map(item => (
           <Flex key={item.userId} style={styles.item}>
             <Avatar
               navigation={navigation}

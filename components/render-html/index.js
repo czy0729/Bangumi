@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 17:55:26
+ * @Last Modified time: 2020-05-29 14:50:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { open } from '@utils'
 import { cheerio } from '@utils/html'
 import HTML from '../@/react-native-render-html'
@@ -226,13 +226,18 @@ class RenderHtml extends React.Component {
         if (alt) {
           // bgm偏移量24
           const index = parseInt(alt.replace(/\(bgm|\)/g, '')) - 24
+
+          // 限制用户不显示bgm表情
+          if (userStore.isLimit) {
+            return alt
+          }
+
           if (bgmMap[index]) {
-            return `<span style="font-family:bgm;font-size:${baseFontStyle.fontSize ||
-              this.defaultBaseFontStyle
-                .fontSize}px;line-height:${baseFontStyle.lineHeight ||
-              this.defaultBaseFontStyle.lineHeight}px;user-select:all">${
-              bgmMap[index]
-            }</span>`
+            return `<span style="font-family:bgm;font-size:${
+              baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
+            }px;line-height:${
+              baseFontStyle.lineHeight || this.defaultBaseFontStyle.lineHeight
+            }px;user-select:all">${bgmMap[index]}</span>`
           }
           return alt
         }
