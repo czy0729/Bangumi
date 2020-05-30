@@ -21,8 +21,8 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 [安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642)
 
-苹果好难审, 短时间内都没办法通过, 会跟苹果做长久作战. 目前有方法可以试用, 不会太复杂
-[TestFlight] | [[iOS 试用方法]](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
+苹果好难审, 短时间内都没办法通过, 会跟苹果做长久作战.
+[TestFlight](https://testflight.apple.com/join/pAaJ0MWU) | [Expo 试用方法](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD)
 
 ## Features
 
@@ -90,25 +90,15 @@ v3.5.0 - 2020/05/24
 
 单独预览 [日间模式](https://github.com/czy0729/Bangumi/blob/master/web/LIGHT-MODE.MD) | [黑暗模式](https://github.com/czy0729/Bangumi/blob/master/web/DARK-MODE.MD)
 
-#### 展示用
-
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-1.jpg" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-1.jpg" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.jpg" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-2.jpg" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.jpg" width="280px" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/preview-3.jpg" />
-
 #### 基础功能
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/1.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/1.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/d-2.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/d-2.png" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/new/0001.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/new/0001.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/new/0002.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/new/0002.png" />
 
 #### 小圣杯模块
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-1.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-1.png" />
 
 (被墙看不见图的可以复制 alt 打开)
-
-## Demo
-
-[若要在线预览, 请先安装 expo app](https://expo.io/tools)
-
-[expo 项目主页](https://expo.io/@bangumi-ios-test/bangumi)
 
 ## Getting Started
 
