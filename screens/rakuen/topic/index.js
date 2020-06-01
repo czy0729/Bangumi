@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 11:14:30
+ * @Last Modified time: 2020-06-01 17:03:59
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -189,15 +189,17 @@ class Topic extends React.Component {
     const { $ } = this.context
     const { list } = $.comments
     info(list[index].floor, 0.8)
-    try {
-      this.listView.scrollToIndex({
-        animated: false,
-        index,
-        viewOffset: 0
-      })
-    } catch (error) {
-      warn('topic/index.js', 'scrollTo', error)
-    }
+    InteractionManager.runAfterInteractions(() => {
+      try {
+        this.listView.scrollToIndex({
+          animated: false,
+          index,
+          viewOffset: 0
+        })
+      } catch (error) {
+        warn('topic/index.js', 'scrollTo', error)
+      }
+    })
   }
 
   scrollToThenFeedback = (index = 0) => {
@@ -322,9 +324,9 @@ class Topic extends React.Component {
           keyExtractor={keyExtractor}
           data={$.comments}
           scrollEventThrottle={16}
-          initialNumToRender={50}
-          windowSize={6}
-          maxToRenderPerBatch={20}
+          initialNumToRender={100}
+          windowSize={12}
+          maxToRenderPerBatch={40}
           removeClippedSubviews={false}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}

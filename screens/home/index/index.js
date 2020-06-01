@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 10:28:15
+ * @Last Modified time: 2020-06-01 16:36:26
  */
 import React from 'react'
+import { BackHandler } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
 import {
@@ -16,6 +17,7 @@ import {
   SafeAreaView
 } from '@screens/_'
 import { _, userStore } from '@stores'
+import { info } from '@utils/ui'
 import { navigationReference } from '@utils/app'
 import { inject, withTabsHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
@@ -77,6 +79,25 @@ class Home extends React.Component {
       })
       hm(`?id=${id}`, 'Home')
     }, 6400)
+
+    BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+  }
+
+  onBackAndroid = () => {
+    const { navigation } = this.context
+    if (navigation.isFocused()) {
+      if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+        BackHandler.exitApp()
+      }
+      this.lastBackPressed = Date.now()
+      info('再按一次退出应用')
+      return true
+    }
+    return false
   }
 
   onWillFocus = () => {

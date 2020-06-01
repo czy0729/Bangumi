@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-23 12:16:23
+ * @Last Modified time: 2020-06-01 16:32:17
  */
-import { Alert } from 'react-native'
+import { Alert, ToastAndroid } from 'react-native'
 import { Toast } from '@ant-design/react-native'
 import ActionSheet from '@components/@/ant-design/action-sheet'
+import { IOS } from '@constants'
 
 /**
  * 确定框
@@ -45,7 +46,11 @@ export function info(
   onClose = Function.prototype,
   mask = false
 ) {
-  Toast.info(content, duration, onClose, mask)
+  if (IOS) {
+    Toast.info(content, duration, onClose, mask)
+  } else {
+    ToastAndroid.show(content, ToastAndroid.SHORT)
+  }
 }
 
 /**

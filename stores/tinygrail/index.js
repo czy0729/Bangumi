@@ -3,8 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 15:00:20
+ * @Last Modified time: 2020-06-01 17:08:05
  */
+import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
 import store from '@utils/store'
@@ -13,7 +14,7 @@ import { log } from '@utils/dev'
 import { queue, xhrCustom } from '@utils/fetch'
 import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
-import { SDK, LIST_EMPTY } from '@constants'
+import { SDK, IOS, LIST_EMPTY } from '@constants'
 import {
   API_TINYGRAIL_ASK,
   API_TINYGRAIL_ASSETS,
@@ -79,7 +80,7 @@ const defaultSort = '1/50'
 function _info(message) {
   info(message, 0.4)
 }
-const throttleInfo = throttle(_info, 400)
+const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT)
 const paginationOnePage = {
   page: 1,
   pageTotal: 1
