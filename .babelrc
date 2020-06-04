@@ -7,6 +7,8 @@
       "module-resolver",
       {
         "alias": {
+          "@": "./",
+          "@comp": "./src/components",
           "@assets": "./assets",
           "@bgm": "./assets/images/bgm",
           "@components": "./components",
