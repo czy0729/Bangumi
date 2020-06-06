@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 18:56:32
+ * @Last Modified time: 2020-06-06 16:35:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const imageWidth = _.isPad ? 88 : 80
+const imageWidth = 80
 const itemPadding = 12
 const layoutWidth = parseInt(_.window.width - _.wind * 2 - itemPadding) - 1
 const colorDark = {

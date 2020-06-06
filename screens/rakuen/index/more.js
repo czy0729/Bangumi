@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 16:12:36
+ * @Last Modified time: 2020-06-06 16:26:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import { IOS } from '@constants'
 import { HTML_NEW_TOPIC } from '@constants/html'
 import { _ } from '@stores'
 
-const data = ['本地帖子', '设置', '新讨论', '社区指导原则']
+const data = ['本地帖子', '设置', '新讨论']
 
 function More({ style, navigation }) {
   return (
@@ -32,15 +32,19 @@ function More({ style, navigation }) {
             case '本地帖子':
               navigation.push('RakuenHistory')
               break
+
             case '设置':
               navigation.push('RakuenSetting')
               break
+
             case '新讨论':
               open(HTML_NEW_TOPIC())
               break
-            case '社区指导原则':
-              navigation.push('UGCAgree')
-              break
+
+            // case '社区指导原则':
+            //   navigation.push('UGCAgree')
+            //   break
+
             default:
               break
           }

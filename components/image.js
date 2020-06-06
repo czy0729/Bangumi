@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 17:11:53
+ * @Last Modified time: 2020-06-06 16:34:37
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -302,10 +302,7 @@ class Image extends React.Component {
       })
     }
 
-    /**
-     * @todo 全局hairlineWidth宽border已不显示
-     */
-    if (border && borderWidth !== _.hairlineWidth) {
+    if (border) {
       if (typeof border === 'string') {
         _image.push({
           borderWidth,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 15:15:28
+ * @Last Modified time: 2020-06-06 16:28:15
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -296,7 +296,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   form: {
-    width: 320,
+    width: 300,
     paddingBottom: 82
   },
   input: {

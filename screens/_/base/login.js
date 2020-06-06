@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-20 22:29:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 22:16:48
+ * @Last Modified time: 2020-06-06 16:25:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,9 +11,9 @@ import { observer } from 'mobx-react'
 import { Text, Button } from '@components'
 import { _ } from '@stores'
 
-function Login(props, { navigation }) {
+function Login({ style }, { navigation }) {
   return (
-    <View style={[_.container.column, _.container._plain]}>
+    <View style={[_.container.column, _.container._plain, style]}>
       <Text type='sub' size={16}>
         cookie已过期
       </Text>

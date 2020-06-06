@@ -1,14 +1,11 @@
 {
   "presets": ["babel-preset-expo"],
   "plugins": [
-    // ["@babel/plugin-proposal-decorators", { "legacy": true }],
-    // ["@babel/plugin-proposal-class-properties", { "loose": true }],
     [
       "module-resolver",
       {
         "alias": {
           "@": "./",
-          "@comp": "./src/components",
           "@assets": "./assets",
           "@bgm": "./assets/images/bgm",
           "@components": "./components",

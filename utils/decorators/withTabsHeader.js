@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 00:38:50
+ * @Last Modified time: 2020-06-06 16:15:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import Constants from 'expo-constants'
 import { StatusBarEvents, UM } from '@components'
 import { BlurView, Logo } from '@screens/_'
 import { _ } from '@stores'
@@ -145,13 +146,15 @@ withTabsHeader.tabBarStyle = IOS
     }
 
 // (4) ListView设置参数
+const tabsHeaderHeight =
+  Constants.statusBarHeight + _.appBarHeight + _.tabsHeight - correctHeightIOS
 withTabsHeader.listViewProps = IOS
   ? {
       contentInset: {
-        top: _.tabsHeaderHeight - correctHeightIOS
+        top: tabsHeaderHeight
       },
       contentOffset: {
-        y: -(_.tabsHeaderHeight - correctHeightIOS)
+        y: -tabsHeaderHeight
       }
     }
   : {}
