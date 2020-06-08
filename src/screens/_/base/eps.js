@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 10:28:14
+ * @Last Modified time: 2020-06-08 17:52:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -372,10 +372,10 @@ function getType(progress, status) {
 
   switch (status) {
     case 'Air':
-      return 'ghostPrimary'
+      return 'ghostPlain'
     case 'Today':
       return 'ghostSuccess'
     default:
-      return 'ghostPlain'
+      return 'disabled'
   }
 }

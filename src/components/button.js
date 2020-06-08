@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 16:29:55
+ * @Last Modified time: 2020-06-08 17:54:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -126,7 +126,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorWait
   },
   disabled: {
-    backgroundColor: _.select(_.colorDisabled, 'rgb(128, 128, 130)')
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
+    opacity: 0.4
   },
   bid: {
     backgroundColor: _.colorBid
@@ -152,9 +153,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: _.select(_.hairlineWidth, 0)
   },
   ghostPlain: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
-    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel2),
-    borderWidth: _.select(_.hairlineWidth, 0)
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
   },
 
   // size
@@ -191,7 +190,7 @@ const memoStyles = _.memoStyles(_ => ({
     color: _.__colorPlain__
   },
   textDisabled: {
-    color: _.__colorPlain__
+    color: _.colorSub
   },
   textBid: {
     color: _.__colorPlain__

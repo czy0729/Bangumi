@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import React from 'react'
 import {
   Animated,
@@ -95,7 +94,7 @@ class TabBarBottom extends React.Component<Props> {
               ? styles.labelBeside
               : styles.labelBeneath,
             {
-              fontSize: 12 + _.fontSizeAdjust
+              fontSize: 11 + _.fontSizeAdjust
             }
           ]}
           allowFontScaling={allowFontScaling}
@@ -290,8 +289,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   labelBeneath: {
-    fontSize: 11,
-    marginBottom: 1.5
+    fontSize: 11
   },
   labelBeside: {
     fontSize: 12,

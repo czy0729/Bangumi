@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-01 16:36:26
+ * @Last Modified time: 2020-06-08 19:32:06
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -124,7 +124,7 @@ class Home extends React.Component {
 
   get style() {
     if (IOS) {
-      return _.container.bg
+      return _.container.plain
     }
 
     const { $ } = this.context
