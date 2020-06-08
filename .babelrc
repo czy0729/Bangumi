@@ -6,14 +6,15 @@
       {
         "alias": {
           "@": "./",
-          "@assets": "./assets",
-          "@bgm": "./assets/images/bgm",
-          "@components": "./components",
-          "@constants": "./constants",
-          "@screens": "./screens",
-          "@stores": "./stores",
-          "@styles": "./styles",
-          "@utils": "./utils"
+          "@src": "./src",
+          "@assets": "./src/assets",
+          "@bgm": "./src/assets/images/bgm",
+          "@components": "./src/components",
+          "@constants": "./src/constants",
+          "@screens": "./src/screens",
+          "@stores": "./src/stores",
+          "@styles": "./src/styles",
+          "@utils": "./src/utils"
         }
       }
     ]

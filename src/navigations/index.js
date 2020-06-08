@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 15:19:37
+ * @Last Modified time: 2020-06-08 17:02:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,7 +91,7 @@ import {
 import { BlurView } from '@screens/_'
 import { IOS } from '@constants'
 import { _ } from '@stores'
-import navigationsParams, { initialHomeTabName } from '../navigations'
+import navigationsParams, { initialHomeTabName } from '../../navigations'
 import HomeScreen from './screens/home'
 import config from './stacks/config'
 

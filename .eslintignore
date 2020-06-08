@@ -1,3 +1,4 @@
 babel.config.js
 /components/@/*
 /node_modules
+/src/assets/*

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 00:16:00
+ * @Last Modified time: 2020-06-08 17:11:10
  */
 import { StyleSheet, InteractionManager } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -10,7 +10,7 @@ import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { DEV, IOS } from '@constants'
 import _ from '@styles'
-import { initialDevDark } from '../../navigations'
+import { initialDevDark } from '@/navigations'
 
 const NAMESPACE = 'Theme'
 const DEFAULT_MODE = 'light'

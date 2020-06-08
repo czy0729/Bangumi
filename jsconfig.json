@@ -6,19 +6,19 @@
     "baseUrl": "./",
     "paths": {
       "@comp": ["src/components/index.js"],
-      "@components": ["components/index.js"],
-      "@components/*": ["components/*"],
-      "@screens/_": ["screens/_/index.js"],
-      "@screens/_/*": ["screens/_/*"],
-      "@stores": ["stores/index.js"],
-      "@stores/*": ["stores/*"],
-      "@utils": ["utils/index.js"],
-      "@utils/decorators": ["utils/decorators/index.js"],
-      "@utils/hooks": ["utils/hooks/index.js"],
-      "@utils/*": ["utils/*"],
-      "@constants": ["constants/index.js"],
-      "@constants/*": ["constants/*"]
+      "@components": ["src/components/index.js"],
+      "@components/*": ["src/components/*"],
+      "@screens/_": ["src/screens/_/index.js"],
+      "@screens/_/*": ["src/screens/_/*"],
+      "@stores": ["src/stores/index.js"],
+      "@stores/*": ["src/stores/*"],
+      "@utils": ["src/utils/index.js"],
+      "@utils/decorators": ["src/utils/decorators/index.js"],
+      "@utils/hooks": ["src/utils/hooks/index.js"],
+      "@utils/*": ["src/utils/*"],
+      "@constants": ["src/constants/index.js"],
+      "@constants/*": ["src/constants/*"]
     }
   },
-  "exclude": ["node_modules", "dist", "android", "assets", "web"]
+  "exclude": ["node_modules", "dist", "android", "src/assets", "web"]
 }

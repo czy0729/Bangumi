@@ -8,9 +8,9 @@
     "version": "3.5.4",
     "orientation": "portrait",
     "scheme": "bangumi",
-    "icon": "./assets/images/icon.png",
+    "icon": "./src/assets/images/icon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -27,7 +27,7 @@
       "package": "com.czy0729.bangumi",
       "versionCode": 354,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/foreground.png",
+        "foregroundImage": "./src/assets/images/foreground.png",
         "backgroundColor": "#000000"
       }
     },

@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-03 14:52:41
+ * @Last Modified time: 2020-06-08 17:04:59
  */
 import { Platform } from 'react-native'
 
-const appJson = require('../app.json')
+const appJson = require('@/app.json')
 
 /* ==================== DEV ==================== */
 export const SDK = parseInt(appJson.expo.sdkVersion.split(',')[0]) // 打包apk和bangumi-ios-test线上expo使用35, 打包ipa提审需至少使用37

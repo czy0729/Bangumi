@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-06 14:53:12
+ * @Last Modified time: 2020-06-08 17:06:00
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import Stores, { _ } from '@stores'
 import { bootApp } from '@utils/app'
 import { useBoolean } from '@utils/hooks'
 import theme from '@styles/theme'
-import Navigations from './navigations/index'
+import Navigations from './src/navigations/index'
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
@@ -40,7 +40,7 @@ function useCachedResources() {
         SplashScreen.preventAutoHideAsync()
         bootApp()
         await Font.loadAsync({
-          bgm: require('./assets/fonts/AppleColorEmoji.ttf')
+          bgm: require('@assets/fonts/AppleColorEmoji.ttf')
         })
         await Stores.init()
       } catch (e) {
