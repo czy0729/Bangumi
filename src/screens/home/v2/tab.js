@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-03 14:30:33
+ * @Last Modified time: 2020-06-09 17:34:46
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -79,7 +79,11 @@ function Icons(props, { $ }) {
           pressOpacity={1}
           pressColor='transparent'
           scrollEnabled
-          renderLabel={({ route }) => <Text type='title'>{route.title}</Text>}
+          renderLabel={({ route, focused }) => (
+            <Text type='title' bold={focused}>
+              {route.title}
+            </Text>
+          )}
         />
       )}
       renderScene={renderScene}
@@ -106,11 +110,17 @@ const memoStyles = _.memoStyles(_ => ({
     height: _.headerHeight + H_TABBAR
   },
   tabBar: {
-    paddingTop: _.headerHeight - 24,
-    backgroundColor: IOS ? 'transparent' : _.colorPlain
+    paddingTop: _.headerHeight - (IOS ? 18 : 24),
+    backgroundColor: IOS
+      ? 'transparent'
+      : _.select(_.colorPlain, _._colorDarkModeLevel1),
+    borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
+    borderBottomColor: _.colorBorder,
+    elevation: 0
   },
   tab: {
-    width: W_TAB
+    width: W_TAB,
+    height: 48
   },
   label: {
     padding: 0

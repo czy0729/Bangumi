@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-06 16:28:26
+ * @Last Modified time: 2020-06-09 17:13:10
  */
 import React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Button, Mesume } from '@components'
 import { _ } from '@stores'
 
 function Preview({ onLogin, onTour }) {
-  const styles = memoStyles()
   return (
-    <View style={[_.container.column, styles.gray]}>
+    <View style={_.container.column}>
       <Mesume />
       <View style={[styles.bottomContainer, _.mt.lg]}>
         <Button type='main' shadow onPress={onLogin}>
@@ -34,12 +33,9 @@ Preview.defaultProps = {
 
 export default observer(Preview)
 
-const memoStyles = _.memoStyles(_ => ({
-  gray: {
-    backgroundColor: _.colorBg
-  },
+const styles = StyleSheet.create({
   bottomContainer: {
     width: 300,
-    height: 350
+    height: 400
   }
-}))
+})

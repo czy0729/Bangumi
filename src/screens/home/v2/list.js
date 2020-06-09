@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-02 22:30:17
+ * @Last Modified time: 2020-06-08 21:22:58
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -61,8 +61,6 @@ const styles = StyleSheet.create({
     marginBottom: _.tabBarHeight - 1
   },
   contentContainerStyle: {
-    paddingHorizontal: _.wind,
-    paddingTop: _.space,
     paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
   }
 })

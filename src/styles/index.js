@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 19:35:59
+ * @Last Modified time: 2020-06-09 16:53:21
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -19,7 +19,7 @@ export const window = {
 }
 export const logoWidth = 124 // logo宽度
 export const isPad = width > 616
-export const statusBarHeight = Math.max(44, Constants.statusBarHeight)
+export const statusBarHeight = Constants.statusBarHeight
 export const appBarHeight = IOS ? 44 : 56 // 单独头部高度
 export const headerHeight = appBarHeight + statusBarHeight // 整个头部高度
 export const tabsHeight = 42 // 标签页的标签栏高度
@@ -58,7 +58,7 @@ export const colorMask = 'rgba(0, 0, 0, 0.5)'
 export const colorPlainHex = '#ffffff'
 export const colorYellow = 'rgb(255, 202, 40)'
 export const colorWait = 'rgb(200, 200, 200)'
-export const colorBg = 'rgb(244, 244, 244)'
+export const colorBg = 'rgb(243, 244, 245)'
 export const colorBorder = 'rgb(228, 228, 236)'
 
 export const colorTitle = 'rgb(0, 0, 0)'
@@ -84,7 +84,7 @@ export const _colorDarkModeLevel1Hex = '#3e3e40'
 export const _colorDarkModeLevel2 = 'rgb(88, 88, 90)'
 
 // 基础层
-export const _colorMain = 'rgb(248, 118, 154)'
+export const _colorMain = 'rgb(254, 138, 149)'
 export const _colorMainLight = 'rgb(59, 48 ,51)'
 export const _colorPrimary = 'rgb(35, 149, 233)'
 export const _colorSuccess = 'rgb(50, 209, 96)'

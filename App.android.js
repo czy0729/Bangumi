@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 11:24:47
+ * @Last Modified time: 2020-06-08 23:27:51
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -20,7 +20,7 @@ import { bootApp } from '@utils/app'
 import { observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import theme from '@styles/theme'
-import Navigations from './navigations/index'
+import Navigations from './src/navigations/index'
 
 bootApp()
 
@@ -46,7 +46,7 @@ class App extends React.Component {
     this.handleFinishLoading()
     Promise.all([
       Font.loadAsync({
-        bgm: require('./assets/fonts/AppleColorEmoji.ttf')
+        bgm: require('@assets/fonts/AppleColorEmoji.ttf')
       })
     ])
 

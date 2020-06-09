@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-02 22:15:58
+ * @Last Modified time: 2020-06-08 21:00:38
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'

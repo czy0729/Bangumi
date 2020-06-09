@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 21:15:52
+ * @Last Modified time: 2020-06-08 20:06:56
  */
 
 /**
@@ -33,6 +33,7 @@ export { default as SectionHeader } from './base/section-header'
 export { default as SectionTitle } from './base/section-title'
 export { default as StarGroup } from './base/star-group'
 export { default as Stars } from './base/stars'
+export { default as StatusBarEvents } from './base/status-bar-events'
 export { default as StatusBarPlaceholder } from './base/status-bar-placeholder'
 export { default as StatusBtnGroup } from './base/status-btn-group'
 export { default as StockPreview } from './base/stock-preview'

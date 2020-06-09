@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 19:54:46
+ * @Last Modified time: 2020-06-09 17:37:23
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
 import {
-  StatusBarEventsDefault,
+  StatusBarEvents,
   OptimizeTabbarTransition,
   IconTabBar,
   NavigationBarEvents,
@@ -105,35 +105,27 @@ class Home extends React.Component {
     if (IOS) {
       return _.container.bg
     }
-
-    const { $ } = this.context
-    return $.itemShadow ? _.container._bg : _.container.bg
+    return _.container._plain
   }
 
   render() {
     const { $ } = this.context
-    if (!$.isLogin) {
-      return (
-        <SafeAreaView style={this.style}>
-          <NavigationBarEvents />
-          <NavigationEvents onWillFocus={this.onWillFocus} />
-        </SafeAreaView>
-      )
-    }
-
     const { _loaded } = $.state
     return (
-      <SafeAreaView style={this.style}>
-        <StatusBarEventsDefault />
-        {_loaded && (
-          <OptimizeTabbarTransition>
-            <Header />
-            <Tab />
-            <Modal />
-          </OptimizeTabbarTransition>
-        )}
+      <>
+        {!$.isLogin && <NavigationEvents onWillFocus={this.onWillFocus} />}
+        <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
-      </SafeAreaView>
+        <SafeAreaView style={this.style}>
+          {_loaded && (
+            <OptimizeTabbarTransition>
+              <Header />
+              <Tab />
+              <Modal />
+            </OptimizeTabbarTransition>
+          )}
+        </SafeAreaView>
+      </>
     )
   }
 }

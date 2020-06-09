@@ -46,6 +46,7 @@
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
     "react-native-splash-screen": "^3.2.0",
+    "react-native-tab-view": "2.14.2",
     "react-native-unimodules": "~0.9.0",
     "react-native-web": "~0.11.7",
     "react-native-webview": "^9.4.0",

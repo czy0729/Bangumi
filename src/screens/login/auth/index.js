@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-06 16:25:48
+ * @Last Modified time: 2020-06-09 17:41:20
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
 import { Flex, StatusBarEvents, Button, UM } from '@components'
-import { SafeAreaView, IconTouchable, IconTabBar } from '@screens/_'
+import { StatusBarPlaceholder, IconTouchable, IconTabBar } from '@screens/_'
 import { _, userStore } from '@stores'
 import { hm } from '@utils/fetch'
 
@@ -41,7 +41,8 @@ class Auth extends React.Component {
             }
           }}
         />
-        <SafeAreaView forceInset={null}>
+        <View style={_.container.plain}>
+          <StatusBarPlaceholder />
           <Flex style={styles.toolbar}>
             <Flex.Item>
               <IconTouchable
@@ -73,7 +74,7 @@ class Auth extends React.Component {
               登陆管理进度
             </Button>
           </Flex>
-        </SafeAreaView>
+        </View>
       </>
     )
   }
@@ -81,11 +82,11 @@ class Auth extends React.Component {
 
 const styles = StyleSheet.create({
   toolbar: {
-    paddingHorizontal: _.sm
+    padding: _.sm
   },
   btn: {
     width: 160,
     marginTop: _.md,
-    marginBottom: _.lg
+    marginBottom: 96
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-02 22:34:49
+ * @Last Modified time: 2020-06-08 23:35:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,9 +17,11 @@ import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const imageWidth = _.isPad ? 88 : 80
-const itemPadding = 12
-const layoutWidth = parseInt(_.window.width - _.wind * 2 - itemPadding) - 1
+const imgWidth = 88
+const imgHeight = 1.28 * imgWidth
+const itemPadding = _._wind
+const layoutWidth = _.window.contentWidth - _.wind
+const wrapWidth = layoutWidth - imgWidth - _.wind - itemPadding + 2
 const colorDark = {
   color: _.colorDark
 }
@@ -60,7 +62,10 @@ class Item extends React.Component {
     const data = [
       {
         text: <Text style={colorDark}>全部展开</Text>,
-        onPress: $.expandAll
+        onPress: () =>
+          setTimeout(() => {
+            $.expandAll()
+          }, 40)
       },
       {
         text: <Text style={colorDark}>全部收起</Text>,
@@ -138,10 +143,6 @@ class Item extends React.Component {
   }
 
   renderToolBar() {
-    const { $ } = this.context
-    const { subjectId, subject } = this.props
-    const { expand } = $.$Item(subjectId)
-    const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
     return (
       <Flex style={this.styles.toolBar}>
         {this.renderBtnNextEp()}
@@ -151,18 +152,6 @@ class Item extends React.Component {
         >
           <Iconfont name='star' size={18} />
         </Touchable>
-        {!isBook && (
-          <Touchable
-            style={[this.styles.touchable, _.ml.sm]}
-            onPress={this.onGridPress}
-          >
-            <Iconfont
-              name={expand ? 'grid-full' : 'grid-half'}
-              size={18}
-              color={expand ? _.colorMain : _.colorIcon}
-            />
-          </Touchable>
-        )}
       </Flex>
     )
   }
@@ -170,11 +159,6 @@ class Item extends React.Component {
   renderCount() {
     const { $ } = this.context
     const { subjectId, subject, epStatus } = this.props
-    const { expand } = $.$Item(subjectId)
-    if (expand) {
-      return null
-    }
-
     const label = MODEL_SUBJECT_TYPE.getTitle(subject.type)
     if (label === '书籍') {
       const { list = [] } = $.userCollection
@@ -182,7 +166,7 @@ class Item extends React.Component {
         item => item.subject_id === subjectId
       )
       return (
-        <Flex style={_.mr.md} justify='end'>
+        <Flex>
           <Text type='primary' size={20}>
             <Text type='primary' size={12} lineHeight={20}>
               Chap.{' '}
@@ -190,7 +174,7 @@ class Item extends React.Component {
             {epStatus}
           </Text>
           {this.renderBookNextBtn(epStatus + 1, volStatus)}
-          <Text style={_.ml.md} type='primary' size={20}>
+          <Text style={_.ml.sm} type='primary' size={20}>
             <Text type='primary' size={12} lineHeight={20}>
               Vol.{' '}
             </Text>
@@ -201,14 +185,36 @@ class Item extends React.Component {
       )
     }
 
+    const { expand } = $.$Item(subjectId)
+    const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
+    let _epStatus = epStatus
+    if (!_epStatus) {
+      const userProgress = $.userProgress(subjectId)
+      _epStatus = Object.keys(userProgress).length ? 1 : 0
+    }
     return (
-      <Text type='primary' size={20}>
-        {epStatus || 1}
-        <Text type='sub' size={12} lineHeight={20}>
-          {' '}
-          / {subject.eps_count || '?'}
+      <Flex>
+        <Text type='primary' size={20}>
+          {epStatus || _epStatus}
+          <Text type='sub' size={13} lineHeight={20}>
+            {' '}
+            / {subject.eps_count || '?'}
+          </Text>
         </Text>
-      </Text>
+        {!isBook && (
+          <Iconfont
+            style={[
+              _.ml.xs,
+              {
+                marginTop: 2
+              }
+            ]}
+            name={expand ? 'down' : 'up'}
+            size={13}
+            color={_.colorIcon}
+          />
+        )}
+      </Flex>
     )
   }
 
@@ -238,29 +244,34 @@ class Item extends React.Component {
       : 0
     const onAir = $.onAir[subjectId] || {}
     const time = onAir.timeCN || onAir.timeJP || ''
+    const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
+    const doing = isBook ? '读' : '看'
     return (
       <View
         style={[
           this.styles.item,
-          $.heatMap && expand && this.styles.itemWithHeatMap,
-          $.itemShadow ? this.styles.itemShadow : this.styles.itemBorder
+          $.heatMap && expand && this.styles.itemWithHeatMap
         ]}
       >
         <Flex style={this.styles.hd}>
           <Cover
-            size={imageWidth}
             src={subject.images.medium}
+            size={imgWidth}
+            height={imgHeight}
             radius
-            border={_.colorBorder}
+            shadow
             onPress={this.onPress}
             onLongPress={this.onLongPress}
           />
           <Flex.Item style={this.styles.content}>
             <Touchable withoutFeedback onPress={this.onPress}>
               <Flex align='start'>
-                <Flex.Item style={this.styles.title}>
+                <Flex.Item>
                   <Text size={15} numberOfLines={1} bold>
                     {HTMLDecode(subject.name_cn || subject.name)}
+                  </Text>
+                  <Text style={_.mt.xs} type='sub' size={12}>
+                    {subject.collection.doing} 人在{doing}
                   </Text>
                 </Flex.Item>
                 {isToday ? (
@@ -275,20 +286,27 @@ class Item extends React.Component {
               </Flex>
             </Touchable>
             <View style={_.mt.md}>
-              <Flex>
+              <Flex style={this.styles.info}>
                 <Flex.Item>
-                  <Touchable
-                    style={this.styles.touchablePlaceholder}
-                    onPress={this.onGridPress}
-                  >
-                    {this.renderCount()}
-                  </Touchable>
+                  {isBook ? (
+                    <View style={this.styles.touchablePlaceholder}>
+                      {this.renderCount()}
+                    </View>
+                  ) : (
+                    <Touchable
+                      style={this.styles.touchablePlaceholder}
+                      onPress={this.onGridPress}
+                    >
+                      {this.renderCount()}
+                    </Touchable>
+                  )}
                 </Flex.Item>
                 {this.renderToolBar()}
               </Flex>
               <Progress
                 style={this.styles.progress}
                 barStyle={this.styles.bar}
+                wrapWidth={wrapWidth}
                 percent={percent}
               />
             </View>
@@ -323,36 +341,25 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingVertical: itemPadding,
     paddingLeft: itemPadding,
-    marginBottom: itemPadding,
-    backgroundColor: _.colorPlain,
-    borderRadius: _.radiusXs
+    backgroundColor: IOS ? _.colorPlain : 'transparent',
+    borderBottomWidth: 8,
+    borderBottomColor: _.colorBg
   },
   itemWithHeatMap: {
     paddingBottom: itemPadding + 4
   },
   itemBorder: {
-    borderWidth: _.hairlineWidth,
+    borderBottomWidth: _.hairlineWidth,
     borderColor: _.colorBorder
-  },
-  itemShadow: {
-    ...(IOS
-      ? {
-          shadowColor: _.colorShadow,
-          shadowOffset: {
-            height: 2
-          },
-          shadowOpacity: 0.08,
-          shadowRadius: 6
-        }
-      : {
-          elevation: 16
-        })
   },
   hd: {
     paddingRight: itemPadding
   },
   content: {
-    marginLeft: itemPadding
+    marginLeft: itemPadding - 2
+  },
+  info: {
+    height: 40
   },
   toolBar: {
     marginRight: -itemPadding / 2 - 3
@@ -365,21 +372,22 @@ const memoStyles = _.memoStyles(_ => ({
     marginBottom: -1
   },
   progress: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    borderRadius: 4
   },
   bar: {
     backgroundColor: 'transparent',
     borderBottomColor: _.colorPrimary,
-    borderBottomWidth: 2,
-    borderRadius: 2
+    borderBottomWidth: 4,
+    borderRadius: 4
   },
   eps: {
     marginTop: itemPadding
   },
   dot: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: 6,
+    right: 6,
     borderWidth: 8,
     borderTopColor: 'transparent',
     borderBottomColor: 'transparent',
@@ -392,7 +400,8 @@ const memoStyles = _.memoStyles(_ => ({
     ]
   },
   touchable: {
-    padding: _.sm
+    paddingLeft: _.sm,
+    paddingRight: _.sm + 2
   },
   placeholder: {
     marginBottom: -1.5

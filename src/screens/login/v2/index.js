@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-03 14:33:37
+ * @Last Modified time: 2020-06-09 17:25:21
  */
 import React from 'react'
 import { Alert, View, KeyboardAvoidingView } from 'react-native'
@@ -366,7 +366,7 @@ class LoginV2 extends React.Component {
    */
   getAccessToken = () => {
     this.setState({
-      info: '授权成功, 获取token中...(4/5), 持续时间过长可直接再次点击登陆重试'
+      info: '授权成功, 获取token中...(4/5)'
     })
 
     const { host } = this.state
@@ -540,9 +540,6 @@ class LoginV2 extends React.Component {
     const { clicked, focus } = this.state
     return (
       <>
-        <UM screen={title} />
-        <StatusBarEvents backgroundColor={_.colorBg} />
-        <StatusBarPlaceholder style={this.styles.gray} />
         <View style={_.container.flex}>
           {clicked ? this.renderForm() : this.renderPreview()}
         </View>
@@ -624,15 +621,16 @@ class LoginV2 extends React.Component {
   }
 
   render() {
-    if (IOS) {
-      return (
-        <KeyboardAvoidingView style={this.styles.container} behavior='padding'>
+    return (
+      <>
+        <UM screen={title} />
+        <StatusBarEvents backgroundColor={_.colorPlain} />
+        <StatusBarPlaceholder />
+        <KeyboardAvoidingView style={_.container.plain} behavior='padding'>
           {this.renderContent()}
         </KeyboardAvoidingView>
-      )
-    }
-
-    return <View style={this.styles.container}>{this.renderContent()}</View>
+      </>
+    )
   }
 
   get styles() {
@@ -641,14 +639,6 @@ class LoginV2 extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
-  container: {
-    flex: 1,
-    paddingBottom: _.lg,
-    backgroundColor: _.colorBg
-  },
-  gray: {
-    backgroundColor: _.colorBg
-  },
   old: {
     position: 'absolute',
     zIndex: 1,

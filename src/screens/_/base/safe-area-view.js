@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:09:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 11:01:18
+ * @Last Modified time: 2020-06-09 16:36:36
  */
 import React from 'react'
 import { SafeAreaView as RNSafeAreaView } from 'react-navigation'

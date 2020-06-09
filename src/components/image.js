@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-06 16:34:37
+ * @Last Modified time: 2020-06-08 22:32:29
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -302,7 +302,8 @@ class Image extends React.Component {
       })
     }
 
-    if (border) {
+    // 有影子就不要边框
+    if (border && !shadow) {
       if (typeof border === 'string') {
         _image.push({
           borderWidth,

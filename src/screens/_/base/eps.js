@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:19:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 17:52:03
+ * @Last Modified time: 2020-06-08 21:35:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -163,7 +163,7 @@ class Eps extends React.Component {
         key={item.id}
         style={{
           marginRight: _.isPad ? margin : isSide ? 0 : margin,
-          marginBottom: margin
+          marginBottom: margin + 4
         }}
         onLongPress={() => onLongPress(item)}
         {...popoverProps}
@@ -215,7 +215,7 @@ class Eps extends React.Component {
                 width,
                 height: width - 4, // 感觉短一点好看
                 marginRight: isSide ? 0 : margin,
-                marginBottom: margin
+                marginBottom: margin + 4
               }
             ]}
             justify='center'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 21:11:57
+ * @Last Modified time: 2020-06-08 20:57:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,13 +35,14 @@ class Notify extends React.Component {
   }
 
   render() {
-    const { navigation, event } = this.props
+    const { style, navigation, event } = this.props
     const hasNewNotify = !!rakuenStore.notify.unread
     const { hasNewPM } = userStore
     return (
       <View>
         {(hasNewNotify || hasNewPM) && <View style={this.styles.dot} />}
         <IconTabsHeader
+          style={style}
           name='mail'
           onPress={() => {
             if (userStore.isWebLogin) {

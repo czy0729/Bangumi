@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-03 14:27:50
+ * @Last Modified time: 2020-06-09 17:34:25
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -12,12 +12,13 @@ import { Logo, IconNotify, IconTinygrail, IconTabsHeader } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { IOS } from '@constants'
 
 const event = {
   id: '首页.跳转'
 }
 
-function Icons(props, { navigation }) {
+function Header(props, { navigation }) {
   return (
     <Flex style={styles.header}>
       <Flex style={styles.icons}>
@@ -53,20 +54,20 @@ function Icons(props, { navigation }) {
   )
 }
 
-Icons.contextTypes = {
+Header.contextTypes = {
   navigation: PropTypes.object
 }
 
-export default observer(Icons)
+export default observer(Header)
 
 const styles = StyleSheet.create({
   header: {
     position: 'absolute',
     zIndex: 3,
-    top: _.statusBarHeight,
+    top: _.statusBarHeight - (IOS ? 6 : -2),
     right: 0,
     left: 0,
-    paddingHorizontal: _._wind
+    paddingHorizontal: _.sm
   },
   logo: {
     width: '100%'

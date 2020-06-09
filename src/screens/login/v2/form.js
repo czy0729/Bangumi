@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-06 16:28:15
+ * @Last Modified time: 2020-06-09 17:11:37
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -264,7 +264,7 @@ class Form extends React.Component {
   render() {
     const { loading, onLogin } = this.props
     return (
-      <View style={[_.container.column, this.styles.gray]}>
+      <View style={_.container.column}>
         <View style={this.styles.form}>
           <Flex justify='center'>
             <Mesume />
@@ -292,21 +292,18 @@ class Form extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
-  gray: {
-    backgroundColor: _.colorBg
-  },
   form: {
     width: 300,
-    paddingBottom: 82
+    paddingBottom: 96
   },
   input: {
-    height: 44
+    height: 44,
+    backgroundColor: _.colorBg
   },
   captchaContainer: {
     width: 118,
     height: 44,
     marginLeft: _.sm,
-    backgroundColor: _.colorBg,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-06 16:32:18
+ * @Last Modified time: 2020-06-08 23:21:57
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -87,11 +87,6 @@ const memoStyles = _.memoStyles(_ => ({
   alignRight: {
     textAlign: 'right'
   },
-  // bold: IOS
-  //   ? {
-  //       fontWeight: 'bold'
-  //     }
-  //   : {},
   bold: {
     fontWeight: 'bold'
   },

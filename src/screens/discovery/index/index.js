@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 17:56:04
+ * @Last Modified time: 2020-06-09 17:19:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,34 +42,32 @@ class Discovery extends React.Component {
 
   ListHeaderComponent = (<Header />)
 
-  get style() {
-    return IOS ? _.container.bg : _.container._plain
-  }
-
   render() {
     const { $ } = this.context
     const { _loaded } = $.home
     return (
-      <View style={_.select(this.style, _.container._bg)}>
+      <>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
-        {_loaded ? (
-          <OptimizeTabbarTransition>
-            <ListView
-              style={IOS ? _.container.flex : this.styles.androidWrap}
-              contentContainerStyle={this.styles.contentContainerStyle}
-              keyExtractor={keyExtractor}
-              data={$.state.home}
-              ListHeaderComponent={this.ListHeaderComponent}
-              renderItem={renderItem}
-              onHeaderRefresh={$.init}
-              onFooterRefresh={$.fetchHome}
-            />
-          </OptimizeTabbarTransition>
-        ) : (
-          <Loading style={_.container.flex} />
-        )}
-      </View>
+        <View style={_.container.plain}>
+          {_loaded ? (
+            <OptimizeTabbarTransition>
+              <ListView
+                style={IOS ? _.container.flex : this.styles.androidWrap}
+                contentContainerStyle={this.styles.contentContainerStyle}
+                keyExtractor={keyExtractor}
+                data={$.state.home}
+                ListHeaderComponent={this.ListHeaderComponent}
+                renderItem={renderItem}
+                onHeaderRefresh={$.init}
+                onFooterRefresh={$.fetchHome}
+              />
+            </OptimizeTabbarTransition>
+          ) : (
+            <Loading style={_.container.flex} />
+          )}
+        </View>
+      </>
     )
   }
 

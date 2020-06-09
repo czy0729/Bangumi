@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:17:23
+ * @Last Modified time: 2020-06-08 22:32:11
  */
 import React from 'react'
 import { View } from 'react-native'
