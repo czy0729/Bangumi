@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 20:06:56
+ * @Last Modified time: 2020-06-10 11:10:32
  */
 
 /**
@@ -17,6 +17,7 @@ export { default as Characters } from './base/characters'
 export { default as Cover } from './base/cover'
 export { default as Eps } from './base/eps'
 export { default as FilterText } from './base/filter-text'
+export { default as Header } from './base/header'
 export { default as HeaderBackground } from './base/header-background'
 export { default as HorizontalList } from './base/horizontal-list'
 export { default as ListenClipboard } from './base/listen-clipboard'

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 18:55:49
+ * @Last Modified time: 2020-06-10 11:56:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,7 +72,7 @@ export default observer(Menu)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    width: _.window.width * 0.5,
+    width: parseInt(_.window.width * 0.5),
     maxWidth: 240,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
   },

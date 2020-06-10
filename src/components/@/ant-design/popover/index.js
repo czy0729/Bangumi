@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 02:53:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-04 02:54:54
+ * @Last Modified time: 2020-06-10 11:58:17
  */
 import React, { isValidElement } from 'react'
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -79,7 +79,7 @@ export default class Popover extends React.PureComponent {
     return (
       <ScrollView
         style={{
-          maxHeight: _.window.height * 0.48,
+          maxHeight: parseInt(_.window.height * 0.48),
           backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
         }}
       >

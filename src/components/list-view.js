@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-28 19:21:11
+ * @Last Modified time: 2020-06-10 11:58:08
  */
 import React from 'react'
 import {
@@ -378,7 +378,7 @@ class ListView extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: _.window.height * 0.24
+    minHeight: parseInt(_.window.height * 0.24)
   },
   footerContainer: {
     flex: 1,

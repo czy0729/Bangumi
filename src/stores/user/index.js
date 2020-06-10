@@ -5,13 +5,14 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 15:54:54
+ * @Last Modified time: 2020-06-10 12:20:35
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
+import { confirm } from '@utils/ui'
 import {
   IOS,
   HOST,
@@ -171,7 +172,7 @@ class User extends store {
       NAMESPACE
     )
 
-    if (this.isLogin) {
+    if (this.isWebLogin) {
       const { _loaded } = this.userInfo
 
       // 用户信息被动刷新, 距离上次4小时候后才请求
@@ -186,7 +187,6 @@ class User extends store {
         // do nothing
       }
     }
-
     return true
   }
 
@@ -654,9 +654,10 @@ class User extends store {
     const res = RakuenStore.fetchNotify()
     const raw = await res
     const HTML = HTMLTrim(raw)
-
     if (HTML.includes('抱歉，当前操作需要您')) {
-      this.updateUserCookie()
+      confirm('检测到登陆状态好像过期了, 是否登出?', () =>
+        this.updateUserCookie()
+      )
     } else {
       const matchLogout = HTML.match(/.tv\/logout(.+?)">登出<\/a>/)
       if (Array.isArray(matchLogout) && matchLogout[1]) {
@@ -665,7 +666,6 @@ class User extends store {
         })
       }
     }
-
     return res
   }
 

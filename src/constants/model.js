@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 10:11:30
+ * @Last Modified time: 2020-06-10 12:05:06
  */
 class Model {
   constructor(data) {
@@ -269,15 +269,15 @@ export const MODEL_RAKUEN_TYPE_GROUP = new Model([
     value: 'group'
   },
   {
-    label: '已加入', // 小组话题
+    label: '加入', // 小组话题
     value: 'my_group'
   },
   {
-    label: '发表的', // 我发表的话题
+    label: '发表', // 我发表的话题
     value: 'my_group&filter=topic'
   },
   {
-    label: '回复的', // 我回复的话题
+    label: '回复', // 我回复的话题
     value: 'my_group&filter=reply'
   }
 ])

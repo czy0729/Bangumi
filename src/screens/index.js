@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 19:55:09
+ * @Last Modified time: 2020-06-10 10:54:49
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -31,7 +31,7 @@ export { default as Tags } from './discovery/tags'
 export { default as Comic } from './reader/comic'
 
 // Timeline
-export { default as Timeline } from './timeline/index'
+export { default as Timeline } from './timeline/v2'
 export { default as Say } from './timeline/say'
 
 // Home
@@ -49,7 +49,7 @@ export { default as Blog } from './rakuen/blog'
 export { default as Group } from './rakuen/group'
 export { default as Notify } from './rakuen/notify'
 export { default as Mine } from './rakuen/mine'
-export { default as Rakuen } from './rakuen/index'
+export { default as Rakuen } from './rakuen/v2'
 export { default as RakuenHistory } from './rakuen/history'
 export { default as RakuenSetting } from './rakuen/setting'
 export { default as Topic } from './rakuen/topic'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-06 16:15:42
+ * @Last Modified time: 2020-06-10 11:57:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     width: _.window.width,
     height: _.tabsHeaderHeight,
     marginTop: -_.tabsHeight - correctHeightIOS,
-    marginLeft: -_.window.width * 0.5
+    marginLeft: -parseInt(_.window.width * 0.5)
   },
   headerTabsWrapIOS: {
     height: _.tabsHeight
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     width: _.window.width,
     transform: [
       {
-        translateX: _.window.width * -0.5 + _.logoWidth * 0.5
+        translateX: parseInt(_.window.width * -0.5 + _.logoWidth * 0.5)
       }
     ]
   }

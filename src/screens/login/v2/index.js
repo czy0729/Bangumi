@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 17:25:21
+ * @Last Modified time: 2020-06-09 21:00:44
  */
 import React from 'react'
 import { Alert, View, KeyboardAvoidingView } from 'react-native'
@@ -622,14 +622,12 @@ class LoginV2 extends React.Component {
 
   render() {
     return (
-      <>
+      <KeyboardAvoidingView style={_.container.plain} behavior='padding'>
         <UM screen={title} />
-        <StatusBarEvents backgroundColor={_.colorPlain} />
+        <StatusBarEvents backgroundColor='transparent' />
         <StatusBarPlaceholder />
-        <KeyboardAvoidingView style={_.container.plain} behavior='padding'>
-          {this.renderContent()}
-        </KeyboardAvoidingView>
-      </>
+        {this.renderContent()}
+      </KeyboardAvoidingView>
     )
   }
 

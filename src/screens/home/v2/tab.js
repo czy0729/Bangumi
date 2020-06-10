@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 17:34:46
+ * @Last Modified time: 2020-06-09 20:27:40
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -57,7 +57,7 @@ const renderScene = SceneMap({
   )
 })
 
-function Icons(props, { $ }) {
+function Tab(props, { $ }) {
   const styles = memoStyles()
   const { page } = $.state
   return (
@@ -92,23 +92,15 @@ function Icons(props, { $ }) {
   )
 }
 
-Icons.contextTypes = {
+Tab.contextTypes = {
   $: PropTypes.object
 }
 
-export default observer(Icons)
+export default observer(Tab)
 
 const W_TAB = _.window.width / 4
 const W_INDICATOR = 16
 const memoStyles = _.memoStyles(_ => ({
-  blurView: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    left: -_.window.width * 3,
-    right: 0,
-    height: _.headerHeight + H_TABBAR
-  },
   tabBar: {
     paddingTop: _.headerHeight - (IOS ? 18 : 24),
     backgroundColor: IOS

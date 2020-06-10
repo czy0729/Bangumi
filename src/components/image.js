@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 22:32:29
+ * @Last Modified time: 2020-06-10 12:11:36
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -302,8 +302,8 @@ class Image extends React.Component {
       })
     }
 
-    // 有影子就不要边框
-    if (border && !shadow) {
+    // 若边框等于hairlineWidth且有影子就不显示边框
+    if (border && !(border === _.hairlineWidth && shadow)) {
       if (typeof border === 'string') {
         _image.push({
           borderWidth,

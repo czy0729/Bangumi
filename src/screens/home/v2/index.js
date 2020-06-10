@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 17:37:23
+ * @Last Modified time: 2020-06-09 20:21:26
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -10,7 +10,6 @@ import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
 import {
   StatusBarEvents,
-  OptimizeTabbarTransition,
   IconTabBar,
   NavigationBarEvents,
   SafeAreaView
@@ -42,7 +41,7 @@ class Home extends React.Component {
     navigation: PropTypes.object
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const { $, navigation } = this.context
 
     // App生命周期内保存首页的navigation引用
@@ -102,30 +101,25 @@ class Home extends React.Component {
   }
 
   get style() {
-    if (IOS) {
-      return _.container.bg
-    }
-    return _.container._plain
+    return IOS ? _.container.bg : _.container._plain
   }
 
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <>
+      <SafeAreaView style={this.style}>
         {!$.isLogin && <NavigationEvents onWillFocus={this.onWillFocus} />}
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
-        <SafeAreaView style={this.style}>
-          {_loaded && (
-            <OptimizeTabbarTransition>
-              <Header />
-              <Tab />
-              <Modal />
-            </OptimizeTabbarTransition>
-          )}
-        </SafeAreaView>
-      </>
+        {$.isLogin && _loaded && (
+          <>
+            <Header />
+            <Tab />
+            <Modal />
+          </>
+        )}
+      </SafeAreaView>
     )
   }
 }
