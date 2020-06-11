@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 19:59:13
+ * @Last Modified time: 2020-06-11 14:55:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,13 +12,10 @@ import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { EVENT } from '@constants'
+import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import Tag from '../base/tag'
 import Stars from '../base/stars'
 import Cover from '../base/cover'
-
-const imgWidth = 80
-const imgHeight = 1.28 * imgWidth
 
 function ItemCollections({
   navigation,
@@ -94,8 +91,8 @@ function ItemCollections({
           <Cover
             style={styles.image}
             src={cover}
-            width={imgWidth}
-            height={imgHeight}
+            width={IMG_WIDTH}
+            height={IMG_HEIGHT}
             radius
             shadow
           />
@@ -112,7 +109,7 @@ function ItemCollections({
                 <Text size={15} numberOfLines={2} bold>
                   {HTMLDecode(nameCn)}
                   {hasName && name !== nameCn && (
-                    <Text type='sub' size={13} lineHeight={15} bold>
+                    <Text type='sub' size={11} lineHeight={15} bold>
                       {' '}
                       {HTMLDecode(name)}
                     </Text>
@@ -122,7 +119,7 @@ function ItemCollections({
               {!!type && <Tag style={_.ml.sm} value={type} />}
             </Flex>
             {hasTip && (
-              <Text style={_.mt.sm} size={12} numberOfLines={2}>
+              <Text style={_.mt.sm} size={11} numberOfLines={2}>
                 {HTMLDecode(tip)}
               </Text>
             )}
@@ -160,7 +157,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorMainLight
   },
   imgContainer: {
-    width: imgWidth
+    width: IMG_WIDTH
   },
   wrap: {
     paddingVertical: _.space,
@@ -171,7 +168,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopWidth: _.hairlineWidth
   },
   content: {
-    height: imgHeight
+    height: IMG_HEIGHT
   },
   comments: {
     padding: _.sm,

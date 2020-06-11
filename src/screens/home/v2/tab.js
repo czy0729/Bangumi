@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 20:27:40
+ * @Last Modified time: 2020-06-11 12:07:34
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -105,7 +105,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: _.headerHeight - (IOS ? 18 : 24),
     backgroundColor: IOS
       ? 'transparent'
-      : _.select(_.colorPlain, _._colorDarkModeLevel1),
+      : _.select('transparent', _._colorDarkModeLevel1),
     borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
     borderBottomColor: _.colorBorder,
     elevation: 0

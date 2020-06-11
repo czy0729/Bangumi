@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 23:35:27
+ * @Last Modified time: 2020-06-11 15:00:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,14 +14,12 @@ import { Eps, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
+import { IOS, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const imgWidth = 88
-const imgHeight = 1.28 * imgWidth
 const itemPadding = _._wind
 const layoutWidth = _.window.contentWidth - _.wind
-const wrapWidth = layoutWidth - imgWidth - _.wind - itemPadding + 2
+const wrapWidth = layoutWidth - IMG_WIDTH - _.wind - itemPadding + 2
 const colorDark = {
   color: _.colorDark
 }
@@ -198,22 +196,17 @@ class Item extends React.Component {
           {epStatus || _epStatus}
           <Text type='sub' size={13} lineHeight={20}>
             {' '}
-            / {subject.eps_count || '?'}
+            / {subject.eps_count || '?'}{' '}
           </Text>
+          {!isBook && (
+            <Iconfont
+              name={expand ? 'down' : 'up'}
+              size={13}
+              lineHeight={(20 + _.fontSizeAdjust) * _.lineHeightRatio}
+              color={_.colorIcon}
+            />
+          )}
         </Text>
-        {!isBook && (
-          <Iconfont
-            style={[
-              _.ml.xs,
-              {
-                marginTop: 2
-              }
-            ]}
-            name={expand ? 'down' : 'up'}
-            size={13}
-            color={_.colorIcon}
-          />
-        )}
       </Flex>
     )
   }
@@ -256,8 +249,8 @@ class Item extends React.Component {
         <Flex style={this.styles.hd}>
           <Cover
             src={subject.images.medium}
-            size={imgWidth}
-            height={imgHeight}
+            size={IMG_WIDTH}
+            height={IMG_HEIGHT}
             radius
             shadow
             onPress={this.onPress}

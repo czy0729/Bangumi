@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 00:06:34
+ * @Last Modified time: 2020-06-11 11:48:29
  */
 import React from 'react'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
@@ -85,7 +86,9 @@ function Tab(props, { $ }) {
         renderScene={renderScene}
         onIndexChange={$.onChange}
       />
-      <TabBarLeft style={styles.tabBarLeft} />
+      <View style={styles.tabBarLeft}>
+        <TabBarLeft />
+      </View>
     </>
   )
 }
@@ -97,7 +100,7 @@ Tab.contextTypes = {
 export default observer(Tab)
 
 const W_TAB_BAR_LEFT = 68
-const W_TAB = _.window.width / 5
+const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / 5
 const W_INDICATOR = 16
 const TOP_TAB_BAR = _.headerHeight - (IOS ? 18 : 24)
 const memoStyles = _.memoStyles(_ => ({
@@ -106,7 +109,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingLeft: W_TAB_BAR_LEFT,
     backgroundColor: IOS
       ? 'transparent'
-      : _.select(_.colorPlain, _._colorDarkModeLevel1),
+      : _.select('transparent', _._colorDarkModeLevel1),
     borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
     borderBottomColor: _.colorBorder,
     elevation: 0
@@ -130,6 +133,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   tabBarLeft: {
     position: 'absolute',
+    zIndex: 3,
     top: TOP_TAB_BAR + 2,
     left: 0
   }

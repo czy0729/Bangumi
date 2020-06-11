@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 19:35:04
+ * @Last Modified time: 2020-06-11 14:57:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,10 +12,8 @@ import { Touchable, Flex, Text } from '@components'
 import { _, discoveryStore } from '@stores'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
-import { EVENT } from '@constants'
+import { EVENT, IMG_WIDTH } from '@constants'
 import Cover from '../base/cover'
-
-const imgWidth = 80
 
 function ItemBlog(
   {
@@ -61,7 +59,7 @@ function ItemBlog(
       <Flex align='start' style={[styles.wrap, index !== 0 && styles.border]}>
         {!!cover && (
           <View style={styles.imgContainer}>
-            <Cover src={cover} width={imgWidth} height={imgWidth} shadow />
+            <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} shadow />
           </View>
         )}
         <Flex.Item>
@@ -112,7 +110,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
   imgContainer: {
-    width: imgWidth,
+    width: IMG_WIDTH,
     marginRight: _._wind
   },
   wrap: {

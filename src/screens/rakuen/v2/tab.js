@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 12:07:32
+ * @Last Modified time: 2020-06-11 12:08:39
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import TabBar from '@components/@/react-native-tab-view/TabBar'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { BlurView, Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -85,13 +85,15 @@ function Tab(props, { $ }) {
                   data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
                   onSelect={$.onGroupMenuPress}
                 >
-                  <Text type='title' bold={focused}>
-                    小组
+                  <Flex>
+                    <Text type='title' bold={focused}>
+                      小组
+                    </Text>
                     <Text size={12} lineHeight={14} type='sub'>
                       {' '}
                       {MODEL_RAKUEN_TYPE_GROUP.getLabel(group)}
                     </Text>
-                  </Text>
+                  </Flex>
                 </Popover>
               )
             }
@@ -102,13 +104,15 @@ function Tab(props, { $ }) {
                   data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
                   onSelect={$.onGroupMenuPress}
                 >
-                  <Text type='title' bold={focused}>
-                    人物
+                  <Flex>
+                    <Text type='title' bold={focused}>
+                      人物
+                    </Text>
                     <Text size={12} lineHeight={14} type='sub'>
                       {' '}
                       {MODEL_RAKUEN_TYPE_MONO.getLabel(mono)}
                     </Text>
-                  </Text>
+                  </Flex>
                 </Popover>
               )
             }
@@ -143,7 +147,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingLeft: W_TAB_BAR_LEFT,
     backgroundColor: IOS
       ? 'transparent'
-      : _.select(_.colorPlain, _._colorDarkModeLevel1),
+      : _.select('transparent', _._colorDarkModeLevel1),
     borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
     borderBottomColor: _.colorBorder,
     elevation: 0

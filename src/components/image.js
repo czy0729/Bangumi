@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 12:11:36
+ * @Last Modified time: 2020-06-11 13:55:52
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -332,7 +332,7 @@ class Image extends React.Component {
       }
     }
 
-    if (shadow) {
+    if (shadow && !_.isDark) {
       if (shadow === 'lg') {
         _wrap.push(this.styles.shadowLg)
       } else {
@@ -355,7 +355,12 @@ class Image extends React.Component {
 
     let image
     const { imageTransition } = systemStore.setting
-    const _fadeDuration = (imageTransition ? undefined : 0) || fadeDuration
+    const _fadeDuration =
+      fadeDuration === undefined
+        ? imageTransition
+          ? undefined
+          : 0
+        : fadeDuration
     if (error) {
       // 错误显示本地的错误提示图片
       image = (

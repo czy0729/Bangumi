@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 19:36:15
+ * @Last Modified time: 2020-06-11 14:58:32
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,8 +13,8 @@ import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
-const imgWidth = 80
 const imgWidthSm = 56
 
 function Friends(props, { $, navigation }) {
@@ -46,8 +46,8 @@ function Friends(props, { $, navigation }) {
               <View style={styles.image}>
                 <Cover
                   src={item.cover}
-                  width={imgWidth}
-                  height={imgWidth * 1.2}
+                  width={IMG_WIDTH}
+                  height={IMG_HEIGHT}
                   shadow
                 />
               </View>
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 4
   },
   image: {
-    width: imgWidth
+    width: IMG_WIDTH
   },
   item: {
     width: '47.5%',

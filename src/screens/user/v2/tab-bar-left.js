@@ -2,28 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 11:47:32
+ * @Last Modified time: 2020-06-11 14:19:08
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Button } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
-import { IOS } from '@constants'
-import { MODEL_TIMELINE_SCOPE } from '@constants/model'
+import { observer } from '@utils/decorators'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-function TabBarLeft(props, { $ }) {
+function TabBarLeft({ onSelect }, { $ }) {
   const styles = memoStyles()
-  const { scope } = $.state
+  const { subjectType } = $.state
   return (
     <Popover
-      data={MODEL_TIMELINE_SCOPE.data.map(item => item.label)}
-      onSelect={$.onSelectScope}
+      data={MODEL_SUBJECT_TYPE.data.map(item => item.title)}
+      onSelect={onSelect}
     >
       <Flex style={styles.tabBarLeft} justify='center'>
         <Button style={styles.btn} type='ghostMain' size='sm'>
-          {MODEL_TIMELINE_SCOPE.getLabel(scope)}
+          {MODEL_SUBJECT_TYPE.getTitle(subjectType)}
         </Button>
       </Flex>
     </Popover>
@@ -41,9 +40,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 42,
     paddingLeft: _._wind,
     paddingRight: _.sm,
-    backgroundColor: IOS
-      ? 'transparent'
-      : _.select('transparent', _._colorDarkModeLevel1)
+    backgroundColor: _.select('transparent', _._colorDarkModeLevel1)
   },
   btn: {
     width: 48,

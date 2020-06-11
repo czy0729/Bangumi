@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 20:21:26
+ * @Last Modified time: 2020-06-11 12:06:52
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -109,9 +109,9 @@ class Home extends React.Component {
     const { _loaded } = $.state
     return (
       <SafeAreaView style={this.style}>
-        {!$.isLogin && <NavigationEvents onWillFocus={this.onWillFocus} />}
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
+        {!$.isLogin && <NavigationEvents onWillFocus={this.onWillFocus} />}
         {$.isLogin && _loaded && (
           <>
             <Header />

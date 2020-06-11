@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 21:00:44
+ * @Last Modified time: 2020-06-11 10:49:21
  */
 import React from 'react'
-import { Alert, View, KeyboardAvoidingView } from 'react-native'
+import { Alert, View } from 'react-native'
 import { observer } from 'mobx-react'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
-import { StatusBarEvents, Text, Flex, UM } from '@components'
+import { KeyboardSpacer, StatusBarEvents, Text, Flex, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
@@ -622,12 +622,13 @@ class LoginV2 extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={_.container.plain} behavior='padding'>
+      <View style={_.container.plain}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <StatusBarPlaceholder />
         {this.renderContent()}
-      </KeyboardAvoidingView>
+        <KeyboardSpacer />
+      </View>
     )
   }
 

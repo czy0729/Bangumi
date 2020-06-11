@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 23:21:57
+ * @Last Modified time: 2020-06-11 00:06:14
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -19,6 +19,7 @@ function Text({
   lineHeight,
   align,
   bold,
+  selectable,
   children,
   ...other
 }) {
@@ -52,7 +53,12 @@ function Text({
   }
 
   return (
-    <RNText style={_style} allowFontScaling={false} selectable {...other}>
+    <RNText
+      style={_style}
+      allowFontScaling={false}
+      selectable={selectable}
+      {...other}
+    >
       {children}
     </RNText>
   )
@@ -66,6 +72,7 @@ Text.defaultProps = {
   lineHeight: undefined,
   align: undefined,
   bold: false,
+  selectable: false,
   children: ''
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-23 23:48:01
+ * @Last Modified time: 2020-06-11 14:57:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,14 +11,11 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
-import { EVENT } from '@constants'
+import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Tag from '../base/tag'
 import Cover from '../base/cover'
 import Stars from '../base/stars'
-
-const imgWidth = 80
-const imgHeight = 1.28 * imgWidth
 
 function ItemSearch({
   style,
@@ -66,8 +63,8 @@ function ItemSearch({
             src={cover}
             resizeMode={isMono ? 'contain' : undefined}
             placeholder={!isMono}
-            width={imgWidth}
-            height={imgHeight}
+            width={IMG_WIDTH}
+            height={IMG_HEIGHT}
             radius
             shadow
           />
@@ -156,7 +153,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorMainLight
   },
   imgContainer: {
-    width: imgWidth
+    width: IMG_WIDTH
   },
   wrap: {
     paddingVertical: _.space,
@@ -167,6 +164,6 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopWidth: _.hairlineWidth
   },
   content: {
-    minHeight: imgHeight - 12
+    minHeight: IMG_HEIGHT - 12
   }
 }))

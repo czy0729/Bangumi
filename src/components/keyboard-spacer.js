@@ -5,17 +5,32 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 17:05:44
+ * @Last Modified time: 2020-06-11 10:58:33
  */
-import React from 'react'
-import PropTypes from 'prop-types'
 import {
+  UIManager,
   Keyboard,
   LayoutAnimation,
   View,
   Dimensions,
-  Platform
+  Platform,
+  StyleSheet
 } from 'react-native'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+// 注意如果要在Android上使用此动画，则需要在代码中启用
+if (UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true)
+}
+
+const styles = StyleSheet.create({
+  container: {
+    left: 0,
+    right: 0,
+    bottom: 0
+  }
+})
 
 // From: https://medium.com/man-moon/writing-modern-react-native-ui-e317ff956f02
 const defaultAnimation = {
@@ -31,16 +46,15 @@ const defaultAnimation = {
   }
 }
 
-export default class KeyboardSpacer extends React.Component {
+export default class KeyboardSpacer extends Component {
   static propTypes = {
     topSpacing: PropTypes.number,
     onToggle: PropTypes.func
-    // style: ViewPropTypes.style
   }
 
   static defaultProps = {
     topSpacing: 0,
-    onToggle: Function.prototype
+    onToggle: () => null
   }
 
   constructor(props, context) {
@@ -91,7 +105,6 @@ export default class KeyboardSpacer extends React.Component {
     // however only the keyboard toolbar is showing if there should be one
     const keyboardSpace =
       screenHeight - event.endCoordinates.screenY + this.props.topSpacing
-
     this.setState(
       {
         keyboardSpace,
@@ -122,6 +135,14 @@ export default class KeyboardSpacer extends React.Component {
   }
 
   render() {
-    return <View />
+    return (
+      <View
+        style={[
+          styles.container,
+          { height: this.state.keyboardSpace },
+          this.props.style
+        ]}
+      />
+    )
   }
 }

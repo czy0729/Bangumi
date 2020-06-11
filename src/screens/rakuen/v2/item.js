@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 14:00:21
+ * @Last Modified time: 2020-06-10 14:11:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -107,13 +107,6 @@ class Item extends React.Component {
     )
   }
 
-  get characters() {
-    const { $ } = this.context
-    const { href = '' } = this.props
-    const characterId = $.characterId(href)
-    return $.characters(characterId)
-  }
-
   get isFavor() {
     const { $ } = this.context
     return $.isFavor(this.topicId)
@@ -185,13 +178,12 @@ class Item extends React.Component {
       }
     }
 
-    const { name } = this.characters
     return (
       <Touchable style={this.styles.item} onPress={onPress}>
         <Flex align='start'>
           <Flex.Item>
             <Text size={16}>
-              {$.cnFirst ? name || title : title}
+              {title}
               <Text
                 type={this.isReaded ? 'sub' : 'main'}
                 size={13}
@@ -248,7 +240,6 @@ class Item extends React.Component {
     }
     return (
       <Popover
-        style={this.styles.popover}
         data={popoverData}
         onSelect={title =>
           $.onExtraSelect(
@@ -265,7 +256,12 @@ class Item extends React.Component {
           )
         }
       >
-        <Iconfont name='extra' size={17} color={_.colorSub} />
+        <Iconfont
+          style={this.styles.popover}
+          name='extra'
+          size={17}
+          color={_.colorSub}
+        />
       </Popover>
     )
   }
@@ -339,9 +335,9 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.md
   },
   popover: {
-    paddingVertical: 16,
-    paddingLeft: _.sm,
-    paddingRight: _._wind
+    paddingTop: 16,
+    paddingHorizontal: _._wind,
+    paddingBottom: 32
   },
   border: {
     borderTopColor: _.colorBorder,

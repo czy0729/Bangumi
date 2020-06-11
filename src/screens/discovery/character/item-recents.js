@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 15:58:55
+ * @Last Modified time: 2020-06-11 14:59:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,8 @@ import { Tag, Stars, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
-
-const imgWidth = 80
-const imgHeight = 1.28 * imgWidth
 
 function ItemRecents(
   { index, id, cover, name, nameJP, type, info, star, starInfo, actors = [] },
@@ -44,8 +42,8 @@ function ItemRecents(
             <Cover
               style={styles.image}
               src={cover}
-              width={imgWidth}
-              height={imgHeight}
+              width={IMG_WIDTH}
+              height={IMG_HEIGHT}
               radius
               shadow
               onPress={onPress}
@@ -149,7 +147,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   imgContainer: {
-    width: imgWidth
+    width: IMG_WIDTH
   },
   wrap: {
     paddingVertical: _.space,

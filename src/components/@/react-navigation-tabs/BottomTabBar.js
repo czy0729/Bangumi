@@ -289,6 +289,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   labelBeneath: {
+    marginBottom: 4,
     fontSize: 11
   },
   labelBeside: {

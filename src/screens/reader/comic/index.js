@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:51:18
+ * @Last Modified time: 2020-06-11 15:00:18
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -21,11 +21,10 @@ import {
 import { Tag } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import Store from './store'
 
 const title = ''
-const imgWidth = 80
-const imgHeight = 1.28 * imgWidth
 
 export default
 @inject(Store)
@@ -57,8 +56,8 @@ class Comic extends React.Component {
           <Image
             src={item.cover}
             headers={item.headers}
-            width={imgWidth}
-            height={imgHeight}
+            width={IMG_WIDTH}
+            height={IMG_HEIGHT}
             cache={false}
             shadow
             radius
@@ -210,7 +209,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   content: {
     paddingVertical: 2,
-    height: imgHeight
+    height: IMG_HEIGHT
   },
   tag: {
     marginTop: 2,

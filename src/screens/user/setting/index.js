@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 23:28:24
+ * @Last Modified time: 2020-06-11 12:11:33
  */
 import React from 'react'
 import { ScrollView, AsyncStorage } from 'react-native'
@@ -25,7 +25,6 @@ import {
   GITHUB_PROJECT,
   GITHUB_RELEASE,
   VERSION_GITHUB_RELEASE,
-  VERSION_CODE_PUSH,
   APP_ID_SAY_DEVELOP
 } from '@constants'
 import {
@@ -33,7 +32,7 @@ import {
   MODEL_SETTING_FONTSIZEADJUST,
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_INITIAL_PAGE,
-  MODEL_SETTING_HOME_LAYOUT,
+  // MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING
 } from '@constants/model'
 
@@ -218,9 +217,9 @@ class Setting extends React.Component {
     const { module: _module } = this.state
     const {
       tinygrail,
-      homeLayout,
-      homeSorting,
-      itemShadow
+      homeSorting
+      // homeLayout,
+      // itemShadow
     } = systemStore.setting
     return (
       <>
@@ -296,7 +295,7 @@ class Setting extends React.Component {
                 highlight
               />
             )}
-            <ItemSetting
+            {/* <ItemSetting
               border
               hd='首页布局'
               ft={
@@ -313,7 +312,7 @@ class Setting extends React.Component {
               }
               arrow
               highlight
-            />
+            /> */}
             <ItemSetting
               border
               hd='首页排序'
@@ -332,7 +331,7 @@ class Setting extends React.Component {
               arrow
               highlight
             />
-            {!IOS && MODEL_SETTING_HOME_LAYOUT.getLabel(homeLayout) === '列表' && (
+            {/* {!IOS && MODEL_SETTING_HOME_LAYOUT.getLabel(homeLayout) === '列表' && (
               <ItemSetting
                 border
                 hd='首页阴影'
@@ -351,7 +350,7 @@ class Setting extends React.Component {
                 }
                 withoutFeedback
               />
-            )}
+            )} */}
           </>
         )}
       </>
@@ -713,10 +712,6 @@ class Setting extends React.Component {
     const { storageSize, system } = this.state
     const { name } = systemStore.release
     const hasNewVersion = name !== VERSION_GITHUB_RELEASE
-    let version = VERSION_GITHUB_RELEASE
-    if (VERSION_CODE_PUSH) {
-      version += ` (${VERSION_CODE_PUSH})`
-    }
     return (
       <>
         {this.renderSection('系统', 'system')}
@@ -730,11 +725,11 @@ class Setting extends React.Component {
                     有新版本{name}
                     <Text type='sub' size={16}>
                       {' '}
-                      / 当前{version}
+                      / 当前{VERSION_GITHUB_RELEASE}
                     </Text>
                   </Text>
                 ) : (
-                  `当前${version}`
+                  `当前${VERSION_GITHUB_RELEASE}`
                 )
               }
               arrow={!IOS}

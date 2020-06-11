@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-06 16:35:37
+ * @Last Modified time: 2020-06-11 15:01:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,10 +14,9 @@ import { Eps, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
+import { IMG_WIDTH } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const imageWidth = 80
 const itemPadding = 12
 const layoutWidth = parseInt(_.window.width - _.wind * 2 - itemPadding) - 1
 const colorDark = {
@@ -248,7 +247,7 @@ class Item extends React.Component {
       >
         <Flex style={this.styles.hd}>
           <Cover
-            size={imageWidth}
+            size={IMG_WIDTH}
             src={subject.images.medium}
             radius
             border={_.colorBorder}
@@ -335,18 +334,13 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorBorder
   },
   itemShadow: {
-    ...(IOS
-      ? {
-          shadowColor: _.colorShadow,
-          shadowOffset: {
-            height: 4
-          },
-          shadowOpacity: 0.1,
-          shadowRadius: 8
-        }
-      : {
-          elevation: 16
-        })
+    shadowColor: _.colorShadow,
+    shadowOffset: {
+      height: 4
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 16
   },
   hd: {
     paddingRight: itemPadding

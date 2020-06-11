@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-01 17:03:59
+ * @Last Modified time: 2020-06-11 11:40:11
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -324,9 +324,6 @@ class Topic extends React.Component {
           keyExtractor={keyExtractor}
           data={$.comments}
           scrollEventThrottle={16}
-          initialNumToRender={100}
-          windowSize={12}
-          maxToRenderPerBatch={40}
           removeClippedSubviews={false}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}

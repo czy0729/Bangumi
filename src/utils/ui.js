@@ -2,12 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-01 16:32:17
+ * @Last Modified time: 2020-06-10 14:15:47
  */
-import { Alert, ToastAndroid } from 'react-native'
+import {
+  Alert
+  // ToastAndroid
+} from 'react-native'
 import { Toast } from '@ant-design/react-native'
 import ActionSheet from '@components/@/ant-design/action-sheet'
-import { IOS } from '@constants'
+// import { IOS } from '@constants'
 
 /**
  * 确定框
@@ -46,11 +49,13 @@ export function info(
   onClose = Function.prototype,
   mask = false
 ) {
-  if (IOS) {
-    Toast.info(content, duration, onClose, mask)
-  } else {
-    ToastAndroid.show(content, ToastAndroid.SHORT)
-  }
+  Toast.info(content, duration, onClose, mask)
+
+  // if (IOS) {
+  //   Toast.info(content, duration, onClose, mask)
+  // } else {
+  //   ToastAndroid.show(content, ToastAndroid.SHORT)
+  // }
 }
 
 /**
