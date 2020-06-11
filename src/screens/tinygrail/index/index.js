@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 20:58:01
+ * @Last Modified time: 2020-06-11 15:43:32
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -99,8 +99,8 @@ class Tinygrail extends React.Component {
         }
       >
         <UM screen={title} />
-        <StatusBarEvents />
-        <StatusBarPlaceholder style={this.styles.statusBar} />
+        <StatusBarEvents backgroundColor='transparent' />
+        <StatusBarPlaceholder />
         <Auth />
         <Menus />
         <Flex justify='center'>
@@ -151,8 +151,5 @@ const memoStyles = _.memoStyles(_ => ({
   },
   contentContainerStyle: {
     paddingBottom: _.wind
-  },
-  statusBar: {
-    backgroundColor: _.colorTinygrailContainer
   }
 }))

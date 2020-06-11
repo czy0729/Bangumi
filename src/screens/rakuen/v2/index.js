@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 11:17:38
+ * @Last Modified time: 2020-06-11 15:39:01
  */
 import React from 'react'
 import PropTypes from 'prop-types'
+import { UM } from '@components'
 import {
   IconTabBar,
   SafeAreaView,
@@ -53,6 +54,7 @@ class Rakuen extends React.Component {
     const { _loaded } = $.state
     return (
       <SafeAreaView style={this.style}>
+        <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
         {_loaded && (

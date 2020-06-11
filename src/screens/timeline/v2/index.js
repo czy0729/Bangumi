@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 12:04:17
+ * @Last Modified time: 2020-06-11 15:38:33
  */
 import React from 'react'
 import PropTypes from 'prop-types'
+import { UM } from '@components'
 import {
   IconTabBar,
   SafeAreaView,
@@ -52,6 +53,7 @@ class Timeline extends React.Component {
     const { _loaded } = $.state
     return (
       <SafeAreaView style={this.style}>
+        <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
         {_loaded && (
