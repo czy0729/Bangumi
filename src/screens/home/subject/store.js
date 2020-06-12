@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-29 14:16:40
+ * @Last Modified time: 2020-06-12 14:22:27
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -54,6 +54,7 @@ const sitesDS = [
 ]
 const excludeState = {
   visible: false, // 是否显示管理模态框
+  showHeaderTitle: false,
 
   chap: '', // 书籍章
   vol: '', // 卷
@@ -771,6 +772,12 @@ export default class ScreenSubject extends store {
       filterEps
     })
     this.setStorage(undefined, undefined, this.namespace)
+  }
+
+  updateShowHeaderTitle = showHeaderTitle => {
+    this.setState({
+      showHeaderTitle
+    })
   }
 
   // -------------------- action --------------------

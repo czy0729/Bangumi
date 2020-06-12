@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 22:23:35
+ * @Last Modified time: 2020-06-11 20:36:23
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -554,18 +554,8 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     marginBottom: -4,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    ...(IOS
-      ? {
-          shadowColor: _.colorShadow,
-          shadowOffset: {
-            height: -2
-          },
-          shadowOpacity: 0.06,
-          shadowRadius: 6
-        }
-      : {
-          elevation: 8
-        })
+    borderTopWidth: _.select(_.hairlineWidth, 0),
+    borderTopColor: _.colorBorder
   },
   toolBar: {
     paddingVertical: _.sm,

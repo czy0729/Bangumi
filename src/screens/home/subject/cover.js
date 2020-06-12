@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 22:32:11
+ * @Last Modified time: 2020-06-12 10:15:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,7 +44,6 @@ class Cover extends React.Component {
             size={imageWidth}
             height={imageHeight}
             radius
-            border
             placeholder={false}
             imageViewer
             imageViewerSrc={getCoverLarge(image || placeholder)}
@@ -66,7 +65,6 @@ class Cover extends React.Component {
             size={imageWidth}
             height={imageHeight}
             radius
-            border
             placeholder={false}
             noDefault
           />

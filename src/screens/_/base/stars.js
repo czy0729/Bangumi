@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 15:25:02
+ * @Last Modified time: 2020-06-12 14:30:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -18,8 +18,8 @@ function Stars({ style, simple, value }) {
   if (simple) {
     return (
       <Flex style={style}>
-        <Iconfont name='star-full' size={13} color={_.colorWarning} />
-        <Text style={_.ml.xs} type='sub' size={13}>
+        <Iconfont name='star-full' size={12} color={_.colorWarning} />
+        <Text style={_.ml.xs} type='sub' size={12}>
           {value}
         </Text>
       </Flex>
@@ -34,7 +34,7 @@ function Stars({ style, simple, value }) {
             <Iconfont
               key={item}
               name='star-full'
-              size={13}
+              size={12}
               color={_.colorWarning}
             />
           )
@@ -43,11 +43,11 @@ function Stars({ style, simple, value }) {
         if (value / 2 >= item - 0.5) {
           return (
             <View key={item}>
-              <Iconfont name='star-full' size={13} color={_.colorBorder} />
+              <Iconfont name='star-full' size={12} color={_.colorBorder} />
               <Iconfont
                 style={styles.half}
                 name='star-half'
-                size={13}
+                size={12}
                 color={_.colorWarning}
               />
             </View>
@@ -58,12 +58,12 @@ function Stars({ style, simple, value }) {
           <Iconfont
             key={item}
             name='star-full'
-            size={13}
+            size={12}
             color={_.colorBorder}
           />
         )
       })}
-      <Text style={_.ml.xs} type='sub' size={13} lineHeight={13}>
+      <Text style={_.ml.xs} type='sub' size={12} lineHeight={12}>
         {value}
       </Text>
     </Flex>

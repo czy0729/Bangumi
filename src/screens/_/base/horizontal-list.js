@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 19:33:33
+ * @Last Modified time: 2020-06-12 16:47:30
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -47,7 +47,6 @@ function HorizontalList({
               height={height}
               src={item.image}
               radius
-              border
               shadow
               quality={quality}
               onPress={() => onPress(item)}
@@ -55,7 +54,7 @@ function HorizontalList({
             <Touchable withoutFeedback onPress={() => onPress(item)}>
               <Text
                 style={_.mt.sm}
-                size={13}
+                size={12}
                 numberOfLines={2}
                 ellipsizeMode={ellipsizeMode}
                 bold
@@ -63,7 +62,7 @@ function HorizontalList({
                 {findCn ? findSubjectCn(item.name, item.id) : item.name}
               </Text>
               {!!item.desc && (
-                <Text style={_.mt.xs} type='sub' size={13} numberOfLines={1}>
+                <Text style={_.mt.xs} type='sub' size={11} numberOfLines={1}>
                   {item.desc}
                 </Text>
               )}
@@ -76,8 +75,8 @@ function HorizontalList({
 
 HorizontalList.defaultProps = {
   data: [],
-  width: 58,
-  height: 58,
+  width: 64,
+  height: 64,
   quality: false,
   findCn: false,
   ellipsizeMode: 'tail',

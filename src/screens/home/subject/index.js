@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 14:55:43
+ * @Last Modified time: 2020-06-12 14:18:56
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -13,6 +13,7 @@ import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { TITLE } from '@constants'
+import HeaderTitle from './header-title'
 import Bg from './bg'
 import List from './list'
 import Modal from './modal'
@@ -25,7 +26,8 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  colorStart: _.colorPlainRaw
+  colorStart: _.colorPlainRaw,
+  HeaderTitle
 })
 @observer
 class Subject extends React.Component {
@@ -45,9 +47,8 @@ class Subject extends React.Component {
         this.rendered()
       }, 300)
 
-      const { $, navigation } = this.context
+      const { $ } = this.context
       const res = $.init()
-      withTransitionHeader.setTitle(navigation, $.cn)
       this.updateNavigation()
       hm(`subject/${$.params.subjectId}`, 'Subject')
 
@@ -65,7 +66,7 @@ class Subject extends React.Component {
   updateNavigation = () => {
     const { $, navigation } = this.context
     navigation.setParams({
-      headerTransitionTitle: $.cn,
+      headerTitle: <HeaderTitle />,
       popover: {
         data: [TITLE, '复制链接'],
         onSelect: key => {
@@ -83,7 +84,8 @@ class Subject extends React.Component {
               break
           }
         }
-      }
+      },
+      routeName: 'Subject'
     })
   }
 
@@ -92,6 +94,7 @@ class Subject extends React.Component {
    * - 滚动过马上设置成能渲染底部块
    */
   onScroll = e => {
+    const { $ } = this.context
     const { onScroll } = this.props
     onScroll(e)
     this.rendered()
@@ -103,6 +106,7 @@ class Subject extends React.Component {
       this.setState({
         showBlurView: false
       })
+      $.updateShowHeaderTitle(true)
       return
     }
 
@@ -110,6 +114,7 @@ class Subject extends React.Component {
       this.setState({
         showBlurView: true
       })
+      $.updateShowHeaderTitle(false)
     }
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:49:29
+ * @Last Modified time: 2020-06-12 14:08:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,6 +29,7 @@ if (!IOS && BARE) {
 const withTransitionHeader = ({
   screen,
   headerTransition = 48,
+  HeaderTitle,
   colorStart,
   colorEnd = _.colorTitleRaw, // 黑暗模式, end也是白色
   transparent = false,
@@ -97,8 +98,7 @@ const withTransitionHeader = ({
           )
         }
 
-        return {
-          // @todo headerTitle优先级应比title大
+        const options = {
           title: navigation.getParam('title'),
           headerTransparent: true,
           headerStyle: {
@@ -115,6 +115,10 @@ const withTransitionHeader = ({
           },
           ...ComposedComponent.navigationOptions
         }
+        if (HeaderTitle) {
+          options.headerTitle = <HeaderTitle navigation={navigation} />
+        }
+        return options
       }
 
       static contextTypes = {
@@ -185,12 +189,9 @@ const withTransitionHeader = ({
         } else {
           let shadowStyle = {}
           if (isTransitioned) {
-            if (IOS) {
-              shadowStyle = _.shadow
-            } else {
-              shadowStyle = {
-                elevation: 12
-              }
+            shadowStyle = {
+              borderBottomWidth: _.select(_.hairlineWidth, 0),
+              borderBottomColor: _.colorBorder
             }
           }
 
@@ -203,7 +204,6 @@ const withTransitionHeader = ({
                 _.colorPlainRaw,
                 _._colorDarkModeLevel1Raw
               ).join()}, ${opacity})`,
-              borderBottomWidth: 0,
               ...shadowStyle
             }
           })
