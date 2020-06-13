@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 12:51:37
+ * @Last Modified time: 2020-06-13 14:47:46
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -120,7 +120,7 @@ const memoStyles = _.memoStyles(_ => ({
     right: 0,
     bottom: 42,
     width: 16,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+    backgroundColor: _.colorPlain
   },
   containerLeft: {
     position: 'absolute',
@@ -129,7 +129,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     bottom: 42,
     width: 16,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+    backgroundColor: _.colorPlain
   },
   containerBottom: {
     position: 'absolute',

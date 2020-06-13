@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 12:49:54
+ * @Last Modified time: 2020-06-13 15:10:02
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -103,7 +103,7 @@ function Item(
             size={11}
             lineHeight={14}
           >
-            {floor} / {simpleTime(time)}
+            {simpleTime(time)} {floor}
           </Text>
         </Flex>
         {!!userSign && (
@@ -207,10 +207,10 @@ function Item(
                     <Text
                       style={[styles.time, _.ml.md]}
                       type='sub'
-                      size={12}
+                      size={11}
                       lineHeight={14}
                     >
-                      {item.floor} / {simpleTime(item.time)}
+                      {simpleTime(item.time)} {item.floor}
                     </Text>
                   </Flex>
                   <RenderHtml

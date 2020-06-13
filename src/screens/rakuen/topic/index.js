@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 12:40:45
+ * @Last Modified time: 2020-06-13 15:19:09
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -287,7 +287,7 @@ class Topic extends React.Component {
     const { $, navigation } = this.context
     const { placeholder, value } = $.state
     const { tip, close } = $.topic
-    if (tip) {
+    if (tip.includes('半公开')) {
       return (
         <Flex style={this.styles.fixedBottom}>
           <Text>半公开小组只有成员才能发言, </Text>

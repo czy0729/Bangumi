@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 16:09:46
+ * @Last Modified time: 2020-06-13 14:52:01
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -58,6 +58,7 @@ export default observer(HeaderTitle)
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: -_.md
+    marginLeft: -_.md,
+    marginRight: _.md
   }
 })
