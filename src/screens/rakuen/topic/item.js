@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 22:15:09
+ * @Last Modified time: 2020-06-13 12:49:54
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -43,10 +43,10 @@ function Item(
 ) {
   const styles = memoStyles()
   const baseFontStyle = {
-    fontSize: 15 + _.fontSizeAdjust,
+    fontSize: 14 + _.fontSizeAdjust,
     lineHeight: 22
   }
-  const isOdd = (index + 1) % 2 === 0
+  // const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   const isFriend = $.myFriendsMap[userId]
   const isJump = !!postId && postId === id
@@ -62,7 +62,7 @@ function Item(
     <Flex
       style={[
         styles.item,
-        isOdd && styles.itemOdd,
+        // isOdd && styles.itemOdd,
         isNew && styles.itemNew,
         isJump && styles.itemJump
       ]}
@@ -76,10 +76,12 @@ function Item(
         src={avatar}
         event={event}
       />
-      <Flex.Item style={[styles.content, _.ml.sm]}>
+      <Flex.Item
+        style={[styles.content, index !== 0 && styles.border, _.ml.sm]}
+      >
         <Flex>
           <Flex.Item>
-            <Text>
+            <Text bold>
               {userName}
               {isAuthor && (
                 <Text type='main' size={12} lineHeight={14}>
@@ -98,14 +100,14 @@ function Item(
           <Text
             style={[styles.time, _.ml.md]}
             type='sub'
-            size={12}
+            size={11}
             lineHeight={14}
           >
             {floor} / {simpleTime(time)}
           </Text>
         </Flex>
         {!!userSign && (
-          <Text style={styles.sign} type='sub' size={12} numberOfLines={1}>
+          <Text style={styles.sign} type='sub' size={11} numberOfLines={1}>
             {userSign.slice(1, userSign.length - 1)}
           </Text>
         )}
@@ -134,7 +136,7 @@ function Item(
                 ])
               }
             >
-              <Text type='icon' size={12}>
+              <Text type='icon' size={11}>
                 删除
               </Text>
             </Touchable>
@@ -147,7 +149,7 @@ function Item(
                 showFixedTextare()
               }}
             >
-              <Text type='icon' size={12}>
+              <Text type='icon' size={11}>
                 回复
               </Text>
             </Touchable>
@@ -180,22 +182,22 @@ function Item(
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
                     <Flex.Item>
-                      <Text size={14}>
+                      <Text bold>
                         {item.userName}
                         {isAuthor && (
-                          <Text type='main' size={12} lineHeight={14}>
+                          <Text type='main' size={11} lineHeight={14}>
                             {' '}
                             作者
                           </Text>
                         )}
                         {isFriend && !isAuthor && (
-                          <Text type='warning' size={12} lineHeight={14}>
+                          <Text type='warning' size={11} lineHeight={14}>
                             {' '}
                             好友
                           </Text>
                         )}
                         {isLayer && !isAuthor && !isFriend && (
-                          <Text type='primary' size={12} lineHeight={14}>
+                          <Text type='primary' size={11} lineHeight={14}>
                             {' '}
                             层主
                           </Text>
@@ -238,7 +240,7 @@ function Item(
                           ])
                         }
                       >
-                        <Text type='icon' size={12}>
+                        <Text type='icon' size={11}>
                           删除
                         </Text>
                       </Touchable>
@@ -255,7 +257,7 @@ function Item(
                           showFixedTextare()
                         }}
                       >
-                        <Text type='icon' size={12}>
+                        <Text type='icon' size={11}>
                           回复
                         </Text>
                       </Touchable>
@@ -305,13 +307,13 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.space,
     paddingRight: _.wind
   },
-  sign: {
-    marginTop: _.xs,
-    opacity: _.select(1, 0.64)
-  },
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  sign: {
+    marginTop: 2,
+    opacity: _.select(1, 0.64)
   },
   sub: {
     marginTop: _.md,
@@ -325,8 +327,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   reply: {
     padding: _.sm,
+    marginTop: -_.sm,
     marginRight: -_.sm,
-    marginBottom: -_.sm,
+    marginBottom: -_.md,
     opacity: _.select(1, 0.64)
   },
   time: {

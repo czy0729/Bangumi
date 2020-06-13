@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 00:50:38
+ * @Last Modified time: 2020-06-13 12:51:37
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -79,7 +79,8 @@ function TouchScroll({ onPress }, { $ }) {
               <Flex
                 style={[
                   isVertical ? styles.itemVertical : styles.itemHorizontal,
-                  isNew && styles.itemNew
+                  isNew && styles.itemNew,
+                  showFloorText && styles.itemText
                 ]}
               >
                 {showFloorText && (
@@ -118,7 +119,8 @@ const memoStyles = _.memoStyles(_ => ({
     top: _.headerHeight,
     right: 0,
     bottom: 42,
-    width: 16
+    width: 16,
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
   containerLeft: {
     position: 'absolute',
@@ -126,7 +128,8 @@ const memoStyles = _.memoStyles(_ => ({
     top: _.headerHeight,
     left: 0,
     bottom: 42,
-    width: 16
+    width: 16,
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
   containerBottom: {
     position: 'absolute',
@@ -155,6 +158,9 @@ const memoStyles = _.memoStyles(_ => ({
       'rgba(254, 138, 149, 0.64)',
       'rgba(254, 113, 127, 0.16)'
     )
+  },
+  itemText: {
+    minHeight: 24
   },
   text: {
     width: '100%'

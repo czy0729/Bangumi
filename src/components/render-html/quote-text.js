@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 15:02:43
+ * @Last Modified time: 2020-06-12 17:51:20
  */
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, rakuenStore } from '@stores'
 import Text from '../text'
@@ -31,7 +32,11 @@ class QuoteText extends React.Component {
         </Text>
       )
     }
-    return <Text style={this.styles.quoteText}>“ {children} ”</Text>
+    return (
+      <View style={this.styles.quote}>
+        <Text size={12}>“ {children} ”</Text>
+      </View>
+    )
   }
 
   get styles() {
@@ -46,9 +51,11 @@ const memoStyles = _.memoStyles(_ => ({
     color: _.colorSub,
     textAlign: 'center'
   },
-  quoteText: {
-    padding: 12,
-    marginBottom: 6,
-    backgroundColor: _.select('rgb(232, 232, 234)', _._colorDarkModeLevel2)
+  quote: {
+    padding: 8,
+    marginBottom: 8,
+    backgroundColor: _.colorBg,
+    borderLeftWidth: 4,
+    borderLeftColor: _.colorIcon
   }
 }))

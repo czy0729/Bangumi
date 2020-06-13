@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 11:39:47
+ * @Last Modified time: 2020-06-13 12:41:03
  */
 import React from 'react'
 import {
@@ -160,7 +160,6 @@ class ListView extends React.Component {
     return {
       ref: this.connectRef,
       style: this.style,
-      initialNumToRender: 24,
 
       // 安卓默认为true, iOS为false, false时列表的Text才能自由选择复制
       // removeClippedSubviews: false,
@@ -173,6 +172,7 @@ class ListView extends React.Component {
       onEndReachedThreshold: 0.64,
 
       // optimize
+      initialNumToRender: 48,
       windowSize: optimize ? 12 : undefined,
       maxToRenderPerBatch: optimize ? 48 : undefined,
       updateCellsBatchingPeriod: optimize ? 48 : undefined

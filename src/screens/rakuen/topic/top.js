@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 00:42:19
+ * @Last Modified time: 2020-06-13 12:45:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -46,7 +46,7 @@ function Top(props, { $, navigation }) {
     <>
       {!IOS && <HeaderPlaceholder />}
       <View style={_.container.inner}>
-        <Text type='title' size={20} bold>
+        <Text type='title' size={22} bold>
           {$.title}
           {!!_replies && (
             <Text type='main' size={12} lineHeight={26}>

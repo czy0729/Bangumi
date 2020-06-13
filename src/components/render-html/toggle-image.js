@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-18 23:30:59
+ * @Last Modified time: 2020-06-13 12:56:04
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { HOST } from '@constants'
+import { HOST, IOS } from '@constants'
 import { _ } from '@stores'
 import Flex from '../flex'
 import Image from '../image'
@@ -44,16 +44,16 @@ class ToggleImage extends React.Component {
     // RN不使用第三方link包暂时不支持webp, 暂时使用浏览器跳转
     const { src, onImageFallback } = this.props
     const isRemote = typeof src === 'string'
-    if (isRemote && src.includes('.webp')) {
+    if (isRemote && src.includes('.webp') && IOS) {
       return (
-        <Touchable onPress={onImageFallback}>
+        <Touchable style={_.mt.sm} onPress={onImageFallback}>
           <Flex
             style={this.styles.imagePlaceholder}
             direction='column'
             justify='center'
           >
-            <Text size={13} type='sub'>
-              暂不支持webp图片, 使用浏览器打开
+            <Text size={12} type='sub'>
+              iOS暂不支持webp图片, 使用浏览器打开
             </Text>
             {isRemote && (
               <Text
@@ -73,13 +73,13 @@ class ToggleImage extends React.Component {
     const { show, loaded } = this.state
     if (!show) {
       return (
-        <Touchable onPress={this.toggleShow}>
+        <Touchable style={_.mt.sm} onPress={this.toggleShow}>
           <Flex
             style={this.styles.imagePlaceholder}
             direction='column'
             justify='center'
           >
-            <Text size={13} type='sub'>
+            <Text size={12} type='sub'>
               点击显示图片
             </Text>
             {isRemote && (
@@ -98,7 +98,7 @@ class ToggleImage extends React.Component {
     }
 
     return (
-      <Flex justify='center'>
+      <Flex style={_.mt.sm} justify='center'>
         <Image
           {...this.props}
           headers={{
@@ -146,7 +146,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   imagePlaceholder: {
     width: '100%',
-    height: 120,
+    height: 106,
     borderWidth: 1,
     borderColor: _.colorBorder
   },
@@ -157,10 +157,10 @@ const memoStyles = _.memoStyles(_ => ({
     right: _.sm
   },
   closeImage: {
-    width: 32,
-    height: 32,
-    borderRadius: 32,
-    backgroundColor: 'rgba(0, 0, 0, 0.12)',
+    width: 24,
+    height: 24,
+    borderRadius: 24,
+    backgroundColor: 'rgba(0, 0, 0, 0.16)',
     overflow: 'hidden'
   },
   textSrc: {

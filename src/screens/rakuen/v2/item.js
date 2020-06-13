@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 14:11:47
+ * @Last Modified time: 2020-06-13 13:01:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -182,24 +182,24 @@ class Item extends React.Component {
       <Touchable style={this.styles.item} onPress={onPress}>
         <Flex align='start'>
           <Flex.Item>
-            <Text size={16}>
+            <Text size={15}>
               {title}
               <Text
                 type={this.isReaded ? 'sub' : 'main'}
-                size={13}
-                lineHeight={16}
+                size={12}
+                lineHeight={15}
               >
                 {' '}
                 {replyText}
               </Text>
               {!!replyAdd && (
-                <Text type='main' size={13} lineHeight={16}>
+                <Text type='main' size={12} lineHeight={15}>
                   {' '}
                   {replyAdd}
                 </Text>
               )}
               {isOldTopic && (
-                <Text size={13} lineHeight={16} type='warning'>
+                <Text size={12} lineHeight={15} type='warning'>
                   {' '}
                   旧帖
                 </Text>

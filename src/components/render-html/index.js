@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-29 14:50:29
+ * @Last Modified time: 2020-06-12 17:49:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -254,7 +254,10 @@ class RenderHtml extends React.Component {
         )
       }
 
-      return _html
+      return _html.replace(
+        /<div class="quote"><q>/g,
+        '<div class="quote"><q style="font-size: 12px">'
+      )
     } catch (error) {
       warn('RenderHtml', 'formatHTML', error)
       return html

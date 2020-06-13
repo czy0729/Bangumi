@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 11:40:11
+ * @Last Modified time: 2020-06-13 12:40:45
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -17,6 +17,7 @@ import { keyExtractor, appNavigate } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { TITLE, HOST, IOS } from '@constants'
+import HeaderTitle from './header-title'
 import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
@@ -30,7 +31,8 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  barStyle: 'dark-content'
+  barStyle: 'dark-content',
+  HeaderTitle
 })
 @observer
 class Topic extends React.Component {
@@ -132,9 +134,23 @@ class Topic extends React.Component {
   connectFixedTextareaRef = ref => (this.fixedTextarea = ref)
 
   onScroll = e => {
+    const { $ } = this.context
     const { onScroll } = this.props
     onScroll(e)
     this.rendered()
+
+    const { showHeaderTitle } = $.state
+    const { nativeEvent } = e
+    const { y } = nativeEvent.contentOffset
+    const headerTranstion = 48
+    if (!showHeaderTitle && y > headerTranstion) {
+      $.updateShowHeaderTitle(true)
+      return
+    }
+
+    if (showHeaderTitle && y <= headerTranstion) {
+      $.updateShowHeaderTitle(false)
+    }
   }
 
   /**
@@ -189,17 +205,15 @@ class Topic extends React.Component {
     const { $ } = this.context
     const { list } = $.comments
     info(list[index].floor, 0.8)
-    InteractionManager.runAfterInteractions(() => {
-      try {
-        this.listView.scrollToIndex({
-          animated: false,
-          index,
-          viewOffset: 0
-        })
-      } catch (error) {
-        warn('topic/index.js', 'scrollTo', error)
-      }
-    })
+    try {
+      this.listView.scrollToIndex({
+        animated: false,
+        index,
+        viewOffset: 0
+      })
+    } catch (error) {
+      warn('topic/index.js', 'scrollTo', error)
+    }
   }
 
   scrollToThenFeedback = (index = 0) => {
@@ -325,6 +339,9 @@ class Topic extends React.Component {
           data={$.comments}
           scrollEventThrottle={16}
           removeClippedSubviews={false}
+          initialNumToRender={96}
+          maxToRenderPerBatch={96}
+          updateCellsBatchingPeriod={96}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
           onScroll={this.onScroll}

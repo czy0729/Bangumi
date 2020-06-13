@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-29 14:34:53
+ * @Last Modified time: 2020-06-12 17:13:52
  */
 import { observable, computed } from 'mobx'
 import {
@@ -24,6 +24,7 @@ import { IOS, HOST, URL_DEFAULT_AVATAR } from '@constants'
 
 const namespace = 'ScreenTopic'
 const excludeState = {
+  showHeaderTitle: false,
   placeholder: '', // 回复框placeholder
   value: '', // 回复框value
   replySub: '', // 存放bgm特有的子回复配置字符串
@@ -462,6 +463,12 @@ export default class ScreenTopic extends store {
     })
 
     rakuenStore.setFavor(this.topicId, !this.isFavor)
+  }
+
+  updateShowHeaderTitle = showHeaderTitle => {
+    this.setState({
+      showHeaderTitle
+    })
   }
 
   // -------------------- action --------------------

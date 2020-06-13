@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 09:58:55
+ * @Last Modified time: 2020-06-13 13:50:52
  */
 import { Platform } from 'react-native'
 
@@ -77,6 +77,9 @@ export const IMG_ERROR = require('@assets/images/icon/pic-error-defult.png') // 
 
 export const IMG_WIDTH = 88
 export const IMG_HEIGHT = IMG_WIDTH * 1.28
+export const IMG_WIDTH_SM = 64
+export const IMG_HEIGHT_SM = IMG_WIDTH_SM * 1.28
+export const IMG_AVATAR_WIDTH = 32
 
 // 全局统一列表数据结构
 export const LIST_EMPTY = {

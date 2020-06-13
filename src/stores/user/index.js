@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 12:20:35
+ * @Last Modified time: 2020-06-13 13:48:33
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -14,6 +14,7 @@ import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { HTMLTrim, HTMLDecode } from '@utils/html'
 import { confirm } from '@utils/ui'
 import {
+  DEV,
   IOS,
   HOST,
   APP_ID,
@@ -654,7 +655,7 @@ class User extends store {
     const res = RakuenStore.fetchNotify()
     const raw = await res
     const HTML = HTMLTrim(raw)
-    if (HTML.includes('抱歉，当前操作需要您')) {
+    if (HTML.includes('抱歉，当前操作需要您') && !DEV) {
       confirm('检测到登陆状态好像过期了, 是否登出?', () =>
         this.updateUserCookie()
       )

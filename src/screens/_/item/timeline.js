@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 12:11:23
+ * @Last Modified time: 2020-06-13 14:33:29
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -12,13 +12,13 @@ import { _ } from '@stores'
 import { appNavigate, findSubjectCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
 import { t } from '@utils/fetch'
-import { HOST, HOST_NAME, EVENT } from '@constants'
+import { HOST, HOST_NAME, EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import Avatar from '../base/avatar'
 import Cover from '../base/cover'
 import Stars from '../base/stars'
 
 const avatarWidth = 32
-const coverWidth = _.isPad ? 56 : 48
+const avatarCoverWidth = 40
 
 export default
 @observer
@@ -60,8 +60,7 @@ class ItemTimeline extends React.Component {
         $p3.push(
           <Text
             key={item || index}
-            type={isSubject ? undefined : 'main'}
-            underline={isSubject}
+            type={isSubject ? 'main' : 'title'}
             bold={isSubject}
             onPress={() =>
               this.appNavigate(
@@ -91,8 +90,7 @@ class ItemTimeline extends React.Component {
         : 0
       $p3 = (
         <Text
-          type={isSubject ? undefined : 'main'}
-          underline={isSubject}
+          type={isSubject ? 'main' : 'title'}
           bold={isSubject}
           onPress={() =>
             this.appNavigate(
@@ -129,7 +127,8 @@ class ItemTimeline extends React.Component {
       <Text>
         {!!p1.text && (
           <Text
-            type='main'
+            type='title'
+            bold
             onPress={() =>
               this.appNavigate(p1.url, {
                 _name: p1.text,
@@ -140,9 +139,9 @@ class ItemTimeline extends React.Component {
             {p1.text}{' '}
           </Text>
         )}
-        <Text>{p2.text} </Text>
+        <Text type='sub'>{p2.text} </Text>
         {this.renderP3()}
-        {!!p4.text && <Text> {p4.text}</Text>}
+        {!!p4.text && <Text type='sub'> {p4.text}</Text>}
       </Text>
     )
   }
@@ -163,7 +162,7 @@ class ItemTimeline extends React.Component {
         {!!subject && (
           <Text
             style={_.mt.sm}
-            underline
+            type='main'
             bold
             onPress={() => {
               t(id, {
@@ -197,29 +196,33 @@ class ItemTimeline extends React.Component {
       return null
     }
 
-    const images = image.map((item, index) => (
-      <Cover
-        key={item || index}
-        style={_.mr.sm}
-        src={item}
-        size={coverWidth}
-        radius
-        shadow
-        border={_.colorBorder}
-        onPress={() => {
-          const url = (!!p3.url.length && p3.url[index]) || ''
-          const subjectId = matchSubjectId(url)
-          this.appNavigate(url, {
-            _cn: findSubjectCn(!!p3.text.length && p3.text[index], subjectId),
-            _jp: !!p3.text.length && p3.text[index],
-            _name: !!p3.text.length && p3.text[index],
-            _image: image
-          })
-        }}
-      />
-    ))
+    const images = image.map((item, index) => {
+      const isAvatar = String(!!p3.url.length && p3.url[0]).includes('user')
+      return (
+        <Cover
+          key={item || index}
+          style={_.mr.sm}
+          src={item}
+          size={isAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
+          height={isAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
+          radius
+          shadow
+          border={_.colorBorder}
+          onPress={() => {
+            const url = (!!p3.url.length && p3.url[index]) || ''
+            const subjectId = matchSubjectId(url)
+            this.appNavigate(url, {
+              _cn: findSubjectCn(!!p3.text.length && p3.text[index], subjectId),
+              _jp: !!p3.text.length && p3.text[index],
+              _name: !!p3.text.length && p3.text[index],
+              _image: image
+            })
+          }}
+        />
+      )
+    })
 
-    if (image.length <= 5) {
+    if (image.length <= 4) {
       return (
         <Flex style={_.mt.sm} wrap='wrap'>
           {images}
@@ -245,6 +248,7 @@ class ItemTimeline extends React.Component {
       p3,
       star,
       reply,
+      comment,
       time,
       image,
       clearHref,
@@ -252,6 +256,11 @@ class ItemTimeline extends React.Component {
       onDelete
     } = this.props
     const _image = !!image.length && image[0]
+    const bodyStyle =
+      image.length === 1 && !(comment || reply.content) ? _.mt.lg : _.mt.md
+    const rightCoverIsAvatar = String(!!p3.url.length && p3.url[0]).includes(
+      'user'
+    )
     return (
       <Flex style={[_.container.item, style]} align='start'>
         <View style={this.styles.image}>
@@ -278,7 +287,7 @@ class ItemTimeline extends React.Component {
               {this.renderP()}
               {this.renderDesc()}
               {this.renderImages()}
-              <Flex style={_.mt.md}>
+              <Flex style={bodyStyle}>
                 {!!reply.count && (
                   <Text
                     type='primary'
@@ -297,9 +306,10 @@ class ItemTimeline extends React.Component {
             <Flex align='start'>
               {image.length === 1 && (
                 <Cover
-                  style={_.ml.sm}
+                  style={_.ml.md}
                   src={_image}
-                  size={coverWidth}
+                  size={rightCoverIsAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
+                  height={rightCoverIsAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
                   radius
                   shadow
                   border={_.colorBorder}
