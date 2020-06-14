@@ -3,9 +3,9 @@
     "name": "bangumi",
     "slug": "bangumi",
     "privacy": "public",
-    "sdkVersion": "37.0.0",
+    "sdkVersion": "35.0.0",
     "platforms": ["ios", "android"],
-    "version": "3.5.4",
+    "version": "3.6.0",
     "orientation": "portrait",
     "scheme": "bangumi",
     "icon": "./src/assets/images/icon.png",
@@ -25,7 +25,7 @@
     },
     "android": {
       "package": "com.czy0729.bangumi",
-      "versionCode": 354,
+      "versionCode": 360,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/foreground.png",
         "backgroundColor": "#000000"
