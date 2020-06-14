@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 02:13:16
+ * @Last Modified time: 2020-06-14 16:58:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -58,8 +58,11 @@ function ItemPM({
         >
           <Flex>
             <Flex.Item>
-              <Text size={13} type='sub'>
-                {name} / {time}
+              <Text size={13} type='title' bold>
+                {name}{' '}
+                <Text size={11} lineHeight={13} type='sub'>
+                  {time}
+                </Text>
               </Text>
               <Text style={_.mt.xs} lineHeight={1.8} type='main' bold>
                 {title}

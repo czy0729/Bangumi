@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 00:37:51
+ * @Last Modified time: 2020-06-14 04:38:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
-const imageWidth = 64
+const imageWidth = 72
 
 function ItemLine(
   { subjectId, images = {}, name, air, timeCN, score },
@@ -98,7 +98,7 @@ export default observer(ItemLine)
 const styles = StyleSheet.create({
   item: {
     width: '100%',
-    paddingVertical: 8
+    paddingVertical: 12
   },
   itemActive: {
     backgroundColor: _.colorMainLight

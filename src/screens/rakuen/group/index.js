@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 16:59:08
+ * @Last Modified time: 2020-06-14 16:45:58
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,6 +13,7 @@ import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
+import HeaderTitle from './header-title'
 import Info from './info'
 import List from './list'
 import Store from './store'
@@ -23,7 +24,8 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  barStyle: 'dark-content'
+  barStyle: 'dark-content',
+  HeaderTitle
 })
 @observer
 class RakuenGroup extends React.Component {
@@ -81,6 +83,25 @@ class RakuenGroup extends React.Component {
     })
   }
 
+  onScroll = e => {
+    const { $ } = this.context
+    const { onScroll } = this.props
+    onScroll(e)
+
+    const { showHeaderTitle } = $.state
+    const { nativeEvent } = e
+    const { y } = nativeEvent.contentOffset
+    const headerTranstion = 48
+    if (!showHeaderTitle && y > headerTranstion) {
+      $.updateShowHeaderTitle(true)
+      return
+    }
+
+    if (showHeaderTitle && y <= headerTranstion) {
+      $.updateShowHeaderTitle(false)
+    }
+  }
+
   renderPagination() {
     const { $ } = this.context
     const { ipt } = $.state
@@ -107,7 +128,6 @@ class RakuenGroup extends React.Component {
       )
     }
 
-    const { onScroll } = this.props
     return (
       <View style={_.container.content}>
         <NavigationBarEvents />
@@ -115,7 +135,7 @@ class RakuenGroup extends React.Component {
           style={_.container.content}
           contentContainerStyle={_.container.bottom}
           scrollEventThrottle={16}
-          onScroll={onScroll}
+          onScroll={this.onScroll}
           {...withTransitionHeader.listViewProps}
         >
           <Info />

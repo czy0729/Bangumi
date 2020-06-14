@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 12:10:38
+ * @Last Modified time: 2020-06-14 16:19:09
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -40,8 +40,7 @@ function Head({ style }, { $ }) {
           {!!$.jp && (
             <Text
               type='sub'
-              size={$.jp.length > 16 ? 11 : 15}
-              selectable={false}
+              size={$.jp.length > 16 ? 11 : 14}
               onLongPress={() => {
                 Clipboard.setString($.jp)
                 info(`已复制 ${$.jp}`)
@@ -54,7 +53,7 @@ function Head({ style }, { $ }) {
           <Text
             style={!!$.cn && _.mt.xs}
             size={$.cn.length > 16 ? 15 : 18}
-            selectable={false}
+            bold
             onLongPress={() => {
               Clipboard.setString($.cn)
               info(`已复制 ${$.cn}`)

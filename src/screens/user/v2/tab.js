@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 14:43:40
+ * @Last Modified time: 2020-06-14 04:23:23
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -105,8 +105,8 @@ class Tab extends React.Component {
     <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
       <TabBar
         {...props}
-        style={[this.styles.tabBar]}
-        tabStyle={[this.styles.tab]}
+        style={this.styles.tabBar}
+        tabStyle={this.styles.tab}
         labelStyle={this.styles.label}
         indicatorStyle={this.styles.indicator}
         pressOpacity={1}

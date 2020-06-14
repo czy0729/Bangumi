@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:34:07
+ * @Last Modified time: 2020-06-14 04:42:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,7 @@ function Discuss(props, { $, navigation }) {
                   </Text>
                 </Flex.Item>
                 <View style={_.ml.md}>
-                  <Text size={12} align='right'>
+                  <Text size={12} align='right' bold>
                     {item.userName}
                   </Text>
                   <Text style={_.mt.xs} type='sub' size={12} align='right'>

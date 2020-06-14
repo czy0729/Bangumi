@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 00:36:49
+ * @Last Modified time: 2020-06-14 14:55:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -63,16 +63,16 @@ function CollectionsGrid({
         onPress={onPress}
       />
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} size={13} numberOfLines={2} bold>
+        <Text style={_.mt.sm} size={12} numberOfLines={2} bold>
           {showScore && score && (
-            <Text size={13} type='warning' bold>
+            <Text size={12} type='warning' bold>
               {score}{' '}
             </Text>
           )}
           {HTMLDecode(nameCn || name)}
         </Text>
         {!!holdDays && (
-          <Text style={_.mt.xs} size={13} type='sub'>
+          <Text style={_.mt.xs} size={12} type='sub'>
             搁置{holdDays}天
           </Text>
         )}
@@ -92,6 +92,6 @@ const styles = StyleSheet.create({
   item: {
     width: imageWidth,
     marginLeft,
-    marginBottom: _.space
+    marginBottom: _.sm
   }
 })

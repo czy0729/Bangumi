@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 22:40:00
+ * @Last Modified time: 2020-06-14 04:31:47
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -120,14 +120,14 @@ class Anitama extends React.Component {
                     shadow
                   />
                   <View style={this.styles.info}>
-                    <Text size={20} type='title'>
+                    <Text size={18} type='title' bold>
                       {item.title}
                     </Text>
-                    <Text style={_.mt.sm} size={16} lineHeight={20}>
+                    <Text style={_.mt.sm} lineHeight={18}>
                       {item.subtitle}
                     </Text>
                     {!!item.intro && (
-                      <Text style={_.mt.md} type='sub' lineHeight={20}>
+                      <Text style={_.mt.md} type='sub' lineHeight={18}>
                         {item.intro}
                       </Text>
                     )}

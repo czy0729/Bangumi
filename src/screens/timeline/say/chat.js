@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:51:26
+ * @Last Modified time: 2020-06-14 16:59:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,7 +34,7 @@ function Chat(props, { $, navigation }) {
             <Flex key={index} style={_.mt.md} align='start'>
               <Flex.Item>
                 <Flex direction='column' align='end'>
-                  <Text size={12} type='sub'>
+                  <Text size={12} type='title' bold>
                     {item.name}
                   </Text>
                   <View style={[styles.text, styles.textActive, _.mt.sm]}>
@@ -84,7 +84,7 @@ function Chat(props, { $, navigation }) {
             />
             <Flex.Item style={_.ml.sm}>
               <Flex direction='column' align='start'>
-                <Text size={12} type='sub'>
+                <Text size={12} type='title' bold>
                   {item.name}
                 </Text>
                 <View style={[styles.text, _.mt.sm]}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 20:33:30
+ * @Last Modified time: 2020-06-14 16:13:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,9 @@ function Voice({ style }, { $, navigation }) {
                   }
                 />
                 <Flex.Item style={_.ml.sm}>
-                  <Text bold>{item.name}</Text>
+                  <Text bold size={13}>
+                    {item.name}
+                  </Text>
                   {!!item.nameCn && (
                     <Text style={_.mt.xs} size={11} type='sub'>
                       {item.nameCn}
@@ -75,7 +77,9 @@ function Voice({ style }, { $, navigation }) {
             <Flex.Item style={_.ml.sm} flex={3.2}>
               <Flex align='start'>
                 <Flex.Item>
-                  <Text align='right'>{item.subjectName}</Text>
+                  <Text align='right' size={13}>
+                    {item.subjectName}
+                  </Text>
                   <Flex style={styles.mt}>
                     <Flex.Item>
                       <Text

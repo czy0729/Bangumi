@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 20:42:15
+ * @Last Modified time: 2020-06-14 15:30:37
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -73,7 +73,6 @@ function Info(props, { $, navigation }) {
             <Image
               src={getCoverLarge($.cover)}
               autoSize={maxSize}
-              border
               shadow
               placholder={false}
               imageViewer

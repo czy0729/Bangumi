@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 17:31:28
+ * @Last Modified time: 2020-06-14 15:26:40
  */
 import React from 'react'
 import { StyleSheet, Animated, View } from 'react-native'
@@ -20,7 +20,7 @@ export default
 class Expand extends React.Component {
   static defaultProps = {
     style: undefined,
-    ratio: 1 // 比例
+    ratio: 0.8 // 比例
   }
 
   state = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 22:05:46
+ * @Last Modified time: 2020-06-14 16:53:04
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -38,7 +38,7 @@ function Item({ id, cover, name, num }, { navigation }) {
             align='start'
             justify='center'
           >
-            <Text size={13} numberOfLines={1}>
+            <Text size={13} numberOfLines={1} bold>
               {name}
             </Text>
             <Text style={_.mt.xs} type='sub' size={12}>

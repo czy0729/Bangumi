@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 14:18:56
+ * @Last Modified time: 2020-06-14 15:21:10
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -134,7 +134,7 @@ class Subject extends React.Component {
   render() {
     const { showBlurView, rendered = [] } = this.state
     return (
-      <View style={_.select(_.container.screen, _.container.content)}>
+      <View style={_.container.plain}>
         <Bg show={showBlurView} />
         <List rendered={rendered} onScroll={this.onScroll} />
         <Modal />

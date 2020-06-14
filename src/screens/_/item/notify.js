@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 20:52:15
+ * @Last Modified time: 2020-06-14 16:55:53
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -36,10 +36,10 @@ function ItemNotify({
         event={event}
       />
       <Flex.Item style={[styles.item, !!index && styles.border, _.ml.sm]}>
-        <Text size={13} type='sub'>
+        <Text size={13} type='title' bold>
           {userName}
         </Text>
-        <Text style={_.mt.xs} lineHeight={1.8} type='title'>
+        <Text style={_.mt.xs} lineHeight={1.8}>
           {message}
           <Text
             lineHeight={1.8}

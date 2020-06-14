@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 19:35:56
+ * @Last Modified time: 2020-06-14 04:42:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -61,6 +61,7 @@ function Friends(props, { $, navigation }) {
                   <Text
                     size={12}
                     type='sub'
+                    bold
                     onPress={() => {
                       t('频道.跳转', {
                         to: 'Zone',

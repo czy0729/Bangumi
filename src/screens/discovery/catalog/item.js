@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 13:59:48
+ * @Last Modified time: 2020-06-14 04:40:11
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
 const width = _.window.width - _.wind * 2
-const height = width * (_.isPad ? 0.32 : 0.42)
+const height = width * (_.isPad ? 0.32 : 0.48)
 
 function Item(
   { id, name, title, info, last, book, anime, music, game, real },

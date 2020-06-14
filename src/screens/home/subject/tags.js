@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:09:58
+ * @Last Modified time: 2020-06-14 15:25:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,14 +59,14 @@ function Tags({ style }, { $, navigation }) {
                     <Flex>
                       <Text
                         type={_.select('desc', isSelected ? 'main' : 'desc')}
-                        size={13}
+                        size={12}
                       >
                         {name}
                       </Text>
                       <Text
                         style={_.ml.xs}
                         type={_.select('sub', isSelected ? 'main' : 'desc')}
-                        size={13}
+                        size={12}
                       >
                         {count}
                       </Text>
@@ -96,10 +96,10 @@ const memoStyles = _.memoStyles(_ => ({
     height: 96
   },
   item: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingVertical: 2,
+    paddingHorizontal: 6,
     marginRight: 8,
-    marginBottom: 12,
+    marginBottom: 8,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),

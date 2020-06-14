@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 21:02:13
+ * @Last Modified time: 2020-06-14 16:13:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,9 @@ function Jobs({ style }, { $, navigation }) {
                   }
                 />
                 <Flex.Item style={_.ml.sm}>
-                  <Text>{item.name}</Text>
+                  <Text size={13} bold>
+                    {item.name}
+                  </Text>
                   <Flex style={_.mt.xs} align='start'>
                     <Tag value={item.staff} />
                     <Text
@@ -76,7 +78,7 @@ function Jobs({ style }, { $, navigation }) {
             <Flex.Item style={_.ml.md} flex={2}>
               <Flex align='start'>
                 <Flex.Item>
-                  <Text style={_.mt.xs} align='right' bold>
+                  <Text style={_.mt.xs} size={13} align='right' bold>
                     {item.cast}
                   </Text>
                   {!!item.castTag && (

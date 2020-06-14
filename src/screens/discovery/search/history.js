@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 14:34:26
+ * @Last Modified time: 2020-06-14 15:05:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function History({ style }, { $ }) {
         <View key={item} style={styles.item}>
           <Flex style={styles.content}>
             <Flex.Item>
-              <Text size={15} onPress={() => $.selectHistory(item)}>
+              <Text size={15} bold onPress={() => $.selectHistory(item)}>
                 {item}
               </Text>
             </Flex.Item>

@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-22 18:15:14
+ * @Last Modified time: 2020-06-14 15:58:36
  */
-import { computed } from 'mobx'
+import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
@@ -14,6 +14,10 @@ import { info } from '@utils/ui'
 import { HOST } from '@constants'
 
 export default class ScreenMono extends store {
+  state = observable({
+    showHeaderTitle: false
+  })
+
   init = () => {
     this.fetchMonoFormCDN()
 
@@ -123,6 +127,13 @@ export default class ScreenMono extends store {
       return this.mono.jobs || []
     }
     return this.monoFormCDN.jobs || []
+  }
+
+  // -------------------- page --------------------
+  updateShowHeaderTitle = showHeaderTitle => {
+    this.setState({
+      showHeaderTitle
+    })
   }
 
   // -------------------- action --------------------

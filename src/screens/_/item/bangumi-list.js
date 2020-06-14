@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 22:42:30
+ * @Last Modified time: 2020-06-14 18:54:52
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -44,7 +44,6 @@ function ItemBangumiList({
       <Cover
         size={imageWidth}
         src={images.small}
-        border
         radius
         shadow
         onPress={onPress}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 16:52:41
+ * @Last Modified time: 2020-06-14 16:34:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -34,7 +34,6 @@ function Info(props, { $ }) {
           <Image
             src={$.groupThumb}
             size={80}
-            border
             shadow
             placholder={false}
             imageViewer

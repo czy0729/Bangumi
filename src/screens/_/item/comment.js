@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 11:36:14
+ * @Last Modified time: 2020-06-14 04:30:23
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -41,9 +41,11 @@ function ItemComment({
         <Flex>
           <Flex.Item>
             <Flex>
-              <Text size={13}>{userName}</Text>
-              <Text style={_.ml.xs} type='sub' size={13}>
-                / {correctAgo(formatTime(time))}
+              <Text size={13} bold>
+                {userName}
+              </Text>
+              <Text style={_.ml.xs} type='sub' size={11}>
+                {correctAgo(formatTime(time))}
               </Text>
             </Flex>
           </Flex.Item>
@@ -90,7 +92,7 @@ function formatTime(str = '') {
   if (str.indexOf('ago') === -1) {
     // date
     const { length } = str
-    return `${str.slice(0, length - 5)} ${str.slice(length - 5, length)}`
+    return `${str.slice(2, length - 5)} ${str.slice(length - 5, length)}`
   }
 
   // ago

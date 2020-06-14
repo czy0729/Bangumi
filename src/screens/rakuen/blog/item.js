@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:47:54
+ * @Last Modified time: 2020-06-14 16:30:51
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -43,10 +43,9 @@ function Item(
 ) {
   const styles = memoStyles()
   const baseFontStyle = {
-    fontSize: 15 + _.fontSizeAdjust,
+    fontSize: 14 + _.fontSizeAdjust,
     lineHeight: 22
   }
-  const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   const isFriend = $.myFriendsMap[userId]
   const isJump = !!postId && postId === id
@@ -60,12 +59,7 @@ function Item(
   const url = _url || `${HOST}/blog/${$.blogId}`
   return (
     <Flex
-      style={[
-        styles.item,
-        isOdd && styles.itemOdd,
-        isNew && styles.itemNew,
-        isJump && styles.itemJump
-      ]}
+      style={[styles.item, isNew && styles.itemNew, isJump && styles.itemJump]}
       align='start'
     >
       <Avatar
@@ -76,31 +70,33 @@ function Item(
         src={avatar}
         event={event}
       />
-      <Flex.Item style={[styles.content, _.ml.sm]}>
+      <Flex.Item
+        style={[styles.content, index !== 0 && styles.border, _.ml.sm]}
+      >
         <Flex>
           <Flex.Item>
-            <Text size={13}>
+            <Text size={13} bold>
               {userName}
               {isAuthor && (
-                <Text type='main' size={13}>
+                <Text type='main' size={11}>
                   {' '}
                   [作者]
                 </Text>
               )}
               {isFriend && (
-                <Text type='warning' size={13}>
+                <Text type='warning' size={11}>
                   {' '}
                   [好友]
                 </Text>
               )}
             </Text>
           </Flex.Item>
-          <Text style={[styles.time, _.ml.md]} type='sub' size={13}>
-            {floor} / {simpleTime(time)}
+          <Text style={[styles.time, _.ml.md]} type='sub' size={11}>
+            {simpleTime(time)} {floor}
           </Text>
         </Flex>
         {!!userSign && (
-          <Text style={styles.sign} type='sub' size={12} numberOfLines={2}>
+          <Text style={styles.sign} type='sub' size={11} numberOfLines={2}>
             {userSign.slice(1, userSign.length - 1)}
           </Text>
         )}
@@ -129,7 +125,7 @@ function Item(
                 ])
               }
             >
-              <Text type='icon' size={13}>
+              <Text type='icon' size={11}>
                 删除
               </Text>
             </Touchable>
@@ -142,7 +138,7 @@ function Item(
                 showFixedTextare()
               }}
             >
-              <Text type='icon' size={13}>
+              <Text type='icon' size={11}>
                 回复
               </Text>
             </Touchable>
@@ -175,30 +171,30 @@ function Item(
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
                     <Flex.Item>
-                      <Text size={13}>
+                      <Text size={13} bold>
                         {item.userName}
                         {isAuthor && (
-                          <Text type='main' size={13}>
+                          <Text type='main' size={11}>
                             {' '}
                             [作者]
                           </Text>
                         )}
                         {isLayer && (
-                          <Text type='primary' size={13}>
+                          <Text type='primary' size={11}>
                             {' '}
                             [层主]
                           </Text>
                         )}
                         {isFriend && (
-                          <Text type='warning' size={13}>
+                          <Text type='warning' size={11}>
                             {' '}
                             [好友]
                           </Text>
                         )}
                       </Text>
                     </Flex.Item>
-                    <Text style={[styles.time, _.ml.md]} type='sub' size={13}>
-                      {item.floor} / {simpleTime(item.time)}
+                    <Text style={[styles.time, _.ml.md]} type='sub' size={11}>
+                      {simpleTime(item.time)} {item.floor}
                     </Text>
                   </Flex>
                   <RenderHtml
@@ -228,7 +224,7 @@ function Item(
                           ])
                         }
                       >
-                        <Text type='icon' size={13}>
+                        <Text type='icon' size={11}>
                           删除
                         </Text>
                       </Touchable>
@@ -245,7 +241,7 @@ function Item(
                           showFixedTextare()
                         }}
                       >
-                        <Text type='icon' size={13}>
+                        <Text type='icon' size={11}>
                           回复
                         </Text>
                       </Touchable>
@@ -275,7 +271,7 @@ export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
-    backgroundColor: _.colorPlain
+    ..._.container.item
   },
   itemOdd: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
@@ -295,12 +291,13 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.space,
     paddingRight: _.wind
   },
-  sign: {
-    marginTop: _.xs
-  },
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  sign: {
+    marginTop: 2,
+    opacity: _.select(1, 0.64)
   },
   sub: {
     marginTop: _.md,
@@ -314,11 +311,12 @@ const memoStyles = _.memoStyles(_ => ({
   },
   reply: {
     padding: _.sm,
+    marginTop: -_.sm,
     marginRight: -_.sm,
-    marginBottom: -_.sm,
-    opacity: 0.64
+    marginBottom: -_.md,
+    opacity: _.select(1, 0.64)
   },
   time: {
-    opacity: 0.5
+    opacity: _.select(1, 0.64)
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 14:58:32
+ * @Last Modified time: 2020-06-14 04:41:40
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -51,7 +51,7 @@ function Friends(props, { $, navigation }) {
                   shadow
                 />
               </View>
-              <Flex.Item style={_.ml.sm}>
+              <Flex.Item style={_.ml.md}>
                 <Flex style={_.mt.sm} align='start'>
                   <Flex.Item>
                     <Text size={15} bold numberOfLines={2}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 20:36:49
+ * @Last Modified time: 2020-06-14 15:47:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,22 +59,22 @@ function ItemTopic({
       <Flex.Item style={[styles.content, _.ml.sm]}>
         <Flex>
           <Flex.Item>
-            <Text size={13}>
+            <Text size={13} bold>
               {userName}
               {isAuthor && (
-                <Text type='main' size={13}>
+                <Text type='main' size={11}>
                   {' '}
                   [作者]
                 </Text>
               )}
             </Text>
           </Flex.Item>
-          <Text style={_.ml.md} type='sub' size={13}>
-            {floor} / {simpleTime(time)}
+          <Text style={_.ml.md} type='sub' size={11}>
+            {simpleTime(time)} {floor}
           </Text>
         </Flex>
         {!!userSign && (
-          <Text style={_.mt.xs} type='sub' size={12}>
+          <Text style={_.mt.xs} type='sub' size={11}>
             {userSign.slice(1, userSign.length - 1)}
           </Text>
         )}
@@ -103,24 +103,24 @@ function ItemTopic({
                 <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
                   <Flex>
                     <Flex.Item>
-                      <Text size={13}>
+                      <Text size={13} bold>
                         {item.userName}
                         {isAuthor && (
-                          <Text type='main' size={13}>
+                          <Text type='main' size={11}>
                             {' '}
                             [作者]
                           </Text>
                         )}
                         {isLayer && (
-                          <Text type='primary' size={13}>
+                          <Text type='primary' size={11}>
                             {' '}
                             [层主]
                           </Text>
                         )}
                       </Text>
                     </Flex.Item>
-                    <Text style={_.ml.md} type='sub' size={13}>
-                      {item.floor} / {simpleTime(item.time)}
+                    <Text style={_.ml.md} type='sub' size={11}>
+                      {simpleTime(item.time)} {item.floor}
                     </Text>
                   </Flex>
                   <RenderHtml

@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2019-07-13 22:44:24
+ * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:56:56
+ * @Last Modified time: 2020-06-14 16:37:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,7 +61,7 @@ function List({ style }, { $, navigation }) {
                 info('该帖评论多, 自动使用浏览器打开')
                 setTimeout(() => {
                   open(url)
-                }, 1600)
+                }, 1500)
               } else {
                 // 记录帖子查看历史详情
                 $.onItemPress(topicId, replies)
@@ -82,25 +82,28 @@ function List({ style }, { $, navigation }) {
             }}
           >
             <View style={[styles.wrap, !!index && styles.border]}>
-              <Text size={16}>
+              <Text size={15}>
                 {title}
                 <Text
                   type={isReaded ? 'sub' : 'main'}
-                  size={13}
-                  lineHeight={16}
+                  size={12}
+                  lineHeight={15}
                 >
                   {' '}
                   {replyText}
                 </Text>
                 {!!replyAdd && (
-                  <Text type='main' size={13} lineHeight={16}>
+                  <Text type='main' size={12} lineHeight={15}>
                     {' '}
                     {replyAdd}
                   </Text>
                 )}
               </Text>
-              <Text style={_.mt.sm} type='sub' size={13}>
-                {correctAgo(time)} / <Text size={13}>{userName}</Text>
+              <Text style={_.mt.sm} type='sub' size={12}>
+                {correctAgo(time)} /{' '}
+                <Text size={12} bold>
+                  {userName}
+                </Text>
               </Text>
             </View>
           </Touchable>

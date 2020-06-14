@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 20:13:33
+ * @Last Modified time: 2020-06-14 18:54:31
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     minHeight: _.window.height + height - _.tabBarHeight
   },
   sectionHeader: {
-    paddingHorizontal: _._wind
+    paddingHorizontal: _._wind,
+    backgroundColor: _.colorPlain
   }
 })

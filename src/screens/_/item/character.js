@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 20:15:55
+ * @Last Modified time: 2020-06-14 15:33:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -114,14 +114,16 @@ function ItemCharacter(
               }}
             >
               <Flex>
-                <Cover src={actorCover} size={32} border radius shadow />
+                <Cover src={actorCover} size={32} radius shadow />
                 <Flex.Item style={_.ml.sm}>
-                  <Text size={12} numberOfLines={1} bold>
+                  <Text size={12} numberOfLines={1} bold lineHeight={13}>
                     {actor}
                   </Text>
-                  <Text style={_.mt.xs} size={12} type='sub' numberOfLines={1}>
-                    {actorCn}
-                  </Text>
+                  {!!actorCn && (
+                    <Text size={12} type='sub' numberOfLines={1}>
+                      {actorCn}
+                    </Text>
+                  )}
                 </Flex.Item>
               </Flex>
             </Touchable>

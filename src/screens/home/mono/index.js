@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 20:12:08
+ * @Last Modified time: 2020-06-14 16:00:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,6 +15,7 @@ import { keyExtractor } from '@utils/app'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
+import HeaderTitle from './header-title'
 import Extra from './extra'
 import Info from './info'
 import Store from './store'
@@ -31,7 +32,8 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  barStyle: 'dark-content'
+  barStyle: 'dark-content',
+  HeaderTitle
 })
 @observer
 class Mono extends React.Component {
@@ -82,6 +84,25 @@ class Mono extends React.Component {
     })
   }
 
+  onScroll = e => {
+    const { $ } = this.context
+    const { onScroll } = this.props
+    onScroll(e)
+
+    const { showHeaderTitle } = $.state
+    const { nativeEvent } = e
+    const { y } = nativeEvent.contentOffset
+    const headerTranstion = 48
+    if (!showHeaderTitle && y > headerTranstion) {
+      $.updateShowHeaderTitle(true)
+      return
+    }
+
+    if (showHeaderTitle && y <= headerTranstion) {
+      $.updateShowHeaderTitle(false)
+    }
+  }
+
   ListHeaderComponent = (<Info />)
 
   renderItem = ({ item, index }) => {
@@ -98,7 +119,6 @@ class Mono extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { onScroll } = this.props
     return (
       <View style={_.container.plain}>
         <NavigationBarEvents />
@@ -109,7 +129,7 @@ class Mono extends React.Component {
           scrollEventThrottle={16}
           ListHeaderComponent={this.ListHeaderComponent}
           renderItem={this.renderItem}
-          onScroll={onScroll}
+          onScroll={this.onScroll}
           onHeaderRefresh={$.onHeaderRefresh}
           onFooterRefresh={$.fetchMono}
           {...withTransitionHeader.listViewProps}

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 17:49:08
+ * @Last Modified time: 2020-06-14 15:31:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -269,8 +269,8 @@ class RenderHtml extends React.Component {
    */
   get defaultBaseFontStyle() {
     return {
-      fontSize: 16 + _.fontSizeAdjust,
-      lineHeight: 26,
+      fontSize: 15 + _.fontSizeAdjust,
+      lineHeight: 24,
       color: _.colorTitle
     }
   }
