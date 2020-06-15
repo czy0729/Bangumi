@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 14:33:29
+ * @Last Modified time: 2020-06-15 17:40:39
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -197,7 +197,7 @@ class ItemTimeline extends React.Component {
     }
 
     const images = image.map((item, index) => {
-      const isAvatar = String(!!p3.url.length && p3.url[0]).includes('user')
+      const isAvatar = !String(!!p3.url.length && p3.url[0]).includes('subject')
       return (
         <Cover
           key={item || index}
@@ -258,8 +258,8 @@ class ItemTimeline extends React.Component {
     const _image = !!image.length && image[0]
     const bodyStyle =
       image.length === 1 && !(comment || reply.content) ? _.mt.lg : _.mt.md
-    const rightCoverIsAvatar = String(!!p3.url.length && p3.url[0]).includes(
-      'user'
+    const rightCoverIsAvatar = !String(!!p3.url.length && p3.url[0]).includes(
+      'subject'
     )
     return (
       <Flex style={[_.container.item, style]} align='start'>

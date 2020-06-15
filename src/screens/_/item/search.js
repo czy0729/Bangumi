@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 15:10:54
+ * @Last Modified time: 2020-06-15 17:35:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -93,6 +93,7 @@ function ItemSearch({
                           style={_.mt.xs}
                           type='sub'
                           size={11}
+                          lineHeight={15}
                           numberOfLines={1}
                         >
                           {' '}

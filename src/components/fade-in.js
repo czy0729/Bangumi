@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 15:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 16:38:48
+ * @Last Modified time: 2020-06-15 17:36:12
  */
 import React, { Component } from 'react'
 import { Animated } from 'react-native'
@@ -37,7 +37,7 @@ export default class FadeIn extends Component {
     const { opacity } = this.state
     Animated.timing(opacity, {
       toValue: 0,
-      duration: 120,
+      duration: 80,
       useNativeDriver: false
     }).start()
   }
