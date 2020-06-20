@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 11:48:29
+ * @Last Modified time: 2020-06-17 10:00:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,7 +60,7 @@ function Tab(props, { $ }) {
     <>
       <TabView
         sceneContainerStyle={styles.sceneContainerStyle}
-        lazy={!IOS}
+        // lazy={!IOS}
         lazyPreloadDistance={1}
         navigationState={{
           index: page,

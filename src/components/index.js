@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 16:03:14
+ * @Last Modified time: 2020-06-16 23:57:50
  */
 export { default as Bgm } from './bgm'
 export { default as BgmText } from './bgm-text'
@@ -21,6 +21,7 @@ export { default as Iconfont } from './iconfont'
 export { default as Image } from './image'
 export { default as ImageViewer } from './image-viewer'
 export { default as Input } from './input'
+export { default as Katakana } from './katakana'
 export { default as KeyboardSpacer } from './keyboard-spacer'
 export { default as ListView } from './list-view'
 export { default as Loading } from './loading'

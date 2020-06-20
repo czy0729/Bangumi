@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-15 17:40:39
+ * @Last Modified time: 2020-06-17 22:01:37
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Iconfont, Touchable } from '@components'
+import { Flex, Katakana, Text, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate, findSubjectCn, getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
@@ -58,7 +58,7 @@ class ItemTimeline extends React.Component {
           url.includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
         const subjectId = isSubject ? matchSubjectId(url) : 0
         $p3.push(
-          <Text
+          <Katakana
             key={item || index}
             type={isSubject ? 'main' : 'title'}
             bold={isSubject}
@@ -75,7 +75,7 @@ class ItemTimeline extends React.Component {
             }
           >
             {isSubject ? findSubjectCn(item, subjectId) : item}
-          </Text>,
+          </Katakana>,
           <Text key={`${item}.`}>、</Text>
         )
       })
@@ -89,7 +89,7 @@ class ItemTimeline extends React.Component {
         ? matchSubjectId(!!p3.url.length && p3.url[0])
         : 0
       $p3 = (
-        <Text
+        <Katakana
           type={isSubject ? 'main' : 'title'}
           bold={isSubject}
           onPress={() =>
@@ -107,7 +107,7 @@ class ItemTimeline extends React.Component {
           {isSubject
             ? findSubjectCn(!!p3.text.length && p3.text[0], subjectId)
             : !!p3.text.length && p3.text[0]}
-        </Text>
+        </Katakana>
       )
     }
 
@@ -124,9 +124,9 @@ class ItemTimeline extends React.Component {
     }
 
     return (
-      <Text>
+      <Katakana.Provider>
         {!!p1.text && (
-          <Text
+          <Katakana
             type='title'
             bold
             onPress={() =>
@@ -137,12 +137,12 @@ class ItemTimeline extends React.Component {
             }
           >
             {p1.text}{' '}
-          </Text>
+          </Katakana>
         )}
         <Text type='sub'>{p2.text} </Text>
         {this.renderP3()}
         {!!p4.text && <Text type='sub'> {p4.text}</Text>}
-      </Text>
+      </Katakana.Provider>
     )
   }
 

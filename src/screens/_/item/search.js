@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-15 17:35:19
+ * @Last Modified time: 2020-06-20 22:00:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Katakana, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
@@ -80,8 +80,10 @@ function ItemSearch({
               <Flex align='start' style={{ width: '100%' }}>
                 <Flex.Item>
                   {!!(nameCn || name) && (
-                    <Text size={15} numberOfLines={2} bold>
-                      {HTMLDecode(nameCn || name)}
+                    <Katakana.Provider size={15} bold numberOfLines={2}>
+                      <Katakana size={15} bold>
+                        {HTMLDecode(nameCn || name)}
+                      </Katakana>
                       {!!comments && (
                         <Text type='main' lineHeight={15}>
                           {' '}
@@ -89,7 +91,7 @@ function ItemSearch({
                         </Text>
                       )}
                       {!!name && name !== nameCn && (
-                        <Text
+                        <Katakana
                           style={_.mt.xs}
                           type='sub'
                           size={11}
@@ -98,9 +100,9 @@ function ItemSearch({
                         >
                           {' '}
                           {HTMLDecode(name)}
-                        </Text>
+                        </Katakana>
                       )}
-                    </Text>
+                    </Katakana.Provider>
                   )}
                 </Flex.Item>
                 {!!type && (

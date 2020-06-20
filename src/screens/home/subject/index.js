@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 15:21:10
+ * @Last Modified time: 2020-06-20 18:57:26
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:19:09
+ * @Last Modified time: 2020-06-20 19:00:04
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text } from '@components'
+import { Flex, Text, Katakana } from '@components'
 import { ScoreTag } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
@@ -30,25 +30,22 @@ function Head({ style }, { $ }) {
   return (
     <View style={[styles.container, style]}>
       <Cover image={images.common} placeholder={$.coverPlaceholder} />
-      <Flex
-        style={styles.content}
-        direction='column'
-        justify='between'
-        align='start'
-      >
-        <View>
+      <View style={styles.content}>
+        <View style={styles.title}>
           {!!$.jp && (
-            <Text
-              type='sub'
-              size={$.jp.length > 16 ? 11 : 14}
-              onLongPress={() => {
-                Clipboard.setString($.jp)
-                info(`已复制 ${$.jp}`)
-              }}
-            >
-              {$.jp}
-              {!!label && ` · ${label}`}
-            </Text>
+            <Katakana.Provider>
+              <Katakana
+                type='sub'
+                size={$.jp.length > 12 ? 11 : 13}
+                onLongPress={() => {
+                  Clipboard.setString($.jp)
+                  info(`已复制 ${$.jp}`)
+                }}
+              >
+                {$.jp}
+                {!!label && ` · ${label}`}
+              </Katakana>
+            </Katakana.Provider>
           )}
           <Text
             style={!!$.cn && _.mt.xs}
@@ -74,7 +71,7 @@ function Head({ style }, { $ }) {
             </>
           )}
         </Flex>
-      </Flex>
+      </View>
     </View>
   )
 }
@@ -97,5 +94,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain,
     borderTopLeftRadius: _.radiusLg,
     borderTopRightRadius: _.radiusLg
+  },
+  title: {
+    height: 84
   }
 }))

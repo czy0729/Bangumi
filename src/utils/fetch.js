@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 14:44:39
+ * @Last Modified time: 2020-06-16 20:53:54
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -506,12 +506,11 @@ export async function queue(fetchs, num = 2) {
  * 百度翻译
  * @param {*} query
  */
-export async function baiduTranslate(query) {
+export async function baiduTranslate(query, to = 'zh') {
   try {
     const appid = APP_ID_BAIDU // 秘密
     const salt = new Date().getTime()
     const from = 'auto'
-    const to = 'zh'
     const q = query.split('\r\n').join('\n')
     const sign = md5(`${appid}${q}${salt}${BAIDU_KEY}`)
     const { _response } = await xhrCustom({

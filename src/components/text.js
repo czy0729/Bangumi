@@ -3,26 +3,30 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 00:06:14
+ * @Last Modified time: 2020-06-19 17:47:08
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { IOS } from '@constants'
 import { _ } from '@stores'
 
-function Text({
-  style,
-  type,
-  underline,
-  size,
-  lineHeight,
-  align,
-  bold,
-  selectable,
-  children,
-  ...other
-}) {
+function Text(
+  {
+    style,
+    type,
+    underline,
+    size,
+    lineHeight,
+    align,
+    bold,
+    selectable,
+    children,
+    ...other
+  },
+  { lineHeightIncrease = 0 }
+) {
   const styles = memoStyles(_.mode)
   const _style = [styles.text]
   if (type) {
@@ -34,12 +38,13 @@ function Text({
   if (size) {
     _style.push(_[`fontSize${size}`])
   }
-  if (lineHeight !== undefined) {
+  if (lineHeight !== undefined || lineHeightIncrease) {
+    const _lineHeight = (lineHeight || size) + lineHeightIncrease
     _style.push({
       lineHeight:
-        lineHeight <= 2
-          ? lineHeight * (size + _.fontSizeAdjust)
-          : (lineHeight + _.fontSizeAdjust) * _.lineHeightRatio
+        _lineHeight <= 2 + lineHeightIncrease
+          ? _lineHeight * (size + _.fontSizeAdjust)
+          : (_lineHeight + _.fontSizeAdjust) * _.lineHeightRatio
     })
   }
   if (align) {
@@ -74,6 +79,10 @@ Text.defaultProps = {
   bold: false,
   selectable: false,
   children: ''
+}
+
+Text.contextTypes = {
+  lineHeightIncrease: PropTypes.number
 }
 
 export default observer(Text)

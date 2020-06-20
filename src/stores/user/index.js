@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 13:48:33
+ * @Last Modified time: 2020-06-19 12:13:07
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -613,9 +613,9 @@ class User extends store {
    * 打印游客登陆sercet
    */
   logTourist = () => {
-    if (this.myUserId !== APP_USERID_TOURIST) {
-      return
-    }
+    // if (this.myUserId !== APP_USERID_TOURIST) {
+    //   return
+    // }
 
     log({
       tourist: 1,
