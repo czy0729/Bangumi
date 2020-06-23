@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 13:01:56
+ * @Last Modified time: 2020-06-23 10:24:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Flex, Katakana, Text, Touchable, Iconfont } from '@components'
 import { Popover, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -182,34 +182,39 @@ class Item extends React.Component {
       <Touchable style={this.styles.item} onPress={onPress}>
         <Flex align='start'>
           <Flex.Item>
-            <Text size={15}>
+            <Text size={15} bold>
               {title}
-              <Text
-                type={this.isReaded ? 'sub' : 'main'}
-                size={12}
-                lineHeight={15}
-              >
+              <Text type='sub' size={11} lineHeight={15}>
                 {' '}
                 {replyText}
               </Text>
               {!!replyAdd && (
-                <Text type='main' size={12} lineHeight={15}>
+                <Text type='main' size={11} lineHeight={15}>
                   {' '}
                   {replyAdd}
                 </Text>
               )}
               {isOldTopic && (
-                <Text size={12} lineHeight={15} type='warning'>
+                <Text size={11} lineHeight={15} type='warning'>
                   {' '}
                   旧帖
                 </Text>
               )}
             </Text>
-            <Text style={_.mt.sm} type='sub' size={12}>
-              {correctAgo(time)}
-              {this.groupCn ? ' / ' : ''}
-              {this.groupCn}
-            </Text>
+            <Katakana.Provider
+              style={_.mt.sm}
+              itemStyle={this.styles.katakanas}
+              size={12}
+              numberOfLines={1}
+            >
+              <Text type='sub' size={12}>
+                {correctAgo(time)}
+                {this.groupCn ? ' / ' : ''}
+              </Text>
+              <Katakana type='sub' size={12}>
+                {this.groupCn}
+              </Katakana>
+            </Katakana.Provider>
           </Flex.Item>
         </Flex>
       </Touchable>
@@ -334,10 +339,14 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingVertical: _.md
   },
+  katakanas: {
+    marginTop: -2
+  },
   popover: {
+    width: 44,
+    height: 64,
     paddingTop: 16,
-    paddingHorizontal: _._wind,
-    paddingBottom: 32
+    paddingHorizontal: _._wind
   },
   border: {
     borderTopColor: _.colorBorder,

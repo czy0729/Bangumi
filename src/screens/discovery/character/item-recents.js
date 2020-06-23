@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 14:59:04
+ * @Last Modified time: 2020-06-23 11:31:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Text } from '@components'
+import { Touchable, Flex, Katakana, Text } from '@components'
 import { Tag, Stars, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
@@ -56,21 +56,17 @@ function ItemRecents(
               <View>
                 <Flex align='start' style={{ width: '100%' }}>
                   <Flex.Item>
-                    {!!name && (
-                      <Text size={15} numberOfLines={2} bold>
-                        {HTMLDecode(name)}
-                      </Text>
-                    )}
-                    {!!nameJP && (
-                      <Text
-                        style={_.mt.xs}
-                        type='sub'
-                        size={12}
-                        numberOfLines={1}
-                      >
-                        {HTMLDecode(nameJP)}
-                      </Text>
-                    )}
+                    <Katakana.Provider size={15} numberOfLines={2}>
+                      <Katakana size={15} bold>
+                        {HTMLDecode(name || nameJP)}
+                      </Katakana>
+                      {!!nameJP && (
+                        <Katakana type='sub' size={11} lineHeight={15}>
+                          {' '}
+                          {HTMLDecode(nameJP)}
+                        </Katakana>
+                      )}
+                    </Katakana.Provider>
                   </Flex.Item>
                   {!!type && (
                     <Tag
@@ -80,7 +76,7 @@ function ItemRecents(
                   )}
                 </Flex>
                 {!!info && (
-                  <Text style={_.mt.sm} size={12}>
+                  <Text style={_.mt.sm} size={12} lineHeight={14}>
                     {HTMLDecode(info)}
                   </Text>
                 )}
@@ -90,7 +86,7 @@ function ItemRecents(
                   {!!star && (
                     <Stars style={_.mr.xs} value={star} color='warning' />
                   )}
-                  <Text style={_.mr.sm} type='sub' size={13}>
+                  <Text style={_.mr.sm} type='sub' size={12}>
                     {starInfo}
                   </Text>
                 </Flex>
@@ -103,7 +99,6 @@ function ItemRecents(
                 <Cover
                   src={item.avatar}
                   size={32}
-                  border
                   radius
                   shadow
                   onPress={() => {
@@ -121,7 +116,7 @@ function ItemRecents(
                   <Text size={12} numberOfLines={1} bold>
                     {item.name}
                   </Text>
-                  <Text style={_.mt.xs} size={12} type='sub' numberOfLines={1}>
+                  <Text size={10} lineHeight={12} type='sub' numberOfLines={1}>
                     {item.info}
                   </Text>
                 </Flex.Item>

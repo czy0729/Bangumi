@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 00:55:16
+ * @Last Modified time: 2020-06-21 02:51:54
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -283,7 +283,7 @@ export function cheerioSubjectFormHTML(HTML) {
           return safeObject({
             id,
             image: matchCover($row.find('span.avatarNeue').attr('style')),
-            title: $title.text(),
+            title: HTMLDecode($title.text().trim()),
             type: relationsType,
             url: `${HOST}/subject/${id}`
           })

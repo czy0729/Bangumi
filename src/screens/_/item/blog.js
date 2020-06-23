@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 04:35:06
+ * @Last Modified time: 2020-06-23 11:40:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Text } from '@components'
+import { Touchable, Flex, Katakana, Text } from '@components'
 import { _, discoveryStore } from '@stores'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
@@ -70,9 +70,15 @@ function ItemBlog(
             </Text>
           </Text>
           {!!line.length && (
-            <Text style={_.mt.xs} type='sub' size={13}>
-              {line.join(' / ')}
-            </Text>
+            <Katakana.Provider
+              style={_.mt.xs}
+              itemStyle={styles.katakanas}
+              size={13}
+            >
+              <Katakana type='sub' size={13}>
+                {line.join(' / ')}
+              </Katakana>
+            </Katakana.Provider>
           )}
           <Text style={_.mt.sm} size={13} numberOfLines={4} lineHeight={15}>
             {content}
@@ -128,5 +134,8 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  katakanas: {
+    marginTop: -6
   }
 }))

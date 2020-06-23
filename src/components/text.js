@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-19 17:47:08
+ * @Last Modified time: 2020-06-21 00:07:17
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -38,15 +38,21 @@ function Text(
   if (size) {
     _style.push(_[`fontSize${size}`])
   }
-  if (lineHeight !== undefined || lineHeightIncrease) {
-    const _lineHeight = (lineHeight || size) + lineHeightIncrease
+
+  const _lineHeightIncrease =
+    other.lineHeightIncrease === undefined
+      ? lineHeightIncrease
+      : other.lineHeightIncrease
+  if (lineHeight !== undefined || _lineHeightIncrease) {
+    const _lineHeight = Math.max(lineHeight || 14, size) + _lineHeightIncrease
     _style.push({
       lineHeight:
-        _lineHeight <= 2 + lineHeightIncrease
+        _lineHeight <= 2 + _lineHeightIncrease
           ? _lineHeight * (size + _.fontSizeAdjust)
           : (_lineHeight + _.fontSizeAdjust) * _.lineHeightRatio
     })
   }
+
   if (align) {
     _style.push(align === 'right' ? styles.alignRight : styles.alignCenter)
   }
@@ -56,7 +62,6 @@ function Text(
   if (style) {
     _style.push(style)
   }
-
   return (
     <RNText
       style={_style}

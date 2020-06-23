@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 04:42:33
+ * @Last Modified time: 2020-06-23 11:43:58
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Text } from '@components'
+import { Touchable, Flex, Katakana, Text } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -52,9 +52,15 @@ function Discuss(props, { $, navigation }) {
                       {item.replies}
                     </Text>
                   </Text>
-                  <Text style={_.mt.xs} type='sub' size={12}>
-                    {findSubjectCn(item.subjectName)}
-                  </Text>
+                  <Katakana.Provider
+                    style={_.mt.sm}
+                    itemStyle={styles.katakanas}
+                    size={12}
+                  >
+                    <Katakana type='sub' size={12}>
+                      {findSubjectCn(item.subjectName)}
+                    </Katakana>
+                  </Katakana.Provider>
                 </Flex.Item>
                 <View style={_.ml.md}>
                   <Text size={12} align='right' bold>
@@ -94,5 +100,8 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopWidth: _.hairlineWidth,
     borderColor: _.colorBorder
+  },
+  katakanas: {
+    marginTop: -4
   }
 }))

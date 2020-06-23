@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 04:38:04
+ * @Last Modified time: 2020-06-23 11:38:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Text } from '@components'
+import { Touchable, Flex, Katakana, Text } from '@components'
 import { Cover } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { toFixed } from '@utils'
@@ -66,9 +66,15 @@ function ItemLine(
             justify='between'
             align='start'
           >
-            <Text type='desc' size={13} numberOfLines={2} bold>
-              {HTMLDecode(name)}
-            </Text>
+            <Katakana.Provider
+              itemStyle={styles.katakanas}
+              size={13}
+              numberOfLines={2}
+            >
+              <Katakana type='desc' size={13} numberOfLines={2} bold>
+                {HTMLDecode(name)}
+              </Katakana>
+            </Katakana.Provider>
             <Flex>
               {!!air && (
                 <Text style={_.mr.sm} type='main' size={13} bold>
@@ -113,5 +119,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: imageWidth,
     paddingRight: _.wind
+  },
+  katakanas: {
+    marginTop: -10
   }
 })

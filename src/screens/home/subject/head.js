@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-20 19:00:04
+ * @Last Modified time: 2020-06-21 02:07:38
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -33,7 +33,7 @@ function Head({ style }, { $ }) {
       <View style={styles.content}>
         <View style={styles.title}>
           {!!$.jp && (
-            <Katakana.Provider>
+            <Katakana.Provider size={$.jp.length > 12 ? 11 : 13}>
               <Katakana
                 type='sub'
                 size={$.jp.length > 12 ? 11 : 13}

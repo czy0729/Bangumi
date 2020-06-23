@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-17 22:01:37
+ * @Last Modified time: 2020-06-23 23:14:02
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -76,7 +76,9 @@ class ItemTimeline extends React.Component {
           >
             {isSubject ? findSubjectCn(item, subjectId) : item}
           </Katakana>,
-          <Text key={`${item}.`}>、</Text>
+          <Text key={`${item}.`} type='sub'>
+            、
+          </Text>
         )
       })
       $p3.pop()
@@ -160,26 +162,29 @@ class ItemTimeline extends React.Component {
     return (
       <>
         {!!subject && (
-          <Text
-            style={_.mt.sm}
-            type='main'
-            bold
-            onPress={() => {
-              t(id, {
-                to: 'Subject',
-                subjectId,
-                ...data
-              })
-              navigation.push('Subject', {
-                subjectId,
-                _cn: findSubjectCn(subject, subjectId),
-                _jp: subject,
-                _image: getCoverMedium(!!image.length && image[0])
-              })
-            }}
-          >
-            {findSubjectCn(subject, subjectId)}
-          </Text>
+          <View style={_.mt.sm}>
+            <Katakana.Provider>
+              <Katakana
+                type='main'
+                bold
+                onPress={() => {
+                  t(id, {
+                    to: 'Subject',
+                    subjectId,
+                    ...data
+                  })
+                  navigation.push('Subject', {
+                    subjectId,
+                    _cn: findSubjectCn(subject, subjectId),
+                    _jp: subject,
+                    _image: getCoverMedium(!!image.length && image[0])
+                  })
+                }}
+              >
+                {findSubjectCn(subject, subjectId)}
+              </Katakana>
+            </Katakana.Provider>
+          </View>
         )}
         {!!(comment || reply.content) && (
           <Text style={_.mt.sm} lineHeight={20}>
@@ -207,7 +212,6 @@ class ItemTimeline extends React.Component {
           height={isAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
           radius
           shadow
-          border={_.colorBorder}
           onPress={() => {
             const url = (!!p3.url.length && p3.url[index]) || ''
             const subjectId = matchSubjectId(url)
@@ -312,7 +316,6 @@ class ItemTimeline extends React.Component {
                   height={rightCoverIsAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
                   radius
                   shadow
-                  border={_.colorBorder}
                   onPress={() =>
                     this.appNavigate(!!p3.url.length && p3.url[0], {
                       _jp: !!p3.text.length && p3.text[0],

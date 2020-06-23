@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 14:55:24
+ * @Last Modified time: 2020-06-21 02:13:42
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Katakana, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
@@ -106,15 +106,17 @@ function ItemCollections({
           >
             <Flex align='start'>
               <Flex.Item>
-                <Text size={15} numberOfLines={2} bold>
-                  {HTMLDecode(nameCn)}
+                <Katakana.Provider size={15} numberOfLines={2}>
+                  <Katakana size={15} bold>
+                    {HTMLDecode(nameCn)}
+                  </Katakana>
                   {hasName && name !== nameCn && (
-                    <Text type='sub' size={11} lineHeight={15} bold>
+                    <Katakana type='sub' size={11} lineHeight={15} bold>
                       {' '}
                       {HTMLDecode(name)}
-                    </Text>
+                    </Katakana>
                   )}
-                </Text>
+                </Katakana.Provider>
               </Flex.Item>
               {!!type && <Tag style={_.ml.sm} value={type} />}
             </Flex>

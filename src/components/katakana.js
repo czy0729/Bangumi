@@ -3,14 +3,14 @@
  *  - 可匹配嵌套<Text>内的片假名
  *  - 百度翻译得到英文
  *  - 容器<Provider>统一管理英文需要插入的具体位置
- *  - 本地缓存片假名->英文的结果
- *  #todo 短时间合并多个翻译请求
- *  #todo 富文本内文字支持
+ *  - 本地缓存片假名=>英文的结果
+ *  - 短时间合并多个翻译请求
+ *  #todo 富文本内文字支持 (没有思路, 暂不支持)
  *
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-20 21:56:17
+ * @Last Modified time: 2020-06-23 23:25:35
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -37,7 +37,54 @@ let inited = false
   }
 })()
 
-const katakana = /[\u30A1-\u30FA\u30FD-\u30FF][\u3099\u309A\u30A1-\u30FF]*[\u3099\u309A\u30A1-\u30FA\u30FC-\u30FF]|[\uFF66-\uFF6F\uFF71-\uFF9D][\uFF65-\uFF9F]*[\uFF66-\uFF9F]/
+const katakana = /[\u30A1-\u30FA\u30FD-\u30FF][\u3099\u309A\u30A1-\u30FF]*[\u3099\u309A\u30A1-\u30FA\u30FC-\u30FF]|[\uFF66-\uFF6F\uFF71-\uFF9D][\uFF65-\uFF9F]*[\uFF66-\uFF9F]/g
+const interval = 6400
+let jps = [] // 用于收集日文, 合并多个翻译请求用
+let cbs = []
+export async function translate(jp, cb = Function.prototype) {
+  // jp不是字符串直接抛弃
+  if (typeof jp !== 'string') {
+    return
+  }
+
+  // 命中缓存马上回调
+  if (cache[jp]) {
+    cb(cache[jp])
+    return
+  }
+
+  cbs.push(cb)
+  if (jps.includes(jp)) {
+    return
+  }
+
+  if (!jps.length) {
+    setTimeout(() => {
+      doTranslate(jp)
+    }, interval)
+  }
+  jps.push(jp)
+}
+
+async function doTranslate(jp) {
+  try {
+    const text = jps.join('\n')
+    jps = []
+    const response = await baiduTranslate(text, 'en')
+    const { trans_result: transResult } = JSON.parse(response)
+    if (Array.isArray(transResult)) {
+      // [{ dst: 'Studio pulp', src: 'スタジオパルプ' }]
+      transResult.forEach(item => (cache[item.src] = item.dst))
+      setStorage(cacheKey, cache)
+    }
+
+    cbs.forEach(cb => cb(cache[jp]))
+  } catch (error) {
+    //
+  } finally {
+    cbs = []
+  }
+}
 
 @observer
 class KatakanaProvider extends React.Component {
@@ -47,9 +94,8 @@ class KatakanaProvider extends React.Component {
   }
 
   getChildContext() {
-    const { fullTextConfig } = this.state
     return {
-      lineHeightIncrease: fullTextConfig.length ? 8 : 0,
+      lineHeightIncrease: this.lineHeightIncrease,
       onKatakana: this.onKatakana
     }
   }
@@ -72,6 +118,8 @@ class KatakanaProvider extends React.Component {
      */
     matches: []
   }
+
+  matchedCount = 0
 
   /**
    * 获取子Text组件的参数和完整字符串用于测量匹配到的片假名具体位置
@@ -156,8 +204,7 @@ class KatakanaProvider extends React.Component {
     matches[index].width = jp.length * width // 并不能精准计算片假名的宽度, 大概猜测
     matches[index].type = node.type
     matches[index].bold = node.bold
-    matches[index].fontSize = node.fontSize || 14
-    matches[index].lineHeight = node.lineHeight || 14
+    this.matchedCount += 1
     this.setState({
       matches
     })
@@ -171,6 +218,11 @@ class KatakanaProvider extends React.Component {
     return matches.filter(item => !!item.width)
   }
 
+  get lineHeightIncrease() {
+    const { matches } = this.state
+    return matches.length ? 4 : 0
+  }
+
   /**
    * 使用所有嵌套Text数据, 因为要换行, 只能通过拆字渲染, 这样能有条件取得每一个文字的具体位置
    */
@@ -181,16 +233,14 @@ class KatakanaProvider extends React.Component {
      * 1. fullTextConfig只有收到匹配到片假名后才会有数据
      * 2. 测量完所有数据就销毁
      */
-    // if (
-    //   !fullTextConfig.length ||
-    //   fullTextConfig.length === this.measuredKatakanas.length
-    // ) {
-    //   return null
-    // }
+    if (!fullTextConfig.length || this.matchedCount >= matches.length) {
+      return null
+    }
 
     // 在整串文字中, 取得每一个片假名的索引位置, 使用onLayout计算英文需要出现的位置
+    const { style } = this.props
     return (
-      <Flex style={styles.measure} wrap='wrap'>
+      <Flex style={[styles.measure, style]} wrap='wrap'>
         {fullTextConfig.map(node => {
           const jpIndexMap = {}
           matches.forEach(
@@ -203,6 +253,7 @@ class KatakanaProvider extends React.Component {
               size={node.size}
               lineHeight={node.lineHeight}
               bold={node.bold}
+              lineHeightIncrease={0}
               onLayout={
                 jpIndexMap[index]
                   ? e => this.onLayout(e, node, jpIndexMap[index])
@@ -218,28 +269,33 @@ class KatakanaProvider extends React.Component {
   }
 
   renderKatakanas() {
-    return this.measuredKatakanas.map(item => (
-      <Text
-        key={item.jp}
-        style={[
-          styles.katakana,
-          {
-            top: item.top,
-            left: item.left,
-            minWidth: item.width,
-            marginTop:
-              -(item.lineHeight || item.fontSize) *
-              (12 / item.lineHeight || item.fontSize)
-          }
-        ]}
-        size={10}
-        align='justify'
-        type={item.type}
-        bold={item.bold}
-      >
-        {item.en}
-      </Text>
-    ))
+    const { itemStyle } = this.props
+    return this.measuredKatakanas.map(item => {
+      const isLineFirst = item.top === 0
+      return (
+        <Text
+          key={item.jp}
+          style={[
+            styles.katakana,
+            {
+              top: item.top,
+              left: item.left,
+              minWidth: item.width,
+              marginTop: isLineFirst ? -9 : -3 // 这里还没解决好行高问题, 大概调到好看
+            },
+            isLineFirst && itemStyle
+          ]}
+          size={10}
+          align='center'
+          type={item.type}
+          bold={item.bold}
+          numberOfLines={1}
+          lineHeightIncrease={0}
+        >
+          {item.en}
+        </Text>
+      )
+    })
   }
 
   render() {
@@ -295,33 +351,19 @@ class Katakana extends React.Component {
       return
     }
 
-    this.jp = match[0]
-    if (cache[this.jp]) {
-      const { onKatakana } = this.context
-      if (onKatakana) {
-        onKatakana({
-          jp: this.jp,
-          en: cache[this.jp]
-        })
-      }
-      return
-    }
-
-    const response = await baiduTranslate(this.jp, 'en')
-    const { trans_result: transResult } = JSON.parse(response)
-    if (Array.isArray(transResult)) {
-      const en = transResult[0].dst
-      cache[this.jp] = en
-      setStorage(cacheKey, cache)
-
-      const { onKatakana } = this.context
-      if (onKatakana) {
-        onKatakana({
-          jp: this.jp,
-          en
-        })
-      }
-    }
+    match.forEach(jp =>
+      translate(jp, en => {
+        if (en) {
+          const { onKatakana } = this.context
+          if (onKatakana) {
+            onKatakana({
+              jp,
+              en
+            })
+          }
+        }
+      })
+    )
   }
 
   get text() {
@@ -343,12 +385,11 @@ const styles = StyleSheet.create({
     zIndex: 1,
     top: 0,
     left: 0,
-    marginTop: 0,
     width: '100%',
     opacity: 0
   },
   katakana: {
     position: 'absolute',
-    zIndex: 1
+    zIndex: 10
   }
 })

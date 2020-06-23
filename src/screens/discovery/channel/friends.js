@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 04:42:13
+ * @Last Modified time: 2020-06-21 02:08:59
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text } from '@components'
+import { Flex, Katakana, Text } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -54,9 +54,11 @@ function Friends(props, { $, navigation }) {
                 />
               </View>
               <Flex.Item style={_.ml.sm}>
-                <Text numberOfLines={2} onPress={onPress}>
-                  {findSubjectCn(item.name, item.id)}
-                </Text>
+                <Katakana.Provider numberOfLines={2}>
+                  <Katakana bold numberOfLines={2} onPress={onPress}>
+                    {findSubjectCn(item.name, item.id)}
+                  </Katakana>
+                </Katakana.Provider>
                 <Text style={_.mt.xs} size={12} numberOfLines={1}>
                   <Text
                     size={12}

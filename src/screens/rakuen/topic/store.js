@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 17:13:52
+ * @Last Modified time: 2020-06-23 10:54:50
  */
 import { observable, computed } from 'mobx'
 import {
@@ -283,7 +283,11 @@ export default class ScreenTopic extends store {
   // -------------------- get: cdn fallback --------------------
   @computed get title() {
     return (
-      this.topic.title || this.params._title || this.topicFormCDN.title || ''
+      // fixed
+      (this.topic.title === 'undefined' ? '' : this.topic.title) ||
+      this.params._title ||
+      this.topicFormCDN.title ||
+      ''
     )
   }
 

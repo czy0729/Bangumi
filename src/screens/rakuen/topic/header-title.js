@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 14:51:34
+ * @Last Modified time: 2020-06-23 10:56:22
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -44,9 +44,11 @@ function HeaderTitle({ navigation }) {
           <Text size={13} numberOfLines={1}>
             {$.title}
           </Text>
-          <Text type='sub' size={10} numberOfLines={1}>
-            {$.userName}
-          </Text>
+          {!!$.userName && (
+            <Text type='sub' size={10} bold numberOfLines={1}>
+              {$.userName}
+            </Text>
+          )}
         </Flex.Item>
       </Flex>
     </FadeIn>

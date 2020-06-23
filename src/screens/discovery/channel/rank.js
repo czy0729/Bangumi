@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 04:41:40
+ * @Last Modified time: 2020-06-21 02:06:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Touchable, Text } from '@components'
+import { Flex, Touchable, Katakana, Text } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -54,9 +54,11 @@ function Friends(props, { $, navigation }) {
               <Flex.Item style={_.ml.md}>
                 <Flex style={_.mt.sm} align='start'>
                   <Flex.Item>
-                    <Text size={15} bold numberOfLines={2}>
-                      {findSubjectCn(item.name, item.id)}
-                    </Text>
+                    <Katakana.Provider size={15} numberOfLines={2}>
+                      <Katakana size={15} bold numberOfLines={2}>
+                        {findSubjectCn(item.name, item.id)}
+                      </Katakana>
+                    </Katakana.Provider>
                     <Text style={_.mt.sm} size={13} type='sub'>
                       {item.follow}
                     </Text>
@@ -106,9 +108,11 @@ function Friends(props, { $, navigation }) {
                 <Flex.Item style={_.ml.sm}>
                   <Flex align='start'>
                     <Flex.Item>
-                      <Text size={13} bold numberOfLines={2}>
-                        {findSubjectCn(item.name, item.id)}
-                      </Text>
+                      <Katakana.Provider size={13} numberOfLines={2}>
+                        <Katakana size={13} bold numberOfLines={2}>
+                          {findSubjectCn(item.name, item.id)}
+                        </Katakana>
+                      </Katakana.Provider>
                       <Text style={_.mt.xs} size={11} type='sub'>
                         {item.follow}
                       </Text>

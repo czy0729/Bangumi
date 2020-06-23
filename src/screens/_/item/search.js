@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-20 22:00:22
+ * @Last Modified time: 2020-06-21 02:06:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -80,7 +80,7 @@ function ItemSearch({
               <Flex align='start' style={{ width: '100%' }}>
                 <Flex.Item>
                   {!!(nameCn || name) && (
-                    <Katakana.Provider size={15} bold numberOfLines={2}>
+                    <Katakana.Provider size={15} numberOfLines={2}>
                       <Katakana size={15} bold>
                         {HTMLDecode(nameCn || name)}
                       </Katakana>
@@ -92,7 +92,6 @@ function ItemSearch({
                       )}
                       {!!name && name !== nameCn && (
                         <Katakana
-                          style={_.mt.xs}
                           type='sub'
                           size={11}
                           lineHeight={15}
