@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:47:12
+ * @Last Modified time: 2020-06-24 14:41:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,6 +29,7 @@ function Info({ style }, { $, navigation }) {
           <RenderHtml
             style={styles.info}
             html={html}
+            katakana
             baseFontStyle={{
               fontSize: 14 + _.fontSizeAdjust,
               lineHeight: 22,

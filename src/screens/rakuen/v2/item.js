@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 10:24:29
+ * @Last Modified time: 2020-06-23 23:44:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -184,7 +184,11 @@ class Item extends React.Component {
           <Flex.Item>
             <Text size={15} bold>
               {title}
-              <Text type='sub' size={11} lineHeight={15}>
+              <Text
+                type={this.isReaded ? 'sub' : 'main'}
+                size={11}
+                lineHeight={15}
+              >
                 {' '}
                 {replyText}
               </Text>

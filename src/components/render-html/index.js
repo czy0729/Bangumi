@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:49:36
+ * @Last Modified time: 2020-06-24 15:54:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { open } from '@utils'
 import { cheerio } from '@utils/html'
 import HTML from '../@/react-native-render-html'
 import BgmText, { bgmMap } from '../bgm-text'
+import { translateAll } from '../katakana'
 import Error from './error'
 import MaskText from './mask-text'
 import QuoteText from './quote-text'
@@ -45,7 +46,20 @@ class RenderHtml extends React.Component {
   }
 
   state = {
-    error: false
+    error: false,
+    katakanaResult: {}
+  }
+
+  async componentDidMount() {
+    const { katakana, html } = this.props
+    if (katakana) {
+      const katakanaResult = await translateAll(html)
+      if (katakanaResult) {
+        this.setState({
+          katakanaResult
+        })
+      }
+    }
   }
 
   componentDidCatch() {
@@ -210,6 +224,7 @@ class RenderHtml extends React.Component {
 
   formatHTML = () => {
     const { html, baseFontStyle } = this.props
+    const { katakanaResult } = this.state
     try {
       // iOS碰到过文本里巨大会遇到Maximun stack size exceeded的错误
       // if (IOS && html.length > 100000) {
@@ -245,6 +260,18 @@ class RenderHtml extends React.Component {
       })
       _html = $.html()
 
+      // 片假名后面加上小的英文
+      const jps = Object.keys(katakanaResult)
+      if (jps.length) {
+        jps.forEach(jp => {
+          const reg = new RegExp(jp, 'g')
+          _html = _html.replace(
+            reg,
+            `${jp}<span style="font-size: 10px"> (${katakanaResult[jp]}) </span>`
+          )
+        })
+      }
+
       // 给纯文字包上span, 否则安卓不能自由复制
       _html = `<div>${_html}</div>`
       const match = _html.match(/>[^<>]+?</g)
@@ -254,10 +281,12 @@ class RenderHtml extends React.Component {
         )
       }
 
-      return _html.replace(
+      _html = _html.replace(
         /<div class="quote"><q>/g,
         '<div class="quote"><q style="font-size: 12px">'
       )
+
+      return _html
     } catch (error) {
       warn('RenderHtml', 'formatHTML', error)
       return html

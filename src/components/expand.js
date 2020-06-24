@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 15:26:40
+ * @Last Modified time: 2020-06-24 15:22:35
  */
 import React from 'react'
-import { StyleSheet, Animated, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
@@ -24,7 +24,7 @@ class Expand extends React.Component {
   }
 
   state = {
-    maxHeight: new Animated.Value(0),
+    maxHeight: 0,
     height: 0,
     layouted: false,
     expand: false
@@ -36,7 +36,7 @@ class Expand extends React.Component {
     const { height } = nativeEvent.layout
     if (height < maxHeight) {
       this.setState({
-        maxHeight: new Animated.Value(height),
+        maxHeight: height,
         height,
         layouted: true,
         expand: true
@@ -45,18 +45,13 @@ class Expand extends React.Component {
     }
 
     this.setState({
-      maxHeight: new Animated.Value(maxHeight),
+      maxHeight,
       height,
       layouted: true
     })
   }
 
   onExpand = () => {
-    const { maxHeight, height } = this.state
-    Animated.timing(maxHeight, {
-      toValue: height,
-      duration: 600
-    }).start()
     this.setState({
       expand: true
     })
@@ -74,25 +69,21 @@ class Expand extends React.Component {
       return (
         <View style={styles.layout} onLayout={this.onLayout}>
           <View>{children}</View>
-          <View style={styles.placeholder} />
         </View>
       )
     }
 
     return (
-      <Animated.View
+      <View
         style={[
           styles.container,
           style,
           {
-            maxHeight
+            height: expand ? 'auto' : maxHeight || height
           }
         ]}
       >
-        <View style={{ height }}>
-          {children}
-          <View style={styles.placeholder} />
-        </View>
+        <View style={{ height }}>{children}</View>
         {!expand && (
           <>
             <LinearGradient
@@ -108,7 +99,7 @@ class Expand extends React.Component {
             </Touchable>
           </>
         )}
-      </Animated.View>
+      </View>
     )
   }
 }
@@ -129,7 +120,8 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    height: 64
+    height: 64,
+    marginBottom: -2
   },
   more: {
     position: 'absolute',
@@ -137,8 +129,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     padding: _.sm,
     marginLeft: -16
-  },
-  placeholder: {
-    height: 64
   }
 })

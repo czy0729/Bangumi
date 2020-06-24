@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 23:25:35
+ * @Last Modified time: 2020-06-24 17:14:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -38,6 +38,10 @@ let inited = false
 })()
 
 const katakana = /[\u30A1-\u30FA\u30FD-\u30FF][\u3099\u309A\u30A1-\u30FF]*[\u3099\u309A\u30A1-\u30FA\u30FC-\u30FF]|[\uFF66-\uFF6F\uFF71-\uFF9D][\uFF65-\uFF9F]*[\uFF66-\uFF9F]/g
+export function matchKatakanas(str) {
+  return str.match(katakana)
+}
+
 const interval = 6400
 let jps = [] // 用于收集日文, 合并多个翻译请求用
 let cbs = []
@@ -83,6 +87,31 @@ async function doTranslate(jp) {
     //
   } finally {
     cbs = []
+  }
+}
+
+export async function translateAll(str) {
+  try {
+    const match = matchKatakanas(str)
+    if (!match) {
+      return null
+    }
+
+    const needTranslate = match.filter(jp => !cache[jp])
+    if (needTranslate.length) {
+      const response = await baiduTranslate(needTranslate.join('\n'), 'en')
+      const { trans_result: transResult } = JSON.parse(response)
+      if (Array.isArray(transResult)) {
+        transResult.forEach(item => (cache[item.src] = item.dst))
+        setStorage(cacheKey, cache)
+      }
+    }
+
+    const result = {}
+    match.forEach(jp => (result[jp] = cache[jp]))
+    return result
+  } catch (error) {
+    return null
   }
 }
 
@@ -283,7 +312,7 @@ class KatakanaProvider extends React.Component {
               minWidth: item.width,
               marginTop: isLineFirst ? -9 : -3 // 这里还没解决好行高问题, 大概调到好看
             },
-            isLineFirst && itemStyle
+            itemStyle
           ]}
           size={10}
           align='center'
@@ -346,7 +375,7 @@ class Katakana extends React.Component {
       return
     }
 
-    const match = this.text.match(katakana)
+    const match = matchKatakanas(this.text)
     if (!match) {
       return
     }

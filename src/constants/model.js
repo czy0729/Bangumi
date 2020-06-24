@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 11:22:59
+ * @Last Modified time: 2020-06-25 00:47:06
  */
 class Model {
   constructor(data) {
@@ -379,7 +379,7 @@ export const MODEL_SETTING_HOME_LAYOUT = new Model([
 // 设置 - 首页收藏排序
 export const MODEL_SETTING_HOME_SORTING = new Model([
   {
-    label: '默认',
+    label: 'APP',
     value: 'default'
   },
   {
@@ -391,10 +391,6 @@ export const MODEL_SETTING_HOME_SORTING = new Model([
 // 设置 - 启动页面
 export const MODEL_SETTING_INITIAL_PAGE = new Model([
   {
-    label: '进度',
-    value: 'Home'
-  },
-  {
     label: '发现',
     value: 'Discovery'
   },
@@ -403,11 +399,15 @@ export const MODEL_SETTING_INITIAL_PAGE = new Model([
     value: 'Timeline'
   },
   {
+    label: '进度',
+    value: 'Home'
+  },
+  {
     label: '超展开',
     value: 'Rakuen'
   },
   {
-    label: '我的',
+    label: '时光机',
     value: 'User'
   },
   {
@@ -427,11 +427,11 @@ export const MODEL_SETTING_QUALITY = new Model([
   //   value: 'wifi-best'
   // },
   {
-    label: '高质量',
+    label: '高',
     value: 'best'
   },
   {
-    label: '低质量',
+    label: '低',
     value: 'mini'
   }
 ])
@@ -439,7 +439,7 @@ export const MODEL_SETTING_QUALITY = new Model([
 // 设置 - 字号
 export const MODEL_SETTING_FONTSIZEADJUST = new Model([
   {
-    label: '小',
+    label: '-1',
     value: '-1'
   },
   {
@@ -447,15 +447,15 @@ export const MODEL_SETTING_FONTSIZEADJUST = new Model([
     value: '0'
   },
   {
-    label: '大',
+    label: '+1',
     value: '+1'
   },
   {
-    label: '超大',
+    label: '+2',
     value: '+2'
   },
   {
-    label: '巨无霸',
+    label: '+4',
     value: '+4'
   }
 ])
@@ -475,11 +475,11 @@ export const MODEL_SETTING_TRANSITION = new Model([
 // 超展开设置 - 切页动画
 export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
   {
-    label: '右边',
-    value: 'right'
+    label: '隐藏',
+    value: 'none'
   },
   {
-    label: '左边',
+    label: '左侧',
     value: 'left'
   },
   {
@@ -487,8 +487,8 @@ export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model([
     value: 'bottom'
   },
   {
-    label: '隐藏',
-    value: 'none'
+    label: '右侧',
+    value: 'right'
   }
 ])
 

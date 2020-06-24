@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:13:34
+ * @Last Modified time: 2020-06-24 14:06:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,32 +57,32 @@ function Jobs({ style }, { $, navigation }) {
                   }
                 />
                 <Flex.Item style={_.ml.sm}>
-                  <Text size={13} bold>
-                    {item.name}
-                  </Text>
-                  <Flex style={_.mt.xs} align='start'>
-                    <Tag value={item.staff} />
-                    <Text
-                      style={_.ml.xs}
-                      size={11}
-                      type='sub'
-                      lineHeight={14}
-                      bold
-                    >
-                      {item.nameCn}
+                  <Flex align='start'>
+                    <Text size={12} bold numberOfLines={2}>
+                      {item.name}
                     </Text>
+                    <Tag style={styles.tag} value={item.staff} />
                   </Flex>
+                  <Text
+                    style={_.mt.xs}
+                    size={10}
+                    type='sub'
+                    lineHeight={12}
+                    bold
+                  >
+                    {item.nameCn}
+                  </Text>
                 </Flex.Item>
               </Flex>
             </Flex.Item>
-            <Flex.Item style={_.ml.md} flex={2}>
+            <Flex.Item flex={2}>
               <Flex align='start'>
                 <Flex.Item>
-                  <Text style={_.mt.xs} size={13} align='right' bold>
+                  <Text style={_.mt.xs} size={12} align='right' bold>
                     {item.cast}
                   </Text>
                   {!!item.castTag && (
-                    <Text style={_.mt.xs} size={11} type='sub' align='right'>
+                    <Text style={_.mt.xs} size={10} type='sub' align='right'>
                       {item.castTag}
                     </Text>
                   )}
@@ -135,5 +135,10 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  tag: {
+    marginTop: 1,
+    marginRight: _.sm,
+    marginLeft: _.xs
   }
 }))

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 15:10:02
+ * @Last Modified time: 2020-06-24 11:29:45
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, RenderHtml } from '@components'
+import { Flex, Katakana, Text, Touchable, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
@@ -46,7 +46,6 @@ function Item(
     fontSize: 14 + _.fontSizeAdjust,
     lineHeight: 22
   }
-  // const isOdd = (index + 1) % 2 === 0
   const isAuthor = authorId === userId
   const isFriend = $.myFriendsMap[userId]
   const isJump = !!postId && postId === id
@@ -107,9 +106,13 @@ function Item(
           </Text>
         </Flex>
         {!!userSign && (
-          <Text style={styles.sign} type='sub' size={11} numberOfLines={1}>
-            {userSign.slice(1, userSign.length - 1)}
-          </Text>
+          <View style={styles.sign}>
+            <Katakana.Provider size={11} numberOfLines={1}>
+              <Katakana type='sub' size={11}>
+                {userSign.slice(1, userSign.length - 1)}
+              </Katakana>
+            </Katakana.Provider>
+          </View>
         )}
         <RenderHtml
           style={_.mt.sm}

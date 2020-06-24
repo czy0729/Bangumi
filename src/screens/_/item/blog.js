@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 11:40:29
+ * @Last Modified time: 2020-06-23 23:37:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -70,15 +70,13 @@ function ItemBlog(
             </Text>
           </Text>
           {!!line.length && (
-            <Katakana.Provider
-              style={_.mt.xs}
-              itemStyle={styles.katakanas}
-              size={13}
-            >
-              <Katakana type='sub' size={13}>
-                {line.join(' / ')}
-              </Katakana>
-            </Katakana.Provider>
+            <View style={_.mt.xs}>
+              <Katakana.Provider size={13}>
+                <Katakana type='sub' size={13}>
+                  {line.join(' / ')}
+                </Katakana>
+              </Katakana.Provider>
+            </View>
           )}
           <Text style={_.mt.sm} size={13} numberOfLines={4} lineHeight={15}>
             {content}
@@ -134,8 +132,5 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
-  },
-  katakanas: {
-    marginTop: -6
   }
 }))

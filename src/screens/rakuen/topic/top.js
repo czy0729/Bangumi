@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 14:49:58
+ * @Last Modified time: 2020-06-24 10:39:27
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { HeaderPlaceholder, Flex, Text, Divider } from '@components'
+import { HeaderPlaceholder, Flex, Katakana, Text, Divider } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
@@ -56,10 +56,15 @@ function Top(props, { $, navigation }) {
           )}
         </Text>
         <Flex style={[styles.groupWrap, _.mt.sm]}>
-          <Text>
-            <Text size={13} underline numberOfLines={1} onPress={groupPress}>
+          <Katakana.Provider itemStyle={styles.katakana}>
+            <Katakana
+              size={13}
+              underline
+              numberOfLines={1}
+              onPress={groupPress}
+            >
               {findSubjectCn($.group)}
-            </Text>
+            </Katakana>
             {!!$.time && (
               <>
                 <Text style={_.ml.sm} type='sub' size={13}>
@@ -71,7 +76,7 @@ function Top(props, { $, navigation }) {
                 </Text>
               </>
             )}
-          </Text>
+          </Katakana.Provider>
         </Flex>
         {isGroup && (
           <Flex style={[styles.userWrap, _.mt.sm]}>
@@ -126,5 +131,8 @@ const styles = StyleSheet.create({
   },
   userAvatarWrap: {
     width: 40
+  },
+  katakana: {
+    marginTop: -12
   }
 })

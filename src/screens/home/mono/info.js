@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 15:30:37
+ * @Last Modified time: 2020-06-24 12:09:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import {
   Flex,
+  Katakana,
   Text,
   Image,
   HeaderPlaceholder,
@@ -38,13 +39,15 @@ function Info(props, { $, navigation }) {
         <Flex align='start'>
           <Flex.Item>
             <Flex align='baseline'>
-              <Text size={20} bold>
-                {$.jp}
+              <Katakana.Provider size={20}>
+                <Katakana size={20} bold>
+                  {$.jp}
+                </Katakana>
                 <Text type='sub' lineHeight={20} bold>
                   {' '}
                   {$.cn}
                 </Text>
-              </Text>
+              </Katakana.Provider>
             </Flex>
           </Flex.Item>
           {!!collectUrl && (

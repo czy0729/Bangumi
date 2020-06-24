@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-16 23:57:50
+ * @Last Modified time: 2020-06-24 22:35:54
  */
 export { default as Bgm } from './bgm'
 export { default as BgmText } from './bgm-text'
@@ -30,10 +30,12 @@ export { default as Menu } from './menu'
 export { default as Mesume } from './mesume'
 export { default as Popover } from './popover'
 export { default as RenderHtml } from './render-html'
+export { default as SegmentedControl } from './segmented-control'
 export { default as Shadow } from './shadow'
 export { default as Slider } from './slider'
 export { default as StatusBarEvents } from './status-bar-events'
 export { default as Switch } from './switch'
+export { default as SwitchPro } from './switch-pro'
 export { default as Tabs } from './tabs'
 export { default as Text } from './text'
 export { default as Touchable } from './touchable'

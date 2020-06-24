@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:12:14
+ * @Last Modified time: 2020-06-24 13:01:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,7 @@ function Works({ style }, { $, navigation }) {
             <Flex.Item style={_.ml.sm}>
               <Flex align='start'>
                 <Flex.Item>
-                  <Text bold size={13}>
+                  <Text bold size={12}>
                     {findSubjectCn(item.name)}
                   </Text>
                 </Flex.Item>

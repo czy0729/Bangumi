@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-07 18:00:29
+ * @Last Modified time: 2020-06-24 23:33:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,9 @@ function History({ style, data, onDelete }) {
       <View style={[styles.container, style]}>
         <View style={styles.item}>
           <Flex style={styles.content}>
-            <Text size={15}>空</Text>
+            <Text type='title' size={15} bold>
+              空
+            </Text>
           </Flex>
         </View>
       </View>
@@ -26,17 +28,19 @@ function History({ style, data, onDelete }) {
 
   return (
     <View style={[styles.container, style]}>
-      {data.map((item, index) => (
-        <View key={item} style={[styles.item, index !== 0 && styles.border]}>
+      {data.map(item => (
+        <View key={item} style={styles.item}>
           <Flex style={styles.content}>
             <Flex.Item>
-              <Text size={15}>{item.replace('@undefined', '')}</Text>
+              <Text type='title' size={15} bold>
+                {item.replace('@undefined', '')}
+              </Text>
             </Flex.Item>
             <Touchable
               style={[styles.close, _.ml.md]}
               onPress={() => onDelete(item)}
             >
-              <Iconfont name='close' size={12} />
+              <Iconfont name='close' />
             </Touchable>
           </Flex>
         </View>
@@ -62,10 +66,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   content: {
     paddingVertical: _.sm
-  },
-  border: {
-    borderTopWidth: _.hairlineWidth,
-    borderTopColor: _.colorBorder
   },
   close: {
     padding: _.sm

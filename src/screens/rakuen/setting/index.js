@@ -2,18 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 14:27:19
+ * @Last Modified time: 2020-06-24 23:49:04
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
-import { Text, Switch } from '@components'
-import { ItemSetting, Popover } from '@screens/_'
+import { ScrollView, View } from 'react-native'
+import { Text, SwitchPro, Flex, SegmentedControl } from '@components'
+import { ItemSetting } from '@screens/_'
 import { _, rakuenStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants/model'
 import History from './history'
 
+const scrollDirectionDS = MODEL_RAKUEN_SCROLL_DIRECTION.data.map(
+  item => item.label
+)
 const title = '超展开设置'
 
 export default
@@ -27,20 +30,29 @@ class RakuenSetting extends React.Component {
     title
   }
 
+  renderSection(text) {
+    return (
+      <Flex style={this.styles.section}>
+        <Flex.Item>
+          <Text size={16} type='sub'>
+            {text}
+          </Text>
+        </Flex.Item>
+      </Flex>
+    )
+  }
+
   renderTopic() {
     const { quote, scrollDirection } = rakuenStore.setting
     return (
       <>
-        <Text style={[_.container.wind, _.mt.md]} type='sub'>
-          帖子
-        </Text>
+        {this.renderSection('帖子')}
         <ItemSetting
-          style={_.mt.sm}
-          hd='是否展开引用'
+          hd='展开引用'
           ft={
-            <Switch
-              checked={quote}
-              onChange={() => {
+            <SwitchPro
+              value={quote}
+              onSyncPress={() => {
                 t('超展开设置.切换', {
                   title: '展开引用',
                   checked: !quote
@@ -50,32 +62,20 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
+          information='展开子回复中上一级的回复内容'
         />
         <ItemSetting
           border
-          hd='楼层导航条方向'
+          hd='楼层直达条'
           ft={
-            <Popover
-              data={MODEL_RAKUEN_SCROLL_DIRECTION.data.map(
-                ({ label }) => label
+            <SegmentedControl
+              values={scrollDirectionDS}
+              selectedIndex={MODEL_RAKUEN_SCROLL_DIRECTION.data.findIndex(
+                item => item.value === scrollDirection
               )}
-              onSelect={title => {
-                t('超展开设置.切换', {
-                  title: '楼层导航条方向',
-                  value: title
-                })
-                rakuenStore.setScrollDirection(
-                  MODEL_RAKUEN_SCROLL_DIRECTION.getValue(title)
-                )
-              }}
-            >
-              <Text size={16} type='sub'>
-                {MODEL_RAKUEN_SCROLL_DIRECTION.getLabel(scrollDirection)}
-              </Text>
-            </Popover>
+              onValueChange={this.setHomeSorting}
+            />
           }
-          arrow
-          highlight
         />
       </>
     )
@@ -85,16 +85,13 @@ class RakuenSetting extends React.Component {
     const { isBlockDefaultUser, isMarkOldTopic } = rakuenStore.setting
     return (
       <>
-        <Text style={[_.container.wind, _.mt.md]} type='sub'>
-          列表
-        </Text>
+        {this.renderSection('列表')}
         <ItemSetting
-          style={_.mt.sm}
-          hd='屏蔽疑似的广告姬'
+          hd='屏蔽疑似广告姬'
           ft={
-            <Switch
-              checked={isBlockDefaultUser}
-              onChange={() => {
+            <SwitchPro
+              value={isBlockDefaultUser}
+              onSyncPress={() => {
                 t('超展开设置.切换', {
                   title: '屏蔽广告',
                   checked: !isBlockDefaultUser
@@ -104,14 +101,15 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
+          information='屏蔽默认头像发布且回复数小于4的帖子'
         />
         <ItemSetting
           border
           hd='标记坟贴'
           ft={
-            <Switch
-              checked={isMarkOldTopic}
-              onChange={() => {
+            <SwitchPro
+              value={isMarkOldTopic}
+              onSyncPress={() => {
                 t('超展开设置.切换', {
                   title: '坟贴',
                   checked: !isMarkOldTopic
@@ -121,6 +119,7 @@ class RakuenSetting extends React.Component {
             />
           }
           withoutFeedback
+          information='标记发布时间大于1年的帖子'
         />
       </>
     )
@@ -129,11 +128,8 @@ class RakuenSetting extends React.Component {
   renderBlock() {
     return (
       <>
-        <Text style={[_.container.wind, _.mt.md]} type='sub'>
-          屏蔽中的关键字
-        </Text>
+        {this.renderSection('屏蔽小组 / 条目')}
         <History
-          style={_.mt.sm}
           data={rakuenStore.setting.blockGroups}
           onDelete={item => {
             t('超展开设置.取消关键字', {
@@ -142,9 +138,8 @@ class RakuenSetting extends React.Component {
             rakuenStore.deleteBlockGroup(item)
           }}
         />
-        <Text style={[_.container.wind, _.mt.md]} type='sub'>
-          屏蔽中的用户
-        </Text>
+        <View style={this.styles.split} />
+        {this.renderSection('屏蔽用户')}
         <History
           style={_.mt.sm}
           data={rakuenStore.setting.blockUserIds}
@@ -162,13 +157,33 @@ class RakuenSetting extends React.Component {
   render() {
     return (
       <ScrollView
-        style={_.container.screen}
+        style={_.container.plain}
         contentContainerStyle={_.container.bottom}
       >
         {this.renderTopic()}
+        <View style={this.styles.split} />
         {this.renderList()}
+        <View style={this.styles.split} />
         {this.renderBlock()}
       </ScrollView>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  section: {
+    paddingTop: _.lg,
+    paddingHorizontal: _.wind,
+    paddingBottom: _.md
+  },
+  split: {
+    marginTop: _.md,
+    marginHorizontal: _.wind,
+    borderTopWidth: _.hairlineWidth,
+    borderColor: _.colorBorder
+  }
+}))

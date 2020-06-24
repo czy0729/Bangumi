@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 10:15:28
+ * @Last Modified time: 2020-06-25 01:42:37
  */
 import { IOS, VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -30,6 +30,9 @@ export const INIT_SETTING = {
   iosMenu: false, // iOS风格弹出菜单
   hideScore: false, // 隐藏他人评分
   cdn: true, // CDN加速
+  katakana: false, // 片假名终结者
+  flat: false, // 扁平化
+  filterDefault: false, // 屏蔽默认头像用户相关信息
   transition: MODEL_SETTING_TRANSITION.getValue('水平'), // 切页动画
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局

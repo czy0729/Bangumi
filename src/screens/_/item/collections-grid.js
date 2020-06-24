@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 14:55:18
+ * @Last Modified time: 2020-06-23 23:47:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -54,14 +54,7 @@ function CollectionsGrid({
   }
   return (
     <View style={[styles.item, style]}>
-      <Cover
-        size={imageWidth}
-        src={cover}
-        border
-        radius
-        shadow
-        onPress={onPress}
-      />
+      <Cover size={imageWidth} src={cover} radius shadow onPress={onPress} />
       <Touchable withoutFeedback onPress={onPress}>
         <Text style={_.mt.sm} size={12} numberOfLines={2} bold>
           {showScore && score && (
