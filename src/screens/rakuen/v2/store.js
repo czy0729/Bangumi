@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 13:58:23
+ * @Last Modified time: 2020-06-25 16:30:26
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -74,20 +74,34 @@ export default class ScreenRakuen extends store {
     return userStore.isWebLogin
   }
 
+  /**
+   * 筛选逻辑
+   *  - 主动设置屏蔽默认头像用户相关信息
+   *  - 主动设置屏蔽18x关键字
+   *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户和18x
+   */
   rakuen(type) {
     const { scope } = this.state
     return computed(() => {
       const rakuen = rakuenStore.rakuen(scope, type)
-      if (userStore.isLimit) {
+      const { filterDefault, filter18x } = systemStore.setting
+      if (filterDefault || filter18x || userStore.isLimit) {
         return {
           ...rakuen,
           list: rakuen.list.filter(item => {
-            if (item.avatar.includes(URL_DEFAULT_AVATAR)) {
+            if (
+              (filterDefault || userStore.isLimit) &&
+              item.avatar.includes(URL_DEFAULT_AVATAR)
+            ) {
               return false
             }
 
-            const group = String(item.group).toLocaleLowerCase()
-            return !['gal', '性', '癖', '里番'].some(i => group.includes(i))
+            if (filter18x || userStore.isLimit) {
+              const group = String(item.group).toLocaleLowerCase()
+              return !['gal', '性', '癖', '里番'].some(i => group.includes(i))
+            }
+
+            return true
           })
         }
       }

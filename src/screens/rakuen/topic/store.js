@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 10:54:50
+ * @Last Modified time: 2020-06-25 17:02:06
  */
 import { observable, computed } from 'mobx'
 import {
@@ -140,13 +140,18 @@ export default class ScreenTopic extends store {
     return rakuenStore.topicFormCDN(this.topicId.replace('group/', ''))
   }
 
+  /**
+   * 筛选逻辑
+   *  - 主动设置屏蔽默认头像用户相关信息
+   *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户
+   */
   @computed get comments() {
     const comments = rakuenStore.comments(this.topicId)
     const { filterMe, filterFriends, reverse } = this.state
     const list = reverse ? comments.list.reverse() : comments.list
 
-    // 排除没有头像用户的留言
-    if (this.isLimit) {
+    const { filterDefault } = systemStore.setting
+    if (filterDefault || this.isLimit) {
       return {
         ...comments,
         list: list

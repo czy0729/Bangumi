@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-06 15:06:04
+ * @Last Modified time: 2020-06-25 14:38:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Touchable, Flex, Iconfont } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { navigationReference } from '@utils/app'
 
 const IOS = true
 function Logo({ forceUpdate }) {
@@ -26,6 +27,12 @@ function Logo({ forceUpdate }) {
           setTimeout(() => {
             forceUpdate()
           }, 0)
+        }
+      }}
+      onLongPress={() => {
+        const navigation = navigationReference()
+        if (navigation) {
+          navigation.push('Setting')
         }
       }}
     >

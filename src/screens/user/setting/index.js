@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 01:47:53
+ * @Last Modified time: 2020-06-25 17:18:46
  */
 import React from 'react'
 import { ScrollView, View, AsyncStorage } from 'react-native'
@@ -245,7 +245,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information='点击顶部Logo也可以快速切换'
+              information='点击顶部Logo可快速切换，长按则前往设置'
             />
             <ItemSetting
               hd='CDN加速'

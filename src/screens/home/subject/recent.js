@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 04:26:13
+ * @Last Modified time: 2020-06-25 16:06:33
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -16,7 +16,7 @@ import { URL_DEFAULT_AVATAR } from '@constants'
 function Recent({ style }, { $, navigation }) {
   const { who } = $.subjectFormHTML
   let _who = who || []
-  if ($.isLimit) {
+  if ($.filterDefault || $.isLimit) {
     _who = _who.filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
   }
   if (!_who.length) {

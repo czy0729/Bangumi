@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-29 14:12:23
+ * @Last Modified time: 2020-06-25 17:12:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { URL_DEFAULT_AVATAR } from '@constants'
 function Blog({ style }, { $, navigation }) {
   const { blog } = $.subject
   let _blog = blog || []
-  if ($.isLimit) {
+  if ($.filterDefault || $.isLimit) {
     _blog = _blog.filter(item => {
       if (item.avatar && item.avatar.small.includes(URL_DEFAULT_AVATAR)) {
         return false

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 16:22:22
+ * @Last Modified time: 2020-06-25 16:43:31
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -340,7 +340,7 @@ export function cheerioTopic(HTML) {
       title,
       userId: matchUserId($user.attr('href')),
       userName: $user.text(),
-      userSign: $('div.postTopic span.tip_j').text(),
+      userSign: HTMLDecode($('div.postTopic span.tip_j').text()),
       tip: $('#reply_wrapper span.tip.rr').text(),
       close: $('div.row_state span.tip_j').text()
     })
@@ -377,7 +377,7 @@ export function cheerioTopic(HTML) {
             userName:
               $row.find('> div.inner > span.userInfo > strong > a.l').text() ||
               $row.find('> div.inner > strong > a.l').text(),
-            userSign: $row.find('span.tip_j').text(),
+            userSign: HTMLDecode($row.find('span.tip_j').text()),
             erase: $row.find('> div.re_info a.erase_post').attr('href'),
 
             // 子回复
@@ -403,7 +403,7 @@ export function cheerioTopic(HTML) {
                     time: trim(time),
                     userId: matchUserId($row.find('a.avatar').attr('href')),
                     userName: $row.find('strong > a.l').text(),
-                    userSign: $row.find('span.tip_j').text(),
+                    userSign: HTMLDecode($row.find('span.tip_j').text()),
                     erase: $row.find('a.erase_post').attr('href')
                   })
                 })
@@ -497,7 +497,7 @@ export function cheerioBlog(HTML) {
             userName:
               $row.find('> div.inner > span.userInfo > strong > a.l').text() ||
               $row.find('> div.inner > strong > a.l').text(),
-            userSign: $row.find('span.tip_j').text(),
+            userSign: HTMLDecode($row.find('span.tip_j').text()),
             erase: $row.find('> div.re_info a.erase_post').attr('href'),
 
             // 子回复
@@ -523,7 +523,7 @@ export function cheerioBlog(HTML) {
                     time: trim(time),
                     userId: matchUserId($row.find('a.avatar').attr('href')),
                     userName: $row.find('strong > a.l').text(),
-                    userSign: $row.find('span.tip_j').text(),
+                    userSign: HTMLDecode($row.find('span.tip_j').text()),
                     erase: $row.find('a.erase_post').attr('href')
                   })
                 })

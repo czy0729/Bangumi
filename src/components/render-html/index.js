@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 15:54:01
+ * @Last Modified time: 2020-06-25 16:44:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, userStore } from '@stores'
 import { open } from '@utils'
-import { cheerio } from '@utils/html'
+import { cheerio, HTMLDecode } from '@utils/html'
 import HTML from '../@/react-native-render-html'
 import BgmText, { bgmMap } from '../bgm-text'
 import { translateAll } from '../katakana'
@@ -286,7 +286,7 @@ class RenderHtml extends React.Component {
         '<div class="quote"><q style="font-size: 12px">'
       )
 
-      return _html
+      return HTMLDecode(_html)
     } catch (error) {
       warn('RenderHtml', 'formatHTML', error)
       return html

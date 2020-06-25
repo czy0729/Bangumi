@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-20 18:51:50
+ * @Last Modified time: 2020-06-25 16:00:31
  */
 import { observable, computed } from 'mobx'
-import { _, userStore, timelineStore } from '@stores'
+import { _, systemStore, userStore, timelineStore } from '@stores'
 import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
@@ -59,21 +59,39 @@ export default class ScreenTimeline extends store {
     return userStore.myUserId
   }
 
+  /**
+   * 筛选逻辑
+   *  - 主动设置屏蔽默认头像用户相关信息
+   *  - 主动设置屏蔽18x
+   *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户和18x
+   */
   timeline(scope, type) {
     return computed(() => {
       const timeline = timelineStore.timeline(scope, type)
-      if (userStore.isLimit) {
+      const { filterDefault, filter18x } = systemStore.setting
+      if (filterDefault || filter18x || userStore.isLimit) {
         const list = timeline.list.filter(item => {
-          if (item.avatar && item.avatar.src.includes(URL_DEFAULT_AVATAR)) {
+          if (
+            (filterDefault || userStore.isLimit) &&
+            item.avatar &&
+            item.avatar.src.includes(URL_DEFAULT_AVATAR)
+          ) {
             return false
           }
 
-          if (item.p3 && item.p3.url && item.p3.url.length && item.p3.url[0]) {
+          if (
+            (filter18x || userStore.isLimit) &&
+            item.p3 &&
+            item.p3.url &&
+            item.p3.url.length &&
+            item.p3.url[0]
+          ) {
             const url = String(item.p3.url[0])
             if (url.match(/\/subject\/\d+/)) {
               return !x18(url.replace('https://bgm.tv/subject/', ''))
             }
           }
+
           return true
         })
         return {

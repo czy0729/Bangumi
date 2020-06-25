@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 14:22:27
+ * @Last Modified time: 2020-06-25 16:06:22
  */
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
@@ -250,6 +250,11 @@ export default class ScreenSubject extends store {
     return `${namespace}|${this.subjectId}`
   }
 
+  @computed get filterDefault() {
+    const { filterDefault } = systemStore.setting
+    return filterDefault
+  }
+
   /**
    * bgm链接
    */
@@ -308,10 +313,13 @@ export default class ScreenSubject extends store {
 
   /**
    * 条目留言
+   * 筛选逻辑
+   *  - 主动设置屏蔽默认头像用户相关信息
+   *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户
    */
   @computed get subjectComments() {
     const subjectComments = subjectStore.subjectComments(this.subjectId)
-    if (userStore.isLimit) {
+    if (this.filterDefault || userStore.isLimit) {
       return {
         ...subjectComments,
         list: subjectComments.list.filter(
