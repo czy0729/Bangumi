@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:45:11
+ * @Last Modified time: 2020-06-27 00:32:44
  */
 import React from 'react'
 import { ScrollView, View, AsyncStorage } from 'react-native'
@@ -18,6 +18,7 @@ import { toFixed, setStorage } from '@utils'
 import { withHeader, observer } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
+import { confirm, info } from '@utils/ui'
 import {
   IOS,
   URL_FEEDBACK,
@@ -236,12 +237,9 @@ class Setting extends React.Component {
                     })
 
                     _.toggleMode()
-                    if (!IOS) {
-                      setTimeout(() => {
-                        // 安卓需要刷新头
-                        this.setParams()
-                      }, 0)
-                    }
+                    setTimeout(() => {
+                      this.setParams()
+                    }, 0)
                   }}
                 />
               }
@@ -802,7 +800,14 @@ class Setting extends React.Component {
               arrow
               highlight
               onPress={() => {
-                t('设置.恢复默认设置')
+                confirm('确定恢复默认设置?', () => {
+                  t('设置.恢复默认设置')
+
+                  systemStore.resetSetting()
+                  setTimeout(() => {
+                    info('已恢复')
+                  }, 160)
+                })
               }}
             />
           </>
@@ -873,7 +878,7 @@ const memoStyles = _.memoStyles(_ => ({
   split: {
     marginTop: _.md,
     marginHorizontal: _.wind,
-    borderTopWidth: _.flat ? 0 : _.hairlineWidth,
+    borderTopWidth: _.hairlineWidth,
     borderColor: _.colorBorder
   }
 }))

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 01:52:35
+ * @Last Modified time: 2020-06-27 00:19:56
  */
 
 /**
@@ -446,6 +446,7 @@ export default {
   '设置.跳转': 'Setting.to',
   '设置.切换': 'Setting.switch',
   '设置.清除缓存': 'Setting.clear',
+  '设置.恢复默认设置': 'Setting.reset',
   '设置.退出登陆': 'Setting.logout',
 
   // 空间

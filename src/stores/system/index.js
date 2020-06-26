@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 10:29:09
+ * @Last Modified time: 2020-06-27 00:19:18
  */
 // import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -225,6 +225,17 @@ class System extends store {
         ...this.setting,
         [switchKey]: !this.setting[switchKey]
       }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 恢复默认设置
+   */
+  resetSetting = () => {
+    const key = 'setting'
+    this.setState({
+      [key]: INIT_SETTING
     })
     this.setStorage(key, undefined, NAMESPACE)
   }

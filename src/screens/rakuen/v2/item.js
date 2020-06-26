@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:12:42
+ * @Last Modified time: 2020-06-26 17:51:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -333,7 +333,7 @@ class Item extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
-    paddingVertical: _.flat ? 0 : _.xs
+    paddingVertical: _.flat ? _.xs : 0
   },
   readed: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
