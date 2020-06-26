@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 17:12:52
+ * @Last Modified time: 2020-06-27 03:03:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,10 @@ function Blog({ style }, { $, navigation }) {
   let _blog = blog || []
   if ($.filterDefault || $.isLimit) {
     _blog = _blog.filter(item => {
-      if (item.avatar && item.avatar.small.includes(URL_DEFAULT_AVATAR)) {
+      if (
+        !item.avatar ||
+        (item.avatar && item.avatar.small.includes(URL_DEFAULT_AVATAR))
+      ) {
         return false
       }
       return true

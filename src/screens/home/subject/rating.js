@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 12:17:59
+ * @Last Modified time: 2020-06-27 03:55:59
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
-import { SectionTitle } from '@screens/_'
+import { SectionTitle, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { open, toFixed } from '@utils'
 import { t } from '@utils/fetch'
@@ -44,6 +44,7 @@ class Ranting extends React.Component {
 
   renderTitle() {
     const { $ } = this.context
+    const { rank = '-' } = $.subject
     return (
       <SectionTitle
         right={
@@ -58,20 +59,28 @@ class Ranting extends React.Component {
             }}
           >
             <Flex>
-              <Text type='sub'>netaba.re</Text>
+              <Text type='sub' bold>
+                #{rank}
+              </Text>
               <Iconfont name='right' size={16} />
             </Flex>
           </Touchable>
         }
       >
-        评分
+        评分{' '}
+        <Text type='warning' size={18} lineHeight={18} bold>
+          {' '}
+          {$.rating.score}{' '}
+        </Text>
+        <Text size={12} lineHeight={18} type='sub'>
+          / {$.rating.total}人
+        </Text>
       </SectionTitle>
     )
   }
 
   renderRating() {
     const { $ } = this.context
-    const { rank = '-' } = $.subject
     const { friend = {} } = $.subjectFormHTML
     return (
       <>
@@ -98,43 +107,57 @@ class Ranting extends React.Component {
                           bottom: height
                         }
                       ]}
-                      size={10}
+                      size={11}
                       type='sub'
                       align='center'
                     >
                       {$.rating.count[item]}
                     </Text>
                   </Flex>
-                  <Text style={_.mt.xs} size={13} align='center'>
+                  <Text style={_.mt.sm} size={12} align='center'>
                     {item}
                   </Text>
                 </Flex.Item>
               )
             })}
         </Flex>
-        <Text style={_.mt.sm} size={13} type='sub'>
-          <Text size={13} type='main'>
-            {$.rating.score}
-          </Text>{' '}
-          ({$.rating.total}){' '}
-          <Text size={13} type='main'>
-            #{rank}
-          </Text>{' '}
-          / 标准差{' '}
-          <Text size={13} type='main'>
-            {toFixed(this.deviation, 2)}
-          </Text>{' '}
-          {getDispute(this.deviation)}
-        </Text>
-        {!!friend.score && (
-          <Text style={_.mt.sm} size={13}>
-            好友{' '}
-            <Text size={13} type='main'>
-              {friend.score}
-            </Text>{' '}
-            / {friend.total} votes
+        <Flex style={_.mt.sm}>
+          <Flex.Item>
+            {!!friend.score && (
+              <Text size={12}>
+                好友
+                <Text size={12} type='main' bold>
+                  {' '}
+                  {friend.score}
+                </Text>
+                <Text size={12} lineHeight={12} type='sub'>
+                  {' '}
+                  / {friend.total}人
+                </Text>
+              </Text>
+            )}
+          </Flex.Item>
+          <Text size={12} type='sub'>
+            标准差
           </Text>
-        )}
+          <Text size={12} type='main' bold>
+            {' '}
+            {toFixed(this.deviation, 2)}
+          </Text>
+          <Text size={12} lineHeight={12} type='sub'>
+            {' '}
+            / {getDispute(this.deviation)}
+          </Text>
+          <IconTouchable
+            name='information'
+            size={14}
+            onPress={() =>
+              Alert.alert(
+                '0-1 异口同声\n1.15 基本一致\n1.3 略有分歧\n1.45 莫衷一是\n1.6 各执一词\n1.75 你死我活\n'
+              )
+            }
+          />
+        </Flex>
       </>
     )
   }
@@ -168,8 +191,9 @@ export default observer(Ranting)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
-    height: 80,
-    paddingBottom: _.xs
+    height: 88,
+    paddingBottom: _.xs,
+    marginTop: -_.md
   },
   itemFill: {
     position: 'absolute',
@@ -197,14 +221,9 @@ const memoStyles = _.memoStyles(_ => ({
  * @param {*} current
  */
 function getHeight(total, current) {
-  if (!total || !current) {
-    return 0
-  }
-
+  if (!total || !current) return 0
   let percent = current / total
-  if (percent > 0 && percent < 0.04) {
-    percent = 0.04
-  }
+  if (percent > 0 && percent < 0.04) percent = 0.04
   return `${Math.min(percent * 1.2 + 0.06, 1) * 100}%`
 }
 
@@ -217,9 +236,7 @@ function getHeight(total, current) {
 function calculateSD(scores, score, n) {
   let sd = 0
   scores.forEach((item, index) => {
-    if (item === 0) {
-      return
-    }
+    if (item === 0) return
     sd += (10 - index - score) * (10 - index - score) * item
   })
   return Math.sqrt(sd / n)

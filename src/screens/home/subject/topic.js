@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 17:13:35
+ * @Last Modified time: 2020-06-27 03:03:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,10 @@ function Topic({ style }, { $, navigation }) {
   let _topic = topic || []
   if ($.filterDefault || $.isLimit) {
     _topic = _topic.filter(item => {
-      if (item.avatar && item.avatar.small.includes(URL_DEFAULT_AVATAR)) {
+      if (
+        !item.avatar ||
+        (item.avatar && item.avatar.small.includes(URL_DEFAULT_AVATAR))
+      ) {
         return false
       }
       return true

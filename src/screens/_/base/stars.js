@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 14:30:08
+ * @Last Modified time: 2020-06-27 03:06:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,7 +19,7 @@ function Stars({ style, simple, value }) {
     return (
       <Flex style={style}>
         <Iconfont name='star-full' size={12} color={_.colorWarning} />
-        <Text style={_.ml.xs} type='sub' size={12}>
+        <Text style={_.ml.xs} type='sub' size={12} bold>
           {value}
         </Text>
       </Flex>
@@ -63,7 +63,7 @@ function Stars({ style, simple, value }) {
           />
         )
       })}
-      <Text style={_.ml.xs} type='sub' size={12} lineHeight={12}>
+      <Text style={_.ml.xs} type='sub' size={12} lineHeight={12} bold>
         {value}
       </Text>
     </Flex>

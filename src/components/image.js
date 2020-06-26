@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:27:22
+ * @Last Modified time: 2020-06-27 02:55:49
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -462,7 +462,6 @@ class Image extends React.Component {
       return (
         <Touchable
           style={_wrap}
-          highlight={IOS}
           delay={delay}
           onPress={_onPress}
           onLongPress={onLongPress}
@@ -486,18 +485,15 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorBorder
   },
   shadow: _.shadow,
-  shadowLg: IOS
-    ? {
-        shadowColor: _.colorShadow,
-        shadowOffset: {
-          height: 4
-        },
-        shadowOpacity: 0.12,
-        shadowRadius: 6
-      }
-    : {
-        elevation: 16
-      },
+  shadowLg: {
+    shadowColor: _.colorShadow,
+    shadowOffset: {
+      height: 4
+    },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 16
+  },
   placeholder: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
   },
