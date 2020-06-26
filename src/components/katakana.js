@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 17:14:13
+ * @Last Modified time: 2020-06-27 01:25:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -247,9 +247,13 @@ class KatakanaProvider extends React.Component {
     return matches.filter(item => !!item.width)
   }
 
+  /**
+   * 用于往嵌套Text传递需要增大行高的标记
+   *  - 假如英文的top都为0不需要放大
+   */
   get lineHeightIncrease() {
     const { matches } = this.state
-    return matches.length ? 4 : 0
+    return matches.length ? (matches.some(item => item.top !== 0) ? 4 : 0) : 0
   }
 
   /**

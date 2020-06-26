@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 21:24:08
+ * @Last Modified time: 2020-06-27 02:29:14
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -220,6 +220,9 @@ export const h = StyleSheet.create({
 })
 
 export const mt = StyleSheet.create({
+  xxs: {
+    marginTop: 2
+  },
   xs: {
     marginTop: xs
   },

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 15:48:42
+ * @Last Modified time: 2020-06-27 01:00:09
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -62,13 +62,17 @@ export function getSetting() {
 /**
  * 是否敏感条目
  * @param {*} subjectId
+ * @param {*} title     辅助检测, 有关键字则都认为是18x
  */
-export function x18(subjectId) {
+export function x18(subjectId, title) {
   if (!subjectId) return false
-  const filter =
+  let filter =
     typeof subjectId === 'string'
       ? parseInt(subjectId.replace('/subject/', '')) in x
       : parseInt(subjectId) in x
+  if (!filter && title) {
+    filter = ['乳', '妻', '淫'].some(item => title.includes(item))
+  }
   if (DEV && filter) console.log(subjectId, filter)
   return filter
 }

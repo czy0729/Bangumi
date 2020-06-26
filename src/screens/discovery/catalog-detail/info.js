@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-22 09:44:56
+ * @Last Modified time: 2020-06-27 01:07:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -44,7 +44,6 @@ function Info(props, { $, navigation }) {
           <Image
             src={getCoverLarge(avatar)}
             size={80}
-            border
             shadow
             placholder={false}
             imageViewer
@@ -64,26 +63,34 @@ function Info(props, { $, navigation }) {
       )}
       <Flex style={_.mt.md}>
         <Flex.Item>
-          <Text type='sub'>进度 {progress}</Text>
-        </Flex.Item>
-        <Text
-          type='sub'
-          onPress={() => {
-            t('目录详情.跳转', {
-              to: 'Zone',
-              catalogId: $.catalogId,
-              userId
-            })
+          <Text type='sub' size={12}>
+            by{' '}
+            <Text
+              type='title'
+              size={12}
+              bold
+              onPress={() => {
+                t('目录详情.跳转', {
+                  to: 'Zone',
+                  catalogId: $.catalogId,
+                  userId
+                })
 
-            navigation.push('Zone', {
-              userId,
-              _id: userId,
-              _name: nickname,
-              _image: avatar
-            })
-          }}
-        >
-          by {nickname} / {time}
+                navigation.push('Zone', {
+                  userId,
+                  _id: userId,
+                  _name: nickname,
+                  _image: avatar
+                })
+              }}
+            >
+              {nickname}
+            </Text>{' '}
+            / {time}
+          </Text>
+        </Flex.Item>
+        <Text type='sub' size={12}>
+          进度 {progress}
         </Text>
       </Flex>
       {!_loaded && (

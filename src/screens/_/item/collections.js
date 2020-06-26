@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:09:31
+ * @Last Modified time: 2020-06-27 02:36:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { x18 } from '@utils/app'
 import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import Tag from '../base/tag'
 import Stars from '../base/stars'
@@ -121,7 +122,10 @@ function ItemCollections({
                   )}
                 </Katakana.Provider>
               </Flex.Item>
-              {!!type && <Tag style={_.ml.sm} value={type} />}
+              <Flex style={_.mt.xxs}>
+                {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
+                {!!type && <Tag style={_.ml.sm} value={type} />}
+              </Flex>
             </Flex>
             {hasTip && (
               <Text style={_.mt.sm} size={11} numberOfLines={2}>

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:06:02
+ * @Last Modified time: 2020-06-27 02:31:19
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 
-function Tag({ style, type, value }) {
+function Tag({ style, type, value, size }) {
   if (!value) {
     return null
   }
@@ -31,6 +31,7 @@ function Tag({ style, type, value }) {
         break
       case '音乐':
       case '客串':
+      case 'H':
         _type = 'warning'
         break
       case '三次元':
@@ -44,11 +45,15 @@ function Tag({ style, type, value }) {
 
   return (
     <Flex style={[styles.tag, styles[_type], style]}>
-      <Text type={_.select('sub', _type)} size={10}>
+      <Text type={_.select('sub', _type)} size={size}>
         {value}
       </Text>
     </Flex>
   )
+}
+
+Tag.defaultProps = {
+  size: 10
 }
 
 export default observer(Tag)

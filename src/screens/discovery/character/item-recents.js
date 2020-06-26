@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:45:49
+ * @Last Modified time: 2020-06-27 02:37:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { Tag, Stars, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { x18 } from '@utils/app'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -71,12 +72,17 @@ function ItemRecents(
                       )}
                     </Katakana.Provider>
                   </Flex.Item>
-                  {!!type && (
-                    <Tag
-                      style={_.ml.sm}
-                      value={MODEL_SUBJECT_TYPE.getTitle(type)}
-                    />
-                  )}
+                  <Flex style={_.mt.xxs}>
+                    {x18(id, name || nameJP) && (
+                      <Tag style={_.ml.sm} value='H' />
+                    )}
+                    {!!type && (
+                      <Tag
+                        style={_.ml.sm}
+                        value={MODEL_SUBJECT_TYPE.getTitle(type)}
+                      />
+                    )}
+                  </Flex>
                 </Flex>
                 {!!info && (
                   <Text style={_.mt.sm} size={12} lineHeight={14}>

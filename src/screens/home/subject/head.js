@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:07:38
+ * @Last Modified time: 2020-06-27 01:22:17
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Katakana } from '@components'
-import { ScoreTag } from '@screens/_'
+import { ScoreTag, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { info } from '@utils/ui'
+import { x18 } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { imageWidth, imageHeight } from './store'
 import Cover from './cover'
@@ -62,11 +63,14 @@ function Head({ style }, { $ }) {
         <Flex>
           {!$.hideScore && (
             <>
-              <Text type='main' size={22}>
+              <Text type='main' size={20}>
                 {$.rating.score === '' ? '-' : toFixed($.rating.score, 1)}
               </Text>
               {$.rating.score !== '' && (
                 <ScoreTag style={_.ml.sm} value={$.rating.score} />
+              )}
+              {x18($.subjectId, $.cn || $.jp) && (
+                <Tag style={_.ml.sm} size={13} value='H' />
               )}
             </>
           )}
@@ -87,7 +91,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: 48
   },
   content: {
-    height: imageHeight - _.space,
+    minHeight: imageHeight - _.space,
     paddingVertical: _.space,
     paddingLeft: imageWidth + _.wind + 12,
     paddingRight: _.wind,
@@ -96,6 +100,6 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopRightRadius: _.radiusLg
   },
   title: {
-    height: 84
+    minHeight: 84
   }
 }))

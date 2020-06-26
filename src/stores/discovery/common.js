@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:43:33
+ * @Last Modified time: 2020-06-27 01:06:40
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
@@ -125,7 +125,7 @@ export function analysisCatalogDetail(HTML) {
     progress: $('div.progress small').text(),
     nickname: $a.text(),
     userId: ($a.attr('href') || '').replace('/user/', ''),
-    time: time.replace('创建于 ', ''),
+    time: time.replace('创建于 ', '').trim(),
     collect: collect.match(/\d+/) && collect.match(/\d+/)[0],
     content: $('div.line_detail > span.tip').html(),
     joinUrl,

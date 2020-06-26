@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:44:15
+ * @Last Modified time: 2020-06-27 02:28:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Katakana, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { appNavigate } from '@utils/app'
+import { appNavigate, x18 } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { EVENT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -107,12 +107,15 @@ function ItemSearch({
                     </Katakana.Provider>
                   )}
                 </Flex.Item>
-                {!!type && (
-                  <Tag
-                    style={_.ml.sm}
-                    value={MODEL_SUBJECT_TYPE.getTitle(type)}
-                  />
-                )}
+                <Flex style={_.mt.xxs}>
+                  {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
+                  {!!type && (
+                    <Tag
+                      style={_.ml.sm}
+                      value={MODEL_SUBJECT_TYPE.getTitle(type)}
+                    />
+                  )}
+                </Flex>
               </Flex>
               {!!tip && (
                 <Text style={_.mt.md} size={11} numberOfLines={2}>
