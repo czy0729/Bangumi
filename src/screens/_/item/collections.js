@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:13:42
+ * @Last Modified time: 2020-06-26 16:09:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -86,7 +86,10 @@ function ItemCollections({
         })
       }}
     >
-      <Flex style={[styles.wrap, !isFirst && styles.border]} align='start'>
+      <Flex
+        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
+        align='start'
+      >
         <View style={styles.imgContainer}>
           <Cover
             style={styles.image}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 23:37:29
+ * @Last Modified time: 2020-06-26 16:49:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,7 +56,10 @@ function ItemBlog(
         })
       }}
     >
-      <Flex align='start' style={[styles.wrap, index !== 0 && styles.border]}>
+      <Flex
+        align='start'
+        style={[styles.wrap, index !== 0 && !_.flat && styles.border]}
+      >
         {!!cover && (
           <View style={styles.imgContainer}>
             <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} shadow />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 15:39:01
+ * @Last Modified time: 2020-06-26 15:37:50
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -46,7 +46,7 @@ class Rakuen extends React.Component {
   }
 
   get style() {
-    return IOS ? _.container.bg : _.container._plain
+    return IOS ? _.container.plain : _.container._plain
   }
 
   render() {

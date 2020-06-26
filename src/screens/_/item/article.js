@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:56:44
+ * @Last Modified time: 2020-06-26 16:31:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -43,16 +43,20 @@ function ItemArticle({
     >
       <Flex align='start'>
         <Avatar style={styles.image} name={nickname} src={avatar} />
-        <Flex.Item style={[styles.item, !isFirst && styles.border, _.ml.sm]}>
-          <Text size={16}>{HTMLDecode(title)}</Text>
+        <Flex.Item
+          style={[styles.item, !isFirst && !_.flat && styles.border, _.ml.sm]}
+        >
+          <Text bold>{HTMLDecode(title)}</Text>
           <Flex style={_.mt.xs}>
-            <Text size={13}>{HTMLDecode(nickname)}</Text>
-            <Text type='sub' style={_.ml.xs} size={13}>
+            <Text size={12} bold>
+              {HTMLDecode(nickname)}
+            </Text>
+            <Text type='sub' style={_.ml.xs} size={12}>
               / {time} / {replies} 回复
             </Text>
           </Flex>
           {!!summary && (
-            <Text style={_.mt.sm} size={15} lineHeight={20} numberOfLines={4}>
+            <Text style={_.mt.sm} size={13} lineHeight={16} numberOfLines={4}>
               {HTMLDecode(summary.replace(/\r\n\r\n/g, '\r\n'))}
             </Text>
           )}

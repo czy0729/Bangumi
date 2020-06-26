@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 04:40:11
+ * @Last Modified time: 2020-06-26 16:48:50
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -58,7 +58,7 @@ function Item(
               <Cover
                 key={item.id}
                 style={styles.image}
-                size={56}
+                size={52}
                 radius={4}
                 src={item.image}
               />

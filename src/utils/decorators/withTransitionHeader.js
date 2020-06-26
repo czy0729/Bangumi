@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 14:08:42
+ * @Last Modified time: 2020-06-26 17:41:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -190,7 +190,7 @@ const withTransitionHeader = ({
           let shadowStyle = {}
           if (isTransitioned) {
             shadowStyle = {
-              borderBottomWidth: _.select(_.hairlineWidth, 0),
+              borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
               borderBottomColor: _.colorBorder
             }
           }

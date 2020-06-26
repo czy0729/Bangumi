@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:06:38
+ * @Last Modified time: 2020-06-26 16:44:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,7 +56,10 @@ function ItemSearch({
         )
       }}
     >
-      <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
+      <Flex
+        align='start'
+        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
+      >
         <View style={styles.imgContainer}>
           <Cover
             style={styles.image}

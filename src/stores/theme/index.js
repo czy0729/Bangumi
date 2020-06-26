@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 15:47:52
+ * @Last Modified time: 2020-06-26 17:47:47
  */
 import { StyleSheet, InteractionManager } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -11,6 +11,7 @@ import store from '@utils/store'
 import { DEV, IOS } from '@constants'
 import _ from '@styles'
 import { initialDevDark } from '@/navigations'
+import systemStore from '../system'
 
 const NAMESPACE = 'Theme'
 const DEFAULT_MODE = 'light'
@@ -71,6 +72,7 @@ function getMemoStylesId() {
     _id: _memoStylesId,
     _mode: '',
     _tMode: '',
+    _flat: '',
     _styles: ''
   }
 }
@@ -127,6 +129,11 @@ class Theme extends store {
 
   @computed get isDark() {
     return this.mode === 'dark'
+  }
+
+  @computed get flat() {
+    const { flat } = systemStore.setting
+    return flat
   }
 
   @computed get colorMain() {
@@ -599,14 +606,16 @@ class Theme extends store {
         !memoId._mode ||
         !memoId._styles ||
         memoId._mode !== this.mode ||
-        memoId._tMode !== this.tinygrailThemeMode
+        memoId._tMode !== this.tinygrailThemeMode ||
+        memoId._flat !== this.flat
       ) {
         memoId._mode = this.mode
         memoId._tMode = this.tinygrailThemeMode
+        memoId._flat = this.flat
         memoId._styles = StyleSheet.create(styles(this))
 
         if (dev) {
-          console.info(memoId)
+          log(memoId)
         }
       }
       return memoId._styles

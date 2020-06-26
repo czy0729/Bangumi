@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 11:29:45
+ * @Last Modified time: 2020-06-26 17:02:41
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -76,7 +76,11 @@ function Item(
         event={event}
       />
       <Flex.Item
-        style={[styles.content, index !== 0 && styles.border, _.ml.sm]}
+        style={[
+          styles.content,
+          index !== 0 && !_.flat && styles.border,
+          _.ml.sm
+        ]}
       >
         <Flex>
           <Flex.Item>
@@ -182,7 +186,9 @@ function Item(
                   src={item.avatar}
                   event={event}
                 />
-                <Flex.Item style={[styles.subContent, styles.border, _.ml.sm]}>
+                <Flex.Item
+                  style={[styles.subContent, !_.flat && styles.border, _.ml.sm]}
+                >
                   <Flex>
                     <Flex.Item>
                       <Text bold>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 20:36:23
+ * @Last Modified time: 2020-06-26 15:19:03
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -540,6 +540,7 @@ class FixedTextarea extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   mask: {
     position: 'absolute',
+    zIndex: 1000,
     top: 0,
     right: 0,
     bottom: 0,
@@ -548,10 +549,10 @@ const memoStyles = _.memoStyles(_ => ({
   },
   container: {
     position: 'absolute',
+    zIndex: 1001,
     right: 0,
     bottom: 0,
     left: 0,
-    zIndex: 1,
     marginBottom: -4,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     borderTopWidth: _.select(_.hairlineWidth, 0),

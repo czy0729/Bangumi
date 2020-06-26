@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 16:43:31
+ * @Last Modified time: 2020-06-26 17:30:58
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -320,8 +320,8 @@ export function cheerioTopic(HTML) {
       .split(' - ')
     const titleText = $('#pageHeader > h1').text() || ''
     let title
-    if (titleText.includes(' » ')) {
-      title = String(titleText.split(' » ')[1]).replace(/讨论|章节/, '')
+    if (titleText.includes(' &raquo; ')) {
+      title = String(titleText.split(' &raquo; ')[1]).replace(/讨论|章节/, '')
     } else {
       title = String(titleText.split(' / ')[1])
     }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 04:30:23
+ * @Last Modified time: 2020-06-26 16:29:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -37,7 +37,9 @@ function ItemComment({
         src={avatar}
         event={event}
       />
-      <Flex.Item style={[styles.content, !isTop && styles.border, _.ml.sm]}>
+      <Flex.Item
+        style={[styles.content, !isTop && !_.flat && styles.border, _.ml.sm]}
+      >
         <Flex>
           <Flex.Item>
             <Flex>

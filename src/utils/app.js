@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 15:01:01
+ * @Last Modified time: 2020-06-26 15:48:42
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -48,6 +48,15 @@ export function bootApp() {
       assert: Function.prototype
     }
   }
+}
+
+/**
+ * 获取设置
+ */
+export function getSetting() {
+  const systemStore = require('../stores/system').default
+  const { setting } = systemStore
+  return setting
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:56:59
+ * @Last Modified time: 2020-06-26 17:34:14
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -26,7 +26,7 @@ function Item(
         userId={userId}
         name={userName}
       />
-      <Flex.Item style={index !== 0 && styles.border}>
+      <Flex.Item style={index !== 0 && !_.flat && styles.border}>
         <Touchable
           style={styles.item}
           onPress={() => {
@@ -50,9 +50,13 @@ function Item(
           <Flex align='start'>
             <Flex.Item>
               <Text size={16}>{title}</Text>
-              <Text style={_.mt.sm} type='sub' size={13}>
-                {time.split(' ')[1]} / <Text size={13}>{group}</Text> /{' '}
-                {userName}
+              <Text style={_.mt.sm} type='sub' size={12}>
+                {time.split(' ')[1]} /
+                <Text size={12} type='title' bold>
+                  {' '}
+                  {userName}{' '}
+                </Text>
+                / {group}
               </Text>
             </Flex.Item>
             {$.isFavor(topicId) && (

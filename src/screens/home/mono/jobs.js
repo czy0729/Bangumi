@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 14:06:26
+ * @Last Modified time: 2020-06-26 16:52:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ function Jobs({ style }, { $, navigation }) {
         {$.jobs.map((item, index) => (
           <Flex
             key={item.href}
-            style={[styles.item, index !== 0 && styles.border]}
+            style={[styles.item, index !== 0 && !_.flat && styles.border]}
             align='start'
           >
             <Flex.Item flex={3}>

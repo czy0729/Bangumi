@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 14:47:46
+ * @Last Modified time: 2020-06-26 15:08:20
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -32,8 +32,8 @@ function TouchScroll({ onPress }, { $ }) {
   ]
 
   const isVertical =
-    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右边') ||
-    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左边')
+    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') ||
+    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左侧')
   return (
     <Flex
       style={[
@@ -115,7 +115,6 @@ export default observer(TouchScroll)
 const memoStyles = _.memoStyles(_ => ({
   containerRight: {
     position: 'absolute',
-    zIndex: 1,
     top: _.headerHeight,
     right: 0,
     bottom: 42,
@@ -124,7 +123,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   containerLeft: {
     position: 'absolute',
-    zIndex: 1,
     top: _.headerHeight,
     left: 0,
     bottom: 42,
@@ -155,7 +153,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   itemNew: {
     backgroundColor: _.select(
-      'rgba(254, 138, 149, 0.64)',
+      'rgba(254, 138, 149, 0.4)',
       'rgba(254, 113, 127, 0.16)'
     )
   },

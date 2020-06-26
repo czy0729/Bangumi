@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 17:18:46
+ * @Last Modified time: 2020-06-26 17:45:11
  */
 import React from 'react'
 import { ScrollView, View, AsyncStorage } from 'react-native'
@@ -473,13 +473,13 @@ class Setting extends React.Component {
               />
             )} */}
             <ItemSetting
-              hd='扁平化'
+              hd='扁平'
               ft={
                 <SwitchPro
                   value={flat}
                   onSyncPress={() => {
                     t('设置.切换', {
-                      title: '扁平化',
+                      title: '扁平',
                       checked: !flat
                     })
 
@@ -487,7 +487,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information='[实验性] 开启后尽量少出现线条，并适当增大元素间距'
+              information='[实验性] 开启后尽量少出现线条，适当增大元素间距'
             />
             <ItemSetting
               hd='图片渐出动画'
@@ -873,7 +873,7 @@ const memoStyles = _.memoStyles(_ => ({
   split: {
     marginTop: _.md,
     marginHorizontal: _.wind,
-    borderTopWidth: _.hairlineWidth,
+    borderTopWidth: _.flat ? 0 : _.hairlineWidth,
     borderColor: _.colorBorder
   }
 }))

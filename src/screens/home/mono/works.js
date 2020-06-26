@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 13:01:38
+ * @Last Modified time: 2020-06-26 16:52:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,7 +39,7 @@ function Works({ style }, { $, navigation }) {
         {$.works.map((item, index) => (
           <Flex
             key={item.href}
-            style={[styles.item, index !== 0 && styles.border]}
+            style={[styles.item, index !== 0 && !_.flat && styles.border]}
             align='start'
           >
             <Cover

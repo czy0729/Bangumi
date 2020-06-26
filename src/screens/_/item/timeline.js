@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 23:14:02
+ * @Last Modified time: 2020-06-26 16:40:50
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -266,7 +266,15 @@ class ItemTimeline extends React.Component {
       'subject'
     )
     return (
-      <Flex style={[_.container.item, style]} align='start'>
+      <Flex
+        style={[
+          _.container.item,
+          _.flat && this.styles.flat,
+          _.flat && !avatar.src && this.styles.flatNoAvatar,
+          style
+        ]}
+        align='start'
+      >
         <View style={this.styles.image}>
           {!!avatar.src && (
             <Avatar
@@ -282,7 +290,7 @@ class ItemTimeline extends React.Component {
         <Flex.Item
           style={[
             this.styles.content,
-            index !== 0 && this.styles.border,
+            index !== 0 && !_.flat && this.styles.border,
             _.ml.sm
           ]}
         >
@@ -357,6 +365,12 @@ class ItemTimeline extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
+  flat: {
+    paddingVertical: _.xs
+  },
+  flatNoAvatar: {
+    marginTop: -_.md
+  },
   image: {
     width: avatarWidth,
     marginTop: _.md,

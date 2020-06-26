@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 11:31:05
+ * @Last Modified time: 2020-06-26 16:45:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,10 @@ function ItemRecents(
   }
   return (
     <View style={styles.container}>
-      <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
+      <Flex
+        align='start'
+        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
+      >
         <View style={styles.imgContainer}>
           {!!cover && (
             <Cover

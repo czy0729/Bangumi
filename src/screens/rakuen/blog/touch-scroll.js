@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 00:20:13
+ * @Last Modified time: 2020-06-26 17:11:45
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -32,8 +32,8 @@ function TouchScroll({ onPress }, { $ }) {
   ]
 
   const isVertical =
-    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右边') ||
-    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左边')
+    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') ||
+    scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue('左侧')
   return (
     <Flex
       style={styles[`container${titleCase(scrollDirection)}`]}

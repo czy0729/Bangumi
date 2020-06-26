@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 11:43:58
+ * @Last Modified time: 2020-06-26 16:50:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,9 @@ function Discuss(props, { $, navigation }) {
               })
             }}
           >
-            <View style={[styles.wrap, index !== 0 && styles.border]}>
+            <View
+              style={[styles.wrap, index !== 0 && !_.flat && styles.border]}
+            >
               <Flex style={styles.content}>
                 <Flex.Item>
                   <Text size={15} bold>

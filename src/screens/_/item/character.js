@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 15:33:16
+ * @Last Modified time: 2020-06-26 16:56:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,10 @@ function ItemCharacter(
   }
   return (
     <View style={styles.container}>
-      <Flex align='start' style={[styles.wrap, !isFirst && styles.border]}>
+      <Flex
+        align='start'
+        style={[styles.wrap, !isFirst && !_.flat && styles.border]}
+      >
         <View style={styles.imgContainer}>
           {!!cover && (
             <Cover
