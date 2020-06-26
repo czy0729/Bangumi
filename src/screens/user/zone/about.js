@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 20:14:09
+ * @Last Modified time: 2020-06-27 05:16:43
  */
 import React from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
@@ -11,9 +11,15 @@ import { observer } from 'mobx-react'
 import { RenderHtml } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
-import { height } from './store'
+import { H_BG } from './store'
 
 function About(props, { $, navigation }) {
+  // 去除APP内高清头像背景的代码
+  const sign =
+    String($.users.sign).replace(
+      /<span style="font-size:0px; line-height:0px;">(.+?)<\/span>/g,
+      ''
+    ) || '(什么都没有)'
   return (
     <Animated.ScrollView
       contentContainerStyle={styles.contentContainerStyle}
@@ -22,7 +28,7 @@ function About(props, { $, navigation }) {
       <View style={styles.page}>
         <RenderHtml
           style={_.mt.lg}
-          html={$.users.sign || '(什么都没有)'}
+          html={sign}
           onLinkPress={href =>
             appNavigate(
               href,
@@ -52,11 +58,11 @@ export default observer(About)
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
-    paddingTop: height + _.space * 2,
+    paddingTop: H_BG + _.space * 2,
     paddingHorizontal: _.wind,
-    minHeight: _.window.height + height - _.tabBarHeight
+    minHeight: _.window.height + H_BG - _.tabBarHeight
   },
   page: {
-    minHeight: _.window.height - height
+    minHeight: _.window.height - H_BG
   }
 })

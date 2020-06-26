@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 15:13:33
+ * @Last Modified time: 2020-06-27 05:05:53
  */
 import { observable, computed } from 'mobx'
 import {
@@ -20,27 +20,33 @@ import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { info } from '@utils/ui'
-import { HOST } from '@constants'
+import { HOST, IOS } from '@constants'
 
-export const height = Math.min(_.window.width * 0.64, 288)
+export const H_BG = Math.min(parseInt(_.window.width * 0.64), 288) // 整个背景高度
+export const H_HEADER = IOS ? 88 : 80 // fixed后带背景的头部高度
+export const H_TABBAR = 48 // TabBar高度
 
 // @todo 偏差了6pt, 有空再纠正
 export const headerHeight = _.headerHeight
 export const tabs = [
   {
-    title: '番剧'
+    title: '番剧',
+    key: 'bangumi'
   },
   {
-    title: '时间胶囊'
+    title: '时间胶囊',
+    key: 'timeline'
   },
   {
-    title: '关于TA'
+    title: '关于TA',
+    key: 'about'
   }
 ]
 export const tabsWithTinygrail = [
   ...tabs,
   {
-    title: '小圣杯'
+    title: '小圣杯',
+    key: 'tinygrail'
   }
 ]
 const namespace = 'ScreenZone'
@@ -54,8 +60,7 @@ export default class ScreenZone extends store {
       搁置: false,
       抛弃: false
     },
-    page: 0, // <Tabs>当前页数
-    _page: 0, // header上的假<Tabs>当前页数,
+    page: 0,
     _loaded: false
   })
 
@@ -64,7 +69,6 @@ export default class ScreenZone extends store {
     this.setState({
       ...state,
       page: this.isFromTinygrail ? 3 : 0,
-      _page: this.isFromTinygrail ? 3 : 0,
       _loaded: true
     })
 
@@ -174,42 +178,14 @@ export default class ScreenZone extends store {
   fetchCharaTotal = () => tinygrailStore.fetchCharaTotal(this.username)
 
   // -------------------- page --------------------
-  onTabClick = (item, page) => {
-    if (page === this.state.page) {
-      return
-    }
-
-    t('空间.标签页点击', {
-      userId: this.userId,
-      page
-    })
-
-    this.setState({
-      page
-    })
-
-    // @issue onTabClick与onChange在用受控模式的时候有冲突, 暂时这样解决
-    setTimeout(() => {
-      this.setState({
-        _page: page
-      })
-    }, 400)
-    this.tabChangeCallback(page)
-  }
-
-  onChange = (item, page) => {
-    if (page === this.state.page) {
-      return
-    }
-
+  onChange = page => {
     t('空间.标签页切换', {
       userId: this.userId,
       page
     })
 
     this.setState({
-      page,
-      _page: page
+      page
     })
     this.tabChangeCallback(page)
   }

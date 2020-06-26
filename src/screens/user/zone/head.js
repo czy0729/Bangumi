@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 16:06:14
+ * @Last Modified time: 2020-06-27 05:07:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -96,7 +96,7 @@ function Head({ style }, { $, navigation }) {
           </Text>
         </Touchable>
       </View>
-      <Text style={_.mt.md} type={_.select('plain', 'title')} size={16}>
+      <Text style={_.mt.md} type={_.select('plain', 'title')}>
         {userName}
         {!!userId && ` @${userId}`}
       </Text>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:35:06
+ * @Last Modified time: 2020-06-27 05:24:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -257,10 +257,14 @@ class Item extends React.Component {
             onLongPress={this.onLongPress}
           />
           <Flex.Item style={this.styles.content}>
-            <Touchable withoutFeedback onPress={this.onPress}>
+            <Touchable
+              style={this.styles.title}
+              withoutFeedback
+              onPress={this.onPress}
+            >
               <Flex align='start'>
                 <Flex.Item>
-                  <Text size={15} numberOfLines={1} bold>
+                  <Text size={15} numberOfLines={2} bold>
                     {HTMLDecode(subject.name_cn || subject.name)}
                   </Text>
                   <Text style={_.mt.xs} type='sub' size={12}>
@@ -268,17 +272,29 @@ class Item extends React.Component {
                   </Text>
                 </Flex.Item>
                 {isToday ? (
-                  <Text style={_.ml.sm} type='success' lineHeight={15}>
+                  <Text
+                    style={_.ml.sm}
+                    type='success'
+                    size={13}
+                    lineHeight={15}
+                    bold
+                  >
                     {time.slice(0, 2)}:{time.slice(2, 4)}
                   </Text>
                 ) : isNextDay ? (
-                  <Text style={_.ml.sm} type='sub' lineHeight={15}>
+                  <Text
+                    style={_.ml.sm}
+                    type='sub'
+                    size={13}
+                    lineHeight={15}
+                    bold
+                  >
                     明天{time.slice(0, 2)}:{time.slice(2, 4)}
                   </Text>
                 ) : null}
               </Flex>
             </Touchable>
-            <View style={_.mt.md}>
+            <View>
               <Flex style={this.styles.info}>
                 <Flex.Item>
                   {isBook ? (
@@ -350,6 +366,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   content: {
     marginLeft: itemPadding - 2
+  },
+  title: {
+    minHeight: 60
   },
   info: {
     height: 40

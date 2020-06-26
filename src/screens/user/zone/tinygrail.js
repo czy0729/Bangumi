@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 20:14:20
+ * @Last Modified time: 2020-06-27 04:34:02
  */
 import React from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
@@ -13,7 +13,7 @@ import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
-import { height } from './store'
+import { H_BG } from './store'
 
 function Tinygrail(props, { $, navigation }) {
   const { assets, balance, lastIndex } = $.userAssets
@@ -61,11 +61,11 @@ export default observer(Tinygrail)
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
-    paddingTop: height + _.space * 2,
+    paddingTop: H_BG + _.space * 2,
     paddingHorizontal: _.wind,
-    minHeight: _.window.height + height - _.tabBarHeight
+    minHeight: _.window.height + H_BG - _.tabBarHeight
   },
   page: {
-    minHeight: _.window.height - height
+    minHeight: _.window.height - H_BG
   }
 })

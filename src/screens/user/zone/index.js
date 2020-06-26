@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 18:53:46
+ * @Last Modified time: 2020-06-27 04:38:34
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -14,12 +14,8 @@ import { _ } from '@stores'
 import { inject } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import ParallaxImage from './parallax-image'
-import Tabs from './tabs'
-import BangumiList from './bangumi-list'
-import TimelineList from './timeline-list'
-import About from './about'
-import Tinygrail from './tinygrail'
-import Store, { height } from './store'
+import Tab from './tab'
+import Store, { H_BG } from './store'
 
 const title = '空间'
 
@@ -53,7 +49,7 @@ class Zone extends React.Component {
   }
 
   onScroll = e => {
-    // 记录一个nativeEvent
+    // 记录一个nativeEvent用于切页重置
     if (!this.offsetZeroNativeEvent && e.nativeEvent) {
       this.offsetZeroNativeEvent = e.nativeEvent
       this.offsetZeroNativeEvent.contentOffset.y = 0
@@ -63,21 +59,25 @@ class Zone extends React.Component {
     const { contentOffset } = e.nativeEvent
     const { y } = contentOffset
     const { fixed } = this.state
-    if (fixed && y < height) {
+    if (fixed) {
+      const { $ } = this.context
+      const { page } = $.state
+      this.loaded[page] = true
+    }
+    if (fixed && y < H_BG) {
       this.setState({
         fixed: false
       })
       return
     }
-
-    if (!fixed && y >= height) {
+    if (!fixed && y >= H_BG) {
       this.setState({
         fixed: true
       })
     }
   }
 
-  onTabsChange = page => {
+  onIndexChange = page => {
     if (!this.loaded[page]) {
       this.resetPageOffset(page)
     }
@@ -110,31 +110,6 @@ class Zone extends React.Component {
     }
 
     const { fixed } = this.state
-    const listViewProps = {
-      ListHeaderComponent: (
-        <View
-          style={{
-            height: height + _.tabsHeight
-          }}
-        />
-      ),
-      scrollEventThrottle: 16,
-      onScroll: Animated.event(
-        [
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: this.scrollY
-              }
-            }
-          }
-        ],
-        {
-          useNativeDriver: true,
-          listener: this.onScroll
-        }
-      )
-    }
     return (
       <View style={_.container.plain}>
         <UM screen={title} />
@@ -143,16 +118,27 @@ class Zone extends React.Component {
           backgroundColor='transparent'
         />
         <NavigationBarEvents />
-        <Tabs
-          $={$}
+        <Tab
           scrollY={this.scrollY}
-          onChange={(item, page) => this.onTabsChange(page)}
-        >
-          <BangumiList {...listViewProps} />
-          <TimelineList {...listViewProps} />
-          <About {...listViewProps} />
-          <Tinygrail {...listViewProps} />
-        </Tabs>
+          scrollEventThrottle={16}
+          onSelectSubjectType={this.onSelectSubjectType}
+          onIndexChange={this.onIndexChange}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    y: this.scrollY
+                  }
+                }
+              }
+            ],
+            {
+              useNativeDriver: true,
+              listener: this.onScroll
+            }
+          )}
+        />
         <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
       </View>
     )

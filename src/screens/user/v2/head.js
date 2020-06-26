@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 11:19:15
+ * @Last Modified time: 2020-06-27 05:07:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -58,7 +58,7 @@ function Head({ style }, { $, navigation }) {
           </>
         )}
       </View>
-      <Text style={_.mt.md} type={_.select('plain', 'title')} size={16}>
+      <Text style={_.mt.md} type={_.select('plain', 'title')}>
         {nickname}
         <Text
           style={styles.id}

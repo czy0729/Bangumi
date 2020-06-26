@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 18:54:31
+ * @Last Modified time: 2020-06-27 05:05:18
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading, ListView, Flex, Touchable, Iconfont } from '@components'
+import { Loading, ListView, Flex, Touchable, Text, Iconfont } from '@components'
 import { SectionHeader, ItemBangumiList } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { height } from './store'
+import { H_BG } from './store'
 
 const event = {
   id: '空间.跳转'
@@ -31,23 +30,25 @@ class List extends React.Component {
     const { expand } = $.state
     return (
       <Touchable
-        style={{
-          backgroundColor: _.colorBg
-        }}
+        style={this.styles.section}
         onPress={() => $.toggleSection(title)}
       >
         <SectionHeader
-          style={styles.sectionHeader}
-          size={14}
+          style={this.styles.sectionHeader}
+          type='title'
+          size={15}
           right={
             <Iconfont
               name={expand[title] ? 'down' : 'up'}
               color={_.colorIcon}
-              size={18}
+              size={16}
             />
           }
         >
-          {title} ({count})
+          {title}{' '}
+          <Text type='sub' size={12} lineHeight={15}>
+            {count}
+          </Text>
         </SectionHeader>
       </Touchable>
     )
@@ -74,7 +75,7 @@ class List extends React.Component {
     })
     return (
       <ListView
-        contentContainerStyle={styles.contentContainerStyle}
+        contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         sections={sections}
         renderSectionHeader={this.renderSectionHeader}
@@ -105,15 +106,22 @@ class List extends React.Component {
       />
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
 
-const styles = StyleSheet.create({
+const memoStyles = _.memoStyles(_ => ({
   contentContainerStyle: {
     paddingHorizontal: _.wind - _._wind,
-    minHeight: _.window.height + height - _.tabBarHeight
+    minHeight: _.window.height + H_BG - _.tabBarHeight
   },
   sectionHeader: {
     paddingHorizontal: _._wind,
     backgroundColor: _.colorPlain
+  },
+  section: {
+    backgroundColor: _.colorBg
   }
-})
+}))

@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-04-18 16:34:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 19:35:19
+ * @Last Modified time: 2020-06-27 05:03:39
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 
-function SectionHeader({ style, size, right, children }) {
+function SectionHeader({ style, type, size, right, children }) {
   const styles = memoStyles()
   return (
     <Flex style={[styles.section, style]}>
       <Flex.Item>
-        <Text type='sub' size={size}>
+        <Text type={type} size={size} bold>
           {children}
         </Text>
       </Flex.Item>
@@ -24,6 +24,7 @@ function SectionHeader({ style, size, right, children }) {
 }
 
 SectionHeader.defaultProps = {
+  type: 'sub',
   size: 12
 }
 
@@ -31,7 +32,7 @@ export default observer(SectionHeader)
 
 const memoStyles = _.memoStyles(_ => ({
   section: {
-    paddingVertical: _.sm,
+    paddingVertical: _.sm + _.xs,
     paddingHorizontal: _.wind,
     backgroundColor: _.colorBg
   }
