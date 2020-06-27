@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 01:25:17
+ * @Last Modified time: 2020-06-27 15:50:39
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -29,7 +29,7 @@ let inited = false
 // eslint-disable-next-line semi-style
 ;(async () => {
   try {
-    cache = await getStorage(cacheKey)
+    cache = (await getStorage(cacheKey)) || {}
   } catch (error) {
     //
   } finally {
@@ -53,7 +53,7 @@ export async function translate(jp, cb = Function.prototype) {
 
   // 命中缓存马上回调
   if (cache[jp]) {
-    cb(cache[jp])
+    cb(cache)
     return
   }
 
@@ -64,13 +64,13 @@ export async function translate(jp, cb = Function.prototype) {
 
   if (!jps.length) {
     setTimeout(() => {
-      doTranslate(jp)
+      doTranslate()
     }, interval)
   }
   jps.push(jp)
 }
 
-async function doTranslate(jp) {
+async function doTranslate() {
   try {
     const text = jps.join('\n')
     jps = []
@@ -82,7 +82,7 @@ async function doTranslate(jp) {
       setStorage(cacheKey, cache)
     }
 
-    cbs.forEach(cb => cb(cache[jp]))
+    cbs.forEach(cb => cb(cache))
   } catch (error) {
     //
   } finally {
@@ -385,7 +385,8 @@ class Katakana extends React.Component {
     }
 
     match.forEach(jp =>
-      translate(jp, en => {
+      translate(jp, cache => {
+        const en = cache[jp]
         if (en) {
           const { onKatakana } = this.context
           if (onKatakana) {
