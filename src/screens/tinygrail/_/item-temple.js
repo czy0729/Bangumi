@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 12:46:41
+ * @Last Modified time: 2020-06-27 14:02:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -114,6 +114,7 @@ function ItemTemple(
             type='tinygrailText'
             size={12}
             numberOfLines={1}
+            bold
             onPress={() => {
               t(eventId, {
                 to: 'Zone',
@@ -160,6 +161,7 @@ function ItemTemple(
                 type='tinygrailText'
                 size={isFormCharaAssets ? 12 : 10}
                 numberOfLines={1}
+                bold
               >
                 {_name}
               </Text>

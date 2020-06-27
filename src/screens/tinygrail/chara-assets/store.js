@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 00:47:03
+ * @Last Modified time: 2020-06-27 13:39:02
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -94,6 +94,7 @@ export default class ScreenTinygrailCharaAssets extends store {
       this.fetchTemple()
     } else if (needFetch) {
       this.fetchMyCharaAssets()
+      this.fetchMpi()
     }
 
     return res
@@ -164,6 +165,12 @@ export default class ScreenTinygrailCharaAssets extends store {
 
   fetchTemple = () => tinygrailStore.fetchTemple(this.userId)
 
+  /**
+   * ICO最高人气
+   * 用于整合数据来解决我的ICO列表中, 进度条没有参与者数的问题
+   */
+  fetchMpi = () => tinygrailStore.fetchList('mpi')
+
   // -------------------- get --------------------
   @computed get userId() {
     const { userId } = this.params
@@ -200,6 +207,17 @@ export default class ScreenTinygrailCharaAssets extends store {
 
   @computed get temple() {
     return tinygrailStore.temple(this.userId)
+  }
+
+  @computed get mpi() {
+    return computed(() => tinygrailStore.list('mpi')).get()
+  }
+
+  @computed get mpiUsers() {
+    const users = {}
+    const { list } = this.mpi
+    list.forEach(item => (users[item.id] = item.users))
+    return users
   }
 
   // -------------------- page --------------------

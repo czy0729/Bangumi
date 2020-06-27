@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 20:38:27
+ * @Last Modified time: 2020-06-27 14:02:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,6 +57,7 @@ function Users({ style }, { $, navigation }) {
                   <Text
                     type={isTop ? 'warning' : 'tinygrailPlain'}
                     size={isTop ? 14 : 12}
+                    bold
                     numberOfLines={1}
                   >
                     {item.lastIndex !== 0 && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:51:50
+ * @Last Modified time: 2020-06-27 14:01:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -80,7 +80,7 @@ function Info(props, { $, navigation }) {
           }}
         >
           <Flex justify='center'>
-            <Text type='tinygrailPlain' size={16}>
+            <Text type='tinygrailPlain' size={16} bold>
               #{id} - {name}
               {!!bonus && (
                 <Text type='warning' size={16}>

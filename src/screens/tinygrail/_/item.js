@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 22:36:02
+ * @Last Modified time: 2020-06-27 13:59:26
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -218,6 +218,7 @@ function Item(props, { $, navigation }) {
                   <Text
                     type='tinygrailPlain'
                     size={name.length > 8 ? 12 : 15}
+                    bold
                     lineHeight={15}
                   >
                     {!isDeal && (
@@ -241,7 +242,7 @@ function Item(props, { $, navigation }) {
                   </Text>
                   <Text style={_.mt.xs} type='tinygrailText' size={11}>
                     {isDeal && (
-                      <Text type={colorMap[type]} size={11}>
+                      <Text type={colorMap[type]} size={11} bold>
                         {prevText}
                       </Text>
                     )}

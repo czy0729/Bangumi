@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:52:22
+ * @Last Modified time: 2020-06-27 14:04:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,9 @@ function Auth(props, { $, navigation }) {
           <Flex.Item style={_.ml.sm}>
             <Flex>
               <Touchable onPress={() => navigation.push('Qiafan')}>
-                <Text type='tinygrailPlain'>{nickname}</Text>
+                <Text type='tinygrailPlain' size={13} bold>
+                  {nickname}
+                </Text>
                 {$.advance ? (
                   <Text size={12} type='warning'>
                     高级会员

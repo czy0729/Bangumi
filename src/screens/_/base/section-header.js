@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-18 16:34:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 05:03:39
+ * @Last Modified time: 2020-06-27 05:35:43
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -24,8 +24,8 @@ function SectionHeader({ style, type, size, right, children }) {
 }
 
 SectionHeader.defaultProps = {
-  type: 'sub',
-  size: 12
+  type: 'title',
+  size: 14
 }
 
 export default observer(SectionHeader)

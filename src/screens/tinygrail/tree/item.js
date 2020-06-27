@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:17:31
+ * @Last Modified time: 2020-06-27 14:03:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -130,6 +130,7 @@ function Item({
             type='tinygrailPlain'
             size={parseInt(11 * ratio)}
             numberOfLines={1}
+            bold
             selectable={false}
           >
             {name}

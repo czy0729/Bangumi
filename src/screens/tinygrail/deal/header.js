@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:55:13
+ * @Last Modified time: 2020-06-27 14:00:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -70,7 +70,7 @@ function Header(props, { $, navigation }) {
             />
             <Flex.Item style={_.ml.sm}>
               <Flex>
-                <Text type='tinygrailPlain' numberOfLines={1}>
+                <Text type='tinygrailPlain' numberOfLines={1} bold>
                   {name}
                   {!!bonus && (
                     <Text type='warning' size={12} lineHeight={14}>

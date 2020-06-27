@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:43:16
+ * @Last Modified time: 2020-06-27 13:06:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ function Initial({ style }, { $, navigation }) {
         <Text type='warning' size={16}>
           参与者 {users}
         </Text>{' '}
-        / 10
+        / 15
       </Text>
       <Flex style={_.mt.sm} wrap='wrap'>
         {list.map((item, index) => {
@@ -51,6 +51,7 @@ function Initial({ style }, { $, navigation }) {
                 <Text
                   type={isTop || isMe ? 'warning' : 'tinygrailPlain'}
                   size={isTop ? 14 : 12}
+                  bold
                 >
                   {item.nickName}
                 </Text>

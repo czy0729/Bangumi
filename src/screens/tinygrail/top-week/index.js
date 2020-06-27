@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 15:05:35
+ * @Last Modified time: 2020-06-27 13:00:44
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -144,10 +144,10 @@ class TinygrailTopWeek extends React.Component {
                     >
                       <Flex>
                         <Flex.Item>
-                          <Text type='tinygrailPlain' size={16}>
+                          <Text type='tinygrailPlain' size={15} bold>
                             {item.rank}. {item.name}
                             {!!item.rankChange && (
-                              <Text type={changeColor} size={16}>
+                              <Text type={changeColor} size={15}>
                                 {' '}
                                 {item.rankChange > 0 && '+'}
                                 {item.rankChange}
@@ -156,23 +156,25 @@ class TinygrailTopWeek extends React.Component {
                           </Text>
                         </Flex.Item>
                         <View style={_.ml.sm}>
-                          <Text type='tinygrailText' size={16} align='right'>
-                            +{extraText} / {item.type}人
+                          <Text type='tinygrailText' size={11} align='right'>
+                            <Text size={13} bold>
+                              +{extraText}
+                            </Text>{' '}
+                            {item.type}人
                           </Text>
                           <Flex style={_.mt.xs} justify='end'>
                             {!!item.extraChange && (
-                              <Text type={extraChangeColor} size={13}>
+                              <Text type={extraChangeColor} size={11}>
                                 {item.extraChange > 0 ? '+' : '-'}
                                 {extraChangeText}
                               </Text>
                             )}
                             {!!item.typeChange && (
                               <>
-                                <Text type='tinygrailText' size={13}>
+                                <Text type='tinygrailText' size={11}>
                                   {' '}
-                                  /{' '}
                                 </Text>
-                                <Text type={typeChangeColor} size={13}>
+                                <Text type={typeChangeColor} size={11}>
                                   {item.typeChange > 0 && '+'}
                                   {item.typeChange}人
                                 </Text>

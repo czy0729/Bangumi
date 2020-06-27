@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:15:28
+ * @Last Modified time: 2020-06-27 14:01:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -67,6 +67,7 @@ function Header({ goBack }, { $, navigation }) {
               style={_.ml.sm}
               type='tinygrailPlain'
               size={16}
+              bold
               numberOfLines={1}
             >
               {name}

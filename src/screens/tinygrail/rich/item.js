@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 21:29:05
+ * @Last Modified time: 2020-06-27 12:54:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -129,7 +129,7 @@ function Item(
               >
                 <Flex>
                   <Flex.Item>
-                    <Text type='tinygrailPlain' size={16}>
+                    <Text type='tinygrailPlain' size={16} bold>
                       {rank}. {nickname}
                       {!!changeText && (
                         <Text type={changeColor} size={16}>
@@ -138,7 +138,7 @@ function Item(
                         </Text>
                       )}
                     </Text>
-                    <Text style={_.mt.sm} type='tinygrailText' size={12}>
+                    <Text style={_.mt.xs} type='tinygrailText' size={11}>
                       总{assetsText} / 余{totalText} / 初{principalText} /{' '}
                       {lastActiveDate
                         ? lastDate(
@@ -147,11 +147,11 @@ function Item(
                         : '-'}
                     </Text>
                   </Flex.Item>
-                  <Text type='tinygrailPlain' size={16}>
+                  <Text style={_.ml.xs} type='tinygrailPlain'>
                     {shareText}
                   </Text>
                   <Iconfont
-                    style={_.ml.sm}
+                    style={_.ml.xs}
                     size={14}
                     name='right'
                     color={_.colorTinygrailText}
