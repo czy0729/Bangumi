@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:13:52
+ * @Last Modified time: 2020-06-27 12:46:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,9 @@ import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 
 const imageWidth = _.window.contentWidth * 0.28
+const imageHeight = imageWidth * 1.28
+const imageResizeWidth = imageWidth * 1.08
+const imageResizeHeight = imageHeight * 1.08
 const marginLeft = (_.window.contentWidth - 3 * imageWidth) / 4
 
 function ItemTemple(
@@ -58,25 +61,35 @@ function ItemTemple(
     : sacrifices
   return (
     <View style={[styles.item, style]}>
-      <Image
-        style={styles.image}
-        size={imageWidth}
-        height={imageWidth * 1.28}
-        src={tinygrailOSS(cover)}
-        radius
-        imageViewer={!onPress}
-        imageViewerSrc={tinygrailOSS(cover, 480)}
-        border={colorLevel}
-        borderWidth={_.tSelect(3, 2)}
-        event={{
-          id: eventId,
-          data: {
-            name,
-            ...eventData
-          }
-        }}
-        onPress={onPress}
-      />
+      <View style={_.tSelect(undefined, _.shadow)}>
+        <View
+          style={[
+            styles.wrap,
+            {
+              borderColor: colorLevel,
+              borderWidth: colorLevel ? _.tSelect(3, 2) : 0
+            }
+          ]}
+        >
+          <Image
+            style={styles.image}
+            size={imageResizeWidth}
+            height={imageResizeHeight}
+            src={tinygrailOSS(cover)}
+            imageViewer={!onPress}
+            imageViewerSrc={tinygrailOSS(cover, 480)}
+            resizeMode='contain'
+            event={{
+              id: eventId,
+              data: {
+                name,
+                ...eventData
+              }
+            }}
+            onPress={onPress}
+          />
+        </View>
+      </View>
       {isView ? (
         <View style={_.mt.sm}>
           <Text
@@ -183,9 +196,19 @@ const memoStyles = _.memoStyles(_ => ({
   avatar: {
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
+  wrap: {
+    width: imageWidth,
+    height: imageHeight,
+    borderRadius: _.radiusXs,
+    overflow: 'hidden'
+  },
   image: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg),
-    ..._.tSelect(undefined, _.shadow)
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    left: 0,
+    marginLeft: -(imageResizeWidth - imageWidth) / 2,
+    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   name: {
     marginTop: 1
