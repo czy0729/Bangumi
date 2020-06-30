@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 15:40:34
+ * @Last Modified time: 2020-06-30 20:37:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,17 +30,17 @@ const menus = [
     icon: 'paihang',
     path: 'Tags'
   },
-  // {
-  //   title: '随便看看',
-  //   icon: 'xin-fan',
-  //   path: 'Random'
-  // },
   {
-    title: '我的人物',
-    icon: 'like',
-    path: 'Character',
-    login: true
+    title: '随便看看',
+    icon: 'xin-fan',
+    path: 'Random'
   },
+  // {
+  //   title: '我的人物',
+  //   icon: 'like',
+  //   path: 'Character',
+  //   login: true
+  // },
   {
     title: '每日放送',
     icon: 'calendar',

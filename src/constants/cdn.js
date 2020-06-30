@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 14:25:54
+ * @Last Modified time: 2020-06-30 20:25:33
  */
 import { getTimestamp } from '@utils'
 import { SDK } from './index'
@@ -18,12 +18,12 @@ import { HASH_AVATAR, HASH_SUBJECT } from './hash'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
-const VERSION_SUBJECT = '20200615' // 1季度更新1次
 const VERSION_MONO = '20200502' // 半年
+const VERSION_SUBJECT = '20200615' // 1季度更新1次
 const VERSION_OSS = '20200615' // 1季度增量更新
-const VERSION_STATIC = '20200627' // 1版本
-const VERSION_RAKUEN = '20200627' // 1版本
 const VERSION_AVATAR = '20200627' // 1版本
+const VERSION_STATIC = '20200630' // 1版本
+const VERSION_RAKUEN = '20200630' // 1版本
 
 const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
   ''

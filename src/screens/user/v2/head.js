@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 05:07:41
+ * @Last Modified time: 2020-06-30 20:45:18
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -41,10 +41,10 @@ function Head({ style }, { $, navigation }) {
             </Touchable>
             <Touchable
               style={styles.r2}
-              onPress={() => navigation.push('Blogs')}
+              onPress={() => navigation.push('Character')}
             >
               <Text type={_.select('plain', 'title')} size={13}>
-                日志
+                人物
               </Text>
             </Touchable>
             <Touchable
