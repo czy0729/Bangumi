@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 03:55:59
+ * @Last Modified time: 2020-06-27 16:10:00
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -153,6 +153,7 @@ class Ranting extends React.Component {
             size={14}
             onPress={() =>
               Alert.alert(
+                '标准差',
                 '0-1 异口同声\n1.15 基本一致\n1.3 略有分歧\n1.45 莫衷一是\n1.6 各执一词\n1.75 你死我活\n'
               )
             }

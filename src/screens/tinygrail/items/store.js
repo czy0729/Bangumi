@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-07 18:05:35
+ * @Last Modified time: 2020-06-30 19:57:07
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -12,14 +12,22 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 
+const typeDS = {
+  混沌魔方: 'chaos',
+  虚空道标: 'guidepost'
+}
+
 export default class ScreenTinygrailItems extends store {
   state = observable({
+    title: '',
+    visible: false,
     _loaded: false
   })
 
   init = () => {
     this.fetchItems()
     this.fetchTemple()
+    this.fetchMsrc()
   }
 
   // -------------------- fetch --------------------
@@ -27,9 +35,31 @@ export default class ScreenTinygrailItems extends store {
 
   fetchTemple = () => tinygrailStore.fetchTemple()
 
+  /**
+   * 最高股息
+   */
+  fetchMsrc = () => tinygrailStore.fetchList('msrc')
+
   // -------------------- get --------------------
   @computed get items() {
     return tinygrailStore.items
+  }
+
+  @computed get temple() {
+    const temple = tinygrailStore.temple()
+    return {
+      ...temple,
+      list: temple.list
+        .filter(item => item.assets >= 100)
+        .sort((a, b) => {
+          const la = a.cLevel || 1
+          const lb = b.cLevel || 1
+          if (la === lb) {
+            return a.rate - b.rate
+          }
+          return lb - la
+        })
+    }
   }
 
   @computed get templeDS() {
@@ -43,40 +73,67 @@ export default class ScreenTinygrailItems extends store {
       }))
   }
 
+  @computed get msrc() {
+    const { msrc } = tinygrailStore
+    return msrc
+  }
+
   // -------------------- page --------------------
-  doUse = async title => {
-    const find = this.templeDS.find(item => item.label === title)
-    if (find) {
-      try {
-        const { value } = find
-        const { State, Value, Message } = await tinygrailStore.doMagic({
-          monoId: value
-        })
+  onShowModal = title =>
+    this.setState({
+      title,
+      visible: true
+    })
 
-        t('我的道具.使用', {
-          type: '混沌魔方',
-          monoId: value
-        })
+  onCloseModal = () =>
+    this.setState({
+      visible: false
+    })
 
-        if (State === 0) {
-          Alert.alert(
-            '小圣杯助手',
-            `获得${Value.Name}x${Value.Amount}，当前价₵${
-              Value.CurrentPrice
-            }，价值₵${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
-            [
-              {
-                text: '知道了'
-              }
-            ]
-          )
-          this.fetchItems()
-        } else {
-          info(Message)
-        }
-      } catch (error) {
-        info('操作失败，可能授权过期了')
+  // -------------------- action --------------------
+  doUse = async ({ monoId, toMonoId }) => {
+    try {
+      const { title } = this.state
+      const type = typeDS[title]
+      if (!type) {
+        return false
       }
+
+      const data = {
+        monoId,
+        type
+      }
+      if (toMonoId) {
+        data.toMonoId = toMonoId
+      }
+      const { State, Value, Message } = await tinygrailStore.doMagic(data)
+
+      t('我的道具.使用', {
+        type: title,
+        monoId
+      })
+
+      if (State === 0) {
+        Alert.alert(
+          '小圣杯助手',
+          `获得${Value.Name}x${Value.Amount}，当前价₵${
+            Value.CurrentPrice
+          }，价值₵${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
+          [
+            {
+              text: '知道了'
+            }
+          ]
+        )
+        this.fetchItems()
+        return true
+      }
+
+      info(Message)
+      return false
+    } catch (error) {
+      info('操作失败，可能授权过期了')
+      return false
     }
   }
 }

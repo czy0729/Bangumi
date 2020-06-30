@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 20:07:53
+ * @Last Modified time: 2020-06-28 15:06:00
  */
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -11,7 +11,6 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
-  TouchableWithoutFeedback,
   View
 } from 'react-native'
 import { WithTheme } from '@ant-design/react-native/lib/style'

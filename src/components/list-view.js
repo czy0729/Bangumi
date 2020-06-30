@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 12:41:03
+ * @Last Modified time: 2020-06-29 10:51:37
  */
 import React from 'react'
 import {
@@ -54,6 +54,7 @@ class ListView extends React.Component {
     footerTextType: 'sub',
     optimize: true, // 是否开启长列表优化
     showFooter: true,
+    showMesume: true,
     onHeaderRefresh: undefined,
     onFooterRefresh: undefined
   }
@@ -220,6 +221,7 @@ class ListView extends React.Component {
       footerNoMoreDataComponent,
       footerEmptyDataComponent,
       footerTextType,
+      showMesume,
       onHeaderRefresh,
       onFooterRefresh
     } = this.props
@@ -242,7 +244,11 @@ class ListView extends React.Component {
           >
             {footerFailureComponent || (
               <View style={this.styles.footerContainer}>
-                <Text style={this.styles.footerText} type={footerTextType}>
+                <Text
+                  style={this.styles.footerText}
+                  type={footerTextType}
+                  size={13}
+                >
                   {footerFailureText}
                 </Text>
               </View>
@@ -265,10 +271,11 @@ class ListView extends React.Component {
                 direction='column'
                 justify='center'
               >
-                <Mesume size={80} />
+                {showMesume && <Mesume size={80} />}
                 <Text
                   style={[this.styles.footerText, _.mt.sm]}
                   type={footerTextType}
+                  size={13}
                 >
                   {footerEmptyDataText}
                 </Text>
@@ -285,29 +292,41 @@ class ListView extends React.Component {
             direction='column'
           >
             <ActivityIndicator size='small' />
-            <Text style={_.mt.sm} type={footerTextType} align='center'>
+            <Text
+              style={_.mt.sm}
+              type={footerTextType}
+              align='center'
+              size={13}
+            >
               {footerRefreshingText}
             </Text>
           </Flex>
         )
         break
       case RefreshState.NoMoreData:
-        footer = footerNoMoreDataComponent || (
-          <Flex
-            style={this.styles.footerNoMore}
-            justify='center'
-            direction='column'
-          >
-            <Mesume size={80} />
-            {systemStore.setting.speech && (
-              <Text style={_.mt.sm} type={footerTextType} align='center'>
-                {data._filter
-                  ? `已过滤${data._filter}个敏感条目`
-                  : randomSpeech()}
-              </Text>
-            )}
-          </Flex>
-        )
+        footer =
+          footerNoMoreDataComponent ||
+          (showMesume ? (
+            <Flex
+              style={this.styles.footerNoMore}
+              justify='center'
+              direction='column'
+            >
+              <Mesume size={80} />
+              {systemStore.setting.speech && (
+                <Text
+                  style={_.mt.sm}
+                  type={footerTextType}
+                  align='center'
+                  size={13}
+                >
+                  {data._filter
+                    ? `已过滤${data._filter}个敏感条目`
+                    : randomSpeech()}
+                </Text>
+              )}
+            </Flex>
+          ) : null)
         break
       default:
         break
@@ -385,7 +404,8 @@ const memoStyles = _.memoStyles(_ => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 8,
+    paddingVertical: 8,
+    paddingHorizontal: _.lg,
     height: 40
   },
   footerText: {

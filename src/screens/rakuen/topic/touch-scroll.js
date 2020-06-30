@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 15:08:20
+ * @Last Modified time: 2020-06-27 16:32:37
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -90,7 +90,7 @@ function TouchScroll({ onPress }, { $ }) {
                     type={isNew ? _.select('plain', 'icon') : 'icon'}
                     align='center'
                   >
-                    {list[index].floor.replace('#', '')}
+                    {String(list[index].floor).replace('#', '')}
                   </Text>
                 )}
               </Flex>

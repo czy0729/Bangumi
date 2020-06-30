@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:30:58
+ * @Last Modified time: 2020-06-27 16:22:06
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -176,7 +176,7 @@ function getCommentAttrs(tree) {
   try {
     let node
     const { children } = tree
-    const id = tree.attrs.id.replace('post_', '')
+    const id = String(tree.attrs.id).replace('post_', '')
 
     node = findTreeNode(children, 'div|text&class=re_info')
     const time = node ? node[0].text[0].replace(/ - |\/ /g, '') : ''
@@ -433,8 +433,8 @@ export function cheerioBlog(HTML) {
     const $ = cheerio(HTML)
     const titleText = $('#pageHeader > h1').text() || ''
     let title
-    if (titleText.includes(' » ')) {
-      title = String(titleText.split(' » ')[1]).replace('日志', '')
+    if (titleText.includes(' &raquo; ')) {
+      title = String(titleText.split(' &raquo; ')[1]).replace('日志', '')
     } else {
       title = String(titleText.split(' / ')[1])
     }
@@ -554,7 +554,7 @@ export function cheerioMine(HTML) {
           const $li = cheerio(element)
           const $a = $li.find('a.avatar')
           return safeObject({
-            id: $a.attr('href').replace('/group/', ''),
+            id: String($a.attr('href')).replace('/group/', ''),
             cover: $li.find('img.avatar').attr('src').split('?')[0],
             name: $a.text().trim(),
             num: $li.find('small.feed').text().trim().replace(' 位成员', '')

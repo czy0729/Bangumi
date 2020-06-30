@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 16:33:02
+ * @Last Modified time: 2020-06-27 16:32:22
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -77,7 +77,7 @@ export const INIT_SETTING = {
   blockGroups: [], // 屏蔽的小组
   blockUserIds: [], // 屏蔽的用户 `${userName}@${userId}`
   isMarkOldTopic: true, // 标记坟贴
-  scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右边') // 帖子楼层滚动导航条方向
+  scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') // 帖子楼层滚动导航条方向
 }
 
 export const INIT_GROUP_INFO = {

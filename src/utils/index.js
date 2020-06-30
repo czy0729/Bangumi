@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 11:21:27
+ * @Last Modified time: 2020-06-27 16:47:04
  */
 import { AsyncStorage, Clipboard } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -465,7 +465,7 @@ export function arrGroup(arr, num = 40) {
  * 首字母大写
  * @param {*} str
  */
-export function titleCase(str) {
+export function titleCase(str = '') {
   return str.replace(/( |^)[a-z]/g, L => L.toUpperCase())
 }
 

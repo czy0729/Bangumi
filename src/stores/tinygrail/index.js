@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-01 17:08:05
+ * @Last Modified time: 2020-06-29 15:06:28
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -59,6 +59,7 @@ import {
   API_TINYGRAIL_VALHALL_LIST,
   API_TINYGRAIL_USER_TEMPLE_TOTAL,
   API_TINYGRAIL_USER_CHARA_TOTAL,
+  API_TINYGRAIL_SEARCH,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants/api'
 import UserStore from '../user'
@@ -1448,7 +1449,8 @@ class Tinygrail extends store {
           assets: item.Assets, // 剩余资产
           sacrifices: item.Sacrifices, // 献祭总数
           rate: item.Rate,
-          level: item.Level
+          level: item.Level,
+          cLevel: item.CharacterLevel
         })),
         _loaded: getTimestamp()
       }
@@ -2180,10 +2182,18 @@ class Tinygrail extends store {
   /**
    * 使用道具
    */
-  doMagic = async ({ monoId }) => {
-    const { data } = await this.fetch(API_TINYGRAIL_MAGIC(monoId), true)
+  doMagic = async ({ monoId, type, toMonoId }) => {
+    const { data } = await this.fetch(
+      API_TINYGRAIL_MAGIC(monoId, type, toMonoId),
+      true
+    )
     return data
   }
+
+  /**
+   * 查询
+   */
+  doSearch = ({ keyword }) => this.fetch(API_TINYGRAIL_SEARCH(keyword), true)
 }
 
 const Store = new Tinygrail()

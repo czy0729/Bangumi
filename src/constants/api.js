@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 14:54:15
+ * @Last Modified time: 2020-06-29 15:03:57
  */
 import { HOST } from './index'
 
@@ -441,10 +441,13 @@ export const API_TINYGRAIL_ITEMS = () =>
 /**
  * 使用道具
  * @param {*} monoId
- * @param {*} type
+ * @param {*} type     chaos | guidepost
+ * @param {*} toMonoId
  */
-export const API_TINYGRAIL_MAGIC = (monoId, type = 'chaos') =>
-  `${API_HOST_TINYGRAIL}/api/magic/${type}/${monoId}`
+export const API_TINYGRAIL_MAGIC = (monoId, type = 'chaos', toMonoId) =>
+  `${API_HOST_TINYGRAIL}/api/magic/${type}/${monoId}${
+    toMonoId ? `/${toMonoId}` : ''
+  }`
 
 /**
  * 每周萌王
@@ -465,3 +468,10 @@ export const API_TINYGRAIL_USER_TEMPLE_TOTAL = hash =>
  */
 export const API_TINYGRAIL_USER_CHARA_TOTAL = hash =>
   `${API_HOST_TINYGRAIL}/api/chara/user/chara/${hash}/1/1`
+
+/**
+ * 查询
+ * @param {*} keyword
+ */
+export const API_TINYGRAIL_SEARCH = keyword =>
+  `${API_HOST_TINYGRAIL}/api/chara/search?keyword=${keyword}`
