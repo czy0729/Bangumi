@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 19:56:34
+ * @Last Modified time: 2020-06-30 20:05:49
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -526,7 +526,7 @@ class CharactersModal extends React.Component {
           onPress={() =>
             Alert.alert(
               '使用说明',
-              '消耗100点塔值，抽取目标随机数量的股份，消耗目标的等级必须大于等于抽取目标等级。左侧数据基于自己的圣殿。右侧数据基于最高股息前面的角色，点击搜索可以查询远端所有角色。'
+              '混沌魔方：消耗10点塔值，抽取随机目标10-100的股份。\n虚空道标：消耗100点塔值，抽取目标随机数量的股份，消耗目标的等级必须大于等于抽取目标等级。左侧数据基于自己的圣殿。右侧数据基于最高股息前面的角色，点击搜索可以查询远端所有角色。'
             )
           }
         />

@@ -10,12 +10,13 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 15:50:39
+ * @Last Modified time: 2020-06-30 20:12:33
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { systemStore } from '@stores'
 import { setStorage, getStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
 import Flex from './flex'
@@ -256,6 +257,11 @@ class KatakanaProvider extends React.Component {
     return matches.length ? (matches.some(item => item.top !== 0) ? 4 : 0) : 0
   }
 
+  get isOn() {
+    const { katakana } = systemStore.setting
+    return katakana
+  }
+
   /**
    * 使用所有嵌套Text数据, 因为要换行, 只能通过拆字渲染, 这样能有条件取得每一个文字的具体位置
    */
@@ -333,6 +339,10 @@ class KatakanaProvider extends React.Component {
 
   render() {
     const { children, ...other } = this.props
+    if (!this.isOn) {
+      return <Text {...other}>{children}</Text>
+    }
+
     return (
       <View>
         {this.renderMeasureLayout()}
@@ -361,6 +371,10 @@ class Katakana extends React.Component {
   }
 
   init = () => {
+    if (!this.isOn) {
+      return
+    }
+
     if (inited) {
       this.translate()
     } else {
@@ -406,6 +420,11 @@ class Katakana extends React.Component {
       return children
     }
     return children.map(item => item || '').join('')
+  }
+
+  get isOn() {
+    const { katakana } = systemStore.setting
+    return katakana
   }
 
   render() {
