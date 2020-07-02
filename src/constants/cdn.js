@@ -10,20 +10,21 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 20:25:33
+ * @Last Modified time: 2020-07-02 20:46:12
  */
 import { getTimestamp } from '@utils'
+import { getOTA } from '@utils/app'
 import { SDK } from './index'
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
-const VERSION_MONO = '20200502' // 半年
-const VERSION_SUBJECT = '20200615' // 1季度更新1次
-const VERSION_OSS = '20200615' // 1季度增量更新
-const VERSION_AVATAR = '20200627' // 1版本
-const VERSION_STATIC = '20200630' // 1版本
-const VERSION_RAKUEN = '20200630' // 1版本
+const VERSION_MONO = '20200502'
+const VERSION_SUBJECT = '20200615'
+const VERSION_OSS = '20200615'
+const VERSION_AVATAR = '20200627'
+const VERSION_STATIC = '20200630'
+const VERSION_RAKUEN = '20200630'
 
 const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
   ''
@@ -69,10 +70,17 @@ export const CDN_EPS = subjectId =>
  * @url https://github.com/czy0729/Bangumi-Subject
  * @param {*} subjectId
  */
-export const CDN_SUBJECT = (subjectId, version = VERSION_SUBJECT) =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Subject@${version}/data/${parseInt(
+export const CDN_SUBJECT = subjectId => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_SUBJECT) > parseInt(VERSION_SUBJECT)
+      ? ota.VERSION_SUBJECT
+      : VERSION_SUBJECT
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Subject@${version}/data/${parseInt(
     parseInt(subjectId) / 100
   )}/${subjectId}.json`
+}
 
 /**
  * 角色CDN自维护数据
@@ -80,10 +88,17 @@ export const CDN_SUBJECT = (subjectId, version = VERSION_SUBJECT) =>
  * @param {int} monoId
  * @param {string} type data | person
  */
-export const CDN_MONO = (monoId, type = 'data', version = VERSION_MONO) =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Mono@${version}/${type}/${parseInt(
+export const CDN_MONO = (monoId, type = 'data') => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_MONO) > parseInt(VERSION_MONO)
+      ? ota.VERSION_MONO
+      : VERSION_MONO
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Mono@${version}/${type}/${parseInt(
     parseInt(monoId) / 100
   )}/${monoId}.json`
+}
 
 /**
  * 超展开小组CDN自维护数据
@@ -91,17 +106,24 @@ export const CDN_MONO = (monoId, type = 'data', version = VERSION_MONO) =>
  * @param {*} topicId
  * @param {*} type topic | comment
  */
-export const CDN_RAKUEN = (topicId, type = 'topic', version = VERSION_RAKUEN) =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Rakuen@${version}/data/${type}/${parseInt(
+export const CDN_RAKUEN = (topicId, type = 'topic') => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_RAKUEN) > parseInt(VERSION_RAKUEN)
+      ? ota.VERSION_RAKUEN
+      : VERSION_RAKUEN
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Rakuen@${version}/data/${type}/${parseInt(
     parseInt(topicId) / 100
   )}/${topicId}.json`
+}
 
 /**
  * 头像CDN
  * @url https://github.com/czy0729/Bangumi-OSS
  */
 const avatarCache = {}
-export const CDN_OSS_AVATAR = (src, version = VERSION_AVATAR) => {
+export const CDN_OSS_AVATAR = src => {
   if (typeof src !== 'string') {
     return src
   }
@@ -123,6 +145,12 @@ export const CDN_OSS_AVATAR = (src, version = VERSION_AVATAR) => {
    */
   const _hash = hash(_src)
   if (_hash in HASH_AVATAR) {
+    const ota = getOTA()
+    const version =
+      parseInt(ota.VERSION_AVATAR) > parseInt(VERSION_AVATAR)
+        ? ota.VERSION_AVATAR
+        : VERSION_AVATAR
+
     const path = _hash.slice(0, 1).toLocaleLowerCase()
     const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/avatar/m/${path}/${_hash}.jpg`
     avatarCache[src] = cdnSrc
@@ -138,7 +166,7 @@ export const CDN_OSS_AVATAR = (src, version = VERSION_AVATAR) => {
  * @url https://github.com/czy0729/Bangumi-OSS
  */
 const subjectCache = {}
-export const CDN_OSS_SUBJECT = (src, version = VERSION_OSS) => {
+export const CDN_OSS_SUBJECT = src => {
   if (typeof src !== 'string') {
     return src
   }
@@ -160,6 +188,12 @@ export const CDN_OSS_SUBJECT = (src, version = VERSION_OSS) => {
    */
   const _hash = hash(_src)
   if (_hash in HASH_SUBJECT) {
+    const ota = getOTA()
+    const version =
+      parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
+        ? ota.VERSION_OSS
+        : VERSION_OSS
+
     const path = _hash.slice(0, 1).toLocaleLowerCase()
     const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/subject/c/${path}/${_hash}.jpg`
     subjectCache[src] = cdnSrc
@@ -175,14 +209,28 @@ export const CDN_OSS_SUBJECT = (src, version = VERSION_OSS) => {
  * @url https://github.com/czy0729/Bangumi-Static
  * @param {*} version
  */
-export const CDN_DISCOVERY_HOME = (version = VERSION_STATIC) =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/discovery/index.json`
+export const CDN_DISCOVERY_HOME = () => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_STATIC) > parseInt(VERSION_STATIC)
+      ? ota.VERSION_STATIC
+      : VERSION_STATIC
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/discovery/index.json`
+}
 
 /**
  * 年鉴
  * @url https://github.com/czy0729/Bangumi-Static
  */
-export const CDN_AWARD = (year, version = VERSION_STATIC) =>
-  `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/award/${year}${
+export const CDN_AWARD = year => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_STATIC) > parseInt(VERSION_STATIC)
+      ? ota.VERSION_STATIC
+      : VERSION_STATIC
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/award/${year}${
     SDK >= 36 ? '.expo' : ''
   }.json`
+}

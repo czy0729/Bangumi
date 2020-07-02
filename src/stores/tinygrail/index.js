@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-29 15:06:28
+ * @Last Modified time: 2020-07-01 23:14:27
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, throttle } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
-import { log } from '@utils/dev'
 import { queue, xhrCustom } from '@utils/fetch'
 import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
@@ -60,6 +59,7 @@ import {
   API_TINYGRAIL_USER_TEMPLE_TOTAL,
   API_TINYGRAIL_USER_CHARA_TOTAL,
   API_TINYGRAIL_SEARCH,
+  API_TINYGRAIL_LINK,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants/api'
 import UserStore from '../user'
@@ -1987,6 +1987,87 @@ class Tinygrail extends store {
     return Promise.resolve(data)
   }
 
+  /**
+   */
+  fetchAdvanceGuidepost = async () => {
+    const result = await this.fetch(API_TINYGRAIL_LIST('mvc', 1, 1000))
+    if (result.data.State === 0) {
+      const list = result.data.Value.map(item => {
+        return {
+          id: item.Id,
+          change: item.Change,
+          current: item.Current,
+          level: item.Level,
+          name: item.Name,
+          icon: item.Icon
+        }
+      })
+        .sort((a, b) => b.current - a.current)
+        .filter((item, index) => index < 200)
+
+      let data = {
+        ...LIST_EMPTY
+      }
+
+      log(list)
+      if (list.length) {
+        try {
+          // 循环请求获取第一买单价
+          await queue(
+            list.map(item => () => {
+              throttleInfo(
+                `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
+              )
+              return this.fetchDepth(item.id)
+            })
+          )
+
+          // 合并数据并计算分数
+          data = {
+            list: list
+              .map(item => {
+                const { bids } = this.depth(item.id)
+
+                // 列表有时有买单数, 但是实际又没有人买
+                if (!bids.length) {
+                  return null
+                }
+
+                return {
+                  id: item.id,
+                  name: item.name,
+                  current: item.current,
+                  level: item.level,
+                  firstBids: parseInt(bids[0].price),
+                  firstAmount: bids[0].amount,
+                  secondBids: bids[1] ? parseInt(bids[1].price) : 0,
+                  secondAmount: bids[1] ? parseInt(bids[1].amount) : 0
+                }
+              })
+              .filter(item => !!item)
+              .sort((a, b) => b.firstBids - a.firstBids)
+              .filter((item, index) => index < 50),
+            pagination: paginationOnePage,
+            _loaded: getTimestamp()
+          }
+          info('分析完毕')
+
+          log(data)
+        } catch (error) {
+          warn(NAMESPACE, 'fetchAdvanceBidList', error)
+        }
+      }
+    }
+
+    // const key = 'advanceBidList'
+    // this.setState({
+    //   [key]: data
+    // })
+    // this.setStorage(key, undefined, NAMESPACE)
+
+    // return Promise.resolve(data)
+  }
+
   // -------------------- page --------------------
   updateCookie = cookie => {
     this.setState({
@@ -2194,6 +2275,17 @@ class Tinygrail extends store {
    * 查询
    */
   doSearch = ({ keyword }) => this.fetch(API_TINYGRAIL_SEARCH(keyword), true)
+
+  /**
+   * Link
+   */
+  doLink = async ({ monoId, toMonoId }) => {
+    const { data } = await this.fetch(
+      API_TINYGRAIL_LINK(monoId, toMonoId),
+      true
+    )
+    return data
+  }
 }
 
 const Store = new Tinygrail()

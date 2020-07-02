@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 19:57:07
+ * @Last Modified time: 2020-07-02 09:56:05
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -28,6 +28,7 @@ export default class ScreenTinygrailItems extends store {
     this.fetchItems()
     this.fetchTemple()
     this.fetchMsrc()
+    // tinygrailStore.fetchAdvanceGuidepost()
   }
 
   // -------------------- fetch --------------------

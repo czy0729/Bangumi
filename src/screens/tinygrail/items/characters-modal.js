@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 20:05:49
+ * @Last Modified time: 2020-07-01 18:13:40
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -29,6 +29,7 @@ import {
 } from '@utils'
 import { keyExtractor, tinygrailOSS } from '@utils/app'
 import { info } from '@utils/ui'
+import Item from './item'
 
 const namespace = 'TinygrailCharactersModal'
 const initState = {
@@ -51,6 +52,7 @@ class CharactersModal extends React.Component {
   }
 
   state = initState
+
   title
 
   async componentDidMount() {
@@ -86,6 +88,18 @@ class CharactersModal extends React.Component {
     const actived = rightItem && rightItem.id === item.id
     this.setState({
       rightItem: actived ? null : item
+    })
+  }
+
+  onCancelLeft = () => {
+    this.setState({
+      leftItem: null
+    })
+  }
+
+  onCancelRight = () => {
+    this.setState({
+      rightItem: null
     })
   }
 
@@ -268,76 +282,63 @@ class CharactersModal extends React.Component {
     return leftItem ? 'bid' : 'disabled'
   }
 
-  renderItem = ({ item }) => {
+  renderItemLeft = ({ item }) => {
     const { leftItem } = this.state
     const disabled = leftItem && leftItem.id !== item.id
-    const src = item.cover
-    const level = item.cLevel
     return (
-      <Touchable onPress={() => this.onSelectLeft(item)}>
-        <Flex style={[this.styles.item, disabled && this.styles.disabled]}>
-          <Avatar
-            src={tinygrailOSS(src)}
-            size={28}
-            name={item.name}
-            borderColor='transparent'
-          />
-          <Flex.Item style={_.ml.sm}>
-            <Text type='tinygrailPlain' size={10} bold numberOfLines={1}>
-              <Text type='ask' size={10} bold>
-                lv{level}{' '}
-              </Text>
-              {item.name}
-            </Text>
-            <Text type='tinygrailText' size={10} numberOfLines={1}>
-              {item.assets !== item.sacrifices
-                ? `${formatNumber(item.assets, 0)} / `
-                : ''}
-              {formatNumber(item.sacrifices, 0)} / +{toFixed(item.rate, 1)}
-            </Text>
-          </Flex.Item>
-        </Flex>
-      </Touchable>
+      <Item
+        id={item.id}
+        src={item.cover}
+        level={item.cLevel}
+        name={item.name}
+        extra={`${
+          item.assets !== item.sacrifices
+            ? `${formatNumber(item.assets, 0)} / `
+            : ''
+        }${formatNumber(item.sacrifices, 0)} / +${toFixed(item.rate, 1)}`}
+        disabled={disabled}
+        onPress={() => this.onSelectLeft(item)}
+      />
     )
   }
 
   renderItemRight = ({ item }) => {
+    const { title } = this.props
     const { rightItem } = this.state
     const disabled = rightItem && rightItem.id !== item.id
-    const src = item.icon
-    const level = item.level
-    return (
-      <Touchable onPress={() => this.onSelectRight(item)}>
-        <Flex style={[this.styles.item, disabled && this.styles.disabled]}>
-          {src ? (
-            <Avatar
-              src={tinygrailOSS(src)}
-              size={28}
-              name={item.name}
-              borderColor='transparent'
-              onPress={() => {}}
-            />
-          ) : (
-            <Text type='tinygrailPlain' size={10} bold>
-              #{item.id}
-            </Text>
-          )}
-          <Flex.Item style={_.ml.sm}>
-            <Text type='tinygrailPlain' size={10} bold numberOfLines={1}>
-              <Text type='ask' size={10} bold>
-                lv{level}{' '}
-              </Text>
-              {item.name}
-            </Text>
-            {!!item.rate && (
-              <Text type='tinygrailText' size={10} numberOfLines={1}>
-                ₵{toFixed(item.current, 0)} / +{toFixed(item.rate, 1)}
-              </Text>
-            )}
-          </Flex.Item>
-        </Flex>
-      </Touchable>
-    )
+    if (title === '虚空道标') {
+      return (
+        <Item
+          id={item.id}
+          src={item.icon}
+          level={item.level}
+          name={item.name}
+          extra={`₵${toFixed(item.current, 0)} / +${toFixed(item.rate, 1)}`}
+          disabled={disabled}
+          onPress={() => this.onSelectRight(item)}
+        />
+      )
+    }
+
+    if (title === '星光碎片') {
+      return (
+        <Item
+          id={item.id}
+          src={item.cover}
+          level={item.cLevel}
+          name={item.name}
+          extra={`${
+            item.assets !== item.sacrifices
+              ? `${formatNumber(item.assets, 0)} / `
+              : ''
+          }${formatNumber(item.sacrifices, 0)} / +${toFixed(item.rate, 1)}`}
+          disabled={disabled}
+          onPress={() => this.onSelectRight(item)}
+        />
+      )
+    }
+
+    return null
   }
 
   renderLeft() {
@@ -368,84 +369,133 @@ class CharactersModal extends React.Component {
           showMesume={false}
           footerTextType='tinygrailText'
           footerEmptyDataText='没有符合的结果'
-          renderItem={this.renderItem}
+          renderItem={this.renderItemLeft}
         />
       </>
     )
   }
 
   renderRight() {
+    const { title } = this.props
     const { rightValue } = this.state
-    if (this.right === false) {
+    if (title === '虚空道标') {
       return (
-        <Text type='tinygrailText' size={13} align='center'>
-          随机目标
-        </Text>
+        <>
+          <Flex style={this.styles.inputWrap}>
+            <Flex.Item>
+              <Input
+                style={this.styles.input}
+                placeholder='目标：名称'
+                placeholderTextColor={_.colorTinygrailText}
+                value={rightValue}
+                returnKeyType='search'
+                returnKeyLabel='搜索'
+                onChangeText={this.onChangeRight}
+                onSubmitEditing={this.doSearch}
+              />
+            </Flex.Item>
+            <Touchable onPress={this.doSearch}>
+              <Iconfont name='search' size={14} color={_.colorTinygrailText} />
+            </Touchable>
+          </Flex>
+          <ListView
+            key={title}
+            style={[_.container.flex, _.mt.sm]}
+            keyExtractor={keyExtractor}
+            refreshControlProps={{
+              color: _.colorTinygrailText
+            }}
+            data={this.right}
+            showMesume={false}
+            footerTextType='tinygrailText'
+            footerEmptyDataText='搜索显示远端数据'
+            renderItem={this.renderItemRight}
+          />
+        </>
       )
     }
 
-    const { title } = this.props
+    if (title === '星光碎片') {
+      return (
+        <>
+          <Flex style={this.styles.inputWrap}>
+            <Flex.Item>
+              <Input
+                style={this.styles.input}
+                placeholder='目标：名称'
+                placeholderTextColor={_.colorTinygrailText}
+                value={rightValue}
+                onChangeText={this.onChangeRight}
+              />
+            </Flex.Item>
+            <Touchable>
+              <Iconfont name='search' size={14} color={_.colorTinygrailText} />
+            </Touchable>
+          </Flex>
+          <ListView
+            key={title}
+            style={[_.container.flex, _.mt.sm]}
+            keyExtractor={keyExtractor}
+            refreshControlProps={{
+              color: _.colorTinygrailText
+            }}
+            data={this.right}
+            showMesume={false}
+            footerTextType='tinygrailText'
+            footerEmptyDataText='没有需要补充的圣殿'
+            renderItem={this.renderItemRight}
+          />
+        </>
+      )
+    }
+
     return (
-      <>
-        <Flex style={this.styles.inputWrap}>
-          <Flex.Item>
-            <Input
-              style={this.styles.input}
-              placeholder='目标：名称'
-              placeholderTextColor={_.colorTinygrailText}
-              value={rightValue}
-              returnKeyType='search'
-              returnKeyLabel='搜索'
-              onChangeText={this.onChangeRight}
-              onSubmitEditing={this.doSearch}
-            />
-          </Flex.Item>
-          <Touchable onPress={this.doSearch}>
-            <Iconfont name='search' size={14} color={_.colorTinygrailText} />
-          </Touchable>
-        </Flex>
-        <ListView
-          key={title}
-          style={[_.container.flex, _.mt.sm]}
-          keyExtractor={keyExtractor}
-          refreshControlProps={{
-            color: _.colorTinygrailText
-          }}
-          data={this.right}
-          showMesume={false}
-          footerTextType='tinygrailText'
-          footerEmptyDataText='搜索显示远端数据'
-          renderItem={this.renderItemRight}
-        />
-      </>
+      <Text type='tinygrailText' size={13} align='center'>
+        随机目标
+      </Text>
     )
   }
 
-  renderBtn() {
+  renderBottom() {
+    const { title } = this.props
     const { leftItem, rightItem, loading } = this.state
+    let leftChange = ''
+    let rightChange = ''
+    if (title === '混沌魔方') {
+      leftChange = '-10'
+      rightChange = '+10-100'
+    } else if (title === '虚空道标') {
+      leftChange = '-100'
+      rightChange = '+10-100'
+    } else if (title === '星光碎片') {
+      leftChange = '-?'
+      rightChange = '+?'
+    }
     return (
       <Flex style={[_.mt.sm, _.mb.sm]}>
         <Flex.Item style={_.mr.sm}>
           {leftItem ? (
-            <Flex>
-              <Avatar
-                src={tinygrailOSS(leftItem.cover)}
-                size={28}
-                name={leftItem.name}
-                borderColor='transparent'
-              />
-              <Flex.Item style={_.ml.sm}>
-                <Text type='tinygrailPlain' size={10} bold numberOfLines={1}>
-                  <Text type='ask' size={10} bold>
-                    lv{leftItem.cLevel}{' '}
+            <Touchable onPress={this.onCancelLeft}>
+              <Flex>
+                <Avatar
+                  src={tinygrailOSS(leftItem.cover)}
+                  size={28}
+                  name={leftItem.name}
+                  borderColor='transparent'
+                />
+                <Flex.Item style={_.ml.sm}>
+                  <Text type='tinygrailPlain' size={10} bold numberOfLines={1}>
+                    <Text type='ask' size={10} bold>
+                      lv{leftItem.cLevel}{' '}
+                    </Text>
+                    {leftItem.name}
                   </Text>
-                  {leftItem.name}
-                </Text>
-                <Text type='ask' size={10}>
-                  -100
-                </Text>
-              </Flex.Item>
-            </Flex>
+                  <Text type='ask' size={10}>
+                    {leftChange}
+                  </Text>
+                </Flex.Item>
+              </Flex>
+            </Touchable>
           ) : (
             <Text type='tinygrailText' size={10}>
               请选择消耗
@@ -455,31 +505,38 @@ class CharactersModal extends React.Component {
         {this.right !== false && (
           <Flex.Item style={_.mr.sm}>
             {rightItem ? (
-              <Flex>
-                {rightItem.icon ? (
-                  <Avatar
-                    src={tinygrailOSS(rightItem.icon)}
-                    size={28}
-                    name={rightItem.name}
-                    borderColor='transparent'
-                  />
-                ) : (
-                  <Text type='tinygrailPlain' size={10} bold>
-                    #{rightItem.id}
-                  </Text>
-                )}
-                <Flex.Item style={_.ml.sm}>
-                  <Text type='tinygrailPlain' size={10} bold numberOfLines={1}>
-                    <Text type='ask' size={10} bold>
-                      lv{rightItem.level}{' '}
+              <Touchable onPress={this.onCancelRight}>
+                <Flex>
+                  {rightItem.icon ? (
+                    <Avatar
+                      src={tinygrailOSS(rightItem.icon)}
+                      size={28}
+                      name={rightItem.name}
+                      borderColor='transparent'
+                    />
+                  ) : (
+                    <Text type='tinygrailPlain' size={10} bold>
+                      #{rightItem.id}
                     </Text>
-                    {rightItem.name}
-                  </Text>
-                  <Text type='bid' size={10}>
-                    +10-100
-                  </Text>
-                </Flex.Item>
-              </Flex>
+                  )}
+                  <Flex.Item style={_.ml.sm}>
+                    <Text
+                      type='tinygrailPlain'
+                      size={10}
+                      bold
+                      numberOfLines={1}
+                    >
+                      <Text type='ask' size={10} bold>
+                        lv{rightItem.level}{' '}
+                      </Text>
+                      {rightItem.name}
+                    </Text>
+                    <Text type='bid' size={10}>
+                      {rightChange}
+                    </Text>
+                  </Flex.Item>
+                </Flex>
+              </Touchable>
             ) : (
               <Text type='tinygrailText' size={10}>
                 请选择目标
@@ -488,9 +545,17 @@ class CharactersModal extends React.Component {
           </Flex.Item>
         )}
         <Flex.Item style={_.ml.sm}>
-          <Button type={this.btnType} loading={loading} onPress={this.onSubmit}>
-            提交
-          </Button>
+          {this.btnType === 'bid' ? (
+            <Button
+              type={this.btnType}
+              loading={loading}
+              onPress={this.onSubmit}
+            >
+              提交
+            </Button>
+          ) : (
+            <Button type={this.btnType}>提交</Button>
+          )}
         </Flex.Item>
       </Flex>
     )
@@ -517,7 +582,7 @@ class CharactersModal extends React.Component {
           <Flex.Item>{this.renderLeft()}</Flex.Item>
           <Flex.Item style={_.ml.md}>{this.renderRight()}</Flex.Item>
         </Flex>
-        {this.renderBtn()}
+        {this.renderBottom()}
         <IconTouchable
           style={this.styles.information}
           size={20}
@@ -571,12 +636,6 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: 'transparent',
     borderWidth: 0,
     borderRadius: 0
-  },
-  item: {
-    paddingVertical: 8
-  },
-  disabled: {
-    opacity: 0.4
   },
   information: {
     position: 'absolute',

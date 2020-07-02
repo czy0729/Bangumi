@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-29 15:03:57
+ * @Last Modified time: 2020-07-01 16:05:02
  */
 import { HOST } from './index'
 
@@ -415,6 +415,12 @@ export const API_TINYGRAIL_AUCTION_CANCEL = id =>
   `${API_HOST_TINYGRAIL}/api/chara/auction/cancel/${id}`
 
 /**
+ * Link
+ */
+export const API_TINYGRAIL_LINK = (monoId, toMonoId) =>
+  `${API_HOST_TINYGRAIL}/api/chara/link/${monoId}/${toMonoId}`
+
+/**
  * 每周分红
  */
 export const API_TINYGRAIL_BONUS = () =>
@@ -444,10 +450,21 @@ export const API_TINYGRAIL_ITEMS = () =>
  * @param {*} type     chaos | guidepost
  * @param {*} toMonoId
  */
-export const API_TINYGRAIL_MAGIC = (monoId, type = 'chaos', toMonoId) =>
-  `${API_HOST_TINYGRAIL}/api/magic/${type}/${monoId}${
+export const API_TINYGRAIL_MAGIC = (
+  monoId,
+  type = 'chaos',
+  toMonoId,
+  amount = 0,
+  isTemple = false
+) => {
+  if (type === 'stardust') {
+    return `${API_HOST_TINYGRAIL}/api/magic/stardust/${monoId}/${toMonoId}/${amount}/${isTemple}`
+  }
+
+  return `${API_HOST_TINYGRAIL}/api/magic/${type}/${monoId}${
     toMonoId ? `/${toMonoId}` : ''
   }`
+}
 
 /**
  * 每周萌王

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 13:39:02
+ * @Last Modified time: 2020-07-01 16:28:39
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -96,6 +96,12 @@ export default class ScreenTinygrailCharaAssets extends store {
       this.fetchMyCharaAssets()
       this.fetchMpi()
     }
+
+    // const data = await tinygrailStore.doLink({
+    //   monoId: 45099,
+    //   toMonoId: 26394
+    // })
+    // log(data)
 
     return res
   }

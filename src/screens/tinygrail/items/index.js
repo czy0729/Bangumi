@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 19:52:43
+ * @Last Modified time: 2020-07-01 17:44:49
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -17,7 +17,7 @@ import CharactersModal from './characters-modal'
 import Store from './store'
 
 const title = '我的道具'
-const canUseItems = ['混沌魔方', '虚空道标']
+const canUseItems = ['混沌魔方', '虚空道标', '星光碎片']
 
 export default
 @inject(Store)
@@ -40,6 +40,33 @@ class TinygrailItems extends React.Component {
   componentDidMount() {
     const { $ } = this.context
     $.init()
+  }
+
+  componentWillUnmount() {
+    const { $ } = this.context
+    $.onCloseModal()
+  }
+
+  get left() {
+    const { $ } = this.context
+    return $.temple
+  }
+
+  get right() {
+    const { $ } = this.context
+    const { title } = $.state
+    if (title === '虚空道标') {
+      return $.msrc
+    }
+
+    if (title === '星光碎片') {
+      return {
+        ...$.temple,
+        list: $.temple.list.filter(item => item.assets !== item.sacrifices)
+      }
+    }
+
+    return false
   }
 
   renderList() {
@@ -128,22 +155,28 @@ class TinygrailItems extends React.Component {
     )
   }
 
-  render() {
+  renderModal() {
     const { $, navigation } = this.context
     const { title, visible } = $.state
+    return (
+      <CharactersModal
+        navigation={navigation}
+        visible={visible}
+        title={title}
+        left={this.left}
+        right={this.right}
+        onClose={$.onCloseModal}
+        onSubmit={$.doUse}
+      />
+    )
+  }
+
+  render() {
     return (
       <View style={this.styles.container}>
         <StatusBarEvents />
         {this.renderList()}
-        <CharactersModal
-          navigation={navigation}
-          visible={visible}
-          title={title}
-          left={$.temple}
-          right={title === '虚空道标' ? $.msrc : false}
-          onClose={$.onCloseModal}
-          onSubmit={$.doUse}
-        />
+        {this.renderModal()}
       </View>
     )
   }
