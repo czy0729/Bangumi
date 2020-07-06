@@ -29,6 +29,7 @@
     "hoist-non-react-statics": "^2.5.0",
     "mobx": "4.9.2",
     "mobx-react": "5.4.3",
+    "mobx-react-lite": "^2.0.7",
     "prop-types": "^15.7.2",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",

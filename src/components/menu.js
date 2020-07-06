@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 11:56:12
+ * @Last Modified time: 2020-07-03 10:21:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import Touchable from './touchable'
 function Menu({ style, title, data, onSelect }) {
   const styles = memoStyles()
   return (
-    <View style={[styles.container, style]}>
+    <View style={style ? [styles.container, style] : styles.container}>
       {title.length !== 0 && (
         <View style={styles.title}>
           {title.map((item, index) => (

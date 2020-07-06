@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 16:29:22
+ * @Last Modified time: 2020-07-06 10:43:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -29,11 +29,7 @@ function BlurView({ style, src, theme, tint, intensity, children }) {
     <View style={style}>
       {src && (
         <Image
-          imageStyle={{
-            ...StyleSheet.absoluteFill,
-            width: 'auto',
-            height: 'auto'
-          }}
+          imageStyle={styles.image}
           src={src}
           fadeDuration={0}
           blurRadius={IOS ? undefined : 40}
@@ -48,8 +44,8 @@ function BlurView({ style, src, theme, tint, intensity, children }) {
       ) : (
         !!theme && (
           <LinearGradient
-            colors={backgroundColor[theme]}
             style={StyleSheet.absoluteFill}
+            colors={backgroundColor[theme]}
           />
         )
       )}
@@ -67,3 +63,11 @@ BlurView.defaultProps = {
 }
 
 export default BlurView
+
+const styles = StyleSheet.create({
+  image: {
+    ...StyleSheet.absoluteFill,
+    width: 'auto',
+    height: 'auto'
+  }
+})

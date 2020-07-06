@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 22:26:27
+ * @Last Modified time: 2020-07-06 11:41:18
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -29,10 +29,10 @@ function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
       }}
     >
       <Flex style={[styles.block, style]}>
-        <Text type='tinygrailPlain' size={20} bold>
+        <Text type='tinygrailPlain' size={19} bold>
           {title}
         </Text>
-        <Iconfont style={styles.icon} name={icon} size={56} />
+        <Iconfont style={styles.icon} name={icon} size={52} />
       </Flex>
     </Touchable>
   )

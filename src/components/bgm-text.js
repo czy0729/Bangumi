@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-08 02:09:29
+ * @Last Modified time: 2020-07-06 10:40:30
  */
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
@@ -157,7 +157,6 @@ function BgmText({ style, index, size, lineHeight, children, ...other }) {
   if (style) {
     _style.push(style)
   }
-
   return (
     <Text style={_style} allowFontScaling={false} selectable {...other}>
       {children || bgmMap[index - 1]}

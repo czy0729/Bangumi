@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-02 20:35:12
+ * @Last Modified time: 2020-07-02 21:00:02
  */
-// import { NetInfo } from 'react-native'
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
@@ -74,16 +73,8 @@ class System extends store {
       NAMESPACE
     )
 
-    // const res = NetInfo.getConnectionInfo()
-    // const { type } = await res
-    // if (type === 'wifi') {
-    //   this.setState({
-    //     wifi: true
-    //   })
-    // }
-
     // 检查新版本
-    if (DEV) {
+    if (!DEV) {
       setTimeout(() => {
         this.fetchOTA()
         this.fetchRelease()

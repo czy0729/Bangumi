@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 20:12:33
+ * @Last Modified time: 2020-07-03 10:20:07
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -279,7 +279,10 @@ class KatakanaProvider extends React.Component {
     // 在整串文字中, 取得每一个片假名的索引位置, 使用onLayout计算英文需要出现的位置
     const { style } = this.props
     return (
-      <Flex style={[styles.measure, style]} wrap='wrap'>
+      <Flex
+        style={style ? [styles.measure, style] : styles.measure}
+        wrap='wrap'
+      >
         {fullTextConfig.map(node => {
           const jpIndexMap = {}
           matches.forEach(

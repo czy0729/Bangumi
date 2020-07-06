@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-01 14:39:42
+ * @Last Modified time: 2020-07-06 10:53:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,6 @@ function Button({
   const styles = memoStyles(_.mode)
   const _wrap = [styles.button]
   const _text = [styles.text]
-
   if (shadow && !_.isDark) {
     _wrap.push(styles.shadow)
   }
@@ -58,7 +57,7 @@ function Button({
       )}
       <Text
         style={[
-          // @notice 部分安卓机不写具体width会导致文字显示不全
+          // 部分安卓机不写具体width会导致文字显示不全
           size === 'sm' && {
             width: 32
           },

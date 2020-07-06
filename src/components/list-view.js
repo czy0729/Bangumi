@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-29 10:51:37
+ * @Last Modified time: 2020-07-03 10:20:20
  */
 import React from 'react'
 import {
@@ -152,7 +152,7 @@ class ListView extends React.Component {
 
   get style() {
     const { style } = this.props
-    return [this.styles.container, style]
+    return style ? [this.styles.container, style] : this.styles.container
   }
 
   get commonProps() {

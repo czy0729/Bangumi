@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 14:46:00
+ * @Last Modified time: 2020-07-06 11:21:40
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -141,7 +141,7 @@ class User extends React.Component {
 
     // 自己并且没登陆
     if (!id && !$.isLogin) {
-      return <Login style={this.style} />
+      return <Login style={_.container._plain} />
     }
 
     const { _loaded } = $.state

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 14:04:21
+ * @Last Modified time: 2020-07-06 11:42:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,12 +50,12 @@ function Auth(props, { $, navigation }) {
                   {nickname}
                 </Text>
                 {$.advance ? (
-                  <Text size={12} type='warning'>
+                  <Text size={10} type='warning'>
                     高级会员
                   </Text>
                 ) : (
                   !!_loaded && (
-                    <Text type='tinygrailText' size={12}>
+                    <Text type='tinygrailText' size={10}>
                       普通会员
                     </Text>
                   )

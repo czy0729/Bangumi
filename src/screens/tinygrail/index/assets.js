@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-01 14:03:55
+ * @Last Modified time: 2020-07-06 11:41:02
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -86,27 +86,31 @@ function Assets(props, { $ }) {
     <Flex style={styles.container}>
       <Flex.Item>
         <Touchable onPress={$.toogleShort}>
-          <Text type='tinygrailPlain'>
+          <Text type='tinygrailPlain' size={13}>
             ₵ {_balance}
             {balanceChangeText && (
-              <Text type={balanceTextColor} size={12} lineHeight={14}>
+              <Text type={balanceTextColor} size={10} lineHeight={13}>
                 {' '}
                 {balanceChangeText}
               </Text>
             )}{' '}
             / {_total}{' '}
             {totalChangeText && (
-              <Text type={totalTextColor} size={12} lineHeight={14}>
+              <Text type={totalTextColor} size={10} lineHeight={13}>
                 {totalChangeText}{' '}
               </Text>
             )}
             {!!lastIndex && `/ #${lastIndex}`}
-            <Text type='tinygrailPlain'>{short ? ' [-]' : ' [+]'}</Text>
+            <Text type='tinygrailPlain' size={13}>
+              {short ? ' [-]' : ' [+]'}
+            </Text>
           </Text>
         </Touchable>
       </Flex.Item>
-      <Touchable style={_.ml.sm} onPress={$.doTest}>
-        <Text type='tinygrailText'>[股息预测]</Text>
+      <Touchable style={_.ml.xs} onPress={$.doTest}>
+        <Text type='tinygrailText' size={13}>
+          [股息预测]
+        </Text>
       </Touchable>
     </Flex>
   )

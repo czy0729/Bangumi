@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 04:36:36
+ * @Last Modified time: 2020-07-03 10:19:55
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -132,7 +132,7 @@ class Input extends React.Component {
       <View style={this.styles.container}>
         <TextInput
           ref={ref => (this.inputRef = ref)}
-          style={[this.styles.input, style]}
+          style={style ? [this.styles.input, style] : this.styles.input}
           numberOfLines={numberOfLines}
           allowFontScaling={false}
           autoCapitalize='none'

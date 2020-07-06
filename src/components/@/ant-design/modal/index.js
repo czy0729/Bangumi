@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-28 15:06:00
+ * @Last Modified time: 2020-07-03 10:21:42
  */
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -187,7 +187,11 @@ class AntmModal extends React.Component {
                   onClose={onClose}
                   animationType={animType}
                   wrapStyle={transparent ? styles.wrap : undefined}
-                  style={[styles.innerContainer, style]}
+                  style={
+                    style
+                      ? [styles.innerContainer, style]
+                      : styles.innerContainer
+                  }
                   visible={visible}
                   onAnimationEnd={onAnimationEnd}
                   animateAppear={animateAppear}

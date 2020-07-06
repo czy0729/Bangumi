@@ -6,14 +6,14 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-01 16:05:02
+ * @Last Modified time: 2020-07-03 14:07:22
  */
 import { HOST } from './index'
 
 export const API_HOST = 'https://api.bgm.tv'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
 export const TINYGRAIL_ASSETS_LIMIT = 1800
-const TINYGRAIL_LIMIT = 150
+const TINYGRAIL_LIMIT = 200
 
 /**
  * @todo correct

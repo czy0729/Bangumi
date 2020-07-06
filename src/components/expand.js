@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 15:22:35
+ * @Last Modified time: 2020-07-06 15:39:29
  */
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { observer } from 'mobx-react'
+import { useObserver } from 'mobx-react-lite'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import Iconfont from './iconfont'
@@ -15,76 +15,40 @@ import Touchable from './touchable'
 
 const size = 216 // 1个比例的最大高度
 
-export default
-@observer
-class Expand extends React.Component {
-  static defaultProps = {
-    style: undefined,
-    ratio: 0.8 // 比例
-  }
-
-  state = {
-    maxHeight: 0,
-    height: 0,
+function Expand({ style, ratio, children }) {
+  const [state, setState] = useState({
     layouted: false,
-    expand: false
-  }
-
-  onLayout = ({ nativeEvent }) => {
-    const { ratio } = this.props
-    const maxHeight = ratio * size
-    const { height } = nativeEvent.layout
-    if (height < maxHeight) {
-      this.setState({
-        maxHeight: height,
-        height,
-        layouted: true,
+    expand: false,
+    height: 0,
+    maxHeight: 0
+  })
+  const onExpand = useCallback(
+    () =>
+      setState({
+        ...state,
         expand: true
-      })
-      return
-    }
-
-    this.setState({
-      maxHeight,
-      height,
-      layouted: true
-    })
-  }
-
-  onExpand = () => {
-    this.setState({
-      expand: true
-    })
-  }
-
-  render() {
-    const { style, children } = this.props
-    const { maxHeight, height, layouted, expand } = this.state
-
-    /**
-     * 算出内容实际高度
-     * 有时候文字太长, 最后一行文字高度没算上, 插入一个placeholder来规避这个问题
-     */
-    if (!layouted) {
-      return (
-        <View style={styles.layout} onLayout={this.onLayout}>
-          <View>{children}</View>
-        </View>
-      )
-    }
-
-    return (
+      }),
+    [state]
+  )
+  return useObserver(() =>
+    state.layouted ? (
       <View
         style={[
           styles.container,
           style,
           {
-            height: expand ? 'auto' : maxHeight || height
+            height: state.expand ? 'auto' : state.maxHeight || state.height
           }
         ]}
       >
-        <View style={{ height }}>{children}</View>
-        {!expand && (
+        <View
+          style={{
+            height: state.height
+          }}
+        >
+          {children}
+        </View>
+        {!state.expand && (
           <>
             <LinearGradient
               style={styles.linear}
@@ -94,15 +58,39 @@ class Expand extends React.Component {
                 `rgba(${_.colorPlainRaw.join()}, 1)`
               ]}
             />
-            <Touchable style={styles.more} onPress={this.onExpand}>
+            <Touchable style={styles.more} onPress={onExpand}>
               <Iconfont name='down' size={20} />
             </Touchable>
           </>
         )}
       </View>
+    ) : (
+      <View
+        style={styles.layout}
+        onLayout={({ nativeEvent }) => {
+          const { height } = nativeEvent.layout
+          const maxHeight = ratio * size
+          const needExpand = height > maxHeight
+          setState({
+            layouted: true,
+            expand: !needExpand,
+            height,
+            maxHeight: needExpand ? maxHeight : height
+          })
+        }}
+      >
+        {children}
+      </View>
     )
-  }
+  )
 }
+
+Expand.defaultProps = {
+  style: undefined,
+  ratio: 0.8 // 比例
+}
+
+export default Expand
 
 const styles = StyleSheet.create({
   layout: {

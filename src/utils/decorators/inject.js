@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 17:28:48
+ * @Last Modified time: 2020-07-06 14:17:42
  */
 import React from 'react'
 import PropTypes from 'prop-types'
+import { observer } from 'mobx-react'
 import Stores from '@stores'
 import { urlStringify } from '../index'
-import observer from './observer'
 
 /**
  * App HOC
