@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-19 12:13:07
+ * @Last Modified time: 2020-07-07 17:20:29
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -69,6 +69,7 @@ class User extends store {
      * 用户cookie (请求HTML用)
      */
     userCookie: INIT_USER_COOKIE,
+    setCookie: '',
 
     /**
      * 在看收藏
@@ -166,6 +167,7 @@ class User extends store {
         'userCollection',
         'userCollectionsStatus',
         'userCookie',
+        'setCookie',
         'userInfo',
         'userProgress',
         'usersInfo'
@@ -653,18 +655,24 @@ class User extends store {
    */
   doCheckCookie = async () => {
     const res = RakuenStore.fetchNotify()
-    const raw = await res
-    const HTML = HTMLTrim(raw)
-    if (HTML.includes('抱歉，当前操作需要您') && !DEV) {
+    const { setCookie = '', html } = await res
+    if (html.includes('抱歉，当前操作需要您') && !DEV) {
       confirm('检测到登陆状态好像过期了, 是否登出?', () =>
         this.updateUserCookie()
       )
     } else {
-      const matchLogout = HTML.match(/.tv\/logout(.+?)">登出<\/a>/)
+      const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
       if (Array.isArray(matchLogout) && matchLogout[1]) {
         this.setState({
           logout: `${HOST}/logout${matchLogout[1]}`
         })
+      }
+
+      if (setCookie) {
+        this.setState({
+          setCookie
+        })
+        this.setStorage('setCookie', undefined, NAMESPACE)
       }
     }
     return res

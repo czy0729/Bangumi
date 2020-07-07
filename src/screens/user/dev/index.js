@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:52:30
+ * @Last Modified time: 2020-07-07 17:23:42
  */
 import React from 'react'
 import { ScrollView, Platform } from 'react-native'
@@ -52,8 +52,9 @@ class DEV extends React.Component {
           size={12}
           lineHeight={16}
           type='sub'
+          selectable
         >
-          设备视窗{'\n'}
+          设备视窗{'\n\n'}
           {JSON.stringify(_.window)}
         </Text>
         <Text
@@ -61,11 +62,19 @@ class DEV extends React.Component {
           size={12}
           lineHeight={16}
           type='sub'
+          selectable
         >
-          登陆信息{'\n'}
+          登陆信息{'\n\n'}
           {JSON.stringify({
-            accessToken: userStore.accessToken,
+            accessToken: userStore.accessToken
+          })}
+          {'\n\n'}
+          {JSON.stringify({
             userCookie: userStore.userCookie
+          })}
+          {'\n\n'}
+          {JSON.stringify({
+            setCookie: userStore.setCookie
           })}
         </Text>
         <Text
@@ -73,8 +82,9 @@ class DEV extends React.Component {
           size={12}
           lineHeight={16}
           type='sub'
+          selectable
         >
-          平台信息{'\n'}
+          平台信息{'\n\n'}
           {JSON.stringify(Platform)}
         </Text>
         <Text
@@ -82,8 +92,9 @@ class DEV extends React.Component {
           size={12}
           lineHeight={16}
           type='sub'
+          selectable
         >
-          平台常量{'\n'}
+          平台常量{'\n\n'}
           {JSON.stringify(Constants)}
         </Text>
       </ScrollView>
@@ -108,7 +119,7 @@ const memoStyles = _.memoStyles(_ => ({
   code: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,

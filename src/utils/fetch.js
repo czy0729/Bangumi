@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-16 20:53:54
+ * @Last Modified time: 2020-07-07 17:08:22
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -151,7 +151,7 @@ export async function fetchHTML({
 } = {}) {
   const isGet = method === 'GET'
   const userStore = require('../stores/user').default
-  const { cookie: userCookie, userAgent } = userStore.userCookie
+  const { cookie: userCookie, setCookie, userAgent } = userStore.userCookie
   const _config = {
     timeout: FETCH_TIMEOUT,
     headers: {}
@@ -166,7 +166,9 @@ export async function fetchHTML({
       'User-Agent': userAgent,
 
       // @issue iOS不知道为什么会有文本乱插在cookie前面, 要加分号防止
-      Cookie: cookie ? `${userCookie} ${cookie}` : `; ${userCookie};`,
+      Cookie: cookie
+        ? `${userCookie} ${cookie} ${setCookie}`
+        : `; ${userCookie}; ${setCookie}`,
       ...headers
     }
 

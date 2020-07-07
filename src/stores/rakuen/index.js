@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 16:39:04
+ * @Last Modified time: 2020-07-07 16:48:14
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -310,10 +310,18 @@ class Rakuen extends store {
    */
   fetchNotify = async (analysis = false) => {
     const res = fetchHTML({
-      url: HTML_NOTIFY()
+      url: HTML_NOTIFY(),
+      raw: true
     })
     const raw = await res
-    const HTML = HTMLTrim(raw)
+
+    let setCookie
+    if (raw.headers && raw.headers.map && raw.headers.map['set-cookie']) {
+      setCookie = raw.headers.map['set-cookie']
+    }
+    const text = await raw.text()
+    const HTML = HTMLTrim(text)
+
     const { _loaded } = this.notify
     let { unread, clearHref, list } = this.notify
 
@@ -352,7 +360,10 @@ class Rakuen extends store {
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return res
+    return {
+      setCookie,
+      html: HTML
+    }
   }
 
   /**
