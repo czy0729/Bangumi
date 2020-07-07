@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 16:44:04
+ * @Last Modified time: 2020-07-07 12:00:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { observer } from 'mobx-react'
 import { _, userStore } from '@stores'
 import { open } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
+import { IOS } from '@constants'
 import HTML from '../@/react-native-render-html'
 import BgmText, { bgmMap } from '../bgm-text'
 import { translateAll } from '../katakana'
@@ -94,9 +95,7 @@ class RenderHtml extends React.Component {
         return (
           <ToggleImage
             key={key}
-            style={{
-              marginTop: 4
-            }}
+            style={_.mt.xs}
             src={src}
             autoSize={imagesMaxWidth}
             placeholder={false}
@@ -225,15 +224,20 @@ class RenderHtml extends React.Component {
   formatHTML = () => {
     const { html, baseFontStyle } = this.props
     const { katakanaResult } = this.state
+
     try {
-      // iOS碰到过文本里巨大会遇到Maximun stack size exceeded的错误
+      /**
+       * iOS碰到过文本里巨大会遇到Maximun stack size exceeded的错误
+       */
       // if (IOS && html.length > 100000) {
       //   return html
       // }
 
-      let _html
+      let _html = html
 
-      // 把bgm表情替换成bgm字体文字
+      /**
+       * 把bgm表情替换成bgm字体文字
+       */
       const $ = cheerio(html)
       $('img[smileid]').replaceWith((index, element) => {
         const $img = cheerio(element)
@@ -260,7 +264,9 @@ class RenderHtml extends React.Component {
       })
       _html = $.html()
 
-      // 片假名后面加上小的英文
+      /**
+       * 片假名后面加上小的英文
+       */
       const jps = Object.keys(katakanaResult)
       if (jps.length) {
         jps.forEach(jp => {
@@ -272,7 +278,9 @@ class RenderHtml extends React.Component {
         })
       }
 
-      // 给纯文字包上span, 否则安卓不能自由复制
+      /**
+       * 给纯文字包上span, 否则安卓不能自由复制
+       */
       _html = `<div>${_html}</div>`
       const match = _html.match(/>[^<>]+?</g)
       if (match) {
@@ -281,6 +289,22 @@ class RenderHtml extends React.Component {
         )
       }
 
+      /**
+       * 去除<q>里面的图片
+       * (非常特殊的情况, 无法预测, 安卓Text里面不能包含其他元素)
+       */
+      if (!IOS) {
+        if (_html.includes('<q>')) {
+          _html = HTMLDecode(_html).replace(
+            /<q>(.+?)<\/q>/g,
+            (match, q) => `<q>${q.replace(/<img/g, ' img')}</q>`
+          )
+        }
+      }
+
+      /**
+       * 缩小引用的字号
+       */
       _html = _html.replace(
         /<div class="quote"><q>/g,
         '<div class="quote"><q style="font-size: 12px">'
@@ -289,7 +313,7 @@ class RenderHtml extends React.Component {
       return HTMLDecode(_html)
     } catch (error) {
       warn('RenderHtml', 'formatHTML', error)
-      return html
+      return HTMLDecode(html)
     }
   }
 

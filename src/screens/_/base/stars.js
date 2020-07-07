@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 03:06:45
+ * @Last Modified time: 2020-07-06 16:42:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { _, systemStore } from '@stores'
+
+const nums = [1, 2, 3, 4, 5]
 
 function Stars({ style, simple, value }) {
   if (systemStore.setting.hideScore || !value) {
@@ -20,7 +22,7 @@ function Stars({ style, simple, value }) {
       <Flex style={style}>
         <Iconfont name='star-full' size={12} color={_.colorWarning} />
         <Text style={_.ml.xs} type='sub' size={12} bold>
-          {value}
+          {value}{' '}
         </Text>
       </Flex>
     )
@@ -28,7 +30,7 @@ function Stars({ style, simple, value }) {
 
   return (
     <Flex style={style}>
-      {[1, 2, 3, 4, 5].map(item => {
+      {nums.map(item => {
         if (value / 2 >= item) {
           return (
             <Iconfont
@@ -64,7 +66,7 @@ function Stars({ style, simple, value }) {
         )
       })}
       <Text style={_.ml.xs} type='sub' size={12} lineHeight={12} bold>
-        {value}
+        {value}{' '}
       </Text>
     </Flex>
   )

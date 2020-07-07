@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 12:56:04
+ * @Last Modified time: 2020-07-07 11:13:03
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -60,6 +60,7 @@ class ToggleImage extends React.Component {
                 style={this.styles.textSrc}
                 size={10}
                 type='sub'
+                selectable
                 numberOfLines={1}
               >
                 {src}
@@ -87,6 +88,7 @@ class ToggleImage extends React.Component {
                 style={this.styles.textSrc}
                 size={10}
                 type='sub'
+                selectable
                 numberOfLines={1}
               >
                 {src}

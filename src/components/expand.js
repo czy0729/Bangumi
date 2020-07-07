@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 15:39:29
+ * @Last Modified time: 2020-07-06 15:44:21
  */
 import React, { useState, useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -23,12 +23,12 @@ function Expand({ style, ratio, children }) {
     maxHeight: 0
   })
   const onExpand = useCallback(
-    () =>
+    prevState =>
       setState({
-        ...state,
+        ...prevState,
         expand: true
       }),
-    [state]
+    []
   )
   return useObserver(() =>
     state.layouted ? (

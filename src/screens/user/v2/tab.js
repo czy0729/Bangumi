@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:01:02
+ * @Last Modified time: 2020-07-06 17:08:10
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
-import { Flex, Text } from '@components'
+import { Text } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -87,17 +87,15 @@ class Tab extends React.Component {
     const count =
       $.counts[MODEL_SUBJECT_TYPE.getTitle(subjectType)][route.title]
     return (
-      <Flex>
-        <Text type='title' bold={focused}>
-          {route.title.replace('看', $.action)}
-        </Text>
+      <Text style={this.styles.labelText} type='title' size={13} bold={focused}>
+        {route.title.replace('看', $.action)}
         {!!count && (
-          <Text type='sub' size={12} lineHeight={14}>
+          <Text type='sub' size={11} lineHeight={13}>
             {' '}
-            {count}
+            {count}{' '}
           </Text>
         )}
-      </Flex>
+      </Text>
     )
   }
 
@@ -172,7 +170,7 @@ const memoStyles = _.memoStyles(_ => ({
     padding: 0
   },
   labelText: {
-    flexWrap: 'wrap'
+    width: '100%'
   },
   indicator: {
     width: W_INDICATOR,

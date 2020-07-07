@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 12:09:56
+ * @Last Modified time: 2020-07-06 16:44:14
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -43,10 +43,12 @@ function Info(props, { $, navigation }) {
                 <Katakana size={20} bold>
                   {$.jp}
                 </Katakana>
-                <Text type='sub' lineHeight={20} bold>
-                  {' '}
-                  {$.cn}
-                </Text>
+                {$.jp !== $.cn && (
+                  <Text type='sub' lineHeight={20} bold>
+                    {' '}
+                    {$.cn}
+                  </Text>
+                )}
               </Katakana.Provider>
             </Flex>
           </Flex.Item>

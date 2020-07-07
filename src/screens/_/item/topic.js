@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 05:41:31
+ * @Last Modified time: 2020-07-07 11:28:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,7 @@ function ItemTopic({
 
   const styles = memoStyles()
   const baseFontStyle = {
-    fontSize: 15 + _.fontSizeAdjust,
+    fontSize: 14 + _.fontSizeAdjust,
     lineHeight: 22
   }
   const isAuthor = authorId === userId

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:45:00
+ * @Last Modified time: 2020-07-06 16:44:36
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -38,9 +38,11 @@ function HeaderTitle({ navigation }) {
           <Text size={13} numberOfLines={1}>
             {$.jp}
           </Text>
-          <Text type='sub' size={10} numberOfLines={1}>
-            {$.cn}
-          </Text>
+          {$.jp !== $.cn && (
+            <Text type='sub' size={10} numberOfLines={1}>
+              {$.cn}
+            </Text>
+          )}
         </Flex.Item>
       </Flex>
     </FadeIn>

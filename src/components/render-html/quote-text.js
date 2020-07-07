@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:05:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 17:51:20
+ * @Last Modified time: 2020-07-07 11:12:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,14 +27,20 @@ class QuoteText extends React.Component {
     const { show } = this.state
     if (!show) {
       return (
-        <Text style={this.styles.quoteTextPlaceholder} onPress={this.show}>
+        <Text
+          style={this.styles.quoteTextPlaceholder}
+          selectable
+          onPress={this.show}
+        >
           ...
         </Text>
       )
     }
     return (
       <View style={this.styles.quote}>
-        <Text size={12}>“ {children} ”</Text>
+        <Text size={12} selectable>
+          “ {children} ”
+        </Text>
       </View>
     )
   }

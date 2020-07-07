@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 01:22:17
+ * @Last Modified time: 2020-07-06 16:28:30
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -64,7 +64,7 @@ function Head({ style }, { $ }) {
           {!$.hideScore && (
             <>
               <Text type='main' size={20}>
-                {$.rating.score === '' ? '-' : toFixed($.rating.score, 1)}
+                {$.rating.score === '' ? '-' : toFixed($.rating.score, 1)}{' '}
               </Text>
               {$.rating.score !== '' && (
                 <ScoreTag style={_.ml.sm} value={$.rating.score} />

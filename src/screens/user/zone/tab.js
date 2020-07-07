@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 04:58:06
+ * @Last Modified time: 2020-07-06 17:11:33
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -89,7 +89,7 @@ class Tab extends React.Component {
   }
 
   renderLabel = ({ route, focused }) => (
-    <Text type='title' bold={focused}>
+    <Text style={this.styles.labelText} type='title' size={13} bold={focused}>
       {route.title}
     </Text>
   )
@@ -148,7 +148,7 @@ const commonStyle = {
     padding: 0
   },
   labelText: {
-    flexWrap: 'wrap'
+    width: '100%'
   },
   tabBarLeft: {
     position: 'absolute',

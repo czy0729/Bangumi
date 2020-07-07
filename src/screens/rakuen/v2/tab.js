@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 12:08:39
+ * @Last Modified time: 2020-07-06 17:15:46
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import TabBar from '@components/@/react-native-tab-view/TabBar'
-import { Flex, Text } from '@components'
+import { Text } from '@components'
 import { BlurView, Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -82,18 +82,22 @@ function Tab(props, { $ }) {
             if (route.title === '小组' && routes[page].title === '小组') {
               return (
                 <Popover
+                  style={styles.labelText}
                   data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
                   onSelect={$.onGroupMenuPress}
                 >
-                  <Flex>
-                    <Text type='title' bold={focused}>
-                      小组
-                    </Text>
-                    <Text size={12} lineHeight={14} type='sub'>
+                  <Text
+                    style={styles.labelText}
+                    type='title'
+                    size={13}
+                    bold={focused}
+                  >
+                    小组
+                    <Text size={11} lineHeight={13} type='sub'>
                       {' '}
-                      {MODEL_RAKUEN_TYPE_GROUP.getLabel(group)}
+                      {MODEL_RAKUEN_TYPE_GROUP.getLabel(group)}{' '}
                     </Text>
-                  </Flex>
+                  </Text>
                 </Popover>
               )
             }
@@ -101,24 +105,33 @@ function Tab(props, { $ }) {
             if (route.title === '人物' && routes[page].title === '人物') {
               return (
                 <Popover
+                  style={styles.labelText}
                   data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
                   onSelect={$.onGroupMenuPress}
                 >
-                  <Flex>
-                    <Text type='title' bold={focused}>
-                      人物
-                    </Text>
-                    <Text size={12} lineHeight={14} type='sub'>
+                  <Text
+                    style={styles.labelText}
+                    type='title'
+                    size={13}
+                    bold={focused}
+                  >
+                    人物
+                    <Text size={11} lineHeight={13} type='sub'>
                       {' '}
-                      {MODEL_RAKUEN_TYPE_MONO.getLabel(mono)}
+                      {MODEL_RAKUEN_TYPE_MONO.getLabel(mono)}{' '}
                     </Text>
-                  </Flex>
+                  </Text>
                 </Popover>
               )
             }
 
             return (
-              <Text type='title' bold={focused}>
+              <Text
+                style={styles.labelText}
+                type='title'
+                size={13}
+                bold={focused}
+              >
                 {route.title}
               </Text>
             )
@@ -158,6 +171,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   label: {
     padding: 0
+  },
+  labelText: {
+    width: '100%'
   },
   indicator: {
     width: W_INDICATOR,
