@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 11:49:43
+ * @Last Modified time: 2020-07-07 19:52:52
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore } from '@stores'
@@ -13,8 +13,8 @@ import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants/model'
 
 const namespace = 'ScreenSearch'
-const initCat = MODEL_SEARCH_CAT.getValue('条目')
-const initLegacy = MODEL_SEARCH_LEGACY.getValue('模糊')
+const initCat = MODEL_SEARCH_CAT.getValue('动画')
+const initLegacy = MODEL_SEARCH_LEGACY.getValue('精确')
 const excludeState = {
   value: '',
   searching: false

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 00:32:44
+ * @Last Modified time: 2020-07-07 20:06:53
  */
 import React from 'react'
 import { ScrollView, View, AsyncStorage } from 'react-native'
@@ -336,7 +336,8 @@ class Setting extends React.Component {
       filterDefault,
       hideScore,
       cnFirst,
-      initialPage
+      initialPage,
+      filter18x
     } = systemStore.setting
     return (
       <>
@@ -408,6 +409,23 @@ class Setting extends React.Component {
                   }}
                 />
               }
+            />
+            <ItemSetting
+              hd='屏蔽敏感内容'
+              ft={
+                <SwitchPro
+                  value={filter18x}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '屏蔽敏感内容',
+                      checked: !filter18x
+                    })
+
+                    systemStore.switchSetting('filter18x')
+                  }}
+                />
+              }
+              information='条目、小组、时间胶囊等，因网站规则也建议注册少于2个月的用户开启'
             />
             {!userStore.isLimit && (
               <ItemSetting

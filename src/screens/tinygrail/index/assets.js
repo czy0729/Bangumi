@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 11:41:02
+ * @Last Modified time: 2020-07-07 17:58:18
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -51,7 +51,7 @@ function Assets(props, { $ }) {
   let balanceChangeText
   let balanceTextColor
   let _changeBalance
-  if (short && Math.abs(changeBalance) > 1000) {
+  if (short && Math.abs(changeBalance) >= 1000) {
     _changeBalance = `${toFixed(Math.abs(changeBalance) / M, 1)}万`
   } else {
     _changeBalance = formatNumber(Math.abs(changeBalance), 1)
@@ -68,7 +68,7 @@ function Assets(props, { $ }) {
   let totalChangeText
   let totalTextColor
   let _changeTotal
-  if (short && Math.abs(changeTotal) > 1000) {
+  if (short && Math.abs(changeTotal) >= 1000) {
     _changeTotal = `${toFixed(Math.abs(changeTotal) / M, 1)}万`
   } else {
     _changeTotal = formatNumber(Math.abs(changeTotal), 1)

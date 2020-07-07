@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 14:36:29
+ * @Last Modified time: 2020-07-07 20:41:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,8 +21,6 @@ function GridItem(
   { $ }
 ) {
   const styles = memoStyles()
-  const { current } = $.state
-  const isCurrent = current === subjectId
   const percent = Math.min(
     (parseInt(epStatus || 0) / parseInt(subject.eps_count || 24)) * 100,
     100
@@ -30,11 +28,9 @@ function GridItem(
   return (
     <View style={styles.item}>
       <Cover
-        style={isCurrent ? styles.opacity : undefined}
         size={imageWidth}
         src={subject.images.medium}
         shadow
-        border
         radius
         delay={false}
         onPress={() => $.selectGirdSubject(subjectId)}
@@ -71,11 +67,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.select('transparent', _._colorDarkModeLevel1)
   },
   bar: {
-    borderBottomWidth: 6,
+    borderBottomWidth: 4,
     borderRadius: _.radiusXs,
     borderColor: _.colorWarning
-  },
-  opacity: {
-    opacity: 0.6
   }
 }))

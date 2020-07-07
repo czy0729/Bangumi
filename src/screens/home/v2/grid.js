@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 22:03:55
+ * @Last Modified time: 2020-07-07 20:46:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,11 +14,10 @@ import { IOS } from '@constants'
 import GridInfo from './grid-info'
 import GridItem from './grid-item'
 
-const correctHeightIOS = 14 // iOS端头部高度误差修正值
 const listViewProps = IOS
   ? {
       contentOffset: {
-        y: -(_.tabsHeaderHeight - correctHeightIOS)
+        y: -_.tabsHeaderHeight
       }
     }
   : {}
@@ -113,7 +112,9 @@ export default observer(Grid)
 const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
-    paddingTop: IOS ? _.tabsHeaderHeight - correctHeightIOS : 0
+    paddingTop: IOS ? _.tabsHeaderHeight : 0,
+    paddingBottom: IOS ? _.tabBarHeight : 0,
+    backgroundColor: _.select(_.colorPlain, _.colorBg)
   },
   current: {
     width: '100%',
@@ -131,7 +132,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingBottom: IOS
       ? _.tabBarHeight + _.space
       : _.tabBarHeight + _.space - _.tabBarHeight,
-    paddingLeft: _.wind - _.sm
+    paddingLeft: _.wind - _.sm - 2
   }
 }))
 

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-17 23:33:39
+ * @Last Modified time: 2020-07-07 17:58:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { UM, Text } from '@components'
+import { UM } from '@components'
 import {
   IconTabBar,
   SafeAreaView,

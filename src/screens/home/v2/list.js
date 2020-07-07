@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 21:22:58
+ * @Last Modified time: 2020-07-07 20:27:23
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,6 +11,8 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { IOS } from '@constants'
+import { MODEL_SETTING_HOME_LAYOUT } from '@constants/model'
+import Grid from './grid'
 import Item from './item'
 import { H_TABBAR } from './store'
 
@@ -28,6 +30,11 @@ const contentOffset = IOS
 function List({ title }, { $ }) {
   if (!$.userCollection._loaded) {
     return <Loading />
+  }
+
+  const isGrid = $.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
+  if (isGrid) {
+    return <Grid title={title} />
   }
 
   return (

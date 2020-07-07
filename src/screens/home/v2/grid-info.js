@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 21:58:29
+ * @Last Modified time: 2020-07-07 20:32:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,7 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const imageWidth = 104 * (_.isPad ? 1.2 : 1)
+const imageWidth = 88 * (_.isPad ? 1.2 : 1)
 const imageHeight = imageWidth * 1.4
 
 class GridInfo extends React.Component {
@@ -175,8 +175,7 @@ class GridInfo extends React.Component {
             height={imageHeight}
             src={subject.images.medium}
             radius
-            border
-            shadow='lg'
+            shadow
             onPress={this.onPress}
           />
           {isToday ? (

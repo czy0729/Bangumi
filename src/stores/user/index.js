@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 17:20:29
+ * @Last Modified time: 2020-07-07 17:48:33
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -581,10 +581,12 @@ class User extends store {
       this.setState({
         accessToken: INIT_ACCESS_TOKEN,
         userCookie: INIT_USER_COOKIE,
+        setCookie: '',
         userInfo: INIT_USER_INFO
       })
       this.setStorage('accessToken', undefined, NAMESPACE)
       this.setStorage('userCookie', undefined, NAMESPACE)
+      this.setStorage('setCookie', undefined, NAMESPACE)
       this.setStorage('userInfo', undefined, NAMESPACE)
     }, 0)
   }
