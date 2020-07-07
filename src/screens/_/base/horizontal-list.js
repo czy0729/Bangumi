@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 16:47:30
+ * @Last Modified time: 2020-07-07 15:29:03
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -54,7 +54,7 @@ function HorizontalList({
             <Touchable withoutFeedback onPress={() => onPress(item)}>
               <Text
                 style={_.mt.sm}
-                size={12}
+                size={11}
                 numberOfLines={2}
                 ellipsizeMode={ellipsizeMode}
                 bold
@@ -75,8 +75,8 @@ function HorizontalList({
 
 HorizontalList.defaultProps = {
   data: [],
-  width: 64,
-  height: 64,
+  width: 48,
+  height: 48,
   quality: false,
   findCn: false,
   ellipsizeMode: 'tail',

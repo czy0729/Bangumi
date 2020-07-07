@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:56:50
+ * @Last Modified time: 2020-07-07 14:11:16
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,6 +12,8 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
+
+const wrapWidth = _.window.contentWidth - 144
 
 function ItemFriends({
   navigation,
@@ -49,18 +51,18 @@ function ItemFriends({
     >
       <Flex>
         <Avatar style={styles.image} size={40} name={userName} src={avatar} />
-        <Flex.Item style={[styles.item, _.ml.md]}>
+        <Flex.Item style={styles.item}>
           <Flex>
             <Flex.Item>
               <Text numberOfLines={1} bold>
                 {userName}
               </Text>
             </Flex.Item>
-            <Text style={_.ml.sm} size={13}>
+            <Text style={_.ml.sm} size={12}>
               {recent}
             </Text>
           </Flex>
-          <Text style={_.mt.sm} size={10} type='sub'>
+          <Text style={_.mt.xs} size={10} type='sub'>
             {!!doing && `${doing}在看`}
             {!!collect && `${doing ? ' / ' : ''}${collect}看过`}
             {!!wish && ` / ${wish}想看`}
@@ -70,10 +72,11 @@ function ItemFriends({
           <Progress
             style={styles.progress}
             barStyle={styles.bar}
+            wrapWidth={wrapWidth}
             percent={percent}
           />
         </Flex.Item>
-        <Text style={styles.hobby} size={13} type='sub'>
+        <Text style={styles.hobby} size={12} type='sub'>
           {hobby || '-'} / {percent || '-'}%
         </Text>
       </Flex>
@@ -99,7 +102,8 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingTop: _.md,
     paddingRight: _.wind,
-    paddingBottom: _.sm
+    paddingBottom: _.sm + 2,
+    marginLeft: _.md
   },
   progress: {
     position: 'absolute',
@@ -111,8 +115,8 @@ const memoStyles = _.memoStyles(_ => ({
   bar: {
     backgroundColor: 'transparent',
     borderBottomColor: _.colorPrimary,
-    borderBottomWidth: 2,
-    borderRadius: 2
+    borderBottomWidth: 4,
+    borderRadius: 4
   },
   hobby: {
     position: 'absolute',

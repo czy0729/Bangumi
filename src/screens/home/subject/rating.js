@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 16:10:00
+ * @Last Modified time: 2020-07-07 15:25:16
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -42,6 +42,12 @@ class Ranting extends React.Component {
     return calculateSD(scores, score, total)
   }
 
+  get showScore() {
+    const { $ } = this.context
+    const { show } = this.state
+    return !$.hideScore || show
+  }
+
   renderTitle() {
     const { $ } = this.context
     const { rank = '-' } = $.subject
@@ -59,22 +65,28 @@ class Ranting extends React.Component {
             }}
           >
             <Flex>
-              <Text type='sub' bold>
-                #{rank}
-              </Text>
+              {this.showScore && (
+                <Text type='sub' bold>
+                  #{rank}
+                </Text>
+              )}
               <Iconfont name='right' size={16} />
             </Flex>
           </Touchable>
         }
       >
         评分{' '}
-        <Text type='warning' size={18} lineHeight={18} bold>
-          {' '}
-          {$.rating.score}{' '}
-        </Text>
-        <Text size={12} lineHeight={18} type='sub'>
-          / {$.rating.total}人
-        </Text>
+        {this.showScore && (
+          <>
+            <Text type='warning' size={18} lineHeight={18} bold>
+              {' '}
+              {$.rating.score}{' '}
+            </Text>
+            <Text size={12} lineHeight={18} type='sub'>
+              / {$.rating.total}人
+            </Text>
+          </>
+        )}
       </SectionTitle>
     )
   }
@@ -164,20 +176,18 @@ class Ranting extends React.Component {
   }
 
   render() {
-    const { $ } = this.context
     const { style } = this.props
-    const { show } = this.state
     return (
       <View style={[_.container.wind, style]}>
         {this.renderTitle()}
-        {$.hideScore && !show ? (
+        {this.showScore ? (
+          this.renderRating()
+        ) : (
           <Touchable onPress={this.setShow}>
             <Flex style={this.styles.hideScore} justify='center'>
               <Text>评分已隐藏, 点击显示</Text>
             </Flex>
           </Touchable>
-        ) : (
-          this.renderRating()
         )}
       </View>
     )

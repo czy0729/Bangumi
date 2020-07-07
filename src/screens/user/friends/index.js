@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-10 10:46:22
+ * @Last Modified time: 2020-07-07 14:03:05
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -58,7 +58,6 @@ class Friends extends React.Component {
     const { $, navigation } = this.context
     return (
       <ItemFriends
-        key={item.userId}
         navigation={navigation}
         event={event}
         {...item}

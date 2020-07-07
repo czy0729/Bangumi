@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 20:31:23
+ * @Last Modified time: 2020-07-07 14:13:11
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
@@ -32,12 +32,8 @@ export function cheerioFriends(HTML) {
  */
 export function cheerioUsers(HTML) {
   const $ = cheerio(HTML)
-  const userId = $('.inner small.grey')
-    .text()
-    .replace('@', '')
-  const hobby = $('small.hot')
-    .text()
-    .match(/\d+/g)
+  const userId = $('.inner small.grey').text().replace('@', '')
+  const hobby = $('small.hot').text().match(/\d+/g)
 
   let disconnectUrl = ''
   const matchDisconnect = $('a.chiiBtn[onclick]').attr('onclick')
@@ -51,46 +47,26 @@ export function cheerioUsers(HTML) {
   }
   return safeObject({
     userId,
-    userName: $('.inner > a')
-      .text()
-      .replace('\n ', ''),
+    userName: $('div.headerAvatar + .inner > a').text().trim(),
     sign: $('.bio').html() || '',
-    join: $('span.tip')
-      .first()
-      .text(),
+    join: $('span.tip').first().text(),
     hobby: hobby ? hobby[0] : '0',
-    percent: parseFloat(
-      $('span.percent_text')
-        .text()
-        .replace('%', '')
-    ),
-    recent: $('.timeline small.time')
-      .first()
-      .text(),
+    percent: parseFloat($('span.percent_text').text().replace('%', '')),
+    recent: $('.timeline small.time').first().text(),
     doing: parseInt(
-      $(`a[href='/anime/list/${userId}/do']`)
-        .text()
-        .replace('部在看', '')
+      $(`a[href='/anime/list/${userId}/do']`).text().replace('部在看', '')
     ),
     collect: parseInt(
-      $(`a[href='/anime/list/${userId}/collect']`)
-        .text()
-        .replace('部看过', '')
+      $(`a[href='/anime/list/${userId}/collect']`).text().replace('部看过', '')
     ),
     wish: parseInt(
-      $(`a[href='/anime/list/${userId}/wish']`)
-        .text()
-        .replace('部想看', '')
+      $(`a[href='/anime/list/${userId}/wish']`).text().replace('部想看', '')
     ),
     onHold: parseInt(
-      $(`a[href='/anime/list/${userId}/on_hold']`)
-        .text()
-        .replace('部搁置', '')
+      $(`a[href='/anime/list/${userId}/on_hold']`).text().replace('部搁置', '')
     ),
     dropped: parseInt(
-      $(`a[href='/anime/list/${userId}/dropped']`)
-        .text()
-        .replace('部抛弃', '')
+      $(`a[href='/anime/list/${userId}/dropped']`).text().replace('部抛弃', '')
     ),
     connectUrl: $('#connectFrd').attr('href'),
     disconnectUrl
@@ -113,10 +89,7 @@ export function cheerioCharacters(HTML) {
       const $li = cheerio(element)
       const $a = $li.find('a[title]')
       return safeObject({
-        avatar: $li
-          .find('img')
-          .attr('src')
-          .split('?')[0],
+        avatar: $li.find('img').attr('src').split('?')[0],
         id: $a.attr('href'),
         name: $a.attr('title')
       })
@@ -200,10 +173,7 @@ export function cheerioBlogs(HTML) {
           title: $a.text(),
           cover: $li.find('span.pictureFrameGroup img').attr('src'),
           time: $li.find('div.time .time').text(),
-          replies: $li
-            .find('div.time .orange')
-            .text()
-            .replace(/\(|\)/g, ''),
+          replies: $li.find('div.time .orange').text().replace(/\(|\)/g, ''),
           content: $li
             .find('div.content')
             .text()
@@ -261,10 +231,7 @@ export function cheerioCatalogs(HTML, isCollect) {
           userName: '',
           avatar: '',
           time: $li.find('small.grey').text(),
-          num: $li
-            .find('span.tip_j')
-            .text()
-            .replace(/\(|\)/g, '')
+          num: $li.find('span.tip_j').text().replace(/\(|\)/g, '')
         })
       })
       .get() || []
