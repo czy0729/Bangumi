@@ -233,9 +233,9 @@ export default class ScreenTinygrail extends store {
         _AfterTax = formatNumber(AfterTax, 2)
       }
 
-      let message = `本期计息共${_Total}股, 圣殿${Temples}座, 预期股息₵${_Share}`
-      if (Tax) message += `, 个人所得税₵${_Tax}, 税后₵${_AfterTax}`
-      if (Daily) message += `, 签到奖励₵${Daily}`
+      let message = `本期计息共${_Total}股, 圣殿${Temples}座, 预期股息${_Share}`
+      if (Tax) message += `, 个人所得税${_Tax}, 税后${_AfterTax}`
+      if (Daily) message += `, 签到奖励${Daily}`
 
       Alert.alert('股息预测', message, [
         {

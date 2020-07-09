@@ -184,7 +184,7 @@ class StockPreview extends React.Component {
             lineHeight={16}
             align='right'
           >
-            ₵{toFixed(current, 2)}
+            {toFixed(current, 2)}
           </Text>
           {!hasNoChanged && (
             <Text

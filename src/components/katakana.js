@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-03 10:20:07
+ * @Last Modified time: 2020-07-07 20:56:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -118,6 +118,10 @@ export async function translateAll(str) {
 
 @observer
 class KatakanaProvider extends React.Component {
+  static defaultProps = {
+    itemStyle: undefined
+  }
+
   static childContextTypes = {
     lineHeightIncrease: PropTypes.number, // 用于往嵌套Text传递需要增大行高的标记
     onKatakana: PropTypes.func //  接受到匹配到片假名

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-03 12:06:37
+ * @Last Modified time: 2020-07-09 11:46:02
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -14,7 +14,8 @@ import { info } from '@utils/ui'
 
 const typeDS = {
   混沌魔方: 'chaos',
-  虚空道标: 'guidepost'
+  虚空道标: 'guidepost',
+  星光碎片: 'stardust'
 }
 
 export default class ScreenTinygrailItems extends store {
@@ -24,10 +25,11 @@ export default class ScreenTinygrailItems extends store {
     _loaded: false
   })
 
-  init = () => {
-    this.fetchItems()
-    this.fetchTemple()
-    this.fetchMsrc()
+  init = async () => {
+    await this.fetchItems()
+    await this.fetchTemple()
+    await this.fetchMsrc()
+    return this.fetchMyCharaAssets()
   }
 
   // -------------------- fetch --------------------
@@ -46,42 +48,28 @@ export default class ScreenTinygrailItems extends store {
    */
   fetchMsrc = () => tinygrailStore.fetchList('msrc')
 
+  /**
+   * 我的资产
+   */
+  fetchMyCharaAssets = () => tinygrailStore.fetchMyCharaAssets()
+
   // -------------------- get --------------------
   @computed get items() {
     return tinygrailStore.items
   }
 
   @computed get temple() {
-    const temple = tinygrailStore.temple()
-    return {
-      ...temple,
-      list: temple.list
-        .filter(item => item.assets >= 100)
-        .sort((a, b) => {
-          const la = a.cLevel || 1
-          const lb = b.cLevel || 1
-          if (la === lb) {
-            return a.rate - b.rate
-          }
-          return lb - la
-        })
-    }
-  }
-
-  @computed get templeDS() {
-    const { list } = tinygrailStore.temple()
-    return list
-      .sort((a, b) => a.rate - b.rate)
-      .filter((item, index) => index < 30)
-      .map(item => ({
-        label: `+${toFixed(item.rate, 1)} / ${item.assets} ${item.name}`,
-        value: item.id
-      }))
+    return tinygrailStore.temple()
   }
 
   @computed get msrc() {
     const { msrc } = tinygrailStore
     return msrc
+  }
+
+  @computed get chara() {
+    const { chara } = tinygrailStore.myCharaAssets
+    return chara
   }
 
   // -------------------- page --------------------
@@ -97,7 +85,7 @@ export default class ScreenTinygrailItems extends store {
     })
 
   // -------------------- action --------------------
-  doUse = async ({ monoId, toMonoId }) => {
+  doUse = async ({ monoId, toMonoId, amount, isTemple }) => {
     try {
       const { title } = this.state
       const type = typeDS[title]
@@ -112,8 +100,14 @@ export default class ScreenTinygrailItems extends store {
       if (toMonoId) {
         data.toMonoId = toMonoId
       }
-      const { State, Value, Message } = await tinygrailStore.doMagic(data)
+      if (amount !== undefined) {
+        data.amount = amount
+      }
+      if (isTemple !== undefined) {
+        data.isTemple = isTemple
+      }
 
+      const { State, Value, Message } = await tinygrailStore.doMagic(data)
       t('我的道具.使用', {
         type: title,
         monoId
@@ -122,16 +116,25 @@ export default class ScreenTinygrailItems extends store {
       if (State === 0) {
         Alert.alert(
           '小圣杯助手',
-          `获得${Value.Name}x${Value.Amount}，当前价₵${
-            Value.CurrentPrice
-          }，价值₵${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
+          typeof Value === 'string'
+            ? Value
+            : `获得${Value.Name}x${Value.Amount}，当前价${
+                Value.CurrentPrice
+              }，价值${toFixed(Value.Amount * Value.CurrentPrice, 2)}`,
           [
             {
               text: '知道了'
             }
           ]
         )
-        this.fetchItems()
+
+        if (title === '星光碎片') {
+          this.fetchTemple()
+          if (!isTemple) {
+            this.fetchMyCharaAssets()
+          }
+        }
+
         return true
       }
 

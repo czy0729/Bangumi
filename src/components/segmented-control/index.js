@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 23:01:14
+ * @Last Modified time: 2020-07-08 16:38:36
  */
 import * as React from 'react'
 import { StyleSheet, Animated, Easing, View } from 'react-native'
@@ -27,7 +27,12 @@ function SegmentedControl({
   activeFontStyle,
   backgroundColor,
   onChange,
-  onValueChange
+  onValueChange,
+
+  // @add
+  styleExtra,
+  type,
+  size
 }) {
   const [segmentWidth, setSegmentWidth] = React.useState(0)
   const animation = React.useRef(new Animated.Value(0)).current
@@ -60,6 +65,7 @@ function SegmentedControl({
       style={[
         styles.default,
         style,
+        styleExtra,
         backgroundColor && { backgroundColor },
         !enabled && styles.disabled
       ]}
@@ -87,7 +93,8 @@ function SegmentedControl({
               ],
               width: segmentWidth - 2,
               backgroundColor: tintColor || 'white'
-            }
+            },
+            styleExtra
           ]}
         />
       ) : null}
@@ -101,6 +108,8 @@ function SegmentedControl({
             value={value}
             tintColor={tintColor}
             fontStyle={fontStyle}
+            type={type}
+            size={size}
             activeFontStyle={activeFontStyle}
             onSelect={() => {
               handleChange(index)
@@ -151,8 +160,8 @@ function _SegmentedControl({
 }) {
   return (
     <SegmentedControl
-      tintColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
-      backgroundColor={_.colorBg}
+      tintColor={tintColor || _.select(_.colorPlain, _._colorDarkModeLevel2)}
+      backgroundColor={backgroundColor || _.colorBg}
       {...other}
     />
   )

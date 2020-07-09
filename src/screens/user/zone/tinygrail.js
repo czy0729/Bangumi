@@ -25,7 +25,7 @@ function Tinygrail(props, { $, navigation }) {
     >
       <View style={styles.page}>
         <Text style={_.mt.lg}>
-          总资产: ₵{formatNumber(assets)} / {formatNumber(balance)}
+          总资产: {formatNumber(assets)} / {formatNumber(balance)}
           {lastIndex !== 0 && ` / #${lastIndex}`}
         </Text>
         <Text style={_.mt.sm}>{$.templeTotal}座圣殿</Text>

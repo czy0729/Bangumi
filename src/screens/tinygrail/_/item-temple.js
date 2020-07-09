@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 14:02:57
+ * @Last Modified time: 2020-07-08 10:27:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,8 +18,8 @@ import { EVENT } from '@constants'
 
 const imageWidth = _.window.contentWidth * 0.28
 const imageHeight = imageWidth * 1.28
-const imageResizeWidth = imageWidth * 1.08
-const imageResizeHeight = imageHeight * 1.08
+const imageResizeWidth = imageWidth * 1.12
+const imageResizeHeight = imageHeight * 1.12
 const marginLeft = (_.window.contentWidth - 3 * imageWidth) / 4
 
 function ItemTemple(
@@ -138,7 +138,7 @@ function ItemTemple(
           <Flex>
             {!!avatar && (
               <Avatar
-                style={[styles.avatar, _.mr.sm]}
+                style={styles.avatar}
                 navigation={navigation}
                 size={28}
                 src={avatar}
@@ -196,6 +196,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginLeft
   },
   avatar: {
+    marginRight: _.sm,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   wrap: {

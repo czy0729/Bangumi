@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:32:51
+ * @Last Modified time: 2020-07-08 10:20:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -168,9 +168,11 @@ class StockPreview extends React.Component {
             style={!hasNoChanged && this.styles.current}
             type='tinygrailPlain'
             lineHeight={16}
+            bold
             align='right'
           >
-            ₵{toFixed(current, 2)}
+            {/*  */}
+            {toFixed(current, 2)}
           </Text>
           {!hasNoChanged && (
             <Text
@@ -191,7 +193,7 @@ class StockPreview extends React.Component {
         <Flex style={show ? _.mt.xs : _.mt.sm} justify='end'>
           {show && (
             <Text style={style.textChange} type='tinygrailText' size={11}>
-              量{change}
+              量{change}{' '}
             </Text>
           )}
           {showFloor ? (

@@ -114,8 +114,8 @@ function Info(props, { $, navigation }) {
       >
         <Text type='tinygrailText' align='center'>
           市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} /
-          发行价 ₵{toFixed($.issuePrice, 1)} /{' '}
-          <Text type='tinygrailPlain'>₵{current && toFixed(current, 2)}</Text>
+          发行价 {toFixed($.issuePrice, 1)} /{' '}
+          <Text type='tinygrailPlain'>{current && toFixed(current, 2)}</Text>
           <Text type={color} align='center'>
             {' '}
             {fluctuationText}

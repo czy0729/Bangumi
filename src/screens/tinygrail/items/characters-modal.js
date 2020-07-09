@@ -2,20 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-03 18:19:04
+ * @Last Modified time: 2020-07-09 11:43:44
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import {
-  ListView,
-  Touchable,
-  Flex,
-  Text,
-  Iconfont,
-  Input,
-  Button
-} from '@components'
+import { Flex, Text, Button, SegmentedControl } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { IconTouchable } from '@screens/_'
 import { _, tinygrailStore } from '@stores'
@@ -27,34 +20,38 @@ import {
   getStorage,
   setStorage
 } from '@utils'
-import { keyExtractor } from '@utils/app'
 import { info } from '@utils/ui'
+import SearchInput from './search-input'
+import List from './list'
 import Item from './item'
 import ItemBottom from './item-bottom'
 
 const namespace = 'TinygrailCharactersModal'
-const initState = {
-  leftItem: null,
-  leftValue: '',
-  rightItem: null,
-  rightValue: '',
-  search: null,
-  loading: false,
-  title: '',
-  numValue: 0,
-  isTemple: true
-}
+const starsdustDS = ['消耗圣殿', '消耗活股']
 
 export default
 @observer
 class CharactersModal extends React.Component {
   static defaultProps = {
-    visible: false,
-    onSubmit: Function.prototype,
-    onClose: Function.prototype
+    title: '',
+    visible: false
   }
 
-  state = initState
+  static contextTypes = {
+    $: PropTypes.object
+  }
+
+  state = {
+    leftItem: null,
+    leftValue: '',
+    rightItem: null,
+    rightValue: '',
+    search: null,
+    loading: false,
+    title: '',
+    amount: 0,
+    isTemple: true
+  }
 
   title
 
@@ -62,8 +59,10 @@ class CharactersModal extends React.Component {
     const state = (await getStorage(namespace)) || {}
     this.setState({
       ...state,
+      leftItem: null,
       rightItem: null,
-      loading: false
+      loading: false,
+      title: this.props.title
     })
     this.title = this.props.title
   }
@@ -71,7 +70,9 @@ class CharactersModal extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.title !== this.title) {
       this.setState({
-        ...initState,
+        leftItem: null,
+        rightItem: null,
+        loading: false,
         title: nextProps.title
       })
       this.title = nextProps.title
@@ -81,17 +82,41 @@ class CharactersModal extends React.Component {
   onSelectLeft = item => {
     const { leftItem } = this.state
     const actived = leftItem && leftItem.id === item.id
-    this.setState({
-      leftItem: actived ? null : item
-    })
+    this.setState(
+      {
+        leftItem: actived ? null : item,
+        amount: 0
+      },
+      () => {
+        // 自动计算补充数量
+        const { leftItem, rightItem } = this.state
+        if (this.isStardust && leftItem && rightItem) {
+          this.setState({
+            amount: Math.min(assets(leftItem), charge(rightItem))
+          })
+        }
+      }
+    )
   }
 
   onSelectRight = item => {
     const { rightItem } = this.state
     const actived = rightItem && rightItem.id === item.id
-    this.setState({
-      rightItem: actived ? null : item
-    })
+    this.setState(
+      {
+        rightItem: actived ? null : item,
+        amount: 0
+      },
+      () => {
+        // 自动计算补充数量
+        const { leftItem, rightItem } = this.state
+        if (this.isStardust && leftItem && rightItem) {
+          this.setState({
+            amount: Math.min(assets(leftItem), charge(rightItem))
+          })
+        }
+      }
+    )
   }
 
   onCancelLeft = () => {
@@ -127,30 +152,36 @@ class CharactersModal extends React.Component {
 
   onChangeNum = value => {
     let _value = parseInt(value)
-    if (value && Number.isNaN(_value)) {
+    if (Number.isNaN(_value) || _value == 0) {
       _value = ''
     }
     this.setState({
-      numValue: _value
+      amount: _value
     })
   }
 
-  onToogleIsTemple = () => {
+  onToogleIsTemple = title => {
     const { isTemple } = this.state
+    if (
+      (isTemple && title === '消耗圣殿') ||
+      (!isTemple && title === '消耗活股')
+    ) {
+      return
+    }
+
     this.setState({
+      leftItem: null,
       isTemple: !isTemple
     })
   }
 
-  onClose = async () => {
-    await setStorage(namespace, this.state)
-
-    const { onClose } = this.props
-    onClose()
-
-    this.setStte({
+  onClose = () => {
+    const { $ } = this.context
+    $.onCloseModal()
+    this.setState({
       loading: false
     })
+    setStorage(namespace, this.state)
   }
 
   doSearch = async () => {
@@ -170,130 +201,139 @@ class CharactersModal extends React.Component {
         level: item.Level
       }))
       this.setState({
-        search
+        search,
+        rightItem: null
       })
     }
   }
 
   onSubmit = async () => {
-    const { leftItem, rightItem, loading } = this.state
-    if (this.btnType === 'disabled' || loading) {
+    const { leftItem, rightItem, amount, isTemple, loading } = this.state
+    if (!this.canSubmit || loading) {
       return
     }
 
-    const { title, onSubmit } = this.props
+    const { $ } = this.context
+    const { title } = this.props
     this.setState({
       loading: true
     })
-    await onSubmit({
+    await $.doUse({
       title,
       monoId: leftItem.id,
-      toMonoId: rightItem ? rightItem.id : 0
+      toMonoId: rightItem ? rightItem.id : 0,
+      amount,
+      isTemple
     })
 
     this.setState({
       loading: false
     })
+    if (this.isStardust) {
+      this.setState({
+        leftItem: null,
+        amount: 0
+      })
+    }
   }
 
-  /**
-   * @todo 待道具多后分离逻辑
-   */
+  get isChaos() {
+    const { title } = this.props
+    return title === '混沌魔方'
+  }
+
+  get isGuidepost() {
+    const { title } = this.props
+    return title === '虚空道标'
+  }
+
+  get isStardust() {
+    const { title } = this.props
+    return title === '星光碎片'
+  }
+
   get left() {
-    const { left, title } = this.props
-    const { rightItem, leftValue } = this.state
+    const { $ } = this.context
+    const { rightItem, leftValue, isTemple } = this.state
 
-    // 虚空道标 | 我的圣殿
-    if (title === '虚空道标') {
-      if (rightItem) {
-        return {
-          ...left,
-          list: left.list
-            .filter(item => {
+    // 虚空道标 (消耗我的圣殿)
+    if (this.isGuidepost) {
+      return {
+        ...$.temple,
+        list: $.temple.list
+          .filter(item => {
+            if (rightItem) {
               if (leftValue) {
                 return (
-                  item.name.includes(leftValue) &&
-                  (item.cLevel || 1) >= rightItem.level
+                  item.name.includes(leftValue) && lv(item) >= lv(rightItem)
                 )
               }
-              return (item.cLevel || 1) >= rightItem.level
-            })
-            .sort((a, b) => b.rate - a.rate)
-        }
-      }
+              return lv(item) >= lv(rightItem)
+            }
 
-      if (leftValue) {
-        return {
-          ...left,
-          list: left.list
-            .filter(item => item.name.includes(leftValue))
-            .sort((a, b) => b.rate - a.rate)
-        }
-      }
+            if (leftValue) {
+              return item.name.includes(leftValue)
+            }
 
-      return {
-        ...left,
-        list: left.list.sort((a, b) => b.rate - a.rate)
+            return true
+          })
+          .sort((a, b) => b.rate - a.rate)
       }
     }
 
-    // 星光碎片 | 我的持仓 + 我的圣殿
-    if (title === '星光碎片') {
-      if (rightItem) {
-        return {
-          ...left,
-          list: left.list
-            .filter(item => {
+    // 星光碎片 (消耗我的持仓或我的圣殿)
+    if (this.isStardust) {
+      const data = isTemple ? $.temple : $.chara
+      return {
+        ...data,
+        list: data.list
+          .filter(item => {
+            if (item.assets < 10) {
+              return false
+            }
+
+            if (rightItem) {
               if (leftValue) {
                 return (
                   item.name.includes(leftValue) &&
-                  (item.cLevel || 1) >= rightItem.level
+                  lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
                 )
               }
-              return (item.cLevel || 1) >= rightItem.level
-            })
-            .sort((a, b) => b.rate - a.rate)
-        }
-      }
+              return lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
+            }
 
-      if (leftValue) {
-        return {
-          ...left,
-          list: left.list
-            .filter(item => item.name.includes(leftValue))
-            .sort((a, b) => b.rate - a.rate)
-        }
-      }
+            if (leftValue) {
+              return item.name.includes(leftValue)
+            }
 
-      return {
-        ...left,
-        list: left.list.sort((a, b) => b.rate - a.rate)
-      }
-    }
-
-    // 混沌魔方 | 我的圣殿
-    if (leftValue) {
-      return {
-        ...left,
-        list: left.list
-          .filter(item => item.name.includes(leftValue))
+            return true
+          })
           .sort((a, b) => a.rate - b.rate)
       }
     }
 
+    // 混沌魔方 (消耗我的圣殿)
     return {
-      ...left,
-      list: left.list.sort((a, b) => a.rate - b.rate)
+      ...$.temple,
+      list: $.temple.list
+        .filter(item => {
+          if (leftValue) {
+            return item.name.includes(leftValue)
+          }
+
+          return true
+        })
+        .sort((a, b) => a.rate - b.rate)
     }
   }
 
   get right() {
-    const { right } = this.props
-    if (right === false) {
+    const { title } = this.props
+    if (!title || this.isChaos) {
       return false
     }
 
-    const { leftItem, rightValue, search } = this.state
+    const { search, leftItem, rightValue, isTemple } = this.state
     if (search) {
       return {
         list: search,
@@ -305,73 +345,130 @@ class CharactersModal extends React.Component {
       }
     }
 
-    if (leftItem && leftItem.cLevel) {
-      if (rightValue) {
-        return {
-          ...right,
-          list: right.list.filter(
-            item =>
-              item.name.includes(rightValue) &&
-              (item.level || 1) <= leftItem.cLevel
-          )
-        }
-      }
-
+    const { $ } = this.context
+    if (this.isGuidepost) {
       return {
-        ...right,
-        list: right.list.filter(item => (item.level || 1) <= leftItem.cLevel)
+        ...$.msrc,
+        list: $.msrc.list
+          .filter(item => {
+            if (leftItem) {
+              if (rightValue) {
+                return (
+                  item.name.includes(rightValue) && lv(item) <= lv(leftItem)
+                )
+              }
+
+              return lv(item) <= lv(leftItem)
+            }
+
+            if (rightValue) {
+              return item.name.includes(rightValue)
+            }
+
+            return true
+          })
+          .sort((a, b) => lv(b) - lv(a))
       }
     }
 
-    if (rightValue) {
-      return {
-        ...right,
-        list: right.list.filter(item => item.name.includes(rightValue))
-      }
-    }
+    return {
+      ...$.temple,
+      list: $.temple.list
+        .filter(item => {
+          if (item.assets === item.sacrifices) {
+            return false
+          }
 
-    return right
+          if (leftItem) {
+            if (rightValue) {
+              return (
+                item.name.includes(rightValue) &&
+                lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+              )
+            }
+
+            return lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+          }
+
+          if (rightValue) {
+            return item.name.includes(rightValue)
+          }
+
+          return true
+        })
+        .sort((a, b) => lv(b) - lv(a))
+    }
   }
 
-  get btnType() {
-    const { title } = this.props
-    const { leftItem, rightItem } = this.state
-    if (['虚空道标', '星光碎片'].includes(title)) {
-      return leftItem && rightItem ? 'bid' : 'disabled'
+  get leftChangeText() {
+    const { amount } = this.state
+    if (this.isChaos) {
+      return '-10'
     }
-    return leftItem ? 'bid' : 'disabled'
+
+    if (this.isGuidepost) {
+      return '-100'
+    }
+
+    if (this.isStardust) {
+      return `-${amount || '?'}`
+    }
+
+    return ''
+  }
+
+  get rightChangeText() {
+    const { amount } = this.state
+    if (this.isChaos) {
+      return '+10-100'
+    }
+
+    if (this.isGuidepost) {
+      return '+10-100'
+    }
+
+    if (this.isStardust) {
+      return `+${amount || '?'}`
+    }
+
+    return ''
+  }
+
+  get canSubmit() {
+    const { leftItem, rightItem, amount } = this.state
+    if (this.isGuidepost) {
+      return !!(leftItem && rightItem)
+    }
+
+    if (this.isStardust) {
+      return !!(leftItem && rightItem && amount)
+    }
+
+    return !!leftItem
+  }
+
+  get alert() {
+    if (this.isGuidepost) {
+      return '虚空道标：消耗100点塔值，抽取目标随机数量的股份，消耗目标的等级必须大于等于抽取目标等级。\n左侧数据基于自己的圣殿。\n右侧数据基于最高股息前面的角色，点击搜索可以查询远端所有角色。'
+    }
+
+    if (this.isStardust) {
+      return '星光碎片：消耗活股或塔值补充目标已损失塔值。\n消耗目标的等级必须大于等于补充目标等级，使用活股时消耗等级可以比目标等级少1级。\n塔值少于250时塔会找不到请自行查询远端数据。'
+    }
+
+    return '混沌魔方：消耗10点塔值，抽取随机目标10-100的股份。\n当前每天可使用3次。'
   }
 
   renderLeft() {
-    const { title } = this.props
     const { leftValue } = this.state
     return (
       <>
-        <Flex style={this.styles.inputWrap}>
-          <Flex.Item>
-            <Input
-              style={this.styles.input}
-              placeholder='消耗：名称'
-              placeholderTextColor={_.colorTinygrailText}
-              value={leftValue}
-              onChangeText={this.onChangeLeft}
-            />
-          </Flex.Item>
-          <Iconfont name='search' size={14} color={_.colorTinygrailText} />
-        </Flex>
-        <ListView
-          key={title}
-          style={[_.container.flex, _.mt.sm]}
-          keyExtractor={keyExtractor}
-          refreshControlProps={{
-            color: _.colorTinygrailText
-          }}
-          data={this.left}
-          showMesume={false}
-          footerTextType='tinygrailText'
-          footerEmptyDataText='没有符合的结果'
-          renderItem={this.renderItemLeft}
+        <SearchInput
+          placeholder='消耗'
+          value={leftValue}
+          onChangeText={this.onChangeLeft}
         />
+        <List data={this.left} renderItem={this.renderItemLeft} />
       </>
     )
   }
@@ -382,14 +479,17 @@ class CharactersModal extends React.Component {
     return (
       <Item
         id={item.id}
-        src={item.cover}
-        level={item.cLevel}
+        src={cover(item)}
+        level={lv(item)}
         name={item.name}
         extra={`${
-          item.assets !== item.sacrifices
+          item.assets && item.assets !== item.sacrifices
             ? `${formatNumber(item.assets, 0)} / `
             : ''
-        }${formatNumber(item.sacrifices, 0)} / +${toFixed(item.rate, 1)}`}
+        }${formatNumber(item.sacrifices || item.state, 0)} / +${toFixed(
+          item.rate,
+          1
+        )}`}
         disabled={disabled}
         onPress={() => this.onSelectLeft(item)}
       />
@@ -397,155 +497,77 @@ class CharactersModal extends React.Component {
   }
 
   renderRight() {
-    const { title } = this.props
     const { rightValue } = this.state
-    if (title === '虚空道标') {
+    if (this.isChaos) {
       return (
-        <>
-          <Flex style={this.styles.inputWrap}>
-            <Flex.Item>
-              <Input
-                style={this.styles.input}
-                placeholder='目标：名称'
-                placeholderTextColor={_.colorTinygrailText}
-                value={rightValue}
-                returnKeyType='search'
-                returnKeyLabel='搜索'
-                onChangeText={this.onChangeRight}
-                onSubmitEditing={this.doSearch}
-              />
-            </Flex.Item>
-            <Touchable onPress={this.doSearch}>
-              <Iconfont name='search' size={14} color={_.colorTinygrailText} />
-            </Touchable>
-          </Flex>
-          <ListView
-            key={title}
-            style={[_.container.flex, _.mt.sm]}
-            keyExtractor={keyExtractor}
-            refreshControlProps={{
-              color: _.colorTinygrailText
-            }}
-            data={this.right}
-            showMesume={false}
-            footerTextType='tinygrailText'
-            footerEmptyDataText='搜索显示远端数据'
-            renderItem={this.renderItemRight}
-          />
-        </>
-      )
-    }
-
-    if (title === '星光碎片') {
-      return (
-        <>
-          <Flex style={this.styles.inputWrap}>
-            <Flex.Item>
-              <Input
-                style={this.styles.input}
-                placeholder='目标：名称'
-                placeholderTextColor={_.colorTinygrailText}
-                value={rightValue}
-                onChangeText={this.onChangeRight}
-              />
-            </Flex.Item>
-            <Touchable>
-              <Iconfont name='search' size={14} color={_.colorTinygrailText} />
-            </Touchable>
-          </Flex>
-          <ListView
-            key={title}
-            style={[_.container.flex, _.mt.sm]}
-            keyExtractor={keyExtractor}
-            refreshControlProps={{
-              color: _.colorTinygrailText
-            }}
-            data={this.right}
-            showMesume={false}
-            footerTextType='tinygrailText'
-            footerEmptyDataText='没有需要补充的圣殿'
-            renderItem={this.renderItemRight}
-          />
-        </>
+        <Text type='tinygrailText' size={13} align='center'>
+          随机目标
+        </Text>
       )
     }
 
     return (
-      <Text type='tinygrailText' size={13} align='center'>
-        随机目标
-      </Text>
+      <>
+        <SearchInput
+          placeholder='目标'
+          value={rightValue}
+          returnKeyType='search'
+          returnKeyLabel='搜索'
+          onChangeText={this.onChangeRight}
+          onSubmitEditing={this.doSearch}
+        />
+        <List data={this.right} renderItem={this.renderItemRight} />
+      </>
     )
   }
 
   renderItemRight = ({ item }) => {
-    const { title } = this.props
     const { rightItem } = this.state
     const disabled = rightItem && rightItem.id !== item.id
-    if (title === '虚空道标') {
-      return (
-        <Item
-          id={item.id}
-          src={item.icon}
-          level={item.level}
-          name={item.name}
-          extra={`₵${toFixed(item.current, 0)} / +${toFixed(item.rate, 1)}`}
-          disabled={disabled}
-          onPress={() => this.onSelectRight(item)}
-        />
-      )
+    let extra = ''
+    if (item.assets && item.assets !== item.sacrifices) {
+      extra += `${formatNumber(item.assets, 0)} / `
     }
-
-    if (title === '星光碎片') {
-      return (
-        <Item
-          id={item.id}
-          src={item.cover}
-          level={item.cLevel}
-          name={item.name}
-          extra={`${
-            item.assets !== item.sacrifices
-              ? `${formatNumber(item.assets, 0)} / `
-              : ''
-          }${formatNumber(item.sacrifices, 0)} / +${toFixed(item.rate, 1)}`}
-          disabled={disabled}
-          onPress={() => this.onSelectRight(item)}
-        />
-      )
+    if (item.sacrifices) {
+      extra += `${formatNumber(item.sacrifices, 0)} / `
     }
-
-    return null
+    if (item.current) {
+      extra += `₵${formatNumber(item.current, 0)} / `
+    }
+    if (item.rate) {
+      extra += `+${toFixed(item.rate, 1)}`
+    }
+    return (
+      <Item
+        id={item.id}
+        src={cover(item)}
+        level={lv(item)}
+        name={item.name}
+        extra={extra}
+        disabled={disabled}
+        onPress={() => this.onSelectRight(item)}
+      />
+    )
   }
 
   renderBottom() {
-    const { title } = this.props
-    const { leftItem, rightItem, loading } = this.state
-    let leftChange = ''
-    let rightChange = ''
-    if (title === '混沌魔方') {
-      leftChange = '-10'
-      rightChange = '+10-100'
-    } else if (title === '虚空道标') {
-      leftChange = '-100'
-      rightChange = '+10-100'
-    } else if (title === '星光碎片') {
-      leftChange = '-?'
-      rightChange = '+?'
-    }
+    const { leftItem, rightItem } = this.state
     return (
-      <View style={[_.mt.sm, _.mb.sm]}>
-        <Flex>
+      <View>
+        <Flex style={this.styles.bottom}>
           <Flex.Item>
             {leftItem ? (
               <ItemBottom
-                src={leftItem.cover}
+                src={cover(leftItem)}
                 name={leftItem.name}
-                level={leftItem.cLevel}
-                change={leftChange}
+                level={lv(leftItem)}
+                change={this.leftChangeText}
+                type='ask'
                 onPress={this.onCancelLeft}
               />
             ) : (
               <Text type='tinygrailText' size={10}>
-                - 消耗 -
+                - 请选择消耗 -
               </Text>
             )}
           </Flex.Item>
@@ -553,70 +575,79 @@ class CharactersModal extends React.Component {
             <Flex.Item style={_.ml.sm}>
               {rightItem ? (
                 <ItemBottom
-                  src={rightItem.icon || rightItem.cover}
+                  src={cover(rightItem)}
                   name={rightItem.name}
-                  level={rightItem.level}
-                  change={rightChange}
+                  level={lv(rightItem)}
+                  change={this.rightChangeText}
+                  type='bid'
                   onPress={this.onCancelRight}
                 />
               ) : (
                 <Text type='tinygrailText' size={10}>
-                  - 目标 -
+                  - 请选择目标 -
                 </Text>
               )}
             </Flex.Item>
           )}
+          {!this.isStardust && this.renderSubmitBtn()}
         </Flex>
-        <Flex style={_.mt.sm}>
-          {this.renderForm()}
-          <Flex.Item style={_.ml.sm}>
-            {this.btnType === 'bid' ? (
-              <Button
-                style={this.styles.btn}
-                type={this.btnType}
-                loading={loading}
-                onPress={this.onSubmit}
-              >
-                提交
-              </Button>
-            ) : (
-              <Button style={this.styles.btn} type={this.btnType}>
-                提交
-              </Button>
-            )}
-          </Flex.Item>
-        </Flex>
+        {this.isStardust && (
+          <Flex>
+            {this.renderForm()}
+            {this.renderSubmitBtn()}
+          </Flex>
+        )}
       </View>
     )
   }
 
+  renderSubmitBtn() {
+    const { loading } = this.state
+    return (
+      <Button
+        key={String(this.canSubmit)}
+        style={this.canSubmit ? this.styles.btn : this.styles.btnDisabled}
+        styleText={this.styles.btnText}
+        type='bid'
+        loading={loading}
+        onPress={this.onSubmit}
+      >
+        提交
+      </Button>
+    )
+  }
+
   renderForm() {
-    const { title } = this.props
-    if (title !== '星光碎片') {
+    if (!this.isStardust) {
       return null
     }
 
-    const { numValue, isTemple } = this.state
+    const { amount, isTemple } = this.state
     return (
       <>
-        <Flex.Item style={this.styles.inputWrap}>
-          <Input
-            style={this.styles.input}
+        <Flex.Item>
+          <SearchInput
             keyboardType='numeric'
-            placeholder='补充数量'
-            placeholderTextColor={_.colorTinygrailText}
-            value={numValue}
+            placeholder='数量'
+            value={amount}
             onChangeText={this.onChangeNum}
           />
         </Flex.Item>
-        <Flex.Item style={_.ml.sm}>
-          <Touchable onPress={this.onToogleIsTemple}>
-            <Flex justify='center'>
-              <Text type='tinygrailText' size={12}>
-                [消耗{isTemple ? '圣殿' : '活股'}]
-              </Text>
-            </Flex>
-          </Touchable>
+        <Flex.Item style={_.ml.sm} flex={2}>
+          <SegmentedControl
+            style={this.styles.segmented}
+            styleExtra={this.styles.segmentedExtra}
+            tintColor={_.tSelect(_.colorTinygrailPlain, _.__colorPlain__)}
+            backgroundColor={_.tSelect(
+              _.colorTinygrailContainer,
+              _.__colorBg__
+            )}
+            type='tinygrailText'
+            size={10}
+            values={starsdustDS}
+            selectedIndex={isTemple ? 0 : 1}
+            onValueChange={this.onToogleIsTemple}
+          />
         </Flex.Item>
       </>
     )
@@ -649,12 +680,7 @@ class CharactersModal extends React.Component {
           size={20}
           color={_.colorTinygrailText}
           name='information'
-          onPress={() =>
-            Alert.alert(
-              '使用说明',
-              '混沌魔方：消耗10点塔值，抽取随机目标10-100的股份。\n虚空道标：消耗100点塔值，抽取目标随机数量的股份，消耗目标的等级必须大于等于抽取目标等级。左侧数据基于自己的圣殿。右侧数据基于最高股息前面的角色，点击搜索可以查询远端所有角色。'
-            )
-          }
+          onPress={() => Alert.alert('使用说明', this.alert)}
         />
       </Modal>
     )
@@ -663,6 +689,38 @@ class CharactersModal extends React.Component {
   get styles() {
     return memoStyles()
   }
+}
+
+/**
+ * 取等级
+ * @param {*} item
+ */
+function lv(item) {
+  return item.cLevel || item.level || 1
+}
+
+/**
+ * 取头像
+ * @param {*} item
+ */
+function cover(item) {
+  return item.cover || item.icon || ''
+}
+
+/**
+ * 取活股
+ * @param {*} item
+ */
+function assets(item) {
+  return item.state || item.assets || 0
+}
+
+/**
+ * 取补充数量
+ * @param {*} item
+ */
+function charge(item) {
+  return (item.sacrifices || 0) - (item.assets || 0)
 }
 
 const memoStyles = _.memoStyles(_ => ({
@@ -678,25 +736,9 @@ const memoStyles = _.memoStyles(_ => ({
     width: '100%',
     maxWidth: _.window.maxWidth,
     height: _.window.height * 0.54,
-    maxHeight: 640,
+    maxHeight: 664,
     paddingBottom: _.sm,
     marginTop: _.md
-  },
-  inputWrap: {
-    paddingHorizontal: 6,
-    borderColor: _.colorTinygrailBorder,
-    borderWidth: 1,
-    borderRadius: _.radiusXs
-  },
-  input: {
-    paddingVertical: 4,
-    height: 24,
-    padding: 0,
-    ..._.fontSize(11),
-    color: _.colorTinygrailPlain,
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 0
   },
   information: {
     position: 'absolute',
@@ -706,14 +748,29 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: -28,
     marginRight: 8
   },
+  bottom: {
+    height: 28,
+    marginVertical: _.sm
+  },
   btn: {
-    transform: [
-      {
-        scaleX: 0.8
-      },
-      {
-        scaleY: 0.8
-      }
-    ]
+    width: 80,
+    height: 28,
+    marginLeft: _.sm
+  },
+  btnDisabled: {
+    width: 80,
+    height: 28,
+    marginLeft: _.sm,
+    opacity: 0.5
+  },
+  btnText: {
+    ..._.fontSize(10)
+  },
+  segmented: {
+    width: '100%',
+    height: 28
+  },
+  segmentedExtra: {
+    borderRadius: _.radiusXs
   }
 }))

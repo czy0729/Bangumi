@@ -190,8 +190,8 @@ export default class ScreenTinygrailSacrifice extends store {
     Alert.alert(
       '小圣杯助手',
       isSale
-        ? `融资完成！获得资金 ₵${formatNumber(Value.Balance)}`
-        : `融资完成！获得资金 ₵${formatNumber(Value.Balance)} ${
+        ? `融资完成！获得资金 ${formatNumber(Value.Balance)}`
+        : `融资完成！获得资金 ${formatNumber(Value.Balance)} ${
             Value.Items.length ? '掉落道具' : ''
           } ${Value.Items.map(item => `「${item.Name}」×${item.Count}`).join(
             ' '

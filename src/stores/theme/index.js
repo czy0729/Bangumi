@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:47:47
+ * @Last Modified time: 2020-07-09 11:31:03
  */
 import { StyleSheet, InteractionManager } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -170,6 +170,10 @@ class Theme extends store {
 
   @computed get __colorPlain__() {
     return _.colorPlain
+  }
+
+  @computed get __colorBg__() {
+    return _.colorBg
   }
 
   @computed get colorWait() {

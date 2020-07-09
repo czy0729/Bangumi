@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 02:28:59
+ * @Last Modified time: 2020-07-07 20:49:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -141,7 +141,7 @@ function ItemSearch({
               </Text>
               {!!rank && (
                 <Text type='primary' size={12} bold>
-                  #{rank}
+                  #{rank}{' '}
                 </Text>
               )}
             </Flex>

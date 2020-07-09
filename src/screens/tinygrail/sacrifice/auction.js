@@ -37,7 +37,7 @@ function Auction({ style }, { $ }) {
             竞拍
             <Text type='tinygrailText' size={12} lineHeight={14}>
               {' '}
-              底价 (₵{price ? toFixed(price + 0.01, 2) : '-'})
+              底价 ({price ? toFixed(price + 0.01, 2) : '-'})
             </Text>
           </Text>
         </Flex.Item>
@@ -95,7 +95,7 @@ function Auction({ style }, { $ }) {
       </Flex>
       {!!lastAuction.time && (
         <Text style={_.mt.sm} type='warning' size={12}>
-          上次出价 (₵{lastAuction.price} / {formatNumber(lastAuction.amount, 0)}
+          上次出价 ({lastAuction.price} / {formatNumber(lastAuction.amount, 0)}
           股 / {lastDate(lastAuction.time)})
         </Text>
       )}
@@ -104,7 +104,7 @@ function Auction({ style }, { $ }) {
           <Text type='tinygrailPlain' size={12}>
             合计{' '}
             <Text type='ask' size={12}>
-              -₵{toFixed(auctionAmount * auctionPrice, 2)}
+              -{toFixed(auctionAmount * auctionPrice, 2)}
             </Text>
           </Text>
         </Flex.Item>
@@ -132,7 +132,7 @@ function Auction({ style }, { $ }) {
           </Text>
         </Flex.Item>
         <Text type='tinygrailText' size={12}>
-          ₵{formatNumber(balance, 2)}
+          {formatNumber(balance, 2)}
         </Text>
       </Flex>
     </View>

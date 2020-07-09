@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-01 23:14:27
+ * @Last Modified time: 2020-07-08 12:12:23
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -2009,7 +2009,6 @@ class Tinygrail extends store {
         ...LIST_EMPTY
       }
 
-      log(list)
       if (list.length) {
         try {
           // 循环请求获取第一买单价

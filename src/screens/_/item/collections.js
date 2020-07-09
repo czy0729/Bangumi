@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 03:07:19
+ * @Last Modified time: 2020-07-07 20:58:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -110,7 +110,11 @@ function ItemCollections({
           >
             <Flex align='start'>
               <Flex.Item>
-                <Katakana.Provider size={15} numberOfLines={2}>
+                <Katakana.Provider
+                  itemStyle={styles.katakanas}
+                  size={15}
+                  numberOfLines={2}
+                >
                   <Katakana size={15} bold>
                     {HTMLDecode(nameCn)}
                   </Katakana>
@@ -189,5 +193,8 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  katakanas: {
+    marginTop: -6
   }
 }))

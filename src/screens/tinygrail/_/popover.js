@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 21:50:50
+ * @Last Modified time: 2020-07-08 10:18:21
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -92,6 +92,7 @@ function Popover({ id, event, onCollect }, { navigation }) {
       <Iconfont
         style={styles.extra}
         name='extra'
+        size={17}
         color={_.colorTinygrailText}
       />
     </CompPopover>
@@ -115,8 +116,9 @@ const styles = StyleSheet.create({
   },
   extra: {
     height: 56,
-    paddingVertical: _.md,
+    paddingTop: 18,
     paddingRight: _.sm,
+    paddingBottom: 12,
     paddingLeft: _.sm
   }
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 13:59:26
+ * @Last Modified time: 2020-07-08 10:31:06
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -177,7 +177,7 @@ function Item(props, { $, navigation }) {
           })
         }}
       />
-      <Flex.Item style={[styles.wrap, index !== 0 && styles.border]}>
+      <Flex.Item style={[styles.wrap, index !== 0 && !_.flat && styles.border]}>
         <Flex align='start'>
           <Flex.Item>
             <Touchable
@@ -217,7 +217,7 @@ function Item(props, { $, navigation }) {
                 <Flex.Item>
                   <Text
                     type='tinygrailPlain'
-                    size={name.length > 8 ? 12 : 15}
+                    size={name.length > 8 ? 12 : 14}
                     bold
                     lineHeight={15}
                   >
@@ -227,16 +227,16 @@ function Item(props, { $, navigation }) {
                       </Text>
                     )}
                     {name}
-                    {!!bonus && (
-                      <Text type='warning' size={12} lineHeight={15}>
-                        {' '}
-                        x{bonus}
-                      </Text>
-                    )}
                     {parseInt(level) > 1 && (
                       <Text type='ask' size={12} lineHeight={15}>
                         {' '}
                         lv{level}
+                      </Text>
+                    )}
+                    {!!bonus && (
+                      <Text type='warning' size={12} lineHeight={15}>
+                        {' '}
+                        x{bonus}
                       </Text>
                     )}
                   </Text>
@@ -297,7 +297,7 @@ function Item(props, { $, navigation }) {
             </Touchable>
           )}
           {!isAuction && (
-            <StockPreview style={styles.stockPreview} {...props} _loaded />
+            <StockPreview {...props} style={styles.stockPreview} _loaded />
           )}
           {showMenu && !!tinygrailStore.collected(id) && (
             <Iconfont
@@ -361,11 +361,11 @@ const memoStyles = _.memoStyles(_ => ({
     paddingLeft: _.md
   },
   stockPreview: {
-    marginRight: -12
+    marginRight: -8
   },
   favor: {
     position: 'absolute',
-    right: 11,
+    right: 10,
     top: 40
   }
 }))

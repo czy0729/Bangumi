@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 15:25:16
+ * @Last Modified time: 2020-07-07 20:49:40
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -67,7 +67,7 @@ class Ranting extends React.Component {
             <Flex>
               {this.showScore && (
                 <Text type='sub' bold>
-                  #{rank}
+                  #{rank}{' '}
                 </Text>
               )}
               <Iconfont name='right' size={16} />

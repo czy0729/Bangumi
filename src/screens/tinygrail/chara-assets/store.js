@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-01 16:28:39
+ * @Last Modified time: 2020-07-08 09:57:30
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -48,19 +48,19 @@ export const tabs = [
 export const sortDS = [
   SORT_SC,
   SORT_HYD,
+  SORT_DQJ,
+  SORT_DJ,
   SORT_CGS,
   SORT_GDZC,
   SORT_GX,
-  SORT_GXB,
   SORT_SDGX,
-  SORT_SDGXB,
-  SORT_DQJ,
   SORT_SCJ,
   SORT_DQZD,
-  SORT_DJ,
   SORT_CCJZ,
   SORT_XFJL,
-  SORT_FHL
+  SORT_FHL,
+  SORT_GXB,
+  SORT_SDGXB
 ]
 const namespace = 'ScreenTinygrailCharaAssets'
 
@@ -147,7 +147,7 @@ export default class ScreenTinygrailCharaAssets extends store {
         '小圣杯助手',
         `本次刮刮乐：${items
           .map(item => `${item.name}x${item.num}`)
-          .join('，')}，价值₵${toFixed(total, 2)}`,
+          .join('，')}，价值${toFixed(total, 2)}`,
         [
           {
             text: '知道了'

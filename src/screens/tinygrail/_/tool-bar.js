@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 20:40:22
+ * @Last Modified time: 2020-07-08 09:54:57
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -25,12 +25,16 @@ function ToolBar({ data, sort, direction, onSortPress }) {
               onPress={() => onSortPress(item.value)}
             >
               <Flex style={styles.item} justify='center'>
-                <Text type={isActive ? 'warning' : 'tinygrailText'}>
+                <Text
+                  type={isActive ? 'warning' : 'tinygrailText'}
+                  size={13}
+                  bold={isActive}
+                >
                   {item.label}
                 </Text>
-                <View style={{ width: 4 }}>
+                <View style={styles.angle}>
                   {isActive && !!direction && (
-                    <View style={[styles[direction], _.ml.xs]} />
+                    <View style={styles[direction]} />
                   )}
                 </View>
               </Flex>
@@ -59,7 +63,7 @@ const memoStyles = _.memoStyles(_ => ({
   tips: {
     width: 6,
     height: 6,
-    marginLeft: 12,
+    marginLeft: 8,
     borderWidth: 6,
     borderColor: 'transparent',
     borderBottomColor: _.colorTinygrailText,
@@ -70,9 +74,13 @@ const memoStyles = _.memoStyles(_ => ({
     ]
   },
   item: {
-    paddingLeft: 8,
-    paddingRight: 12,
+    paddingHorizontal: 4,
     height: 44
+  },
+  angle: {
+    width: 4,
+    marginLeft: _.xs,
+    marginRight: 8
   },
   down: {
     width: 4,

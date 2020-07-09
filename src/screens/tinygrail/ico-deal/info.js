@@ -86,7 +86,7 @@ function Info(props, { $, navigation }) {
         下一等级需要 {formatNumber(next, 0)}
       </Text>
       <Text style={_.mt.sm} type='tinygrailPlain' align='center'>
-        预计发行量 约{formatNumber(amount, 0)}股 / 发行价 ₵{formatNumber(price)}
+        预计发行量 约{formatNumber(amount, 0)}股 / 发行价 {formatNumber(price)}
       </Text>
       <Bar style={_.mt.md} total={total} level={level} next={next} />
     </View>

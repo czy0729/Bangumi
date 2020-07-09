@@ -104,14 +104,14 @@ class Temples extends React.Component {
     })
 
     const rateBonus = amount * rate
-    let message = `您拥有流动股 ${amount} 股，派息 ₵${toFixed(rateBonus, 1)}`
+    let message = `您拥有流动股 ${amount} 股，派息 ${toFixed(rateBonus, 1)}`
     if (this.myTemple) {
       const { sacrifices = 0 } = this.myTemple || {}
       const templeRateBonus = sacrifices * this.templeRate
-      message += `\n圣殿股 ${sacrifices} 股，派息 ₵${toFixed(
+      message += `\n圣殿股 ${sacrifices} 股，派息 ${toFixed(
         templeRateBonus,
         1
-      )}\n共派息 ₵${toFixed(rateBonus + templeRateBonus, 1)}`
+      )}\n共派息 ${toFixed(rateBonus + templeRateBonus, 1)}`
     }
 
     Alert.alert('小圣杯助手', message, [

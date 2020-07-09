@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 17:58:18
+ * @Last Modified time: 2020-07-09 11:26:33
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -87,7 +87,7 @@ function Assets(props, { $ }) {
       <Flex.Item>
         <Touchable onPress={$.toogleShort}>
           <Text type='tinygrailPlain' size={13}>
-            ₵ {_balance}
+            {_balance}
             {balanceChangeText && (
               <Text type={balanceTextColor} size={10} lineHeight={13}>
                 {' '}
