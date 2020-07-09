@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:47:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 16:13:05
+ * @Last Modified time: 2020-07-09 12:19:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -66,7 +66,7 @@ function Item(
           {$.cnFirst ? cn || jp : jp || cn}
           <Text type={_.select('plain', 'title')} lineHeight={26} bold>
             {` ${airDate === '0000-00-00' ? '' : String(airDate).slice(2)}`}
-            {eps ? ` (${eps}集)` : ''}
+            {eps ? ` (${eps}集)` : ''}{' '}
           </Text>
         </Text>
         <Text

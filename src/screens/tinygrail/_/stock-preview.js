@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-08 10:20:24
+ * @Last Modified time: 2020-07-09 13:51:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -171,8 +171,7 @@ class StockPreview extends React.Component {
             bold
             align='right'
           >
-            {/*  */}
-            {toFixed(current, 2)}
+            {toFixed(current, 2)}{' '}
           </Text>
           {!hasNoChanged && (
             <Text

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 05:24:51
+ * @Last Modified time: 2020-07-09 12:21:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -279,7 +279,7 @@ class Item extends React.Component {
                     lineHeight={15}
                     bold
                   >
-                    {time.slice(0, 2)}:{time.slice(2, 4)}
+                    {time.slice(0, 2)}:{time.slice(2, 4)}{' '}
                   </Text>
                 ) : isNextDay ? (
                   <Text
@@ -289,7 +289,7 @@ class Item extends React.Component {
                     lineHeight={15}
                     bold
                   >
-                    明天{time.slice(0, 2)}:{time.slice(2, 4)}
+                    明天{time.slice(0, 2)}:{time.slice(2, 4)}{' '}
                   </Text>
                 ) : null}
               </Flex>

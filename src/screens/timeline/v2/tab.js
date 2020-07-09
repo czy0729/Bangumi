@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 17:16:52
+ * @Last Modified time: 2020-07-09 14:21:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { BlurView } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -77,14 +77,11 @@ function Tab(props, { $ }) {
             pressColor='transparent'
             scrollEnabled
             renderLabel={({ route, focused }) => (
-              <Text
-                style={styles.labelText}
-                type='title'
-                size={13}
-                bold={focused}
-              >
-                {route.title}
-              </Text>
+              <Flex style={styles.labelText}>
+                <Text type='title' size={13} bold={focused}>
+                  {route.title}
+                </Text>
+              </Flex>
             )}
           />
         )}
@@ -127,7 +124,7 @@ const memoStyles = _.memoStyles(_ => ({
     padding: 0
   },
   labelText: {
-    width: '100%'
+    width: '96%'
   },
   indicator: {
     width: W_INDICATOR,

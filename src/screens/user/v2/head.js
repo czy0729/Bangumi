@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 20:45:18
+ * @Last Modified time: 2020-07-09 14:24:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -67,7 +67,7 @@ function Head({ style }, { $, navigation }) {
           lineHeight={16}
         >
           {' '}
-          {id ? `@${id}` : ''}
+          {id ? `@${id} ` : ''}
         </Text>
       </Text>
     </Flex>

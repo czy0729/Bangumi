@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:06:54
+ * @Last Modified time: 2020-07-09 12:18:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -69,7 +69,7 @@ function Friends(props, { $, navigation }) {
                     size={15}
                     bold
                   >
-                    {index + 1}
+                    {index + 1}{' '}
                   </Text>
                 </Flex>
               </Flex.Item>

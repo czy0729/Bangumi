@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 17:11:33
+ * @Last Modified time: 2020-07-09 14:22:11
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import BangumiList from './bangumi-list'
@@ -89,9 +89,11 @@ class Tab extends React.Component {
   }
 
   renderLabel = ({ route, focused }) => (
-    <Text style={this.styles.labelText} type='title' size={13} bold={focused}>
-      {route.title}
-    </Text>
+    <Flex style={this.styles.labelText}>
+      <Text type='title' size={13} bold={focused}>
+        {route.title}
+      </Text>
+    </Flex>
   )
 
   renderTabBar = props => (
@@ -148,7 +150,7 @@ const commonStyle = {
     padding: 0
   },
   labelText: {
-    width: '100%'
+    width: '96%'
   },
   tabBarLeft: {
     position: 'absolute',

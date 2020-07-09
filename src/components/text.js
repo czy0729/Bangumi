@@ -3,14 +3,33 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 00:07:17
+ * @Last Modified time: 2020-07-09 13:50:30
  */
 import React from 'react'
-import { Text as RNText } from 'react-native'
+import { Text as RNText, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { IOS } from '@constants'
 import { _ } from '@stores'
+
+/**
+ * 某些安卓手机, 例如oppo、一加, 没有默认系统字体, 有时候显示数字会被截断
+ * 需要手动包裹一层默认字体
+ * https://github.com/facebook/react-native/issues/15114
+ */
+function StandardText({ children, ...other }) {
+  return (
+    <Text style={!IOS && styles.standardText} {...other}>
+      {children}
+    </Text>
+  )
+}
+
+const styles = StyleSheet.create({
+  standardText: {
+    fontFamily: 'Roboto'
+  }
+})
 
 function Text(
   {
@@ -90,6 +109,8 @@ Text.contextTypes = {
   lineHeightIncrease: PropTypes.number
 }
 
+Text.StandardText = StandardText
+
 export default observer(Text)
 
 const memoStyles = _.memoStyles(_ => ({
@@ -97,7 +118,9 @@ const memoStyles = _.memoStyles(_ => ({
     ? {
         fontWeight: 'normal'
       }
-    : {},
+    : {
+        textBreakStrategy: 'simple'
+      },
   underline: {
     textDecorationLine: 'underline',
     textDecorationColor: _.select(_.colorMain, _.colorSub)

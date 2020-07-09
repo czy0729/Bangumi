@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 17:15:46
+ * @Last Modified time: 2020-07-09 14:20:54
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import TabBar from '@components/@/react-native-tab-view/TabBar'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { BlurView, Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -86,18 +86,15 @@ function Tab(props, { $ }) {
                   data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
                   onSelect={$.onGroupMenuPress}
                 >
-                  <Text
-                    style={styles.labelText}
-                    type='title'
-                    size={13}
-                    bold={focused}
-                  >
-                    小组
+                  <Flex style={styles.labelText}>
+                    <Text type='title' size={13} bold={focused}>
+                      小组
+                    </Text>
                     <Text size={11} lineHeight={13} type='sub'>
                       {' '}
                       {MODEL_RAKUEN_TYPE_GROUP.getLabel(group)}{' '}
                     </Text>
-                  </Text>
+                  </Flex>
                 </Popover>
               )
             }
@@ -109,31 +106,25 @@ function Tab(props, { $ }) {
                   data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
                   onSelect={$.onGroupMenuPress}
                 >
-                  <Text
-                    style={styles.labelText}
-                    type='title'
-                    size={13}
-                    bold={focused}
-                  >
-                    人物
+                  <Flex style={styles.labelText}>
+                    <Text type='title' size={13} bold={focused}>
+                      人物
+                    </Text>
                     <Text size={11} lineHeight={13} type='sub'>
                       {' '}
                       {MODEL_RAKUEN_TYPE_MONO.getLabel(mono)}{' '}
                     </Text>
-                  </Text>
+                  </Flex>
                 </Popover>
               )
             }
 
             return (
-              <Text
-                style={styles.labelText}
-                type='title'
-                size={13}
-                bold={focused}
-              >
-                {route.title}
-              </Text>
+              <Flex style={styles.labelText}>
+                <Text type='title' size={13} bold={focused}>
+                  {route.title}
+                </Text>
+              </Flex>
             )
           }}
         />
@@ -173,7 +164,7 @@ const memoStyles = _.memoStyles(_ => ({
     padding: 0
   },
   labelText: {
-    width: '100%'
+    width: '96%'
   },
   indicator: {
     width: W_INDICATOR,

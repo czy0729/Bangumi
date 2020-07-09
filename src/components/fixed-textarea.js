@@ -1,9 +1,10 @@
+/* eslint-disable react/no-array-index-key */
 /*
  * 带标签的回复框
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 15:19:03
+ * @Last Modified time: 2020-07-09 14:37:11
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -338,7 +339,7 @@ class FixedTextarea extends React.Component {
             }
           }}
         >
-          <Text type={showBgm && !showReplyHistory ? 'main' : 'sub'}>
+          <Text type={showBgm && !showReplyHistory ? 'main' : 'sub'} size={11}>
             {text}
           </Text>
         </Touchable>
@@ -358,7 +359,9 @@ class FixedTextarea extends React.Component {
             }
           }}
         >
-          <Text type={showReplyHistory ? 'main' : 'sub'}>{text}</Text>
+          <Text type={showReplyHistory ? 'main' : 'sub'} size={11}>
+            {text}
+          </Text>
         </Touchable>
       )
     }
@@ -368,7 +371,9 @@ class FixedTextarea extends React.Component {
         style={this.styles.toolBarBtn}
         onPress={() => this.onAddSymbolText(symbol)}
       >
-        <Text type='sub'>{text}</Text>
+        <Text type='sub' size={11}>
+          {text}
+        </Text>
       </Touchable>
     )
   }
@@ -381,13 +386,15 @@ class FixedTextarea extends React.Component {
 
     const { simple } = this.props
     return (
-      <Flex style={this.styles.toolBar}>
+      <Flex style={this.styles.toolBar} wrap='wrap'>
         {this.renderBtn('BGM')}
         {!simple && this.renderBtn('加粗', 'b')}
         {!simple && this.renderBtn('斜体', 'i')}
         {!simple && this.renderBtn('下划', 'u')}
         {!simple && this.renderBtn('删除', 's')}
-        {!simple && this.renderBtn('防剧透', 'mask')}
+        {!simple && this.renderBtn('剧透', 'mask')}
+        {!simple && this.renderBtn('图片', 'img')}
+        {!simple && this.renderBtn('链接', 'url')}
         {this.renderBtn('历史')}
       </Flex>
     )
@@ -454,7 +461,6 @@ class FixedTextarea extends React.Component {
           <>
             {replyHistory.map((item, index) => (
               <Touchable
-                // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 style={this.styles.replyHistory}
                 onPress={() => this.onChange(item)}
@@ -465,13 +471,12 @@ class FixedTextarea extends React.Component {
           </>
         ) : (
           <>
-            <Text style={_.container.wind} size={13} type='sub'>
+            <Text style={_.container.wind} size={12} type='sub'>
               常用
             </Text>
             <Flex wrap='wrap'>
               {history.map((item, index) => (
                 <Touchable
-                  // eslint-disable-next-line react/no-array-index-key
                   key={index}
                   style={this.styles.bgm}
                   onPress={() => this.onSelectBgm(item)}
@@ -482,13 +487,12 @@ class FixedTextarea extends React.Component {
                 </Touchable>
               ))}
             </Flex>
-            <Text style={[_.container.wind, _.mt.sm]} size={13} type='sub'>
+            <Text style={[_.container.wind, _.mt.sm]} size={12} type='sub'>
               全部
             </Text>
             <Flex wrap='wrap'>
               {Array.from(new Array(100)).map((item, index) => (
                 <Touchable
-                  // eslint-disable-next-line react/no-array-index-key
                   key={index + 1}
                   style={this.styles.bgm}
                   onPress={() => this.onSelectBgm(index + 1)}
@@ -564,8 +568,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginLeft: -_.sm
   },
   toolBarBtn: {
-    padding: _.sm,
-    marginRight: _.xs
+    padding: 8
   },
   bgmContainer: {
     paddingVertical: _.sm

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:48:50
+ * @Last Modified time: 2020-07-09 12:17:47
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -65,7 +65,7 @@ function Item(
             ))}
           {list.length ? (
             <Text style={_.ml.xs} type='sub' size={13} bold>
-              +{list.length}
+              +{list.length}{' '}
             </Text>
           ) : (
             <Text type='sub' size={12}>

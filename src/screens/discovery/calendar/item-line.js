@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 11:38:01
+ * @Last Modified time: 2020-07-09 12:17:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -83,7 +83,7 @@ function ItemLine(
               )}
               {showScore && (
                 <Text style={styles.score} type='sub' size={13} bold>
-                  {toFixed(score, 1)}
+                  {toFixed(score, 1)}{' '}
                 </Text>
               )}
             </Flex>

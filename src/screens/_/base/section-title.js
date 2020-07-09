@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 14:01:13
+ * @Last Modified time: 2020-07-09 12:14:46
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -12,7 +12,7 @@ function SectionTitle({ style, right, children }) {
     <Flex style={style}>
       <Flex.Item>
         <Text type='title' size={18} bold>
-          {children}
+          {children}{' '}
         </Text>
       </Flex.Item>
       {right}

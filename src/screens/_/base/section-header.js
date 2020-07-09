@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-18 16:34:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 05:35:43
+ * @Last Modified time: 2020-07-09 12:14:39
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -15,7 +15,7 @@ function SectionHeader({ style, type, size, right, children }) {
     <Flex style={[styles.section, style]}>
       <Flex.Item>
         <Text type={type} size={size} bold>
-          {children}
+          {children}{' '}
         </Text>
       </Flex.Item>
       {right}

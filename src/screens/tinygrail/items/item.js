@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-01 17:41:01
+ * @Last Modified time: 2020-07-09 13:53:31
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -20,7 +20,7 @@ function Item({ src, id, level, name, extra, disabled, onPress }) {
           <Avatar src={tinygrailOSS(src)} size={28} borderColor='transparent' />
         ) : (
           <Text type='tinygrailPlain' size={10} bold>
-            #{id}
+            #{id}{' '}
           </Text>
         )}
         <Flex.Item style={_.ml.sm}>

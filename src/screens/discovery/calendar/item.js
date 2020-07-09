@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-15 17:02:41
+ * @Last Modified time: 2020-07-09 12:17:32
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -69,7 +69,7 @@ function Item(
               pointerEvents='none'
             />
             <Text style={styles.score} bold>
-              {toFixed(score, 1)}
+              {toFixed(score, 1)}{' '}
             </Text>
           </>
         )}

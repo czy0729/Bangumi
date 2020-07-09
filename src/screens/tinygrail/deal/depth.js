@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:35:17
+ * @Last Modified time: 2020-07-09 13:53:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -125,7 +125,7 @@ function Depth({ style }, { $ }) {
           <Flex.Item>
             <Touchable onPress={() => $.changeValue(toFixed(current, 1))}>
               <Text type={color} size={18} bold>
-                {toFixed(current, 2)}
+                {toFixed(current, 2)}{' '}
               </Text>
             </Touchable>
           </Flex.Item>

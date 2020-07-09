@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 20:49:40
+ * @Last Modified time: 2020-07-09 12:20:20
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -140,10 +140,9 @@ class Ranting extends React.Component {
                 好友
                 <Text size={12} type='main' bold>
                   {' '}
-                  {friend.score}
+                  {friend.score}{' '}
                 </Text>
                 <Text size={12} lineHeight={12} type='sub'>
-                  {' '}
                   / {friend.total}人
                 </Text>
               </Text>
@@ -154,10 +153,9 @@ class Ranting extends React.Component {
           </Text>
           <Text size={12} type='main' bold>
             {' '}
-            {toFixed(this.deviation, 2)}
+            {toFixed(this.deviation, 2)}{' '}
           </Text>
           <Text size={12} lineHeight={12} type='sub'>
-            {' '}
             / {getDispute(this.deviation)}
           </Text>
           <IconTouchable
