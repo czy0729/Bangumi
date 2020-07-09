@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:29:30
+ * @Last Modified time: 2020-07-09 14:55:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -53,7 +53,7 @@ function ItemComment({
           </Flex.Item>
           <Stars value={star} />
         </Flex>
-        <Text style={_.mt.xs} size={15} lineHeight={20}>
+        <Text style={_.mt.xs} size={15} lineHeight={20} selectable>
           {comment}
         </Text>
       </Flex.Item>

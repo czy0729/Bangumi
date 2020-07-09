@@ -4,8 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 16:06:22
+ * @Last Modified time: 2020-07-09 15:43:54
  */
+import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
 import bangumiData from 'bangumi-data'
 import {
@@ -458,7 +459,9 @@ export default class ScreenSubject extends store {
   // -------------------- get: cdn fallback --------------------
   @computed get coverPlaceholder() {
     const { _image } = this.params
-    return _image || this.subjectFormCDN.image || this.subject.images.medium
+    return (
+      _image || this.subjectFormCDN.image || this.subject.images.medium || ''
+    )
   }
 
   @computed get jp() {
@@ -716,33 +719,35 @@ export default class ScreenSubject extends store {
       const { bangumiInfo } = this.state
       const { sites = [] } = bangumiInfo
       let item
+      let url
       switch (key) {
         case '柠萌瞬间':
-          open(
-            `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
-          )
+          url = `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
           break
         case 'AGE动漫':
-          open(
-            `https://www.agefans.tv/search?query=${encodeURIComponent(
-              this.cn
-            )}&page=1`
-          )
+          url = `https://www.agefans.tv/search?query=${encodeURIComponent(
+            this.cn
+          )}&page=1`
           break
         case '迅播动漫':
-          open(
-            `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
-              this.cn
-            )}`
-          )
+          url = `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
+            this.cn
+          )}`
           break
         default:
           item = sites.find(item => item.site === key)
           if (item) {
-            const url = getBangumiUrl(item)
-            open(url)
+            url = getBangumiUrl(item)
           }
           break
+      }
+
+      if (url) {
+        Clipboard.setString(url)
+        info('已复制地址')
+        setTimeout(() => {
+          open(url)
+        }, 400)
       }
     } catch (error) {
       warn(namespace, 'onlinePlaySelected', error)

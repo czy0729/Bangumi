@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-14 17:30:10
+ * @Last Modified time: 2020-07-09 15:45:56
  */
 import React from 'react'
 import { AppState, Clipboard } from 'react-native'
@@ -45,8 +45,8 @@ class ListenClipboard extends React.Component {
       lastUrl = url
       confirm(`检测到链接${url}, 前往页面?`, () => {
         appNavigate(url, navigationReference())
-        Clipboard.setString('')
       })
+      Clipboard.setString('')
     }
   }
 

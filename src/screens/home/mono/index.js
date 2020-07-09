@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:00:23
+ * @Last Modified time: 2020-07-09 15:17:28
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -128,6 +128,7 @@ class Mono extends React.Component {
           data={$.monoComments}
           scrollEventThrottle={16}
           ListHeaderComponent={this.ListHeaderComponent}
+          removeClippedSubviews={false}
           renderItem={this.renderItem}
           onScroll={this.onScroll}
           onHeaderRefresh={$.onHeaderRefresh}
