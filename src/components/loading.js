@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-03 10:20:40
+ * @Last Modified time: 2020-07-10 15:42:32
  */
 import React from 'react'
-import { View, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, ActivityIndicator } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 
@@ -26,7 +26,7 @@ Raw.defaultProps = {
 
 function Loading({ style, color, size, children }) {
   return (
-    <View style={style ? [_.container.column, style] : _.container.column}>
+    <View style={[_.container.column, styles.loading, style]}>
       <Raw color={color} size={size} />
       {children}
     </View>
@@ -41,3 +41,9 @@ Loading.defaultProps = {
 Loading.Raw = observer(Raw)
 
 export default observer(Loading)
+
+const styles = StyleSheet.create({
+  loading: {
+    paddingBottom: _.md
+  }
+})

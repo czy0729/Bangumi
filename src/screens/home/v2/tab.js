@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 14:19:47
+ * @Last Modified time: 2020-07-09 16:33:36
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -80,7 +80,7 @@ function Tab(props, { $ }) {
           pressColor='transparent'
           scrollEnabled
           renderLabel={({ route, focused }) => (
-            <Flex style={styles.labelText}>
+            <Flex style={styles.labelText} justify='center'>
               <Text type='title' size={13} bold={focused}>
                 {route.title}
               </Text>
@@ -120,7 +120,7 @@ const memoStyles = _.memoStyles(_ => ({
     padding: 0
   },
   labelText: {
-    width: '96%'
+    width: '100%'
   },
   indicator: {
     width: W_INDICATOR,

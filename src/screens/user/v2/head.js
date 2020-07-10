@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 14:24:08
+ * @Last Modified time: 2020-07-10 15:40:15
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
 
 function Head({ style }, { $, navigation }) {
-  const { avatar = {}, nickname, id } = $.usersInfo
+  const { avatar = {}, nickname, id, username } = $.usersInfo
   const { userId } = $.params
   const isMe = !userId || userId === $.myUserId
   return (
@@ -60,14 +60,9 @@ function Head({ style }, { $, navigation }) {
       </View>
       <Text style={_.mt.md} type={_.select('plain', 'title')}>
         {nickname}
-        <Text
-          style={styles.id}
-          type={_.select('plain', 'title')}
-          size={13}
-          lineHeight={16}
-        >
+        <Text style={styles.id} type={_.select('plain', 'title')}>
           {' '}
-          {id ? `@${id} ` : ''}
+          {username || id ? `@${username || id} ` : ''}
         </Text>
       </Text>
     </Flex>

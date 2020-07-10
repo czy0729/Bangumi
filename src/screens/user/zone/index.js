@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 04:38:34
+ * @Last Modified time: 2020-07-10 15:10:20
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -15,6 +15,7 @@ import { inject } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
+import UsedModal from './used-modal'
 import Store, { H_BG } from './store'
 
 const title = '空间'
@@ -109,6 +110,7 @@ class Zone extends React.Component {
       return <View style={_.container.bg} />
     }
 
+    const { visible } = $.state
     const { fixed } = this.state
     return (
       <View style={_.container.plain}>
@@ -140,6 +142,7 @@ class Zone extends React.Component {
           )}
         />
         <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
+        <UsedModal visible={visible} defaultAvatar={$.src} />
       </View>
     )
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 14:20:54
+ * @Last Modified time: 2020-07-09 16:34:55
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -86,7 +86,7 @@ function Tab(props, { $ }) {
                   data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
                   onSelect={$.onGroupMenuPress}
                 >
-                  <Flex style={styles.labelText}>
+                  <Flex style={styles.labelText} justify='center'>
                     <Text type='title' size={13} bold={focused}>
                       小组
                     </Text>
@@ -106,7 +106,7 @@ function Tab(props, { $ }) {
                   data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
                   onSelect={$.onGroupMenuPress}
                 >
-                  <Flex style={styles.labelText}>
+                  <Flex style={styles.labelText} justify='center'>
                     <Text type='title' size={13} bold={focused}>
                       人物
                     </Text>
@@ -120,7 +120,7 @@ function Tab(props, { $ }) {
             }
 
             return (
-              <Flex style={styles.labelText}>
+              <Flex style={styles.labelText} justify='center'>
                 <Text type='title' size={13} bold={focused}>
                   {route.title}
                 </Text>
@@ -164,7 +164,7 @@ const memoStyles = _.memoStyles(_ => ({
     padding: 0
   },
   labelText: {
-    width: '96%'
+    width: '100%'
   },
   indicator: {
     width: W_INDICATOR,

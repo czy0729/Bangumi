@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 00:19:56
+ * @Last Modified time: 2020-07-10 15:05:59
  */
 
 /**
@@ -457,6 +457,7 @@ export default {
   '空间.展开分组': 'Zone.toggleSection',
   '空间.添加好友': 'Zone.connect',
   '空间.解除好友': 'Zone.disconnect',
+  '空间.历史': 'Zone.used',
 
   /* ==================== other ==================== */
   '其他.启动': 'Other.start',

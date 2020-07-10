@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 11:43:44
+ * @Last Modified time: 2020-07-10 16:03:32
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -50,7 +50,8 @@ class CharactersModal extends React.Component {
     loading: false,
     title: '',
     amount: 0,
-    isTemple: true
+    isTemple: true,
+    focus: false
   }
 
   title
@@ -62,6 +63,7 @@ class CharactersModal extends React.Component {
       leftItem: null,
       rightItem: null,
       loading: false,
+      focus: false,
       title: this.props.title
     })
     this.title = this.props.title
@@ -182,6 +184,18 @@ class CharactersModal extends React.Component {
       loading: false
     })
     setStorage(namespace, this.state)
+  }
+
+  onFocus = () => {
+    this.setState({
+      focus: true
+    })
+  }
+
+  onBlur = () => {
+    this.setState({
+      focus: false
+    })
   }
 
   doSearch = async () => {
@@ -630,6 +644,8 @@ class CharactersModal extends React.Component {
             keyboardType='numeric'
             placeholder='数量'
             value={amount}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
             onChangeText={this.onChangeNum}
           />
         </Flex.Item>
@@ -666,7 +682,6 @@ class CharactersModal extends React.Component {
           </Text>
         }
         transparent
-        maskClosable
         closable
         onClose={this.onClose}
       >
@@ -730,7 +745,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.tSelect(_.colorTinygrailContainer, _.colorBg)
   },
   focus: {
-    marginTop: -parseInt(_.window.height * 0.32)
+    marginTop: -parseInt(_.window.height * 0.56)
   },
   wrap: {
     width: '100%',

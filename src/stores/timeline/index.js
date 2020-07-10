@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 16:01:26
+ * @Last Modified time: 2020-07-09 17:01:54
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -94,12 +94,11 @@ class Timeline extends store {
    * @todo 10个种类, 每个种类都有差别, 甚至出现分不清种类的情况, 影响较大时再优化
    */
   fetchUsersTimeline = async (
-    { userId = userStore.myUserId } = {},
+    { userId = userStore.myUserId, type = DEFAULT_TYPE } = {},
     refresh
   ) => {
     // 范围是自己返回的是某个人的请求地址
     const scope = MODEL_TIMELINE_SCOPE.getValue('自己')
-    const type = DEFAULT_TYPE
     const timeline = this.usersTimeline(userId)
     const res = fetchTimeline(
       { scope, type, userId },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 14:16:47
+ * @Last Modified time: 2020-07-09 16:34:26
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -87,7 +87,7 @@ class Tab extends React.Component {
     const count =
       $.counts[MODEL_SUBJECT_TYPE.getTitle(subjectType)][route.title]
     return (
-      <Flex style={this.styles.labelText}>
+      <Flex style={this.styles.labelText} justify='center'>
         <Text type='title' size={13} bold={focused}>
           {route.title.replace('看', $.action)}
         </Text>
@@ -172,7 +172,7 @@ const memoStyles = _.memoStyles(_ => ({
     padding: 0
   },
   labelText: {
-    width: '96%'
+    width: '100%'
   },
   indicator: {
     width: W_INDICATOR,

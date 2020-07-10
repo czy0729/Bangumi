@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 05:07:55
+ * @Last Modified time: 2020-07-10 15:40:33
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,8 +15,8 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
 function Head({ style }, { $, navigation }) {
-  const { _id, _name, _image } = $.params
-  const { avatar = {}, nickname, id } = $.usersInfo
+  const { _id, _name } = $.params
+  const { nickname, id, username } = $.usersInfo
   const { join, percent, disconnectUrl } = $.users
   const isFriend = !!disconnectUrl
   const userId = id || _id
@@ -31,19 +31,28 @@ function Head({ style }, { $, navigation }) {
           border={_.__colorPlain__}
           borderWidth={2}
           shadow
-          src={$.avatar || avatar.large || _image}
+          src={$.src}
         />
-        <Text style={styles.l1} type={_.select('plain', 'title')} size={13}>
+        <Text style={styles.l1} type={_.select('plain', 'title')} size={12}>
           {join || '- 加入'}
         </Text>
-        <Text style={styles.l2} type={_.select('plain', 'title')} size={13}>
+        <Text style={styles.l2} type={_.select('plain', 'title')} size={12}>
           同步率{isNaN(percent) ? '-' : percent}%
         </Text>
-        {isFriend && (
-          <Text style={styles.l3} type={_.select('plain', 'title')} size={13}>
-            是我的好友
+        <Touchable
+          style={styles.l3}
+          onPress={() => {
+            t('空间.历史', {
+              userId: $.userId
+            })
+
+            $.openUsedModal()
+          }}
+        >
+          <Text type={_.select('plain', 'title')} size={12}>
+            历史
           </Text>
-        )}
+        </Touchable>
         <Touchable
           style={styles.r1}
           onPress={() => {
@@ -57,7 +66,7 @@ function Head({ style }, { $, navigation }) {
             })
           }}
         >
-          <Text type={_.select('plain', 'title')} size={13}>
+          <Text type={_.select('plain', 'title')} size={12}>
             人物
           </Text>
         </Touchable>
@@ -74,7 +83,7 @@ function Head({ style }, { $, navigation }) {
             })
           }}
         >
-          <Text type={_.select('plain', 'title')} size={13}>
+          <Text type={_.select('plain', 'title')} size={12}>
             日志
           </Text>
         </Touchable>
@@ -91,14 +100,27 @@ function Head({ style }, { $, navigation }) {
             })
           }}
         >
-          <Text type={_.select('plain', 'title')} size={13}>
+          <Text type={_.select('plain', 'title')} size={12}>
             目录
           </Text>
         </Touchable>
       </View>
       <Text style={_.mt.md} type={_.select('plain', 'title')}>
         {userName}
-        {!!userId && ` @${userId}`}
+        {!!(username || userId) && (
+          <Text type={_.select('plain', 'title')}> @{username || userId}</Text>
+        )}
+        {isFriend && (
+          <Text
+            style={styles.friend}
+            type={_.select('plain', 'title')}
+            size={12}
+            lineHeight={14}
+          >
+            {' '}
+            [好友]
+          </Text>
+        )}
       </Text>
     </Flex>
   )
@@ -155,6 +177,9 @@ const styles = StyleSheet.create({
     zIndex: 1,
     top: 88,
     left: 100,
+    opacity: 0.72
+  },
+  friend: {
     opacity: 0.72
   }
 })

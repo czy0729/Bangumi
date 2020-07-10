@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 22:35:54
+ * @Last Modified time: 2020-07-10 10:04:41
  */
+export { default as Activity } from './activity'
 export { default as Bgm } from './bgm'
 export { default as BgmText } from './bgm-text'
 export { default as BlurView } from './blur-view'

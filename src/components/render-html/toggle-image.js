@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 11:13:03
+ * @Last Modified time: 2020-07-10 00:38:28
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { HOST, IOS } from '@constants'
+import { HOST } from '@constants'
 import { _ } from '@stores'
 import Flex from '../flex'
 import Image from '../image'
@@ -44,7 +44,7 @@ class ToggleImage extends React.Component {
     // RN不使用第三方link包暂时不支持webp, 暂时使用浏览器跳转
     const { src, onImageFallback } = this.props
     const isRemote = typeof src === 'string'
-    if (isRemote && src.includes('.webp') && IOS) {
+    if (isRemote && src.includes('.webp')) {
       return (
         <Touchable style={_.mt.sm} onPress={onImageFallback}>
           <Flex
@@ -53,7 +53,7 @@ class ToggleImage extends React.Component {
             justify='center'
           >
             <Text size={12} type='sub'>
-              iOS暂不支持webp图片, 使用浏览器打开
+              框架暂不支持webp图片, 使用浏览器打开
             </Text>
             {isRemote && (
               <Text

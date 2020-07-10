@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 05:05:53
+ * @Last Modified time: 2020-07-10 15:28:00
  */
 import { observable, computed } from 'mobx'
 import {
@@ -61,6 +61,7 @@ export default class ScreenZone extends store {
       抛弃: false
     },
     page: 0,
+    visible: false,
     _loaded: false
   })
 
@@ -69,6 +70,7 @@ export default class ScreenZone extends store {
     this.setState({
       ...state,
       page: this.isFromTinygrail ? 3 : 0,
+      visible: false,
       _loaded: true
     })
 
@@ -141,6 +143,12 @@ export default class ScreenZone extends store {
     const { sign = '' } = this.users
     const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
     return avatars ? String(avatars[1]).trim() : ''
+  }
+
+  @computed get src() {
+    const { _image } = this.params
+    const { avatar = {} } = this.usersInfo
+    return this.avatar || avatar.large || _image
   }
 
   @computed get userAssets() {
@@ -233,6 +241,18 @@ export default class ScreenZone extends store {
       userId: username,
       _name: HTMLDecode(nickname || _name),
       _image: avatar.large
+    })
+  }
+
+  openUsedModal = () => {
+    this.setState({
+      visible: true
+    })
+  }
+
+  closeUsedModal = () => {
+    this.setState({
+      visible: false
     })
   }
 

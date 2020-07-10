@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-02 20:46:12
+ * @Last Modified time: 2020-07-09 17:42:14
  */
 import { getTimestamp } from '@utils'
 import { getOTA } from '@utils/app'
@@ -29,7 +29,7 @@ const VERSION_RAKUEN = '20200630'
 const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
   ''
 )
-function hash(input) {
+export function hash(input) {
   let hash = 5381
   let i = input.length - 1
 
