@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-01 13:05:37
+ * @Last Modified time: 2020-07-10 16:43:45
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -49,22 +49,22 @@ export default class ScreenTinygrail extends store {
       loading: false
     })
 
-    // // 没有资产就自动授权
-    // const { _loaded } = await tinygrailStore.fetchAssets()
-    // if (!_loaded) {
-    //   await this.doAuth()
-    // }
+    // 没有资产就自动授权
+    const { _loaded } = await tinygrailStore.fetchAssets()
+    if (!_loaded) {
+      await this.doAuth()
+    }
 
-    // // 获取资产和用户唯一标识
-    // await queue([
-    //   () => tinygrailStore.fetchAssets(),
-    //   () => tinygrailStore.fetchHash(),
-    //   () => this.fetchCharaAssets()
-    // ])
+    // 获取资产和用户唯一标识
+    await queue([
+      () => tinygrailStore.fetchAssets(),
+      () => tinygrailStore.fetchHash(),
+      () => this.fetchCharaAssets()
+    ])
 
-    // tinygrailStore.fetchAdvance()
-    // this.caculateChange()
-    // this.fetchCount()
+    tinygrailStore.fetchAdvance()
+    this.caculateChange()
+    this.fetchCount()
     return true
   }
 
