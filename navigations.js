@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 14:35:16
+ * @Last Modified time: 2020-07-12 20:10:50
  */
 export default {
   initialRouteName: 'HomeTab', // HomeTab Discovery TinygrailCharaAssets
@@ -23,7 +23,7 @@ export default {
     // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #70900「神原骏河」36股',
     // name: 'とある科学の超電磁砲T'
     // tag: '水树奈奈',
-    // type: 'anime'
+    // type: 'asks' // 'anime'
     // uri: 'https://bgm.tv/award/2019',
   }
 }

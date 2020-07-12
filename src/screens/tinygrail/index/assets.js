@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 11:26:33
+ * @Last Modified time: 2020-07-11 10:48:48
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -58,10 +58,10 @@ function Assets(props, { $ }) {
   }
 
   if (changeBalance > 0) {
-    balanceChangeText = `(+${_changeBalance})`
+    balanceChangeText = `+${_changeBalance}`
     balanceTextColor = 'bid'
   } else if (changeBalance < 0) {
-    balanceChangeText = `(-${_changeBalance})`
+    balanceChangeText = `-${_changeBalance}`
     balanceTextColor = 'ask'
   }
 
@@ -75,10 +75,10 @@ function Assets(props, { $ }) {
   }
 
   if (changeTotal > 0) {
-    totalChangeText = `(+${_changeTotal})`
+    totalChangeText = `+${_changeTotal}`
     totalTextColor = 'bid'
   } else if (changeTotal < 0) {
-    totalChangeText = `(-${_changeTotal})`
+    totalChangeText = `-${_changeTotal}`
     totalTextColor = 'ask'
   }
 

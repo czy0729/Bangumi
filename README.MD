@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 3.7.0" src="https://img.shields.io/badge/Version-3.7.0-0366d6" />
+  <img alt="Version: 3.8.0" src="https://img.shields.io/badge/Version-3.8.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -50,31 +50,28 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v3.7.0 - 2020/06/27
-在 v4 之前希望 UI 能更专业, 所以后续版本会持续改各种不统一的地方
+v3.8.0 - 2020/07/12
 
 —— 新功能 ——
-
-- [x] [设置][实验性] 片假名终结者，日语外来语上方标注英文原词 (标注位置可能有很大出入，用到了之前申请的免费百度翻译接口，QPS 只有 1，多人同时查询可能会导致不返回结果。因资源消耗大不是所有地方都覆盖。暂时使用百度翻译，效果可能没有谷歌翻译理想，但速度比谷歌快，之后会增加选择翻译引擎选项。)
-- [x] [设置][实验性] 可设置更扁平的 UI
-- [x] [设置] 可设置屏蔽所有默认头像用户相关信息
-- [x] [设置] 现支持恢复所有默认设置
+- [x] [空间] 可以查询到用户的曾用名
 
 —— 优化 ——
-
-- [x] [设置] UI 和归类优化
-- [x] [条目] 现敏感条目会有 UI 标记
+- [x] [条目] 在线搜索源头跳转前会自动复制跳转的网址
+- [x] [实验性] 自动更新登陆cookie
+- [x] CDN版本在线更新机制
+- [x] 重新设置text  selectable
+- [x] 富文本补上插入图片链接的按钮,  xxx
 
 —— 修复 ——
+- [x] [人物] 修复了一个富文本导致闪退的问题
+- [x] [时光机] 修复了部分机型在看旁边的数字被隐藏的问题
+- [x] [条目] 修复了隐藏评分依然显示评分的问题
+- [x] [好友] 修复了部分好友名字后面出现奇怪文字的问题
+- [x] 修复了部分机型文字被截断的问题
+- [x] 把网格布局加回去
 
-- [x] [帖子] 修复滚动条在弹出键盘的时候还能看见的问题
-- [x] [空间] 更换新 Tabs 组件, 修复部分机型白屏问题
-- [x] Expand 优化
-
-—— 小圣杯助手 v2.4.0 ——
-
-- [x] [我的持仓] 修复了 ICO 进程条等级不对的问题
-- [x] 换了圣殿布局的写法, 显示不会砍头
+—— 小圣杯助手 v2.5.0 ——
+- [x] [我的道具] 星光碎片
 
 ## PowerBy
 

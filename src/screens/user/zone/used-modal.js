@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 15:49:01
+ * @Last Modified time: 2020-07-12 20:57:00
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -14,7 +14,7 @@ import { _, timelineStore } from '@stores'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
 import { hash, HOST_CDN } from '@constants/cdn'
 
-const versions = ['20200502', '1.0.2']
+const versions = ['20200712', '20200502', '1.0.2']
 
 export default
 @observer
