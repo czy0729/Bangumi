@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 11:46:02
+ * @Last Modified time: 2020-07-12 21:27:22
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -110,7 +110,8 @@ export default class ScreenTinygrailItems extends store {
       const { State, Value, Message } = await tinygrailStore.doMagic(data)
       t('我的道具.使用', {
         type: title,
-        monoId
+        monoId,
+        toMonoId
       })
 
       if (State === 0) {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-08 12:12:23
+ * @Last Modified time: 2020-07-12 21:28:34
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -1669,13 +1669,13 @@ class Tinygrail extends store {
         list: refresh ? _list : [...list, ..._list],
         pagination: refresh
           ? {
-              page: 1,
-              pageTotal: 100
-            }
+            page: 1,
+            pageTotal: 100
+          }
           : {
-              ...pagination,
-              page: pagination.page + 1
-            },
+            ...pagination,
+            page: pagination.page + 1
+          },
         _loaded: getTimestamp()
       }
     }
@@ -1760,7 +1760,7 @@ class Tinygrail extends store {
                 mark: toFixed(
                   (Math.max(parseFloat(item.rate), templeRate) /
                     asks[0].price) *
-                    10,
+                  10,
                   1
                 )
               }
@@ -2262,9 +2262,9 @@ class Tinygrail extends store {
   /**
    * 使用道具
    */
-  doMagic = async ({ monoId, type, toMonoId }) => {
+  doMagic = async ({ monoId, type, toMonoId, amount, isTemple }) => {
     const { data } = await this.fetch(
-      API_TINYGRAIL_MAGIC(monoId, type, toMonoId),
+      API_TINYGRAIL_MAGIC(monoId, type, toMonoId, amount, isTemple),
       true
     )
     return data
