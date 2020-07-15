@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 20:37:50
+ * @Last Modified time: 2020-07-15 21:20:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,9 +31,9 @@ const menus = [
     path: 'Tags'
   },
   {
-    title: '随便看看',
+    title: '找番剧',
     icon: 'xin-fan',
-    path: 'Random'
+    path: 'Anime'
   },
   // {
   //   title: '我的人物',

@@ -1,10 +1,10 @@
 /*
  * 条目
- * @Params: { _ningMoeId, _jp, _cn, _image, _summary }
+ * @Params: { _ningMoeId, _jp, _cn, _image, _summary, _aid }
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 15:43:54
+ * @Last Modified time: 2020-07-15 21:16:30
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -716,6 +716,7 @@ export default class ScreenSubject extends store {
     })
 
     try {
+      const { _aid } = this.params
       const { bangumiInfo } = this.state
       const { sites = [] } = bangumiInfo
       let item
@@ -725,9 +726,13 @@ export default class ScreenSubject extends store {
           url = `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
           break
         case 'AGE动漫':
-          url = `https://www.agefans.tv/search?query=${encodeURIComponent(
-            this.cn
-          )}&page=1`
+          if (_aid) {
+            url = `https://www.agefans.tv/detail/${_aid}`
+          } else {
+            url = `https://www.agefans.tv/search?query=${encodeURIComponent(
+              this.cn
+            )}&page=1`
+          }
           break
         case '迅播动漫':
           url = `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
@@ -747,7 +752,7 @@ export default class ScreenSubject extends store {
         info('已复制地址')
         setTimeout(() => {
           open(url)
-        }, 400)
+        }, 1000)
       }
     } catch (error) {
       warn(namespace, 'onlinePlaySelected', error)

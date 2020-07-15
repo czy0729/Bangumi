@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 15:18:31
+ * @Last Modified time: 2020-07-13 15:12:57
  */
 import React, { useState, useEffect } from 'react'
 import { getTimestamp } from '@utils'
@@ -11,17 +11,17 @@ import Text from './text'
 
 function CountDown({ end, ...other }) {
   const [now, setNow] = useState(getTimestamp())
-  const distance = end - now
-  if (!distance) {
-    return null
-  }
-
   useEffect(() => {
     const interval = setInterval(() => {
       setNow(getTimestamp())
     }, 1000)
     return () => clearInterval(interval)
   }, [])
+
+  const distance = end - now
+  if (!distance) {
+    return null
+  }
   const d = (distance / 86400) | 0
   const h = ((distance - d * 86400) / 3600) | 0
   const m = ((distance - d * 86400 - h * 3600) / 60) | 0

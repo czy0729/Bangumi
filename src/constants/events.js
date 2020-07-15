@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 15:05:59
+ * @Last Modified time: 2020-07-15 21:03:30
  */
 
 /**
@@ -12,6 +12,11 @@
  */
 export default {
   /* ==================== discovery ==================== */
+  // Anime
+  'Anime.跳转': 'Anime.to',
+  'Anime.选择': 'Anime.onSelect',
+  'Anime.到顶': 'Anime.scrollToTop',
+
   // - [x] Anitama
   'Anitama.跳转': 'Anitama.to',
   'Anitama.右上角菜单': 'Anitama.topRightMenu',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 16:28:30
+ * @Last Modified time: 2020-07-15 21:17:52
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -34,10 +34,10 @@ function Head({ style }, { $ }) {
       <View style={styles.content}>
         <View style={styles.title}>
           {!!$.jp && (
-            <Katakana.Provider size={$.jp.length > 12 ? 11 : 13}>
+            <Katakana.Provider size={$.jp.length > 12 ? 10 : 13}>
               <Katakana
                 type='sub'
-                size={$.jp.length > 12 ? 11 : 13}
+                size={$.jp.length > 12 ? 10 : 13}
                 onLongPress={() => {
                   Clipboard.setString($.jp)
                   info(`已复制 ${$.jp}`)
@@ -50,7 +50,7 @@ function Head({ style }, { $ }) {
           )}
           <Text
             style={!!$.cn && _.mt.xs}
-            size={$.cn.length > 16 ? 15 : 18}
+            size={$.cn.length > 16 ? 14 : 18}
             bold
             onLongPress={() => {
               Clipboard.setString($.cn)

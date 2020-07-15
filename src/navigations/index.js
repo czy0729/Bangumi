@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 11:57:04
+ * @Last Modified time: 2020-07-15 11:50:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { observer } from 'mobx-react'
 import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
 import {
+  Anime,
   Anitama,
   Award,
   Blog,
@@ -134,6 +135,7 @@ const HomeTab = observer(
 
 const HomeStack = createStackNavigator(
   {
+    Anime,
     Anitama,
     Award,
     Blog,
