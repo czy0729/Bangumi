@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:22:24
+ * @Last Modified time: 2020-07-16 17:28:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -175,7 +175,7 @@ export default observer(Filter)
 const vertical = 4
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingBottom: _.sm
+    paddingVertical: _.sm
   },
   row: {
     paddingRight: _.wind - _._wind,

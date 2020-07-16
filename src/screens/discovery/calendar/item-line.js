@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 12:17:15
+ * @Last Modified time: 2020-07-16 22:21:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Katakana, Text } from '@components'
-import { Cover } from '@screens/_'
+import { Cover, Tag } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
@@ -21,14 +21,12 @@ function ItemLine(
   { subjectId, images = {}, name, air, timeCN, score },
   { $, navigation }
 ) {
-  // 是否已收藏
-  const { list } = $.userCollection
-  const isCollected =
-    list.findIndex(item => item.subject_id === subjectId) !== -1
   const showScore = !systemStore.setting.hideScore && !!score
+  const collection = $.userCollectionsMap[subjectId]
+  const indent = collection ? '　 　 ' : ''
   return (
     <Touchable
-      style={[styles.item, isCollected && styles.itemActive]}
+      style={styles.item}
       onPress={() => {
         t('每日放送.跳转', {
           to: 'Subject',
@@ -66,12 +64,16 @@ function ItemLine(
             justify='between'
             align='start'
           >
+            {!!collection && (
+              <Tag style={styles.collection} value={collection} />
+            )}
             <Katakana.Provider
               itemStyle={styles.katakanas}
               size={13}
               numberOfLines={2}
             >
               <Katakana type='desc' size={13} numberOfLines={2} bold>
+                {indent}
                 {HTMLDecode(name)}
               </Katakana>
             </Katakana.Provider>
@@ -106,9 +108,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: 12
   },
-  itemActive: {
-    backgroundColor: _.colorMainLight
-  },
   time: {
     width: 72
   },
@@ -117,10 +116,17 @@ const styles = StyleSheet.create({
   },
   body: {
     width: '100%',
-    height: imageWidth,
+    height: imageWidth - 4,
+    paddingTop: 2,
     paddingRight: _.wind
   },
   katakanas: {
     marginTop: -10
+  },
+  collection: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 2,
+    left: 0
   }
 })

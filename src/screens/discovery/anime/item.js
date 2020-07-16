@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:06:26
+ * @Last Modified time: 2020-07-16 17:31:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,6 +43,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
   ]
     .filter(item => !!item)
     .join(' / ')
+  const collection = $.userCollectionsMap[id]
   return (
     <Touchable
       style={styles.container}
@@ -82,10 +83,13 @@ function Item({ index, pickIndex }, { $, navigation }) {
             align='start'
           >
             <Flex align='start' style={{ width: '100%' }}>
+              {!!collection && (
+                <Tag style={styles.collection} value={collection} />
+              )}
               <Flex.Item>
                 <Text size={15} numberOfLines={2}>
                   <Text size={15} bold>
-                    {$.cnFirst ? cn : jp}
+                    {collection ? '　　' : ''} {$.cnFirst ? cn : jp}
                   </Text>
                   <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
                     {' '}
@@ -136,5 +140,11 @@ const memoStyles = _.memoStyles(_ => ({
   },
   content: {
     height: IMG_HEIGHT
+  },
+  collection: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 1 * _.lineHeightRatio,
+    left: 0
   }
 }))

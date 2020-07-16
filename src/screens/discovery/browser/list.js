@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 15:52:34
+ * @Last Modified time: 2020-07-16 19:38:55
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -28,13 +28,16 @@ class List extends React.Component {
   }
 
   renderItem = ({ item, index }) => {
-    const { navigation } = this.context
+    const { $, navigation } = this.context
     return (
       <ItemSearch
         style={_.container.item}
         navigation={navigation}
         index={index}
         event={event}
+        collection={
+          $.userCollectionsMap[String(item.id).replace('/subject/', '')]
+        }
         {...item}
       />
     )

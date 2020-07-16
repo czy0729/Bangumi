@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-06 19:55:51
+ * @Last Modified time: 2020-07-16 22:08:08
  */
 import { computed } from 'mobx'
-import { discoveryStore } from '@stores'
+import { discoveryStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t, fetchHTML } from '@utils/fetch'
@@ -33,6 +33,10 @@ export default class ScreenCatalogDetail extends store {
   @computed get isCollect() {
     const { byeUrl } = this.catalogDetail
     return !!byeUrl
+  }
+
+  @computed get userCollectionsMap() {
+    return collectionStore.userCollectionsMap
   }
 
   // -------------------- page --------------------

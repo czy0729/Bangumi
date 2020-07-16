@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 21:43:10
+ * @Last Modified time: 2020-07-16 19:48:56
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -54,6 +54,9 @@ class List extends React.Component {
               type: 'list'
             }
           }}
+          collection={
+            $.userCollectionsMap[String(item.id).replace('/subject/', '')]
+          }
           {...item}
         />
       )

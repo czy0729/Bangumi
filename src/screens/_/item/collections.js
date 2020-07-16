@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 20:58:32
+ * @Last Modified time: 2020-07-16 22:17:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,8 +31,9 @@ function ItemCollections({
   tags,
   comments,
   type,
-  isCatalog,
+  collection,
   isCollect,
+  isCatalog,
   isDo,
   isOnHold,
   isDropped,
@@ -63,13 +64,13 @@ function ItemCollections({
     )
   }
 
+  const _collection = collection || (isCollect ? '已收藏' : '')
+
+  // {collection} = 2个全角 + 1个半角, 已收藏 = 3个全角
+  const indent = _collection ? (collection ? '　　 ' : '　　　') : ''
   return (
     <Touchable
-      style={[
-        _.container.item,
-        styles.container,
-        isCollect && styles.containerActive
-      ]}
+      style={[_.container.item, styles.container]}
       onPress={() => {
         const { eventId, eventData } = event
         t(eventId, {
@@ -109,6 +110,9 @@ function ItemCollections({
             align='start'
           >
             <Flex align='start'>
+              {!!_collection && (
+                <Tag style={styles.collection} value={_collection} />
+              )}
               <Flex.Item>
                 <Katakana.Provider
                   itemStyle={styles.katakanas}
@@ -116,6 +120,7 @@ function ItemCollections({
                   numberOfLines={2}
                 >
                   <Katakana size={15} bold>
+                    {indent}
                     {HTMLDecode(nameCn)}
                   </Katakana>
                   {hasName && name !== nameCn && (
@@ -168,9 +173,6 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind
   },
-  containerActive: {
-    backgroundColor: _.colorMainLight
-  },
   imgContainer: {
     width: IMG_WIDTH
   },
@@ -196,5 +198,11 @@ const memoStyles = _.memoStyles(_ => ({
   },
   katakanas: {
     marginTop: -6
+  },
+  collection: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 1 * _.lineHeightRatio,
+    left: 0
   }
 }))

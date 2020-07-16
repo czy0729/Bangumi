@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 21:25:50
+ * @Last Modified time: 2020-07-16 19:48:34
  */
 import { observable, computed } from 'mobx'
-import { tagStore } from '@stores'
+import { tagStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
@@ -68,6 +68,10 @@ export default class ScreenTag extends store {
     const { type, tag } = this.params
     const { airtime, month } = this.state
     return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime)
+  }
+
+  @computed get userCollectionsMap() {
+    return collectionStore.userCollectionsMap
   }
 
   // -------------------- page --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 15:48:57
+ * @Last Modified time: 2020-07-16 19:32:19
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -16,28 +16,51 @@ function Tag({ style, type, value, size }) {
 
   const styles = memoStyles()
   let _type = type
+  let isActive = false
   if (!_type) {
     switch (value) {
       case '动画':
       case '主角':
-      case '已追番':
         _type = 'main'
         break
+
       case '书籍':
       case '配角':
         _type = 'primary'
         break
+
       case '游戏':
         _type = 'success'
         break
+
       case '音乐':
       case '客串':
       case 'H':
         _type = 'warning'
         break
-      case '三次元':
-        _type = _.select('plain', 'title')
+
+      case '想看':
+      case '已收藏':
+        isActive = true
+        _type = 'mainActive'
         break
+
+      case '看过':
+        isActive = true
+        _type = 'warningActive'
+        break
+
+      case '在看':
+        isActive = true
+        _type = 'primaryActive'
+        break
+
+      case '搁置':
+      case '抛弃':
+        isActive = true
+        _type = 'waitActive'
+        break
+
       default:
         _type = _.select('plain', 'title')
         break
@@ -46,7 +69,10 @@ function Tag({ style, type, value, size }) {
 
   return (
     <Flex style={[styles.tag, styles[_type], style]}>
-      <Text type={_.select('sub', _type)} size={size}>
+      <Text
+        type={isActive ? _.select('plain', 'title') : _.select('sub', _type)}
+        size={size}
+      >
         {value}
       </Text>
     </Flex>
@@ -89,5 +115,21 @@ const memoStyles = _.memoStyles(_ => ({
   title: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1)
+  },
+  mainActive: {
+    backgroundColor: _.colorMain,
+    borderColor: _.colorMain
+  },
+  warningActive: {
+    backgroundColor: _.colorWarning,
+    borderColor: _.colorWarning
+  },
+  primaryActive: {
+    backgroundColor: _.colorPrimary,
+    borderColor: _.colorPrimary
+  },
+  waitActive: {
+    backgroundColor: _.colorWait,
+    borderColor: _.colorWait
   }
 }))

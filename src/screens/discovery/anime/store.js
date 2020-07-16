@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:05:49
+ * @Last Modified time: 2020-07-16 17:06:44
  */
 import { observable, computed } from 'mobx'
-import { systemStore } from '@stores'
+import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { search } from '@utils/anime'
 import { t } from '@utils/fetch'
@@ -51,6 +51,10 @@ export default class ScreenAnime extends store {
   // -------------------- get --------------------
   @computed get cnFirst() {
     return systemStore.setting.cnFirst
+  }
+
+  @computed get userCollectionsMap() {
+    return collectionStore.userCollectionsMap
   }
 
   // -------------------- page --------------------

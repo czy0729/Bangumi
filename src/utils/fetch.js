@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 17:08:22
+ * @Last Modified time: 2020-07-16 11:24:50
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -79,7 +79,7 @@ export default async function fetchAPI({
 
     // 随机数防止接口CDN缓存
     body.state = getTimestamp()
-    _url += `?${urlStringify(body)}`
+    _url += `${_url.includes('?') ? '&' : '?'}${urlStringify(body)}`
   } else {
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'

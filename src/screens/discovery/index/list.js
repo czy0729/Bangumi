@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 19:36:49
+ * @Last Modified time: 2020-07-16 22:04:18
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -102,6 +102,7 @@ function List({ style, type }, { $, navigation }) {
             size={26}
             type={_.select('plain', 'title')}
             bold
+            numberOfLines={2}
           >
             {cn}
           </Text>
@@ -152,12 +153,14 @@ function List({ style, type }, { $, navigation }) {
                     size={12}
                     type={_.select('plain', 'title')}
                     numberOfLines={1}
+                    bold
                   >
                     {item.info}
                   </Text>
                   <Text
                     style={_.mt.xs}
                     type={_.select('plain', 'title')}
+                    size={13}
                     numberOfLines={1}
                     bold
                   >
@@ -210,7 +213,7 @@ const memoStyles = _.memoStyles(_ => ({
   linear: {
     position: 'absolute',
     zIndex: 1,
-    height: 88,
+    height: 96,
     right: 0,
     bottom: 0,
     left: 0,

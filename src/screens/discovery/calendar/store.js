@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 00:39:37
+ * @Last Modified time: 2020-07-16 21:45:21
  */
 import { observable, computed } from 'mobx'
-import { _, calendarStore, userStore } from '@stores'
+import { _, calendarStore, userStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 
-const num = 4
-const percent = 0.22
+const num = _.isPad ? 4 : 3
+const percent = _.isPad ? 0.22 : 0.3
 
 export const imageWidth = (_.window.width - _.wind * 2) * percent
 export const imageHeight = imageWidth * 1.28
@@ -57,6 +57,7 @@ export default class ScreenCalendar extends store {
               timeCN: timeCN || timeJP || '2359'
             }
           })
+          .filter(item => item.timeCN !== '2359') // 暂时把没有放送具体时间的番剧隐藏
           .sort((a, b) => a.timeCN.localeCompare(b.timeCN))
       }))
     }
@@ -76,8 +77,9 @@ export default class ScreenCalendar extends store {
     return list
       .slice(day - 1)
       .concat(list.slice(0, day - 1))
-      .map(item => ({
+      .map((item, index) => ({
         title: item.weekday.cn,
+        index,
         data: [item]
       }))
   }
@@ -85,6 +87,10 @@ export default class ScreenCalendar extends store {
   @computed get isList() {
     const { layout } = this.state
     return layout === 'list'
+  }
+
+  @computed get userCollectionsMap() {
+    return collectionStore.userCollectionsMap
   }
 
   // -------------------- page --------------------

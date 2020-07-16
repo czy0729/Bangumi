@@ -1,16 +1,19 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 /*
  * 收藏
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:37:13
+ * @Last Modified time: 2020-07-16 22:28:45
  */
 import { observable } from 'mobx'
-import { getTimestamp } from '@utils'
+import { getTimestamp, trim, sleep } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
+import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS } from '@constants/model'
 import {
   API_COLLECTION,
   API_COLLECTION_ACTION,
@@ -57,14 +60,32 @@ class Collection extends store {
       _: (userId, subjectType, type) =>
         `${userId || userStore.myUserId}|${subjectType}|${type}`,
       0: []
+    },
+
+    /**
+     * 所有收藏条目状态
+     * @params {*} subjectId
+     */
+    userCollectionsMap: {
+      // 0: '看过'
     }
   })
 
-  init = () =>
-    this.readStorage(
-      ['collection', 'userCollections', 'userCollectionsTags'],
+  init = () => {
+    setTimeout(() => {
+      this.fetchUserCollectionsQueue()
+    }, 16000)
+
+    return this.readStorage(
+      [
+        'collection',
+        'userCollections',
+        'userCollectionsTags',
+        'userCollectionsMap'
+      ],
       NAMESPACE
     )
+  }
 
   // -------------------- fetch --------------------
   /**
@@ -99,14 +120,19 @@ class Collection extends store {
   ) => {
     const userId = _userId || userStore.myUserId
     const { list, pagination } = this.userCollections(userId, subjectType, type)
+
+    // 没有更多不再请求
+    if (!refresh && pagination.page >= pagination.pageTotal) {
+      return this.userCollections(userId, subjectType, type)
+    }
+
     const page = refresh ? 1 : pagination.page + 1
 
     // -------------------- 请求HTML --------------------
     // 需要携带cookie请求, 不然会查询不到自己隐藏了的条目
-    const res = fetchHTML({
+    const raw = await fetchHTML({
       url: HTML_USER_COLLECTIONS(userId, subjectType, type, order, tag, page)
     })
-    const raw = await res
     const HTML = HTMLTrim(raw)
 
     // -------------------- 分析HTML --------------------
@@ -188,11 +214,11 @@ class Collection extends store {
 
         // 描述
         node = findTreeNode(children, 'div > p|class=info tip')
-        const tip = node ? node[0].text[0] : ''
+        const tip = node ? trim(node[0].text[0]) : ''
 
         // 标签
         node = findTreeNode(children, 'div > p > span|class=tip')
-        const tags = node ? node[0].text[0].replace('标签: ', '') : ''
+        const tags = node ? trim(node[0].text[0].replace('标签: ', '')) : ''
 
         // 评论
         node = findTreeNode(children, 'div > div > div > div > div')
@@ -223,16 +249,17 @@ class Collection extends store {
     }
 
     const key = 'userCollections'
+    const data = {
+      list: refresh ? userCollections : [...list, ...userCollections],
+      pagination: {
+        page,
+        pageTotal: parseInt(pageTotal)
+      },
+      _loaded: getTimestamp()
+    }
     this.setState({
       [key]: {
-        [stateKey]: {
-          list: refresh ? userCollections : [...list, ...userCollections],
-          pagination: {
-            page,
-            pageTotal: parseInt(pageTotal)
-          },
-          _loaded: getTimestamp()
-        }
+        [stateKey]: data
       }
     })
 
@@ -243,7 +270,74 @@ class Collection extends store {
     ) {
       this.setUserCollectionsStroage()
     }
-    return res
+    return data
+  }
+
+  /**
+   * 排队获取自己的所有动画收藏列表记录
+   *  - 每种最多取10页240条数据
+   */
+  fetchUserCollectionsQueue = async () => {
+    try {
+      const { username } = userStore.usersInfo(userStore.myUserId)
+      const userId = username || userStore.myUserId
+      if (!userId) {
+        return false
+      }
+
+      const subjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
+      const now = getTimestamp()
+      for (const item of MODEL_COLLECTION_STATUS.data) {
+        const { _loaded } = this.userCollections(
+          userId,
+          subjectType,
+          item.value
+        )
+        if (!_loaded || now - _loaded > 60 * 24) {
+          await this.fetchUserCollections(
+            {
+              userId,
+              subjectType,
+              type: item.value
+            },
+            true
+          )
+          await sleep()
+        }
+      }
+
+      const userCollectionsMap = {}
+      for (const item of MODEL_COLLECTION_STATUS.data) {
+        const data = this.userCollections(userId, subjectType, item.value)
+        const { pagination } = data
+        const { page, pageTotal } = pagination
+
+        // 列表未到底就一直请求, 最多请求到10页
+        if (page < pageTotal && page < 10) {
+          for (let i = page - 1; i < pageTotal; i += 1) {
+            await this.fetchUserCollections({
+              userId,
+              subjectType,
+              type: item.value
+            })
+            await sleep()
+          }
+        }
+
+        this.userCollections(userId, subjectType, item.value).list.forEach(
+          i => (userCollectionsMap[i.id] = item.label)
+        )
+      }
+
+      this.setState({
+        userCollectionsMap
+      })
+      this.setStorage('userCollectionsMap', userCollectionsMap, NAMESPACE)
+      return true
+    } catch (error) {
+      warn('CollectionStore', 'fetchUserCollectionsQueue', error)
+      return false
+    }
   }
 
   // -------------------- page --------------------

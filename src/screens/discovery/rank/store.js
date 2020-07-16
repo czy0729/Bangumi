@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 21:20:26
+ * @Last Modified time: 2020-07-16 17:40:49
  */
 import { observable, computed } from 'mobx'
-import { tagStore, userStore } from '@stores'
+import { tagStore, userStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
@@ -86,6 +86,10 @@ export default class ScreenRank extends store {
   @computed get url() {
     const { currentPage, type, filter, airtime } = this.state
     return HTML_RANK(type, 'rank', currentPage[type], filter, airtime)
+  }
+
+  @computed get userCollectionsMap() {
+    return collectionStore.userCollectionsMap
   }
 
   // -------------------- fetch --------------------

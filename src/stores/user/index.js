@@ -1,11 +1,11 @@
 /*
- * 用户
- * accessToken和登陆时在webview里获取cookie是两套登陆状态, 暂时只能分开维护
- * 一般cookie没多久就过期了
+ * 用户 (自己)
+ *  - accessToken和登陆时在webview里获取cookie是两套登陆状态, 暂时只能分开维护
+ *  - 一般cookie没多久就过期了
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 17:48:33
+ * @Last Modified time: 2020-07-16 11:31:34
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -69,6 +69,11 @@ class User extends store {
      * 用户cookie (请求HTML用)
      */
     userCookie: INIT_USER_COOKIE,
+
+    /**
+     * 是html中后续在请求头中获取的更新cookie的标志
+     * 会随请求一直更新, 并带上请求防止一段时候后掉登陆
+     */
     setCookie: '',
 
     /**
@@ -77,7 +82,7 @@ class User extends store {
     userCollection: LIST_EMPTY,
 
     /**
-     * 收视进度
+     * 收视进度 (章节)
      * @param {*} subjectId
      * {
      *   [epId]: '看过'
@@ -89,6 +94,7 @@ class User extends store {
 
     /**
      * 用户收藏概览
+     *  - 每种状态最多25条数据
      * @param {*} scope
      * @param {*} userId
      */
@@ -109,6 +115,7 @@ class User extends store {
 
     /**
      * 用户收藏统计
+     *  - 每种状态条目的数量
      * @param {*} userId
      */
     userCollectionsStatus: {
@@ -652,8 +659,8 @@ class User extends store {
 
   /**
    * 检测cookie有没有过期
-   * 访问任意个人中心的页面就可以判断
-   * 顺便记录formhash用于登出
+   *  - 访问任意个人中心的页面就可以判断, 顺便记录formhash用于登出
+   *  - setCookie是html中后续在请求头中获取的更新cookie的标志
    */
   doCheckCookie = async () => {
     const res = RakuenStore.fetchNotify()

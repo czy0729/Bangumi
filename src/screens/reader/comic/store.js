@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 20:22:01
+ * @Last Modified time: 2020-07-16 14:43:55
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -11,7 +11,7 @@ import { info } from '@utils/ui'
 import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
 import { cheerio } from '@utils/html'
-import { LIST_EMPTY } from '@constants'
+import { LIST_EMPTY, HOST_MANGA } from '@constants'
 
 const namespace = 'ScreenComic'
 
@@ -249,9 +249,7 @@ export default class ScreenComic extends store {
         return `title='${title}';images='${msg}'.split('|').map(it=>'https://picsh.77dm.top/h${img_s}/'+it)`
       }
       const urlScript = getImagesScript(script, title)
-      href = `https://tinygrail.mange.cn/app/index.html?script=${encodeURIComponent(
-        urlScript
-      )}`
+      href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(urlScript)}`
     }
 
     if (tag === '漫画123') {

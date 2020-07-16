@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 20:49:29
+ * @Last Modified time: 2020-07-16 22:10:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,8 @@ function ItemSearch({
   total,
   rank,
   type,
-  collected,
+  collection, // 动画才有, 具体收藏状态
+  collected, // 是否收藏
   comments,
   position = [],
   event
@@ -40,9 +41,13 @@ function ItemSearch({
   // 人物高清图不是正方形的图, 所以要特殊处理
   const isMono = !id.includes('/subject/')
   const isFirst = index === 0
+  const _collection = collection || (collected ? '已收藏' : '')
+
+  // {collection} = 2个全角 + 1个半角, 已收藏 = 3个全角
+  const indent = _collection ? (collection ? '　　 ' : '　　　') : ''
   return (
     <Touchable
-      style={[styles.container, style, collected && styles.containerActive]}
+      style={[styles.container, style]}
       onPress={() => {
         appNavigate(
           id,
@@ -72,69 +77,67 @@ function ItemSearch({
             shadow
           />
         </View>
-        <Flex.Item style={[styles.item, _.ml.wind]}>
+        <Flex.Item style={_.ml.wind}>
           <Flex
             style={styles.content}
             direction='column'
             justify='between'
             align='start'
           >
-            <View>
-              <Flex align='start' style={{ width: '100%' }}>
-                <Flex.Item>
-                  {!!(nameCn || name) && (
-                    <Katakana.Provider size={15} numberOfLines={2}>
-                      <Katakana size={15} bold>
-                        {HTMLDecode(nameCn || name)}
-                      </Katakana>
-                      {!!comments && (
-                        <Text type='main' lineHeight={15}>
-                          {' '}
-                          {comments}
-                        </Text>
-                      )}
-                      {!!name && name !== nameCn && (
-                        <Katakana
-                          type='sub'
-                          size={11}
-                          lineHeight={15}
-                          numberOfLines={1}
-                        >
-                          {' '}
-                          {HTMLDecode(name)}
-                        </Katakana>
-                      )}
-                    </Katakana.Provider>
-                  )}
-                </Flex.Item>
-                <Flex style={_.mt.xxs}>
-                  {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
-                  {!!type && (
-                    <Tag
-                      style={_.ml.sm}
-                      value={MODEL_SUBJECT_TYPE.getTitle(type)}
-                    />
-                  )}
-                </Flex>
-              </Flex>
-              {!!tip && (
-                <Text style={_.mt.md} size={11} numberOfLines={2}>
-                  {HTMLDecode(tip)}
-                </Text>
+            <Flex align='start' style={{ width: '100%' }}>
+              {!!_collection && (
+                <Tag style={styles.collection} value={_collection} />
               )}
-            </View>
+              <Flex.Item>
+                {!!(nameCn || name) && (
+                  <Katakana.Provider size={15} numberOfLines={2}>
+                    <Katakana size={15} bold>
+                      {indent}
+                      {HTMLDecode(nameCn || name)}
+                    </Katakana>
+                    {!!comments && (
+                      <Text type='main' lineHeight={15}>
+                        {' '}
+                        {comments}
+                      </Text>
+                    )}
+                    {!!name && name !== nameCn && (
+                      <Katakana
+                        type='sub'
+                        size={11}
+                        lineHeight={15}
+                        numberOfLines={1}
+                      >
+                        {' '}
+                        {HTMLDecode(name)}
+                      </Katakana>
+                    )}
+                  </Katakana.Provider>
+                )}
+              </Flex.Item>
+              <Flex style={_.mt.xxs}>
+                {x18(id, nameCn) && <Tag style={_.ml.sm} value='H' />}
+                {!!type && (
+                  <Tag
+                    style={_.ml.sm}
+                    value={MODEL_SUBJECT_TYPE.getTitle(type)}
+                  />
+                )}
+              </Flex>
+            </Flex>
+            {!!tip && (
+              <Text style={_.mt.sm} size={11} numberOfLines={2}>
+                {HTMLDecode(tip)}
+              </Text>
+            )}
             {!!position.length && (
-              <Flex style={_.mt.md} wrap='wrap'>
+              <Flex style={_.mt.sm} wrap='wrap'>
                 {position.map(item => (
                   <Tag key={item} style={_.mr.sm} value={item} />
                 ))}
               </Flex>
             )}
-            <Flex
-              style={{
-                marginTop: _.md + 4
-              }}
-            >
+            <Flex style={_.mt.md}>
               <Stars style={_.mr.xs} value={score} color='warning' />
               <Text style={_.mr.sm} type='sub' size={12}>
                 {total}
@@ -162,9 +165,6 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind
   },
-  containerActive: {
-    backgroundColor: _.colorMainLight
-  },
   imgContainer: {
     width: IMG_WIDTH
   },
@@ -177,6 +177,12 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopWidth: _.hairlineWidth
   },
   content: {
-    minHeight: IMG_HEIGHT - 12
+    height: IMG_HEIGHT
+  },
+  collection: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 1 * _.lineHeightRatio,
+    left: 0
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 16:12:46
+ * @Last Modified time: 2020-07-16 17:47:09
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -57,6 +57,9 @@ class List extends React.Component {
                 style={_.container.item}
                 navigation={navigation}
                 index={index}
+                collection={
+                  $.userCollectionsMap[String(item.id).replace('/subject/', '')]
+                }
                 event={{
                   ...event,
                   data: {

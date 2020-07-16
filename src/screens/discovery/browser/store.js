@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 16:02:38
+ * @Last Modified time: 2020-07-16 19:38:27
  */
 import { observable, computed } from 'mobx'
-import { tagStore, userStore } from '@stores'
+import { tagStore, userStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
@@ -89,6 +89,10 @@ export default class ScreenBrowser extends store {
   @computed get url() {
     const { type } = this.state
     return HTML_BROSWER(type, this.airtime)
+  }
+
+  @computed get userCollectionsMap() {
+    return collectionStore.userCollectionsMap
   }
 
   // -------------------- page --------------------

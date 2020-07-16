@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-19 19:35:21
+ * @Last Modified time: 2020-07-16 22:17:21
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -66,12 +66,13 @@ class CatalogDetail extends React.Component {
   }
 
   renderItem = ({ item }) => {
-    const { navigation } = this.context
+    const { $, navigation } = this.context
+    const id = String(item.id).match(/\d+/)[0]
     return (
       <ItemCollections
         navigation={navigation}
         event={event}
-        id={item.id}
+        id={id}
         type={item.type}
         cover={item.image}
         name={item.title}
@@ -80,6 +81,7 @@ class CatalogDetail extends React.Component {
         comments={item.comment}
         isCatalog
         isCollect={item.isCollect}
+        collection={$.userCollectionsMap[id]}
       />
     )
   }

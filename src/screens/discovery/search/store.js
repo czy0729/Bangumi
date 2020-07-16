@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 19:52:52
+ * @Last Modified time: 2020-07-16 22:23:18
  */
 import { observable, computed } from 'mobx'
-import { searchStore, userStore } from '@stores'
+import { searchStore, userStore, collectionStore } from '@stores'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { info } from '@utils/ui'
@@ -53,6 +53,10 @@ export default class ScreenSearch extends store {
       }
       return search
     }).get()
+  }
+
+  @computed get userCollectionsMap() {
+    return collectionStore.userCollectionsMap
   }
 
   // -------------------- page --------------------

@@ -13,4 +13,5 @@ ios/
 node_modules
 node_modules35
 node_modules37
+sdk
 yarn.lock
