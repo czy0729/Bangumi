@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 01:16:35
+ * @Last Modified time: 2020-07-18 01:00:15
  */
-import { IOS, VERSION_GITHUB_RELEASE } from '@constants'
+import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
@@ -32,7 +32,7 @@ export const INIT_SETTING = {
   katakana: false, // 片假名终结者
   ripple: false, // 点击水纹效果
   speech: true, // Bangumi娘话语
-  tinygrail: !IOS, // 小圣杯是否开启 (安卓默认开, iOS因为审核问题默认不开)
+  tinygrail: false, // 小圣杯是否开启
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页

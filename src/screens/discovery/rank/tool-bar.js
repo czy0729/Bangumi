@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 00:17:32
+ * @Last Modified time: 2020-07-17 16:51:03
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -49,10 +49,15 @@ function ToolBar(props, { $ }) {
       <Flex.Item>
         <Popover data={typeData} onSelect={$.onTypeSelect}>
           <Flex style={styles.item} justify='center'>
-            <Iconfont name='app' size={14} color={_.colorMain} />
-            <Text style={_.ml.sm} type='main'>
+            <Text size={12} type='main'>
               {typeCn}
             </Text>
+            <Iconfont
+              style={_.ml.xs}
+              name='down'
+              size={10}
+              color={_.colorMain}
+            />
           </Flex>
         </Popover>
       </Flex.Item>
@@ -63,14 +68,15 @@ function ToolBar(props, { $ }) {
             onSelect={title => $.onFilterSelect(title, filterData)}
           >
             <Flex style={styles.item} justify='center'>
-              <Iconfont
-                name='filter'
-                size={14}
-                color={isEmptyFilter ? _.colorSub : _.colorMain}
-              />
-              <Text style={_.ml.sm} type={isEmptyFilter ? 'sub' : 'main'}>
+              <Text size={12} type={isEmptyFilter ? 'sub' : 'main'}>
                 {filterCn === '全部' ? '类型' : filterCn}
               </Text>
+              <Iconfont
+                style={_.ml.xs}
+                name='down'
+                size={10}
+                color={isEmptyFilter ? _.colorSub : _.colorMain}
+              />
             </Flex>
           </Popover>
         </Flex.Item>
@@ -78,23 +84,30 @@ function ToolBar(props, { $ }) {
       <Flex.Item flex={0.8}>
         <Popover data={DATA_AIRTIME} onSelect={$.onAirdateSelect}>
           <Flex style={styles.item} justify='center'>
-            <Iconfont
-              name='calendar'
-              size={14}
-              color={isEmptyAirdate ? _.colorSub : _.colorMain}
-            />
-            <Text style={_.ml.sm} type={isEmptyAirdate ? 'sub' : 'main'}>
+            <Text size={12} type={isEmptyAirdate ? 'sub' : 'main'}>
               {airtime || '年'}
             </Text>
+            <Iconfont
+              style={_.ml.xs}
+              name='down'
+              size={10}
+              color={isEmptyAirdate ? _.colorSub : _.colorMain}
+            />
           </Flex>
         </Popover>
       </Flex.Item>
-      <Flex.Item flex={0.64}>
+      <Flex.Item flex={0.8}>
         <Popover data={DATA_MONTH} onSelect={$.onMonthSelect}>
           <Flex style={styles.item} justify='center'>
-            <Text style={_.ml.sm} type={isEmptyMonth ? 'sub' : 'main'}>
+            <Text size={12} type={isEmptyMonth ? 'sub' : 'main'}>
               {month || '月'}
             </Text>
+            <Iconfont
+              style={_.ml.xs}
+              name='down'
+              size={10}
+              color={isEmptyMonth ? _.colorSub : _.colorMain}
+            />
           </Flex>
         </Popover>
       </Flex.Item>
@@ -109,7 +122,7 @@ function ToolBar(props, { $ }) {
             <Iconfont
               style={_.ml.md}
               name='order'
-              size={14}
+              size={12}
               color={!list ? _.colorMain : undefined}
             />
           </Flex>
@@ -131,9 +144,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   item: {
-    padding: _.sm + 4
-  },
-  touchable: {
-    paddingHorizontal: _.lg
+    paddingVertical: _.md,
+    paddingHorizontal: _.sm
   }
 }))

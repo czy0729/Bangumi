@@ -1,9 +1,8 @@
 {
   "scripts": {
     "start": "expo start",
-    "start:eject": "react-native start",
-    "android:eject": "react-native run-android",
-    "build:android": "cd android && ./gradlew assembleRelease",
+    "android": "react-native run-android",
+    "build": "cd android && ./gradlew assembleRelease",
     "build:ios": "expo build:ios -c",
     "open": "open ./android/app/build/outputs/apk/release/"
   },

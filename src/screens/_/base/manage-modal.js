@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 16:02:41
+ * @Last Modified time: 2020-07-17 18:08:55
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -174,7 +174,7 @@ class ManageModal extends React.Component {
 
     const selected = this.state.tags.split(' ')
     return (
-      <ScrollView horizontal>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {tags.map(({ name, count }) => {
           const isSelected = selected.indexOf(name) !== -1
           return (

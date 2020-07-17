@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 12:17:47
+ * @Last Modified time: 2020-07-17 17:37:47
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -45,21 +45,21 @@ function Item(
       }}
     >
       <Flex style={styles.container} direction='column' justify='center'>
-        <Text type='title' bold size={15} align='center' numberOfLines={1}>
+        <Text type='title' bold align='center' numberOfLines={1}>
           {title}
         </Text>
-        <Text style={_.mt.xs} size={12} align='center' numberOfLines={1}>
+        <Text style={_.mt.xs} size={11} align='center' numberOfLines={2}>
           {info}
         </Text>
         <Flex style={[styles.images, _.mt.sm]}>
           {list
-            .filter((item, index) => index < (_.isPad ? 4 : 3))
+            .filter((item, index) => index < 4)
             .map(item => (
               <Cover
                 key={item.id}
                 style={styles.image}
-                size={52}
-                radius={4}
+                size={48}
+                radius={_.radiusXs}
                 src={item.image}
               />
             ))}

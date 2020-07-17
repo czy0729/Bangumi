@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 04:31:47
+ * @Last Modified time: 2020-07-17 17:39:48
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -76,7 +76,7 @@ class Anitama extends React.Component {
     const { ipt } = $.state
     return (
       <Pagination
-        style={_.mt.lg}
+        style={_.mt.md}
         input={ipt}
         onPrev={$.prev}
         onNext={$.next}

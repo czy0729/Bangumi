@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-15 16:29:06
+ * @Last Modified time: 2020-07-17 17:17:33
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -39,10 +39,10 @@ function Item({ type, name, nums }, { navigation }) {
       }}
     >
       <Flex style={styles.item} direction='column' justify='center'>
-        <Text align='center' size={13} bold>
+        <Text align='center' size={12} bold>
           {tag}
         </Text>
-        <Text style={_.mt.xs} type='sub' align='center' size={12}>
+        <Text style={_.mt.xs} type='sub' align='center' size={11}>
           {numsText}
         </Text>
       </Flex>
@@ -66,7 +66,7 @@ const memoStyles = _.memoStyles(_ => ({
     width,
     height: width,
     backgroundColor: _.colorPlain,
-    borderRadius: _.radiusSm,
+    borderRadius: _.radiusXs,
     borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder
   }

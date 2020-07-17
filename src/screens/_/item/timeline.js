@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:40:50
+ * @Last Modified time: 2020-07-17 18:09:04
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -236,7 +236,11 @@ class ItemTimeline extends React.Component {
 
     // 有一次性操作很多条目很多图片的情况, 水平滚动比较合适
     return (
-      <ScrollView style={_.mt.sm} horizontal>
+      <ScrollView
+        style={_.mt.sm}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
         {images}
       </ScrollView>
     )

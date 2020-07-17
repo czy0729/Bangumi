@@ -2,25 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-05 20:58:27
+ * @Last Modified time: 2020-07-17 17:34:13
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Touchable, Text } from '@components'
+import { Touchable, Flex, Text, Iconfont } from '@components'
+import { _ } from '@stores'
 
-function Type({ style, $ }) {
+function Type({ $ }) {
   const { type } = $.state
   return (
-    <Touchable
-      style={[
-        style,
-        {
-          padding: 2
-        }
-      ]}
-      onPress={$.toggleType}
-    >
-      <Text>{type === 'collect' ? '按热门' : '按最新'}</Text>
+    <Touchable onPress={$.toggleType}>
+      <Flex>
+        <Text>{type === 'collect' ? '热门' : '最新'}</Text>
+        <Iconfont style={_.ml.xs} name='down' size={10} color={_.colorTitle} />
+      </Flex>
     </Touchable>
   )
 }

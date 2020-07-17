@@ -86,23 +86,26 @@ class List extends React.Component {
       <>
         <Flex style={this.styles.grid} wrap='wrap'>
           {list.length ? (
-            list.map((item, index) => (
-              <ItemCollectionsGrid
-                key={item.id}
-                style={this.styles.itemGird}
-                navigation={navigation}
-                index={index}
-                event={{
-                  ...event,
-                  data: {
-                    type: 'grid'
-                  }
-                }}
-                {...item}
-                id={item.id.replace('/subject/', '')}
-                showScore
-              />
-            ))
+            list.map((item, index) => {
+              const id = String(item.id).replace('/subject/', '')
+              return (
+                <ItemCollectionsGrid
+                  key={item.id}
+                  style={this.styles.itemGird}
+                  navigation={navigation}
+                  index={index}
+                  collection={$.userCollectionsMap[id]}
+                  event={{
+                    ...event,
+                    data: {
+                      type: 'grid'
+                    }
+                  }}
+                  {...item}
+                  id={id}
+                />
+              )
+            })
           ) : (
             <Empty />
           )}

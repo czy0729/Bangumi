@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 12:19:37
+ * @Last Modified time: 2020-07-17 17:34:50
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View, Alert } from 'react-native'
+import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Pagination, IconHeader } from '@screens/_'
+import { Pagination } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { t } from '@utils/fetch'
 import Type from './type'
 import Item from './item'
 import Store from './store'
@@ -39,28 +38,7 @@ class Catalog extends React.Component {
     $.init()
 
     navigation.setParams({
-      extra: (
-        <>
-          <Type $={$} />
-          <IconHeader
-            style={_.ml.sm}
-            name='information'
-            onPress={() => {
-              t('目录.提示')
-
-              Alert.alert(
-                '提示',
-                '因部分条目信息受登陆状态影响, 若条目不显示, 可以尝试重新登陆',
-                [
-                  {
-                    text: '知道了'
-                  }
-                ]
-              )
-            }}
-          />
-        </>
-      )
+      extra: <Type $={$} />
     })
   }
 
@@ -69,7 +47,7 @@ class Catalog extends React.Component {
     const { ipt } = $.state
     return (
       <Pagination
-        style={_.mt.lg}
+        style={_.mt.md}
         input={ipt}
         onPrev={$.prev}
         onNext={$.next}

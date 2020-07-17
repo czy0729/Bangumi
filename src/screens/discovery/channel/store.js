@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:04:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 21:00:47
+ * @Last Modified time: 2020-07-17 17:41:34
  */
 import { observable, computed } from 'mobx'
-import { discoveryStore } from '@stores'
+import { discoveryStore, collectionStore } from '@stores'
 import { HTML_CHANNEL } from '@constants/html'
 import store from '@utils/store'
 
@@ -33,6 +33,10 @@ export default class ScreenChannel extends store {
 
   @computed get url() {
     return HTML_CHANNEL(this.type)
+  }
+
+  @computed get userCollectionsMap() {
+    return collectionStore.userCollectionsMap
   }
 
   // -------------------- fetch --------------------

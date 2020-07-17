@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 11:02:32
+ * @Last Modified time: 2020-07-17 18:09:38
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -121,7 +121,11 @@ class UsedModal extends React.Component {
   renderAvatars() {
     const { avatar } = this.state
     return (
-      <ScrollView contentContainerStyle={this.styles.avatars} horizontal>
+      <ScrollView
+        contentContainerStyle={this.styles.avatars}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
         {avatar.map(item => (
           <Image
             style={_.mr.sm}

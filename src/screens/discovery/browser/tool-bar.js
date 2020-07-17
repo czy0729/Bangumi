@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 01:48:14
+ * @Last Modified time: 2020-07-17 17:14:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,29 +24,45 @@ function ToolBar(props, { $ }) {
       <Flex.Item>
         <Popover data={typeData} onSelect={$.onTypeSelect}>
           <Flex style={styles.item} justify='center'>
-            <Iconfont name='app' size={14} color={_.colorSub} />
-            <Text style={_.ml.sm} type='sub'>
+            <Text type='sub' size={12}>
               {typeCn}
             </Text>
+            <Iconfont
+              style={_.ml.xs}
+              name='down'
+              size={10}
+              color={_.colorSub}
+            />
           </Flex>
         </Popover>
       </Flex.Item>
       <Flex.Item>
         <Popover data={DATA_BROWSER_AIRTIME} onSelect={$.onAirdateSelect}>
           <Flex style={styles.item} justify='center'>
-            <Iconfont name='calendar' size={14} color={_.colorSub} />
-            <Text style={_.ml.sm} type='sub'>
+            <Text type='sub' size={12}>
               {`${airtime}年` || '年'}
             </Text>
+            <Iconfont
+              style={_.ml.xs}
+              name='down'
+              size={10}
+              color={_.colorSub}
+            />
           </Flex>
         </Popover>
       </Flex.Item>
       <Flex.Item>
         <Popover data={DATA_BROWSER_MONTH} onSelect={$.onMonthSelect}>
           <Flex style={styles.item} justify='center'>
-            <Text style={_.ml.sm} type='sub'>
+            <Text style={_.ml.sm} type='sub' size={12}>
               {`${month}月` || '月'}
             </Text>
+            <Iconfont
+              style={_.ml.xs}
+              name='down'
+              size={10}
+              color={_.colorSub}
+            />
           </Flex>
         </Popover>
       </Flex.Item>
@@ -66,9 +82,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   item: {
-    padding: _.sm + 4
-  },
-  touchable: {
-    paddingHorizontal: _.lg
+    paddingVertical: _.md,
+    paddingHorizontal: _.sm
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-23 23:47:21
+ * @Last Modified time: 2020-07-17 16:08:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,6 +13,7 @@ import { getTimestamp } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
+import Tag from '../base/tag'
 import Cover from '../base/cover'
 
 const imageWidth = _.window.contentWidth * 0.2
@@ -29,6 +30,8 @@ function CollectionsGrid({
   time,
   score,
   showScore,
+  isCollect,
+  collection,
   isOnHold
 }) {
   let holdDays
@@ -52,9 +55,12 @@ function CollectionsGrid({
       _image: cover
     })
   }
+
+  const _collection = collection || (isCollect ? '已收藏' : '')
   return (
     <View style={[styles.item, style]}>
       <Cover size={imageWidth} src={cover} radius shadow onPress={onPress} />
+      {!!_collection && <Tag style={styles.collection} value={_collection} />}
       <Touchable withoutFeedback onPress={onPress}>
         <Text style={_.mt.sm} size={12} numberOfLines={2} bold>
           {showScore && score && (
@@ -86,5 +92,11 @@ const styles = StyleSheet.create({
     width: imageWidth,
     marginLeft,
     marginBottom: _.sm
+  },
+  collection: {
+    position: 'absolute',
+    zIndex: 1,
+    top: _.xs,
+    left: _.xs
   }
 })
