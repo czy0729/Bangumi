@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 20:56:58
+ * @Last Modified time: 2020-07-17 11:02:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -373,7 +373,7 @@ class Katakana extends React.Component {
     this.init()
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.init()
   }
 

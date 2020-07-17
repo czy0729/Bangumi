@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-08 09:47:17
+ * @Last Modified time: 2020-07-16 22:33:09
  */
 import React from 'react'
 import {
@@ -19,7 +19,7 @@ import { IOS } from '@constants'
 
 let isCalled = false
 let timer
-function callOnceInInterval(functionTobeCalled, interval = 320) {
+function callOnceInInterval(functionTobeCalled, interval = 160) {
   if (!isCalled) {
     isCalled = true
     clearTimeout(timer)

@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 23:13:30
+ * @Last Modified time: 2020-07-17 11:01:24
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -69,7 +69,7 @@ class SwitchPro extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // unify inner state and outer props
     if (nextProps.value === this.state.value) {
       return
@@ -91,7 +91,7 @@ class SwitchPro extends Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => true,
       onStartShouldSetPanResponderCapture: (evt, gestureState) => true,

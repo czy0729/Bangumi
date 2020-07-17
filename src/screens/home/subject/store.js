@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:16:30
+ * @Last Modified time: 2020-07-17 10:53:56
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -28,6 +28,7 @@ import {
 } from '@utils/app'
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
+import { find } from '@utils/anime'
 import { HOST, HOST_NING_MOE, URL_DEFAULT_AVATAR } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
@@ -726,8 +727,10 @@ export default class ScreenSubject extends store {
           url = `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
           break
         case 'AGE动漫':
-          if (_aid) {
-            url = `https://www.agefans.tv/detail/${_aid}`
+          if (_aid || find(this.subjectId).aid) {
+            url = `https://www.agefans.tv/detail/${
+              _aid || find(this.subjectId).aid
+            }`
           } else {
             url = `https://www.agefans.tv/search?query=${encodeURIComponent(
               this.cn

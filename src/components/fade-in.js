@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 15:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-15 17:36:12
+ * @Last Modified time: 2020-07-17 11:02:15
  */
 import React, { Component } from 'react'
 import { Animated } from 'react-native'
@@ -16,7 +16,7 @@ export default class FadeIn extends Component {
     opacity: new Animated.Value(0)
   }
 
-  componentWillReceiveProps({ show }) {
+  UNSAFE_componentWillReceiveProps({ show }) {
     if (show) {
       this.show()
     } else {

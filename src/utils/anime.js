@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:12:32
+ * @Last Modified time: 2020-07-17 10:53:36
  */
 import anime from '@constants/anime'
 import { getTimestamp } from './index'
@@ -225,4 +225,9 @@ export function search({
 
 export function pick(index) {
   return anime[index] || {}
+}
+
+export function find(id) {
+  const item = anime.find(item => item.id == id) || {}
+  return item
 }

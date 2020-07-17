@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 16:03:32
+ * @Last Modified time: 2020-07-17 11:02:27
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -69,7 +69,7 @@ class CharactersModal extends React.Component {
     this.title = this.props.title
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.title !== this.title) {
       this.setState({
         leftItem: null,

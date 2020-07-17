@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-12 20:57:00
+ * @Last Modified time: 2020-07-17 11:02:32
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -40,7 +40,7 @@ class UsedModal extends React.Component {
     ]
   }
 
-  componentWillReceiveProps({ visible }) {
+  UNSAFE_componentWillReceiveProps({ visible }) {
     if (visible && !this.state.name._loaded) {
       this.checkUsedName()
       this.checkUserAvatar()

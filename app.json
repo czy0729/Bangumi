@@ -1,19 +1,29 @@
 {
   "expo": {
+    "version": "3.9.0",
+    "versionTinygrail": "2.5.0",
+    "android": {
+      "versionCode": 390,
+      "versionName": "3.9.0",
+      "package": "com.czy0729.bangumi",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/images/foreground.png",
+        "backgroundColor": "#000000"
+      }
+    },
+    "sdkVersion": "37.0.0",
     "name": "bangumi",
     "slug": "bangumi",
     "privacy": "public",
-    "sdkVersion": "37.0.0",
     "platforms": ["ios", "android"],
-    "version": "3.9.0",
     "orientation": "portrait",
     "scheme": "bangumi",
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "icon": "./src/assets/images/icon.png",
-    // "splash": {
-    //   "image": "./src/assets/images/splash.png",
-    //   "resizeMode": "contain",
-    //   "backgroundColor": "#ffffff"
-    // },
     "updates": {
       "enabled": false,
       "fallbackToCacheTimeout": 0
@@ -22,14 +32,6 @@
     "ios": {
       "bundleIdentifier": "com.czy0729.bangumi",
       "supportsTablet": true
-    },
-    "android": {
-      "package": "com.czy0729.bangumi",
-      "versionCode": 390,
-      "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/foreground.png",
-        "backgroundColor": "#000000"
-      }
     },
     "androidStatusBar": {
       "barStyle": "dark-content",
