@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 11:02:17
+ * @Last Modified time: 2020-07-19 13:50:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -258,7 +258,11 @@ class KatakanaProvider extends React.Component {
    */
   get lineHeightIncrease() {
     const { matches } = this.state
-    return matches.length ? (matches.some(item => item.top !== 0) ? 4 : 0) : 0
+    return matches.length
+      ? matches.some(item => item.top !== undefined && item.top !== 0)
+        ? 4
+        : 0
+      : 0
   }
 
   get isOn() {
@@ -300,11 +304,11 @@ class KatakanaProvider extends React.Component {
               lineHeight={node.lineHeight}
               bold={node.bold}
               lineHeightIncrease={0}
-              onLayout={
-                jpIndexMap[index]
-                  ? e => this.onLayout(e, node, jpIndexMap[index])
-                  : undefined
-              }
+              onLayout={e => {
+                if (jpIndexMap[index]) {
+                  this.onLayout(e, node, jpIndexMap[index])
+                }
+              }}
             >
               {text}
             </Text>

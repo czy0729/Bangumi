@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 14:00:23
+ * @Last Modified time: 2020-07-18 01:19:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -170,6 +170,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: _._wind
   },
   avatar: {
+    marginLeft: -_.sm,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   sacrifice: {

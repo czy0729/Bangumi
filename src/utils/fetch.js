@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 11:24:50
+ * @Last Modified time: 2020-07-18 01:16:49
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -394,7 +394,7 @@ export function sax({
 export function hm(url, screen) {
   if (DEV) {
     log(`[hm] ${url} ${screen}`)
-    return
+    // return
   }
 
   try {
@@ -436,6 +436,10 @@ export function hm(url, screen) {
       request.setRequestHeader(
         'User-Agent',
         ua || require('../stores/user').default.userCookie.userAgent
+      )
+      request.setRequestHeader(
+        'Cookie',
+        ua || require('../stores/user').default.userCookie.userCookie
       )
       request.send(null)
     })

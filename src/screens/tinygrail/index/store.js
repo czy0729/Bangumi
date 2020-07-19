@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 16:43:45
+ * @Last Modified time: 2020-07-18 14:14:56
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -154,6 +154,7 @@ export default class ScreenTinygrail extends store {
   /**
    * 小圣杯授权
    */
+  _doAuthFailCount = 0
   doAuth = async () => {
     let res
     this.setState({
@@ -168,6 +169,7 @@ export default class ScreenTinygrail extends store {
       await res
       t('小圣杯.授权成功')
 
+      this._doAuthFailCount = 0
       info('已更新授权')
       this.setState({
         loading: false,
@@ -177,6 +179,13 @@ export default class ScreenTinygrail extends store {
     } catch (error) {
       t('小圣杯.授权失败')
 
+      if (this._doAuthFailCount < 5) {
+        this._doAuthFailCount += 1
+        info(`重试授权 [${this._doAuthFailCount}]`)
+        return this.doAuth()
+      }
+
+      this._doAuthFailCount = 0
       info('授权失败请重试, 或检查登陆状态')
       this.setState({
         loading: false

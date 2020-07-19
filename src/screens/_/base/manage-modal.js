@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 18:08:55
+ * @Last Modified time: 2020-07-18 14:10:11
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { BackHandler, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { Button, Flex, Input, Text, Touchable } from '@components'
@@ -42,6 +42,14 @@ class ManageModal extends React.Component {
   state = initState
   commentRef
 
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+  }
+
   async UNSAFE_componentWillReceiveProps(nextProps) {
     const { visible, subjectId } = nextProps
     if (visible) {
@@ -66,6 +74,15 @@ class ManageModal extends React.Component {
         })
       }
     }
+  }
+
+  onBackAndroid = () => {
+    const { visible, onClose } = this.props
+    if (visible) {
+      onClose()
+      return true
+    }
+    return false
   }
 
   changeRating = value => {

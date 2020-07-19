@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:17:52
+ * @Last Modified time: 2020-07-19 13:52:40
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -34,7 +34,10 @@ function Head({ style }, { $ }) {
       <View style={styles.content}>
         <View style={styles.title}>
           {!!$.jp && (
-            <Katakana.Provider size={$.jp.length > 12 ? 10 : 13}>
+            <Katakana.Provider
+              size={$.jp.length > 12 ? 10 : 13}
+              itemStyle={styles.katakana}
+            >
               <Katakana
                 type='sub'
                 size={$.jp.length > 12 ? 10 : 13}
@@ -101,5 +104,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   title: {
     minHeight: 84
+  },
+  katakana: {
+    marginTop: -11
   }
 }))

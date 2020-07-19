@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 14:02:35
+ * @Last Modified time: 2020-07-18 01:27:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,7 @@ function Users({ style }, { $, navigation }) {
                   style={styles.avatar}
                   navigation={navigation}
                   src={item.avatar}
-                  size={isTop ? 56 : 40}
+                  size={isTop ? 40 : 32}
                   userId={item.name}
                   name={item.nickName}
                   event={event}
@@ -61,23 +61,22 @@ function Users({ style }, { $, navigation }) {
                     numberOfLines={1}
                   >
                     {item.lastIndex !== 0 && (
-                      <Text type='ask' size={isTop ? 14 : 12}>
+                      <Text type='primary' size={isTop ? 14 : 12} bold>
                         #{item.lastIndex}{' '}
                       </Text>
                     )}
                     {item.nickName}
                   </Text>
-                  <Text
-                    style={_.mt.xs}
-                    type={isTop ? 'warning' : 'tinygrailText'}
-                    size={12}
-                  >
-                    {item.balance ? `+${formatNumber(item.balance, 0)}` : ''}{' '}
-                    {item.balance
-                      ? toFixed((item.balance / amount) * 100, 2)
-                      : '??'}
-                    %
-                  </Text>
+                  {!!item.balance && (
+                    <Text
+                      type={isTop ? 'warning' : 'tinygrailText'}
+                      size={11}
+                      lineHeight={14}
+                    >
+                      +{formatNumber(item.balance, 0)}{' '}
+                      {toFixed((item.balance / amount) * 100, 2)}%
+                    </Text>
+                  )}
                 </Flex.Item>
               </Flex>
             )

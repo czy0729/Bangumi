@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-08 10:27:34
+ * @Last Modified time: 2020-07-18 01:28:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,8 +18,8 @@ import { EVENT } from '@constants'
 
 const imageWidth = _.window.contentWidth * 0.28
 const imageHeight = imageWidth * 1.28
-const imageResizeWidth = imageWidth * 1.12
-const imageResizeHeight = imageHeight * 1.12
+const imageResizeWidth = imageWidth * 1.2
+const imageResizeHeight = imageHeight * 1.2
 const marginLeft = (_.window.contentWidth - 3 * imageWidth) / 4
 
 function ItemTemple(

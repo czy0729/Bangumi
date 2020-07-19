@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 01:38:27
+ * @Last Modified time: 2020-07-18 01:21:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,7 +54,7 @@ function Slider({ style }, { $ }) {
           </View>
         </Flex.Item>
         <Touchable style={_.ml.sm} onPress={() => $.changeAmount($.max)}>
-          <Text style={styles.max} type='tinygrailText' size={13}>
+          <Text style={styles.max} type='tinygrailText' size={12}>
             [最大]
           </Text>
         </Touchable>

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 11:27:49
+ * @Last Modified time: 2020-07-19 13:31:44
  */
 import { Platform } from 'react-native'
 
@@ -15,7 +15,9 @@ export const DEV = global.__DEV__ // 是否开发模式
 export const SDK = parseInt(expoPackageJson.version.split(',')[0]) // 打包apk和bangumi-ios-test线上expo使用35, 打包ipa提审需至少使用37
 export const BUNDLE_IDENTIFIER = appJson.name // Expo线上预览唯一标识
 export const VERSION_GITHUB_RELEASE = appJson.expo.version // 版本号
-export const VERSION_TINYGRAIL_PLUGIN = appJson.expo.versionTinygrail // 小圣杯助手版本
+export const VERSION_TINYGRAIL_PLUGIN = appJson.expo.description.split(
+  'tinygrail plugin '
+)[1] // 小圣杯助手版本
 export const BARE = true // 裸工作流 (已稳定脱离, 待废弃)
 
 /* ==================== BASE ==================== */

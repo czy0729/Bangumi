@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:29:01
+ * @Last Modified time: 2020-07-18 01:20:41
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -109,7 +109,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind - _._wind
   },
   depth: {
-    width: _.isPad ? 224 : 176,
-    marginLeft: _.sm
+    width: _.isPad ? 224 : 164,
+    marginLeft: _.md
   }
 }))

@@ -4,23 +4,32 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 15:00:54
+ * @Last Modified time: 2020-07-18 14:35:51
  */
 import React from 'react'
-import { StyleSheet, Modal, View } from 'react-native'
+import { StyleSheet, Modal, View, StatusBar } from 'react-native'
 import RNImageViewer from 'react-native-image-zoom-viewer'
 import { ActivityIndicator } from '@ant-design/react-native'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { showActionSheet } from '@utils/ui'
 import { IOS } from '@constants'
 import Touchable from './touchable'
 import Iconfont from './iconfont'
 
+const actionSheetDS = ['浏览器打开图片', '取消']
+
 export default class ImageViewer extends React.Component {
   static defaultProps = {
     visible: false,
     imageUrls: [],
     onCancel: Function.prototype
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (!IOS) {
+      StatusBar.setHidden(nextProps.visible)
+    }
   }
 
   onRequestClose = () => {
@@ -31,7 +40,7 @@ export default class ImageViewer extends React.Component {
   renderMenus(url, onCancel) {
     // 不想涉及到权限问题, 暂时用浏览器打开图片来处理
     if (IOS) {
-      showActionSheet(['浏览器打开图片', '取消'], index => {
+      showActionSheet(actionSheetDS, index => {
         if (index === 0) {
           const result = open(url)
           if (result) {
@@ -42,7 +51,7 @@ export default class ImageViewer extends React.Component {
     } else {
       // @issue 安卓的ActionSheet在这个Viewer的下面
       onCancel()
-      showActionSheet(['浏览器打开图片', '取消'], index => {
+      showActionSheet(actionSheetDS, index => {
         if (index === 0) {
           open(url)
         }
@@ -74,6 +83,7 @@ export default class ImageViewer extends React.Component {
             backgroundColor='transparent'
             enableSwipeDown
             menus={() => this.renderMenus(imageUrls[0]._url, onCancel)}
+            renderIndicator={() => null}
             onCancel={onCancel}
             {...other}
           />
@@ -89,6 +99,7 @@ export default class ImageViewer extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    minHeight: _.window.height,
     backgroundColor: 'rgba(0, 0, 0, 0.88)'
   },
   activityIndicator: {

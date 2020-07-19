@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 11:02:27
+ * @Last Modified time: 2020-07-18 14:28:43
  */
 import React from 'react'
-import { View, Alert } from 'react-native'
+import { BackHandler, View, Alert, StatusBar } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Button, SegmentedControl } from '@components'
@@ -21,6 +21,7 @@ import {
   setStorage
 } from '@utils'
 import { info } from '@utils/ui'
+import { IOS } from '@constants'
 import SearchInput from './search-input'
 import List from './list'
 import Item from './item'
@@ -67,6 +68,12 @@ class CharactersModal extends React.Component {
       title: this.props.title
     })
     this.title = this.props.title
+
+    BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -79,6 +86,20 @@ class CharactersModal extends React.Component {
       })
       this.title = nextProps.title
     }
+
+    if (!IOS) {
+      StatusBar.setHidden(nextProps.visible)
+    }
+  }
+
+  onBackAndroid = () => {
+    const { $ } = this.context
+    const { visible } = this.props
+    if (visible) {
+      $.onCloseModal()
+      return true
+    }
+    return false
   }
 
   onSelectLeft = item => {
@@ -250,6 +271,8 @@ class CharactersModal extends React.Component {
       })
     }
   }
+
+  onAlert = () => Alert.alert('使用说明', this.alert)
 
   get isChaos() {
     const { title } = this.props
@@ -695,7 +718,7 @@ class CharactersModal extends React.Component {
           size={20}
           color={_.colorTinygrailText}
           name='information'
-          onPress={() => Alert.alert('使用说明', this.alert)}
+          onPress={this.onAlert}
         />
       </Modal>
     )
