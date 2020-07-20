@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:58:27
+ * @Last Modified time: 2020-07-20 11:24:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -37,7 +37,9 @@ function ItemPM({
         src={avatar}
         event={event}
       />
-      <Flex.Item style={[styles.item, !!index && styles.border, _.ml.sm]}>
+      <Flex.Item
+        style={[styles.item, !!index && !_.flat && styles.border, _.ml.sm]}
+      >
         <Touchable
           onPress={() => {
             t(event.id, {
@@ -64,10 +66,10 @@ function ItemPM({
                   {time}
                 </Text>
               </Text>
-              <Text style={_.mt.xs} lineHeight={1.8} type='main' bold>
+              <Text style={_.mt.xs} type='main' bold>
                 {title}
               </Text>
-              <Text size={13} lineHeight={1.8} type='title'>
+              <Text style={_.mt.xs} size={13} type='title'>
                 {content}
               </Text>
             </Flex.Item>

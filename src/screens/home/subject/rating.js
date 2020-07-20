@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 12:20:20
+ * @Last Modified time: 2020-07-20 11:42:32
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -119,11 +119,12 @@ class Ranting extends React.Component {
                           bottom: height
                         }
                       ]}
-                      size={11}
+                      size={10}
                       type='sub'
                       align='center'
+                      bold
                     >
-                      {$.rating.count[item]}
+                      {$.rating.count[item]}{' '}
                     </Text>
                   </Flex>
                   <Text style={_.mt.sm} size={12} align='center'>
@@ -207,10 +208,10 @@ const memoStyles = _.memoStyles(_ => ({
   itemFill: {
     position: 'absolute',
     left: '50%',
-    width: 8,
-    marginLeft: -4,
+    width: 4,
+    marginLeft: -2,
     backgroundColor: _.select(_.colorWait, _._colorSub),
-    borderRadius: 4
+    borderRadius: 2
   },
   total: {
     position: 'absolute',
@@ -233,7 +234,7 @@ function getHeight(total, current) {
   if (!total || !current) return 0
   let percent = current / total
   if (percent > 0 && percent < 0.04) percent = 0.04
-  return `${Math.min(percent * 1.2 + 0.06, 1) * 100}%`
+  return `${Math.min(percent * 1.44 || 0.04, 1) * 100}%`
 }
 
 /**

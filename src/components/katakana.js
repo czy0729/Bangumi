@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-19 13:50:17
+ * @Last Modified time: 2020-07-20 15:48:33
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -43,7 +43,7 @@ export function matchKatakanas(str) {
   return str.match(katakana)
 }
 
-const interval = 6400
+const interval = 5000
 let jps = [] // 用于收集日文, 合并多个翻译请求用
 let cbs = []
 export async function translate(jp, cb = Function.prototype) {
@@ -64,9 +64,7 @@ export async function translate(jp, cb = Function.prototype) {
   }
 
   if (!jps.length) {
-    setTimeout(() => {
-      doTranslate()
-    }, interval)
+    setTimeout(() => doTranslate(), interval)
   }
   jps.push(jp)
 }
@@ -119,7 +117,8 @@ export async function translateAll(str) {
 @observer
 class KatakanaProvider extends React.Component {
   static defaultProps = {
-    itemStyle: undefined
+    itemStyle: undefined, // 所有katakana的样式
+    itemSecondStyle: undefined // 非第一行katakana的样式
   }
 
   static childContextTypes = {
@@ -319,7 +318,7 @@ class KatakanaProvider extends React.Component {
   }
 
   renderKatakanas() {
-    const { itemStyle } = this.props
+    const { itemStyle, itemSecondStyle } = this.props
     return this.measuredKatakanas.map(item => {
       const isLineFirst = item.top === 0
       return (
@@ -333,7 +332,8 @@ class KatakanaProvider extends React.Component {
               minWidth: item.width,
               marginTop: isLineFirst ? -9 : -3 // 这里还没解决好行高问题, 大概调到好看
             },
-            itemStyle
+            itemStyle,
+            !isLineFirst && itemSecondStyle
           ]}
           size={10}
           align='center'
@@ -427,10 +427,9 @@ class Katakana extends React.Component {
 
   get text() {
     const { children } = this.props
-    if (typeof children === 'string') {
-      return children
-    }
-    return children.map(item => item || '').join('')
+    return typeof children === 'string'
+      ? children
+      : children.map(item => item || '').join('')
   }
 
   get isOn() {

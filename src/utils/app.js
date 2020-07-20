@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 11:05:23
+ * @Last Modified time: 2020-07-20 14:01:10
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -82,7 +82,7 @@ export function x18(subjectId, title) {
   if (!filter && title) {
     filter = ['乳', '妻', '淫'].some(item => title.includes(item))
   }
-  if (DEV && filter) console.log(subjectId, filter)
+  // if (DEV && filter) console.log(subjectId, filter)
   return filter
 }
 

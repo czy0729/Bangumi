@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-12 16:44:27
+ * @Last Modified time: 2020-07-20 11:38:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -85,9 +85,11 @@ function Ep({ style }, { $, navigation }) {
         onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
         onLongPress={item => $.doEpsLongPress(item)}
       />
-      <Flex style={_.mt.md}>
+      <Flex style={_.mt.sm}>
         <View style={styles.input}>
           <Input
+            style={styles.inputRaw}
+            pointerEvents='box-none'
             keyboardType='numeric'
             value={watchedEps}
             placeholder={watchedEps || '0'}
@@ -101,13 +103,14 @@ function Ep({ style }, { $, navigation }) {
             onSubmitEditing={$.doUpdateSubjectEp}
           />
           {!!totalEps && (
-            <Text style={styles.total} type='sub'>
+            <Text style={styles.total} type='sub' size={12}>
               / {totalEps}
             </Text>
           )}
         </View>
         <Button
           style={styles.btn}
+          styleText={styles.btnText}
           type='ghostPrimary'
           onPress={$.doUpdateSubjectEp}
         >
@@ -135,18 +138,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: _.sm
   },
   input: {
-    width: 120,
-    height: 34
+    width: 80,
+    height: 28
+  },
+  inputRaw: {
+    height: 28,
+    paddingVertical: 0,
+    ..._.fontSize(12)
   },
   total: {
     position: 'absolute',
     zIndex: 100,
-    top: 8,
-    right: 12
+    top: 6,
+    right: 10
   },
   btn: {
-    width: 80,
-    height: 34,
+    width: 64,
+    height: 28,
     marginLeft: 12
+  },
+  btnText: {
+    ..._.fontSize(12)
   }
 })

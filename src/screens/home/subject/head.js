@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-19 13:52:40
+ * @Last Modified time: 2020-07-20 11:28:06
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -37,10 +37,12 @@ function Head({ style }, { $ }) {
             <Katakana.Provider
               size={$.jp.length > 12 ? 10 : 13}
               itemStyle={styles.katakana}
+              numberOfLines={2}
             >
               <Katakana
                 type='sub'
                 size={$.jp.length > 12 ? 10 : 13}
+                numberOfLines={2}
                 onLongPress={() => {
                   Clipboard.setString($.jp)
                   info(`已复制 ${$.jp}`)

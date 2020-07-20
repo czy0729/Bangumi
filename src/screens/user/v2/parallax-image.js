@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 20:44:39
+ * @Last Modified time: 2020-07-20 13:56:10
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Text, Iconfont } from '@components'
-import { Popover, IconHeader, IconBack } from '@screens/_'
+import { Flex, Text, Iconfont } from '@components'
+import { Popover, IconHeader, IconBack, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
+import { HTMLDecode } from '@utils/html'
 import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -88,9 +89,18 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             }
           ]}
         >
-          <Text style={styles.title} size={16} align='center' numberOfLines={1}>
-            {nickname}
-          </Text>
+          <Flex style={styles.title} justify='center'>
+            <Avatar size={28} src={$.avatar || avatar.large} />
+            <Text
+              style={_.ml.sm}
+              type={_.select('plain', 'title')}
+              align='center'
+              bold
+              numberOfLines={1}
+            >
+              {HTMLDecode(nickname)}
+            </Text>
+          </Flex>
         </Animated.View>
         <Animated.View
           style={[
@@ -202,12 +212,11 @@ const memoStyles = _.memoStyles(_ => ({
   title: {
     position: 'absolute',
     left: '50%',
-    width: 200,
-    bottom: _.sm + (IOS ? 5 : 11),
-    color: _.__colorPlain__,
+    width: 240,
+    bottom: _.sm + (IOS ? 1 : 8),
     transform: [
       {
-        translateX: -100
+        translateX: -120
       }
     ]
   },
