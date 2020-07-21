@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 11:49:54
+ * @Last Modified time: 2020-07-20 17:25:49
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -65,6 +65,7 @@ export { default as PM } from './user/pm'
 export { default as Qiafan } from './user/qiafan'
 export { default as Setting } from './user/setting'
 export { default as User } from './user/v2'
+export { default as UserTimeline } from './user/timeline'
 export { default as Zone } from './user/zone'
 
 // Tinygrail

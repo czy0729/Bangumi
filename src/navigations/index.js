@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 11:03:58
+ * @Last Modified time: 2020-07-20 17:26:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -84,6 +84,7 @@ import {
   Topic,
   UGCAgree,
   User,
+  UserTimeline,
   Voices,
   WebView,
   Works,
@@ -205,6 +206,7 @@ const HomeStack = createStackNavigator(
     Topic,
     UGCAgree,
     User,
+    UserTimeline,
     Voices,
     WebView,
     Works,

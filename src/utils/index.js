@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 16:47:04
+ * @Last Modified time: 2020-07-20 17:30:29
  */
 import { AsyncStorage, Clipboard } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -216,8 +216,8 @@ export function date(format, timestamp) {
   ]
   let f = {
     d: function () {
-      return f.j()
-      // return pad(f.j(), 2)
+      // return f.j()
+      return pad(f.j(), 2)
     },
     D: function () {
       t = f.l()
@@ -263,8 +263,8 @@ export function date(format, timestamp) {
       return txt_months[f.n()]
     },
     m: function () {
-      return f.n()
-      // return pad(f.n(), 2)
+      // return f.n()
+      return pad(f.n(), 2)
     },
     M: function () {
       t = f.F()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 19:32:19
+ * @Last Modified time: 2020-07-21 22:17:33
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -40,17 +40,26 @@ function Tag({ style, type, value, size }) {
         break
 
       case '想看':
+      case '想读':
+      case '想听':
+      case '想玩':
       case '已收藏':
         isActive = true
         _type = 'mainActive'
         break
 
       case '看过':
+      case '读过':
+      case '听过':
+      case '玩过':
         isActive = true
         _type = 'warningActive'
         break
 
       case '在看':
+      case '在读':
+      case '在听':
+      case '在玩':
         isActive = true
         _type = 'primaryActive'
         break

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:45:38
+ * @Last Modified time: 2020-07-20 16:28:52
  */
 import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
@@ -127,6 +127,13 @@ class Subject extends store {
      */
     monoVoices: {
       0: INIT_MONO_WORKS
+    },
+
+    /**
+     * 好友评分列表
+     */
+    rating: {
+      0: LIST_EMPTY
     }
   })
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 12:15:14
+ * @Last Modified time: 2020-07-21 15:24:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { _, systemStore } from '@stores'
 
 const nums = [1, 2, 3, 4, 5]
 
-function Stars({ style, simple, value }) {
+function Stars({ style, simple, value, size }) {
   if (systemStore.setting.hideScore || !value) {
     return null
   }
@@ -20,8 +20,8 @@ function Stars({ style, simple, value }) {
   if (simple) {
     return (
       <Flex style={style}>
-        <Iconfont name='star-full' size={12} color={_.colorWarning} />
-        <Text style={_.ml.xs} type='sub' size={12} bold>
+        <Iconfont name='star-full' size={size} color={_.colorWarning} />
+        <Text style={_.ml.xs} type='sub' size={size} bold>
           {value}{' '}
         </Text>
       </Flex>
@@ -36,7 +36,7 @@ function Stars({ style, simple, value }) {
             <Iconfont
               key={item}
               name='star-full'
-              size={12}
+              size={size}
               color={_.colorWarning}
             />
           )
@@ -45,11 +45,11 @@ function Stars({ style, simple, value }) {
         if (value / 2 >= item - 0.5) {
           return (
             <View key={item}>
-              <Iconfont name='star-full' size={12} color={_.colorBorder} />
+              <Iconfont name='star-full' size={size} color={_.colorBorder} />
               <Iconfont
                 style={styles.half}
                 name='star-half'
-                size={12}
+                size={size}
                 color={_.colorWarning}
               />
             </View>
@@ -60,12 +60,12 @@ function Stars({ style, simple, value }) {
           <Iconfont
             key={item}
             name='star-full'
-            size={12}
+            size={size}
             color={_.colorBorder}
           />
         )
       })}
-      <Text style={_.ml.xs} type='sub' size={12} lineHeight={12} bold>
+      <Text style={_.ml.xs} type='sub' size={size} lineHeight={size} bold>
         {value}{' '}
       </Text>
     </Flex>
@@ -74,7 +74,8 @@ function Stars({ style, simple, value }) {
 
 Stars.defaultProps = {
   simple: false,
-  value: 0
+  value: 0,
+  size: 10
 }
 
 export default observer(Stars)

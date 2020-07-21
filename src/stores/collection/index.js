@@ -5,16 +5,17 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 22:28:45
+ * @Last Modified time: 2020-07-21 10:59:25
  */
 import { observable } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
-import fetch, { fetchHTML, xhr } from '@utils/fetch'
+import fetch, { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS } from '@constants/model'
 import {
+  API_MOSAIC_TILE,
   API_COLLECTION,
   API_COLLECTION_ACTION,
   API_SUBJECT_UPDATE_WATCHED
@@ -68,7 +69,12 @@ class Collection extends store {
      */
     userCollectionsMap: {
       // 0: '看过'
-    }
+    },
+
+    /**
+     * 瓷砖进度
+     */
+    mosaicTile: {}
   })
 
   init = () => {
@@ -81,7 +87,8 @@ class Collection extends store {
         'collection',
         'userCollections',
         'userCollectionsTags',
-        'userCollectionsMap'
+        'userCollectionsMap',
+        'mosaicTile'
       ],
       NAMESPACE
     )
@@ -340,6 +347,36 @@ class Collection extends store {
     }
   }
 
+  /**
+   * 瓷砖进度数据
+   */
+  fetchMosaicTile = async ({ username } = {}) => {
+    const key = 'mosaicTile'
+    const _username = username || userStore.myId
+    if (
+      this.mosaicTile._loaded &&
+      getTimestamp() - this.mosaicTile._loaded <= 60 * 60 &&
+      _username === this.mosaicTile._username
+    ) {
+      return this[key]
+    }
+
+    try {
+      const { _response } = await xhrCustom({
+        url: API_MOSAIC_TILE(_username)
+      })
+      const data = JSON.parse(_response)
+      data._username = _username
+      data._loaded = getTimestamp()
+
+      this.clearState(key, data)
+      this.setStorage(key, undefined, NAMESPACE)
+    } catch (error) {
+      warn('CollectionStore', 'fetchMosaicTile', error)
+    }
+    return this[key]
+  }
+
   // -------------------- page --------------------
   /**
    * 只本地化自己的收藏概览
@@ -355,7 +392,6 @@ class Collection extends store {
         data[key] = userCollections[key]
       }
     })
-
     this.setStorage('userCollections', data, NAMESPACE)
   }
 

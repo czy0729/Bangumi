@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 23:15:13
+ * @Last Modified time: 2020-07-21 12:13:17
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import {
@@ -267,7 +267,7 @@ export async function fetchTimeline(
           p4,
           subject,
           subjectId,
-          time,
+          time: trim(time),
           star,
           comment,
           reply,

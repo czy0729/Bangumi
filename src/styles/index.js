@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 02:29:14
+ * @Last Modified time: 2020-07-21 11:22:11
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -67,12 +67,13 @@ export const colorSub = 'rgb(128, 128, 128)'
 export const colorDisabled = 'rgb(150, 150, 150)'
 export const colorIcon = 'rgb(200, 200, 200)'
 
-export const colorMainRaw = colorMain.match(/\d+/g)
-export const colorPrimaryRaw = colorPrimary.match(/\d+/g)
-export const colorSuccessRaw = colorSuccess.match(/\d+/g)
-export const colorWarningRaw = colorWarning.match(/\d+/g)
-export const colorPlainRaw = colorPlain.match(/\d+/g)
-export const colorTitleRaw = colorTitle.match(/\d+/g)
+const regColor = /\d+/g
+export const colorMainRaw = colorMain.match(regColor)
+export const colorPrimaryRaw = colorPrimary.match(regColor)
+export const colorSuccessRaw = colorSuccess.match(regColor)
+export const colorWarningRaw = colorWarning.match(regColor)
+export const colorPlainRaw = colorPlain.match(regColor)
+export const colorTitleRaw = colorTitle.match(regColor)
 export const colorMainLight = `rgba(${colorMainRaw.join()}, 0.1)`
 export const colorSuccessLight = `rgba(${colorSuccessRaw.join()}, 0.1)`
 export const colorWarningLight = `rgba(${colorWarningRaw.join()}, 0.1)`
@@ -102,8 +103,8 @@ export const _colorSub = 'rgba(255, 255, 255, 0.52)'
 export const _colorDisabled = 'rgba(255, 255, 255, 0.38)'
 export const _colorIcon = 'rgba(255, 255, 255, 0.38)'
 
-export const _colorDarkModeLevel1Raw = _colorDarkModeLevel1.match(/\d+/g)
-export const _colorPlainRaw = _colorPlain.match(/\d+/g)
+export const _colorDarkModeLevel1Raw = _colorDarkModeLevel1.match(regColor)
+export const _colorPlainRaw = _colorPlain.match(regColor)
 export const _colorTitleRaw = [255, 255, 255]
 
 // -------------------- 小圣杯 --------------------
