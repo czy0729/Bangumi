@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 05:05:18
+ * @Last Modified time: 2020-07-26 15:00:23
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -46,8 +46,8 @@ class List extends React.Component {
           }
         >
           {title}{' '}
-          <Text type='sub' size={12} lineHeight={15}>
-            {count}
+          <Text type='sub' size={12} bold lineHeight={15}>
+            {count}{' '}
           </Text>
         </SectionHeader>
       </Touchable>

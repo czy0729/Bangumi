@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 15:40:15
+ * @Last Modified time: 2020-07-26 16:39:37
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -34,7 +34,7 @@ function Head({ style }, { $, navigation }) {
               onPress={() => navigation.push('Friends')}
             >
               <View>
-                <Text type={_.select('plain', 'title')} size={13}>
+                <Text type={_.select('plain', 'title')} size={11}>
                   好友
                 </Text>
               </View>
@@ -43,7 +43,7 @@ function Head({ style }, { $, navigation }) {
               style={styles.r2}
               onPress={() => navigation.push('Character')}
             >
-              <Text type={_.select('plain', 'title')} size={13}>
+              <Text type={_.select('plain', 'title')} size={11}>
                 人物
               </Text>
             </Touchable>
@@ -51,7 +51,7 @@ function Head({ style }, { $, navigation }) {
               style={styles.r3}
               onPress={() => navigation.push('Catalogs')}
             >
-              <Text type={_.select('plain', 'title')} size={13}>
+              <Text type={_.select('plain', 'title')} size={11}>
                 目录
               </Text>
             </Touchable>

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 20:16:13
+ * @Last Modified time: 2020-07-26 15:43:28
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
+import { ListView } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import MosaicTile from './mosaic-tile'
 import List from './list'
 import Store from './store'
@@ -28,20 +29,39 @@ class UserTimeline extends React.Component {
   }
 
   static contextTypes = {
-    $: PropTypes.object
+    $: PropTypes.object,
+    navigation: PropTypes.object
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     $.init()
+
+    const { userName } = $.params
+    if (userName) {
+      navigation.setParams({
+        title: `${userName}的${title}`
+      })
+    }
+
+    t('时间线.查看')
   }
 
   render() {
+    const { $ } = this.context
     return (
-      <ScrollView style={_.container.plain}>
-        <MosaicTile />
-        <List />
-      </ScrollView>
+      <ListView
+        style={_.container.plain}
+        data={$.timeline}
+        ListHeaderComponent={
+          <>
+            <MosaicTile />
+            <List />
+          </>
+        }
+        onHeaderRefresh={() => $.fetchTimeline(true)}
+        onFooterRefresh={$.fetchTimeline}
+      />
     )
   }
 }

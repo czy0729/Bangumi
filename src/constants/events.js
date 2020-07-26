@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:03:30
+ * @Last Modified time: 2020-07-26 14:15:01
  */
 
 /**
@@ -463,6 +463,11 @@ export default {
   '空间.添加好友': 'Zone.connect',
   '空间.解除好友': 'Zone.disconnect',
   '空间.历史': 'Zone.used',
+
+  // 时间线
+  '时间线.查看': 'UserTimeline.view',
+  '时间线.跳转': 'UserTimeline.to',
+  '时间线.点击瓷砖': 'UserTimeline.mosaicTilePress',
 
   /* ==================== other ==================== */
   '其他.启动': 'Other.start',

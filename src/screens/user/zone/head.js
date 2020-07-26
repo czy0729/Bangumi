@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 15:40:33
+ * @Last Modified time: 2020-07-26 16:39:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -33,11 +33,11 @@ function Head({ style }, { $, navigation }) {
           shadow
           src={$.src}
         />
-        <Text style={styles.l1} type={_.select('plain', 'title')} size={12}>
+        <Text style={styles.l1} type={_.select('plain', 'title')} size={11}>
           {join || '- 加入'}
         </Text>
-        <Text style={styles.l2} type={_.select('plain', 'title')} size={12}>
-          同步率{isNaN(percent) ? '-' : percent}%
+        <Text style={styles.l2} type={_.select('plain', 'title')} size={11}>
+          同步率 {isNaN(percent) ? '-' : percent}%
         </Text>
         <Touchable
           style={styles.l3}
@@ -49,7 +49,7 @@ function Head({ style }, { $, navigation }) {
             $.openUsedModal()
           }}
         >
-          <Text type={_.select('plain', 'title')} size={12}>
+          <Text type={_.select('plain', 'title')} size={11}>
             历史
           </Text>
         </Touchable>
@@ -66,7 +66,7 @@ function Head({ style }, { $, navigation }) {
             })
           }}
         >
-          <Text type={_.select('plain', 'title')} size={12}>
+          <Text type={_.select('plain', 'title')} size={11}>
             人物
           </Text>
         </Touchable>
@@ -83,7 +83,7 @@ function Head({ style }, { $, navigation }) {
             })
           }}
         >
-          <Text type={_.select('plain', 'title')} size={12}>
+          <Text type={_.select('plain', 'title')} size={11}>
             日志
           </Text>
         </Touchable>
@@ -100,7 +100,7 @@ function Head({ style }, { $, navigation }) {
             })
           }}
         >
-          <Text type={_.select('plain', 'title')} size={12}>
+          <Text type={_.select('plain', 'title')} size={11}>
             目录
           </Text>
         </Touchable>
@@ -108,7 +108,10 @@ function Head({ style }, { $, navigation }) {
       <Text style={_.mt.md} type={_.select('plain', 'title')}>
         {userName}
         {!!(username || userId) && (
-          <Text type={_.select('plain', 'title')}> @{username || userId}</Text>
+          <Text type={_.select('plain', 'title')}>
+            {' '}
+            @{username || userId}
+          </Text>
         )}
         {isFriend && (
           <Text
@@ -144,42 +147,42 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 16,
     right: 100,
-    opacity: 0.72
+    opacity: 0.8
   },
   l2: {
     position: 'absolute',
     top: 52,
     right: 116,
-    opacity: 0.72
+    opacity: 0.8
   },
   l3: {
     position: 'absolute',
     top: 88,
     right: 100,
-    opacity: 0.72
+    opacity: 0.8
   },
   r1: {
     position: 'absolute',
     zIndex: 1,
     top: 16,
     left: 100,
-    opacity: 0.72
+    opacity: 0.8
   },
   r2: {
     position: 'absolute',
     zIndex: 1,
     top: 52,
     left: 116,
-    opacity: 0.72
+    opacity: 0.8
   },
   r3: {
     position: 'absolute',
     zIndex: 1,
     top: 88,
     left: 100,
-    opacity: 0.72
+    opacity: 0.8
   },
   friend: {
-    opacity: 0.72
+    opacity: 0.8
   }
 })

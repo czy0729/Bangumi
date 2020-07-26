@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-19 13:53:03
+ * @Last Modified time: 2020-07-26 14:32:03
  */
 export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const initialHomeTabName = 'Home'
@@ -20,7 +20,7 @@ export default {
     // cn: '欢迎来到实力至上主义的教室',
     // topicId: 'subject/17618' // group/357093, ep/768491
     // userId: '486811' // 456208, 419012
-    // userName: 'ekibun'
+    // userName: 'sukaretto'
     // from: 'tinygrail',
     // form: 'lottery', // lottery
     // message: '彩票刮刮乐共获得： #20391「双叶杏」64股 #70900「神原骏河」36股',

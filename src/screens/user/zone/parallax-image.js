@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 12:03:17
+ * @Last Modified time: 2020-07-26 16:49:11
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
-import { Popover, IconBack, Avatar } from '@screens/_'
+import { Popover, IconBack, IconHeader, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
 import { HTMLDecode } from '@utils/html'
@@ -52,7 +52,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
     })
   }
 
-  const data = ['浏览器查看', '复制链接', '发短信', 'TA的收藏', 'TA的好友']
+  const data = ['浏览器查看', '复制链接', '发短信', 'TA的好友']
   if ($.users.connectUrl) {
     data.push('加为好友')
   } else if ($.users.disconnectUrl) {
@@ -135,6 +135,20 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
         </Animated.View>
       </View>
       <IconBack style={[_.header.left, styles.btn]} navigation={navigation} />
+      <IconHeader
+        style={styles.collection}
+        name='menu'
+        color={_.__colorPlain__}
+        onPress={() => {
+          t('空间.跳转', {
+            to: 'User'
+          })
+
+          navigation.push('User', {
+            userId: username || id
+          })
+        }}
+      />
       <View
         style={[
           _.header.right,
@@ -203,7 +217,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont size={24} name='more' color={_.__colorPlain__} />
+          <Iconfont name='list' color={_.__colorPlain__} />
         </Popover>
       </View>
     </>
@@ -258,5 +272,12 @@ const memoStyles = _.memoStyles(_ => ({
   btn: {
     zIndex: 1,
     marginTop: -5
+  },
+  collection: {
+    ..._.header.right,
+    zIndex: 1,
+    marginTop: -5,
+    marginRight: 34,
+    opacity: 0.8
   }
 }))

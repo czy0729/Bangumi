@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 15:24:51
+ * @Last Modified time: 2020-07-26 14:42:01
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -75,7 +75,7 @@ function Stars({ style, simple, value, size }) {
 Stars.defaultProps = {
   simple: false,
   value: 0,
-  size: 10
+  size: 11
 }
 
 export default observer(Stars)

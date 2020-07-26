@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 10:59:25
+ * @Last Modified time: 2020-07-26 16:35:01
  */
 import { observable } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -300,7 +300,7 @@ class Collection extends store {
           subjectType,
           item.value
         )
-        if (!_loaded || now - _loaded > 60 * 24) {
+        if (!_loaded || now - _loaded > 60 * 60) {
           await this.fetchUserCollections(
             {
               userId,
@@ -350,9 +350,9 @@ class Collection extends store {
   /**
    * 瓷砖进度数据
    */
-  fetchMosaicTile = async ({ username } = {}) => {
+  fetchMosaicTile = async ({ userId } = {}) => {
     const key = 'mosaicTile'
-    const _username = username || userStore.myId
+    const _username = userId || userStore.myId
     if (
       this.mosaicTile._loaded &&
       getTimestamp() - this.mosaicTile._loaded <= 60 * 60 &&
@@ -365,6 +365,7 @@ class Collection extends store {
       const { _response } = await xhrCustom({
         url: API_MOSAIC_TILE(_username)
       })
+
       const data = JSON.parse(_response)
       data._username = _username
       data._loaded = getTimestamp()
@@ -372,7 +373,7 @@ class Collection extends store {
       this.clearState(key, data)
       this.setStorage(key, undefined, NAMESPACE)
     } catch (error) {
-      warn('CollectionStore', 'fetchMosaicTile', error)
+      console.log('CollectionStore', 'fetchMosaicTile', error)
     }
     return this[key]
   }

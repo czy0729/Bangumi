@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:48:51
+ * @Last Modified time: 2020-07-22 14:55:36
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -188,17 +188,18 @@ class Users extends store {
 
     const key = 'users'
     const users = cheerioUsers(html)
+    const data = {
+      ...users,
+      _loaded: getTimestamp()
+    }
     this.setState({
       [key]: {
-        [userId]: {
-          ...users,
-          _loaded: getTimestamp()
-        }
+        [userId]: data
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
 
-    return Promise.resolve(users)
+    return Promise.resolve(data)
   }
 
   /**

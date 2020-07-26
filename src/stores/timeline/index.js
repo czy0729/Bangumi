@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 11:44:29
+ * @Last Modified time: 2020-07-22 14:44:35
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -65,7 +65,7 @@ class Timeline extends store {
    * @param {*} type 类型
    */
   fetchTimeline = async (
-    { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE } = {},
+    { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE, userId } = {},
     refresh
   ) => {
     const timeline = this.timeline(scope, type)
@@ -73,7 +73,7 @@ class Timeline extends store {
       {
         scope,
         type,
-        userId: userStore.myId || userStore.myUserId
+        userId: userId || userStore.myId || userStore.myUserId
       },
       refresh,
       timeline,

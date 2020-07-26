@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 23:52:40
+ * @Last Modified time: 2020-07-26 14:42:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -94,7 +94,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   item: {
-    padding: _.sm + 4
+    padding: _.md
   },
   touchable: {
     paddingHorizontal: _.lg

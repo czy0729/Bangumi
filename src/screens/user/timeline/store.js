@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 21:54:39
+ * @Last Modified time: 2020-07-26 16:36:40
  */
 import { computed } from 'mobx'
-import { collectionStore, timelineStore } from '@stores'
+import { usersStore, collectionStore, timelineStore } from '@stores'
 import { date, getTimestamp, pad } from '@utils'
 import store from '@utils/store'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
@@ -16,11 +16,41 @@ const type = MODEL_TIMELINE_TYPE.getValue('收藏')
 
 export default class ScreenUserTimeline extends store {
   init = () => {
-    collectionStore.fetchMosaicTile()
-    this.caculateCollectionTimeline()
+    if (this.userId) {
+      collectionStore.fetchMosaicTile({
+        userId: this.userId
+      })
+      setTimeout(async () => {
+        if (!this.users._loaded) {
+          usersStore.fetchUsers(this.userId)
+        }
+
+        await this.fetchTimeline(true)
+        this.fetchTimeline()
+      }, 1000)
+    }
   }
 
   // -------------------- get --------------------
+  @computed get userId() {
+    const { userId } = this.params
+    return userId
+  }
+
+  @computed get users() {
+    return usersStore.users(this.userId)
+  }
+
+  @computed get days() {
+    const { join } = this.users
+    if (!join) {
+      return '-'
+    }
+
+    const ts = getTimestamp(join.replace(' 加入', ''))
+    return parseInt((getTimestamp() - ts) / 24 / 60 / 60)
+  }
+
   @computed get mosaicTile() {
     return collectionStore.mosaicTile
   }
@@ -144,14 +174,9 @@ export default class ScreenUserTimeline extends store {
     timelineStore.fetchTimeline(
       {
         scope,
-        type
+        type,
+        userId: this.userId
       },
       refresh
     )
-
-  // -------------------- page --------------------
-  caculateCollectionTimeline = async () => {
-    await this.fetchTimeline(true)
-    this.fetchTimeline()
-  }
 }

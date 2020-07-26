@@ -85,39 +85,39 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 16,
     right: 100,
-    opacity: 0.72
+    opacity: 0.8
   },
   l2: {
     position: 'absolute',
     top: 52,
     right: 116,
-    opacity: 0.72
+    opacity: 0.8
   },
   l3: {
     position: 'absolute',
     top: 88,
     right: 100,
-    opacity: 0.72
+    opacity: 0.8
   },
   r1: {
     position: 'absolute',
     zIndex: 1,
     top: 16,
     left: 100,
-    opacity: 0.72
+    opacity: 0.8
   },
   r2: {
     position: 'absolute',
     zIndex: 1,
     top: 52,
     left: 116,
-    opacity: 0.72
+    opacity: 0.8
   },
   r3: {
     position: 'absolute',
     zIndex: 1,
     top: 88,
     left: 100,
-    opacity: 0.72
+    opacity: 0.8
   }
 })

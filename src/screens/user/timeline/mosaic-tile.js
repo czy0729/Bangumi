@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 22:25:57
+ * @Last Modified time: 2020-07-26 14:16:09
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex, Touchable, Text } from '@components'
 import { _ } from '@stores'
 import { date, getTimestamp } from '@utils'
+import { t } from '@utils/fetch'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 
@@ -141,7 +142,14 @@ function MosaicTile(props, { $ }) {
                           : _.select(_.colorBg, _._colorDarkModeLevel1))
                     }
                   ]}
-                  onPress={() => info(`${item}：${$.mosaicTile[item] || 0}`)}
+                  onPress={() => {
+                    t('时间线.点击瓷砖', {
+                      date: item,
+                      value: $.mosaicTile[item] || 0
+                    })
+
+                    info(`${item}：${$.mosaicTile[item] || 0}`)
+                  }}
                 />
               ))}
             </Flex>

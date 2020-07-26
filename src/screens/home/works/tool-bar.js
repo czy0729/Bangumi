@@ -95,7 +95,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   item: {
-    padding: _.sm + 4
+    padding: _.md
   },
   touchable: {
     paddingHorizontal: _.lg

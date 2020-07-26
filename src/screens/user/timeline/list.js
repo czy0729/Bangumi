@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 22:24:17
+ * @Last Modified time: 2020-07-26 16:37:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { Cover, Stars, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { findSubjectCn } from '@utils/app'
+import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 const width = parseInt(IMG_WIDTH / 2)
@@ -21,13 +22,23 @@ function List(props, { $, navigation }) {
   const styles = memoStyles()
   return (
     <View style={styles.container}>
-      {$.yearsTimeline.map(item => (
+      {$.yearsTimeline.map((item, index) => (
         <View key={item.title}>
           <View>
             <View style={styles.lineBottom} />
             <View style={styles.nodeYear} />
             <Text size={18} lineHeight={48} type='title' bold>
-              {item.title}年
+              {item.title}年{' '}
+              {index === 0 && (
+                <Text size={10} bold>
+                  加入Bangumi的第
+                  <Text type='main' size={10} bold>
+                    {' '}
+                    {$.days}{' '}
+                  </Text>
+                  天
+                </Text>
+              )}
             </Text>
           </View>
           {item.data.map(item => (
@@ -120,6 +131,11 @@ function List(props, { $, navigation }) {
                                     height={height}
                                     radius
                                     onPress={() => {
+                                      t('时间线.跳转', {
+                                        to: 'Suject',
+                                        subjectId: i.id
+                                      })
+
                                       navigation.push('Subject', {
                                         subjectId: i.id
                                       })
@@ -220,7 +236,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     width: 4,
     height: 4,
-    marginTop: -3,
+    marginTop: -2,
     marginLeft: -12,
     backgroundColor: _.colorTitle,
     borderRadius: 2,

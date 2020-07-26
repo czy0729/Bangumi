@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 13:56:10
+ * @Last Modified time: 2020-07-26 16:52:42
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -23,7 +23,7 @@ const dataOther = ['TA的好友', 'TA的netaba.re']
 
 function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   const styles = memoStyles()
-  const { id, avatar = {}, nickname } = $.usersInfo
+  const { id, avatar = {}, nickname, username } = $.usersInfo
   const isMe = $.myUserId === id
   const parallaxStyle = {
     transform: [
@@ -159,9 +159,27 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
             }
           }}
         >
-          <Iconfont name={isMe ? 'list' : 'more'} color={_.__colorPlain__} />
+          <Iconfont name='list' color={_.__colorPlain__} />
         </Popover>
       </View>
+      <IconHeader
+        style={styles.timeline}
+        name='time'
+        color={_.__colorPlain__}
+        onPress={() => {
+          t('我的.跳转', {
+            to: 'UserTimeline'
+          })
+
+          const data = {
+            userId: username || id
+          }
+          if ($.params.userId) {
+            data.userName = nickname
+          }
+          navigation.push('UserTimeline', data)
+        }}
+      />
       {!$.params.userId && (
         <IconHeader
           style={styles.setting}
@@ -230,17 +248,27 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     padding: _.sm,
     marginTop: -5,
-    marginLeft: 2
+    marginLeft: 2,
+    opacity: 0.8
   },
   more: {
     ..._.header.right,
     zIndex: 1,
     padding: _.sm,
-    marginTop: -5
+    marginTop: -5,
+    opacity: 0.8
+  },
+  timeline: {
+    ..._.header.right,
+    zIndex: 1,
+    marginTop: -5,
+    marginRight: 34,
+    opacity: 0.8
   },
   setting: {
     ..._.header.right,
     zIndex: 1,
-    marginTop: -5
+    marginTop: -5,
+    opacity: 0.8
   }
 }))
