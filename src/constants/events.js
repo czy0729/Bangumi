@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 14:15:01
+ * @Last Modified time: 2020-07-27 14:49:58
  */
 
 /**
@@ -465,11 +465,11 @@ export default {
   '空间.历史': 'Zone.used',
 
   // 时间线
-  '时间线.查看': 'UserTimeline.view',
   '时间线.跳转': 'UserTimeline.to',
   '时间线.点击瓷砖': 'UserTimeline.mosaicTilePress',
 
   /* ==================== other ==================== */
   '其他.启动': 'Other.start',
-  '其他.切换主题': 'Other.theme'
+  '其他.切换主题': 'Other.theme',
+  '其他.查看': 'Other.view'
 }

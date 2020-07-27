@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 15:43:28
+ * @Last Modified time: 2020-07-27 14:49:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
-import { t } from '@utils/fetch'
 import MosaicTile from './mosaic-tile'
 import List from './list'
 import Store from './store'
@@ -43,8 +42,6 @@ class UserTimeline extends React.Component {
         title: `${userName}的${title}`
       })
     }
-
-    t('时间线.查看')
   }
 
   render() {

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 01:16:49
+ * @Last Modified time: 2020-07-26 17:49:35
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -392,9 +392,16 @@ export function sax({
  * @param {*} screen
  */
 export function hm(url, screen) {
+  // 触发页面view
+  if (screen) {
+    t('其他.查看', {
+      screen
+    })
+  }
+
   if (DEV) {
     log(`[hm] ${url} ${screen}`)
-    // return
+    return
   }
 
   try {

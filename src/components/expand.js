@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 14:52:59
+ * @Last Modified time: 2020-07-27 15:13:48
  */
 import React, { useState, useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -41,7 +41,7 @@ function Expand({ style, ratio, children }) {
       >
         <View
           style={{
-            height: state.height
+            height: state.expand ? 'auto' : state.height
           }}
         >
           {children}
