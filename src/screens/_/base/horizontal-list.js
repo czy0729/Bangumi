@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 15:29:03
+ * @Last Modified time: 2020-07-28 23:03:09
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -55,14 +55,14 @@ function HorizontalList({
               <Text
                 style={_.mt.sm}
                 size={11}
-                numberOfLines={2}
+                numberOfLines={3}
                 ellipsizeMode={ellipsizeMode}
                 bold
               >
                 {findCn ? findSubjectCn(item.name, item.id) : item.name}
               </Text>
               {!!item.desc && (
-                <Text style={_.mt.xs} type='sub' size={11} numberOfLines={1}>
+                <Text style={_.mt.xs} type='sub' size={11} numberOfLines={2}>
                   {item.desc}
                 </Text>
               )}

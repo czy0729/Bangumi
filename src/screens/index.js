@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 17:25:49
+ * @Last Modified time: 2020-07-28 10:25:31
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -40,6 +40,7 @@ export { default as Characters } from './home/characters'
 export { default as Home } from './home/v2'
 export { default as Mono } from './home/mono'
 export { default as Persons } from './home/persons'
+export { default as Rating } from './home/rating'
 export { default as Subject } from './home/subject'
 export { default as Tag } from './home/tag'
 export { default as Voices } from './home/voices'

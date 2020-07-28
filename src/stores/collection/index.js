@@ -5,14 +5,14 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 16:35:01
+ * @Last Modified time: 2020-07-28 11:14:32
  */
 import { observable } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
+import { LIST_EMPTY, DEV } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS } from '@constants/model'
 import {
   API_MOSAIC_TILE,
@@ -78,9 +78,11 @@ class Collection extends store {
   })
 
   init = () => {
-    setTimeout(() => {
-      this.fetchUserCollectionsQueue()
-    }, 16000)
+    if (!DEV) {
+      setTimeout(() => {
+        this.fetchUserCollectionsQueue()
+      }, 16000)
+    }
 
     return this.readStorage(
       [

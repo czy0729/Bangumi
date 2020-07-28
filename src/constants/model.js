@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 00:47:06
+ * @Last Modified time: 2020-07-28 14:09:54
  */
 class Model {
   constructor(data) {
@@ -120,6 +120,29 @@ export const MODEL_COLLECTION_STATUS = new Model([
   {
     label: '在看',
     value: 'do'
+  },
+  {
+    label: '搁置',
+    value: 'on_hold'
+  },
+  {
+    label: '抛弃',
+    value: 'dropped'
+  }
+])
+
+export const MODEL_RATING_STATUS = new Model([
+  {
+    label: '想看',
+    value: 'wishes'
+  },
+  {
+    label: '看过',
+    value: 'collections'
+  },
+  {
+    label: '在看',
+    value: 'doings'
   },
   {
     label: '搁置',

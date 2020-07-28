@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 19:49:01
+ * @Last Modified time: 2020-07-27 16:13:16
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -24,6 +24,23 @@ export const HTML_SUBJECT = subjectId => `${HOST}/subject/${subjectId}`
  */
 export const HTML_SUBJECT_COMMENTS = (subjectId, page = 1) =>
   `${HOST}/subject/${subjectId}/comments?page=${page}`
+
+/**
+ * 所有人评分
+ * @param {*} subjectId
+ * @param {*} status    wishes | collections | doings | on_hold | dropped
+ * @param {*} isFriend
+ * @param {*} page
+ */
+export const HTML_SUBJECT_RATING = (
+  subjectId,
+  status = 'collections',
+  isFriend = false,
+  page = 1
+) =>
+  `${HOST}/subject/${subjectId}/${status}?page=${page}${
+    isFriend ? '&filter=friends' : ''
+  }`
 
 /**
  * 章节信息

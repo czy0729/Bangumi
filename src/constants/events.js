@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-27 14:49:58
+ * @Last Modified time: 2020-07-28 22:59:24
  */
 
 /**
@@ -178,6 +178,11 @@ export default {
   // 制作人员
   '制作人员.跳转': 'Persons.to',
   '制作人员.右上角菜单': 'Persons.topRightMenu',
+
+  // 用户评分
+  '用户评分.跳转': 'Rating.to',
+  '用户评分.标签页切换': 'Rating.tabsChange',
+  '用户评分.切换类型': 'Rating.toggleFilter',
 
   /* ==================== login ==================== */
   // 辅助登陆

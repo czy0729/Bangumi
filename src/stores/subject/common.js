@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:51:54
+ * @Last Modified time: 2020-07-28 11:53:19
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -494,6 +494,64 @@ export function cheerioMonoVoices(HTML) {
                   })
                 })
                 .get() || []
+          })
+        })
+        .get() || []
+  }
+}
+
+/**
+ * 分析评分
+ * @param {*} HTML
+ */
+export function cheerioRating(HTML) {
+  const $ = cheerio(HTML)
+  const counts = {
+    wishes: 0,
+    collections: 0,
+    doings: 0,
+    on_hold: 0,
+    dropped: 0
+  }
+  $('ul.secTab li')
+    .map((index, element) => {
+      const text = cheerio(element).text()
+      const count = parseInt((text.match(/\d+/g) || [])[0]) || 0
+      if (text.includes('想')) {
+        counts.wishes = count
+      } else if (text.includes('过')) {
+        counts.collections = count
+      } else if (text.includes('在')) {
+        counts.doings = count
+      } else if (text.includes('搁置')) {
+        counts.on_hold = count
+      } else {
+        counts.dropped = count
+      }
+      return count
+    })
+    .get()
+  return {
+    counts,
+    list:
+      $('#memberUserList li')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $user = $li.find('a.avatar')
+          const starText = $li.find('span.starlight').attr('class')
+          const name = $user.text().trim()
+          const time = $li.find('p.info').text().trim()
+          return safeObject({
+            id: $user.attr('href').replace('/user/', ''),
+            avatar: $li.find('img').attr('src').split('?')[0],
+            name,
+            time,
+            star: starText ? parseInt(starText.match(/\d+/)[0]) : 0,
+            comment: $li
+              .find('div.userContainer')
+              .text()
+              .trim()
+              .replace(`${name}\n${time}`, '')
           })
         })
         .get() || []
