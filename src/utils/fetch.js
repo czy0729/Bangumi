@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 17:49:35
+ * @Last Modified time: 2020-07-30 12:05:38
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -19,6 +19,7 @@ import {
   VERSION_GITHUB_RELEASE,
   DEV
 } from '@constants'
+import { HOST_CDN } from '@constants/cdn'
 import events from '@constants/events'
 import { BAIDU_KEY } from '@constants/secret'
 import fetch from './thirdParty/fetch-polyfill'
@@ -304,7 +305,12 @@ export function xhrCustom({
     if (responseType) {
       request.responseType = responseType
     }
-    Object.keys(headers).forEach(key => {
+
+    const _headers = headers
+    if (url.includes(HOST_CDN) || !_headers.Referer) {
+      _headers.Referer = HOST
+    }
+    Object.keys(_headers).forEach(key => {
       request.setRequestHeader(key, headers[key])
     })
 

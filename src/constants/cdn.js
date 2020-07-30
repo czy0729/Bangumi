@@ -10,14 +10,22 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:25:54
+ * @Last Modified time: 2020-07-30 14:43:35
  */
 import { getTimestamp } from '@utils'
-import { getOTA } from '@utils/app'
 import { SDK } from './index'
 import { HASH_AVATAR, HASH_SUBJECT } from './hash'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
+
+/**
+ * 获取设置
+ */
+export function getOTA() {
+  const systemStore = require('../stores/system').default
+  const { ota } = systemStore
+  return ota
+}
 
 const VERSION_MONO = '20200502'
 const VERSION_SUBJECT = '20200615'

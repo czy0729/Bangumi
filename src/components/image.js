@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 02:55:49
+ * @Last Modified time: 2020-07-30 14:32:27
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -18,15 +18,19 @@ import {
   CacheManager,
   Image as AnimatedImage
 } from 'react-native-expo-image-cache'
+import { computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getCoverSmall, getCoverLarge } from '@utils/app'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
-import { IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT } from '@constants'
+import { HOST, IOS, IMG_EMPTY, IMG_EMPTY_DARK, EVENT } from '@constants'
 import { MODEL_SETTING_QUALITY } from '@constants/model'
 import Touchable from './touchable'
 
+const defaultHeaders = {
+  Referer: HOST
+}
 const maxErrorCount = 2 // 最大失败重试次数
 
 export default
@@ -50,6 +54,7 @@ class Image extends React.Component {
     event: EVENT,
     delay: true,
     cache: true,
+    headers: undefined,
     onPress: undefined,
     onLongPress: undefined,
     onError: undefined
@@ -108,12 +113,15 @@ class Image extends React.Component {
             qualityLevel = 'best'
           }
           break
+
         case '高质量':
           qualityLevel = 'best'
           break
+
         case '低质量':
           qualityLevel = 'low'
           break
+
         default:
           break
       }
@@ -139,26 +147,21 @@ class Image extends React.Component {
 
           // 检查本地有没有图片缓存
           // @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发unmounted
-          const { headers } = this.props
-
           // @issue to fixed
           if (typeof _src === 'string' && _src.includes('https:/img/')) {
             this.onError()
             return false
           }
 
-          res = CacheManager.get(_src, headers).getPath()
+          res = CacheManager.get(_src, {
+            headers: this.headers
+          }).getPath()
           const path = await res
-          if (path) {
-            uri = path
-          } else {
-            uri = _src
-          }
           this.setState({
-            uri
+            uri: path || _src
           })
         }
-      } catch (e) {
+      } catch (error) {
         // 图片是不是会下载失败, 当错误次数大于maxErrorCount就认为是错误
         if (this.errorCount < maxErrorCount) {
           this.timeoutId = setTimeout(() => {
@@ -169,6 +172,8 @@ class Image extends React.Component {
           this.timeoutId = null
           this.onError()
         }
+
+        warn('Image', 'cache', error)
       }
     } else {
       uri = src
@@ -259,7 +264,105 @@ class Image extends React.Component {
     )
   }
 
-  render() {
+  get headers() {
+    const { headers } = this.props
+    if (headers) {
+      return {
+        Referer: HOST,
+        ...headers
+      }
+    }
+    return defaultHeaders
+  }
+
+  @computed get computedStyle() {
+    const {
+      style,
+      imageStyle,
+      size,
+      height,
+      border,
+      borderWidth,
+      radius,
+      shadow,
+      placeholder,
+      autoSize
+    } = this.props
+    const { width: _width, height: _height } = this.state
+    const container = []
+    const image = []
+
+    // 以state里面的width和height优先
+    if (autoSize) {
+      image.push({
+        width: _width || 160,
+        height: _height || 160
+      })
+    } else if (size) {
+      image.push({
+        width: size,
+        height: height || size
+      })
+    }
+
+    // 若边框等于hairlineWidth且有影子就不显示边框
+    if (border && !(border === _.hairlineWidth && shadow)) {
+      if (typeof border === 'string') {
+        image.push({
+          borderWidth,
+          borderColor: border
+        })
+      } else {
+        image.push(this.styles.border)
+      }
+    }
+
+    if (radius) {
+      if (typeof radius === 'boolean') {
+        container.push({
+          borderRadius: _.radiusXs
+        })
+        image.push({
+          borderRadius: _.radiusXs
+        })
+      } else {
+        container.push({
+          borderRadius: radius
+        })
+        image.push({
+          borderRadius: radius
+        })
+      }
+    }
+
+    if (shadow && !_.isDark) {
+      if (shadow === 'lg') {
+        container.push(this.styles.shadowLg)
+      } else {
+        container.push(this.styles.shadow)
+      }
+    }
+
+    if (placeholder) {
+      container.push(this.styles.placeholder)
+    }
+
+    if (style) {
+      container.push(style)
+    }
+
+    if (imageStyle) {
+      container.push(imageStyle)
+      image.push(imageStyle)
+    }
+
+    return {
+      container,
+      image
+    }
+  }
+
+  renderImage() {
     const {
       style,
       imageStyle,
@@ -285,75 +388,8 @@ class Image extends React.Component {
       onError,
       ...other
     } = this.props
-    const { error, uri, width: _width, height: _height } = this.state
-    const _wrap = []
-    const _image = []
+    const { error, uri } = this.state
 
-    // 以state里面的width和height优先
-    if (autoSize) {
-      _image.push({
-        width: _width || 160,
-        height: _height || 160
-      })
-    } else if (size) {
-      _image.push({
-        width: size,
-        height: height || size
-      })
-    }
-
-    // 若边框等于hairlineWidth且有影子就不显示边框
-    if (border && !(border === _.hairlineWidth && shadow)) {
-      if (typeof border === 'string') {
-        _image.push({
-          borderWidth,
-          borderColor: border
-        })
-      } else {
-        _image.push(this.styles.border)
-      }
-    }
-
-    if (radius) {
-      if (typeof radius === 'boolean') {
-        _wrap.push({
-          borderRadius: _.radiusXs
-        })
-        _image.push({
-          borderRadius: _.radiusXs
-        })
-      } else {
-        _wrap.push({
-          borderRadius: radius
-        })
-        _image.push({
-          borderRadius: radius
-        })
-      }
-    }
-
-    if (shadow && !_.isDark) {
-      if (shadow === 'lg') {
-        _wrap.push(this.styles.shadowLg)
-      } else {
-        _wrap.push(this.styles.shadow)
-      }
-    }
-
-    if (placeholder) {
-      _wrap.push(this.styles.placeholder)
-    }
-
-    if (style) {
-      _wrap.push(style)
-    }
-
-    if (imageStyle) {
-      _wrap.push(imageStyle)
-      _image.push(imageStyle)
-    }
-
-    let image
     const { imageTransition } = systemStore.setting
     const _fadeDuration =
       fadeDuration === undefined
@@ -361,23 +397,27 @@ class Image extends React.Component {
           ? undefined
           : 0
         : fadeDuration
+
     if (error) {
       // 错误显示本地的错误提示图片
-      image = (
+      return (
         <RNImage
-          style={[_image, this.styles.error]}
+          style={[this.computedStyle.image, this.styles.error]}
           source={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
           fadeDuration={_fadeDuration}
           {...other}
         />
       )
-    } else if (typeof src === 'string' || typeof src === 'undefined') {
+    }
+
+    if (typeof src === 'string' || typeof src === 'undefined') {
       if (uri) {
+        // IOS使用了CacheManager管理图片, 请求时已加headers, 所以组件就不需要再加了
         if (IOS && imageTransition) {
-          image = (
+          return (
             <AnimatedImage
               style={[
-                _image,
+                this.computedStyle.image,
                 {
                   width: this.props.width || this.props.size
                 }
@@ -390,47 +430,58 @@ class Image extends React.Component {
               {...other}
             />
           )
-        } else {
-          image = (
-            <RNImage
-              style={_image}
-              source={
-                headers
-                  ? {
-                      uri,
-                      headers
-                    }
-                  : {
-                      uri
-                    }
-              }
-              fadeDuration={_fadeDuration}
-              onError={this.onError}
-              {...other}
-            />
-          )
         }
-      } else {
-        image = <View style={_image} />
+
+        // 网络图片
+        return (
+          <RNImage
+            style={this.computedStyle.image}
+            source={{
+              headers: this.headers,
+              uri
+            }}
+            fadeDuration={_fadeDuration}
+            onError={this.onError}
+            {...other}
+          />
+        )
       }
-    } else {
-      image = (
-        <RNImage
-          style={_image}
-          source={
-            headers
-              ? {
-                  ...src,
-                  headers
-                }
-              : src
-          }
-          fadeDuration={_fadeDuration}
-          onError={this.onError}
-          {...other}
-        />
-      )
+
+      // 没有图片占位
+      return <View style={this.computedStyle.image} />
     }
+
+    // 本地图片
+    return (
+      <RNImage
+        style={this.computedStyle.image}
+        source={
+          headers
+            ? {
+                ...src,
+                headers: this.headers
+              }
+            : src
+        }
+        fadeDuration={_fadeDuration}
+        onError={this.onError}
+        {...other}
+      />
+    )
+  }
+
+  render() {
+    const {
+      src,
+      imageViewer,
+      imageViewerSrc,
+      headers,
+      event,
+      delay,
+      onPress,
+      onLongPress
+    } = this.props
+    const { uri } = this.state
 
     let _onPress = onPress
     if (imageViewer) {
@@ -461,17 +512,19 @@ class Image extends React.Component {
     if (_onPress || onLongPress) {
       return (
         <Touchable
-          style={_wrap}
+          style={this.computedStyle.container}
           delay={delay}
           onPress={_onPress}
           onLongPress={onLongPress}
         >
-          {image}
+          {this.renderImage()}
         </Touchable>
       )
     }
 
-    return <View style={_wrap}>{image}</View>
+    return (
+      <View style={this.computedStyle.container}>{this.renderImage()}</View>
+    )
   }
 
   get styles() {

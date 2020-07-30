@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 11:14:32
+ * @Last Modified time: 2020-07-30 11:50:34
  */
 import { observable } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -364,6 +364,12 @@ class Collection extends store {
     }
 
     try {
+      // refresh online data
+      await xhrCustom({
+        url: API_MOSAIC_TILE(_username).replace('.json', '')
+      })
+      await sleep(800)
+
       const { _response } = await xhrCustom({
         url: API_MOSAIC_TILE(_username)
       })

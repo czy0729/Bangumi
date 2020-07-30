@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 00:38:28
+ * @Last Modified time: 2020-07-30 11:31:40
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { HOST } from '@constants'
 import { _ } from '@stores'
 import Flex from '../flex'
 import Image from '../image'
@@ -103,9 +102,6 @@ class ToggleImage extends React.Component {
       <Flex style={_.mt.sm} justify='center'>
         <Image
           {...this.props}
-          headers={{
-            Referer: HOST
-          }}
           onLoadEnd={this.onLoadEnd}
           onError={this.onLoadEnd}
         />

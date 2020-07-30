@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 21:53:51
+ * @Last Modified time: 2020-07-29 14:49:26
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Text, Input, Button, KeyboardSpacer } from '@components'
 import { _, userStore } from '@stores'
 import { copy, getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
-import { xhrCustom, hm, t } from '@utils/fetch'
+import { xhrCustom, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 
@@ -24,7 +24,8 @@ const code = `JSON.stringify({
 
 export default
 @withHeader({
-  screen: title
+  screen: title,
+  hm: ['login/assist', 'LoginAssist']
 })
 @observer
 class LoginAssist extends React.Component {
@@ -46,10 +47,6 @@ class LoginAssist extends React.Component {
   }
   code = ''
   accessToken = ''
-
-  componentDidMount() {
-    hm('login/assist', 'LoginAssist')
-  }
 
   copy = () => {
     t('辅助登陆.复制')

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-03 10:21:00
+ * @Last Modified time: 2020-07-28 23:20:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ function Menu({ style, title, data, onSelect }) {
           return (
             <View key={item} style={styles.border}>
               <Touchable style={styles.item} onPress={() => onSelect(item)}>
-                <Text size={16} align='center'>
+                <Text size={15} align='center'>
                   {item}
                 </Text>
               </Touchable>
