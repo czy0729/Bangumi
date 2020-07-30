@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 16:36:40
+ * @Last Modified time: 2020-07-30 21:39:41
  */
 import { computed } from 'mobx'
 import { usersStore, collectionStore, timelineStore } from '@stores'
@@ -17,9 +17,7 @@ const type = MODEL_TIMELINE_TYPE.getValue('收藏')
 export default class ScreenUserTimeline extends store {
   init = () => {
     if (this.userId) {
-      collectionStore.fetchMosaicTile({
-        userId: this.userId
-      })
+      this.fetchMosaicTile()
       setTimeout(async () => {
         if (!this.users._loaded) {
           usersStore.fetchUsers(this.userId)
@@ -170,6 +168,11 @@ export default class ScreenUserTimeline extends store {
   }
 
   // -------------------- fetch --------------------
+  fetchMosaicTile = () =>
+    collectionStore.fetchMosaicTile({
+      userId: this.userId
+    })
+
   fetchTimeline = refresh =>
     timelineStore.fetchTimeline(
       {

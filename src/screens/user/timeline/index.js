@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-27 14:49:53
+ * @Last Modified time: 2020-07-30 21:40:14
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -56,7 +56,10 @@ class UserTimeline extends React.Component {
             <List />
           </>
         }
-        onHeaderRefresh={() => $.fetchTimeline(true)}
+        onHeaderRefresh={async () => {
+          await $.fetchMosaicTile()
+          return $.fetchTimeline(true)
+        }}
         onFooterRefresh={$.fetchTimeline}
       />
     )

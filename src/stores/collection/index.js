@@ -5,13 +5,14 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 11:50:34
+ * @Last Modified time: 2020-07-30 21:53:59
  */
 import { observable } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
 import fetch, { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
+import { info } from '@utils/ui'
 import { LIST_EMPTY, DEV } from '@constants'
 import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS } from '@constants/model'
 import {
@@ -357,7 +358,7 @@ class Collection extends store {
     const _username = userId || userStore.myId
     if (
       this.mosaicTile._loaded &&
-      getTimestamp() - this.mosaicTile._loaded <= 60 * 60 &&
+      getTimestamp() - this.mosaicTile._loaded <= 60 &&
       _username === this.mosaicTile._username
     ) {
       return this[key]
@@ -366,21 +367,29 @@ class Collection extends store {
     try {
       // refresh online data
       await xhrCustom({
-        url: API_MOSAIC_TILE(_username).replace('.json', '')
+        url: API_MOSAIC_TILE(_username).replace('/timelines/progress.json', '')
       })
-      await sleep(800)
+      await sleep(2400)
 
       const { _response } = await xhrCustom({
-        url: API_MOSAIC_TILE(_username)
+        url: `${API_MOSAIC_TILE(
+          _username
+        )}?begin=2019-07-01&end=2020-12-31&state=${getTimestamp()}`
       })
 
       const data = JSON.parse(_response)
+      if (!Object.keys(data || {}).length) {
+        info('时间瓷砖数据生成中，请稍等一下再试')
+        return false
+      }
+
       data._username = _username
       data._loaded = getTimestamp()
 
       this.clearState(key, data)
       this.setStorage(key, undefined, NAMESPACE)
     } catch (error) {
+      info('时间瓷砖数据生成中，请稍等一下再试')
       console.log('CollectionStore', 'fetchMosaicTile', error)
     }
     return this[key]

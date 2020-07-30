@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 14:43:35
+ * @Last Modified time: 2020-07-30 22:23:08
  */
 import { getTimestamp } from '@utils'
 import { SDK } from './index'
@@ -30,9 +30,9 @@ export function getOTA() {
 const VERSION_MONO = '20200502'
 const VERSION_SUBJECT = '20200615'
 const VERSION_OSS = '20200615'
-const VERSION_AVATAR = '20200712'
-const VERSION_STATIC = '20200715'
-const VERSION_RAKUEN = '20200712'
+const VERSION_AVATAR = '20200730'
+const VERSION_STATIC = '20200730'
+const VERSION_RAKUEN = '20200730'
 
 const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
   ''
