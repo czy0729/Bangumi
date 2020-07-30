@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-12 21:28:34
+ * @Last Modified time: 2020-07-30 20:55:01
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -599,7 +599,8 @@ class Tinygrail extends store {
           share: toFixed(item.Share, 2),
           principal: item.Principal,
           lastActiveDate: item.LastActiveDate,
-          lastIndex: item.LastIndex
+          lastIndex: item.LastIndex,
+          state: item.State
         })),
         pagination: paginationOnePage,
         _loaded: getTimestamp()
@@ -1669,13 +1670,13 @@ class Tinygrail extends store {
         list: refresh ? _list : [...list, ..._list],
         pagination: refresh
           ? {
-            page: 1,
-            pageTotal: 100
-          }
+              page: 1,
+              pageTotal: 100
+            }
           : {
-            ...pagination,
-            page: pagination.page + 1
-          },
+              ...pagination,
+              page: pagination.page + 1
+            },
         _loaded: getTimestamp()
       }
     }
@@ -1760,7 +1761,7 @@ class Tinygrail extends store {
                 mark: toFixed(
                   (Math.max(parseFloat(item.rate), templeRate) /
                     asks[0].price) *
-                  10,
+                    10,
                   1
                 )
               }
@@ -1992,16 +1993,14 @@ class Tinygrail extends store {
   fetchAdvanceGuidepost = async () => {
     const result = await this.fetch(API_TINYGRAIL_LIST('mvc', 1, 1000))
     if (result.data.State === 0) {
-      const list = result.data.Value.map(item => {
-        return {
-          id: item.Id,
-          change: item.Change,
-          current: item.Current,
-          level: item.Level,
-          name: item.Name,
-          icon: item.Icon
-        }
-      })
+      const list = result.data.Value.map(item => ({
+        id: item.Id,
+        change: item.Change,
+        current: item.Current,
+        level: item.Level,
+        name: item.Name,
+        icon: item.Icon
+      }))
         .sort((a, b) => b.current - a.current)
         .filter((item, index) => index < 200)
 

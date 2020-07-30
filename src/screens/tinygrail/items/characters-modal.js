@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 14:28:43
+ * @Last Modified time: 2020-07-30 21:21:54
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -299,6 +299,10 @@ class CharactersModal extends React.Component {
         ...$.temple,
         list: $.temple.list
           .filter(item => {
+            if (item.assets < 100) {
+              return false
+            }
+
             if (rightItem) {
               if (leftValue) {
                 return (
@@ -314,7 +318,7 @@ class CharactersModal extends React.Component {
 
             return true
           })
-          .sort((a, b) => b.rate - a.rate)
+          .sort((a, b) => a.rate - b.rate)
       }
     }
 
@@ -354,6 +358,10 @@ class CharactersModal extends React.Component {
       ...$.temple,
       list: $.temple.list
         .filter(item => {
+          if (assets(item) < 250 || item.sacrifices < 500) {
+            return false
+          }
+
           if (leftValue) {
             return item.name.includes(leftValue)
           }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-15 15:36:18
+ * @Last Modified time: 2020-07-30 20:55:20
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -36,7 +36,8 @@ export const INIT_RICH_ITEM = {
   total: 0, // 总额
   principal: 0, // 总量
   lastActiveDate: 0, // 最后操作时间
-  lastIndex: 0 // 上次排名
+  lastIndex: 0, // 上次排名
+  state: 0 // 666 为封禁
 }
 
 export const INIT_KLINE_ITEM = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 12:54:01
+ * @Last Modified time: 2020-07-30 20:57:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,8 @@ function Item(
     assets,
     principal,
     lastActiveDate,
-    lastIndex
+    lastIndex,
+    state
   },
   { navigation }
 ) {
@@ -129,7 +130,11 @@ function Item(
               >
                 <Flex>
                   <Flex.Item>
-                    <Text type='tinygrailPlain' size={16} bold>
+                    <Text
+                      type={state === 666 ? 'ask' : 'tinygrailPlain'}
+                      size={16}
+                      bold
+                    >
                       {rank}. {nickname}
                       {!!changeText && (
                         <Text type={changeColor} size={16}>
@@ -139,7 +144,7 @@ function Item(
                       )}
                     </Text>
                     <Text style={_.mt.xs} type='tinygrailText' size={11}>
-                      总{assetsText} / 余{totalText} / 初{principalText} /{' '}
+                      总{assetsText} / 余{totalText} /{' '}
                       {lastActiveDate
                         ? lastDate(
                             getTimestamp(lastActiveDate.replace('T', ' '))
