@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 10:03:58
+ * @Last Modified time: 2020-07-30 15:49:30
  */
 import { HOST } from './index'
 
@@ -353,7 +353,7 @@ export const API_TINYGRAIL_TEMPLE_LAST = (page = 1, limit = 24) =>
  * 环保刮刮乐
  */
 export const API_TINYGRAIL_SCRATCH = () =>
-  `${API_HOST_TINYGRAIL}/api/event/scratch/bonus`
+  `${API_HOST_TINYGRAIL}/api/event/scratch/bonus2`
 
 /**
  * 幻想乡刮刮乐

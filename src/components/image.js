@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 14:32:27
+ * @Last Modified time: 2020-07-30 20:04:10
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -29,7 +29,7 @@ import { MODEL_SETTING_QUALITY } from '@constants/model'
 import Touchable from './touchable'
 
 const defaultHeaders = {
-  Referer: HOST
+  Referer: `${HOST}/`
 }
 const maxErrorCount = 2 // 最大失败重试次数
 
@@ -268,7 +268,7 @@ class Image extends React.Component {
     const { headers } = this.props
     if (headers) {
       return {
-        Referer: HOST,
+        ...defaultHeaders,
         ...headers
       }
     }

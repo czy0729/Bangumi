@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 14:14:56
+ * @Last Modified time: 2020-07-30 20:43:27
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -35,6 +35,8 @@ export default class ScreenTinygrail extends store {
     lastBalance: 0,
     lastTotal: 0,
     short: false,
+    visible: false,
+    bonus: [],
     _loaded: false
   })
 
@@ -46,7 +48,9 @@ export default class ScreenTinygrail extends store {
     const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
-      loading: false
+      loading: false,
+      visible: false,
+      bonus: []
     })
 
     // 没有资产就自动授权
@@ -266,7 +270,6 @@ export default class ScreenTinygrail extends store {
     }
 
     t('小圣杯.刮刮乐')
-
     try {
       this.setState({
         loadingBonus: true
@@ -278,45 +281,10 @@ export default class ScreenTinygrail extends store {
       })
 
       if (State === 0) {
-        if (isBonus2) {
-          let text = '彩票刮刮乐共获得：'
-          Value.forEach(item => {
-            text += ` #${item.Id}「${item.Name}」${item.Amount}股`
-          })
-
-          Alert.alert('操作成功', `${text}，前往持仓查看吗`, [
-            {
-              text: '取消',
-              style: 'cancel'
-            },
-            {
-              text: '确定',
-              onPress: () => {
-                navigation.push('TinygrailCharaAssets', {
-                  form: 'lottery',
-                  message: text
-                })
-              }
-            }
-          ])
-          return
-        }
-
-        Alert.alert('操作成功', `${Value}，前往持仓查看吗`, [
-          {
-            text: '取消',
-            style: 'cancel'
-          },
-          {
-            text: '确定',
-            onPress: () => {
-              navigation.push('TinygrailCharaAssets', {
-                form: 'lottery',
-                message: Value
-              })
-            }
-          }
-        ])
+        this.setState({
+          bonus: Value
+        })
+        this.onShowModal()
       } else {
         info(Message)
       }
@@ -564,4 +532,15 @@ export default class ScreenTinygrail extends store {
     })
     this.setStorage(undefined, undefined, namespace)
   }
+
+  onShowModal = () =>
+    this.setState({
+      visible: true
+    })
+
+  onCloseModal = () =>
+    this.setState({
+      visible: false,
+      bonus: []
+    })
 }

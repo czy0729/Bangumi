@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 15:43:32
+ * @Last Modified time: 2020-07-30 18:34:50
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -20,6 +20,7 @@ import {
 import StatusBarEvents from '../_/status-bar-events'
 import Auth from './auth'
 import Menus from './menus'
+import BonusModal from './bonus-modal'
 import Store from './store'
 
 const title = '小圣杯'
@@ -89,53 +90,60 @@ class Tinygrail extends React.Component {
 
   render() {
     const { $ } = this.context
+    const { visible } = $.state
     const { refreshing } = this.state
     return (
-      <ScrollView
-        style={this.styles.container}
-        contentContainerStyle={this.styles.contentContainerStyle}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
-        }
-      >
-        <UM screen={title} />
-        <StatusBarEvents backgroundColor='transparent' />
-        <StatusBarPlaceholder />
-        <Auth />
-        <Menus />
-        <Flex justify='center'>
-          <Text type='tinygrailText' size={12}>
-            - {VERSION_TINYGRAIL_PLUGIN} -
-          </Text>
-        </Flex>
-        <Flex style={_.mt.sm} justify='center'>
-          <Text type='tinygrailText' size={12} onPress={this.alertScience}>
-            游戏指南
-          </Text>
-          <Text style={_.ml.md} type='tinygrailText'>
-            |
-          </Text>
-          <Text
-            style={_.ml.md}
-            type='tinygrailText'
-            size={12}
-            onPress={this.alertUpdates}
-          >
-            更新内容
-          </Text>
-          <Text style={_.ml.md} type='tinygrailText'>
-            |
-          </Text>
-          <Text
-            style={_.ml.md}
-            type='tinygrailText'
-            size={12}
-            onPress={$.doSend}
-          >
-            点我看看
-          </Text>
-        </Flex>
-      </ScrollView>
+      <>
+        <ScrollView
+          style={this.styles.container}
+          contentContainerStyle={this.styles.contentContainerStyle}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+        >
+          <UM screen={title} />
+          <StatusBarEvents backgroundColor='transparent' />
+          <StatusBarPlaceholder />
+          <Auth />
+          <Menus />
+          <Flex justify='center'>
+            <Text type='tinygrailText' size={12}>
+              - {VERSION_TINYGRAIL_PLUGIN} -
+            </Text>
+          </Flex>
+          <Flex style={_.mt.sm} justify='center'>
+            <Text type='tinygrailText' size={12} onPress={this.alertScience}>
+              游戏指南
+            </Text>
+            <Text style={_.ml.md} type='tinygrailText'>
+              |
+            </Text>
+            <Text
+              style={_.ml.md}
+              type='tinygrailText'
+              size={12}
+              onPress={this.alertUpdates}
+            >
+              更新内容
+            </Text>
+            <Text style={_.ml.md} type='tinygrailText'>
+              |
+            </Text>
+            <Text
+              style={_.ml.md}
+              type='tinygrailText'
+              size={12}
+              onPress={$.doSend}
+            >
+              点我看看
+            </Text>
+          </Flex>
+        </ScrollView>
+        <BonusModal visible={visible} />
+      </>
     )
   }
 
