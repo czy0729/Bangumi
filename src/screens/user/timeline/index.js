@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 21:40:14
+ * @Last Modified time: 2020-07-31 11:08:01
  */
 import React from 'react'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { _ } from '@stores'
@@ -44,6 +45,8 @@ class UserTimeline extends React.Component {
     }
   }
 
+  renderItem = () => <View />
+
   render() {
     const { $ } = this.context
     return (
@@ -56,6 +59,7 @@ class UserTimeline extends React.Component {
             <List />
           </>
         }
+        renderItem={this.renderItem}
         onHeaderRefresh={async () => {
           await $.fetchMosaicTile()
           return $.fetchTimeline(true)

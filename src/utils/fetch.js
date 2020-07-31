@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 12:05:38
+ * @Last Modified time: 2020-07-31 10:49:43
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -307,7 +307,7 @@ export function xhrCustom({
     }
 
     const _headers = headers
-    if (url.includes(HOST_CDN) || !_headers.Referer) {
+    if (url.includes(HOST_CDN) && !_headers.Referer) {
       _headers.Referer = HOST
     }
     Object.keys(_headers).forEach(key => {

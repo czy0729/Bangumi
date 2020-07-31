@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 20:55:01
+ * @Last Modified time: 2020-07-31 11:23:44
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -451,7 +451,8 @@ class Tinygrail extends store {
 
     try {
       const { _response } = await xhrCustom({
-        url: 'https://czy0729.github.io/Bangumi/web/advance.json'
+        // url: 'https://czy0729.github.io/Bangumi/web/advance.json'
+        url: `https://gitee.com/a402731062/bangumi/raw/master/advance.json?t=${getTimestamp()}`
       })
       const advanceUserMap = JSON.parse(_response)
 

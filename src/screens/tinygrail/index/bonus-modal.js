@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 20:42:53
+ * @Last Modified time: 2020-07-31 10:50:54
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
@@ -111,7 +111,7 @@ class BonusModal extends React.Component {
                 <Image
                   size={this.imageWidth}
                   height={this.imageHeight}
-                  src={tinygrailOSS(item.Cover)}
+                  src={tinygrailOSS(item.Cover, 480)}
                   radius
                   imageViewer
                   imageViewerSrc={tinygrailOSS(item.Cover, 480)}

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-19 13:31:44
+ * @Last Modified time: 2020-07-31 11:22:19
  */
 import { Platform } from 'react-native'
 
@@ -63,7 +63,9 @@ export const GITHUB_PROJECT_GH = 'https://czy0729.github.io/Bangumi' // gh-pages
 export const GITHUB_RELEASE = `${GITHUB_PROJECT}/releases` // 版本析出地址
 export const GITHUB_RELEASE_REPOS =
   'https://api.github.com/repos/czy0729/Bangumi/releases' // 版本析出api地址
-export const GITHUB_DATA = `${GITHUB_PROJECT_GH}/web/data.json` // online数
+// export const GITHUB_DATA = `${GITHUB_PROJECT_GH}/web/data.json` // online数
+export const GITHUB_DATA =
+  'https://gitee.com/a402731062/bangumi/raw/master/data.json' // online数
 
 // 图片
 export const IMG_EMPTY = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 16:37:11
+ * @Last Modified time: 2020-07-31 11:09:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,11 +27,13 @@ function List(props, { $, navigation }) {
           <View>
             <View style={styles.lineBottom} />
             <View style={styles.nodeYear} />
-            <Text size={18} lineHeight={48} type='title' bold>
-              {item.title}年{' '}
+            <Flex>
+              <Text size={18} lineHeight={48} type='title' bold>
+                {item.title}年{' '}
+              </Text>
               {index === 0 && (
-                <Text size={10} bold>
-                  加入Bangumi的第
+                <Text style={_.ml.sm} size={10} bold>
+                  加入Bangumi
                   <Text type='main' size={10} bold>
                     {' '}
                     {$.days}{' '}
@@ -39,7 +41,7 @@ function List(props, { $, navigation }) {
                   天
                 </Text>
               )}
-            </Text>
+            </Flex>
           </View>
           {item.data.map(item => (
             <View key={item.title}>

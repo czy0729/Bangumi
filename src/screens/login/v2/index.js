@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 10:49:21
+ * @Last Modified time: 2020-07-31 11:41:21
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -86,9 +86,12 @@ class LoginV2 extends React.Component {
       info('正在从github获取游客cookie...')
 
       const { _response } = await xhrCustom({
+        // url: IOS
+        //   ? 'https://czy0729.github.io/Bangumi/web/tourist.ios.json'
+        //   : 'https://czy0729.github.io/Bangumi/web/tourist.json'
         url: IOS
-          ? 'https://czy0729.github.io/Bangumi/web/tourist.ios.json'
-          : 'https://czy0729.github.io/Bangumi/web/tourist.json'
+          ? `https://gitee.com/a402731062/bangumi/raw/master/tourist.ios.json?t=${getTimestamp()}`
+          : `https://gitee.com/a402731062/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
       })
       const { accessToken, userCookie } = JSON.parse(_response)
       userStore.updateAccessToken(accessToken)
@@ -106,6 +109,7 @@ class LoginV2 extends React.Component {
       userStore.fetchUsersInfo()
       navigation.popToTop()
     } catch (error) {
+      warn(namespace, 'onTour', error)
       info('登陆状态过期, 请稍后再试')
     }
   }
@@ -226,7 +230,7 @@ class LoginV2 extends React.Component {
 
         await this.login()
         if (!this.cookie.chiiAuth) {
-          this.loginFail('验证码或密码错误, 重试或前往旧版授权登陆 >')
+          this.loginFail('验证码或密码错误，重试或前往旧版授权登陆 →')
           return
         }
 
@@ -250,7 +254,7 @@ class LoginV2 extends React.Component {
     } catch (ex) {
       if (this.retryCount >= 6) {
         this.loginFail(
-          `[${String(ex)}] 登陆失败, 请重试或重启APP, 或点击前往旧版授权登陆 >`
+          `[${String(ex)}] 登陆失败，请重试或重启APP，或点击前往旧版授权登陆 →`
         )
         return
       }
@@ -291,6 +295,7 @@ class LoginV2 extends React.Component {
 
     const data = await res
     const { _response, responseHeaders } = data
+    console.log(_response)
     if (_response.includes('分钟内您将不能登录本站。')) {
       info('累计 5 次错误尝试，15 分钟内您将不能登录本站。')
     }

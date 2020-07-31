@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 20:06:53
+ * @Last Modified time: 2020-07-31 10:52:13
  */
 import React from 'react'
 import { ScrollView, View, AsyncStorage } from 'react-native'
@@ -503,7 +503,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information='[实验性] 开启后尽量少出现线条，适当增大元素间距'
+              information='开启后尽量少出现线条，并适当增大元素间距'
             />
             <ItemSetting
               hd='图片渐出动画'

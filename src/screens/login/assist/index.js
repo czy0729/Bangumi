@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-29 14:49:26
+ * @Last Modified time: 2020-07-31 10:29:21
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -280,23 +280,23 @@ class LoginAssist extends React.Component {
     const { loading, info } = this.state
     return (
       <ScrollView
-        style={_.container.bg}
+        style={_.container.plain}
         contentContainerStyle={this.styles.container}
       >
         <Text type='danger' size={12}>
-          此为登陆最后的手段, 流程相对较多 (其实不复杂,
-          熟悉的话比正常登陆还要快和稳), 请先尝试新版和旧版登陆, 不行再试这个.
+          此为登陆最后的手段，流程相对较多 (其实不复杂，
+          熟悉的话比正常登陆还要快和稳)，请先尝试新版和旧版登陆，不行再试这个。
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
-          第三方登陆失败受很多因素影响, 如网络不佳、运营商劫持、手机系统特异,
-          又或者碰上bgm速度不佳 (当然还有代码有bug).
+          第三方登陆失败受很多因素影响，如网络不佳、运营商劫持、手机系统特异，
+          又或者碰上bgm速度不佳 (当然还有代码有bug)。
         </Text>
         <Text style={_.mt.sm} type='sub' size={12}>
-          本人能力有限, 部分设备无论如何都不能走通新版和旧版的登陆流程,
-          若您实在很喜欢本应用, 可以尝试下面的方法 (假如还走不通, 请多尝试,
-          又或者过来干我).
+          本人能力有限，部分设备无论如何都不能走通新版和旧版的登陆流程，
+          若您实在很喜欢本应用，可以尝试下面的方法 (假如还走不通，请多尝试，
+          又或者过来干我)。
         </Text>
-        <Text style={_.mt.lg}>1. 复制框里的代码.</Text>
+        <Text style={_.mt.lg}>1. 复制框里的代码。</Text>
         <View style={_.mt.sm}>
           <Text style={this.styles.code} size={12}>
             {code}
@@ -311,15 +311,15 @@ class LoginAssist extends React.Component {
           </Text>
         </View>
         <Text style={_.mt.md}>
-          2. 使用电脑打开浏览器, 访问 {HOST} (一定要是这个域名) 并登陆.
+          2. 使用电脑打开浏览器，访问 {HOST} (一定要是这个域名) 并登陆。
         </Text>
         <Text style={_.mt.md}>
-          3. 登陆成功后, 打开控制台 (chrome为例, window是F12, mac是⎇ + ⌘ + i),
-          之后运行复制的代码.
+          3. 登陆成功后，打开控制台 (chrome为例，window是F12，mac是⎇ + ⌘ + i)，
+          之后运行复制的代码。
         </Text>
-        <Text style={_.mt.md}>4. 把结果复制到下面的输入框内, 提交.</Text>
+        <Text style={_.mt.md}>4. 把结果复制到下面的输入框内，提交。</Text>
         <Input
-          style={_.mt.sm}
+          style={[this.styles.input, _.mt.sm]}
           placeholder='粘贴结果'
           multiline
           numberOfLines={6}
@@ -371,5 +371,8 @@ const memoStyles = _.memoStyles(_ => ({
     top: _.sm,
     right: _.sm,
     padding: _.sm
+  },
+  input: {
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   }
 }))

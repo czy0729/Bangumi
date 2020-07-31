@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 01:00:15
+ * @Last Modified time: 2020-07-31 10:51:41
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -23,7 +23,7 @@ export const INIT_SETTING = {
   cnFirst: true, // 是否中文优先
   filter18x: false, // 屏蔽18x条目
   filterDefault: false, // 屏蔽默认头像用户相关信息
-  flat: false, // 扁平化
+  flat: true, // 扁平化
   heatMap: true, // 章节热力图
   hideScore: false, // 隐藏他人评分
   imageTransition: false, // 图片渐出

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 17:11:37
+ * @Last Modified time: 2020-07-31 10:36:52
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -253,8 +253,8 @@ class Form extends React.Component {
             type='sub'
             onPress={() => navigation.push('LoginAssist')}
           >
-            请尝试切换另一域名进行重试, 或尝试切换wifi或4g网络, 实在没法登陆,
-            可点击这里前往辅助登陆
+            请尝试切换另一域名进行重试，或尝试切换wifi或4g网络，实在没法登陆，可点击这里前往辅助登陆
+            →
           </Text>
         )}
       </>

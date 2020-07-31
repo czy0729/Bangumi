@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 20:43:27
+ * @Last Modified time: 2020-07-31 10:53:58
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -34,7 +34,7 @@ export default class ScreenTinygrail extends store {
     currentTotal: 0,
     lastBalance: 0,
     lastTotal: 0,
-    short: false,
+    short: true,
     visible: false,
     bonus: [],
     _loaded: false
@@ -538,9 +538,15 @@ export default class ScreenTinygrail extends store {
       visible: true
     })
 
-  onCloseModal = () =>
+  onCloseModal = () => {
     this.setState({
-      visible: false,
-      bonus: []
+      visible: false
     })
+
+    setTimeout(() => {
+      this.setState({
+        bonus: []
+      })
+    }, 400)
+  }
 }
