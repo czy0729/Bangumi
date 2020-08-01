@@ -11,13 +11,10 @@
       }
     },
     "sdkVersion": "37.0.0",
-    "name": "Bangumi Pro",
-    "slug": "bangumi-pro",
+    "name": "bangumi",
+    "slug": "bangumi",
     "privacy": "public",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "scheme": "bangumi",
     "splash": {
@@ -30,9 +27,7 @@
       "enabled": false,
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.czy0729.bangumi",
       "supportsTablet": true

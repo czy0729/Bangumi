@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 13:00:44
+ * @Last Modified time: 2020-08-01 14:39:19
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -157,7 +157,7 @@ class TinygrailTopWeek extends React.Component {
                         </Flex.Item>
                         <View style={_.ml.sm}>
                           <Text type='tinygrailText' size={11} align='right'>
-                            <Text size={13} bold>
+                            <Text size={13} type='tinygrailPlain' bold>
                               +{extraText}
                             </Text>{' '}
                             {item.type}人

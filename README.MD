@@ -87,9 +87,9 @@ v3.10.0 - 2020/07/30
 
 [[bangumi-static]](https://github.com/czy0729/Bangumi-Static) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Static/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Static) 发现数据快照 CDN
 
-[[bangumi-api]](https://github.com/bangumi/api) 官方接口
+[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) [![](https://data.jsdelivr.com/v1/package/gh/ekibun/bangumi_onair/badge)](https://www.jsdelivr.com/package/gh/ekibun/bangumi_onair) 单集播放数据源
 
-[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) 单集播放数据源
+[[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
 [[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
 
@@ -97,15 +97,13 @@ v3.10.0 - 2020/07/30
 
 ## Preview
 
-单独预览 [日间模式](https://github.com/czy0729/Bangumi/blob/master/web/LIGHT-MODE.MD) | [黑暗模式](https://github.com/czy0729/Bangumi/blob/master/web/DARK-MODE.MD)
-
 #### 基础功能
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/new/0001.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/new/0001.png" /><img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/new/0002.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/new/0002.png" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/1.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/1.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/2.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/2.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/4.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/4.png" width="100%" />
 
 #### 小圣杯模块
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-1.png" width="100%" alt="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/all/t-1.png" />
+<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/5.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/5.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/6.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/6.png" width="100%" />
 
 (被墙看不见图的可以复制 alt 打开)
 

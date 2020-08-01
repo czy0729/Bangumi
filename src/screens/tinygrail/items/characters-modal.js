@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 21:21:54
+ * @Last Modified time: 2020-08-01 14:35:26
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -714,6 +714,7 @@ class CharactersModal extends React.Component {
         }
         transparent
         closable
+        maskClosable
         onClose={this.onClose}
       >
         <Flex style={this.styles.wrap}>
@@ -773,7 +774,7 @@ const memoStyles = _.memoStyles(_ => ({
   modal: {
     width: _.window.width - 2 * _.wind,
     maxWidth: 400,
-    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.colorBg)
+    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.__colorPlain__)
   },
   focus: {
     marginTop: -parseInt(_.window.height * 0.56)

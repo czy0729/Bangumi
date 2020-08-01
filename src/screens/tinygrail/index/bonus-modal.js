@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 10:50:54
+ * @Last Modified time: 2020-08-01 14:35:44
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
@@ -93,6 +93,7 @@ class BonusModal extends React.Component {
         }
         transparent
         closable
+        maskClosable
         onClose={$.onCloseModal}
       >
         <View style={this.styles.wrap}>
