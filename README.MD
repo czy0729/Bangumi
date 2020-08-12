@@ -87,11 +87,13 @@ v3.10.0 - 2020/07/30
 
 [[bangumi-static]](https://github.com/czy0729/Bangumi-Static) [![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-Static/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-Static) 发现数据快照 CDN
 
-[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) [![](https://data.jsdelivr.com/v1/package/gh/ekibun/bangumi_onair/badge)](https://www.jsdelivr.com/package/gh/ekibun/bangumi_onair) 单集播放数据源
+[[bangumi-onair]](https://github.com/ekibun/bangumi_onair) [![](https://data.jsdelivr.com/v1/package/gh/ekibun/bangumi_onair/badge)](https://www.jsdelivr.com/package/gh/ekibun/bangumi_onair) [ekibun](https://github.com/ekibun) 的单集播放数据源
 
-[[bangumi-api]](https://github.com/bangumi/api) 官方接口
+[[bangumi-mosaic-tile]](https://github.com/weizhenye/bangumi-mosaic-tile) [weizhenye](https://github.com/weizhenye) 的用户统计瓷砖库
 
 [[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
+
+[[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
 [[tinygrail.com]](https://tinygrail.com) 小圣杯接口
 
