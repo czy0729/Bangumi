@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 21:29:26
+ * @Last Modified time: 2020-08-29 15:08:26
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -670,22 +670,25 @@ class User extends store {
     if (html.includes('抱歉，当前操作需要您') && !DEV) {
       confirm(
         '检测到登陆状态好像过期了, 是否登出? 注意若使用了科学上网, 请保证App在使用过程中始终保持在同一网段, 否则很容易触发源站登出逻辑, 可尝试把软件加入白名单',
-        () => this.updateUserCookie()
+        () => {
+          this.updateUserCookie()
+        }
       )
-    } else {
-      const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
-      if (Array.isArray(matchLogout) && matchLogout[1]) {
-        this.setState({
-          logout: `${HOST}/logout${matchLogout[1]}`
-        })
-      }
+      return res
+    }
 
-      if (setCookie) {
-        this.setState({
-          setCookie
-        })
-        this.setStorage('setCookie', undefined, NAMESPACE)
-      }
+    const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
+    if (Array.isArray(matchLogout) && matchLogout[1]) {
+      this.setState({
+        logout: `${HOST}/logout${matchLogout[1]}`
+      })
+    }
+
+    if (setCookie) {
+      this.setState({
+        setCookie
+      })
+      this.setStorage('setCookie', undefined, NAMESPACE)
     }
     return res
   }

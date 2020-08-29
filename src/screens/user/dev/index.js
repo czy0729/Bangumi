@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 17:23:42
+ * @Last Modified time: 2020-08-29 15:46:53
  */
 import React from 'react'
 import { ScrollView, Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { Text, Switch, Touchable } from '@components'
+import { Text, Switch, Touchable, Button } from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, systemStore, userStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
@@ -25,13 +25,20 @@ class DEV extends React.Component {
     title
   }
 
-  render() {
+  state = {
+    showDetail: false
+  }
+
+  onShow = () => {
+    this.setState({
+      showDetail: true
+    })
+  }
+
+  rederOptions() {
     const { dev } = systemStore.state
     return (
-      <ScrollView
-        style={this.styles.screen}
-        contentContainerStyle={this.styles.container}
-      >
+      <>
         <ItemSetting
           hd='调试'
           ft={<Switch checked={dev} onChange={systemStore.toggleDev} />}
@@ -47,56 +54,56 @@ class DEV extends React.Component {
           }
           withoutFeedback
         />
-        <Text
-          style={[this.styles.code, _.mt.md]}
-          size={12}
-          lineHeight={16}
-          type='sub'
-          selectable
-        >
-          设备视窗{'\n\n'}
-          {JSON.stringify(_.window)}
+      </>
+    )
+  }
+
+  renderView(title, content) {
+    return (
+      <Text
+        style={[this.styles.code, _.mt.md]}
+        size={12}
+        lineHeight={16}
+        selectable
+      >
+        <Text size={12} lineHeight={16} type='sub'>
+          {title}
         </Text>
-        <Text
-          style={[this.styles.code, _.mt.md]}
-          size={12}
-          lineHeight={16}
-          type='sub'
-          selectable
-        >
-          登陆信息{'\n\n'}
-          {JSON.stringify({
+        {content.map(item => `\n\n${JSON.stringify(item, null, 2)}`)}
+      </Text>
+    )
+  }
+
+  render() {
+    const { showDetail } = this.state
+    const { ota } = systemStore.state
+    return (
+      <ScrollView
+        style={this.styles.screen}
+        contentContainerStyle={this.styles.container}
+      >
+        {this.rederOptions()}
+        {this.renderView('CDN', [ota])}
+        {this.renderView('设备视窗', [_.window])}
+        {this.renderView('登陆信息', [
+          {
             accessToken: userStore.accessToken
-          })}
-          {'\n\n'}
-          {JSON.stringify({
+          },
+          {
             userCookie: userStore.userCookie
-          })}
-          {'\n\n'}
-          {JSON.stringify({
+          },
+          {
             setCookie: userStore.setCookie
-          })}
-        </Text>
-        <Text
-          style={[this.styles.code, _.mt.md]}
-          size={12}
-          lineHeight={16}
-          type='sub'
-          selectable
-        >
-          平台信息{'\n\n'}
-          {JSON.stringify(Platform)}
-        </Text>
-        <Text
-          style={[this.styles.code, _.mt.md]}
-          size={12}
-          lineHeight={16}
-          type='sub'
-          selectable
-        >
-          平台常量{'\n\n'}
-          {JSON.stringify(Constants)}
-        </Text>
+          }
+        ])}
+        {this.renderView('平台信息', [Platform])}
+        {showDetail ? (
+          this.renderView('平台常量', [Constants])
+        ) : (
+          <Button style={_.mt.md} onPress={this.onShow}>
+            显示平台常量
+          </Button>
+        )}
       </ScrollView>
     )
   }
