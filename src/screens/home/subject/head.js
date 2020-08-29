@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 11:28:06
+ * @Last Modified time: 2020-08-29 17:49:07
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -28,6 +28,16 @@ function Head({ style }, { $ }) {
     const { bangumiInfo } = $.state
     label = String(bangumiInfo.type).toUpperCase()
   }
+
+  let size
+  if ($.cn.length > 24) {
+    size = 12
+  } else if ($.cn.length > 16) {
+    size = 14
+  } else {
+    size = 18
+  }
+
   return (
     <View style={[styles.container, style]}>
       <Cover image={images.common} placeholder={$.coverPlaceholder} />
@@ -48,14 +58,14 @@ function Head({ style }, { $ }) {
                   info(`已复制 ${$.jp}`)
                 }}
               >
+                {!!label && `${label} · `}
                 {$.jp}
-                {!!label && ` · ${label}`}
               </Katakana>
             </Katakana.Provider>
           )}
           <Text
             style={!!$.cn && _.mt.xs}
-            size={$.cn.length > 16 ? 14 : 18}
+            size={size}
             bold
             onLongPress={() => {
               Clipboard.setString($.cn)

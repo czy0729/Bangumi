@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 03:03:40
+ * @Last Modified time: 2020-08-29 17:35:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,10 +18,7 @@ function Blog({ style }, { $, navigation }) {
   let _blog = blog || []
   if ($.filterDefault || $.isLimit) {
     _blog = _blog.filter(item => {
-      if (
-        !item.avatar ||
-        (item.avatar && item.avatar.small.includes(URL_DEFAULT_AVATAR))
-      ) {
+      if (item?.user?.avatar?.small.includes(URL_DEFAULT_AVATAR)) {
         return false
       }
       return true
@@ -30,9 +27,10 @@ function Blog({ style }, { $, navigation }) {
   if (!_blog.length) {
     return null
   }
+
   const styles = memoStyles()
   return (
-    <Expand style={style} ratio={2}>
+    <Expand style={style} ratio={1.2}>
       <SectionTitle style={styles.left}>评论</SectionTitle>
       <View style={_.mt.sm}>
         {_blog.map((item, index) => (

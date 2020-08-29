@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 03:03:38
+ * @Last Modified time: 2020-08-29 17:35:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,20 +18,18 @@ function Topic({ style }, { $, navigation }) {
   let _topic = topic || []
   if ($.filterDefault || $.isLimit) {
     _topic = _topic.filter(item => {
-      if (
-        !item.avatar ||
-        (item.avatar && item.avatar.small.includes(URL_DEFAULT_AVATAR))
-      ) {
+      if (item?.user?.avatar?.small.includes(URL_DEFAULT_AVATAR)) {
         return false
       }
       return true
     })
   }
-  if (_topic.length) {
+  if (!_topic.length) {
     return null
   }
+
   return (
-    <Expand style={style} ratio={2}>
+    <Expand style={style} ratio={1.2}>
       <SectionTitle style={{ paddingLeft: _.wind }}>讨论版</SectionTitle>
       <View style={_.mt.sm}>
         {_topic.map((item, index) => (
