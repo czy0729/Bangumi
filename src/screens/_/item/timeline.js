@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 18:09:04
+ * @Last Modified time: 2020-08-29 16:52:04
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -43,6 +43,20 @@ class ItemTimeline extends React.Component {
   appNavigate = (url, passParams) => {
     const { navigation, event } = this.props
     appNavigate(url, navigation, passParams, event)
+  }
+
+  onClear = () => {
+    const { clearHref, onDelete } = this.props
+    Alert.alert('警告', '确定删除?', [
+      {
+        text: '取消',
+        style: 'cancel'
+      },
+      {
+        text: '确定',
+        onPress: () => onDelete(clearHref)
+      }
+    ])
   }
 
   renderP3() {
@@ -238,6 +252,7 @@ class ItemTimeline extends React.Component {
     return (
       <ScrollView
         style={_.mt.sm}
+        contentContainerStyle={this.styles.images}
         horizontal
         showsHorizontalScrollIndicator={false}
       >
@@ -246,22 +261,34 @@ class ItemTimeline extends React.Component {
     )
   }
 
-  render() {
+  renderAvatar() {
+    const { navigation, avatar, p1, event } = this.props
+    return (
+      <View style={this.styles.image}>
+        {!!avatar.src && (
+          <Avatar
+            navigation={navigation}
+            size={avatarWidth}
+            userId={matchUserId(String(avatar.url).replace(HOST, ''))}
+            name={p1.text}
+            src={avatar.src}
+            event={event}
+          />
+        )}
+      </View>
+    )
+  }
+
+  renderContent() {
     const {
-      navigation,
-      style,
       index,
-      avatar,
-      p1,
       p3,
       star,
       reply,
       comment,
       time,
       image,
-      clearHref,
-      event,
-      onDelete
+      clearHref
     } = this.props
     const _image = !!image.length && image[0]
     const bodyStyle =
@@ -269,6 +296,69 @@ class ItemTimeline extends React.Component {
     const rightCoverIsAvatar = !String(!!p3.url.length && p3.url[0]).includes(
       'subject'
     )
+    const showImages = image.length >= 5
+    return (
+      <Flex.Item
+        style={[
+          showImages ? this.styles.contentNoPaddingRight : this.styles.content,
+          index !== 0 && !_.flat && this.styles.border,
+          _.ml.sm
+        ]}
+      >
+        <Flex align='start'>
+          <Flex.Item>
+            <View style={showImages && this.styles.contentHasPaddingRight}>
+              {this.renderP()}
+              {this.renderDesc()}
+            </View>
+            {this.renderImages()}
+            <Flex style={bodyStyle}>
+              {!!reply.count && (
+                <Text
+                  type='primary'
+                  size={12}
+                  onPress={() => this.appNavigate(reply.url)}
+                >
+                  {reply.count}
+                </Text>
+              )}
+              <Text style={_.mr.sm} type='sub' size={12}>
+                {time}
+              </Text>
+              <Stars value={star} />
+            </Flex>
+          </Flex.Item>
+          <Flex align='start'>
+            {image.length === 1 && (
+              <Cover
+                style={_.ml.md}
+                src={_image}
+                size={rightCoverIsAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
+                height={rightCoverIsAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
+                radius
+                shadow
+                onPress={() =>
+                  this.appNavigate(!!p3.url.length && p3.url[0], {
+                    _jp: !!p3.text.length && p3.text[0],
+                    _name: !!p3.text.length && p3.text[0],
+                    _image
+                  })
+                }
+              />
+            )}
+            {!!clearHref && (
+              <Touchable style={_.ml.sm} onPress={this.onClear}>
+                <Iconfont style={this.styles.del} name='close' size={13} />
+              </Touchable>
+            )}
+          </Flex>
+        </Flex>
+      </Flex.Item>
+    )
+  }
+
+  render() {
+    const { style, avatar } = this.props
     return (
       <Flex
         style={[
@@ -279,86 +369,8 @@ class ItemTimeline extends React.Component {
         ]}
         align='start'
       >
-        <View style={this.styles.image}>
-          {!!avatar.src && (
-            <Avatar
-              navigation={navigation}
-              size={avatarWidth}
-              userId={matchUserId(String(avatar.url).replace(HOST, ''))}
-              name={p1.text}
-              src={avatar.src}
-              event={event}
-            />
-          )}
-        </View>
-        <Flex.Item
-          style={[
-            this.styles.content,
-            index !== 0 && !_.flat && this.styles.border,
-            _.ml.sm
-          ]}
-        >
-          <Flex align='start'>
-            <Flex.Item>
-              {this.renderP()}
-              {this.renderDesc()}
-              {this.renderImages()}
-              <Flex style={bodyStyle}>
-                {!!reply.count && (
-                  <Text
-                    type='primary'
-                    size={12}
-                    onPress={() => this.appNavigate(reply.url)}
-                  >
-                    {reply.count}
-                  </Text>
-                )}
-                <Text style={_.mr.sm} type='sub' size={12}>
-                  {time}
-                </Text>
-                <Stars value={star} />
-              </Flex>
-            </Flex.Item>
-            <Flex align='start'>
-              {image.length === 1 && (
-                <Cover
-                  style={_.ml.md}
-                  src={_image}
-                  size={rightCoverIsAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
-                  height={rightCoverIsAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
-                  radius
-                  shadow
-                  onPress={() =>
-                    this.appNavigate(!!p3.url.length && p3.url[0], {
-                      _jp: !!p3.text.length && p3.text[0],
-                      _name: !!p3.text.length && p3.text[0],
-                      _image
-                    })
-                  }
-                />
-              )}
-              {!!clearHref && (
-                <Touchable
-                  style={_.ml.sm}
-                  onPress={() => {
-                    Alert.alert('警告', '确定删除?', [
-                      {
-                        text: '取消',
-                        style: 'cancel'
-                      },
-                      {
-                        text: '确定',
-                        onPress: () => onDelete(clearHref)
-                      }
-                    ])
-                  }}
-                >
-                  <Iconfont style={this.styles.del} name='close' size={13} />
-                </Touchable>
-              )}
-            </Flex>
-          </Flex>
-        </Flex.Item>
+        {this.renderAvatar()}
+        {this.renderContent()}
       </Flex>
     )
   }
@@ -375,6 +387,11 @@ const memoStyles = _.memoStyles(_ => ({
   flatNoAvatar: {
     marginTop: -_.md
   },
+  images: {
+    paddingTop: _.sm,
+    paddingRight: _.sm,
+    paddingBottom: _.md
+  },
   image: {
     width: avatarWidth,
     marginTop: _.md,
@@ -383,6 +400,13 @@ const memoStyles = _.memoStyles(_ => ({
   content: {
     paddingVertical: _.md,
     paddingRight: _.wind
+  },
+  contentNoPaddingRight: {
+    paddingVertical: _.md,
+    paddingRight: _.wind - _._wind
+  },
+  contentHasPaddingRight: {
+    paddingRight: _._wind
   },
   border: {
     borderTopColor: _.colorBorder,
