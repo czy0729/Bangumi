@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 17:25:08
+ * @Last Modified time: 2020-09-02 17:07:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { Tag, Cover } from '@screens/_'
+import { Tag, Cover, Stars } from '@screens/_'
 import { x18 } from '@utils/app'
 import { pick } from '@utils/anime'
 import { t } from '@utils/fetch'
@@ -21,7 +21,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
   const isFirst = index === 0
   const {
     id,
-    aid,
+    ageId: aid,
     image,
     cn,
     jp,
@@ -30,7 +30,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
     status,
     begin,
     tags,
-    official
+    official,
+    score
   } = pick(pickIndex)
   const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
   const _tags = tags.split(' ')
@@ -107,6 +108,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
               {tip}
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>
+              <Stars style={_.mr.sm} value={score} simple />
               {_tags.map(item => (
                 <Tag key={item} style={_.mr.sm} value={item} />
               ))}

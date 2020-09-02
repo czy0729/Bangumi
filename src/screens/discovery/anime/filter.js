@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 17:28:16
+ * @Last Modified time: 2020-09-02 16:28:05
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,6 +12,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import {
+  ANIME_AREA,
   ANIME_TYPE,
   ANIME_FIRST,
   ANIME_YEAR,
@@ -32,6 +33,11 @@ tag = ANIME_TAGS_GROUP[1].pop()
 ANIME_TAGS_GROUP[2] = [tag, ...ANIME_TAGS_GROUP[2]]
 
 const filterDS = [
+  {
+    title: '地区',
+    type: 'area',
+    data: ANIME_AREA
+  },
   {
     title: '版本',
     type: 'type',

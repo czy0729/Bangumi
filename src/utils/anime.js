@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 10:53:36
+ * @Last Modified time: 2020-09-02 17:00:41
  */
 import anime from '@constants/anime'
 import { getTimestamp } from './index'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
 
-export const ANIME_AREA = ['jp', 'cn', 'en']
+export const ANIME_AREA = ['日本', '中国']
 export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB']
 export const ANIME_FIRST = [
   'A',
@@ -123,6 +123,7 @@ const reg = {
 }
 const searchCache = {}
 export function search({
+  area,
   type,
   first,
   year,
@@ -131,7 +132,9 @@ export function search({
   tags = [],
   sort
 } = {}) {
+  // 查询指纹
   const finger = JSON.stringify({
+    area,
     type,
     first,
     year,
@@ -152,6 +155,13 @@ export function search({
 
   anime.forEach((item, index) => {
     let match = true
+
+    // area: 'jp'
+    if (match && area) {
+      match =
+        (item.area === 'jp' && area === '日本') ||
+        (item.area === 'cn' && area === '中国')
+    }
 
     // type: 'TV'
     if (match && type) {
@@ -200,9 +210,13 @@ export function search({
         )
       )
     } else if (sort === '评分') {
-      _list = _list.sort(
-        (a, b) => (anime[b].score || 0) - (anime[a].score || 0)
-      )
+      _list = _list.sort((a, b) => {
+        let _a = anime[a].score || 0
+        let _b = anime[b].score || 0
+        if (anime[a].status === '未播放') _a = 0
+        if (anime[b].status === '未播放') _b = 0
+        return _b - _a
+      })
     } else if (sort === '随机') {
       _list = _list.sort(() => 0.5 - Math.random())
     }
