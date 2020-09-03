@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 22:17:33
+ * @Last Modified time: 2020-09-03 20:47:25
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,6 +21,7 @@ function Tag({ style, type, value, size }) {
     switch (value) {
       case '动画':
       case '主角':
+      case '动画化':
         _type = 'main'
         break
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 11:33:06
+ * @Last Modified time: 2020-09-03 20:49:27
  */
 import wenku from '@constants/wenku'
 import { getTimestamp } from './index'
@@ -36,7 +36,7 @@ export const WENKU_FIRST = [
   'Y',
   'Z'
 ]
-export const WENKU_UPDATE = [
+export const WENKU_YEAR = [
   2020,
   2019,
   2018,
@@ -48,11 +48,28 @@ export const WENKU_UPDATE = [
   2012,
   2011,
   2010,
-  2009
+  2009,
+  2008,
+  2007,
+  2006,
+  2005,
+  2004,
+  2003,
+  2002,
+  2001,
+  '2000以前'
 ]
 export const WENKU_STATUS = ['连载', '完结']
 export const WENKU_ANIME = ['是', '否']
-export const WENKU_SORT = ['更新时间', '排名', '热度', '趋势', '随机', '名称']
+export const WENKU_SORT = [
+  '发行',
+  '排名',
+  '热度',
+  '趋势',
+  '更新',
+  '随机',
+  '名称'
+]
 
 /**
  * 只返回下标数组对象
@@ -85,14 +102,14 @@ export function search({ sort, year, first, status, anime } = {}) {
       match = first === getPinYinFirstCharacter(item.cn || item.jp)
     }
 
-    // update: '2009-03-08'
+    // begin: 2009
     if (match && year) {
-      match = yearReg.test(item.update)
+      match = yearReg.test(item.begin)
     }
 
-    // status: '完结'
-    if (match && status) {
-      match = item.status === status
+    // status: 1
+    if (match && status !== undefined) {
+      match = status === '完结' ? item.status === 1 : item.status === 0
     }
 
     // anime: 1, 是否动画化
@@ -106,7 +123,13 @@ export function search({ sort, year, first, status, anime } = {}) {
   })
 
   switch (sort) {
-    case '更新时间':
+    case '发行':
+      _list = _list.sort((a, b) =>
+        String(wenku[b].begin).localeCompare(String(wenku[a].begin))
+      )
+      break
+
+    case '更新':
       _list = _list.sort((a, b) =>
         String(wenku[b].update).localeCompare(String(wenku[a].update))
       )

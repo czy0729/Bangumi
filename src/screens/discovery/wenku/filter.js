@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 10:53:19
+ * @Last Modified time: 2020-09-03 19:37:33
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,7 +13,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import {
   WENKU_FIRST,
-  WENKU_UPDATE,
+  WENKU_YEAR,
   WENKU_STATUS,
   WENKU_ANIME,
   WENKU_SORT
@@ -26,9 +26,9 @@ const filterDS = [
     data: WENKU_FIRST
   },
   {
-    title: '更新　',
+    title: '发行　',
     type: 'year',
-    data: WENKU_UPDATE
+    data: WENKU_YEAR
   },
   {
     title: '状态　',

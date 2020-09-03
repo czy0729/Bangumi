@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 10:52:10
+ * @Last Modified time: 2020-09-03 20:53:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,19 +26,22 @@ function Item({ index, pickIndex }, { $, navigation }) {
     cn,
     jp,
     ep,
-    type,
     status,
     begin,
-    official,
-    score
+    score,
+    cate,
+    author,
+    len,
+    anime
   } = pick(pickIndex)
   const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
   const tip = [
-    type === 'TV' ? '' : type,
     String(ep).replace(/\(完结\)|第/g, ''),
-    status,
+    status ? '完结' : '连载',
     begin,
-    official
+    cate,
+    author,
+    len ? `${parseInt(len)}万字` : ''
   ]
     .filter(item => !!item)
     .join(' / ')
@@ -90,11 +93,11 @@ function Item({ index, pickIndex }, { $, navigation }) {
                 <Text size={15} numberOfLines={2}>
                   <Text size={15} bold>
                     {indent}
-                    {$.cnFirst ? cn : jp}
+                    {$.cnFirst ? cn || jp : jp}
                   </Text>
                   <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
                     {' '}
-                    {$.cnFirst ? jp : cn}
+                    {$.cnFirst ? jp : cn || jp}
                   </Text>
                 </Text>
               </Flex.Item>
@@ -107,6 +110,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>
               <Stars style={_.mr.sm} value={score} simple />
+              {!!anime && <Tag value='动画化' />}
             </Flex>
           </Flex>
         </Flex.Item>
