@@ -3,13 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 11:10:32
+ * @Last Modified time: 2020-09-02 18:19:19
  */
 
 /**
  * base
  */
-// export { default as Drawer } from './base/drawer'
 export { default as AppCommon } from './base/app-common'
 export { default as Avatar } from './base/avatar'
 export { default as BlurView } from './base/blur-view'
@@ -44,9 +43,7 @@ export { default as Tag } from './base/tag'
  * icon
  */
 export { default as IconBack } from './icon/back'
-export { default as IconDrawer } from './icon/drawer'
 export { default as IconHeader } from './icon/header'
-export { default as IconMenu } from './icon/menu'
 export { default as IconNotify } from './icon/notify'
 export { default as IconReverse } from './icon/reverse'
 export { default as IconTabBar } from './icon/tab-bar'

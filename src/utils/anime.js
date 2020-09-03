@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-02 17:00:41
+ * @Last Modified time: 2020-09-03 11:19:36
  */
 import anime from '@constants/anime'
 import { getTimestamp } from './index'
@@ -110,7 +110,7 @@ export const ANIME_TAGS = [
   '泡面番',
   '欢乐向'
 ]
-export const ANIME_SORT = ['上映时间', '名称', '评分', '随机']
+export const ANIME_SORT = ['上映时间', '评分', '随机', '名称']
 
 /**
  * 只返回下标数组对象
@@ -200,16 +200,20 @@ export function search({
     }
   })
 
-  if (sort) {
-    if (sort === '上映时间') {
+  switch (sort) {
+    case '上映时间':
       _list = _list.sort((a, b) => anime[b].begin.localeCompare(anime[a].begin))
-    } else if (sort === '名称') {
+      break
+
+    case '名称':
       _list = _list.sort((a, b) =>
         getPinYinFirstCharacter(anime[a].cn).localeCompare(
           getPinYinFirstCharacter(anime[b].cn)
         )
       )
-    } else if (sort === '评分') {
+      break
+
+    case '评分':
       _list = _list.sort((a, b) => {
         let _a = anime[a].score || 0
         let _b = anime[b].score || 0
@@ -217,9 +221,14 @@ export function search({
         if (anime[b].status === '未播放') _b = 0
         return _b - _a
       })
-    } else if (sort === '随机') {
+      break
+
+    case '随机':
       _list = _list.sort(() => 0.5 - Math.random())
-    }
+      break
+
+    default:
+      break
   }
 
   const result = {
@@ -228,7 +237,6 @@ export function search({
       page: 1,
       pageTotal: 1
     },
-    // _list,
     _finger: finger,
     _loaded: getTimestamp()
   }
