@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:20:50
+ * @Last Modified time: 2020-09-03 22:49:30
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Touchable, Text, Iconfont, Image } from '@components'
 import { _ } from '@stores'
+import { open } from '@utils'
 import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
@@ -21,30 +22,24 @@ const menus = [
     path: 'Rank'
   },
   {
-    title: '索引',
-    icon: 'menu',
-    path: 'Browser'
-  },
-  {
-    title: '标签',
-    icon: 'paihang',
-    path: 'Tags'
+    title: '每日放送',
+    icon: 'calendar',
+    path: 'Calendar'
   },
   {
     title: '找番剧',
     icon: 'xin-fan',
     path: 'Anime'
   },
-  // {
-  //   title: '我的人物',
-  //   icon: 'like',
-  //   path: 'Character',
-  //   login: true
-  // },
   {
-    title: '每日放送',
-    icon: 'calendar',
-    path: 'Calendar'
+    title: '找文库',
+    icon: 'menu',
+    path: 'Wenku'
+  },
+  {
+    title: '索引',
+    icon: 'list',
+    path: 'Browser'
   },
   {
     title: '目录',
@@ -57,9 +52,58 @@ const menus = [
     path: 'DiscoveryBlog'
   },
   {
+    title: '更多',
+    icon: 'more',
+    path: 'open'
+  },
+  {
+    title: '标签',
+    icon: 'paihang',
+    path: 'Tags'
+  },
+  {
+    title: '搜索',
+    icon: 'search',
+    path: 'Search'
+  },
+  {
+    title: '小圣杯',
+    icon: 'trophy',
+    path: 'Tinygrail'
+  },
+  {
+    title: '评分趋势',
+    icon: 'fen-xi',
+    path: 'netabare',
+    login: true
+  },
+  {
     title: 'Anitama',
     icon: 'anitama',
     path: 'Anitama'
+  },
+  {
+    title: '时间线',
+    icon: 'time',
+    path: 'UserTimeline',
+    login: true
+  },
+  {
+    title: '我的好友',
+    icon: 'friends',
+    path: 'Friends',
+    login: true
+  },
+  {
+    title: '我的人物',
+    icon: 'like',
+    path: 'Character',
+    login: true
+  },
+  {
+    title: '收起',
+    icon: 'arrow-left',
+    path: 'close'
   }
 ]
 
@@ -67,62 +111,97 @@ const itemWidth = (_.window.width - 2 * _.wind) / 4
 
 function Menu(props, { $, navigation }) {
   const styles = memoStyles()
+  const { expand } = $.state
   const { username, id } = $.userInfo
   return (
     <Flex style={styles.container} wrap='wrap'>
-      {menus.map(item => (
-        <Touchable
-          key={item.path}
-          onPress={() => {
-            if (item.login && !username && !id) {
-              info('请先登陆')
-              return
-            }
+      {menus
+        .filter(
+          (item, index) =>
+            item.path !== (expand ? 'open' : 'close') &&
+            index <= (expand ? 100 : 7)
+        )
+        .map(item => (
+          <Touchable
+            key={item.path}
+            onPress={() => {
+              if (item.login && !username && !id) {
+                info('请先登陆')
+                return
+              }
 
-            t('发现.跳转', {
-              to: item.path
-            })
+              if (item.path === 'open') {
+                $.openMenu()
+                return
+              }
 
-            navigation.push(
-              item.path,
-              item.login
-                ? {
-                    userName: username || id
-                  }
-                : {}
-            )
-          }}
-        >
-          <Flex style={styles.wrap} justify='center'>
-            <Flex style={styles.item} direction='column' justify='center'>
-              <View style={styles.iconWrap}>
-                <View style={styles.border} />
-                <Flex style={styles.icon} justify='center'>
-                  {item.icon === 'anitama' ? (
-                    <Image
-                      src={ImageAnitama}
-                      size={26}
-                      radius={13}
-                      placeholder={false}
-                      quality={false}
-                      fadeDuration={0}
-                    />
-                  ) : (
-                    <Iconfont
-                      name={item.icon}
-                      size={26}
-                      color={_.__colorPlain__}
-                    />
-                  )}
-                </Flex>
-              </View>
-              <Text style={_.mt.sm} size={13} align='center' bold>
-                {item.title}
-              </Text>
+              if (item.path === 'close') {
+                $.closeMenu()
+                return
+              }
+
+              if (item.path === 'netabare') {
+                t('发现.跳转', {
+                  to: item.path
+                })
+                open('https://netaba.re/trending')
+                return
+              }
+
+              if (item.path === 'UserTimeline') {
+                t('发现.跳转', {
+                  to: item.path
+                })
+                navigation.push(item.path, {
+                  userId: username || id
+                })
+                return
+              }
+
+              t('发现.跳转', {
+                to: item.path
+              })
+              navigation.push(
+                item.path,
+                item.login
+                  ? {
+                      userName: username || id
+                    }
+                  : {}
+              )
+            }}
+          >
+            <Flex style={styles.wrap} justify='center'>
+              <Flex style={styles.item} direction='column' justify='center'>
+                <View style={styles.iconWrap}>
+                  <View style={styles.border} />
+                  <Flex style={styles.icon} justify='center'>
+                    {item.icon === 'anitama' ? (
+                      <Image
+                        src={ImageAnitama}
+                        size={26}
+                        radius={13}
+                        placeholder={false}
+                        quality={false}
+                        fadeDuration={0}
+                      />
+                    ) : (
+                      <Iconfont
+                        style={item.path === 'close' && styles.rotate}
+                        name={item.icon}
+                        size={26}
+                        color={_.__colorPlain__}
+                      />
+                    )}
+                  </Flex>
+                </View>
+                <Text style={_.mt.sm} size={13} align='center' bold>
+                  {item.title}
+                </Text>
+              </Flex>
             </Flex>
-          </Flex>
-        </Touchable>
-      ))}
+          </Touchable>
+        ))}
     </Flex>
   )
 }
@@ -140,7 +219,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   wrap: {
     width: (_.window.width - 2 * _.wind) * 0.249,
-    marginTop: _.md
+    marginTop: _.md + 2
   },
   item: {
     width: itemWidth
@@ -153,5 +232,12 @@ const memoStyles = _.memoStyles(_ => ({
     height: 52,
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
     borderRadius: 52
+  },
+  rotate: {
+    transform: [
+      {
+        rotate: '90deg'
+      }
+    ]
   }
 }))
