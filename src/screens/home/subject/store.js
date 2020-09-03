@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 10:53:56
+ * @Last Modified time: 2020-09-03 23:11:18
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -29,6 +29,7 @@ import {
 import store from '@utils/store'
 import { info, showActionSheet } from '@utils/ui'
 import { find } from '@utils/anime'
+import { find as findWenku } from '@utils/wenku'
 import { HOST, HOST_NING_MOE, URL_DEFAULT_AVATAR } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
@@ -442,6 +443,19 @@ export default class ScreenSubject extends store {
   }
 
   /**
+   * 是否已收录在找文库
+   */
+  _wenku = null
+  @computed get wenku() {
+    if (this.type !== '书籍') {
+      return false
+    }
+
+    this._wenku = findWenku(this.subjectId)
+    return this._wenku
+  }
+
+  /**
    * 筛选章节构造数据, 每100章节一个选项
    */
   @computed get filterEpsData() {
@@ -755,11 +769,28 @@ export default class ScreenSubject extends store {
         info('已复制地址')
         setTimeout(() => {
           open(url)
-        }, 1000)
+        }, 1600)
       }
     } catch (error) {
       warn(namespace, 'onlinePlaySelected', error)
     }
+  }
+
+  toWenku8 = wid => {
+    t('条目.阅读轻小说', {
+      subjectId: this.subjectId,
+      wid
+    })
+
+    const url = `https://www.wenku8.net/novel/${parseInt(
+      wid / 1000
+    )}/${wid}/index.htm`
+    Clipboard.setString(url)
+    info('已复制地址')
+
+    setTimeout(() => {
+      open(url)
+    }, 1600)
   }
 
   /**

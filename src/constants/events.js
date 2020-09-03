@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 22:59:24
+ * @Last Modified time: 2020-09-03 23:17:18
  */
 
 /**
@@ -104,6 +104,11 @@ export default {
   '频道.跳转': 'Channel.to',
   '频道.右上角菜单': 'Channel.topRightMenu',
 
+  // 文库
+  '文库.跳转': 'Wenku.to',
+  '文库.选择': 'Wenku.onSelect',
+  '文库.到顶': 'Wenku.scrollToTop',
+
   /* ==================== home ==================== */
   // 首页
   '首页.跳转': 'Home.to',
@@ -151,6 +156,7 @@ export default {
   '条目.翻译曲目': 'Subject.doDiscTranslate',
   '条目.查看奖杯': 'Subject.toPSNINE',
   '条目.设置章节筛选': 'Subject.updateFilterEps',
+  '条目.阅读轻小说': 'Subject.readNoval',
 
   // 用户标签
   '用户标签.跳转': 'Tag.to',

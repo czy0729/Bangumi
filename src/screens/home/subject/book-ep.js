@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 15:30:14
+ * @Last Modified time: 2020-09-03 23:11:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,19 @@ function BookEp({ style }, { $, navigation }) {
     <View style={[styles.container, _.container.wind, style]}>
       <SectionTitle
         right={
-          !$.isLimit && (
+          !$.isLimit && $.wenku.wid ? (
+            <Touchable
+              style={styles.iconPlay}
+              onPress={() => $.toWenku8($.wenku.wid)}
+            >
+              <Flex>
+                <Iconfont name='discovery' size={16} />
+                <Text style={_.ml.xs} size={12} type='sub'>
+                  阅读
+                </Text>
+              </Flex>
+            </Touchable>
+          ) : (
             <Touchable
               style={styles.iconPlay}
               onPress={() =>
