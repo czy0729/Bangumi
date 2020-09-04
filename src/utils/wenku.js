@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 20:49:27
+ * @Last Modified time: 2020-09-03 23:44:32
  */
 import wenku from '@constants/wenku'
 import { getTimestamp } from './index'
@@ -84,6 +84,7 @@ export function search({ sort, year, first, status, anime } = {}) {
     status,
     anime
   })
+
   if (sort !== '随机' && searchCache[finger]) {
     return searchCache[finger]
   }
@@ -108,12 +109,12 @@ export function search({ sort, year, first, status, anime } = {}) {
     }
 
     // status: 1
-    if (match && status !== undefined) {
+    if (match && status !== '') {
       match = status === '完结' ? item.status === 1 : item.status === 0
     }
 
     // anime: 1, 是否动画化
-    if (match && anime !== undefined) {
+    if (match && anime !== '') {
       match = anime === '是' ? item.anime === 1 : item.anime === 0
     }
 

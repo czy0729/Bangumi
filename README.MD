@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 3.10.0" src="https://img.shields.io/badge/Version-3.10.0-0366d6" />
+  <img alt="Version: 3.11.0" src="https://img.shields.io/badge/Version-3.11.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -30,9 +30,9 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 - 大部分资源覆盖到自维护 [CDN](https://github.com/czy0729/Bangumi-Subject), 访问速度+++
 - 图片使用 [CDN](https://github.com/czy0729/Bangumi-OSS), 有后处理, 所以有比源网站更好的质量和更小的流量
-- [小圣杯](https://bgm.tv/dev/app/1143) (角色交易空气游戏, App 独立设计 UI 和交互)
 - 章节播放源 / 漫画源查询
-- 资讯聚合
+- 找番剧 / 文库
+- [小圣杯](https://bgm.tv/dev/app/1143) (角色交易空气游戏, App 独立设计 UI 和交互)
 
 [基本功能]
 
@@ -50,30 +50,21 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v3.10.0 - 2020/07/30
+v3.11.0 - 2020/09/03
 
 —— 新增 ——
 
-- [x] [条目] 好友评分详细列表
-- [x] [时光机] 新增时间线页面
+- [x] [发现] 找文库 (有记录的都是有源头的)
+- [x] [条目] 部分热门轻小说加入源头
 
 —— 优化 ——
 
-- [x] [每日放送] 显示当前时间的线条
-- [x] 所有列表中的条目现在都能显示目前的收藏状态
-- [x] [安卓] 弹出的模态框现在都可以用退后关闭
-- [x] [条目] 优化了取消收藏的提示
+- [x] [找番剧] 更新数据, 新增国漫数据 (当前收录 2381 个条目)
+- [x] [时间线] 多图片横向滚动右边间距优化
 
 —— 修复 ——
 
-- [x] 修复了电信网络下 CDN 失效的问题
-- [x] [条目] 修复了详情过长显示不全的问题
-
-—— 小圣杯助手 v2.6.0 ——
-
-- [x] 刮刮乐显示圣殿图
-- [x] 现在授权失败会自动重试 5 次
-- [x] [我的道具] 左边列表排序更优
+- [x] [条目] 修复了评论和讨论版不显示的问题
 
 ## PowerBy
 
