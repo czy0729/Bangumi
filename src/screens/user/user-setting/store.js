@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-10 20:38:48
+ * @Last Modified time: 2020-09-11 00:58:13
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -115,13 +115,13 @@ export default class ScreenAvatar extends store {
     // 使用个人签名来记录APP自定义头像和背景
     let _sign = sign
     if (_sign.match(regAvatar)) {
-      _sign.replace(regAvatar, `[avatar]${avatar || ''}[/avatar]`)
+      _sign = _sign.replace(regAvatar, `[avatar]${avatar || ''}[/avatar]`)
     } else {
       _sign += `[size=0][avatar]${avatar || ''}[/avatar][/size]`
     }
 
     if (_sign.match(regBg)) {
-      _sign.replace(regBg, `[bg]${bg || ''}[/bg]`)
+      _sign = _sign.replace(regBg, `[bg]${bg || ''}[/bg]`)
     } else {
       _sign += `[size=0][bg]${bg || ''}[/bg][/size]`
     }
@@ -129,6 +129,7 @@ export default class ScreenAvatar extends store {
     t('个人设置.保存', {
       id: this.myUserId
     })
+
     userStore.doUpdateUserSetting(
       {
         formhash,
@@ -141,7 +142,9 @@ export default class ScreenAvatar extends store {
         this.fetchUserSetting()
 
         // 更新时光机的头像和背景
-        usersStore.users(this.myUserId)
+        usersStore.fetchUsers({
+          userId: this.myUserId
+        })
       },
       () => {}
     )

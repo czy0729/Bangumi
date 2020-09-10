@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 10:52:13
+ * @Last Modified time: 2020-09-11 00:18:13
  */
 import React from 'react'
 import { ScrollView, View, AsyncStorage } from 'react-native'
@@ -214,6 +214,29 @@ class Setting extends React.Component {
           </Text>
         </Flex.Item>
       </Flex>
+    )
+  }
+
+  renderUser() {
+    const { navigation } = this.props
+    return (
+      <>
+        {this.renderSection('用户')}
+        <ItemSetting
+          hd='个人设置'
+          arrow
+          highlight
+          information='时光机点击头像也能前往'
+          onPress={() => {
+            t('设置.跳转', {
+              title: '个人设置',
+              to: 'UserSetting'
+            })
+
+            navigation.push('UserSetting')
+          }}
+        />
+      </>
     )
   }
 
@@ -864,6 +887,10 @@ class Setting extends React.Component {
         contentContainerStyle={_.container.bottom}
       >
         <NavigationBarEvents />
+        {this.renderUser()}
+        <View style={this.styles.split} />
+        {this.renderRakuen()}
+        <View style={this.styles.split} />
         {this.renderModule()}
         <View style={this.styles.split} />
         {this.renderBasic()}
@@ -871,8 +898,6 @@ class Setting extends React.Component {
         {this.renderUI()}
         <View style={this.styles.split} />
         {this.renderHome()}
-        <View style={this.styles.split} />
-        {this.renderRakuen()}
         <View style={this.styles.split} />
         {this.renderContact()}
         <View style={this.styles.split} />

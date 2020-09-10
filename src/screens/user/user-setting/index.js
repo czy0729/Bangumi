@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-10 20:30:35
+ * @Last Modified time: 2020-09-11 00:44:21
  */
 import React from 'react'
 import { Alert, ScrollView, View } from 'react-native'
@@ -187,7 +187,7 @@ class UserSetting extends React.Component {
     return (
       <>
         <Text style={_.mt.lg}>
-          推荐背景
+          推荐背景{' '}
           <Text type='sub' size={12} lineHeight={14}>
             长按可查看原图
           </Text>

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-05 16:47:43
+ * @Last Modified time: 2020-09-11 00:12:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
+import { t } from '@utils/fetch'
 import { _ } from '@stores'
 
 function Head({ style }, { $, navigation }) {
@@ -26,6 +27,13 @@ function Head({ style }, { $, navigation }) {
           borderWidth={2}
           shadow
           src={$.avatar || avatar.large}
+          onPress={() => {
+            t('我的.跳转', {
+              to: 'UserSetting'
+            })
+
+            navigation.push('UserSetting')
+          }}
         />
         {isMe && (
           <>
@@ -77,6 +85,13 @@ Head.contextTypes = {
 export default observer(Head)
 
 const styles = StyleSheet.create({
+  userSetting: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 16,
+    right: 100,
+    opacity: 0.8
+  },
   l1: {
     position: 'absolute',
     top: 16,

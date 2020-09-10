@@ -2,13 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-10 15:06:43
+ * @Last Modified time: 2020-09-11 00:09:22
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Text, Iconfont } from '@components'
-import { Popover, IconHeader, IconBack, Avatar } from '@screens/_'
+import {
+  Popover,
+  IconHeader,
+  // IconTouchable,
+  IconBack,
+  Avatar
+} from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { HTMLDecode } from '@utils/html'
@@ -18,7 +24,14 @@ import { IOS } from '@constants'
 import Head from './head'
 import { H_BG, H_HEADER } from './store'
 
-const dataMe = ['我的空间', '我的日志', 'netaba.re']
+const dataMe = [
+  '我的空间',
+  '我的好友',
+  '我的人物',
+  '我的目录',
+  '我的日志',
+  '我的netaba.re'
+]
 const dataOther = ['TA的好友', 'TA的netaba.re']
 
 function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
@@ -115,6 +128,21 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           ]}
         >
           <Head style={styles.head} />
+          {/* {isMe && (
+            <IconTouchable
+              style={styles.userSetting}
+              name='break'
+              color={_.__colorPlain__}
+              size={20}
+              onPress={() => {
+                t('我的.跳转', {
+                  to: 'UserSetting'
+                })
+
+                navigation.push('UserSetting')
+              }}
+            />
+          )} */}
         </Animated.View>
       </View>
       {!!$.params.userId && (
@@ -139,8 +167,24 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
                 })
                 break
 
+              case '我的好友':
+                navigation.push('Friends')
+                break
+
+              case '我的人物':
+                navigation.push('Character')
+                break
+
+              case '我的目录':
+                navigation.push('Catalogs')
+                break
+
               case '我的日志':
                 navigation.push('Blogs')
+                break
+
+              case '我的netaba.re':
+                open(`https://netaba.re/user/${id}`)
                 break
 
               case 'TA的好友':
@@ -149,7 +193,6 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
                 })
                 break
 
-              case 'netaba.re':
               case 'TA的netaba.re':
                 open(`https://netaba.re/user/${id}`)
                 break
@@ -249,26 +292,33 @@ const memoStyles = _.memoStyles(_ => ({
     padding: _.sm,
     marginTop: -5,
     marginLeft: 2,
-    opacity: 0.8
+    opacity: 0.64
   },
   more: {
     ..._.header.right,
     zIndex: 1,
     padding: _.sm,
     marginTop: -5,
-    opacity: 0.8
+    opacity: 0.64
   },
   timeline: {
     ..._.header.right,
     zIndex: 1,
     marginTop: -5,
     marginRight: 34,
-    opacity: 0.8
+    opacity: 0.64
   },
   setting: {
     ..._.header.right,
     zIndex: 1,
     marginTop: -5,
-    opacity: 0.8
+    opacity: 0.64
+  },
+  userSetting: {
+    ..._.header.right,
+    top: H_BG - 48,
+    zIndex: 1,
+    marginTop: -5,
+    opacity: 0.64
   }
 }))
