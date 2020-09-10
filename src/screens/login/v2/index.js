@@ -568,7 +568,7 @@ class LoginV2 extends React.Component {
                     to: 'Signup'
                   })
                   Alert.alert(
-                    '温馨提示',
+                    '提示',
                     // eslint-disable-next-line max-len
                     '在移动端浏览器注册会经常遇到验证码错误，建议在浏览器里使用电脑版UA，不行就使用电脑浏览器，再不行使用电脑Chrome注册。 \n\n注册后会有激活码发到邮箱，测试过只会发送一次，请务必在激活有效时间激活，否则这个账号就废了。输入激活码有可能激活失败，主要是之前太多人注册进来打广告，站主写了很多限制。若激活不能再换一个不同的电脑浏览器，比如IE或者Safari激活。',
                     [

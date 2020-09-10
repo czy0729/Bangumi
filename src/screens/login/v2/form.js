@@ -57,7 +57,7 @@ class Form extends React.Component {
     })
 
     Alert.alert(
-      '温馨提示',
+      '提示',
       '三个选项都是同一个站点的不同域名，只是具体服务器位置不同。 \n\n登陆建议优先使用 bangumi.tv，出现问题再尝试 chii.in，最后尝试 bgm.tv。',
       [
         {
@@ -73,7 +73,7 @@ class Form extends React.Component {
     })
 
     Alert.alert(
-      '温馨提示',
+      '提示',
       '假如您频繁掉登陆，不妨试试把这个选项勾上，通常登录状态生存时间为7天。 \n\n这是个不稳定的选项，若登陆正常不建议勾上，可能会遇到预测不能的状况。',
       [
         {

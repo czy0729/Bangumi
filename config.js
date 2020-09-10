@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 20:55:17
+ * @Last Modified time: 2020-09-10 20:59:49
  */
 export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const initialHomeTabName = 'Home'

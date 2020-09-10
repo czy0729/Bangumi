@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 16:39:37
+ * @Last Modified time: 2020-09-05 16:47:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -60,7 +60,7 @@ function Head({ style }, { $, navigation }) {
       </View>
       <Text style={_.mt.md} type={_.select('plain', 'title')}>
         {nickname}
-        <Text style={styles.id} type={_.select('plain', 'title')}>
+        <Text type={_.select('plain', 'title')}>
           {' '}
           {username || id ? `@${username || id} ` : ''}
         </Text>

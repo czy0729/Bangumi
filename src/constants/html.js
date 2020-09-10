@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-27 16:13:16
+ * @Last Modified time: 2020-09-08 16:13:15
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -306,6 +306,11 @@ export const HTML_USER_COLLECTIONS = (
     tag,
     page
   })}`
+
+/**
+ * 个人设置
+ */
+export const HTML_USER_SETTING = () => `${HOST}/settings`
 
 /**
  * 用户时光机页面

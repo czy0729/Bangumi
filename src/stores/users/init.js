@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 19:24:22
+ * @Last Modified time: 2020-09-08 12:00:43
  */
 export const NAMESPACE = 'Users'
 
@@ -26,7 +26,8 @@ export const INIT_USERS = {
   onHold: '',
   dropped: '',
   connectUrl: '',
-  disconnectUrl: ''
+  disconnectUrl: '',
+  formhash: ''
 }
 
 export const INIT_CHARACTERS = {

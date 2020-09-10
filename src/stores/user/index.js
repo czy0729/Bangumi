@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-08-29 15:08:26
+ * @Last Modified time: 2020-09-10 11:32:56
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -41,7 +41,8 @@ import {
   HTML_PM_OUT,
   HTML_PM_DETAIL,
   HTML_PM_CREATE,
-  HTML_PM_PARAMS
+  HTML_PM_PARAMS,
+  HTML_USER_SETTING
 } from '@constants/html'
 import RakuenStore from '../rakuen'
 import {
@@ -49,9 +50,15 @@ import {
   DEFAULT_SCOPE,
   INIT_ACCESS_TOKEN,
   INIT_USER_INFO,
-  INIT_USER_COOKIE
+  INIT_USER_COOKIE,
+  INIT_USER_SETTING
 } from './init'
-import { cheerioPM, cheerioPMDetail, cheerioPMParams } from './common'
+import {
+  cheerioPM,
+  cheerioPMDetail,
+  cheerioPMParams,
+  cheerioUserSetting
+} from './common'
 
 class User extends store {
   state = observable({
@@ -161,7 +168,12 @@ class User extends store {
     /**
      * 登出地址
      */
-    logout: ''
+    logout: '',
+
+    /**
+     * 个人设置
+     */
+    userSetting: INIT_USER_SETTING
   })
 
   init = async () => {
@@ -177,7 +189,8 @@ class User extends store {
         'setCookie',
         'userInfo',
         'userProgress',
-        'usersInfo'
+        'usersInfo',
+        'userSetting'
       ],
       NAMESPACE
     )
@@ -573,6 +586,26 @@ class User extends store {
     return Promise.resolve(data)
   }
 
+  /**
+   * 个人设置
+   */
+  fetchUserSetting = async () => {
+    const HTML = await fetchHTML({
+      url: HTML_USER_SETTING()
+    })
+
+    const key = 'userSetting'
+    const data = {
+      ...cheerioUserSetting(HTML),
+      _loaded: getTimestamp()
+    }
+
+    this.setState({
+      [key]: data
+    })
+    return Promise.resolve(data)
+  }
+
   // -------------------- page --------------------
   /**
    * 登出
@@ -713,6 +746,22 @@ class User extends store {
       {
         url: HTML_PM_CREATE(),
         data
+      },
+      success,
+      fail
+    )
+
+  /**
+   * 更新个人设置
+   */
+  doUpdateUserSetting = async (data, success, fail) =>
+    xhr(
+      {
+        url: HTML_USER_SETTING(),
+        data: {
+          ...data,
+          submit: '保存修改'
+        }
       },
       success,
       fail

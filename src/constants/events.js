@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 23:17:18
+ * @Last Modified time: 2020-09-10 20:22:33
  */
 
 /**
@@ -438,6 +438,10 @@ export default {
   '每周萌王.刷新': 'TTopWeek.refresh',
 
   /* ==================== user ==================== */
+  // 个人设置
+  '个人设置.查看原图': 'UserSetting.origin',
+  '个人设置.保存': 'UserSetting.save',
+
   // 好友
   '好友.跳转': 'Friends.to',
   '好友.排序': 'Friends.sort',

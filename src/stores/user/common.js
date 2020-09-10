@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-01 22:42:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-03 20:56:26
+ * @Last Modified time: 2020-09-10 11:27:39
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLTrim } from '@utils/html'
@@ -49,24 +49,14 @@ export function cheerioPMDetail(HTML) {
       $('div#comment_box > div.item')
         .map((index, element) => {
           const $row = cheerio(element)
-          const content = $row
-            .find('div.text_pm')
-            .html()
-            .split('</a>:')
+          const content = $row.find('div.text_pm').html().split('</a>:')
           content.shift()
           return safeObject({
             name: $row.find('div.rr + a.l').text(),
             avatar: matchAvatar($row.find('span.avatarSize32').attr('style')),
-            userId: $row
-              .find('a.avatar')
-              .attr('href')
-              .replace('/user/', ''),
+            userId: $row.find('a.avatar').attr('href').replace('/user/', ''),
             content: content.join(''),
-            time: $row
-              .find('small.grey')
-              .text()
-              .replace(' / del', '')
-              .slice(2)
+            time: $row.find('small.grey').text().replace(' / del', '').slice(2)
           })
         })
         .get() || [],
@@ -81,7 +71,6 @@ export function cheerioPMDetail(HTML) {
 }
 
 /**
- *
  * @param {*} HTML
  */
 export function cheerioPMParams(HTML) {
@@ -89,5 +78,18 @@ export function cheerioPMParams(HTML) {
   return {
     formhash: $('input[name=formhash]').attr('value'),
     msg_receivers: $('input[name=msg_receivers]').attr('value')
+  }
+}
+
+/**
+ * @param {*} HTML
+ */
+export function cheerioUserSetting(HTML) {
+  const $ = cheerio(HTML)
+  return {
+    sign: $('#newbio').text().trim(),
+    nickname: $('input[name=nickname]').attr('value'),
+    sign_input: $('input[name=sign_input]').attr('value'),
+    formhash: $('input[name=formhash]').attr('value')
   }
 }

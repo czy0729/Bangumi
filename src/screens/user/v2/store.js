@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 11:34:17
+ * @Last Modified time: 2020-09-10 20:37:47
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -78,11 +78,10 @@ export default class ScreenUser extends store {
     )
   }
 
-  fetchUsers = () => {
+  fetchUsers = () =>
     usersStore.fetchUsers({
       userId: this.userId
     })
-  }
 
   // -------------------- get --------------------
   @computed get isLogin() {

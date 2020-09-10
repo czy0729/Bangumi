@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 14:13:11
+ * @Last Modified time: 2020-09-08 12:00:31
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
@@ -36,6 +36,7 @@ export function cheerioUsers(HTML) {
   const hobby = $('small.hot').text().match(/\d+/g)
 
   let disconnectUrl = ''
+  let formhash = ''
   const matchDisconnect = $('a.chiiBtn[onclick]').attr('onclick')
   if (matchDisconnect) {
     // eslint-disable-next-line quotes
@@ -43,6 +44,9 @@ export function cheerioUsers(HTML) {
     if (idPath) {
       const id = idPath.split('(')[1].replace(', ', '')
       disconnectUrl = `/disconnect/${id}?gh=${hash}`
+    }
+    if (hash) {
+      formhash = hash
     }
   }
   return safeObject({
@@ -69,7 +73,8 @@ export function cheerioUsers(HTML) {
       $(`a[href='/anime/list/${userId}/dropped']`).text().replace('部抛弃', '')
     ),
     connectUrl: $('#connectFrd').attr('href'),
-    disconnectUrl
+    disconnectUrl,
+    formhash
   })
 }
 
