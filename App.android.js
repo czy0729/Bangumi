@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 23:27:51
+ * @Last Modified time: 2020-09-11 15:31:19
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -14,6 +14,7 @@ import {
 import SplashScreen from 'react-native-splash-screen'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
+import { DeepLink } from '@components'
 import { AppCommon } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { bootApp } from '@utils/app'
@@ -80,6 +81,7 @@ class App extends React.Component {
         <Provider theme={theme}>
           <Navigations />
         </Provider>
+        <DeepLink />
         <AppCommon />
       </View>
     )

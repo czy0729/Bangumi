@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 12:07:06
+ * @Last Modified time: 2020-09-11 15:53:30
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -192,7 +192,13 @@ export function keyExtractor(item = {}) {
  * @param {*} passParams 传递的参数
  * @param {*} event      { id, data }
  */
-export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
+export function appNavigate(
+  url = '',
+  navigation,
+  passParams = {},
+  event = {},
+  openWebBrowser = true
+) {
   try {
     const { id, data = {} } = event
     let _url = url
@@ -214,13 +220,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
 
     // 没路由对象或者非本站
     if (!navigation || !_url.includes(HOST)) {
-      t(id, {
-        to: 'WebBrowser',
-        url: _url,
-        ...data
-      })
+      if (openWebBrowser) {
+        t(id, {
+          to: 'WebBrowser',
+          url: _url,
+          ...data
+        })
 
-      WebBrowser.openBrowserAsync(_url)
+        WebBrowser.openBrowserAsync(_url)
+      }
       return false
     }
 
@@ -430,13 +438,15 @@ export function appNavigate(url = '', navigation, passParams = {}, event = {}) {
       return true
     }
 
-    t(id, {
-      to: 'WebBrowser',
-      url: _url,
-      ...data
-    })
+    if (openWebBrowser) {
+      t(id, {
+        to: 'WebBrowser',
+        url: _url,
+        ...data
+      })
 
-    WebBrowser.openBrowserAsync(_url)
+      WebBrowser.openBrowserAsync(_url)
+    }
     return false
   } catch (error) {
     warn('utils/app', 'appNavigate', error)

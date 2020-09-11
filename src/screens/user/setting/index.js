@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 00:18:13
+ * @Last Modified time: 2020-09-11 15:10:26
  */
 import React from 'react'
 import { ScrollView, View, AsyncStorage } from 'react-native'
@@ -220,23 +220,21 @@ class Setting extends React.Component {
   renderUser() {
     const { navigation } = this.props
     return (
-      <>
-        {this.renderSection('用户')}
-        <ItemSetting
-          hd='个人设置'
-          arrow
-          highlight
-          information='时光机点击头像也能前往'
-          onPress={() => {
-            t('设置.跳转', {
-              title: '个人设置',
-              to: 'UserSetting'
-            })
+      <ItemSetting
+        style={_.mt.sm}
+        hd='个人设置'
+        arrow
+        highlight
+        information='时光机点击头像也能前往'
+        onPress={() => {
+          t('设置.跳转', {
+            title: '个人设置',
+            to: 'UserSetting'
+          })
 
-            navigation.push('UserSetting')
-          }}
-        />
-      </>
+          navigation.push('UserSetting')
+        }}
+      />
     )
   }
 
@@ -708,22 +706,19 @@ class Setting extends React.Component {
   renderRakuen() {
     const { navigation } = this.props
     return (
-      <>
-        {this.renderSection('超展开')}
-        <ItemSetting
-          hd='更多设置'
-          arrow
-          highlight
-          onPress={() => {
-            t('设置.跳转', {
-              title: '超展开',
-              to: 'RakuenSetting'
-            })
+      <ItemSetting
+        hd='超展开设置'
+        arrow
+        highlight
+        onPress={() => {
+          t('设置.跳转', {
+            title: '超展开',
+            to: 'RakuenSetting'
+          })
 
-            navigation.push('RakuenSetting')
-          }}
-        />
-      </>
+          navigation.push('RakuenSetting')
+        }}
+      />
     )
   }
 
@@ -888,7 +883,6 @@ class Setting extends React.Component {
       >
         <NavigationBarEvents />
         {this.renderUser()}
-        <View style={this.styles.split} />
         {this.renderRakuen()}
         <View style={this.styles.split} />
         {this.renderModule()}
