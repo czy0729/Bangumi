@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 15:58:36
+ * @Last Modified time: 2020-09-12 22:45:38
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { HOST } from '@constants'
 
 export default class ScreenMono extends store {
@@ -130,11 +130,10 @@ export default class ScreenMono extends store {
   }
 
   // -------------------- page --------------------
-  updateShowHeaderTitle = showHeaderTitle => {
+  updateShowHeaderTitle = showHeaderTitle =>
     this.setState({
       showHeaderTitle
     })
-  }
 
   // -------------------- action --------------------
   /**
@@ -154,6 +153,7 @@ export default class ScreenMono extends store {
       method: 'POST',
       url: `${HOST}${collectUrl}`
     })
+    feedback()
     info('已收藏')
 
     return this.fetchMono(true)
@@ -176,6 +176,7 @@ export default class ScreenMono extends store {
       method: 'POST',
       url: `${HOST}${eraseCollectUrl}`
     })
+    feedback()
     info('已取消收藏')
 
     return this.fetchMono(true)

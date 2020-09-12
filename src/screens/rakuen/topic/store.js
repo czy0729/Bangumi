@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 17:02:06
+ * @Last Modified time: 2020-09-12 22:59:00
  */
 import { observable, computed } from 'mobx'
 import {
@@ -17,7 +17,7 @@ import {
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { t, baiduTranslate } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IOS, HOST, URL_DEFAULT_AVATAR } from '@constants'
@@ -542,6 +542,7 @@ export default class ScreenTopic extends store {
           })
         }
 
+        feedback()
         this.fetchTopic()
       }
     )
@@ -596,6 +597,7 @@ export default class ScreenTopic extends store {
           })
         }
 
+        feedback()
         this.fetchTopic()
       }
     )
@@ -618,6 +620,7 @@ export default class ScreenTopic extends store {
         url: `${HOST}/${url}`
       },
       () => {
+        feedback()
         info('已删除')
         this.fetchTopic()
       }

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 15:28:00
+ * @Last Modified time: 2020-09-12 23:51:44
  */
 import { observable, computed } from 'mobx'
 import {
@@ -19,7 +19,7 @@ import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { HOST, IOS } from '@constants'
 
 export const H_BG = Math.min(parseInt(_.window.width * 0.64), 288) // 整个背景高度
@@ -270,6 +270,7 @@ export default class ScreenZone extends store {
       await fetchHTML({
         url: `${HOST}${connectUrl}`
       })
+      feedback()
       info('已添加好友')
       this.fetchUsers()
     }
@@ -288,6 +289,7 @@ export default class ScreenZone extends store {
       await fetchHTML({
         url: `${HOST}${disconnectUrl}`
       })
+      feedback()
       info('已解除好友')
       this.fetchUsers()
     }

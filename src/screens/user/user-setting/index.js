@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 11:11:31
+ * @Last Modified time: 2020-09-12 03:08:22
  */
 import React from 'react'
-import { Alert, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { Flex, Image, Text, Input, Touchable } from '@components'
 import { IconTouchable } from '@screens/_'
@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { confirm } from '@utils/ui'
 import { IOS } from '@constants'
 import Check from './check'
 import Store from './store'
@@ -147,9 +148,10 @@ class UserSetting extends React.Component {
             name='information'
             size={20}
             onPress={() =>
-              Alert.alert(
-                '提示',
-                '此头像非网页版头像，仅在APP内时光机和个人空间中显示'
+              confirm(
+                '此头像非网页版头像，仅在APP内时光机和个人空间中显示。需要输入图片网络地址，是否前往免费图床？',
+                () => open('https://imgchr.com/'),
+                '提示'
               )
             }
           />
@@ -170,9 +172,10 @@ class UserSetting extends React.Component {
             name='information'
             size={20}
             onPress={() =>
-              Alert.alert(
-                '提示',
-                '网页版没有背景概念，仅在APP内时光机和个人空间中显示'
+              confirm(
+                '网页版没有背景概念，仅在APP内时光机和个人空间中显示。需要输入图片网络地址，是否前往免费图床？',
+                () => open('https://imgchr.com/'),
+                '提示'
               )
             }
           />
@@ -195,6 +198,8 @@ class UserSetting extends React.Component {
         <Flex style={_.mt.sm} wrap='wrap'>
           {bgs.map((item, index) => (
             <Touchable
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
               style={[this.styles.bg, index % 2 === 1 && _.ml.md]}
               onPress={() => $.onSelectBg(item)}
               onLongPress={() => this.onViewOrigin(item, index)}

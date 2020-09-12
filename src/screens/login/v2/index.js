@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 11:41:21
+ * @Last Modified time: 2020-09-12 22:56:11
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -15,7 +15,7 @@ import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
 import { xhrCustom, hm, t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { IOS, HOST_2, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 import Preview from './preview'
 import Form from './form'
@@ -107,6 +107,7 @@ class LoginV2 extends React.Component {
       info('登陆成功, 正在请求个人信息...', 6)
       userStore.fetchUserInfo()
       userStore.fetchUsersInfo()
+      feedback()
       navigation.popToTop()
     } catch (error) {
       warn(namespace, 'onTour', error)
@@ -410,6 +411,7 @@ class LoginV2 extends React.Component {
 
     userStore.fetchUserInfo()
     userStore.fetchUsersInfo()
+    feedback()
     navigation.popToTop()
 
     t('登陆.成功')

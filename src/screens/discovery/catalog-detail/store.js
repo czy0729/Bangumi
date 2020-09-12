@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 22:08:08
+ * @Last Modified time: 2020-09-12 22:44:29
  */
 import { computed } from 'mobx'
 import { discoveryStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { t, fetchHTML } from '@utils/fetch'
 import { HOST } from '@constants'
 
@@ -71,6 +71,7 @@ export default class ScreenCatalogDetail extends store {
       method: 'POST',
       url: `${HOST}${joinUrl}`
     })
+    feedback()
     info('已收藏')
 
     return this.fetchCatalogDetail()
@@ -93,6 +94,7 @@ export default class ScreenCatalogDetail extends store {
       method: 'POST',
       url: `${HOST}${byeUrl}`
     })
+    feedback()
     info('已取消收藏')
 
     return this.fetchCatalogDetail()

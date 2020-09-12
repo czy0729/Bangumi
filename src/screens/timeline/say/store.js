@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 22:57:31
+ * @Last Modified time: 2020-09-12 22:59:57
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
 import { sleep } from '@utils'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -238,6 +238,7 @@ export default class ScreenSay extends store {
         this.setState({
           value: ''
         })
+        feedback()
         info('吐槽成功')
         navigation.goBack()
       }
@@ -275,6 +276,7 @@ export default class ScreenSay extends store {
           value: ''
         })
         await this.fetchSay()
+        feedback()
 
         if (scrollView && scrollView.scrollToEnd) {
           setTimeout(() => {

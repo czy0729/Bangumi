@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 15:31:52
+ * @Last Modified time: 2020-09-12 22:57:05
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
 import { IOS, HOST } from '@constants'
 import store from '@utils/store'
 import { removeHTMLTag } from '@utils/html'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { t } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 
@@ -254,6 +254,7 @@ export default class ScreenBlog extends store {
           })
         }
 
+        feedback()
         this.fetchBlog()
       }
     )
@@ -307,6 +308,7 @@ export default class ScreenBlog extends store {
           })
         }
 
+        feedback()
         this.fetchBlog()
       }
     )
@@ -329,6 +331,7 @@ export default class ScreenBlog extends store {
         url: `${HOST}/${url}`
       },
       () => {
+        feedback()
         info('已删除')
         this.fetchBlog()
       }

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:35:56
+ * @Last Modified time: 2020-09-12 23:01:08
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 
@@ -160,6 +160,7 @@ export default class ScreenPM extends store {
         ...this.pmParams
       },
       async () => {
+        feedback()
         this.setState({
           title: '',
           value: ''
@@ -192,6 +193,7 @@ export default class ScreenPM extends store {
           value: ''
         })
         await this.fetchPMDetail()
+        feedback()
 
         if (scrollView && scrollView.scrollToEnd) {
           setTimeout(() => {

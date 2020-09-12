@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 04:17:10
+ * @Last Modified time: 2020-09-12 23:55:53
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
-import { info, confirm } from '@utils/ui'
+import { info, confirm, feedback } from '@utils/ui'
 
 const namespace = 'ScreenTinygrailDeal'
 const defaultType = 'bid'
@@ -156,6 +156,7 @@ export default class ScreenTinygrailDeal extends store {
         isIce
       })
     }
+    feedback()
 
     if (!result) {
       info('交易失败')
@@ -186,6 +187,7 @@ export default class ScreenTinygrailDeal extends store {
     ]({
       id
     })
+    feedback()
 
     if (!result) {
       info('取消失败')
@@ -216,6 +218,7 @@ export default class ScreenTinygrailDeal extends store {
         id: item.id
       })
     }
+    feedback()
 
     if (!result) {
       info('取消失败')

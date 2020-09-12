@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 00:58:13
+ * @Last Modified time: 2020-09-12 23:50:44
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 
 const onlineBgsUrl = 'https://gitee.com/a402731062/bangumi/raw/master/bg.json'
 const regBg = /\[bg\](.+?)\[\/bg\]/
@@ -138,6 +138,7 @@ export default class ScreenAvatar extends store {
         newbio: _sign
       },
       () => {
+        feedback()
         info('保存成功')
         this.fetchUserSetting()
 

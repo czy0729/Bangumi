@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 10:29:21
+ * @Last Modified time: 2020-09-12 22:50:30
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,7 +13,7 @@ import { _, userStore } from '@stores'
 import { copy, getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
 import { xhrCustom, t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 
 const title = '电脑辅助登陆'
@@ -270,6 +270,8 @@ class LoginAssist extends React.Component {
       userAgent: this.userAgent,
       v: 0
     })
+    feedback()
+
     await userStore.fetchUserInfo()
     await userStore.fetchUsersInfo()
 

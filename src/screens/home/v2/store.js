@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 21:00:38
+ * @Last Modified time: 2020-09-12 22:41:05
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -18,6 +18,7 @@ import { Eps } from '@screens/_'
 import { t, queue } from '@utils/fetch'
 import { x18, appNavigate, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
+import { feedback } from '@utils/ui'
 import { IOS } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
@@ -563,6 +564,8 @@ export default class ScreenHomeV2 extends store {
       id,
       status: MODEL_EP_STATUS.getValue('看过')
     })
+    feedback()
+
     userStore.fetchUserCollection()
     userStore.fetchUserProgress()
 
@@ -589,6 +592,8 @@ export default class ScreenHomeV2 extends store {
       chap: epStatus,
       vol: volStatus
     })
+    feedback()
+
     userStore.fetchUserCollection()
     userStore.fetchUserProgress()
   }
@@ -602,6 +607,8 @@ export default class ScreenHomeV2 extends store {
     })
 
     await collectionStore.doUpdateCollection(values)
+    feedback()
+
     if (values.status !== MODEL_COLLECTION_STATUS.getValue('在看')) {
       userStore.fetchUserCollection()
     }
@@ -626,6 +633,8 @@ export default class ScreenHomeV2 extends store {
         id: item.id,
         status
       })
+      feedback()
+
       userStore.fetchUserCollection()
       userStore.fetchUserProgress(subjectId)
     }
@@ -648,6 +657,8 @@ export default class ScreenHomeV2 extends store {
         subjectId,
         sort: sort === -1 ? item.sort : sort + 1
       })
+      feedback()
+
       userStore.fetchUserCollection()
       userStore.fetchUserProgress(subjectId)
     }
@@ -701,6 +712,8 @@ export default class ScreenHomeV2 extends store {
       id,
       status
     })
+    feedback()
+
     userStore.fetchUserCollection()
     userStore.fetchUserProgress(subjectId)
   }

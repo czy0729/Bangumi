@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 21:33:02
+ * @Last Modified time: 2020-09-12 23:53:03
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import {
   SORT_SC,
   SORT_GX,
@@ -162,6 +162,8 @@ export default class ScreenTinygrailBid extends store {
     const result = await tinygrailStore.doAuctionCancel({
       id
     })
+    feedback()
+
     if (!result) {
       info('取消失败')
       return

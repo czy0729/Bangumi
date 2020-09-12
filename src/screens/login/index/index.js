@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 14:15:52
+ * @Last Modified time: 2020-09-12 22:55:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,9 +24,9 @@ import {
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { hm, t } from '@utils/fetch'
-import { HTMLTrim } from '@utils/html'
+// import { HTMLTrim } from '@utils/html'
 import {
   SDK,
   IOS,
@@ -163,6 +163,7 @@ class Login extends React.Component {
 
     await userStore.fetchUserInfo()
     await userStore.fetchUsersInfo()
+    feedback()
     navigation.popToTop()
 
     t('授权登陆.成功')
@@ -234,19 +235,7 @@ class Login extends React.Component {
         'light',
         'dark'
       )}";
-      var resetStyle = document.createElement("style");
-      try {
-        resetStyle.appendChild(document.createTextNode("${HTMLTrim(
-          `
-            #headerNeue2,
-            #columnLoginB,
-            .family {
-              display: none;
-            }
-          `
-        )}"));
-      } catch (ex) {}
-      document.body.append(resetStyle);
+
 
       // postMessage
       var __isBridgeOk = false;
@@ -330,3 +319,17 @@ const memoStyles = _.memoStyles(_ => ({
     left: _.wind * 2
   }
 }))
+
+// var resetStyle = document.createElement("style");
+// try {
+//   resetStyle.appendChild(document.createTextNode("${HTMLTrim(
+//     `
+//       #headerNeue2,
+//       #columnLoginB,
+//       .family {
+//         display: none;
+//       }
+//     `
+//   )}"));
+// } catch (ex) {}
+// document.body.append(resetStyle);

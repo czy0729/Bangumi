@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 23:11:18
+ * @Last Modified time: 2020-09-12 22:48:08
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -27,7 +27,7 @@ import {
   getCoverMedium
 } from '@utils/app'
 import store from '@utils/store'
-import { info, showActionSheet } from '@utils/ui'
+import { feedback, info, showActionSheet } from '@utils/ui'
 import { find } from '@utils/anime'
 import { find as findWenku } from '@utils/wenku'
 import { HOST, HOST_NING_MOE, URL_DEFAULT_AVATAR } from '@constants'
@@ -826,11 +826,10 @@ export default class ScreenSubject extends store {
     this.setStorage(undefined, undefined, this.namespace)
   }
 
-  updateShowHeaderTitle = showHeaderTitle => {
+  updateShowHeaderTitle = showHeaderTitle =>
     this.setState({
       showHeaderTitle
     })
-  }
 
   // -------------------- action --------------------
   /**
@@ -953,6 +952,8 @@ export default class ScreenSubject extends store {
             id: item.id,
             status
           })
+          feedback()
+
           userStore.fetchUserCollection()
           userStore.fetchUserProgress(this.subjectId)
         }
@@ -976,6 +977,8 @@ export default class ScreenSubject extends store {
             subjectId: this.subjectId,
             sort: sort === -1 ? item.sort : sort + 1
           })
+          feedback()
+
           userStore.fetchUserCollection()
           userStore.fetchUserProgress(this.subjectId)
         }
@@ -999,6 +1002,8 @@ export default class ScreenSubject extends store {
 
     try {
       await collectionStore.doUpdateCollection(values)
+      feedback()
+
       collectionStore.fetchCollection(this.subjectId)
       this.closeManageModal()
     } catch (error) {
@@ -1025,6 +1030,7 @@ export default class ScreenSubject extends store {
         vol,
         [name]: next
       })
+      feedback()
 
       this.setState({
         [name]: next
@@ -1050,6 +1056,7 @@ export default class ScreenSubject extends store {
         chap,
         vol
       })
+      feedback()
       info('更新成功')
     } catch (error) {
       warn(namespace, 'doUpdateBookEp', error)
@@ -1072,6 +1079,8 @@ export default class ScreenSubject extends store {
           watchedEps
         },
         async () => {
+          feedback()
+
           userStore.fetchUserCollection()
           userStore.fetchUserProgress(this.subjectId)
           this.fetchSubjectFormHTML()
@@ -1107,6 +1116,8 @@ export default class ScreenSubject extends store {
         id,
         status
       })
+      feedback()
+
       userStore.fetchUserCollection()
       userStore.fetchUserProgress(this.subjectId)
     } catch (error) {
@@ -1135,7 +1146,9 @@ export default class ScreenSubject extends store {
         },
         () => {}, // 因为删除后是302, 使用fail去触发
         () => {
+          feedback()
           info('删除收藏成功')
+
           this.fetchCollection()
           userStore.fetchUserCollection()
         }

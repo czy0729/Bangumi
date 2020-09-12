@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 15:10:26
+ * @Last Modified time: 2020-09-12 22:38:04
  */
 import React from 'react'
 import { ScrollView, View, AsyncStorage } from 'react-native'
@@ -483,7 +483,8 @@ class Setting extends React.Component {
       quality,
       speech,
       transition,
-      flat
+      flat,
+      vibration
     } = systemStore.setting
     return (
       <>
@@ -525,6 +526,23 @@ class Setting extends React.Component {
                 />
               }
               information='开启后尽量少出现线条，并适当增大元素间距'
+            />
+            <ItemSetting
+              hd='震动'
+              ft={
+                <SwitchPro
+                  value={vibration}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '震动',
+                      checked: !vibration
+                    })
+
+                    systemStore.switchSetting('vibration')
+                  }}
+                />
+              }
+              information='操作请求后轻震动反馈'
             />
             <ItemSetting
               hd='图片渐出动画'

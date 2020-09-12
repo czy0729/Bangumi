@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:41:46
+ * @Last Modified time: 2020-09-12 22:57:27
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { HOST } from '@constants'
 
 const namespace = 'ScreenGroup'
@@ -207,6 +207,7 @@ export default class ScreenGroup extends store {
         action: 'join-bye'
       }
     })
+    feedback()
     info('已加入小组')
 
     return this.fetchGroupInfo()
@@ -232,6 +233,7 @@ export default class ScreenGroup extends store {
         action: 'join-bye'
       }
     })
+    feedback()
     info('已退出小组')
 
     return this.fetchGroupInfo()

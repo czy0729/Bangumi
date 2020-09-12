@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 15:12:46
+ * @Last Modified time: 2020-09-13 00:06:59
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
 import { x18 } from '@utils/app'
 import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
+import { feedback } from '@utils/ui'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
 
@@ -156,6 +157,8 @@ export default class ScreenTimeline extends store {
       url: href
     })
     await res
+    feedback()
+
     this.fetchTimeline(true)
 
     return res

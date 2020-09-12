@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 10:53:58
+ * @Last Modified time: 2020-09-12 23:59:20
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -10,7 +10,7 @@ import { observable, computed } from 'mobx'
 import { userStore, tinygrailStore } from '@stores'
 import { urlStringify, getTimestamp, formatNumber, toFixed } from '@utils'
 import store from '@utils/store'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 import { queue, t } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
 import {
@@ -174,6 +174,8 @@ export default class ScreenTinygrail extends store {
       t('小圣杯.授权成功')
 
       this._doAuthFailCount = 0
+
+      feedback()
       info('已更新授权')
       this.setState({
         loading: false,
@@ -279,6 +281,7 @@ export default class ScreenTinygrail extends store {
       this.setState({
         loadingBonus: false
       })
+      feedback()
 
       if (State === 0) {
         this.setState({
@@ -315,6 +318,7 @@ export default class ScreenTinygrail extends store {
       this.setState({
         loadingBonus: false
       })
+      feedback()
 
       if (State === 0) {
         info(Value)
@@ -350,6 +354,7 @@ export default class ScreenTinygrail extends store {
       this.setState({
         loadingBonus: false
       })
+      feedback()
 
       if (State === 0) {
         info(Value)
@@ -385,6 +390,7 @@ export default class ScreenTinygrail extends store {
       this.setState({
         loadingBonus: false
       })
+      feedback()
 
       if (State === 0) {
         info(Value)
@@ -411,6 +417,8 @@ export default class ScreenTinygrail extends store {
         text: '确定',
         onPress: async () => {
           const { State, Value, Message } = await tinygrailStore.doSend()
+          feedback()
+
           if (State === 0) {
             info(Value)
             await tinygrailStore.fetchAssets()
@@ -495,6 +503,7 @@ export default class ScreenTinygrail extends store {
       return false
     }
 
+    feedback()
     tinygrailStore.updateCookie(
       `${data.headers['set-cookie'][0].split(';')[0]};`
     )

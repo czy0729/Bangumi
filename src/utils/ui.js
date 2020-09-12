@@ -2,15 +2,38 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 14:15:47
+ * @Last Modified time: 2020-09-13 00:05:16
  */
 import {
-  Alert
+  Alert,
+  Vibration
   // ToastAndroid
 } from 'react-native'
 import { Toast } from '@ant-design/react-native'
 import ActionSheet from '@components/@/ant-design/action-sheet'
-// import { IOS } from '@constants'
+import { DEV } from '@constants'
+
+function getSetting() {
+  const systemStore = require('../stores/system').default
+  const { setting } = systemStore
+  return setting
+}
+
+/**
+ * 轻震动反馈
+ */
+export function feedback() {
+  const { vibration } = getSetting()
+  if (!vibration) {
+    return false
+  }
+
+  if (DEV) {
+    log('vibration')
+  }
+
+  return Vibration.vibrate(24)
+}
 
 /**
  * 确定框

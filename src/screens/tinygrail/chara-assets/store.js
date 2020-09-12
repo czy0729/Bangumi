@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-08 09:57:30
+ * @Last Modified time: 2020-09-12 23:54:30
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -12,7 +12,7 @@ import { tinygrailStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { confirm, info } from '@utils/ui'
+import { confirm, info, feedback } from '@utils/ui'
 import {
   SORT_SC,
   SORT_GX,
@@ -367,6 +367,7 @@ export default class ScreenTinygrailCharaAssets extends store {
           )
         }
 
+        feedback()
         this.fetchMyCharaAssets()
         if (errorIds.length) {
           Alert.alert('小圣杯助手', `共有${errorIds.length}个角色献祭失败`, [

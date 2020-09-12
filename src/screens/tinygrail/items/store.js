@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-12 21:27:22
+ * @Last Modified time: 2020-09-12 23:59:44
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -10,7 +10,7 @@ import { tinygrailStore } from '@stores'
 import { toFixed } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 
 const typeDS = {
   混沌魔方: 'chaos',
@@ -108,6 +108,7 @@ export default class ScreenTinygrailItems extends store {
       }
 
       const { State, Value, Message } = await tinygrailStore.doMagic(data)
+      feedback()
       t('我的道具.使用', {
         type: title,
         monoId,

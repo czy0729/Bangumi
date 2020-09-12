@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 04:17:52
+ * @Last Modified time: 2020-09-13 00:00:54
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -10,7 +10,7 @@ import { tinygrailStore } from '@stores'
 import { setStorage, getTimestamp, formatNumber, toFixed } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { info, feedback } from '@utils/ui'
 
 const namespace = 'ScreenTinygrailSacrifice'
 const excludeState = {
@@ -178,6 +178,7 @@ export default class ScreenTinygrailSacrifice extends store {
       amount,
       isSale
     })
+    feedback()
 
     if (State !== 0) {
       info(Message)
@@ -247,6 +248,7 @@ export default class ScreenTinygrailSacrifice extends store {
       price: auctionPrice,
       amount: auctionAmount
     })
+    feedback()
 
     if (State !== 0) {
       info(Message)
