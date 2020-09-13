@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-13 00:05:16
+ * @Last Modified time: 2020-09-13 00:20:28
  */
 import {
   Alert,
@@ -32,7 +32,7 @@ export function feedback() {
     log('vibration')
   }
 
-  return Vibration.vibrate(24)
+  return Vibration.vibrate(8)
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 18:09:38
+ * @Last Modified time: 2020-09-13 18:12:46
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,9 +12,7 @@ import { Loading, Flex, Text, Image } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, timelineStore } from '@stores'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
-import { hash, HOST_CDN } from '@constants/cdn'
-
-const versions = ['20200712', '20200502', '1.0.2']
+import { hash, HOST_CDN, VERSIONS_AVATAR } from '@constants/cdn'
 
 export default
 @observer
@@ -88,7 +86,7 @@ class UsedModal extends React.Component {
     _src = _src.replace('http://', 'https://')
     const _hash = hash(_src)
     const path = _hash.slice(0, 1).toLocaleLowerCase()
-    const sources = versions.map(
+    const sources = VERSIONS_AVATAR.map(
       item =>
         `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${item}/data/avatar/m/${path}/${_hash}.jpg`
     )
