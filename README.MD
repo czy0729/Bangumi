@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 3.11.0" src="https://img.shields.io/badge/Version-3.11.0-0366d6" />
+  <img alt="Version: 3.12.0" src="https://img.shields.io/badge/Version-3.12.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -50,21 +50,20 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v3.11.0 - 2020/09/03
+v3.12.0 -2020/09/13
 
 —— 新增 ——
 
-- [x] [发现] 找文库 (有记录的都是有源头的)
-- [x] [条目] 部分热门轻小说加入源头
+- [x] [个人设置] 支持修改昵称、签名, 可自定义背景、头像 (非网站头像, 网站头像暂时无法修改, 修改的仅为 APP 内和 APP 用户查看空间时显示)
+- [x] [安卓] Deep Link, 外部 bgm 链接可以打开 APP 对应页面
 
 —— 优化 ——
 
-- [x] [找番剧] 更新数据, 新增国漫数据 (当前收录 2381 个条目)
-- [x] [时间线] 多图片横向滚动右边间距优化
+- [x] 增加了操作类请求后轻震动反馈 (不需要可到设置关闭)
 
 —— 修复 ——
 
-- [x] [条目] 修复了评论和讨论版不显示的问题
+- [x] [时间胶囊] 修复了范围为自己时, 看过 x of x 集形式文字丢失问题
 
 ## PowerBy
 
