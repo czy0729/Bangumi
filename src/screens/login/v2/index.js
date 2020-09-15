@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:56:11
+ * @Last Modified time: 2020-09-14 12:17:36
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -22,6 +22,7 @@ import Form from './form'
 
 const title = '登陆'
 const namespace = 'LoginV2'
+const AUTH_RETRY_COUNT = 8
 
 export default
 @observer
@@ -253,7 +254,7 @@ class LoginV2 extends React.Component {
       setStorage(`${namespace}|password`, password)
       this.inStore()
     } catch (ex) {
-      if (this.retryCount >= 6) {
+      if (this.retryCount >= AUTH_RETRY_COUNT) {
         this.loginFail(
           `[${String(ex)}] 登陆失败，请重试或重启APP，或点击前往旧版授权登陆 →`
         )
@@ -296,7 +297,6 @@ class LoginV2 extends React.Component {
 
     const data = await res
     const { _response, responseHeaders } = data
-    console.log(_response)
     if (_response.includes('分钟内您将不能登录本站。')) {
       info('累计 5 次错误尝试，15 分钟内您将不能登录本站。')
     }

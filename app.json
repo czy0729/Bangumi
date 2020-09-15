@@ -10,7 +10,6 @@
         "backgroundColor": "#000000"
       }
     },
-    "sdkVersion": "37.0.0",
     "name": "Bangumi Pro",
     "slug": "bangumi-pro",
     "privacy": "public",
@@ -20,11 +19,7 @@
     ],
     "orientation": "portrait",
     "scheme": "bangumi",
-    "splash": {
-      "image": "./src/assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    "splash": {},
     "icon": "./src/assets/images/icon.png",
     "updates": {
       "enabled": false,
@@ -42,8 +37,6 @@
       "backgroundColor": "#ffffff"
     },
     "githubUrl": "https://github.com/czy0729/Bangumi",
-    "entryPoint": "node_modules/expo/AppEntry.js"
-  },
-  "displayName": "bangumi",
-  "name": "czy0729.bangumi"
+    "sdkVersion": "38.0.0"
+  }
 }
