@@ -145,3 +145,7 @@
 
 ##### DBFlow #####
 -keep class com.raizlabs.android.dbflow.config.GeneratedDatabaseHolder
+
+##### Hermes #####
+# -keep class com.facebook.hermes.unicode.** { *; }
+# -keep class com.facebook.jni.** { *; }

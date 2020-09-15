@@ -85,6 +85,9 @@ apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/expo-updates/scripts/create-manifest-android.gradle"
 
+// def expoVersionCode = "node -p require('../app.json').expo.android.versionCode".execute().text.trim().toInteger()
+// def expoVersionName = "node -p require('../app.json').expo.version".execute().text.trim()
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -131,7 +134,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'com.czy0729.bangumi'
+        applicationId "com.czy0729.bangumi"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 4000
@@ -151,6 +154,15 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
@@ -197,15 +209,16 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     // 友盟
-    implementation "com.umeng.umsdk:analytics:8.0.0"
-    implementation "com.umeng.umsdk:common:2.0.0"
+    implementation 'com.umeng.umsdk:common:2.0.0' //基础组件
+    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
+    implementation 'com.umeng.umsdk:analytics:8.0.0' //统计
 
-    // 如果你需要支持GIF动图
-    implementation "com.facebook.fresco:animated-gif:2.0.0"
+    // // 如果你需要支持GIF动图
+    // implementation "com.facebook.fresco:animated-gif:2.0.0"
 
-    // 如果你需要支持WebP格式，包括WebP动图
-    implementation "com.facebook.fresco:animated-webp:2.1.0"
-    implementation "com.facebook.fresco:webpsupport:2.0.0"
+    // // 如果你需要支持WebP格式，包括WebP动图
+    // implementation "com.facebook.fresco:animated-webp:2.1.0"
+    // implementation "com.facebook.fresco:webpsupport:2.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
