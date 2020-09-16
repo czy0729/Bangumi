@@ -85,8 +85,8 @@ apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/expo-updates/scripts/create-manifest-android.gradle"
 
-// def expoVersionCode = "node -p require('../app.json').expo.android.versionCode".execute().text.trim().toInteger()
-// def expoVersionName = "node -p require('../app.json').expo.version".execute().text.trim()
+def expoVersionCode = "node -p require('../app.json').expo.android.versionCode".execute().text.trim().toInteger()
+def expoVersionName = "node -p require('../app.json').expo.version".execute().text.trim()
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -101,7 +101,7 @@ def enableSeparateBuildPerCPUArchitecture = true
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -126,6 +126,10 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
+    dexOptions {
+        javaMaxHeapSize "3g"
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
@@ -137,14 +141,14 @@ android {
         applicationId "com.czy0729.bangumi"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4000
-        versionName "4.0.0"
+        versionCode expoVersionCode
+        versionName expoVersionName
     }
     splits {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
+            universalApk true  // If true, also generate a universal APK
             include "armeabi-v7a" // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
@@ -179,10 +183,10 @@ android {
     }
 
     packagingOptions {
-        pickFirst "lib/armeabi-v7a/libc++_shared.so"
-        pickFirst "lib/arm64-v8a/libc++_shared.so"
-        pickFirst "lib/x86/libc++_shared.so"
-        pickFirst "lib/x86_64/libc++_shared.so"
+        // pickFirst "lib/armeabi-v7a/libc++_shared.so"
+        // pickFirst "lib/arm64-v8a/libc++_shared.so"
+        // pickFirst "lib/x86/libc++_shared.so"
+        // pickFirst "lib/x86_64/libc++_shared.so"
     }
 
     // applicationVariants are e.g. debug, release
