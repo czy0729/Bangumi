@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:57:05
+ * @Last Modified time: 2020-09-24 18:01:06
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
@@ -18,7 +18,8 @@ const initState = {
   placeholder: '', // 回复框placeholder
   value: '', // 回复框value
   replySub: '', // 存放bgm特有的子回复配置字符串
-  message: '' // 存放子回复html
+  message: '', // 存放子回复html
+  showHeaderTitle: false
 }
 
 export default class ScreenBlog extends store {
@@ -207,6 +208,12 @@ export default class ScreenBlog extends store {
         value: content
       })
     }, 160)
+  }
+
+  updateShowHeaderTitle = showHeaderTitle => {
+    this.setState({
+      showHeaderTitle
+    })
   }
 
   // -------------------- action --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 11:14:16
+ * @Last Modified time: 2020-09-24 19:27:10
  */
 import React from 'react'
 import { InteractionManager, Alert, StyleSheet, View } from 'react-native'
@@ -16,6 +16,7 @@ import { keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { TITLE, HOST } from '@constants'
+import HeaderTitle from './header-title'
 import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
@@ -28,7 +29,8 @@ export default
 @inject(Store)
 @withTransitionHeader({
   screen: title,
-  barStyle: 'dark-content'
+  barStyle: 'dark-content',
+  HeaderTitle
 })
 @observer
 class Blog extends React.Component {
@@ -204,6 +206,25 @@ class Blog extends React.Component {
     }, 100)
   }
 
+  onScroll = e => {
+    const { onScroll } = this.props
+    const { $ } = this.context
+    onScroll(e)
+
+    const { showHeaderTitle } = $.state
+    const { nativeEvent } = e
+    const { y } = nativeEvent.contentOffset
+    const headerTranstion = 48
+    if (!showHeaderTitle && y > headerTranstion) {
+      $.updateShowHeaderTitle(true)
+      return
+    }
+
+    if (showHeaderTitle && y <= headerTranstion) {
+      $.updateShowHeaderTitle(false)
+    }
+  }
+
   showFixedTextare = () => this.fixedTextarea.onFocus()
 
   renderItem = ({ item, index }) => {
@@ -229,7 +250,6 @@ class Blog extends React.Component {
   render() {
     const { $ } = this.context
     const { placeholder, value } = $.state
-    const { onScroll } = this.props
     return (
       <View style={_.container.content}>
         <ListView
@@ -243,7 +263,7 @@ class Blog extends React.Component {
           removeClippedSubviews={false}
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
-          onScroll={onScroll}
+          onScroll={this.onScroll}
           onScrollToIndexFailed={this.onScrollToIndexFailed}
           onHeaderRefresh={$.fetchBlog}
           onFooterRefresh={$.fetchBlog}

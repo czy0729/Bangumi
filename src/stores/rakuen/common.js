@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 16:22:06
+ * @Last Modified time: 2020-09-24 17:56:35
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -433,8 +433,8 @@ export function cheerioBlog(HTML) {
     const $ = cheerio(HTML)
     const titleText = $('#pageHeader > h1').text() || ''
     let title
-    if (titleText.includes(' &raquo; ')) {
-      title = String(titleText.split(' &raquo; ')[1]).replace('日志', '')
+    if (titleText.includes(' » ')) {
+      title = String(titleText.split(' » ')[1]).replace('日志', '')
     } else {
       title = String(titleText.split(' / ')[1])
     }

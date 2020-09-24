@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:04:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:43:46
+ * @Last Modified time: 2020-09-24 17:45:44
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -93,7 +93,7 @@ export default class ScreenDiscoveryBlog extends store {
   }
 
   // -------------------- page --------------------
-  onTabChange = (item, page) => {
+  onTabChange = page => {
     if (page === this.state.page) {
       return
     }

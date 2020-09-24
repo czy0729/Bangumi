@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 02:52:37
+ * @Last Modified time: 2020-09-24 19:27:53
  */
-export const initialDevDark = true // '' 不控制 | true 强制黑暗 | false 强制白天
+export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const initialHomeTabName = 'Home'
 
 export default {
   initialRouteName: 'HomeTab', // HomeTab Discovery TinygrailCharaAssets
   initialRouteParams: {
     // id: 240929
-    // blogId: 295843 // 294448
+    // blogId: 298795 // 294448
     // catalogId: 29811,
     // groupId: 'tinygrail',
     // monoId: 'person/7498' // 20391 character/70323 person/5745

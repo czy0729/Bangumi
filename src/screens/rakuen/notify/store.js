@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-04 21:33:49
+ * @Last Modified time: 2020-09-24 16:49:05
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
@@ -11,16 +11,16 @@ import { t, queue } from '@utils/fetch'
 
 export const tabs = [
   {
-    title: '提醒',
-    key: 'notify'
+    key: 'notify',
+    title: '提醒'
   },
   {
-    title: '收件箱',
-    key: 'pm'
+    key: 'pmIn',
+    title: '收件箱'
   },
   {
-    title: '已发送',
-    key: 'out'
+    key: 'pmOut',
+    title: '已发送'
   }
 ]
 const typePage = {
@@ -63,6 +63,13 @@ export default class ScreenNotify extends store {
 
   @computed get pmOut() {
     return userStore.pmOut
+  }
+
+  // -------------------- page --------------------
+  onChange = page => {
+    this.setState({
+      page
+    })
   }
 
   // -------------------- action --------------------

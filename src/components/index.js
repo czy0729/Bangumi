@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 15:30:48
+ * @Last Modified time: 2020-09-24 16:44:56
  */
 export { default as Activity } from './activity'
 export { default as Bgm } from './bgm'
@@ -39,6 +39,7 @@ export { default as StatusBarEvents } from './status-bar-events'
 export { default as Switch } from './switch'
 export { default as SwitchPro } from './switch-pro'
 export { default as Tabs } from './tabs'
+export { default as TabsV2 } from './tabs-v2'
 export { default as Text } from './text'
 export { default as Touchable } from './touchable'
 export { default as UM } from './um'

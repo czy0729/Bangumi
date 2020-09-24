@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 20:04:10
+ * @Last Modified time: 2020-09-21 16:10:02
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -300,7 +300,7 @@ class Image extends React.Component {
       })
     } else if (size) {
       image.push({
-        width: size,
+        width: this.props.width || size,
         height: height || size
       })
     }

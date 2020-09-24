@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:02:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:04:47
+ * @Last Modified time: 2020-09-24 17:46:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,8 +12,7 @@ import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Tabs from './tabs'
-import List from './list'
-import Store, { tabs } from './store'
+import Store from './store'
 
 const title = '日志'
 
@@ -61,16 +60,6 @@ class DiscoveryBlog extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    return (
-      <View style={_.container.bg}>
-        {!!_loaded && (
-          <Tabs tabs={tabs}>
-            {tabs.map(item => (
-              <List key={item.key} type={item.key} />
-            ))}
-          </Tabs>
-        )}
-      </View>
-    )
+    return <View style={_.container.bg}>{!!_loaded && <Tabs />}</View>
   }
 }
