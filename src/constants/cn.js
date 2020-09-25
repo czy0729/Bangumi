@@ -1,12 +1,12 @@
 /* eslint-disable quotes */
 /*
  * 条目中文名
- *  - 因bangumi-data只覆盖到动画, 而且要搜索, 故爬虫抓了一边访问命中率高的条目
+ *  - 因bangumi-data只覆盖到动画, 而且要搜索, 故爬虫抓了一遍访问命中率高的条目
  *
  * @Author: czy0729
  * @Date: 2020-05-19 16:45:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-20 16:22:43
+ * @Last Modified time: 2020-09-25 22:31:41
  */
 export const SUBJECT_CN = {
   8: 'Code Geass 反叛的鲁路修R2',

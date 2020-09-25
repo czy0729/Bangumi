@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:48:08
+ * @Last Modified time: 2020-09-25 22:33:30
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -33,7 +33,7 @@ import { find as findWenku } from '@utils/wenku'
 import { HOST, HOST_NING_MOE, URL_DEFAULT_AVATAR } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
-import { NINGMOE_ID } from '@constants/online'
+// import { NINGMOE_ID } from '@constants/online'
 
 export const imageWidth = _.isPad ? 152 : 120
 export const imageHeight = imageWidth * 1.33
@@ -133,22 +133,22 @@ export default class ScreenSubject extends store {
       })
     }
 
-    // 获取其他源头eps在线地址
-    const name = data.name_cn || data.name
-    if (this.type === '动画') {
-      const { _ningMoeId = NINGMOE_ID[name] } = this.params
-      if (_ningMoeId) {
-        discoveryStore.fetchNingMoeDetail({
-          id: _ningMoeId,
-          bgmId: this.subjectId
-        })
-      } else {
-        // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
-        discoveryStore.fetchNingMoeDetailBySearch({
-          keyword: name
-        })
-      }
-    }
+    // [移除柠萌瞬间] 获取其他源头eps在线地址
+    // const name = data.name_cn || data.name
+    // if (this.type === '动画') {
+    //   const { _ningMoeId = NINGMOE_ID[name] } = this.params
+    //   if (_ningMoeId) {
+    //     discoveryStore.fetchNingMoeDetail({
+    //       id: _ningMoeId,
+    //       bgmId: this.subjectId
+    //     })
+    //   } else {
+    //     // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
+    //     discoveryStore.fetchNingMoeDetailBySearch({
+    //       keyword: name
+    //     })
+    //   }
+    // }
 
     queue([
       // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
@@ -373,7 +373,7 @@ export default class ScreenSubject extends store {
   @computed get onlinePlayActionSheetData() {
     const data = []
     if (this.ningMoeDetail.id) {
-      data.push('柠萌瞬间')
+      // data.push('柠萌瞬间')
     }
 
     const { epsData } = this.state
@@ -414,7 +414,7 @@ export default class ScreenSubject extends store {
     const { sites = [] } = bangumiInfo
     const _data = []
     if (this.ningMoeDetail.id) {
-      _data.push('柠萌瞬间')
+      // _data.push('柠萌瞬间')
     }
 
     const data = [
@@ -737,9 +737,9 @@ export default class ScreenSubject extends store {
       let item
       let url
       switch (key) {
-        case '柠萌瞬间':
-          url = `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
-          break
+        // case '柠萌瞬间':
+        //   url = `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
+        //   break
         case 'AGE动漫':
           if (_aid || find(this.subjectId).aid) {
             url = `https://www.agefans.tv/detail/${
