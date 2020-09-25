@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 04:07:59
+ * @Last Modified time: 2020-09-25 16:47:50
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -31,7 +31,6 @@ export const tabs = [
     title: '买入',
     key: 'bid'
   },
-
   {
     title: '竞拍',
     key: 'auction'
@@ -90,7 +89,7 @@ export default class ScreenTinygrailLogs extends store {
   }
 
   // -------------------- page --------------------
-  onChange = (item, page) => {
+  onChange = page => {
     if (page === this.state.page) {
       return
     }

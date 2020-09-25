@@ -1,23 +1,27 @@
 /*
  * @Author: czy0729
- * @Date: 2019-10-01 15:37:16
+ * @Date: 2019-09-16 19:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 19:59:23
+ * @Last Modified time: 2020-09-24 20:45:24
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { TabsV2 } from '@components'
-import List from './list'
+import { _ } from '@stores'
 
-function Tabs(props, { $ }) {
+function Tabs({ routes, ...other }, { $ }) {
   const { page } = $.state
   return (
     <TabsV2
-      routes={$.tabs}
+      routes={routes}
       page={page}
-      renderItem={item => <List key={item.key} id={item.key} />}
+      textColor={_.colorTinygrailPlain}
+      backgroundColor={_.colorTinygrailContainer}
+      borderBottomColor={_.colorTinygrailBorder}
+      underlineColor={_.colorWarning}
       onChange={$.onChange}
+      {...other}
     />
   )
 }

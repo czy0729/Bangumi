@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:50:23
+ * @Last Modified time: 2020-09-25 17:29:42
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,15 +12,13 @@ import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import Item from './item'
 
-function List({ index }, { $ }) {
-  const key = $.key(index)
-  const rich = $.rich(key)
+function List({ id, title }, { $ }) {
+  const rich = $.rich(id)
   if (!rich._loaded) {
     return <Loading style={_.container.flex} />
   }
 
-  const [page, limit] = key.split('/')
-  const title = $.title(index)
+  const [page, limit] = id.split('/')
 
   // top100 余额最多处理
   let data = rich
@@ -53,7 +51,7 @@ function List({ index }, { $ }) {
           {...item}
         />
       )}
-      onHeaderRefresh={() => $.fetchRich(key)}
+      onHeaderRefresh={() => $.fetchRich(id)}
     />
   )
 }

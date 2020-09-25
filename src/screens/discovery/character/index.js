@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:51:53
+ * @Last Modified time: 2020-09-24 20:00:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,6 @@ import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Tabs from './tabs'
-import List from './list'
 import Store from './store'
 
 const title = '收藏的人物'
@@ -63,16 +62,6 @@ class Character extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    return (
-      <View style={_.container.bg}>
-        {!!_loaded && (
-          <Tabs tabs={$.tabs}>
-            {$.tabs.map((item, index) => (
-              <List key={item.key} index={index} />
-            ))}
-          </Tabs>
-        )}
-      </View>
-    )
+    return <View style={_.container.bg}>{!!_loaded && <Tabs />}</View>
   }
 }

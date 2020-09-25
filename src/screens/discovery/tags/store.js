@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 09:42:17
+ * @Last Modified time: 2020-09-24 19:50:39
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -71,7 +71,7 @@ export default class ScreenTags extends store {
   }
 
   // -------------------- page --------------------
-  onChange = (item, page) => {
+  onChange = page => {
     if (page === this.state.page) {
       return
     }

@@ -1,27 +1,25 @@
 /*
  * @Author: czy0729
  * @Date: 2020-03-22 19:44:23
- * @Last Modified by:   czy0729
- * @Last Modified time: 2020-03-22 19:44:23
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2020-09-24 20:21:42
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Tabs as CompTabs } from '@components'
-import { _ } from '@stores'
+import { TabsV2 } from '@components'
+import List from './list'
+import { tabs } from './store'
 
-function Tabs({ tabs, children, ...other }, { $ }) {
+function Tabs(props, { $ }) {
   const { page } = $.state
   return (
-    <CompTabs
-      style={_.container.flex}
-      tabs={tabs}
-      initialPage={page}
+    <TabsV2
+      routes={tabs}
+      page={page}
+      renderItem={item => <List key={item.key} id={item.key} />}
       onChange={$.onChange}
-      {...other}
-    >
-      {children}
-    </CompTabs>
+    />
   )
 }
 

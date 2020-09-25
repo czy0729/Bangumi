@@ -72,7 +72,8 @@ export default class TabView<T extends Route> extends React.Component<
     springConfig: {},
     timingConfig: {},
     gestureHandlerProps: {},
-    renderPager: (props: ChildProps<any>) => <Pager {...props} />
+    renderPager: (props: ChildProps<any>) => <Pager {...props} />,
+    renderContentHeaderComponent: null // @add
   }
 
   state = {
@@ -125,7 +126,8 @@ export default class TabView<T extends Route> extends React.Component<
       style,
       gestureHandlerProps,
       springVelocityScale,
-      renderPager
+      renderPager,
+      renderContentHeaderComponent // @add
     } = this.props
     const { layout } = this.state
 
@@ -175,6 +177,7 @@ export default class TabView<T extends Route> extends React.Component<
                     ...sceneRendererProps,
                     navigationState
                   })}
+                {renderContentHeaderComponent}
                 {render(
                   navigationState.routes.map((route, i) => {
                     return (

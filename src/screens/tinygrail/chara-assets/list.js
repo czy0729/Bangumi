@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 21:24:31
+ * @Last Modified time: 2020-09-25 16:26:09
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -18,16 +18,14 @@ const event = {
   id: '我的持仓.跳转'
 }
 
-function List({ index }, { $, navigation }) {
+function List({ id }, { $, navigation }) {
   const { chara, ico, _loaded } = $.myCharaAssets
   if (!_loaded) {
     return <Loading style={_.container.flex} />
   }
 
-  const type = index === 0 ? 'chara' : 'ico'
-  const isChara = type === 'chara'
-  const isTemple = index === 1
-
+  const isChara = id === 'chara'
+  const isTemple = id === 'temple'
   let data
   if (isChara) {
     data = chara
@@ -87,8 +85,8 @@ function List({ index }, { $, navigation }) {
           <ItemEdit
             index={index}
             item={item}
-            type={type}
-            users={type === 'ico' ? 'ico' : undefined} // 这里api有bug
+            type={id}
+            users={id === 'ico' ? 'ico' : undefined} // 这里api有bug
             event={event}
           />
         )

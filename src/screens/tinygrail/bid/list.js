@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:14:55
+ * @Last Modified time: 2020-09-24 20:36:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import Item from '../_/item'
 import { sortList } from '../_/utils'
-import { tabs } from './store'
 
 const event = {
   id: '我的委托.跳转'
@@ -22,9 +21,8 @@ const go = {
   auction: '资产重组'
 }
 
-function List({ index }, { $ }) {
-  const { key } = tabs[index]
-  const list = $.list(key)
+function List({ id }, { $ }) {
+  const list = $.list(id)
   if (!list._loaded) {
     return <Loading style={_.container.flex} />
   }
@@ -50,14 +48,14 @@ function List({ index }, { $ }) {
       renderItem={({ item, index }) => (
         <Item
           index={index}
-          type={key}
+          type={id}
           event={event}
-          go={go[key]}
+          go={go[id]}
           onAuctionCancel={$.doAuctionCancel}
           {...item}
         />
       )}
-      onHeaderRefresh={() => $.fetchList(key)}
+      onHeaderRefresh={() => $.fetchList(id)}
     />
   )
 }

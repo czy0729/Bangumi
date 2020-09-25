@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 04:00:23
+ * @Last Modified time: 2020-09-25 17:27:03
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -73,7 +73,7 @@ export default class ScreenTinygrailRich extends store {
   }
 
   // -------------------- page --------------------
-  onChange = (item, page) => {
+  onChange = page => {
     if (page === this.state.page) {
       return
     }

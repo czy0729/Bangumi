@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 17:12:07
+ * @Last Modified time: 2020-09-25 16:47:30
  */
 import React, { useMemo } from 'react'
 import { TabBar, SceneMap } from 'react-native-tab-view'
@@ -14,7 +14,18 @@ import Text from './text'
 
 const W_INDICATOR = 16
 
-function Tabs({ routes, page, renderItem, onChange }) {
+function Tabs({
+  routes,
+  tabBarLength,
+  page,
+  textColor,
+  backgroundColor,
+  borderBottomColor,
+  underlineColor,
+  renderItem,
+  onChange,
+  ...other
+}) {
   const styles = memoStyles()
   const renderScene = useMemo(
     () =>
@@ -28,7 +39,50 @@ function Tabs({ routes, page, renderItem, onChange }) {
       ),
     [routes]
   )
-  const W_TAB = useMemo(() => _.window.width / routes.length, [routes])
+  const W_TAB = useMemo(
+    () => _.window.width / (tabBarLength || routes.length),
+    [tabBarLength, routes]
+  )
+  const tabBarStyle = useMemo(
+    () => [
+      styles.tabBar,
+      backgroundColor && {
+        backgroundColor
+      },
+      borderBottomColor && {
+        borderBottomColor
+      }
+    ],
+    [styles, backgroundColor, borderBottomColor]
+  )
+  const tabStyle = useMemo(
+    () => [
+      styles.tab,
+      {
+        width: W_TAB
+      }
+    ],
+    [styles, W_TAB]
+  )
+  const indicatorStyle = useMemo(
+    () => [
+      styles.indicator,
+      {
+        marginLeft: (W_TAB - W_INDICATOR) / 2
+      },
+      underlineColor && {
+        backgroundColor: underlineColor
+      }
+    ],
+    [styles, W_TAB, underlineColor]
+  )
+  const textStyle = useMemo(
+    () =>
+      textColor && {
+        color: textColor
+      },
+    [textColor]
+  )
   return (
     <TabView
       lazyPreloadDistance={1}
@@ -39,26 +93,16 @@ function Tabs({ routes, page, renderItem, onChange }) {
       renderTabBar={props => (
         <TabBar
           {...props}
-          style={styles.tabBar}
-          tabStyle={[
-            styles.tab,
-            {
-              width: W_TAB
-            }
-          ]}
+          style={tabBarStyle}
+          tabStyle={tabStyle}
           labelStyle={styles.label}
-          indicatorStyle={[
-            styles.indicator,
-            {
-              marginLeft: (W_TAB - W_INDICATOR) / 2
-            }
-          ]}
+          indicatorStyle={indicatorStyle}
           pressOpacity={1}
           pressColor='transparent'
           scrollEnabled
           renderLabel={({ route, focused }) => (
             <Flex style={styles.labelText} justify='center'>
-              <Text type='title' size={13} bold={focused}>
+              <Text style={textStyle} type='title' size={13} bold={focused}>
                 {route.title}
               </Text>
             </Flex>
@@ -67,6 +111,7 @@ function Tabs({ routes, page, renderItem, onChange }) {
       )}
       renderScene={renderScene}
       onIndexChange={onChange}
+      {...other}
     />
   )
 }

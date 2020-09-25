@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-30 20:03:21
+ * @Last Modified time: 2020-09-25 16:44:34
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,15 +11,14 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import Item from './item'
-import { tabs } from './store'
 
-function List({ index }, { $ }) {
+function List({ title }, { $ }) {
   if (!$.balance._loaded) {
     return <Loading style={_.container.flex} />
   }
 
   let data
-  switch (tabs[index].title) {
+  switch (title) {
     case '刮刮乐':
       data = {
         ...$.balance,

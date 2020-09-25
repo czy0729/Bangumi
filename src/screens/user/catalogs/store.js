@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 20:55:31
+ * @Last Modified time: 2020-09-24 20:20:40
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore, discoveryStore } from '@stores'
@@ -86,7 +86,7 @@ export default class ScreenCatelogs extends store {
   }
 
   // -------------------- page --------------------
-  onChange = (item, page) => {
+  onChange = page => {
     if (page === this.state.page) {
       return
     }

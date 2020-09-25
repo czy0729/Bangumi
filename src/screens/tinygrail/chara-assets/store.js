@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 23:54:30
+ * @Last Modified time: 2020-09-25 16:31:27
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -227,7 +227,7 @@ export default class ScreenTinygrailCharaAssets extends store {
   }
 
   // -------------------- page --------------------
-  onChange = (item, page) => {
+  onChange = page => {
     if (page === this.state.page) {
       return
     }

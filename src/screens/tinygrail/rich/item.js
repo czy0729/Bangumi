@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 20:57:08
+ * @Last Modified time: 2020-09-25 17:31:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,7 @@ function Item(
     total,
     share,
     assets,
-    principal,
+    // principal,
     lastActiveDate,
     lastIndex,
     state
@@ -54,14 +54,14 @@ function Item(
     assetsText = assets
   }
 
-  let principalText
-  if (principal > B) {
-    principalText = `${formatNumber(principal / B, 1)}亿`
-  } else if (principal > M) {
-    principalText = `${formatNumber(principal / M, 1)}万`
-  } else {
-    principalText = principal
-  }
+  // let principalText
+  // if (principal > B) {
+  //   principalText = `${formatNumber(principal / B, 1)}亿`
+  // } else if (principal > M) {
+  //   principalText = `${formatNumber(principal / M, 1)}万`
+  // } else {
+  //   principalText = principal
+  // }
 
   let shareText
   if (share > M) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 14:25:14
+ * @Last Modified time: 2020-09-25 16:23:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { inject, withHeader, observer } from '@utils/decorators'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
-import Tabs from '../_/tabs'
+import Tabs from '../_/tabs-v2'
 import Right from './right'
 import List from './list'
 import Store, { tabs, sortDS } from './store'
@@ -85,13 +85,10 @@ class TinygrailCharaAssets extends React.Component {
         <StatusBarEvents />
         {!!_loaded && (
           <Tabs
-            tabs={tabs}
+            routes={tabs}
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
-          >
-            {tabs.map((item, index) => (
-              <List key={item.key} index={index} />
-            ))}
-          </Tabs>
+            renderItem={item => <List key={item.key} id={item.key} />}
+          />
         )}
       </View>
     )

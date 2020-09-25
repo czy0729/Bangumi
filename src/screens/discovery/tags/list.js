@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 20:09:53
+ * @Last Modified time: 2020-09-24 19:51:47
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,7 +10,6 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import Item from './item'
-import { tabs } from './store'
 
 export default
 @observer
@@ -23,27 +22,27 @@ class List extends React.Component {
     $: PropTypes.object
   }
 
-  renderItem = ({ item }) => <Item type={this.key} {...item} />
+  renderItem = ({ item }) => {
+    const { id } = this.props
+    return <Item type={id} {...item} />
+  }
 
   onHeaderRefresh = () => {
     const { $ } = this.context
-    return $.fetchList(this.key, true)
+    const { id } = this.props
+    return $.fetchList(id, true)
   }
 
   onFooterRefresh = () => {
     const { $ } = this.context
-    return $.fetchList(this.key)
-  }
-
-  get key() {
-    const { index } = this.props
-    const { key } = tabs[index]
-    return key
+    const { id } = this.props
+    return $.fetchList(id)
   }
 
   render() {
     const { $ } = this.context
-    const list = $.list(this.key)
+    const { id } = this.props
+    const list = $.list(id)
     if (!list._loaded) {
       return <Loading />
     }

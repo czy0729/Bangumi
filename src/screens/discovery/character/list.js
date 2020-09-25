@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:10:37
+ * @Last Modified time: 2020-09-24 20:13:39
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -32,17 +32,14 @@ class List extends React.Component {
   }
 
   get isRecents() {
-    const { $ } = this.context
-    const { index } = this.props
-    const { key } = $.tabs[index]
-    return key === 'recents'
+    const { id } = this.props
+    return id === 'recents'
   }
 
   render() {
     const { $ } = this.context
-    const { index } = this.props
-    const { key } = $.tabs[index]
-    const list = $.list(key)
+    const { id } = this.props
+    const list = $.list(id)
     if (!list._loaded) {
       return <Loading style={_.container.screen} />
     }
@@ -56,8 +53,8 @@ class List extends React.Component {
         data={list}
         numColumns={numColumns}
         renderItem={this.renderItem}
-        onHeaderRefresh={() => $.fetchList(key, true)}
-        onFooterRefresh={() => $.fetchList(key)}
+        onHeaderRefresh={() => $.fetchList(id, true)}
+        onFooterRefresh={() => $.fetchList(id)}
       />
     )
   }

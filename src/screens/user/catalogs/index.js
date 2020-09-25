@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 20:21:44
+ * @Last Modified time: 2020-09-24 20:20:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,8 +11,7 @@ import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import Tabs from './tabs'
-import List from './list'
-import Store, { tabs } from './store'
+import Store from './store'
 
 const title = '用户目录'
 
@@ -42,16 +41,6 @@ class Catelogs extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    return (
-      <View style={_.container.screen}>
-        {!!_loaded && (
-          <Tabs tabs={tabs}>
-            {tabs.map((item, index) => (
-              <List key={item.key} index={index} />
-            ))}
-          </Tabs>
-        )}
-      </View>
-    )
+    return <View style={_.container.screen}>{!!_loaded && <Tabs />}</View>
   }
 }

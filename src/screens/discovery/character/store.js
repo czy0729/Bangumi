@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:38:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-22 22:14:54
+ * @Last Modified time: 2020-09-24 19:59:45
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -97,7 +97,7 @@ export default class ScreenCharacter extends store {
   }
 
   // -------------------- page --------------------
-  onChange = (item, page) => {
+  onChange = page => {
     if (page === this.state.page) {
       return
     }
