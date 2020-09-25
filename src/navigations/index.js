@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 20:12:10
+ * @Last Modified time: 2020-09-25 21:24:30
  */
 import React from 'react'
-import { View } from 'react-native'
 import {
   createAppContainer,
   createStackNavigator,
@@ -14,30 +13,11 @@ import {
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { observer } from 'mobx-react'
 import * as Screens from '@screens'
-import BottomTabBar from '@components/@/react-navigation-tabs/BottomTabBar'
-import { BlurView } from '@screens/_'
-import { IOS } from '@constants'
-import { _ } from '@stores'
 import navigationsParams, { initialHomeTabName } from '@/config'
-import HomeScreen from './screens/home'
-import config from './stacks/config'
-
-const TarBarComponent = observer(props => {
-  const styles = memoStyles()
-  if (IOS) {
-    return (
-      <BlurView style={styles.blurView}>
-        <BottomTabBar {...props} style={styles.tabBarComponent} />
-      </BlurView>
-    )
-  }
-
-  return (
-    <View style={styles.tarBarView}>
-      <BottomTabBar {...props} style={styles.tabBarComponent} />
-    </View>
-  )
-})
+import TabBarComponent from './tab-bar-component'
+import config from './config'
+import HomeScreen from './home-screen'
+import { navigateOnce } from './utils'
 
 const HomeTab = observer(
   createBottomTabNavigator(
@@ -50,7 +30,7 @@ const HomeTab = observer(
     },
     {
       initialRouteName: initialHomeTabName,
-      tabBarComponent: props => <TarBarComponent {...props} />,
+      tabBarComponent: props => <TabBarComponent {...props} />,
       navigationOptions: ({ navigation, screenProps }) =>
         getActiveChildNavigationOptions(navigation, screenProps),
       animationEnabled: false
@@ -70,28 +50,9 @@ const HomeStack = createStackNavigator(
   }
 )
 
-export default createAppContainer(HomeStack)
+const MainNavigator = createAppContainer(HomeStack)
+MainNavigator.router.getStateForAction = navigateOnce(
+  MainNavigator.router.getStateForAction
+)
 
-const memoStyles = _.memoStyles(_ => ({
-  blurView: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    left: 0
-  },
-  tarBarView: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: IOS
-      ? _.select(_.colorPlain, _._colorDarkModeLevel1)
-      : _.select('transparent', _._colorDarkModeLevel1),
-    borderTopWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
-    borderTopColor: _.colorBorder
-  },
-  tabBarComponent: {
-    borderTopWidth: 0,
-    backgroundColor: 'transparent'
-  }
-}))
+export default MainNavigator

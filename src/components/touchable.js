@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 22:33:09
+ * @Last Modified time: 2020-09-25 21:15:50
  */
 import React from 'react'
 import {
@@ -17,15 +17,17 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { IOS } from '@constants'
 
+/**
+ * 防止瞬间多次点击
+ * @param {*} functionTobeCalled
+ */
 let isCalled = false
 let timer
-function callOnceInInterval(functionTobeCalled, interval = 160) {
+function callOnceInInterval(functionTobeCalled, interval = 40) {
   if (!isCalled) {
     isCalled = true
     clearTimeout(timer)
-    timer = setTimeout(() => {
-      isCalled = false
-    }, interval)
+    timer = setTimeout(() => (isCalled = false), interval)
 
     /**
      * 把点击事件放在requestAnimationFrame里面, 在安卓上面是两个完全不同的体验
