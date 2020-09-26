@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-26 20:46:28
+ * @Last Modified time: 2020-09-26 20:52:28
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -248,6 +248,8 @@ export default class ScreenComic extends store {
       subjectId: this.subjectId,
       index
     })
+
+    info('获取图片地址中')
 
     const { url, tag } = item
     let href = ''
