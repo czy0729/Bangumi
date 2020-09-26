@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 14:43:55
+ * @Last Modified time: 2020-09-26 20:46:28
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -14,13 +14,17 @@ import { cheerio } from '@utils/html'
 import { LIST_EMPTY, HOST_MANGA } from '@constants'
 
 const namespace = 'ScreenComic'
+const excludeState = {
+  eps: {},
+  images: {},
+  searchingUrl: ''
+}
 
 export default class ScreenComic extends store {
   state = observable({
     key: '',
     origins: LIST_EMPTY,
-    eps: {},
-    images: {},
+    ...excludeState,
     _loaded: false
   })
 
@@ -34,8 +38,7 @@ export default class ScreenComic extends store {
     this.setState({
       ...state,
       key: cn || jp,
-      eps: {},
-      images: {}
+      ...excludeState
     })
     if (state.origins && state.origins.list.length) {
       this.setState({
@@ -43,6 +46,8 @@ export default class ScreenComic extends store {
       })
       return
     }
+
+    info('1/4')
 
     // 中文
     const list1 = await this.searchOrigins(cn)
@@ -53,6 +58,7 @@ export default class ScreenComic extends store {
       return
     }
     await sleep(2000)
+    info('2/4')
 
     // 去掉标点
     const list2 = await this.searchOrigins(
@@ -65,6 +71,7 @@ export default class ScreenComic extends store {
       return
     }
     await sleep(2000)
+    info('3/4')
 
     // 日文
     if (jp !== cn) {
@@ -77,6 +84,7 @@ export default class ScreenComic extends store {
       }
     }
     await sleep(2000)
+    info('4/4')
 
     // 缩短关键字
     if (cn.length > 4) {
@@ -180,6 +188,10 @@ export default class ScreenComic extends store {
       subjectId: this.subjectId
     })
 
+    this.setState({
+      searchingUrl: item.url
+    })
+
     let list = []
     if (item.tag === '新新漫画') {
       const HTML = await fetchHTML({
@@ -226,7 +238,8 @@ export default class ScreenComic extends store {
           list,
           _loaded: getTimestamp()
         }
-      }
+      },
+      searchingUrl: ''
     })
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 21:33:08
+ * @Last Modified time: 2020-09-26 14:56:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,16 @@ import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
 import { _ } from '@stores'
 
-function ItemSetting({ style, hd, ft, arrow, information, onPress, ...other }) {
+function ItemSetting({
+  style,
+  hd,
+  ft,
+  arrow,
+  information,
+  informationType,
+  onPress,
+  ...other
+}) {
   const styles = memoStyles()
   const content = (
     <View style={styles.item}>
@@ -30,7 +39,12 @@ function ItemSetting({ style, hd, ft, arrow, information, onPress, ...other }) {
         {arrow && <Iconfont style={_.ml.xs} name='right' />}
       </Flex>
       {information && (
-        <Text style={styles.information} type='sub' size={13} lineHeight={15}>
+        <Text
+          style={styles.information}
+          type={informationType}
+          size={13}
+          lineHeight={15}
+        >
           {information}
         </Text>
       )}
@@ -50,6 +64,10 @@ function ItemSetting({ style, hd, ft, arrow, information, onPress, ...other }) {
       {content}
     </View>
   )
+}
+
+ItemSetting.defaultProps = {
+  informationType: 'sub'
 }
 
 export default observer(ItemSetting)

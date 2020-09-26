@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 11:46:14
+ * @Last Modified time: 2020-09-26 14:34:47
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
+import { xhrCustom } from '@utils/fetch'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 import {
@@ -13,6 +14,7 @@ import {
   IOS,
   GITHUB_DATA,
   GITHUB_RELEASE_REPOS,
+  GITHUB_ADVANCE,
   VERSION_GITHUB_RELEASE
 } from '@constants'
 import {
@@ -22,6 +24,7 @@ import {
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING
 } from '@constants/model'
+import UserStore from '../user'
 import {
   NAMESPACE,
   INIT_SETTING,
@@ -35,6 +38,11 @@ class System extends store {
      * 云端配置数据
      */
     ota: {},
+
+    /**
+     * 高级会员
+     */
+    advance: false,
 
     /**
      * 基本设置
@@ -69,7 +77,7 @@ class System extends store {
 
   init = async () => {
     await this.readStorage(
-      ['ota', 'setting', 'release', 'dev', 'iosUGCAgree'],
+      ['ota', 'advance', 'setting', 'release', 'dev', 'iosUGCAgree'],
       NAMESPACE
     )
 
@@ -147,6 +155,38 @@ class System extends store {
       // do nothing
     }
     return res
+  }
+
+  /**
+   * 判断是否高级用户
+   */
+  fetchAdvance = async () => {
+    // 永久性质
+    if (this.advance) {
+      return true
+    }
+
+    if (!UserStore.myId) {
+      return false
+    }
+
+    try {
+      const { _response } = await xhrCustom({
+        url: `${GITHUB_ADVANCE}?t=${getTimestamp()}`
+      })
+      const advanceUserMap = JSON.parse(_response)
+
+      if (advanceUserMap[UserStore.myId]) {
+        const key = 'advance'
+        this.setState({
+          advance: true
+        })
+        this.setStorage(key, undefined, NAMESPACE)
+      }
+    } catch (error) {
+      warn(NAMESPACE, 'fetchAdvance', error)
+    }
+    return true
   }
 
   // -------------------- page --------------------

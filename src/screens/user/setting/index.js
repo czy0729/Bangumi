@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:38:04
+ * @Last Modified time: 2020-09-26 14:57:04
  */
 import React from 'react'
 import { ScrollView, View, AsyncStorage } from 'react-native'
@@ -81,6 +81,7 @@ class Setting extends React.Component {
     // )
     this.caculateStorageSize()
     this.setParams()
+    systemStore.fetchAdvance()
   }
 
   setParams = () => {
@@ -743,6 +744,7 @@ class Setting extends React.Component {
   renderContact() {
     const { navigation } = this.props
     const { contact } = this.state
+    const { advance } = systemStore
     return (
       <>
         {this.renderSection('联系', 'contact')}
@@ -789,6 +791,8 @@ class Setting extends React.Component {
                 hd='投食🍚'
                 arrow
                 highlight
+                information={advance && '已收到巨款，感谢您的支持'}
+                informationType='success'
                 onPress={() => {
                   t('设置.跳转', {
                     to: 'Qiafan'

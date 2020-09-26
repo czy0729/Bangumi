@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 11:22:19
+ * @Last Modified time: 2020-09-26 14:33:51
  */
 import { Platform } from 'react-native'
 
@@ -66,6 +66,8 @@ export const GITHUB_RELEASE_REPOS =
 // export const GITHUB_DATA = `${GITHUB_PROJECT_GH}/web/data.json` // online数
 export const GITHUB_DATA =
   'https://gitee.com/a402731062/bangumi/raw/master/data.json' // online数
+export const GITHUB_ADVANCE =
+  'https://gitee.com/a402731062/bangumi/raw/master/advance.json' // 高级会员
 
 // 图片
 export const IMG_EMPTY = {

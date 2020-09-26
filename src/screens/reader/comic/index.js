@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 15:00:18
+ * @Last Modified time: 2020-09-26 20:47:46
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -50,6 +50,7 @@ class Comic extends React.Component {
 
   renderInfo(item) {
     const { $ } = this.context
+    const { searchingUrl } = $.state
     return (
       <Touchable onPress={() => $.searchEps(item)}>
         <Flex style={this.styles.info} align='start'>
@@ -90,6 +91,13 @@ class Comic extends React.Component {
           </Flex.Item>
           <Tag style={this.styles.tag} type={item.type} value={item.tag} />
         </Flex>
+        {searchingUrl === item.url && (
+          <Loading style={_.mt.md}>
+            <Text style={_.mt.sm} type='sub' size={12}>
+              查找章节中
+            </Text>
+          </Loading>
+        )}
       </Touchable>
     )
   }
@@ -183,7 +191,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   ipt: {
     height: 34,
-    paddingHorizontal: _.wind,
+    paddingHorizontal: _._wind,
     fontSize: 12 + _.fontSizeAdjust,
     lineHeight: 14,
     backgroundColor: _.colorPlain,
@@ -196,7 +204,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderRadius: 34
   },
   item: {
-    paddingLeft: _.wind,
+    paddingLeft: _._wind,
     backgroundColor: _.colorPlain
   },
   wrap: {
