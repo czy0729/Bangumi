@@ -12,10 +12,14 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 import expo.modules.splashscreen.SplashScreen;
 import expo.modules.splashscreen.SplashScreenImageResizeMode;
+// import org.devio.rn.splashscreen.SplashScreen;
+
 
 public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    // SplashScreen.show(this, true);
+
     super.onCreate(savedInstanceState);
 
     // SplashScreen.show(...) has to be called after super.onCreate(...)
@@ -23,7 +27,7 @@ public class MainActivity extends ReactActivity {
     SplashScreen.show(this, SplashScreenImageResizeMode.CONTAIN, false);
 
     // 注意：如果您已经在AndroidManifest.xml中配置过appkey和channel值，可以调用此版本初始化函数。
-    // UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
+    UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
 
     // interval: 单位是毫秒，默认Session间隔时间是45秒
     MobclickAgent.setSessionContinueMillis(60000);
@@ -39,6 +43,7 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "main";
+        // return "czy0729.bangumi";
     }
 
     @Override
@@ -49,5 +54,15 @@ public class MainActivity extends ReactActivity {
                 return new RNGestureHandlerEnabledRootView(MainActivity.this);
             }
         };
+    }
+
+    public void onResume() {
+      super.onResume();
+      MobclickAgent.onResume(this);
+    }
+
+    public void onPause() {
+      super.onPause();
+      MobclickAgent.onPause(this);
     }
 }

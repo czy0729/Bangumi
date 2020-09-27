@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-20 15:05:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 17:04:32
+ * @Last Modified time: 2020-09-27 17:42:49
  */
 import { HTMLTrim } from '@utils/html'
 import { SDK } from '@constants'
@@ -17,9 +17,9 @@ export const injectedStaticJavaScript = HTMLTrim(`(function(){
     var __isBridgeOk = false;
 
     function waitForBridge() {
-      if (!__isBridgeOk && window${
+      if (!__isBridgeOk && !window${
         SDK >= 36 ? '.ReactNativeWebView' : ''
-      }.postMessage.length !== 1) {
+      }.postMessage) {
         __timeoutId = setTimeout(waitForBridge, 400);
       } else {
         clearTimeout(__timeoutId);

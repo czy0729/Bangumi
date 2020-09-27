@@ -11,6 +11,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+// import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.czy0729.bangumi.generated.BasePackageList;
 
 import org.unimodules.adapters.react.ReactAdapterPackage;
@@ -49,6 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
       packages.add(new DplusReactPackage());
+      // packages.add(new SplashScreenReactPackage());
       return packages;
     }
 
@@ -93,7 +95,7 @@ public class MainApplication extends Application implements ReactApplication {
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
 
     // UMConfigure.setLogEnabled(true);
-    UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
+    // UMConfigure.init(this, "5ddceaa10cafb2ea9900066a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
   }
 
   /**

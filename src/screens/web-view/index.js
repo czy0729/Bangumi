@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 22:56:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 14:16:17
+ * @Last Modified time: 2020-09-27 17:43:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -107,7 +107,7 @@ class WebView extends React.Component {
       function waitForBridge() {
         if (!__isBridgeOk && window${
           SDK >= 36 ? '.ReactNativeWebView' : ''
-        }.postMessage.length !== 1) {
+        }.postMessage) {
           setTimeout(waitForBridge, 200);
         } else {
           __isBridgeOk = true

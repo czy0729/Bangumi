@@ -1,20 +1,19 @@
+/* eslint-disable max-len */
 /*
  * Oauth获取用户accessToken
  * 过程中捕获用户cookie
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:55:29
+ * @Last Modified time: 2020-09-27 22:08:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import {
-  TITLE,
   StatusBarEvents,
   WebView,
   Flex,
-  Image,
   Button,
   Loading,
   Text,
@@ -26,15 +25,8 @@ import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
 import { info, feedback } from '@utils/ui'
 import { hm, t } from '@utils/fetch'
-// import { HTMLTrim } from '@utils/html'
-import {
-  SDK,
-  IOS,
-  APP_ID,
-  HOST,
-  URL_OAUTH,
-  URL_OAUTH_REDIRECT
-} from '@constants'
+import { HTMLTrim } from '@utils/html'
+import { SDK, APP_ID, HOST, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 
 const title = '登陆V1'
 const uri = `${URL_OAUTH}?${urlStringify({
@@ -171,27 +163,18 @@ class Login extends React.Component {
 
   renderPreview() {
     return (
-      <View style={[_.container.column, this.styles.gray]}>
-        {IOS ? (
-          <Mesume />
-        ) : (
-          <Image
-            style={this.styles.gray}
-            width={160}
-            height={128}
-            src={require('@assets/screens/login/login.png')}
-          />
-        )}
-        <View style={[this.styles.bottomContainer, _.mt.md]}>
+      <View style={[_.container.column, _.container.plain]}>
+        <Mesume />
+        <View style={[this.styles.bottomContainer, _.mt.lg]}>
           <Button type='main' shadow onPress={this.onLogin}>
             授权登陆
           </Button>
           <Button style={_.mt.md} type='plain' shadow onPress={this.onTour}>
             返回
           </Button>
-          <Text style={_.mt.lg} size={12} type='sub'>
-            旧版授权登陆已很久没维护, 不保证成功登陆后能正常运行APP内所有功能,
-            建议使用账号密码登陆
+          <Text style={_.mt.lg} size={12} lineHeight={14} type='sub'>
+            PS: 若登陆出现问题, 请先在授权网页里面登出,
+            不然会出现成功后登陆过期的情况.
           </Text>
         </View>
       </View>
@@ -200,17 +183,8 @@ class Login extends React.Component {
 
   renderLoading() {
     return (
-      <View style={[_.container.column, this.styles.gray]}>
-        {IOS ? (
-          <Mesume />
-        ) : (
-          <Image
-            style={this.styles.gray}
-            width={160}
-            height={128}
-            src={require('@assets/screens/login/login.png')}
-          />
-        )}
+      <View style={[_.container.column, _.container.plain]}>
+        <Mesume />
         <View style={[this.styles.bottomContainer, _.mt.md]}>
           <Flex style={this.styles.loading} direction='column' justify='center'>
             <Loading.Raw color={_.colorMain} />
@@ -230,39 +204,74 @@ class Login extends React.Component {
     }
 
     const injectedJavaScript = `(function(){
-      // 注入优化样式
+      /* 注入优化样式 */
       document.querySelector('html').dataset.theme = "${_.select(
         'light',
         'dark'
       )}";
 
-
-      // postMessage
-      var __isBridgeOk = false;
-      function waitForBridge() {
-        if (!__isBridgeOk && window${
-          SDK >= 36 ? '.ReactNativeWebView' : ''
-        }.postMessage.length !== 1) {
-          setTimeout(waitForBridge, 200);
-        } else {
-          __isBridgeOk = true
-          window${
-            SDK >= 36 ? '.ReactNativeWebView' : ''
-          }.postMessage(JSON.stringify({
-            type: 'onload',
-            data: {
-              href: document.location.href,
-              userAgent: navigator.userAgent,
-              cookie: document.cookie
+      /* 隐藏会乱跳转的元素 */
+      var resetStyle = document.createElement("style");
+      try {
+        resetStyle.appendChild(document.createTextNode("${HTMLTrim(
+          `
+            #badgeUserPanel {
+              display: block !important;
+              top: 8px !important;
+              left: -120px !important;
             }
-          }));
+            .logo,
+            .idBadgerNeue,
+            #columnLoginB,
+            .family,
+            .menuCompact,
+            .headerNeueInner .avatar,
+            #badgeUserPanel li:not(:last-child),
+            #badgeUserPanel li:last-child a:not(:last-child) {
+              display: none !important;
+            }
+          `
+        )}"));
+      } catch (ex) {}
+      document.body.append(resetStyle);
+
+      setTimeout(() => {
+        /* webview的postMessage不是马上生效的 */
+        var __timeoutId = null;
+        var __isBridgeOk = false;
+
+        function waitForBridge() {
+          if (!__isBridgeOk && !window${
+            SDK >= 36 ? '.ReactNativeWebView' : ''
+          }.postMessage) {
+            __timeoutId = setTimeout(waitForBridge, 400);
+          } else {
+            clearTimeout(__timeoutId);
+            __timeoutId = null;
+            __isBridgeOk = true;
+
+            setTimeout(() => {
+              window${
+                SDK >= 36 ? '.ReactNativeWebView' : ''
+              }.postMessage(JSON.stringify({
+                type: 'onload',
+                data: {
+                  href: document.location.href,
+                  userAgent: navigator.userAgent,
+                  cookie: document.cookie
+                }
+              }));
+            }, 0)
+          }
         }
-      }
-      setTimeout(() => { waitForBridge() }, 800);
+
+        waitForBridge();
+      }, 1000)
     }());`
     return (
       <WebView
         ref={ref => (this.ref = ref)}
+        style={_.container.plain}
         uri={uri}
         javaScriptEnabled
         injectedJavaScript={injectedJavaScript}
@@ -278,19 +287,13 @@ class Login extends React.Component {
   render() {
     const { clicked } = this.state
     return (
-      <View style={[_.container.flex, this.styles.gray]}>
+      <View style={_.container.plain}>
         <UM screen={title} />
-        <StatusBarEvents backgroundColor={_.colorBg} />
-        <StatusBarPlaceholder style={this.styles.gray} />
+        <StatusBarEvents backgroundColor='transparent' />
+        <StatusBarPlaceholder />
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}
         </View>
-        {!clicked && (
-          <Text style={this.styles.ps} size={12} type='sub'>
-            PS: 若登陆过程中出现问题, 请手动把授权网页里面的{TITLE}账号登出,
-            不然可能会出现cookie过期的情况.
-          </Text>
-        )}
       </View>
     )
   }
@@ -300,36 +303,13 @@ class Login extends React.Component {
   }
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  gray: {
-    backgroundColor: _.colorBg
-  },
+const memoStyles = _.memoStyles(() => ({
   bottomContainer: {
     width: 320,
-    height: 350
+    height: 400
   },
   loading: {
     width: 320,
     height: 64
-  },
-  ps: {
-    position: 'absolute',
-    right: _.wind * 2,
-    bottom: _.bottom,
-    left: _.wind * 2
   }
 }))
-
-// var resetStyle = document.createElement("style");
-// try {
-//   resetStyle.appendChild(document.createTextNode("${HTMLTrim(
-//     `
-//       #headerNeue2,
-//       #columnLoginB,
-//       .family {
-//         display: none;
-//       }
-//     `
-//   )}"));
-// } catch (ex) {}
-// document.body.append(resetStyle);

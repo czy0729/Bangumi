@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-26 14:33:51
+ * @Last Modified time: 2020-09-27 17:36:00
  */
 import { Platform } from 'react-native'
 
@@ -12,7 +12,7 @@ const expoPackageJson = require('@/node_modules/expo/package.json')
 const appJson = require('@/app.json')
 
 export const DEV = global.__DEV__ // 是否开发模式
-export const SDK = parseInt(expoPackageJson.version.split(',')[0]) // 打包apk和bangumi-ios-test线上expo使用35, 打包ipa提审需至少使用37
+export const SDK = parseInt(expoPackageJson.version.split('.')[0]) // 打包apk和bangumi-ios-test线上expo使用35, 打包ipa提审需至少使用37
 export const BUNDLE_IDENTIFIER = appJson.name // Expo线上预览唯一标识
 export const VERSION_GITHUB_RELEASE = appJson.expo.version // 版本号
 export const VERSION_TINYGRAIL_PLUGIN = appJson.expo.description.split(
