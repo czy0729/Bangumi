@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-02 16:28:55
+ * @Last Modified time: 2020-09-27 13:48:14
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { search } from '@utils/anime'
+import { init, search } from '@utils/anime'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
@@ -33,11 +33,15 @@ export default class ScreenAnime extends store {
     const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
-      ...state,
+      ...state
+    })
+
+    await init()
+    this.search()
+    this.setState({
       _loaded: true
     })
 
-    this.search()
     return res
   }
 

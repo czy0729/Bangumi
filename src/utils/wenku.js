@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 23:44:32
+ * @Last Modified time: 2020-09-27 11:57:30
  */
-import wenku from '@constants/wenku'
-import { getTimestamp } from './index'
+import { VERSIONS_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
+import { getTimestamp, getStorage, setStorage } from './index'
+import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
 
 export const WENKU_FIRST = [
@@ -70,6 +71,53 @@ export const WENKU_SORT = [
   '随机',
   '名称'
 ]
+
+/**
+ * v4.0.0后从包抽离, 需对比版本号
+ * 若版本比OTA.VERSION_WENKU的小, 请求OTA.VERSION_STATIC数据然后替换缓存
+ * 否则直接读缓存
+ */
+const wenkuVersionKey = '@utils|wenku|version'
+const wenkuDataKey = '@utils|wenku|data'
+let wenku = []
+
+/**
+ * 初始化文库数据
+ */
+export async function init() {
+  if (wenku.length) {
+    return
+  }
+
+  // 版本没有OTA高需要重新请求数据
+  const version = (await getStorage(wenkuVersionKey)) || VERSIONS_WENKU
+  const ota = getOTA()
+  const needUpdate = parseInt(ota.VERSIONS_WENKU) > parseInt(version)
+  if (needUpdate) {
+    const { _response } = await xhrCustom({
+      url: CDN_STATIC_WENKU()
+    })
+    wenku = JSON.parse(_response)
+    setStorage(wenkuVersionKey, version)
+    setStorage(wenkuDataKey, wenku)
+    return
+  }
+
+  // 没缓存也要请求数据
+  const data = (await getStorage(wenkuDataKey)) || []
+  if (!data.length) {
+    const { _response } = await xhrCustom({
+      url: CDN_STATIC_WENKU()
+    })
+    wenku = JSON.parse(_response)
+    setStorage(wenkuVersionKey, version)
+    setStorage(wenkuDataKey, wenku)
+    return
+  }
+
+  // 有缓存直接返回
+  wenku = data
+}
 
 /**
  * 只返回下标数组对象

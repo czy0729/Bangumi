@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 10:59:41
+ * @Last Modified time: 2020-09-27 11:48:38
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { search } from '@utils/wenku'
+import { init, search } from '@utils/wenku'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
@@ -30,11 +30,15 @@ export default class ScreenWenku extends store {
     const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
-      ...state,
+      ...state
+    })
+
+    await init()
+    this.search()
+    this.setState({
       _loaded: true
     })
 
-    this.search()
     return res
   }
 

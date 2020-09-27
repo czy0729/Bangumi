@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-13 18:12:34
+ * @Last Modified time: 2020-09-27 13:46:41
  */
 import { getTimestamp } from '@utils'
 import { SDK } from './index'
@@ -31,15 +31,12 @@ export const VERSION_OSS = '20200615'
 export const VERSION_MONO = '20200811'
 export const VERSION_SUBJECT = '20200903'
 export const VERSION_AVATAR = '20200913'
-export const VERSION_STATIC = '20200913'
-export const VERSION_RAKUEN = '20200913'
+export const VERSION_RAKUEN = '20200926'
+export const VERSION_STATIC = '20200927'
 
-export const VERSIONS_AVATAR = [
-  '20200913',
-  '20200712',
-  '20200502',
-  '1.0.2'
-]
+export const VERSIONS_AVATAR = ['20200913', '20200712', '20200502', '1.0.2']
+export const VERSIONS_ANIME = '20200927'
+export const VERSIONS_WENKU = '20200927'
 
 const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
   ''
@@ -232,6 +229,37 @@ export const CDN_DISCOVERY_HOME = () => {
       : VERSION_STATIC
 
   return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/discovery/index.json`
+}
+
+/**
+ * 找番剧数据
+ * @url https://github.com/czy0729/Bangumi-Static
+ * @param {*} version
+ */
+export const CDN_STATIC_ANIME = () => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_STATIC) > parseInt(VERSION_STATIC)
+      ? ota.VERSION_STATIC
+      : VERSION_STATIC
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/agefans/anime.json`
+}
+
+
+/**
+ * 找文库数据
+ * @url https://github.com/czy0729/Bangumi-Static
+ * @param {*} version
+ */
+export const CDN_STATIC_WENKU = () => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_STATIC) > parseInt(VERSION_STATIC)
+      ? ota.VERSION_STATIC
+      : VERSION_STATIC
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/wenku8/wenku.json`
 }
 
 /**

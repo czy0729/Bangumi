@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-02 18:21:22
+ * @Last Modified time: 2020-09-27 11:50:13
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
+import { Loading } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -69,10 +70,10 @@ class Wenku extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
+    const { _loaded } = $.state
     return (
-      <View style={_.container.plain}>
-        <List />
-      </View>
+      <View style={_.container.plain}>{!_loaded ? <Loading /> : <List />}</View>
     )
   }
 }

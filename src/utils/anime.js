@@ -2,11 +2,59 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 11:19:36
+ * @Last Modified time: 2020-09-27 12:01:19
  */
-import anime from '@constants/anime'
-import { getTimestamp } from './index'
+import { VERSIONS_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
+import { getTimestamp, getStorage, setStorage } from './index'
+import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
+
+/**
+ * v4.0.0后从包抽离, 需对比版本号
+ * 若版本比OTA.VERSION_ANIME的小, 请求OTA.VERSION_STATIC数据然后替换缓存
+ * 否则直接读缓存
+ */
+const animeVersionKey = '@utils|anime|version'
+const animeDataKey = '@utils|anime|data'
+let anime = []
+
+/**
+ * 初始化番剧数据
+ */
+export async function init() {
+  if (anime.length) {
+    return
+  }
+
+  // 版本没有OTA高需要重新请求数据
+  const version = (await getStorage(animeVersionKey)) || VERSIONS_ANIME
+  const ota = getOTA()
+  const needUpdate = parseInt(ota.VERSIONS_WENKU) > parseInt(version)
+  if (needUpdate) {
+    const { _response } = await xhrCustom({
+      url: CDN_STATIC_ANIME()
+    })
+    anime = JSON.parse(_response)
+    setStorage(animeVersionKey, version)
+    setStorage(animeDataKey, anime)
+    return
+  }
+
+  // 没缓存也要请求数据
+  const data = (await getStorage(animeDataKey)) || []
+  if (!data.length) {
+    const { _response } = await xhrCustom({
+      url: CDN_STATIC_ANIME()
+    })
+    anime = JSON.parse(_response)
+    setStorage(animeVersionKey, version)
+    setStorage(animeDataKey, anime)
+    return
+  }
+
+  // 有缓存直接返回
+  anime = data
+}
 
 export const ANIME_AREA = ['日本', '中国']
 export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB']

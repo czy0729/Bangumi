@@ -2,10 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-26 14:57:04
+ * @Last Modified time: 2020-09-27 11:00:04
  */
 import React from 'react'
-import { ScrollView, View, AsyncStorage } from 'react-native'
+import {
+  InteractionManager,
+  ScrollView,
+  View,
+  AsyncStorage
+} from 'react-native'
 import { Flex, Text, SwitchPro, SegmentedControl } from '@components'
 import {
   Popover,
@@ -69,19 +74,11 @@ class Setting extends React.Component {
   }
 
   async componentDidMount() {
-    // const state = await getStorage(`${namespace}|state`)
-    // this.setState(
-    //   {
-    //     ...state
-    //   },
-    //   () => {
-    //     this.caculateStorageSize()
-    //     this.setParams()
-    //   }
-    // )
-    this.caculateStorageSize()
     this.setParams()
     systemStore.fetchAdvance()
+    InteractionManager.runAfterInteractions(async () => {
+      this.caculateStorageSize()
+    })
   }
 
   setParams = () => {

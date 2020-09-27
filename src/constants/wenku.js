@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-09-02 23:57:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 20:11:03
+ * @Last Modified time: 2020-09-27 11:46:31
  */
 
  /**
+  * v4.0.0 本数据已迁移到云端, app内不再调用, 以减少打包体积
  * @param image `//lain.bgm.tv/pic/cover/m/${image}.jpg`
  */
 export default [
