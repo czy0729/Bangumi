@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 21:15:50
+ * @Last Modified time: 2020-09-29 20:20:23
  */
 import React from 'react'
 import {
@@ -14,8 +14,8 @@ import {
   View
 } from 'react-native'
 import { observer } from 'mobx-react'
-import { _, systemStore } from '@stores'
 import { IOS } from '@constants'
+import _ from '@styles'
 
 /**
  * 防止瞬间多次点击
@@ -59,7 +59,7 @@ function Touchable({
     )
   }
 
-  const { ripple } = systemStore.setting
+  const { ripple } = require('@stores/system').default.setting
   if (IOS || !ripple) {
     if (highlight) {
       return (

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-26 20:52:28
+ * @Last Modified time: 2020-09-27 22:28:53
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -116,7 +116,7 @@ export default class ScreenComic extends store {
   searchOrigins = async key => {
     // 新新漫画
     const HTML1 = await fetchHTML({
-      url: `https://so.177mh.net/m.php?k=${encodeURIComponent(key)}`
+      url: `https://so.77mh.cool/m.php?k=${encodeURIComponent(key)}`
     })
     const $1 = cheerio(HTML1)
     const list1 =
@@ -130,7 +130,7 @@ export default class ScreenComic extends store {
             sub: $li.find('p.subtitle').text(),
             extra: $li.find('p.uptime').text(),
             headers: {
-              Referer: 'https://so.177mh.net/m.php'
+              Referer: 'https://so.77mh.cool/m.php'
             },
             type: 'warning',
             tag: '新新漫画'
@@ -203,7 +203,7 @@ export default class ScreenComic extends store {
           .map((index, element) => {
             const $li = cheerio(element)
             return safeObject({
-              url: `https://m.177mh.net/${$li.attr('href')}`,
+              url: `https://m.77mh.cool/${$li.attr('href')}`,
               text: $li.text(),
               tag: item.tag
             })

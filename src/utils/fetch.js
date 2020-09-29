@@ -5,11 +5,12 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 10:49:43
+ * @Last Modified time: 2020-09-29 20:23:53
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
-import { Portal, Toast } from '@ant-design/react-native'
+import { Portal } from '@ant-design/react-native'
+import Toast from '@components/@/ant-design/toast'
 import {
   IOS,
   APP_ID,
@@ -85,8 +86,11 @@ export default async function fetchAPI({
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     _config.body = urlStringify(body)
+
     if (!noConsole) {
-      toastId = Toast.loading('Loading...', 0)
+      toastId = Toast.loading('Loading...', 0, () => {
+        if (toastId) Portal.remove(toastId)
+      })
     }
   }
   if (SHOW_LOG) {
@@ -198,7 +202,9 @@ export async function fetchHTML({
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     _config.body = urlStringify(body)
-    toastId = Toast.loading('Loading...', 8)
+    toastId = Toast.loading('Loading...', 8, () => {
+      if (toastId) Portal.remove(toastId)
+    })
   }
   if (SHOW_LOG) {
     log(`[fetchHTML] ${_url}`)
@@ -232,7 +238,9 @@ export function xhr(
   const userStore = require('../stores/user').default
   const { cookie: userCookie, userAgent } = userStore.userCookie
 
-  const toastId = Toast.loading('Loading...', 0)
+  const toastId = Toast.loading('Loading...', 0, () => {
+    if (toastId) Portal.remove(toastId)
+  })
   const request = new XMLHttpRequest()
   request.onreadystatechange = () => {
     if (request.readyState !== 4) {

@@ -2,14 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-13 00:20:28
+ * @Last Modified time: 2020-09-29 19:42:59
  */
-import {
-  Alert,
-  Vibration
-  // ToastAndroid
-} from 'react-native'
-import { Toast } from '@ant-design/react-native'
+import { Alert, Vibration } from 'react-native'
+import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
 import { DEV } from '@constants'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 23:11:38
+ * @Last Modified time: 2020-09-27 22:20:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,12 @@ function BookEp({ style }, { $, navigation }) {
                 })
               }
             >
-              <Iconfont name='xin-fan' size={16} />
+              <Flex>
+                <Iconfont name='search' size={16} />
+                <Text style={_.ml.xs} size={12} type='sub'>
+                  源头
+                </Text>
+              </Flex>
             </Touchable>
           )
         }
