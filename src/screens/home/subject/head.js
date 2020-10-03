@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-03 21:35:43
+ * @Last Modified time: 2020-10-03 23:00:19
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Katakana } from '@components'
-import { ScoreTag, Tag } from '@screens/_'
+import { Flex, Text, Katakana, Touchable } from '@components'
+import { ScoreTag, Tag, Cover as CompCover } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { info } from '@utils/ui'
 import { x18 } from '@utils/app'
+import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { imageWidth, imageHeight } from './store'
 import Cover from './cover'
 
-function Head({ style }, { $ }) {
+function Head({ style }, { $, navigation }) {
   const styles = memoStyles()
   const { images = {} } = $.subject
 
@@ -40,6 +41,7 @@ function Head({ style }, { $ }) {
     size = 17
   }
 
+  const isSeries = $.relations?.[0]?.desc === '系列'
   return (
     <View style={[styles.container, style]}>
       <Cover image={images.common} placeholder={$.coverPlaceholder} />
@@ -47,13 +49,13 @@ function Head({ style }, { $ }) {
         <View style={styles.title}>
           {!!$.jp && (
             <Katakana.Provider
-              size={$.jp.length > 12 ? 10 : 13}
+              size={$.jp.length > 12 ? 11 : 13}
               itemStyle={styles.katakana}
               numberOfLines={2}
             >
               <Katakana
                 type='sub'
-                size={$.jp.length > 12 ? 10 : 13}
+                size={$.jp.length > 12 ? 11 : 13}
                 numberOfLines={2}
                 onLongPress={() => {
                   Clipboard.setString($.jp)
@@ -65,17 +67,52 @@ function Head({ style }, { $ }) {
               </Katakana>
             </Katakana.Provider>
           )}
-          <Text
-            style={!!$.cn && _.mt.xs}
-            size={size}
-            bold
-            onLongPress={() => {
-              Clipboard.setString($.cn)
-              info(`已复制 ${$.cn}`)
-            }}
-          >
-            {$.cn}
-          </Text>
+          {isSeries ? (
+            <Touchable
+              style={styles.series}
+              onPress={() => {
+                t('条目.跳转', {
+                  to: 'Subject',
+                  from: '系列',
+                  subjectId: $.subjectId
+                })
+                navigation.push('Subject', {
+                  subjectId: $.relations[0].id,
+                  _jp: $.relations[0].name,
+                  _image: $.relations[0].image
+                })
+              }}
+            >
+              <Flex>
+                <Text size={13}>⤷</Text>
+                <CompCover
+                  style={_.ml.sm}
+                  src={$.relations[0].image}
+                  size={24}
+                  height={24 * 1.33}
+                  radius
+                  placeholder={false}
+                  fadeDuration={0}
+                  noDefault
+                />
+                <Text style={_.ml.sm} size={size} bold>
+                  {$.relations[0].name}
+                </Text>
+              </Flex>
+            </Touchable>
+          ) : (
+            <Text
+              style={!!$.cn && _.mt.xs}
+              size={size}
+              bold
+              onLongPress={() => {
+                Clipboard.setString($.cn)
+                info(`已复制 ${$.cn}`)
+              }}
+            >
+              {$.cn}
+            </Text>
+          )}
         </View>
         <Flex>
           {!$.hideScore && (
@@ -98,7 +135,8 @@ function Head({ style }, { $ }) {
 }
 
 Head.contextTypes = {
-  $: PropTypes.object
+  $: PropTypes.object,
+  navigation: PropTypes.object
 }
 
 export default observer(Head)
@@ -121,5 +159,10 @@ const memoStyles = _.memoStyles(_ => ({
   },
   katakana: {
     marginTop: -11
+  },
+  series: {
+    width: 168,
+    paddingRight: _.sm,
+    marginTop: _.sm
   }
 }))
