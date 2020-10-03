@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 11:53:19
+ * @Last Modified time: 2020-10-03 20:32:58
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -253,7 +253,14 @@ export function cheerioSubjectFormHTML(HTML) {
       )
     }
   })
+
+  let type = ''
+  $('.nameSingle small.grey').each((index, element) => {
+    type += cheerio(element).text().trim()
+  })
+
   return {
+    type,
     watchedEps: $('#watchedeps').attr('value') || 0,
     totalEps: $('div.prgText').text().trim().replace('/ ', ''),
 

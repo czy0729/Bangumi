@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 22:33:30
+ * @Last Modified time: 2020-10-03 20:20:05
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -29,7 +29,7 @@ import {
 import store from '@utils/store'
 import { feedback, info, showActionSheet } from '@utils/ui'
 import { find } from '@utils/anime'
-import { find as findWenku } from '@utils/wenku'
+import { init as initWenku, find as findWenku } from '@utils/wenku'
 import { HOST, HOST_NING_MOE, URL_DEFAULT_AVATAR } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
@@ -96,9 +96,14 @@ export default class ScreenSubject extends store {
         _loaded: needFetch ? current : _loaded
       })
 
+      if (this.type === '书籍') {
+        initWenku()
+      }
+
       if (needFetch) {
         return this.onHeaderRefresh()
       }
+
       return true
     } catch (error) {
       this.setState({

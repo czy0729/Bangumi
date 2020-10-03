@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-08-29 17:49:07
+ * @Last Modified time: 2020-10-03 21:35:43
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -26,16 +26,18 @@ function Head({ style }, { $ }) {
   let label = MODEL_SUBJECT_TYPE.getTitle($.subjectType)
   if (label === '动画') {
     const { bangumiInfo } = $.state
-    label = String(bangumiInfo.type).toUpperCase()
+    label = String(bangumiInfo.type).toUpperCase() || label
+  } else {
+    label = $.subjectFormHTML.type || label
   }
 
   let size
   if ($.cn.length > 24) {
-    size = 12
+    size = 11
   } else if ($.cn.length > 16) {
-    size = 14
+    size = 13
   } else {
-    size = 18
+    size = 17
   }
 
   return (
