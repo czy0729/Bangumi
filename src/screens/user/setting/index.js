@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 11:00:04
+ * @Last Modified time: 2020-10-03 21:25:23
  */
 import React from 'react'
 import {
@@ -238,7 +238,7 @@ class Setting extends React.Component {
 
   renderModule() {
     const { module: _module } = this.state
-    const { cdn, tinygrail, katakana } = systemStore.setting
+    const { cdn, tinygrail, katakana, autoColorScheme } = systemStore.setting
     return (
       <>
         {this.renderSection('特色', 'module')}
@@ -263,6 +263,23 @@ class Setting extends React.Component {
                 />
               }
               information='点击顶部Logo可快速切换，长按则前往设置'
+            />
+            <ItemSetting
+              hd='跟随系统'
+              ft={
+                <SwitchPro
+                  value={autoColorScheme}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '跟随系统',
+                      checked: !autoColorScheme
+                    })
+
+                    systemStore.switchSetting('autoColorScheme')
+                  }}
+                />
+              }
+              information='启动时黑暗模式是否跟随系统'
             />
             <ItemSetting
               hd='CDN加速'

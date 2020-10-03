@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-14 12:17:36
+ * @Last Modified time: 2020-10-03 20:05:39
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -22,7 +22,7 @@ import Form from './form'
 
 const title = '登陆'
 const namespace = 'LoginV2'
-const AUTH_RETRY_COUNT = 8
+const AUTH_RETRY_COUNT = 10
 
 export default
 @observer

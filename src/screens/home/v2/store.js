@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:41:05
+ * @Last Modified time: 2020-10-03 20:34:27
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -19,7 +19,7 @@ import { t, queue } from '@utils/fetch'
 import { x18, appNavigate, getCoverMedium } from '@utils/app'
 import store from '@utils/store'
 import { feedback } from '@utils/ui'
-import { IOS } from '@constants'
+import { IOS, DEV } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_EP_STATUS,
@@ -90,7 +90,7 @@ export default class ScreenHomeV2 extends store {
     ])
     const data = await res
 
-    if (data[0]) {
+    if (data[0] && !DEV) {
       /**
        * 被动请求
        * 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 11:05:55
+ * @Last Modified time: 2020-10-03 21:26:21
  */
-import { StyleSheet, InteractionManager } from 'react-native'
+import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -98,7 +98,18 @@ class Theme extends store {
   init = async () => {
     const res = this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
     const mode = await res
-    if (mode !== DEFAULT_MODE) {
+
+    if (this.autoColorScheme) {
+      // 主题是否跟随系统
+      const isDark = Appearance.getColorScheme() === 'dark'
+      if (
+        (isDark && mode === DEFAULT_MODE) ||
+        (!isDark && mode !== DEFAULT_MODE)
+      ) {
+        this.toggleMode(mode)
+      }
+    } else if (mode !== DEFAULT_MODE) {
+      // 默认是白天模式, 若初始化不是白天切换主题
       this.toggleMode(mode)
     }
 
@@ -112,6 +123,7 @@ class Theme extends store {
       NAMESPACE,
       DEFAULT_TINYGRAIL_MODE
     )
+
     const fontSizeAdjust = await this.getStorage('fontSizeAdjust', NAMESPACE, 0)
     this.setState({
       tinygrailMode,
@@ -129,6 +141,11 @@ class Theme extends store {
 
   @computed get isDark() {
     return this.mode === 'dark'
+  }
+
+  @computed get autoColorScheme() {
+    const { autoColorScheme } = systemStore.setting
+    return autoColorScheme
   }
 
   @computed get flat() {
