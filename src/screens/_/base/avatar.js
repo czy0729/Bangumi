@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-29 14:37:56
+ * @Last Modified time: 2020-10-03 19:38:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,9 +31,27 @@ function Avatar({
   const styles = memoStyles()
   const { dev } = systemStore.state
   const { cdn, avatarRound } = systemStore.setting
-  let _src = cdn
-    ? CDN_OSS_AVATAR(getCoverMedium(src, true))
-    : getCoverMedium(src, true)
+  const { avatar } = userStore.usersInfo()
+
+  /**
+   * 判断是否自己的头像, 若是不走CDN, 保证最新
+   * 注意头像后面?r=xxx的参数不要去掉, 因头像地址每个人都唯一, 需要防止本地缓存
+   */
+  const mSrc = getCoverMedium(src, true)
+  let _src
+  if (avatar?.medium) {
+    const _1 = mSrc.split('?')[0].split('/m/')
+    const _2 = getCoverMedium(avatar.medium, true).split('?')[0].split('/m/')
+    if (_1[1] && _2[1] && _1[1] === _2[1]) {
+      _src = mSrc
+    }
+  }
+
+  if (!_src) {
+    _src = cdn ? CDN_OSS_AVATAR(getCoverMedium(src, true)) : mSrc
+  }
+
+  // 若还是原始头像, 使用本地
   if (userStore.isLimit && _src.includes(URL_DEFAULT_AVATAR)) {
     _src = IMG_DEFAULT
   }
