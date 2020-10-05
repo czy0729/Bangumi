@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 04:34:05
+ * @Last Modified time: 2020-10-06 05:17:50
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -38,7 +38,8 @@ function HorizontalList({
           if (
             desc.includes('曲') ||
             desc.includes('歌') ||
-            desc.includes('声')
+            desc.includes('声') ||
+            desc.includes('广播')
           ) {
             typeCn = '音乐'
           } else if (desc.includes('书籍')) {

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 16:50:27
+ * @Last Modified time: 2020-10-06 05:13:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Text, Flex, Loading } from '@components'
+import { Text, Flex, Loading, SegmentedControl } from '@components'
 import { SectionTitle, IconReverse } from '@screens/_'
 import { _ } from '@stores'
 import Head from './head'
@@ -28,6 +28,8 @@ import Recent from './recent'
 import Blog from './blog'
 import Topic from './topic'
 
+const scoresDS = ['全部', '9-10', '7-8', '4-6', '1-3']
+
 function Header({ rendered }, { $ }) {
   const styles = memoStyles()
   const {
@@ -35,6 +37,7 @@ function Header({ rendered }, { $ }) {
     _reverse,
     _loaded
   } = $.subjectComments
+  const { filterScores } = $.state
   return (
     <View style={styles.container}>
       <Head />
@@ -59,11 +62,26 @@ function Header({ rendered }, { $ }) {
             <SectionTitle
               style={[styles.title, _.mt.lg]}
               right={
-                <IconReverse
-                  style={styles.sort}
-                  color={_reverse ? _.colorMain : _.colorIcon}
-                  onPress={$.toggleReverseComments}
-                />
+                <>
+                  <SegmentedControl
+                    style={styles.segmentedControl}
+                    size={11}
+                    values={scoresDS}
+                    selectedIndex={
+                      filterScores.length
+                        ? scoresDS.findIndex(
+                            item => item === filterScores.join('-')
+                          )
+                        : 0
+                    }
+                    onValueChange={$.filterScores}
+                  />
+                  <IconReverse
+                    style={styles.sort}
+                    color={_reverse ? _.colorMain : _.colorIcon}
+                    onPress={$.toggleReverseComments}
+                  />
+                </>
               }
             >
               吐槽{' '}
@@ -106,5 +124,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   loading: {
     height: 240
+  },
+  segmentedControl: {
+    height: 22,
+    marginTop: 1
   }
 }))

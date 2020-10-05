@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-03 20:20:05
+ * @Last Modified time: 2020-10-06 05:08:00
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -71,6 +71,7 @@ export default class ScreenSubject extends store {
     epsReverse: false, // 章节是否倒序
     watchedEps: '', // 普通条目章节
     filterEps: 0, // 筛选章节的开头
+    filterScores: [], // 吐槽分数分组
     bangumiInfo: {
       sites: [], // 动画在线地址
       type: '' // 动画类型
@@ -326,15 +327,35 @@ export default class ScreenSubject extends store {
    *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户
    */
   @computed get subjectComments() {
+    const { filterScores } = this.state
     const subjectComments = subjectStore.subjectComments(this.subjectId)
     if (this.filterDefault || userStore.isLimit) {
       return {
         ...subjectComments,
+        list: subjectComments.list.filter(item => {
+          if (filterScores.length) {
+            return (
+              !item.avatar.includes(URL_DEFAULT_AVATAR) &&
+              Number(item.star) >= Number(filterScores[0]) &&
+              Number(item.star) <= Number(filterScores[1])
+            )
+          }
+          return !item.avatar.includes(URL_DEFAULT_AVATAR)
+        })
+      }
+    }
+
+    if (filterScores.length) {
+      return {
+        ...subjectComments,
         list: subjectComments.list.filter(
-          item => !item.avatar.includes(URL_DEFAULT_AVATAR)
+          item =>
+            Number(item.star) >= Number(filterScores[0]) &&
+            Number(item.star) <= Number(filterScores[1])
         )
       }
     }
+
     return subjectComments
   }
 
@@ -835,6 +856,13 @@ export default class ScreenSubject extends store {
     this.setState({
       showHeaderTitle
     })
+
+  filterScores = label => {
+    this.setState({
+      filterScores: label === '全部' ? [] : label.split('-')
+    })
+    this.setStorage(undefined, undefined, this.namespace)
+  }
 
   // -------------------- action --------------------
   /**
