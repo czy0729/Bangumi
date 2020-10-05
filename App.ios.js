@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-14 12:02:13
+ * @Last Modified time: 2020-10-05 15:22:42
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'

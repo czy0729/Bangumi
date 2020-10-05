@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 15:53:30
+ * @Last Modified time: 2020-10-05 15:17:58
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from 'bangumi-data'
@@ -37,6 +37,7 @@ export function bootApp() {
 
     // 不想在开发时看见满屏的不能解决的warning
     console.warn = Function.prototype
+    console.error = Function.prototype
   } else {
     global.console = {
       ...global.console,
