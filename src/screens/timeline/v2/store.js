@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-13 00:06:59
+ * @Last Modified time: 2020-10-05 15:59:55
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -37,7 +37,7 @@ export default class ScreenTimeline extends store {
 
     setTimeout(() => {
       this.fetchTimeline(true)
-    }, 400)
+    }, 0)
     return res
   }
 
