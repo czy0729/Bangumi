@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 15:48:44
+ * @Last Modified time: 2020-10-05 18:17:38
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -67,6 +67,7 @@ class List extends React.Component {
         title
       }
     }
+
     return (
       <ItemTimeline
         style={_.container._item}

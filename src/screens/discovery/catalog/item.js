@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 17:37:47
+ * @Last Modified time: 2020-10-05 20:28:36
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,7 +11,6 @@ import { Flex, Text, Touchable } from '@components'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
 
 const width = _.window.width - _.wind * 2
 const height = width * (_.isPad ? 0.32 : 0.48)
@@ -97,19 +96,7 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: _.space,
     marginLeft: _.wind,
     backgroundColor: _.colorPlain,
-    borderRadius: _.radiusXs,
-    ...(IOS
-      ? {
-          shadowColor: _.colorShadow,
-          shadowOffset: {
-            height: 4
-          },
-          shadowOpacity: 0.1,
-          shadowRadius: 8
-        }
-      : {
-          elevation: 16
-        })
+    borderRadius: _.radiusXs
   },
   container: {
     paddingHorizontal: _.lg,

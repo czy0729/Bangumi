@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-02 17:07:25
+ * @Last Modified time: 2020-10-05 20:20:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,7 +34,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
     score
   } = pick(pickIndex)
   const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
-  const _tags = tags.split(' ')
+  const _tags = String(tags).split(' ')
   const tip = [
     type === 'TV' ? '' : type,
     String(ep).replace(/\(完结\)|第/g, ''),

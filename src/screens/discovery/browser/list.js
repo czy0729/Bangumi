@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 19:38:55
+ * @Last Modified time: 2020-10-05 20:25:02
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { Loading, ListView } from '@components'
 import { ItemSearch } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const event = {
   id: '索引.跳转',
@@ -29,6 +30,7 @@ class List extends React.Component {
 
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
+    const { type } = $.state
     return (
       <ItemSearch
         style={_.container.item}
@@ -38,6 +40,7 @@ class List extends React.Component {
         collection={
           $.userCollectionsMap[String(item.id).replace('/subject/', '')]
         }
+        typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
         {...item}
       />
     )

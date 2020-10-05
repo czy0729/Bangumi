@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 17:47:09
+ * @Last Modified time: 2020-10-05 20:17:52
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -17,6 +17,7 @@ import {
 } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const event = {
   id: '排行榜.跳转'
@@ -46,6 +47,7 @@ class List extends React.Component {
 
   renderList() {
     const { $, navigation } = this.context
+    const { type } = $.state
     const { list, _filter } = $.rank
     return (
       <>
@@ -66,6 +68,7 @@ class List extends React.Component {
                     type: 'list'
                   }
                 }}
+                typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
                 {...item}
               />
             ))

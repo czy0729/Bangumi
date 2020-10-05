@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:08:59
+ * @Last Modified time: 2020-10-06 01:30:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -50,18 +50,19 @@ function Friends(props, { $, navigation }) {
                   width={imgWidth}
                   height={imgWidth}
                   shadow
+                  type={$.typeCn}
                   onPress={onPress}
                 />
               </View>
-              <Flex.Item style={_.ml.sm}>
+              <Flex.Item style={$.typeCn === '音乐' ? _.ml.md : _.ml.sm}>
                 <Katakana.Provider numberOfLines={2}>
-                  <Katakana bold numberOfLines={2} onPress={onPress}>
+                  <Katakana bold numberOfLines={2} size={13} onPress={onPress}>
                     {findSubjectCn(item.name, item.id)}
                   </Katakana>
                 </Katakana.Provider>
-                <Text style={_.mt.xs} size={12} numberOfLines={1}>
+                <Text style={_.mt.xs} size={11} numberOfLines={1}>
                   <Text
-                    size={12}
+                    size={11}
                     type='sub'
                     bold
                     onPress={() => {

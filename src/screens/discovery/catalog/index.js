@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 17:34:50
+ * @Last Modified time: 2020-10-05 20:30:44
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -68,6 +68,7 @@ class Catalog extends React.Component {
       <ScrollView
         style={_.container.bg}
         contentContainerStyle={_.container.bottom}
+        showsVerticalScrollIndicator={false}
       >
         {this.renderPaganation()}
         {show && (

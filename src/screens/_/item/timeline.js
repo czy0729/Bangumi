@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-08-29 16:52:04
+ * @Last Modified time: 2020-10-06 03:12:15
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -209,7 +209,7 @@ class ItemTimeline extends React.Component {
     )
   }
 
-  renderImages() {
+  renderImages(type) {
     const { p3, image } = this.props
     if (image.length <= 1) {
       return null
@@ -218,25 +218,29 @@ class ItemTimeline extends React.Component {
     const images = image.map((item, index) => {
       const isAvatar = !String(!!p3.url.length && p3.url[0]).includes('subject')
       return (
-        <Cover
-          key={item || index}
-          style={_.mr.sm}
-          src={item}
-          size={isAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
-          height={isAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
-          radius
-          shadow
-          onPress={() => {
-            const url = (!!p3.url.length && p3.url[index]) || ''
-            const subjectId = matchSubjectId(url)
-            this.appNavigate(url, {
-              _cn: findSubjectCn(!!p3.text.length && p3.text[index], subjectId),
-              _jp: !!p3.text.length && p3.text[index],
-              _name: !!p3.text.length && p3.text[index],
-              _image: image
-            })
-          }}
-        />
+        <View key={item || index} style={type ? _.mr.md : _.mr.sm}>
+          <Cover
+            src={item}
+            size={isAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
+            height={isAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
+            radius
+            shadow
+            type={type}
+            onPress={() => {
+              const url = (!!p3.url.length && p3.url[index]) || ''
+              const subjectId = matchSubjectId(url)
+              this.appNavigate(url, {
+                _cn: findSubjectCn(
+                  !!p3.text.length && p3.text[index],
+                  subjectId
+                ),
+                _jp: !!p3.text.length && p3.text[index],
+                _name: !!p3.text.length && p3.text[index],
+                _image: image
+              })
+            }}
+          />
+        </View>
       )
     })
 
@@ -282,6 +286,7 @@ class ItemTimeline extends React.Component {
   renderContent() {
     const {
       index,
+      p2,
       p3,
       star,
       reply,
@@ -297,6 +302,13 @@ class ItemTimeline extends React.Component {
       'subject'
     )
     const showImages = image.length >= 5
+    const type = p2?.text?.includes('读')
+      ? '书籍'
+      : p2?.text?.includes('听')
+      ? '音乐'
+      : p2?.text?.includes('玩')
+      ? '游戏'
+      : ''
     return (
       <Flex.Item
         style={[
@@ -311,7 +323,7 @@ class ItemTimeline extends React.Component {
               {this.renderP()}
               {this.renderDesc()}
             </View>
-            {this.renderImages()}
+            {this.renderImages(type)}
             <Flex style={bodyStyle}>
               {!!reply.count && (
                 <Text
@@ -330,21 +342,23 @@ class ItemTimeline extends React.Component {
           </Flex.Item>
           <Flex align='start'>
             {image.length === 1 && (
-              <Cover
-                style={_.ml.md}
-                src={_image}
-                size={rightCoverIsAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
-                height={rightCoverIsAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
-                radius
-                shadow
-                onPress={() =>
-                  this.appNavigate(!!p3.url.length && p3.url[0], {
-                    _jp: !!p3.text.length && p3.text[0],
-                    _name: !!p3.text.length && p3.text[0],
-                    _image
-                  })
-                }
-              />
+              <View style={_.ml.md}>
+                <Cover
+                  src={_image}
+                  size={rightCoverIsAvatar ? avatarCoverWidth : IMG_WIDTH_SM}
+                  height={rightCoverIsAvatar ? avatarCoverWidth : IMG_HEIGHT_SM}
+                  radius
+                  shadow
+                  type={type}
+                  onPress={() =>
+                    this.appNavigate(!!p3.url.length && p3.url[0], {
+                      _jp: !!p3.text.length && p3.text[0],
+                      _name: !!p3.text.length && p3.text[0],
+                      _image
+                    })
+                  }
+                />
+              </View>
             )}
             {!!clearHref && (
               <Touchable style={_.ml.sm} onPress={this.onClear}>
@@ -398,8 +412,9 @@ const memoStyles = _.memoStyles(_ => ({
     marginLeft: _.wind
   },
   content: {
-    paddingVertical: _.md,
-    paddingRight: _.wind
+    paddingTop: _.md,
+    paddingRight: _.wind,
+    paddingBottom: _.md + 8 // 8是阴影的px
   },
   contentNoPaddingRight: {
     paddingVertical: _.md,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 22:17:56
+ * @Last Modified time: 2020-10-06 03:52:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -100,6 +100,7 @@ function ItemCollections({
             height={IMG_HEIGHT}
             radius
             shadow
+            type={type}
           />
         </View>
         <Flex.Item style={_.ml.wind}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-03 20:32:58
+ * @Last Modified time: 2020-10-06 01:32:38
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -353,7 +353,7 @@ export function cheerioSubjectFormHTML(HTML) {
           const $a = $row.find('a.avatar')
           return safeObject({
             avatar: matchAvatar($row.find('span.avatarNeue').attr('style')),
-            name: $a.text(),
+            name: HTMLDecode($a.text()),
             userId: matchUserId($a.attr('href')),
             star: matchStar($row.find('span.starlight').attr('class')),
             status: String($row.find('small.grey').text())

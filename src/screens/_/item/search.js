@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 22:10:36
+ * @Last Modified time: 2020-10-05 20:16:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,6 +30,7 @@ function ItemSearch({
   total,
   rank,
   type,
+  typeCn,
   collection, // 动画才有, 具体收藏状态
   collected, // 是否收藏
   comments,
@@ -75,6 +76,7 @@ function ItemSearch({
             height={IMG_HEIGHT}
             radius
             shadow
+            type={typeCn}
           />
         </View>
         <Flex.Item style={_.ml.wind}>

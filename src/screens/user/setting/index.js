@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-03 21:25:23
+ * @Last Modified time: 2020-10-06 04:08:54
  */
 import React from 'react'
 import {
@@ -499,7 +499,8 @@ class Setting extends React.Component {
       speech,
       transition,
       flat,
-      vibration
+      vibration,
+      coverThings
     } = systemStore.setting
     return (
       <>
@@ -558,6 +559,23 @@ class Setting extends React.Component {
                 />
               }
               information='操作请求后轻震动反馈'
+            />
+            <ItemSetting
+              hd='封面拟物'
+              ft={
+                <SwitchPro
+                  value={coverThings}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '封面拟物',
+                      checked: !coverThings
+                    })
+
+                    systemStore.switchSetting('coverThings')
+                  }}
+                />
+              }
+              information='能确定类型的条目封面拟物化，增加区分度'
             />
             <ItemSetting
               hd='图片渐出动画'

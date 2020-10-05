@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-30 20:46:10
+ * @Last Modified time: 2020-10-06 01:36:21
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -40,8 +40,7 @@ const memoStyles = _.memoStyles(_ => ({
   searchIpt: {
     height: 34,
     paddingHorizontal: _._wind,
-    fontSize: 12 + _.fontSizeAdjust,
-    lineHeight: 14,
+    ..._.fontSize(12),
     backgroundColor: _.colorPlain,
     borderRadius: 0
   },

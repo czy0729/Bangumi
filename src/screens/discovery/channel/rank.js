@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 18:02:36
+ * @Last Modified time: 2020-10-06 01:30:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -52,6 +52,7 @@ function Rank(props, { $, navigation }) {
                     width={IMG_WIDTH}
                     height={IMG_HEIGHT}
                     shadow
+                    type={$.typeCn}
                   />
                 </View>
                 <Flex.Item style={_.ml.md}>
@@ -114,9 +115,10 @@ function Rank(props, { $, navigation }) {
                       width={imgWidthSm}
                       height={imgWidthSm}
                       shadow
+                      type={$.typeCn}
                     />
                   </View>
-                  <Flex.Item style={_.ml.sm}>
+                  <Flex.Item style={$.typeCn === '音乐' ? _.ml.md : _.ml.sm}>
                     <Flex align='start'>
                       <Flex.Item>
                         {!!collection && (

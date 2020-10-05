@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:04:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 17:41:34
+ * @Last Modified time: 2020-10-05 20:58:16
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, collectionStore } from '@stores'
 import { HTML_CHANNEL } from '@constants/html'
 import store from '@utils/store'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 export default class ScreenChannel extends store {
   state = observable({
@@ -25,6 +26,10 @@ export default class ScreenChannel extends store {
   @computed get type() {
     const { type } = this.state
     return type || this.params.type
+  }
+
+  @computed get typeCn() {
+    return MODEL_SUBJECT_TYPE.getTitle(this.type)
   }
 
   @computed get channel() {

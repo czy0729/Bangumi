@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 20:53:59
+ * @Last Modified time: 2020-10-05 20:21:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -76,6 +76,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
             height={IMG_HEIGHT}
             radius
             shadow
+            type='书籍'
           />
         </View>
         <Flex.Item style={_.ml.wind}>

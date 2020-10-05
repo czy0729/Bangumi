@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 15:26:27
+ * @Last Modified time: 2020-10-05 16:50:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,7 +68,7 @@ function Header({ rendered }, { $ }) {
             >
               吐槽{' '}
               <Text size={12} type='sub' lineHeight={24}>
-                {20 * Math.min(1, pageTotal - 1)}+
+                {20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)}+
               </Text>
             </SectionTitle>
           </>

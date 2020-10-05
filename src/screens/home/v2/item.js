@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 12:21:12
+ * @Last Modified time: 2020-10-05 20:02:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -237,7 +237,8 @@ class Item extends React.Component {
       : 0
     const onAir = $.onAir[subjectId] || {}
     const time = onAir.timeCN || onAir.timeJP || ''
-    const isBook = MODEL_SUBJECT_TYPE.getTitle(subject.type) === '书籍'
+    const type = MODEL_SUBJECT_TYPE.getTitle(subject.type)
+    const isBook = type === '书籍'
     const doing = isBook ? '读' : '看'
     return (
       <View
@@ -253,6 +254,7 @@ class Item extends React.Component {
             height={IMG_HEIGHT}
             radius
             shadow
+            type={type}
             onPress={this.onPress}
             onLongPress={this.onLongPress}
           />

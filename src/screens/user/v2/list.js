@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 14:45:30
+ * @Last Modified time: 2020-10-06 04:03:41
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -13,7 +13,7 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import { IOS } from '@constants'
-import { MODEL_COLLECTION_STATUS } from '@constants/model'
+import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
 import { H_BG } from './store'
 
 export default
@@ -46,7 +46,7 @@ class List extends React.Component {
 
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
-    const { list } = $.state
+    const { list, subjectType } = $.state
     const isDo = $.type === 'do'
     const isOnHold = $.type === 'on_hold'
     const isDropped = $.type === 'dropped'
@@ -54,6 +54,7 @@ class List extends React.Component {
       id: '我的.跳转'
     }
 
+    const typeCn = MODEL_SUBJECT_TYPE.getTitle(subjectType)
     if (list) {
       return (
         <ItemCollections
@@ -62,6 +63,7 @@ class List extends React.Component {
           isDo={isDo}
           isOnHold={isOnHold}
           isDropped={isDropped}
+          type={typeCn}
           event={event}
           {...item}
         />
@@ -79,6 +81,7 @@ class List extends React.Component {
         navigation={navigation}
         index={index}
         isOnHold={isOnHold}
+        type={typeCn}
         event={event}
         {...item}
       />

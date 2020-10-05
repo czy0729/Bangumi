@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 14:08:37
+ * @Last Modified time: 2020-10-05 15:55:23
  */
 import React from 'react'
 import { Text as RNText, StyleSheet } from 'react-native'
@@ -102,6 +102,7 @@ Text.defaultProps = {
   align: undefined,
   bold: false,
   selectable: false,
+  textBreakStrategy: 'simple',
   children: ''
 }
 

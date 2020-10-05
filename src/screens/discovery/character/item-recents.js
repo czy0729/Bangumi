@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 02:37:19
+ * @Last Modified time: 2020-10-05 16:07:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,6 +35,7 @@ function ItemRecents(
       _image: cover
     })
   }
+  const typeCn = MODEL_SUBJECT_TYPE.getTitle(type)
   return (
     <View style={styles.container}>
       <Flex
@@ -50,6 +51,7 @@ function ItemRecents(
               height={IMG_HEIGHT}
               radius
               shadow
+              type={typeCn}
               onPress={onPress}
             />
           )}
@@ -76,12 +78,7 @@ function ItemRecents(
                     {x18(id, name || nameJP) && (
                       <Tag style={_.ml.sm} value='H' />
                     )}
-                    {!!type && (
-                      <Tag
-                        style={_.ml.sm}
-                        value={MODEL_SUBJECT_TYPE.getTitle(type)}
-                      />
-                    )}
+                    {!!type && <Tag style={_.ml.sm} value={typeCn} />}
                   </Flex>
                 </Flex>
                 {!!info && (

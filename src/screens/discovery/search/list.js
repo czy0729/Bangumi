@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 22:23:42
+ * @Last Modified time: 2020-10-06 01:39:35
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemSearch } from '@screens/_'
 import { keyExtractor } from '@utils/app'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { _ } from '@stores'
 
 const event = {
@@ -35,6 +36,7 @@ class List extends React.Component {
         collection={
           $.userCollectionsMap[String(item.id).replace('/subject/', '')]
         }
+        typeCn={MODEL_SUBJECT_TYPE.getTitle(item.type)}
         {...item}
       />
     )

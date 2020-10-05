@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 23:03:09
+ * @Last Modified time: 2020-10-06 04:34:05
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -32,51 +32,69 @@ function HorizontalList({
       {data
         // 没封面图的置后
         .sort((a, b) => (b.image ? 1 : 0) - (a.image ? 1 : 0))
-        .map((item, index) => (
-          <View
-            key={item.id}
-            style={[
-              {
-                width
-              },
-              index !== 0 && styles.item
-            ]}
-          >
-            <Cover
-              size={width}
-              height={height}
-              src={item.image}
-              radius
-              shadow
-              quality={quality}
-              onPress={() => onPress(item)}
-            />
-            <Touchable withoutFeedback onPress={() => onPress(item)}>
-              <Text
-                style={_.mt.sm}
-                size={11}
-                numberOfLines={3}
-                ellipsizeMode={ellipsizeMode}
-                bold
-              >
-                {findCn ? findSubjectCn(item.name, item.id) : item.name}
-              </Text>
-              {!!item.desc && (
-                <Text style={_.mt.xs} type='sub' size={11} numberOfLines={2}>
-                  {item.desc}
+        .map((item, index) => {
+          const desc = String(item.desc)
+          let typeCn = ''
+          if (
+            desc.includes('曲') ||
+            desc.includes('歌') ||
+            desc.includes('声')
+          ) {
+            typeCn = '音乐'
+          } else if (desc.includes('书籍')) {
+            typeCn = '书籍'
+          } else if (desc.includes('游戏')) {
+            typeCn = '游戏'
+          }
+          return (
+            <View
+              key={item.id}
+              style={[
+                {
+                  width
+                },
+                index !== 0 && {
+                  marginLeft: typeCn === '音乐' ? 16 : 12
+                }
+              ]}
+            >
+              <Cover
+                size={width}
+                height={height}
+                src={item.image}
+                radius
+                shadow
+                quality={quality}
+                type={typeCn}
+                onPress={() => onPress(item)}
+              />
+              <Touchable withoutFeedback onPress={() => onPress(item)}>
+                <Text
+                  style={_.mt.sm}
+                  size={10}
+                  numberOfLines={3}
+                  ellipsizeMode={ellipsizeMode}
+                  bold
+                >
+                  {findCn ? findSubjectCn(item.name, item.id) : item.name}
                 </Text>
-              )}
-            </Touchable>
-          </View>
-        ))}
+                {!!item.desc && (
+                  <Text style={_.mt.xs} type='sub' size={10} numberOfLines={2}>
+                    {item.desc}
+                  </Text>
+                )}
+              </Touchable>
+            </View>
+          )
+        })}
     </ScrollView>
   )
 }
 
 HorizontalList.defaultProps = {
   data: [],
-  width: 48,
-  height: 48,
+  width: 52,
+  height: 52,
   quality: false,
   findCn: false,
   ellipsizeMode: 'tail',
@@ -89,8 +107,5 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingVertical: 4,
     paddingHorizontal: _.wind
-  },
-  item: {
-    marginLeft: 12
   }
 })
