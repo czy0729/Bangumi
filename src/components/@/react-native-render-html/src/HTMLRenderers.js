@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 20:37:38
+ * @Last Modified time: 2020-10-07 01:23:30
  */
 import React from 'react'
 import { TouchableOpacity, Text, View, Platform } from 'react-native'
@@ -12,6 +12,7 @@ import {
 } from 'react-native-render-html/src/HTMLStyles'
 import HTMLImage from 'react-native-render-html/src/HTMLImage'
 import WebView from '@components/@/web-view'
+import { IOS } from '@constants'
 
 export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
   const style = _constructStyles({
@@ -32,10 +33,16 @@ export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
     return (
       <Text
         {...passProps}
-        style={style}
+        style={[
+          !IOS && {
+            fontFamily: ''
+          },
+          style
+        ]}
         onPress={onPress}
         key={key}
         textBreakStrategy='simple'
+        numberOfLines={0}
       >
         {children || data}
       </Text>
@@ -129,8 +136,14 @@ export function ul(htmlAttribs, children, convertedCSSStyles, passProps = {}) {
             ) : (
               <Text
                 allowFontScaling={allowFontScaling}
-                style={{ marginRight: 5, fontSize: baseFontSize }}
+                style={[
+                  !IOS && {
+                    fontFamily: ''
+                  },
+                  { marginRight: 5, fontSize: baseFontSize }
+                ]}
                 textBreakStrategy='simple'
+                numberOfLines={0}
               >
                 {index + 1})
               </Text>
@@ -191,8 +204,14 @@ export function pre(htlmAttribs, children, convertedCSSStyles, passProps) {
   return (
     <Text
       key={passProps.key}
-      style={{ fontFamily: Platform.OS === 'android' ? 'monospace' : 'Menlo' }}
+      style={[
+        !IOS && {
+          fontFamily: ''
+        },
+        { fontFamily: Platform.OS === 'android' ? 'monospace' : 'Menlo' }
+      ]}
       textBreakStrategy='simple'
+      numberOfLines={0}
     >
       {children}
     </Text>
@@ -203,9 +222,15 @@ export function br(htlmAttribs, children, convertedCSSStyles, passProps) {
   return (
     <Text
       allowFontScaling={passProps.allowFontScaling}
-      style={{ height: 1.2 * passProps.emSize, flex: 1 }}
+      style={[
+        !IOS && {
+          fontFamily: ''
+        },
+        { height: 1.2 * passProps.emSize, flex: 1 }
+      ]}
       key={passProps.key}
       textBreakStrategy='simple'
+      numberOfLines={0}
     >
       {'\n'}
     </Text>
@@ -223,8 +248,14 @@ export function textwrapper(
       selectable={selectable}
       allowFontScaling={allowFontScaling}
       key={key}
-      style={convertedCSSStyles}
+      style={[
+        !IOS && {
+          fontFamily: ''
+        },
+        convertedCSSStyles
+      ]}
       textBreakStrategy='simple'
+      numberOfLines={0}
     >
       {children}
     </Text>

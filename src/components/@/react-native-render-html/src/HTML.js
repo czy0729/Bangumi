@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 20:37:25
+ * @Last Modified time: 2020-10-07 01:22:42
  */
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
@@ -36,6 +36,7 @@ import {
   generateDefaultTextStyles
 } from 'react-native-render-html/src/HTMLDefaultStyles'
 import htmlparser2 from 'htmlparser2'
+import { IOS } from '@constants'
 import * as HTMLRenderers from './HTMLRenderers'
 
 export default class HTML extends PureComponent {
@@ -593,17 +594,23 @@ export default class HTML extends PureComponent {
           const textElement = data ? (
             <Text
               allowFontScaling={allowFontScaling}
-              style={computeTextStyles(element, {
-                defaultTextStyles: this.defaultTextStyles,
-                tagsStyles,
-                classesStyles,
-                baseFontStyle,
-                emSize,
-                ptSize,
-                ignoredStyles,
-                allowedStyles
-              })}
+              style={[
+                !IOS && {
+                  fontFamily: ''
+                },
+                computeTextStyles(element, {
+                  defaultTextStyles: this.defaultTextStyles,
+                  tagsStyles,
+                  classesStyles,
+                  baseFontStyle,
+                  emSize,
+                  ptSize,
+                  ignoredStyles,
+                  allowedStyles
+                })
+              ]}
               textBreakStrategy='simple'
+              numberOfLines={0}
             >
               {data}
             </Text>
@@ -661,9 +668,15 @@ export default class HTML extends PureComponent {
       ) : (
         <View style={{ flex: 1, alignItems: 'center' }}>
           <Text
+            style={
+              !IOS && {
+                fontFamily: ''
+              }
+            }
             allowFontScaling={allowFontScaling}
             style={{ fontStyle: 'italic', fontSize: 16 }}
             textBreakStrategy='simple'
+            numberOfLines={0}
           >
             Could not load {this.props.uri}
           </Text>

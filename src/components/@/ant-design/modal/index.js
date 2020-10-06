@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 20:37:08
+ * @Last Modified time: 2020-10-07 01:21:20
  */
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -23,6 +23,7 @@ import prompt from '@ant-design/react-native/lib/modal/prompt'
 import modalStyles from '@ant-design/react-native/lib/modal/style/index'
 import { Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
+import { IOS } from '@constants'
 
 const maxHeight = StyleSheet.create({
   maxHeight: {
@@ -145,8 +146,15 @@ class AntmModal extends React.Component {
                 >
                   <View style={[buttonWrapStyle, noneBorder]}>
                     <Text
-                      style={[styles.buttonText, buttonStyle]}
+                      style={[
+                        !IOS && {
+                          fontFamily: ''
+                        },
+                        styles.buttonText,
+                        buttonStyle
+                      ]}
                       textBreakStrategy='simple'
+                      numberOfLines={0}
                     >
                       {button.text || `${_locale.buttonText}${i}`}
                     </Text>
@@ -202,7 +210,16 @@ class AntmModal extends React.Component {
                 >
                   <View style={maxHeight} ref={this.saveRoot}>
                     {title ? (
-                      <Text style={[styles.header]} textBreakStrategy='simple'>
+                      <Text
+                        style={[
+                          !IOS && {
+                            fontFamily: ''
+                          },
+                          styles.header
+                        ]}
+                        textBreakStrategy='simple'
+                        numberOfLines={0}
+                      >
                         {title}
                       </Text>
                     ) : null}

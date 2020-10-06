@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 20:36:32
+ * @Last Modified time: 2020-10-07 01:22:08
  */
 import React from 'react'
 import { ActivityIndicator, Animated, Text, View } from 'react-native'
@@ -11,6 +11,7 @@ import { WithTheme, WithThemeStyles } from '@ant-design/react-native/lib/style'
 import ToastStyles, {
   ToastStyle
 } from '@ant-design/react-native/lib/toast/style/index'
+import { IOS } from '@constants'
 import Touchable from '../../../touchable'
 
 export interface ToastProps extends WithThemeStyles<ToastStyle> {
@@ -136,7 +137,16 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
                     ]}
                   >
                     {iconDom}
-                    <Text style={styles.content} textBreakStrategy='simple'>
+                    <Text
+                      style={[
+                        !IOS && {
+                          fontFamily: ''
+                        },
+                        styles.content
+                      ]}
+                      textBreakStrategy='simple'
+                      numberOfLines={0}
+                    >
                       {content}
                     </Text>
                   </View>

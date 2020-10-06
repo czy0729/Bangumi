@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 23:59:20
+ * @Last Modified time: 2020-10-07 01:05:22
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -166,7 +166,7 @@ export default class ScreenTinygrail extends store {
     })
 
     try {
-      await this.logout()
+      // await this.logout()
       await this.oauth()
       res = this.authorize()
 

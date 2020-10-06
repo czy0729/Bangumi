@@ -12,6 +12,7 @@ import {
   View
 } from 'react-native'
 import _ from '@styles'
+import { IOS } from '@constants'
 import Flex from '../../../flex'
 import { WithTheme } from '../style'
 import TabBarStyles from './style'
@@ -181,6 +182,9 @@ export class DefaultTabBar extends React.PureComponent {
           ) : (
             <Text
               style={[
+                !IOS && {
+                  fontFamily: ''
+                },
                 {
                   color: textColor,
                   ...StyleSheet.flatten(styles.textStyle)
@@ -189,6 +193,7 @@ export class DefaultTabBar extends React.PureComponent {
               ]}
               allowFontScaling={false}
               textBreakStrategy='simple'
+              numberOfLines={0}
             >
               {tab.title}
             </Text>

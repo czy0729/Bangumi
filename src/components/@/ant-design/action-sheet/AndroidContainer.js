@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, TouchableHighlight, View } from 'react-native'
 import Modal from '@ant-design/react-native/lib/modal/ModalView'
+import { IOS } from '@constants'
 import { WithTheme } from '../style'
 import ActionSheetStyles from './style/index'
 
@@ -41,13 +42,23 @@ class ActionSheetAndroid extends React.PureComponent {
         {(styles, theme) => {
           const titleMsg = !!title && (
             <View style={styles.title} key='0'>
-              <Text style={styles.titleText} textBreakStrategy='simple'>
+              <Text
+                style={[
+                  !IOS && {
+                    fontFamily: ''
+                  },
+                  styles.titleText
+                ]}
+                textBreakStrategy='simple'
+                numberOfLines={0}
+              >
                 {title}
               </Text>
             </View>
           )
           const content = options.map((item, index) => (
             <View
+              // eslint-disable-next-line react/no-array-index-key
               key={index}
               style={[
                 cancelButtonIndex === index ? styles.cancelBtn : undefined
@@ -60,11 +71,15 @@ class ActionSheetAndroid extends React.PureComponent {
               >
                 <Text
                   style={[
+                    !IOS && {
+                      fontFamily: ''
+                    },
                     destructiveButtonIndex === index
                       ? styles.destructiveBtn
                       : styles.btnText
                   ]}
                   textBreakStrategy='simple'
+                  numberOfLines={0}
                 >
                   {item}
                 </Text>
@@ -90,7 +105,17 @@ class ActionSheetAndroid extends React.PureComponent {
                   {titleMsg}
                   {!!message && (
                     <View style={styles.message} key='1'>
-                      <Text textBreakStrategy='simple'>{message}</Text>
+                      <Text
+                        style={
+                          !IOS && {
+                            fontFamily: ''
+                          }
+                        }
+                        textBreakStrategy='simple'
+                        numberOfLines={0}
+                      >
+                        {message}
+                      </Text>
                     </View>
                   )}
                   <View>{content}</View>
