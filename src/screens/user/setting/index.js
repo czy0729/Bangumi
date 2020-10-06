@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 04:08:54
+ * @Last Modified time: 2020-10-06 05:41:48
  */
 import React from 'react'
 import {
@@ -612,7 +612,6 @@ class Setting extends React.Component {
                 information='按钮被按下时产生涟漪效果，关闭可提升性能'
               />
             )}
-
             <ItemSetting
               hd='看板娘吐槽'
               ft={
@@ -701,12 +700,13 @@ class Setting extends React.Component {
   renderHome() {
     const {
       homeSorting,
-      homeLayout
+      homeLayout,
+      showGame
       // itemShadow
     } = systemStore.setting
     return (
       <>
-        {this.renderSection('首页')}
+        {this.renderSection('首页收藏')}
         <ItemSetting
           hd='排序'
           ft={
@@ -731,6 +731,23 @@ class Setting extends React.Component {
               onValueChange={this.setHomeLayout}
             />
           }
+        />
+        <ItemSetting
+          hd='游戏标签页'
+          ft={
+            <SwitchPro
+              value={showGame}
+              onSyncPress={() => {
+                t('设置.切换', {
+                  title: '显示游戏',
+                  checked: !showGame
+                })
+
+                systemStore.switchSetting('showGame')
+              }}
+            />
+          }
+          information='首页收藏显示在玩的游戏'
         />
         {/* {!IOS && MODEL_SETTING_HOME_LAYOUT.getLabel(homeLayout) === '列表' && (
           <ItemSetting

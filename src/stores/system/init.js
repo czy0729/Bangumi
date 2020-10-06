@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 04:06:02
+ * @Last Modified time: 2020-10-06 05:40:40
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -36,6 +36,7 @@ export const INIT_SETTING = {
   tinygrail: false, // 小圣杯是否开启
   autoColorScheme: false, // 黑暗模式跟随系统
   coverThings: true, // 封面拟物
+  showGame: false, // 首页显示游戏分类
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页

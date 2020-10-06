@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 20:02:23
+ * @Last Modified time: 2020-10-06 18:05:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,7 @@ class Item extends React.Component {
       subjectId,
       _jp: subject.name,
       _cn: subject.name_cn || subject.name,
-      _image: subject.images.medium
+      _image: subject?.images?.medium || ''
     })
   }
 
@@ -101,10 +101,10 @@ class Item extends React.Component {
     $.doWatchedNextEp(subjectId)
   }
 
-  onStarPress = () => {
+  onStarPress = modal => {
     const { $ } = this.context
     const { subjectId } = this.props
-    $.showManageModal(subjectId)
+    $.showManageModal(subjectId, modal)
   }
 
   onGridPress = () => {
@@ -118,6 +118,11 @@ class Item extends React.Component {
     const { subjectId } = this.props
     const { top } = $.state
     return top.indexOf(subjectId) !== -1
+  }
+
+  get label() {
+    const { subject } = this.props
+    return MODEL_SUBJECT_TYPE.getTitle(subject.type)
   }
 
   renderBtnNextEp() {
@@ -141,12 +146,18 @@ class Item extends React.Component {
   }
 
   renderToolBar() {
+    const { subject } = this.props
     return (
       <Flex style={this.styles.toolBar}>
         {this.renderBtnNextEp()}
         <Touchable
           style={[this.styles.touchable, _.ml.sm]}
-          onPress={this.onStarPress}
+          onPress={() =>
+            this.onStarPress({
+              title: subject.name_cn || subject.name,
+              desc: subject.name
+            })
+          }
         >
           <Iconfont name='star' size={18} />
         </Touchable>
@@ -157,8 +168,11 @@ class Item extends React.Component {
   renderCount() {
     const { $ } = this.context
     const { subjectId, subject, epStatus } = this.props
-    const label = MODEL_SUBJECT_TYPE.getTitle(subject.type)
-    if (label === '书籍') {
+    if (this.label === '游戏') {
+      return null
+    }
+
+    if (this.label === '书籍') {
       const { list = [] } = $.userCollection
       const { ep_status: epStatus, vol_status: volStatus } = list.find(
         item => item.subject_id === subjectId
@@ -249,7 +263,7 @@ class Item extends React.Component {
       >
         <Flex style={this.styles.hd}>
           <Cover
-            src={subject.images.medium}
+            src={subject?.images?.medium || ''}
             size={IMG_WIDTH}
             height={IMG_HEIGHT}
             radius
@@ -269,9 +283,11 @@ class Item extends React.Component {
                   <Text size={15} numberOfLines={2} bold>
                     {HTMLDecode(subject.name_cn || subject.name)}
                   </Text>
-                  <Text style={_.mt.xs} type='sub' size={12}>
-                    {subject.collection.doing} 人在{doing}
-                  </Text>
+                  {!!subject?.collection?.doing && (
+                    <Text style={_.mt.xs} type='sub' size={12}>
+                      {subject.collection.doing} 人在{doing}
+                    </Text>
+                  )}
                 </Flex.Item>
                 {isToday ? (
                   <Text

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:19:19
+ * @Last Modified time: 2020-10-06 05:33:44
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -80,7 +80,7 @@ class Channel extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.channel
     if (!_loaded) {
-      return <Loading style={_.container.screen} />
+      return <Loading style={_.container.plain} />
     }
 
     return (

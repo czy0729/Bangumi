@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-03 10:20:20
+ * @Last Modified time: 2020-10-06 17:32:39
  */
 import React from 'react'
 import {
@@ -293,7 +293,7 @@ class ListView extends React.Component {
           >
             <ActivityIndicator size='small' />
             <Text
-              style={_.mt.sm}
+              style={[this.styles.footerText, _.mt.sm]}
               type={footerTextType}
               align='center'
               size={13}
@@ -315,7 +315,7 @@ class ListView extends React.Component {
               <Mesume size={80} />
               {systemStore.setting.speech && (
                 <Text
-                  style={_.mt.sm}
+                  style={[this.styles.footerText, _.mt.sm]}
                   type={footerTextType}
                   align='center'
                   size={13}
@@ -404,12 +404,13 @@ const memoStyles = _.memoStyles(_ => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    height: 40,
     paddingVertical: 8,
-    paddingHorizontal: _.lg,
-    height: 40
+    paddingHorizontal: _.lg
   },
   footerText: {
-    fontSize: 14 + _.fontSizeAdjust
+    maxWidth: _.window.contentWidth - 2 * _.md,
+    ..._.fontSize(14)
   },
   footerEmpty: {
     minHeight: 240

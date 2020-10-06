@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:02:41
+ * @Last Modified time: 2020-10-06 19:19:33
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -106,7 +106,13 @@ function Item(
             size={11}
             lineHeight={14}
           >
-            {simpleTime(time)} {floor}
+            {simpleTime(time)}
+          </Text>
+          <Text style={styles.f} type='sub' size={10} lineHeight={14}>
+            #
+          </Text>
+          <Text style={styles.time} type='sub' size={11} lineHeight={14}>
+            {floor.replace('#', '')}
           </Text>
         </Flex>
         {!!userSign && (
@@ -219,7 +225,18 @@ function Item(
                       size={11}
                       lineHeight={14}
                     >
-                      {simpleTime(item.time)} {item.floor}
+                      {simpleTime(item.time)}
+                    </Text>
+                    <Text style={styles.f} type='sub' size={10} lineHeight={14}>
+                      #
+                    </Text>
+                    <Text
+                      style={styles.time}
+                      type='sub'
+                      size={11}
+                      lineHeight={14}
+                    >
+                      {item.floor.replace('#', '')}
                     </Text>
                   </Flex>
                   <RenderHtml
@@ -342,6 +359,11 @@ const memoStyles = _.memoStyles(_ => ({
     opacity: _.select(1, 0.64)
   },
   time: {
+    opacity: _.select(1, 0.64)
+  },
+  f: {
+    marginTop: -8,
+    marginLeft: _.sm,
     opacity: _.select(1, 0.64)
   }
 }))

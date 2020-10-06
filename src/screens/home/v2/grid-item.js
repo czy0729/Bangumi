@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 20:41:11
+ * @Last Modified time: 2020-10-06 18:28:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,10 +16,7 @@ const margin = 10
 const num = _.isPad ? 5 : 4
 const imageWidth = (_.window.width - (num - 1) * margin - 2 * _.wind) / num
 
-function GridItem(
-  { subject, subject_id: subjectId, ep_status: epStatus },
-  { $ }
-) {
+function GridItem({ subject, subjectId, epStatus }, { $ }) {
   const styles = memoStyles()
   const percent = Math.min(
     (parseInt(epStatus || 0) / parseInt(subject.eps_count || 24)) * 100,
@@ -29,11 +26,17 @@ function GridItem(
     <View style={styles.item}>
       <Cover
         size={imageWidth}
-        src={subject.images.medium}
+        src={subject?.images?.medium || ''}
         shadow
         radius
         delay={false}
-        onPress={() => $.selectGirdSubject(subjectId)}
+        onPress={() =>
+          $.selectGirdSubject(subjectId, {
+            subject_id: subjectId,
+            subject,
+            ep_status: epStatus
+          })
+        }
       />
       <Progress
         style={styles.progress}

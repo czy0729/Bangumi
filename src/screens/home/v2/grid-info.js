@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 20:32:23
+ * @Last Modified time: 2020-10-06 19:04:29
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -43,7 +43,7 @@ class GridInfo extends React.Component {
       subjectId,
       _jp: subject.name,
       _cn: subject.name_cn || subject.name,
-      _image: subject.images.medium
+      _image: subject?.images?.medium || ''
     })
   }
 
@@ -69,6 +69,11 @@ class GridInfo extends React.Component {
     const { $ } = this.context
     const { subjectId } = this.props
     $.showManageModal(subjectId)
+  }
+
+  get label() {
+    const { subject } = this.props
+    return MODEL_SUBJECT_TYPE.getTitle(subject.type)
   }
 
   renderBtnNextEp() {
@@ -108,8 +113,11 @@ class GridInfo extends React.Component {
   renderCount() {
     const { $ } = this.context
     const { subjectId, subject, epStatus } = this.props
-    const label = MODEL_SUBJECT_TYPE.getTitle(subject.type)
-    if (label === '书籍') {
+    if (this.label === '游戏') {
+      return null
+    }
+
+    if (this.label === '书籍') {
       const { list = [] } = $.userCollection
       const { ep_status: epStatus, vol_status: volStatus } = list.find(
         item => item.subject_id === subjectId
@@ -173,7 +181,7 @@ class GridInfo extends React.Component {
           <Cover
             size={imageWidth}
             height={imageHeight}
-            src={subject.images.medium}
+            src={subject?.images?.medium || ''}
             radius
             shadow
             onPress={this.onPress}

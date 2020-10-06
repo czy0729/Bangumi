@@ -97,7 +97,7 @@ export default observer(Disc)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 146
+    minHeight: 96
   },
   item: {
     paddingHorizontal: _.sm

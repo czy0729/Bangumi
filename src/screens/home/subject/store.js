@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 05:08:00
+ * @Last Modified time: 2020-10-06 19:08:48
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -675,6 +675,18 @@ export default class ScreenSubject extends store {
       return this.subjectFormHTML.like || []
     }
     return this.subjectFormCDN.like || []
+  }
+
+  @computed get titleLabel() {
+    // bangumiInfo只有动画的数据
+    let label = MODEL_SUBJECT_TYPE.getTitle(this.subjectType)
+    if (label === '动画') {
+      const { bangumiInfo } = this.state
+      label = String(bangumiInfo.type).toUpperCase() || label
+    } else {
+      label = this.subjectFormHTML.type || label
+    }
+    return label
   }
 
   // -------------------- page --------------------

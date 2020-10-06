@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 04:17:48
+ * @Last Modified time: 2020-10-06 15:48:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -109,7 +109,7 @@ function Cover({ style, src, size, height, noDefault, type, ...other }) {
             radius={4}
             size={w - 12}
             width={w - 12}
-            height={h - 16}
+            height={Math.max(h - 24, w - 12)}
             shadow={false}
             border={false}
           />
@@ -164,11 +164,11 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     top: 0,
     right: 0,
-    marginRight: -4,
-    backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
+    marginRight: -5,
+    backgroundColor: _.select(_.colorIcon, _._colorDarkModeLevel1),
     borderColor: _.colorBorder,
     borderWidth: _.hairlineWidth,
-    borderRadius: 6
+    borderRadius: 7
   },
   bookLine: {
     position: 'absolute',

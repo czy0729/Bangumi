@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-03 23:00:19
+ * @Last Modified time: 2020-10-06 19:09:18
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -15,23 +15,13 @@ import { toFixed } from '@utils'
 import { info } from '@utils/ui'
 import { x18 } from '@utils/app'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { imageWidth, imageHeight } from './store'
 import Cover from './cover'
 
 function Head({ style }, { $, navigation }) {
   const styles = memoStyles()
   const { images = {} } = $.subject
-
-  // bangumiInfo只有动画的数据
-  let label = MODEL_SUBJECT_TYPE.getTitle($.subjectType)
-  if (label === '动画') {
-    const { bangumiInfo } = $.state
-    label = String(bangumiInfo.type).toUpperCase() || label
-  } else {
-    label = $.subjectFormHTML.type || label
-  }
-
+  const isSeries = $.relations?.[0]?.desc === '系列'
   let size
   if ($.cn.length > 24) {
     size = 11
@@ -40,8 +30,6 @@ function Head({ style }, { $, navigation }) {
   } else {
     size = 17
   }
-
-  const isSeries = $.relations?.[0]?.desc === '系列'
   return (
     <View style={[styles.container, style]}>
       <Cover image={images.common} placeholder={$.coverPlaceholder} />
@@ -62,7 +50,7 @@ function Head({ style }, { $, navigation }) {
                   info(`已复制 ${$.jp}`)
                 }}
               >
-                {!!label && `${label} · `}
+                {!!$.titleLabel && `${$.titleLabel} · `}
                 {$.jp}
               </Katakana>
             </Katakana.Provider>

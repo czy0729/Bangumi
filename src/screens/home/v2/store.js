@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-03 20:34:27
+ * @Last Modified time: 2020-10-06 19:04:34
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -24,21 +24,33 @@ import {
   MODEL_SUBJECT_TYPE,
   MODEL_EP_STATUS,
   MODEL_COLLECTION_STATUS,
+  MODEL_COLLECTIONS_ORDERBY,
   MODEL_SETTING_HOME_SORTING
 } from '@constants/model'
 
-export const tabs = [
+const tabs = [
   {
+    key: 'all',
     title: '全部'
   },
   {
+    key: 'anime',
     title: '动画'
   },
   {
+    key: 'book',
     title: '书籍'
   },
   {
+    key: 'real',
     title: '三次元'
+  }
+]
+const tabsWithGame = [
+  ...tabs,
+  {
+    key: 'game',
+    title: '游戏'
   }
 ]
 export const H_TABBAR = 48
@@ -47,6 +59,17 @@ const namespace = 'ScreenHomeV2'
 const initItem = {
   expand: false,
   doing: false
+}
+const excludeState = {
+  modal: {
+    title: '',
+    desc: ''
+  },
+  grid: {
+    subject_id: 0,
+    subject: {},
+    ep_status: ''
+  }
 }
 const day = new Date().getDay()
 
@@ -60,6 +83,7 @@ export default class ScreenHomeV2 extends store {
       // [subjectId]: initItem // 每个<Item>的状态
     },
     current: 0,
+    ...excludeState,
     _loaded: false // 本地数据读取完成
   })
 
@@ -70,6 +94,7 @@ export default class ScreenHomeV2 extends store {
       const state = await res
       this.setState({
         ...state,
+        ...excludeState,
         _loaded: true
       })
       this.initFetch()
@@ -110,9 +135,35 @@ export default class ScreenHomeV2 extends store {
     return res
   }
 
-  onHeaderRefresh = () => this.initFetch(true)
+  onHeaderRefresh = () => {
+    if (this.tabsLabel === '游戏') {
+      return this.fetchDoingGames(true)
+    }
+    return this.initFetch(true)
+  }
+
+  onFooterRefresh = () => this.fetchDoingGames()
+
+  fetchDoingGames = refresh => {
+    const { username } = this.usersInfo
+    return collectionStore.fetchUserCollections(
+      {
+        userId: username || this.userId,
+        subjectType: MODEL_SUBJECT_TYPE.getLabel('游戏'),
+        type: MODEL_COLLECTION_STATUS.getValue('在看'),
+        order: MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间'),
+        tag: ''
+      },
+      refresh
+    )
+  }
 
   // -------------------- get --------------------
+  @computed get tabs() {
+    const { showGame } = systemStore.setting
+    return showGame ? tabsWithGame : tabs
+  }
+
   @computed get backgroundColor() {
     return _.select(_.colorPlain, _._colorDarkModeLevel1)
   }
@@ -135,6 +186,19 @@ export default class ScreenHomeV2 extends store {
 
   @computed get itemShadow() {
     return IOS ? true : systemStore.setting.itemShadow
+  }
+
+  @computed get myUserId() {
+    return userStore.myUserId
+  }
+
+  @computed get usersInfo() {
+    return userStore.usersInfo(this.myUserId)
+  }
+
+  @computed get tabsLabel() {
+    const { page } = this.state
+    return this.tabs[page].title
   }
 
   /**
@@ -172,10 +236,23 @@ export default class ScreenHomeV2 extends store {
     return userCollection
   }
 
+  @computed get games() {
+    const { username } = this.usersInfo
+    return collectionStore.userCollections(
+      username || this.userId,
+      MODEL_SUBJECT_TYPE.getLabel('游戏'),
+      MODEL_COLLECTION_STATUS.getValue('在看')
+    )
+  }
+
   /**
    * 列表当前数据
    */
   currentUserCollection(title) {
+    if (title === '游戏') {
+      return this.games
+    }
+
     return computed(() => {
       const userCollection = {
         ...this.userCollection
@@ -183,11 +260,10 @@ export default class ScreenHomeV2 extends store {
       const type = MODEL_SUBJECT_TYPE.getValue(title)
       if (type) {
         userCollection.list = userCollection.list.filter(
-          item => item.subject.type == type
+          item => item?.subject?.type == type
         )
       }
       userCollection.list = this.sortList(userCollection.list)
-
       return userCollection
     }).get()
   }
@@ -346,9 +422,19 @@ export default class ScreenHomeV2 extends store {
     t('首页.标签页切换', {
       page
     })
-    this.setState({
-      page
-    })
+
+    if (page === 4) {
+      this.setState({
+        page,
+        grid: initItem.grid
+      })
+      this.fetchDoingGames(true)
+    } else {
+      this.setState({
+        page
+      })
+    }
+
     this.setStorage(undefined, undefined, namespace)
   }
 
@@ -408,15 +494,18 @@ export default class ScreenHomeV2 extends store {
 
   /**
    * 显示收藏管理<Modal>
+   * @param {*} subjectId
+   * @param {*} model 游戏没有主动请求条目数据, 需要手动传递标题
    */
-  showManageModal = subjectId => {
+  showManageModal = (subjectId, modal) => {
     t('首页.显示收藏管理', {
       subjectId
     })
 
     this.setState({
       visible: true,
-      subjectId
+      subjectId,
+      modal: modal || initItem.modal
     })
   }
 
@@ -425,7 +514,8 @@ export default class ScreenHomeV2 extends store {
    */
   closeManageModal = () => {
     this.setState({
-      visible: false
+      visible: false,
+      modal: initItem.modal
     })
   }
 
@@ -526,13 +616,14 @@ export default class ScreenHomeV2 extends store {
   /**
    * 格子布局条目选择
    */
-  selectGirdSubject = subjectId => {
+  selectGirdSubject = (subjectId, grid) => {
     t('首页.格子布局条目选择', {
       subjectId
     })
 
     this.setState({
-      current: subjectId
+      current: subjectId,
+      grid: grid || initItem.grid
     })
     this.setStorage(undefined, undefined, namespace)
   }

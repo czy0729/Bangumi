@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 15:25:51
+ * @Last Modified time: 2020-10-06 19:11:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -90,7 +90,7 @@ export default observer(Tags)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    minHeight: 120
+    minHeight: 96
   },
   loading: {
     height: 96

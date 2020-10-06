@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 11:17:44
+ * @Last Modified time: 2020-10-06 17:02:18
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -23,7 +23,7 @@ import { hm, t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { MODEL_SETTING_INITIAL_PAGE } from '@constants/model'
 import Header from './header'
-import Tab from './tab'
+import Tab from './tab-wrap'
 import Modal from './modal'
 import Store from './store'
 
@@ -119,7 +119,7 @@ class Home extends React.Component {
         {$.isLogin && _loaded && (
           <>
             <Header />
-            <Tab />
+            <Tab length={$.tabs.length} />
             <Modal />
           </>
         )}

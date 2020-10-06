@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 01:06:40
+ * @Last Modified time: 2020-10-06 05:31:33
  */
 import { safeObject } from '@utils'
-import { cheerio } from '@utils/html'
+import { cheerio, HTMLDecode } from '@utils/html'
 import { getCoverMedium } from '@utils/app'
 import { matchAvatar, matchUserId } from '@utils/match'
 
@@ -236,7 +236,7 @@ export function cheerioChannel(HTML) {
           const $user = $li.find(' > td[align=right] > a')
           return safeObject({
             id: $a.attr('href').replace('/subject/topic', 'subject'),
-            title: $a.text().trim(),
+            title: HTMLDecode($a.text().trim()),
             replies: $li
               .find(' > td > a.l + small.grey')
               .text()

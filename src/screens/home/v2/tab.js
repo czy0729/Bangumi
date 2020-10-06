@@ -2,64 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 16:33:36
+ * @Last Modified time: 2020-10-06 16:52:55
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TabBar, SceneMap } from 'react-native-tab-view'
+import { TabBar } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
-import { BlurView } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { IOS } from '@constants'
-import List from './list'
 import { H_TABBAR } from './store'
 
-const routes = [
-  {
-    key: 'all',
-    title: '全部'
-  },
-  {
-    key: 'anime',
-    title: '动画'
-  },
-  {
-    key: 'book',
-    title: '书籍'
-  },
-  {
-    key: 'real',
-    title: '三次元'
-  }
-]
-const renderScene = SceneMap({
-  all: () => <List title='全部' />,
-  anime: () => <List title='动画' />,
-  book: () => <List title='书籍' />,
-  real: () => (
-    <>
-      <List title='三次元' />
-      {IOS && (
-        <BlurView
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            top: 0,
-            left: -_.window.width * 3,
-            right: 0,
-            height: _.headerHeight + H_TABBAR
-          }}
-        />
-      )}
-    </>
-  )
-})
-
-function Tab(props, { $ }) {
+function Tab({ routes, renderScene }, { $ }) {
   const styles = memoStyles()
   const { page } = $.state
+  const W_TAB = _.window.width / routes.length
   return (
     <TabView
       sceneContainerStyle={styles.sceneContainerStyle}
@@ -73,9 +31,19 @@ function Tab(props, { $ }) {
         <TabBar
           {...props}
           style={styles.tabBar}
-          tabStyle={styles.tab}
+          tabStyle={[
+            styles.tab,
+            {
+              width: W_TAB
+            }
+          ]}
           labelStyle={styles.label}
-          indicatorStyle={styles.indicator}
+          indicatorStyle={[
+            styles.indicator,
+            {
+              marginLeft: (W_TAB - W_INDICATOR) / 2
+            }
+          ]}
           pressOpacity={1}
           pressColor='transparent'
           scrollEnabled
@@ -98,9 +66,12 @@ Tab.contextTypes = {
   $: PropTypes.object
 }
 
+Tab.defaultProps = {
+  routes: []
+}
+
 export default observer(Tab)
 
-const W_TAB = _.window.width / 4
 const W_INDICATOR = 16
 const memoStyles = _.memoStyles(_ => ({
   tabBar: {
@@ -113,7 +84,6 @@ const memoStyles = _.memoStyles(_ => ({
     elevation: 0
   },
   tab: {
-    width: W_TAB,
     height: 48
   },
   label: {
@@ -125,7 +95,6 @@ const memoStyles = _.memoStyles(_ => ({
   indicator: {
     width: W_INDICATOR,
     height: 4,
-    marginLeft: (W_TAB - W_INDICATOR) / 2,
     backgroundColor: _.colorMain,
     borderRadius: 4
   },
