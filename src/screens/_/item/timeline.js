@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 03:12:15
+ * @Last Modified time: 2020-10-06 23:03:53
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -414,7 +414,7 @@ const memoStyles = _.memoStyles(_ => ({
   content: {
     paddingTop: _.md,
     paddingRight: _.wind,
-    paddingBottom: _.md + 8 // 8是阴影的px
+    paddingBottom: _.md
   },
   contentNoPaddingRight: {
     paddingVertical: _.md,

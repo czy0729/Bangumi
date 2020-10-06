@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-21 11:22:11
+ * @Last Modified time: 2020-10-06 22:09:59
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -162,8 +162,8 @@ export const shadow = {
 export const fontSizeAdjust = 0
 export function fontSize(pt, fontSizeAdjust = 0) {
   return {
-    fontSize: pt + fontSizeAdjust,
-    lineHeight: (pt + fontSizeAdjust) * lineHeightRatio
+    fontSize: parseInt(pt + fontSizeAdjust),
+    lineHeight: parseInt((pt + fontSizeAdjust) * lineHeightRatio)
   }
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 05:40:40
+ * @Last Modified time: 2020-10-06 23:16:13
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -34,7 +34,7 @@ export const INIT_SETTING = {
   speech: true, // Bangumi娘话语
   vibration: true, // 震动反馈
   tinygrail: false, // 小圣杯是否开启
-  autoColorScheme: false, // 黑暗模式跟随系统
+  autoColorScheme: true, // 黑暗模式跟随系统
   coverThings: true, // 封面拟物
   showGame: false, // 首页显示游戏分类
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 05:13:33
+ * @Last Modified time: 2020-10-06 22:08:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -126,7 +126,6 @@ const memoStyles = _.memoStyles(_ => ({
     height: 240
   },
   segmentedControl: {
-    height: 22,
-    marginTop: 1
+    height: 22
   }
 }))

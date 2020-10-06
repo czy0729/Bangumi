@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 10:28:10
+ * @Last Modified time: 2020-10-06 20:37:25
  */
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
@@ -603,6 +603,7 @@ export default class HTML extends PureComponent {
                 ignoredStyles,
                 allowedStyles
               })}
+              textBreakStrategy='simple'
             >
               {data}
             </Text>
@@ -662,6 +663,7 @@ export default class HTML extends PureComponent {
           <Text
             allowFontScaling={allowFontScaling}
             style={{ fontStyle: 'italic', fontSize: 16 }}
+            textBreakStrategy='simple'
           >
             Could not load {this.props.uri}
           </Text>

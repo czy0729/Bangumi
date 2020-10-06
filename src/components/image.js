@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-21 16:10:02
+ * @Last Modified time: 2020-10-06 23:56:53
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -438,7 +438,7 @@ class Image extends React.Component {
             style={this.computedStyle.image}
             source={{
               headers: this.headers,
-              uri
+              uri: uri.replace('http://', 'https://') // 安卓新版本不允许非https的图片了
             }}
             fadeDuration={_fadeDuration}
             onError={this.onError}

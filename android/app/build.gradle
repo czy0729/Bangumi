@@ -218,11 +218,11 @@ dependencies {
     implementation 'com.umeng.umsdk:analytics:8.0.0' //统计
 
     // // 如果你需要支持GIF动图
-    implementation "com.facebook.fresco:animated-gif:2.0.0"
+    // implementation "com.facebook.fresco:animated-gif:2.0.0"
 
     // // 如果你需要支持WebP格式，包括WebP动图
-    implementation "com.facebook.fresco:animated-webp:2.1.0"
-    implementation "com.facebook.fresco:webpsupport:2.0.0"
+    // implementation "com.facebook.fresco:animated-webp:2.1.0"
+    // implementation "com.facebook.fresco:webpsupport:2.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

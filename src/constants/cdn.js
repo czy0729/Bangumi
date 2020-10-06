@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 13:46:41
+ * @Last Modified time: 2020-10-06 20:00:26
  */
 import { getTimestamp } from '@utils'
 import { SDK } from './index'
@@ -30,11 +30,11 @@ export function getOTA() {
 export const VERSION_OSS = '20200615'
 export const VERSION_MONO = '20200811'
 export const VERSION_SUBJECT = '20200903'
-export const VERSION_AVATAR = '20200913'
-export const VERSION_RAKUEN = '20200926'
-export const VERSION_STATIC = '20200927'
+export const VERSION_AVATAR = '20201006'
+export const VERSION_RAKUEN = '20201006'
+export const VERSION_STATIC = '20201006'
 
-export const VERSIONS_AVATAR = ['20200913', '20200712', '20200502', '1.0.2']
+export const VERSIONS_AVATAR = ['20201006', '20200712', '20200502', '1.0.2']
 export const VERSIONS_ANIME = '20200927'
 export const VERSIONS_WENKU = '20200927'
 
@@ -245,7 +245,6 @@ export const CDN_STATIC_ANIME = () => {
 
   return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/agefans/anime.json`
 }
-
 
 /**
  * 找文库数据

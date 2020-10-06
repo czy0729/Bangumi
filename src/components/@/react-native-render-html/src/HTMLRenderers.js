@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 10:55:25
+ * @Last Modified time: 2020-10-06 20:37:38
  */
 import React from 'react'
 import { TouchableOpacity, Text, View, Platform } from 'react-native'
@@ -30,7 +30,13 @@ export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
 
   if (parentWrapper === 'Text') {
     return (
-      <Text {...passProps} style={style} onPress={onPress} key={key}>
+      <Text
+        {...passProps}
+        style={style}
+        onPress={onPress}
+        key={key}
+        textBreakStrategy='simple'
+      >
         {children || data}
       </Text>
     )
@@ -124,6 +130,7 @@ export function ul(htmlAttribs, children, convertedCSSStyles, passProps = {}) {
               <Text
                 allowFontScaling={allowFontScaling}
                 style={{ marginRight: 5, fontSize: baseFontSize }}
+                textBreakStrategy='simple'
               >
                 {index + 1})
               </Text>
@@ -185,6 +192,7 @@ export function pre(htlmAttribs, children, convertedCSSStyles, passProps) {
     <Text
       key={passProps.key}
       style={{ fontFamily: Platform.OS === 'android' ? 'monospace' : 'Menlo' }}
+      textBreakStrategy='simple'
     >
       {children}
     </Text>
@@ -197,6 +205,7 @@ export function br(htlmAttribs, children, convertedCSSStyles, passProps) {
       allowFontScaling={passProps.allowFontScaling}
       style={{ height: 1.2 * passProps.emSize, flex: 1 }}
       key={passProps.key}
+      textBreakStrategy='simple'
     >
       {'\n'}
     </Text>
@@ -215,6 +224,7 @@ export function textwrapper(
       allowFontScaling={allowFontScaling}
       key={key}
       style={convertedCSSStyles}
+      textBreakStrategy='simple'
     >
       {children}
     </Text>

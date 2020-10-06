@@ -41,7 +41,9 @@ class ActionSheetAndroid extends React.PureComponent {
         {(styles, theme) => {
           const titleMsg = !!title && (
             <View style={styles.title} key='0'>
-              <Text style={styles.titleText}>{title}</Text>
+              <Text style={styles.titleText} textBreakStrategy='simple'>
+                {title}
+              </Text>
             </View>
           )
           const content = options.map((item, index) => (
@@ -62,6 +64,7 @@ class ActionSheetAndroid extends React.PureComponent {
                       ? styles.destructiveBtn
                       : styles.btnText
                   ]}
+                  textBreakStrategy='simple'
                 >
                   {item}
                 </Text>
@@ -87,7 +90,7 @@ class ActionSheetAndroid extends React.PureComponent {
                   {titleMsg}
                   {!!message && (
                     <View style={styles.message} key='1'>
-                      <Text>{message}</Text>
+                      <Text textBreakStrategy='simple'>{message}</Text>
                     </View>
                   )}
                   <View>{content}</View>

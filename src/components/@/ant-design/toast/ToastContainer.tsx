@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-29 20:23:06
+ * @Last Modified time: 2020-10-06 20:36:32
  */
 import React from 'react'
 import { ActivityIndicator, Animated, Text, View } from 'react-native'
@@ -136,7 +136,9 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
                     ]}
                   >
                     {iconDom}
-                    <Text style={styles.content}>{content}</Text>
+                    <Text style={styles.content} textBreakStrategy='simple'>
+                      {content}
+                    </Text>
                   </View>
                 </Animated.View>
               </Touchable>

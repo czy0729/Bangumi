@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 15:55:23
+ * @Last Modified time: 2020-10-06 22:09:02
  */
 import React from 'react'
 import { Text as RNText, StyleSheet } from 'react-native'
@@ -86,7 +86,10 @@ function Text(
       style={_style}
       allowFontScaling={false}
       selectable={selectable}
+      numberOfLines={0}
       {...other}
+      textBreakStrategy='simple'
+      android_hyphenationFrequency='none'
     >
       {children}
     </RNText>
@@ -102,7 +105,6 @@ Text.defaultProps = {
   align: undefined,
   bold: false,
   selectable: false,
-  textBreakStrategy: 'simple',
   children: ''
 }
 
@@ -120,7 +122,7 @@ const memoStyles = _.memoStyles(_ => ({
         fontWeight: 'normal'
       }
     : {
-        // textBreakStrategy: 'simple'
+        fontFamily: ''
       },
   underline: {
     textDecorationLine: 'underline',

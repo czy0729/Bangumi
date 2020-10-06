@@ -188,6 +188,7 @@ export class DefaultTabBar extends React.PureComponent {
                 textStyle
               ]}
               allowFontScaling={false}
+              textBreakStrategy='simple'
             >
               {tab.title}
             </Text>

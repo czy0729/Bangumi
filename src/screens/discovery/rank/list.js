@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 20:17:52
+ * @Last Modified time: 2020-10-06 22:03:50
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
