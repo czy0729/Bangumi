@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 10:43:38
+ * @Last Modified time: 2020-10-09 15:44:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,7 @@ import { IOS } from '@constants'
 import Image from './image'
 
 const backgroundColor = {
-  dark: ['rgba(0, 0, 0, 0.24)', 'rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.24)'],
+  dark: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.12)', 'rgba(0, 0, 0, 0.24)'],
   xdark: ['rgba(0, 0, 0, 0.32)', 'rgba(0, 0, 0, 0.32)'],
   light: ['rgba(255, 255, 255, 0.16)', 'rgba(255, 255, 255, 0.16)'],
   xlight: ['rgba(255, 255, 255, 0.64)', 'rgba(255, 255, 255, 0.8)']

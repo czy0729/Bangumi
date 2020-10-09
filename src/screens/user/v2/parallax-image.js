@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 00:09:22
+ * @Last Modified time: 2020-10-09 09:51:17
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -64,13 +64,18 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
 
   const data = isMe ? dataMe : dataOther
   const blurRadius = (IOS ? 2 : 1) - ($.bg ? 1 : 0)
+  let uri = $.bg || avatar.large
+  if (typeof uri === 'string') {
+    uri = uri.replace('http://', 'https://')
+  }
+
   return (
     <>
       <View style={styles.parallax} pointerEvents={fixed ? 'none' : undefined}>
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
           source={{
-            uri: $.bg || avatar.large
+            uri
           }}
           blurRadius={blurRadius}
         />

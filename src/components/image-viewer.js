@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 14:35:51
+ * @Last Modified time: 2020-10-09 09:57:17
  */
 import React from 'react'
 import { StyleSheet, Modal, View, StatusBar } from 'react-native'

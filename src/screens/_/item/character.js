@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:56:53
+ * @Last Modified time: 2020-10-09 15:52:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,12 +40,13 @@ function ItemCharacter(
   const styles = memoStyles()
   const isFirst = index === 0
   const onPress = () => {
+    const monoId = String(id).includes(type) ? id : `${type}/${id}`
     t(event.id, {
       to: 'Mono',
-      monoId: `${type}/${id}`
+      monoId
     })
     navigation.push('Mono', {
-      monoId: `${type}/${id}`,
+      monoId,
       _name: nameCn,
       _jp: name,
       _image: cover
@@ -106,13 +107,16 @@ function ItemCharacter(
             <Touchable
               style={_.mt.md}
               onPress={() => {
+                const monoId = String(actorId).includes('person')
+                  ? actorId
+                  : `person/${actorId}`
                 t(event.id, {
                   to: 'Mono',
-                  monoId: `person/${actorId}`
+                  monoId
                 })
 
                 navigation.push('Mono', {
-                  monoId: `person/${actorId}`
+                  monoId
                 })
               }}
             >

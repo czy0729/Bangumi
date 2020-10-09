@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 16:49:11
+ * @Last Modified time: 2020-10-09 09:53:22
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
@@ -67,6 +67,11 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
       uri = `https:${_image}`
     }
   }
+  uri = $.bg || uri
+  if (typeof uri === 'string') {
+    uri = uri.replace('http://', 'https://')
+  }
+
   const blurRadius = (IOS ? 2 : 1) - ($.bg ? 1 : 0)
   return (
     <>
@@ -74,7 +79,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
         <Animated.Image
           style={[styles.parallaxImage, parallaxStyle]}
           source={{
-            uri: $.bg || uri
+            uri
           }}
           blurRadius={blurRadius}
         />

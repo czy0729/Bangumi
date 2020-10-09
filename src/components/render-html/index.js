@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 12:00:32
+ * @Last Modified time: 2020-10-09 12:07:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -299,6 +299,17 @@ class RenderHtml extends React.Component {
             /<q>(.+?)<\/q>/g,
             (match, q) => `<q>${q.replace(/<img/g, ' img')}</q>`
           )
+        }
+      }
+
+      /**
+       * 安卓识别<pre>目前报错, 暂时屏蔽此标签
+       */
+      if (!IOS) {
+        if (_html.includes('<pre>')) {
+          _html = HTMLDecode(_html)
+            .replace(/<pre>/g, '<div>')
+            .replace(/<\/pre>/g, '</div>')
         }
       }
 

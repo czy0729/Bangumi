@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 20:24:47
+ * @Last Modified time: 2020-10-09 11:37:54
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -45,6 +45,7 @@ class Mono extends store {
       url: HTML_SUBJECT_CHARACTERS(subjectId)
     })
     const list = cheerioCharacters(html)
+
     this.setState({
       [key]: {
         [subjectId]: {

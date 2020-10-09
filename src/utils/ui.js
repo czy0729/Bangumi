@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-29 19:42:59
+ * @Last Modified time: 2020-10-09 09:59:21
  */
 import { Alert, Vibration } from 'react-native'
 import Toast from '@components/@/ant-design/toast'
@@ -110,5 +110,17 @@ export function showImageViewer(imageUrls = []) {
   }
 
   const systemStore = require('../stores/system').default
-  systemStore.showImageViewer(imageUrls)
+  systemStore.showImageViewer(
+    imageUrls.map(item => ({
+      ...item,
+      url:
+        typeof item.url === 'string'
+          ? item.url.replace('http://', 'https://')
+          : item.url,
+      _url:
+        typeof item._url === 'string'
+          ? item._url.replace('http://', 'https://')
+          : item._url
+    }))
+  )
 }
