@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-20 18:57:26
+ * @Last Modified time: 2020-10-09 17:27:51
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -137,7 +137,7 @@ class Subject extends React.Component {
       <View style={_.container.plain}>
         <Bg show={showBlurView} />
         <List rendered={rendered} onScroll={this.onScroll} />
-        <Modal />
+        {rendered && <Modal />}
       </View>
     )
   }

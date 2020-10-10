@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 09:51:17
+ * @Last Modified time: 2020-10-09 16:21:52
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -279,7 +279,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     left: '50%',
     width: 240,
-    bottom: _.sm + (IOS ? 1 : 8),
+    bottom: _.sm + 1,
     transform: [
       {
         translateX: -120

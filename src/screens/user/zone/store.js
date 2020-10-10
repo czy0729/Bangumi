@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 23:51:44
+ * @Last Modified time: 2020-10-09 16:27:36
  */
 import { observable, computed } from 'mobx'
 import {
@@ -147,8 +147,12 @@ export default class ScreenZone extends store {
 
   @computed get src() {
     const { _image } = this.params
-    const { avatar = {} } = this.usersInfo
-    return this.avatar || avatar.large || _image
+    // const { avatar = {} } = this.usersInfo
+    return (
+      this.avatar ||
+      // || avatar.large
+      _image
+    )
   }
 
   @computed get userAssets() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 19:04:34
+ * @Last Modified time: 2020-10-11 02:09:53
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -736,14 +736,19 @@ export default class ScreenHomeV2 extends store {
         subjectId
       })
 
-      /**
-       * 批量更新收视进度
-       * @issue 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
-       */
-      const sort = (this.eps(subjectId) || [])
-        .filter(i => i.type === 0)
-        .sort((a, b) => (a.sort || 0) - (b.sort || 0))
-        .findIndex(i => i.sort === item.sort)
+      // 批量更新收视进度
+      let sort
+      if (this.subject(subjectId)?.eps?.[0]?.sort < 10) {
+        // [0].sort从小于10开始的番剧都认为是非多季番, 直接使用正常sort去更新
+        sort = Math.max(item.sort - 1, 0)
+      } else {
+        // 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
+        sort = (this.eps(subjectId) || [])
+          .filter(i => i.type === 0)
+          .sort((a, b) => (a.sort || 0) - (b.sort || 0))
+          .findIndex(i => i.sort === item.sort)
+      }
+
       await userStore.doUpdateSubjectWatched({
         subjectId,
         sort: sort === -1 ? item.sort : sort + 1

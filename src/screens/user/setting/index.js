@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 05:41:48
+ * @Last Modified time: 2020-10-09 16:19:32
  */
 import React from 'react'
 import {
@@ -105,7 +105,7 @@ class Setting extends React.Component {
         storageSize += item[0].length + item[1].length
       })
       this.setState({
-        storageSize: `${toFixed(storageSize / 1000, 1)} KB`
+        storageSize: `${toFixed(storageSize / 1000 / 1000, 1)} MB`
       })
     } catch (error) {
       warn('Setting', 'caculateStorageSize', error)
