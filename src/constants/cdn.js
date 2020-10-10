@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 14:27:34
+ * @Last Modified time: 2020-10-11 02:20:22
  */
 import { getTimestamp } from '@utils'
 import { SDK } from './index'
@@ -31,8 +31,8 @@ export const VERSION_OSS = '20201009'
 export const VERSION_MONO = '20200811'
 export const VERSION_SUBJECT = '20200903'
 export const VERSION_AVATAR = '20201006'
-export const VERSION_RAKUEN = '20201006'
-export const VERSION_STATIC = '20201006'
+export const VERSION_RAKUEN = '20201010'
+export const VERSION_STATIC = '20201010'
 
 export const VERSIONS_AVATAR = ['20201006', '20200712', '20200502', '1.0.2']
 export const VERSIONS_ANIME = '20200927'
@@ -228,7 +228,7 @@ export const CDN_DISCOVERY_HOME = () => {
       ? ota.VERSION_STATIC
       : VERSION_STATIC
 
-  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/discovery/index.json`
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Static@${version}/data/discovery/home.json`
 }
 
 /**

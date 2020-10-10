@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.0.0" src="https://img.shields.io/badge/Version-4.0.0-0366d6" />
+  <img alt="Version: 4.0.1" src="https://img.shields.io/badge/Version-4.0.1-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -49,6 +49,17 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 [CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
 ## Update
+
+v4.0.1 - 2020/10/10
+
+—— 修复 ——
+
+- [x] [进度] 修复了长篇动画例如海贼王, 操作看过后看过的集数不正确的问题
+- [x] [条目] 修复了漫画的角色更多列表无法加载的问题
+- [x] [条目] 修复了制作人员列表进入制作人员详情无法加载数据的问题
+- [x] [帖子] 修复了某些帖子报错的问题
+- [x] 修复了部分图和和浏览大图无法加载的问题
+- [x] 修复了部分机型启动闪退的问题
 
 v4.0.0 - 2020/10/06
 
