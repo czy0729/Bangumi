@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-11 16:43:14
+ * @Last Modified time: 2020-10-11 18:08:48
  */
 import React, { useEffect } from 'react'
 import { Alert, View } from 'react-native'
@@ -11,7 +11,7 @@ import {
   setJSExceptionHandler,
   setNativeExceptionHandler
 } from 'react-native-exception-handler'
-import SplashScreen from 'react-native-splash-screen'
+import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
 import { DeepLink } from '@components'
