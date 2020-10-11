@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 19:08:48
+ * @Last Modified time: 2020-10-11 14:09:37
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
-import bangumiData from 'bangumi-data'
+import bangumiData from '@constants/json/bangumi-data-mini.json'
 import {
   _,
   subjectStore,
@@ -39,21 +39,24 @@ export const imageWidth = _.isPad ? 152 : 120
 export const imageHeight = imageWidth * 1.33
 
 const namespace = 'ScreenSubject'
-const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
 const initRating = {
   count: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
   score: '',
   total: ''
 }
+const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
 const sitesDS = [
-  'bilibili',
-  'iqiyi',
-  'pptv',
-  'youku',
   'acfun',
-  'nicovideo',
+  'bilibili',
+  'sohu',
+  'youku',
   'qq',
-  'mgtv'
+  'iqiyi',
+  'letv',
+  'pptv',
+  'mgtv',
+  'nicovideo',
+  'netflix'
 ]
 const excludeState = {
   visible: false, // 是否显示管理模态框

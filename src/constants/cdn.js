@@ -10,11 +10,12 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-11 02:20:22
+ * @Last Modified time: 2020-10-11 14:24:33
  */
 import { getTimestamp } from '@utils'
 import { SDK } from './index'
-import { HASH_AVATAR, HASH_SUBJECT } from './hash'
+import hashAvatarData from './json/hash-avatar.json'
+import hashSubjectData from './json/hash-subject.json'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
@@ -156,7 +157,7 @@ export const CDN_OSS_AVATAR = src => {
    * 计算规则: 带https://开头, 使用/m/质量, 去掉?后面的参数
    */
   const _hash = hash(_src)
-  if (_hash in HASH_AVATAR) {
+  if (_hash in hashAvatarData) {
     const ota = getOTA()
     const version =
       parseInt(ota.VERSION_AVATAR) > parseInt(VERSION_AVATAR)
@@ -199,7 +200,7 @@ export const CDN_OSS_SUBJECT = src => {
    * 计算规则: 带https://开头, 使用/c/质量, 去掉?后面的参数
    */
   const _hash = hash(_src)
-  if (_hash in HASH_SUBJECT) {
+  if (_hash in hashSubjectData) {
     const ota = getOTA()
     const version =
       parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)

@@ -12,14 +12,10 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 import expo.modules.splashscreen.SplashScreen;
 import expo.modules.splashscreen.SplashScreenImageResizeMode;
-// import org.devio.rn.splashscreen.SplashScreen;
-
 
 public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    // SplashScreen.show(this, true);
-
     super.onCreate(savedInstanceState);
 
     // SplashScreen.show(...) has to be called after super.onCreate(...)

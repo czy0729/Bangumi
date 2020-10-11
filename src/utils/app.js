@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 15:17:58
+ * @Last Modified time: 2020-10-11 14:19:50
  */
 import * as WebBrowser from 'expo-web-browser'
-import bangumiData from 'bangumi-data'
+import bangumiData from '@constants/json/bangumi-data-mini.json'
 import * as ReactNativeScreens from 'react-native-screens'
 import { DEV, HOST, HOST_2, SDK } from '@constants'
-import { SUBJECT_CN } from '@constants/cn'
-import x from '@constants/18x'
+import cnData from '@constants/json/cn.json'
+import x18data from '@constants/json/18x.json'
 import { t } from './fetch'
 import { globalLog, globalWarn } from './dev'
 
@@ -69,8 +69,8 @@ export function x18(subjectId, title) {
   if (!subjectId) return false
   let filter =
     typeof subjectId === 'string'
-      ? parseInt(subjectId.replace('/subject/', '')) in x
-      : parseInt(subjectId) in x
+      ? parseInt(subjectId.replace('/subject/', '')) in x18data
+      : parseInt(subjectId) in x18data
   if (!filter && title) {
     filter = ['乳', '妻', '淫'].some(item => title.includes(item))
   }
@@ -131,7 +131,7 @@ export function findSubjectCn(jp = '', subjectId) {
    * 若带id使用本地SUBJECT_CN加速查找
    */
   if (subjectId) {
-    const cn = SUBJECT_CN[subjectId]
+    const cn = cnData[subjectId]
     if (cn) {
       cache[jp] = cn
       return cn
@@ -510,22 +510,40 @@ export function getBangumiUrl(item) {
   switch (site) {
     case 'bangumi':
       return url || `${HOST}/subject/${id}`
+
+    case 'acfun':
+      return url || `https://www.acfun.cn/bangumi/aa${id}`
+
     case 'bilibili':
-      return url || `https://www.bilibili.com/bangumi/media/md${id}`
-    case 'iqiyi':
-      return url || `https://www.iqiyi.com/${id}.html`
-    case 'pptv':
-      return url || `http://v.pptv.com/page/${id}.html`
+      return url || `https://www.bilibili.com/bangumi/media/md${id}/`
+
+    case 'sohu':
+      return url || `https://tv.sohu.com/${id}`
+
     case 'youku':
       return url || `https://list.youku.com/show/id_z${id}.html`
-    case 'acfun':
-      return url || `http://www.acfun.cn/v/ab${id}`
-    case 'nicovideo':
-      return url || `https://ch.nicovideo.jp/${id}`
+
     case 'qq':
       return url || `https://v.qq.com/detail/${id}.html`
+
+    case 'iqiyi':
+      return url || `https://www.iqiyi.com/${id}.html`
+
+    case 'letv':
+      return url || `https://www.le.com/comic/${id}.html`
+
+    case 'pptv':
+      return url || `http://v.pptv.com/page/${id}.html`
+
     case 'mgtv':
       return url || `https://www.mgtv.com/h/${id}.html`
+
+    case 'nicovideo':
+      return url || `https://ch.nicovideo.jp/${id}`
+
+    case 'netflix':
+      return url || `https://www.netflix.com/title/${id}`
+
     default:
       return ''
   }
