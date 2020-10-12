@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-11 14:09:37
+ * @Last Modified time: 2020-10-12 15:02:06
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -84,11 +84,16 @@ export default class ScreenSubject extends store {
     epsData: {
       _loaded: false
     },
+
+    // 缩略图
+    bilibiliEpsThumbs: [],
     _loaded: false
   })
 
   init = async () => {
     const { _loaded } = this.state
+
+    // 是否需要更新数据
     const current = getTimestamp()
     const needFetch = !_loaded || current - _loaded > 60
 
@@ -100,9 +105,11 @@ export default class ScreenSubject extends store {
         _loaded: needFetch ? current : _loaded
       })
 
-      if (this.type === '书籍') {
-        initWenku()
-      }
+      setTimeout(() => {
+        if (this.type === '书籍') {
+          initWenku()
+        }
+      }, 80)
 
       if (needFetch) {
         return this.onHeaderRefresh()
@@ -110,6 +117,8 @@ export default class ScreenSubject extends store {
 
       return true
     } catch (error) {
+      warn('Subject', 'init', error)
+
       this.setState({
         ...excludeState,
         _loaded: needFetch ? current : _loaded
@@ -140,24 +149,13 @@ export default class ScreenSubject extends store {
           type: item.type
         }
       })
-    }
 
-    // [移除柠萌瞬间] 获取其他源头eps在线地址
-    // const name = data.name_cn || data.name
-    // if (this.type === '动画') {
-    //   const { _ningMoeId = NINGMOE_ID[name] } = this.params
-    //   if (_ningMoeId) {
-    //     discoveryStore.fetchNingMoeDetail({
-    //       id: _ningMoeId,
-    //       bgmId: this.subjectId
-    //     })
-    //   } else {
-    //     // 柠萌瞬间有时候条目名会有差异, 比如bgm叫炎炎消防队, 柠萌就叫炎炎之消防队
-    //     discoveryStore.fetchNingMoeDetailBySearch({
-    //       keyword: name
-    //     })
-    //   }
-    // }
+      if (this.bilibiliSite.id) {
+        setTimeout(() => {
+          this.fetchEpsThumbs()
+        }, 0)
+      }
+    }
 
     queue([
       // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
@@ -246,6 +244,40 @@ export default class ScreenSubject extends store {
       } catch (error) {
         warn(namespace, 'fetchEpsData', error)
       }
+    }
+  }
+
+  /**
+   * 从bilibili获取章节的缩略图
+   */
+  fetchEpsThumbs = async () => {
+    try {
+      const url = getBangumiUrl(this.bilibiliSite)
+      const { _response } = await xhrCustom({
+        url
+      })
+      const match = _response.match(/"season_id":(\d+)/)
+      if (match) {
+        const seasonId = match[1]
+        const { _response } = await xhrCustom({
+          url: `https://api.bilibili.com/pgc/web/season/section?season_id=${seasonId}`
+        })
+        const { message, result } = JSON.parse(_response)
+        if (message === 'success' && result?.main_section?.episodes) {
+          this.setState({
+            bilibiliEpsThumbs: Array.from(
+              new Set(
+                result.main_section.episodes.map(
+                  item => `${item.cover}@192w_120h_1c.jpg`
+                )
+              )
+            )
+          })
+          this.setStorage(undefined, undefined, this.namespace)
+        }
+      }
+    } catch (error) {
+      warn('Subject', 'fetchEpsThumbs', error)
     }
   }
 
@@ -442,10 +474,6 @@ export default class ScreenSubject extends store {
     const { bangumiInfo } = this.state
     const { sites = [] } = bangumiInfo
     const _data = []
-    if (this.ningMoeDetail.id) {
-      // _data.push('柠萌瞬间')
-    }
-
     const data = [
       ..._data,
       ...sites
@@ -692,6 +720,11 @@ export default class ScreenSubject extends store {
     return label
   }
 
+  @computed get bilibiliSite() {
+    const { bangumiInfo } = this.state
+    return bangumiInfo?.sites?.find(item => item.site === 'bilibili') || {}
+  }
+
   // -------------------- page --------------------
   /**
    * 显示收藏管理
@@ -916,20 +949,6 @@ export default class ScreenSubject extends store {
       }
 
       if (value === '在线播放') {
-        // @todo 查找视频数据源地址
-        // const find = this.ningMoeDetail.eps.find(i => i.sort === item.sort)
-        // if (find && find.bakUrl) {
-        //   const realUrl = await discoveryStore.fetchNingMoeRealYunUrl({
-        //     url: find.bakUrl
-        //   })
-        //   if (realUrl) {
-        //     navigation.push('Video', {
-        //       url: realUrl
-        //     })
-        //     return
-        //   }
-        // }
-
         setTimeout(() => {
           showActionSheet(this.onlinePlayActionSheetData, index => {
             t('条目.章节菜单操作', {

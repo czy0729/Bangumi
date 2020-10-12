@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-11 14:24:33
+ * @Last Modified time: 2020-10-12 09:49:58
  */
 import { getTimestamp } from '@utils'
 import { SDK } from './index'
@@ -29,7 +29,7 @@ export function getOTA() {
 }
 
 export const VERSION_OSS = '20201009'
-export const VERSION_MONO = '20200811'
+export const VERSION_MONO = '20201012'
 export const VERSION_SUBJECT = '20200903'
 export const VERSION_AVATAR = '20201006'
 export const VERSION_RAKUEN = '20201010'

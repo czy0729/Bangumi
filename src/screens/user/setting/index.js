@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 16:19:32
+ * @Last Modified time: 2020-10-12 10:50:04
  */
 import React from 'react'
 import {
@@ -461,7 +461,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information='条目、小组、时间胶囊等，因网站规则也建议注册少于2个月的用户开启'
+              information='条目、小组、时间胶囊等，因网站规则建议注册少于3个月的用户开启'
             />
             {!userStore.isLimit && (
               <ItemSetting

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 16:38:46
+ * @Last Modified time: 2020-10-12 14:14:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import Box from './box'
 import Ep from './ep'
 import Tags from './tags'
 import Summary from './summary'
+import Thumbs from './thumbs'
 import Info from './info'
 import Rating from './rating'
 import Character from './character'
@@ -49,6 +50,7 @@ function Header({ rendered }, { $ }) {
         {rendered && (
           <>
             <Summary style={_.mt.lg} />
+            <Thumbs style={_.mt.lg} />
             <Info style={_.mt.lg} />
             <Rating style={_.mt.lg} />
             <Character style={_.mt.lg} />
