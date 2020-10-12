@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 18:59:13
+ * @Last Modified time: 2020-10-12 19:14:00
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -57,7 +57,12 @@ function Thumbs({ style }, { $ }) {
                 height={78}
                 radius
                 headers={epsThumbsHeader}
-                onPress={() => showImageViewer(thumbs, index)}
+                onPress={() =>
+                  showImageViewer(
+                    thumbs.filter((item, index) => index < 12),
+                    index
+                  )
+                }
               />
             ))}
         </ScrollView>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 16:08:55
+ * @Last Modified time: 2020-10-12 19:43:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -32,7 +32,8 @@ function CollectionsGrid({
   showScore,
   isCollect,
   collection,
-  isOnHold
+  isOnHold,
+  typeCn
 }) {
   let holdDays
   if (isOnHold) {
@@ -59,7 +60,14 @@ function CollectionsGrid({
   const _collection = collection || (isCollect ? '已收藏' : '')
   return (
     <View style={[styles.item, style]}>
-      <Cover size={imageWidth} src={cover} radius shadow onPress={onPress} />
+      <Cover
+        size={imageWidth}
+        src={cover}
+        radius
+        shadow
+        type={typeCn}
+        onPress={onPress}
+      />
       {!!_collection && <Tag style={styles.collection} value={_collection} />}
       <Touchable withoutFeedback onPress={onPress}>
         <Text style={_.mt.sm} size={12} numberOfLines={2} bold>

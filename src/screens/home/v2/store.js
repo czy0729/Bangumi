@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-11 02:09:53
+ * @Last Modified time: 2020-10-12 19:37:36
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -443,14 +443,16 @@ export default class ScreenHomeV2 extends store {
    * 章节排序: 放送中还有未看 > 放送中没未看 > 明天放送还有未看 > 明天放送中没未看 > 未完结新番还有未看 > 默认排序
    */
   sortList = (list = []) => {
-    if (this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('网页')) {
-      return list
-    }
-
     // 置顶排序
     const { top } = this.state
     const topMap = {}
     top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
+
+    if (this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('网页')) {
+      return list.sort(
+        (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
+      )
+    }
 
     try {
       // 计算每一个条目看过ep的数量

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 21:49:15
+ * @Last Modified time: 2020-10-12 19:43:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { Loading, ListView } from '@components'
 import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const event = {
   id: '作品.跳转'
@@ -33,6 +34,7 @@ class List extends React.Component {
           style={_.container.item}
           navigation={navigation}
           index={index}
+          typeCn={MODEL_SUBJECT_TYPE.getTitle(item.type)}
           event={{
             ...event,
             data: {
@@ -53,6 +55,7 @@ class List extends React.Component {
             type: 'grid'
           }
         }}
+        typeCn={MODEL_SUBJECT_TYPE.getTitle(item.type)}
         {...item}
         id={item.id.replace('/subject/', '')}
       />
