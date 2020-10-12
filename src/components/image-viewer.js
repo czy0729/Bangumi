@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 09:57:17
+ * @Last Modified time: 2020-10-12 18:05:29
  */
 import React from 'react'
 import { StyleSheet, Modal, View, StatusBar } from 'react-native'
@@ -21,6 +21,7 @@ const actionSheetDS = ['浏览器打开图片', '取消']
 
 export default class ImageViewer extends React.Component {
   static defaultProps = {
+    index: 0,
     visible: false,
     imageUrls: [],
     onCancel: Function.prototype
@@ -35,6 +36,14 @@ export default class ImageViewer extends React.Component {
   onRequestClose = () => {
     const { onCancel } = this.props
     onCancel()
+  }
+
+  onMenus = () => {
+    const { index, imageUrls, onCancel } = this.props
+    return this.renderMenus(
+      imageUrls[index]._url || imageUrls[index].url,
+      onCancel
+    )
   }
 
   renderMenus(url, onCancel) {
@@ -62,7 +71,7 @@ export default class ImageViewer extends React.Component {
   }
 
   render() {
-    const { visible, imageUrls, onCancel, ...other } = this.props
+    const { index, visible, imageUrls, onCancel, ...other } = this.props
     return (
       <Modal
         visible={visible}
@@ -79,11 +88,12 @@ export default class ImageViewer extends React.Component {
           </View>
           <RNImageViewer
             style={styles.viewer}
+            index={index}
             imageUrls={imageUrls}
             backgroundColor='transparent'
             enableSwipeDown
-            menus={() => this.renderMenus(imageUrls[0]._url, onCancel)}
-            renderIndicator={() => null}
+            menus={this.onMenus}
+            renderIndicator={imageUrls.length > 1 ? undefined : () => null}
             onCancel={onCancel}
             {...other}
           />

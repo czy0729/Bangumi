@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 15:11:44
+ * @Last Modified time: 2020-10-12 18:59:13
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -11,18 +11,19 @@ import { observer } from 'mobx-react'
 import { Image } from '@components'
 import { SectionTitle, IconTouchable } from '@screens/_'
 import { _, systemStore } from '@stores'
-
-const headers = {
-  Referer: 'https://www.bilibili.com/'
-}
+import { showImageViewer } from '@utils/ui'
 
 function Thumbs({ style }, { $ }) {
-  const { bilibiliEpsThumbs } = $.state
-  if (!bilibiliEpsThumbs.length) {
+  const { epsThumbs, epsThumbsHeader } = $.state
+  if (!epsThumbs.length) {
     return null
   }
 
   const { showThumbs } = systemStore.setting
+  const thumbs = epsThumbs.map(item => ({
+    url: item.split('@')[0], // 参数: bilibili为@, youku没有, iqiyi看不懂不作处理
+    headers: epsThumbsHeader
+  }))
   return (
     <View style={[styles.container, style]}>
       <SectionTitle
@@ -45,19 +46,18 @@ function Thumbs({ style }, { $ }) {
           horizontal
           showsHorizontalScrollIndicator={false}
         >
-          {bilibiliEpsThumbs
+          {epsThumbs
             .filter((item, index) => index < 12)
             .map((item, index) => (
               <Image
-                style={!!index && _.ml.md}
+                style={!!index && _.ml.sm}
                 key={item}
                 src={item}
                 size={124}
                 height={78}
                 radius
-                headers={headers}
-                imageViewer
-                imageViewerSrc={item.replace('@192w_120h_1c.jpg', '')}
+                headers={epsThumbsHeader}
+                onPress={() => showImageViewer(thumbs, index)}
               />
             ))}
         </ScrollView>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:45:42
+ * @Last Modified time: 2020-10-12 18:03:22
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './thirdParty/html-parser'
@@ -46,21 +46,25 @@ export function HTMLDecode(str = '') {
  * HTML压缩
  * @param {*} str
  */
-export function HTMLTrim(str = '') {
+export function HTMLTrim(str = '', deep) {
   if (typeof str !== 'string') {
     return str
   }
-  return (
-    removeCF(str)
-      // .replace(/<!--.*?-->/gi, '')
-      // .replace(/\/\*.*?\*\//gi, '')
-      // .replace(/[ ]+</gi, '<')
+
+  if (deep) {
+    return removeCF(str)
+      .replace(/<!--.*?-->/gi, '')
+      .replace(/\/\*.*?\*\//gi, '')
+      .replace(/[ ]+</gi, '<')
       .replace(/\n+|\s\s\s*|\t/g, '')
       .replace(/"class="/g, '" class="')
-
-      // 补充 190829
       .replace(/> </g, '><')
-  )
+  }
+
+  return removeCF(str)
+    .replace(/\n+|\s\s\s*|\t/g, '')
+    .replace(/"class="/g, '" class="')
+    .replace(/> </g, '><')
 }
 
 /**

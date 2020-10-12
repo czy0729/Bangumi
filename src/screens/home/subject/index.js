@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 17:27:51
+ * @Last Modified time: 2020-10-12 15:45:24
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -43,9 +43,9 @@ class Subject extends React.Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(async () => {
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         this.rendered()
-      }, 300)
+      })
 
       const { $ } = this.context
       const res = $.init()

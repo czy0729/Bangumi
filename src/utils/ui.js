@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 09:59:21
+ * @Last Modified time: 2020-10-12 16:29:11
  */
 import { Alert, Vibration } from 'react-native'
 import Toast from '@components/@/ant-design/toast'
@@ -104,7 +104,7 @@ export function showActionSheet(
  * 显示ImageViewer
  * @param {*} imageUrls
  */
-export function showImageViewer(imageUrls = []) {
+export function showImageViewer(imageUrls = [], index = 0) {
   if (!Array.isArray(imageUrls) && imageUrls.length === 0) {
     return
   }
@@ -121,6 +121,7 @@ export function showImageViewer(imageUrls = []) {
         typeof item._url === 'string'
           ? item._url.replace('http://', 'https://')
           : item._url
-    }))
+    })),
+    index
   )
 }

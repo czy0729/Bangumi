@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 15:09:21
+ * @Last Modified time: 2020-10-12 16:29:43
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -52,5 +52,6 @@ export const INIT_RELEASE = {
 
 export const INIT_IMAGE_VIEWER = {
   visible: false,
-  imageUrls: []
+  imageUrls: [],
+  index: 0
 }

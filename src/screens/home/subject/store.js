@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 15:02:06
+ * @Last Modified time: 2020-10-12 18:21:48
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -18,7 +18,7 @@ import {
   systemStore
 } from '@stores'
 import { open, getTimestamp } from '@utils'
-import { HTMLDecode } from '@utils/html'
+import { HTMLDecode, HTMLTrim } from '@utils/html'
 import { t, xhrCustom, queue, baiduTranslate } from '@utils/fetch'
 import {
   appNavigate,
@@ -86,7 +86,8 @@ export default class ScreenSubject extends store {
     },
 
     // 缩略图
-    bilibiliEpsThumbs: [],
+    epsThumbs: [],
+    epsThumbsHeader: {},
     _loaded: false
   })
 
@@ -102,6 +103,8 @@ export default class ScreenSubject extends store {
       this.setState({
         ...state,
         ...excludeState,
+        epsThumbs: [],
+
         _loaded: needFetch ? current : _loaded
       })
 
@@ -150,11 +153,9 @@ export default class ScreenSubject extends store {
         }
       })
 
-      if (this.bilibiliSite.id) {
-        setTimeout(() => {
-          this.fetchEpsThumbs()
-        }, 0)
-      }
+      setTimeout(() => {
+        this.fetchEpsThumbs()
+      }, 0)
     }
 
     queue([
@@ -248,30 +249,99 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 从bilibili获取章节的缩略图
+   * 获取章节的缩略图
    */
   fetchEpsThumbs = async () => {
     try {
-      const url = getBangumiUrl(this.bilibiliSite)
-      const { _response } = await xhrCustom({
-        url
-      })
-      const match = _response.match(/"season_id":(\d+)/)
-      if (match) {
-        const seasonId = match[1]
+      if (this.bilibiliSite.id) {
+        const url = getBangumiUrl(this.bilibiliSite)
         const { _response } = await xhrCustom({
-          url: `https://api.bilibili.com/pgc/web/season/section?season_id=${seasonId}`
+          url
         })
-        const { message, result } = JSON.parse(_response)
-        if (message === 'success' && result?.main_section?.episodes) {
-          this.setState({
-            bilibiliEpsThumbs: Array.from(
-              new Set(
-                result.main_section.episodes.map(
-                  item => `${item.cover}@192w_120h_1c.jpg`
+        const match = _response.match(/"season_id":(\d+)/)
+        if (match) {
+          const seasonId = match[1]
+          const { _response } = await xhrCustom({
+            url: `https://api.bilibili.com/pgc/web/season/section?season_id=${seasonId}`
+          })
+          const { message, result } = JSON.parse(_response)
+          if (message === 'success' && result?.main_section?.episodes) {
+            this.setState({
+              epsThumbs: Array.from(
+                new Set(
+                  result.main_section.episodes.map(
+                    item => `${item.cover}@192w_120h_1c.jpg`
+                  )
                 )
+              ),
+              epsThumbsHeader: {
+                Referer: 'https://www.bilibili.com/'
+              }
+            })
+            this.setStorage(undefined, undefined, this.namespace)
+          }
+        }
+      }
+
+      if (!this.state.epsThumbs.length && this.youkuSite.id) {
+        const url = getBangumiUrl(this.youkuSite)
+        const { _response } = await xhrCustom({
+          url
+        })
+        const match = _response.match(/showid:"(\d+)"/)
+        if (match) {
+          const showid = match[1]
+          const { _response } = await xhrCustom({
+            url: `https://list.youku.com/show/module?id=${showid}&tab=point&callback=jQuery`
+          })
+          this.setState({
+            epsThumbs: Array.from(
+              new Set(
+                (
+                  decodeURIComponent(_response)
+                    .replace(/\\\/>/g, '/>')
+                    .replace(/(\\"|"\\)/g, '"')
+                    .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) || []
+                )
+                  .map(item => {
+                    const match = item.match(/src="(.+?)"/)
+                    if (match) {
+                      return match[1].replace(/\\\//g, '/')
+                    }
+                    return ''
+                  })
+                  .filter(item => !!item)
               )
-            )
+            ),
+            epsThumbsHeader: {
+              Referer: 'https://list.youku.com/'
+            }
+          })
+          this.setStorage(undefined, undefined, this.namespace)
+        }
+      }
+
+      if (!this.state.epsThumbs.length && this.iqiyiSite.id) {
+        const url = getBangumiUrl(this.iqiyiSite)
+        const { _response } = await xhrCustom({
+          url
+        })
+
+        const match = HTMLTrim(_response, true).match(/data-jpg-img="(.+?)"/g)
+        if (match) {
+          this.setState({
+            epsThumbs: Array.from(
+              new Set(
+                match
+                  .map(
+                    item => `https:${item.replace(/(data-jpg-img="|")/g, '')}`
+                  )
+                  .filter((item, index) => !!index)
+              )
+            ),
+            epsThumbsHeader: {
+              Referer: 'https://www.iqiyi.com/'
+            }
           })
           this.setStorage(undefined, undefined, this.namespace)
         }
@@ -723,6 +793,16 @@ export default class ScreenSubject extends store {
   @computed get bilibiliSite() {
     const { bangumiInfo } = this.state
     return bangumiInfo?.sites?.find(item => item.site === 'bilibili') || {}
+  }
+
+  @computed get iqiyiSite() {
+    const { bangumiInfo } = this.state
+    return bangumiInfo?.sites?.find(item => item.site === 'iqiyi') || {}
+  }
+
+  @computed get youkuSite() {
+    const { bangumiInfo } = this.state
+    return bangumiInfo?.sites?.find(item => item.site === 'youku') || {}
   }
 
   // -------------------- page --------------------
