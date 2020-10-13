@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 17:30:29
+ * @Last Modified time: 2020-10-13 15:12:09
  */
-import { AsyncStorage, Clipboard } from 'react-native'
+import { Clipboard } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import * as WebBrowser from 'expo-web-browser'
 import { DEV } from '@constants'
 import { info } from './ui'

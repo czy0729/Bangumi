@@ -3,9 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-03 20:53:56
+ * @Last Modified time: 2020-10-13 15:12:00
  */
-import { AsyncStorage, Alert } from 'react-native'
+import { Alert } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import { CacheManager } from 'react-native-expo-image-cache'
 import { info } from '@utils/ui'
 import calendarStore from './calendar'

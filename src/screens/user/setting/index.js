@@ -2,15 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 10:50:04
+ * @Last Modified time: 2020-10-13 15:11:52
  */
 import React from 'react'
-import {
-  InteractionManager,
-  ScrollView,
-  View,
-  AsyncStorage
-} from 'react-native'
+import { InteractionManager, ScrollView, View } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import { Flex, Text, SwitchPro, SegmentedControl } from '@components'
 import {
   Popover,

@@ -42,7 +42,7 @@
     android:allowBackup="true"
     android:theme="@style/AppTheme">
     <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://exp.host/@bgm-ios-test/bangumi-pro" />
-    <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="38.0.0" />
+    <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="39.0.0" />
     <meta-data android:name="expo.modules.updates.ENABLED" android:value="false"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH" android:value="ALWAYS"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS" android:value="0"/>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-11 14:19:50
+ * @Last Modified time: 2020-10-13 10:04:17
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
@@ -33,8 +33,6 @@ export function bootApp() {
   }
 
   if (DEV) {
-    console.disableYellowBox = true
-
     // 不想在开发时看见满屏的不能解决的warning
     console.warn = Function.prototype
     console.error = Function.prototype
