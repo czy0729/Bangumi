@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 15:49:55
+ * @Last Modified time: 2020-10-14 10:58:23
  */
 
 /**
@@ -468,6 +468,10 @@ export default {
   '设置.清除缓存': 'Setting.clear',
   '设置.恢复默认设置': 'Setting.reset',
   '设置.退出登陆': 'Setting.logout',
+
+  // 网络探针
+  '网络探针.全部检测': 'ServerStatus.pingAll',
+  '网络探针.检测': 'ServerStatus.pingOne',
 
   // 空间
   '空间.跳转': 'Zone.to',

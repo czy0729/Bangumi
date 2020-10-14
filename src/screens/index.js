@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-10 20:34:50
+ * @Last Modified time: 2020-10-13 17:27:42
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -65,6 +65,7 @@ export { default as DEV } from './user/dev'
 export { default as Friends } from './user/friends'
 export { default as PM } from './user/pm'
 export { default as Qiafan } from './user/qiafan'
+export { default as ServerStatus } from './user/server-status'
 export { default as Setting } from './user/setting'
 export { default as User } from './user/v2'
 export { default as UserTimeline } from './user/timeline'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-13 15:11:52
+ * @Last Modified time: 2020-10-14 10:45:39
  */
 import React from 'react'
 import { InteractionManager, ScrollView, View } from 'react-native'
@@ -854,6 +854,7 @@ class Setting extends React.Component {
   }
 
   renderSystem() {
+    const { navigation } = this.props
     const { storageSize, system } = this.state
     const { name } = systemStore.release
     const hasNewVersion = name !== VERSION_GITHUB_RELEASE
@@ -911,6 +912,19 @@ class Setting extends React.Component {
                     info('已恢复')
                   }, 160)
                 })
+              }}
+            />
+            <ItemSetting
+              hd='网络探针'
+              arrow
+              highlight
+              onPress={() => {
+                t('设置.跳转', {
+                  title: '网络探针',
+                  to: 'ServerStatus'
+                })
+
+                navigation.push('ServerStatus')
               }}
             />
           </>
