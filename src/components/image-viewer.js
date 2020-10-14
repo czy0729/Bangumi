@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 18:05:29
+ * @Last Modified time: 2020-10-14 13:50:08
  */
 import React from 'react'
 import { StyleSheet, Modal, View, StatusBar } from 'react-native'
@@ -16,6 +16,7 @@ import { showActionSheet } from '@utils/ui'
 import { IOS } from '@constants'
 import Touchable from './touchable'
 import Iconfont from './iconfont'
+import Text from './text'
 
 const actionSheetDS = ['浏览器打开图片', '取消']
 
@@ -70,6 +71,19 @@ export default class ImageViewer extends React.Component {
     return null
   }
 
+  renderIndicator(currentIndex, allSize) {
+    const { imageUrls } = this.props
+    if (imageUrls.length <= 1) {
+      return null
+    }
+
+    return (
+      <Text size={12}>
+        {currentIndex} / {allSize}
+      </Text>
+    )
+  }
+
   render() {
     const { index, visible, imageUrls, onCancel, ...other } = this.props
     return (
@@ -93,7 +107,7 @@ export default class ImageViewer extends React.Component {
             backgroundColor='transparent'
             enableSwipeDown
             menus={this.onMenus}
-            renderIndicator={imageUrls.length > 1 ? undefined : () => null}
+            renderIndicator={this.renderIndicator}
             onCancel={onCancel}
             {...other}
           />
