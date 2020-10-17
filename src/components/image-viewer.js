@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-14 13:50:08
+ * @Last Modified time: 2020-10-14 20:18:40
  */
 import React from 'react'
 import { StyleSheet, Modal, View, StatusBar } from 'react-native'
@@ -71,7 +71,7 @@ export default class ImageViewer extends React.Component {
     return null
   }
 
-  renderIndicator(currentIndex, allSize) {
+  renderIndicator = (currentIndex, allSize) => {
     const { imageUrls } = this.props
     if (imageUrls.length <= 1) {
       return null

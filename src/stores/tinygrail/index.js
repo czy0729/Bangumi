@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 11:23:44
+ * @Last Modified time: 2020-10-17 16:35:47
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -28,7 +28,8 @@ import {
   API_TINYGRAIL_BONUS_HOLIDAY,
   API_TINYGRAIL_CANCEL_ASK,
   API_TINYGRAIL_CANCEL_BID,
-  API_TINYGRAIL_CHARAS,
+  // API_TINYGRAIL_CHARAS,
+  API_TINYGRAIL_CHARA,
   API_TINYGRAIL_CHARA_ALL,
   API_TINYGRAIL_CHARA_ASKS,
   API_TINYGRAIL_CHARA_ASSETS,
@@ -471,9 +472,10 @@ class Tinygrail extends store {
 
   /**
    * 人物数据
+   *  - 20201017 [deprecated] API_TINYGRAIL_CHARAS => API_TINYGRAIL_CHARA
    */
   fetchCharacters = async ids => {
-    const result = await this.fetch(API_TINYGRAIL_CHARAS(), true, ids)
+    const result = await this.fetch(API_TINYGRAIL_CHARA(ids[0]))
     const { characters } = this.state
     const data = {
       ...characters
@@ -491,7 +493,7 @@ class Tinygrail extends store {
         }
         data[id] = {
           id,
-          icoId: item.Id,
+          icoId: item.Id, // to check
           bids: item.Bids,
           asks: item.Asks,
           change: item.Change,
@@ -501,8 +503,8 @@ class Tinygrail extends store {
           marketValue: item.MarketValue,
           lastOrder: item.LastOrder,
           lastDeal: item.LastDeal,
-          end: item.End,
-          users: item.Users,
+          end: item.End, // to check
+          users: item.Users, // to check
           name: item.Name,
           icon: item.Icon,
           bonus: item.Bonus,
