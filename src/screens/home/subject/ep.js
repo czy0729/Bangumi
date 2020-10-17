@@ -2,15 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 11:38:30
+ * @Last Modified time: 2020-10-18 03:26:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Text, Iconfont, Flex, Input, Button } from '@components'
-import { SectionTitle, Eps, IconReverse, Popover } from '@screens/_'
+import {
+  SectionTitle,
+  Eps,
+  IconReverse,
+  Popover,
+  IconTouchable
+} from '@screens/_'
 import { _ } from '@stores'
+import { t } from '@utils/fetch'
 import BookEp from './book-ep'
 import Disc from './disc'
 
@@ -61,6 +68,22 @@ function Ep({ style }, { $, navigation }) {
                 <Iconfont style={styles.icon} name='xin-fan' size={16} />
               </Popover>
             )}
+            <IconTouchable
+              name='list'
+              size={17}
+              onPress={() => {
+                t('条目.跳转', {
+                  to: 'Episodes',
+                  from: '章节',
+                  subjectId: $.subjectId
+                })
+
+                navigation.push('Episodes', {
+                  subjectId: $.subjectId,
+                  name: $.cn || $.jp
+                })
+              }}
+            />
             <IconReverse
               style={_.mr.sm}
               color={epsReverse ? _.colorMain : _.colorIcon}

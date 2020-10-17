@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-13 10:04:17
+ * @Last Modified time: 2020-10-17 17:14:02
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
@@ -56,6 +56,14 @@ export function getSetting() {
   const systemStore = require('../stores/system').default
   const { setting } = systemStore
   return setting
+}
+
+/**
+ * 适配系统中文优先返回合适字符串
+ */
+export function cnjp(cn, jp) {
+  const { cnFirst } = getSetting()
+  return cnFirst ? cn || jp : jp || cn
 }
 
 /**
