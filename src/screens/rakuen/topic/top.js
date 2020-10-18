@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 10:39:27
+ * @Last Modified time: 2020-10-18 19:27:24
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { HeaderPlaceholder, Flex, Katakana, Text, Divider } from '@components'
+import {
+  HeaderPlaceholder,
+  Flex,
+  Katakana,
+  Text,
+  Divider,
+  Loading
+} from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
@@ -19,6 +26,7 @@ import SectionTitle from './section-title'
 
 function Top(props, { $, navigation }) {
   const { _replies } = $.params
+  const { _loaded } = $.comments
   const event = {
     id: '帖子.跳转',
     data: {
@@ -111,6 +119,7 @@ function Top(props, { $, navigation }) {
       </View>
       <Divider />
       <SectionTitle />
+      {!!$.html && !_loaded && <Loading style={styles.loading} />}
     </>
   )
 }
@@ -134,5 +143,8 @@ const styles = StyleSheet.create({
   },
   katakana: {
     marginTop: -12
+  },
+  loading: {
+    height: 240
   }
 })

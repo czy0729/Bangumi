@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:35:02
+ * @Last Modified time: 2020-10-18 19:21:28
  */
 import { observable, computed } from 'mobx'
 import {
@@ -16,7 +16,7 @@ import {
 } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
-import { removeHTMLTag } from '@utils/html'
+import { removeHTMLTag, HTMLDecode } from '@utils/html'
 import { info, feedback } from '@utils/ui'
 import { t, baiduTranslate } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
@@ -337,11 +337,11 @@ export default class ScreenTopic extends store {
   }
 
   @computed get userName() {
-    return (
+    return HTMLDecode(
       this.topic.userName ||
-      this.params._userName ||
-      this.topicFormCDN.userName ||
-      ''
+        this.params._userName ||
+        this.topicFormCDN.userName ||
+        ''
     )
   }
 
