@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 03:26:26
+ * @Last Modified time: 2020-10-18 14:35:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -37,7 +37,13 @@ function Ep({ style }, { $, navigation }) {
     return <Disc style={style} />
   }
 
-  const { epsReverse, watchedEps, filterEps } = $.state
+  const {
+    epsReverse,
+    watchedEps,
+    filterEps,
+    epsThumbs,
+    epsThumbsHeader
+  } = $.state
   const { totalEps } = $.subjectFormHTML
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   const showPlay = !$.isLimit && canPlay
@@ -80,7 +86,9 @@ function Ep({ style }, { $, navigation }) {
 
                 navigation.push('Episodes', {
                   subjectId: $.subjectId,
-                  name: $.cn || $.jp
+                  name: $.cn || $.jp,
+                  epsThumbs,
+                  epsThumbsHeader
                 })
               }}
             />

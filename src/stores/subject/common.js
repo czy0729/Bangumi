@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 01:32:38
+ * @Last Modified time: 2020-10-18 14:20:19
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -259,10 +259,27 @@ export function cheerioSubjectFormHTML(HTML) {
     type += cheerio(element).text().trim()
   })
 
+  // 详情
+  const info = $('#infobox')
+    .html()
+    .replace(/\n/g, '')
+    .replace(/ class="(.+?)"/g, '')
+    .replace(/ title="(.+?)"/g, '')
+    .replace(/>( +)</g, '><')
+    .trim()
+
+  // 先从info里面提取
+  let totalEps = info.match(/<li><span>话数: <\/span>(\d+)<\/li>/)
+  if (totalEps) {
+    totalEps = totalEps[1]
+  } else {
+    totalEps = $('div.prgText').text().trim().replace('/ ', '')
+  }
+
   return {
     type,
     watchedEps: $('#watchedeps').attr('value') || 0,
-    totalEps: $('div.prgText').text().trim().replace('/ ', ''),
+    totalEps,
 
     // 标签
     tags:
@@ -364,13 +381,7 @@ export function cheerioSubjectFormHTML(HTML) {
         .get() || [],
 
     // 详情
-    info: $('#infobox')
-      .html()
-      .replace(/\n/g, '')
-      .replace(/ class="(.+?)"/g, '')
-      .replace(/ title="(.+?)"/g, '')
-      .replace(/>( +)</g, '><')
-      .trim(),
+    info,
 
     // 锁定
     lock: $('div.tipIntro > div.inner > h3').text(),

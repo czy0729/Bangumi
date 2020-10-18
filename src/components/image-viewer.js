@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-14 20:18:40
+ * @Last Modified time: 2020-10-18 15:05:22
  */
 import React from 'react'
 import { StyleSheet, Modal, View, StatusBar } from 'react-native'
@@ -78,7 +78,7 @@ export default class ImageViewer extends React.Component {
     }
 
     return (
-      <Text size={12}>
+      <Text style={styles.indicator} align='center' pointerEvents='none'>
         {currentIndex} / {allSize}
       </Text>
     )
@@ -144,5 +144,12 @@ const styles = StyleSheet.create({
   },
   iconfont: {
     color: '#fff'
+  },
+  indicator: {
+    position: 'absolute',
+    zIndex: 10,
+    top: _.appBarHeight + 14,
+    right: 0,
+    left: 0
   }
 })
