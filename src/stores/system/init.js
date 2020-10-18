@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 16:29:43
+ * @Last Modified time: 2020-10-18 19:07:30
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -38,6 +38,7 @@ export const INIT_SETTING = {
   coverThings: true, // 封面拟物
   showGame: false, // 首页显示游戏分类
   showThumbs: true, // 条目页面展开预览图
+  showRelation: true, // 条目头部显示关系条目
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页

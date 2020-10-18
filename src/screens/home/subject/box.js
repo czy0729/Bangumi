@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:12:02
+ * @Last Modified time: 2020-10-18 19:00:56
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -31,6 +31,8 @@ function Box({ style }, { $, navigation }) {
   const onPress = $.isLogin
     ? $.showManageModel
     : () => navigation.push('LoginV2')
+
+  const statusSize = $.status[$.status.length - 1]?.text.length >= 6 ? 11 : 12
   return (
     <View style={[_.container.wind, styles.container, style]}>
       <SectionTitle
@@ -97,11 +99,11 @@ function Box({ style }, { $, navigation }) {
           )}
         </Flex>
       </Touchable>
-      <Text style={_.mt.md} size={12} type='sub'>
+      <Text style={_.mt.md} size={statusSize} type='sub'>
         {$.status.map((item, index) => (
           <Text
             key={item.status}
-            size={12}
+            size={statusSize}
             type='sub'
             onPress={() => $.toRating(navigation, '收藏', item.status)}
           >

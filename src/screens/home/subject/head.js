@@ -2,33 +2,46 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 19:09:18
+ * @Last Modified time: 2020-10-18 19:13:36
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Katakana, Touchable } from '@components'
-import { ScoreTag, Tag, Cover as CompCover } from '@screens/_'
-import { _ } from '@stores'
+import { Flex, Text, Katakana } from '@components'
+import { ScoreTag, Tag } from '@screens/_'
+import { _, systemStore } from '@stores'
 import { toFixed } from '@utils'
 import { info } from '@utils/ui'
 import { x18 } from '@utils/app'
-import { t } from '@utils/fetch'
 import { imageWidth, imageHeight } from './store'
 import Cover from './cover'
+import Series from './series'
 
-function Head({ style }, { $, navigation }) {
+function Head({ style }, { $ }) {
   const styles = memoStyles()
+  const { showRelation } = systemStore.setting
   const { images = {} } = $.subject
-  const isSeries = $.relations?.[0]?.desc === '系列'
+  const { relations = [] } = $.subjectFormHTML
+
+  // 关联: 前传和续集, 或系列: 若为单行本, relations第一项则为系列
+  const subjectPrev = relations.find(item => item.type === '前传')
+  const subjectAfter = relations.find(item => item.type === '续集')
+  const subjectSeries = relations?.[0]?.type === '系列' ? relations[0] : null
+  const hasRelation = !!(subjectPrev || subjectAfter)
+  const showSeries = subjectPrev || subjectAfter || subjectSeries
+
+  // 主标题大小
   let size
   if ($.cn.length > 24) {
     size = 11
   } else if ($.cn.length > 16) {
     size = 13
   } else {
-    size = 17
+    size = 16
+  }
+  if (showRelation && hasRelation) {
+    size = Math.max(10, size - 2)
   }
   return (
     <View style={[styles.container, style]}>
@@ -39,12 +52,12 @@ function Head({ style }, { $, navigation }) {
             <Katakana.Provider
               size={$.jp.length > 12 ? 11 : 13}
               itemStyle={styles.katakana}
-              numberOfLines={2}
+              numberOfLines={hasRelation ? 1 : 2}
             >
               <Katakana
                 type='sub'
                 size={$.jp.length > 12 ? 11 : 13}
-                numberOfLines={2}
+                numberOfLines={hasRelation ? 1 : 2}
                 onLongPress={() => {
                   Clipboard.setString($.jp)
                   info(`已复制 ${$.jp}`)
@@ -55,40 +68,7 @@ function Head({ style }, { $, navigation }) {
               </Katakana>
             </Katakana.Provider>
           )}
-          {isSeries ? (
-            <Touchable
-              style={styles.series}
-              onPress={() => {
-                t('条目.跳转', {
-                  to: 'Subject',
-                  from: '系列',
-                  subjectId: $.subjectId
-                })
-                navigation.push('Subject', {
-                  subjectId: $.relations[0].id,
-                  _jp: $.relations[0].name,
-                  _image: $.relations[0].image
-                })
-              }}
-            >
-              <Flex>
-                <Text size={13}>⤷</Text>
-                <CompCover
-                  style={_.ml.sm}
-                  src={$.relations[0].image}
-                  size={24}
-                  height={24 * 1.33}
-                  radius
-                  placeholder={false}
-                  fadeDuration={0}
-                  noDefault
-                />
-                <Text style={_.ml.sm} size={size} bold>
-                  {$.relations[0].name}
-                </Text>
-              </Flex>
-            </Touchable>
-          ) : (
+          {!subjectSeries && (
             <Text
               style={!!$.cn && _.mt.xs}
               size={size}
@@ -100,6 +80,14 @@ function Head({ style }, { $, navigation }) {
             >
               {$.cn}
             </Text>
+          )}
+          {showSeries && (
+            <Series
+              prev={subjectPrev}
+              after={subjectAfter}
+              series={subjectSeries}
+              size={size}
+            />
           )}
         </View>
         <Flex>
