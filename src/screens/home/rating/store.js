@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 10:22:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 23:04:03
+ * @Last Modified time: 2020-10-18 16:36:12
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
@@ -17,6 +17,13 @@ export const routes = MODEL_RATING_STATUS.data.map(item => ({
 }))
 
 const namespace = 'ScreenRating'
+const statusMap = {
+  wish: 0,
+  collect: 1,
+  doing: 2,
+  onHold: 3,
+  dropped: 4
+}
 
 export default class ScreenRating extends store {
   state = observable({
@@ -27,7 +34,11 @@ export default class ScreenRating extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
+    const { status } = this.params
+    if (status) {
+      state.page = statusMap[status] || 2
+    }
     this.setState({
       ...state,
       _loaded: true,
@@ -35,8 +46,7 @@ export default class ScreenRating extends store {
     })
 
     const { page } = this.state
-    const status = routes[page].key
-    const { _loaded } = this.rating(status)
+    const { _loaded } = this.rating(routes[page].key)
     if (!_loaded) {
       return this.fetchRating(true)
     }

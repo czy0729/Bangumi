@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 14:49:10
+ * @Last Modified time: 2020-10-18 16:34:22
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -36,7 +36,7 @@ export default class ScreenUser extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
       _loaded: true

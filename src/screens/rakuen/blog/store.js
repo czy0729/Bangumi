@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 18:01:06
+ * @Last Modified time: 2020-10-18 16:34:58
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
@@ -29,7 +29,7 @@ export default class ScreenBlog extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, this.namespace)
+    const state = (await this.getStorage(undefined, this.namespace)) || {}
     this.setState({
       ...state,
       ...initState,

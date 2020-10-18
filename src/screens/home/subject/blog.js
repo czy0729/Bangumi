@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-08-29 17:35:40
+ * @Last Modified time: 2020-10-18 16:50:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,7 +31,7 @@ function Blog({ style }, { $, navigation }) {
   const styles = memoStyles()
   return (
     <Expand style={style} ratio={1.2}>
-      <SectionTitle style={styles.left}>评论</SectionTitle>
+      <SectionTitle style={styles.left}>日志</SectionTitle>
       <View style={_.mt.sm}>
         {_blog.map((item, index) => (
           <ItemArticle

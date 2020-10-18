@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:59:00
+ * @Last Modified time: 2020-10-18 16:35:02
  */
 import { observable, computed } from 'mobx'
 import {
@@ -48,7 +48,7 @@ export default class ScreenTopic extends store {
     const commonState = (await this.getStorage(undefined, namespace)) || {}
 
     try {
-      const state = await this.getStorage(undefined, this.namespace)
+      const state = (await this.getStorage(undefined, this.namespace)) || {}
       this.setState({
         ...state,
         ...excludeState,

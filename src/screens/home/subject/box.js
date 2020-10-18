@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-27 15:26:01
+ * @Last Modified time: 2020-10-18 16:12:02
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -16,7 +16,6 @@ import { info } from '@utils/ui'
 
 function Box({ style }, { $, navigation }) {
   const styles = memoStyles()
-  const { wish, collect, doing, on_hold: onHold, dropped } = $.subjectCollection
 
   // 自己的收藏状态
   const { status = { name: '未收藏' }, rating = 0 } = $.collection
@@ -99,9 +98,17 @@ function Box({ style }, { $, navigation }) {
         </Flex>
       </Touchable>
       <Text style={_.mt.md} size={12} type='sub'>
-        {wish || '-'}人想{$.action} / {collect || '-'}人{$.action}过 /{' '}
-        {doing || '-'}人在{$.action} / {onHold || '-'}
-        人搁置 / {dropped || '-'}人抛弃
+        {$.status.map((item, index) => (
+          <Text
+            key={item.status}
+            size={12}
+            type='sub'
+            onPress={() => $.toRating(navigation, '收藏', item.status)}
+          >
+            {!!index && ' / '}
+            {item.text}
+          </Text>
+        ))}
       </Text>
     </View>
   )

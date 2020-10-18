@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 22:12:57
+ * @Last Modified time: 2020-10-18 16:05:43
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -146,14 +146,7 @@ class Ranting extends React.Component {
         </Flex>
         <Flex style={_.mt.md}>
           <Flex.Item>
-            <Touchable
-              onPress={() => {
-                navigation.push('Rating', {
-                  subjectId: $.subjectId,
-                  name: $.cn || $.jp
-                })
-              }}
-            >
+            <Touchable onPress={() => $.toRating(navigation, '评分分布')}>
               <Flex>
                 {friend.score ? (
                   <Text size={12} type='sub'>

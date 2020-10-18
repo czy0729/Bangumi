@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 23:12:06
+ * @Last Modified time: 2020-10-18 16:46:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,13 @@ import List from './list'
 import Store, { routes } from './store'
 
 const title = '用户评分'
+const statusMap = {
+  wishes: 'wish',
+  collections: 'collect',
+  doings: 'doing',
+  on_hold: 'onHold',
+  dropped: 'dropped'
+}
 
 export default
 @inject(Store)
@@ -59,19 +66,22 @@ class Rating extends React.Component {
         indicatorStyle={this.styles.indicator}
         pressOpacity={1}
         pressColor='transparent'
-        renderLabel={({ route, focused }) => (
-          <Flex style={this.styles.labelText} justify='center'>
-            <Text type='title' size={13} bold={focused}>
-              {route.title}
-            </Text>
-            {!!$.counts[route.key] && (
-              <Text type='sub' size={11} bold lineHeight={13}>
-                {' '}
-                {$.counts[route.key]}{' '}
+        renderLabel={({ route, focused }) => {
+          const count = $.counts[route.key] || $.params[statusMap[route.key]]
+          return (
+            <Flex style={this.styles.labelText} justify='center'>
+              <Text type='title' size={13} bold={focused}>
+                {route.title}
               </Text>
-            )}
-          </Flex>
-        )}
+              {!!count && (
+                <Text type='sub' size={11} bold lineHeight={13}>
+                  {' '}
+                  {count}{' '}
+                </Text>
+              )}
+            </Flex>
+          )
+        }}
       />
     )
   }

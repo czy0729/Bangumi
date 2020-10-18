@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-08-29 17:35:26
+ * @Last Modified time: 2020-10-18 16:15:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ function Topic({ style }, { $, navigation }) {
 
   return (
     <Expand style={style} ratio={1.2}>
-      <SectionTitle style={{ paddingLeft: _.wind }}>讨论版</SectionTitle>
+      <SectionTitle style={{ paddingLeft: _.wind }}>帖子</SectionTitle>
       <View style={_.mt.sm}>
         {_topic.map((item, index) => (
           <ItemArticle

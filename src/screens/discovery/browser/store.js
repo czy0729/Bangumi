@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 19:38:27
+ * @Last Modified time: 2020-10-18 16:33:23
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -32,7 +32,7 @@ export default class ScreenBrowser extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
       airtime: state.airtime || y,

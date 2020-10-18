@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 16:27:36
+ * @Last Modified time: 2020-10-18 16:34:29
  */
 import { observable, computed } from 'mobx'
 import {
@@ -66,7 +66,7 @@ export default class ScreenZone extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
       page: this.isFromTinygrail ? 3 : 0,

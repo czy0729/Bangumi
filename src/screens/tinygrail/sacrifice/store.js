@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-13 00:00:54
+ * @Last Modified time: 2020-10-18 16:34:05
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -42,7 +42,7 @@ export default class ScreenTinygrailSacrifice extends store {
     const current = getTimestamp()
     const needFetch = !_loaded || current - _loaded > 60
 
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
     const lastAuction = (await this.getStorage(
       undefined,
       `${namespace}|lastAuction|${this.monoId}`

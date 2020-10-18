@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 20:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-22 21:01:55
+ * @Last Modified time: 2020-10-18 16:34:15
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -32,7 +32,7 @@ export default class ScreenTinygrailTreeRich extends store {
   }
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
       loading: false,

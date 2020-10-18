@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 04:22:26
+ * @Last Modified time: 2020-10-18 16:34:08
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -34,7 +34,7 @@ export default class ScreenTinygrailTrade extends store {
     const current = getTimestamp()
     const needFetch = !_loaded || current - _loaded > 60
 
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
       loading: true,

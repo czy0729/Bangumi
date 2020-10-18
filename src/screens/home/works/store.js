@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-28 14:08:18
+ * @Last Modified time: 2020-10-18 16:33:56
  *
  * @Params: monoId person/{Int}
  * @Params: name   {String}
@@ -28,7 +28,7 @@ export default class ScreenWorks extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
       ...excludeState,

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 18:21:48
+ * @Last Modified time: 2020-10-18 16:51:35
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -24,7 +24,8 @@ import {
   appNavigate,
   findSubjectCn,
   getBangumiUrl,
-  getCoverMedium
+  getCoverMedium,
+  cnjp
 } from '@utils/app'
 import store from '@utils/store'
 import { feedback, info, showActionSheet } from '@utils/ui'
@@ -99,7 +100,7 @@ export default class ScreenSubject extends store {
     const needFetch = !_loaded || current - _loaded > 60
 
     try {
-      const state = await this.getStorage(undefined, this.namespace)
+      const state = (await this.getStorage(undefined, this.namespace)) || {}
       this.setState({
         ...state,
         ...excludeState,
@@ -598,6 +599,59 @@ export default class ScreenSubject extends store {
     return data
   }
 
+  /**
+   * 全站人员状态数字
+   */
+  @computed get status() {
+    const {
+      wish = 0,
+      collect = 0,
+      doing = 0,
+      on_hold: onHold = 0,
+      dropped = 0
+    } = this.subjectCollection
+    const status = []
+    if (wish) {
+      status.push({
+        status: 'wish',
+        text: `${wish}想${this.action}`
+      })
+    }
+    if (collect) {
+      status.push({
+        status: 'collect',
+        text: `${collect}${this.action}过`
+      })
+    }
+    if (doing) {
+      status.push({
+        status: 'doing',
+        text: `${doing}在${this.action}`
+      })
+    }
+    if (onHold) {
+      status.push({
+        status: 'onHold',
+        text: `${onHold}搁置`
+      })
+    }
+    if (dropped) {
+      status.push({
+        status: 'dropped',
+        text: `${dropped}抛弃`
+      })
+    }
+
+    const sum = wish + collect + doing + onHold + dropped
+    if (sum) {
+      status.push({
+        status: '',
+        text: `总${wish + collect + doing + onHold + dropped}`
+      })
+    }
+    return status
+  }
+
   // -------------------- get: cdn fallback --------------------
   @computed get coverPlaceholder() {
     const { _image } = this.params
@@ -990,6 +1044,39 @@ export default class ScreenSubject extends store {
       filterScores: label === '全部' ? [] : label.split('-')
     })
     this.setStorage(undefined, undefined, this.namespace)
+  }
+
+  /**
+   * 去用户评分页面
+   * @param {*} navigation
+   * @param {*} from
+   * @param {*} status
+   */
+  toRating = (navigation, from, status) => {
+    t('条目.跳转', {
+      to: 'Rating',
+      from,
+      subjectId: this.subjectId,
+      status
+    })
+
+    const {
+      wish,
+      collect,
+      doing,
+      on_hold: onHold,
+      dropped
+    } = this.subjectCollection
+    navigation.push('Rating', {
+      subjectId: this.subjectId,
+      status,
+      name: cnjp(this.cn, this.jp),
+      wish,
+      collect,
+      doing,
+      onHold,
+      dropped
+    })
   }
 
   // -------------------- action --------------------

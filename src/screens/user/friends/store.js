@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:33:44
+ * @Last Modified time: 2020-10-18 16:34:18
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
@@ -20,7 +20,7 @@ export default class ScreenFriends extends store {
   })
 
   init = async () => {
-    const state = await this.getStorage(undefined, namespace)
+    const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
       _loaded: true
