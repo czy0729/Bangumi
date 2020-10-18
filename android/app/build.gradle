@@ -84,7 +84,7 @@ project.ext.react = [
 
 apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/expo-updates/scripts/create-manifest-android.gradle"
+// apply from: "../../node_modules/expo-updates/scripts/create-manifest-android.gradle"
 
 def expoVersionCode = "node -p require('../app.json').expo.android.versionCode".execute().text.trim().toInteger()
 def expoVersionName = "node -p require('../app.json').expo.version".execute().text.trim()
