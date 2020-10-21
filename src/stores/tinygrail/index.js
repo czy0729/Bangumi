@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-21 12:14:36
+ * @Last Modified time: 2020-10-21 16:44:43
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -420,7 +420,7 @@ class Tinygrail extends store {
   }
 
   // -------------------- fetch --------------------
-  fetch = (url, isPost, data) => {
+  fetch = (url, isPost, data, showError) => {
     log(`[axios] ${url}`)
 
     axios.defaults.withCredentials = false
@@ -435,7 +435,12 @@ class Tinygrail extends store {
     if (data) {
       config.data = data
     }
-    return axios(config)
+
+    return axios(config).catch(() => {
+      if (showError) {
+        info('接口出错')
+      }
+    })
   }
 
   /**
@@ -1698,41 +1703,53 @@ class Tinygrail extends store {
    * 从市场查找
    */
   fetchAdvanceList = async () => {
-    const result = await this.fetch(API_TINYGRAIL_LIST('recent', 1, 800))
-    const { State, Value } = result.data
+    let Value = []
+    let result
+
+    // @tofixed 这个接口坏了, 不支持limit > 100
+    for (let i = 1; i <= 5; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      result = await this.fetch(
+        API_TINYGRAIL_LIST('recent', i, 80),
+        undefined,
+        undefined,
+        true
+      )
+
+      if (result.data.State !== 0) break
+      Value = [...Value, ...result.data.Value.Items]
+    }
 
     let data = {
       ...LIST_EMPTY
     }
     let list = []
-    if (State === 0) {
-      const iconsCache = toJS(this.state.iconsCache)
-      list = Value.Items
-        // 规则
-        .filter(item => {
-          const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3
-          return (
-            item.Asks >= 10 && Math.max(parseFloat(item.Rate), templeRate) >= 4
-          )
-        })
-        .map(item => {
-          const id = item.CharacterId || item.Id
-          if (item.Icon) {
-            iconsCache[id] = item.Icon
-          }
-          return {
-            id,
-            name: item.Name,
-            icon: item.Icon,
-            asks: item.Asks,
-            current: item.Current,
-            bonus: item.Bonus,
-            rate: toFixed(item.Rate, 2),
-            level: item.Level
-          }
-        })
-      this.updateIconsCache(iconsCache)
-    }
+    const iconsCache = toJS(this.state.iconsCache)
+    list = Value
+      // 规则
+      .filter(item => {
+        const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3
+        return (
+          item.Asks >= 10 && Math.max(parseFloat(item.Rate), templeRate) >= 4
+        )
+      })
+      .map(item => {
+        const id = item.CharacterId || item.Id
+        if (item.Icon) {
+          iconsCache[id] = item.Icon
+        }
+        return {
+          id,
+          name: item.Name,
+          icon: item.Icon,
+          asks: item.Asks,
+          current: item.Current,
+          bonus: item.Bonus,
+          rate: toFixed(item.Rate, 2),
+          level: item.Level
+        }
+      })
+    this.updateIconsCache(iconsCache)
 
     if (list.length) {
       try {

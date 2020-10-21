@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-17 16:21:19
+ * @Last Modified time: 2020-10-21 16:48:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,23 +51,25 @@ function Header(props, { $, navigation }) {
                 color={_.colorTinygrailPlain}
               />
             )}
-            <Avatar
-              style={styles.avatar}
-              src={tinygrailOSS(icon)}
-              size={32}
-              borderColor='transparent'
-              name={name}
-              onPress={() => {
-                t('交易.跳转', {
-                  to: 'Mono',
-                  monoId: $.monoId
-                })
+            {!!icon && (
+              <Avatar
+                style={styles.avatar}
+                src={tinygrailOSS(icon)}
+                size={32}
+                borderColor='transparent'
+                name={name}
+                onPress={() => {
+                  t('交易.跳转', {
+                    to: 'Mono',
+                    monoId: $.monoId
+                  })
 
-                navigation.push('Mono', {
-                  monoId: `character/${$.monoId}`
-                })
-              }}
-            />
+                  navigation.push('Mono', {
+                    monoId: `character/${$.monoId}`
+                  })
+                }}
+              />
+            )}
             <Flex.Item style={_.ml.sm}>
               <Flex>
                 <Text type='tinygrailPlain' numberOfLines={1} bold>
