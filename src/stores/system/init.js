@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 19:07:30
+ * @Last Modified time: 2020-10-19 12:00:18
  */
-import { VERSION_GITHUB_RELEASE } from '@constants'
+import { VERSION_GITHUB_RELEASE, IOS } from '@constants'
 import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
@@ -32,7 +32,7 @@ export const INIT_SETTING = {
   katakana: false, // 片假名终结者
   ripple: false, // 点击水纹效果
   speech: true, // Bangumi娘话语
-  vibration: true, // 震动反馈
+  vibration: !IOS, // 震动反馈
   tinygrail: false, // 小圣杯是否开启
   autoColorScheme: true, // 黑暗模式跟随系统
   coverThings: true, // 封面拟物

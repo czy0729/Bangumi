@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-17 16:35:47
+ * @Last Modified time: 2020-10-21 12:14:36
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -61,6 +61,7 @@ import {
   API_TINYGRAIL_USER_CHARA_TOTAL,
   API_TINYGRAIL_SEARCH,
   API_TINYGRAIL_LINK,
+  API_TINYGRAIL_DAILY_COUNT,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants/api'
 import UserStore from '../user'
@@ -2223,6 +2224,14 @@ class Tinygrail extends store {
       isBonus2 ? API_TINYGRAIL_SCRATCH2() : API_TINYGRAIL_SCRATCH(),
       true
     )
+    return data
+  }
+
+  /**
+   * 检测今天刮刮乐刮了多少次
+   */
+  doCheckDaily = async () => {
+    const { data } = await this.fetch(API_TINYGRAIL_DAILY_COUNT())
     return data
   }
 

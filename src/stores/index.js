@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-13 15:12:00
+ * @Last Modified time: 2020-10-19 12:01:20
  */
 import { Alert } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import { CacheManager } from 'react-native-expo-image-cache'
 import { info } from '@utils/ui'
+import { DEV } from '@constants'
 import calendarStore from './calendar'
 import collectionStore from './collection'
 import discoveryStore from './discovery'
@@ -33,7 +34,7 @@ class Stores {
    */
   async init() {
     try {
-      if (inited) {
+      if (!DEV && inited) {
         return false
       }
       inited = true

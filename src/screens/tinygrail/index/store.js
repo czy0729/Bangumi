@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:34:01
+ * @Last Modified time: 2020-10-21 14:07:24
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -24,10 +24,16 @@ import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 const namespace = 'ScreenTinygrail'
 const errorStr = '/false'
 const maxErrorCount = 3
+const excludeState = {
+  loading: false,
+  visible: false,
+  count: 0,
+  bonus: [],
+  isBonus2: false
+}
 
 export default class ScreenTinygrail extends store {
   state = observable({
-    loading: false,
     loadingAssets: false,
     loadingBonus: false,
     currentBalance: 0,
@@ -35,8 +41,7 @@ export default class ScreenTinygrail extends store {
     lastBalance: 0,
     lastTotal: 0,
     short: true,
-    visible: false,
-    bonus: [],
+    ...excludeState,
     _loaded: false
   })
 
@@ -48,9 +53,8 @@ export default class ScreenTinygrail extends store {
     const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
-      loading: false,
-      visible: false,
-      bonus: []
+      ...excludeState,
+      _loaded: tinygrailStore.cookie ? getTimestamp() : false
     })
 
     // 没有资产就自动授权
@@ -69,6 +73,7 @@ export default class ScreenTinygrail extends store {
     tinygrailStore.fetchAdvance()
     this.caculateChange()
     this.fetchCount()
+    this.checkCount()
     return true
   }
 
@@ -148,6 +153,11 @@ export default class ScreenTinygrail extends store {
   @computed get total() {
     const { assets } = this.assets
     return assets
+  }
+
+  @computed get nextPrice() {
+    const { count = 0, isBonus2 } = this.state
+    return isBonus2 ? 2000 * 2 ** count : 1000
   }
 
   list(key = 'bid') {
@@ -285,9 +295,12 @@ export default class ScreenTinygrail extends store {
 
       if (State === 0) {
         this.setState({
-          bonus: Value
+          bonus: Value,
+          isBonus2 // 是否幻想乡
         })
+
         this.onShowModal()
+        this.checkCount()
       } else {
         info(Message)
       }
@@ -557,5 +570,18 @@ export default class ScreenTinygrail extends store {
         bonus: []
       })
     }, 400)
+  }
+
+  checkCount = async () => {
+    if (!tinygrailStore.cookie) {
+      return
+    }
+
+    const { State, Value } = await tinygrailStore.doCheckDaily()
+    if (State === 0) {
+      this.setState({
+        count: Value
+      })
+    }
   }
 }

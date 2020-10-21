@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-08-01 14:35:44
+ * @Last Modified time: 2020-10-21 14:07:36
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Text, Image } from '@components'
+import { Touchable, Flex, Text, Image, Button } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
@@ -80,7 +80,7 @@ class BonusModal extends React.Component {
 
   render() {
     const { $, navigation } = this.context
-    const { bonus } = $.state
+    const { bonus, isBonus2, loadingBonus } = $.state
     const { visible } = this.props
     return (
       <Modal
@@ -88,7 +88,7 @@ class BonusModal extends React.Component {
         visible={visible}
         title={
           <Text type='tinygrailPlain' bold>
-            刮刮乐
+            {isBonus2 && '幻想乡'}刮刮乐
           </Text>
         }
         transparent
@@ -161,6 +161,17 @@ class BonusModal extends React.Component {
               ₵{toFixed(this.total)}{' '}
             </Text>
           </Text>
+          <Flex style={_.mt.md} justify='center'>
+            <Button
+              style={this.styles.btn}
+              styleText={this.styles.text}
+              size='sm'
+              loading={loadingBonus}
+              onPress={() => $.doLottery(navigation, isBonus2)}
+            >
+              再刮一次 ({$.nextPrice})
+            </Button>
+          </Flex>
         </View>
       </Modal>
     )
@@ -175,7 +186,7 @@ const memoStyles = _.memoStyles(_ => ({
   modal: {
     width: _.window.width - 2 * _.wind,
     maxWidth: 400,
-    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.colorBg)
+    backgroundColor: _.tSelect(_.colorTinygrailContainer, _.__colorBg__)
   },
   focus: {
     marginTop: -parseInt(_.window.height * 0.56)
@@ -188,5 +199,14 @@ const memoStyles = _.memoStyles(_ => ({
   },
   item: {
     marginBottom: _.md
+  },
+  btn: {
+    width: 240,
+    backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
+    borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
+  },
+  text: {
+    width: 240,
+    color: _.tSelect(_.__colorPlain__, _.colorTinygrailPlain)
   }
 }))

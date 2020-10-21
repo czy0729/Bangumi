@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 15:49:30
+ * @Last Modified time: 2020-10-21 12:13:34
  */
 import { HOST } from './index'
 
@@ -500,3 +500,9 @@ export const API_TINYGRAIL_USER_CHARA_TOTAL = hash =>
  */
 export const API_TINYGRAIL_SEARCH = keyword =>
   `${API_HOST_TINYGRAIL}/api/chara/search?keyword=${keyword}`
+
+/**
+ * 查询今天刮刮乐刮了多少次
+ */
+export const API_TINYGRAIL_DAILY_COUNT = () =>
+  `${API_HOST_TINYGRAIL}/api/event/daily/count/10`
