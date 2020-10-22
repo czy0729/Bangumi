@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 20:11:45
+ * @Last Modified time: 2020-10-22 19:27:38
  */
 import { getTimestamp } from '@utils'
 import { SDK } from './index'
@@ -32,7 +32,7 @@ export const VERSION_OSS = '20201009'
 export const VERSION_MONO = '20201012'
 export const VERSION_SUBJECT = '20200903'
 export const VERSION_AVATAR = '20201018'
-export const VERSION_RAKUEN = '20201018'
+export const VERSION_RAKUEN = '20201022'
 export const VERSION_STATIC = '20201018'
 
 export const VERSIONS_AVATAR = ['20201018', '20200712', '20200502', '1.0.2']
@@ -129,6 +129,23 @@ export const CDN_RAKUEN = (topicId, type = 'topic') => {
   return `${HOST_CDN}/gh/czy0729/Bangumi-Rakuen@${version}/data/${type}/${parseInt(
     parseInt(topicId) / 100
   )}/${topicId}.json`
+}
+
+/**
+ * 某用户的超展开
+ * @url https://github.com/czy0729/Bangumi-Rakuen
+ * @param {*} userId
+ */
+export const CDN_RAKUEN_USER_TOPICS = userId => {
+  const ota = getOTA()
+  const version =
+    parseInt(ota.VERSION_RAKUEN) > parseInt(VERSION_RAKUEN)
+      ? ota.VERSION_RAKUEN
+      : VERSION_RAKUEN
+
+  return `${HOST_CDN}/gh/czy0729/Bangumi-Rakuen@${version}/data/user/${String(
+    userId
+  ).slice(0, 1)}/${userId}.json`
 }
 
 /**

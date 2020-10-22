@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 16:48:14
+ * @Last Modified time: 2020-10-22 20:27:30
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -20,7 +20,7 @@ import {
   HTML_NOTIFY,
   HTML_TOPIC
 } from '@constants/html'
-import { CDN_RAKUEN } from '@constants/cdn'
+import { CDN_RAKUEN, CDN_RAKUEN_USER_TOPICS } from '@constants/cdn'
 import store from '@utils/store'
 import {
   DEFAULT_SCOPE,
@@ -151,6 +151,13 @@ class Rakuen extends store {
      */
     blogComments: {
       0: LIST_EMPTY // <INIT_COMMENTS_ITEM>
+    },
+
+    /**
+     * 用户的超展开
+     */
+    userTopicsFormCDN: {
+      0: LIST_EMPTY
     }
   })
 
@@ -481,6 +488,51 @@ class Rakuen extends store {
   }
 
   fetchBlogFormCDN = () => {}
+
+  /**
+   * CDN获取用户历史超展开帖子
+   * @param {*} userId
+   */
+  fetchUserTopicsFormCDN = async userId => {
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_RAKUEN_USER_TOPICS(userId)
+      })
+
+      const data = {
+        ...LIST_EMPTY,
+        list: JSON.parse(_response).map(item => ({
+          topicId: `group/${item.id}`,
+          title: item.t,
+          group: item.g,
+          date: item.ti.split(' ')[0],
+          time: item.ti.split(' ')[1],
+          avatar: item.av,
+          userId: item.uid,
+          userName: item.un
+        })),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
+      }
+
+      const key = 'userTopicsFormCDN'
+      this.setState({
+        [key]: {
+          [userId]: data
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      warn('rakuenStore', 'fetchUserTopicsFormCDN', 404)
+      return Promise.resolve({
+        ...LIST_EMPTY,
+        _loaded: getTimestamp()
+      })
+    }
+  }
 
   // -------------------- action --------------------
   /**

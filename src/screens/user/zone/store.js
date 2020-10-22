@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:34:29
+ * @Last Modified time: 2020-10-22 20:45:27
  */
 import { observable, computed } from 'mobx'
 import {
@@ -13,7 +13,8 @@ import {
   usersStore,
   timelineStore,
   tinygrailStore,
-  systemStore
+  systemStore,
+  rakuenStore
 } from '@stores'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
@@ -38,6 +39,10 @@ export const tabs = [
     key: 'timeline'
   },
   {
+    title: '超展开',
+    key: 'rakuen'
+  },
+  {
     title: '关于TA',
     key: 'about'
   }
@@ -50,6 +55,10 @@ export const tabsWithTinygrail = [
   }
 ]
 const namespace = 'ScreenZone'
+const excludeState = {
+  visible: false,
+  timeout: false
+}
 
 export default class ScreenZone extends store {
   state = observable({
@@ -61,7 +70,7 @@ export default class ScreenZone extends store {
       抛弃: false
     },
     page: 0,
-    visible: false,
+    ...excludeState,
     _loaded: false
   })
 
@@ -69,8 +78,10 @@ export default class ScreenZone extends store {
     const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
-      page: this.isFromTinygrail ? 3 : 0,
-      visible: false,
+      page: this.isFromTinygrail
+        ? tabsWithTinygrail.findIndex(item => item.key === 'tinygrail')
+        : 0,
+      ...excludeState,
       _loaded: true
     })
 
@@ -129,6 +140,11 @@ export default class ScreenZone extends store {
     return timelineStore.usersTimeline(this.userId)
   }
 
+  @computed get userTopicsFormCDN() {
+    const { id, username } = this.usersInfo
+    return rakuenStore.userTopicsFormCDN(username || id)
+  }
+
   @computed get users() {
     return usersStore.users(this.userId)
   }
@@ -147,12 +163,8 @@ export default class ScreenZone extends store {
 
   @computed get src() {
     const { _image } = this.params
-    // const { avatar = {} } = this.usersInfo
-    return (
-      this.avatar ||
-      // || avatar.large
-      _image
-    )
+    const { avatar = {} } = this.usersInfo
+    return this.avatar || _image || avatar.large
   }
 
   @computed get userAssets() {
@@ -189,6 +201,11 @@ export default class ScreenZone extends store {
 
   fetchCharaTotal = () => tinygrailStore.fetchCharaTotal(this.username)
 
+  fetchUserTopicsFormCDN = () => {
+    const { id, username } = this.usersInfo
+    return rakuenStore.fetchUserTopicsFormCDN(username || id)
+  }
+
   // -------------------- page --------------------
   onChange = page => {
     t('空间.标签页切换', {
@@ -210,6 +227,11 @@ export default class ScreenZone extends store {
       this.fetchUsersTimeline()
     }
 
+    if (title === '超展开') {
+      this.fetchUserTopicsFormCDN()
+      setTimeout(() => this.checkUserTopicsIsTimeout(), 3600)
+    }
+
     if (title === '番剧' && this.isFromTinygrail) {
       this.fetchUserCollections()
     }
@@ -218,6 +240,14 @@ export default class ScreenZone extends store {
       this.fetchCharaAssets()
       this.fetchTempleTotal()
       this.fetchCharaTotal()
+    }
+  }
+
+  checkUserTopicsIsTimeout = () => {
+    if (this.userTopicsFormCDN.list.length === 0) {
+      this.setState({
+        timeout: true
+      })
     }
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 16:35:05
+ * @Last Modified time: 2020-10-22 17:23:51
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -14,6 +14,7 @@ import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import BangumiList from './bangumi-list'
 import TimelineList from './timeline-list'
+import RakuenList from './rakuen-list'
 import About from './about'
 import Tinygrail from './tinygrail'
 import { tabs, tabsWithTinygrail, H_BG, H_TABBAR, H_HEADER } from './store'
@@ -44,6 +45,13 @@ class Tab extends React.Component {
     ),
     timeline: () => (
       <TimelineList
+        ListHeaderComponent={this.ListHeaderComponent}
+        scrollEventThrottle={16}
+        onScroll={this.props.onScroll}
+      />
+    ),
+    rakuen: () => (
+      <RakuenList
         ListHeaderComponent={this.ListHeaderComponent}
         scrollEventThrottle={16}
         onScroll={this.props.onScroll}

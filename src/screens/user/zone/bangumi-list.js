@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 15:00:23
+ * @Last Modified time: 2020-10-22 21:01:06
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { Loading, ListView, Flex, Touchable, Text, Iconfont } from '@components'
 import { SectionHeader, ItemBangumiList } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
+import { t } from '@utils/fetch'
 import { H_BG } from './store'
 
 const event = {
@@ -53,6 +54,21 @@ class List extends React.Component {
       </Touchable>
     )
   }
+
+  ListFooterComponent = ($, navigation) => (
+    <Touchable
+      style={_.mt.md}
+      onPress={() => {
+        t('空间.跳转', {
+          to: 'User'
+        })
+
+        $.toUser(navigation)
+      }}
+    >
+      <Text align='center'>点击查看TA的所有收藏</Text>
+    </Touchable>
+  )
 
   render() {
     const { $, navigation } = this.context
@@ -102,6 +118,8 @@ class List extends React.Component {
           )
         }}
         animated
+        showFooter={false}
+        ListFooterComponent={() => this.ListFooterComponent($, navigation)}
         {...this.props}
       />
     )

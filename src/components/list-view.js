@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 17:32:39
+ * @Last Modified time: 2020-10-22 20:13:52
  */
 import React from 'react'
 import {
@@ -156,7 +156,7 @@ class ListView extends React.Component {
   }
 
   get commonProps() {
-    const { optimize, showFooter } = this.props
+    const { optimize, showFooter, ListFooterComponent = null } = this.props
     const { refreshState } = this.state
     return {
       ref: this.connectRef,
@@ -167,7 +167,9 @@ class ListView extends React.Component {
 
       refreshing: refreshState === RefreshState.HeaderRefreshing,
       refreshControl: this.renderRefreshControl(),
-      ListFooterComponent: showFooter ? this.renderFooter(refreshState) : null,
+      ListFooterComponent: showFooter
+        ? this.renderFooter(refreshState)
+        : ListFooterComponent,
       onRefresh: this.onHeaderRefresh,
       onEndReached: this.onEndReached,
       onEndReachedThreshold: 0.64,

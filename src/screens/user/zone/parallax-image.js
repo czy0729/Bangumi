@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 09:53:22
+ * @Last Modified time: 2020-10-22 21:03:00
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
-import { Popover, IconBack, IconHeader, Avatar } from '@screens/_'
+import { Popover, IconBack, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
 import { HTMLDecode } from '@utils/html'
@@ -52,7 +52,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
     })
   }
 
-  const data = ['浏览器查看', '复制链接', '发短信', 'TA的好友']
+  const data = ['浏览器查看', '复制链接', '发短信', 'TA的收藏', 'TA的好友']
   if ($.users.connectUrl) {
     data.push('加为好友')
   } else if ($.users.disconnectUrl) {
@@ -140,20 +140,6 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
         </Animated.View>
       </View>
       <IconBack style={[_.header.left, styles.btn]} navigation={navigation} />
-      <IconHeader
-        style={styles.collection}
-        name='menu'
-        color={_.__colorPlain__}
-        onPress={() => {
-          t('空间.跳转', {
-            to: 'User'
-          })
-
-          navigation.push('User', {
-            userId: username || id
-          })
-        }}
-      />
       <View
         style={[
           _.header.right,
