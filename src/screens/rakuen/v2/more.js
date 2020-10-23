@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 11:17:12
+ * @Last Modified time: 2020-10-23 20:06:37
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -15,9 +15,9 @@ import { t } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants/html'
 import { _ } from '@stores'
 
-const data = ['本地帖子', '设置', '新讨论']
+const data = ['预读取帖子', '本地帖子', '设置', '新讨论']
 
-function More({ style }, { navigation }) {
+function More({ style }, { $, navigation }) {
   return (
     <Popover
       style={[styles.icon, style]}
@@ -28,6 +28,12 @@ function More({ style }, { navigation }) {
         })
 
         switch (key) {
+          case '预读取帖子':
+            setTimeout(() => {
+              $.prefetchConfirm()
+            }, 80)
+            break
+
           case '本地帖子':
             navigation.push('RakuenHistory')
             break
@@ -51,6 +57,7 @@ function More({ style }, { navigation }) {
 }
 
 More.contextTypes = {
+  $: PropTypes.object,
   navigation: PropTypes.object
 }
 

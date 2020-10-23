@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-22 21:01:06
+ * @Last Modified time: 2020-10-23 18:00:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -66,7 +66,7 @@ class List extends React.Component {
         $.toUser(navigation)
       }}
     >
-      <Text align='center'>点击查看TA的所有收藏</Text>
+      <Text align='center'>查看TA的所有收藏</Text>
     </Touchable>
   )
 

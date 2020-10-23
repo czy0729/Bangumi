@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 18:34:50
+ * @Last Modified time: 2020-10-23 09:54:41
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -74,7 +74,7 @@ class Tinygrail extends React.Component {
 
     const { navigation } = this.context
     navigation.push('Topic', {
-      topicId: 'group/353195'
+      topicId: 'group/358232'
     })
   }
 

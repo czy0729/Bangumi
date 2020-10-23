@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-29 14:43:59
+ * @Last Modified time: 2020-10-23 11:36:48
  */
 import { observable } from 'mobx'
+import Constants from 'expo-constants'
 import { getTimestamp } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
-import { HTML_SEARCH } from '@constants/html'
+import { HTML_SEARCH, HTML_RAKUEN_SEARCH } from '@constants/html'
 import { NAMESPACE, DEFAULT_CAT, INIT_SEARCH_ITEM } from './init'
+import { cheerioSearchRakuen } from './common'
 
 class Search extends store {
   state = observable({
@@ -29,6 +31,10 @@ class Search extends store {
         return key
       },
       0: LIST_EMPTY // <INIT_SEARCH_ITEM>
+    },
+
+    searchRakuen: {
+      0: LIST_EMPTY
     }
   })
 
@@ -244,6 +250,54 @@ class Search extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return res
+  }
+
+  /**
+   * 超展开搜索
+   */
+  UA = ''
+  fetchSearchRakuen = async ({ q } = {}, refresh) => {
+    try {
+      const key = 'searchRakuen'
+      const limit = 10 // ?有时1页是10个有时是11个
+      const { list, pagination } = this[key](q)
+      const page = refresh ? 1 : pagination.page + 1
+
+      if (!this.UA) {
+        this.UA = await Constants.getWebViewUserAgentAsync()
+      }
+      const { _response } = await xhrCustom({
+        url: HTML_RAKUEN_SEARCH(q, page),
+        headers: {
+          Host: 'search.gitee.com',
+          'User-Agent':
+            this.UA ||
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.80 Safari/537.36'
+        }
+      })
+
+      const { list: _list, pageTotal } = cheerioSearchRakuen(_response)
+      this.setState({
+        [key]: {
+          [q]: {
+            list: refresh ? _list : [...list, ..._list],
+            pagination: {
+              page,
+              pageTotal: _list.length >= limit ? pageTotal : page
+            },
+            _loaded: getTimestamp()
+          }
+        }
+      })
+
+      return this[key](q)
+    } catch (error) {
+      warn('searchStore', 'fetchSearchRakuen', 404)
+      return Promise.resolve({
+        ...LIST_EMPTY,
+        _loaded: getTimestamp()
+      })
+    }
   }
 }
 

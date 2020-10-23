@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-21 14:07:36
+ * @Last Modified time: 2020-10-22 22:04:58
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
@@ -206,7 +206,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
   },
   text: {
-    width: 240,
+    width: 160,
     color: _.tSelect(_.__colorPlain__, _.colorTinygrailPlain)
   }
 }))

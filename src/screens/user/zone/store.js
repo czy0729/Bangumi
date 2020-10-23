@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-22 20:45:27
+ * @Last Modified time: 2020-10-23 18:20:20
  */
 import { observable, computed } from 'mobx'
 import {
@@ -141,8 +141,20 @@ export default class ScreenZone extends store {
   }
 
   @computed get userTopicsFormCDN() {
+    const { advance } = systemStore
     const { id, username } = this.usersInfo
-    return rakuenStore.userTopicsFormCDN(username || id)
+    const userTopics = rakuenStore.userTopicsFormCDN(username || id)
+    if (advance) {
+      return userTopics
+    }
+
+    const filterCount = 8
+    const list = userTopics.list.filter((item, index) => index < filterCount)
+    return {
+      ...userTopics,
+      list,
+      _filter: userTopics.list.length - filterCount
+    }
   }
 
   @computed get users() {

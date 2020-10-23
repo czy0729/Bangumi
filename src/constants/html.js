@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-08 16:13:15
+ * @Last Modified time: 2020-10-23 20:30:40
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -112,6 +112,14 @@ export const HTML_TIMELINE = (scope, type, userId, page = 1) => {
  */
 export const HTML_RAKUEN = (scope, type) =>
   `${HOST}/rakuen/${scope}?type=${type}`
+
+/**
+ * 超展开搜索
+ * @param {*} q
+ * @param {*} page
+ */
+export const HTML_RAKUEN_SEARCH = (q = '', page = 1) =>
+  `https://search.gitee.com/?q=${q}&type=code&repo=VFZSSmVrMUVZelJPUkU1b1RucFplbHBuUFQxaE56WXpaZz09YTc2M2Y%3D&pageno=${page}`
 
 /**
  * 帖子

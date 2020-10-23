@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-13 15:12:09
+ * @Last Modified time: 2020-10-23 09:43:59
  */
 import { Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -640,3 +640,11 @@ export function lastDate(timestamp, overDaysToShowTime = 365, simple = true) {
   return '刚刚'
 }
 /* eslint-enable */
+
+/**
+ * 清除搜索关键字的特殊字符
+ * @param {*} str
+ */
+export function cleanQ(str) {
+  return String(str).replace(/['!"#$%&\\'()*+,./:;<=>?@[\\\]^`{|}~']/g, ' ')
+}

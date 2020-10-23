@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 16:30:26
+ * @Last Modified time: 2020-10-23 20:12:04
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -30,6 +30,7 @@ const initPrefetchState = {
   prefetchTotal: 0,
   prefetchCurrent: 0
 }
+const prefetchCount = 20
 
 export default class ScreenRakuen extends store {
   state = observable({
@@ -341,7 +342,7 @@ export default class ScreenRakuen extends store {
 
     Alert.alert(
       '预读取未读帖子',
-      `当前 (${ids.length}) 个未读帖子, 1次操作最多预读前40个, 建议在WIFI下进行, 确定?`,
+      `当前 ${ids.length} 个未读帖子, 1次操作最多预读前 ${prefetchCount} 个, 建议在WIFI下进行, 确定?`,
       [
         {
           text: '取消',
@@ -367,7 +368,7 @@ export default class ScreenRakuen extends store {
       length: ids.length
     })
 
-    const _ids = ids.filter((item, index) => index < 40)
+    const _ids = ids.filter((item, index) => index < prefetchCount)
     let prefetchCurrent = 0
     this.setState({
       prefetching: true,
@@ -381,6 +382,8 @@ export default class ScreenRakuen extends store {
 
       // 这里需要能中断, 所以就不用queue了
       if (prefetching) {
+        info(`预读中... ${prefetchCurrent}`)
+
         await rakuenStore.fetchTopic({
           topicId
         })
