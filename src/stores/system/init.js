@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-19 12:00:18
+ * @Last Modified time: 2020-10-24 17:23:33
  */
-import { VERSION_GITHUB_RELEASE, IOS } from '@constants'
+import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
@@ -32,9 +32,9 @@ export const INIT_SETTING = {
   katakana: false, // 片假名终结者
   ripple: false, // 点击水纹效果
   speech: true, // Bangumi娘话语
-  vibration: !IOS, // 震动反馈
+  vibration: false, // 震动反馈
   tinygrail: false, // 小圣杯是否开启
-  autoColorScheme: true, // 黑暗模式跟随系统
+  autoColorScheme: false, // 黑暗模式跟随系统
   coverThings: true, // 封面拟物
   showGame: false, // 首页显示游戏分类
   showThumbs: true, // 条目页面展开预览图

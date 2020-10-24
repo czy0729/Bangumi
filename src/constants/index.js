@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 17:36:00
+ * @Last Modified time: 2020-10-24 17:29:31
  */
 import { Platform } from 'react-native'
 
@@ -49,6 +49,7 @@ export const APP_USERID_IOS_AUTH = 542389 // say***02@163.com (iOS审核)
 
 // ENV
 export const IOS = Platform.OS === 'ios' // 是否iOS
+export const IS_BEFORE_ANDROID_10 = !IOS && Platform.Version < 29 // 安卓10之前
 export const TITLE = IOS ? 'bgm.tv' : 'Bangumi' // Bangumi字眼在App内的显示
 
 // TINYGRAIL

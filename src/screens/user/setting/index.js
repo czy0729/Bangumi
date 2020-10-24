@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-14 10:45:39
+ * @Last Modified time: 2020-10-24 17:30:07
  */
 import React from 'react'
 import { InteractionManager, ScrollView, View } from 'react-native'
@@ -22,6 +22,7 @@ import { t } from '@utils/fetch'
 import { confirm, info } from '@utils/ui'
 import {
   IOS,
+  IS_BEFORE_ANDROID_10,
   URL_FEEDBACK,
   GITHUB_PROJECT,
   GITHUB_RELEASE,
@@ -260,23 +261,25 @@ class Setting extends React.Component {
               }
               information='点击顶部Logo可快速切换，长按则前往设置'
             />
-            <ItemSetting
-              hd='跟随系统'
-              ft={
-                <SwitchPro
-                  value={autoColorScheme}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '跟随系统',
-                      checked: !autoColorScheme
-                    })
+            {!IS_BEFORE_ANDROID_10 && (
+              <ItemSetting
+                hd='跟随系统'
+                ft={
+                  <SwitchPro
+                    value={autoColorScheme}
+                    onSyncPress={() => {
+                      t('设置.切换', {
+                        title: '跟随系统',
+                        checked: !autoColorScheme
+                      })
 
-                    systemStore.switchSetting('autoColorScheme')
-                  }}
-                />
-              }
-              information='启动时黑暗模式是否跟随系统'
-            />
+                      systemStore.switchSetting('autoColorScheme')
+                    }}
+                  />
+                }
+                information='启动时黑暗模式是否跟随系统'
+              />
+            )}
             <ItemSetting
               hd='CDN加速'
               ft={

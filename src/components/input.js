@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 10:12:53
+ * @Last Modified time: 2020-10-24 17:03:23
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -70,12 +70,8 @@ class Input extends React.Component {
   }
 
   renderClear() {
-    if (IOS) {
-      return null
-    }
-
     const { value } = this.state
-    if (value === '') {
+    if (IOS || value === '') {
       return null
     }
 

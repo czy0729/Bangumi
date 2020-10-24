@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-03 21:26:21
+ * @Last Modified time: 2020-10-24 17:31:52
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
-import { DEV, IOS } from '@constants'
+import { DEV, IOS, IS_BEFORE_ANDROID_10 } from '@constants'
 import _ from '@styles'
 import { initialDevDark } from '@/config'
 import systemStore from '../system'
@@ -96,17 +96,14 @@ class Theme extends store {
   })
 
   init = async () => {
-    const res = this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
-    const mode = await res
+    const mode = await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
 
-    if (this.autoColorScheme) {
+    // 遗漏问题, 版本前有部分用户安卓9启用了跟随系统设置, 需要排除掉
+    if (!IS_BEFORE_ANDROID_10 && this.autoColorScheme) {
       // 主题是否跟随系统
-      const isDark = Appearance.getColorScheme() === 'dark'
-      if (
-        (isDark && mode === DEFAULT_MODE) ||
-        (!isDark && mode !== DEFAULT_MODE)
-      ) {
-        this.toggleMode(mode)
+      const sysMode = Appearance.getColorScheme()
+      if (sysMode !== mode) {
+        this.toggleMode(sysMode)
       }
     } else if (mode !== DEFAULT_MODE) {
       // 默认是白天模式, 若初始化不是白天切换主题
@@ -131,7 +128,7 @@ class Theme extends store {
       fontSizeAdjust
     })
 
-    return res
+    return true
   }
 
   // -------------------- mode styles --------------------
@@ -531,12 +528,26 @@ class Theme extends store {
   /**
    * 切换模式
    */
-  toggleMode = () => {
+  toggleMode = mode => {
+    console.log(mode)
     const key = 'mode'
-    this.setState({
-      [key]: this.select('dark', 'light'),
-      ...this.select(darkStyles, lightStyles)
-    })
+    if (mode === 'light') {
+      this.setState({
+        [key]: 'light',
+        ...lightStyles
+      })
+    } else if (mode === 'dark') {
+      this.setState({
+        [key]: 'dark',
+        ...darkStyles
+      })
+    } else {
+      this.setState({
+        [key]: this.select('dark', 'light'),
+        ...this.select(darkStyles, lightStyles)
+      })
+    }
+
     this.setStorage(key, undefined, NAMESPACE)
     this.changeNavigationBarColor()
   }

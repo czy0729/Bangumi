@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 03:08:22
+ * @Last Modified time: 2020-10-24 17:02:46
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -112,6 +112,7 @@ class UserSetting extends React.Component {
           <Text>昵称</Text>
           <Flex.Item style={_.ml.sm}>
             <Input
+              style={this.styles.input}
               defaultValue={nickname}
               placeholder='请填入昵称'
               autoCapitalize='none'
@@ -124,6 +125,7 @@ class UserSetting extends React.Component {
           <Text>签名</Text>
           <Flex.Item style={_.ml.sm}>
             <Input
+              style={this.styles.input}
               defaultValue={sign_input}
               placeholder='请填入昵称'
               autoCapitalize='none'
@@ -136,6 +138,7 @@ class UserSetting extends React.Component {
           <Text>头像</Text>
           <Flex.Item style={_.ml.sm}>
             <Input
+              style={this.styles.input}
               defaultValue={avatar}
               placeholder='请填入网络地址'
               autoCapitalize='none'
@@ -160,6 +163,7 @@ class UserSetting extends React.Component {
           <Text>背景</Text>
           <Flex.Item style={_.ml.sm}>
             <Input
+              style={this.styles.input}
               defaultValue={bg}
               placeholder='请填入网络地址'
               autoCapitalize='none'
@@ -254,5 +258,8 @@ const memoStyles = _.memoStyles(_ => ({
     width: W_BGS,
     height: H_BGS,
     marginBottom: _.md
+  },
+  input: {
+    paddingRight: 8
   }
 }))
