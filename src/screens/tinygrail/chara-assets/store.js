@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 16:31:27
+ * @Last Modified time: 2020-10-24 16:25:54
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -67,6 +67,7 @@ const namespace = 'ScreenTinygrailCharaAssets'
 export default class ScreenTinygrailCharaAssets extends store {
   state = observable({
     page: 0,
+    level: '',
     sort: '',
     direction: '', // void | down | up
     go: '卖出',
@@ -272,6 +273,14 @@ export default class ScreenTinygrailCharaAssets extends store {
     if (editing) {
       this.toggleBatchEdit()
     }
+  }
+
+  onLevelSelect = level => {
+    this.setState({
+      level
+    })
+
+    this.setStorage(undefined, undefined, namespace)
   }
 
   onSortPress = item => {

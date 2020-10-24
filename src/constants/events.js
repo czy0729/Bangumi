@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 03:19:23
+ * @Last Modified time: 2020-10-23 20:41:47
  */
 
 /**
@@ -282,6 +282,12 @@ export default {
   '社区指导原则.跳转': 'UCG.to',
   '社区指导原则.不同意': 'UCG.disagree',
   '社区指导原则.同意': 'UCG.agree',
+
+  // 帖子搜索
+  '帖子搜索.跳转': 'RakuenSearch.to',
+  '帖子搜索.选择历史': 'RakuenSearch.selectHistory',
+  '帖子搜索.删除历史': 'RakuenSearch.deleteHistory',
+  '帖子搜索.搜索': 'RakuenSearch.doSearch',
 
   /* ==================== reader ==================== */
   // - [x] 漫画

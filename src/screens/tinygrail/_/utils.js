@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 21:15:37
+ * @Last Modified time: 2020-10-24 14:31:49
  */
 import { tinygrailStore } from '@stores'
 
@@ -165,4 +165,12 @@ export function sortList(sort, direction, list) {
     default:
       return list
   }
+}
+
+export function levelList(level, list) {
+  if (!level) {
+    return list
+  }
+
+  return list.filter(item => (item.level || 1) == level)
 }

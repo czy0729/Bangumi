@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 14:06:23
+ * @Last Modified time: 2020-10-24 16:53:06
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -90,7 +90,12 @@ function Item(props, { navigation }) {
         >
           <Flex>
             <Flex.Item>
-              <Text type='tinygrailPlain' size={15} bold>
+              <Text
+                type='tinygrailPlain'
+                size={name.length > 16 ? 12 : name.length > 13 ? 12 : 15}
+                lineHeight={15}
+                bold
+              >
                 {index + 1}.{name}
                 {!!bonus && (
                   <Text size={12} lineHeight={15} type='warning'>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-21 16:44:43
+ * @Last Modified time: 2020-10-24 16:51:03
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -425,11 +425,11 @@ class Tinygrail extends store {
 
     axios.defaults.withCredentials = false
     const config = {
-      method: isPost ? 'post' : 'get',
+      method: isPost ? 'POST' : 'GET',
       url,
       responseType: 'json',
       headers: {
-        cookie: this.cookie
+        Cookie: this.cookie
       }
     }
     if (data) {
@@ -1219,7 +1219,7 @@ class Tinygrail extends store {
    */
   fetchAuctionStatus = async monoId => {
     const result = await this.fetch(API_TINYGRAIL_AUCTION_STATUS(), true, [
-      monoId
+      parseInt(monoId)
     ])
 
     const { State, Value } = result.data
@@ -1897,7 +1897,7 @@ class Tinygrail extends store {
     if (State === 0) {
       data = {
         list: Value.Items.filter(
-          item => parseFloat(item.Rate) >= 2 && item.State >= 100
+          item => parseFloat(item.Rate) >= 2 && item.State >= 80
         )
           .map(item => ({
             id: item.Id,
@@ -1943,7 +1943,7 @@ class Tinygrail extends store {
       data = {
         list: Value.Items.filter(item => {
           const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3
-          return templeRate >= 2 && item.State >= 100
+          return templeRate >= 2 && item.State >= 80
         })
           .map(item => {
             const templeRate = parseFloat(item.Rate) * (item.Level + 1) * 0.3

@@ -2,69 +2,119 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 13:52:14
+ * @Last Modified time: 2020-10-24 16:35:01
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
-import { Flex, Touchable, Text } from '@components'
+import { Flex, Touchable, Text, Iconfont } from '@components'
+import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 
-function ToolBar({ data, sort, direction, onSortPress }) {
+const levelDS = [
+  '全部',
+  'lv1',
+  'lv2',
+  'lv3',
+  'lv4',
+  'lv5',
+  'lv6',
+  'lv7',
+  'lv8',
+  'lv9',
+  'lv10',
+  'lv11',
+  'lv12',
+  'lv13',
+  'lv14',
+  'lv15'
+]
+
+function ToolBar({ data, sort, level, direction, onSortPress, onLevelSelect }) {
   const styles = memoStyles()
   return (
     <Flex style={styles.container}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {data.map((item, index) => {
-          const isActive = sort === item.value
-          return (
-            <Touchable
-              key={item.label}
-              style={index === 0 && _.ml.sm}
-              withoutFeedback
-              onPress={() => onSortPress(item.value)}
-            >
-              <Flex style={styles.item} justify='center'>
-                <Text
-                  type={isActive ? 'warning' : 'tinygrailText'}
-                  size={13}
-                  bold={isActive}
-                >
-                  {item.label}
-                </Text>
-                <View style={styles.angle}>
-                  {isActive && !!direction && (
-                    <View style={styles[direction]} />
-                  )}
-                </View>
-              </Flex>
-            </Touchable>
-          )
-        })}
-      </ScrollView>
-      <View style={styles.tips} />
+      <Popover
+        data={levelDS}
+        onSelect={title =>
+          onLevelSelect(title === '全部' ? '' : title.replace('lv', ''))
+        }
+      >
+        <Flex style={styles.popover} justify='center'>
+          <Iconfont
+            name='filter'
+            size={13}
+            color={level ? _.colorAsk : _.colorTinygrailText}
+          />
+          <Text
+            style={_.ml.xs}
+            size={13}
+            type={level ? 'ask' : 'tinygrailText'}
+          >
+            {level ? `lv${level}` : '等级'}
+          </Text>
+        </Flex>
+      </Popover>
+      {!!data.length && (
+        <>
+          <Flex.Item>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {data.map((item, index) => {
+                const isActive = sort === item.value
+                return (
+                  <Touchable
+                    key={item.label}
+                    style={index === 0 && _.ml.sm}
+                    withoutFeedback
+                    onPress={() => onSortPress(item.value)}
+                  >
+                    <Flex style={styles.item} justify='center'>
+                      <Text
+                        type={isActive ? 'warning' : 'tinygrailText'}
+                        size={13}
+                        bold={isActive}
+                      >
+                        {item.label}
+                      </Text>
+                      <View style={styles.angle}>
+                        {isActive && !!direction && (
+                          <View style={styles[direction]} />
+                        )}
+                      </View>
+                    </Flex>
+                  </Touchable>
+                )
+              })}
+            </ScrollView>
+          </Flex.Item>
+          <View style={styles.tips} />
+        </>
+      )}
     </Flex>
   )
 }
 
 ToolBar.defaultProps = {
   data: [],
-  onSortPress: Function.prototype
+  onSortPress: Function.prototype,
+  onLevelSelect: Function.prototype
 }
 
 export default observer(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
+    paddingLeft: 6,
+    paddingRight: 10,
     height: 46,
     borderBottomWidth: _.hairlineWidth,
     borderBottomColor: _.colorTinygrailBorder
   },
   tips: {
-    width: 6,
-    height: 6,
+    width: 4,
+    height: 4,
     marginLeft: 8,
-    borderWidth: 6,
+    borderWidth: 4,
     borderColor: 'transparent',
     borderBottomColor: _.colorTinygrailText,
     transform: [
@@ -73,6 +123,11 @@ const memoStyles = _.memoStyles(_ => ({
       }
     ]
   },
+  popover: {
+    paddingHorizontal: 6,
+    height: 44,
+    marginTop: -3
+  },
   item: {
     paddingHorizontal: 4,
     height: 44
@@ -80,7 +135,7 @@ const memoStyles = _.memoStyles(_ => ({
   angle: {
     width: 4,
     marginLeft: _.xs,
-    marginRight: 8
+    marginRight: 4
   },
   down: {
     width: 4,

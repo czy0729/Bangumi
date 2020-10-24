@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 22:41:00
+ * @Last Modified time: 2020-10-24 16:33:29
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -13,6 +13,7 @@ import { inject, withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
+import ToolBar from '../_/tool-bar'
 import List from './list'
 import Store from './store'
 
@@ -66,9 +67,12 @@ class TinygrailAdvanceAuction2 extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
+    const { level } = $.state
     return (
       <View style={this.styles.container}>
         <StatusBarEvents />
+        <ToolBar level={level} onLevelSelect={$.onLevelSelect} />
         <List />
       </View>
     )

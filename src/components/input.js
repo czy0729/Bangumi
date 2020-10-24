@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-03 10:19:55
+ * @Last Modified time: 2020-10-24 10:12:53
  */
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
@@ -26,7 +26,8 @@ class Input extends React.Component {
     colorClear: undefined,
     autoFocus: false,
     placeholderTextColor: undefined,
-    onChange: Function.prototype
+    onChange: Function.prototype,
+    onChangeText: Function.prototype
   }
 
   state = {
@@ -59,12 +60,13 @@ class Input extends React.Component {
   }
 
   clear = () => {
-    const { onChange } = this.props
+    const { onChange, onChangeText } = this.props
     onChange({
       nativeEvent: {
         text: ''
       }
     })
+    onChangeText('')
   }
 
   renderClear() {
@@ -186,7 +188,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   close: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 10,
     top: '50%',
     right: 0,
     paddingVertical: _.sm,

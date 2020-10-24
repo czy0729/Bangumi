@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 16:23:40
+ * @Last Modified time: 2020-10-24 16:26:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,7 @@ class TinygrailCharaAssets extends React.Component {
 
   renderContentHeaderComponent() {
     const { $ } = this.context
-    const { page, sort, direction } = $.state
+    const { page, level, sort, direction } = $.state
     if (page !== 0) {
       return undefined
     }
@@ -70,8 +70,10 @@ class TinygrailCharaAssets extends React.Component {
     return (
       <ToolBar
         data={sortDS}
+        level={level}
         sort={sort}
         direction={direction}
+        onLevelSelect={$.onLevelSelect}
         onSortPress={$.onSortPress}
       />
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:34:05
+ * @Last Modified time: 2020-10-24 00:36:27
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'

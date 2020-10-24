@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-08 10:31:06
+ * @Last Modified time: 2020-10-24 15:05:20
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -217,7 +217,7 @@ function Item(props, { $, navigation }) {
                 <Flex.Item>
                   <Text
                     type='tinygrailPlain'
-                    size={name.length > 8 ? 12 : 14}
+                    size={name.length > 12 ? 10 : name.length > 8 ? 12 : 14}
                     bold
                     lineHeight={15}
                   >

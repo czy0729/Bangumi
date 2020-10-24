@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 22:34:10
+ * @Last Modified time: 2020-10-24 16:43:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import ItemAdvance from '../_/item-advance'
+import { levelList } from '../_/utils'
 
 function List(props, { $ }) {
   const { _loaded } = $.advanceAuctionList
@@ -26,6 +27,21 @@ function List(props, { $ }) {
     }
   }
 
+  const { level } = $.state
+  let _list = $.advanceAuctionList
+  if (level) {
+    _list = {
+      ..._list,
+      list: levelList(
+        level,
+        _list.list.map((item, index) => ({
+          ...item,
+          _index: index
+        }))
+      )
+    }
+  }
+
   return (
     <ListView
       style={_.container.flex}
@@ -34,10 +50,10 @@ function List(props, { $ }) {
         color: _.colorTinygrailText
       }}
       footerTextType='tinygrailText'
-      data={$.advanceAuctionList}
+      data={_list}
       renderItem={({ item, index }) => (
         <ItemAdvance
-          index={index}
+          index={item._index || index}
           event={event}
           isAuctioning={$.auctioningMap[item.id]}
           assets={$.myCharaAssetsMap[item.id]}

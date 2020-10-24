@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 01:28:09
+ * @Last Modified time: 2020-10-24 00:59:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -78,7 +78,10 @@ function ItemTemple(
             src={tinygrailOSS(cover)}
             imageViewer={!onPress}
             imageViewerSrc={tinygrailOSS(cover, 480)}
-            resizeMode='contain'
+            resizeMode={
+              // 高度远小于宽度的图不能contain, 会留白
+              imageResizeHeight * 1.2 >= imageResizeWidth ? 'cover' : 'contain'
+            }
             event={{
               id: eventId,
               data: {

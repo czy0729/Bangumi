@@ -2,15 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:43:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 20:59:56
+ * @Last Modified time: 2020-10-24 16:42:27
  */
-import { computed } from 'mobx'
+import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
 
 export default class ScreenTinygrailAdvanceAuction extends store {
+  state = observable({
+    level: '',
+    _loaded: false
+  })
+
   init = async () => {
     const { _loaded } = this.advanceAuctionList
     tinygrailStore.fetchAuction()
@@ -81,5 +86,12 @@ export default class ScreenTinygrailAdvanceAuction extends store {
       }
     })
     return map
+  }
+
+  // -------------------- page --------------------
+  onLevelSelect = level => {
+    this.setState({
+      level
+    })
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 20:38:01
+ * @Last Modified time: 2020-10-24 16:22:30
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -56,6 +56,7 @@ export const sortDS = [
 export default class ScreenTinygrailBid extends store {
   state = observable({
     page: 0,
+    level: '',
     sort: '',
     direction: '',
     _loaded: false
@@ -113,6 +114,12 @@ export default class ScreenTinygrailBid extends store {
     if (!_loaded) {
       this.fetchList(key)
     }
+  }
+
+  onLevelSelect = level => {
+    this.setState({
+      level
+    })
   }
 
   onSortPress = item => {

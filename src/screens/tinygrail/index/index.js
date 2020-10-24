@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 09:54:41
+ * @Last Modified time: 2020-10-24 16:55:30
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -116,7 +116,7 @@ class Tinygrail extends React.Component {
           </Flex>
           <Flex style={_.mt.sm} justify='center'>
             <Text type='tinygrailText' size={12} onPress={this.alertScience}>
-              游戏指南
+              游戏wiki
             </Text>
             <Text style={_.ml.md} type='tinygrailText'>
               |

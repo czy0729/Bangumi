@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 16:49:02
+ * @Last Modified time: 2020-10-24 15:09:58
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -53,6 +53,7 @@ const namespace = 'ScreenTinygrailNew'
 export default class ScreenTinygrailNew extends store {
   state = observable({
     page: 0,
+    level: '',
     sort: '',
     direction: '',
     go: '卖出',
@@ -127,6 +128,14 @@ export default class ScreenTinygrailNew extends store {
     if (!_loaded || title === '最近活跃') {
       this.fetchList(key)
     }
+  }
+
+  onLevelSelect = level => {
+    this.setState({
+      level
+    })
+
+    this.setStorage(undefined, undefined, namespace)
   }
 
   onSortPress = item => {

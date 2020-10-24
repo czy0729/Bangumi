@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 20:28:44
+ * @Last Modified time: 2020-10-24 13:57:25
  */
 import { observable, computed } from 'mobx'
 import { searchStore, systemStore } from '@stores'
@@ -45,7 +45,7 @@ export default class ScreenSearchRakuen extends store {
       return search
     }
 
-    const filterCount = 8
+    const filterCount = 11
     const list = search.list.filter((item, index) => index < filterCount)
     return {
       ...search,

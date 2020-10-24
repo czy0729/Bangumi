@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 04:02:06
+ * @Last Modified time: 2020-10-24 15:52:01
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -38,6 +38,7 @@ const namespace = 'ScreenTinygrailValhall'
 
 export default class ScreenTinygrailValhall extends store {
   state = observable({
+    level: '',
     sort: '',
     direction: '',
     go: '资产重组',
@@ -80,6 +81,14 @@ export default class ScreenTinygrailValhall extends store {
     this.setState({
       go: title
     })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  onLevelSelect = level => {
+    this.setState({
+      level
+    })
+
     this.setStorage(undefined, undefined, namespace)
   }
 

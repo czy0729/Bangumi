@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 16:48:36
+ * @Last Modified time: 2020-10-24 15:12:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,12 +48,14 @@ class TinygrailNew extends React.Component {
 
   renderContentHeaderComponent() {
     const { $ } = this.context
-    const { sort, direction } = $.state
+    const { level, sort, direction } = $.state
     return (
       <ToolBar
         data={sortDS}
+        level={level}
         sort={sort}
         direction={direction}
+        onLevelSelect={$.onLevelSelect}
         onSortPress={$.onSortPress}
       />
     )
