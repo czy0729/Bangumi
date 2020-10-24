@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 17:30:07
+ * @Last Modified time: 2020-10-24 19:47:14
  */
 import React from 'react'
 import { InteractionManager, ScrollView, View } from 'react-native'
@@ -839,7 +839,7 @@ class Setting extends React.Component {
                 hd='投食🍚'
                 arrow
                 highlight
-                information={advance && '已收到巨款，感谢您的支持'}
+                information={advance && '已收到巨款，您已成为高级会员，感谢支持'}
                 informationType='success'
                 onPress={() => {
                   t('设置.跳转', {

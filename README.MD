@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.1.0" src="https://img.shields.io/badge/Version-4.1.0-0366d6" />
+  <img alt="Version: 4.2.0" src="https://img.shields.io/badge/Version-4.2.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -50,24 +50,30 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.1.0 - 2020/10/18
+v4.2.0 - 2020/10/24
 
 —— 新功能 ——
 
-- [x] [条目] 章节一览页面
-- [x] [条目] 可能的话会搜索动画预览图
-- [x] [设置] 添加了一个网络探针工具页面, 用于检测 App 资源域访问情况
+- [x] [超展开] 通过搜索引擎模糊搜索帖子(实验性, 非高级会员有限制)
+- [x] [空间] 可以查询到用户历史帖子 (非高级会员有限制)
 
 —— 优化 ——
 
-- [x] [条目] 优化了章节输入框后面/??的数字, 会准确匹配已确定集数
-- [x] [条目] 优化了收藏盒下全站收藏人数文字, 并可以跳转到用户评分页面对应 tabs
-- [x] [条目] 文案修改: 评论 -> 日志, 讨论版 -> 帖子
-- [x] [条目] 加强了前传和续集关系 UI
+- [x] [帖子] 吐槽右侧筛选按钮 UI 优化
+
+—— 修复 ——
+
+- [x] [设置] 主题颜色跟随系统优化, 只支持 android 10 及以上
+- [x] [个人设置] 修复了输入框难操作的问题
 
 —— 小圣杯 ——
 
-- [x] 修复了人物数据接口被删除导致不显示的问题
+- [x] 刮刮乐弹窗后在弹窗内增加再刮一次的按钮, 并显示下次价格
+- [x] 列表增加等级筛选
+- [x] 修复白天模式刮刮乐弹窗背景颜色错误问题
+- [x] 修复当前版本所有失效的功能
+- [x] 修复无法获取当前拍卖人数的问题
+- [x] 修复圣殿图太小图片没占满的问题
 
 ## PowerBy
 
