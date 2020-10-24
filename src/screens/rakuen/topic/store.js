@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 19:21:28
+ * @Last Modified time: 2020-10-24 18:03:38
  */
 import { observable, computed } from 'mobx'
 import {
@@ -146,25 +146,18 @@ export default class ScreenTopic extends store {
    *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户
    */
   @computed get comments() {
-    const comments = rakuenStore.comments(this.topicId)
     const { filterMe, filterFriends, reverse } = this.state
-    const list = reverse ? comments.list.reverse() : comments.list
-
     const { filterDefault } = systemStore.setting
+
+    const comments = rakuenStore.comments(this.topicId)
+    let list = reverse ? comments.list.reverse() : comments.list
     if (filterDefault || this.isLimit) {
-      return {
-        ...comments,
-        list: list
-          .filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
-          .map(item => ({
-            ...item,
-            sub: item.sub.filter(i => !i.avatar.includes(URL_DEFAULT_AVATAR))
-          })),
-        pagination: {
-          page: 1,
-          pageTotal: 1
-        }
-      }
+      list = list
+        .filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
+        .map(item => ({
+          ...item,
+          sub: item.sub.filter(i => !i.avatar.includes(URL_DEFAULT_AVATAR))
+        }))
     }
 
     if (filterMe) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 17:31:52
+ * @Last Modified time: 2020-10-24 17:34:23
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -529,7 +529,6 @@ class Theme extends store {
    * 切换模式
    */
   toggleMode = mode => {
-    console.log(mode)
     const key = 'mode'
     if (mode === 'light') {
       this.setState({
