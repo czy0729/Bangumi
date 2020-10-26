@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 16:29:01
+ * @Last Modified time: 2020-10-24 23:57:40
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -108,10 +108,7 @@ function Head({ style }, { $, navigation }) {
       <Text style={_.mt.md} type={_.select('plain', 'title')}>
         {userName}
         {!!(username || userId) && (
-          <Text type={_.select('plain', 'title')}>
-            {' '}
-            @{username || userId}
-          </Text>
+          <Text type={_.select('plain', 'title')}> @{username || userId}</Text>
         )}
         {isFriend && (
           <Text
@@ -180,6 +177,13 @@ const styles = StyleSheet.create({
     zIndex: 1,
     top: 88,
     left: 100,
+    opacity: 0.8
+  },
+  r0: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 122,
+    right: _.wind,
     opacity: 0.8
   },
   friend: {

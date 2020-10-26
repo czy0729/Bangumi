@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-29 20:23:53
+ * @Last Modified time: 2020-10-26 11:16:02
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -446,7 +446,7 @@ export function hm(url, screen) {
           rnd: randomn(10),
           si: IOS
             ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
-            : '2dcb6644739ae08a1748c45fb4cea087',
+            : '2dcb6644739ae08a1748c45fb4cea087', // 309125cb5db896cf07af29652710abd9
           v: '1.2.51',
           api: '4_0',
           u
@@ -502,6 +502,14 @@ export function t(desc, eventData) {
         } else {
           UMAnalyticsModule.onEvent(eventId)
         }
+      }
+
+      if (DEV) {
+        log(
+          `${eventId ? '' : '找不到eventId '}[track] ${desc} ${
+            eventData ? JSON.stringify(eventData) : ''
+          }`
+        )
       }
     })
   } catch (error) {
