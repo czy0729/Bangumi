@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:33:43
+ * @Last Modified time: 2020-10-27 17:15:33
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -151,10 +151,19 @@ export default class ScreenRank extends store {
       airtime
     })
 
+    const { type, currentPage, ipt } = this.state
     this.setState({
       show: false,
       airtime: airtime === '全部' ? '' : airtime,
-      month: ''
+      month: '',
+      currentPage: {
+        ...currentPage,
+        [type]: 1
+      },
+      ipt: {
+        ...ipt,
+        [type]: '1'
+      }
     })
     setTimeout(() => {
       this.setState({
@@ -167,7 +176,7 @@ export default class ScreenRank extends store {
   }
 
   onMonthSelect = month => {
-    const { airtime } = this.state
+    const { airtime, type, currentPage, ipt } = this.state
     if (airtime === '') {
       info('请先选择年')
       return
@@ -179,7 +188,15 @@ export default class ScreenRank extends store {
 
     this.setState({
       show: false,
-      month: month === '全部' ? '' : month
+      month: month === '全部' ? '' : month,
+      currentPage: {
+        ...currentPage,
+        [type]: 1
+      },
+      ipt: {
+        ...ipt,
+        [type]: '1'
+      }
     })
     setTimeout(() => {
       this.setState({

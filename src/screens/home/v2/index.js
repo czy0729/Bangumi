@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 17:02:18
+ * @Last Modified time: 2020-10-27 16:22:35
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -82,8 +82,14 @@ class Home extends React.Component {
   }
 
   onWillFocus = () => {
-    const { navigation } = this.context
-    navigation.navigate('Auth')
+    const { $, navigation } = this.context
+
+    // popToTop回来时需要延时才能获得正确的登出后的isLogin状态
+    setTimeout(() => {
+      if (!$.isLogin) {
+        navigation.navigate('Auth')
+      }
+    }, 160)
   }
 
   /**
@@ -115,7 +121,7 @@ class Home extends React.Component {
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
-        {!$.isLogin && <NavigationEvents onWillFocus={this.onWillFocus} />}
+        <NavigationEvents onWillFocus={this.onWillFocus} />
         {$.isLogin && _loaded && (
           <>
             <Header />

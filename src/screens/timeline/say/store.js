@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:59:57
+ * @Last Modified time: 2020-10-27 16:16:59
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -99,7 +99,7 @@ export default class ScreenSay extends store {
       }
     })
 
-    return data
+    return data.reverse()
   }
 
   @computed get isWebLogin() {

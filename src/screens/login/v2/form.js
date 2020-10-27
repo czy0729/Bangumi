@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 10:36:52
+ * @Last Modified time: 2020-10-27 16:23:48
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -211,7 +211,7 @@ class Form extends React.Component {
                   size={12}
                 />
                 <Text style={_.ml.xs} type='sub' size={12}>
-                  使用固定UA登陆
+                  使用固定UA登陆 (频繁掉线请勾选)
                 </Text>
               </Flex>
             </Touchable>

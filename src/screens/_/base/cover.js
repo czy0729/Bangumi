@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 16:36:08
+ * @Last Modified time: 2020-10-27 16:28:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -109,7 +109,7 @@ function Cover({ style, src, size, height, noDefault, type, ...other }) {
             radius={4}
             size={w - 12}
             width={w - 12}
-            height={Math.max(h - 24, w - 12)}
+            height={Math.max(h - 20, w - 12)}
             shadow={false}
             border={false}
           />
