@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 14:20:19
+ * @Last Modified time: 2020-10-28 15:08:01
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -281,6 +281,9 @@ export function cheerioSubjectFormHTML(HTML) {
     watchedEps: $('#watchedeps').attr('value') || 0,
     totalEps,
 
+    // 详情
+    info,
+
     // 标签
     tags:
       $('div.subject_tag_section > div.inner > a.l')
@@ -380,8 +383,22 @@ export function cheerioSubjectFormHTML(HTML) {
         })
         .get() || [],
 
-    // 详情
-    info,
+    // 目录
+    catalog:
+      $('#subjectPanelIndex li.clearit')
+        .map((index, element) => {
+          const $row = cheerio(element)
+          const $user = $row.find('small.grey a.avatar')
+          const $catalog = $row.find('.innerWithAvatar > a.avatar')
+          return safeObject({
+            avatar: matchAvatar($row.find('span.avatarNeue').attr('style')),
+            name: $user.text().trim(),
+            userId: $user.attr('href').replace('/user/', ''),
+            id: parseInt($catalog.attr('href').replace('/index/', '')),
+            title: $catalog.text().trim()
+          })
+        })
+        .get() || [],
 
     // 锁定
     lock: $('div.tipIntro > div.inner > h3').text(),

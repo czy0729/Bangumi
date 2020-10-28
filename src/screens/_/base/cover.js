@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-27 16:28:42
+ * @Last Modified time: 2020-10-28 16:11:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -117,6 +117,45 @@ function Cover({ style, src, size, height, noDefault, type, ...other }) {
         </Flex>
       )
     }
+
+    if (type === '目录') {
+      const w = Math.min(size || 1000, other.width || 1000, height || 1000)
+      const _style = {
+        width: w,
+        height: w
+      }
+      return (
+        <View style={_style}>
+          <View
+            style={[
+              styles.catalog,
+              styles.catalogLevel2,
+              {
+                width: w,
+                height: w - 8
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.catalog,
+              styles.catalogLevel1,
+              {
+                width: w,
+                height: w - 4
+              }
+            ]}
+          />
+          <Image
+            style={[imageStyle, styles.image]}
+            src={_src}
+            size={w}
+            border
+            {...other}
+          />
+        </View>
+      )
+    }
   }
 
   return (
@@ -200,5 +239,25 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: 6,
     borderColor: 'transparent',
     borderTopColor: _.select('rgba(0, 0, 0, 0.2)', _._colorDarkModeLevel2)
+  },
+  catalog: {
+    position: 'absolute',
+    right: 0,
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
+    borderWidth: 1,
+    borderRadius: 2,
+    borderColor: _.colorBorder
+  },
+  catalogLevel1: {
+    zIndex: 2,
+    top: 2,
+    bottom: 2,
+    marginRight: -4
+  },
+  catalogLevel2: {
+    zIndex: 1,
+    top: 4,
+    bottom: 4,
+    marginRight: -8
   }
 }))

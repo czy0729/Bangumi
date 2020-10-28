@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 14:55:04
+ * @Last Modified time: 2020-10-27 20:57:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,7 @@ function Summary({ style }, { $ }) {
         </View>
       ) : (
         !!content && (
-          <Expand>
+          <Expand moreStyle={styles.moreStyle}>
             <Text style={_.mt.sm} size={15} lineHeight={22} selectable>
               {content}
             </Text>
@@ -76,5 +76,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   iconTranslate: {
     marginRight: -_.sm
+  },
+  moreStyle: {
+    marginRight: -_.md
   }
 }))

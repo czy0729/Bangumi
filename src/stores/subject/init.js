@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 14:45:12
+ * @Last Modified time: 2020-10-28 15:09:11
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
@@ -33,6 +33,7 @@ export const INIT_SUBJECT = {
   staff: [],
   summary: '',
   topic: [],
+  catalog: [],
   type: '',
   url: '',
   lock: '',

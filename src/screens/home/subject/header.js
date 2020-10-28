@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 14:14:28
+ * @Last Modified time: 2020-10-28 16:15:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ import Character from './character'
 import Staff from './staff'
 import Relations from './relations'
 import Comic from './comic'
+import Catalog from './catalog'
 import Like from './like'
 import Recent from './recent'
 import Blog from './blog'
@@ -57,6 +58,7 @@ function Header({ rendered }, { $ }) {
             <Staff style={_.mt.lg} />
             <Relations style={_.mt.lg} />
             <Comic style={_.mt.lg} />
+            <Catalog style={_.mt.lg} />
             <Like style={_.mt.lg} />
             <Recent style={_.mt.lg} />
             <Blog style={_.mt.lg} />

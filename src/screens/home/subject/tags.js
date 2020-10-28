@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 16:36:40
+ * @Last Modified time: 2020-10-27 21:03:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ function Tags({ style }, { $, navigation }) {
         标签
       </SectionTitle>
       {!!$.tags.length && (
-        <Expand style={_.mt.sm}>
+        <Expand style={_.mt.sm} moreStyle={styles.moreStyle}>
           <Flex wrap='wrap'>
             {$.tags
               .filter(item => !!item.name)
@@ -111,5 +111,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   trophy: {
     marginRight: -_.sm
+  },
+  moreStyle: {
+    marginRight: -_.md
   }
 }))
