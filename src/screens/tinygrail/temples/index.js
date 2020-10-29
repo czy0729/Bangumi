@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:41:33
+ * @Last Modified time: 2020-10-29 19:51:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,6 +46,7 @@ class TinygrailTemples extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.templeLast
+    log($.templeLast)
     return (
       <View style={this.styles.container}>
         <StatusBarEvents />

@@ -1,29 +1,25 @@
 /*
  * @Author: czy0729
- * @Date: 2019-08-25 19:50:36
+ * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 20:31:22
+ * @Last Modified time: 2020-10-29 22:02:07
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import Item from '../_/item'
 import { levelList, sortList } from '../_/utils'
 
 const event = {
-  id: '我的委托.跳转'
-}
-const go = {
-  bid: '买入',
-  asks: '卖出',
-  auction: '资产重组'
+  id: '关联角色.跳转'
 }
 
-function List({ id }, { $ }) {
-  const list = $.list(id)
-  if (!list._loaded) {
+function List(props, { $ }) {
+  const { _loaded } = $.list
+  if (!_loaded) {
     return (
       <Loading
         style={_.container.flex}
@@ -33,7 +29,7 @@ function List({ id }, { $ }) {
   }
 
   const { level, sort, direction } = $.state
-  let _list = list
+  let _list = $.list
   if (level) {
     _list = {
       ..._list,
@@ -47,27 +43,17 @@ function List({ id }, { $ }) {
       list: sortList(sort, direction, _list.list)
     }
   }
-
   return (
     <ListView
       style={_.container.flex}
-      keyExtractor={(item, index) => String(index)}
+      keyExtractor={keyExtractor}
       refreshControlProps={{
         color: _.colorTinygrailText
       }}
       footerTextType='tinygrailText'
       data={_list}
-      renderItem={({ item, index }) => (
-        <Item
-          index={index}
-          type={id}
-          event={event}
-          go={go[id]}
-          onAuctionCancel={$.doAuctionCancel}
-          {...item}
-        />
-      )}
-      onHeaderRefresh={() => $.fetchList(id)}
+      renderItem={renderItem}
+      onHeaderRefresh={$.fetchValhallList}
     />
   )
 }
@@ -81,3 +67,7 @@ List.contextTypes = {
 }
 
 export default observer(List)
+
+function renderItem({ item, index }) {
+  return <Item index={index} event={event} {...item} />
+}

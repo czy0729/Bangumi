@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 17:39:44
+ * @Last Modified time: 2020-10-29 17:51:33
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -75,14 +75,8 @@ export default class ScreenTinygrailBid extends store {
 
   // -------------------- fetch --------------------
   fetchList = key => {
-    if (key === 'bid') {
-      return tinygrailStore.fetchBid()
-    }
-
-    if (key === 'asks') {
-      return tinygrailStore.fetchAsks()
-    }
-
+    if (key === 'bid') return tinygrailStore.fetchBid()
+    if (key === 'asks') return tinygrailStore.fetchAsks()
     return tinygrailStore.fetchAuction()
   }
 

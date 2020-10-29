@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 20:41:47
+ * @Last Modified time: 2020-10-29 22:17:12
  */
 
 /**
@@ -439,6 +439,11 @@ export default {
   '英灵殿.标签页切换': 'TValhall.tabsChange',
   '英灵殿.排序': 'TValhall.onSortPress',
   '英灵殿.设置前往': 'TValhall.onSelectGo',
+
+  // 关联角色
+  '关联角色.跳转': 'TRelation.to',
+  '关联角色.排序': 'TRelation.onSortPress',
+  '关联角色.设置前往': 'TRelation.onSelectGo',
 
   // 我的道具
   '我的道具.使用': 'TItems.use',

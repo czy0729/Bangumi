@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-28 17:14:57
+ * @Last Modified time: 2020-10-29 21:53:29
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -481,7 +481,7 @@ class Tinygrail extends store {
    *  - 20201017 [deprecated] API_TINYGRAIL_CHARAS => API_TINYGRAIL_CHARA
    */
   fetchCharacters = async ids => {
-    const result = await this.fetch(API_TINYGRAIL_CHARA(ids[0]))
+    const result = await this.fetch(API_TINYGRAIL_CHARA(parseInt(ids[0])))
     const { characters } = this.state
     const data = {
       ...characters
@@ -1421,7 +1421,8 @@ class Tinygrail extends store {
           avatar: item.Avatar,
           balance: item.Balance,
           name: item.Name,
-          lastIndex: item.LastIndex
+          lastIndex: item.LastIndex,
+          lastActiveDate: item.LastActiveDate
         })),
         pagination: paginationOnePage,
         total: result.data.Value.TotalItems,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 17:36:22
+ * @Last Modified time: 2020-10-29 22:12:01
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -26,7 +26,7 @@ function Popover(
     _data = [..._data, subject]
   }
   if (relation.length) {
-    _data = [..._data, `关联人物 (${relation.length})`]
+    _data = [..._data, `关联角色 (${relation.length + 1})`]
   }
   return (
     <CompPopover
@@ -95,7 +95,7 @@ function Popover(
             break
 
           default:
-            if (title.includes('关联人物')) {
+            if (title.includes('关联角色')) {
               t(eventId, {
                 to: 'TinygrailRelation',
                 from: 'popover',
@@ -104,7 +104,8 @@ function Popover(
               })
 
               navigation.push('TinygrailRelation', {
-                ids: [id, ...relation]
+                ids: [id, ...relation],
+                name: `${subject} (${relation.length + 1})`
               })
               return
             }

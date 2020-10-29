@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 17:09:04
+ * @Last Modified time: 2020-10-29 22:03:01
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -228,7 +228,7 @@ function Item(props, { $, navigation }) {
                     bold
                     lineHeight={15}
                   >
-                    {!isDeal && (
+                    {!isDeal && _index !== undefined && (
                       <Text type='tinygrailPlain' size={15}>
                         {_index}.{' '}
                       </Text>
