@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 19:47:14
+ * @Last Modified time: 2020-10-29 14:13:37
  */
 import React from 'react'
 import { InteractionManager, ScrollView, View } from 'react-native'
@@ -321,20 +321,29 @@ class Setting extends React.Component {
                 ft={
                   <SegmentedControl
                     values={tinygrailModeDS}
-                    selectedIndex={_.isGreen ? 0 : 1}
+                    selectedIndex={_.isWeb ? 2 : _.isGreen ? 0 : 1}
                     onValueChange={value => {
                       if (
                         (_.isGreen && value === tinygrailModeDS[0]) ||
-                        (!_.isGreen && value === tinygrailModeDS[1])
+                        (!_.isGreen && value === tinygrailModeDS[1]) ||
+                        (_.isWeb && value === tinygrailModeDS[2])
                       ) {
                         return
                       }
 
                       t('设置.切换', {
                         title: '小圣杯涨跌色',
-                        label: !_.isGreen ? '绿涨红跌' : '红涨绿跌'
+                        label: _.isWeb
+                          ? '网页一致'
+                          : _.isGreen
+                          ? '红涨绿跌'
+                          : '绿涨红跌'
                       })
 
+                      if (value === tinygrailModeDS[2]) {
+                        _.toggleTinygrailMode('web')
+                        return
+                      }
                       _.toggleTinygrailMode()
                     }}
                   />
@@ -839,7 +848,9 @@ class Setting extends React.Component {
                 hd='投食🍚'
                 arrow
                 highlight
-                information={advance && '已收到巨款，您已成为高级会员，感谢支持'}
+                information={
+                  advance && '已收到巨款，您已成为高级会员，感谢支持'
+                }
                 informationType='success'
                 onPress={() => {
                   t('设置.跳转', {

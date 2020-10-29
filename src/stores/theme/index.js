@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 17:34:23
+ * @Last Modified time: 2020-10-29 14:08:06
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -15,7 +15,7 @@ import systemStore from '../system'
 
 const NAMESPACE = 'Theme'
 const DEFAULT_MODE = 'light'
-const DEFAULT_TINYGRAIL_MODE = 'green' // green: 绿涨红跌 | red: 红涨绿跌
+const DEFAULT_TINYGRAIL_MODE = 'green' // green: 绿涨红跌 | red: 红涨绿跌 | web: 网页一致
 const DEFAULT_TINYGRAIL_THEME_MODE = 'dark'
 const lightStyles = {
   // theme
@@ -240,14 +240,21 @@ class Theme extends store {
     return tinygrailMode === DEFAULT_TINYGRAIL_MODE
   }
 
+  @computed get isWeb() {
+    const { tinygrailMode } = this.state
+    return tinygrailMode === 'web'
+  }
+
   @computed get colorBid() {
-    if (this.isGreen) {
-      return this.isTinygrailDark ? _.colorBid : _._colorBid
-    }
+    if (this.isWeb) return _.colorBidWeb
+    if (this.isGreen) return this.isTinygrailDark ? _.colorBid : _._colorBid
     return this.isTinygrailDark ? _.colorAsk : _._colorAsk
   }
 
   @computed get colorDepthBid() {
+    if (this.isWeb) {
+      return _.colorDepthBidWeb
+    }
     if (this.isGreen) {
       return this.isTinygrailDark ? _.colorDepthBid : _._colorDepthBid
     }
@@ -255,13 +262,13 @@ class Theme extends store {
   }
 
   @computed get colorAsk() {
-    if (this.isGreen) {
-      return this.isTinygrailDark ? _.colorAsk : _._colorAsk
-    }
+    if (this.isWeb) return _.colorAskWeb
+    if (this.isGreen) return this.isTinygrailDark ? _.colorAsk : _._colorAsk
     return this.isTinygrailDark ? _.colorBid : _._colorBid
   }
 
   @computed get colorDepthAsk() {
+    if (this.isWeb) return _.colorDepthAskWeb
     if (this.isGreen) {
       return this.isTinygrailDark ? _.colorDepthAsk : _._colorDepthAsk
     }
@@ -565,11 +572,12 @@ class Theme extends store {
   /**
    * 切换小圣杯涨跌颜色
    */
-  toggleTinygrailMode = () => {
+  toggleTinygrailMode = type => {
     const { tinygrailMode } = this.state
     const key = 'tinygrailMode'
     this.setState({
-      [key]: tinygrailMode === 'green' ? 'red' : 'green'
+      [key]:
+        type === 'web' ? 'web' : tinygrailMode === 'green' ? 'red' : 'green'
     })
     this.setStorage(key, undefined, NAMESPACE)
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 22:09:59
+ * @Last Modified time: 2020-10-29 12:21:11
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -109,9 +109,13 @@ export const _colorTitleRaw = [255, 255, 255]
 
 // -------------------- 小圣杯 --------------------
 export const colorBid = 'rgb(0, 173, 146)'
+export const colorBidWeb = 'rgb(228, 111, 161)'
 export const colorDepthBid = 'rgb(15, 61, 67)'
+export const colorDepthBidWeb = 'rgb(255, 208, 227)'
 export const colorAsk = 'rgb(209, 77, 100)'
+export const colorAskWeb = 'rgb(34, 163, 222)'
 export const colorDepthAsk = 'rgb(39, 36, 52)'
+export const colorDepthAskWeb = 'rgb(183, 232, 254)'
 export const colorTinygrailPlain = 'rgba(255, 255, 255, 0.8)'
 export const colorTinygrailPrimary = 'rgb(9, 153, 223)'
 export const colorTinygrailBg = 'rgb(14, 25, 36)'
