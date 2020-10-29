@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.2.0" src="https://img.shields.io/badge/Version-4.2.0-0366d6" />
+  <img alt="Version: 4.2.2" src="https://img.shields.io/badge/Version-4.2.2-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -50,30 +50,28 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.2.0 - 2020/10/24
+v4.2.2 - 2020/10/29
 
-—— 新功能 ——
+—— 新增 ——
 
-- [x] [超展开] 通过搜索引擎模糊搜索帖子(实验性, 非高级会员有限制)
-- [x] [空间] 可以查询到用户历史帖子 (非高级会员有限制)
+- [x] [条目] 包含本条目的目录模块 (更多的列表页面开发中)
 
 —— 优化 ——
 
-- [x] [帖子] 吐槽右侧筛选按钮 UI 优化
+- [x] [排行榜] 切换年月份重置到第一页
+- [x] [吐槽] 用户头像加载应倒序加载
 
 —— 修复 ——
 
-- [x] [设置] 主题颜色跟随系统优化, 只支持 android 10 及以上
-- [x] [个人设置] 修复了输入框难操作的问题
+- [x] 修复了在首页登出或者登陆状态过期后, 没出现进入登陆页面按钮的问题
 
-—— 小圣杯 ——
+—— 小圣杯 2.8.0 ——
 
-- [x] 刮刮乐弹窗后在弹窗内增加再刮一次的按钮, 并显示下次价格
-- [x] 列表增加等级筛选
-- [x] 修复白天模式刮刮乐弹窗背景颜色错误问题
-- [x] 修复当前版本所有失效的功能
-- [x] 修复无法获取当前拍卖人数的问题
-- [x] 修复圣殿图太小图片没占满的问题
+- [x] [番市首富] 展示数据更合理
+- [x] 列表项显示人物所属条目, 右侧菜单添加进入关联人物列表
+- [x] 条目关联人物列表
+- [x] 用户头像角标显示用户在线状态 (实验性, 1 天内为绿色, 3 天内为橙色, 其余不显示)
+- [x] ico 列表当 lv0 人数 10-14 人, 高亮显示
 
 ## PowerBy
 
