@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 19:43:31
+ * @Last Modified time: 2020-10-29 22:21:14
  */
 export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const initialHomeTabName = 'Home'
 
 export default {
-  initialRouteName: 'HomeTab', // HomeTab Discovery TinygrailCharaAssets
+  initialRouteName: 'HomeTab', // HomeTab Discovery Tinygrail
   initialRouteParams: {
-    // subjectId: 294993 // 103824 238923 279457 100444 204135
+    // subjectId: 306429 // 103824 238923 279457 100444 204135
     // topicId: 'group/359201' // group/357093, ep/768491
     // userId: 'ekibun' // 456208, 419012
-    // monoId: 'character/85970' // 20391 character/70323 person/5745
+    // monoId: 'character/86173' // 20391 character/70323 person/5745
     // id: 240929
+    // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 298795 // 294448
     // catalogId: 29811,
     // groupId: 'tinygrail',

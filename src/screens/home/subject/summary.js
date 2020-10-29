@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-27 20:57:51
+ * @Last Modified time: 2020-10-29 22:40:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -78,6 +78,6 @@ const memoStyles = _.memoStyles(_ => ({
     marginRight: -_.sm
   },
   moreStyle: {
-    marginRight: -_.md
+    marginRight: _.md
   }
 }))

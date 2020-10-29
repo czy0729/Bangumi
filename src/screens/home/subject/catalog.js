@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-28 16:41:00
+ * @Last Modified time: 2020-10-29 22:43:51
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -29,27 +29,27 @@ function Catalog({ style }, { $, navigation }) {
     <View style={style}>
       <SectionTitle
         style={_.container.wind}
-        right={
-          <Touchable
-            onPress={() => {
-              t('条目.跳转', {
-                to: 'CatalogSubject',
-                from: '目录',
-                subjectId: $.subjectId
-              })
+        // right={
+        //   <Touchable
+        //     onPress={() => {
+        //       t('条目.跳转', {
+        //         to: 'CatalogSubject',
+        //         from: '目录',
+        //         subjectId: $.subjectId
+        //       })
 
-              navigation.push('Characters', {
-                subjectId: $.subjectId,
-                name: $.cn
-              })
-            }}
-          >
-            <Flex>
-              <Text type='sub'>更多</Text>
-              <Iconfont name='right' size={16} />
-            </Flex>
-          </Touchable>
-        }
+        //       navigation.push('Characters', {
+        //         subjectId: $.subjectId,
+        //         name: $.cn
+        //       })
+        //     }}
+        //   >
+        //     <Flex>
+        //       <Text type='sub'>更多</Text>
+        //       <Iconfont name='right' size={16} />
+        //     </Flex>
+        //   </Touchable>
+        // }
       >
         目录
       </SectionTitle>
@@ -68,12 +68,13 @@ function Catalog({ style }, { $, navigation }) {
             style={styles.item}
             onPress={() => {
               t('条目.跳转', {
-                to: 'CatalogSubject',
+                to: 'CatalogDetail',
                 from: '条目',
-                subjectId: $.subjectId
+                subjectId: $.subjectId,
+                catalogId: item.id
               })
 
-              navigation.push('CatalogSubject', {
+              navigation.push('CatalogDetail', {
                 catalogId: item.id
               })
             }}
