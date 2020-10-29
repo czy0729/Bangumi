@@ -2,9 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 14:31:49
+ * @Last Modified time: 2020-10-29 11:31:16
  */
 import { tinygrailStore } from '@stores'
+import XSBRelationData from '@constants/json/xsb-relation'
+
+export function relation(data) {
+  return {
+    ...data,
+    list: data.list.map(item => {
+      const i = {
+        ...item
+      }
+      const { s, r } = XSBRelationData.data[item.id] || {}
+      if (s) i._subject = XSBRelationData.name[s]
+      if (r) i._relation = r
+      return i
+    })
+  }
+}
 
 export const SORT_SC = {
   label: '收藏',

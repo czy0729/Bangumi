@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 01:21:32
+ * @Last Modified time: 2020-10-29 11:41:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -115,7 +115,10 @@ class TinygrailTree extends React.Component {
         <StatusBarEvents />
         <ToolBar />
         {loading ? (
-          <Loading style={this.styles.container} />
+          <Loading
+            style={this.styles.container}
+            color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+          />
         ) : (
           <Chart
             data={data}

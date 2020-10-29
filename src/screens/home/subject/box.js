@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 19:00:56
+ * @Last Modified time: 2020-10-28 16:57:11
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -41,7 +41,7 @@ function Box({ style }, { $, navigation }) {
           <IconTouchable
             style={styles.iconErase}
             name='close'
-            size={14}
+            size={16}
             color={_.colorIcon}
             onPress={() => {
               if (!showErase) {

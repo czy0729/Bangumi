@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:51:03
+ * @Last Modified time: 2020-10-28 17:14:57
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -845,8 +845,7 @@ class Tinygrail extends store {
    * 英灵殿
    */
   fetchValhallList = async () => {
-    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 300))
-
+    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 1000))
     const data = {
       ...LIST_EMPTY
     }

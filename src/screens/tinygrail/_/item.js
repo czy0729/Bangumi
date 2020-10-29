@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 15:05:20
+ * @Last Modified time: 2020-10-29 11:57:03
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -28,6 +28,8 @@ function Item(props, { $, navigation }) {
   const styles = memoStyles()
   const {
     _index,
+    _subject,
+    _relation,
     style,
     index,
     id,
@@ -99,7 +101,7 @@ function Item(props, { $, navigation }) {
     extra = `${formatTime(_end)} / 已筹集${totalText || '-'}`
   } else {
     // 流动股息比
-    extra = `+${toFixed(rate, 2)}`
+    extra = `+${toFixed(rate, 1)}`
     if (show) {
       const rateRatio = toFixed(((rate || 0) / (current || 10)) * 10, 1)
       extra += ` (${rateRatio})`
@@ -131,6 +133,10 @@ function Item(props, { $, navigation }) {
       if (totalText) {
         extra += ` / 量${totalText}`
       }
+    }
+
+    if (!show && _subject) {
+      extra += ` / ${_subject}`
     }
   }
 
@@ -240,7 +246,12 @@ function Item(props, { $, navigation }) {
                       </Text>
                     )}
                   </Text>
-                  <Text style={_.mt.xs} type='tinygrailText' size={11}>
+                  <Text
+                    style={_.mt.xs}
+                    type='tinygrailText'
+                    size={11}
+                    numberOfLines={!show && _subject ? 1 : 0}
+                  >
                     {isDeal && (
                       <Text type={colorMap[type]} size={11} bold>
                         {prevText}
@@ -311,6 +322,7 @@ function Item(props, { $, navigation }) {
             <Popover
               id={monoId || id}
               event={event}
+              relation={_relation}
               onCollect={tinygrailStore.toggleCollect}
             />
           )}

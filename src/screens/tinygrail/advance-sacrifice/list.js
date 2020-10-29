@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:20:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:20:50
+ * @Last Modified time: 2020-10-29 11:40:51
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,7 +15,12 @@ import ItemAdvance from '../_/item-advance'
 function List(props, { $ }) {
   const { _loaded } = $.advanceSacrificeList
   if (!_loaded) {
-    return <Loading style={_.container.flex} />
+    return (
+      <Loading
+        style={_.container.flex}
+        color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+      />
+    )
   }
 
   const event = {

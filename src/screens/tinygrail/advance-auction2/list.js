@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:41:01
+ * @Last Modified time: 2020-10-29 11:40:39
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -16,7 +16,12 @@ import { levelList } from '../_/utils'
 function List(props, { $ }) {
   const { _loaded } = $.advanceAuctionList
   if (!_loaded) {
-    return <Loading style={_.container.flex} />
+    return (
+      <Loading
+        style={_.container.flex}
+        color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+      />
+    )
   }
 
   const event = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 16:44:34
+ * @Last Modified time: 2020-10-29 11:41:09
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,7 +14,12 @@ import Item from './item'
 
 function List({ title }, { $ }) {
   if (!$.balance._loaded) {
-    return <Loading style={_.container.flex} />
+    return (
+      <Loading
+        style={_.container.flex}
+        color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+      />
+    )
   }
 
   let data

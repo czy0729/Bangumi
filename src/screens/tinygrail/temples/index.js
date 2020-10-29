@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 21:30:35
+ * @Last Modified time: 2020-10-29 11:41:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ class TinygrailTemples extends React.Component {
             onFooterRefresh={$.fetchTempleLast}
           />
         ) : (
-          <Loading />
+          <Loading color={_.tSelect(_.colorDesc, _._colorTinygrailText)} />
         )}
       </View>
     )

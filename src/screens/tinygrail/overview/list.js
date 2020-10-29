@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 14:32:31
+ * @Last Modified time: 2020-10-29 11:42:18
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -20,7 +20,12 @@ const event = {
 function List({ id }, { $ }) {
   const list = $.list(id)
   if (!list._loaded) {
-    return <Loading style={_.container.flex} />
+    return (
+      <Loading
+        style={_.container.flex}
+        color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+      />
+    )
   }
 
   const { sort, level, direction } = $.state
@@ -38,6 +43,7 @@ function List({ id }, { $ }) {
       list: sortList(sort, direction, _list.list)
     }
   }
+
   return (
     <ListView
       style={_.container.flex}

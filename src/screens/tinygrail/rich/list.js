@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 17:29:42
+ * @Last Modified time: 2020-10-29 11:41:26
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,7 +15,12 @@ import Item from './item'
 function List({ id, title }, { $ }) {
   const rich = $.rich(id)
   if (!rich._loaded) {
-    return <Loading style={_.container.flex} />
+    return (
+      <Loading
+        style={_.container.flex}
+        color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+      />
+    )
   }
 
   const [page, limit] = id.split('/')

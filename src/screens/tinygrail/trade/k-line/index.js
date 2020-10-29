@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 10:56:55
+ * @Last Modified time: 2020-10-29 11:41:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -100,7 +100,10 @@ class KLine extends React.Component {
           />
         )}
         {(!_webview || loading) && (
-          <Loading style={this.styles.loading} color={_.colorTinygrailText}>
+          <Loading
+            style={this.styles.loading}
+            color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+          >
             <Text style={_.mt.md} type='tinygrailText' size={12}>
               K线图加载中...
             </Text>
