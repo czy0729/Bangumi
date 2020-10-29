@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:31:16
+ * @Last Modified time: 2020-10-29 17:34:06
  */
 import { tinygrailStore } from '@stores'
 import XSBRelationData from '@constants/json/xsb-relation'
@@ -15,7 +15,10 @@ export function relation(data) {
         ...item
       }
       const { s, r } = XSBRelationData.data[item.id] || {}
-      if (s) i._subject = XSBRelationData.name[s]
+      if (s) {
+        i._subject = XSBRelationData.name[s]
+        i._subjectId = s
+      }
       if (r) i._relation = r
       return i
     })

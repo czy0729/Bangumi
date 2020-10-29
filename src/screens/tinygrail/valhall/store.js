@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 15:52:01
+ * @Last Modified time: 2020-10-29 17:37:27
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,7 @@ import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
+  relation,
   SORT_SC,
   SORT_GX,
   SORT_GXB,
@@ -69,7 +70,7 @@ export default class ScreenTinygrailValhall extends store {
 
   // -------------------- get --------------------
   @computed get valhallList() {
-    return tinygrailStore.valhallList
+    return relation(tinygrailStore.valhallList)
   }
 
   // -------------------- page --------------------

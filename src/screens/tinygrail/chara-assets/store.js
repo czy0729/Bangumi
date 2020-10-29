@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-28 17:06:14
+ * @Last Modified time: 2020-10-29 17:43:55
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -14,6 +14,7 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { confirm, info, feedback } from '@utils/ui'
 import {
+  relation,
   SORT_SC,
   SORT_GX,
   SORT_GXB,
@@ -190,14 +191,14 @@ export default class ScreenTinygrailCharaAssets extends store {
       const { characters, initials } = tinygrailStore.charaAssets(this.userId)
       const _loaded = getTimestamp()
       return {
-        chara: {
+        chara: relation({
           list: characters,
           pagination: {
             page: 1,
             pageTotal: 1
           },
           _loaded
-        },
+        }),
         ico: {
           list: initials,
           pagination: {
@@ -209,7 +210,11 @@ export default class ScreenTinygrailCharaAssets extends store {
         _loaded
       }
     }
-    return tinygrailStore.myCharaAssets
+
+    return {
+      ...tinygrailStore.myCharaAssets,
+      chara: relation(tinygrailStore.myCharaAssets.chara)
+    }
   }
 
   @computed get temple() {

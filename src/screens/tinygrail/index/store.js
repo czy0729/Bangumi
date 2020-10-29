@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-21 14:07:24
+ * @Last Modified time: 2020-10-29 16:06:14
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -17,7 +17,8 @@ import {
   HOST,
   TINYGRAIL_APP_ID,
   TINYGRAIL_URL_OAUTH_REDIRECT,
-  M
+  M,
+  DEV
 } from '@constants'
 import { API_TINYGRAIL_TEST, API_TINYGRAIL_LOGOUT } from '@constants/api'
 
@@ -59,7 +60,7 @@ export default class ScreenTinygrail extends store {
 
     // 没有资产就自动授权
     const { _loaded } = await tinygrailStore.fetchAssets()
-    if (!_loaded) {
+    if (!_loaded && !DEV) {
       await this.doAuth()
     }
 

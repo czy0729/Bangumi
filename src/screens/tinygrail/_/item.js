@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 14:27:54
+ * @Last Modified time: 2020-10-29 17:09:04
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -29,6 +29,7 @@ function Item(props, { $, navigation }) {
   const {
     _index,
     _subject,
+    _subjectId,
     _relation,
     style,
     index,
@@ -98,7 +99,7 @@ function Item(props, { $, navigation }) {
     if (!String(_end).includes('+')) {
       _end = `${end}+${timezone}:00`
     }
-    extra = `${formatTime(_end)} / 已筹集${totalText || '-'}`
+    extra = `${formatTime(_end)} / 已筹${totalText || '-'}`
   } else {
     // 流动股息比
     extra = `+${toFixed(rate, 1)}`
@@ -134,14 +135,14 @@ function Item(props, { $, navigation }) {
         extra += ` / 量${totalText}`
       }
     }
-
-    if (!show && _subject) {
-      extra += ` / ${_subject}`
-    }
   }
 
+  let icoUser
+  let icoHighlight
   if (users && users !== 'ico') {
-    extra += ` / ${users || '-'}人`
+    extra += ' / '
+    icoUser = users
+    icoHighlight = Number(icoUser || 0) > 9 && Number(icoUser || 0) < 15
   }
 
   let prevText
@@ -246,12 +247,7 @@ function Item(props, { $, navigation }) {
                       </Text>
                     )}
                   </Text>
-                  <Text
-                    style={_.mt.xs}
-                    type='tinygrailText'
-                    size={11}
-                    numberOfLines={!show && _subject ? 1 : 0}
-                  >
+                  <Text style={_.mt.xs} type='tinygrailText' size={11}>
                     {isDeal && (
                       <Text type={colorMap[type]} size={11} bold>
                         {prevText}
@@ -265,6 +261,15 @@ function Item(props, { $, navigation }) {
                     )}
                     {isDeal && !isAuction && !isValhall && ' / '}
                     {extra}
+                    {!!icoUser && (
+                      <Text
+                        size={11}
+                        type={icoHighlight ? 'warning' : 'tinygrailText'}
+                        bold={icoHighlight}
+                      >
+                        {icoUser}人
+                      </Text>
+                    )}
                   </Text>
                 </Flex.Item>
                 {isAuction && (
@@ -323,6 +328,8 @@ function Item(props, { $, navigation }) {
               id={monoId || id}
               event={event}
               relation={_relation}
+              subject={_subject}
+              subjectId={_subjectId}
               onCollect={tinygrailStore.toggleCollect}
             />
           )}

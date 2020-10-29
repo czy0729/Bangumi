@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 14:42:16
+ * @Last Modified time: 2020-10-29 16:07:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,7 +82,7 @@ function Info(props, { $, navigation }) {
         />
       </Flex>
       <Text style={_.mt.md} type='tinygrailPlain' align='center'>
-        <Text type='warning'>已筹集 {formatNumber(total, 0)}</Text> /
+        <Text type='warning'>已筹 {formatNumber(total, 0)}</Text> /
         下一等级需要 {formatNumber(next, 0)}
       </Text>
       <Text style={_.mt.sm} type='tinygrailPlain' align='center'>

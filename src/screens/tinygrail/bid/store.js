@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:22:30
+ * @Last Modified time: 2020-10-29 17:39:44
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,7 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import {
+  relation,
   SORT_SC,
   SORT_GX,
   SORT_GXB,
@@ -87,7 +88,7 @@ export default class ScreenTinygrailBid extends store {
 
   // -------------------- get --------------------
   list(key = 'bid') {
-    return computed(() => tinygrailStore.list(key)).get()
+    return computed(() => relation(tinygrailStore.list(key))).get()
   }
 
   // -------------------- page --------------------

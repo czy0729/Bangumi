@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 12:03:29
+ * @Last Modified time: 2020-10-29 17:36:22
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -16,9 +16,15 @@ import { IOS, EVENT } from '@constants'
 
 const data = ['收藏', 'K线', '买入', '卖出', '资产重组']
 
-function Popover({ id, relation, event, onCollect }, { navigation }) {
+function Popover(
+  { id, relation, subject, subjectId, event, onCollect },
+  { navigation }
+) {
   const { id: eventId, data: eventData } = event
   let _data = data
+  if (subject && subjectId) {
+    _data = [..._data, subject]
+  }
   if (relation.length) {
     _data = [..._data, `关联人物 (${relation.length})`]
   }
@@ -100,7 +106,18 @@ function Popover({ id, relation, event, onCollect }, { navigation }) {
               navigation.push('TinygrailRelation', {
                 ids: [id, ...relation]
               })
+              return
             }
+
+            t(eventId, {
+              to: 'Subject',
+              from: 'popover',
+              monoId: id,
+              ...eventData
+            })
+            navigation.push('Subject', {
+              subjectId
+            })
             break
         }
       }}
