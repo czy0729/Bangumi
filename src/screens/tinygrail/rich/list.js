@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:41:26
+ * @Last Modified time: 2020-10-29 15:46:39
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -51,6 +51,7 @@ function List({ id, title }, { $ }) {
       renderItem={({ item, index }) => (
         <Item
           index={index}
+          title={title}
           page={parseInt(page)}
           limit={parseInt(limit)}
           {...item}

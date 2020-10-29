@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 17:31:11
+ * @Last Modified time: 2020-10-29 16:00:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Flex, Text, Touchable, Iconfont, UserStatus } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
-import { formatNumber, getTimestamp, lastDate } from '@utils'
+import { formatNumber, getTimestamp } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { observer } from '@utils/decorators'
@@ -19,6 +19,7 @@ import { B, M } from '@constants'
 function Item(
   {
     index,
+    title,
     page,
     limit,
     avatar,
@@ -27,7 +28,7 @@ function Item(
     total,
     share,
     assets,
-    // principal,
+    principal,
     lastActiveDate,
     lastIndex,
     state
@@ -46,28 +47,19 @@ function Item(
   }
 
   let assetsText
-  if (assets > B) {
+  if (Math.abs(assets) > B) {
     assetsText = `${formatNumber(assets / B, 1)}亿`
-  } else if (assets > M) {
+  } else if (Math.abs(assets) > M) {
     assetsText = `${formatNumber(assets / M, 1)}万`
   } else {
-    assetsText = assets
+    assetsText = formatNumber(Math.abs(assets), 1)
   }
 
-  // let principalText
-  // if (principal > B) {
-  //   principalText = `${formatNumber(principal / B, 1)}亿`
-  // } else if (principal > M) {
-  //   principalText = `${formatNumber(principal / M, 1)}万`
-  // } else {
-  //   principalText = principal
-  // }
-
   let shareText
-  if (share > M) {
+  if (Math.abs(share) > M) {
     shareText = `${formatNumber(share / M, 1)}万`
   } else {
-    shareText = share
+    shareText = formatNumber(Math.abs(share), 1)
   }
 
   const rank = index + 1 + (page - 1) * limit
@@ -87,30 +79,57 @@ function Item(
     }
   }
 
+  let text = ''
+  let right = ''
+  if (title === '股息') {
+    text = `总值${assetsText} / 余${totalText}`
+    right = shareText
+  } else if (title === '余额') {
+    text = `总值${assetsText} / 股息${shareText}`
+    right = totalText
+  } else if (title === '初始') {
+    let principalText
+    if (Math.abs(principal) > B) {
+      principalText = `${formatNumber(principal / B, 1)}亿`
+    } else if (Math.abs(principal) > M) {
+      principalText = `${formatNumber(principal / M, 1)}万`
+    } else {
+      principalText = formatNumber(Math.abs(principal), 1)
+    }
+    text = `总值${assetsText} / 股息${shareText} / 余${totalText}`
+    right = principalText
+  } else {
+    text = `股息${shareText} / 余${totalText}`
+    right = assetsText
+  }
+
+  const lastActiveTS = getTimestamp(lastActiveDate.replace('T', ' '))
   return (
     <View style={styles.container}>
       <Flex align='start'>
         <View>
-          <Avatar
-            style={styles.avatar}
-            src={tinygrailOSS(avatar)}
-            size={44}
-            borderColor='transparent'
-            name={nickname}
-            onPress={() => {
-              t('番市首富.跳转', {
-                to: 'Zone',
-                userId
-              })
+          <UserStatus style={styles.userStatus} last={lastActiveTS}>
+            <Avatar
+              style={styles.avatar}
+              src={tinygrailOSS(avatar)}
+              size={36}
+              borderColor='transparent'
+              name={nickname}
+              onPress={() => {
+                t('番市首富.跳转', {
+                  to: 'Zone',
+                  userId
+                })
 
-              navigation.push('Zone', {
-                userId,
-                from: 'tinygrail'
-              })
-            }}
-          />
+                navigation.push('Zone', {
+                  userId,
+                  from: 'tinygrail'
+                })
+              }}
+            />
+          </UserStatus>
         </View>
-        <Flex.Item style={[styles.wrap, !isTop && styles.border]}>
+        <Flex.Item style={[styles.wrap, !isTop && !_.flat && styles.border]}>
           <Flex align='start'>
             <Flex.Item style={_.mr.sm}>
               <Touchable
@@ -132,28 +151,23 @@ function Item(
                   <Flex.Item>
                     <Text
                       type={state === 666 ? 'ask' : 'tinygrailPlain'}
-                      size={16}
+                      size={15}
                       bold
                     >
                       {rank}. {nickname}
                       {!!changeText && (
-                        <Text type={changeColor} size={16}>
+                        <Text type={changeColor} size={15}>
                           {' '}
                           {changeText}
                         </Text>
                       )}
                     </Text>
                     <Text style={_.mt.xs} type='tinygrailText' size={11}>
-                      总{assetsText} / 余{totalText} /{' '}
-                      {lastActiveDate
-                        ? lastDate(
-                            getTimestamp(lastActiveDate.replace('T', ' '))
-                          )
-                        : '-'}
+                      {text}
                     </Text>
                   </Flex.Item>
                   <Text style={_.ml.xs} type='tinygrailPlain'>
-                    {shareText}
+                    {right}
                   </Text>
                   <Iconfont
                     style={_.ml.xs}
@@ -186,8 +200,10 @@ const memoStyles = _.memoStyles(_ => ({
   wrap: {
     paddingRight: _.wind - _._wind
   },
+  userStatus: {
+    backgroundColor: _.colorTinygrailContainer
+  },
   avatar: {
-    marginRight: _.xs,
     marginTop: _.md,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },

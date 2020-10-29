@@ -78,7 +78,7 @@ class TinygrailItems extends React.Component {
                   >
                     <Image
                       style={this.styles.image}
-                      size={40}
+                      size={36}
                       src={tinygrailOSS(item.icon)}
                       radius
                     />
@@ -114,7 +114,7 @@ class TinygrailItems extends React.Component {
                 >
                   <Image
                     style={this.styles.image}
-                    size={40}
+                    size={36}
                     src={tinygrailOSS(item.icon)}
                     radius
                   />

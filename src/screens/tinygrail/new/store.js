@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 15:09:58
+ * @Last Modified time: 2020-10-29 14:21:32
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,7 @@ import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
+  relation,
   SORT_SC,
   SORT_GX,
   SORT_GXB,
@@ -89,7 +90,7 @@ export default class ScreenTinygrailNew extends store {
   }
 
   list(key = 'recent') {
-    return computed(() => tinygrailStore.list(key)).get()
+    return computed(() => relation(tinygrailStore.list(key))).get()
   }
 
   // -------------------- page --------------------

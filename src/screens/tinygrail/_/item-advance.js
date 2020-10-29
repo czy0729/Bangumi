@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:53:06
+ * @Last Modified time: 2020-10-29 14:19:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -44,7 +44,7 @@ function Item(props, { navigation }) {
       <Avatar
         style={styles.avatar}
         src={tinygrailOSS(icon)}
-        size={40}
+        size={36}
         name={name}
         borderColor='transparent'
         onPress={() => {
@@ -171,7 +171,6 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorTinygrailActive
   },
   avatar: {
-    marginRight: _.xs,
     marginTop: _.md,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },

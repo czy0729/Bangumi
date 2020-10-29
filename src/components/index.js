@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 16:44:56
+ * @Last Modified time: 2020-10-29 15:09:46
  */
 export { default as Activity } from './activity'
 export { default as Bgm } from './bgm'
@@ -43,4 +43,5 @@ export { default as TabsV2 } from './tabs-v2'
 export { default as Text } from './text'
 export { default as Touchable } from './touchable'
 export { default as UM } from './um'
+export { default as UserStatus } from './user-status'
 export { default as WebView } from './web-view'

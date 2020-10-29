@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:57:03
+ * @Last Modified time: 2020-10-29 14:27:54
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -168,7 +168,7 @@ function Item(props, { $, navigation }) {
       <Avatar
         style={styles.avatar}
         src={tinygrailOSS(icon)}
-        size={40}
+        size={36}
         name={name}
         borderColor='transparent'
         onPress={() => {
@@ -356,7 +356,6 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: _.wind - _._wind
   },
   avatar: {
-    marginRight: _.xs,
     marginTop: _.md,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
