@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 15:48:44
+ * @Last Modified time: 2020-11-01 20:29:33
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -30,10 +30,19 @@ const levelDS = [
   'lv15'
 ]
 
-function ToolBar({ data, sort, level, direction, onSortPress, onLevelSelect }) {
+function ToolBar({
+  data,
+  sort,
+  level,
+  direction,
+  renderLeft,
+  onSortPress,
+  onLevelSelect
+}) {
   const styles = memoStyles()
   return (
     <Flex style={styles.container}>
+      {renderLeft}
       <Popover
         data={levelDS}
         onSelect={title =>
@@ -134,8 +143,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   angle: {
     width: 4,
-    marginLeft: _.xs,
-    marginRight: 4
+    marginLeft: 2,
+    marginRight: 6
   },
   down: {
     width: 4,

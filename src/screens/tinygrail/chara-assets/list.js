@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 16:38:53
+ * @Last Modified time: 2020-11-01 20:43:54
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { observer } from '@utils/decorators'
 import ItemTemple from '../_/item-temple'
-import { levelList, sortList } from '../_/utils'
 import ItemEdit from './item-edit'
 
 const event = {
@@ -19,7 +18,7 @@ const event = {
 }
 
 function List({ id }, { $, navigation }) {
-  const { chara, ico, _loaded } = $.myCharaAssets
+  const { ico, _loaded } = $.myCharaAssets
   if (!_loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
@@ -28,29 +27,11 @@ function List({ id }, { $, navigation }) {
   const isTemple = id === 'temple'
   let data
   if (isChara) {
-    data = chara
+    data = $.charaList
   } else if (isTemple) {
     data = $.temple
   } else {
     data = ico
-  }
-
-  const { sort, level, direction } = $.state
-  if (isChara) {
-    data = chara
-    if (level) {
-      data = {
-        ...data,
-        list: levelList(level, data.list)
-      }
-    }
-
-    if (sort) {
-      data = {
-        ...data,
-        list: sortList(sort, direction, data.list)
-      }
-    }
   }
 
   const numColumns = isTemple ? 3 : undefined

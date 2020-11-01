@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:26:30
+ * @Last Modified time: 2020-11-01 20:22:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
+import { Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { withHeaderParams } from '../styles'
@@ -60,6 +61,27 @@ class TinygrailCharaAssets extends React.Component {
     })
   }
 
+  renderIncreaseBtn() {
+    const { $ } = this.context
+    const { editing } = $.state
+    return (
+      editing && (
+        <Touchable onPress={$.increaseBatchSelect}>
+          <Flex style={this.styles.check}>
+            <Iconfont
+              name='check-simple'
+              size={13}
+              color={_.colorTinygrailText}
+            />
+            <Text style={_.ml.xs} size={13} type='tinygrailText'>
+              多选
+            </Text>
+          </Flex>
+        </Touchable>
+      )
+    )
+  }
+
   renderContentHeaderComponent() {
     const { $ } = this.context
     const { page, level, sort, direction } = $.state
@@ -73,6 +95,7 @@ class TinygrailCharaAssets extends React.Component {
         level={level}
         sort={sort}
         direction={direction}
+        renderLeft={this.renderIncreaseBtn()}
         onLevelSelect={$.onLevelSelect}
         onSortPress={$.onSortPress}
       />
@@ -105,5 +128,10 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer
+  },
+  check: {
+    paddingHorizontal: 8,
+    height: 44,
+    marginTop: -3
   }
 }))

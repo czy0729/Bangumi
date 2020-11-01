@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 17:43:55
+ * @Last Modified time: 2020-11-01 21:08:44
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -15,6 +15,8 @@ import { t } from '@utils/fetch'
 import { confirm, info, feedback } from '@utils/ui'
 import {
   relation,
+  levelList,
+  sortList,
   SORT_SC,
   SORT_GX,
   SORT_GXB,
@@ -64,6 +66,7 @@ export const sortDS = [
   SORT_SDGXB
 ]
 const namespace = 'ScreenTinygrailCharaAssets'
+const perBatchCount = 10
 
 export default class ScreenTinygrailCharaAssets extends store {
   state = observable({
@@ -86,7 +89,7 @@ export default class ScreenTinygrailCharaAssets extends store {
     const state = await res
     this.setState({
       ...state,
-      editing: false,
+      editing: true,
       _loaded: needFetch ? current : _loaded
     })
     this.clearState('editingIds', {})
@@ -232,6 +235,27 @@ export default class ScreenTinygrailCharaAssets extends store {
     return users
   }
 
+  @computed get charaList() {
+    const { chara } = this.myCharaAssets
+    const { sort, level, direction } = this.state
+    let data = chara
+    if (level) {
+      data = {
+        ...data,
+        list: levelList(level, data.list)
+      }
+    }
+
+    if (sort) {
+      data = {
+        ...data,
+        list: sortList(sort, direction, data.list)
+      }
+    }
+
+    return data
+  }
+
   // -------------------- page --------------------
   onChange = page => {
     if (page === this.state.page) {
@@ -345,6 +369,38 @@ export default class ScreenTinygrailCharaAssets extends store {
     }
 
     this.clearState('editingIds', _editingIds)
+  }
+
+  increaseBatchSelect = () => {
+    const { editingIds } = this.state
+    const { list } = this.charaList
+
+    const _editingIds = {
+      ...editingIds
+    }
+    const ids = Object.keys(_editingIds)
+    let startIndex = -1
+    let count = 0
+    if (ids.length) {
+      // 多选模式选择要从最后选择的角色索引处开始
+      startIndex = Math.max(
+        ...ids.map(id => list.findIndex(item => item.id == id))
+      )
+    }
+
+    list
+      .filter((item, index) => index > startIndex)
+      .forEach(item => {
+        if (count >= perBatchCount) return
+        _editingIds[item.id] = item.state || 0
+        count += 1
+      })
+    this.setState({
+      editingIds: _editingIds
+    })
+
+    const start = startIndex === -1 ? 1 : startIndex + 2
+    info(`已选 ${start} - ${start + perBatchCount - 1}`)
   }
 
   // -------------------- action --------------------

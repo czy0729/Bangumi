@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 13:53:58
+ * @Last Modified time: 2020-11-01 21:10:49
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Touchable } from '@components'
-import { IconTouchable } from '@screens/_'
+import { Flex, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import Item from '../_/item'
@@ -28,12 +27,12 @@ function ItemEdit({ index, item, type, users, event }, { $ }) {
     >
       <Flex style={editing && styles.item}>
         {!!editing && (
-          <IconTouchable
-            style={_.mr.sm}
-            name={isActive ? 'radio-select' : 'radio'}
-            size={20}
-            color={isActive ? _.colorBid : _.colorTinygrailText}
-          />
+          <View style={[styles.icon, _.mr.sm]}>
+            <Iconfont
+              name={isActive ? 'radio-select' : 'radio'}
+              color={isActive ? _.colorBid : _.colorTinygrailText}
+            />
+          </View>
         )}
         <Flex.Item pointerEvents={editing ? 'none' : undefined}>
           <Item
@@ -65,5 +64,8 @@ const styles = StyleSheet.create({
   },
   edit: {
     paddingLeft: 0
+  },
+  icon: {
+    padding: _.sm
   }
 })
