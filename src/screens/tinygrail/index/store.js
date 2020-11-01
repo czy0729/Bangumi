@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 16:06:14
+ * @Last Modified time: 2020-11-01 16:28:26
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
-import { userStore, tinygrailStore } from '@stores'
+import { userStore, tinygrailStore, systemStore } from '@stores'
 import { urlStringify, getTimestamp, formatNumber, toFixed } from '@utils'
 import store from '@utils/store'
 import { info, feedback } from '@utils/ui'
@@ -41,7 +41,6 @@ export default class ScreenTinygrail extends store {
     currentTotal: 0,
     lastBalance: 0,
     lastTotal: 0,
-    short: true,
     ...excludeState,
     _loaded: false
   })
@@ -127,6 +126,10 @@ export default class ScreenTinygrail extends store {
   }
 
   // -------------------- get --------------------
+  @computed get short() {
+    return systemStore.setting.xsbShort
+  }
+
   @computed get userCookie() {
     return userStore.userCookie
   }
@@ -235,14 +238,12 @@ export default class ScreenTinygrail extends store {
 
       const data = await res
       const { Total, Temples, Share, Tax, Daily } = data.data.Value
-      const { short } = this.state
-
       const AfterTax = Share - Tax
       let _Total
       let _Share
       let _Tax
       let _AfterTax
-      if (short) {
+      if (this.short) {
         _Total =
           Total > M ? `${toFixed(Total / M, 1)}万` : formatNumber(Total, 2)
         _Share =
@@ -545,15 +546,10 @@ export default class ScreenTinygrail extends store {
    * 开启/关闭缩略资金
    */
   toogleShort = () => {
-    const { short } = this.state
+    systemStore.switchSetting('xsbShort')
     t('小圣杯.缩略资金', {
-      short: !short
+      short: this.short
     })
-
-    this.setState({
-      short: !short
-    })
-    this.setStorage(undefined, undefined, namespace)
   }
 
   onShowModal = () =>

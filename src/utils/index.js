@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 09:43:59
+ * @Last Modified time: 2020-11-01 18:11:36
  */
 import { Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import * as WebBrowser from 'expo-web-browser'
-import { DEV } from '@constants'
+import { DEV, B, M } from '@constants'
 import { info } from './ui'
 
 /**
@@ -537,7 +537,16 @@ export function random(start, end) {
  * @return {String}
  */
 /* eslint-disable */
-export function formatNumber(s, n = 2) {
+export function formatNumber(s, n = 2, xsb) {
+  if (xsb) {
+    if (s >= B) {
+      return `${formatNumber(s / B, 1)}亿`
+    } else if (s >= M) {
+      return `${formatNumber(s / M, 1)}万`
+    }
+    return formatNumber(s, n)
+  }
+
   if (s === '') {
     return Number(s).toFixed(n)
   }

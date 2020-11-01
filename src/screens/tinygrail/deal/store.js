@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 23:55:53
+ * @Last Modified time: 2020-11-01 16:58:04
  */
 import { observable, computed } from 'mobx'
-import { tinygrailStore } from '@stores'
+import { tinygrailStore, systemStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
@@ -68,6 +68,10 @@ export default class ScreenTinygrailDeal extends store {
   }
 
   // -------------------- get --------------------
+  @computed get short() {
+    return systemStore.setting.xsbShort
+  }
+
   @computed get monoId() {
     const { monoId = '' } = this.params
     return monoId.replace('character/', '')

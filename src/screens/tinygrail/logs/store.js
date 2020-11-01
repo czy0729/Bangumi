@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 16:47:50
+ * @Last Modified time: 2020-11-01 18:15:59
  */
 import { observable, computed } from 'mobx'
-import { tinygrailStore } from '@stores'
+import { tinygrailStore, systemStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
@@ -80,6 +80,10 @@ export default class ScreenTinygrailLogs extends store {
   fetchBalance = () => tinygrailStore.fetchBalance()
 
   // -------------------- get --------------------
+  @computed get short() {
+    return systemStore.setting.xsbShort
+  }
+
   @computed get balance() {
     return tinygrailStore.balance
   }

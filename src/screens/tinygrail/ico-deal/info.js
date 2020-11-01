@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 16:07:03
+ * @Last Modified time: 2020-11-01 18:23:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,35 +58,36 @@ function Info(props, { $, navigation }) {
         }}
       >
         <Flex justify='center'>
-          <Text type='tinygrailPlain' size={16} bold>
+          <Text type='tinygrailPlain' size={15} bold>
             #{id} - {name}
           </Text>
           <Iconfont
             style={_.ml.sm}
             name='right'
-            size={16}
+            size={15}
             color={_.colorTinygrailText}
           />
         </Flex>
       </Touchable>
-      <Flex style={_.mt.md} justify='center'>
-        <Text type='tinygrailText' size={16}>
+      <Flex style={_.mt.sm} justify='center'>
+        <Text type='tinygrailText' size={15}>
           剩余时间:{' '}
         </Text>
         <CountDown
           style={{
             color: _.colorTinygrailText
           }}
-          size={16}
+          size={15}
           end={endTime}
         />
       </Flex>
       <Text style={_.mt.md} type='tinygrailPlain' align='center'>
-        <Text type='warning'>已筹 {formatNumber(total, 0)}</Text> /
-        下一等级需要 {formatNumber(next, 0)}
+        <Text type='warning'>已筹 {formatNumber(total, 0, $.short)}</Text> /
+        下一等级需要 {formatNumber(next, 0, $.short)}
       </Text>
       <Text style={_.mt.sm} type='tinygrailPlain' align='center'>
-        预计发行量 约{formatNumber(amount, 0)}股 / 发行价 {formatNumber(price)}
+        预计发行量 约{formatNumber(amount, 0, $.short)}股 / 发行价{' '}
+        {formatNumber(price)}
       </Text>
       <Bar style={_.mt.md} total={total} level={level} next={next} />
     </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 14:31:00
+ * @Last Modified time: 2020-11-01 16:55:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -113,9 +113,12 @@ function Info(props, { $, navigation }) {
         align='baseline'
       >
         <Text type='tinygrailText' align='center' size={13}>
-          市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} /
-          发行价 {toFixed($.issuePrice, 1)} /{' '}
-          <Text type='tinygrailPlain' size={13}>{current && toFixed(current, 2)}</Text>
+          市值{formatNumber(marketValue, 0, $.short)} / 量
+          {formatNumber(total, 0, $.short)} / 发行价 {toFixed($.issuePrice, 1)}{' '}
+          /{' '}
+          <Text type='tinygrailPlain' size={13}>
+            {current && toFixed(current, 2)}
+          </Text>
           <Text type={color} align='center' size={13}>
             {' '}
             {fluctuationText}

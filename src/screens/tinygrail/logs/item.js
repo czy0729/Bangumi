@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 03:04:05
+ * @Last Modified time: 2020-11-01 18:19:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -72,12 +72,12 @@ function Item(
 
   return (
     <View style={styles.container}>
-      <Touchable onPress={onPress}>
+      <Touchable withoutFeedback={!onPress} onPress={onPress}>
         <Flex style={[styles.wrap, !isTop && styles.border]}>
           <Flex.Item style={_.mr.sm}>
             <View style={styles.item}>
               <Text type='tinygrailPlain' size={16}>
-                {formatNumber(balance)}{' '}
+                {formatNumber(balance, 2, $.short)}{' '}
                 <Text type='tinygrailText' size={12} lineHeight={16}>
                   {' '}
                   {lastDate(getTimestamp((time || '').replace('T', ' ')))}
@@ -88,7 +88,7 @@ function Item(
                   <Avatar
                     style={[styles.avatar, _.mr.sm]}
                     src={tinygrailOSS(icons)}
-                    size={32}
+                    size={28}
                     borderColor='transparent'
                     onPress={() => {
                       // ICO的记录没有人物id
@@ -124,7 +124,9 @@ function Item(
               >
                 {change
                   ? `${color === _.colorBid ? '+' : '-'}${formatNumber(
-                      Math.abs(change)
+                      Math.abs(change),
+                      2,
+                      $.short
                     )}`
                   : ''}
               </Text>

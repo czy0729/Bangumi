@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:40:58
+ * @Last Modified time: 2020-11-01 16:38:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -21,12 +21,7 @@ const event = {
 function List({ id }, { $, navigation }) {
   const { chara, ico, _loaded } = $.myCharaAssets
   if (!_loaded) {
-    return (
-      <Loading
-        style={_.container.flex}
-        color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
-      />
-    )
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
   const isChara = id === 'chara'

@@ -66,7 +66,7 @@ class TinygrailTemples extends React.Component {
             onFooterRefresh={$.fetchTempleLast}
           />
         ) : (
-          <Loading color={_.tSelect(_.colorDesc, _._colorTinygrailText)} />
+          <Loading color={_.colorTinygrailText} />
         )}
       </View>
     )

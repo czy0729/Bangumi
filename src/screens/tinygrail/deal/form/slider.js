@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 01:21:33
+ * @Last Modified time: 2020-11-01 17:00:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ function Slider({ style }, { $ }) {
   const min = 0
   let balanceText
   if ($.isBid) {
-    balanceText = `可用 ${formatNumber(balance)}`
+    balanceText = `可用 ${formatNumber(balance, 2, $.short)}`
   } else {
     balanceText = `可用 ${userAmount} 股`
   }
@@ -76,7 +76,7 @@ function Slider({ style }, { $ }) {
           </Text>
         </Flex.Item>
         <Text type='tinygrailPlain' size={12}>
-          {amount == 0 ? '--' : formatNumber(amount * value)}
+          {amount == 0 ? '--' : formatNumber(amount * value, 2, $.short)}
         </Text>
         <Touchable style={_.ml.sm} onPress={$.switchIsIce}>
           <Text type='tinygrailText' size={12}>

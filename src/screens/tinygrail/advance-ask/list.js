@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:55:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:40:29
+ * @Last Modified time: 2020-11-01 16:36:48
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -18,7 +18,7 @@ function List(props, { $ }) {
     return (
       <Loading
         style={_.container.flex}
-        color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+        color={_.colorTinygrailText}
       />
     )
   }

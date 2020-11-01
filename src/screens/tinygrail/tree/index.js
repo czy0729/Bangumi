@@ -163,7 +163,7 @@ class TinygrailTree extends React.Component {
         {loading ? (
           <Loading
             style={this.styles.container}
-            color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+            color={_.colorTinygrailText}
           />
         ) : (
           <Chart

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 21:53:29
+ * @Last Modified time: 2020-11-01 18:41:22
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -1354,7 +1354,8 @@ class Tinygrail extends store {
           state: item.State,
           nickName: HTMLDecode(item.NickName),
           name: item.Name,
-          amount: item.Amount
+          amount: item.Amount,
+          lastIndex: item.LastIndex
         })),
         pagination: paginationOnePage,
         _loaded: getTimestamp()

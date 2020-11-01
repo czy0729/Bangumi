@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 15:47:04
+ * @Last Modified time: 2020-11-01 16:55:04
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
-import { tinygrailStore } from '@stores'
+import { tinygrailStore, systemStore } from '@stores'
 import {
   setStorage,
   getStorage,
@@ -108,6 +108,10 @@ export default class ScreenTinygrailSacrifice extends store {
   }
 
   // -------------------- get --------------------
+  @computed get short() {
+    return systemStore.setting.xsbShort
+  }
+
   @computed get namespaceLastAuction() {
     return `${namespace}|lastAuction|${this.monoId}`
   }

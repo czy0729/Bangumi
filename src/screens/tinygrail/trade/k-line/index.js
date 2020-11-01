@@ -102,7 +102,7 @@ class KLine extends React.Component {
         {(!_webview || loading) && (
           <Loading
             style={this.styles.loading}
-            color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+            color={_.colorTinygrailText}
           >
             <Text style={_.mt.md} type='tinygrailText' size={12}>
               K线图加载中...

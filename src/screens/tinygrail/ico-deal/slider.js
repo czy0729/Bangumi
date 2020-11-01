@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 01:40:38
+ * @Last Modified time: 2020-11-01 18:47:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,6 @@ function Slider({ style }, { $ }) {
   const styles = memoStyles()
   const { loading, amount } = $.state
   const { balance } = $.assets
-  const balanceText = `可用 ${formatNumber(balance)}`
   return (
     <View style={[styles.container, style]}>
       <Flex>
@@ -44,9 +43,6 @@ function Slider({ style }, { $ }) {
           </Button>
         </View>
       </Flex>
-      <Text style={styles.balance} type='tinygrailPlain' size={12}>
-        {balanceText}
-      </Text>
       <Flex style={[styles.slider, _.mt.sm]}>
         <View style={{ width: '100%' }}>
           <CompSlider
@@ -63,11 +59,11 @@ function Slider({ style }, { $ }) {
       <Flex>
         <Flex.Item>
           <Text type='tinygrailText' size={12}>
-            {formatNumber(5000, 0)}
+            余额 {formatNumber(5000, 0)}
           </Text>
         </Flex.Item>
         <Text type='tinygrailText' size={12}>
-          {formatNumber(balance < 5000 ? 5000 : balance, 0)}
+          {formatNumber(balance < 5000 ? 5000 : balance, 0, $.short)}
         </Text>
       </Flex>
     </View>

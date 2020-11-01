@@ -19,7 +19,7 @@ function List(props, { $ }) {
     return (
       <Loading
         style={_.container.flex}
-        color={_.tSelect(_.colorDesc, _._colorTinygrailText)}
+        color={_.colorTinygrailText}
       />
     )
   }

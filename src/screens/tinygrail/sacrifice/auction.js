@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 15:52:58
+ * @Last Modified time: 2020-11-01 16:56:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -132,7 +132,7 @@ function Auction({ style }, { $ }) {
           </Text>
         </Flex.Item>
         <Text type='tinygrailText' size={12}>
-          {formatNumber(balance, 2)}
+          {formatNumber(balance, 2, $.short)}
         </Text>
       </Flex>
     </View>

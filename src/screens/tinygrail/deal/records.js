@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:19:43
+ * @Last Modified time: 2020-11-01 16:59:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 
-const LIMIT = 5
+const LIMIT = 8
 
 function Records({ style }, { $ }) {
   const styles = memoStyles()
@@ -54,7 +54,7 @@ function Records({ style }, { $ }) {
                     </Text>
                   </Flex.Item>
                   <Text size={12} type='tinygrailPlain'>
-                    -{formatNumber(item.price * item.amount)}
+                    -{formatNumber(item.price * item.amount, 2, $.short)}
                   </Text>
                 </Flex>
               </Touchable>
@@ -90,7 +90,7 @@ function Records({ style }, { $ }) {
                     </Text>
                   </Flex.Item>
                   <Text type='tinygrailPlain' size={12}>
-                    +{formatNumber(item.price * item.amount)}
+                    +{formatNumber(item.price * item.amount, 2, $.short)}
                   </Text>
                 </Flex>
               </Touchable>
