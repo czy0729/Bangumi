@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 01:41:16
+ * @Last Modified time: 2020-11-01 15:56:54
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -17,22 +17,23 @@ import {
   Touchable
 } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, lastDate } from '@utils'
 import { observer } from '@utils/decorators'
 
 function Slider({ style }, { $ }) {
   const styles = memoStyles()
-  const { loading, amount, isSale } = $.state
+  const { loading, amount, isSale, lastSacrifice } = $.state
   const { amount: userAmount } = $.userLogs
   const { sacrifices = 0 } = $.myTemple
+  const { current } = $.chara
   return (
     <View style={[styles.container, style]}>
       <Flex>
         <Flex.Item>
-          <Text type='tinygrailPlain'>
+          <Text type='tinygrailPlain' size={13}>
             {isSale
-              ? '资产重组，股份出售给英灵殿获得现金'
-              : '股权融资，股份转化为固定资产获得现金和道具'}
+              ? '出售：出售给英灵殿获得现金'
+              : '献祭：转化为固定资产(塔) 并获得现金和道具'}
           </Text>
         </Flex.Item>
         <Switch style={_.ml.sm} checked={isSale} onChange={$.switchIsSale} />
@@ -87,6 +88,45 @@ function Slider({ style }, { $ }) {
             确定
           </Button>
         </View>
+      </Flex>
+      <Flex style={_.mt.sm}>
+        <Touchable
+          onPress={() => {
+            if (loading) {
+              return
+            }
+
+            Alert.alert(
+              '小圣杯助手',
+              `当前角色测试献祭效率至少需要先献祭 (${$.testAmount}) 股, 确定?`,
+              [
+                {
+                  text: '取消',
+                  style: 'cancel'
+                },
+                {
+                  text: '确定',
+                  onPress: () => $.doTestSacrifice()
+                }
+              ]
+            )
+          }}
+        >
+          <Text type='tinygrailText' size={12}>
+            [测试]
+          </Text>
+        </Touchable>
+        {!!lastSacrifice.time && (
+          <Text style={_.ml.xs} type='tinygrailText' size={12}>
+            最近 (单价
+            {formatNumber(lastSacrifice.total / lastSacrifice.amount, 1)} / 效率
+            {formatNumber(
+              (lastSacrifice.total / lastSacrifice.amount / current) * 100,
+              0
+            )}
+            % / {lastDate(lastSacrifice.time)})
+          </Text>
+        )}
       </Flex>
       <Flex style={[styles.slider, _.mt.sm]}>
         <Flex.Item>
@@ -166,6 +206,6 @@ const memoStyles = _.memoStyles(_ => ({
     opacity: 0.8
   },
   btnSubmit: {
-    width: 96
+    width: 64
   }
 }))

@@ -2,12 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 00:36:27
+ * @Last Modified time: 2020-11-01 15:47:04
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { setStorage, getTimestamp, formatNumber, toFixed } from '@utils'
+import {
+  setStorage,
+  getStorage,
+  getTimestamp,
+  formatNumber,
+  toFixed
+} from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
@@ -21,20 +27,30 @@ const excludeState = {
   auctionAmount: 0,
   auctionPrice: 0
 }
+const initLastAuction = {
+  price: '',
+  amount: '',
+  time: 0
+}
+const initLastSacrifice = {
+  amount: '',
+  total: '',
+  time: 0
+}
 
 export default class ScreenTinygrailSacrifice extends store {
   state = observable({
+    // 页面全局
     showCover: true, // 显示封面
     showLogs: true, // 显示记录
     showTemples: true, // 显示圣殿
     showUsers: true, // 显示董事会
     ...excludeState,
-    lastAuction: {
-      price: '',
-      amount: '',
-      time: 0
-    },
-    loading: false
+    loading: false,
+
+    // 角色独立
+    lastAuction: initLastAuction,
+    lastSacrifice: initLastSacrifice
   })
 
   init = async () => {
@@ -43,18 +59,16 @@ export default class ScreenTinygrailSacrifice extends store {
     const needFetch = !_loaded || current - _loaded > 60
 
     const state = (await this.getStorage(undefined, namespace)) || {}
-    const lastAuction = (await this.getStorage(
-      undefined,
-      `${namespace}|lastAuction|${this.monoId}`
-    )) || {
-      price: '',
-      amount: '',
-      time: 0
-    }
+    const lastAuction =
+      (await getStorage(this.namespaceLastAuction)) || initLastAuction
+    const lastSacrifice =
+      (await getStorage(this.namespaceLastSacrifice)) || initLastSacrifice
+
     this.setState({
       ...state,
       ...excludeState,
       lastAuction,
+      lastSacrifice,
       _loaded: needFetch ? current : _loaded
     })
 
@@ -94,6 +108,14 @@ export default class ScreenTinygrailSacrifice extends store {
   }
 
   // -------------------- get --------------------
+  @computed get namespaceLastAuction() {
+    return `${namespace}|lastAuction|${this.monoId}`
+  }
+
+  @computed get namespaceLastSacrifice() {
+    return `${namespace}|lastSacrifice|${this.monoId}`
+  }
+
   @computed get monoId() {
     const { monoId = '' } = this.params
     return monoId.replace('character/', '')
@@ -142,6 +164,18 @@ export default class ScreenTinygrailSacrifice extends store {
   @computed get myTemple() {
     const { list } = this.charaTemple
     return list.find(item => item.name === this.hash) || {}
+  }
+
+  /**
+   * 测试献祭效率最少数量
+   */
+  @computed get testAmount() {
+    const { sacrifices = 0 } = this.myTemple
+    const { amount } = this.userLogs
+    if (sacrifices >= 500) {
+      return 1
+    }
+    return amount >= 100 ? 100 : amount
   }
 
   // -------------------- action --------------------
@@ -206,6 +240,47 @@ export default class ScreenTinygrailSacrifice extends store {
     this.setState({
       loading: false
     })
+    this.cacheLastSacrifice(amount, Value.Balance)
+    this.refresh()
+  }
+
+  /**
+   * 测试献祭效率
+   */
+  doTestSacrifice = async () => {
+    const { loading } = this.state
+    if (loading) {
+      return
+    }
+
+    this.setState({
+      loading: true
+    })
+
+    t('资产重组.测试效率', {
+      monoId: this.monoId,
+      amount: this.testAmount
+    })
+
+    const { State, Value, Message } = await tinygrailStore.doSacrifice({
+      monoId: this.monoId,
+      amount: this.testAmount,
+      isSale: false
+    })
+    feedback()
+
+    if (State !== 0) {
+      info(Message)
+      this.setState({
+        loading: false
+      })
+      return
+    }
+
+    this.setState({
+      loading: false
+    })
+    this.cacheLastSacrifice(this.testAmount, Value.Balance)
     this.refresh()
   }
 
@@ -422,17 +497,32 @@ export default class ScreenTinygrailSacrifice extends store {
    * 记忆上次出价
    */
   cacheLastAuction = (price, amount) => {
-    const data = {
+    const lastAuction = {
       price,
       amount,
       time: getTimestamp()
     }
     this.setState({
-      lastAuction: data
+      lastAuction
     })
 
-    const key = `${namespace}|lastAuction|${this.monoId}`
-    setStorage(key, data)
+    setStorage(this.namespaceLastAuction, lastAuction)
+  }
+
+  /**
+   * 记忆上次献祭
+   */
+  cacheLastSacrifice = (amount, total) => {
+    const lastSacrifice = {
+      amount,
+      total,
+      time: getTimestamp()
+    }
+    this.setState({
+      lastSacrifice
+    })
+
+    setStorage(this.namespaceLastSacrifice, lastSacrifice)
   }
 
   /**

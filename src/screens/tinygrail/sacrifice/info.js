@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 14:01:39
+ * @Last Modified time: 2020-11-01 14:31:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -80,43 +80,43 @@ function Info(props, { $, navigation }) {
           }}
         >
           <Flex justify='center'>
-            <Text type='tinygrailPlain' size={16} bold>
+            <Text type='tinygrailPlain' size={15} bold>
               #{id} - {name}
               {!!bonus && (
-                <Text type='warning' size={16}>
+                <Text type='warning' size={15}>
                   {' '}
                   x{bonus}
                 </Text>
               )}
-              <Text type='ask' size={16}>
+              <Text type='ask' size={15}>
                 {' '}
                 lv{level}
               </Text>
             </Text>
             <Iconfont
-              style={_.ml.sm}
+              style={_.ml.xs}
               name='right'
-              size={16}
+              size={14}
               color={_.colorTinygrailText}
             />
           </Flex>
         </Touchable>
-        <Touchable style={_.ml.md} onPress={$.toggleCover}>
-          <Text type='tinygrailText' size={16}>
+        <Touchable style={_.ml.sm} onPress={$.toggleCover}>
+          <Text type='tinygrailText' size={15}>
             [{showCover ? '隐藏' : '显示'}封面]
           </Text>
         </Touchable>
       </Flex>
       <Flex
-        style={[_.container.wind, _.mt.md]}
+        style={[_.container.wind, _.mt.sm]}
         justify='center'
         align='baseline'
       >
-        <Text type='tinygrailText' align='center'>
+        <Text type='tinygrailText' align='center' size={13}>
           市值{formatNumber(marketValue, 0)} / 量{formatNumber(total, 0)} /
           发行价 {toFixed($.issuePrice, 1)} /{' '}
-          <Text type='tinygrailPlain'>{current && toFixed(current, 2)}</Text>
-          <Text type={color} align='center'>
+          <Text type='tinygrailPlain' size={13}>{current && toFixed(current, 2)}</Text>
+          <Text type={color} align='center' size={13}>
             {' '}
             {fluctuationText}
           </Text>

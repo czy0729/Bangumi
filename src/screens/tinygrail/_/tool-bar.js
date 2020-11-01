@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:35:01
+ * @Last Modified time: 2020-11-01 15:48:44
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -106,7 +106,7 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: 6,
     paddingRight: 10,
-    height: 46,
+    height: 47,
     borderBottomWidth: _.hairlineWidth,
     borderBottomColor: _.colorTinygrailBorder
   },
