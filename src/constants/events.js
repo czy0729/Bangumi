@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 22:17:12
+ * @Last Modified time: 2020-11-01 22:40:22
  */
 
 /**
@@ -340,6 +340,7 @@ export default {
   '我的持仓.排序': 'TCharaAssets.onSortPress',
   '我的持仓.设置前往': 'TCharaAssets.onSelectGo',
   '我的持仓.批量献祭': 'TCharaAssets.doBatchSacrifice',
+  '我的持仓.批量挂单': 'TCharaAssets.doBatchAsk',
 
   // 交易
   '交易.跳转': 'TDeal.to',
@@ -405,6 +406,7 @@ export default {
   '资产重组.展开收起记录': 'TSacrifice.toggleLogs',
   '资产重组.展开收起圣殿板块': 'TSacrifice.toggleTemples',
   '资产重组.展开收起董事会': 'TSacrifice.toggleUsers',
+  '资产重组.测试效率': 'TSacrifice.doTestSacrifice',
 
   // 人物直达
   '人物直达.跳转': 'TSearch.to',

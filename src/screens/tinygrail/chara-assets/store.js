@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 21:08:44
+ * @Last Modified time: 2020-11-01 22:35:31
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -66,6 +66,11 @@ export const sortDS = [
   SORT_SDGXB
 ]
 const namespace = 'ScreenTinygrailCharaAssets'
+const excludeState = {
+  editing: false, // 是否批量选择中
+  editingIds: {}, // 选中的角色id
+  batchAction: '' // 批量动作
+}
 const perBatchCount = 10
 
 export default class ScreenTinygrailCharaAssets extends store {
@@ -75,8 +80,7 @@ export default class ScreenTinygrailCharaAssets extends store {
     sort: '',
     direction: '', // void | down | up
     go: '卖出',
-    editing: false, // 是否批量选择中
-    editingIds: {}, // 选中的角色id
+    ...excludeState,
     _loaded: false
   })
 
@@ -89,7 +93,7 @@ export default class ScreenTinygrailCharaAssets extends store {
     const state = await res
     this.setState({
       ...state,
-      editing: true,
+      ...excludeState,
       _loaded: needFetch ? current : _loaded
     })
     this.clearState('editingIds', {})
@@ -348,10 +352,11 @@ export default class ScreenTinygrailCharaAssets extends store {
     this.setStorage(undefined, undefined, namespace)
   }
 
-  toggleBatchEdit = () => {
+  toggleBatchEdit = (batchAction = '') => {
     const { editing } = this.state
     this.setState({
-      editing: !editing
+      editing: !editing,
+      batchAction
     })
     this.clearState('editingIds', {})
   }
@@ -404,18 +409,24 @@ export default class ScreenTinygrailCharaAssets extends store {
   }
 
   // -------------------- action --------------------
-  doBatchSacrifice = () => {
+  /**
+   * 批量献祭
+   * @param {*} isSale
+   */
+  doBatchSacrifice = (isSale = false) => {
     const { editingIds } = this.state
     const ids = Object.keys(editingIds)
     if (!ids.length) {
       return
     }
 
+    const action = isSale ? '出售' : '献祭'
     confirm(
-      `批量献祭${ids.length}个角色的所有流动股份, 该操作不能撤回, 确定? (若角色当前有挂单, 可用数与显示数对不上时, 不会自动献祭成功)`,
+      `批量 (${action}) (${ids.length}) 个角色的所有流动股份, 该操作不能撤回, 确定? (若角色当前有挂单, 可用数与显示数对不上时, 操作会失败)`,
       async () => {
         t('我的持仓.批量献祭', {
-          length: ids.length
+          length: ids.length,
+          isSale
         })
 
         const errorIds = []
@@ -424,7 +435,7 @@ export default class ScreenTinygrailCharaAssets extends store {
             const { State } = await tinygrailStore.doSacrifice({
               monoId: id,
               amount: editingIds[id],
-              isSale: false
+              isSale
             })
             if (State === 1) {
               errorIds.push(id)
@@ -440,7 +451,67 @@ export default class ScreenTinygrailCharaAssets extends store {
         feedback()
         this.fetchMyCharaAssets()
         if (errorIds.length) {
-          Alert.alert('小圣杯助手', `共有${errorIds.length}个角色献祭失败`, [
+          Alert.alert('小圣杯助手', `共有 (${errorIds.length}) 个角色 (${action}) 失败`, [
+            {
+              text: '知道了'
+            }
+          ])
+        } else {
+          info('操作完成')
+        }
+        this.toggleBatchEdit()
+      },
+      '警告'
+    )
+  }
+
+  /**
+   * 批量以当前价挂卖单
+   */
+  doBatchAsk = async () => {
+    const { editingIds } = this.state
+    const ids = Object.keys(editingIds)
+    if (!ids.length) {
+      return
+    }
+
+    confirm(
+      `批量对 (${ids.length}) 个角色以当前价 (挂卖单), 确定? (若角色当前有挂单, 可用数与显示数对不上时, 操作会失败)`,
+      async () => {
+        t('我的持仓.批量挂单', {
+          length: ids.length
+        })
+
+        const { list } = this.charaList
+        const errorIds = []
+        for (const id of ids) {
+          try {
+            const item = list.find(item => item.id == id)
+            if (item) {
+              const { current, state } = item
+              const { State } = await tinygrailStore.doAsk({
+                monoId: id,
+                price: current,
+                amount: state
+              })
+              if (State === 1) {
+                errorIds.push(id)
+              }
+            }
+          } catch (error) {
+            errorIds.push(id)
+          }
+          info(
+            `正在挂卖单 ${ids.findIndex(item => item === id) + 1} / ${
+              ids.length
+            }`
+          )
+        }
+
+        feedback()
+        this.fetchMyCharaAssets()
+        if (errorIds.length) {
+          Alert.alert('小圣杯助手', `共有 (${errorIds.length}) 个角色 (挂卖单) 失败`, [
             {
               text: '知道了'
             }

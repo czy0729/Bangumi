@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 15:56:54
+ * @Last Modified time: 2020-11-01 22:13:17
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -113,7 +113,7 @@ function Slider({ style }, { $ }) {
           }}
         >
           <Text type='tinygrailText' size={12}>
-            [测试]
+            [献祭效率]
           </Text>
         </Touchable>
         {!!lastSacrifice.time && (

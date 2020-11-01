@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 23:19:17
+ * @Last Modified time: 2020-11-01 22:42:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,6 +37,7 @@ function Auth(props, { $, navigation }) {
             />
           )}
           <Avatar
+            key={tinygrailOSS(avatar && avatar.large)}
             style={styles.avatar}
             size={32}
             src={tinygrailOSS(avatar && avatar.large)}

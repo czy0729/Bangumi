@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 19:56:29
+ * @Last Modified time: 2020-11-01 22:07:23
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -17,7 +17,7 @@ import IconGo from '../_/icon-go'
 const data = ['批量献祭', '批量出售', '批量挂卖单']
 
 function IconRight({ $ }) {
-  const { page, editing } = $.state
+  const { page, editing, batchAction } = $.state
   if (editing) {
     return (
       <>
@@ -32,7 +32,24 @@ function IconRight({ $ }) {
           name='check-simple'
           size={20}
           color={_.colorTinygrailPlain}
-          onPress={$.doBatchSacrifice}
+          onPress={() => {
+            switch (batchAction) {
+              case '批量献祭':
+                $.doBatchSacrifice()
+                break
+
+              case '批量出售':
+                $.doBatchSacrifice(true)
+                break
+
+              case '批量挂卖单':
+                $.doBatchAsk()
+                break
+
+              default:
+                break
+            }
+          }}
         />
       </>
     )
@@ -50,16 +67,10 @@ function IconRight({ $ }) {
               key
             })
 
-            switch (key) {
-              case '批量献祭':
-                $.toggleBatchEdit()
-                break
-              default:
-                break
-            }
+            $.toggleBatchEdit(key)
           }}
         >
-          <Iconfont name='list' size={20} color={_.colorTinygrailPlain} />
+          <Iconfont name='list' size={21} color={_.colorTinygrailPlain} />
         </Popover>
       )}
     </>
@@ -71,6 +82,7 @@ export default observer(IconRight)
 const styles = StyleSheet.create({
   icon: {
     padding: _.sm,
+    paddingTop: _.sm + 1,
     paddingLeft: _.xs,
     marginRight: IOS ? -_.sm : 0
   },
