@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 20:29:33
+ * @Last Modified time: 2020-11-03 17:20:30
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -11,43 +11,34 @@ import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 
-const levelDS = [
-  '全部',
-  'lv1',
-  'lv2',
-  'lv3',
-  'lv4',
-  'lv5',
-  'lv6',
-  'lv7',
-  'lv8',
-  'lv9',
-  'lv10',
-  'lv11',
-  'lv12',
-  'lv13',
-  'lv14',
-  'lv15'
-]
-
 function ToolBar({
   data,
   sort,
   level,
+  levelMap,
   direction,
   renderLeft,
   onSortPress,
   onLevelSelect
 }) {
   const styles = memoStyles()
+  const sum = Object.keys(levelMap).reduce(
+    (total, level) => total + levelMap[level],
+    0
+  )
+  const levelDS = [
+    `全部 (${sum})`,
+    ...Object.keys(levelMap).map(level => `lv${level} (${levelMap[level]})`)
+  ]
   return (
     <Flex style={styles.container}>
       {renderLeft}
       <Popover
         data={levelDS}
-        onSelect={title =>
-          onLevelSelect(title === '全部' ? '' : title.replace('lv', ''))
-        }
+        onSelect={title => {
+          const lv = title.split(' ')[0]
+          onLevelSelect(lv === '全部' ? '' : lv.replace('lv', ''))
+        }}
       >
         <Flex style={styles.popover} justify='center'>
           <Iconfont
@@ -61,6 +52,7 @@ function ToolBar({
             type={level ? 'ask' : 'tinygrailText'}
           >
             {level ? `lv${level}` : '等级'}
+            {levelMap[level] ? ` (${levelMap[level]})` : ''}
           </Text>
         </Flex>
       </Popover>
@@ -105,6 +97,7 @@ function ToolBar({
 
 ToolBar.defaultProps = {
   data: [],
+  levelMap: {},
   onSortPress: Function.prototype,
   onLevelSelect: Function.prototype
 }

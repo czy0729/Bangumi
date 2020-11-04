@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:41:09
+ * @Last Modified time: 2020-11-04 15:13:20
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -14,12 +14,7 @@ import Item from './item'
 
 function List({ title }, { $ }) {
   if (!$.balance._loaded) {
-    return (
-      <Loading
-        style={_.container.flex}
-        color={_.colorTinygrailText}
-      />
-    )
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
   let data
@@ -86,6 +81,7 @@ function List({ title }, { $ }) {
   return (
     <ListView
       style={_.container.flex}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       refreshControlProps={{
         color: _.colorTinygrailText

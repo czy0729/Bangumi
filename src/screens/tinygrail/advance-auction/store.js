@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:43:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:42:27
+ * @Last Modified time: 2020-11-04 17:32:04
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { levelList } from '../_/utils'
 
 export default class ScreenTinygrailAdvanceAuction extends store {
   state = observable({
@@ -55,6 +56,10 @@ export default class ScreenTinygrailAdvanceAuction extends store {
   fetchCharaAll = () => tinygrailStore.fetchCharaAll()
 
   // -------------------- get --------------------
+  @computed get myUserId() {
+    return userStore.myUserId
+  }
+
   @computed get advance() {
     return tinygrailStore.advance
   }
@@ -63,8 +68,31 @@ export default class ScreenTinygrailAdvanceAuction extends store {
     return tinygrailStore.advanceAuctionList
   }
 
-  @computed get myUserId() {
-    return userStore.myUserId
+  @computed get computedList() {
+    const { level } = this.state
+    const list = this.advanceAuctionList
+    if (!list._loaded) {
+      return list
+    }
+
+    let _list = list
+    if (level) {
+      _list = {
+        ..._list,
+        list: levelList(level, _list.list)
+      }
+    }
+
+    return _list
+  }
+
+  @computed get levelMap() {
+    const { list } = this.advanceAuctionList
+    const data = {}
+    list.forEach(item =>
+      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
+    )
+    return data
   }
 
   @computed get auctioningMap() {

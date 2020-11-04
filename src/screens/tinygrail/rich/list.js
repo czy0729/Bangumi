@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 15:46:39
+ * @Last Modified time: 2020-11-04 15:13:40
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,12 +15,7 @@ import Item from './item'
 function List({ id, title }, { $ }) {
   const rich = $.rich(id)
   if (!rich._loaded) {
-    return (
-      <Loading
-        style={_.container.flex}
-        color={_.colorTinygrailText}
-      />
-    )
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
   const [page, limit] = id.split('/')
@@ -42,6 +37,7 @@ function List({ id, title }, { $ }) {
   return (
     <ListView
       style={_.container.flex}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={item => String(item.userId)}
       refreshControlProps={{
         color: _.colorTinygrailText

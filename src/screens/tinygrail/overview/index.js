@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 15:12:08
+ * @Last Modified time: 2020-11-03 11:46:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,6 +53,7 @@ class TinygrailOverview extends React.Component {
       <ToolBar
         data={sortDS}
         level={level}
+        levelMap={$.levelMap}
         sort={sort}
         direction={direction}
         onLevelSelect={$.onLevelSelect}

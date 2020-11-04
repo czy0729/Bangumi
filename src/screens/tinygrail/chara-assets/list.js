@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 20:43:54
+ * @Last Modified time: 2020-11-04 15:13:06
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -39,6 +39,7 @@ function List({ id }, { $, navigation }) {
     <ListView
       key={String(numColumns)}
       style={_.container.flex}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={(item, index) => String(index)}
       refreshControlProps={{
         color: _.colorTinygrailText

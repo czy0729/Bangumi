@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 22:02:07
+ * @Last Modified time: 2020-11-04 15:13:35
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -20,12 +20,7 @@ const event = {
 function List(props, { $ }) {
   const { _loaded } = $.list
   if (!_loaded) {
-    return (
-      <Loading
-        style={_.container.flex}
-        color={_.colorTinygrailText}
-      />
-    )
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
   const { level, sort, direction } = $.state
@@ -46,6 +41,7 @@ function List(props, { $ }) {
   return (
     <ListView
       style={_.container.flex}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       refreshControlProps={{
         color: _.colorTinygrailText

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-03 19:38:36
+ * @Last Modified time: 2020-11-04 15:28:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ function Avatar({
   src,
   size,
   borderColor = _.colorBorder,
+  borderWidth,
   event,
   params,
   onPress,
@@ -124,6 +125,7 @@ function Avatar({
       src={_src}
       radius={radius}
       border={borderColor}
+      borderWidth={borderWidth}
       quality={false}
       onPress={_onPress}
       onLongPress={onLongPress}

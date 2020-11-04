@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 22:35:31
+ * @Last Modified time: 2020-11-04 17:09:01
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -260,6 +260,15 @@ export default class ScreenTinygrailCharaAssets extends store {
     return data
   }
 
+  @computed get levelMap() {
+    const { chara } = this.myCharaAssets
+    const data = {}
+    chara.list.forEach(item =>
+      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
+    )
+    return data
+  }
+
   // -------------------- page --------------------
   onChange = page => {
     if (page === this.state.page) {
@@ -451,11 +460,15 @@ export default class ScreenTinygrailCharaAssets extends store {
         feedback()
         this.fetchMyCharaAssets()
         if (errorIds.length) {
-          Alert.alert('小圣杯助手', `共有 (${errorIds.length}) 个角色 (${action}) 失败`, [
-            {
-              text: '知道了'
-            }
-          ])
+          Alert.alert(
+            '小圣杯助手',
+            `共有 (${errorIds.length}) 个角色 (${action}) 失败`,
+            [
+              {
+                text: '知道了'
+              }
+            ]
+          )
         } else {
           info('操作完成')
         }
@@ -511,11 +524,15 @@ export default class ScreenTinygrailCharaAssets extends store {
         feedback()
         this.fetchMyCharaAssets()
         if (errorIds.length) {
-          Alert.alert('小圣杯助手', `共有 (${errorIds.length}) 个角色 (挂卖单) 失败`, [
-            {
-              text: '知道了'
-            }
-          ])
+          Alert.alert(
+            '小圣杯助手',
+            `共有 (${errorIds.length}) 个角色 (挂卖单) 失败`,
+            [
+              {
+                text: '知道了'
+              }
+            ]
+          )
         } else {
           info('操作完成')
         }

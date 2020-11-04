@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:41:21
+ * @Last Modified time: 2020-11-04 15:13:26
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,48 +11,27 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import Item from '../_/item'
-import { levelList, sortList } from '../_/utils'
 
 const event = {
   id: '新番榜单.跳转'
 }
 
 function List({ id }, { $ }) {
-  const list = $.list(id)
+  const list = $.computedList(id)
   if (!list._loaded) {
-    return (
-      <Loading
-        style={_.container.flex}
-        color={_.colorTinygrailText}
-      />
-    )
-  }
-
-  const { level, sort, direction } = $.state
-  let _list = list
-  if (level) {
-    _list = {
-      ..._list,
-      list: levelList(level, _list.list)
-    }
-  }
-
-  if (sort) {
-    _list = {
-      ..._list,
-      list: sortList(sort, direction, _list.list)
-    }
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
   return (
     <ListView
       style={_.container.flex}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       refreshControlProps={{
         color: _.colorTinygrailText
       }}
       footerTextType='tinygrailText'
-      data={_list}
+      data={list}
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchList(id)}
     />

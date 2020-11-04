@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:43:08
+ * @Last Modified time: 2020-11-04 17:37:14
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -53,7 +53,7 @@ class TinygrailAdvanceAuction extends React.Component {
 
             Alert.alert(
               '当前计算方式',
-              '从英灵殿里面查找前2000条\n流动股息 > 2 且 数量 > 100\n流动股息 / 竞拍底价 * 10 = 分数',
+              '从英灵殿里面查找前2000条\n流动股息 > 2 且 数量 > 80\n流动股息 / 竞拍底价 * 10 = 分数',
               [
                 {
                   text: '知道了'
@@ -72,7 +72,11 @@ class TinygrailAdvanceAuction extends React.Component {
     return (
       <View style={this.styles.container}>
         <StatusBarEvents />
-        <ToolBar level={level} onLevelSelect={$.onLevelSelect} />
+        <ToolBar
+          level={level}
+          levelMap={$.levelMap}
+          onLevelSelect={$.onLevelSelect}
+        />
         <List />
       </View>
     )

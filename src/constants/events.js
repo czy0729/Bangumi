@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 22:40:22
+ * @Last Modified time: 2020-11-04 11:00:32
  */
 
 /**
@@ -381,12 +381,14 @@ export default {
   '新番榜单.跳转': 'TNew.to',
   '新番榜单.标签页切换': 'TNew.tabsChange',
   '新番榜单.排序': 'TNew.onSortPress',
+  '新番榜单.筛选': 'TNew.onFilter',
   '新番榜单.设置前往': 'TNew.onSelectGo',
 
   // 热门榜单
   '热门榜单.跳转': 'TOverview.to',
   '热门榜单.标签页切换': 'TOverview.tabsChange',
   '热门榜单.排序': 'TOverview.onSortPress',
+  '热门榜单.筛选': 'TOverview.onFilter',
   '热门榜单.设置前往': 'TOverview.onSelectGo',
 
   // 番市首富
@@ -440,6 +442,7 @@ export default {
   '英灵殿.跳转': 'TValhall.to',
   '英灵殿.标签页切换': 'TValhall.tabsChange',
   '英灵殿.排序': 'TValhall.onSortPress',
+  '英灵殿.筛选': 'TValhall.onFilter',
   '英灵殿.设置前往': 'TValhall.onSelectGo',
 
   // 关联角色

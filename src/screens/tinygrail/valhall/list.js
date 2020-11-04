@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:41:54
+ * @Last Modified time: 2020-11-04 15:10:59
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -18,40 +18,21 @@ const event = {
 }
 
 function List(props, { $ }) {
-  const { _loaded } = $.valhallList
+  const { _loaded } = $.computedList
   if (!_loaded) {
-    return (
-      <Loading
-        style={_.container.flex}
-        color={_.colorTinygrailText}
-      />
-    )
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
-  const { level, sort, direction } = $.state
-  let _list = $.valhallList
-  if (level) {
-    _list = {
-      ..._list,
-      list: levelList(level, _list.list)
-    }
-  }
-
-  if (sort) {
-    _list = {
-      ..._list,
-      list: sortList(sort, direction, _list.list)
-    }
-  }
   return (
     <ListView
       style={_.container.flex}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       refreshControlProps={{
         color: _.colorTinygrailText
       }}
       footerTextType='tinygrailText'
-      data={_list}
+      data={$.computedList}
       renderItem={renderItem}
       onHeaderRefresh={$.fetchValhallList}
     />

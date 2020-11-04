@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-08-01 14:39:19
+ * @Last Modified time: 2020-11-04 16:07:43
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -110,12 +110,15 @@ class TinygrailTopWeek extends React.Component {
             return (
               <View key={item.id} style={this.styles.item}>
                 <Flex
-                  style={[this.styles.wrap, index !== 0 && this.styles.border]}
+                  style={[
+                    this.styles.wrap,
+                    index !== 0 && !_.flat && this.styles.border
+                  ]}
                 >
                   <Avatar
                     style={this.styles.avatar}
                     src={tinygrailOSS(item.avatar)}
-                    size={44}
+                    size={36}
                     borderColor='transparent'
                     name={item.name}
                     onPress={() => {
@@ -144,10 +147,10 @@ class TinygrailTopWeek extends React.Component {
                     >
                       <Flex>
                         <Flex.Item>
-                          <Text type='tinygrailPlain' size={15} bold>
+                          <Text type='tinygrailPlain' bold>
                             {item.rank}. {item.name}
                             {!!item.rankChange && (
-                              <Text type={changeColor} size={15}>
+                              <Text type={changeColor}>
                                 {' '}
                                 {item.rankChange > 0 && '+'}
                                 {item.rankChange}
@@ -209,7 +212,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorTinygrailContainer
   },
   wrap: {
-    paddingVertical: _.md,
+    paddingVertical: _.sm + 4,
     paddingRight: _.wind
   },
   border: {

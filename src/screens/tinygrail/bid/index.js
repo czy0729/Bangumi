@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:22:50
+ * @Last Modified time: 2020-11-04 16:56:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,6 +51,7 @@ class TinygrailBid extends React.Component {
       <ToolBar
         data={sortDS}
         level={level}
+        levelMap={$.levelMap}
         sort={sort}
         direction={direction}
         onLevelSelect={$.onLevelSelect}

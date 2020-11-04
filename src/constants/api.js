@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:46:35
+ * @Last Modified time: 2020-11-03 17:59:21
  */
 import { HOST } from './index'
 
@@ -298,8 +298,8 @@ export const API_TINYGRAIL_BALANCE = () =>
 /**
  * ICO参与者
  */
-export const API_TINYGRAIL_INITIAL = icoId =>
-  `${API_HOST_TINYGRAIL}/api/chara/initial/users/${icoId}/1`
+export const API_TINYGRAIL_INITIAL = (icoId, page = 1) =>
+  `${API_HOST_TINYGRAIL}/api/chara/initial/users/${icoId}/${page}`
 
 /**
  * 参与ICO

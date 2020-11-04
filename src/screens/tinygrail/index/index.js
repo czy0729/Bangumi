@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 16:55:30
+ * @Last Modified time: 2020-11-04 15:10:21
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -158,6 +158,6 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorTinygrailContainer
   },
   contentContainerStyle: {
-    paddingBottom: _.wind
+    paddingBottom: _.md
   }
 }))

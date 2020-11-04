@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:40:39
+ * @Last Modified time: 2020-11-04 17:34:54
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,17 +11,11 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import ItemAdvance from '../_/item-advance'
-import { levelList } from '../_/utils'
 
 function List(props, { $ }) {
-  const { _loaded } = $.advanceAuctionList
+  const { _loaded } = $.computedList
   if (!_loaded) {
-    return (
-      <Loading
-        style={_.container.flex}
-        color={_.colorTinygrailText}
-      />
-    )
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
   const event = {
@@ -32,30 +26,16 @@ function List(props, { $ }) {
     }
   }
 
-  const { level } = $.state
-  let _list = $.advanceAuctionList
-  if (level) {
-    _list = {
-      ..._list,
-      list: levelList(
-        level,
-        _list.list.map((item, index) => ({
-          ...item,
-          _index: index
-        }))
-      )
-    }
-  }
-
   return (
     <ListView
       style={_.container.flex}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       refreshControlProps={{
         color: _.colorTinygrailText
       }}
       footerTextType='tinygrailText'
-      data={_list}
+      data={$.computedList}
       renderItem={({ item, index }) => (
         <ItemAdvance
           index={item._index || index}

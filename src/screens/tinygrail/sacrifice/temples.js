@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:40:26
+ * @Last Modified time: 2020-11-04 15:56:04
  */
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
@@ -148,7 +148,7 @@ class Temples extends React.Component {
             }}
             onPress={this.onShowAlert}
           >
-            <Text type='tinygrailText'>[角色计息]</Text>
+            <Text type='tinygrailText'>[计息]</Text>
           </Touchable>
         </Flex>
         {showTemples && (

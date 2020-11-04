@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 17:37:27
+ * @Last Modified time: 2020-11-04 11:34:31
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,8 @@ import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
+  levelList,
+  sortList,
   relation,
   SORT_SC,
   SORT_GX,
@@ -73,6 +75,40 @@ export default class ScreenTinygrailValhall extends store {
     return relation(tinygrailStore.valhallList)
   }
 
+  @computed get computedList() {
+    const { sort, level, direction } = this.state
+    const list = this.valhallList
+    if (!list._loaded) {
+      return list
+    }
+
+    let _list = list
+    if (level) {
+      _list = {
+        ..._list,
+        list: levelList(level, _list.list)
+      }
+    }
+
+    if (sort) {
+      _list = {
+        ..._list,
+        list: sortList(sort, direction, _list.list)
+      }
+    }
+
+    return _list
+  }
+
+  @computed get levelMap() {
+    const { list } = this.valhallList
+    const data = {}
+    list.forEach(item =>
+      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
+    )
+    return data
+  }
+
   // -------------------- page --------------------
   onSelectGo = title => {
     t('英灵殿.设置前往', {
@@ -86,10 +122,13 @@ export default class ScreenTinygrailValhall extends store {
   }
 
   onLevelSelect = level => {
-    this.setState({
+    t('英灵殿.筛选', {
       level
     })
 
+    this.setState({
+      level
+    })
     this.setStorage(undefined, undefined, namespace)
   }
 

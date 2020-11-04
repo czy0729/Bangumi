@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 18:41:22
+ * @Last Modified time: 2020-11-04 17:38:03
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -1339,6 +1339,7 @@ class Tinygrail extends store {
    * ICO参与者
    */
   fetchInitial = async monoId => {
+    // TotalPages
     const result = await this.fetch(API_TINYGRAIL_INITIAL(monoId))
 
     let data = {
@@ -1669,6 +1670,7 @@ class Tinygrail extends store {
     if (State === 0) {
       const _list = Value.Items.map(item => ({
         id: item.CharacterId,
+        avatar: item.Avatar,
         userId: item.Name,
         cover: item.Cover,
         name: item.CharacterName,
@@ -1911,7 +1913,7 @@ class Tinygrail extends store {
             amount: item.State,
             mark: toFixed((parseFloat(item.Rate) / item.Price) * 10, 1)
           }))
-          .filter(item => parseFloat(item.mark) >= 2)
+          .filter(item => parseFloat(item.mark) >= 0.5)
           .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
         pagination: paginationOnePage,
         _loaded: getTimestamp()
@@ -1960,7 +1962,7 @@ class Tinygrail extends store {
               mark: toFixed((templeRate / item.Price) * 10, 1)
             }
           })
-          .filter(item => parseFloat(item.mark) >= 2)
+          .filter(item => parseFloat(item.mark) >= 0.5)
           .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
         pagination: paginationOnePage,
         _loaded: getTimestamp()

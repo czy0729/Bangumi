@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 10:52:41
+ * @Last Modified time: 2020-11-04 09:52:25
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,8 @@ import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
+  levelList,
+  sortList,
   relation,
   SORT_SC,
   SORT_GX,
@@ -86,8 +88,7 @@ export default class ScreenTinygrailOverview extends store {
     })
 
     if (needFetch) {
-      const { page } = this.state
-      this.fetchList(tabs[page].key)
+      this.fetchList(this.currentKey)
     }
 
     return res
@@ -101,8 +102,49 @@ export default class ScreenTinygrailOverview extends store {
     return tinygrailStore.mvc
   }
 
+  @computed get currentKey() {
+    const { page } = this.state
+    return tabs[page].key
+  }
+
+  @computed get levelMap() {
+    const { list } = this.list(this.currentKey)
+    const data = {}
+    list.forEach(item =>
+      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
+    )
+    return data
+  }
+
   list(key = 'recent') {
     return computed(() => relation(tinygrailStore.list(key))).get()
+  }
+
+  computedList(key) {
+    const { sort, level, direction } = this.state
+    return computed(() => {
+      const list = this.list(key)
+      if (!list._loaded) {
+        return list
+      }
+
+      let _list = list
+      if (level) {
+        _list = {
+          ..._list,
+          list: levelList(level, _list.list)
+        }
+      }
+
+      if (sort) {
+        _list = {
+          ..._list,
+          list: sortList(sort, direction, _list.list)
+        }
+      }
+
+      return _list
+    }).get()
   }
 
   // -------------------- page --------------------
@@ -116,9 +158,9 @@ export default class ScreenTinygrailOverview extends store {
     })
 
     this.setState({
-      page,
-      sort: '',
-      direction: ''
+      page
+      // sort: '',
+      // direction: ''
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)
@@ -144,10 +186,13 @@ export default class ScreenTinygrailOverview extends store {
   }
 
   onLevelSelect = level => {
-    this.setState({
+    t('热门榜单.筛选', {
       level
     })
 
+    this.setState({
+      level
+    })
     this.setStorage(undefined, undefined, namespace)
   }
 

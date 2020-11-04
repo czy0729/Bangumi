@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 14:19:16
+ * @Last Modified time: 2020-11-04 17:15:18
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -59,7 +59,7 @@ function Item(props, { navigation }) {
           })
         }}
       />
-      <Flex.Item style={!isTop && styles.border}>
+      <Flex.Item style={!isTop && !_.flat && styles.border}>
         <Touchable
           style={styles.item}
           onPress={() => {

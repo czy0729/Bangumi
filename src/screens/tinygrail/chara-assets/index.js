@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 20:22:41
+ * @Last Modified time: 2020-11-04 17:08:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,6 +61,23 @@ class TinygrailCharaAssets extends React.Component {
     })
   }
 
+  getCount = route => {
+    const { $ } = this.context
+    switch (route.key) {
+      case 'chara':
+        return $.charaList?.list?.length || 0
+
+      case 'temple':
+        return $.temple?.list?.length || 0
+
+      case 'ico':
+        return $.myCharaAssets?.ico?.list?.length || 0
+
+      default:
+        return 0
+    }
+  }
+
   renderIncreaseBtn() {
     const { $ } = this.context
     const { editing } = $.state
@@ -93,6 +110,7 @@ class TinygrailCharaAssets extends React.Component {
       <ToolBar
         data={sortDS}
         level={level}
+        levelMap={$.levelMap}
         sort={sort}
         direction={direction}
         renderLeft={this.renderIncreaseBtn()}
@@ -113,6 +131,19 @@ class TinygrailCharaAssets extends React.Component {
             routes={tabs}
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
             renderItem={item => <List key={item.key} id={item.key} />}
+            renderLabel={({ route, focused }) => (
+              <Flex style={this.styles.labelText} justify='center'>
+                <Text type='tinygrailPlain' size={13} bold={focused}>
+                  {route.title}
+                </Text>
+                {!!this.getCount(route) && (
+                  <Text type='tinygrailText' size={11} bold lineHeight={13}>
+                    {' '}
+                    {this.getCount(route)}{' '}
+                  </Text>
+                )}
+              </Flex>
+            )}
           />
         )}
       </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 16:47:30
+ * @Last Modified time: 2020-11-03 11:05:55
  */
 import React, { useMemo } from 'react'
 import { TabBar, SceneMap } from 'react-native-tab-view'
@@ -23,6 +23,7 @@ function Tabs({
   borderBottomColor,
   underlineColor,
   renderItem,
+  renderLabel,
   onChange,
   ...other
 }) {
@@ -100,13 +101,16 @@ function Tabs({
           pressOpacity={1}
           pressColor='transparent'
           scrollEnabled
-          renderLabel={({ route, focused }) => (
-            <Flex style={styles.labelText} justify='center'>
-              <Text style={textStyle} type='title' size={13} bold={focused}>
-                {route.title}
-              </Text>
-            </Flex>
-          )}
+          renderLabel={
+            renderLabel ||
+            (({ route, focused }) => (
+              <Flex style={styles.labelText} justify='center'>
+                <Text style={textStyle} type='title' size={13} bold={focused}>
+                  {route.title}
+                </Text>
+              </Flex>
+            ))
+          }
         />
       )}
       renderScene={renderScene}

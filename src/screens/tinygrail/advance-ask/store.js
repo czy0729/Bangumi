@@ -2,15 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-12 19:55:14
+ * @Last Modified time: 2020-11-04 17:22:56
  */
-import { computed } from 'mobx'
+import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { levelList } from '../_/utils'
 
 export default class ScreenTinygrailAdvanceAsk extends store {
+  state = observable({
+    level: '',
+    _loaded: false
+  })
+
   init = () => {
     const { _loaded } = this.advanceList
     if (!_loaded) {
@@ -43,6 +49,10 @@ export default class ScreenTinygrailAdvanceAsk extends store {
   }
 
   // -------------------- get --------------------
+  @computed get myUserId() {
+    return userStore.myUserId
+  }
+
   @computed get advance() {
     return tinygrailStore.advance
   }
@@ -51,7 +61,37 @@ export default class ScreenTinygrailAdvanceAsk extends store {
     return tinygrailStore.advanceList
   }
 
-  @computed get myUserId() {
-    return userStore.myUserId
+  @computed get computedList() {
+    const { level } = this.state
+    const list = this.advanceList
+    if (!list._loaded) {
+      return list
+    }
+
+    let _list = list
+    if (level) {
+      _list = {
+        ..._list,
+        list: levelList(level, _list.list)
+      }
+    }
+
+    return _list
+  }
+
+  @computed get levelMap() {
+    const { list } = this.advanceList
+    const data = {}
+    list.forEach(item =>
+      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
+    )
+    return data
+  }
+
+  // -------------------- page --------------------
+  onLevelSelect = level => {
+    this.setState({
+      level
+    })
   }
 }

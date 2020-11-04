@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:55:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 18:58:00
+ * @Last Modified time: 2020-11-04 17:24:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,7 +13,7 @@ import { observer } from '@utils/decorators'
 import ItemAdvance from '../_/item-advance'
 
 function List(props, { $ }) {
-  const { _loaded } = $.advanceList
+  const { _loaded } = $.computedList
   if (!_loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
@@ -31,12 +31,13 @@ function List(props, { $ }) {
   return (
     <ListView
       style={_.container.flex}
+      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       refreshControlProps={{
         color: _.colorTinygrailText
       }}
       footerTextType='tinygrailText'
-      data={$.advanceList}
+      data={$.computedList}
       renderItem={renderItem}
       onHeaderRefresh={$.fetchAdvanceList}
     />

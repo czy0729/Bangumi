@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 17:51:33
+ * @Last Modified time: 2020-11-04 17:06:09
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,6 +10,8 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import {
+  levelList,
+  sortList,
   relation,
   SORT_SC,
   SORT_GX,
@@ -81,8 +83,51 @@ export default class ScreenTinygrailBid extends store {
   }
 
   // -------------------- get --------------------
+  @computed get currentKey() {
+    const { page } = this.state
+    return tabs[page].key
+  }
+
+  @computed get levelMap() {
+    const { list } = this.list(this.currentKey)
+    const data = {}
+    list.forEach(item =>
+      data[item.level || 1]
+        ? (data[item.level || 1] += 1)
+        : (data[item.level || 1] = 1)
+    )
+    return data
+  }
+
   list(key = 'bid') {
     return computed(() => relation(tinygrailStore.list(key))).get()
+  }
+
+  computedList(key) {
+    const { sort, level, direction } = this.state
+    return computed(() => {
+      const list = this.list(key)
+      if (!list._loaded) {
+        return list
+      }
+
+      let _list = list
+      if (level) {
+        _list = {
+          ..._list,
+          list: levelList(level, _list.list)
+        }
+      }
+
+      if (sort) {
+        _list = {
+          ..._list,
+          list: sortList(sort, direction, _list.list)
+        }
+      }
+
+      return _list
+    }).get()
   }
 
   // -------------------- page --------------------
