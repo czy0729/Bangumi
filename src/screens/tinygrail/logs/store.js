@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 18:15:59
+ * @Last Modified time: 2020-11-05 01:09:03
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
@@ -24,6 +24,10 @@ export const tabs = [
     key: 'lottery'
   },
   {
+    title: 'ICO',
+    key: 'ico'
+  },
+  {
     title: '卖出',
     key: 'asks'
   },
@@ -42,10 +46,6 @@ export const tabs = [
   {
     title: '分红',
     key: 'award'
-  },
-  {
-    title: 'ICO',
-    key: 'ico'
   }
 ]
 const namespace = 'ScreenTinygrailLogs'

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 13:53:00
+ * @Last Modified time: 2020-11-05 00:37:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -96,7 +96,9 @@ function Depth({ style }, { $ }) {
               return (
                 <Touchable
                   key={index}
-                  onPress={() => $.changeValue(item.price, item.amount)}
+                  onPress={() =>
+                    $.changeValue(toFixed(item.price, 2), item.amount)
+                  }
                 >
                   <Flex style={styles.item}>
                     {isMyOrder && <View style={styles.dotAsk} />}
@@ -123,7 +125,7 @@ function Depth({ style }, { $ }) {
         </Flex>
         <Flex style={styles.current}>
           <Flex.Item>
-            <Touchable onPress={() => $.changeValue(toFixed(current, 1))}>
+            <Touchable onPress={() => $.changeValue(toFixed(current, 2))}>
               <Text type={color} size={18} bold>
                 {toFixed(current, 2)}{' '}
               </Text>
@@ -148,7 +150,9 @@ function Depth({ style }, { $ }) {
               return (
                 <Touchable
                   key={index}
-                  onPress={() => $.changeValue(item.price, item.amount)}
+                  onPress={() =>
+                    $.changeValue(toFixed(item.price, 2), item.amount)
+                  }
                 >
                   <Flex style={styles.item}>
                     {isMyOrder && <View style={styles.dotBid} />}

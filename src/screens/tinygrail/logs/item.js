@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 18:19:16
+ * @Last Modified time: 2020-11-05 01:07:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,12 +73,12 @@ function Item(
   return (
     <View style={styles.container}>
       <Touchable withoutFeedback={!onPress} onPress={onPress}>
-        <Flex style={[styles.wrap, !isTop && styles.border]}>
+        <Flex style={[styles.wrap, !isTop && !_.flat && styles.border]}>
           <Flex.Item style={_.mr.sm}>
             <View style={styles.item}>
-              <Text type='tinygrailPlain' size={16}>
+              <Text type='tinygrailPlain' size={15} bold>
                 {formatNumber(balance, 2, $.short)}{' '}
-                <Text type='tinygrailText' size={12} lineHeight={16}>
+                <Text type='tinygrailText' size={11} lineHeight={15}>
                   {' '}
                   {lastDate(getTimestamp((time || '').replace('T', ' ')))}
                 </Text>
@@ -119,7 +119,8 @@ function Item(
                 style={{
                   color
                 }}
-                size={16}
+                size={15}
+                bold
                 align='right'
               >
                 {change
@@ -131,7 +132,7 @@ function Item(
                   : ''}
               </Text>
             ) : (
-              <Text type={changeType} size={16} align='right'>
+              <Text type={changeType} size={15} bold align='right'>
                 {changeNum}
               </Text>
             )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 22:49:37
+ * @Last Modified time: 2020-11-05 01:01:40
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -125,7 +125,7 @@ function Item(props, { $, navigation }) {
     if (isValhall) {
       extra += ` / 底价${toFixed(price, 1)} / 数量${formatNumber(state, 0)}`
     } else {
-      if (show) {
+      if (show || isAuction) {
         extra += ` / ${lastDate(getTimestamp(tinygrailFixedTime(lastOrder)))}`
       }
       if (marketValueText) {
@@ -274,7 +274,7 @@ function Item(props, { $, navigation }) {
                 </Flex.Item>
                 {isAuction && (
                   <View>
-                    <Text type={auctionTextColor} size={15} align='right'>
+                    <Text type={auctionTextColor} bold align='right'>
                       {auctionText}
                     </Text>
                     <Text
@@ -307,9 +307,7 @@ function Item(props, { $, navigation }) {
                 ])
               }
             >
-              <Text type='tinygrailText' size={15}>
-                [取消]
-              </Text>
+              <Text type='tinygrailText'>[取消]</Text>
             </Touchable>
           )}
           {!isAuction && (

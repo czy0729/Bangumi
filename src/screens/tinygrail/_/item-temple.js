@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 16:01:32
+ * @Last Modified time: 2020-11-05 00:43:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -109,9 +109,9 @@ function ItemTemple(
           )}
           <Text
             type='tinygrailPlain'
-            size={12}
+            size={11}
             bold
-            numberOfLines={2}
+            numberOfLines={1}
             onPress={() => {
               t(eventId, {
                 to: 'TinygrailSacrifice',
@@ -146,19 +146,20 @@ function ItemTemple(
           <Text
             style={styles.name}
             type='tinygrailPlain'
-            size={13}
+            size={11}
             bold
             numberOfLines={1}
           >
-            {_name}
-          </Text>
-          <Text
-            type='tinygrailText'
-            size={10}
-            lineHeight={13}
-            numberOfLines={1}
-          >
             {numText}
+            <Text
+              type='tinygrailText'
+              size={10}
+              lineHeight={11}
+              numberOfLines={1}
+            >
+              {' '}
+              {_name}
+            </Text>
           </Text>
         </View>
       )}
@@ -181,7 +182,7 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     width: imageWidth,
     marginTop: _.sm,
-    marginBottom: _.sm,
+    marginBottom: _.sm + 2,
     marginLeft
   },
   avatar: {

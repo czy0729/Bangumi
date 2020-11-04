@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 16:58:04
+ * @Last Modified time: 2020-11-05 00:38:48
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
@@ -312,7 +312,7 @@ export default class ScreenTinygrailDeal extends store {
    */
   stepMinus = () => {
     const { value } = this.state
-    let _value = parseFloat(this.moneyNatural(value)) - 1
+    let _value = parseFloat(this.moneyNatural(value)) - 0.1
     if (_value < 0) {
       _value = 0.1
     }
@@ -327,7 +327,7 @@ export default class ScreenTinygrailDeal extends store {
    */
   stepPlus = () => {
     const { value } = this.state
-    const _value = parseFloat(this.moneyNatural(value)) + 1
+    const _value = parseFloat(this.moneyNatural(value)) + 0.1
 
     this.setState({
       value: toFixed(_value, 2)

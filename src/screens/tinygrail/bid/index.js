@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 16:56:50
+ * @Last Modified time: 2020-11-05 00:55:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -44,6 +45,23 @@ class TinygrailBid extends React.Component {
     hm(`tinygrail/${type}`, 'TinygrailBid')
   }
 
+  getCount = route => {
+    const { $ } = this.context
+    switch (route.key) {
+      case 'bid':
+      case 'asks':
+        return $.list(route.key)?.list?.length || 0
+
+      case 'auction':
+        return (
+          $.list(route.key)?.list.filter(item => item.state === 0).length || 0
+        )
+
+      default:
+        return 0
+    }
+  }
+
   renderContentHeaderComponent() {
     const { $ } = this.context
     const { level, sort, direction } = $.state
@@ -71,6 +89,19 @@ class TinygrailBid extends React.Component {
             routes={tabs}
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
             renderItem={item => <List key={item.key} id={item.key} />}
+            renderLabel={({ route, focused }) => (
+              <Flex style={this.styles.labelText} justify='center'>
+                <Text type='tinygrailPlain' size={13} bold={focused}>
+                  {route.title}
+                </Text>
+                {!!this.getCount(route) && (
+                  <Text type='tinygrailText' size={11} bold lineHeight={13}>
+                    {' '}
+                    {this.getCount(route)}{' '}
+                  </Text>
+                )}
+              </Flex>
+            )}
           />
         )}
       </View>
@@ -86,5 +117,8 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
     backgroundColor: _.colorTinygrailContainer
+  },
+  labelText: {
+    width: '100%'
   }
 }))

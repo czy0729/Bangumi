@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-21 16:48:16
+ * @Last Modified time: 2020-11-05 00:33:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -99,7 +99,6 @@ function Header(props, { $, navigation }) {
         <Text
           style={styles.sacrifice}
           type='tinygrailText'
-          size={15}
           onPress={() => {
             t('交易.跳转', {
               to: 'TinygrailSacrifice',
@@ -123,7 +122,6 @@ function Header(props, { $, navigation }) {
         <Text
           style={styles.trade}
           type='tinygrailText'
-          size={15}
           onPress={() => {
             t('交易.跳转', {
               to: 'TinygrailTrade',
