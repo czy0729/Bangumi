@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-19 20:59:02
+ * @Last Modified time: 2020-11-05 01:14:24
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex } from '@components'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import MenuItem from './menu-item'
@@ -39,7 +39,15 @@ function Menus(props, { $ }) {
         style={{
           backgroundColor: _.colorDepthBid
         }}
-        title={`我的买单 ${bids ? `(${bids})` : ''}`}
+        title={
+          <>
+            我的买单
+            <Text type='tinygrailPlain' size={15} lineHeight={19} bold>
+              {'  '}
+              {bids || ''}
+            </Text>
+          </>
+        }
         pathname='TinygrailBid'
         config={{
           type: 'bid'
@@ -50,7 +58,15 @@ function Menus(props, { $ }) {
         style={{
           backgroundColor: _.colorDepthAsk
         }}
-        title={`我的卖单 ${asks ? `(${asks})` : ''}`}
+        title={
+          <>
+            我的卖单
+            <Text type='tinygrailPlain' size={15} lineHeight={19} bold>
+              {'  '}
+              {asks || ''}
+            </Text>
+          </>
+        }
         pathname='TinygrailBid'
         config={{
           type: 'asks'
@@ -58,7 +74,15 @@ function Menus(props, { $ }) {
         icon='ask'
       />
       <MenuItem
-        title={`我的拍卖 ${auction ? `(${auction})` : ''}`}
+        title={
+          <>
+            我的拍卖
+            <Text type='tinygrailPlain' size={15} lineHeight={19} bold>
+              {'  '}
+              {auction || ''}
+            </Text>
+          </>
+        }
         pathname='TinygrailBid'
         config={{
           type: 'auction'

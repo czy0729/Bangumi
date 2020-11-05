@@ -1,8 +1,9 @@
+/* eslint-disable no-await-in-loop, no-restricted-syntax */
 /*
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-02-16 06:27:01
+ * @Last Modified time: 2020-11-05 16:29:25
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -11,11 +12,16 @@ import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 
 const namespace = 'ScreenTinygrailSearch'
+const excludeState = {
+  value: '',
+  list: [],
+  searching: false
+}
 
 export default class ScreenTinygrailSearch extends store {
   state = observable({
     history: [],
-    value: '',
+    ...excludeState,
     _loaded: false
   })
 
@@ -24,7 +30,7 @@ export default class ScreenTinygrailSearch extends store {
     const state = await res
     this.setState({
       ...state,
-      value: '',
+      ...excludeState,
       _loaded: true
     })
     return res
@@ -38,9 +44,32 @@ export default class ScreenTinygrailSearch extends store {
   // -------------------- page --------------------
   onChange = ({ nativeEvent }) => {
     const { text } = nativeEvent
-    this.setState({
+    const state = {
       value: text
+    }
+    if (text === '') {
+      state.list = []
+    }
+    this.setState(state)
+  }
+
+  addHistory = value => {
+    const id = String(value)
+    const { history } = this.state
+    let _history = [...history]
+    if (!history.includes(id)) {
+      _history.unshift(id)
+    } else {
+      _history = [id, ..._history.filter(item => item !== id)]
+    }
+    if (_history.length > 10) {
+      _history.pop()
+    }
+
+    this.setState({
+      history: _history
     })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   deleteHistory = value => {
@@ -57,13 +86,58 @@ export default class ScreenTinygrailSearch extends store {
 
   // -------------------- action --------------------
   doSearch = async (navigation, lastValue) => {
-    const { history, value } = this.state
-    const checkValue = lastValue || value
+    const { value } = this.state
+    const checkValue = (lastValue || value).trim()
     if (checkValue === '') {
-      info('请输入人物id')
-      return
+      info('请输入关键字')
+      return false
     }
 
+    this.setState({
+      searching: true
+    })
+
+    if (/^\d+$/.test(checkValue)) {
+      await this.doSearchNumber(navigation, checkValue)
+    } else {
+      await this.doSearchQuery(navigation, checkValue)
+    }
+
+    this.setState({
+      searching: false
+    })
+    return true
+  }
+
+  doSearchQuery = async (navigation, keyword) => {
+    const { data } = await tinygrailStore.doSearch({
+      keyword
+    })
+
+    if (data.State !== 0) {
+      info('查询失败, 请重试')
+      return false
+    }
+
+    const ids = data.Value.filter(item => !item.ICO).map(item => item.Id)
+    for (const id of ids) {
+      await tinygrailStore.fetchCharacters([id])
+    }
+
+    const list = data.Value.map(item => ({
+      ...tinygrailStore.characters(item.Id),
+      id: item.Id,
+      ico: item.ICO,
+      level: item.Level,
+      name: item.Name
+    }))
+    this.setState({
+      list
+    })
+    return true
+  }
+
+  doSearchNumber = async (navigation, checkValue) => {
     let callback
     try {
       const characters = await tinygrailStore.fetchCharacters([checkValue])
@@ -88,22 +162,7 @@ export default class ScreenTinygrailSearch extends store {
       value: checkValue
     })
 
-    let _history = [...history]
-    if (!history.includes(checkValue)) {
-      _history.unshift(checkValue)
-    } else {
-      _history = [checkValue, ..._history.filter(item => item !== checkValue)]
-    }
-    if (_history.length > 10) {
-      _history.pop()
-    }
-
-    this.setState({
-      value: '',
-      history: _history
-    })
-    this.setStorage(undefined, undefined, namespace)
-
+    this.addHistory(checkValue)
     callback()
   }
 }

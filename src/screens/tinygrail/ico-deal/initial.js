@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 18:49:49
+ * @Last Modified time: 2020-11-05 15:55:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,17 +45,11 @@ function Initial({ style }, { $, navigation }) {
             />
             <Flex.Item style={_.ml.sm}>
               <Flex>
-                <Text type='tinygrailPlain' size={12} bold>
+                <Text type='tinygrailPlain' size={12} bold numberOfLines={1}>
                   {item.nickName}
                 </Text>
                 {item.lastIndex !== 0 && (
-                  <Text
-                    style={styles.rank}
-                    type='ask'
-                    size={9}
-                    bold
-                    numberOfLines={2}
-                  >
+                  <Text style={styles.rank} type='ask' size={9} bold>
                     #{item.lastIndex}
                   </Text>
                 )}

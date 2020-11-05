@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 16:59:21
+ * @Last Modified time: 2020-11-05 15:53:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { observer } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 
-const LIMIT = 8
+const LIMIT = 5
 
 function Records({ style }, { $ }) {
   const styles = memoStyles()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 22:06:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:38:23
+ * @Last Modified time: 2020-11-05 16:26:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ function History({ style }, { $, navigation }) {
                     monoId: item
                   })
 
-                  $.doSearch(navigation, item)
+                  $.doSearchNumber(navigation, item)
                 }}
               >
                 {$.chara(item).name || item}
