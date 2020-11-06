@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-03 17:59:21
+ * @Last Modified time: 2020-11-06 17:00:45
  */
 import { HOST } from './index'
 
@@ -506,3 +506,10 @@ export const API_TINYGRAIL_SEARCH = keyword =>
  */
 export const API_TINYGRAIL_DAILY_COUNT = () =>
   `${API_HOST_TINYGRAIL}/api/event/daily/count/10`
+
+/**
+ * 启动ICO
+ * @param {*} monoId
+ */
+export const API_TINYGRAIL_INIT = monoId =>
+  `${API_HOST_TINYGRAIL}/api/chara/init/${monoId}/10000`

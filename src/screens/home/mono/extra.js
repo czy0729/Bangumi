@@ -2,16 +2,43 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 17:47:25
+ * @Last Modified time: 2020-11-06 17:15:06
  */
 import React from 'react'
+import { Alert } from 'react-native'
 import { IconHeader } from '@screens/_'
+import { Flex, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Extra({ $, navigation }) {
-  if (!$.tinygrail || !$.chara._loaded) {
+  if (!$.tinygrail) {
     return null
+  }
+
+  if ($.canICO) {
+    return (
+      <Touchable
+        onPress={() =>
+          Alert.alert('提示', '花费10000cc启动ICO?', [
+            {
+              text: '取消',
+              style: 'cancel'
+            },
+            {
+              text: '确定',
+              onPress: () => $.doICO(navigation)
+            }
+          ])
+        }
+      >
+        <Flex style={_.mr.sm}>
+          <IconHeader name='trophy' />
+          <Text size={12}>启动ICO</Text>
+        </Flex>
+      </Touchable>
+    )
   }
 
   return (

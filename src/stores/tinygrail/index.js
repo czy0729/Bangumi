@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:25:13
+ * @Last Modified time: 2020-11-06 17:08:52
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -62,6 +62,7 @@ import {
   API_TINYGRAIL_SEARCH,
   API_TINYGRAIL_LINK,
   API_TINYGRAIL_DAILY_COUNT,
+  API_TINYGRAIL_INIT,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants/api'
 import UserStore from '../user'
@@ -2314,6 +2315,14 @@ class Tinygrail extends store {
       API_TINYGRAIL_LINK(monoId, toMonoId),
       true
     )
+    return data
+  }
+
+  /**
+   * 启动ICO
+   */
+  doICO = async ({ monoId }) => {
+    const { data } = await this.fetch(API_TINYGRAIL_INIT(monoId), true)
     return data
   }
 }

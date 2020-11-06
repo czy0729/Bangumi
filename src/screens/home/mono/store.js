@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:45:38
+ * @Last Modified time: 2020-11-06 17:15:29
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -15,7 +15,8 @@ import { HOST } from '@constants'
 
 export default class ScreenMono extends store {
   state = observable({
-    showHeaderTitle: false
+    showHeaderTitle: false,
+    checkTinygrail: false
   })
 
   init = () => {
@@ -39,8 +40,21 @@ export default class ScreenMono extends store {
       refresh
     )
 
-  fetchChara = () =>
-    tinygrailStore.fetchCharacters([this.monoId.replace('character/', '')])
+  fetchChara = async () => {
+    if (!this.monoId.includes('character/')) {
+      return false
+    }
+
+    const res = tinygrailStore.fetchCharacters([
+      this.monoId.replace('character/', '')
+    ])
+    await res
+    this.setState({
+      checkTinygrail: true
+    })
+
+    return res
+  }
 
   /**
    * 私有CDN的条目信息
@@ -83,6 +97,11 @@ export default class ScreenMono extends store {
 
   @computed get tinygrail() {
     return systemStore.setting.tinygrail
+  }
+
+  @computed get canICO() {
+    const { checkTinygrail } = this.state
+    return checkTinygrail && !this.chara._loaded
   }
 
   // -------------------- get: cdn fallback --------------------
@@ -180,5 +199,24 @@ export default class ScreenMono extends store {
     info('已取消收藏')
 
     return this.fetchMono(true)
+  }
+
+  /**
+   * 开启ICO
+   */
+  doICO = async navigation => {
+    const data = await tinygrailStore.doICO({
+      monoId: this.monoId.replace('character/', '')
+    })
+
+    if (data.State !== 0) {
+      info('启动ICO失败')
+      return
+    }
+
+    navigation.push('TinygrailICODeal', {
+      monoId: this.monoId.replace('character/', '')
+    })
+    this.fetchChara()
   }
 }
