@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-06 11:04:54
+ * @Last Modified time: 2020-11-06 12:06:22
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -325,25 +325,38 @@ class CharactersModal extends React.Component {
       }
     }
 
-    // 星光碎片 (消耗我的持仓或我的圣殿)
+    /**
+     * 星光碎片 (消耗活股或圣殿)
+     *  - 若消耗股等级 >= 目标股，每增加1点祭献值，消耗流通股或圣殿祭献值 1 股/点
+     *  - [活股必须] 若消耗股等级 < 目标股，每增加1点祭献值，消耗流通股或圣殿祭献值 2^(n-1) 股/点，其中n为两者的等级差且最小为1
+     */
     if (this.isStardust) {
       const data = isTemple ? $.temple : $.chara
       return {
         ...data,
         list: data.list
           .filter(item => {
-            if (item.assets < 10) {
+            if (assets(item) < 10) {
               return false
             }
 
             if (rightItem) {
+              const _lv = lv(item) - lv(rightItem)
               if (leftValue) {
+                if (isTemple) {
+                  return (
+                    item.name.includes(leftValue) &&
+                    lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
+                  )
+                }
                 return (
-                  item.name.includes(leftValue) &&
-                  lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
+                  item.name.includes(leftValue) && assets(item) >= 2 ** -_lv
                 )
               }
-              return lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
+
+              return isTemple
+                ? lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
+                : assets(item) >= 2 ** -_lv
             }
 
             if (leftValue) {
@@ -419,6 +432,41 @@ class CharactersModal extends React.Component {
       }
     }
 
+    if (this.isStardust) {
+      return {
+        ...$.temple,
+        list: $.temple.list
+          .filter(item => {
+            if (item.assets === item.sacrifices) {
+              return false
+            }
+
+            if (leftItem) {
+              if (rightValue) {
+                if (isTemple) {
+                  return (
+                    item.name.includes(rightValue) &&
+                    lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+                  )
+                }
+                return item.name.includes(rightValue)
+              }
+
+              return isTemple
+                ? lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+                : true
+            }
+
+            if (rightValue) {
+              return item.name.includes(rightValue)
+            }
+
+            return true
+          })
+          .sort((a, b) => lv(b) - lv(a))
+      }
+    }
+
     return {
       ...$.temple,
       list: $.temple.list
@@ -473,7 +521,7 @@ class CharactersModal extends React.Component {
   }
 
   @computed get leftChangeText() {
-    const { amount } = this.state
+    const { amount, isTemple } = this.state
     if (this.isChaos) {
       return '-10'
     }
@@ -483,6 +531,13 @@ class CharactersModal extends React.Component {
     }
 
     if (this.isStardust) {
+      const { leftItem, rightItem } = this.state
+      if (!isTemple && leftItem && rightItem) {
+        const _lv = lv(leftItem) - lv(rightItem)
+        if (_lv < 0) {
+          return `每 -${2 ** -_lv}`
+        }
+      }
       return `-${amount || '?'}`
     }
 
@@ -490,7 +545,7 @@ class CharactersModal extends React.Component {
   }
 
   @computed get rightChangeText() {
-    const { amount } = this.state
+    const { amount, isTemple } = this.state
     if (this.isChaos) {
       return '+10-100'
     }
@@ -500,6 +555,13 @@ class CharactersModal extends React.Component {
     }
 
     if (this.isStardust) {
+      const { leftItem, rightItem } = this.state
+      if (!isTemple && leftItem && rightItem) {
+        const _lv = lv(leftItem) - lv(rightItem)
+        if (_lv < 0) {
+          return '+1'
+        }
+      }
       return `+${amount || '?'}`
     }
 
@@ -909,7 +971,7 @@ const memoStyles = _.memoStyles(_ => ({
   wrap: {
     width: '100%',
     maxWidth: _.window.maxWidth,
-    height: _.window.height * 0.54,
+    height: _.window.height * 0.64,
     maxHeight: 664,
     paddingBottom: _.sm,
     marginTop: _.md
