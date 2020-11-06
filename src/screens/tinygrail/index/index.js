@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:10:21
+ * @Last Modified time: 2020-11-05 20:27:12
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
@@ -88,6 +88,18 @@ class Tinygrail extends React.Component {
     appNavigate(TINYGRAIL_UPDATES_LOGS_URL, navigation)
   }
 
+  toGroup = () => {
+    t('小圣杯.跳转', {
+      to: 'Group',
+      title: '小组讨论 '
+    })
+
+    const { navigation } = this.context
+    navigation.push('Group', {
+      groupId: 'tinygrail'
+    })
+  }
+
   render() {
     const { $ } = this.context
     const { visible } = $.state
@@ -109,31 +121,37 @@ class Tinygrail extends React.Component {
           <StatusBarPlaceholder />
           <Auth />
           <Menus />
-          <Flex justify='center'>
-            <Text type='tinygrailText' size={12}>
-              - {VERSION_TINYGRAIL_PLUGIN} -
-            </Text>
-          </Flex>
           <Flex style={_.mt.sm} justify='center'>
-            <Text type='tinygrailText' size={12} onPress={this.alertScience}>
-              游戏wiki
+            <Text type='tinygrailText' size={12} onPress={this.alertUpdates}>
+              {VERSION_TINYGRAIL_PLUGIN} 更新内容
             </Text>
-            <Text style={_.ml.md} type='tinygrailText'>
-              |
+            <Text style={_.ml.sm} type='tinygrailText'>
+              ·
             </Text>
             <Text
-              style={_.ml.md}
+              style={_.ml.sm}
               type='tinygrailText'
               size={12}
-              onPress={this.alertUpdates}
+              onPress={this.alertScience}
             >
-              更新内容
+              游戏wiki
             </Text>
-            <Text style={_.ml.md} type='tinygrailText'>
-              |
+            <Text style={_.ml.sm} type='tinygrailText'>
+              ·
             </Text>
             <Text
-              style={_.ml.md}
+              style={_.ml.sm}
+              type='tinygrailText'
+              size={12}
+              onPress={this.toGroup}
+            >
+              小组讨论
+            </Text>
+            <Text style={_.ml.sm} type='tinygrailText'>
+              ·
+            </Text>
+            <Text
+              style={_.ml.sm}
               type='tinygrailText'
               size={12}
               onPress={$.doSend}

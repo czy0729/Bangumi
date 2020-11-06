@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 16:28:26
+ * @Last Modified time: 2020-11-05 20:25:20
  */
 import { Alert } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
@@ -423,7 +423,7 @@ export default class ScreenTinygrail extends store {
   }
 
   doSend = () =>
-    Alert.alert('小圣杯助手', '是否给作者发送2000cc?', [
+    Alert.alert('小圣杯助手', '是否给作者发送10000cc?', [
       {
         text: '取消',
         style: 'cancel'

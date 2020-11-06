@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 10:53:05
+ * @Last Modified time: 2020-11-05 20:17:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { ActivityIndicator } from '@ant-design/react-native'
 import { titleCase } from '@utils'
 import { _ } from '@stores'
+import Activity from './activity'
 import Flex from './flex'
 import Text from './text'
 import Touchable from './touchable'
@@ -51,8 +51,11 @@ function Button({
   const content = (
     <Flex justify='center'>
       {loading && (
-        <View style={_.mr.xs}>
-          <ActivityIndicator color='white' size='small' />
+        <View style={_.scale}>
+          <Activity
+            color={type === 'plain' ? 'rgb(128, 128, 128)' : 'white'}
+            size='small'
+          />
         </View>
       )}
       <Text

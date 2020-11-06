@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:37:44
+ * @Last Modified time: 2020-11-05 20:28:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -81,7 +81,7 @@ function List({ style }, { $, navigation }) {
               }
             }}
           >
-            <View style={[styles.wrap, !!index && styles.border]}>
+            <View style={[styles.wrap, !!index && !_.flat && styles.border]}>
               <Text size={15}>
                 {title}
                 <Text

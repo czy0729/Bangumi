@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 22:42:15
+ * @Last Modified time: 2020-11-05 20:20:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,6 @@ function Auth(props, { $, navigation }) {
                 )}
               </Touchable>
               <IconTouchable
-                style={_.ml.xs}
                 name={_.tSelect('night', 'sun')}
                 color={_.colorTinygrailText}
                 size={18}

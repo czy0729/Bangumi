@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 16:34:34
+ * @Last Modified time: 2020-11-05 20:13:20
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -37,12 +37,12 @@ function SearchBar(props, { $, navigation }) {
         }}
       >
         <Flex style={styles.btn} justify='center'>
-          <Text type='tinygrailText'>查询</Text>
           {searching && (
-            <Flex style={styles.activity}>
+            <Flex style={_.scale}>
               <Activity />
             </Flex>
           )}
+          <Text type='tinygrailText'>查询</Text>
         </Flex>
       </Touchable>
     </Flex>
@@ -74,12 +74,5 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorTinygrailContainer,
     borderColor: _.colorTinygrailText,
     borderWidth: 1
-  },
-  activity: {
-    transform: [
-      {
-        scale: 0.64
-      }
-    ]
   }
 }))

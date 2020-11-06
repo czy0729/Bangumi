@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 23:59:44
+ * @Last Modified time: 2020-11-05 20:34:34
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -20,8 +20,8 @@ const typeDS = {
 
 export default class ScreenTinygrailItems extends store {
   state = observable({
-    title: '',
-    visible: false,
+    title: '虚空道标',
+    visible: true,
     _loaded: false
   })
 

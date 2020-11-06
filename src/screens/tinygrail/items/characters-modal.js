@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-08-01 14:35:26
+ * @Last Modified time: 2020-11-06 11:04:54
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
 import PropTypes from 'prop-types'
+import { computed } from 'mobx'
 import { observer } from 'mobx-react'
-import { Flex, Text, Button, SegmentedControl } from '@components'
+import { Flex, Text, Button, SegmentedControl, Iconfont } from '@components'
 import Modal from '@components/@/ant-design/modal'
-import { IconTouchable } from '@screens/_'
+import { IconTouchable, Popover } from '@screens/_'
 import { _, tinygrailStore } from '@stores'
 import {
   toFixed,
@@ -45,8 +46,10 @@ class CharactersModal extends React.Component {
   state = {
     leftItem: null,
     leftValue: '',
+    leftFilter: '',
     rightItem: null,
     rightValue: '',
+    rightFilter: '',
     search: null,
     loading: false,
     title: '',
@@ -274,22 +277,22 @@ class CharactersModal extends React.Component {
 
   onAlert = () => Alert.alert('使用说明', this.alert)
 
-  get isChaos() {
+  @computed get isChaos() {
     const { title } = this.props
     return title === '混沌魔方'
   }
 
-  get isGuidepost() {
+  @computed get isGuidepost() {
     const { title } = this.props
     return title === '虚空道标'
   }
 
-  get isStardust() {
+  @computed get isStardust() {
     const { title } = this.props
     return title === '星光碎片'
   }
 
-  get left() {
+  @computed get left() {
     const { $ } = this.context
     const { rightItem, leftValue, isTemple } = this.state
 
@@ -372,7 +375,7 @@ class CharactersModal extends React.Component {
     }
   }
 
-  get right() {
+  @computed get right() {
     const { title } = this.props
     if (!title || this.isChaos) {
       return false
@@ -445,7 +448,31 @@ class CharactersModal extends React.Component {
     }
   }
 
-  get leftChangeText() {
+  @computed get computedLeft() {
+    const { leftFilter } = this.state
+    if (!leftFilter) {
+      return this.left
+    }
+
+    return {
+      ...this.left,
+      list: this.left.list.filter(item => lv(item) == leftFilter)
+    }
+  }
+
+  @computed get computedRight() {
+    const { rightFilter } = this.state
+    if (!rightFilter) {
+      return this.right
+    }
+
+    return {
+      ...this.right,
+      list: this.right.list.filter(item => lv(item) == rightFilter)
+    }
+  }
+
+  @computed get leftChangeText() {
     const { amount } = this.state
     if (this.isChaos) {
       return '-10'
@@ -462,7 +489,7 @@ class CharactersModal extends React.Component {
     return ''
   }
 
-  get rightChangeText() {
+  @computed get rightChangeText() {
     const { amount } = this.state
     if (this.isChaos) {
       return '+10-100'
@@ -479,7 +506,7 @@ class CharactersModal extends React.Component {
     return ''
   }
 
-  get canSubmit() {
+  @computed get canSubmit() {
     const { leftItem, rightItem, amount } = this.state
     if (this.isGuidepost) {
       return !!(leftItem && rightItem)
@@ -492,7 +519,7 @@ class CharactersModal extends React.Component {
     return !!leftItem
   }
 
-  get alert() {
+  @computed get alert() {
     if (this.isGuidepost) {
       return '虚空道标：消耗100点塔值，抽取目标随机数量的股份，消耗目标的等级必须大于等于抽取目标等级。\n左侧数据基于自己的圣殿。\n右侧数据基于最高股息前面的角色，点击搜索可以查询远端所有角色。'
     }
@@ -504,16 +531,103 @@ class CharactersModal extends React.Component {
     return '混沌魔方：消耗10点塔值，抽取随机目标10-100的股份。\n当前每天可使用3次。'
   }
 
+  @computed get leftLevelMap() {
+    const { list } = this.left
+    const data = {}
+    list.forEach(item =>
+      data[lv(item) || 0]
+        ? (data[lv(item) || 0] += 1)
+        : (data[lv(item) || 0] = 1)
+    )
+    return data
+  }
+
+  @computed get leftDS() {
+    const sum = Object.keys(this.leftLevelMap).reduce(
+      (total, level) => total + this.leftLevelMap[level],
+      0
+    )
+    const leftDS = [
+      `全部 (${sum})`,
+      ...Object.keys(this.leftLevelMap).map(
+        level => `lv${level} (${this.leftLevelMap[level]})`
+      )
+    ]
+    return leftDS
+  }
+
+  @computed get rightLevelMap() {
+    const { list } = this.right
+    const data = {}
+    list.forEach(item =>
+      data[lv(item) || 0]
+        ? (data[lv(item) || 0] += 1)
+        : (data[lv(item) || 0] = 1)
+    )
+    return data
+  }
+
+  @computed get rightDS() {
+    const sum = Object.keys(this.rightLevelMap).reduce(
+      (total, level) => total + this.rightLevelMap[level],
+      0
+    )
+    const rightDS = [
+      `全部 (${sum})`,
+      ...Object.keys(this.rightLevelMap)
+        .map(level => `lv${level} (${this.rightLevelMap[level]})`)
+        .reverse()
+    ]
+    return rightDS
+  }
+
+  renderFilter(filter, data, map, onSelect) {
+    return (
+      <Popover
+        data={data}
+        onSelect={title => {
+          const lv = title.split(' ')[0]
+          onSelect(lv === '全部' ? '' : lv.replace('lv', ''))
+        }}
+      >
+        <Flex justify='center'>
+          <Iconfont
+            name='filter'
+            size={11}
+            color={filter ? _.colorAsk : _.colorTinygrailText}
+          />
+          <Text
+            style={_.ml.xs}
+            size={11}
+            type={filter ? 'ask' : 'tinygrailText'}
+          >
+            {filter ? `lv${filter}` : '等级'}
+            {map[filter] ? ` (${map[filter]})` : ''}
+          </Text>
+        </Flex>
+      </Popover>
+    )
+  }
+
   renderLeft() {
-    const { leftValue } = this.state
+    const { leftValue, leftFilter } = this.state
     return (
       <>
-        <SearchInput
-          placeholder='消耗'
-          value={leftValue}
-          onChangeText={this.onChangeLeft}
-        />
-        <List data={this.left} renderItem={this.renderItemLeft} />
+        <Flex>
+          {this.renderFilter(leftFilter, this.leftDS, this.leftLevelMap, lv =>
+            this.setState({
+              leftFilter: lv
+            })
+          )}
+          <Flex.Item style={_.ml.sm}>
+            <SearchInput
+              placeholder='消耗'
+              value={leftValue}
+              onChangeText={this.onChangeLeft}
+            />
+          </Flex.Item>
+        </Flex>
+        <List data={this.computedLeft} renderItem={this.renderItemLeft} />
       </>
     )
   }
@@ -542,7 +656,7 @@ class CharactersModal extends React.Component {
   }
 
   renderRight() {
-    const { rightValue } = this.state
+    const { rightValue, rightFilter } = this.state
     if (this.isChaos) {
       return (
         <Text type='tinygrailText' size={13} align='center'>
@@ -553,15 +667,28 @@ class CharactersModal extends React.Component {
 
     return (
       <>
-        <SearchInput
-          placeholder='目标'
-          value={rightValue}
-          returnKeyType='search'
-          returnKeyLabel='搜索'
-          onChangeText={this.onChangeRight}
-          onSubmitEditing={this.doSearch}
-        />
-        <List data={this.right} renderItem={this.renderItemRight} />
+        <Flex>
+          {this.renderFilter(
+            rightFilter,
+            this.rightDS,
+            this.rightLevelMap,
+            lv =>
+              this.setState({
+                rightFilter: lv
+              })
+          )}
+          <Flex.Item style={_.ml.sm}>
+            <SearchInput
+              placeholder='目标'
+              value={rightValue}
+              returnKeyType='search'
+              returnKeyLabel='搜索'
+              onChangeText={this.onChangeRight}
+              onSubmitEditing={this.doSearch}
+            />
+          </Flex.Item>
+        </Flex>
+        <List data={this.computedRight} renderItem={this.renderItemRight} />
       </>
     )
   }

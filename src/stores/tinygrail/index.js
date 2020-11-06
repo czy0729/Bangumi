@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 17:38:03
+ * @Last Modified time: 2020-11-05 20:25:13
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -2282,9 +2282,9 @@ class Tinygrail extends store {
   /**
    * 新年快乐
    */
-  doSend = async () => {
+  doSend = async (count = 10000) => {
     const { data } = await this.fetch(
-      'https://tinygrail.com/api/event/send/sukaretto/2000',
+      `https://tinygrail.com/api/event/send/sukaretto/${count}`,
       true
     )
     return data

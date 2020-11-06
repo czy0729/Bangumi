@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-21 14:09:55
+ * @Last Modified time: 2020-11-05 20:29:23
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -13,7 +13,7 @@ import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'
 
-const dataMore = ['重新授权', '人物直达', '意见反馈', '设置']
+const dataMore = ['重新授权', '意见反馈', '设置']
 
 function Btns(props, { $, navigation }) {
   const styles = memoStyles()
@@ -49,6 +49,7 @@ function Btns(props, { $, navigation }) {
               case '刮刮乐':
                 $.doLottery(navigation)
                 break
+
               case '每周分红':
                 Alert.alert('警告', '确定领取每周分红? (每周日0点刷新)', [
                   {
@@ -61,12 +62,15 @@ function Btns(props, { $, navigation }) {
                   }
                 ])
                 break
+
               case '每日签到':
                 $.doGetBonusDaily()
                 break
+
               case '节日福利':
                 $.doGetBonusHoliday()
                 break
+
               default:
                 $.doLottery(navigation, true)
                 break
@@ -91,17 +95,17 @@ function Btns(props, { $, navigation }) {
               case '重新授权':
                 $.doAuth()
                 break
-              case '人物直达':
-                navigation.push('TinygrailSearch')
-                break
+
               case '意见反馈':
                 navigation.push('Say', {
                   id: APP_ID_SAY_TINYGRAIL
                 })
                 break
+
               case '设置':
                 navigation.push('Setting')
                 break
+
               default:
                 break
             }
@@ -130,7 +134,7 @@ export default observer(Btns)
 
 const memoStyles = _.memoStyles(_ => ({
   btn: {
-    width: 68,
+    width: 60,
     marginLeft: _.sm,
     backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
     borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)
