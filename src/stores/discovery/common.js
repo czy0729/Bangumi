@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-28 15:43:03
+ * @Last Modified time: 2020-11-07 18:36:47
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
@@ -152,16 +152,20 @@ export function cheerioBlog(HTML) {
           title: $a.text().trim(),
           cover: $li.find('span.pictureFrameGroup img').attr('src'),
           time: String(times[times.length - 1]).replace('\n', ''),
-          replies: $li.find('div.content .blue').text().trim().replace(/\(|\)/g, ''),
-          content: `${$li.find('div.content').text().trim().split('...')[0]}...`,
-          username: String($li.find('div.time small.blue a').text().trim()).replace(
-            '\n',
-            ''
-          ),
-          subject: String($li.find('div.time small.grey a').text().trim()).replace(
-            '\n',
-            ''
-          ),
+          replies: $li
+            .find('div.content .blue')
+            .text()
+            .trim()
+            .replace(/\(|\)/g, ''),
+          content: `${
+            $li.find('div.content').text().trim().split('...')[0]
+          }...`,
+          username: String(
+            $li.find('div.time small.blue a').text().trim()
+          ).replace('\n', ''),
+          subject: String(
+            $li.find('div.time small.grey a').text().trim()
+          ).replace('\n', ''),
           tags: ''
         })
       })

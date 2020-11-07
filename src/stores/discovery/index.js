@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-23 22:43:57
+ * @Last Modified time: 2020-11-07 18:41:46
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -10,7 +10,7 @@ import store from '@utils/store'
 import { fetchHTML } from '@utils/fetch'
 import { log } from '@utils/dev'
 import { HTMLDecode } from '@utils/html'
-import { LIST_EMPTY, HOST_NING_MOE, HOST_ANITAMA } from '@constants'
+import { HOST, LIST_EMPTY, HOST_NING_MOE, HOST_ANITAMA } from '@constants'
 import {
   HTML_TAGS,
   HTML_CATALOG,
@@ -116,7 +116,9 @@ class Discovery extends store {
       game: INIT_CHANNEL,
       music: INIT_CHANNEL,
       real: INIT_CHANNEL
-    }
+    },
+
+    online: 0
   })
 
   init = () =>
@@ -128,7 +130,8 @@ class Discovery extends store {
         'catalogDetail',
         'blog',
         'blogReaded',
-        'channel'
+        'channel',
+        'online'
       ],
       NAMESPACE
     )
@@ -480,6 +483,23 @@ class Discovery extends store {
     this.setStorage(key, undefined, NAMESPACE)
 
     return this.channel(type)
+  }
+
+  fetchOnline = async () => {
+    const key = 'online'
+    const html = await fetchHTML({
+      url: HOST
+    })
+
+    const match = html.match(/<small class="grey rr">online: (\d+)<\/small>/)
+    if (match && match[1]) {
+      this.setState({
+        [key]: parseInt(match[1])
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+
+    return this.online
   }
 
   // -------------------- page --------------------

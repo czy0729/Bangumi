@@ -2,10 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 22:47:33
+ * @Last Modified time: 2020-11-07 18:42:25
  */
 import { observable, computed } from 'mobx'
-import { _, systemStore, calendarStore, userStore } from '@stores'
+import {
+  _,
+  systemStore,
+  calendarStore,
+  userStore,
+  discoveryStore
+} from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -47,6 +53,9 @@ export default class ScreenDiscovery extends store {
       await calendarStore.fetchHomeFromCDN()
     }
 
+    setTimeout(() => {
+      this.fetchOnline()
+    }, 800)
     return calendarStore.fetchHome()
   }
 
@@ -65,6 +74,8 @@ export default class ScreenDiscovery extends store {
       }
     })
   }
+
+  fetchOnline = () => discoveryStore.fetchOnline()
 
   // -------------------- get --------------------
   @computed get userInfo() {
@@ -89,8 +100,7 @@ export default class ScreenDiscovery extends store {
   }
 
   @computed get online() {
-    const { online } = systemStore.ota
-    return online
+    return discoveryStore.online || systemStore.ota.online
   }
 
   // -------------------- action --------------------
