@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 20:20:17
+ * @Last Modified time: 2020-11-07 20:42:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,8 +17,6 @@ import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
-  const styles = memoStyles()
-  const isFirst = index === 0
   const {
     id,
     ageId: aid,
@@ -33,6 +31,12 @@ function Item({ index, pickIndex }, { $, navigation }) {
     official,
     score
   } = pick(pickIndex)
+  if (!id) {
+    return null
+  }
+
+  const styles = memoStyles()
+  const isFirst = index === 0
   const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
   const _tags = String(tags).split(' ')
   const tip = [

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 18:09:16
+ * @Last Modified time: 2020-11-07 23:24:38
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -90,7 +90,7 @@ class SubjectCatalogs extends React.Component {
 
     return (
       <ListView
-        style={_.container.plain}
+        style={_.select(_.container.plain, _.container.bg)}
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={$.list}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 12:01:19
+ * @Last Modified time: 2020-11-07 21:11:49
  */
 import { VERSIONS_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 import { getTimestamp, getStorage, setStorage } from './index'
@@ -29,7 +29,8 @@ export async function init() {
   // 版本没有OTA高需要重新请求数据
   const version = (await getStorage(animeVersionKey)) || VERSIONS_ANIME
   const ota = getOTA()
-  const needUpdate = parseInt(ota.VERSIONS_WENKU) > parseInt(version)
+
+  const needUpdate = parseInt(ota.VERSIONS_ANIME) > parseInt(version)
   if (needUpdate) {
     const { _response } = await xhrCustom({
       url: CDN_STATIC_ANIME()

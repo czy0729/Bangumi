@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 22:17:21
+ * @Last Modified time: 2020-11-07 22:39:48
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ListView } from '@components'
-import { _ } from '@stores'
+import { _, subjectStore } from '@stores'
 import { ItemCollections } from '@screens/_'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { findSubjectCn, keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
+import rateData from '@constants/json/rate.json'
 import IconFavor from './icon-favor'
 import Info from './info'
 import Store from './store'
@@ -68,6 +69,7 @@ class CatalogDetail extends React.Component {
   renderItem = ({ item }) => {
     const { $, navigation } = this.context
     const id = String(item.id).match(/\d+/)[0]
+    const subject = subjectStore.subject(id)
     return (
       <ItemCollections
         navigation={navigation}
@@ -79,6 +81,7 @@ class CatalogDetail extends React.Component {
         nameCn={findSubjectCn(item.title, item.id)}
         tip={item.info}
         comments={item.comment}
+        score={subject?.rating?.score || rateData[item.id] || 0}
         isCatalog
         isCollect={item.isCollect}
         collection={$.userCollectionsMap[id]}
