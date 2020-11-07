@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 12:03:28
+ * @Last Modified time: 2020-11-07 17:56:25
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -45,7 +45,7 @@ class Discovery extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.home
     return (
-      <View style={_.container._plain}>
+      <View style={_.select(_.container._plain, _.container.bg)}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? (
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     marginBottom: IOS ? 0 : _.tabBarHeight - 1
   },
   contentContainerStyle: {
-    paddingBottom: IOS ? _.bottom : _.bottom - _.tabBarHeight
+    paddingBottom: (IOS ? _.bottom : _.bottom - _.tabBarHeight) + _.md
   }
 })
 

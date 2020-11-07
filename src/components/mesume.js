@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 11:59:53
+ * @Last Modified time: 2020-11-07 17:56:47
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -36,7 +36,7 @@ function Mesume({ style, size, index }) {
 
 Mesume.defaultProps = {
   style: undefined,
-  size: 102,
+  size: 96,
   index: undefined
 }
 

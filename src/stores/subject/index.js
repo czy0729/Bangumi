@@ -3,18 +3,19 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 15:44:56
+ * @Last Modified time: 2020-11-07 16:07:10
  */
 import { observable } from 'mobx'
 import { LIST_EMPTY, LIMIT_LIST_COMMENTS } from '@constants'
 import { API_SUBJECT, API_SUBJECT_EP } from '@constants/api'
 import { CDN_SUBJECT, CDN_MONO } from '@constants/cdn'
 import {
+  HTML_EP,
+  HTML_MONO_VOICES,
+  HTML_MONO_WORKS,
   HTML_SUBJECT,
   HTML_SUBJECT_COMMENTS,
-  HTML_EP,
-  HTML_MONO_WORKS,
-  HTML_MONO_VOICES,
+  HTML_SUBJECT_CATALOGS,
   HTML_SUBJECT_RATING
 } from '@constants/html'
 import { getTimestamp } from '@utils'
@@ -35,7 +36,8 @@ import {
   cheerioSubjectFormHTML,
   cheerioMonoWorks,
   cheerioMonoVoices,
-  cheerioRating
+  cheerioRating,
+  cheerioSubjectCatalogs
 } from './common'
 
 class Subject extends store {
@@ -70,6 +72,14 @@ class Subject extends store {
      * @param {*} subjectId
      */
     subjectEp: {
+      0: {}
+    },
+
+    /**
+     * 包含条目的目录
+     * @param {*} subjectId
+     */
+    subjectCatalogs: {
       0: {}
     },
 
@@ -157,6 +167,7 @@ class Subject extends store {
         'subject',
         'subjectFormHTML',
         'subjectComments',
+        'subjectCatalogs',
         'mono',
         'monoComments',
         'monoWorks',
@@ -255,6 +266,37 @@ class Subject extends store {
         namespace: NAMESPACE
       }
     )
+
+  /**
+   * 包含条目的目录
+   * @param {*} subjectId
+   */
+  fetchSubjectCatalogs = async ({ subjectId }, refresh) => {
+    const key = 'subjectCatalogs'
+    const limit = 15
+    const { list, pagination } = this[key](subjectId)
+    const page = refresh ? 1 : pagination.page + 1
+
+    const html = await fetchHTML({
+      url: HTML_SUBJECT_CATALOGS(subjectId, page)
+    })
+    const { list: _list } = cheerioSubjectCatalogs(html)
+    this.setState({
+      [key]: {
+        [subjectId]: {
+          list: refresh ? _list : [...list, ..._list],
+          pagination: {
+            page,
+            pageTotal: _list.length === limit ? 100 : page
+          },
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return this[key](subjectId)
+  }
 
   /**
    * 网页获取留言

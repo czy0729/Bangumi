@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 11:00:32
+ * @Last Modified time: 2020-11-07 18:09:52
  */
 
 /**
@@ -161,6 +161,10 @@ export default {
   // 章节
   '章节.跳转': 'Episodes.to',
   '章节.右上角菜单': 'Episodes.topRightMenu',
+
+  // 条目目录
+  '条目目录.跳转': 'SubjectCatalogs.to',
+  '条目目录.右上角菜单': 'SubjectCatalogs.topRightMenu',
 
   // 用户标签
   '用户标签.跳转': 'Tag.to',

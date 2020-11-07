@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 20:30:40
+ * @Last Modified time: 2020-11-07 14:48:16
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -41,6 +41,14 @@ export const HTML_SUBJECT_RATING = (
   `${HOST}/subject/${subjectId}/${status}?page=${page}${
     isFriend ? '&filter=friends' : ''
   }`
+
+/**
+ * 包含条目的目录列表
+ * @param {*} subjectId
+ * @param {*} page
+ */
+export const HTML_SUBJECT_CATALOGS = (subjectId, page = 1) =>
+  `${HOST}/subject/${subjectId}/index?page=${page}`
 
 /**
  * 章节信息

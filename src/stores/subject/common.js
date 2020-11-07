@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-28 15:08:01
+ * @Last Modified time: 2020-11-07 15:27:02
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -587,6 +587,32 @@ export function cheerioRating(HTML) {
               .text()
               .trim()
               .replace(`${name}\n${time}`, '')
+          })
+        })
+        .get() || []
+  }
+}
+
+/**
+ * 分析评分
+ * @param {*} HTML
+ */
+export function cheerioSubjectCatalogs(HTML) {
+  const $ = cheerio(HTML)
+  return {
+    list:
+      $('li.tml_item')
+        .map((index, element) => {
+          const $li = cheerio(element)
+          const $title = $li.find('h3 a.l')
+          const $user = $li.find('span.tip_j a.l')
+          return safeObject({
+            id: parseInt($title.attr('href').replace('/index/', '')),
+            title: $title.text().trim(),
+            userId: $user.attr('href').replace('/user/', ''),
+            userName: $user.text().trim(),
+            avatar: matchAvatar($li.find('span.avatarNeue').attr('style')),
+            time: $li.find('span.tip').text().trim()
           })
         })
         .get() || []

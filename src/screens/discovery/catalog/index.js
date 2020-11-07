@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 20:30:44
+ * @Last Modified time: 2020-11-07 17:53:49
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Pagination } from '@screens/_'
+import { Pagination, ItemCatalog } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import Type from './type'
-import Item from './item'
 import Store from './store'
 
 const title = '目录'
+const event = {
+  id: '目录.跳转'
+}
 
 export default
 @inject(Store)
@@ -42,12 +44,12 @@ class Catalog extends React.Component {
     })
   }
 
-  renderPaganation() {
+  renderPaganation(style) {
     const { $ } = this.context
     const { ipt } = $.state
     return (
       <Pagination
-        style={_.mt.md}
+        style={style}
         input={ipt}
         onPrev={$.prev}
         onNext={$.next}
@@ -70,15 +72,15 @@ class Catalog extends React.Component {
         contentContainerStyle={_.container.bottom}
         showsVerticalScrollIndicator={false}
       >
-        {this.renderPaganation()}
+        {this.renderPaganation(_.mt.md)}
         {show && (
           <>
             <View style={styles.list}>
               {$.catalog.list.map(item => (
-                <Item key={item.id} {...item} />
+                <ItemCatalog key={item.id} event={event} {...item} />
               ))}
             </View>
-            {this.renderPaganation()}
+            {this.renderPaganation(_.mt.lg)}
           </>
         )}
       </ScrollView>
@@ -88,6 +90,7 @@ class Catalog extends React.Component {
 
 const styles = StyleSheet.create({
   list: {
-    minHeight: _.window.height
+    paddingVertical: _.sm,
+    minHeight: _.window.height * 0.68
   }
 })

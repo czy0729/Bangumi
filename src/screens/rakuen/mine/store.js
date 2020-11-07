@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-02 17:16:19
+ * @Last Modified time: 2020-11-07 14:20:20
  */
 import { computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -14,7 +14,10 @@ export default class ScreenMine extends store {
 
   // -------------------- get --------------------
   @computed get mine() {
-    return rakuenStore.mine
+    return {
+      ...rakuenStore.mine,
+      list: rakuenStore.mine.list.sort((a, b) => b.num - a.num)
+    }
   }
 
   @computed get url() {

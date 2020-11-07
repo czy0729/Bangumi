@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:53:04
+ * @Last Modified time: 2020-11-07 14:24:11
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -38,11 +38,14 @@ function Item({ id, cover, name, num }, { navigation }) {
             align='start'
             justify='center'
           >
-            <Text size={13} numberOfLines={1} bold>
+            <Text size={12} numberOfLines={2} bold>
               {name}
             </Text>
-            <Text style={_.mt.xs} type='sub' size={12}>
-              {num} 位成员
+            <Text style={_.mt.xs} type='sub' size={10}>
+              <Text type='sub' size={10} bold>
+                {num}
+              </Text>{' '}
+              位成员
             </Text>
           </Flex>
         </Flex.Item>
@@ -59,8 +62,9 @@ export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    width: '50%',
-    paddingVertical: _.sm
+    width: '48%',
+    paddingVertical: _.sm,
+    marginRight: '2%'
   },
   body: {
     height: imgHeight

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:28:23
+ * @Last Modified time: 2020-11-07 14:08:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,29 +58,31 @@ function Avatar({
   }
 
   const radius = avatarRound ? size / 2 : true
-  const _onPress = () => {
-    if (onPress) {
-      onPress()
-      return
-    }
+  const _onPress = userId
+    ? () => {
+        if (onPress) {
+          onPress()
+          return
+        }
 
-    if (navigation && userId) {
-      const { id, data = {} } = event
-      t(id, {
-        to: 'Zone',
-        userId,
-        ...data
-      })
+        if (navigation && userId) {
+          const { id, data = {} } = event
+          t(id, {
+            to: 'Zone',
+            userId,
+            ...data
+          })
 
-      navigation.push('Zone', {
-        userId,
-        _id: userId,
-        _image: _src,
-        _name: name,
-        ...params
-      })
-    }
-  }
+          navigation.push('Zone', {
+            userId,
+            _id: userId,
+            _image: _src,
+            _name: name,
+            ...params
+          })
+        }
+      }
+    : undefined
 
   /**
    * @notice 安卓gif图片不能直接设置borderRadius, 需要再包一层

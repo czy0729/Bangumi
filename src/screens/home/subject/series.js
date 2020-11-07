@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 19:17:35
+ * @Last Modified time: 2020-11-07 18:01:02
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -154,7 +154,7 @@ export default observer(Series)
 
 const memoStyles = _.memoStyles(_ => ({
   cover: {
-    backgroundColor: _.colorBg
+    backgroundColor: _.select(_.colorBg, _.colorPlain)
   },
   relation: {
     paddingLeft: 2,
