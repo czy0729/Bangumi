@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 22:21:43
+ * @Last Modified time: 2020-11-09 17:09:11
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,6 +16,7 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
 const imageWidth = 72
+const imageHeight = imageWidth * 1.28
 
 function ItemLine(
   { subjectId, images = {}, name, air, timeCN, score },
@@ -51,7 +52,7 @@ function ItemLine(
         <View style={styles.image}>
           <Cover
             width={imageWidth}
-            height={imageWidth}
+            height={imageHeight}
             src={images.medium}
             radius
             shadow
@@ -116,8 +117,8 @@ const styles = StyleSheet.create({
   },
   body: {
     width: '100%',
-    height: imageWidth - 4,
-    paddingTop: 2,
+    height: imageHeight - 6,
+    paddingTop: _.xs,
     paddingRight: _.wind
   },
   katakanas: {

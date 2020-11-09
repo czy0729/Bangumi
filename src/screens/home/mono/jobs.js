@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:52:14
+ * @Last Modified time: 2020-11-09 15:48:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,7 +39,8 @@ function Jobs({ style }, { $, navigation }) {
             <Flex.Item flex={3}>
               <Flex align='start'>
                 <Cover
-                  size={40}
+                  size={48}
+                  height={62}
                   src={item.cover}
                   radius
                   shadow
@@ -58,20 +59,22 @@ function Jobs({ style }, { $, navigation }) {
                 />
                 <Flex.Item style={_.ml.sm}>
                   <Flex align='start'>
-                    <Text size={12} bold numberOfLines={2}>
+                    <Text style={_.mt.xs} size={12} bold numberOfLines={3}>
                       {item.name}
                     </Text>
                     <Tag style={styles.tag} value={item.staff} />
                   </Flex>
-                  <Text
-                    style={_.mt.xs}
-                    size={10}
-                    type='sub'
-                    lineHeight={12}
-                    bold
-                  >
-                    {item.nameCn}
-                  </Text>
+                  {!!item.nameCn && (
+                    <Text
+                      style={_.mt.xs}
+                      size={10}
+                      type='sub'
+                      lineHeight={12}
+                      bold
+                    >
+                      {item.nameCn}
+                    </Text>
+                  )}
                 </Flex.Item>
               </Flex>
             </Flex.Item>
@@ -137,7 +140,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopWidth: _.hairlineWidth
   },
   tag: {
-    marginTop: 1,
+    marginTop: _.xs - 1,
     marginRight: _.sm,
     marginLeft: _.xs
   }

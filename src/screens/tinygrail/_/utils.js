@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 17:10:13
+ * @Last Modified time: 2020-11-09 17:36:16
  */
 import { tinygrailStore } from '@stores'
 import XSBRelationData from '@constants/json/xsb-relation'
@@ -53,6 +53,11 @@ export const SORT_SDGXB = {
 export const SORT_DJ = {
   label: '等级',
   value: 'dj'
+}
+
+export const SORT_GDS = {
+  label: '挂单数',
+  value: 'cgs'
 }
 
 export const SORT_CGS = {

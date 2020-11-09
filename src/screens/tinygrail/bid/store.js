@@ -1,18 +1,23 @@
+/* eslint-disable no-restricted-syntax, no-await-in-loop */
 /*
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 17:06:09
+ * @Last Modified time: 2020-11-09 20:15:05
  */
+import { ToastAndroid } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
+import { throttle } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
+import { IOS } from '@constants'
 import {
   levelList,
   sortList,
   relation,
+  SORT_GDS,
   SORT_SC,
   SORT_GX,
   SORT_GXB,
@@ -43,18 +48,23 @@ export const tabs = [
 ]
 export const sortDS = [
   SORT_SC,
+  SORT_GDS,
   SORT_HYD,
   SORT_GX,
-  SORT_GXB,
   SORT_SDGX,
-  SORT_SDGXB,
   SORT_DQJ,
   SORT_SCJ,
   SORT_DQZD,
   SORT_DJ,
   SORT_XFJL,
-  SORT_FHL
+  SORT_FHL,
+  SORT_GXB,
+  SORT_SDGXB
 ]
+function _info(message) {
+  info(message, 0.4)
+}
+const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT)
 
 export default class ScreenTinygrailBid extends store {
   state = observable({
@@ -72,7 +82,7 @@ export default class ScreenTinygrailBid extends store {
       page,
       _loaded: true
     })
-    this.fetchList(tabs[page].key)
+    this.fetchList(this.currentKey)
   }
 
   // -------------------- fetch --------------------
@@ -86,6 +96,20 @@ export default class ScreenTinygrailBid extends store {
   @computed get currentKey() {
     const { page } = this.state
     return tabs[page].key
+  }
+
+  @computed get currentTitle() {
+    const { page } = this.state
+    return tabs[page].title.replace('我的', '')
+  }
+
+  @computed get canCancelCount() {
+    if (this.currentTitle === '拍卖') {
+      return this.computedList(this.currentKey).list.filter(
+        item => item.state === 0
+      ).length
+    }
+    return this.computedList(this.currentKey).list.length
   }
 
   @computed get levelMap() {
@@ -196,6 +220,14 @@ export default class ScreenTinygrailBid extends store {
     }
   }
 
+  onBatchCancel = () => {
+    if (this.currentKey === 'asks' || this.currentKey === 'bid') {
+      this.doCancelAllBid()
+    } else {
+      this.doCancelAllAuction()
+    }
+  }
+
   // -------------------- action --------------------
   doAuctionCancel = async id => {
     if (!id) {
@@ -218,5 +250,62 @@ export default class ScreenTinygrailBid extends store {
 
     info('已取消')
     this.fetchList()
+  }
+
+  doCancelAllBid = async () => {
+    const { list } = this.computedList(this.currentKey)
+    t('我的委托.一键取消', {
+      length: list.length
+    })
+
+    for (const item of list) {
+      throttleInfo(
+        `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
+      )
+
+      // 请求角色挂单信息
+      const logs = await tinygrailStore.fetchUserLogs(item.id)
+      if (this.currentKey === 'asks') {
+        // 取消卖单
+        for (const ask of logs.asks) {
+          await tinygrailStore.doCancelAsk({
+            id: ask.id
+          })
+        }
+      } else if (this.currentKey === 'bid') {
+        // 取消买单
+        for (const bid of logs.bids) {
+          await tinygrailStore.doCancelBid({
+            id: bid.id
+          })
+        }
+      }
+    }
+    feedback()
+
+    await this.fetchList(this.currentKey)
+    info('操作完成')
+  }
+
+  doCancelAllAuction = async () => {
+    const list = this.computedList(this.currentKey).list.filter(
+      item => item.state === 0
+    )
+    t('我的委托.一键取消', {
+      length: list.length
+    })
+
+    for (const item of list) {
+      throttleInfo(
+        `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
+      )
+      await tinygrailStore.doAuctionCancel({
+        id: item.id
+      })
+    }
+    feedback()
+
+    await this.fetchList(this.currentKey)
+    info('操作完成')
   }
 }

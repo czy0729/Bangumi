@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 00:55:46
+ * @Last Modified time: 2020-11-09 20:02:50
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text } from '@components'
+import { Touchable, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -38,10 +38,37 @@ class TinygrailBid extends React.Component {
   }
 
   componentDidMount() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     $.init()
 
     const { type = 'bid' } = $.params
+    navigation.setParams({
+      extra: (
+        <Touchable
+          onPress={() =>
+            Alert.alert(
+              '小圣杯助手',
+              `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})?`,
+              [
+                {
+                  text: '取消',
+                  style: 'cancel'
+                },
+                {
+                  text: '确定',
+                  onPress: () => $.onBatchCancel()
+                }
+              ]
+            )
+          }
+        >
+          <Text style={this.styles.batch} type='tinygrailText'>
+            [一键取消]
+          </Text>
+        </Touchable>
+      )
+    })
+
     hm(`tinygrail/${type}`, 'TinygrailBid')
   }
 
@@ -120,5 +147,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   labelText: {
     width: '100%'
+  },
+  batch: {
+    paddingVertical: _.sm
   }
 }))

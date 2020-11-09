@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:52:24
+ * @Last Modified time: 2020-11-09 15:53:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,7 @@ function Voice({ style }, { $, navigation }) {
                   }
                 />
                 <Flex.Item style={_.ml.sm}>
-                  <Text bold size={12}>
+                  <Text style={_.mt.xs} bold size={12}>
                     {item.name}
                   </Text>
                   {!!item.nameCn && (
@@ -77,10 +77,10 @@ function Voice({ style }, { $, navigation }) {
             <Flex.Item style={_.ml.sm} flex={3.2}>
               <Flex align='start'>
                 <Flex.Item>
-                  <Text align='right' size={12}>
+                  <Text style={_.mt.xs} align='right' size={12}>
                     {item.subjectName}
                   </Text>
-                  <Flex style={styles.mt}>
+                  <Flex style={_.mt.xs} align='start'>
                     <Flex.Item>
                       <Text
                         size={10}
@@ -92,12 +92,13 @@ function Voice({ style }, { $, navigation }) {
                         {item.subjectNameCn}
                       </Text>
                     </Flex.Item>
-                    <Tag style={_.ml.xs} value={item.staff} />
+                    <Tag style={styles.tag} value={item.staff} />
                   </Flex>
                 </Flex.Item>
                 <Cover
                   style={_.ml.sm}
-                  size={40}
+                  size={48}
+                  height={62}
                   src={item.subjectCover}
                   radius
                   shadow
@@ -137,7 +138,8 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
   },
-  mt: {
-    marginTop: 2
+  tag: {
+    marginTop: 2,
+    marginLeft: _.xs
   }
 }))

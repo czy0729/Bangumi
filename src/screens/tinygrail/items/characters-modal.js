@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-06 12:06:22
+ * @Last Modified time: 2020-11-08 00:00:51
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -596,7 +596,9 @@ class CharactersModal extends React.Component {
   @computed get leftLevelMap() {
     const { list } = this.left
     const data = {}
-    list.forEach(item =>
+
+    // eslint-disable-next-line semi-style
+    ;(list || []).forEach(item =>
       data[lv(item) || 0]
         ? (data[lv(item) || 0] += 1)
         : (data[lv(item) || 0] = 1)
@@ -621,7 +623,9 @@ class CharactersModal extends React.Component {
   @computed get rightLevelMap() {
     const { list } = this.right
     const data = {}
-    list.forEach(item =>
+
+    // eslint-disable-next-line semi-style
+    ;(list || []).forEach(item =>
       data[lv(item) || 0]
         ? (data[lv(item) || 0] += 1)
         : (data[lv(item) || 0] = 1)

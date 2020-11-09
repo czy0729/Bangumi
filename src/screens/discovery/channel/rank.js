@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 01:30:50
+ * @Last Modified time: 2020-11-09 17:12:47
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,6 +16,7 @@ import { findSubjectCn } from '@utils/app'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 const imgWidthSm = 56
+const imgHeightSm = imgWidthSm * 1.28
 
 function Rank(props, { $, navigation }) {
   const { rankTop, rank } = $.channel
@@ -113,7 +114,7 @@ function Rank(props, { $, navigation }) {
                     <Cover
                       src={item.cover}
                       width={imgWidthSm}
-                      height={imgWidthSm}
+                      height={imgHeightSm}
                       shadow
                       type={$.typeCn}
                     />

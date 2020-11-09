@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 01:01:40
+ * @Last Modified time: 2020-11-09 15:39:18
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -164,11 +164,12 @@ function Item(props, { $, navigation }) {
     }
   }
   const auctioning = auctionText === '竞拍中'
+  const src = tinygrailOSS(icon)
   return (
     <Flex style={[styles.container, style]} align='start'>
       <Avatar
         style={styles.avatar}
-        src={tinygrailOSS(icon)}
+        src={src}
         size={36}
         name={name}
         borderColor='transparent'
@@ -180,7 +181,8 @@ function Item(props, { $, navigation }) {
           })
 
           navigation.push('Mono', {
-            monoId: `character/${monoId || id}`
+            monoId: `character/${monoId || id}`,
+            _name: name
           })
         }}
       />

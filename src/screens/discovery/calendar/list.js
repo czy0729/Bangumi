@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 21:49:06
+ * @Last Modified time: 2020-11-09 17:11:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { ListView, Flex, Text } from '@components'
+import { ListView, Flex, Text, Iconfont } from '@components'
 import { SectionHeader } from '@screens/_'
 import { _ } from '@stores'
 import { date, getTimestamp } from '@utils'
@@ -27,7 +27,8 @@ function Line() {
   return (
     <Flex>
       <Flex.Item style={styles.line} />
-      <Text type='main' size={12}>
+      <Iconfont name='time' color={_.colorMain} size={12} />
+      <Text style={_.ml.xs} type='main' size={12}>
         {date('H:i', getTimestamp())}
       </Text>
       <Flex.Item style={styles.line} />

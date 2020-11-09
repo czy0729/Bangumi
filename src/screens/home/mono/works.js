@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:52:31
+ * @Last Modified time: 2020-11-09 15:55:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,8 @@ function Works({ style }, { $, navigation }) {
             align='start'
           >
             <Cover
-              size={40}
+              size={48}
+              height={62}
               src={item.cover}
               radius
               shadow
@@ -63,11 +64,11 @@ function Works({ style }, { $, navigation }) {
             <Flex.Item style={_.ml.sm}>
               <Flex align='start'>
                 <Flex.Item>
-                  <Text bold size={12}>
+                  <Text style={styles.text} bold size={12}>
                     {findSubjectCn(item.name)}
                   </Text>
                 </Flex.Item>
-                <Tag style={_.ml.sm} value={item.staff} />
+                <Tag style={styles.tag} value={item.staff} />
               </Flex>
             </Flex.Item>
           </Flex>
@@ -99,5 +100,13 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  text: {
+    width: '66%',
+    marginTop: _.xs
+  },
+  tag: {
+    marginTop: 2,
+    marginLeft: _.xs
   }
 }))

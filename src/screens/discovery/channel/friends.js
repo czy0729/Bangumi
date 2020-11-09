@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 01:30:47
+ * @Last Modified time: 2020-11-09 17:13:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,6 +16,7 @@ import { findSubjectCn } from '@utils/app'
 
 const itemWidth = (_.window.width - 2 * _.wind - _._wind) / 2
 const imgWidth = 56
+const imgHeight = imgWidth * 1.28
 
 function Friends(props, { $, navigation }) {
   const { friends } = $.channel
@@ -48,7 +49,7 @@ function Friends(props, { $, navigation }) {
                 <Cover
                   src={item.cover}
                   width={imgWidth}
-                  height={imgWidth}
+                  height={imgHeight}
                   shadow
                   type={$.typeCn}
                   onPress={onPress}
