@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 19:27:24
+ * @Last Modified time: 2020-11-10 10:24:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -102,7 +102,7 @@ function Top(props, { $, navigation }) {
             </View>
             {!!$.userId && (
               <Flex.Item style={_.ml.sm}>
-                <Text numberOfLines={2} bold>
+                <Text numberOfLines={1} bold>
                   {$.userName}
                   <Text type='sub'> @{$.userId}</Text>
                 </Text>

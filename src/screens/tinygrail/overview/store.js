@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 09:52:25
+ * @Last Modified time: 2020-11-10 17:26:05
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -98,10 +98,6 @@ export default class ScreenTinygrailOverview extends store {
   fetchList = key => tinygrailStore.fetchList(key)
 
   // -------------------- get --------------------
-  @computed get mvc() {
-    return tinygrailStore.mvc
-  }
-
   @computed get currentKey() {
     const { page } = this.state
     return tabs[page].key
@@ -159,8 +155,6 @@ export default class ScreenTinygrailOverview extends store {
 
     this.setState({
       page
-      // sort: '',
-      // direction: ''
     })
     this.setStorage(undefined, undefined, namespace)
     this.tabChangeCallback(page)
