@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 11:41:46
+ * @Last Modified time: 2020-11-10 20:21:25
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -148,7 +148,8 @@ class TinygrailTree extends React.Component {
         return
       default:
         navigation.push('Mono', {
-          monoId: `character/${id}`
+          monoId: `character/${id}`,
+          _name: name
         })
     }
   }
@@ -161,10 +162,7 @@ class TinygrailTree extends React.Component {
         <StatusBarEvents />
         <ToolBar />
         {loading ? (
-          <Loading
-            style={this.styles.container}
-            color={_.colorTinygrailText}
-          />
+          <Loading style={this.styles.container} color={_.colorTinygrailText} />
         ) : (
           <Chart
             data={data}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 01:07:34
+ * @Last Modified time: 2020-11-10 20:51:19
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,14 +15,18 @@ import {
   Flex,
   Image,
   Text,
-  Loading
+  Loading,
+  SegmentedControl
 } from '@components'
 import { _ } from '@stores'
 import { getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
+const sortDS = ['默认', '时间', '评分']
+
 function Info(props, { $, navigation }) {
+  const { sort } = $.state
   const {
     title,
     avatar,
@@ -93,6 +97,15 @@ function Info(props, { $, navigation }) {
           进度 {progress}
         </Text>
       </Flex>
+      <Flex style={_.mt.lg} justify='end'>
+        <SegmentedControl
+          style={styles.segmentedControl}
+          size={11}
+          values={sortDS}
+          selectedIndex={sort || 0}
+          onValueChange={$.sort}
+        />
+      </Flex>
       {!_loaded && (
         <Flex style={styles.loading} justify='center'>
           <Loading />
@@ -113,6 +126,10 @@ const styles = StyleSheet.create({
   container: {
     ..._.container.inner,
     minHeight: 248
+  },
+  segmentedControl: {
+    width: 144,
+    height: 22
   },
   loading: {
     height: 120

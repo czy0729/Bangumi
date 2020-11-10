@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 14:01:06
+ * @Last Modified time: 2020-11-10 20:21:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,8 @@ function Header({ goBack }, { $, navigation }) {
                 })
 
                 navigation.push('Mono', {
-                  monoId: `character/${$.monoId}`
+                  monoId: `character/${$.monoId}`,
+                  _name: name
                 })
               }}
             />

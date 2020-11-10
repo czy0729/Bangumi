@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 16:55:17
+ * @Last Modified time: 2020-11-10 20:20:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -75,7 +75,8 @@ function Info(props, { $, navigation }) {
             })
 
             navigation.push('Mono', {
-              monoId: `character/${id}`
+              monoId: `character/${id}`,
+              _name: name
             })
           }}
         >

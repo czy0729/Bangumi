@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 16:07:43
+ * @Last Modified time: 2020-11-10 20:20:52
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -128,7 +128,8 @@ class TinygrailTopWeek extends React.Component {
                       })
 
                       navigation.push('Mono', {
-                        monoId: `character/${item.id}`
+                        monoId: `character/${item.id}`,
+                        _name: item.name
                       })
                     }}
                   />

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 20:16:18
+ * @Last Modified time: 2020-11-10 20:57:01
  */
 
 /**
@@ -54,6 +54,7 @@ export default {
   '目录详情.收藏': 'CatalogDetail.doCollect',
   '目录详情.取消收藏': 'CatalogDetail.doErase',
   '目录详情.封面图查看': 'CatalogDetail.imageView',
+  '目录详情.排序': 'CatalogDetail.sort',
 
   // 收藏的人物
   '收藏的人物.跳转': 'Character.to',

@@ -2,17 +2,34 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:44:29
+ * @Last Modified time: 2020-11-10 23:12:29
  */
-import { computed } from 'mobx'
-import { discoveryStore, collectionStore } from '@stores'
+import { observable, computed } from 'mobx'
+import { discoveryStore, collectionStore, subjectStore } from '@stores'
 import store from '@utils/store'
 import { info, feedback } from '@utils/ui'
 import { t, fetchHTML } from '@utils/fetch'
 import { HOST } from '@constants'
+import rateData from '@constants/json/rate.json'
+
+const namespace = 'ScreenCatalogDetail'
 
 export default class ScreenCatalogDetail extends store {
-  init = () => this.fetchCatalogDetail()
+  state = observable({
+    sort: 0,
+    _loaded: false
+  })
+
+  init = async () => {
+    const res = this.getStorage(undefined, namespace)
+    const state = await res
+    this.setState({
+      ...state,
+      _loaded: true
+    })
+
+    return this.fetchCatalogDetail()
+  }
 
   // -------------------- fetch --------------------
   fetchCatalogDetail = () =>
@@ -27,7 +44,25 @@ export default class ScreenCatalogDetail extends store {
   }
 
   @computed get catalogDetail() {
-    return discoveryStore.catalogDetail(this.catalogId)
+    const { sort } = this.state
+    const catalogDetail = discoveryStore.catalogDetail(this.catalogId)
+    let list = catalogDetail.list.map(item => ({
+      ...item,
+      score:
+        subjectStore.subject(item.id)?.rating?.score || rateData[item.id] || 0
+    }))
+
+    if (sort === 1) {
+      // 时间
+      list = list.sort((a, b) => b.info.localeCompare(a.info))
+    } else if (sort === 2) {
+      // 分数
+      list = list.sort((a, b) => b.score - a.score)
+    }
+    return {
+      ...catalogDetail,
+      list
+    }
   }
 
   @computed get isCollect() {
@@ -51,6 +86,18 @@ export default class ScreenCatalogDetail extends store {
     }
 
     this.doCollect()
+  }
+
+  sort = title => {
+    const sort = title === '评分' ? 2 : title === '时间' ? 1 : 0
+    t('目录详情.排序', {
+      sort
+    })
+
+    this.setState({
+      sort
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   // -------------------- action --------------------

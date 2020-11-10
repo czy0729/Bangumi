@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 22:52:50
+ * @Last Modified time: 2020-11-10 20:25:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -137,7 +137,7 @@ Avatar.defaultProps = {
   navigation: undefined,
   userId: undefined,
   src: undefined,
-  size: 32,
+  size: 36,
   borderColor: undefined,
   event: {},
   params: {},
