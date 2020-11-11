@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-27 16:16:59
+ * @Last Modified time: 2020-11-11 14:02:08
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -64,6 +64,19 @@ export default class ScreenSay extends store {
   @computed get say() {
     const { id } = this.params
     return timelineStore.say(id)
+  }
+
+  @computed get users() {
+    const { list } = this.say
+    const map = {}
+    const users = []
+    list.reverse().forEach(item => {
+      if (!map[item.id]) {
+        users.push(item)
+        map[item.id] = true
+      }
+    })
+    return users
   }
 
   @computed get myId() {

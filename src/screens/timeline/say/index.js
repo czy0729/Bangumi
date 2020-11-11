@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-16 23:07:20
+ * @Last Modified time: 2020-11-11 14:16:27
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { FixedTextarea, Flex } from '@components'
-import { NavigationBarEvents } from '@screens/_'
+import { NavigationBarEvents, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -19,6 +19,9 @@ import Chat from './chat'
 import Store from './store'
 
 const title = '吐槽'
+const event = {
+  id: '吐槽.跳转'
+}
 
 export default
 @inject(Store)
@@ -114,8 +117,7 @@ class Say extends React.Component {
   }
 
   renderList() {
-    const { $, navigation } = this.context
-    const { value } = $.state
+    const { $ } = this.context
     const { _loaded } = $.say
     if (!_loaded) {
       return (
@@ -130,22 +132,60 @@ class Say extends React.Component {
         <ScrollView
           ref={this.connectRefScrollView}
           style={_.container.screen}
-          contentContainerStyle={_.container.bottom}
+          contentContainerStyle={this.styles.list}
         >
           <Chat />
         </ScrollView>
-        {$.isWebLogin && (
-          <FixedTextarea
-            ref={this.connectRefFixedTextarea}
-            placeholder='回复吐槽, 长按头像@某人'
-            simple
-            value={value}
-            onChange={$.onChange}
-            onClose={$.closeFixedTextarea}
-            onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
-          />
-        )}
+        {this.renderUsers()}
+        {this.renderTextarea()}
       </>
+    )
+  }
+
+  renderUsers() {
+    const { $, navigation } = this.context
+    return (
+      <ScrollView
+        style={this.styles.users}
+        contentContainerStyle={this.styles.contentContainerStyle}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
+        {$.users.map(item => {
+          const { avatar = {} } = $.usersInfo(item.id)
+          return (
+            <Avatar
+              style={_.mr.sm}
+              navigation={navigation}
+              src={item.avatar || avatar.medium}
+              size={34}
+              userId={item.id}
+              name={item.name}
+              event={event}
+              border={0}
+              onLongPress={() => $.at(item.id)}
+            />
+          )
+        })}
+      </ScrollView>
+    )
+  }
+
+  renderTextarea() {
+    const { $, navigation } = this.context
+    const { value } = $.state
+    return (
+      $.isWebLogin && (
+        <FixedTextarea
+          ref={this.connectRefFixedTextarea}
+          placeholder='回复吐槽, 长按头像@某人'
+          simple
+          value={value}
+          onChange={$.onChange}
+          onClose={$.closeFixedTextarea}
+          onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
+        />
+      )
     )
   }
 
@@ -158,4 +198,29 @@ class Say extends React.Component {
       </View>
     )
   }
+
+  get styles() {
+    return memoStyles()
+  }
 }
+
+const memoStyles = _.memoStyles(_ => ({
+  users: {
+    position: 'absolute',
+    zIndex: 1,
+    right: _.wind,
+    bottom: 52,
+    left: _.wind,
+    height: 50,
+    paddingVertical: _.sm,
+    backgroundColor: _.colorPlain,
+    borderRadius: 28
+  },
+  contentContainerStyle: {
+    height: 34,
+    paddingHorizontal: 8
+  },
+  list: {
+    paddingBottom: _.bottom + _.lg
+  }
+}))

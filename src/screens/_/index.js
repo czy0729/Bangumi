@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-02 18:19:19
+ * @Last Modified time: 2020-11-11 14:08:08
  */
 
 /**
@@ -65,6 +65,7 @@ export { default as ItemComment } from './item/comment'
 export { default as ItemFriends } from './item/friends'
 export { default as ItemNotify } from './item/notify'
 export { default as ItemPM } from './item/pm'
+export { default as ItemSay } from './item/say'
 export { default as ItemSearch } from './item/search'
 export { default as ItemSetting } from './item/setting'
 export { default as ItemTimeline } from './item/timeline'

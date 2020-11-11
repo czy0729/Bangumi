@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:25:40
+ * @Last Modified time: 2020-11-11 14:21:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -117,6 +117,7 @@ function Avatar({
 
   return (
     <Image
+      key={typeof _src === 'string' ? _src : 'avatar'}
       style={[
         style,
         dev && typeof _src === 'string' && _src.includes(HOST_CDN) && styles.dev

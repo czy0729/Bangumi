@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-17 17:14:02
+ * @Last Modified time: 2020-11-11 14:28:16
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
@@ -399,7 +399,9 @@ export function appNavigate(
 
     // 吐槽
     if (_url.includes('/timeline/status/')) {
-      const _id = _url.split('/timeline/status/')[1]
+      const splits = _url.split('/timeline/status/')
+      const _userId = splits[0].replace('https://bgm.tv/user/', '')
+      const _id = splits[1]
       t(id, {
         to: 'Say',
         id: _id,
@@ -408,6 +410,7 @@ export function appNavigate(
 
       navigation.push('Say', {
         id: _id,
+        userId: _userId,
         ...passParams
       })
       return true
