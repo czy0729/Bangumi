@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 18:03:38
+ * @Last Modified time: 2020-11-12 15:09:11
  */
 import { observable, computed } from 'mobx'
 import {
@@ -35,6 +35,7 @@ const excludeState = {
 export default class ScreenTopic extends store {
   state = observable({
     ...excludeState,
+    expands: [], // 展开的子楼层id
     filterMe: false,
     filterFriends: false,
     reverse: false,
@@ -160,6 +161,7 @@ export default class ScreenTopic extends store {
         }))
     }
 
+    // 只显示自己参与评论
     if (filterMe) {
       return {
         ...comments,
@@ -176,7 +178,7 @@ export default class ScreenTopic extends store {
       }
     }
 
-    // @notice 只显示好友相关评论
+    // 只显示好友相关评论
     if (filterFriends) {
       return {
         ...comments,
@@ -471,6 +473,16 @@ export default class ScreenTopic extends store {
     this.setState({
       showHeaderTitle
     })
+  }
+
+  toggleExpand = id => {
+    const { expands } = this.state
+    this.setState({
+      expands: expands.includes(id)
+        ? expands.filter(item => item !== id)
+        : [...expands, id]
+    })
+    this.setStorage(undefined, undefined, this.namespace)
   }
 
   // -------------------- action --------------------

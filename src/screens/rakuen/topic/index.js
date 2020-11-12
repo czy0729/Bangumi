@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-13 15:19:09
+ * @Last Modified time: 2020-11-12 15:03:55
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -261,7 +261,9 @@ class Topic extends React.Component {
   renderItem = ({ item, index }) => {
     const { $ } = this.context
     const { rendered } = this.state
-    if (!rendered && index > 4 && !$.postId) {
+
+    // 延迟渲染, 减少二次进入页面瞬间楼层过多导致动画掉帧, 进入页面瞬间最多只渲染2个楼层
+    if (!rendered && index > 2 && !$.postId) {
       return null
     }
 

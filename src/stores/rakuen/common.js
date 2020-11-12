@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 17:56:35
+ * @Last Modified time: 2020-11-12 14:05:28
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -315,10 +315,10 @@ export function cheerioTopic(HTML) {
     // 主楼
     const $group = $('#pageHeader a.avatar')
     const $user = $('div.postTopic strong > a.l')
-    const [floor, time] = ($('div.postTopic div.re_info > small').text() || '')
+    const [floor, time] = ($('div.postTopic div.re_info > small').text().trim() || '')
       .split('/')[0]
       .split(' - ')
-    const titleText = $('#pageHeader > h1').text() || ''
+    const titleText = $('#pageHeader > h1').text().trim() || ''
     let title
     if (titleText.includes(' &raquo; ')) {
       title = String(titleText.split(' &raquo; ')[1]).replace(/讨论|章节/, '')
@@ -331,7 +331,7 @@ export function cheerioTopic(HTML) {
       ),
       floor,
       formhash: $('input[name=formhash]').attr('value'),
-      group: String($group.text()).replace(/\n/g, ''),
+      group: $group.text().trim().replace(/\n/g, ''),
       groupHref: $group.attr('href'),
       groupThumb: getCoverSmall($('a.avatar > img.avatar').attr('src')),
       lastview: '',
@@ -339,10 +339,10 @@ export function cheerioTopic(HTML) {
       time,
       title,
       userId: matchUserId($user.attr('href')),
-      userName: $user.text(),
-      userSign: HTMLDecode($('div.postTopic span.tip_j').text()),
-      tip: $('#reply_wrapper span.tip.rr').text(),
-      close: $('div.row_state span.tip_j').text()
+      userName: $user.text().trim(),
+      userSign: HTMLDecode($('div.postTopic span.tip_j').text().trim()),
+      tip: $('#reply_wrapper span.tip.rr').text().trim(),
+      close: $('div.row_state span.tip_j').text().trim()
     })
 
     // 回复
@@ -352,7 +352,7 @@ export function cheerioTopic(HTML) {
           const $row = cheerio(element)
 
           const [floor, time] = (
-            $row.find('> div.re_info > small').text() || ''
+            $row.find('> div.re_info > small').text().trim() || ''
           )
             .split('/')[0] // 这里其实为了去除 / del / edit
             .split(' - ')
@@ -375,9 +375,9 @@ export function cheerioTopic(HTML) {
             time,
             userId: matchUserId($row.find('a.avatar').attr('href')),
             userName:
-              $row.find('> div.inner > span.userInfo > strong > a.l').text() ||
-              $row.find('> div.inner > strong > a.l').text(),
-            userSign: HTMLDecode($row.find('span.tip_j').text()),
+              $row.find('> div.inner > span.userInfo > strong > a.l').text().trim() ||
+              $row.find('> div.inner > strong > a.l').text().trim(),
+            userSign: HTMLDecode($row.find('span.tip_j').text().trim()),
             erase: $row.find('> div.re_info a.erase_post').attr('href'),
 
             // 子回复
@@ -388,7 +388,7 @@ export function cheerioTopic(HTML) {
                   const $row = cheerio(element, {
                     decodeEntities: false
                   })
-                  const [floor, time] = ($row.find('small').text() || '')
+                  const [floor, time] = ($row.find('small').text().trim() || '')
                     .split('/')[0] // 这里其实为了去除 / del / edit
                     .split(' - ')
                   return safeObject({
@@ -402,8 +402,8 @@ export function cheerioTopic(HTML) {
                     replySub: $row.find('a.icons_cmt').attr('onclick'),
                     time: trim(time),
                     userId: matchUserId($row.find('a.avatar').attr('href')),
-                    userName: $row.find('strong > a.l').text(),
-                    userSign: HTMLDecode($row.find('span.tip_j').text()),
+                    userName: $row.find('strong > a.l').text().trim(),
+                    userSign: HTMLDecode($row.find('span.tip_j').text().trim()),
                     erase: $row.find('a.erase_post').attr('href')
                   })
                 })

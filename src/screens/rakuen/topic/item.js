@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 19:19:33
+ * @Last Modified time: 2020-11-12 15:43:22
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -19,6 +19,7 @@ const avatarWidth = 32
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
 const imagesMaxWidthSub =
   _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
+const expandNum = 5
 
 function Item(
   {
@@ -42,29 +43,21 @@ function Item(
   { $, navigation }
 ) {
   const styles = memoStyles()
-  const baseFontStyle = {
-    fontSize: 14 + _.fontSizeAdjust,
-    lineHeight: 22
-  }
+  const { expands } = $.state
+  const isExpand =
+    sub.length <= expandNum || (sub.length > expandNum && expands.includes(id))
+
   const isAuthor = authorId === userId
   const isFriend = $.myFriendsMap[userId]
   const isJump = !!postId && postId === id
   const { _time: readedTime } = $.readed
-  let isNew
-  if (readedTime) {
-    isNew = getTimestamp(time) > readedTime
-  }
+  const isNew = !!readedTime && getTimestamp(time) > readedTime
 
   const { _url } = $.params
   const url = _url || `${HOST}/rakuen/topic/${$.topicId}`
   return (
     <Flex
-      style={[
-        styles.item,
-        // isOdd && styles.itemOdd,
-        isNew && styles.itemNew,
-        isJump && styles.itemJump
-      ]}
+      style={[styles.item, isNew && styles.itemNew, isJump && styles.itemJump]}
       align='start'
     >
       <Avatar
@@ -76,15 +69,11 @@ function Item(
         event={event}
       />
       <Flex.Item
-        style={[
-          styles.content,
-          index !== 0 && !_.flat && styles.border,
-          _.ml.sm
-        ]}
+        style={[styles.content, index !== 0 && !_.flat && styles.border]}
       >
         <Flex>
           <Flex.Item>
-            <Text bold>
+            <Text size={userName.length > 10 ? 12 : 14} lineHeight={14} bold>
               {userName}
               {isAuthor && (
                 <Text type='main' size={12} lineHeight={14}>
@@ -126,7 +115,7 @@ function Item(
         )}
         <RenderHtml
           style={_.mt.sm}
-          baseFontStyle={baseFontStyle}
+          baseFontStyle={styles.baseFontStyle}
           imagesMaxWidth={imagesMaxWidth}
           html={message}
           onLinkPress={href => appNavigate(href, navigation, {}, event)}
@@ -169,130 +158,156 @@ function Item(
           )}
         </Flex>
         <View style={styles.sub}>
-          {sub.map(item => {
-            const isAuthor = authorId === item.userId
-            const isLayer = !isAuthor && userId === item.userId
-            const isFriend = $.myFriendsMap[item.userId]
-            let isNew
-            if (readedTime) {
-              isNew = getTimestamp(item.time) > readedTime
-            }
-            const isJump = !!postId && postId === item.id
-            return (
-              <Flex
-                key={item.id}
-                style={[isNew && styles.itemNew, isJump && styles.itemJump]}
-                align='start'
-              >
-                <Avatar
-                  style={styles.subImage}
-                  navigation={navigation}
-                  userId={item.userId}
-                  name={item.userName}
-                  src={item.avatar}
-                  event={event}
-                />
-                <Flex.Item
-                  style={[styles.subContent, !_.flat && styles.border, _.ml.sm]}
+          {sub
+            .filter((item, index) => (isExpand ? true : index < expandNum))
+            .map(item => {
+              const isAuthor = authorId === item.userId
+              const isLayer = !isAuthor && userId === item.userId
+              const isFriend = $.myFriendsMap[item.userId]
+              const isNew = !!readedTime && getTimestamp(item.time) > readedTime
+              const isJump = !!postId && postId === item.id
+              return (
+                <Flex
+                  key={item.id}
+                  style={[isNew && styles.itemNew, isJump && styles.itemJump]}
+                  align='start'
                 >
-                  <Flex>
-                    <Flex.Item>
-                      <Text bold>
-                        {item.userName}
-                        {isAuthor && (
-                          <Text type='main' size={11} lineHeight={14}>
-                            {' '}
-                            作者
-                          </Text>
-                        )}
-                        {isFriend && !isAuthor && (
-                          <Text type='warning' size={11} lineHeight={14}>
-                            {' '}
-                            好友
-                          </Text>
-                        )}
-                        {isLayer && !isAuthor && !isFriend && (
-                          <Text type='primary' size={11} lineHeight={14}>
-                            {' '}
-                            层主
-                          </Text>
-                        )}
-                      </Text>
-                    </Flex.Item>
-                    <Text
-                      style={[styles.time, _.ml.md]}
-                      type='sub'
-                      size={11}
-                      lineHeight={14}
-                    >
-                      {simpleTime(item.time)}
-                    </Text>
-                    <Text style={styles.f} type='sub' size={10} lineHeight={14}>
-                      #
-                    </Text>
-                    <Text
-                      style={styles.time}
-                      type='sub'
-                      size={11}
-                      lineHeight={14}
-                    >
-                      {item.floor.replace('#', '')}
-                    </Text>
-                  </Flex>
-                  <RenderHtml
-                    style={_.mt.xs}
-                    baseFontStyle={baseFontStyle}
-                    imagesMaxWidth={imagesMaxWidthSub}
-                    html={item.message}
-                    onLinkPress={href =>
-                      appNavigate(href, navigation, {}, event)
-                    }
-                    onImageFallback={() => open(`${url}#post_${item.id}`)}
+                  <Avatar
+                    style={styles.subImage}
+                    navigation={navigation}
+                    userId={item.userId}
+                    name={item.userName}
+                    src={item.avatar}
+                    event={event}
                   />
-                  <Flex justify='end'>
-                    {!!item.erase && (
-                      <Touchable
-                        style={[styles.reply, _.mr.sm]}
-                        onPress={() =>
-                          Alert.alert('警告', '确定删除回复?', [
-                            {
-                              text: '取消',
-                              style: 'cancel'
-                            },
-                            {
-                              text: '确定',
-                              onPress: () => $.doDeleteReply(item.erase)
-                            }
-                          ])
-                        }
-                      >
-                        <Text type='icon' size={11}>
-                          删除
+                  <Flex.Item
+                    style={[
+                      styles.subContent,
+                      !_.flat && styles.border,
+                      _.ml.sm
+                    ]}
+                  >
+                    <Flex>
+                      <Flex.Item>
+                        <Text
+                          size={item.userName.length > 10 ? 12 : 14}
+                          lineHeight={14}
+                          bold
+                        >
+                          {item.userName}
+                          {isAuthor && (
+                            <Text type='main' size={11} lineHeight={14}>
+                              {' '}
+                              作者
+                            </Text>
+                          )}
+                          {isFriend && !isAuthor && (
+                            <Text type='warning' size={11} lineHeight={14}>
+                              {' '}
+                              好友
+                            </Text>
+                          )}
+                          {isLayer && !isAuthor && !isFriend && (
+                            <Text type='primary' size={11} lineHeight={14}>
+                              {' '}
+                              层主
+                            </Text>
+                          )}
                         </Text>
-                      </Touchable>
-                    )}
-                    {!!item.replySub && (
-                      <Touchable
-                        style={styles.reply}
-                        onPress={() => {
-                          $.showFixedTextarea(
-                            item.userName,
-                            item.replySub,
-                            item.message
-                          )
-                          showFixedTextare()
-                        }}
+                      </Flex.Item>
+                      <Text
+                        style={[styles.time, _.ml.md]}
+                        type='sub'
+                        size={11}
+                        lineHeight={14}
                       >
-                        <Text type='icon' size={11}>
-                          回复
-                        </Text>
-                      </Touchable>
-                    )}
-                  </Flex>
-                </Flex.Item>
-              </Flex>
-            )
-          })}
+                        {simpleTime(item.time)}
+                      </Text>
+                      <Text
+                        style={styles.f}
+                        type='sub'
+                        size={10}
+                        lineHeight={14}
+                      >
+                        #
+                      </Text>
+                      <Text
+                        style={styles.time}
+                        type='sub'
+                        size={11}
+                        lineHeight={14}
+                      >
+                        {item.floor.replace('#', '')}
+                      </Text>
+                    </Flex>
+                    <RenderHtml
+                      style={_.mt.xs}
+                      baseFontStyle={styles.baseFontStyle}
+                      imagesMaxWidth={imagesMaxWidthSub}
+                      html={item.message}
+                      onLinkPress={href =>
+                        appNavigate(href, navigation, {}, event)
+                      }
+                      onImageFallback={() => open(`${url}#post_${item.id}`)}
+                    />
+                    <Flex justify='end'>
+                      {!!item.erase && (
+                        <Touchable
+                          style={[styles.reply, _.mr.sm]}
+                          onPress={() =>
+                            Alert.alert('警告', '确定删除回复?', [
+                              {
+                                text: '取消',
+                                style: 'cancel'
+                              },
+                              {
+                                text: '确定',
+                                onPress: () => $.doDeleteReply(item.erase)
+                              }
+                            ])
+                          }
+                        >
+                          <Text type='icon' size={11}>
+                            删除
+                          </Text>
+                        </Touchable>
+                      )}
+                      {!!item.replySub && (
+                        <Touchable
+                          style={styles.reply}
+                          onPress={() => {
+                            $.showFixedTextarea(
+                              item.userName,
+                              item.replySub,
+                              item.message
+                            )
+                            showFixedTextare()
+                          }}
+                        >
+                          <Text type='icon' size={11}>
+                            回复
+                          </Text>
+                        </Touchable>
+                      )}
+                    </Flex>
+                  </Flex.Item>
+                </Flex>
+              )
+            })}
+          {sub.length > expandNum && (
+            <Touchable onPress={() => $.toggleExpand(id)}>
+              <Text
+                style={styles.expand}
+                type={isExpand ? 'sub' : 'main'}
+                size={12}
+                align='center'
+              >
+                {isExpand
+                  ? '收起楼层'
+                  : `展开 ${sub.length - expandNum} 条回复`}
+              </Text>
+            </Touchable>
+          )}
         </View>
       </Flex.Item>
     </Flex>
@@ -331,7 +346,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   content: {
     paddingVertical: _.space,
-    paddingRight: _.wind
+    paddingRight: _.wind,
+    marginLeft: _.sm
   },
   border: {
     borderTopColor: _.colorBorder,
@@ -365,5 +381,13 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: -8,
     marginLeft: _.sm,
     opacity: _.select(1, 0.64)
+  },
+  baseFontStyle: {
+    fontSize: 14 + _.fontSizeAdjust,
+    lineHeight: 22
+  },
+  expand: {
+    paddingVertical: _.sm,
+    paddingLeft: 44
   }
 }))
