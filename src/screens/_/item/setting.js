@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-26 14:56:57
+ * @Last Modified time: 2020-11-12 17:58:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,26 +25,15 @@ function ItemSetting({
     <View style={styles.item}>
       <Flex>
         <Flex.Item>
-          <Text type='title' size={17} bold>
+          <Text type='title' size={16} bold>
             {hd}
           </Text>
         </Flex.Item>
-        {typeof ft === 'string' ? (
-          <Text type='sub' size={15}>
-            {ft}
-          </Text>
-        ) : (
-          ft
-        )}
-        {arrow && <Iconfont style={_.ml.xs} name='right' />}
+        {typeof ft === 'string' ? <Text type='sub'>{ft}</Text> : ft}
+        {arrow && <Iconfont style={_.ml.xs} size={14} name='right' />}
       </Flex>
       {information && (
-        <Text
-          style={styles.information}
-          type={informationType}
-          size={13}
-          lineHeight={15}
-        >
+        <Text style={styles.information} type={informationType} size={12}>
           {information}
         </Text>
       )}
@@ -78,11 +67,11 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   item: {
-    paddingVertical: _.md,
+    paddingVertical: _.md - 2,
     paddingRight: _.wind
   },
   information: {
-    marginTop: _.sm,
-    maxWidth: '88%'
+    maxWidth: '80%',
+    marginTop: _.xs
   }
 }))

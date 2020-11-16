@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-12 12:04:27
+ * @Last Modified time: 2020-11-16 21:54:57
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -303,7 +303,8 @@ class CharactersModal extends React.Component {
         ...$.temple,
         list: $.temple.list
           .filter(item => {
-            if (item.assets < 100) {
+            // 一次消耗100且成塔
+            if (item.assets < 100 || item.sacrifices < 500) {
               return false
             }
 
@@ -375,6 +376,7 @@ class CharactersModal extends React.Component {
       ...$.temple,
       list: $.temple.list
         .filter(item => {
+          // 一次消耗10且成塔
           if (assets(item) < 250 || item.sacrifices < 500) {
             return false
           }
@@ -499,7 +501,7 @@ class CharactersModal extends React.Component {
 
   @computed get computedLeft() {
     const { leftFilter } = this.state
-    if (!leftFilter) {
+    if (!leftFilter || !this.left?.list?.length) {
       return this.left
     }
 
@@ -511,7 +513,7 @@ class CharactersModal extends React.Component {
 
   @computed get computedRight() {
     const { rightFilter } = this.state
-    if (!rightFilter) {
+    if (!rightFilter || !this.right?.list?.length) {
       return this.right
     }
 
@@ -714,14 +716,21 @@ class CharactersModal extends React.Component {
         src={cover(item)}
         level={lv(item)}
         name={item.name}
-        extra={`${
-          item.assets && item.assets !== item.sacrifices
-            ? `${formatNumber(item.assets, 0)} / `
-            : ''
-        }${formatNumber(item.sacrifices || item.state, 0)} / +${toFixed(
-          item.rate,
-          1
-        )}`}
+        extra={
+          this.isStardust
+            ? `${
+                item.assets && item.assets !== item.sacrifices
+                  ? `${formatNumber(item.assets, 0)} / `
+                  : ''
+              }${formatNumber(item.sacrifices || item.state, 0)} / +${toFixed(
+                item.rate,
+                1
+              )}`
+            : `${formatNumber(item.assets, 0)} / ${formatNumber(
+                item.sacrifices || item.state,
+                0
+              )} / +${toFixed(item.rate, 1)}`
+        }
         disabled={disabled}
         onPress={() => this.onSelectLeft(item)}
       />

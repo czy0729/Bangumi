@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-12 15:09:11
+ * @Last Modified time: 2020-11-12 17:47:51
  */
 import { observable, computed } from 'mobx'
 import {
@@ -61,16 +61,11 @@ export default class ScreenTopic extends store {
         this.fetchTopicFromCDN()
 
         // 章节需要请求章节详情
-        if (this.isEp) {
-          this.fetchEpFormHTML()
-        }
+        if (this.isEp) this.fetchEpFormHTML()
 
         // 本地帖子过来不主动请求
         const { _noFetch } = this.params
-        if (_noFetch) {
-          return true
-        }
-        return this.fetchTopic()
+        if (!_noFetch) return this.fetchTopic()
       }
       return true
     } catch (error) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 14:13:37
+ * @Last Modified time: 2020-11-12 17:55:49
  */
 import React from 'react'
 import { InteractionManager, ScrollView, View } from 'react-native'
@@ -245,6 +245,7 @@ class Setting extends React.Component {
               hd='黑暗模式'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={_.isDark}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -266,6 +267,7 @@ class Setting extends React.Component {
                 hd='跟随系统'
                 ft={
                   <SwitchPro
+                    style={this.styles.switch}
                     value={autoColorScheme}
                     onSyncPress={() => {
                       t('设置.切换', {
@@ -284,6 +286,7 @@ class Setting extends React.Component {
               hd='CDN加速'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={cdn}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -302,6 +305,7 @@ class Setting extends React.Component {
                 hd='小圣杯'
                 ft={
                   <SwitchPro
+                    style={this.styles.switch}
                     value={tinygrail}
                     onSyncPress={() => {
                       t('设置.切换', {
@@ -320,6 +324,8 @@ class Setting extends React.Component {
                 hd='涨跌色'
                 ft={
                   <SegmentedControl
+                    style={this.styles.segmentedControl}
+                    size={12}
                     values={tinygrailModeDS}
                     selectedIndex={_.isWeb ? 2 : _.isGreen ? 0 : 1}
                     onValueChange={value => {
@@ -354,6 +360,7 @@ class Setting extends React.Component {
               hd='片假名终结者'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={katakana}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -392,6 +399,7 @@ class Setting extends React.Component {
               hd='隐藏评分'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={hideScore}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -408,6 +416,7 @@ class Setting extends React.Component {
               hd='优先中文'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={cnFirst}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -425,6 +434,7 @@ class Setting extends React.Component {
               hd='章节讨论热力图'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={heatMap}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -442,6 +452,7 @@ class Setting extends React.Component {
               hd='屏蔽默认头像用户相关信息'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={filterDefault}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -458,6 +469,7 @@ class Setting extends React.Component {
               hd='屏蔽敏感内容'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={filter18x}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -520,6 +532,7 @@ class Setting extends React.Component {
                 hd='iOS风格菜单'
                 ft={
                   <SwitchPro
+                    style={this.styles.switch}
                     value={iosMenu}
                     onSyncPress={() => {
                       t('设置.切换', {
@@ -538,6 +551,7 @@ class Setting extends React.Component {
               hd='扁平'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={flat}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -555,6 +569,7 @@ class Setting extends React.Component {
               hd='震动'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={vibration}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -572,6 +587,7 @@ class Setting extends React.Component {
               hd='封面拟物'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={coverThings}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -589,6 +605,7 @@ class Setting extends React.Component {
               hd='图片渐出动画'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={imageTransition}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -606,6 +623,7 @@ class Setting extends React.Component {
                 hd='点击水纹效果'
                 ft={
                   <SwitchPro
+                    style={this.styles.switch}
                     value={ripple}
                     onSyncPress={() => {
                       t('设置.切换', {
@@ -624,6 +642,7 @@ class Setting extends React.Component {
               hd='看板娘吐槽'
               ft={
                 <SwitchPro
+                  style={this.styles.switch}
                   value={speech}
                   onSyncPress={() => {
                     t('设置.切换', {
@@ -640,6 +659,8 @@ class Setting extends React.Component {
               hd='头像'
               ft={
                 <SegmentedControl
+                  style={this.styles.segmentedControl}
+                  size={12}
                   values={avatarDS}
                   selectedIndex={avatarRound ? 0 : 1}
                   onValueChange={value => {
@@ -664,6 +685,8 @@ class Setting extends React.Component {
               hd='字号'
               ft={
                 <SegmentedControl
+                  style={this.styles.segmentedControl}
+                  size={12}
                   values={fontSizeAdjustDS}
                   selectedIndex={MODEL_SETTING_FONTSIZEADJUST.data.findIndex(
                     item => item.value == _.fontSizeAdjust
@@ -677,6 +700,8 @@ class Setting extends React.Component {
                 hd='切页动画'
                 ft={
                   <SegmentedControl
+                    style={this.styles.segmentedControl}
+                    size={12}
                     values={transitionDS}
                     selectedIndex={MODEL_SETTING_TRANSITION.data.findIndex(
                       item => item.value === transition
@@ -690,6 +715,8 @@ class Setting extends React.Component {
               hd='图片质量'
               ft={
                 <SegmentedControl
+                  style={this.styles.segmentedControl}
+                  size={12}
                   values={qualityDS}
                   selectedIndex={MODEL_SETTING_QUALITY.data.findIndex(
                     item => item.value === quality
@@ -719,6 +746,8 @@ class Setting extends React.Component {
           hd='排序'
           ft={
             <SegmentedControl
+              style={this.styles.segmentedControl}
+              size={12}
               values={homeSortDS}
               selectedIndex={MODEL_SETTING_HOME_SORTING.data.findIndex(
                 item => item.value === homeSorting
@@ -732,6 +761,8 @@ class Setting extends React.Component {
           hd='布局'
           ft={
             <SegmentedControl
+              style={this.styles.segmentedControl}
+              size={12}
               values={homeLayoutDS}
               selectedIndex={MODEL_SETTING_HOME_LAYOUT.data.findIndex(
                 item => item.value === homeLayout
@@ -744,6 +775,7 @@ class Setting extends React.Component {
           hd='游戏标签页'
           ft={
             <SwitchPro
+              style={this.styles.switch}
               value={showGame}
               onSyncPress={() => {
                 t('设置.切换', {
@@ -762,6 +794,7 @@ class Setting extends React.Component {
             hd='首页阴影'
             ft={
               <SwitchPro
+                style={this.styles.switch}
                 value={itemShadow}
                 onSyncPress={() => {
                   t('设置.切换', {
@@ -1003,14 +1036,26 @@ class Setting extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   section: {
-    paddingTop: _.lg,
+    paddingTop: _.md,
     paddingHorizontal: _.wind,
-    paddingBottom: _.md
+    paddingBottom: _.sm
   },
   split: {
     marginTop: _.md,
     marginHorizontal: _.wind,
     borderTopWidth: _.hairlineWidth,
     borderColor: _.colorBorder
+  },
+  segmentedControl: {
+    height: 28,
+    width: 164
+  },
+  switch: {
+    marginRight: -4,
+    transform: [
+      {
+        scale: 0.8
+      }
+    ]
   }
 }))
