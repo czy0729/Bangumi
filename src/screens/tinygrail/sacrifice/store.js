@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 16:55:04
+ * @Last Modified time: 2020-11-17 00:40:58
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -78,23 +78,37 @@ export default class ScreenTinygrailSacrifice extends store {
     return true
   }
 
-  refresh = () =>
-    queue([
-      () => tinygrailStore.fetchCharacters([this.monoId]), // 角色小圣杯信息
+  refresh = async update => {
+    if (!update) {
+      return queue([
+        () => tinygrailStore.fetchCharacters([this.monoId]), // 角色小圣杯信息
+        () => tinygrailStore.fetchUserLogs(this.monoId), // 本角色我的交易信息
+        () => tinygrailStore.fetchCharaTemple(this.monoId), // 固定资产
+        () => tinygrailStore.fetchAssets(), // 自己的资产
+        () => tinygrailStore.fetchIssuePrice(this.monoId), // 角色发行价
+        () => this.fetchValhallChara(), // 本次拍卖信息
+        () => tinygrailStore.fetchAuctionStatus(this.monoId), // 当前拍卖状态
+        () => tinygrailStore.fetchAuctionList(this.monoId), // 上周拍卖信息
+        () => tinygrailStore.fetchUsers(this.monoId) // 董事会
+      ])
+    }
+
+    await queue([
       () => tinygrailStore.fetchUserLogs(this.monoId), // 本角色我的交易信息
       () => tinygrailStore.fetchCharaTemple(this.monoId), // 固定资产
       () => tinygrailStore.fetchAssets(), // 自己的资产
-      () => tinygrailStore.fetchIssuePrice(this.monoId),
-      () => this.fetchValhallChara(),
-      () => tinygrailStore.fetchAuctionStatus(this.monoId),
-      () => tinygrailStore.fetchAuctionList(this.monoId), // 上周拍卖信息
-      () => tinygrailStore.fetchUsers(this.monoId.replace('character/', '')) // 董事会
+      () => tinygrailStore.fetchAuctionStatus(this.monoId) // 当前拍卖状态
     ])
 
+    // 更新我的资产
+    const { amount = 0 } = this.userLogs
+    const { sacrifices = 0 } = this.myTemple
+    return tinygrailStore.updateMyCharaAssets(this.monoId, amount, sacrifices)
+  }
   fetchValhallChara = async () => {
     let res
     try {
-      res = tinygrailStore.fetchValhallChara(this.monoId) // 本次拍卖信息
+      res = tinygrailStore.fetchValhallChara(this.monoId)
       const { price } = await res
       if (price) {
         this.setState({
@@ -162,7 +176,7 @@ export default class ScreenTinygrailSacrifice extends store {
   }
 
   @computed get users() {
-    return tinygrailStore.users(this.monoId.replace('character/', ''))
+    return tinygrailStore.users(this.monoId)
   }
 
   @computed get myTemple() {
@@ -245,7 +259,7 @@ export default class ScreenTinygrailSacrifice extends store {
       loading: false
     })
     this.cacheLastSacrifice(amount, Value.Balance)
-    this.refresh()
+    this.refresh(true)
   }
 
   /**
@@ -285,7 +299,7 @@ export default class ScreenTinygrailSacrifice extends store {
       loading: false
     })
     this.cacheLastSacrifice(this.testAmount, Value.Balance)
-    this.refresh()
+    this.refresh(true)
   }
 
   /**
@@ -343,7 +357,7 @@ export default class ScreenTinygrailSacrifice extends store {
       auctionLoading: false,
       auctionAmount: 0
     })
-    this.refresh()
+    this.refresh(true)
   }
 
   // -------------------- page --------------------

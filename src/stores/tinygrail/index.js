@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-06 17:08:52
+ * @Last Modified time: 2020-11-17 01:08:42
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -515,7 +515,7 @@ class Tinygrail extends store {
           name: item.Name,
           icon: item.Icon,
           bonus: item.Bonus,
-          rate: item.Rate,
+          rate: Number(toFixed(item.Rate, 2)),
           level: item.Level,
           _loaded: getTimestamp()
         }
@@ -1286,7 +1286,7 @@ class Tinygrail extends store {
               bonus: item.Bonus,
               state: item.State,
               sacrifices: sacrificesMap[item.Id] || 0,
-              rate: item.Rate,
+              rate: Number(toFixed(item.Rate, 2)),
               level: item.Level
             }
           }),
@@ -2074,8 +2074,6 @@ class Tinygrail extends store {
             _loaded: getTimestamp()
           }
           info('分析完毕')
-
-          log(data)
         } catch (error) {
           warn(NAMESPACE, 'fetchAdvanceBidList', error)
         }
@@ -2117,6 +2115,43 @@ class Tinygrail extends store {
     this.setState({
       _webview: show
     })
+  }
+
+  /**
+   * 更新我的持仓角色
+   * @param {*} id
+   * @param {*} state
+   * @param {*} sacrifices
+   */
+  updateMyCharaAssets = (id, state, sacrifices) => {
+    const key = 'myCharaAssets'
+    const { chara = {} } = this[key]
+    const { list = [] } = chara
+    const index = list.findIndex(item => item.monoId === parseInt(id))
+    if (index !== -1) {
+      const newList = toJS(list)
+
+      // 没有活股需要删除项
+      if (state <= 0) {
+        newList.splice(index, 1)
+      } else {
+        newList[index].state = state
+        newList[index].sacrifices = sacrifices
+      }
+
+      this.setState({
+        [key]: {
+          ...this[key],
+          chara: {
+            ...this[key].chara,
+            list: newList
+          }
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+      return true
+    }
+    return false
   }
 
   toggleStockPreview = () => {
