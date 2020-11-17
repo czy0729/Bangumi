@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 15:03:27
+ * @Last Modified time: 2020-11-17 22:25:12
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -568,7 +568,7 @@ class Tinygrail extends store {
               name: item.Name,
               icon: item.Icon,
               bonus: item.Bonus,
-              rate: item.Rate,
+              rate: Number(toFixed(item.Rate, 2)),
               level: item.Level
             }
           }
@@ -802,7 +802,7 @@ class Tinygrail extends store {
           state: item.State,
           total: item.Total,
           bonus: item.Bonus,
-          rate: item.Rate,
+          rate: Number(toFixed(item.Rate, 2)),
           level: item.Level,
           marketValue: item.MarketValue,
           change: item.Change,
@@ -821,7 +821,7 @@ class Tinygrail extends store {
           state: item.State,
           total: item.Total,
           bonus: item.Bonus,
-          rate: item.Rate,
+          rate: Number(toFixed(item.Rate, 2)),
           level: item.Level,
           marketValue: item.MarketValue,
           change: item.Change,
@@ -873,7 +873,7 @@ class Tinygrail extends store {
           end: item.End,
           users: item.Users,
           bonus: item.Bonus,
-          rate: item.Rate,
+          rate: Number(toFixed(item.Rate, 2)),
           level: item.Level,
           price: item.Price
         }
@@ -1095,7 +1095,7 @@ class Tinygrail extends store {
             icon: item.Icon,
             bonus: item.Bonus,
             state: item.State,
-            rate: item.Rate,
+            rate: Number(toFixed(item.Rate, 2)),
             level: item.Level
           }
         }),
@@ -1147,7 +1147,7 @@ class Tinygrail extends store {
             icon: item.Icon,
             bonus: item.Bonus,
             state: item.State,
-            rate: item.Rate,
+            rate: Number(toFixed(item.Rate, 2)),
             level: item.Level
           }
         }),
@@ -1192,7 +1192,7 @@ class Tinygrail extends store {
             icon: item.Icon,
             marketValue: item.MarketValue,
             total: item.Total,
-            rate: item.Rate,
+            rate: Number(toFixed(item.Rate, 2)),
             level: item.Level,
             amount: item.Amount,
             price: item.Price,
@@ -1316,7 +1316,7 @@ class Tinygrail extends store {
               icon: item.Icon,
               bonus: item.Bonus,
               state: item.State,
-              rate: item.Rate,
+              rate: Number(toFixed(item.Rate, 2)),
               level: item.Level
             }
           }),
@@ -1462,7 +1462,7 @@ class Tinygrail extends store {
           name: item.Name,
           assets: item.Assets, // 剩余资产
           sacrifices: item.Sacrifices, // 献祭总数
-          rate: item.Rate,
+          rate: Number(toFixed(item.Rate, 2)),
           level: item.Level,
           cLevel: item.CharacterLevel
         })),
@@ -1504,7 +1504,7 @@ class Tinygrail extends store {
           sacrifices: item.Sacrifices,
           total: item.Total,
           bonus: item.Bonus,
-          rate: item.Rate,
+          rate: Number(toFixed(item.Rate, 2)),
           level: item.Level,
           marketValue: item.MarketValue,
           change: item.Change,
@@ -1546,6 +1546,7 @@ class Tinygrail extends store {
           name: item.Name,
           nickname: item.Nickname,
           level: item.Level,
+          assets: item.Assets,
           sacrifices: item.Sacrifices
         })),
         _loaded: getTimestamp()
@@ -1678,7 +1679,7 @@ class Tinygrail extends store {
         name: item.CharacterName,
         nickname: item.Nickname,
         level: item.Level,
-        rate: item.Rate
+        rate: Number(toFixed(item.Rate, 2))
       }))
       data = {
         list: refresh ? _list : [...list, ..._list],
@@ -2112,12 +2113,51 @@ class Tinygrail extends store {
   }
 
   /**
+   * 更新献祭少于500未成塔的数据
+   * @param {*} id
+   * @param {*} sacrifices
+   */
+  updateMyTemples = (id, sacrifices = 0) => {
+    if (!this.hash || sacrifices > 500) {
+      return
+    }
+
+    const key = 'temple'
+    const temple = toJS(this[key]())
+    const index = temple.list.findIndex(item => item.id == id)
+    if (index === -1) {
+      return
+    }
+
+    // 少于0删除项
+    if (sacrifices === 0) {
+      const { name } = temple.list[index]
+      info(`${name} 已耗尽`)
+
+      temple.list.splice(index, 1)
+    } else {
+      temple.list[index].sacrifices = sacrifices
+    }
+
+    temple._loaded = getTimestamp()
+    this.setState({
+      [key]: {
+        [this.hash]: temple
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
    * 更新我的持仓角色
    * @param {*} id
    * @param {*} state
    * @param {*} sacrifices
    */
   updateMyCharaAssets = (id, state, sacrifices) => {
+    // 只有这里能检测到未献祭满500角色的圣殿资产变化, 需要联动圣殿资产里面的对应项
+    this.updateMyTemples(id, sacrifices)
+
     const key = 'myCharaAssets'
     const { chara = {} } = this[key]
     const { list = [] } = chara
@@ -2158,6 +2198,54 @@ class Tinygrail extends store {
       // eslint-disable-next-line no-await-in-loop
       const { amount, sacrifices } = await this.fetchUserLogs(id)
       this.updateMyCharaAssets(id, amount, sacrifices)
+    }
+  }
+
+  /**
+   * 批量根据角色id更新我的圣殿资产
+   * @param {*} ids
+   */
+  batchUpdateTemplesByIds = async ids => {
+    if (!this.hash) {
+      return
+    }
+
+    const key = 'temple'
+    const temple = toJS(this[key]())
+    let flag
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const id of ids) {
+      // eslint-disable-next-line no-await-in-loop
+      const { list } = await this.fetchCharaTemple(id)
+      const find = list.find(item => item.name == this.hash)
+      if (find?.id) {
+        const index = temple.list.findIndex(item => item.id == find.id)
+        if (index !== -1) {
+          flag = true
+
+          // 若sacrifices为0需要删除项
+          // @notice 其实这里不可能找到sacrifices为0的圣殿, 只能通过updateMyCharaAssets信息找到
+          if (find.sacrifices === 0) {
+            const { name } = temple.list[index]
+            info(`${name} 已耗尽`)
+
+            temple.list.splice(index, 1)
+          } else {
+            temple.list[index].assets = find.assets
+            temple.list[index].sacrifices = find.sacrifices
+          }
+        }
+      }
+    }
+
+    if (flag) {
+      this.setState({
+        [key]: {
+          [this.hash]: temple
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
     }
   }
 

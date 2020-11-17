@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-06 12:11:46
+ * @Last Modified time: 2020-11-17 20:08:02
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -97,15 +97,9 @@ export default class ScreenTinygrailItems extends store {
         monoId,
         type
       }
-      if (toMonoId) {
-        data.toMonoId = toMonoId
-      }
-      if (amount !== undefined) {
-        data.amount = amount
-      }
-      if (isTemple !== undefined) {
-        data.isTemple = isTemple
-      }
+      if (toMonoId) data.toMonoId = toMonoId
+      if (amount !== undefined) data.amount = amount
+      if (isTemple !== undefined) data.isTemple = isTemple
 
       const { State, Value, Message } = await tinygrailStore.doMagic(data)
       feedback()
@@ -131,13 +125,11 @@ export default class ScreenTinygrailItems extends store {
         )
 
         if (title === '星光碎片') {
-          this.fetchTemple()
-          if (!isTemple) {
-            this.fetchMyCharaAssets()
-          }
+          tinygrailStore.batchUpdateTemplesByIds([monoId, toMonoId])
         }
-
-        return true
+        return tinygrailStore.batchUpdateMyCharaAssetsByIds(
+          [monoId, toMonoId].filter(item => !!item)
+        )
       }
 
       info(Message)

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-16 21:54:57
+ * @Last Modified time: 2020-11-17 17:38:34
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
@@ -538,7 +538,7 @@ class CharactersModal extends React.Component {
       if (!isTemple && leftItem && rightItem) {
         const _lv = lv(leftItem) - lv(rightItem)
         if (_lv < 0) {
-          return `每 -${2 ** -_lv}`
+          return `每 -${2 ** -(_lv + 1)}`
         }
       }
       return `-${amount || '?'}`
@@ -708,29 +708,30 @@ class CharactersModal extends React.Component {
   }
 
   renderItemLeft = ({ item }) => {
-    const { leftItem } = this.state
+    const { leftItem, isTemple } = this.state
     const disabled = leftItem && leftItem.id !== item.id
+
+    let extra
+    if (!this.isStardust) {
+      extra = `${formatNumber(item.assets, 0)} / ${formatNumber(
+        item.sacrifices || item.state,
+        0
+      )} / +${toFixed(item.rate, 1)}`
+    } else if (isTemple) {
+      extra = `${formatNumber(item.sacrifices || item.state, 0)} / +${toFixed(
+        item.rate,
+        1
+      )}`
+    } else {
+      extra = `${formatNumber(item.state, 0)}  / +${toFixed(item.rate, 1)}`
+    }
     return (
       <Item
         id={item.id}
         src={cover(item)}
         level={lv(item)}
         name={item.name}
-        extra={
-          this.isStardust
-            ? `${
-                item.assets && item.assets !== item.sacrifices
-                  ? `${formatNumber(item.assets, 0)} / `
-                  : ''
-              }${formatNumber(item.sacrifices || item.state, 0)} / +${toFixed(
-                item.rate,
-                1
-              )}`
-            : `${formatNumber(item.assets, 0)} / ${formatNumber(
-                item.sacrifices || item.state,
-                0
-              )} / +${toFixed(item.rate, 1)}`
-        }
+        extra={extra}
         disabled={disabled}
         onPress={() => this.onSelectLeft(item)}
       />
