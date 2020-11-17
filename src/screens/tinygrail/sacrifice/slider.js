@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 00:40:57
+ * @Last Modified time: 2020-11-17 11:58:36
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -23,8 +23,7 @@ import { observer } from '@utils/decorators'
 function Slider({ style }, { $ }) {
   const styles = memoStyles()
   const { loading, amount, isSale, lastSacrifice } = $.state
-  const { amount: userAmount } = $.userLogs
-  const { sacrifices = 0 } = $.myTemple
+  const { amount: userAmount, sacrifices = 0 } = $.userLogs
   const { current } = $.chara
   return (
     <View style={[styles.container, style]}>

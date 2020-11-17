@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 17:09:01
+ * @Last Modified time: 2020-11-17 14:00:02
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -171,12 +171,10 @@ export default class ScreenTinygrailCharaAssets extends store {
   }
 
   // -------------------- fetch --------------------
-  fetchMyCharaAssets = () => {
-    if (this.userId) {
-      return tinygrailStore.fetchCharaAssets(this.userId)
-    }
-    return tinygrailStore.fetchMyCharaAssets()
-  }
+  fetchMyCharaAssets = () =>
+    this.userId
+      ? tinygrailStore.fetchCharaAssets(this.userId)
+      : tinygrailStore.fetchMyCharaAssets()
 
   fetchTemple = () => tinygrailStore.fetchTemple(this.userId)
 
@@ -438,6 +436,7 @@ export default class ScreenTinygrailCharaAssets extends store {
           isSale
         })
 
+        const successIds = []
         const errorIds = []
         for (const id of ids) {
           try {
@@ -446,8 +445,11 @@ export default class ScreenTinygrailCharaAssets extends store {
               amount: editingIds[id],
               isSale
             })
+
             if (State === 1) {
               errorIds.push(id)
+            } else {
+              successIds.push(id)
             }
           } catch (error) {
             errorIds.push(id)
@@ -456,9 +458,15 @@ export default class ScreenTinygrailCharaAssets extends store {
             `正在献祭 ${ids.findIndex(item => item === id) + 1} / ${ids.length}`
           )
         }
-
         feedback()
-        this.fetchMyCharaAssets()
+
+        // 当成功数量少于20个, 使用局部更新
+        if (successIds.length <= 20) {
+          tinygrailStore.batchUpdateMyCharaAssetsByIds(successIds)
+        } else {
+          this.fetchMyCharaAssets()
+        }
+
         if (errorIds.length) {
           Alert.alert(
             '小圣杯助手',
@@ -496,6 +504,7 @@ export default class ScreenTinygrailCharaAssets extends store {
         })
 
         const { list } = this.charaList
+        const successIds = []
         const errorIds = []
         for (const id of ids) {
           try {
@@ -507,8 +516,11 @@ export default class ScreenTinygrailCharaAssets extends store {
                 price: current,
                 amount: state
               })
+
               if (State === 1) {
                 errorIds.push(id)
+              } else {
+                successIds.push(id)
               }
             }
           } catch (error) {
@@ -520,9 +532,15 @@ export default class ScreenTinygrailCharaAssets extends store {
             }`
           )
         }
-
         feedback()
-        this.fetchMyCharaAssets()
+
+        // 当成功数量少于20个, 使用局部更新
+        if (successIds.length <= 20) {
+          tinygrailStore.batchUpdateMyCharaAssetsByIds(successIds)
+        } else {
+          this.fetchMyCharaAssets()
+        }
+
         if (errorIds.length) {
           Alert.alert(
             '小圣杯助手',

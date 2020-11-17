@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 01:06:49
+ * @Last Modified time: 2020-11-17 11:40:32
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
 import * as ReactNativeScreens from 'react-native-screens'
-import { DEV, HOST, HOST_2, SDK } from '@constants'
+import { DEV, HOST, HOST_2 } from '@constants'
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
 import { t } from './fetch'
@@ -26,11 +26,7 @@ export function bootApp() {
   /**
    * https://reactnavigation.org/docs/zh-Hans/react-native-screens.html
    */
-  if (SDK >= 36) {
-    ReactNativeScreens.enableScreens()
-  } else {
-    ReactNativeScreens.useScreens()
-  }
+  ReactNativeScreens.enableScreens()
 
   if (DEV) {
     // 不想在开发时看见满屏的不能解决的warning

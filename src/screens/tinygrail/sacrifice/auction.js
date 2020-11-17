@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 16:56:56
+ * @Last Modified time: 2020-11-17 15:23:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,7 +94,7 @@ function Auction({ style }, { $ }) {
         </View>
       </Flex>
       {!!lastAuction.time && (
-        <Text style={_.mt.sm} type='tinygrailText' size={12}>
+        <Text style={_.mt.md} type='warning' size={12}>
           最近 ({lastAuction.price} / {formatNumber(lastAuction.amount, 0)}股 /{' '}
           {lastDate(lastAuction.time)})
         </Text>
@@ -104,7 +104,7 @@ function Auction({ style }, { $ }) {
           <Text type='tinygrailPlain' size={12}>
             合计{' '}
             <Text type='ask' size={12}>
-              -{toFixed(auctionAmount * auctionPrice, 2)}
+              -{formatNumber(auctionAmount * auctionPrice, 2, true)}
             </Text>
           </Text>
         </Flex.Item>

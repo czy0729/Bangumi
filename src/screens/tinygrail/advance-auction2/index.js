@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 17:37:03
+ * @Last Modified time: 2020-11-17 15:03:00
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -15,7 +15,7 @@ import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
 import List from './list'
-import Store from './store'
+import Store, { sortDS } from './store'
 
 const title = '拍卖推荐 (按固定)'
 
@@ -68,14 +68,18 @@ class TinygrailAdvanceAuction2 extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { level } = $.state
+    const { level, sort } = $.state
     return (
       <View style={this.styles.container}>
         <StatusBarEvents />
         <ToolBar
           level={level}
           levelMap={$.levelMap}
+          data={sortDS}
+          sort={sort}
+          direction={sort ? 'down' : undefined}
           onLevelSelect={$.onLevelSelect}
+          onSortPress={$.onSortPress}
         />
         <List />
       </View>

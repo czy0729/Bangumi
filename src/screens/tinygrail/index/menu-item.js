@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 10:21:24
+ * @Last Modified time: 2020-11-17 15:10:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -48,7 +48,7 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     marginRight: _._wind,
     marginBottom: _.isPad ? 16 : _.space,
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
   block: {

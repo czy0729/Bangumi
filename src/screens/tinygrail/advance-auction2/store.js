@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:43:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 17:34:19
+ * @Last Modified time: 2020-11-17 15:05:06
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { info } from '@utils/ui'
-import { levelList } from '../_/utils'
+import { levelList, sortList, SORT_GF } from '../_/utils'
+
+export const sortDS = [SORT_GF]
+const namespace = 'ScreenTinygrailAdvanceAuction2'
 
 export default class ScreenTinygrailAdvanceAuction2 extends store {
   state = observable({
     level: '',
+    sort: '',
     _loaded: false
   })
 
@@ -69,7 +73,7 @@ export default class ScreenTinygrailAdvanceAuction2 extends store {
   }
 
   @computed get computedList() {
-    const { level } = this.state
+    const { level, sort } = this.state
     const list = this.advanceAuctionList
     if (!list._loaded) {
       return list
@@ -80,6 +84,13 @@ export default class ScreenTinygrailAdvanceAuction2 extends store {
       _list = {
         ..._list,
         list: levelList(level, _list.list)
+      }
+    }
+
+    if (sort) {
+      _list = {
+        ..._list,
+        list: sortList(sort, 'down', _list.list)
       }
     }
 
@@ -121,5 +132,13 @@ export default class ScreenTinygrailAdvanceAuction2 extends store {
     this.setState({
       level
     })
+  }
+
+  onSortPress = item => {
+    const { sort } = this.state
+    this.setState({
+      sort: item === sort ? '' : item
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 }

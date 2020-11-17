@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:20:24
+ * @Last Modified time: 2020-11-17 14:08:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,8 +13,6 @@ import { formatNumber, toFixed } from '@utils'
 import { observer } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
-
-const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }) {
   const styles = memoStyles()
@@ -51,7 +49,7 @@ function Info(props, { $, navigation }) {
           <Image
             style={styles.image}
             src={tinygrailOSS(getCoverLarge(icon))}
-            autoSize={maxSize}
+            autoSize={160}
             shadow
             placholder={false}
             imageViewer
@@ -81,7 +79,7 @@ function Info(props, { $, navigation }) {
           }}
         >
           <Flex justify='center'>
-            <Text type='tinygrailPlain' size={15} bold>
+            <Text type='tinygrailPlain' size={15} align='center' bold>
               #{id} - {name}
               {!!bonus && (
                 <Text type='warning' size={15}>

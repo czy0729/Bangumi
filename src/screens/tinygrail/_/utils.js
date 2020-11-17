@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 17:36:16
+ * @Last Modified time: 2020-11-17 14:39:42
  */
 import { tinygrailStore } from '@stores'
 import XSBRelationData from '@constants/json/xsb-relation'
@@ -23,6 +23,11 @@ export function relation(data) {
       return i
     })
   }
+}
+
+export const SORT_GF = {
+  label: '股份',
+  value: 'gf'
 }
 
 export const SORT_SC = {
@@ -108,6 +113,9 @@ export const SORT_XFJL = {
 export function sortList(sort, direction, list) {
   const base = direction === 'down' ? 1 : -1
   switch (sort) {
+    case SORT_GF.value:
+      return list.sort((a, b) => ((b.amount || 0) - (a.amount || 0)) * base)
+
     case SORT_SC.value:
       return list.sort((a, b) => {
         const aCollected = tinygrailStore.collected(a.id || 0)

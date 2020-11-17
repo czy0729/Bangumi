@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-03 17:20:30
+ * @Last Modified time: 2020-11-17 14:42:03
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -88,7 +88,7 @@ function ToolBar({
               })}
             </ScrollView>
           </Flex.Item>
-          <View style={styles.tips} />
+          {data.length > 3 && <View style={styles.tips} />}
         </>
       )}
     </Flex>

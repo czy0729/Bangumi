@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 00:53:05
+ * @Last Modified time: 2020-11-17 11:39:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,7 +68,9 @@ class TinygrailCharaAssets extends React.Component {
         return $.myCharaAssets?.chara?.list?.length || 0
 
       case 'temple':
-        return $.temple?.list?.length || 0
+        return $.temple?.list?.length === 2000
+          ? '2000+'
+          : $.temple?.list?.length || 0
 
       case 'ico':
         return $.myCharaAssets?.ico?.list?.length || 0

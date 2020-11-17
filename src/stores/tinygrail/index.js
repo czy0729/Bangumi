@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 01:08:42
+ * @Last Modified time: 2020-11-17 15:03:27
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -1046,6 +1046,7 @@ class Tinygrail extends store {
           time: item.Begin,
           type: item.Type
         })),
+        sacrifices: result.data.Value.Sacrifices,
         _loaded: getTimestamp()
       }
     }
@@ -2016,76 +2017,69 @@ class Tinygrail extends store {
   /**
    */
   fetchAdvanceGuidepost = async () => {
-    const result = await this.fetch(API_TINYGRAIL_LIST('mvc', 1, 1000))
-    if (result.data.State === 0) {
-      const list = result.data.Value.map(item => ({
-        id: item.Id,
-        change: item.Change,
-        current: item.Current,
-        level: item.Level,
-        name: item.Name,
-        icon: item.Icon
-      }))
-        .sort((a, b) => b.current - a.current)
-        .filter((item, index) => index < 200)
-
-      let data = {
-        ...LIST_EMPTY
-      }
-
-      if (list.length) {
-        try {
-          // 循环请求获取第一买单价
-          await queue(
-            list.map(item => () => {
-              throttleInfo(
-                `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
-              )
-              return this.fetchDepth(item.id)
-            })
-          )
-
-          // 合并数据并计算分数
-          data = {
-            list: list
-              .map(item => {
-                const { bids } = this.depth(item.id)
-
-                // 列表有时有买单数, 但是实际又没有人买
-                if (!bids.length) {
-                  return null
-                }
-
-                return {
-                  id: item.id,
-                  name: item.name,
-                  current: item.current,
-                  level: item.level,
-                  firstBids: parseInt(bids[0].price),
-                  firstAmount: bids[0].amount,
-                  secondBids: bids[1] ? parseInt(bids[1].price) : 0,
-                  secondAmount: bids[1] ? parseInt(bids[1].amount) : 0
-                }
-              })
-              .filter(item => !!item)
-              .sort((a, b) => b.firstBids - a.firstBids)
-              .filter((item, index) => index < 50),
-            pagination: paginationOnePage,
-            _loaded: getTimestamp()
-          }
-          info('分析完毕')
-        } catch (error) {
-          warn(NAMESPACE, 'fetchAdvanceBidList', error)
-        }
-      }
-    }
-
+    // const result = await this.fetch(API_TINYGRAIL_LIST('mvc', 1, 1000))
+    // if (result.data.State === 0) {
+    //   const list = result.data.Value.map(item => ({
+    //     id: item.Id,
+    //     change: item.Change,
+    //     current: item.Current,
+    //     level: item.Level,
+    //     name: item.Name,
+    //     icon: item.Icon
+    //   }))
+    //     .sort((a, b) => b.current - a.current)
+    //     .filter((item, index) => index < 200)
+    //   let data = {
+    //     ...LIST_EMPTY
+    //   }
+    //   if (list.length) {
+    //     try {
+    //       // 循环请求获取第一买单价
+    //       await queue(
+    //         list.map(item => () => {
+    //           throttleInfo(
+    //             `${list.findIndex(i => item.id === i.id) + 1} / ${list.length}`
+    //           )
+    //           return this.fetchDepth(item.id)
+    //         })
+    //       )
+    //       // 合并数据并计算分数
+    //       data = {
+    //         list: list
+    //           .map(item => {
+    //             const { bids } = this.depth(item.id)
+    //             // 列表有时有买单数, 但是实际又没有人买
+    //             if (!bids.length) {
+    //               return null
+    //             }
+    //             return {
+    //               id: item.id,
+    //               name: item.name,
+    //               current: item.current,
+    //               level: item.level,
+    //               firstBids: parseInt(bids[0].price),
+    //               firstAmount: bids[0].amount,
+    //               secondBids: bids[1] ? parseInt(bids[1].price) : 0,
+    //               secondAmount: bids[1] ? parseInt(bids[1].amount) : 0
+    //             }
+    //           })
+    //           .filter(item => !!item)
+    //           .sort((a, b) => b.firstBids - a.firstBids)
+    //           .filter((item, index) => index < 50),
+    //         pagination: paginationOnePage,
+    //         _loaded: getTimestamp()
+    //       }
+    //       info('分析完毕')
+    //     } catch (error) {
+    //       warn(NAMESPACE, 'fetchAdvanceBidList', error)
+    //     }
+    //   }
+    // }
     // const key = 'advanceBidList'
     // this.setState({
     //   [key]: data
     // })
     // this.setStorage(key, undefined, NAMESPACE)
-
     // return Promise.resolve(data)
   }
 
@@ -2154,6 +2148,22 @@ class Tinygrail extends store {
     return false
   }
 
+  /**
+   * 批量根据角色id更新我的持仓角色
+   * @param {*} ids
+   */
+  batchUpdateMyCharaAssetsByIds = async ids => {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const id of ids) {
+      // eslint-disable-next-line no-await-in-loop
+      const { amount, sacrifices } = await this.fetchUserLogs(id)
+      this.updateMyCharaAssets(id, amount, sacrifices)
+    }
+  }
+
+  /**
+   * 切换是否显示角色股价预览
+   */
   toggleStockPreview = () => {
     const { _stockPreview } = this.state
     this.setState({
@@ -2161,6 +2171,10 @@ class Tinygrail extends store {
     })
   }
 
+  /**
+   * 切换收藏
+   * @param {*} monoId
+   */
   toggleCollect = monoId => {
     const { collected } = this.state
 
