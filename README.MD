@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.3.0" src="https://img.shields.io/badge/Version-4.3.0-0366d6" />
+  <img alt="Version: 4.4.0" src="https://img.shields.io/badge/Version-4.4.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -50,34 +50,22 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.3.0 - 2020/11/07
-
-—— 新增 ——
-
-- [x] [条目] 包含本条目的目录进入更多列表页
+v4.4.0 - 2020/11/19
 
 —— 优化 ——
 
-- [x] [目录] 列表项 UI 迭代
-- [x] [目录详情] 列表项没有评分数据, 使用了评分快照
+- [x] [帖子] 子楼层过多时自动折叠 (暂定显示 5 条子回复)
+- [x] [目录详情] 列表支持排序
+- [x] 吐槽页 UI 迭代
 
-—— 修复 ——
+—— 小圣杯 3.1.0 ——
 
-- [x] 修复了有些地方头像点击没反应的问题
-- [x] 修复了找番剧数据不显示的问题
-
-—— 小圣杯 3.0.0 ——
-
-- [x] [我的持仓] 批量操作增加批量出售(出售给英灵殿), 批量挂卖单(按当前价挂卖单)
-- [x] [我的持仓] 批量模式下支持多选(每次点击从最后一个选择的位置多选 10 个)
-- [x] [资产重组] 新增消耗最低数量股数测试献祭效率 (效率 = 返还资金 / 当前总价值 的百分比)
-- [x] [我的道具] 列表增加 lv 筛选
-- [x] [我的道具] 星光碎片支持低级活股补充高级圣殿
-- [x] 部分列表 Tabs 显示列表角色数量
-- [x] 金额缩略模式下, 全局的金额数字都会缩略
-- [x] 优化列表等级筛选下拉菜单
-- [x] 搜索强化
-- [x] 角色界面现在可以启动 ICO
+- [x] [我的委托] 增加按挂单数排序
+- [x] [我的委托] 一键取消挂单和拍卖
+- [x] [我的道具] 修复闪退问题
+- [x] [我的道具] 虚空道标和混沌魔方没有成塔的角色不应出现在左边列表
+- [x] [高级功能] 拍卖推荐可以按股份排序
+- [x] 所有角色在涉及资产变动操作后, 会主动联动我的持仓, 减少了数据重新加载, 增强持股数更新速度
 
 ## PowerBy
 
@@ -113,11 +101,22 @@ v4.3.0 - 2020/11/07
 
 (被墙看不见图的可以复制 alt 打开)
 
-## Getting Started
+## 免责声明
+
+- 本项目所有数据信息均来自各种网站，不提供任何形式的媒体下载、直接播放和修改功能
+- 本项目承诺不保存任何第三方用户信息
+- 本项目代码仅供学习交流，不得用于商业用途，若侵权请联系
+
+## 开发
+
+** 提醒 **
+
+最近项目使用的 Expo SDK 因官方问题, 现最新版本想在电脑上面跑起来需要手动修改包.
+你可以 fork 完后切换到 tag v4.0.0 的版本进行尝试跑起来
 
 ** 下载 **
 
-注意, 某个依赖包在淘宝源里面 404, 要切换为 npm 官方源
+推荐使用 npm, 切换 npm 官方源可以按下面操作
 
 ```bash
 npm config set registry https://registry.npmjs.org
@@ -128,7 +127,7 @@ npm config set registry https://registry.npmjs.org
 ```bash
 git clone https://github.com/czy0729/Bangumi
 cd ./Bangumi
-npm install // 不推荐使用yarn, 因为后面会魔改node_modules, 使用yarn会被识别并还原
+npm install // 不推荐使用 yarn, 因为后面会魔改 node_modules, 使用 yarn 会被识别并还原
 ```
 
 ** 前置操作, 否则 App 内图标均为问号 **

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:51:35
+ * @Last Modified time: 2020-11-19 11:30:00
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -552,8 +552,7 @@ export default class ScreenSubject extends store {
         .map(item => item.site)
     ]
     if (['动画', '三次元'].includes(this.type)) {
-      data.push('AGE动漫')
-      data.push('迅播动漫')
+      data.push('AGE动漫', '迅播动漫', '人人影视')
     }
     return data
   }
@@ -948,6 +947,7 @@ export default class ScreenSubject extends store {
         // case '柠萌瞬间':
         //   url = `${HOST_NING_MOE}/detail?line=1&eps=1&from=bangumi&bangumi_id=${this.ningMoeDetail.id}`
         //   break
+
         case 'AGE动漫':
           if (_aid || find(this.subjectId).aid) {
             url = `https://www.agefans.tv/detail/${
@@ -955,15 +955,23 @@ export default class ScreenSubject extends store {
             }`
           } else {
             url = `https://www.agefans.tv/search?query=${encodeURIComponent(
-              this.cn
+              this.cn || this.jp
             )}&page=1`
           }
           break
+
         case '迅播动漫':
           url = `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
-            this.cn
+            this.cn || this.jp
           )}`
           break
+
+        case '人人影视':
+          url = `http://www.rrys2020.com/search?keyword=${encodeURIComponent(
+            this.cn || this.jp
+          )}&type=resource`
+          break
+
         default:
           item = sites.find(item => item.site === key)
           if (item) {
