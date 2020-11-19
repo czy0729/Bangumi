@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:51:48
+ * @Last Modified time: 2020-11-18 01:26:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -208,16 +208,22 @@ class Item extends React.Component {
             <Katakana.Provider
               style={_.mt.sm}
               itemStyle={this.styles.katakanas}
-              size={12}
+              size={11}
               numberOfLines={1}
             >
-              <Text type='sub' size={12}>
+              <Text type='sub' size={11}>
                 {correctAgo(time)}
                 {this.groupCn ? ' / ' : ''}
               </Text>
-              <Katakana type='sub' size={12}>
+              <Katakana type='sub' size={11}>
                 {this.groupCn}
               </Katakana>
+              {!!userName && (
+                <Text type='sub' size={11}>
+                  {' '}
+                  / {userName}
+                </Text>
+              )}
             </Katakana.Provider>
           </Flex.Item>
         </Flex>
@@ -277,7 +283,7 @@ class Item extends React.Component {
 
   render() {
     const { navigation } = this.context
-    const { style, index, avatar } = this.props
+    const { style, index, avatar, userName } = this.props
     if (this.isBlockGroup || this.isBlockUser || this.isAd) {
       return null
     }
@@ -297,6 +303,7 @@ class Item extends React.Component {
             style={this.styles.image}
             navigation={navigation}
             src={avatar}
+            name={userName}
             userId={this.userId}
             event={event}
           />

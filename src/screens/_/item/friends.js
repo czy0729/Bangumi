@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 14:11:16
+ * @Last Modified time: 2020-11-18 01:17:38
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -50,7 +50,7 @@ function ItemFriends({
       }}
     >
       <Flex>
-        <Avatar style={styles.image} size={40} name={userName} src={avatar} />
+        <Avatar style={styles.image} size={36} name={userName} src={avatar} />
         <Flex.Item style={styles.item}>
           <Flex>
             <Flex.Item>
@@ -64,10 +64,10 @@ function ItemFriends({
           </Flex>
           <Text style={_.mt.xs} size={10} type='sub'>
             {!!doing && `${doing}在看`}
-            {!!collect && `${doing ? ' / ' : ''}${collect}看过`}
-            {!!wish && ` / ${wish}想看`}
-            {!!onHold && ` / ${onHold}搁置`}
-            {!!dropped && ` / ${dropped}抛弃`}
+            {!!collect && `${doing ? ' · ' : ''}${collect}看过`}
+            {!!wish && ` · ${wish}想看`}
+            {!!onHold && ` · ${onHold}搁置`}
+            {!!dropped && ` · ${dropped}抛弃`}
           </Text>
           <Progress
             style={styles.progress}
@@ -100,10 +100,10 @@ const memoStyles = _.memoStyles(_ => ({
     marginLeft: _.wind
   },
   item: {
-    paddingTop: _.md,
+    paddingTop: _.md - 2,
     paddingRight: _.wind,
     paddingBottom: _.sm + 2,
-    marginLeft: _.md
+    marginLeft: _.md - 2
   },
   progress: {
     position: 'absolute',
@@ -123,7 +123,7 @@ const memoStyles = _.memoStyles(_ => ({
     right: _.wind - _.sm,
     bottom: 0,
     paddingHorizontal: _.sm,
-    marginBottom: -6,
+    marginBottom: -4,
     backgroundColor: _.colorPlain
   }
 }))

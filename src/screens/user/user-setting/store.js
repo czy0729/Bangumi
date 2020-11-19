@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 23:50:44
+ * @Last Modified time: 2020-11-19 09:53:48
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -135,7 +135,8 @@ export default class ScreenAvatar extends store {
         formhash,
         nickname,
         sign_input,
-        newbio: _sign
+        newbio: _sign,
+        timeoffsetnew: '8'
       },
       () => {
         feedback()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 23:03:53
+ * @Last Modified time: 2020-11-18 20:51:51
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -244,7 +244,7 @@ class ItemTimeline extends React.Component {
       )
     })
 
-    if (image.length <= 4) {
+    if (image.length <= 3) {
       return (
         <Flex style={_.mt.sm} wrap='wrap'>
           {images}
@@ -301,7 +301,7 @@ class ItemTimeline extends React.Component {
     const rightCoverIsAvatar = !String(!!p3.url.length && p3.url[0]).includes(
       'subject'
     )
-    const showImages = image.length >= 5
+    const showImages = image.length >= 3
     const type = p2?.text?.includes('读')
       ? '书籍'
       : p2?.text?.includes('听')

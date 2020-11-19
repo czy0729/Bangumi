@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 15:10:32
+ * @Last Modified time: 2020-11-18 01:05:02
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -29,10 +29,10 @@ function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
       }}
     >
       <Flex style={[styles.block, style]}>
-        <Text type='tinygrailPlain' size={19} bold>
+        <Text type='tinygrailPlain' size={18} bold>
           {title}
         </Text>
-        <Iconfont style={styles.icon} name={icon} size={52} />
+        <Iconfont style={styles.icon} name={icon} size={46} />
       </Flex>
     </Touchable>
   )
@@ -54,14 +54,14 @@ const memoStyles = _.memoStyles(_ => ({
   block: {
     width: sectionWidth,
     height: sectionHeight,
-    paddingLeft: 24,
+    paddingLeft: 20,
     backgroundColor: _.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg)
   },
   icon: {
     position: 'absolute',
     top: '50%',
     right: -10,
-    marginTop: -28,
+    marginTop: -24,
     color: _.colorTinygrailIcon,
     opacity: 0.16
   }

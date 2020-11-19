@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 17:58:01
+ * @Last Modified time: 2020-11-18 00:56:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont, UserStatus } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
-import { formatNumber, getTimestamp } from '@utils'
+import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { observer } from '@utils/decorators'
@@ -37,6 +37,8 @@ function Item(
 ) {
   const styles = memoStyles()
   const isTop = index === 0
+  const lastActiveTS = getTimestamp(lastActiveDate.replace('T', ' '))
+
   let totalText
   if (Math.abs(total) > B) {
     totalText = `${formatNumber(total / B, 1)}亿`
@@ -99,11 +101,10 @@ function Item(
     text = `总值${assetsText} / 股息${shareText} / 余${totalText}`
     right = principalText
   } else {
-    text = `股息${shareText} / 余${totalText}`
+    text = `股息${shareText} / 余${totalText} / ${lastDate(lastActiveTS)}`
     right = assetsText
   }
 
-  const lastActiveTS = getTimestamp(lastActiveDate.replace('T', ' '))
   return (
     <View style={styles.container}>
       <Flex align='start'>

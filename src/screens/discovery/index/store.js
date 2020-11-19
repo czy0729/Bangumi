@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 18:42:25
+ * @Last Modified time: 2020-11-19 01:27:54
  */
 import { observable, computed } from 'mobx'
 import {
@@ -10,9 +10,11 @@ import {
   systemStore,
   calendarStore,
   userStore,
-  discoveryStore
+  discoveryStore,
+  usersStore
 } from '@stores'
 import { getTimestamp } from '@utils'
+import { queue } from '@utils/fetch'
 import store from '@utils/store'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -55,6 +57,9 @@ export default class ScreenDiscovery extends store {
 
     setTimeout(() => {
       this.fetchOnline()
+      if (userStore.isWebLogin) {
+        // this.fetchChannel()
+      }
     }, 800)
     return calendarStore.fetchHome()
   }
@@ -76,6 +81,17 @@ export default class ScreenDiscovery extends store {
   }
 
   fetchOnline = () => discoveryStore.fetchOnline()
+
+  fetchChannel = () => {
+    queue(
+      MODEL_SUBJECT_TYPE.data.map(item => () =>
+        discoveryStore.fetchChannel({
+          type: item.label
+        })
+      ),
+      1
+    )
+  }
 
   // -------------------- get --------------------
   @computed get userInfo() {
@@ -101,6 +117,17 @@ export default class ScreenDiscovery extends store {
 
   @computed get online() {
     return discoveryStore.online || systemStore.ota.online
+  }
+
+  @computed get friendsMap() {
+    const { list } = usersStore.friends()
+    const map = {}
+    list.forEach(item => (map[item.userId] = item.avatar))
+    return map
+  }
+
+  friendsChannel(type) {
+    return computed(() => discoveryStore.channel(type).friends).get()
   }
 
   // -------------------- action --------------------
