@@ -3,17 +3,20 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-11 14:21:56
+ * @Last Modified time: 2020-11-21 18:39:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image } from '@components'
 import { _, systemStore, userStore } from '@stores'
+import { getTimestamp } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS, URL_DEFAULT_AVATAR, IMG_DEFAULT } from '@constants'
 import { HOST_CDN, CDN_OSS_AVATAR } from '@constants/cdn'
+
+const ts = getTimestamp()
 
 function Avatar({
   style,
@@ -43,8 +46,9 @@ function Avatar({
   if (avatar?.medium) {
     const _1 = mSrc.split('?')[0].split('/m/')
     const _2 = getCoverMedium(avatar.medium, true).split('?')[0].split('/m/')
+
     if (_1[1] && _2[1] && _1[1] === _2[1]) {
-      _src = mSrc
+      _src = `${mSrc}?r=${ts}`
     }
   }
 
