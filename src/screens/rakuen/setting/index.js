@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 23:49:04
+ * @Last Modified time: 2020-11-20 17:26:11
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -51,6 +51,7 @@ class RakuenSetting extends React.Component {
           hd='展开引用'
           ft={
             <SwitchPro
+              style={this.styles.switch}
               value={quote}
               onSyncPress={() => {
                 t('超展开设置.切换', {
@@ -69,6 +70,8 @@ class RakuenSetting extends React.Component {
           hd='楼层直达条'
           ft={
             <SegmentedControl
+              style={this.styles.segmentedControl}
+              size={12}
               values={scrollDirectionDS}
               selectedIndex={MODEL_RAKUEN_SCROLL_DIRECTION.data.findIndex(
                 item => item.value === scrollDirection
@@ -90,6 +93,7 @@ class RakuenSetting extends React.Component {
           hd='屏蔽疑似广告姬'
           ft={
             <SwitchPro
+              style={this.styles.switch}
               value={isBlockDefaultUser}
               onSyncPress={() => {
                 t('超展开设置.切换', {
@@ -108,6 +112,7 @@ class RakuenSetting extends React.Component {
           hd='标记坟贴'
           ft={
             <SwitchPro
+              style={this.styles.switch}
               value={isMarkOldTopic}
               onSyncPress={() => {
                 t('超展开设置.切换', {
@@ -176,14 +181,26 @@ class RakuenSetting extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   section: {
-    paddingTop: _.lg,
+    paddingTop: _.md,
     paddingHorizontal: _.wind,
-    paddingBottom: _.md
+    paddingBottom: _.sm
   },
   split: {
     marginTop: _.md,
     marginHorizontal: _.wind,
     borderTopWidth: _.hairlineWidth,
     borderColor: _.colorBorder
+  },
+  segmentedControl: {
+    height: 28,
+    width: 164
+  },
+  switch: {
+    marginRight: -4,
+    transform: [
+      {
+        scale: 0.8
+      }
+    ]
   }
 }))

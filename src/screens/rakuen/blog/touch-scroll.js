@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:11:45
+ * @Last Modified time: 2020-11-21 15:34:44
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -44,7 +44,7 @@ function TouchScroll({ onPress }, { $ }) {
           <Flex
             style={isVertical ? styles.itemVertical : styles.itemHorizontal}
           >
-            <Text style={styles.text} size={10} type='icon' align='center'>
+            <Text style={styles.text} size={8} type='icon' align='center'>
               0
             </Text>
           </Flex>
@@ -82,7 +82,7 @@ function TouchScroll({ onPress }, { $ }) {
                 {showFloorText && (
                   <Text
                     style={styles.text}
-                    size={10}
+                    size={8}
                     type={isNew ? _.select('plain', 'icon') : 'icon'}
                     align='center'
                   >

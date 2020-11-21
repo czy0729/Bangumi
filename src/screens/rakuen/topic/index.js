@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-12 15:03:55
+ * @Last Modified time: 2020-11-21 18:14:06
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -321,6 +321,7 @@ class Topic extends React.Component {
         ref={this.connectFixedTextareaRef}
         placeholder={placeholder ? `回复 ${placeholder}` : undefined}
         value={value}
+        source
         onChange={$.onChange}
         onClose={$.closeFixedTextarea}
         onSubmit={$.doSubmit}

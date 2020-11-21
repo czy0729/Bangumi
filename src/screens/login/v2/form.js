@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-27 16:23:48
+ * @Last Modified time: 2020-11-21 17:10:53
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -41,6 +41,13 @@ class Form extends React.Component {
 
   state = {
     config: false
+  }
+
+  componentDidMount() {
+    const { email, password, captcha } = this.props
+    if (email && password && !captcha) {
+      this.codeRef.inputRef.focus()
+    }
   }
 
   passwordRef

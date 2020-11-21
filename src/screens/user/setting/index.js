@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-12 17:55:49
+ * @Last Modified time: 2020-11-21 15:38:14
  */
 import React from 'react'
 import { InteractionManager, ScrollView, View } from 'react-native'
@@ -835,6 +835,7 @@ class Setting extends React.Component {
     const { navigation } = this.props
     const { contact } = this.state
     const { advance } = systemStore
+    // const { source } = systemStore.setting
     return (
       <>
         {this.renderSection('联系', 'contact')}
@@ -894,6 +895,25 @@ class Setting extends React.Component {
                 }}
               />
             )}
+            {/* <ItemSetting
+              hd='回复添加标识'
+              ft={
+                <SwitchPro
+                  style={this.styles.switch}
+                  value={source}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '来自',
+                      checked: !source
+                    })
+
+                    systemStore.switchSetting('source')
+                  }}
+                />
+              }
+              withoutFeedback
+              information='回复内容最后添加来自APP的文字, 帮助宣传APP吧～☆'
+            /> */}
           </>
         )}
       </>

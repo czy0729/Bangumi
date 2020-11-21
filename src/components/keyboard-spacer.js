@@ -1,11 +1,10 @@
-/* eslint-disable react/no-unused-state */
 /*
  * 弹出的键盘占位
  * @Doc https://github.com/Andr3wHur5t/react-native-keyboard-spacer/blob/master/KeyboardSpacer.js
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 10:58:33
+ * @Last Modified time: 2020-11-21 16:51:44
  */
 import {
   UIManager,
@@ -18,6 +17,7 @@ import {
 } from 'react-native'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { IOS } from '@constants'
 
 // 注意如果要在Android上使用此动画，则需要在代码中启用
 if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -60,8 +60,8 @@ export default class KeyboardSpacer extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      keyboardSpace: 0,
-      isKeyboardOpened: false
+      keyboardSpace: 0
+      // isKeyboardOpened: false
     }
     this._listeners = null
     this.updateKeyboardSpace = this.updateKeyboardSpace.bind(this)
@@ -105,10 +105,11 @@ export default class KeyboardSpacer extends Component {
     // however only the keyboard toolbar is showing if there should be one
     const keyboardSpace =
       screenHeight - event.endCoordinates.screenY + this.props.topSpacing
+
     this.setState(
       {
-        keyboardSpace,
-        isKeyboardOpened: true
+        keyboardSpace
+        // isKeyboardOpened: true
       },
       this.props.onToggle(true, keyboardSpace)
     )
@@ -127,14 +128,18 @@ export default class KeyboardSpacer extends Component {
 
     this.setState(
       {
-        keyboardSpace: 0,
-        isKeyboardOpened: false
+        keyboardSpace: 0
+        // isKeyboardOpened: false
       },
       this.props.onToggle(false, 0)
     )
   }
 
   render() {
+    if (!IOS) {
+      return null
+    }
+
     return (
       <View
         style={[

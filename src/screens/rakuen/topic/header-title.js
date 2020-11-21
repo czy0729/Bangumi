@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 02:48:18
+ * @Last Modified time: 2020-11-21 15:29:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -41,7 +41,7 @@ function HeaderTitle({ navigation }) {
           />
         )}
         <Flex.Item style={_.ml.sm}>
-          <Text size={13} numberOfLines={1}>
+          <Text size={12} numberOfLines={1}>
             {$.title}
           </Text>
           {!!($.userName || $.group) && (
