@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-08 12:00:31
+ * @Last Modified time: 2020-11-24 15:37:41
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
@@ -20,7 +20,7 @@ export function cheerioFriends(HTML) {
       return safeObject({
         avatar: $li.find('img.avatar').attr('src'),
         userId: $a.attr('href').replace('/user/', ''),
-        userName: $a.text().replace('\r\n ', '')
+        userName: $a.text().trim()
       })
     })
     .get()

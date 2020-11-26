@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:31:27
+ * @Last Modified time: 2020-11-26 11:07:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,6 +13,7 @@ import { appNavigate } from '@utils/app'
 import { HTMLDecode } from '@utils/html'
 import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
+import Name from '../base/name'
 
 const d = new Date()
 const y = String(d.getFullYear()).slice(2, 4)
@@ -25,6 +26,7 @@ function ItemArticle({
   title,
   summary,
   nickname,
+  userId,
   timestamp,
   replies,
   url,
@@ -42,15 +44,22 @@ function ItemArticle({
       onPress={() => appNavigate(url, navigation, {}, event)}
     >
       <Flex align='start'>
-        <Avatar style={styles.image} name={nickname} src={avatar} />
+        <Avatar
+          style={styles.image}
+          userId={userId}
+          name={nickname}
+          src={avatar}
+          event={event}
+          navigation={navigation}
+        />
         <Flex.Item
           style={[styles.item, !isFirst && !_.flat && styles.border, _.ml.sm]}
         >
           <Text bold>{HTMLDecode(title)}</Text>
           <Flex style={_.mt.xs}>
-            <Text size={12} bold>
+            <Name userId={userId} showFriend size={12} bold>
               {HTMLDecode(nickname)}
-            </Text>
+            </Name>
             <Text type='sub' style={_.ml.xs} size={12}>
               / {time} / {replies} 回复
             </Text>

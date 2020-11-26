@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 14:55:45
+ * @Last Modified time: 2020-11-26 11:10:08
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,6 +12,7 @@ import { correctAgo } from '@utils/app'
 import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 import Stars from '../base/stars'
+import Name from '../base/name'
 
 function ItemComment({
   style,
@@ -42,14 +43,20 @@ function ItemComment({
       >
         <Flex>
           <Flex.Item>
-            <Flex>
-              <Text size={13} bold>
-                {userName}
-              </Text>
-              <Text style={_.ml.xs} type='sub' size={11}>
-                {correctAgo(formatTime(time))}
-              </Text>
-            </Flex>
+            <Name
+              userId={userId}
+              showFriend
+              size={13}
+              bold
+              right={
+                <Text type='sub' size={11} lineHeight={13}>
+                  {' '}
+                  {correctAgo(formatTime(time))}
+                </Text>
+              }
+            >
+              {userName}
+            </Name>
           </Flex.Item>
           <Stars value={star} />
         </Flex>

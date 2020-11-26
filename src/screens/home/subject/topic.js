@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:15:27
+ * @Last Modified time: 2020-11-26 10:48:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,6 +44,7 @@ function Topic({ style }, { $, navigation }) {
             title={item.title}
             summary={item.summary}
             nickname={item.user.nickname}
+            userId={item.user.username}
             timestamp={item.timestamp}
             replies={item.replies}
             url={item.url}

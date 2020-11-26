@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:50:54
+ * @Last Modified time: 2020-11-26 10:44:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,29 +33,33 @@ function Blog({ style }, { $, navigation }) {
     <Expand style={style} ratio={1.2}>
       <SectionTitle style={styles.left}>日志</SectionTitle>
       <View style={_.mt.sm}>
-        {_blog.map((item, index) => (
-          <ItemArticle
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
-            style={styles.left}
-            navigation={navigation}
-            index={index}
-            avatar={item.user.avatar.small}
-            title={item.title}
-            summary={item.summary}
-            nickname={item.user.nickname}
-            timestamp={item.timestamp}
-            replies={item.replies}
-            url={item.url}
-            event={{
-              id: '条目.跳转',
-              data: {
-                from: '评论',
-                subjectId: $.subjectId
-              }
-            }}
-          />
-        ))}
+        {_blog.map((item, index) => {
+          log(item)
+          return (
+            <ItemArticle
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+              style={styles.left}
+              navigation={navigation}
+              index={index}
+              avatar={item.user.avatar.small}
+              title={item.title}
+              summary={item.summary}
+              nickname={item.user.nickname}
+              userId={item.user.username}
+              timestamp={item.timestamp}
+              replies={item.replies}
+              url={item.url}
+              event={{
+                id: '条目.跳转',
+                data: {
+                  from: '评论',
+                  subjectId: $.subjectId
+                }
+              }}
+            />
+          )
+        })}
       </View>
     </Expand>
   )

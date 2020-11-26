@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 11:24:36
+ * @Last Modified time: 2020-11-26 11:47:23
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
+import Name from '../base/name'
 
 function ItemPM({
   navigation,
@@ -60,12 +61,21 @@ function ItemPM({
         >
           <Flex>
             <Flex.Item>
-              <Text size={13} type='title' bold>
-                {name}{' '}
-                <Text size={11} lineHeight={13} type='sub'>
-                  {time}
-                </Text>
-              </Text>
+              <Name
+                userId={userId}
+                showFriend
+                size={13}
+                type='title'
+                bold
+                right={
+                  <Text size={11} lineHeight={13} type='sub'>
+                    {' '}
+                    {time}
+                  </Text>
+                }
+              >
+                {name}
+              </Name>
               <Text style={_.mt.xs} type='main' bold>
                 {title}
               </Text>

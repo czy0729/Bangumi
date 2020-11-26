@@ -4,18 +4,19 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-19 11:30:00
+ * @Last Modified time: 2020-11-24 15:49:32
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
 import {
   _,
-  subjectStore,
-  discoveryStore,
-  userStore,
   collectionStore,
-  systemStore
+  discoveryStore,
+  subjectStore,
+  systemStore,
+  userStore,
+  usersStore
 } from '@stores'
 import { open, getTimestamp } from '@utils'
 import { HTMLDecode, HTMLTrim } from '@utils/html'
@@ -93,9 +94,8 @@ export default class ScreenSubject extends store {
   })
 
   init = async () => {
-    const { _loaded } = this.state
-
     // 是否需要更新数据
+    const { _loaded } = this.state
     const current = getTimestamp()
     const needFetch = !_loaded || current - _loaded > 60
 
@@ -856,6 +856,10 @@ export default class ScreenSubject extends store {
   @computed get youkuSite() {
     const { bangumiInfo } = this.state
     return bangumiInfo?.sites?.find(item => item.site === 'youku') || {}
+  }
+
+  @computed get friendsMap() {
+    return usersStore.friendsMap
   }
 
   // -------------------- page --------------------

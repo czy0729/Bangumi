@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-12 15:43:22
+ * @Last Modified time: 2020-11-26 11:39:38
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Katakana, Text, Touchable, RenderHtml } from '@components'
-import { Avatar } from '@screens/_'
+import { Avatar, Name } from '@screens/_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
 import { appNavigate } from '@utils/app'
@@ -73,21 +73,30 @@ function Item(
       >
         <Flex>
           <Flex.Item>
-            <Text size={userName.length > 10 ? 12 : 14} lineHeight={14} bold>
+            <Name
+              userId={userId}
+              size={userName.length > 10 ? 12 : 14}
+              lineHeight={14}
+              bold
+              right={
+                <>
+                  {isAuthor && (
+                    <Text type='main' size={11} lineHeight={14}>
+                      {' '}
+                      作者
+                    </Text>
+                  )}
+                  {isFriend && !isAuthor && (
+                    <Text type='warning' size={11} lineHeight={14}>
+                      {' '}
+                      好友
+                    </Text>
+                  )}
+                </>
+              }
+            >
               {userName}
-              {isAuthor && (
-                <Text type='main' size={12} lineHeight={14}>
-                  {' '}
-                  作者
-                </Text>
-              )}
-              {isFriend && !isAuthor && (
-                <Text type='warning' size={12} lineHeight={14}>
-                  {' '}
-                  好友
-                </Text>
-              )}
-            </Text>
+            </Name>
           </Flex.Item>
           <Text
             style={[styles.time, _.ml.md]}
@@ -189,31 +198,36 @@ function Item(
                   >
                     <Flex>
                       <Flex.Item>
-                        <Text
+                        <Name
+                          userId={item.userId}
                           size={item.userName.length > 10 ? 12 : 14}
                           lineHeight={14}
                           bold
+                          right={
+                            <>
+                              {isAuthor && (
+                                <Text type='main' size={11} lineHeight={14}>
+                                  {' '}
+                                  作者
+                                </Text>
+                              )}
+                              {isFriend && !isAuthor && (
+                                <Text type='warning' size={11} lineHeight={14}>
+                                  {' '}
+                                  好友
+                                </Text>
+                              )}
+                              {isLayer && !isAuthor && !isFriend && (
+                                <Text type='primary' size={11} lineHeight={14}>
+                                  {' '}
+                                  层主
+                                </Text>
+                              )}
+                            </>
+                          }
                         >
                           {item.userName}
-                          {isAuthor && (
-                            <Text type='main' size={11} lineHeight={14}>
-                              {' '}
-                              作者
-                            </Text>
-                          )}
-                          {isFriend && !isAuthor && (
-                            <Text type='warning' size={11} lineHeight={14}>
-                              {' '}
-                              好友
-                            </Text>
-                          )}
-                          {isLayer && !isAuthor && !isFriend && (
-                            <Text type='primary' size={11} lineHeight={14}>
-                              {' '}
-                              层主
-                            </Text>
-                          )}
-                        </Text>
+                        </Name>
                       </Flex.Item>
                       <Text
                         style={[styles.time, _.ml.md]}

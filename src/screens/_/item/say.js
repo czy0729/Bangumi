@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-11 14:23:18
+ * @Last Modified time: 2020-11-26 11:54:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,21 @@ import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
+import Name from '../base/name'
 
 function ItemSay(
-  { event, index, position, avatar, showName, name, text, id, onLongPress },
+  {
+    event,
+    index,
+    position,
+    avatar,
+    showName,
+    name,
+    userId,
+    text,
+    id,
+    onLongPress
+  },
   { navigation }
 ) {
   const styles = memoStyles()
@@ -25,7 +37,7 @@ function ItemSay(
         <Flex.Item style={styles.contentRight}>
           <Flex direction='column' align='end'>
             {showName && (
-              <Text style={_.mr.sm} size={10} type='title' bold>
+              <Text style={_.mr.sm} size={11} type='title' bold>
                 {name}
               </Text>
             )}
@@ -73,9 +85,16 @@ function ItemSay(
       <Flex.Item style={styles.contentLeft}>
         <Flex direction='column' align='start'>
           {showName && (
-            <Text style={_.ml.sm} size={10} type='title' bold>
+            <Name
+              style={_.ml.sm}
+              userId={id}
+              showFriend
+              size={11}
+              type='title'
+              bold
+            >
               {name}
-            </Text>
+            </Name>
           )}
           <View style={[styles.text, _.mt.xs]}>
             <RenderHtml

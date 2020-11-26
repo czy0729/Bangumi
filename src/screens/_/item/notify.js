@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 11:23:20
+ * @Last Modified time: 2020-11-26 11:41:47
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
 import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
+import Name from '../base/name'
 
 function ItemNotify({
   navigation,
@@ -38,9 +39,9 @@ function ItemNotify({
       <Flex.Item
         style={[styles.item, !!index && !_.flat && styles.border, _.ml.sm]}
       >
-        <Text size={13} type='title' bold>
+        <Name userId={userId} showFriend size={13} type='title' bold>
           {userName}
-        </Text>
+        </Name>
         <Text style={_.mt.xs} lineHeight={1.8}>
           {message}
           <Text

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:34:18
+ * @Last Modified time: 2020-11-24 15:24:53
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
@@ -131,26 +131,30 @@ function sortByRecent(recentA, recentB) {
 }
 
 function getRecentTimestamp(recent) {
-  let timestamp = 0
-  const d = recent.match(/\d+d/g)
-  if (d) {
-    timestamp += parseInt(d[0]) * 24 * 60 * 60
-  }
+  try {
+    let timestamp = 0
+    const d = recent.match(/\d+d/g)
+    if (d) {
+      timestamp += parseInt(d[0]) * 24 * 60 * 60
+    }
 
-  const h = recent.match(/\d+h/g)
-  if (h) {
-    timestamp += parseInt(h[0]) * 60 * 60
-  }
+    const h = recent.match(/\d+h/g)
+    if (h) {
+      timestamp += parseInt(h[0]) * 60 * 60
+    }
 
-  const m = recent.match(/\d+m/g)
-  if (m) {
-    timestamp += parseInt(m[0]) * 60
-  }
+    const m = recent.match(/\d+m/g)
+    if (m) {
+      timestamp += parseInt(m[0]) * 60
+    }
 
-  const s = recent.match(/\d+s/g)
-  if (s) {
-    timestamp += parseInt(m[0])
-  }
+    const s = recent.match(/\d+s/g)
+    if (s) {
+      timestamp += parseInt(s[0])
+    }
 
-  return timestamp
+    return timestamp
+  } catch (error) {
+    return getTimestamp()
+  }
 }

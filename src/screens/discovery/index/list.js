@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-19 11:14:08
+ * @Last Modified time: 2020-11-24 14:44:40
  */
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
@@ -71,7 +71,7 @@ function List({ style, type }, { $ }) {
               <CoverXs
                 key={`${item.userId}|${item.id}`}
                 title={title}
-                avatar={$.friendsMap[item.userId]}
+                avatar={$.friendsMap[item.userId]?.avatar}
                 data={item}
               />
             ))}

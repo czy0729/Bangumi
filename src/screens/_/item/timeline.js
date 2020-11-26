@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-18 20:51:51
+ * @Last Modified time: 2020-11-26 11:25:22
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -16,6 +16,7 @@ import { HOST, HOST_NAME, EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import Avatar from '../base/avatar'
 import Cover from '../base/cover'
 import Stars from '../base/stars'
+import Name from '../base/name'
 
 const avatarWidth = 32
 const avatarCoverWidth = 40
@@ -57,6 +58,11 @@ class ItemTimeline extends React.Component {
         onPress: () => onDelete(clearHref)
       }
     ])
+  }
+
+  get userId() {
+    const { avatar } = this.props
+    return matchUserId(String(avatar?.url).replace(HOST, ''))
   }
 
   renderP3() {
@@ -140,9 +146,10 @@ class ItemTimeline extends React.Component {
     }
 
     return (
-      <Katakana.Provider>
+      <Text>
         {!!p1.text && (
-          <Katakana
+          <Name
+            userId={this.userId}
             type='title'
             bold
             onPress={() =>
@@ -152,13 +159,13 @@ class ItemTimeline extends React.Component {
               })
             }
           >
-            {p1.text}{' '}
-          </Katakana>
+            {p1.text}
+          </Name>
         )}
-        <Text type='sub'>{p2.text} </Text>
+        <Text type='sub'> {p2.text} </Text>
         {this.renderP3()}
         {!!p4.text && <Text type='sub'> {p4.text}</Text>}
-      </Katakana.Provider>
+      </Text>
     )
   }
 
@@ -273,7 +280,7 @@ class ItemTimeline extends React.Component {
           <Avatar
             navigation={navigation}
             size={avatarWidth}
-            userId={matchUserId(String(avatar.url).replace(HOST, ''))}
+            userId={this.userId}
             name={p1.text}
             src={avatar.src}
             event={event}

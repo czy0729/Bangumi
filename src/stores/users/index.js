@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-22 14:55:36
+ * @Last Modified time: 2020-11-24 15:42:34
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -119,10 +119,10 @@ class Users extends store {
       const { _loaded } = this.myFriendsMap
 
       /**
-       * 若登陆了, 而且在7天内没更新过好友列表, 请求好友列表
+       * 若登陆了, 而且在2天内没更新过好友列表, 请求好友列表
        * 用于帖子楼层标记是否好友
        */
-      if (!_loaded || getTimestamp() - _loaded > 7 * 60 * 60 * 24) {
+      if (!_loaded || getTimestamp() - _loaded > 2 * 60 * 60 * 24) {
         this.fetchFriends()
       }
     }
@@ -131,6 +131,16 @@ class Users extends store {
   }
 
   // -------------------- get --------------------
+  /**
+   * 好友对象
+   */
+  @computed get friendsMap() {
+    const map = {}
+    const { list } = this.friends()
+    list.forEach(item => (map[item.userId] = item))
+    return map
+  }
+
   catalogs(userId = userStore.myId, isCollect) {
     const key = `catalogs${isCollect ? 'Collect' : ''}`
     return computed(() => this.state[key][userId] || LIST_EMPTY).get()
@@ -142,12 +152,24 @@ class Users extends store {
    * @param {*} userId
    */
   fetchFriends = async ({ userId = userStore.myId } = {}) => {
+    const key = 'friends'
     const html = await fetchHTML({
       url: `!${HTML_FRIENDS(userId)}`
     })
-
-    const key = 'friends'
     const friends = cheerioFriends(html)
+
+    // - 20201124 缓存好友上一次历史名字
+    friends.forEach(item => {
+      const lastItem = this.friendsMap[item.userId]
+      const lastUserName = lastItem?.lastUserName
+      if (lastUserName && lastUserName === item.userName) {
+        return
+      }
+
+      // eslint-disable-next-line no-param-reassign
+      item.lastUserName = lastItem?.userName || item.userName
+    })
+
     this.setState({
       [key]: {
         [userId]: {
@@ -163,9 +185,7 @@ class Users extends store {
       const myFriendsMap = {
         _loaded: getTimestamp()
       }
-      friends.forEach(item => {
-        myFriendsMap[item.userId] = true
-      })
+      friends.forEach(item => (myFriendsMap[item.userId] = true))
 
       const key = 'myFriendsMap'
       this.setState({

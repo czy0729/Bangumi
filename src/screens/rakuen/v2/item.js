@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-18 01:26:27
+ * @Last Modified time: 2020-11-26 11:28:27
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Katakana, Text, Touchable, Iconfont } from '@components'
-import { Popover, Avatar } from '@screens/_'
+import { Popover, Avatar, Name } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { correctAgo, findSubjectCn, appNavigate } from '@utils/app'
@@ -209,7 +209,7 @@ class Item extends React.Component {
               style={_.mt.sm}
               itemStyle={this.styles.katakanas}
               size={11}
-              numberOfLines={1}
+              numberOfLines={2}
             >
               <Text type='sub' size={11}>
                 {correctAgo(time)}
@@ -219,10 +219,10 @@ class Item extends React.Component {
                 {this.groupCn}
               </Katakana>
               {!!userName && (
-                <Text type='sub' size={11}>
+                <Name userId={this.userId} showFriend type='sub' size={11}>
                   {' '}
                   / {userName}
-                </Text>
+                </Name>
               )}
             </Katakana.Provider>
           </Flex.Item>

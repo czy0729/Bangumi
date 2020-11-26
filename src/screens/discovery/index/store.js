@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-19 01:27:54
+ * @Last Modified time: 2020-11-24 14:44:42
  */
 import { observable, computed } from 'mobx'
 import {
@@ -58,7 +58,7 @@ export default class ScreenDiscovery extends store {
     setTimeout(() => {
       this.fetchOnline()
       if (userStore.isWebLogin) {
-        // this.fetchChannel()
+        this.fetchChannel()
       }
     }, 800)
     return calendarStore.fetchHome()
@@ -120,10 +120,7 @@ export default class ScreenDiscovery extends store {
   }
 
   @computed get friendsMap() {
-    const { list } = usersStore.friends()
-    const map = {}
-    list.forEach(item => (map[item.userId] = item.avatar))
-    return map
+    return usersStore.friendsMap
   }
 
   friendsChannel(type) {

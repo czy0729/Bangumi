@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-21 17:05:14
+ * @Last Modified time: 2020-11-24 14:49:24
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -12,9 +12,9 @@ import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import { KeyboardSpacer, StatusBarEvents, Text, Flex, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
-import { _, userStore } from '@stores'
+import { _, userStore, usersStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
-import { xhrCustom, hm, t } from '@utils/fetch'
+import { xhrCustom, hm, t, queue } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import { IOS, HOST_2, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 import Preview from './preview'
@@ -408,13 +408,18 @@ class LoginV2 extends React.Component {
       userAgent: this.userAgent,
       v: 0
     })
-
-    userStore.fetchUserInfo()
-    userStore.fetchUsersInfo()
     feedback()
     navigation.popToTop()
-
     t('登陆.成功')
+
+    queue(
+      [
+        () => userStore.fetchUserInfo(),
+        () => userStore.fetchUsersInfo(),
+        () => usersStore.fetchFriends()
+      ],
+      1
+    )
   }
 
   reset = async () => {

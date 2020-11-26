@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-11 14:08:08
+ * @Last Modified time: 2020-11-26 10:26:28
  */
 
 /**
@@ -23,6 +23,7 @@ export { default as ListenClipboard } from './base/listen-clipboard'
 export { default as Login } from './base/login'
 export { default as Logo } from './base/logo'
 export { default as ManageModal } from './base/manage-modal'
+export { default as Name } from './base/name'
 export { default as NavigationBarEvents } from './base/navigation-bar-events'
 export { default as OptimizeTabbarTransition } from './base/optimize-tabbar-transition'
 export { default as Pagination } from './base/pagination'
