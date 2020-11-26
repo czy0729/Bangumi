@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 03:52:26
+ * @Last Modified time: 2020-11-26 16:44:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,9 +57,9 @@ function ItemCollections({
   if (tags) {
     info.push(
       tags
-        .replace(' ', '')
         .split(' ')
-        .filter((item, index) => index < 2)
+        .filter(item => !!item)
+        .filter((item, index) => index < 4)
         .join(' ')
     )
   }

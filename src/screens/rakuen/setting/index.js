@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-20 17:26:11
+ * @Last Modified time: 2020-11-26 17:28:15
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -76,7 +76,15 @@ class RakuenSetting extends React.Component {
               selectedIndex={MODEL_RAKUEN_SCROLL_DIRECTION.data.findIndex(
                 item => item.value === scrollDirection
               )}
-              onValueChange={this.setHomeSorting}
+              onValueChange={title => {
+                t('超展开设置.切换', {
+                  title: '楼层导航条方向',
+                  value: title
+                })
+                rakuenStore.setScrollDirection(
+                  MODEL_RAKUEN_SCROLL_DIRECTION.getValue(title)
+                )
+              }}
             />
           }
         />

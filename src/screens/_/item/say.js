@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 11:54:14
+ * @Last Modified time: 2020-11-26 12:05:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,18 +16,7 @@ import Avatar from '../base/avatar'
 import Name from '../base/name'
 
 function ItemSay(
-  {
-    event,
-    index,
-    position,
-    avatar,
-    showName,
-    name,
-    userId,
-    text,
-    id,
-    onLongPress
-  },
+  { event, index, position, avatar, showName, name, text, id, onLongPress },
   { navigation }
 ) {
   const styles = memoStyles()
