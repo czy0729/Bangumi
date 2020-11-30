@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 22:07:23
+ * @Last Modified time: 2020-11-30 19:16:32
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,8 @@ import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import IconGo from '../_/icon-go'
 
-const data = ['批量献祭', '批量出售', '批量挂卖单']
+const data = ['批量献祭', '批量出售', '批量挂卖单', '批量分享']
+const dataICO = ['批量分享']
 
 function IconRight({ $ }) {
   const { page, editing, batchAction } = $.state
@@ -46,6 +47,10 @@ function IconRight({ $ }) {
                 $.doBatchAsk()
                 break
 
+              case '批量分享':
+                $.doBatchShare()
+                break
+
               default:
                 break
             }
@@ -58,10 +63,10 @@ function IconRight({ $ }) {
   return (
     <>
       <IconGo $={$} />
-      {page === 0 && (
+      {(page === 0 || page === 1) && (
         <Popover
           style={styles.icon}
-          data={data}
+          data={page === 1 ? dataICO : data}
           onSelect={key => {
             t('我的持仓.右上角菜单', {
               key

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 17:55:37
+ * @Last Modified time: 2020-11-30 19:06:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,7 @@ class TinygrailClipboard extends React.Component {
 
   async componentDidMount() {
     const { $, navigation } = this.context
-    $.init()
+    $.init(navigation)
 
     navigation.setParams({
       extra: (

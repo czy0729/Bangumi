@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 19:38:30
+ * @Last Modified time: 2020-11-30 18:05:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -132,7 +132,7 @@ function Info(props, { $, navigation }) {
               }
             >
               <Text type='tinygrailText' size={13}>
-                {subject}
+                [{subject}]
               </Text>
             </Touchable>
             <Touchable
@@ -173,6 +173,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   container: {
     paddingVertical: _.space,
-    paddingHorizontal: _.wind
+    paddingHorizontal: _.wind - _._wind
   }
 }))

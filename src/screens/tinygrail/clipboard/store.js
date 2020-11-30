@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-11-30 16:16:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 17:54:57
+ * @Last Modified time: 2020-11-30 19:07:03
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -19,7 +19,7 @@ export default class ScreenTinygrailClipboard extends store {
     _loaded: false
   })
 
-  init = async () => {
+  init = async navigation => {
     const content = await Clipboard.getString()
     if (!content) {
       return
@@ -46,6 +46,10 @@ export default class ScreenTinygrailClipboard extends store {
     this.setState({
       ids,
       _loaded: getTimestamp()
+    })
+
+    navigation.setParams({
+      title: `粘贴板 (${this.list.list.length})`
     })
   }
 

@@ -4,9 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 14:00:02
+ * @Last Modified time: 2020-11-30 19:44:03
  */
-import { Alert } from 'react-native'
+import { Alert, Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
@@ -40,12 +40,12 @@ export const tabs = [
     key: 'chara'
   },
   {
-    title: '圣殿',
-    key: 'temple'
-  },
-  {
     title: 'ICO',
     key: 'ico'
+  },
+  {
+    title: '圣殿',
+    key: 'temple'
   }
 ]
 export const sortDS = [
@@ -558,5 +558,41 @@ export default class ScreenTinygrailCharaAssets extends store {
       },
       '警告'
     )
+  }
+
+  /**
+   * 批量生成分享粘贴板
+   */
+  doBatchShare = async () => {
+    const { editingIds } = this.state
+    const ids = Object.keys(editingIds)
+    if (!ids.length) {
+      return
+    }
+
+    const { page } = this.state
+    const list = page === 1 ? this.myCharaAssets.ico : this.charaList
+    const items = []
+    for (const id of ids) {
+      try {
+        const item = list.list.find(item => item.id == id)
+        if (item) {
+          items.push(item)
+        }
+      } catch (error) {
+        warn(error)
+      }
+    }
+
+    Clipboard.setString(
+      items
+        .map(
+          item =>
+            `https://bgm.tv/character/${item.monoId || item.id}\n${item.name}`
+        )
+        .join('\n')
+    )
+    info(`已复制 ${items.length} 个角色的分享链接`)
+    this.toggleBatchEdit()
   }
 }
