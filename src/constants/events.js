@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 17:57:11
+ * @Last Modified time: 2020-11-30 20:43:50
  */
 
 /**
@@ -467,6 +467,7 @@ export default {
   '粘贴板.跳转': 'TClipboard.to',
   '粘贴板.刷新': 'TClipboard.refresh',
   '粘贴板.分享': 'TClipboard.share',
+  '粘贴板.一键注资': 'TClipboard.batchICO',
 
   /* ==================== user ==================== */
   // 个人设置

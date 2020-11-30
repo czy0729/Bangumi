@@ -3,14 +3,15 @@
  * @Author: czy0729
  * @Date: 2020-11-30 16:16:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 19:07:03
+ * @Last Modified time: 2020-11-30 20:48:00
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
-import { info } from '@utils/ui'
+import { t } from '@utils/fetch'
+import { info, feedback } from '@utils/ui'
 import { throttleInfo, relation } from '../_/utils'
 
 export default class ScreenTinygrailClipboard extends store {
@@ -81,5 +82,21 @@ export default class ScreenTinygrailClipboard extends store {
         .join('\n')
     )
     info(`已复制 ${this.list.list.length} 个角色的分享链接`)
+  }
+
+  batchICO = async ids => {
+    t('粘贴板.一键注资', {
+      length: ids.length
+    })
+
+    for (const id of ids) {
+      throttleInfo(`${ids.findIndex(i => i === id) + 1} / ${ids.length}`)
+      await tinygrailStore.doJoin({
+        id,
+        amount: 5000
+      })
+    }
+    feedback()
+    info('已完成注资')
   }
 }

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-21 18:26:59
+ * @Last Modified time: 2020-11-30 21:42:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -56,7 +56,7 @@ class FixedTextarea extends React.Component {
 
   async componentDidMount() {
     try {
-      const showSource = await getStorage(`${namespace}|showSource`) || false
+      const showSource = (await getStorage(`${namespace}|showSource`)) || false
       const history = (await getStorage(namespace)) || '15'
       const bgmHistory = history
         .split(',')
@@ -201,6 +201,10 @@ class FixedTextarea extends React.Component {
 
   // 设定光标位置
   setSelection = start => {
+    if (!IOS) {
+      return
+    }
+
     const ref = this.ref.textAreaRef
     setTimeout(() => {
       ref.setNativeProps({
@@ -209,7 +213,7 @@ class FixedTextarea extends React.Component {
           end: start
         }
       })
-    })
+    }, 0)
   }
 
   showBgm = () => {

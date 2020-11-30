@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 19:06:22
+ * @Last Modified time: 2020-11-30 20:33:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { t } from '@utils/fetch'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
+import Btn from './btn'
 import Store from './store'
 
 const title = '粘贴板'
@@ -76,6 +77,7 @@ class TinygrailClipboard extends React.Component {
       <View style={this.styles.container}>
         <StatusBarEvents />
         <List />
+        <Btn />
       </View>
     )
   }
