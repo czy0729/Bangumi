@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:19:06
+ * @Last Modified time: 2020-11-26 19:52:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,7 @@ function Header(props, { $, navigation }) {
     fluctuationText = `${toFixed(fluctuation, 2)}%`
   }
 
+  const { subject, r } = $.relation
   return (
     <View>
       {_.isPad && (
@@ -73,26 +74,47 @@ function Header(props, { $, navigation }) {
             )}
             <Flex.Item style={_.ml.sm}>
               <Flex>
-                <Text type='tinygrailPlain' numberOfLines={1} bold>
+                <Text type='tinygrailPlain' size={13} numberOfLines={1} bold>
                   {name}
                   {!!bonus && (
-                    <Text type='warning' size={12} lineHeight={14}>
+                    <Text type='warning' size={12} lineHeight={13}>
                       {' '}
                       x{bonus}
                     </Text>
                   )}
-                  <Text type='ask' size={12} lineHeight={14}>
+                  <Text type='ask' size={12} lineHeight={13}>
                     {' '}
                     lv{level}
                   </Text>
                 </Text>
-                <Text style={_.ml.sm} type={color} align='center'>
+                <Text
+                  style={_.ml.xs}
+                  type={color}
+                  size={12}
+                  lineHeight={13}
+                  align='center'
+                >
                   {fluctuationText}
                 </Text>
               </Flex>
-              <Text type='tinygrailText' size={12} lineHeight={13}>
+              <Text type='tinygrailText' size={11} lineHeight={13}>
                 #{$.monoId} / +{toFixed(rate, 2)} / +
                 {toFixed(rate * (level + 1) * 0.3, 2)}
+                {!!subject && (
+                  <Text
+                    type='tinygrailText'
+                    size={11}
+                    onPress={() => {
+                      navigation.push('TinygrailRelation', {
+                        ids: r,
+                        name: `${subject} (${r.length})`
+                      })
+                    }}
+                  >
+                    {' '}
+                    [关联]
+                  </Text>
+                )}
               </Text>
             </Flex.Item>
           </Flex>
@@ -100,6 +122,7 @@ function Header(props, { $, navigation }) {
         <Text
           style={styles.sacrifice}
           type='tinygrailText'
+          size={13}
           onPress={() => {
             t('交易.跳转', {
               to: 'TinygrailSacrifice',
@@ -123,6 +146,7 @@ function Header(props, { $, navigation }) {
         <Text
           style={styles.trade}
           type='tinygrailText'
+          size={13}
           onPress={() => {
             t('交易.跳转', {
               to: 'TinygrailTrade',

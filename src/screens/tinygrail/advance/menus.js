@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-01 22:43:52
+ * @Last Modified time: 2020-11-30 15:38:30
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -46,6 +46,12 @@ function Menus({ navigation }) {
         title='献祭推荐'
         pathname='TinygrailAdvanceSacrifice'
         icon='app'
+      />
+      <MenuItem
+        navigation={navigation}
+        title='资金分析'
+        pathname='TinygrailTree'
+        icon='fen-xi'
       />
     </Flex>
   )

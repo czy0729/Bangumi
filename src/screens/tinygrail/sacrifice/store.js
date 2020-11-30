@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 12:02:10
+ * @Last Modified time: 2020-11-26 17:52:40
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -17,6 +17,7 @@ import {
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
+import XSBRelationData from '@constants/json/xsb-relation'
 
 const namespace = 'ScreenTinygrailSacrifice'
 const excludeState = {
@@ -193,6 +194,15 @@ export default class ScreenTinygrailSacrifice extends store {
       return 1
     }
     return amount >= 100 ? 100 : amount
+  }
+
+  @computed get relation() {
+    const { s, r = [] } = XSBRelationData.data[this.monoId] || {}
+    return {
+      s,
+      subject: s ? XSBRelationData.name[s] : '',
+      r: [Number(this.monoId), ...r]
+    }
   }
 
   // -------------------- action --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 14:08:05
+ * @Last Modified time: 2020-11-26 19:38:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,6 +42,7 @@ function Info(props, { $, navigation }) {
     fluctuationText = `${toFixed(fluctuation, 2)}%`
   }
 
+  const { s, subject, r } = $.relation
   return (
     <View style={styles.container}>
       {showCover && !!icon && (
@@ -100,11 +101,6 @@ function Info(props, { $, navigation }) {
             />
           </Flex>
         </Touchable>
-        <Touchable style={_.ml.sm} onPress={$.toggleCover}>
-          <Text type='tinygrailText' size={15}>
-            [{showCover ? '隐藏' : '显示'}封面]
-          </Text>
-        </Touchable>
       </Flex>
       <Flex
         style={[_.container.wind, _.mt.sm]}
@@ -123,6 +119,42 @@ function Info(props, { $, navigation }) {
             {fluctuationText}
           </Text>
         </Text>
+      </Flex>
+      <Flex style={_.mt.sm} justify='center'>
+        {!!subject && (
+          <>
+            <Touchable
+              style={_.mr.sm}
+              onPress={() =>
+                navigation.push('Subject', {
+                  subjectId: s
+                })
+              }
+            >
+              <Text type='tinygrailText' size={13}>
+                {subject}
+              </Text>
+            </Touchable>
+            <Touchable
+              style={_.mr.sm}
+              onPress={() =>
+                navigation.push('TinygrailRelation', {
+                  ids: r,
+                  name: `${subject} (${r.length})`
+                })
+              }
+            >
+              <Text type='tinygrailText' size={13}>
+                [关联角色]
+              </Text>
+            </Touchable>
+          </>
+        )}
+        <Touchable onPress={$.toggleCover}>
+          <Text type='tinygrailText' size={13}>
+            [{showCover ? '隐藏' : '显示'}封面]
+          </Text>
+        </Touchable>
       </Flex>
     </View>
   )

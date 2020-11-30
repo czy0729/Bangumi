@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:57:01
+ * @Last Modified time: 2020-11-30 17:57:11
  */
 
 /**
@@ -462,6 +462,11 @@ export default {
   // 每周萌王
   '每周萌王.跳转': 'TTopWeek.to',
   '每周萌王.刷新': 'TTopWeek.refresh',
+
+  // 粘贴板
+  '粘贴板.跳转': 'TClipboard.to',
+  '粘贴板.刷新': 'TClipboard.refresh',
+  '粘贴板.分享': 'TClipboard.share',
 
   /* ==================== user ==================== */
   // 个人设置

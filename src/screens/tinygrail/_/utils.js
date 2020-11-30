@@ -2,9 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 14:39:42
+ * @Last Modified time: 2020-11-30 17:36:25
  */
+import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
+import { throttle } from '@utils'
+import { info } from '@utils/ui'
+import { IOS } from '@constants'
 import XSBRelationData from '@constants/json/xsb-relation'
 
 export function relation(data) {
@@ -206,3 +210,8 @@ export function levelList(level, list) {
 
   return list.filter(item => item.level == level)
 }
+
+function _info(message) {
+  info(message, 0.4)
+}
+export const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT)

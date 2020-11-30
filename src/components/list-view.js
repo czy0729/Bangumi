@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-22 20:13:52
+ * @Last Modified time: 2020-11-30 17:22:36
  */
 import React from 'react'
 import {
@@ -250,6 +250,7 @@ class ListView extends React.Component {
                   style={this.styles.footerText}
                   type={footerTextType}
                   size={13}
+                  align='center'
                 >
                   {footerFailureText}
                 </Text>
@@ -278,6 +279,7 @@ class ListView extends React.Component {
                   style={[this.styles.footerText, _.mt.sm]}
                   type={footerTextType}
                   size={13}
+                  align='center'
                 >
                   {footerEmptyDataText}
                 </Text>

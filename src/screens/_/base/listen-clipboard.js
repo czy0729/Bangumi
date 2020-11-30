@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 15:45:56
+ * @Last Modified time: 2020-11-30 17:11:46
  */
 import React from 'react'
 import { AppState, Clipboard } from 'react-native'
@@ -40,13 +40,18 @@ class ListenClipboard extends React.Component {
 
   checkContent = async () => {
     const content = await Clipboard.getString()
-    const url = matchBgmUrl(content)
+    const urls = matchBgmUrl(content, true) || []
+    const url = urls[0]
     if (url && url !== lastUrl) {
       lastUrl = url
-      confirm(`检测到链接${url}, 前往页面?`, () => {
-        appNavigate(url, navigationReference())
-      })
-      Clipboard.setString('')
+
+      // 排除多个角色 小圣杯粘贴板逻辑
+      if (!urls.filter(item => item.includes('/character/')).length > 1) {
+        confirm(`检测到链接${url}, 前往页面?`, () => {
+          appNavigate(url, navigationReference())
+        })
+        Clipboard.setString('')
+      }
     }
   }
 

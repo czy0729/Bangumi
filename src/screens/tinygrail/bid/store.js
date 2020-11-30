@@ -3,17 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 20:15:05
+ * @Last Modified time: 2020-11-30 17:36:51
  */
-import { ToastAndroid } from 'react-native'
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { throttle } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
-import { IOS } from '@constants'
 import {
+  throttleInfo,
   levelList,
   sortList,
   relation,
@@ -61,10 +59,6 @@ export const sortDS = [
   SORT_GXB,
   SORT_SDGXB
 ]
-function _info(message) {
-  info(message, 0.4)
-}
-const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT)
 
 export default class ScreenTinygrailBid extends store {
   state = observable({

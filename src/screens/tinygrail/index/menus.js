@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:28:39
+ * @Last Modified time: 2020-11-30 15:38:34
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -88,7 +88,7 @@ function Menus(props, { $ }) {
         icon='package'
       />
       <MenuItem title='资金日志' pathname='TinygrailLogs' icon='ri-zhi' />
-      <MenuItem title='资金分析' pathname='TinygrailTree' icon='fen-xi' />
+      <MenuItem title='粘贴板' pathname='TinygrailClipboard' icon='star-list' />
       <MenuItem
         style={{
           backgroundColor: _.colorTinygrailActive
