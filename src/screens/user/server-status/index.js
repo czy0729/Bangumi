@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-14 11:12:24
+ * @Last Modified time: 2020-12-03 19:38:52
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -19,6 +19,12 @@ import {
 } from '@constants'
 import { API_CALENDAR } from '@constants/api'
 import { CDN_ONAIR, CDN_DISCOVERY_HOME } from '@constants/cdn'
+import {
+  SITE_AGEFANS,
+  SITE_XUNBO,
+  SITE_77MH,
+  SITE_COMIC123
+} from '@constants/site'
 
 const title = '网络探针'
 const initList = [
@@ -100,30 +106,30 @@ const initList = [
     loading: false
   },
   {
-    title: 'https://www.agefans.tv/update',
+    title: `${SITE_AGEFANS()}/update`,
     desc: 'Agefans',
-    url: 'https://www.agefans.tv/update',
+    url: `${SITE_AGEFANS()}/update`,
     msg: [],
     loading: false
   },
   {
-    title: 'https://dm.xbdm.net/search.php',
+    title: `${SITE_XUNBO()}/search.php`,
     desc: '迅播动漫',
-    url: 'https://dm.xbdm.net/search.php',
+    url: `${SITE_XUNBO()}/search.php`,
     msg: [],
     loading: false
   },
   {
-    title: 'https://so.77mh.cool/m.php',
+    title: `${SITE_77MH()}/m.php`,
     desc: '新新漫画',
-    url: 'https://so.77mh.cool/m.php',
+    url: `${SITE_77MH()}/m.php`,
     msg: [],
     loading: false
   },
   {
-    title: 'https://m.comic123.net/index.php/search.html',
+    title: `${SITE_COMIC123()}/index.php/search.html`,
     desc: '漫画123',
-    url: 'https://m.comic123.net/index.php/search.html',
+    url: `${SITE_COMIC123()}/index.php/search.html`,
     msg: [],
     loading: false
   },

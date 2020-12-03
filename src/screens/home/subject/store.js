@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-24 15:49:32
+ * @Last Modified time: 2020-12-03 19:50:26
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -35,6 +35,7 @@ import { init as initWenku, find as findWenku } from '@utils/wenku'
 import { HOST, HOST_NING_MOE, URL_DEFAULT_AVATAR } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
+import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS, SITE_WK8 } from '@constants/site'
 // import { NINGMOE_ID } from '@constants/online'
 
 export const imageWidth = _.isPad ? 152 : 120
@@ -551,8 +552,11 @@ export default class ScreenSubject extends store {
         .filter(item => sitesDS.includes(item.site))
         .map(item => item.site)
     ]
-    if (['动画', '三次元'].includes(this.type)) {
-      data.push('AGE动漫', '迅播动漫', '人人影视')
+    if (['动画'].includes(this.type)) {
+      data.push('AGE动漫', '迅播动漫')
+    }
+    if (['三次元'].includes(this.type)) {
+      data.push('人人影视')
     }
     return data
   }
@@ -954,24 +958,22 @@ export default class ScreenSubject extends store {
 
         case 'AGE动漫':
           if (_aid || find(this.subjectId).aid) {
-            url = `https://www.agefans.tv/detail/${
-              _aid || find(this.subjectId).aid
-            }`
+            url = `${SITE_AGEFANS()}/detail/${_aid || find(this.subjectId).aid}`
           } else {
-            url = `https://www.agefans.tv/search?query=${encodeURIComponent(
+            url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(
               this.cn || this.jp
             )}&page=1`
           }
           break
 
         case '迅播动漫':
-          url = `https://dm.xbdm.net/search.php?searchword=${encodeURIComponent(
+          url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(
             this.cn || this.jp
           )}`
           break
 
         case '人人影视':
-          url = `http://www.rrys2020.com/search?keyword=${encodeURIComponent(
+          url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(
             this.cn || this.jp
           )}&type=resource`
           break
@@ -1002,9 +1004,7 @@ export default class ScreenSubject extends store {
       wid
     })
 
-    const url = `https://www.wenku8.net/novel/${parseInt(
-      wid / 1000
-    )}/${wid}/index.htm`
+    const url = `${SITE_WK8()}/novel/${parseInt(wid / 1000)}/${wid}/index.htm`
     Clipboard.setString(url)
     info('已复制地址')
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 22:28:53
+ * @Last Modified time: 2020-12-03 19:35:04
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -12,6 +12,7 @@ import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
 import { cheerio } from '@utils/html'
 import { LIST_EMPTY, HOST_MANGA } from '@constants'
+import { SITE_77MH, SITE_COMIC123 } from '@constants/site'
 
 const namespace = 'ScreenComic'
 const excludeState = {
@@ -116,7 +117,7 @@ export default class ScreenComic extends store {
   searchOrigins = async key => {
     // 新新漫画
     const HTML1 = await fetchHTML({
-      url: `https://so.77mh.cool/m.php?k=${encodeURIComponent(key)}`
+      url: `${SITE_77MH()}/m.php?k=${encodeURIComponent(key)}`
     })
     const $1 = cheerio(HTML1)
     const list1 =
@@ -130,7 +131,7 @@ export default class ScreenComic extends store {
             sub: $li.find('p.subtitle').text(),
             extra: $li.find('p.uptime').text(),
             headers: {
-              Referer: 'https://so.77mh.cool/m.php'
+              Referer: `${SITE_77MH()}/m.php`
             },
             type: 'warning',
             tag: '新新漫画'
@@ -141,7 +142,7 @@ export default class ScreenComic extends store {
     // 漫画123
     const HTML2 = await fetchHTML({
       method: 'POST',
-      url: 'https://m.comic123.net/index.php/search.html',
+      url: `${SITE_COMIC123()}/index.php/search.html`,
       data: {
         keyword: key
       }
@@ -153,13 +154,13 @@ export default class ScreenComic extends store {
           const $li = cheerio(element)
           const $a = $li.find('a.vbox_t')
           return safeObject({
-            url: `https://m.comic123.net${$a.attr('href')}`,
+            url: `${SITE_COMIC123()}${$a.attr('href')}`,
             title: $a.attr('title'),
             cover: $a.find('mip-img').attr('src'),
             sub: $a.find('mip-img + span').text(),
             extra: $li.find('h4 + h4').text(),
             headers: {
-              Referer: 'https://m.comic123.net/'
+              Referer: `${SITE_COMIC123()}/`
             },
             type: 'main',
             tag: '漫画123'
@@ -203,7 +204,7 @@ export default class ScreenComic extends store {
           .map((index, element) => {
             const $li = cheerio(element)
             return safeObject({
-              url: `https://m.77mh.cool/${$li.attr('href')}`,
+              url: `${SITE_77MH}/${$li.attr('href')}`,
               text: $li.text(),
               tag: item.tag
             })
@@ -222,7 +223,7 @@ export default class ScreenComic extends store {
           .map((index, element) => {
             const $a = cheerio(element)
             return safeObject({
-              url: `https://m.comic123.net${$a.attr('href')}`,
+              url: `${SITE_COMIC123()}${$a.attr('href')}`,
               text: $a.text(),
               tag: item.tag
             })
@@ -285,14 +286,14 @@ export default class ScreenComic extends store {
             return s.join('/') // https://images.dmzj.com/z/$/$/001.jpg
           })
         )
-        const urlScript = `title='${title}';images=${images}.map(it=>it.replace('$/$', '${mark}').replace('https://', 'https://m.comic123.net/pic-dmzj/'))`
-        href = `https://tinygrail.mange.cn/app/index.html?script=${encodeURIComponent(
+        const urlScript = `title='${title}';images=${images}.map(it=>it.replace('$/$', '${mark}').replace('https://', '${SITE_COMIC123()}/pic-dmzj/'))`
+        href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(
           urlScript
         )}`
       } else {
         const images = HTML.match(/var z_img='(.+?)';/)[1]
         const urlScript = `title='${title}';images=JSON.parse('${images}').map(it=>'https://img.detatu.com/'+it)`
-        href = `https://tinygrail.mange.cn/app/index.html?script=${encodeURIComponent(
+        href = `${HOST_MANGA}/index.html?script=${encodeURIComponent(
           urlScript
         )}`
       }

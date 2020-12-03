@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2020-09-27 11:57:30
  */
-import { VERSIONS_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
+import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
 import { getTimestamp, getStorage, setStorage } from './index'
 import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
@@ -90,9 +90,9 @@ export async function init() {
   }
 
   // 版本没有OTA高需要重新请求数据
-  const version = (await getStorage(wenkuVersionKey)) || VERSIONS_WENKU
+  const version = (await getStorage(wenkuVersionKey)) || VERSION_WENKU
   const ota = getOTA()
-  const needUpdate = parseInt(ota.VERSIONS_WENKU) > parseInt(version)
+  const needUpdate = parseInt(ota.VERSION_WENKU) > parseInt(version)
   if (needUpdate) {
     const { _response } = await xhrCustom({
       url: CDN_STATIC_WENKU()

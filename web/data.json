@@ -1,9 +1,19 @@
 {
-  "online": 4166,
-  "VERSION_MONO": "20200502",
-  "VERSION_SUBJECT": "20200615",
-  "VERSION_OSS": "20200615",
-  "VERSION_AVATAR": "20200730",
-  "VERSION_STATIC": "20200730",
-  "VERSION_RAKUEN": "20200730"
+  "online": 7763,
+  "VERSION_MONO": "20201012",
+  "VERSION_SUBJECT": "20200903",
+  "VERSION_OSS": "20201009",
+  "VERSION_AVATAR": "20201006",
+  "VERSION_STATIC": "20201126",
+  "VERSION_RAKUEN": "20201120",
+  "VERSION_ANIME": "20201126",
+  "VERSION_WENKU": "20200927",
+  "VERSIONS_ANIME": "20201126",
+  "VERSIONS_WENKU": "20200927",
+  "SITE_AGEFANS": "https://agefans.net",
+  "SITE_XUNBO": "https://www.xbdm.org",
+  "SITE_RRYS": "http://www.rrys2020.com",
+  "SITE_WK8": "https://www.wenku8.net",
+  "SITE_77MH": "https://so.77mh.cool",
+  "SITE_COMIC123": "https://m.comic123.net"
 }

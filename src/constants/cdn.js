@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 23:23:07
+ * @Last Modified time: 2020-12-03 19:40:12
  */
 import { getTimestamp } from '@utils'
 import { SDK } from './index'
@@ -34,10 +34,10 @@ export const VERSION_SUBJECT = '20201103'
 export const VERSION_AVATAR = '20201107'
 export const VERSION_RAKUEN = '20201107'
 export const VERSION_STATIC = '20201107'
+export const VERSION_ANIME = '20201107'
+export const VERSION_WENKU = '20200927'
 
 export const VERSIONS_AVATAR = ['20201018', '20200712', '20200502', '1.0.2']
-export const VERSIONS_ANIME = '20201107'
-export const VERSIONS_WENKU = '20200927'
 
 const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
   ''
