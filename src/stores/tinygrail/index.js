@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 22:25:12
+ * @Last Modified time: 2020-12-04 14:02:35
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -422,7 +422,7 @@ class Tinygrail extends store {
 
   // -------------------- fetch --------------------
   fetch = (url, isPost, data, showError) => {
-    log(`[axios] ${url}`)
+    log(`⚡️ ${url}`)
 
     axios.defaults.withCredentials = false
     const config = {

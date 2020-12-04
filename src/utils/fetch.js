@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 12:03:10
+ * @Last Modified time: 2020-12-04 14:03:48
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -94,7 +94,7 @@ export default async function fetchAPI({
     }
   }
   if (SHOW_LOG) {
-    log(`[fetchAPI] ${info} ${_url}`)
+    log(`🌐 ${info} ${_url}`)
   }
 
   return fetch(_url, _config)
@@ -207,7 +207,7 @@ export async function fetchHTML({
     })
   }
   if (SHOW_LOG) {
-    log(`[fetchHTML] ${_url}`)
+    log(`⚡️ ${_url}`)
   }
 
   return fetch(_url, _config)
@@ -325,7 +325,7 @@ export function xhrCustom({
     request.send(body)
 
     if (SHOW_LOG) {
-      log(`[xhrCustom] ${url}`)
+      log(`🔍 ${url}`)
     }
   })
 }
@@ -417,7 +417,7 @@ export function hm(url, screen) {
   }
 
   if (DEV) {
-    log(`[hm] ${url} ${screen} ${hmCookie}`)
+    log(`📌 ${url} ${screen} ${hmCookie}`)
     // return
   }
 
@@ -500,7 +500,7 @@ export function t(desc, eventData) {
 
     const eventId = events[desc]
     log(
-      `${eventId ? '' : '找不到eventId '}[track] ${desc} ${
+      `${eventId ? '' : '找不到eventId '}🏷️  ${desc} ${
         eventData ? JSON.stringify(eventData) : ''
       }`
     )
@@ -521,7 +521,7 @@ export function t(desc, eventData) {
 
       if (DEV) {
         log(
-          `${eventId ? '' : '找不到eventId '}[track] ${desc} ${
+          `${eventId ? '' : '找不到eventId '}🏷️ ${desc} ${
             eventData ? JSON.stringify(eventData) : ''
           }`
         )

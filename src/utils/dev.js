@@ -3,9 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 15:21:55
+ * @Last Modified time: 2020-12-04 14:09:07
  */
 import { DEV } from '@constants'
+import { pad } from './index'
 
 /**
  * 处理循环引用
@@ -76,23 +77,13 @@ export function fill(str, len = 32) {
  * @param {String} key   消息键
  * @param {Any}    value 消息值
  */
-let lastTime
-let lastIndex = 0
 export function log(type = '', key = '', value = '', ...other) {
   const now = new Date()
   const h = now.getHours()
   const m = now.getMinutes()
   const s = now.getSeconds()
-
-  let time = `${h}:${m}:${s}`
-  if (time === lastTime) {
-    lastIndex += 1
-    time += `.${lastIndex + 1}`
-  } else {
-    lastTime = time
-    lastIndex = 0
-  }
-
+  // const ms = now.getMilliseconds()
+  const time = `${h}:${pad(m)}:${pad(s)}`
   const res = [time, type]
   if (key !== undefined) res.push('\n', key)
   if (value !== undefined) res.push('\n', value)

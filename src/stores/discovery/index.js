@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 18:41:46
+ * @Last Modified time: 2020-12-04 14:02:25
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -143,7 +143,7 @@ class Discovery extends store {
    */
   fetchRandom = async refresh => {
     const url = `${HOST_NING_MOE}/api/get_random_bangumi`
-    log(`[fetch] 柠萌动漫随便看看 ${url}`)
+    log(`⚡️ 柠萌动漫随便看看 ${url}`)
 
     try {
       const { list, pagination } = this.random
@@ -197,7 +197,7 @@ class Discovery extends store {
    */
   fetchNingMoeDetailBySearch = async ({ keyword }) => {
     const url = `${HOST_NING_MOE}/api/search`
-    log(`[fetch] 搜索柠萌动漫信息 ${url}, ${keyword}`)
+    log(`⚡️ 搜索柠萌动漫信息 ${url}, ${keyword}`)
 
     try {
       const data = await fetch(url, {
@@ -246,7 +246,7 @@ class Discovery extends store {
    */
   fetchNingMoeDetail = async ({ id, bgmId }) => {
     const url = `${HOST_NING_MOE}/api/get_bangumi`
-    log(`[fetch] 查询柠萌动漫信息 ${url}`)
+    log(`⚡️ 查询柠萌动漫信息 ${url}`)
 
     try {
       const data = await fetch(url, {
@@ -292,7 +292,7 @@ class Discovery extends store {
    */
   fetchNingMoeRealYunUrl = async ({ url }) => {
     const _url = `${HOST_NING_MOE}/api/get_real_yun_url`
-    log(`[fetch] 查询真正的云盘地址 ${_url}`)
+    log(`⚡️ 查询真正的云盘地址 ${_url}`)
 
     try {
       const data = await fetch(_url, {
@@ -321,7 +321,7 @@ class Discovery extends store {
    */
   fetchAnitamaTimeline = async (page = 1) => {
     const url = `${HOST_ANITAMA}/timeline?pageNo=${page}`
-    log(`[fetch] Anitama文章列表 ${url}`)
+    log(`⚡️ Anitama文章列表 ${url}`)
 
     let animataTimeline = INIT_ANITAMA_TIMELINE_ITEM
     try {
