@@ -1,24 +1,23 @@
-/* eslint-disable space-before-function-paren */
-/* eslint-disable func-names */
+/* eslint-disable space-before-function-paren, func-names */
 /*
  * 请求相关
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-26 11:16:02
+ * @Last Modified time: 2020-12-04 12:03:10
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
 import { Portal } from '@ant-design/react-native'
 import Toast from '@components/@/ant-design/toast'
 import {
-  IOS,
   APP_ID,
   APP_ID_BAIDU,
-  HOST_NAME,
+  DEV,
   HOST,
-  VERSION_GITHUB_RELEASE,
-  DEV
+  HOST_NAME,
+  IOS,
+  VERSION_GITHUB_RELEASE
 } from '@constants'
 import { HOST_CDN } from '@constants/cdn'
 import events from '@constants/events'
@@ -26,12 +25,13 @@ import { BAIDU_KEY } from '@constants/secret'
 import fetch from './thirdParty/fetch-polyfill'
 import md5 from './thirdParty/md5'
 import { urlStringify, sleep, getTimestamp, randomn, debounce } from './index'
-import { log } from './dev'
+import { getUserStoreAsync, getThemeStoreAsync } from './async'
 import { info as UIInfo } from './ui'
+import { log } from './dev'
 
-const UMAnalyticsModule = NativeModules.UMAnalyticsModule
+const { UMAnalyticsModule } = NativeModules
 const SHOW_LOG = true // 开发显示请求信息
-const FETCH_TIMEOUT = 8000 // api超时时间
+const FETCH_TIMEOUT = 6400 // api超时时间
 const FETCH_RETRY = 4 // get请求失败自动重试次数
 
 const defaultHeaders = {
@@ -61,7 +61,7 @@ export default async function fetchAPI({
   noConsole = false
 } = {}) {
   const isGet = method === 'GET'
-  const userStore = require('../stores/user').default
+  const userStore = getUserStoreAsync()
   const { accessToken } = userStore
   const _config = {
     timeout: FETCH_TIMEOUT,
@@ -155,7 +155,7 @@ export async function fetchHTML({
   raw = false
 } = {}) {
   const isGet = method === 'GET'
-  const userStore = require('../stores/user').default
+  const userStore = getUserStoreAsync()
   const { cookie: userCookie, setCookie, userAgent } = userStore.userCookie
   const _config = {
     timeout: FETCH_TIMEOUT,
@@ -234,8 +234,7 @@ export function xhr(
   success = Function.prototype,
   fail = Function.prototype
 ) {
-  // 避免userStore循环引用
-  const userStore = require('../stores/user').default
+  const userStore = getUserStoreAsync()
   const { cookie: userCookie, userAgent } = userStore.userCookie
 
   const toastId = Toast.loading('Loading...', 0, () => {
@@ -324,6 +323,7 @@ export function xhrCustom({
 
     const body = data ? urlStringify(data) : null
     request.send(body)
+
     if (SHOW_LOG) {
       log(`[xhrCustom] ${url}`)
     }
@@ -344,6 +344,7 @@ export function sax({
 } = {}) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
+
     // eslint-disable-next-line prefer-arrow-callback
     const cb = debounce(function (response) {
       if (response.length < 1000) {
@@ -401,11 +402,13 @@ export function sax({
 }
 
 /**
- * hm v5.0
+ * hm v6.0
  * @param {*} url
  * @param {*} screen
  */
 export function hm(url, screen) {
+  const { hmCookie, updateHmCookie } = getUserStoreAsync()
+
   // 触发页面view
   if (screen) {
     t('其他.查看', {
@@ -414,7 +417,11 @@ export function hm(url, screen) {
   }
 
   if (DEV) {
-    log(`[hm] ${url} ${screen}`)
+    log(`[hm] ${url} ${screen} ${hmCookie}`)
+    // return
+  }
+
+  if (DEV && !hmCookie) {
     return
   }
 
@@ -425,16 +432,12 @@ export function hm(url, screen) {
         ua = await Constants.getWebViewUserAgentAsync()
       }
 
-      const themeStore = require('../stores/theme').default
+      const { isDark, isTinygrailDark } = getThemeStoreAsync()
       let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
       u += `${u.includes('?') ? '&' : '?'}v=${VERSION_GITHUB_RELEASE}`
-      u += `${themeStore.isDark ? '&dark=1' : ''}`
+      u += `${isDark ? '&dark=1' : ''}`
 
-      if (
-        screen &&
-        screen.includes('Tinygrail') &&
-        themeStore.isTinygrailDark
-      ) {
+      if (screen && screen.includes('Tinygrail') && isTinygrailDark) {
         u += '&tdark=1'
       }
       u += `${screen ? `&s=${screen}` : ''}`
@@ -454,14 +457,26 @@ export function hm(url, screen) {
         true
       )
       request.withCredentials = false
-      request.setRequestHeader(
-        'User-Agent',
-        ua || require('../stores/user').default.userCookie.userAgent
-      )
-      request.setRequestHeader(
-        'Cookie',
-        ua || require('../stores/user').default.userCookie.userCookie
-      )
+
+      if (!hmCookie) {
+        request.onreadystatechange = () => {
+          if (request.readyState !== 4) {
+            return
+          }
+
+          const cookie =
+            String(request.responseHeaders['Set-Cookie']).split(';')[0] || ''
+          if (cookie.includes('HMACCOUNT')) {
+            updateHmCookie(cookie)
+          }
+        }
+      } else {
+        request.setRequestHeader(
+          'Cookie',
+          (hmCookie || '').replace('HMACCOUNT', 'HMACCOUNT_BFESS')
+        )
+        request.setRequestHeader('User-Agent', ua || '')
+      }
       request.send(null)
     })
   } catch (error) {
@@ -577,7 +592,3 @@ function safe(data) {
   }
   return data === null ? '' : data
 }
-
-// function safe(data) {
-//   return JSON.parse(JSON.stringify(data).replace(/:null/g, ':""'))
-// }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 11:40:32
+ * @Last Modified time: 2020-12-04 11:22:48
  */
 import * as WebBrowser from 'expo-web-browser'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
@@ -12,6 +12,7 @@ import { DEV, HOST, HOST_2 } from '@constants'
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
 import { t } from './fetch'
+import { getSystemStoreAsync } from './async'
 import { globalLog, globalWarn } from './dev'
 
 const HOST_IMAGE = '//lain.bgm.tv'
@@ -49,9 +50,7 @@ export function bootApp() {
  * 获取设置
  */
 export function getSetting() {
-  const systemStore = require('../stores/system').default
-  const { setting } = systemStore
-  return setting
+  return getSystemStoreAsync().setting
 }
 
 /**
@@ -120,8 +119,7 @@ export function navigationReference(navigation) {
  */
 const cache = {}
 export function findSubjectCn(jp = '', subjectId) {
-  const systemStore = require('../stores/system').default
-  if (!systemStore.setting.cnFirst) {
+  if (!getSetting()?.cnFirst) {
     return jp
   }
 

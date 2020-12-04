@@ -10,9 +10,10 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-03 19:40:12
+ * @Last Modified time: 2020-12-04 11:20:12
  */
 import { getTimestamp } from '@utils'
+import { getSystemStoreAsync } from '@utils/async'
 import { SDK } from './index'
 import hashAvatarData from './json/hash-avatar.json'
 import hashSubjectData from './json/hash-subject.json'
@@ -23,9 +24,7 @@ export const HOST_CDN = 'https://cdn.jsdelivr.net'
  * 获取设置
  */
 export function getOTA() {
-  const systemStore = require('../stores/system').default
-  const { ota } = systemStore
-  return ota
+  return getSystemStoreAsync().ota
 }
 
 export const VERSION_OSS = '20201009'

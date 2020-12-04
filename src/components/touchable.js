@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-29 20:20:23
+ * @Last Modified time: 2020-12-04 11:16:57
  */
 import React from 'react'
 import {
@@ -14,6 +14,7 @@ import {
   View
 } from 'react-native'
 import { observer } from 'mobx-react'
+import { getSystemStoreAsync } from '@utils/async'
 import { IOS } from '@constants'
 import _ from '@styles'
 
@@ -59,7 +60,7 @@ function Touchable({
     )
   }
 
-  const { ripple } = require('@stores/system').default.setting
+  const { ripple } = getSystemStoreAsync().setting
   if (IOS || !ripple) {
     if (highlight) {
       return (

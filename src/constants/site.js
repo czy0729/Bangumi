@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-12-03 19:23:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-03 19:33:00
+ * @Last Modified time: 2020-12-04 11:21:00
  */
+import { getSystemStoreAsync } from '@utils/async'
 
 /**
  * 获取设置
  */
 export function getOTA() {
-  const systemStore = require('../stores/system').default
-  const { ota } = systemStore
-  return ota
+  return getSystemStoreAsync().ota
 }
 
 export const SITE_AGEFANS = () => {

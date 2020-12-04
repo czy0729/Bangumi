@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 16:29:11
+ * @Last Modified time: 2020-12-04 11:23:47
  */
 import { Alert, Vibration } from 'react-native'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
 import { DEV } from '@constants'
+import { getSystemStoreAsync } from './async'
 
 function getSetting() {
-  const systemStore = require('../stores/system').default
-  const { setting } = systemStore
-  return setting
+  return getSystemStoreAsync().setting
 }
 
 /**
@@ -109,8 +108,7 @@ export function showImageViewer(imageUrls = [], index = 0) {
     return
   }
 
-  const systemStore = require('../stores/system').default
-  systemStore.showImageViewer(
+  getSystemStoreAsync().showImageViewer(
     imageUrls.map(item => ({
       ...item,
       url:

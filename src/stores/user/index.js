@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-10 11:32:56
+ * @Last Modified time: 2020-12-03 20:44:42
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -82,6 +82,11 @@ class User extends store {
      * 会随请求一直更新, 并带上请求防止一段时候后掉登陆
      */
     setCookie: '',
+
+    /**
+     * hm.js请求cookie, 区分唯一用户, 一旦获取通常不再变更
+     */
+    hmCookie: '',
 
     /**
      * 在看收藏
@@ -187,6 +192,7 @@ class User extends store {
         'userCollectionsStatus',
         'userCookie',
         'setCookie',
+        'hmCookie',
         'userInfo',
         'userProgress',
         'usersInfo',
@@ -653,6 +659,13 @@ class User extends store {
       userCookie
     })
     this.setStorage('userCookie', undefined, NAMESPACE)
+  }
+
+  updateHmCookie = hmCookie => {
+    this.setState({
+      hmCookie
+    })
+    this.setStorage('hmCookie', undefined, NAMESPACE)
   }
 
   /**
