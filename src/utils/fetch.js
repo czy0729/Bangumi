@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 14:03:48
+ * @Last Modified time: 2020-12-05 15:18:30
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import Constants from 'expo-constants'
@@ -475,7 +475,7 @@ export function hm(url, screen) {
           'Cookie',
           (hmCookie || '').replace('HMACCOUNT', 'HMACCOUNT_BFESS')
         )
-        request.setRequestHeader('User-Agent', ua || '')
+        // request.setRequestHeader('User-Agent', ua || '')
       }
       request.send(null)
     })

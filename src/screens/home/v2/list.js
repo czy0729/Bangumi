@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 18:18:57
+ * @Last Modified time: 2020-12-05 21:46:36
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -46,6 +46,7 @@ function List({ title }, { $ }) {
 
   return (
     <ListView
+      ref={ref => $.connectRef(ref, title)}
       style={!IOS && styles.androidWrap}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 16:34:08
+ * @Last Modified time: 2020-12-05 21:53:53
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -67,6 +67,7 @@ class List extends React.Component {
         data={$.subjectComments}
         removeClippedSubviews={false}
         scrollEventThrottle={16}
+        scrollToTop
         refreshControlProps={refreshControlProps}
         ListHeaderComponent={<Header rendered={rendered} />}
         renderItem={this.renderItem}

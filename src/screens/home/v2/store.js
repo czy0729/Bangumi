@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 19:37:36
+ * @Last Modified time: 2020-12-05 17:42:58
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -162,6 +162,12 @@ export default class ScreenHomeV2 extends store {
   @computed get tabs() {
     const { showGame } = systemStore.setting
     return showGame ? tabsWithGame : tabs
+  }
+
+  @computed get title() {
+    const { page } = this.state
+    const { title } = tabs[page]
+    return title
   }
 
   @computed get backgroundColor() {
@@ -628,6 +634,20 @@ export default class ScreenHomeV2 extends store {
       grid: grid || initItem.grid
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 缓存多个ListView的scrollTop
+   */
+  listViewFns = {}
+  connectRef = (ref, title) => {
+    // if (IOS) {
+    //   return
+    // }
+
+    if (!this.listViewFns[title]) {
+      this.listViewFns[title] = ref.scrollToIndex
+    }
   }
 
   // -------------------- action --------------------

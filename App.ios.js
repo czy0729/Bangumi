@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 15:22:42
+ * @Last Modified time: 2020-12-05 16:28:49
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -27,9 +27,9 @@ export default function App() {
     <View style={_.container.flex}>
       <Provider theme={theme}>
         <Navigations />
+        <AppCommon />
       </Provider>
       <DeepLink />
-      <AppCommon />
     </View>
   )
 }

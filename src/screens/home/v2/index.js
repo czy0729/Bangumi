@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-27 16:22:35
+ * @Last Modified time: 2020-12-05 21:47:12
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -115,6 +115,7 @@ class Home extends React.Component {
 
   render() {
     const { $ } = this.context
+    const { isFocused } = this.props
     const { _loaded } = $.state
     return (
       <SafeAreaView style={this.style}>
@@ -124,7 +125,7 @@ class Home extends React.Component {
         <NavigationEvents onWillFocus={this.onWillFocus} />
         {$.isLogin && _loaded && (
           <>
-            <Header />
+            <Header isFocused={isFocused} />
             <Tab length={$.tabs.length} />
             <Modal />
           </>

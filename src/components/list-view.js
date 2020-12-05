@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 17:22:36
+ * @Last Modified time: 2020-12-05 21:53:17
  */
 import React from 'react'
 import {
@@ -23,6 +23,7 @@ import { LIST_EMPTY } from '@constants'
 import Flex from './flex'
 import Mesume from './mesume'
 import Text from './text'
+import ScrollToTop from './scroll-to-top'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
@@ -55,6 +56,7 @@ class ListView extends React.Component {
     optimize: true, // 是否开启长列表优化
     showFooter: true,
     showMesume: true,
+    scrollToTop: false, // 自动在顶部补充一区域, 点击列表返回到顶, 安卓用
     onHeaderRefresh: undefined,
     onFooterRefresh: undefined
   }
@@ -369,29 +371,42 @@ class ListView extends React.Component {
       optimize,
       showFooter,
       animated,
+      scrollToTop,
       ...other
     } = this.props
+    let $list
     if (sectionKey || sections) {
       if (animated) {
-        return (
+        $list = (
           <AnimatedSectionList
             sections={this.section}
             {...this.commonProps}
             {...other}
           />
         )
+      } else {
+        $list = (
+          <SectionList
+            sections={this.section}
+            {...this.commonProps}
+            {...other}
+          />
+        )
       }
-      return (
-        <SectionList sections={this.section} {...this.commonProps} {...other} />
-      )
-    }
-
-    if (animated) {
-      return (
+    } else if (animated) {
+      $list = (
         <AnimatedFlatList data={this.data} {...this.commonProps} {...other} />
       )
+    } else {
+      $list = <FlatList data={this.data} {...this.commonProps} {...other} />
     }
-    return <FlatList data={this.data} {...this.commonProps} {...other} />
+
+    return (
+      <>
+        {$list}
+        {scrollToTop && <ScrollToTop scrollToIndex={this.scrollToIndex} />}
+      </>
+    )
   }
 
   get styles() {

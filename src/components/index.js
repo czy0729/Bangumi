@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 15:09:46
+ * @Last Modified time: 2020-12-04 16:32:47
  */
 export { default as Activity } from './activity'
 export { default as Bgm } from './bgm'
@@ -32,6 +32,7 @@ export { default as Menu } from './menu'
 export { default as Mesume } from './mesume'
 export { default as Popover } from './popover'
 export { default as RenderHtml } from './render-html'
+export { default as ScrollToTop } from './scroll-to-top'
 export { default as SegmentedControl } from './segmented-control'
 export { default as Shadow } from './shadow'
 export { default as Slider } from './slider'

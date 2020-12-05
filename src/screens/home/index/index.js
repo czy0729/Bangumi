@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-08 19:32:06
+ * @Last Modified time: 2020-12-04 14:56:52
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -55,8 +55,19 @@ class Home extends React.Component {
     // App生命周期内保存首页的navigation引用
     navigationReference(navigation)
     $.init()
+    this.initUI()
+    this.updateInitialPage()
+    this.hm()
+    BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
+  }
 
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+  }
+
+  initUI = () => {
     // 注意$不能通过contextType传递进去navigation里面, 只能通过下面的方法传递
+    const { $, navigation } = this.context
     withTabsHeader.setTabs(navigation, <Tabs $={$} />)
     navigation.setParams({
       headerLeft: (
@@ -69,8 +80,9 @@ class Home extends React.Component {
       ),
       headerBackground: <HeaderBackground />
     })
-    this.updateInitialPage()
+  }
 
+  hm = () => {
     setTimeout(() => {
       const id = userStore.userInfo.username || userStore.myUserId
       t('其他.启动', {
@@ -79,12 +91,6 @@ class Home extends React.Component {
       })
       hm(`?id=${id}`, 'Home')
     }, 6400)
-
-    BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
   }
 
   onBackAndroid = () => {

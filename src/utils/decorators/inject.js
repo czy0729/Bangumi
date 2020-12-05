@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 14:17:42
+ * @Last Modified time: 2020-12-05 21:17:38
  */
 import React from 'react'
 import PropTypes from 'prop-types'
+import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
 import Stores from '@stores'
 import { urlStringify } from '../index'
@@ -60,6 +61,10 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
         }
       }
 
+      state = {
+        isFocused: true
+      }
+
       $ // 页面独立状态机引用
 
       getChildContext() {
@@ -70,8 +75,33 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
         }
       }
 
+      onWillFocus = () => {
+        if (!this.state.isFocused) {
+          this.setState({
+            isFocused: true
+          })
+        }
+      }
+
+      onWillBlur = () => {
+        if (this.state.isFocused) {
+          this.setState({
+            isFocused: false
+          })
+        }
+      }
+
       render() {
-        return <ComposedComponent />
+        const { isFocused } = this.state
+        return (
+          <>
+            <ComposedComponent isFocused={isFocused} />
+            <NavigationEvents
+              onWillFocus={this.onWillFocus}
+              onWillBlur={this.onWillBlur}
+            />
+          </>
+        )
       }
     }
   )
