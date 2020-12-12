@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 11:46:46
+ * @Last Modified time: 2020-12-12 16:10:10
  */
 import { safeObject } from '@utils'
 import { cheerio } from '@utils/html'
@@ -31,7 +31,7 @@ export function cheerioCharacters(HTML) {
             .text()
             .trim()
             .replace('/ ', ''),
-          replies: $li.find('small.na').text().trim(),
+          replies: $li.find('small.na').text().trim().replace(/\(|\)/g, ''),
           position: $li.find('span.badge_job').text().trim(),
           info: $li.find('div.crt_info span.tip').text().trim(),
           actorId: String($actorA.attr('href') || '').replace('/person/', ''),

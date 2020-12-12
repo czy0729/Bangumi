@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-23 16:55:57
+ * @Last Modified time: 2020-12-12 17:46:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -51,6 +51,7 @@ class RakuenHistory extends React.Component {
         style={_.container.screen}
         keyExtractor={keyExtractor}
         sections={$.sections}
+        scrollToTop
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
       />

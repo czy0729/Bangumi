@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:50:30
+ * @Last Modified time: 2020-12-12 17:41:33
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import cheerio from 'cheerio-without-node-native'
-import { Text, Input, Button, KeyboardSpacer } from '@components'
+import { ScrollView, Text, Input, Button, KeyboardSpacer } from '@components'
 import { _, userStore } from '@stores'
 import { copy, getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
@@ -284,6 +284,7 @@ class LoginAssist extends React.Component {
       <ScrollView
         style={_.container.plain}
         contentContainerStyle={this.styles.container}
+        scrollToTop
       >
         <Text type='danger' size={12}>
           此为登陆最后的手段，流程相对较多 (其实不复杂，

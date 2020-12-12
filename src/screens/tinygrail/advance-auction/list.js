@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 17:32:35
+ * @Last Modified time: 2020-12-12 19:59:14
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -36,6 +36,7 @@ function List(props, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={$.computedList}
+      scrollToTop
       renderItem={({ item, index }) => (
         <ItemAdvance
           index={item._index || index}

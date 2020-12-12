@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 23:24:38
+ * @Last Modified time: 2020-12-12 15:21:28
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -95,6 +95,7 @@ class SubjectCatalogs extends React.Component {
         keyExtractor={keyExtractor}
         data={$.list}
         renderItem={this.renderItem}
+        scrollToTop
         onHeaderRefresh={() => $.fetchSubjectCatalogs(true)}
         onFooterRefresh={$.fetchSubjectCatalogs}
       />

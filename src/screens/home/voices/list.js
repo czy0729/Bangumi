@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 21:45:58
+ * @Last Modified time: 2020-12-12 17:33:06
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -49,6 +49,7 @@ class List extends React.Component {
         contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={$.monoVoices}
+        scrollToTop
         renderItem={this.renderItem}
         onHeaderRefresh={$.onHeaderRefresh}
       />

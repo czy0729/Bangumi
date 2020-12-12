@@ -3,12 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-08-31 15:45:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-26 11:13:11
+ * @Last Modified time: 2020-12-12 18:37:54
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
-import { RenderHtml, Flex, Button } from '@components'
+import { ScrollView, RenderHtml, Flex, Button } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils/app'
 import { withHeader } from '@utils/decorators'
@@ -66,6 +65,7 @@ class UGCAgree extends React.Component {
       <ScrollView
         style={[_.container.screen, _.container.outer]}
         contentContainerStyle={_.container.bottom}
+        scrollToTop
       >
         <RenderHtml
           html={html}

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:35:42
+ * @Last Modified time: 2020-12-12 21:33:46
  */
 import React from 'react'
-import { ScrollView, RefreshControl } from 'react-native'
+import { RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
-import { Text } from '@components'
+import { ScrollView, Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
@@ -139,6 +139,7 @@ class TinygrailSacrifice extends React.Component {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
+        scrollToTop
       >
         <StatusBarEvents />
         <Info />

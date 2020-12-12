@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:53:17
+ * @Last Modified time: 2020-12-12 17:47:17
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex } from '@components'
+import { ScrollView, Flex } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -65,6 +64,7 @@ class Mine extends React.Component {
       <ScrollView
         style={_.container.plain}
         contentContainerStyle={_.container.outer}
+        scrollToTop
       >
         <Flex wrap='wrap'>
           {list.map(item => (

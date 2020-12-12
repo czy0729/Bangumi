@@ -2,12 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-21 15:38:14
+ * @Last Modified time: 2020-12-12 18:42:16
  */
 import React from 'react'
-import { InteractionManager, ScrollView, View } from 'react-native'
+import { InteractionManager, View } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
-import { Flex, Text, SwitchPro, SegmentedControl } from '@components'
+import {
+  ScrollView,
+  Flex,
+  Text,
+  SwitchPro,
+  SegmentedControl
+} from '@components'
 import {
   Popover,
   ItemSetting,
@@ -1028,6 +1034,7 @@ class Setting extends React.Component {
       <ScrollView
         style={_.container.plain}
         contentContainerStyle={_.container.bottom}
+        scrollToTop
       >
         <NavigationBarEvents />
         {this.renderUser()}

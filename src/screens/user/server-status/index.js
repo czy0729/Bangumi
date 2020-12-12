@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-03 19:38:52
+ * @Last Modified time: 2020-12-12 18:41:48
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
-import { Flex, Text, Button, Activity } from '@components'
+import { View } from 'react-native'
+import { ScrollView, Flex, Text, Button, Activity } from '@components'
 import { _ } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -298,6 +298,7 @@ class ServerStatus extends React.Component {
         <ScrollView
           style={_.container.plain}
           contentContainerStyle={this.styles.contentContainerStyle}
+          scrollToTop
         >
           <Text style={_.mt.md} size={10} type='sub' lineHeight={12}>
             {msDesc}

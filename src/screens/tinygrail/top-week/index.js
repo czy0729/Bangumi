@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:20:52
+ * @Last Modified time: 2020-12-12 21:42:51
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text, Touchable } from '@components'
+import { ScrollView, Flex, Text, Touchable } from '@components'
 import { Avatar, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
@@ -68,6 +68,7 @@ class TinygrailTopWeek extends React.Component {
         <ScrollView
           style={_.container.flex}
           contentContainerStyle={_.container.bottom}
+          scrollToTOP
         >
           {list.map((item, index) => {
             let changeColor

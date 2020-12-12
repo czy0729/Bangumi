@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-26 20:47:46
+ * @Last Modified time: 2020-12-12 18:38:32
  */
 import React from 'react'
-import { View, ScrollView } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import {
+  ScrollView,
   Loading,
   Touchable,
   Flex,
@@ -143,7 +144,7 @@ class Comic extends React.Component {
 
     const { list } = origins
     return (
-      <ScrollView style={_.container.screen}>
+      <ScrollView style={_.container.screen} scrollToTop>
         <Flex style={this.styles.search}>
           <Flex.Item>
             <Input

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:45:58
+ * @Last Modified time: 2020-12-12 17:46:20
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
+import { ScrollView } from '@components'
 import { Pagination, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -135,6 +136,7 @@ class RakuenGroup extends React.Component {
           style={_.container.content}
           contentContainerStyle={_.container.bottom}
           scrollEventThrottle={16}
+          scrollToTop
           onScroll={this.onScroll}
           {...withTransitionHeader.listViewProps}
         >

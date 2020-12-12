@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:50:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 22:50:44
+ * @Last Modified time: 2020-12-12 17:16:46
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,8 +11,9 @@ import { ListView, Loading } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
-import Item from './item'
 import { MODEL_RATING_STATUS } from '@constants/model'
+import Item from './item'
+import { routes } from './store'
 
 function List({ title }, { $ }) {
   const status = MODEL_RATING_STATUS.getValue(title)
@@ -21,7 +22,7 @@ function List({ title }, { $ }) {
     return <Loading />
   }
 
-  const { isFriend } = $.state
+  const { isFriend, page } = $.state
   return (
     <ListView
       key={isFriend ? '1' : '0'}
@@ -30,6 +31,7 @@ function List({ title }, { $ }) {
       keyExtractor={keyExtractor}
       data={data}
       numColumns={2}
+      scrollToTop={routes[page].title === title}
       renderItem={renderItem}
       onEndReachedThreshold={0.2}
       onHeaderRefresh={() => $.fetchRating(true)}

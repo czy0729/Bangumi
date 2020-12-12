@@ -2,11 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 17:28:15
+ * @Last Modified time: 2020-12-12 18:36:59
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
-import { Text, SwitchPro, Flex, SegmentedControl } from '@components'
+import { View } from 'react-native'
+import {
+  ScrollView,
+  Text,
+  SwitchPro,
+  Flex,
+  SegmentedControl
+} from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, rakuenStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
@@ -172,6 +178,7 @@ class RakuenSetting extends React.Component {
       <ScrollView
         style={_.container.plain}
         contentContainerStyle={_.container.bottom}
+        scrollToTop
       >
         {this.renderTopic()}
         <View style={this.styles.split} />

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 14:58:03
+ * @Last Modified time: 2020-12-12 16:14:30
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { toJS } from 'mobx'
-import { Flex, Text, Touchable, Image } from '@components'
+import { ScrollView, Flex, Text, Touchable, Image } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -114,6 +114,7 @@ class Episodes extends React.Component {
       <ScrollView
         style={_.container.plain}
         contentContainerStyle={_.container.bottom}
+        scrollToTop
       >
         {this.eps.map((item, index) => (
           <Touchable

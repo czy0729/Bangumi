@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-21 18:14:22
+ * @Last Modified time: 2020-12-12 17:43:47
  */
 import React from 'react'
 import { InteractionManager, Alert, StyleSheet, View } from 'react-native'
@@ -261,6 +261,7 @@ class Blog extends React.Component {
           scrollEventThrottle={16}
           initialNumToRender={50}
           removeClippedSubviews={false}
+          scrollToTop
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
           onScroll={this.onScroll}

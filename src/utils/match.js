@@ -2,18 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 17:07:29
+ * @Last Modified time: 2020-12-12 16:01:52
  */
 
 /**
  * 匹配头像地址
+ *
+ * @eg background-image:url('//lain.bgm.tv/pic/user/s/icon.jpg')
  * @eg background-image:url('//lain.bgm.tv/pic/user/m/000/47/44/474489.jpg?r=1563699148')
  * @url https://jsperf.com/czy0729-001
  * @param {*} str
  */
 export function matchAvatar(str = '', start = 22) {
   const index = str.indexOf('?')
-  return str.substring(start, index === -1 ? str.length - 2 : index)
+  const avatar = str.substring(start, index === -1 ? str.length - 2 : index)
+  return avatar.includes('.jpg') ? avatar : '//lain.bgm.tv/pic/user/s/icon.jpg'
 }
 
 /**

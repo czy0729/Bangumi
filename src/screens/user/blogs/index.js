@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:05:12
+ * @Last Modified time: 2020-12-12 18:40:01
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -62,6 +62,7 @@ class Blogs extends React.Component {
         style={_.container.plain}
         data={$.blogs}
         keyExtractor={keyExtractor}
+        scrollToTop
         renderItem={this.renderItem}
         onHeaderRefresh={$.refresh}
         onFooterRefresh={() => $.fetchBlogs()}

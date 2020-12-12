@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 20:21:07
+ * @Last Modified time: 2020-12-12 16:50:23
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -45,6 +45,7 @@ class List extends React.Component {
       return <Loading />
     }
 
+    log($.persons)
     return (
       <ListView
         contentContainerStyle={this.styles.contentContainerStyle}

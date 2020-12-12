@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 23:18:51
+ * @Last Modified time: 2020-12-12 17:18:22
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -155,11 +155,15 @@ export async function fetchMono({ monoId = 0 }) {
         node = findTreeNode(children, 'div > div > span')
         const staff = node ? node[0].text[0] : ''
 
+        node = findTreeNode(children, 'div > div > h3 > span')
+        const type = node ? String(node[0].attrs.class).substring(30, 31) : ''
+
         mono.works.push({
           href,
           name: HTMLDecode(name),
           cover,
-          staff
+          staff,
+          type
         })
       })
     }
@@ -197,6 +201,9 @@ export async function fetchMono({ monoId = 0 }) {
         node = findTreeNode(children, 'ul > li > a > img')
         const castCover = node ? String(node[0].attrs.src).split('?')[0] : ''
 
+        node = findTreeNode(children, 'div > div > h3 > span')
+        const type = node ? String(node[0].attrs.class).substring(30, 31) : ''
+
         mono.jobs.push({
           href,
           name: HTMLDecode(name),
@@ -206,7 +213,8 @@ export async function fetchMono({ monoId = 0 }) {
           cast,
           castHref,
           castTag,
-          castCover
+          castCover,
+          type
         })
       })
     }
@@ -582,11 +590,13 @@ export function cheerioRating(HTML) {
             name,
             time,
             star: starText ? parseInt(starText.match(/\d+/)[0]) : 0,
-            comment: $li
-              .find('div.userContainer')
-              .text()
-              .trim()
-              .replace(`${name}\n${time}`, '')
+            comment: HTMLDecode(
+              $li
+                .find('div.userContainer')
+                .text()
+                .trim()
+                .replace(`${name}\n${time}`, '')
+            )
           })
         })
         .get() || []

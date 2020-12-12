@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 11:08:01
+ * @Last Modified time: 2020-12-12 18:42:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,6 +53,7 @@ class UserTimeline extends React.Component {
       <ListView
         style={_.container.plain}
         data={$.timeline}
+        scrollToTop
         ListHeaderComponent={
           <>
             <MosaicTile />

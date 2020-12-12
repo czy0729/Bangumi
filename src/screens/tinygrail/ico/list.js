@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:13:14
+ * @Last Modified time: 2020-12-12 20:07:15
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -32,6 +32,7 @@ function List({ id }, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={list}
+      scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchList(id)}
     />

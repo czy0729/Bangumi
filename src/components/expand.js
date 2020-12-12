@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-28 16:38:32
+ * @Last Modified time: 2020-12-12 15:31:23
  */
 import React, { useState, useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   linear: {
     position: 'absolute',
     right: 0,
-    bottom: 0,
+    bottom: -2,
     left: 0,
     height: 64
   },

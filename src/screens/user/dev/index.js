@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-08-29 15:46:53
+ * @Last Modified time: 2020-12-12 18:40:42
  */
 import React from 'react'
-import { ScrollView, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { Text, Switch, Touchable, Button } from '@components'
+import { ScrollView, Text, Switch, Touchable, Button } from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, systemStore, userStore } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
@@ -81,6 +81,7 @@ class DEV extends React.Component {
       <ScrollView
         style={this.styles.screen}
         contentContainerStyle={this.styles.container}
+        scrollToTop
       >
         {this.rederOptions()}
         {this.renderView('CDN', [ota])}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-22 16:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 16:28:25
+ * @Last Modified time: 2020-12-12 18:33:41
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -18,14 +18,25 @@ function List({ id, title }, { $, navigation }) {
   let props
   if (title === '提醒') {
     props = {
-      renderItem: ({ item, index }) => (
-        <ItemNotify
-          navigation={navigation}
-          index={index}
-          event={event}
-          {...item}
-        />
-      ),
+      renderItem: ({ item, index }) => {
+        const nextItem = $[id].list[index + 1]
+        if (
+          nextItem &&
+          `${nextItem.userId}|${nextItem.title}|${nextItem.message}|${nextItem.message2}` ===
+            `${item.userId}|${item.title}|${item.message}|${item.message2}`
+        ) {
+          return null
+        }
+
+        return (
+          <ItemNotify
+            navigation={navigation}
+            index={index}
+            event={event}
+            {...item}
+          />
+        )
+      },
       onHeaderRefresh: $.fetchNotify
     }
   } else {

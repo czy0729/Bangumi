@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:13:35
+ * @Last Modified time: 2020-12-12 21:01:49
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -48,6 +48,7 @@ function List(props, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={_list}
+      scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchValhallList}
     />

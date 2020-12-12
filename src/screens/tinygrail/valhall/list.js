@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:10:59
+ * @Last Modified time: 2020-12-12 21:43:53
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import Item from '../_/item'
-import { levelList, sortList } from '../_/utils'
 
 const event = {
   id: '英灵殿.跳转'
@@ -33,6 +32,7 @@ function List(props, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={$.computedList}
+      scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchValhallList}
     />

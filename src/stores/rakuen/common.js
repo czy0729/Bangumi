@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-12 14:05:28
+ * @Last Modified time: 2020-12-12 17:49:18
  */
 import { safeObject, trim } from '@utils'
 import { getCoverSmall } from '@utils/app'
@@ -259,9 +259,9 @@ export function analysisGroup(HTML) {
         href: $title.attr('href'),
         title: $title.attr('title'),
         userId: $user.attr('href').replace('/user/', ''),
-        userName: $user.text(),
-        replies: $tr.find('.posts').text(),
-        time: $tr.find('.time').text()
+        userName: HTMLDecode($user.text().trim()),
+        replies: $tr.find('.posts').text().trim(),
+        time: $tr.find('.time').text().trim()
       }
     })
     .get()
@@ -315,7 +315,9 @@ export function cheerioTopic(HTML) {
     // 主楼
     const $group = $('#pageHeader a.avatar')
     const $user = $('div.postTopic strong > a.l')
-    const [floor, time] = ($('div.postTopic div.re_info > small').text().trim() || '')
+    const [floor, time] = (
+      $('div.postTopic div.re_info > small').text().trim() || ''
+    )
       .split('/')[0]
       .split(' - ')
     const titleText = $('#pageHeader > h1').text().trim() || ''
@@ -375,7 +377,10 @@ export function cheerioTopic(HTML) {
             time,
             userId: matchUserId($row.find('a.avatar').attr('href')),
             userName:
-              $row.find('> div.inner > span.userInfo > strong > a.l').text().trim() ||
+              $row
+                .find('> div.inner > span.userInfo > strong > a.l')
+                .text()
+                .trim() ||
               $row.find('> div.inner > strong > a.l').text().trim(),
             userSign: HTMLDecode($row.find('span.tip_j').text().trim()),
             erase: $row.find('> div.re_info a.erase_post').attr('href'),

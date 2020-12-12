@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-21 18:14:06
+ * @Last Modified time: 2020-12-12 18:37:24
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -345,6 +345,7 @@ class Topic extends React.Component {
           initialNumToRender={96}
           maxToRenderPerBatch={96}
           updateCellsBatchingPeriod={96}
+          scrollToTop
           ListHeaderComponent={ListHeaderComponent}
           renderItem={this.renderItem}
           onScroll={this.onScroll}

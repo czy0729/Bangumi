@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-21 18:01:42
+ * @Last Modified time: 2020-12-12 21:43:14
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { Flex, Button, Touchable, UM } from '@components'
+import { ScrollView, Flex, Button, Touchable, UM } from '@components'
 import { SafeAreaView, StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
@@ -120,6 +120,7 @@ class TinygrailTrade extends React.Component {
           <ScrollView
             style={[_.container.flex, this.styles.dark]}
             contentContainerStyle={this.styles.contentContainerStyle}
+            scrollToTop
           >
             <View style={this.styles.kline}>
               <KLine focus={focus} />

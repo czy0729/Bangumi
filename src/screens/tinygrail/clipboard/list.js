@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 17:55:35
+ * @Last Modified time: 2020-12-12 20:07:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -28,6 +28,7 @@ function List(props, { $ }) {
       footerTextType='tinygrailText'
       footerEmptyDataText='您可以复制带有bgm人物链接或id的文字, 进入本页面后会自动获取所有角色id, 获取角色数据并生成列表'
       data={$.list}
+      scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchValhallList}
     />

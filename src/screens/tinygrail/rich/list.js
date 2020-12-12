@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:13:40
+ * @Last Modified time: 2020-12-12 21:20:23
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import Item from './item'
+import { tabs } from './store'
 
 function List({ id, title }, { $ }) {
   const rich = $.rich(id)
@@ -44,6 +45,7 @@ function List({ id, title }, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={data}
+      scrollToTop={tabs[$.state.page].title === title}
       renderItem={({ item, index }) => (
         <Item
           index={index}

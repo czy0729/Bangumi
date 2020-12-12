@@ -3,11 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 19:43:04
+ * @Last Modified time: 2020-12-12 18:41:29
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
-import { Flex, Text, Image } from '@components'
+import { ScrollView, Flex, Text, Image } from '@components'
 import { _ } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 
@@ -29,6 +28,7 @@ class Qiafan extends React.Component {
       <ScrollView
         style={_.container.plain}
         contentContainerStyle={_.container.outer}
+        scrollToTop
       >
         <Text size={15} lineHeight={18}>
           　　自19年2月依赖项目已持续开发快两年。最初仅是为练手而建立，也是第一次做app，后来发现很有趣便一直开发至今。回头一算，发电时间也许已经超过1万小时。
@@ -52,7 +52,7 @@ class Qiafan extends React.Component {
           　　目前定义为：只有源站点没有的功能才能成为高级功能，并且普通用户也能使用，只会在不影响使用的程度内进行限制，以避免滥用。
         </Text>
         <Text style={_.mt.sm} size={15} lineHeight={18}>
-        　　为了能继续发展，部分功能可能会突然消失，懂的都懂(bgm38)。
+          　　为了能继续发展，部分功能可能会突然消失，懂的都懂(bgm38)。
         </Text>
         <Text
           style={{

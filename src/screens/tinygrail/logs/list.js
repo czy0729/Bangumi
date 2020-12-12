@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:13:20
+ * @Last Modified time: 2020-12-12 20:45:25
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import Item from './item'
+import { tabs } from './store'
 
 function List({ title }, { $ }) {
   if (!$.balance._loaded) {
@@ -78,6 +79,7 @@ function List({ title }, { $ }) {
       break
   }
 
+  const { page } = $.state
   return (
     <ListView
       style={_.container.flex}
@@ -88,6 +90,7 @@ function List({ title }, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={data}
+      scrollToTop={tabs[page].title === title}
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchBalance()}
     />

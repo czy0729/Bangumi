@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 17:02:46
+ * @Last Modified time: 2020-12-12 18:43:02
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Image, Text, Input, Touchable } from '@components'
+import { ScrollView, Flex, Image, Text, Input, Touchable } from '@components'
 import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -226,7 +226,10 @@ class UserSetting extends React.Component {
     return (
       <View style={this.style}>
         {this.renderPreview()}
-        <ScrollView contentContainerStyle={this.styles.contentContainerStyle}>
+        <ScrollView
+          contentContainerStyle={this.styles.contentContainerStyle}
+          scrollToTop
+        >
           {this.renderForm()}
           {this.renderOnlineBgs()}
         </ScrollView>

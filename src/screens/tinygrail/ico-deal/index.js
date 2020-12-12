@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:41:54
+ * @Last Modified time: 2020-12-12 20:07:40
  */
 import React from 'react'
-import { ScrollView, RefreshControl } from 'react-native'
+import { RefreshControl } from 'react-native'
 import PropTypes from 'prop-types'
+import { ScrollView } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -72,6 +73,7 @@ class TinygrailICODeal extends React.Component {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
         }
+        scrollToTop
       >
         <StatusBarEvents />
         <Info />

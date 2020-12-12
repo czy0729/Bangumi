@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 20:16:42
+ * @Last Modified time: 2020-12-12 17:25:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -141,11 +141,11 @@ function ItemSearch({
             )}
             <Flex style={_.mt.md}>
               <Stars style={_.mr.xs} value={score} color='warning' />
-              <Text style={_.mr.sm} type='sub' size={12}>
-                {total}
+              <Text style={_.mr.sm} type='sub' size={11}>
+                {total.replace('人评分', '')}
               </Text>
               {!!rank && (
-                <Text type='primary' size={12} bold>
+                <Text type='primary' size={11} bold>
                   #{rank}{' '}
                 </Text>
               )}

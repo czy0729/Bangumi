@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 10:03:29
+ * @Last Modified time: 2020-12-12 17:32:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,10 @@ function ItemVoice({
   const styles = memoStyles()
   return (
     <View style={[styles.item, style]}>
-      <Flex style={[styles.wrap, index !== 0 && styles.border]} align='start'>
+      <Flex
+        style={[styles.wrap, index !== 0 && !_.flat && styles.border]}
+        align='start'
+      >
         <Flex.Item flex={2}>
           <Flex align='start'>
             <Image
@@ -52,9 +55,11 @@ function ItemVoice({
               }}
             />
             <Flex.Item style={_.ml.sm}>
-              <Text bold>{name}</Text>
-              {!!nameCn && (
-                <Text style={_.mt.xs} size={13} type='sub'>
+              <Text size={13} bold>
+                {name}
+              </Text>
+              {!!nameCn && nameCn !== name && (
+                <Text style={_.mt.xs} size={11} type='sub'>
                   {nameCn}
                 </Text>
               )}
@@ -65,11 +70,13 @@ function ItemVoice({
           {subject.map((item, idx) => (
             <Flex key={item.id} style={idx !== 0 && _.mt.md} align='start'>
               <Flex.Item>
-                <Text align='right'>{item.name}</Text>
+                <Text align='right' size={13}>
+                  {item.name}
+                </Text>
                 <Flex style={_.mt.xs} align='start'>
                   <Flex.Item>
                     <Text
-                      size={13}
+                      size={11}
                       type='sub'
                       align='right'
                       lineHeight={14}
@@ -78,12 +85,13 @@ function ItemVoice({
                       {item.nameCn}
                     </Text>
                   </Flex.Item>
-                  <Tag style={_.ml.xs} value={item.staff} />
+                  <Tag style={styles.tag} value={item.staff} />
                 </Flex>
               </Flex.Item>
               <Cover
                 style={_.ml.sm}
-                size={40}
+                size={48}
+                height={62}
                 src={item.cover}
                 radius
                 shadow
@@ -128,5 +136,9 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  tag: {
+    marginTop: 2,
+    marginLeft: _.xs
   }
 }))

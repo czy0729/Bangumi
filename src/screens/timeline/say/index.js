@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-11 14:16:27
+ * @Last Modified time: 2020-12-12 18:39:12
  */
 import React from 'react'
-import { View, ScrollView } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { FixedTextarea, Flex } from '@components'
+import { ScrollView, FixedTextarea, Flex } from '@components'
 import { NavigationBarEvents, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -133,6 +133,7 @@ class Say extends React.Component {
           ref={this.connectRefScrollView}
           style={_.container.screen}
           contentContainerStyle={this.styles.list}
+          scrollToTop
         >
           <Chat />
         </ScrollView>

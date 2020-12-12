@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 19:43:53
+ * @Last Modified time: 2020-12-12 17:34:22
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -78,6 +78,7 @@ class List extends React.Component {
         contentContainerStyle={list ? this.styles.list : this.styles.grid}
         keyExtractor={keyExtractor}
         data={$.monoWorks}
+        scrollToTop
         renderItem={this.renderItem}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchMonoWorks}

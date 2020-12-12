@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 17:49:15
+ * @Last Modified time: 2020-12-12 16:07:49
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -49,6 +49,7 @@ class List extends React.Component {
         contentContainerStyle={this.styles.contentContainerStyle}
         keyExtractor={keyExtractor}
         data={$.characters}
+        scrollToTop
         renderItem={this.renderItem}
       />
     )

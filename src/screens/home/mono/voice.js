@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 15:53:00
+ * @Last Modified time: 2020-12-12 17:14:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -74,7 +74,7 @@ function Voice({ style }, { $, navigation }) {
                 </Flex.Item>
               </Flex>
             </Flex.Item>
-            <Flex.Item style={_.ml.sm} flex={3.2}>
+            <Flex.Item style={_.ml.sm} flex={3.8}>
               <Flex align='start'>
                 <Flex.Item>
                   <Text style={_.mt.xs} align='right' size={12}>
@@ -92,7 +92,7 @@ function Voice({ style }, { $, navigation }) {
                         {item.subjectNameCn}
                       </Text>
                     </Flex.Item>
-                    <Tag style={styles.tag} value={item.staff} />
+                    <Tag style={_.ml.xs} value={item.staff} />
                   </Flex>
                 </Flex.Item>
                 <Cover
@@ -137,9 +137,5 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
-  },
-  tag: {
-    marginTop: 2,
-    marginLeft: _.xs
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:13:06
+ * @Last Modified time: 2020-12-12 20:06:21
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,6 +12,7 @@ import { t } from '@utils/fetch'
 import { observer } from '@utils/decorators'
 import ItemTemple from '../_/item-temple'
 import ItemEdit from './item-edit'
+import { tabs } from './store'
 
 const event = {
   id: '我的持仓.跳转'
@@ -23,6 +24,7 @@ function List({ id }, { $, navigation }) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
+  const { page } = $.state
   const isChara = id === 'chara'
   const isTemple = id === 'temple'
   let data
@@ -46,6 +48,7 @@ function List({ id }, { $, navigation }) {
       }}
       footerTextType='tinygrailText'
       data={data}
+      scrollToTop={id === tabs[page].key}
       numColumns={numColumns}
       renderItem={({ item, index }) => {
         if (isTemple) {

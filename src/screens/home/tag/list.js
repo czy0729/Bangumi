@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 17:21:50
+ * @Last Modified time: 2020-12-12 17:21:24
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -107,6 +107,7 @@ class List extends React.Component {
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
         data={$.tag}
+        scrollToTop
         renderItem={this.renderItem}
         onHeaderRefresh={this.onHeaderRefresh}
         onFooterRefresh={this.onFooterRefresh}

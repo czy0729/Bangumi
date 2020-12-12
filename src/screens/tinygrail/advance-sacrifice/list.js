@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:20:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:12:45
+ * @Last Modified time: 2020-12-12 19:59:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -38,6 +38,7 @@ function List(props, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={$.advanceSacrificeList}
+      scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchAdvanceSacrificeList}
     />

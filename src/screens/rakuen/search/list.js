@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 20:20:59
+ * @Last Modified time: 2020-12-12 18:37:03
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -53,6 +53,7 @@ class List extends React.Component {
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={$.search}
+        scrollToTop
         renderItem={this.renderItem}
         ListFooterComponent={ListFooterComponent}
         onFooterRefresh={$.doSearch}

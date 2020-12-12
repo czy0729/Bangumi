@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:14:07
+ * @Last Modified time: 2020-12-12 21:38:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,6 +60,7 @@ class TinygrailTemples extends React.Component {
             footerTextType='tinygrailText'
             numColumns={3}
             data={$.templeLast}
+            scrollToTop
             renderItem={renderItem}
             onHeaderRefresh={$.onHeaderRefresh}
             onFooterRefresh={$.fetchTempleLast}

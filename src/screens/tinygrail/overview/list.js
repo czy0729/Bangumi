@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:13:31
+ * @Last Modified time: 2020-12-12 19:55:43
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import Item from '../_/item'
+import { tabs } from './store'
 
 const event = {
   id: '热门榜单.跳转'
@@ -22,6 +23,7 @@ function List({ id }, { $ }) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
+  const { page } = $.state
   return (
     <ListView
       style={_.container.flex}
@@ -32,6 +34,7 @@ function List({ id }, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={list}
+      scrollToTop={tabs[page].key === id}
       renderItem={renderItem}
       onHeaderRefresh={() => $.fetchList(id)}
     />

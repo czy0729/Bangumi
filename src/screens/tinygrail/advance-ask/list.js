@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:55:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 17:24:00
+ * @Last Modified time: 2020-12-12 19:57:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -38,6 +38,7 @@ function List(props, { $ }) {
       }}
       footerTextType='tinygrailText'
       data={$.computedList}
+      scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.fetchAdvanceList}
     />

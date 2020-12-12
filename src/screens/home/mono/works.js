@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 15:55:01
+ * @Last Modified time: 2020-12-12 17:09:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { Flex, Text } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate, findSubjectCn } from '@utils/app'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import SectionRight from './section-right'
 
 const event = {
@@ -48,6 +49,7 @@ function Works({ style }, { $, navigation }) {
               src={item.cover}
               radius
               shadow
+              type={MODEL_SUBJECT_TYPE.getTitle(item.type)}
               onPress={() =>
                 appNavigate(
                   item.href,
@@ -61,7 +63,7 @@ function Works({ style }, { $, navigation }) {
                 )
               }
             />
-            <Flex.Item style={_.ml.sm}>
+            <Flex.Item style={styles.content}>
               <Flex align='start'>
                 <Flex.Item>
                   <Text style={styles.text} bold size={12}>
@@ -100,6 +102,9 @@ const memoStyles = _.memoStyles(_ => ({
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
+  },
+  content: {
+    marginLeft: _.sm + 4
   },
   text: {
     width: '66%',

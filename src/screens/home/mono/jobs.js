@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 15:48:16
+ * @Last Modified time: 2020-12-12 17:10:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { Flex, Image, Text } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate, getCoverMedium } from '@utils/app'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const event = {
   id: '人物.跳转',
@@ -44,6 +45,7 @@ function Jobs({ style }, { $, navigation }) {
                   src={item.cover}
                   radius
                   shadow
+                  type={MODEL_SUBJECT_TYPE.getTitle(item.type)}
                   onPress={() =>
                     appNavigate(
                       item.href,
@@ -57,7 +59,7 @@ function Jobs({ style }, { $, navigation }) {
                     )
                   }
                 />
-                <Flex.Item style={_.ml.sm}>
+                <Flex.Item style={styles.content}>
                   <Flex align='start'>
                     <Text style={_.mt.xs} size={12} bold numberOfLines={3}>
                       {item.name}
@@ -134,6 +136,9 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     paddingVertical: _.md,
     paddingRight: _.wind
+  },
+  content: {
+    marginLeft: _.sm + 4
   },
   border: {
     borderTopColor: _.colorBorder,

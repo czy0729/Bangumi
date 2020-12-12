@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-22 00:35:33
+ * @Last Modified time: 2020-12-12 17:40:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,7 +52,6 @@ function Disc({ style }, { $, navigation }) {
                       style={[styles.item, idx % 2 === 0 && styles.odd]}
                     >
                       <Text
-                        lineHeight={20}
                         onPress={() =>
                           appNavigate(
                             i.href,
@@ -70,7 +69,7 @@ function Disc({ style }, { $, navigation }) {
                       >
                         {i.title}
                         {!!translate && (
-                          <Text type='sub' size={12} lineHeight={20}>
+                          <Text type='sub' size={12} lineHeight={14}>
                             {' '}
                             {translate}
                           </Text>
@@ -100,7 +99,8 @@ const memoStyles = _.memoStyles(_ => ({
     minHeight: 96
   },
   item: {
-    paddingHorizontal: _.sm
+    paddingHorizontal: _.sm,
+    paddingVertical: _.sm
   },
   odd: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)

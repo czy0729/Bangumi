@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-20 11:26:50
+ * @Last Modified time: 2020-12-12 18:41:13
  */
 import React from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { FixedTextarea, Input, Text, Loading } from '@components'
+import { ScrollView, FixedTextarea, Input, Text, Loading } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import Chat from './chat'
@@ -89,6 +89,7 @@ class PM extends React.Component {
             ref={this.connectRefScrollView}
             style={_.container.screen}
             contentContainerStyle={_.container.bottom}
+            scrollToTop
           >
             <Chat />
           </ScrollView>

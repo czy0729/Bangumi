@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 18:36:47
+ * @Last Modified time: 2020-12-12 16:00:39
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLDecode } from '@utils/html'
@@ -120,6 +120,7 @@ export function analysisCatalogDetail(HTML) {
   } else {
     joinUrl = href
   }
+
   return {
     list: list.filter(item => !item.id.includes('ep/')),
     title: $('div#header > h1').text().trim(),
