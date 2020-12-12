@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 17:58:53
+ * @Last Modified time: 2020-12-08 21:05:30
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -42,6 +42,13 @@ class Timeline extends React.Component {
     const { $ } = this.context
     $.init()
     hm('timeline', 'Timeline')
+  }
+
+  componentWillReceiveProps({ isFocused }) {
+    const { $ } = this.context
+    $.setState({
+      isFocused
+    })
   }
 
   get style() {

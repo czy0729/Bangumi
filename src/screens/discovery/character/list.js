@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 20:13:39
+ * @Last Modified time: 2020-12-11 16:51:18
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -44,6 +44,7 @@ class List extends React.Component {
       return <Loading style={_.container.screen} />
     }
 
+    const { page } = $.state
     const numColumns = this.isRecents ? undefined : 5
     return (
       <ListView
@@ -52,6 +53,7 @@ class List extends React.Component {
         keyExtractor={keyExtractor}
         data={list}
         numColumns={numColumns}
+        scrollToTop={$.tabs[page].key === id}
         renderItem={this.renderItem}
         onHeaderRefresh={() => $.fetchList(id, true)}
         onFooterRefresh={() => $.fetchList(id)}

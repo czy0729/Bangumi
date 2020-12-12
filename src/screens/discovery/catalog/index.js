@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 17:53:49
+ * @Last Modified time: 2020-12-11 12:13:02
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
+import { ScrollView } from '@components'
 import { Pagination, ItemCatalog } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -71,6 +72,7 @@ class Catalog extends React.Component {
         style={_.container.bg}
         contentContainerStyle={_.container.bottom}
         showsVerticalScrollIndicator={false}
+        scrollToTop
       >
         {this.renderPaganation(_.mt.md)}
         {show && (

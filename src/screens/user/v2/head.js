@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-11 00:12:45
+ * @Last Modified time: 2020-12-10 19:27:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,17 +16,19 @@ function Head({ style }, { $, navigation }) {
   const { avatar = {}, nickname, id, username } = $.usersInfo
   const { userId } = $.params
   const isMe = !userId || userId === $.myUserId
+  const src = $.avatar || avatar.large
   return (
     <Flex style={style} justify='center' direction='column'>
       <View>
         <Image
           style={_.mt.md}
+          key={src}
           size={88}
           radius={44}
           border={_.__colorPlain__}
           borderWidth={2}
           shadow
-          src={$.avatar || avatar.large}
+          src={src}
           onPress={() => {
             t('我的.跳转', {
               to: 'UserSetting'

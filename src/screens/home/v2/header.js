@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 21:19:54
+ * @Last Modified time: 2020-12-07 16:09:48
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, ScrollToTop } from '@components'
+import { Flex } from '@components'
 import { Logo, IconNotify, IconTinygrail, IconTabsHeader } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -18,13 +18,9 @@ const event = {
   id: '首页.跳转'
 }
 
-function Header({ isFocused }, { $, navigation }) {
+function Header(props, { navigation }) {
   return (
     <Flex style={styles.header}>
-      <ScrollToTop
-        isFocused={isFocused}
-        onPress={() => ScrollToTop.scrollToTop($.listViewFns[$.title])}
-      />
       <Flex style={styles.icons}>
         <IconNotify
           style={[styles.icon, _.mr.sm]}
@@ -59,7 +55,6 @@ function Header({ isFocused }, { $, navigation }) {
 }
 
 Header.contextTypes = {
-  $: PropTypes.object,
   navigation: PropTypes.object
 }
 

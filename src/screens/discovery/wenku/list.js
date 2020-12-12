@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
- * @Last Modified by:   czy0729
- * @Last Modified time: 2020-09-02 18:21:41
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2020-12-12 15:15:38
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -32,6 +32,7 @@ class List extends React.Component {
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={data}
+        scrollToTop
         ListHeaderComponent={<Filter />}
         renderItem={renderItem}
       />

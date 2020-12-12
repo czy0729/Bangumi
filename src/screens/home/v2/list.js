@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 21:46:36
+ * @Last Modified time: 2020-12-08 21:01:58
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ import { IOS } from '@constants'
 import { MODEL_SETTING_HOME_LAYOUT, MODEL_SUBJECT_TYPE } from '@constants/model'
 import Grid from './grid'
 import Item from './item'
-import { H_TABBAR } from './store'
+import { H_TABBAR, tabsWithGame as tabs } from './store'
 
 const contentInset = IOS
   ? {
@@ -44,18 +44,19 @@ function List({ title }, { $ }) {
     return <Grid title={title} />
   }
 
+  const { page, isFocused } = $.state
   return (
     <ListView
-      ref={ref => $.connectRef(ref, title)}
       style={!IOS && styles.androidWrap}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       data={$.currentUserCollection(title)}
       footerNoMoreDataText=''
       footerEmptyDataText={footerEmptyDataTextMap[title]}
-      renderItem={renderItem}
       contentInset={contentInset}
       contentOffset={contentOffset}
+      scrollToTop={isFocused && tabs[page].title === title}
+      renderItem={renderItem}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
     />

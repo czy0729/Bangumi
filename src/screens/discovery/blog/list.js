@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 00:29:52
+ * @Last Modified time: 2020-12-11 16:32:49
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { Flex } from '@components'
+import { ScrollView, Flex } from '@components'
 import { Pagination, ItemBlog } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -47,7 +47,10 @@ class List extends React.Component {
     const { show } = $.state
     const { list, _loaded } = $.blog(type)
     return (
-      <ScrollView contentContainerStyle={_.container.bottom}>
+      <ScrollView
+        contentContainerStyle={_.container.bottom}
+        scrollToTop={type === $.type}
+      >
         {this.renderPagination()}
         {show && (
           <>

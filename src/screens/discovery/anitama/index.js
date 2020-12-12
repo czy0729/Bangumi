@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 17:39:48
+ * @Last Modified time: 2020-12-11 16:16:32
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Touchable, Text, Image } from '@components'
+import { ScrollView, Touchable, Text, Image } from '@components'
 import { Pagination } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -97,6 +97,7 @@ class Anitama extends React.Component {
       <ScrollView
         style={_.container.bg}
         contentContainerStyle={_.container.bottom}
+        scrollToTop
       >
         {this.renderPaganation()}
         {show && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 17:56:25
+ * @Last Modified time: 2020-12-10 19:18:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -44,6 +44,7 @@ class Discovery extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.home
+    const { isFocused } = this.props
     return (
       <View style={_.select(_.container._plain, _.container.bg)}>
         <UM screen={title} />
@@ -56,6 +57,7 @@ class Discovery extends React.Component {
             data={$.state.home}
             ListHeaderComponent={this.ListHeaderComponent}
             renderItem={renderItem}
+            scrollToTop={isFocused}
             onHeaderRefresh={$.init}
             onFooterRefresh={$.fetchHome}
           />

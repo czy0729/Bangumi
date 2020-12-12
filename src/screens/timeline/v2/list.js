@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 18:17:38
+ * @Last Modified time: 2020-12-08 21:03:40
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { IOS } from '@constants'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants/model'
-import { H_TABBAR } from './store'
+import { tabs, H_TABBAR } from './store'
 
 const contentInset = IOS
   ? {
@@ -82,7 +82,7 @@ class List extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { scope } = $.state
+    const { scope, page, isFocused } = $.state
     const { title } = this.props
     const label = MODEL_TIMELINE_SCOPE.getLabel(scope)
     if (!$.isWebLogin && ['好友', '自己'].includes(label)) {
@@ -109,6 +109,7 @@ class List extends React.Component {
         stickySectionHeadersEnabled={false}
         contentInset={contentInset}
         contentOffset={contentOffset}
+        scrollToTop={isFocused && tabs[page].title === title}
         renderSectionHeader={renderSectionHeader}
         renderItem={this.renderItem}
         onHeaderRefresh={$.onHeaderRefresh}

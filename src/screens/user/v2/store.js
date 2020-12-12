@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:34:23
+ * @Last Modified time: 2020-12-10 19:21:50
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -25,6 +25,9 @@ export const tabs = MODEL_COLLECTION_STATUS.data.map(item => ({
 }))
 
 const namespace = 'ScreenUser'
+const excludeState = {
+  isFocused: true
+}
 const defaultSubjectType = MODEL_SUBJECT_TYPE.getLabel('动画')
 const defaultOrder = MODEL_COLLECTIONS_ORDERBY.getValue('收藏时间')
 
@@ -35,6 +38,7 @@ export default class ScreenUser extends store {
     list: true, // list | grid
     tag: '',
     page: 2, // <Tabs>当前页数
+    ...excludeState,
     _loaded: false
   })
 
@@ -42,6 +46,7 @@ export default class ScreenUser extends store {
     const state = (await this.getStorage(undefined, namespace)) || {}
     this.setState({
       ...state,
+      ...excludeState,
       _loaded: true
     })
 

@@ -4,10 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 15:18:30
+ * @Last Modified time: 2020-12-12 15:02:27
  */
 import { NativeModules, InteractionManager } from 'react-native'
-import Constants from 'expo-constants'
 import { Portal } from '@ant-design/react-native'
 import Toast from '@components/@/ant-design/toast'
 import {
@@ -44,7 +43,6 @@ const defaultHeaders = {
   Pragma: 'no-cache',
   Referer: HOST
 }
-let ua = '' // 缓存userAgent
 
 /**
  * 统一请求方法
@@ -407,76 +405,54 @@ export function sax({
  * @param {*} screen
  */
 export function hm(url, screen) {
-  const { hmCookie, updateHmCookie } = getUserStoreAsync()
-
-  // 触发页面view
   if (screen) {
     t('其他.查看', {
       screen
     })
   }
 
-  if (DEV) {
-    log(`📌 ${url} ${screen} ${hmCookie}`)
-    // return
-  }
-
-  if (DEV && !hmCookie) {
-    return
-  }
-
   try {
     // 保证这种低优先级的操作在UI响应之后再执行
-    InteractionManager.runAfterInteractions(async () => {
-      if (!ua) {
-        ua = await Constants.getWebViewUserAgentAsync()
+    InteractionManager.runAfterInteractions(() => {
+      const fullUrl =
+        String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
+      const query = {
+        v: VERSION_GITHUB_RELEASE
       }
-
       const { isDark, isTinygrailDark } = getThemeStoreAsync()
-      let u = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
-      u += `${u.includes('?') ? '&' : '?'}v=${VERSION_GITHUB_RELEASE}`
-      u += `${isDark ? '&dark=1' : ''}`
-
-      if (screen && screen.includes('Tinygrail') && isTinygrailDark) {
-        u += '&tdark=1'
+      if (isDark) {
+        query.dark = 1
       }
-      u += `${screen ? `&s=${screen}` : ''}`
+      if (screen) {
+        if (screen.includes('Tinygrail') && isTinygrailDark) {
+          query.tdark = 1
+        }
+        query.s = screen
+      }
+      const u = `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}${urlStringify(
+        query
+      )}`
+
+      if (DEV) {
+        log(`📌 ${u}`)
+      }
 
       const request = new XMLHttpRequest()
       request.open(
         'GET',
         `https://hm.baidu.com/hm.gif?${urlStringify({
           rnd: randomn(10),
+          lt: getTimestamp(),
           si: IOS
             ? '8f9e60c6b1e92f2eddfd2ef6474a0d11'
-            : '2dcb6644739ae08a1748c45fb4cea087', // 309125cb5db896cf07af29652710abd9
+            : '2dcb6644739ae08a1748c45fb4cea087',
           v: '1.2.51',
           api: '4_0',
           u
         })}`,
         true
       )
-      request.withCredentials = false
-
-      if (!hmCookie) {
-        request.onreadystatechange = () => {
-          if (request.readyState !== 4) {
-            return
-          }
-
-          const cookie =
-            String(request.responseHeaders['Set-Cookie']).split(';')[0] || ''
-          if (cookie.includes('HMACCOUNT')) {
-            updateHmCookie(cookie)
-          }
-        }
-      } else {
-        request.setRequestHeader(
-          'Cookie',
-          (hmCookie || '').replace('HMACCOUNT', 'HMACCOUNT_BFESS')
-        )
-        // request.setRequestHeader('User-Agent', ua || '')
-      }
+      request.withCredentials = true
       request.send(null)
     })
   } catch (error) {

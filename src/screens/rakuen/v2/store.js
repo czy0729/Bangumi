@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 20:12:04
+ * @Last Modified time: 2020-12-10 17:57:03
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -30,6 +30,9 @@ const initPrefetchState = {
   prefetchTotal: 0,
   prefetchCurrent: 0
 }
+const excludeState = {
+  isFocused: true
+}
 const prefetchCount = 20
 
 export default class ScreenRakuen extends store {
@@ -39,6 +42,7 @@ export default class ScreenRakuen extends store {
     group: MODEL_RAKUEN_TYPE_GROUP.getValue('全部'), // 小组菜单
     mono: MODEL_RAKUEN_TYPE_MONO.getValue('全部'), // 人物菜单
     ...initPrefetchState, // Prefetch
+    ...excludeState,
     _loaded: false
   })
 
@@ -48,6 +52,7 @@ export default class ScreenRakuen extends store {
     this.setState({
       ...state,
       ...initPrefetchState,
+      ...excludeState,
       _loaded: true
     })
     this.fetchRakuen(true)

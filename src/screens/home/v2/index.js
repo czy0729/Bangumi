@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 21:47:12
+ * @Last Modified time: 2020-12-07 16:04:01
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -64,6 +64,13 @@ class Home extends React.Component {
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
   }
 
+  componentWillReceiveProps({ isFocused }) {
+    const { $ } = this.context
+    $.setState({
+      isFocused
+    })
+  }
+
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
   }
@@ -115,7 +122,6 @@ class Home extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { isFocused } = this.props
     const { _loaded } = $.state
     return (
       <SafeAreaView style={this.style}>
@@ -125,7 +131,7 @@ class Home extends React.Component {
         <NavigationEvents onWillFocus={this.onWillFocus} />
         {$.isLogin && _loaded && (
           <>
-            <Header isFocused={isFocused} />
+            <Header />
             <Tab length={$.tabs.length} />
             <Modal />
           </>

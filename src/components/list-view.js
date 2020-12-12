@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 21:53:17
+ * @Last Modified time: 2020-12-10 20:00:11
  */
 import React from 'react'
 import {
@@ -149,6 +149,7 @@ class ListView extends React.Component {
       this.scrollToIndex = params => ref.scrollToIndex(params)
       this.scrollToItem = params => ref.scrollToItem(params)
       this.scrollToOffset = params => ref.scrollToOffset(params)
+      this.scrollToLocation = params => ref.scrollToLocation(params)
     }
   }
 
@@ -360,6 +361,20 @@ class ListView extends React.Component {
     )
   }
 
+  renderScrollToTop() {
+    const { scrollToTop } = this.props
+    if (!scrollToTop) {
+      return null
+    }
+
+    return (
+      <ScrollToTop
+        scrollToIndex={this.scrollToIndex}
+        scrollToLocation={this.scrollToLocation}
+      />
+    )
+  }
+
   render() {
     const {
       style,
@@ -404,7 +419,7 @@ class ListView extends React.Component {
     return (
       <>
         {$list}
-        {scrollToTop && <ScrollToTop scrollToIndex={this.scrollToIndex} />}
+        {this.renderScrollToTop()}
       </>
     )
   }

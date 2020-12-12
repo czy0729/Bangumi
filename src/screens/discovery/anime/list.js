@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 21:04:20
+ * @Last Modified time: 2020-12-10 19:30:18
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -34,6 +34,7 @@ class List extends React.Component {
         data={data}
         ListHeaderComponent={<Filter />}
         renderItem={renderItem}
+        scrollToTop
       />
     )
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 15:37:50
+ * @Last Modified time: 2020-12-10 17:57:54
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -43,6 +43,13 @@ class Rakuen extends React.Component {
     const { $ } = this.context
     $.init()
     hm('rakuen', 'Rakuen')
+  }
+
+  componentWillReceiveProps({ isFocused }) {
+    const { $ } = this.context
+    $.setState({
+      isFocused
+    })
   }
 
   get style() {

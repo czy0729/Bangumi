@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 20:25:02
+ * @Last Modified time: 2020-12-10 19:32:54
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -64,6 +64,7 @@ class List extends React.Component {
         keyExtractor={keyExtractor}
         data={$.browser}
         renderItem={this.renderItem}
+        scrollToTop
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchBrowser}
       />

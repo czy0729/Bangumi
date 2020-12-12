@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 16:07:08
+ * @Last Modified time: 2020-12-11 16:53:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -82,7 +82,12 @@ function ItemRecents(
                   </Flex>
                 </Flex>
                 {!!info && (
-                  <Text style={_.mt.sm} size={12} lineHeight={14}>
+                  <Text
+                    style={_.mt.sm}
+                    size={12}
+                    lineHeight={14}
+                    numberOfLines={4}
+                  >
                     {HTMLDecode(info)}
                   </Text>
                 )}

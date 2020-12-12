@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:05:43
+ * @Last Modified time: 2020-12-11 16:55:00
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -84,9 +84,11 @@ class Ranting extends React.Component {
               {' '}
               {$.rating.score}{' '}
             </Text>
-            <Text size={12} lineHeight={18} type='sub'>
-              ({$.rating.total}){' '}
-            </Text>
+            {!!$.rating.total && (
+              <Text size={12} lineHeight={18} type='sub'>
+                ({$.rating.total}){' '}
+              </Text>
+            )}
           </>
         )}
       </SectionTitle>

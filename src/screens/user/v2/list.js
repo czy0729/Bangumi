@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 16:43:07
+ * @Last Modified time: 2020-12-10 19:24:18
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -14,7 +14,7 @@ import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
-import { H_BG } from './store'
+import { tabs, H_BG } from './store'
 
 export default
 @observer
@@ -105,7 +105,7 @@ class List extends React.Component {
       return <Loading style={IOS ? _.container.bg : _.container._plain} />
     }
 
-    const { list } = $.state
+    const { list, page, isFocused } = $.state
     const numColumns = list ? undefined : 4
     return (
       <ListView
@@ -117,6 +117,7 @@ class List extends React.Component {
         numColumns={numColumns}
         renderItem={this.renderItem}
         animated
+        scrollToTop={isFocused && tabs[page].title === title}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchUserCollections}
         {...other}

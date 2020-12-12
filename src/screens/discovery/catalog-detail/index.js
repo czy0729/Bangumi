@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 22:57:58
+ * @Last Modified time: 2020-12-11 16:37:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -99,6 +99,7 @@ class CatalogDetail extends React.Component {
         ListHeaderComponent={ListHeaderComponent}
         renderItem={this.renderItem}
         scrollEventThrottle={16}
+        scrollToTop
         onScroll={onScroll}
         onHeaderRefresh={$.fetchCatalogDetail}
         {...withTransitionHeader.listViewProps}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 17:42:58
+ * @Last Modified time: 2020-12-08 21:00:47
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -46,7 +46,7 @@ const tabs = [
     title: '三次元'
   }
 ]
-const tabsWithGame = [
+export const tabsWithGame = [
   ...tabs,
   {
     key: 'game',
@@ -69,7 +69,8 @@ const excludeState = {
     subject_id: 0,
     subject: {},
     ep_status: ''
-  }
+  },
+  isFocused: true
 }
 const day = new Date().getDay()
 
@@ -634,20 +635,6 @@ export default class ScreenHomeV2 extends store {
       grid: grid || initItem.grid
     })
     this.setStorage(undefined, undefined, namespace)
-  }
-
-  /**
-   * 缓存多个ListView的scrollTop
-   */
-  listViewFns = {}
-  connectRef = (ref, title) => {
-    // if (IOS) {
-    //   return
-    // }
-
-    if (!this.listViewFns[title]) {
-      this.listViewFns[title] = ref.scrollToIndex
-    }
   }
 
   // -------------------- action --------------------

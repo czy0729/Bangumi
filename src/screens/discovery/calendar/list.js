@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 17:11:21
+ * @Last Modified time: 2020-12-10 19:33:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,6 +47,7 @@ function List(props, { $ }) {
       keyExtractor={keyExtractor}
       sections={$.sections}
       numColumns={$.isList ? undefined : 4}
+      scrollToTop
       renderSectionHeader={renderSectionHeader}
       renderItem={({ item, title, section = {} }) => {
         const { items } = item

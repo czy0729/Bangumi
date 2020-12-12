@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 22:03:50
+ * @Last Modified time: 2020-12-11 17:00:48
  */
 import React from 'react'
-import { View, ScrollView } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { Flex, Empty } from '@components'
+import { ScrollView, Flex, Empty } from '@components'
 import {
   Pagination,
   ItemSearch,
@@ -124,7 +124,7 @@ class List extends React.Component {
     const { show, list: _list } = $.state
     const { _loaded } = $.rank
     return (
-      <ScrollView contentContainerStyle={this.styles.container}>
+      <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
         {this.renderPagination()}
         {show && (
           <>

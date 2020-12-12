@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 05:33:44
+ * @Last Modified time: 2020-12-11 16:41:30
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-import { Iconfont, Loading } from '@components'
+import { ScrollView, Iconfont, Loading } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -87,6 +86,7 @@ class Channel extends React.Component {
       <ScrollView
         style={_.container.plain}
         contentContainerStyle={_.container.bottom}
+        scrollToTop
       >
         <Rank />
         <Friends />

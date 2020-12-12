@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-05 15:59:55
+ * @Last Modified time: 2020-12-10 17:24:31
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -19,11 +19,15 @@ export const tabs = MODEL_TIMELINE_TYPE.data.map(item => ({
 export const H_TABBAR = 48
 
 const namespace = 'ScreenTimeline'
+const excludeState = {
+  isFocused: true
+}
 
 export default class ScreenTimeline extends store {
   state = observable({
     scope: MODEL_TIMELINE_SCOPE.getValue('全站'),
     page: 0, // <Tabs>当前页数
+    ...excludeState,
     _loaded: false
   })
 
@@ -32,6 +36,7 @@ export default class ScreenTimeline extends store {
     const state = await res
     this.setState({
       ...state,
+      ...excludeState,
       _loaded: true
     })
 

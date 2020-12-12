@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 11:04:29
+ * @Last Modified time: 2020-12-10 17:57:58
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -32,6 +32,7 @@ function List({ index }, { $ }) {
     return <Loading />
   }
 
+  const { page, isFocused } = $.state
   return (
     <ListView
       style={!IOS && styles.androidWrap}
@@ -41,6 +42,7 @@ function List({ index }, { $ }) {
       contentInset={contentInset}
       contentOffset={contentOffset}
       renderItem={renderItem}
+      scrollToTop={isFocused && page === index}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchRakuen}
     />

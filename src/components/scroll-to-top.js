@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 21:56:03
+ * @Last Modified time: 2020-12-11 12:13:35
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -12,7 +12,13 @@ import { _ } from '@stores'
 // import { IOS } from '@constants'
 import Touchable from './touchable'
 
-function ScrollToTop({ scrollToIndex, isFocused, onPress }) {
+function ScrollToTop({
+  scrollTo,
+  scrollToIndex,
+  scrollToLocation,
+  isFocused,
+  onPress
+}) {
   // if (!IOS) {
   //   return null
   // }
@@ -26,7 +32,23 @@ function ScrollToTop({ scrollToIndex, isFocused, onPress }) {
         onPress={() => {
           if (onPress) {
             onPress()
-          } else if (scrollToIndex) {
+            return
+          }
+
+          if (scrollTo) {
+            try {
+              scrollTo({
+                x: 0,
+                y: 0,
+                animated: true
+              })
+            } catch (error) {
+              console.log('ScrollToTop', 'scrollTo', error)
+            }
+            return
+          }
+
+          if (scrollToIndex) {
             try {
               scrollToIndex({
                 animated: true,
@@ -34,7 +56,19 @@ function ScrollToTop({ scrollToIndex, isFocused, onPress }) {
                 viewOffset: 8000
               })
             } catch (error) {
-              warn('ScrollToTop', 'scrollToTop', error)
+              console.log('ScrollToTop', 'scrollToIndex', error)
+
+              try {
+                scrollToLocation({
+                  animated: true,
+                  itemIndex: 0,
+                  sectionIndex: 0,
+                  viewOffset: 800,
+                  viewPosition: 0
+                })
+              } catch (error) {
+                console.log('ScrollToTop', 'scrollToLocation', error)
+              }
             }
           }
         }}
