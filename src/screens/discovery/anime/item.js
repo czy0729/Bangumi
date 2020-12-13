@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 20:42:10
+ * @Last Modified time: 2020-12-13 05:22:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,6 +50,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
     .join(' / ')
   const collection = $.userCollectionsMap[id]
   const indent = collection ? '　　 ' : ''
+
+  log($.userCollectionsMap)
   return (
     <Touchable
       style={styles.container}

@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 11:20:12
+ * @Last Modified time: 2020-12-13 22:23:13
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -27,12 +27,12 @@ export function getOTA() {
   return getSystemStoreAsync().ota
 }
 
-export const VERSION_OSS = '20201009'
+export const VERSION_STATIC = '20201213'
+export const VERSION_RAKUEN = '20201213'
+export const VERSION_AVATAR = '20201213'
+export const VERSION_OSS = '20201213'
+export const VERSION_SUBJECT = '20201213'
 export const VERSION_MONO = '20201012'
-export const VERSION_SUBJECT = '20201103'
-export const VERSION_AVATAR = '20201107'
-export const VERSION_RAKUEN = '20201107'
-export const VERSION_STATIC = '20201107'
 export const VERSION_ANIME = '20201107'
 export const VERSION_WENKU = '20200927'
 

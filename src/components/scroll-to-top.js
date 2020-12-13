@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 12:13:35
+ * @Last Modified time: 2020-12-12 21:56:23
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Portal } from '@ant-design/react-native'
-import { _ } from '@stores'
-// import { IOS } from '@constants'
+import { _, systemStore } from '@stores'
+import { IOS } from '@constants'
 import Touchable from './touchable'
 
 function ScrollToTop({
@@ -19,12 +19,10 @@ function ScrollToTop({
   isFocused,
   onPress
 }) {
-  // if (!IOS) {
-  //   return null
-  // }
-  if (!isFocused) {
+  if ((IOS || !isFocused) && !systemStore.dev) {
     return null
   }
+
   return (
     <Portal>
       <Touchable
@@ -104,7 +102,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     left: 0,
-    height: _.statusBarHeight + 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)'
+    height: _.statusBarHeight - 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)'
   }
 })

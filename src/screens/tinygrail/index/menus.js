@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 15:38:34
+ * @Last Modified time: 2020-12-12 21:51:35
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -93,7 +93,7 @@ function Menus(props, { $ }) {
         style={{
           backgroundColor: _.colorTinygrailActive
         }}
-        title='高级分析'
+        title='高级功能'
         pathname='TinygrailAdvance'
         icon='meeting'
       />
