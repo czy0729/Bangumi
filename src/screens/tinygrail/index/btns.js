@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:29:23
+ * @Last Modified time: 2020-12-14 01:03:05
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -17,7 +17,7 @@ const dataMore = ['重新授权', '意见反馈', '设置']
 
 function Btns(props, { $, navigation }) {
   const styles = memoStyles()
-  const { loading, loadingBonus, count = 0, _loaded } = $.state
+  const { loading, count = 0, _loaded } = $.state
   if (!_loaded) {
     return (
       <Button
@@ -82,7 +82,7 @@ function Btns(props, { $, navigation }) {
           style={styles.btn}
           styleText={styles.text}
           size='sm'
-          loading={loadingBonus}
+          // loading={loadingBonus}
         >
           每日
         </Button>
@@ -116,7 +116,7 @@ function Btns(props, { $, navigation }) {
           style={styles.btn}
           styleText={styles.text}
           size='sm'
-          loading={loading}
+          // loading={loading}
         >
           更多
         </Button>

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 00:43:35
+ * @Last Modified time: 2020-12-14 01:05:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Image } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { Avatar } from '@screens/_'
 import { HTMLDecode } from '@utils/html'
 import { tinygrailOSS } from '@utils/app'
@@ -42,6 +42,7 @@ function ItemTemple(
   { navigation }
 ) {
   const styles = memoStyles()
+  const { avatarRound } = systemStore.setting
   const { id: eventId, data: eventData } = event
   const isView = type === 'view' // 后来加的最近圣殿
   // const isFormCharaAssets = !!onPress
@@ -94,7 +95,15 @@ function ItemTemple(
       {isView ? (
         <View style={_.mt.sm}>
           {!!avatar && (
-            <Flex style={styles.fixed} justify='center'>
+            <Flex
+              style={[
+                styles.fixed,
+                {
+                  borderRadius: avatarRound ? 36 : _.radiusSm
+                }
+              ]}
+              justify='center'
+            >
               <Avatar
                 style={styles.avatar}
                 navigation={navigation}
@@ -214,7 +223,6 @@ const memoStyles = _.memoStyles(_ => ({
     height: 36,
     marginTop: -36,
     marginLeft: -6,
-    backgroundColor: _.colorTinygrailContainer,
-    borderRadius: 36
+    backgroundColor: _.colorTinygrailContainer
   }
 }))

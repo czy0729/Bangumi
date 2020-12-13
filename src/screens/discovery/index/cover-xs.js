@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-19 11:12:18
+ * @Last Modified time: 2020-12-14 01:02:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Flex, Text } from '@components'
 import { Cover, Avatar } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 
 const imageWidth = _.window.width * 0.34 * 0.5625
@@ -24,6 +24,7 @@ const linearColor = [
 
 function CoverXs({ title, avatar, data }, { navigation }) {
   const styles = memoStyles()
+  const { avatarRound } = systemStore.setting
   return (
     <View>
       <View style={styles.item}>
@@ -65,7 +66,15 @@ function CoverXs({ title, avatar, data }, { navigation }) {
         </Text>
       </View>
       {!!avatar && (
-        <Flex style={styles.fixed} justify='center'>
+        <Flex
+          style={[
+            styles.fixed,
+            {
+              borderRadius: avatarRound ? 28 : _.radiusSm
+            }
+          ]}
+          justify='center'
+        >
           <Avatar
             style={styles.avatar}
             navigation={navigation}
@@ -121,8 +130,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: 28,
     marginLeft: -6,
     marginBottom: -2,
-    backgroundColor: _.select(_.colorPlain, _.colorBg),
-    borderRadius: 28
+    backgroundColor: _.select(_.colorPlain, _.colorBg)
   },
   avatar: {
     backgroundColor: _.select(_.colorPlain, _.colorBg)

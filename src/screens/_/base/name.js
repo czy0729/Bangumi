@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 11:31:49
+ * @Last Modified time: 2020-12-14 01:10:23
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -25,7 +25,7 @@ function Name({
   const hasChangedName =
     isFriend &&
     friendsMap[userId]?.lastUserName &&
-    friendsMap[userId]?.lastUserName !== friendsMap[userId]?.userName
+    friendsMap[userId]?.lastUserName?.trim() !== friendsMap[userId]?.userName?.trim()
   return (
     <Text size={size} lineHeight={lineHeight} {...other}>
       {children}

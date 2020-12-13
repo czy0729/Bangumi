@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 21:56:23
+ * @Last Modified time: 2020-12-14 00:59:30
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -27,6 +27,7 @@ function ScrollToTop({
     <Portal>
       <Touchable
         style={styles.container}
+        highlight
         onPress={() => {
           if (onPress) {
             onPress()
@@ -41,7 +42,7 @@ function ScrollToTop({
                 animated: true
               })
             } catch (error) {
-              console.log('ScrollToTop', 'scrollTo', error)
+              warn('ScrollToTop', 'scrollTo', error)
             }
             return
           }
@@ -54,7 +55,7 @@ function ScrollToTop({
                 viewOffset: 8000
               })
             } catch (error) {
-              console.log('ScrollToTop', 'scrollToIndex', error)
+              warn('ScrollToTop', 'scrollToIndex', error)
 
               try {
                 scrollToLocation({
@@ -65,7 +66,7 @@ function ScrollToTop({
                   viewPosition: 0
                 })
               } catch (error) {
-                console.log('ScrollToTop', 'scrollToLocation', error)
+                warn('ScrollToTop', 'scrollToLocation', error)
               }
             }
           }
@@ -102,7 +103,6 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     left: 0,
-    height: _.statusBarHeight - 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)'
+    height: _.statusBarHeight + 10
   }
 })
