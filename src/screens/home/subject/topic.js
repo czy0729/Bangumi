@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 10:48:59
+ * @Last Modified time: 2020-12-15 01:32:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Expand } from '@components'
+import { Expand, Heatmap } from '@components'
 import { SectionTitle, ItemArticle } from '@screens/_'
 import { _ } from '@stores'
 import { URL_DEFAULT_AVATAR } from '@constants'
@@ -57,6 +57,12 @@ function Topic({ style }, { $, navigation }) {
             }}
           />
         ))}
+        <Heatmap
+          id='条目.跳转'
+          data={{
+            from: '讨论版'
+          }}
+        />
       </View>
     </Expand>
   )

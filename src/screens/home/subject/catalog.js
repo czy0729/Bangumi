@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 17:37:27
+ * @Last Modified time: 2020-12-15 01:08:49
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -49,52 +49,67 @@ function Catalog({ style }, { $, navigation }) {
               <Text type='sub'>更多</Text>
               <Iconfont name='right' size={16} />
             </Flex>
+            <Heatmap
+              id='条目.跳转'
+              data={{
+                from: '目录'
+              }}
+            />
           </Touchable>
         }
       >
         目录
       </SectionTitle>
-      <ScrollView
+      <View
         style={{
           marginTop: _.md,
           marginBottom: -_.md
         }}
-        contentContainerStyle={styles.contentContainerStyle}
-        horizontal
-        showsHorizontalScrollIndicator={false}
       >
-        {_catalog.map(item => (
-          <Touchable
-            key={item.id}
-            style={styles.item}
-            onPress={() => {
-              t('条目.跳转', {
-                to: 'CatalogDetail',
-                from: '条目',
-                subjectId: $.subjectId,
-                catalogId: item.id
-              })
+        <ScrollView
+          contentContainerStyle={styles.contentContainerStyle}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        >
+          {_catalog.map(item => (
+            <Touchable
+              key={item.id}
+              style={styles.item}
+              onPress={() => {
+                t('条目.跳转', {
+                  to: 'CatalogDetail',
+                  from: '条目',
+                  subjectId: $.subjectId,
+                  catalogId: item.id
+                })
 
-              navigation.push('CatalogDetail', {
-                catalogId: item.id
-              })
-            }}
-          >
-            <Flex>
-              <Cover src={item.avatar} size={40} radius shadow type='目录' />
-              <Flex.Item style={_.ml.md}>
-                <Text size={12} bold numberOfLines={2}>
-                  {item.title}
-                  <Text style={_.mt.xs} size={10} lineHeight={12} type='sub'>
-                    {' '}
-                    {item.name}
+                navigation.push('CatalogDetail', {
+                  catalogId: item.id
+                })
+              }}
+            >
+              <Flex>
+                <Cover src={item.avatar} size={40} radius shadow type='目录' />
+                <Flex.Item style={_.ml.md}>
+                  <Text size={12} bold numberOfLines={2}>
+                    {item.title}
+                    <Text style={_.mt.xs} size={10} lineHeight={12} type='sub'>
+                      {' '}
+                      {item.name}
+                    </Text>
                   </Text>
-                </Text>
-              </Flex.Item>
-            </Flex>
-          </Touchable>
-        ))}
-      </ScrollView>
+                </Flex.Item>
+              </Flex>
+            </Touchable>
+          ))}
+        </ScrollView>
+        <Heatmap
+          id='条目.跳转'
+          data={{
+            from: '条目'
+          }}
+        />
+      </View>
     </View>
   )
 }

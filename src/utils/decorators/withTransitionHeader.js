@@ -2,13 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 16:10:02
+ * @Last Modified time: 2020-12-15 01:02:51
  */
 import React from 'react'
 import { View } from 'react-native'
 import { computed } from 'mobx'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, Popover, Menu, Flex, Iconfont, UM } from '@components'
+import {
+  StatusBarEvents,
+  Popover,
+  Menu,
+  Flex,
+  Iconfont,
+  UM,
+  Heatmap
+} from '@components'
 import { IconBack } from '@screens/_'
 import { _ } from '@stores'
 import { gradientColor } from '@utils'
@@ -48,6 +56,7 @@ const withTransitionHeader = ({
 
         let headerRight
         const extra = navigation.getParam('extra')
+        const heatmap = navigation.getParam('heatmap')
         const popover = navigation.getParam('popover', {
           data: [],
           onSelect: Function.prototype
@@ -79,6 +88,7 @@ const withTransitionHeader = ({
                 {...popoverProps}
               >
                 <Iconfont size={24} name='more' color={headerTintColor} />
+                {!!heatmap && <Heatmap id={heatmap} />}
               </Popover>
             </Flex>
           )

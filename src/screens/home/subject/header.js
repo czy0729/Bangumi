@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-28 16:15:19
+ * @Last Modified time: 2020-12-15 01:29:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Text, Flex, Loading, SegmentedControl } from '@components'
+import { Text, Flex, Loading, SegmentedControl, Heatmap } from '@components'
 import { SectionTitle, IconReverse } from '@screens/_'
 import { _ } from '@stores'
 import Head from './head'
@@ -67,24 +67,29 @@ function Header({ rendered }, { $ }) {
               style={[styles.title, _.mt.lg]}
               right={
                 <>
-                  <SegmentedControl
-                    style={styles.segmentedControl}
-                    size={11}
-                    values={scoresDS}
-                    selectedIndex={
-                      filterScores.length
-                        ? scoresDS.findIndex(
-                            item => item === filterScores.join('-')
-                          )
-                        : 0
-                    }
-                    onValueChange={$.filterScores}
-                  />
+                  <View>
+                    <SegmentedControl
+                      style={styles.segmentedControl}
+                      size={11}
+                      values={scoresDS}
+                      selectedIndex={
+                        filterScores.length
+                          ? scoresDS.findIndex(
+                              item => item === filterScores.join('-')
+                            )
+                          : 0
+                      }
+                      onValueChange={$.filterScores}
+                    />
+                    <Heatmap right={30} bottom={-4} id='条目.筛选分数' />
+                  </View>
                   <IconReverse
                     style={styles.sort}
                     color={_reverse ? _.colorMain : _.colorIcon}
                     onPress={$.toggleReverseComments}
-                  />
+                  >
+                    <Heatmap id='条目.吐槽箱倒序' />
+                  </IconReverse>
                 </>
               }
             >
@@ -92,6 +97,12 @@ function Header({ rendered }, { $ }) {
               <Text size={12} type='sub' lineHeight={24}>
                 {20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)}+
               </Text>
+              <Heatmap
+                id='条目.跳转'
+                data={{
+                  from: '吐槽'
+                }}
+              />
             </SectionTitle>
           </>
         )}

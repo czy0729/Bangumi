@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 22:40:49
+ * @Last Modified time: 2020-12-14 22:20:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Expand, Flex, Text, Touchable } from '@components'
+import { Expand, Flex, Text, Touchable, Heatmap } from '@components'
 import { SectionTitle, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -33,49 +33,57 @@ function Tags({ style }, { $, navigation }) {
         标签
       </SectionTitle>
       {!!$.tags.length && (
-        <Expand style={_.mt.sm} moreStyle={styles.moreStyle}>
-          <Flex wrap='wrap'>
-            {$.tags
-              .filter(item => !!item.name)
-              .map(({ name, count }, index) => {
-                const isSelected = tag.includes(name)
-                return (
-                  <Touchable
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={index}
-                    style={[styles.item, isSelected && styles.selected]}
-                    onPress={() => {
-                      t('条目.跳转', {
-                        to: 'Tag',
-                        from: '标签',
-                        subjectId: $.subjectId
-                      })
-                      navigation.push('Tag', {
-                        type: MODEL_SUBJECT_TYPE.getLabel($.subjectType),
-                        tag: name
-                      })
-                    }}
-                  >
-                    <Flex>
-                      <Text
-                        type={_.select('desc', isSelected ? 'main' : 'desc')}
-                        size={12}
-                      >
-                        {name}
-                      </Text>
-                      <Text
-                        style={_.ml.xs}
-                        type={_.select('sub', isSelected ? 'main' : 'desc')}
-                        size={12}
-                      >
-                        {count}
-                      </Text>
-                    </Flex>
-                  </Touchable>
-                )
-              })}
-          </Flex>
-        </Expand>
+        <View style={_.mt.sm}>
+          <Expand moreStyle={styles.moreStyle}>
+            <Flex wrap='wrap'>
+              {$.tags
+                .filter(item => !!item.name)
+                .map(({ name, count }, index) => {
+                  const isSelected = tag.includes(name)
+                  return (
+                    <Touchable
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={index}
+                      style={[styles.item, isSelected && styles.selected]}
+                      onPress={() => {
+                        t('条目.跳转', {
+                          to: 'Tag',
+                          from: '标签',
+                          subjectId: $.subjectId
+                        })
+                        navigation.push('Tag', {
+                          type: MODEL_SUBJECT_TYPE.getLabel($.subjectType),
+                          tag: name
+                        })
+                      }}
+                    >
+                      <Flex>
+                        <Text
+                          type={_.select('desc', isSelected ? 'main' : 'desc')}
+                          size={12}
+                        >
+                          {name}
+                        </Text>
+                        <Text
+                          style={_.ml.xs}
+                          type={_.select('sub', isSelected ? 'main' : 'desc')}
+                          size={12}
+                        >
+                          {count}
+                        </Text>
+                      </Flex>
+                    </Touchable>
+                  )
+                })}
+            </Flex>
+          </Expand>
+          <Heatmap
+            id='条目.跳转'
+            data={{
+              from: '标签'
+            }}
+          />
+        </View>
       )}
     </View>
   )

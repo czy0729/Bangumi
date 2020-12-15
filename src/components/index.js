@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 12:04:46
+ * @Last Modified time: 2020-12-14 17:22:42
  */
 export { default as Activity } from './activity'
 export { default as Bgm } from './bgm'
@@ -18,6 +18,7 @@ export { default as FadeIn } from './fade-in'
 export { default as FixedTextarea } from './fixed-textarea'
 export { default as Flex } from './flex'
 export { default as HeaderPlaceholder } from './header-placeholder'
+export { default as Heatmap } from './heatmap'
 export { default as Icon } from './icon'
 export { default as Iconfont } from './iconfont'
 export { default as Image } from './image'

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 18:01:02
+ * @Last Modified time: 2020-12-14 22:49:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, Heatmap } from '@components'
 import { Cover as CompCover, IconTouchable } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
@@ -57,6 +57,12 @@ function Series({ prev, after, series, size }, { $, navigation }) {
                       前传
                     </Text>
                   </Flex>
+                  <Heatmap
+                    id='条目.跳转'
+                    data={{
+                      from: '系列前传'
+                    }}
+                  />
                 </Touchable>
               )}
               {!!after && (
@@ -90,6 +96,13 @@ function Series({ prev, after, series, size }, { $, navigation }) {
                       续集
                     </Text>
                   </Flex>
+                  <Heatmap
+                    right={-19}
+                    id='条目.跳转'
+                    data={{
+                      from: '系列续集'
+                    }}
+                  />
                 </Touchable>
               )}
             </Flex>

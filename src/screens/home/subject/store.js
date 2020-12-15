@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-03 19:50:26
+ * @Last Modified time: 2020-12-15 01:26:20
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -1052,6 +1052,10 @@ export default class ScreenSubject extends store {
     })
 
   filterScores = label => {
+    t('条目.筛选分数', {
+      subjectId: this.subjectId
+    })
+
     this.setState({
       filterScores: label === '全部' ? [] : label.split('-')
     })

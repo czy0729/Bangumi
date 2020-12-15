@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 20:43:50
+ * @Last Modified time: 2020-12-15 01:26:36
  */
 
 /**
@@ -148,7 +148,7 @@ export default {
   '条目.更新书籍章节': 'Subject.doUpdateBookEp',
   '条目.输入框更新章节': 'Subject.doUpdateSubjectEp',
   '条目.章节按钮长按': 'Subject.doEpsLongPress',
-  '条目.跳到条目': 'Subject.toSubject',
+  // '条目.跳到条目': 'Subject.toSubject',
   '条目.封面图查看': 'Subject.imageView',
   '条目.右上角菜单': 'Subject.topRightMenu',
   '条目.删除收藏': 'Subject.doEraseCollection',
@@ -158,6 +158,8 @@ export default {
   '条目.查看奖杯': 'Subject.toPSNINE',
   '条目.设置章节筛选': 'Subject.updateFilterEps',
   '条目.阅读轻小说': 'Subject.readNoval',
+  '条目.预览': 'Subject.viewThumbs',
+  '条目.筛选分数': 'Subject.filterScores',
 
   // 章节
   '章节.跳转': 'Episodes.to',

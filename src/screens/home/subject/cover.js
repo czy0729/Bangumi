@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 19:04:01
+ * @Last Modified time: 2020-12-14 22:19:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { Heatmap } from '@components'
 import { Cover as CompCover } from '@screens/_'
 import { getCoverMedium, getCoverLarge } from '@utils/app'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
@@ -69,6 +70,7 @@ class Cover extends React.Component {
             noDefault
           />
         )}
+        <Heatmap id='条目.封面图查看' />
       </View>
     )
   }

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 22:40:58
+ * @Last Modified time: 2020-12-14 23:24:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Expand, Text } from '@components'
+import { Expand, Text, Heatmap } from '@components'
 import { SectionTitle, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 
@@ -31,7 +31,9 @@ function Summary({ style }, { $ }) {
               name='translate'
               size={16}
               onPress={$.doTranslate}
-            />
+            >
+              <Heatmap id='条目.翻译简介' />
+            </IconTouchable>
           )
         }
       >

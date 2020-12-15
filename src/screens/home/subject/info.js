@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 14:41:16
+ * @Last Modified time: 2020-12-15 01:12:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Expand, RenderHtml } from '@components'
+import { Expand, RenderHtml, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
@@ -52,6 +52,12 @@ function Info({ style }, { $, navigation }) {
           />
         </Expand>
       )}
+      <Heatmap
+        id='条目.跳转'
+        data={{
+          from: '详情'
+        }}
+      />
     </View>
   )
 }

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 17:30:53
+ * @Last Modified time: 2020-12-15 01:19:22
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
 import PropTypes from 'prop-types'
+import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
-import { TITLE } from '@constants'
+import { DEV, TITLE } from '@constants'
 import HeaderTitle from './header-title'
 import Bg from './bg'
 import List from './list'
@@ -38,7 +39,7 @@ class Subject extends React.Component {
 
   state = {
     showBlurView: true,
-    rendered: false
+    rendered: DEV
   }
 
   componentDidMount() {
@@ -67,6 +68,8 @@ class Subject extends React.Component {
     const { $, navigation } = this.context
     navigation.setParams({
       headerTitle: <HeaderTitle />,
+      routeName: 'Subject',
+      heatmap: '条目.右上角菜单',
       popover: {
         data: [TITLE, '复制链接'],
         onSelect: key => {
@@ -84,8 +87,7 @@ class Subject extends React.Component {
               break
           }
         }
-      },
-      routeName: 'Subject'
+      }
     })
   }
 
@@ -138,6 +140,7 @@ class Subject extends React.Component {
         <Bg show={showBlurView} />
         <List rendered={rendered} onScroll={this.onScroll} />
         {rendered && <Modal />}
+        <Heatmap id={title} />
       </View>
     )
   }

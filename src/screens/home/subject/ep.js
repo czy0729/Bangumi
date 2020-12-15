@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 14:35:41
+ * @Last Modified time: 2020-12-15 00:56:37
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Text, Iconfont, Flex, Input, Button } from '@components'
+import { Text, Iconfont, Flex, Input, Button, Heatmap } from '@components'
 import {
   SectionTitle,
   Eps,
@@ -53,25 +53,23 @@ function Ep({ style }, { $, navigation }) {
       <SectionTitle
         right={
           <>
-            {showFilter && (
-              <Popover
-                style={{
-                  marginRight: 4
-                }}
-                data={$.filterEpsData}
-                onSelect={$.updateFilterEps}
-              >
-                <Iconfont
-                  style={styles.icon}
-                  name='filter'
-                  color={filterEps ? _.colorMain : _.colorIcon}
-                  size={16}
-                />
-              </Popover>
-            )}
+            <View style={_.mr.xs}>
+              {showFilter && (
+                <Popover data={$.filterEpsData} onSelect={$.updateFilterEps}>
+                  <Iconfont
+                    style={styles.icon}
+                    name='filter'
+                    color={filterEps ? _.colorMain : _.colorIcon}
+                    size={16}
+                  />
+                </Popover>
+              )}
+              <Heatmap right={-10} bottom={18} id='条目.设置章节筛选' />
+            </View>
             {!$.isLimit && (
               <Popover data={$.onlineOrigins} onSelect={$.onlinePlaySelected}>
                 <Iconfont style={styles.icon} name='xin-fan' size={16} />
+                <Heatmap right={53} bottom={-7} id='条目.搜索源' />
               </Popover>
             )}
             <IconTouchable
@@ -91,62 +89,78 @@ function Ep({ style }, { $, navigation }) {
                   epsThumbsHeader
                 })
               }}
-            />
+            >
+              <Heatmap
+                right={13}
+                id='条目.跳转'
+                data={{
+                  from: '章节'
+                }}
+              />
+            </IconTouchable>
             <IconReverse
               style={_.mr.sm}
               color={epsReverse ? _.colorMain : _.colorIcon}
               onPress={$.toggleReverseEps}
-            />
+            >
+              <Heatmap right={-5} id='条目.章节倒序' />
+            </IconReverse>
           </>
         }
       >
         章节
       </SectionTitle>
-      <Eps
-        style={_.mt.md}
-        layoutWidth={layoutWidth}
-        marginRight={_._wind}
-        advance
-        pagination
-        login={$.isLogin}
-        subjectId={$.params.subjectId}
-        eps={$.toEps}
-        userProgress={$.userProgress}
-        canPlay={showPlay}
-        onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
-        onLongPress={item => $.doEpsLongPress(item)}
-      />
+      <View style={_.mt.md}>
+        <Eps
+          layoutWidth={layoutWidth}
+          marginRight={_._wind}
+          advance
+          pagination
+          login={$.isLogin}
+          subjectId={$.params.subjectId}
+          eps={$.toEps}
+          userProgress={$.userProgress}
+          canPlay={showPlay}
+          onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
+          onLongPress={item => $.doEpsLongPress(item)}
+        />
+        <Heatmap id='条目.章节菜单操作' />
+        <Heatmap bottom={35} id='条目.章节按钮长按' />
+      </View>
       <Flex style={_.mt.sm}>
-        <View style={styles.input}>
-          <Input
-            style={styles.inputRaw}
-            pointerEvents='box-none'
-            keyboardType='numeric'
-            value={watchedEps}
-            placeholder={watchedEps || '0'}
-            clearButtonMode='never'
-            returnKeyType='done'
-            returnKeyLabel='更新'
-            onChangeText={text => {
-              const newText = text.replace(/[^\d]+/, '')
-              $.changeText('watchedEps', newText)
-            }}
-            onSubmitEditing={$.doUpdateSubjectEp}
-          />
-          {!!totalEps && (
-            <Text style={styles.total} type='sub' size={12}>
-              / {totalEps}
-            </Text>
-          )}
-        </View>
-        <Button
-          style={styles.btn}
-          styleText={styles.btnText}
-          type='ghostPrimary'
-          onPress={$.doUpdateSubjectEp}
-        >
-          更新
-        </Button>
+        <Flex>
+          <View style={styles.input}>
+            <Input
+              style={styles.inputRaw}
+              pointerEvents='box-none'
+              keyboardType='numeric'
+              value={watchedEps}
+              placeholder={watchedEps || '0'}
+              clearButtonMode='never'
+              returnKeyType='done'
+              returnKeyLabel='更新'
+              onChangeText={text => {
+                const newText = text.replace(/[^\d]+/, '')
+                $.changeText('watchedEps', newText)
+              }}
+              onSubmitEditing={$.doUpdateSubjectEp}
+            />
+            {!!totalEps && (
+              <Text style={styles.total} type='sub' size={12}>
+                / {totalEps}
+              </Text>
+            )}
+          </View>
+          <Button
+            style={styles.btn}
+            styleText={styles.btnText}
+            type='ghostPrimary'
+            onPress={$.doUpdateSubjectEp}
+          >
+            更新
+          </Button>
+          <Heatmap id='条目.输入框更新章节' />
+        </Flex>
       </Flex>
     </View>
   )
