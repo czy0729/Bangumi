@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 23:20:02
+ * @Last Modified time: 2020-12-16 00:49:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, RenderHtml, Loading, Text } from '@components'
+import { Flex, RenderHtml, Loading, Text, Heatmap } from '@components'
 import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
@@ -54,13 +54,60 @@ function Content(props, { $, navigation }) {
                 name='translate'
                 size={18}
                 onPress={$.doTranslate}
-              />
+              >
+                <Heatmap id='帖子.翻译内容' />
+              </IconTouchable>
             )}
-            <RenderHtml
-              style={_.mt.md}
-              html={$.html}
-              onLinkPress={href => appNavigate(href, navigation, {}, event)}
-            />
+            <View style={_.mt.md}>
+              <RenderHtml
+                html={$.html}
+                onLinkPress={href => appNavigate(href, navigation, {}, event)}
+              />
+              <Heatmap
+                bottom={133}
+                id='帖子.跳转'
+                data={{
+                  to: 'Blog',
+                  alias: '日志'
+                }}
+                transparent
+              />
+              <Heatmap
+                bottom={100}
+                id='帖子.跳转'
+                data={{
+                  to: 'CatalogDetail',
+                  alias: '目录'
+                }}
+                transparent
+              />
+              <Heatmap
+                bottom={67}
+                id='帖子.跳转'
+                data={{
+                  to: 'Topic',
+                  alias: '帖子'
+                }}
+                transparent
+              />
+              <Heatmap
+                bottom={34}
+                id='帖子.跳转'
+                data={{
+                  to: 'Mono',
+                  alias: '人物'
+                }}
+                transparent
+              />
+              <Heatmap
+                id='帖子.跳转'
+                data={{
+                  to: 'WebBrowser',
+                  alias: '浏览器'
+                }}
+                transparent
+              />
+            </View>
           </>
         )
       )}

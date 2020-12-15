@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 10:24:42
+ * @Last Modified time: 2020-12-16 00:46:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +14,8 @@ import {
   Katakana,
   Text,
   Divider,
-  Loading
+  Loading,
+  Heatmap
 } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
@@ -85,6 +86,22 @@ function Top(props, { $, navigation }) {
               </>
             )}
           </Katakana.Provider>
+          <Heatmap
+            right={74}
+            id='帖子.跳转'
+            data={{
+              to: 'Group',
+              alias: '小组'
+            }}
+          />
+          <Heatmap
+            id='帖子.跳转'
+            data={{
+              to: 'Subject',
+              alias: '条目'
+            }}
+            transparent
+          />
         </Flex>
         {isGroup && (
           <Flex style={[styles.userWrap, _.mt.sm]}>
@@ -113,6 +130,13 @@ function Top(props, { $, navigation }) {
                 )}
               </Flex.Item>
             )}
+            <Heatmap
+              id='帖子.跳转'
+              data={{
+                to: 'Zone',
+                alias: '空间'
+              }}
+            />
           </Flex>
         )}
         <Content />

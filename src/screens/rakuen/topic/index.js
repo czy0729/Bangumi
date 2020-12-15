@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:37:24
+ * @Last Modified time: 2020-12-16 00:59:43
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -22,6 +22,7 @@ import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
 import IconFavor from './icon-favor'
+import Heatmaps from './heatmaps'
 import Store from './store'
 
 const title = '帖子'
@@ -92,6 +93,7 @@ class Topic extends React.Component {
         navigation.getParam('_url') || `${HOST}/rakuen/topic/${$.topicId}`
       navigation.setParams({
         extra: <IconFavor $={$} />,
+        heatmap: '帖子.右上角菜单',
         popover: {
           data: ['浏览器查看', '复制链接', '举报'],
           onSelect: key => {
@@ -357,6 +359,7 @@ class Topic extends React.Component {
         />
         {this.renderFixedBottom()}
         <TouchScroll onPress={this.scrollToThenFeedback} />
+        <Heatmaps />
       </View>
     )
   }

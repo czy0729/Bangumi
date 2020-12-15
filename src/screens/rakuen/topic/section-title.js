@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 17:57:46
+ * @Last Modified time: 2020-12-16 00:53:40
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Text, SegmentedControl } from '@components'
+import { Text, SegmentedControl, Heatmap } from '@components'
 import { SectionTitle as CompSectionTitle, IconReverse } from '@screens/_'
 import { _ } from '@stores'
 
@@ -47,39 +47,45 @@ function SectionTitle(props, { $ }) {
       right={
         <>
           {segmentedControlDS.length > 1 && (
-            <SegmentedControl
-              style={[
-                styles.segmentedControl,
-                {
-                  width: segmentedControlDS.length * 56
-                }
-              ]}
-              size={11}
-              values={segmentedControlDS}
-              selectedIndex={selectedIndex}
-              onValueChange={title => {
-                if (
-                  (title.includes('我') && !filterMe) ||
-                  (title === '全部' && filterMe)
-                ) {
-                  $.toggleFilterMe()
-                  return
-                }
+            <View>
+              <SegmentedControl
+                style={[
+                  styles.segmentedControl,
+                  {
+                    width: segmentedControlDS.length * 56
+                  }
+                ]}
+                size={11}
+                values={segmentedControlDS}
+                selectedIndex={selectedIndex}
+                onValueChange={title => {
+                  if (
+                    (title.includes('我') && !filterMe) ||
+                    (title === '全部' && filterMe)
+                  ) {
+                    $.toggleFilterMe()
+                    return
+                  }
 
-                if (
-                  (title.includes('好友') && !filterFriends) ||
-                  (title === '全部' && filterFriends)
-                ) {
-                  $.toggleFilterFriends()
-                }
-              }}
-            />
+                  if (
+                    (title.includes('好友') && !filterFriends) ||
+                    (title === '全部' && filterFriends)
+                  ) {
+                    $.toggleFilterFriends()
+                  }
+                }}
+              />
+              <Heatmap right={74} bottom={24} id='帖子.好友相关' />
+              <Heatmap right={24} bottom={24} id='帖子.与我相关' />
+            </View>
           )}
           <IconReverse
             style={styles.sort}
             color={reverse ? _.colorMain : _.colorIcon}
             onPress={$.toggleReverseComments}
-          />
+          >
+            <Heatmap right={10} bottom={29} id='帖子.吐槽倒序' />
+          </IconReverse>
         </>
       }
     >
