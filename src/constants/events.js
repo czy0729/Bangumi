@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:32:04
+ * @Last Modified time: 2020-12-15 20:14:20
  */
 
 /**
@@ -120,7 +120,7 @@ export default {
   '首页.置顶或取消置顶': 'Home.itemToggleTop',
   '首页.全部展开': 'Home.expandAll',
   '首页.全部关闭': 'Home.closeAll',
-  '首页.选择布局': 'Home.selectLayout',
+  // '首页.选择布局': 'Home.selectLayout',
   '首页.格子布局条目选择': 'Home.selectGirdSubject',
   '首页.观看下一章节': 'Home.doWatchedNextEp',
   '首页.更新书籍下一个章节': 'Home.doUpdateNext',

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 15:35:40
+ * @Last Modified time: 2020-12-15 22:48:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import Text from './text'
 
 const totalWithoutView = heatmapData.total - heatmapData['其他.查看']
 
-function Heatmap({ right, bottom, transparent, id, data }) {
+function Heatmap({ right, bottom, transparent, id, data, screen }) {
   const styles = memoStyles()
   const isPage = !id.includes('.') // 是否页面
   const page = id.split('.')[0] // 页面名称
@@ -28,14 +28,16 @@ function Heatmap({ right, bottom, transparent, id, data }) {
   const value = data[key]
 
   // 额外
-  const countView = heatmapData[`${page}.查看`] || 0
   const countTo = heatmapData[`${page}.跳转`] || 0
+  const countView = heatmapEventData['其他.查看.screen'][screen] || 0
 
   // 计算
   const count = key
     ? heatmapEventData[`${id}.${key}`][value] || 0
     : heatmapData[id] || 0
-  const total = (isPage ? totalWithoutView : heatmapData[page]) - countView // 事件百分比需要排除[页面.查看]
+  const total =
+    (isPage ? totalWithoutView : heatmapData[page]) -
+    (heatmapData[`${page}.查看`] || 0) // 事件百分比需要排除[页面.查看]
   const percentStyle = Math.min((count / (heatmapData[page] || 1)) * 2, 1)
   let percent = (count / (total || 1)) * 100
   percent = percent < 1 ? toFixed(percent, 1) : parseInt(percent)
@@ -71,6 +73,7 @@ function Heatmap({ right, bottom, transparent, id, data }) {
         <View
           style={[
             styles.text,
+            id.includes('.跳转') && styles.textSpec,
             {
               right,
               bottom
@@ -79,7 +82,7 @@ function Heatmap({ right, bottom, transparent, id, data }) {
         >
           <Text type='__plain__' size={10} bold align='right'>
             {isPage ? '总事件(日)' : id.split('.')[1]}
-            {value ? `.${value}` : ''}
+            {value ? `.${data.alias || value}` : ''}
           </Text>
           <Text type='__plain__' size={9} bold align='right'>
             {formatNumber(count / 30, count >= 30 || count === 0 ? 0 : 1)}
@@ -116,7 +119,10 @@ function Heatmap({ right, bottom, transparent, id, data }) {
               </Text>
               <Text type='__plain__' size={9} bold align='right'>
                 {formatNumber(countView / 30, 0)} /{' '}
-                {parseInt((countView / (heatmapData[page] || 1)) * 100)}%
+                {parseInt(
+                  (countView / heatmapEventData['其他.查看.screen'].total) * 100
+                )}
+                %
               </Text>
             </>
           )}
@@ -153,7 +159,7 @@ export default observer(Heatmap)
 const memoStyles = _.memoStyles(_ => ({
   page: {
     position: 'absolute',
-    zIndex: 1000,
+    zIndex: 10000,
     top: 0,
     right: _.wind,
     left: 0,
@@ -161,13 +167,13 @@ const memoStyles = _.memoStyles(_ => ({
   },
   position: {
     position: 'absolute',
-    zIndex: 1000,
+    zIndex: 10000,
     right: 0,
     bottom: 0
   },
   block: {
     position: 'absolute',
-    zIndex: 999,
+    zIndex: 9999,
     top: 0,
     right: 0,
     bottom: 0,
@@ -176,9 +182,12 @@ const memoStyles = _.memoStyles(_ => ({
   },
   text: {
     position: 'absolute',
-    zIndex: 1001,
+    zIndex: 10001,
     padding: _.xs,
     backgroundColor: _.select('rgba(0, 0, 0, 0.64)', 'rgba(0, 0, 0, 0.7)'),
     borderRadius: _.radiusXs
+  },
+  textSpec: {
+    backgroundColor: 'rgba(15, 61, 67, 0.88)'
   }
 }))

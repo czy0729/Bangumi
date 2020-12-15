@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 18:05:36
+ * @Last Modified time: 2020-12-15 22:51:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Progress, Modal } from '@ant-design/react-native'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
 import { Eps, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
@@ -26,6 +26,7 @@ const colorDark = {
 
 class Item extends React.Component {
   static defaultProps = {
+    index: '',
     subjectId: 0,
     subject: {},
     epStatus: ''
@@ -125,6 +126,11 @@ class Item extends React.Component {
     return MODEL_SUBJECT_TYPE.getTitle(subject.type)
   }
 
+  get isSecond() {
+    const { index } = this.props
+    return index === 1
+  }
+
   renderBtnNextEp() {
     const { $ } = this.context
     const { subjectId } = this.props
@@ -141,6 +147,7 @@ class Item extends React.Component {
             <Text type='sub'>{sort}</Text>
           </View>
         </Flex>
+        {this.isSecond && <Heatmap right={26} id='首页.观看下一章节' />}
       </Touchable>
     )
   }
@@ -160,6 +167,7 @@ class Item extends React.Component {
           }
         >
           <Iconfont name='star' size={18} />
+          {this.isSecond && <Heatmap id='首页.显示收藏管理' />}
         </Touchable>
       </Flex>
     )
@@ -193,6 +201,7 @@ class Item extends React.Component {
             {volStatus}
           </Text>
           {this.renderBookNextBtn(epStatus, volStatus + 1)}
+          {this.isSecond && <Heatmap right={40} id='首页.更新书籍下一个章节' />}
         </Flex>
       )
     }
@@ -262,16 +271,31 @@ class Item extends React.Component {
         ]}
       >
         <Flex style={this.styles.hd}>
-          <Cover
-            src={subject?.images?.medium || ''}
-            size={IMG_WIDTH}
-            height={IMG_HEIGHT}
-            radius
-            shadow
-            type={type}
-            onPress={this.onPress}
-            onLongPress={this.onLongPress}
-          />
+          <View>
+            <Cover
+              src={subject?.images?.medium || ''}
+              size={IMG_WIDTH}
+              height={IMG_HEIGHT}
+              radius
+              shadow
+              type={type}
+              onPress={this.onPress}
+              onLongPress={this.onLongPress}
+            />
+            {this.isSecond && (
+              <>
+                <Heatmap bottom={68} id='首页.全部展开' transparent />
+                <Heatmap bottom={34} id='首页.全部收起' transparent />
+                <Heatmap
+                  id='首页.跳转'
+                  data={{
+                    to: 'Subject',
+                    alias: '条目'
+                  }}
+                />
+              </>
+            )}
+          </View>
           <Flex.Item style={this.styles.content}>
             <Touchable
               style={this.styles.title}
@@ -325,6 +349,13 @@ class Item extends React.Component {
                       onPress={this.onGridPress}
                     >
                       {this.renderCount()}
+                      {this.isSecond && (
+                        <Heatmap
+                          right={44}
+                          bottom={5}
+                          id='首页.展开或收起条目'
+                        />
+                      )}
                     </Touchable>
                   )}
                 </Flex.Item>
@@ -338,19 +369,40 @@ class Item extends React.Component {
               />
             </View>
           </Flex.Item>
+          {this.isSecond && (
+            <View>
+              <Heatmap id='首页.置顶或取消置顶' />
+            </View>
+          )}
         </Flex>
         {expand && (
-          <Eps
-            style={this.styles.eps}
-            layoutWidth={layoutWidth}
-            marginRight={itemPadding}
-            login={$.isLogin}
-            subjectId={subjectId}
-            eps={$.eps(subjectId)}
-            userProgress={$.userProgress(subjectId)}
-            onSelect={this.onEpsSelect}
-            onLongPress={this.onEpsLongPress}
-          />
+          <View style={this.styles.eps}>
+            <Eps
+              layoutWidth={layoutWidth}
+              marginRight={itemPadding}
+              login={$.isLogin}
+              subjectId={subjectId}
+              eps={$.eps(subjectId)}
+              userProgress={$.userProgress(subjectId)}
+              onSelect={this.onEpsSelect}
+              onLongPress={this.onEpsLongPress}
+            />
+            {this.isSecond && (
+              <>
+                <Heatmap
+                  right={72}
+                  id='首页.跳转'
+                  data={{
+                    to: 'Topic',
+                    alias: '章节讨论'
+                  }}
+                  transparent
+                />
+                <Heatmap bottom={35} id='首页.章节按钮长按' transparent />
+                <Heatmap id='首页.章节菜单操作' />
+              </>
+            )}
+          </View>
         )}
         {this.isTop && <View style={this.styles.dot} />}
       </View>

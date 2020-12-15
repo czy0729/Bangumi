@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:49:32
+ * @Last Modified time: 2020-12-15 22:25:48
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -140,7 +140,7 @@ class Subject extends React.Component {
         <Bg show={showBlurView} />
         <List rendered={rendered} onScroll={this.onScroll} />
         {rendered && <Modal />}
-        <Heatmap id={title} />
+        <Heatmap id={title} screen='Subject' />
       </View>
     )
   }

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-07 16:09:48
+ * @Last Modified time: 2020-12-15 23:02:33
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex } from '@components'
+import { Flex, Heatmap } from '@components'
 import { Logo, IconNotify, IconTinygrail, IconTabsHeader } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -26,7 +26,17 @@ function Header(props, { navigation }) {
           style={[styles.icon, _.mr.sm]}
           navigation={navigation}
           event={event}
-        />
+        >
+          <Heatmap
+            right={-39}
+            id='首页.跳转'
+            data={{
+              to: 'Notify',
+              alias: '电波提醒'
+            }}
+          />
+          <Heatmap right={-92} id='其他.切换主题' transparent />
+        </IconNotify>
       </Flex>
       <Flex.Item>
         <Flex style={styles.logo} justify='center'>
@@ -48,7 +58,25 @@ function Header(props, { navigation }) {
             })
             navigation.push('Search')
           }}
-        />
+        >
+          <Heatmap
+            id='首页.跳转'
+            data={{
+              to: 'Search',
+              alias: '搜索'
+            }}
+          />
+          <Heatmap
+            right={88}
+            bottom={-32}
+            id='首页.跳转'
+            data={{
+              to: 'Calendar',
+              alias: '每日放送'
+            }}
+            transparent
+          />
+        </IconTabsHeader>
       </Flex>
     </Flex>
   )

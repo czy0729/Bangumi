@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-08 21:01:58
+ * @Last Modified time: 2020-12-15 17:55:24
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -86,10 +86,11 @@ function keyExtractor(item) {
   return String(item.subject_id || item.id)
 }
 
-function renderItem({ item }) {
+function renderItem({ item, index }) {
   // 游戏标签页和其他类型数据源和结构都不一样, 需要构造
   return (
     <Item
+      index={index}
       subjectId={item.subject_id || item.id}
       subject={
         item.subject || {

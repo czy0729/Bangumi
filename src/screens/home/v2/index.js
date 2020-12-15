@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-07 16:04:01
+ * @Last Modified time: 2020-12-15 20:02:11
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -25,6 +25,7 @@ import { MODEL_SETTING_INITIAL_PAGE } from '@constants/model'
 import Header from './header'
 import Tab from './tab-wrap'
 import Modal from './modal'
+import Heatmaps from './heapmaps'
 import Store from './store'
 
 const title = '首页'
@@ -136,6 +137,7 @@ class Home extends React.Component {
             <Modal />
           </>
         )}
+        <Heatmaps />
       </SafeAreaView>
     )
   }

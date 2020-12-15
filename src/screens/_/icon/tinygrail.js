@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-09-07 15:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 20:44:51
+ * @Last Modified time: 2020-12-15 20:55:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { Heatmap } from '@components'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
@@ -28,7 +29,17 @@ function IconTinygrail({ style, navigation, color, event }) {
           })
           navigation.push('Tinygrail')
         }}
-      />
+      >
+        <Heatmap
+          right={52}
+          id='首页.跳转'
+          data={{
+            to: 'Tinygrail',
+            alias: '小圣杯'
+          }}
+          transparent
+        />
+      </IconTabsHeader>
     )
   }
 

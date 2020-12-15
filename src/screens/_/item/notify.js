@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 11:41:47
+ * @Last Modified time: 2020-12-15 20:46:25
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -23,7 +23,8 @@ function ItemNotify({
   message,
   message2,
   href,
-  event
+  event,
+  children
 }) {
   const styles = memoStyles()
   return (
@@ -64,6 +65,7 @@ function ItemNotify({
           {message2}
         </Text>
       </Flex.Item>
+      {children}
     </Flex>
   )
 }

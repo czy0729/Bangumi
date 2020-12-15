@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 21:16:23
+ * @Last Modified time: 2020-12-15 20:48:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,7 @@ class Notify extends React.Component {
   }
 
   render() {
-    const { style, navigation, event } = this.props
+    const { style, navigation, event, children } = this.props
     const hasNewNotify = !!rakuenStore.notify.unread
     const { hasNewPM } = userStore
     return (
@@ -58,7 +58,9 @@ class Notify extends React.Component {
               navigation.push('LoginV2')
             }
           }}
-        />
+        >
+          {children}
+        </IconTabsHeader>
       </View>
     )
   }
