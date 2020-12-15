@@ -17,6 +17,8 @@
 
 Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）, 发现和讨论番组的第三方客户端
 
+本人并没有原生开发经验, 用于练手 RN, 希望通过这个平台数据去学习更多
+
 ## Download
 
 [安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642)
@@ -28,25 +30,19 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 [特有功能]
 
-- 大部分资源覆盖到自维护 [CDN](https://github.com/czy0729/Bangumi-Subject), 访问速度+++
-- 图片使用 [CDN](https://github.com/czy0729/Bangumi-OSS), 有后处理, 所以有比源网站更好的质量和更小的流量
-- 章节播放源 / 漫画源查询
-- 找番剧 / 文库
+- 大部分资源覆盖到自维护 [CDN](https://github.com/czy0729/Bangumi-Subject), 访问速度++
+- 图片使用 [CDN](https://github.com/czy0729/Bangumi-OSS), 有后处理, 比源网站更快、质量更高、流量更小
+- 当季番剧精准到单集网络播放源 / 漫画源查询 / 找番剧 / 文库
 - [小圣杯](https://bgm.tv/dev/app/1143) (角色交易空气游戏, App 独立设计 UI 和交互)
 
 [基本功能]
 
 - 番组进度管理
-- 条目详情
-- 角色
+- 条目、角色详情
 - 时间线 (用户动态)
 - 超展开 (帖吧)
-- 个人中心 / 用户空间
-- 搜索 / 标签 / 排行榜 / 索引 / 目录 / 每日放送 / 年鉴
-
-## Versions
-
-[CHANGELOG](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
+- 时光机 (个人中心) / 用户空间
+- 不限于搜索 / 排行榜 / 索引 / 目录 / 每日放送 / 年鉴 / 标签
 
 ## Update
 
@@ -60,29 +56,7 @@ v4.4.4 - 2020/12/14
 - [x] [电波提醒] 提醒 tab, 完全相同文案的项会合并
 - [x] [安卓] 所有页面点击顶部(刘海附近)可以回到顶部, 与 iOS 表现一致
 
-v4.4.2 - 2020/11/30
-
-—— 新增 ——
-
-- [x] 提升好友在 App 内的表现, 不限于:
-  - [x] 发现首页展示好友动态
-  - [x] 会自动记录好友改名, 在部分常用页面一并显示曾用名
-
-—— 优化 ——
-
-- [x] 安卓键盘优化?
-- [x] 收藏项的标签分割显示优化
-
-—— 修复 ——
-
-- [x] [帖子] 修复了帖子里楼层中自己的头像有时候依然是旧头像的问题
-- [x] [帖子] 留言输入框, 安卓暂时屏蔽控制光标的逻辑
-
-—— 小圣杯 3.2.0 ——
-
-- [x] [我的持仓] 新增批量分享, 多选后自动把带链接的分享文案复制到粘贴板
-- [x] [粘贴板] 识别剪贴板上比如 QQ 群分享带多角色链接的消息, 生成自定义列表 (页面支持一键参与 ico)
-- [x] 交易和资产重组页面, 增加关联角色入口
+[CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
 ## PowerBy
 
@@ -104,19 +78,29 @@ v4.4.2 - 2020/11/30
 
 [[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
-[[tinygrail.com]](https://tinygrail.com) 小圣杯接口
-
 ## Preview
 
 #### 基础功能
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/1.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/1.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/2.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/3.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/3.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/4.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/4.png" width="100%" />
 
-#### 小圣杯模块
+#### 小圣杯 (角色模拟炒股) 模块
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/5.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/5.png" width="100%" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/6.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/screenshot/3.10.0/6.png" width="100%" />
 
 (被墙看不见图的可以复制 alt 打开)
+
+## 后续迭代
+
+现版本基本用户需要的功能已齐全, 接下来会使用友盟收集到的埋点数据(匿名), 尝试学习数据分析, 根据结果计划后续版本迭代的方向.
+
+[[bangumi-analysis]](https://github.com/czy0729/Bangumi-Analysis) 脱敏埋点数据
+
+目前进程, 根据本 APP 最核心的页面 (条目), 先进行整合数据并进行简单的可视化模块搭建, 以下根据最近 30 天埋点数据情况, 显示平均一天事件触发次数和百分比
+
+<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" width="234" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" width="234" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" width="234" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" width="234" />
+
+可以一眼了解到哪些功能需求强, 可以进行迭代, 也能明确哪些功能需求偏低, 适当进行隐藏或者移除. 发现存在 0 数据的事件, 可以考虑是不是埋点写法出了问题.
 
 ## 免责声明
 
@@ -124,7 +108,7 @@ v4.4.2 - 2020/11/30
 - 本项目承诺不保存任何第三方用户信息
 - 本项目代码仅供学习交流，不得用于商业用途，若侵权请联系
 
-## 开发
+## 本地开发
 
 ** 提醒 **
 
@@ -161,4 +145,4 @@ npm start // [iOS] 之后点击在浏览器打开的Expo Developer Tools, 点击
 react-native run-android // [android] 真机 usb 调试
 ```
 
-本人一直在 mac 环境下开发, iOS 跑 expo 客户端调试, 安卓跑真机 usb 调试. window 用法不详, 也不清楚到底能不能运行, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档. 可以选择同一局域网真机扫码调试, 需先下载 Expo App
+本人一直在 mac 环境下开发, iOS 跑 expo 客户端调试, 安卓跑真机 usb 调试. window 用法不详, 也不清楚到底能不能运行, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档. 可以选择同一局域网真机扫码调试, 需先下载 Expo App.
