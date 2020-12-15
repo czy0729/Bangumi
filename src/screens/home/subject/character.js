@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:10:37
+ * @Last Modified time: 2020-12-15 14:26:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,42 +41,36 @@ function Character({ style }, { $, navigation }) {
               <Text type='sub'>更多</Text>
               <Iconfont name='right' size={16} />
             </Flex>
-            <Heatmap
-              id='条目.跳转'
-              data={{
-                from: '角色'
-              }}
-            />
           </Touchable>
         }
       >
         角色
       </SectionTitle>
-      <View style={_.mt.sm}>
-        <HorizontalList
-          data={$.crt}
-          quality={false}
-          onPress={({ id, name, nameJP, _image }) => {
-            t('条目.跳转', {
-              to: 'Mono',
-              from: '角色',
-              subjectId: $.subjectId
-            })
-            navigation.push('Mono', {
-              monoId: `character/${id}`,
-              _name: name,
-              _jp: nameJP,
-              _image
-            })
-          }}
-        />
-        <Heatmap
-          id='条目.跳转'
-          data={{
-            from: '角色'
-          }}
-        />
-      </View>
+      <HorizontalList
+        style={_.mt.sm}
+        data={$.crt}
+        quality={false}
+        onPress={({ id, name, nameJP, _image }) => {
+          t('条目.跳转', {
+            to: 'Mono',
+            from: '角色',
+            subjectId: $.subjectId
+          })
+          navigation.push('Mono', {
+            monoId: `character/${id}`,
+            _name: name,
+            _jp: nameJP,
+            _image
+          })
+        }}
+      />
+
+      <Heatmap
+        id='条目.跳转'
+        data={{
+          from: '角色'
+        }}
+      />
     </View>
   )
 }

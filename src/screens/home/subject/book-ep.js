@@ -2,15 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 22:20:03
+ * @Last Modified time: 2020-12-15 14:18:51
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Touchable, Text, Input, Button, Iconfont } from '@components'
+import {
+  Flex,
+  Touchable,
+  Text,
+  Input,
+  Button,
+  Iconfont,
+  Heatmap
+} from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
+import { t } from '@utils/fetch'
 
 function BookEp({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -36,17 +45,23 @@ function BookEp({ style }, { $, navigation }) {
                   阅读
                 </Text>
               </Flex>
+              <Heatmap id='条目.阅读轻小说' />
             </Touchable>
           ) : (
             <Touchable
               style={styles.iconPlay}
-              onPress={() =>
+              onPress={() => {
+                t('条目.跳转', {
+                  from: '源头',
+                  subjectId: $.subjectId
+                })
+
                 navigation.push('Comic', {
                   cn: $.cn,
                   jp: $.jp,
                   subjectId: $.subjectId
                 })
-              }
+              }}
             >
               <Flex>
                 <Iconfont name='search' size={16} />
@@ -54,6 +69,12 @@ function BookEp({ style }, { $, navigation }) {
                   源头
                 </Text>
               </Flex>
+              <Heatmap
+                id='条目.跳转'
+                data={{
+                  from: '源头'
+                }}
+              />
             </Touchable>
           )
         }
@@ -129,15 +150,19 @@ function BookEp({ style }, { $, navigation }) {
                 >
                   +
                 </Button>
+                <Heatmap id='条目.更新书籍下一个章节' />
               </Flex>
             </Flex.Item>
-            <Button
-              style={[styles.btn, _.ml.md]}
-              type='ghostPrimary'
-              onPress={$.doUpdateBookEp}
-            >
-              更新
-            </Button>
+            <View style={_.ml.md}>
+              <Button
+                style={styles.btn}
+                type='ghostPrimary'
+                onPress={$.doUpdateBookEp}
+              >
+                更新
+              </Button>
+              <Heatmap id='条目.更新书籍章节' />
+            </View>
           </>
         )}
       </Flex>

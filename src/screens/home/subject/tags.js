@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-14 22:20:02
+ * @Last Modified time: 2020-12-15 14:43:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,9 @@ function Tags({ style }, { $, navigation }) {
               style={styles.trophy}
               name='trophy'
               onPress={$.toPSNINE}
-            />
+            >
+              <Heatmap id='条目.查看奖杯' />
+            </IconTouchable>
           )
         }
       >

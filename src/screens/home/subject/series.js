@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-14 22:49:44
+ * @Last Modified time: 2020-12-15 14:40:47
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -150,6 +150,12 @@ function Series({ prev, after, series, size }, { $, navigation }) {
           {series.title}
         </Text>
       </Flex>
+      <Heatmap
+        id='条目.跳转'
+        data={{
+          from: '系列'
+        }}
+      />
     </Touchable>
   )
 }

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:26:36
+ * @Last Modified time: 2020-12-15 14:32:04
  */
 
 /**
@@ -160,6 +160,7 @@ export default {
   '条目.阅读轻小说': 'Subject.readNoval',
   '条目.预览': 'Subject.viewThumbs',
   '条目.筛选分数': 'Subject.filterScores',
+  '条目.复制标题': 'Subject.copyTitle',
 
   // 章节
   '章节.跳转': 'Episodes.to',

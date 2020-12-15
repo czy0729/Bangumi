@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 20:08:01
+ * @Last Modified time: 2020-12-15 14:41:54
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Text, Iconfont } from '@components'
+import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -62,6 +62,12 @@ function Staff({ style }, { $, navigation }) {
             _jp: nameJP,
             _image
           })
+        }}
+      />
+      <Heatmap
+        id='条目.跳转'
+        data={{
+          from: '制作人员'
         }}
       />
     </View>

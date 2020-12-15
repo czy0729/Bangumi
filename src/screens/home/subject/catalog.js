@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:08:49
+ * @Last Modified time: 2020-12-15 14:23:46
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -60,12 +60,7 @@ function Catalog({ style }, { $, navigation }) {
       >
         目录
       </SectionTitle>
-      <View
-        style={{
-          marginTop: _.md,
-          marginBottom: -_.md
-        }}
-      >
+      <View style={styles.scrollView}>
         <ScrollView
           contentContainerStyle={styles.contentContainerStyle}
           horizontal
@@ -126,6 +121,10 @@ const styles = StyleSheet.create({
     paddingTop: _.sm,
     paddingHorizontal: _.wind,
     paddingBottom: _.md + 4
+  },
+  scrollView: {
+    marginTop: _.md,
+    marginBottom: -_.md
   },
   item: {
     width: 120,

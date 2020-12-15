@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 17:11:46
+ * @Last Modified time: 2020-12-15 10:46:55
  */
 import React from 'react'
 import { AppState, Clipboard } from 'react-native'
 import { matchBgmUrl } from '@utils/match'
 import { navigationReference, appNavigate } from '@utils/app'
 import { confirm } from '@utils/ui'
+import { IOS } from '@constants'
 
 let lastUrl = ''
 
@@ -18,6 +19,11 @@ class ListenClipboard extends React.Component {
   }
 
   componentDidMount() {
+    // iOS14会有粘贴板读取提示, 很烦人暂时屏蔽
+    if (IOS) {
+      return
+    }
+
     AppState.addEventListener('change', this.onAppStateChange)
     setTimeout(() => {
       this.checkContent()
@@ -25,6 +31,10 @@ class ListenClipboard extends React.Component {
   }
 
   componentWillUnmount() {
+    if (IOS) {
+      return
+    }
+
     AppState.removeEventListener('change', this.onAppStateChange)
   }
 

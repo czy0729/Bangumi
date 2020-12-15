@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 16:06:33
+ * @Last Modified time: 2020-12-15 12:11:53
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text } from '@components'
+import { Flex, Text, Heatmap } from '@components'
 import { SectionTitle, Avatar, Stars } from '@screens/_'
 import { _ } from '@stores'
 import { URL_DEFAULT_AVATAR } from '@constants'
@@ -62,6 +62,12 @@ function Recent({ style }, { $, navigation }) {
           </Flex>
         ))}
       </ScrollView>
+      <Heatmap
+        id='条目.跳转'
+        data={{
+          from: '用户动态'
+        }}
+      />
     </View>
   )
 }

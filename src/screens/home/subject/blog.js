@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:32:46
+ * @Last Modified time: 2020-12-15 12:14:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,41 +30,43 @@ function Blog({ style }, { $, navigation }) {
 
   const styles = memoStyles()
   return (
-    <Expand style={style} ratio={1.2}>
-      <SectionTitle style={styles.left}>日志</SectionTitle>
-      <View style={_.mt.sm}>
-        {_blog.map((item, index) => (
-          <ItemArticle
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
-            style={styles.left}
-            navigation={navigation}
-            index={index}
-            avatar={item.user.avatar.small}
-            title={item.title}
-            summary={item.summary}
-            nickname={item.user.nickname}
-            userId={item.user.username}
-            timestamp={item.timestamp}
-            replies={item.replies}
-            url={item.url}
-            event={{
-              id: '条目.跳转',
-              data: {
-                from: '评论',
-                subjectId: $.subjectId
-              }
-            }}
-          />
-        ))}
-        <Heatmap
-          id='条目.跳转'
-          data={{
-            from: '评论'
-          }}
-        />
-      </View>
-    </Expand>
+    <View style={style}>
+      <Expand ratio={1.2}>
+        <SectionTitle style={styles.left}>日志</SectionTitle>
+        <View style={_.mt.sm}>
+          {_blog.map((item, index) => (
+            <ItemArticle
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+              style={styles.left}
+              navigation={navigation}
+              index={index}
+              avatar={item.user.avatar.small}
+              title={item.title}
+              summary={item.summary}
+              nickname={item.user.nickname}
+              userId={item.user.username}
+              timestamp={item.timestamp}
+              replies={item.replies}
+              url={item.url}
+              event={{
+                id: '条目.跳转',
+                data: {
+                  from: '评论',
+                  subjectId: $.subjectId
+                }
+              }}
+            />
+          ))}
+        </View>
+      </Expand>
+      <Heatmap
+        id='条目.跳转'
+        data={{
+          from: '评论'
+        }}
+      />
+    </View>
   )
 }
 

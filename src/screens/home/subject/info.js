@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:12:44
+ * @Last Modified time: 2020-12-15 14:47:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,13 +28,9 @@ function Info({ style }, { $, navigation }) {
         <Expand>
           <RenderHtml
             style={styles.info}
+            baseFontStyle={styles.baseFontStyle}
             html={html}
             katakana
-            baseFontStyle={{
-              fontSize: 14 + _.fontSizeAdjust,
-              lineHeight: 22,
-              color: _.colorTitle
-            }}
             onLinkPress={href =>
               appNavigate(
                 href,
@@ -76,5 +72,10 @@ const memoStyles = _.memoStyles(_ => ({
   info: {
     paddingVertical: _.sm,
     paddingHorizontal: _.wind
+  },
+  baseFontStyle: {
+    fontSize: 14 + _.fontSizeAdjust,
+    lineHeight: 22,
+    color: _.colorTitle
   }
 }))

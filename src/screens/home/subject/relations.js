@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:19:31
+ * @Last Modified time: 2020-12-15 14:39:23
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { Heatmap } from '@components'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -37,6 +38,12 @@ function Relations({ style }, { $, navigation }) {
             _jp: name,
             _image: image
           })
+        }}
+      />
+      <Heatmap
+        id='条目.跳转'
+        data={{
+          from: '关联条目'
         }}
       />
     </View>

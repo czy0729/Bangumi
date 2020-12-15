@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 19:13:36
+ * @Last Modified time: 2020-12-15 14:33:22
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Katakana } from '@components'
+import { Flex, Text, Katakana, Heatmap } from '@components'
 import { ScoreTag, Tag } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { toFixed } from '@utils'
@@ -32,55 +32,49 @@ function Head({ style }, { $ }) {
   const showSeries = subjectPrev || subjectAfter || subjectSeries
 
   // 主标题大小
-  let size
-  if ($.cn.length > 24) {
-    size = 11
-  } else if ($.cn.length > 16) {
-    size = 13
-  } else {
-    size = 16
-  }
-  if (showRelation && hasRelation) {
-    size = Math.max(10, size - 2)
-  }
+  let size = $.cn.length > 24 ? 11 : $.cn.length > 16 ? 13 : 16
+  if (showRelation && hasRelation) size = Math.max(10, size - 2)
   return (
     <View style={[styles.container, style]}>
       <Cover image={images.common} placeholder={$.coverPlaceholder} />
       <View style={styles.content}>
         <View style={styles.title}>
-          {!!$.jp && (
-            <Katakana.Provider
-              size={$.jp.length > 12 ? 11 : 13}
-              itemStyle={styles.katakana}
-              numberOfLines={hasRelation ? 1 : 2}
-            >
-              <Katakana
-                type='sub'
+          <View>
+            {!!$.jp && (
+              <Katakana.Provider
                 size={$.jp.length > 12 ? 11 : 13}
+                itemStyle={styles.katakana}
                 numberOfLines={hasRelation ? 1 : 2}
+              >
+                <Katakana
+                  type='sub'
+                  size={$.jp.length > 12 ? 11 : 13}
+                  numberOfLines={hasRelation ? 1 : 2}
+                  onLongPress={() => {
+                    Clipboard.setString($.jp)
+                    info(`已复制 ${$.jp}`)
+                  }}
+                >
+                  {!!$.titleLabel && `${$.titleLabel} · `}
+                  {$.jp}
+                </Katakana>
+              </Katakana.Provider>
+            )}
+            {!subjectSeries && (
+              <Text
+                style={!!$.cn && _.mt.xs}
+                size={size}
+                bold
                 onLongPress={() => {
-                  Clipboard.setString($.jp)
-                  info(`已复制 ${$.jp}`)
+                  Clipboard.setString($.cn)
+                  info(`已复制 ${$.cn}`)
                 }}
               >
-                {!!$.titleLabel && `${$.titleLabel} · `}
-                {$.jp}
-              </Katakana>
-            </Katakana.Provider>
-          )}
-          {!subjectSeries && (
-            <Text
-              style={!!$.cn && _.mt.xs}
-              size={size}
-              bold
-              onLongPress={() => {
-                Clipboard.setString($.cn)
-                info(`已复制 ${$.cn}`)
-              }}
-            >
-              {$.cn}
-            </Text>
-          )}
+                {$.cn}
+              </Text>
+            )}
+            <Heatmap id='条目.复制标题' />
+          </View>
           {showSeries && (
             <Series
               prev={subjectPrev}

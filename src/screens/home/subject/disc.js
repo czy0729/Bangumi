@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:40:34
+ * @Last Modified time: 2020-12-15 12:00:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Expand, Text } from '@components'
+import { Expand, Text, Heatmap } from '@components'
 import { SectionTitle, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
@@ -27,61 +27,71 @@ function Disc({ style }, { $, navigation }) {
               name='translate'
               size={16}
               onPress={$.doDiscTranslate}
-            />
+            >
+              <Heatmap id='条目.翻译曲目' />
+            </IconTouchable>
           )
         }
       >
         曲目列表
       </SectionTitle>
       {!!$.disc.length && (
-        <Expand style={_.mt.md}>
-          {$.disc.map((item, index) => (
-            <View key={item.title} style={!!index && _.mt.md}>
-              <Text type='sub' size={16}>
-                {item.title}
-              </Text>
-              <View style={_.mt.sm}>
-                {item.disc.map((i, idx) => {
-                  let translate = ''
-                  if (_discTranslateResult.length) {
-                    translate = _discTranslateResult.shift().dst
-                  }
-                  return (
-                    <View
-                      key={i.href}
-                      style={[styles.item, idx % 2 === 0 && styles.odd]}
-                    >
-                      <Text
-                        onPress={() =>
-                          appNavigate(
-                            i.href,
-                            navigation,
-                            {},
-                            {
-                              id: '条目.跳转',
-                              data: {
-                                from: '曲目列表',
-                                subjectId: $.subjectId
-                              }
-                            }
-                          )
-                        }
+        <View style={_.mt.md}>
+          <Expand>
+            {$.disc.map((item, index) => (
+              <View key={item.title} style={!!index && _.mt.md}>
+                <Text type='sub' size={16}>
+                  {item.title}
+                </Text>
+                <View style={_.mt.sm}>
+                  {item.disc.map((i, idx) => {
+                    let translate = ''
+                    if (_discTranslateResult.length) {
+                      translate = _discTranslateResult.shift().dst
+                    }
+                    return (
+                      <View
+                        key={i.href}
+                        style={[styles.item, idx % 2 === 0 && styles.odd]}
                       >
-                        {i.title}
-                        {!!translate && (
-                          <Text type='sub' size={12} lineHeight={14}>
-                            {' '}
-                            {translate}
-                          </Text>
-                        )}
-                      </Text>
-                    </View>
-                  )
-                })}
+                        <Text
+                          onPress={() =>
+                            appNavigate(
+                              i.href,
+                              navigation,
+                              {},
+                              {
+                                id: '条目.跳转',
+                                data: {
+                                  from: '曲目列表',
+                                  subjectId: $.subjectId
+                                }
+                              }
+                            )
+                          }
+                        >
+                          {i.title}
+                          {!!translate && (
+                            <Text type='sub' size={12} lineHeight={14}>
+                              {' '}
+                              {translate}
+                            </Text>
+                          )}
+                        </Text>
+                      </View>
+                    )
+                  })}
+                </View>
               </View>
-            </View>
-          ))}
-        </Expand>
+            ))}
+          </Expand>
+          <Heatmap
+            id='条目.跳转'
+            data={{
+              from: '曲目列表'
+            }}
+          />
+        </View>
       )}
     </View>
   )

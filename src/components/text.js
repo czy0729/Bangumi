@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 22:09:02
+ * @Last Modified time: 2020-12-15 15:20:06
  */
 import React from 'react'
 import { Text as RNText, StyleSheet } from 'react-native'
@@ -141,6 +141,9 @@ const memoStyles = _.memoStyles(_ => ({
   // theme
   plain: {
     color: _.colorPlain
+  },
+  __plain__: {
+    color: _.__colorPlain__
   },
   main: {
     color: _.colorMain

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:11:58
+ * @Last Modified time: 2020-12-15 14:27:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,32 +21,31 @@ function Comic({ style }, { $, navigation }) {
   return (
     <View style={style}>
       <SectionTitle style={_.container.wind}>单行本</SectionTitle>
-      <View style={_.mt.sm}>
-        <HorizontalList
-          data={$.comic}
-          width={80}
-          height={106}
-          ellipsizeMode='middle'
-          onPress={({ id, name, image }) => {
-            t('条目.跳转', {
-              to: 'Subject',
-              from: '单行本',
-              subjectId: $.subjectId
-            })
-            navigation.push('Subject', {
-              subjectId: id,
-              _jp: name,
-              _image: image
-            })
-          }}
-        />
-        <Heatmap
-          id='条目.跳转'
-          data={{
-            from: '单行本'
-          }}
-        />
-      </View>
+      <HorizontalList
+        style={_.mt.sm}
+        data={$.comic}
+        width={80}
+        height={106}
+        ellipsizeMode='middle'
+        onPress={({ id, name, image }) => {
+          t('条目.跳转', {
+            to: 'Subject',
+            from: '单行本',
+            subjectId: $.subjectId
+          })
+          navigation.push('Subject', {
+            subjectId: id,
+            _jp: name,
+            _image: image
+          })
+        }}
+      />
+      <Heatmap
+        id='条目.跳转'
+        data={{
+          from: '单行本'
+        }}
+      />
     </View>
   )
 }

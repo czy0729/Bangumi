@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 00:54:33
+ * @Last Modified time: 2020-12-15 14:22:32
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -38,32 +38,31 @@ function Box({ style }, { $, navigation }) {
       <SectionTitle
         style={styles.sectionTitle}
         right={
-          <View>
-            <IconTouchable
-              style={styles.iconErase}
-              name='close'
-              size={16}
-              color={_.colorIcon}
-              onPress={() => {
-                if (!showErase) {
-                  info('无法操作, 请检查登陆状态')
-                  return
-                }
+          <IconTouchable
+            style={styles.iconErase}
+            name='close'
+            size={16}
+            color={_.colorIcon}
+            onPress={() => {
+              if (!showErase) {
+                info('无法操作, 请检查登陆状态')
+                return
+              }
 
-                Alert.alert('警告', '确定删除收藏?', [
-                  {
-                    text: '取消',
-                    style: 'cancel'
-                  },
-                  {
-                    text: '确定',
-                    onPress: () => $.doEraseCollection()
-                  }
-                ])
-              }}
-            />
+              Alert.alert('警告', '确定删除收藏?', [
+                {
+                  text: '取消',
+                  style: 'cancel'
+                },
+                {
+                  text: '确定',
+                  onPress: () => $.doEraseCollection()
+                }
+              ])
+            }}
+          >
             <Heatmap id='条目.删除收藏' />
-          </View>
+          </IconTouchable>
         }
       >
         收藏
@@ -101,22 +100,30 @@ function Box({ style }, { $, navigation }) {
             </Flex.Item>
           )}
         </Flex>
-        <Heatmap id='条目.显示收藏管理' />
-        <Heatmap right={72} transparent id='条目.管理收藏' />
+        <Heatmap id='条目.管理收藏' />
+        <Heatmap right={56} transparent id='条目.显示收藏管理' />
       </Touchable>
-      <Text style={_.mt.md} size={statusSize} type='sub'>
-        {$.status.map((item, index) => (
-          <Text
-            key={item.status}
-            size={statusSize}
-            type='sub'
-            onPress={() => $.toRating(navigation, '收藏', item.status)}
-          >
-            {!!index && ' / '}
-            {item.text}
-          </Text>
-        ))}
-      </Text>
+      <View style={_.mt.md}>
+        <Text size={statusSize} type='sub'>
+          {$.status.map((item, index) => (
+            <Text
+              key={item.status}
+              size={statusSize}
+              type='sub'
+              onPress={() => $.toRating(navigation, '收藏', item.status)}
+            >
+              {!!index && ' / '}
+              {item.text}
+            </Text>
+          ))}
+        </Text>
+        <Heatmap
+          id='条目.跳转'
+          data={{
+            from: '收藏'
+          }}
+        />
+      </View>
     </View>
   )
 }

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 16:55:00
+ * @Last Modified time: 2020-12-15 12:10:48
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { open, toFixed } from '@utils'
@@ -74,6 +74,12 @@ class Ranting extends React.Component {
               <Text type='sub'>趋势</Text>
               <Iconfont name='right' size={16} />
             </Flex>
+            <Heatmap
+              id='条目.跳转'
+              data={{
+                from: '评分分布'
+              }}
+            />
           </Touchable>
         }
       >
@@ -168,6 +174,12 @@ class Ranting extends React.Component {
                 )}
                 <Iconfont name='right' size={12} />
               </Flex>
+              <Heatmap
+                id='条目.跳转'
+                data={{
+                  from: '评分分布'
+                }}
+              />
             </Touchable>
           </Flex.Item>
           <Touchable

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 19:10:15
+ * @Last Modified time: 2020-12-15 14:34:19
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -26,9 +26,7 @@ function HeaderTitle({ navigation }) {
     subjectId
   })}`
   const $ = Stores.get(screenKey)
-  if (!$) {
-    return null
-  }
+  if (!$) return null
 
   const { showHeaderTitle } = $.state
   const { images } = $.subject

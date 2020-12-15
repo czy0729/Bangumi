@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-14 23:30:20
+ * @Last Modified time: 2020-12-15 14:51:13
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -41,39 +41,38 @@ function Thumbs({ style }, { $ }) {
         预览
       </SectionTitle>
       {showThumbs && (
-        <View style={_.mt.md}>
-          <ScrollView
-            contentContainerStyle={styles.contentContainerStyle}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          >
-            {epsThumbs
-              .filter((item, index) => index < 12)
-              .map((item, index) => (
-                <Image
-                  style={!!index && _.ml.sm}
-                  key={item}
-                  src={item}
-                  size={124}
-                  height={78}
-                  radius
-                  headers={epsThumbsHeader}
-                  onPress={() => {
-                    t('条目.预览', {
-                      subjectId: $.subjectId
-                    })
+        <ScrollView
+          style={_.mt.md}
+          contentContainerStyle={styles.contentContainerStyle}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        >
+          {epsThumbs
+            .filter((item, index) => index < 12)
+            .map((item, index) => (
+              <Image
+                style={!!index && _.ml.sm}
+                key={item}
+                src={item}
+                size={124}
+                height={78}
+                radius
+                headers={epsThumbsHeader}
+                onPress={() => {
+                  t('条目.预览', {
+                    subjectId: $.subjectId
+                  })
 
-                    showImageViewer(
-                      thumbs.filter((item, index) => index < 12),
-                      index
-                    )
-                  }}
-                />
-              ))}
-          </ScrollView>
-          <Heatmap id='条目.预览' />
-        </View>
+                  showImageViewer(
+                    thumbs.filter((item, index) => index < 12),
+                    index
+                  )
+                }}
+              />
+            ))}
+        </ScrollView>
       )}
+      <Heatmap id='条目.预览' />
     </View>
   )
 }

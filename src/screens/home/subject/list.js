@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:18:11
+ * @Last Modified time: 2020-12-15 12:04:42
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -34,17 +34,16 @@ class List extends React.Component {
     }
 
     const { $, navigation } = this.context
-    const event = {
-      id: '条目.跳转',
-      data: {
-        from: '吐槽',
-        subjectId: $.subjectId
-      }
-    }
     return (
       <ItemComment
         navigation={navigation}
-        event={event}
+        event={{
+          id: '条目.跳转',
+          data: {
+            from: '吐槽',
+            subjectId: $.subjectId
+          }
+        }}
         index={index}
         time={item.time}
         avatar={item.avatar}

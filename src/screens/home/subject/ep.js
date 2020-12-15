@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 00:56:37
+ * @Last Modified time: 2020-12-15 15:12:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -64,12 +64,12 @@ function Ep({ style }, { $, navigation }) {
                   />
                 </Popover>
               )}
-              <Heatmap right={-10} bottom={18} id='条目.设置章节筛选' />
+              <Heatmap right={-6} bottom={18} id='条目.设置章节筛选' />
             </View>
             {!$.isLimit && (
               <Popover data={$.onlineOrigins} onSelect={$.onlinePlaySelected}>
                 <Iconfont style={styles.icon} name='xin-fan' size={16} />
-                <Heatmap right={53} bottom={-7} id='条目.搜索源' />
+                <Heatmap right={55} bottom={-7} id='条目.搜索源' />
               </Popover>
             )}
             <IconTouchable
@@ -124,8 +124,8 @@ function Ep({ style }, { $, navigation }) {
           onSelect={(value, item) => $.doEpsSelect(value, item, navigation)}
           onLongPress={item => $.doEpsLongPress(item)}
         />
-        <Heatmap id='条目.章节菜单操作' />
-        <Heatmap bottom={35} id='条目.章节按钮长按' />
+        <Heatmap id='条目.章节按钮长按' />
+        <Heatmap bottom={35} id='条目.章节菜单操作' />
       </View>
       <Flex style={_.mt.sm}>
         <Flex>
