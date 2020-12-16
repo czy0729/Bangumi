@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 11:28:27
+ * @Last Modified time: 2020-12-16 20:23:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Katakana, Text, Touchable, Iconfont } from '@components'
+import { Flex, Katakana, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { Popover, Avatar, Name } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -110,6 +110,16 @@ class Item extends React.Component {
   get isFavor() {
     const { $ } = this.context
     return $.isFavor(this.topicId)
+  }
+
+  get is2nd() {
+    const { index } = this.props
+    return index === 1
+  }
+
+  get is3rd() {
+    const { index } = this.props
+    return index === 2
   }
 
   renderContent() {
@@ -277,6 +287,13 @@ class Item extends React.Component {
           size={17}
           color={_.colorSub}
         />
+        {this.is2nd && (
+          <>
+            <Heatmap bottom={34} id='超展开.小组菜单点击' />
+            <Heatmap id='超展开.人物菜单点击' transparent />
+            <Heatmap bottom={-32} id='超展开.项额外点击' transparent />
+          </>
+        )}
       </Popover>
     )
   }
@@ -299,14 +316,25 @@ class Item extends React.Component {
         ]}
       >
         <Flex align='start'>
-          <Avatar
-            style={this.styles.image}
-            navigation={navigation}
-            src={avatar}
-            name={userName}
-            userId={this.userId}
-            event={event}
-          />
+          <View style={this.styles.image}>
+            <Avatar
+              navigation={navigation}
+              src={avatar}
+              name={userName}
+              userId={this.userId}
+              event={event}
+            />
+            {this.is2nd && (
+              <Heatmap
+                right={-12}
+                id='超展开.跳转'
+                data={{
+                  to: 'Zone',
+                  alias: '空间'
+                }}
+              />
+            )}
+          </View>
           <Flex.Item
             style={[
               this.styles.wrap,
@@ -326,6 +354,15 @@ class Item extends React.Component {
             size={15}
             name='star-full'
             color={_.colorYellow}
+          />
+        )}
+        {this.is3rd && (
+          <Heatmap
+            id='超展开.跳转'
+            data={{
+              to: 'Topic',
+              alias: '帖子'
+            }}
           />
         )}
       </View>

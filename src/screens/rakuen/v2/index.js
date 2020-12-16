@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 17:57:54
+ * @Last Modified time: 2020-12-16 01:25:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -19,6 +19,7 @@ import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
 import Header from './header'
 import Tab from './tab'
+import Heatmaps from './heapmaps'
 import Store from './store'
 
 const title = '超展开'
@@ -70,6 +71,7 @@ class Rakuen extends React.Component {
             <Tab />
           </>
         )}
+        <Heatmaps />
       </SafeAreaView>
     )
   }

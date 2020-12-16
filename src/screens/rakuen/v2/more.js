@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 20:06:37
+ * @Last Modified time: 2020-12-16 20:11:59
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Iconfont } from '@components'
+import { Iconfont, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
@@ -52,6 +52,9 @@ function More({ style }, { $, navigation }) {
       }}
     >
       <Iconfont name='more' color={_.colorTitle} />
+      <Heatmap id='超展开.右上角菜单' />
+      <Heatmap right={57} bottom={-32} id='超展开.取消预读取' />
+      <Heatmap bottom={-32} id='超展开.预读取' />
     </Popover>
   )
 }

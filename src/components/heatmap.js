@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 22:48:25
+ * @Last Modified time: 2020-12-16 20:20:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,7 @@ function Heatmap({ right, bottom, transparent, id, data, screen }) {
   const total =
     (isPage ? totalWithoutView : heatmapData[page]) -
     (heatmapData[`${page}.查看`] || 0) // 事件百分比需要排除[页面.查看]
-  const percentStyle = Math.min((count / (heatmapData[page] || 1)) * 2, 1)
+  const percentStyle = Math.min((count / (heatmapData[page] || 1)) * 2, 0.64)
   let percent = (count / (total || 1)) * 100
   percent = percent < 1 ? toFixed(percent, 1) : parseInt(percent)
 

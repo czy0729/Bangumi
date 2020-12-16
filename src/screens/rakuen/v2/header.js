@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 19:49:06
+ * @Last Modified time: 2020-12-16 20:16:54
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex } from '@components'
+import { Flex, Heatmap } from '@components'
 import { IconTabsHeader, Header as CompHeader } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -34,7 +34,16 @@ function Header(props, { $, navigation }) {
 
             navigation.push('Mine')
           }}
-        />
+        >
+          <Heatmap
+            right={-40}
+            id='超展开.跳转'
+            data={{
+              to: 'Mine',
+              alias: '我的小组'
+            }}
+          />
+        </IconTabsHeader>
       }
       renderRight={
         <Flex>
@@ -48,7 +57,17 @@ function Header(props, { $, navigation }) {
 
               navigation.push('RakuenSearch')
             }}
-          />
+          >
+            <Heatmap
+              right={36}
+              bottom={9}
+              id='超展开.跳转'
+              data={{
+                to: 'RakuenSearch',
+                alias: '搜索'
+              }}
+            />
+          </IconTabsHeader>
           <More style={_.ml.sm} />
         </Flex>
       }
