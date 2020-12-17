@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-08 21:05:30
+ * @Last Modified time: 2020-12-16 22:30:42
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -19,6 +19,7 @@ import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
 import Header from './header'
 import Tab from './tab'
+import Heatmaps from './heatmaps'
 import Store from './store'
 
 const title = '时间胶囊'
@@ -69,6 +70,7 @@ class Timeline extends React.Component {
             <Tab />
           </>
         )}
+        <Heatmaps />
       </SafeAreaView>
     )
   }

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 16:34:26
+ * @Last Modified time: 2020-12-16 22:54:53
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
-import { Flex, Text } from '@components'
+import { Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -113,6 +113,16 @@ class Tab extends React.Component {
         pressColor='transparent'
         scrollEnabled
         renderLabel={this.renderLabel}
+      />
+      <Heatmap
+        right={_.wind + 62}
+        id='我的.标签页切换'
+        transparent
+      />
+      <Heatmap
+        right={_.wind}
+        id='我的.标签页点击'
+        transparent
       />
     </Animated.View>
   )

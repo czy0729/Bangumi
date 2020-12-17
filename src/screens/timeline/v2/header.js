@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 20:16:01
+ * @Last Modified time: 2020-12-16 22:32:30
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex } from '@components'
+import { Flex, Heatmap } from '@components'
 import { Logo, IconTabsHeader } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -40,7 +40,9 @@ function Header(props, { $, navigation }) {
               onNavigationCallback: $.fetchTimeline
             })
           }}
-        />
+        >
+          <Heatmap id='时间胶囊.新吐槽' />
+        </IconTabsHeader>
       </Flex>
     </Flex>
   )

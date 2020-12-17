@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 19:21:57
+ * @Last Modified time: 2020-12-16 22:54:14
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -18,6 +18,7 @@ import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
+import Heatmaps from './heatmaps'
 import Store, { tabs, H_BG } from './store'
 
 const title = '时光机'
@@ -187,6 +188,7 @@ class User extends React.Component {
             <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
           </>
         )}
+        <Heatmaps />
       </View>
     )
   }

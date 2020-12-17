@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 14:19:08
+ * @Last Modified time: 2020-12-17 23:32:13
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Button } from '@components'
+import { Flex, Button, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -25,6 +25,7 @@ function TabBarLeft({ onSelect }, { $ }) {
           {MODEL_SUBJECT_TYPE.getTitle(subjectType)}
         </Button>
       </Flex>
+      <Heatmap id='我的.类型选择' />
     </Popover>
   )
 }

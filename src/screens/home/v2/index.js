@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 20:02:11
+ * @Last Modified time: 2020-12-16 22:32:01
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -25,7 +25,7 @@ import { MODEL_SETTING_INITIAL_PAGE } from '@constants/model'
 import Header from './header'
 import Tab from './tab-wrap'
 import Modal from './modal'
-import Heatmaps from './heapmaps'
+import Heatmaps from './heatmaps'
 import Store from './store'
 
 const title = '首页'

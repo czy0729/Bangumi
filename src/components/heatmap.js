@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 20:20:46
+ * @Last Modified time: 2020-12-17 17:56:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,6 +41,7 @@ function Heatmap({ right, bottom, transparent, id, data, screen }) {
   const percentStyle = Math.min((count / (heatmapData[page] || 1)) * 2, 0.64)
   let percent = (count / (total || 1)) * 100
   percent = percent < 1 ? toFixed(percent, 1) : parseInt(percent)
+  const percentTo = !!key && parseInt((count / (heatmapData[id] || 1)) * 100)
 
   // 样式
   const backgroundColor = `rgba(232, 8, 13, ${percentStyle})`
@@ -87,7 +88,7 @@ function Heatmap({ right, bottom, transparent, id, data, screen }) {
           <Text type='__plain__' size={9} bold align='right'>
             {formatNumber(count / 30, count >= 30 || count === 0 ? 0 : 1)}
             {count !== 0 && ` / ${percent}%`}
-            {!!key && ` (${parseInt((count / (heatmapData[id] || 1)) * 100)}%)`}
+            {percentTo && percentTo !== percent && ` (${percentTo}%)`}
           </Text>
           {isPage && !!countTo && (
             <>
@@ -149,6 +150,7 @@ function Heatmap({ right, bottom, transparent, id, data, screen }) {
 }
 
 Heatmap.defaultProps = {
+  id: '',
   data: {},
   right: 1,
   bottom: 1

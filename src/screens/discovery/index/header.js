@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-02 20:48:14
+ * @Last Modified time: 2020-12-16 21:54:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text } from '@components'
+import { Flex, Text, Heatmap } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
 import Award from './award'
@@ -20,7 +20,15 @@ function Header(props, { $ }) {
   return (
     <View style={styles.container}>
       <StatusBarPlaceholder />
-      <Award />
+      <View>
+        <Award />
+        <Heatmap
+          id='发现.跳转'
+          data={{
+            to: 'Award'
+          }}
+        />
+      </View>
       <Menu />
       <Flex style={styles.wrap}>
         {!!$.online && (

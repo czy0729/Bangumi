@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 22:49:30
+ * @Last Modified time: 2020-12-16 21:57:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Touchable, Text, Iconfont, Image } from '@components'
+import { Flex, Touchable, Text, Iconfont, Image, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
@@ -200,6 +200,13 @@ function Menu(props, { $, navigation }) {
                 </Text>
               </Flex>
             </Flex>
+            <Heatmap
+              id='发现.跳转'
+              data={{
+                to: item.path,
+                alias: item.title
+              }}
+            />
           </Touchable>
         ))}
     </Flex>

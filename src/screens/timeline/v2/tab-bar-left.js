@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 11:47:32
+ * @Last Modified time: 2020-12-16 22:33:12
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Button } from '@components'
+import { Flex, Button, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { IOS } from '@constants'
@@ -26,6 +26,7 @@ function TabBarLeft(props, { $ }) {
           {MODEL_TIMELINE_SCOPE.getLabel(scope)}
         </Button>
       </Flex>
+      <Heatmap id='时间胶囊.切换类型' />
     </Popover>
   )
 }

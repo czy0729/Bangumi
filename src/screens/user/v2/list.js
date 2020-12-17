@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 19:24:18
+ * @Last Modified time: 2020-12-17 23:30:54
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Loading, ListView } from '@components'
+import { Loading, ListView, Heatmap } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
@@ -66,7 +66,17 @@ class List extends React.Component {
           type={typeCn}
           event={event}
           {...item}
-        />
+        >
+          {index === 0 && (
+            <Heatmap
+              id='我的.跳转'
+              data={{
+                to: 'Subject',
+                alias: '条目'
+              }}
+            />
+          )}
+        </ItemCollections>
       )
     }
 

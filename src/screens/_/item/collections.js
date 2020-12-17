@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 16:44:39
+ * @Last Modified time: 2020-12-17 23:29:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,7 +37,8 @@ function ItemCollections({
   isDo,
   isOnHold,
   isDropped,
-  event
+  event,
+  children
 }) {
   const styles = memoStyles()
   const isFirst = index === 0
@@ -159,6 +160,7 @@ function ItemCollections({
           )}
         </Flex.Item>
       </Flex>
+      {children}
     </Touchable>
   )
 }

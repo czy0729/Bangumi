@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 14:42:53
+ * @Last Modified time: 2020-12-17 20:25:49
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -46,6 +46,7 @@ function ToolBar(props, { $ }) {
               {order ? MODEL_COLLECTIONS_ORDERBY.getLabel(order) : '收藏时间'}
             </Text>
           </Flex>
+          <Heatmap id='我的.筛选选择' />
         </Popover>
       </Flex.Item>
       <Flex.Item>
@@ -60,6 +61,7 @@ function ToolBar(props, { $ }) {
               {tag ? tag.replace(/ \(\d+\)/, '') : '标签'}
             </Text>
           </Flex>
+          <Heatmap id='我的.排序选择' />
         </Popover>
       </Flex.Item>
       <Flex.Item>
@@ -77,6 +79,7 @@ function ToolBar(props, { $ }) {
               color={!list ? _.colorMain : undefined}
             />
           </Flex>
+          <Heatmap id='我的.布局选择' />
         </Touchable>
       </Flex.Item>
     </Flex>

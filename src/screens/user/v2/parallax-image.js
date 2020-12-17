@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 16:21:52
+ * @Last Modified time: 2020-12-17 20:32:54
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text, Iconfont } from '@components'
+import { Flex, Text, Iconfont, Heatmap } from '@components'
 import {
   Popover,
   IconHeader,
@@ -208,6 +208,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           }}
         >
           <Iconfont name='list' color={_.__colorPlain__} />
+          <Heatmap right={-40} id='我的.右上角菜单' />
         </Popover>
       </View>
       <IconHeader
@@ -227,7 +228,16 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           }
           navigation.push('UserTimeline', data)
         }}
-      />
+      >
+        <Heatmap
+          right={48}
+          id='我的.跳转'
+          data={{
+            to: 'UserTimeline',
+            alias: '时间线'
+          }}
+        />
+      </IconHeader>
       {!$.params.userId && (
         <IconHeader
           style={styles.setting}
@@ -240,7 +250,15 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
 
             navigation.push('Setting')
           }}
-        />
+        >
+          <Heatmap
+            id='我的.跳转'
+            data={{
+              to: 'Setting',
+              alias: '设置'
+            }}
+          />
+        </IconHeader>
       )}
     </>
   )

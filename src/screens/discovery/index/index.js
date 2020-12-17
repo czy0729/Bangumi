@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 19:18:17
+ * @Last Modified time: 2020-12-16 22:13:26
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, Loading, ListView, UM } from '@components'
+import { StatusBarEvents, Loading, ListView, UM, Heatmap } from '@components'
 import { IconTabBar } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
+import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Header from './header'
 import List from './list'
 import Store from './store'
@@ -64,6 +65,7 @@ class Discovery extends React.Component {
         ) : (
           <Loading style={_.container.flex} />
         )}
+        <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
       </View>
     )
   }
@@ -88,5 +90,15 @@ function keyExtractor(item) {
 }
 
 function renderItem({ item }) {
-  return <List {...item} />
+  return (
+    <View>
+      <List {...item} />
+      <Heatmap
+        id='发现.跳转'
+        data={{
+          from: MODEL_SUBJECT_TYPE.getTitle(item.type)
+        }}
+      />
+    </View>
+  )
 }

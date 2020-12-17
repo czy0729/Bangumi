@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 19:27:03
+ * @Last Modified time: 2020-12-17 23:25:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text, Touchable } from '@components'
+import { Flex, Image, Text, Touchable, Heatmap } from '@components'
 import { t } from '@utils/fetch'
 import { _ } from '@stores'
 
@@ -20,50 +20,98 @@ function Head({ style }, { $, navigation }) {
   return (
     <Flex style={style} justify='center' direction='column'>
       <View>
-        <Image
-          style={_.mt.md}
-          key={src}
-          size={88}
-          radius={44}
-          border={_.__colorPlain__}
-          borderWidth={2}
-          shadow
-          src={src}
-          onPress={() => {
-            t('我的.跳转', {
-              to: 'UserSetting'
-            })
+        <View style={_.mt.md}>
+          <Image
+            key={src}
+            size={88}
+            radius={44}
+            border={_.__colorPlain__}
+            borderWidth={2}
+            shadow
+            src={src}
+            onPress={() => {
+              t('我的.跳转', {
+                to: 'UserSetting'
+              })
 
-            navigation.push('UserSetting')
-          }}
-        />
+              navigation.push('UserSetting')
+            }}
+          />
+          <Heatmap
+            id='我的.跳转'
+            data={{
+              to: 'UserSetting',
+              alias: '个人设置'
+            }}
+          />
+        </View>
         {isMe && (
           <>
             <Touchable
               style={styles.r1}
-              onPress={() => navigation.push('Friends')}
+              onPress={() => {
+                t('我的.跳转', {
+                  to: 'Friends'
+                })
+
+                navigation.push('Friends')
+              }}
             >
-              <View>
-                <Text type={_.select('plain', 'title')} size={11}>
-                  好友
-                </Text>
-              </View>
+              <Text type={_.select('plain', 'title')} size={11}>
+                好友
+              </Text>
+              <Heatmap
+                right={-32}
+                id='我的.跳转'
+                data={{
+                  to: 'Friends',
+                  alias: '好友'
+                }}
+              />
             </Touchable>
             <Touchable
               style={styles.r2}
-              onPress={() => navigation.push('Character')}
+              onPress={() => {
+                t('我的.跳转', {
+                  to: 'Character'
+                })
+
+                navigation.push('Character')
+              }}
             >
               <Text type={_.select('plain', 'title')} size={11}>
                 人物
               </Text>
+              <Heatmap
+                right={-32}
+                id='我的.跳转'
+                data={{
+                  to: 'Character',
+                  alias: '角色'
+                }}
+              />
             </Touchable>
             <Touchable
               style={styles.r3}
-              onPress={() => navigation.push('Catalogs')}
+              onPress={() => {
+                t('我的.跳转', {
+                  to: 'Catalogs'
+                })
+
+                navigation.push('Catalogs')
+              }}
             >
               <Text type={_.select('plain', 'title')} size={11}>
                 目录
               </Text>
+              <Heatmap
+                right={-32}
+                id='我的.跳转'
+                data={{
+                  to: 'Catalogs',
+                  alias: '目录'
+                }}
+              />
             </Touchable>
           </>
         )}

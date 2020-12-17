@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 11:25:22
+ * @Last Modified time: 2020-12-16 22:36:21
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -379,7 +379,7 @@ class ItemTimeline extends React.Component {
   }
 
   render() {
-    const { style, avatar } = this.props
+    const { style, avatar, children } = this.props
     return (
       <Flex
         style={[
@@ -392,6 +392,7 @@ class ItemTimeline extends React.Component {
       >
         {this.renderAvatar()}
         {this.renderContent()}
+        {children}
       </Flex>
     )
   }
