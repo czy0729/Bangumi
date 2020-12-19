@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:51:19
+ * @Last Modified time: 2020-12-18 21:37:50
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,7 +16,8 @@ import {
   Image,
   Text,
   Loading,
-  SegmentedControl
+  SegmentedControl,
+  Heatmap
 } from '@components'
 import { _ } from '@stores'
 import { getCoverLarge } from '@utils/app'
@@ -58,6 +59,7 @@ function Info(props, { $, navigation }) {
               }
             }}
           />
+          <Heatmap id='目录详情.封面图查看' />
         </Flex>
       )}
       {!!content && (
@@ -105,6 +107,7 @@ function Info(props, { $, navigation }) {
           selectedIndex={sort || 0}
           onValueChange={$.sort}
         />
+        <Heatmap id='目录详情.排序' />
       </Flex>
       {!_loaded && (
         <Flex style={styles.loading} justify='center'>

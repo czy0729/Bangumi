@@ -28,6 +28,7 @@ function ItemFriends({
   wish,
   dropped,
   event,
+  children,
   onHold
 }) {
   const styles = memoStyles()
@@ -80,6 +81,7 @@ function ItemFriends({
           {hobby || '-'} / {percent || '-'}%
         </Text>
       </Flex>
+      {children}
     </Touchable>
   )
 }

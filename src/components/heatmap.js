@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-17 17:56:44
+ * @Last Modified time: 2020-12-19 11:48:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import Text from './text'
 
 const totalWithoutView = heatmapData.total - heatmapData['其他.查看']
 
-function Heatmap({ right, bottom, transparent, id, data, screen }) {
+function Heatmap({ right, bottom, transparent, id, data, screen, mini }) {
   const styles = memoStyles()
   const isPage = !id.includes('.') // 是否页面
   const page = id.split('.')[0] // 页面名称
@@ -26,10 +26,6 @@ function Heatmap({ right, bottom, transparent, id, data, screen }) {
   // 额外参数
   const key = Object.keys(data || {})[0] || ''
   const value = data[key]
-
-  // 额外
-  const countTo = heatmapData[`${page}.跳转`] || 0
-  const countView = heatmapEventData['其他.查看.screen'][screen] || 0
 
   // 计算
   const count = key
@@ -46,105 +42,123 @@ function Heatmap({ right, bottom, transparent, id, data, screen }) {
   // 样式
   const backgroundColor = `rgba(232, 8, 13, ${percentStyle})`
   const borderColor = `rgba(232, 8, 13, ${Math.min(percentStyle + 0.24, 1)})`
+  const gridStyle = [
+    styles.block,
+    !transparent && {
+      backgroundColor,
+      borderColor,
+      borderWidth: 1
+    }
+  ]
+  const textStyle = [
+    styles.text,
+    {
+      right,
+      bottom
+    },
+    key === 'to' && styles.textTo,
+    key === 'from' && styles.textFrom
+  ]
 
-  // 平均 (响应百分比在这个值以上, 可以认为这个事件价值较高)
-  let avg
-  if (isPage) {
-    const { length } = Object.keys(events).filter(
-      name => name.indexOf(`${page}.`) === 0 && name !== `${page}.查看`
-    )
-    avg = 100 / length
-  }
-  return (
-    <>
-      {!isPage && (
-        <View
-          style={[
-            styles.block,
-            !transparent && {
-              backgroundColor,
-              borderColor,
-              borderWidth: 1
-            }
-          ]}
-          pointerEvents='none'
-        />
-      )}
-      <View style={isPage ? styles.page : styles.position} pointerEvents='none'>
-        <View
-          style={[
-            styles.text,
-            id.includes('.跳转') && styles.textSpec,
-            {
-              right,
-              bottom
-            }
-          ]}
-        >
-          <Text type='__plain__' size={10} bold align='right'>
-            {isPage ? '总事件(日)' : id.split('.')[1]}
-            {value ? `.${data.alias || value}` : ''}
+  if (mini) {
+    return (
+      <View style={gridStyle} pointerEvents='none'>
+        <View style={textStyle}>
+          <Text
+            style={styles.textMini}
+            type='__plain__'
+            size={8}
+            bold
+            align='right'
+          >
+            {formatNumber(count, 0)}
           </Text>
-          <Text type='__plain__' size={9} bold align='right'>
-            {formatNumber(count / 30, count >= 30 || count === 0 ? 0 : 1)}
-            {count !== 0 && ` / ${percent}%`}
-            {percentTo && percentTo !== percent && ` (${percentTo}%)`}
-          </Text>
-          {isPage && !!countTo && (
-            <>
-              <Text
-                type='__plain__'
-                style={_.mt.xs}
-                size={10}
-                bold
-                align='right'
-              >
-                跳转
-              </Text>
-              <Text type='__plain__' size={9} bold align='right'>
-                {formatNumber(countTo / 30, 0)} /{' '}
-                {parseInt((countTo / (heatmapData[page] || 1)) * 100)}%
-              </Text>
-            </>
-          )}
-          {isPage && !!countView && (
-            <>
-              <Text
-                type='__plain__'
-                style={_.mt.xs}
-                size={10}
-                bold
-                align='right'
-              >
-                [查看]
-              </Text>
-              <Text type='__plain__' size={9} bold align='right'>
-                {formatNumber(countView / 30, 0)} /{' '}
-                {parseInt(
-                  (countView / heatmapEventData['其他.查看.screen'].total) * 100
-                )}
-                %
-              </Text>
-            </>
-          )}
-          {isPage && !!avg && (
-            <>
-              <Text
-                style={_.mt.xs}
-                type='__plain__'
-                size={10}
-                bold
-                align='right'
-              >
-                [平均]
-              </Text>
-              <Text type='__plain__' size={9} bold align='right'>
-                {toFixed(avg, 1)}%
-              </Text>
-            </>
-          )}
         </View>
       </View>
+    )
+  }
+
+  const eventName = isPage
+    ? `${id}(日)`
+    : id.includes('跳转.')
+    ? key
+    : id.split('.')[1]
+  const eventDetail = value ? `.${data.alias || value}` : ''
+  const eventCount = formatNumber(
+    count / 30,
+    count >= 30 || count === 0 ? 0 : 1
+  )
+  const eventAppPercent = count !== 0 && ` / ${percent}%`
+  const eventPagePercent =
+    percentTo && percentTo !== percent && ` (${percentTo}%)`
+  return (
+    <>
+      {!isPage && <View style={gridStyle} pointerEvents='none' />}
+      <View style={isPage ? styles.page : styles.position} pointerEvents='none'>
+        <View style={textStyle}>
+          <Text type='__plain__' size={10} bold align='right'>
+            {eventName}
+            {eventDetail}
+          </Text>
+          <Text type='__plain__' size={9} bold align='right'>
+            {eventCount}
+            {eventAppPercent}
+            {eventPagePercent}
+          </Text>
+          {isPage && <PageText page={page} screen={screen} />}
+        </View>
+      </View>
+    </>
+  )
+}
+
+function PageText({ page, screen }) {
+  // 额外
+  const countTo = heatmapData[`${page}.跳转`] || 0
+  const countView = heatmapEventData['其他.查看.screen'][screen] || 0
+
+  // 平均 (响应百分比在这个值以上, 可以认为这个事件价值较高)
+  const { length } = Object.keys(events).filter(
+    name => name.indexOf(`${page}.`) === 0 && name !== `${page}.查看`
+  )
+  const avg = 100 / length
+  return (
+    <>
+      {!!countTo && (
+        <>
+          <Text type='__plain__' style={_.mt.xs} size={10} bold align='right'>
+            跳转
+          </Text>
+          <Text type='__plain__' size={9} bold align='right'>
+            {formatNumber(countTo / 30, 0)} /{' '}
+            {parseInt((countTo / (heatmapData[page] || 1)) * 100)}%
+          </Text>
+        </>
+      )}
+      {!!countView && (
+        <>
+          <Text type='__plain__' style={_.mt.xs} size={10} bold align='right'>
+            [查看]
+          </Text>
+          <Text type='__plain__' size={9} bold align='right'>
+            {formatNumber(countView / 30, 0)} /{' '}
+            {parseInt(
+              (countView / heatmapEventData['其他.查看.screen'].total) * 100
+            )}
+            %
+          </Text>
+        </>
+      )}
+      {!!avg && (
+        <>
+          <Text style={_.mt.xs} type='__plain__' size={10} bold align='right'>
+            [平均]
+          </Text>
+          <Text type='__plain__' size={9} bold align='right'>
+            {toFixed(avg, 1)}%
+          </Text>
+        </>
+      )}
     </>
   )
 }
@@ -179,17 +193,21 @@ const memoStyles = _.memoStyles(_ => ({
     top: 0,
     right: 0,
     bottom: 0,
-    left: 0,
-    borderRadius: _.radiusXs
+    left: 0
   },
   text: {
     position: 'absolute',
     zIndex: 10001,
     padding: _.xs,
-    backgroundColor: _.select('rgba(0, 0, 0, 0.64)', 'rgba(0, 0, 0, 0.7)'),
-    borderRadius: _.radiusXs
+    backgroundColor: _.select('rgba(0, 0, 0, 0.64)', 'rgba(0, 0, 0, 0.7)')
   },
-  textSpec: {
+  textTo: {
     backgroundColor: 'rgba(15, 61, 67, 0.88)'
+  },
+  textFrom: {
+    backgroundColor: 'rgba(62, 84, 108, 0.88)'
+  },
+  textMini: {
+    width: '120%'
   }
 }))

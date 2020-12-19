@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 16:02:08
+ * @Last Modified time: 2020-12-18 22:02:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,20 @@ const width = 64
 const w = width * 2
 
 function CatalogItem(
-  { event, id, name, title, info, book, anime, music, game, real, isUser },
+  {
+    event,
+    id,
+    name,
+    title,
+    info,
+    book,
+    anime,
+    music,
+    game,
+    real,
+    isUser,
+    children
+  },
   { $, navigation }
 ) {
   if (!isUser && !book && !anime && !music && !game && !real) {
@@ -36,7 +49,7 @@ function CatalogItem(
     <Touchable
       style={styles.container}
       onPress={() => {
-        const { eventId, eventData } = event
+        const { id: eventId, data: eventData } = event
         t(eventId, {
           to: 'CatalogDetail',
           catalogId: id,
@@ -131,6 +144,7 @@ function CatalogItem(
           </Flex>
         </Flex.Item>
       </Flex>
+      {children}
     </Touchable>
   )
 }

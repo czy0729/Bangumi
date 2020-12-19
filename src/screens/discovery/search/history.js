@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:37:33
+ * @Last Modified time: 2020-12-18 20:46:37
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Touchable, Flex, Text, Iconfont } from '@components'
+import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 
@@ -37,6 +37,8 @@ function History({ style }, { $ }) {
           </Flex>
         </View>
       ))}
+      <Heatmap right={52} id='搜索.选择历史' />
+      <Heatmap id='搜索.删除历史' transparent />
     </View>
   )
 }

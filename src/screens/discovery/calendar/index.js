@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 21:48:26
+ * @Last Modified time: 2020-12-18 00:19:25
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -41,6 +41,7 @@ class Calendar extends React.Component {
 
     navigation.setParams({
       extra: <IconLayout $={$} />,
+      heatmap: '每日放送.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {

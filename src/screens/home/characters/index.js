@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-21 17:45:13
+ * @Last Modified time: 2020-12-18 22:27:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,6 +41,7 @@ class Characters extends React.Component {
     $.init()
 
     navigation.setParams({
+      heatmap: '更多角色.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
@@ -62,7 +63,7 @@ class Characters extends React.Component {
 
   render() {
     return (
-      <View style={_.container.bg}>
+      <View style={_.container.content}>
         <List />
       </View>
     )

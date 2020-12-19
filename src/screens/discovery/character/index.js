@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 20:00:50
+ * @Last Modified time: 2020-12-18 21:18:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
+import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -40,6 +41,7 @@ class Character extends React.Component {
 
     const { userName } = $.params
     navigation.setParams({
+      heatmap: '收藏的人物.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
@@ -62,6 +64,22 @@ class Character extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    return <View style={_.container.bg}>{!!_loaded && <Tabs />}</View>
+    return (
+      <View style={_.container.bg}>
+        {!!_loaded && <Tabs />}
+        <Heatmap
+          right={_.wind + 62}
+          bottom={_.window.height - _.tabsHeaderHeight - 12}
+          id='收藏的人物.标签页切换'
+          transparent
+        />
+        <Heatmap
+          right={_.wind}
+          bottom={_.window.height - _.tabsHeaderHeight - 12}
+          id='收藏的人物.标签页点击'
+          transparent
+        />
+      </View>
+    )
   }
 }

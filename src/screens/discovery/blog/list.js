@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 16:32:49
+ * @Last Modified time: 2020-12-18 22:01:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,12 @@ import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 
 const event = {
-  eventId: '全站日志.跳转'
+  id: '全站日志.跳转'
+}
+const heatmaps = {
+  prev: '全站日志.上一页',
+  next: '全站日志.下一页',
+  search: '全站日志.页码跳转'
 }
 
 export default
@@ -33,6 +38,7 @@ class List extends React.Component {
       <Pagination
         style={_.mt.md}
         input={ipt[type]}
+        heatmaps={heatmaps}
         onPrev={$.prev}
         onNext={$.next}
         onChange={$.onChange}

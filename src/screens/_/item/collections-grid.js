@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 19:43:44
+ * @Last Modified time: 2020-12-18 22:04:20
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -40,7 +40,7 @@ function CollectionsGrid({
     holdDays = Math.ceil((getTimestamp() - getTimestamp(time)) / 86400)
   }
   const onPress = () => {
-    const { id: eventId, eventData } = event
+    const { id: eventId, data: eventData } = event
     const subjectId = String(id).replace('/subject/', '')
     t(eventId, {
       to: 'Subject',

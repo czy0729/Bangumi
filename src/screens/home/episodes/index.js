@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 16:14:30
+ * @Last Modified time: 2020-12-18 22:30:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { toJS } from 'mobx'
-import { ScrollView, Flex, Text, Touchable, Image } from '@components'
+import { ScrollView, Flex, Text, Touchable, Image, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -45,6 +45,7 @@ class Episodes extends React.Component {
     $.init()
 
     navigation.setParams({
+      heatmap: '章节.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
@@ -160,6 +161,7 @@ class Episodes extends React.Component {
               </Flex.Item>
               {this.renderThumb(index)}
             </Flex>
+            {!index && <Heatmap id='章节.跳转' />}
           </Touchable>
         ))}
       </ScrollView>

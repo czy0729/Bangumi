@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 16:16:32
+ * @Last Modified time: 2020-12-18 20:56:30
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { ScrollView, Touchable, Text, Image } from '@components'
+import { ScrollView, Touchable, Text, Image, Heatmap } from '@components'
 import { Pagination } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -18,6 +18,11 @@ import Store from './store'
 const title = 'Anitama'
 const width = _.window.width - _.wind * 2
 const height = width * 0.56
+const heatmaps = {
+  prev: 'Anitama.上一页',
+  next: 'Anitama.下一页',
+  search: 'Anitama.页码跳转'
+}
 
 export default
 @inject(Store)
@@ -41,6 +46,7 @@ class Anitama extends React.Component {
     $.init()
 
     navigation.setParams({
+      heatmap: 'Anitama.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
@@ -78,6 +84,7 @@ class Anitama extends React.Component {
       <Pagination
         style={_.mt.md}
         input={ipt}
+        heatmaps={heatmaps}
         onPrev={$.prev}
         onNext={$.next}
         onChange={$.onChange}
@@ -103,7 +110,7 @@ class Anitama extends React.Component {
         {show && (
           <>
             <View style={this.styles.container}>
-              {$.anitamaTimeline.list.map(item => (
+              {$.anitamaTimeline.list.map((item, index) => (
                 <Touchable
                   key={item.aid}
                   style={this.styles.item}
@@ -133,6 +140,7 @@ class Anitama extends React.Component {
                       </Text>
                     )}
                   </View>
+                  {!index && <Heatmap id='Anitama.跳转' />}
                 </Touchable>
               ))}
             </View>

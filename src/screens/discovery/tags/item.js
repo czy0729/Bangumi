@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 17:17:33
+ * @Last Modified time: 2020-12-18 16:41:32
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Text, Flex } from '@components'
+import { Touchable, Text, Flex, Heatmap } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { HTMLDecode } from '@utils/html'
@@ -16,7 +16,7 @@ import { t } from '@utils/fetch'
 const width = _.window.contentWidth * 0.2
 const marginLeft = (_.window.contentWidth - 4 * width) / 5
 
-function Item({ type, name, nums }, { navigation }) {
+function Item({ type, name, nums, index }, { navigation }) {
   const styles = memoStyles()
   let numsText = nums
   if (nums > 1000) {
@@ -46,6 +46,7 @@ function Item({ type, name, nums }, { navigation }) {
           {numsText}
         </Text>
       </Flex>
+      {index === 0 && <Heatmap id='标签索引.跳转' />}
     </Touchable>
   )
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:40:24
+ * @Last Modified time: 2020-12-18 22:06:12
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -24,8 +24,8 @@ class List extends React.Component {
   get event() {
     const { $ } = this.context
     return {
-      eventId: '用户目录.跳转',
-      eventData: {
+      id: '用户目录.跳转',
+      data: {
         userId: $.userId
       }
     }

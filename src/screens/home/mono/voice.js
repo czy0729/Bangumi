@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:14:36
+ * @Last Modified time: 2020-12-19 01:06:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text } from '@components'
+import { Flex, Image, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
@@ -31,7 +31,18 @@ function Voice({ style }, { $, navigation }) {
     <View style={[styles.container, style]}>
       <SectionTitle
         style={styles.section}
-        right={<SectionRight event={event} text='更多角色' to='Voices' />}
+        right={
+          <>
+            <SectionRight event={event} text='更多角色' to='Voices' />
+            <Heatmap
+              id='人物.跳转'
+              data={{
+                to: 'Voices',
+                alias: '更多角色'
+              }}
+            />
+          </>
+        }
       >
         最近演出角色
       </SectionTitle>
@@ -110,6 +121,12 @@ function Voice({ style }, { $, navigation }) {
             </Flex.Item>
           </Flex>
         ))}
+        <Heatmap
+          id='人物.跳转'
+          data={{
+            from: '最近演出角色'
+          }}
+        />
       </View>
     </View>
   )

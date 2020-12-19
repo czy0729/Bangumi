@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-17 23:29:21
+ * @Last Modified time: 2020-12-18 22:04:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,7 +73,7 @@ function ItemCollections({
     <Touchable
       style={[_.container.item, styles.container]}
       onPress={() => {
-        const { eventId, eventData } = event
+        const { id: eventId, data: eventData } = event
         t(eventId, {
           to: 'Subject',
           subjectId: id,

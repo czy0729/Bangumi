@@ -2,14 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 16:11:37
+ * @Last Modified time: 2020-12-18 00:03:16
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Touchable, Text, Flex, Input } from '@components'
+import { Touchable, Text, Flex, Input, Heatmap } from '@components'
 import { _ } from '@stores'
 
-function Pagination({ style, input, onPrev, onNext, onChange, onSearch }) {
+function Pagination({
+  style,
+  input,
+  heatmaps,
+  onPrev,
+  onNext,
+  onChange,
+  onSearch
+}) {
   const styles = memoStyles()
   return (
     <Flex style={[_.container.wind, style]}>
@@ -18,6 +26,7 @@ function Pagination({ style, input, onPrev, onNext, onChange, onSearch }) {
           <Flex style={styles.pagination} justify='center'>
             <Text size={13}>上一页</Text>
           </Flex>
+          {!!heatmaps.prev && <Heatmap id={heatmaps.prev} />}
         </Touchable>
       </Flex.Item>
       <Flex.Item style={_.ml.sm}>
@@ -31,12 +40,14 @@ function Pagination({ style, input, onPrev, onNext, onChange, onSearch }) {
           onChange={onChange}
           onSubmitEditing={onSearch}
         />
+        {!!heatmaps.search && <Heatmap id={heatmaps.search} />}
       </Flex.Item>
       <Flex.Item style={_.ml.sm}>
         <Touchable onPress={onNext}>
           <Flex style={styles.pagination} justify='center'>
             <Text size={13}>下一页</Text>
           </Flex>
+          {!!heatmaps.next && <Heatmap id={heatmaps.next} />}
         </Touchable>
       </Flex.Item>
     </Flex>
@@ -44,6 +55,7 @@ function Pagination({ style, input, onPrev, onNext, onChange, onSearch }) {
 }
 
 Pagination.defaultProps = {
+  heatmaps: {},
   onPrev: Function.prototype,
   onNext: Function.prototype,
   onChange: Function.prototype,

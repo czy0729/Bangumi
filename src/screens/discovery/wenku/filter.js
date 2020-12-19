@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 19:37:33
+ * @Last Modified time: 2020-12-18 11:32:22
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import {
   WENKU_FIRST,
@@ -68,9 +68,20 @@ function Filter(props, { $ }) {
         )
         return (
           <Flex key={item.title} style={styles.row} align='center'>
-            <Text size={12} bold>
-              {item.title}
-            </Text>
+            <View>
+              <Text size={12} bold>
+                {item.title}
+              </Text>
+              <Heatmap
+                right={-16}
+                bottom={8}
+                id='文库.选择'
+                data={{
+                  type: item.type
+                }}
+                mini
+              />
+            </View>
             <Flex.Item style={_.ml.md}>
               <ScrollView
                 style={styles.contentContainerStyle}
@@ -90,6 +101,14 @@ function Filter(props, { $ }) {
                     onPress={() => $.onSelect(item.type, i)}
                   >
                     <Text size={11}>{i}</Text>
+                    <Heatmap
+                      right={-1}
+                      id='文库.选择'
+                      data={{
+                        value: i
+                      }}
+                      mini
+                    />
                   </Touchable>
                 ))}
               </ScrollView>

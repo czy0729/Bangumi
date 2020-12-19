@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 17:26:26
+ * @Last Modified time: 2020-12-18 21:25:02
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import WebView from '@components/@/web-view'
-import { StatusBarEvents, Loading, Text, UM } from '@components'
+import { StatusBarEvents, Loading, Text, UM, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { observer } from '@utils/decorators'
@@ -209,6 +209,8 @@ class Award extends React.Component {
             onMessage={this.onMessage}
           />
         )}
+        <Heatmap id='年鉴' screen='Award' />
+        <Heatmap right={80} bottom={40} id='年鉴.跳转' transparent />
       </View>
     )
   }

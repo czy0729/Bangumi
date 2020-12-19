@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-02 16:28:05
+ * @Last Modified time: 2020-12-18 01:04:56
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import {
   ANIME_AREA,
@@ -101,9 +101,20 @@ function Filter(props, { $ }) {
             style={styles.row}
             align={multiple ? 'start' : 'center'}
           >
-            <Text style={multiple && styles.multipleTitle} size={12} bold>
-              {item.title}
-            </Text>
+            <View>
+              <Text style={multiple && styles.multipleTitle} size={12} bold>
+                {item.title}
+              </Text>
+              <Heatmap
+                right={-16}
+                bottom={8}
+                id='Anime.选择'
+                data={{
+                  type: item.type
+                }}
+                mini
+              />
+            </View>
             <Flex.Item style={_.ml.md}>
               <ScrollView
                 style={styles.contentContainerStyle}
@@ -135,6 +146,14 @@ function Filter(props, { $ }) {
                             onPress={() => $.onSelect(item.type, tag)}
                           >
                             <Text size={11}>{tag}</Text>
+                            <Heatmap
+                              right={-1}
+                              id='Anime.选择'
+                              data={{
+                                value: tag
+                              }}
+                              mini
+                            />
                           </Touchable>
                         ))}
                       </Flex>
@@ -155,6 +174,14 @@ function Filter(props, { $ }) {
                         onPress={() => $.onSelect(item.type, i)}
                       >
                         <Text size={11}>{i}</Text>
+                        <Heatmap
+                          right={-1}
+                          id='Anime.选择'
+                          data={{
+                            value: i
+                          }}
+                          mini
+                        />
                       </Touchable>
                     ))}
                   </>

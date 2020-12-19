@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 15:40:41
+ * @Last Modified time: 2020-12-18 22:13:17
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -22,8 +22,8 @@ export { default as Channel } from './discovery/channel'
 export { default as Character } from './discovery/character'
 export { default as Discovery } from './discovery/index'
 export { default as DiscoveryBlog } from './discovery/blog'
-export { default as Netabare } from './discovery/netabare'
-export { default as Random } from './discovery/random'
+// export { default as Netabare } from './discovery/netabare'
+// export { default as Random } from './discovery/random'
 export { default as Rank } from './discovery/rank'
 export { default as Search } from './discovery/search'
 export { default as Tags } from './discovery/tags'

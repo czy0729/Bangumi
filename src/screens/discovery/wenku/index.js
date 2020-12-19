@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 11:50:13
+ * @Last Modified time: 2020-12-18 11:33:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Loading } from '@components'
+import { Loading, Heatmap } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -57,6 +57,7 @@ class Wenku extends React.Component {
             name='arrow-left'
             onPress={$.scrollToTop}
           />
+          <Heatmap id='文库.到顶' />
         </View>
       )
     })

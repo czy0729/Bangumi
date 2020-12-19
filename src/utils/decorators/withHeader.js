@@ -2,10 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:41:23
+ * @Last Modified time: 2020-12-18 00:33:38
  */
 import React from 'react'
-import { StatusBarEvents, Flex, Popover, Menu, Iconfont, UM } from '@components'
+import {
+  StatusBarEvents,
+  Flex,
+  Popover,
+  Menu,
+  Iconfont,
+  UM,
+  Heatmap
+} from '@components'
 import { IconBack } from '@screens/_'
 import { _ } from '@stores'
 import { hm as utilsHM } from '@utils/fetch'
@@ -20,6 +28,7 @@ if (!IOS && BARE) {
 
 const withHeader = ({
   screen,
+  alias,
   headerStyle,
   headerTitleStyle,
   iconBackColor,
@@ -39,6 +48,7 @@ const withHeader = ({
           'element',
           <Iconfont size={24} name='more' color={_.colorTitle} />
         )
+        const heatmap = navigation.getParam('heatmap')
         const extra = navigation.getParam('extra')
         if (popover.data.length) {
           const popoverProps = IOS
@@ -67,6 +77,7 @@ const withHeader = ({
                 {...popoverProps}
               >
                 {element}
+                {!!heatmap && <Heatmap id={heatmap} />}
               </Popover>
             </Flex>
           )
@@ -154,6 +165,13 @@ const withHeader = ({
               <StatusBarEvents backgroundColor={backgroundColor} />
             )}
             <ComposedComponent navigation={navigation} />
+            {!!hm?.[1] && (
+              <Heatmap
+                bottom={_.bottom + _.sm}
+                id={alias || screen}
+                screen={hm[1]}
+              />
+            )}
           </>
         )
       }

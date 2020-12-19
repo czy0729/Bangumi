@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 11:28:21
+ * @Last Modified time: 2020-12-19 01:09:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,8 @@ function ItemTopic({
   floor,
   time,
   sub,
-  event
+  event,
+  children
 }) {
   if (!userId) {
     return null
@@ -145,6 +146,7 @@ function ItemTopic({
           })}
         </View>
       </Flex.Item>
+      {children}
     </Flex>
   )
 }

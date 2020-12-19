@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-12-28 13:37:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 18:35:46
+ * @Last Modified time: 2020-12-18 20:49:27
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button } from '@components'
+import { Button, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -31,6 +31,7 @@ function Legacy(props, { $ }) {
       >
         {MODEL_SEARCH_LEGACY.getLabel(legacy)}
       </Button>
+      <Heatmap id='搜索.切换细分类型' />
     </Popover>
   )
 }

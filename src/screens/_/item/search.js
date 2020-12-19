@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:25:22
+ * @Last Modified time: 2020-12-18 00:05:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,8 @@ function ItemSearch({
   collected, // 是否收藏
   comments,
   position = [],
-  event
+  event,
+  children
 }) {
   const styles = memoStyles()
 
@@ -153,6 +154,7 @@ function ItemSearch({
           </Flex>
         </Flex.Item>
       </Flex>
+      {children}
     </Touchable>
   )
 }

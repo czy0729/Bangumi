@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:10:33
+ * @Last Modified time: 2020-12-19 11:50:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text } from '@components'
+import { Flex, Image, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { appNavigate, getCoverMedium } from '@utils/app'
@@ -29,7 +29,15 @@ function Jobs({ style }, { $, navigation }) {
   const styles = memoStyles()
   return (
     <View style={[styles.container, style]}>
-      <SectionTitle>出演</SectionTitle>
+      <View>
+        <SectionTitle>出演</SectionTitle>
+        <Heatmap
+          id='人物.跳转'
+          data={{
+            from: '出演'
+          }}
+        />
+      </View>
       <View style={_.mt.md}>
         {$.jobs.map((item, index) => (
           <Flex
@@ -39,26 +47,38 @@ function Jobs({ style }, { $, navigation }) {
           >
             <Flex.Item flex={3}>
               <Flex align='start'>
-                <Cover
-                  size={48}
-                  height={62}
-                  src={item.cover}
-                  radius
-                  shadow
-                  type={MODEL_SUBJECT_TYPE.getTitle(item.type)}
-                  onPress={() =>
-                    appNavigate(
-                      item.href,
-                      navigation,
-                      {
-                        _jp: item.name,
-                        _cn: item.nameCn,
-                        _image: item.cover
-                      },
-                      event
-                    )
-                  }
-                />
+                <View>
+                  <Cover
+                    size={48}
+                    height={62}
+                    src={item.cover}
+                    radius
+                    shadow
+                    type={MODEL_SUBJECT_TYPE.getTitle(item.type)}
+                    onPress={() =>
+                      appNavigate(
+                        item.href,
+                        navigation,
+                        {
+                          _jp: item.name,
+                          _cn: item.nameCn,
+                          _image: item.cover
+                        },
+                        event
+                      )
+                    }
+                  />
+                  {!index && (
+                    <Heatmap
+                      right={-32}
+                      id='人物.跳转'
+                      data={{
+                        to: 'Subject',
+                        alias: '条目'
+                      }}
+                    />
+                  )}
+                </View>
                 <Flex.Item style={styles.content}>
                   <Flex align='start'>
                     <Text style={_.mt.xs} size={12} bold numberOfLines={3}>
@@ -93,23 +113,33 @@ function Jobs({ style }, { $, navigation }) {
                   )}
                 </Flex.Item>
                 {!!item.castCover && (
-                  <Image
-                    style={_.ml.sm}
-                    size={40}
-                    src={item.castCover}
-                    radius
-                    shadow
-                    onPress={() =>
-                      appNavigate(
-                        item.castHref,
-                        navigation,
-                        {
-                          _name: item.cast,
-                          _image: getCoverMedium(item.castCover)
-                        },
-                        event
-                      )
-                    }
+                  <View style={_.ml.sm}>
+                    <Image
+                      size={40}
+                      src={item.castCover}
+                      radius
+                      shadow
+                      onPress={() =>
+                        appNavigate(
+                          item.castHref,
+                          navigation,
+                          {
+                            _name: item.cast,
+                            _image: getCoverMedium(item.castCover)
+                          },
+                          event
+                        )
+                      }
+                    />
+                  </View>
+                )}
+                {!index && (
+                  <Heatmap
+                    id='人物.跳转'
+                    data={{
+                      to: 'Mono',
+                      alias: '人物'
+                    }}
                   />
                 )}
               </Flex>

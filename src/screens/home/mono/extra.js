@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-06 17:15:06
+ * @Last Modified time: 2020-12-19 00:59:40
  */
 import React from 'react'
 import { Alert } from 'react-native'
 import { IconHeader } from '@screens/_'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -55,7 +55,26 @@ function Extra({ $, navigation }) {
           monoId: $.monoId
         })
       }}
-    />
+    >
+      <Heatmap right={173} id='人物.启动ICO' transparent />
+      <Heatmap
+        right={109}
+        id='人物.跳转'
+        data={{
+          to: 'TinygrailICODeal',
+          alias: 'ICO'
+        }}
+        transparent
+      />
+      <Heatmap
+        right={30}
+        id='人物.跳转'
+        data={{
+          to: 'TinygrailDeal',
+          alias: '交易'
+        }}
+      />
+    </IconHeader>
   )
 }
 

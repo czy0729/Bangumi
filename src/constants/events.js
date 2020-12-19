@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 20:14:20
+ * @Last Modified time: 2020-12-19 00:45:29
  */
 
 /**
@@ -30,7 +30,7 @@ export default {
   // - [x] 索引
   '索引.跳转': 'Browser.to',
   '索引.右上角菜单': 'Browser.topRightMenu',
-  '索引.标签页切换': 'Browser.onChange',
+  // '索引.标签页切换': 'Browser.onChange',
   '索引.类型选择': 'Browser.onSelect',
   '索引.年选择': 'Browser.onAirdateSelect',
   '索引.月选择': 'Browser.onMonthSelect',
@@ -46,7 +46,7 @@ export default {
   '目录.上一页': 'Catalog.prev',
   '目录.下一页': 'Catalog.next',
   '目录.页码跳转': 'Catalog.doSearch',
-  '目录.提示': 'Catalog.alert',
+  // '目录.提示': 'Catalog.alert',
 
   // - [x] 目录详情
   '目录详情.跳转': 'CatalogDetail.to',
@@ -134,6 +134,7 @@ export default {
   '人物.收藏人物': 'Mono.doCollect',
   '人物.取消收藏人物': 'Mono.doEraseCollect',
   '人物.封面图查看': 'Mono.imageView',
+  '人物.启动ICO': 'Mono.ico',
 
   // 条目
   '条目.查看': 'Subject.view',

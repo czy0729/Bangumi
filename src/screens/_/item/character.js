@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 16:12:02
+ * @Last Modified time: 2020-12-18 22:28:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,8 @@ function ItemCharacter(
     actorId,
     actorCover,
     actor,
-    actorCn
+    actorCn,
+    children
   },
   { navigation }
 ) {
@@ -137,6 +138,7 @@ function ItemCharacter(
           )}
         </Flex.Item>
       </Flex>
+      {children}
     </View>
   )
 }

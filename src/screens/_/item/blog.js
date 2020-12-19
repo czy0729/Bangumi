@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:49:38
+ * @Last Modified time: 2020-12-18 22:01:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ function ItemBlog(
     <Touchable
       style={[styles.container, style, readed && styles.readed]}
       onPress={() => {
-        const { eventId, eventData } = event
+        const { id: eventId, data: eventData } = event
         t(eventId, {
           to: 'Blog',
           subjectId: id,

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 17:14:52
+ * @Last Modified time: 2020-12-18 15:44:06
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Iconfont, Text } from '@components'
+import { Flex, Iconfont, Text, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -34,6 +34,7 @@ function ToolBar(props, { $ }) {
               color={_.colorSub}
             />
           </Flex>
+          <Heatmap id='索引.类型选择' />
         </Popover>
       </Flex.Item>
       <Flex.Item>
@@ -49,6 +50,7 @@ function ToolBar(props, { $ }) {
               color={_.colorSub}
             />
           </Flex>
+          <Heatmap id='索引.年选择' />
         </Popover>
       </Flex.Item>
       <Flex.Item>
@@ -64,6 +66,7 @@ function ToolBar(props, { $ }) {
               color={_.colorSub}
             />
           </Flex>
+          <Heatmap id='索引.月选择' />
         </Popover>
       </Flex.Item>
     </Flex>

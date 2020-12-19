@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 16:51:03
+ * @Last Modified time: 2020-12-17 23:59:23
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -59,6 +59,7 @@ function ToolBar(props, { $ }) {
               color={_.colorMain}
             />
           </Flex>
+          <Heatmap id='排行榜.类型选择' />
         </Popover>
       </Flex.Item>
       {typeCn !== '音乐' && (
@@ -78,6 +79,7 @@ function ToolBar(props, { $ }) {
                 color={isEmptyFilter ? _.colorSub : _.colorMain}
               />
             </Flex>
+            <Heatmap id='排行榜.筛选选择' />
           </Popover>
         </Flex.Item>
       )}
@@ -94,6 +96,7 @@ function ToolBar(props, { $ }) {
               color={isEmptyAirdate ? _.colorSub : _.colorMain}
             />
           </Flex>
+          <Heatmap id='排行榜.年选择' />
         </Popover>
       </Flex.Item>
       <Flex.Item flex={0.8}>
@@ -109,6 +112,7 @@ function ToolBar(props, { $ }) {
               color={isEmptyMonth ? _.colorSub : _.colorMain}
             />
           </Flex>
+          <Heatmap id='排行榜.月选择' />
         </Popover>
       </Flex.Item>
       <Flex.Item>
@@ -126,6 +130,7 @@ function ToolBar(props, { $ }) {
               color={!list ? _.colorMain : undefined}
             />
           </Flex>
+          <Heatmap id='排行榜.切换布局' />
         </Touchable>
       </Flex.Item>
     </Flex>

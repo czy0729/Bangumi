@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 15:06:34
+ * @Last Modified time: 2020-12-18 16:41:05
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -23,9 +23,9 @@ class List extends React.Component {
     $: PropTypes.object
   }
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item, index }) => {
     const { id } = this.props
-    return <Item type={id} {...item} />
+    return <Item type={id} index={index} {...item} />
   }
 
   onHeaderRefresh = () => {

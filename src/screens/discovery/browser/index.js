@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-27 15:57:54
+ * @Last Modified time: 2020-12-18 15:42:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,7 @@ class Browser extends React.Component {
     $.init()
 
     navigation.setParams({
+      heatmap: '索引.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {

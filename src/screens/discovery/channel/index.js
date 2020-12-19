@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 16:41:30
+ * @Last Modified time: 2020-12-18 22:10:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -47,6 +47,7 @@ class Channel extends React.Component {
 
     navigation.setParams({
       element: <Iconfont size={24} name='list' color={_.colorTitle} />,
+      heatmap: '频道.右上角菜单',
       popover: {
         data: [
           ...MODEL_SUBJECT_TYPE.data.map(item => item.title),

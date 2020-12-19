@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 16:16:49
+ * @Last Modified time: 2020-12-19 11:52:42
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { ListView } from '@components'
+import { ListView, Heatmap } from '@components'
 import { ItemTopic, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
@@ -60,6 +60,7 @@ class Mono extends React.Component {
     withTransitionHeader.setTitle(navigation, name)
 
     navigation.setParams({
+      heatmap: '人物.右上角菜单',
       popover: {
         data: ['浏览器查看', '复制链接'],
         onSelect: key => {
@@ -108,12 +109,34 @@ class Mono extends React.Component {
   renderItem = ({ item, index }) => {
     const { navigation } = this.context
     return (
-      <ItemTopic
-        navigation={navigation}
-        index={index}
-        event={event}
-        {...item}
-      />
+      <ItemTopic navigation={navigation} index={index} event={event} {...item}>
+        {index === 2 && (
+          <Heatmap
+            id='人物.跳转'
+            data={{
+              from: '吐槽'
+            }}
+          />
+        )}
+        {index === 3 && (
+          <Heatmap
+            id='人物.跳转'
+            data={{
+              to: 'Zone',
+              alias: '空间'
+            }}
+          />
+        )}
+        {index === 4 && (
+          <Heatmap
+            id='人物.跳转'
+            data={{
+              to: 'WebBrowser',
+              alias: '浏览器'
+            }}
+          />
+        )}
+      </ItemTopic>
     )
   }
 
@@ -136,6 +159,7 @@ class Mono extends React.Component {
           onFooterRefresh={$.fetchMono}
           {...withTransitionHeader.listViewProps}
         />
+        <Heatmap id='人物' screen='Mono' />
       </View>
     )
   }

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 16:53:16
+ * @Last Modified time: 2020-12-18 21:21:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Katakana, Text } from '@components'
+import { Touchable, Flex, Katakana, Text, Heatmap } from '@components'
 import { Tag, Stars, Cover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
@@ -136,6 +136,7 @@ function ItemRecents(
           </Flex>
         </Flex.Item>
       </Flex>
+      {!index && <Heatmap id='收藏的人物.跳转' />}
     </View>
   )
 }

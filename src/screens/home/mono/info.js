@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 16:44:14
+ * @Last Modified time: 2020-12-19 11:29:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -17,7 +17,8 @@ import {
   RenderHtml,
   Divider,
   Touchable,
-  Iconfont
+  Iconfont,
+  Heatmap
 } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
@@ -60,6 +61,8 @@ function Info(props, { $, navigation }) {
                   加入收藏
                 </Text>
               </Flex>
+              <Heatmap id='人物.收藏人物' />
+              <Heatmap right={52} id='人物.取消收藏人物' transparent />
             </Touchable>
           )}
           {!!eraseCollectUrl && (
@@ -70,6 +73,7 @@ function Info(props, { $, navigation }) {
                   已收藏
                 </Text>
               </Flex>
+              <Heatmap id='人物.取消收藏人物' />
             </Touchable>
           )}
         </Flex>
@@ -88,6 +92,7 @@ function Info(props, { $, navigation }) {
                 }
               }}
             />
+            <Heatmap id='人物.封面图查看' />
           </Flex>
         )}
         {!!$.info && <RenderHtml style={styles.info} html={$.info} />}
@@ -118,6 +123,21 @@ function Info(props, { $, navigation }) {
               <Text type='sub'>去吐槽</Text>
               <Iconfont name='right' size={16} />
             </Flex>
+            <Heatmap
+              id='人物.跳转'
+              data={{
+                from: '去吐槽'
+              }}
+            />
+            <Heatmap
+              right={66}
+              id='人物.跳转'
+              data={{
+                to: 'Topic',
+                alias: '帖子'
+              }}
+              transparent
+            />
           </Touchable>
         }
       >

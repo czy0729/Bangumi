@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 15:21:28
+ * @Last Modified time: 2020-12-18 22:25:13
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Loading, ListView } from '@components'
+import { Loading, ListView, Heatmap } from '@components'
 import { ItemCatalog } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -44,6 +44,7 @@ class SubjectCatalogs extends React.Component {
     $.init()
 
     navigation.setParams({
+      heatmap: '条目目录.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
@@ -66,7 +67,7 @@ class SubjectCatalogs extends React.Component {
     hm(`subject/${$.subjectId}/index`, 'SubjectCatalogs')
   }
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item, index }) => {
     const { navigation } = this.context
     return (
       <ItemCatalog
@@ -77,7 +78,9 @@ class SubjectCatalogs extends React.Component {
         name={item.userName}
         title={item.title}
         last={item.time}
-      />
+      >
+        {!index && <Heatmap id='条目目录.跳转' />}
+      </ItemCatalog>
     )
   }
 
@@ -89,16 +92,19 @@ class SubjectCatalogs extends React.Component {
     }
 
     return (
-      <ListView
-        style={_.select(_.container.plain, _.container.bg)}
-        contentContainerStyle={_.container.bottom}
-        keyExtractor={keyExtractor}
-        data={$.list}
-        renderItem={this.renderItem}
-        scrollToTop
-        onHeaderRefresh={() => $.fetchSubjectCatalogs(true)}
-        onFooterRefresh={$.fetchSubjectCatalogs}
-      />
+      <>
+        <ListView
+          style={_.select(_.container.plain, _.container.bg)}
+          contentContainerStyle={_.container.bottom}
+          keyExtractor={keyExtractor}
+          data={$.list}
+          renderItem={this.renderItem}
+          scrollToTop
+          onHeaderRefresh={() => $.fetchSubjectCatalogs(true)}
+          onFooterRefresh={$.fetchSubjectCatalogs}
+        />
+        <Heatmap bottom={_.bottom} id='条目目录' screen='SubjectCatalogs' />
+      </>
     )
   }
 }

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 16:37:32
+ * @Last Modified time: 2020-12-18 22:09:42
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ListView } from '@components'
-import { _ } from '@stores'
+import { ListView, Heatmap } from '@components'
 import { ItemCollections } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withTransitionHeader, observer } from '@utils/decorators'
 import { findSubjectCn, keyExtractor } from '@utils/app'
@@ -42,6 +42,7 @@ class CatalogDetail extends React.Component {
 
     const { title, joinUrl, byeUrl } = $.catalogDetail
     navigation.setParams({
+      heatmap: '目录详情.右上角菜单',
       extra: !!(joinUrl || byeUrl) && <IconFavor $={$} />,
       popover: {
         data: ['浏览器查看'],
@@ -65,7 +66,7 @@ class CatalogDetail extends React.Component {
     hm(`index/${$.catalogId}`, 'CatalogDetail')
   }
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
     const id = String(item.id).match(/\d+/)[0]
     return (
@@ -83,7 +84,9 @@ class CatalogDetail extends React.Component {
         isCatalog
         isCollect={item.isCollect}
         collection={$.userCollectionsMap[id]}
-      />
+      >
+        {!index && <Heatmap id='目录详情.跳转' />}
+      </ItemCollections>
     )
   }
 

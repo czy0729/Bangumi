@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 17:00:48
+ * @Last Modified time: 2020-12-18 00:06:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { ScrollView, Flex, Empty } from '@components'
+import { ScrollView, Flex, Empty, Heatmap } from '@components'
 import {
   Pagination,
   ItemSearch,
@@ -21,6 +21,11 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const event = {
   id: '排行榜.跳转'
+}
+const heatmaps = {
+  prev: '排行榜.上一页',
+  next: '排行榜.下一页',
+  search: '排行榜.页码跳转'
 }
 
 export default
@@ -37,6 +42,7 @@ class List extends React.Component {
     return (
       <Pagination
         input={ipt[type]}
+        heatmaps={heatmaps}
         onPrev={$.prev}
         onNext={$.next}
         onChange={$.onChange}
@@ -70,7 +76,9 @@ class List extends React.Component {
                 }}
                 typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
                 {...item}
-              />
+              >
+                {index === 1 && <Heatmap id='排行榜.跳转' />}
+              </ItemSearch>
             ))
           ) : (
             <Empty />

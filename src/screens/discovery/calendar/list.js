@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 19:33:33
+ * @Last Modified time: 2020-12-18 00:25:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { ListView, Flex, Text, Iconfont } from '@components'
+import { ListView, Flex, Text, Iconfont, Heatmap } from '@components'
 import { SectionHeader } from '@screens/_'
 import { _ } from '@stores'
 import { date, getTimestamp } from '@utils'
@@ -32,6 +32,7 @@ function Line() {
         {date('H:i', getTimestamp())}
       </Text>
       <Flex.Item style={styles.line} />
+      <Heatmap id='每日放送.跳转' />
     </Flex>
   )
 }

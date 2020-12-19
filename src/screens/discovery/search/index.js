@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 20:08:37
+ * @Last Modified time: 2020-12-18 20:49:08
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Button } from '@components'
+import { Flex, Button, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -44,6 +44,7 @@ class Search extends React.Component {
     await $.init()
 
     navigation.setParams({
+      heatmap: '搜索.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
@@ -77,14 +78,17 @@ class Search extends React.Component {
             <SearchBar />
           </Flex.Item>
           <Legacy />
-          <Button
-            style={styles.btn}
-            type='ghostPlain'
-            size='sm'
-            onPress={this.onPress}
-          >
-            查询
-          </Button>
+          <View style={_.ml.sm}>
+            <Button
+              style={styles.btn}
+              type='ghostPlain'
+              size='sm'
+              onPress={this.onPress}
+            >
+              查询
+            </Button>
+            <Heatmap id='搜索.搜索' />
+          </View>
         </Flex>
         <History style={_.mt.sm} />
         <List />
@@ -101,7 +105,6 @@ const styles = StyleSheet.create({
   btn: {
     width: 68,
     height: 34,
-    marginLeft: _.sm,
     borderRadius: 34
   }
 })

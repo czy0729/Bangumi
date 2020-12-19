@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 16:54:31
+ * @Last Modified time: 2020-12-18 16:49:00
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet } from 'react-native'
-import { Button } from '@components'
+import { Button, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { observer } from '@utils/decorators'
 import { MODEL_SEARCH_CAT } from '@constants/model'
@@ -26,6 +26,7 @@ function Category(props, { $ }) {
       >
         {MODEL_SEARCH_CAT.getLabel(cat)}
       </Button>
+      <Heatmap id='搜索.切换类型' />
     </Popover>
   )
 }

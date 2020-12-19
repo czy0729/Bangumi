@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 13:49:09
+ * @Last Modified time: 2020-12-18 00:58:34
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Loading } from '@components'
+import { Loading, Heatmap } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -21,6 +21,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
+  alias: 'Anime',
   hm: ['anime', 'Anime']
 })
 @observer
@@ -57,6 +58,7 @@ class Anime extends React.Component {
             name='arrow-left'
             onPress={$.scrollToTop}
           />
+          <Heatmap id='Anime.到顶' />
         </View>
       )
     })

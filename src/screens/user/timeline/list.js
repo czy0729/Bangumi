@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-31 11:09:43
+ * @Last Modified time: 2020-12-18 21:01:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Text } from '@components'
+import { Flex, Text, Heatmap } from '@components'
 import { Cover, Stars, Tag } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -42,6 +42,7 @@ function List(props, { $, navigation }) {
                 </Text>
               )}
             </Flex>
+            <Heatmap id='时间线.跳转' />
           </View>
           {item.data.map(item => (
             <View key={item.title}>

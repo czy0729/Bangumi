@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-13 05:22:19
+ * @Last Modified time: 2020-12-18 15:35:51
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components'
+import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { Tag, Cover, Stars } from '@screens/_'
 import { x18 } from '@utils/app'
@@ -50,8 +50,6 @@ function Item({ index, pickIndex }, { $, navigation }) {
     .join(' / ')
   const collection = $.userCollectionsMap[id]
   const indent = collection ? '　　 ' : ''
-
-  log($.userCollectionsMap)
   return (
     <Touchable
       style={styles.container}
@@ -90,7 +88,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
             justify='between'
             align='start'
           >
-            <Flex align='start' style={{ width: '100%' }}>
+            <Flex align='start' style={styles.body}>
               {!!collection && (
                 <Tag style={styles.collection} value={collection} />
               )}
@@ -122,6 +120,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
           </Flex>
         </Flex.Item>
       </Flex>
+      {index === 0 && <Heatmap id='Anime.跳转' />}
     </Touchable>
   )
 }
@@ -150,6 +149,9 @@ const memoStyles = _.memoStyles(_ => ({
   },
   content: {
     height: IMG_HEIGHT
+  },
+  body: {
+    width: '100%'
   },
   collection: {
     position: 'absolute',

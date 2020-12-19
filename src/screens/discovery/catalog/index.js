@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-11 12:13:02
+ * @Last Modified time: 2020-12-18 22:02:43
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { ScrollView } from '@components'
+import { ScrollView, Heatmap } from '@components'
 import { Pagination, ItemCatalog } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -17,6 +17,11 @@ import Store from './store'
 const title = '目录'
 const event = {
   id: '目录.跳转'
+}
+const heatmaps = {
+  prev: '目录.上一页',
+  next: '目录.下一页',
+  search: '目录.页码跳转'
 }
 
 export default
@@ -52,6 +57,7 @@ class Catalog extends React.Component {
       <Pagination
         style={style}
         input={ipt}
+        heatmaps={heatmaps}
         onPrev={$.prev}
         onNext={$.next}
         onChange={$.onChange}
@@ -78,8 +84,10 @@ class Catalog extends React.Component {
         {show && (
           <>
             <View style={styles.list}>
-              {$.catalog.list.map(item => (
-                <ItemCatalog key={item.id} event={event} {...item} />
+              {$.catalog.list.map((item, index) => (
+                <ItemCatalog key={item.id} event={event} {...item}>
+                  {index === 1 && <Heatmap id='目录.跳转' />}
+                </ItemCatalog>
               ))}
             </View>
             {this.renderPaganation(_.mt.lg)}

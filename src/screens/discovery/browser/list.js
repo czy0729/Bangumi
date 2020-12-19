@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 19:32:54
+ * @Last Modified time: 2020-12-18 16:11:06
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading, ListView } from '@components'
+import { Loading, ListView, Heatmap } from '@components'
 import { ItemSearch } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
@@ -42,7 +42,9 @@ class List extends React.Component {
         }
         typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
         {...item}
-      />
+      >
+        {index === 1 && <Heatmap id='索引.跳转' />}
+      </ItemSearch>
     )
   }
 

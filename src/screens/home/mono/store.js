@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-06 17:15:29
+ * @Last Modified time: 2020-12-19 00:46:19
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
@@ -205,6 +205,10 @@ export default class ScreenMono extends store {
    * 开启ICO
    */
   doICO = async navigation => {
+    t('人物.启动ICO', {
+      monoId: this.monoId
+    })
+
     const data = await tinygrailStore.doICO({
       monoId: this.monoId.replace('character/', '')
     })

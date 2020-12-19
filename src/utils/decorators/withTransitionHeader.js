@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:02:51
+ * @Last Modified time: 2020-12-17 23:46:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,8 @@ const withTransitionHeader = ({
   colorStart,
   colorEnd = _.colorTitleRaw, // 黑暗模式, end也是白色
   transparent = false,
-  barStyle
+  barStyle,
+  hm
 } = {}) => ComposedComponent =>
   observer(
     class withTransitionHeaderComponent extends React.Component {
@@ -244,6 +245,9 @@ const withTransitionHeader = ({
               navigation={navigation}
               onScroll={this.headerTransitionCallback}
             />
+            {!!hm?.[1] && (
+              <Heatmap bottom={_.bottom + _.sm} id={screen} screen={hm[1]} />
+            )}
           </>
         )
       }

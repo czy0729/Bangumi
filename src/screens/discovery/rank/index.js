@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 21:25:16
+ * @Last Modified time: 2020-12-17 23:51:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,6 +39,7 @@ class Rank extends React.Component {
     $.init()
 
     navigation.setParams({
+      heatmap: '排行榜.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
