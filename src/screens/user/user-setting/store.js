@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-19 09:53:48
+ * @Last Modified time: 2020-12-20 19:44:20
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -14,6 +14,7 @@ import { info, feedback } from '@utils/ui'
 const onlineBgsUrl = 'https://gitee.com/a402731062/bangumi/raw/master/bg.json'
 const regBg = /\[bg\](.+?)\[\/bg\]/
 const regAvatar = /\[avatar\](.+?)\[\/avatar\]/
+const regFixed = /\[size=0\]\[avatar\]\[\/avatar\]\[\/size\]|\[size=0\]\[bg\]\[\/bg\]\[\/size\]/g
 
 export default class ScreenAvatar extends store {
   state = observable({
@@ -83,7 +84,7 @@ export default class ScreenAvatar extends store {
 
     const { sign } = this.userSetting
     const _bgs = sign.match(regBg)
-    return _bgs ? String(_bgs[1]).trim() : ''
+    return String(_bgs ? String(_bgs[1]).trim() : '').replace(regFixed, '')
   }
 
   @computed get avatar() {
@@ -92,7 +93,10 @@ export default class ScreenAvatar extends store {
 
     const { sign } = this.userSetting
     const _avatars = sign.match(regAvatar)
-    return _avatars ? String(_avatars[1]).trim() : ''
+    return String(_avatars ? String(_avatars[1]).trim() : '').replace(
+      regFixed,
+      ''
+    )
   }
 
   // -------------------- action --------------------
@@ -126,9 +130,8 @@ export default class ScreenAvatar extends store {
       _sign += `[size=0][bg]${bg || ''}[/bg][/size]`
     }
 
-    t('个人设置.保存', {
-      id: this.myUserId
-    })
+    // 清除错误保存的历史数据
+    _sign = _sign.replace(regFixed, '')
 
     userStore.doUpdateUserSetting(
       {
@@ -139,6 +142,10 @@ export default class ScreenAvatar extends store {
         timeoffsetnew: '8'
       },
       () => {
+        t('个人设置.保存', {
+          id: this.myUserId
+        })
+
         feedback()
         info('保存成功')
         this.fetchUserSetting()
