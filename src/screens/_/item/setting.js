@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-12 17:58:27
+ * @Last Modified time: 2020-12-20 18:05:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ function ItemSetting({
   arrow,
   information,
   informationType,
+  children,
   onPress,
   ...other
 }) {
@@ -37,6 +38,7 @@ function ItemSetting({
           {information}
         </Text>
       )}
+      {children}
     </View>
   )
 

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:50:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:16:46
+ * @Last Modified time: 2020-12-19 12:12:17
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { ListView, Loading } from '@components'
+import { ListView, Loading, Heatmap } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { observer } from '@utils/decorators'
@@ -45,8 +45,13 @@ List.contextTypes = {
 
 export default observer(List)
 
-function renderItem({ item }) {
-  return <Item {...item} />
+function renderItem({ item, index }) {
+  return (
+    <>
+      <Item {...item} />
+      {!index && <Heatmap id='用户评分.跳转' />}
+    </>
+  )
 }
 
 const styles = StyleSheet.create({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 19:41:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-22 19:56:09
+ * @Last Modified time: 2020-12-20 20:07:24
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,7 +12,18 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 
 function Item(
-  { index, topicId, avatar, userName, title, group, date, time, userId },
+  {
+    index,
+    topicId,
+    avatar,
+    userName,
+    title,
+    group,
+    date,
+    time,
+    userId,
+    children
+  },
   { navigation }
 ) {
   const styles = memoStyles()
@@ -49,6 +60,7 @@ function Item(
           </Flex>
         </Touchable>
       </Flex.Item>
+      {children}
     </Flex>
   )
 }

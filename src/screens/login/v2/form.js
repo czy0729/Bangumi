@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-21 17:10:53
+ * @Last Modified time: 2020-12-19 14:56:05
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
@@ -15,7 +15,8 @@ import {
   Input,
   Button,
   Mesume,
-  Iconfont
+  Iconfont,
+  Heatmap
 } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
@@ -184,6 +185,8 @@ class Form extends React.Component {
             </Text>
             <Iconfont style={_.ml.sm} name='right' size={12} />
           </Flex>
+          <Heatmap id='登陆.切换域名' />
+          <Heatmap bottom={-32} id='登陆.配置提示' transparent />
         </Touchable>
       )
     }

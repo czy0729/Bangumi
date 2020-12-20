@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 19:13:36
+ * @Last Modified time: 2020-12-19 14:38:24
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -37,6 +37,7 @@ function ToolBar(props, { $ }) {
               {orderLabel}
             </Text>
           </Flex>
+          <Heatmap id='作品.排序选择' />
         </Popover>
       </Flex.Item>
       {filters.map(item => {
@@ -59,6 +60,7 @@ function ToolBar(props, { $ }) {
                   {find.title}
                 </Text>
               </Flex>
+              <Heatmap id='作品.职位选择' />
             </Popover>
           </Flex.Item>
         )
@@ -78,6 +80,7 @@ function ToolBar(props, { $ }) {
               color={!list ? _.colorMain : undefined}
             />
           </Flex>
+          <Heatmap id='作品.切换布局' />
         </Touchable>
       </Flex.Item>
     </Flex>

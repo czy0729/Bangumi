@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-22 17:23:51
+ * @Last Modified time: 2020-12-20 19:55:07
  */
 import React from 'react'
 import { View, Animated } from 'react-native'

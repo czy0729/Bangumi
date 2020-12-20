@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:39:12
+ * @Last Modified time: 2020-12-20 03:15:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { ScrollView, FixedTextarea, Flex } from '@components'
+import { ScrollView, FixedTextarea, Flex, Heatmap } from '@components'
 import { NavigationBarEvents, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -16,6 +16,7 @@ import { inject, withHeader, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Chat from './chat'
+import Heatmaps from './heatmaps'
 import Store from './store'
 
 const title = '吐槽'
@@ -49,6 +50,7 @@ class Say extends React.Component {
 
     navigation.setParams({
       title: $.isNew ? '新吐槽' : '吐槽',
+      heatmap: '吐槽.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {
@@ -162,12 +164,14 @@ class Say extends React.Component {
               size={34}
               userId={item.id}
               name={item.name}
-              event={event}
               border={0}
+              round
+              event={event}
               onLongPress={() => $.at(item.id)}
             />
           )
         })}
+        <Heatmap id='吐槽.at' />
       </ScrollView>
     )
   }
@@ -196,6 +200,7 @@ class Say extends React.Component {
       <View style={_.container.screen}>
         <NavigationBarEvents />
         {$.isNew ? this.renderNew() : this.renderList()}
+        <Heatmaps />
       </View>
     )
   }

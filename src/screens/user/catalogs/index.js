@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 20:20:31
+ * @Last Modified time: 2020-12-20 03:38:43
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
+import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -41,6 +42,11 @@ class Catelogs extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
-    return <View style={_.container.screen}>{!!_loaded && <Tabs />}</View>
+    return (
+      <View style={_.container.screen}>
+        {!!_loaded && <Tabs />}
+        <Heatmap bottom={_.bottom} id='用户目录' screen='Catelogs' />
+      </View>
+    )
   }
 }

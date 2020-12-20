@@ -1,11 +1,10 @@
-/* eslint-disable max-len */
 /*
  * Oauth获取用户accessToken
  * 过程中捕获用户cookie
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 22:08:39
+ * @Last Modified time: 2020-12-19 15:01:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +17,8 @@ import {
   Loading,
   Text,
   Mesume,
-  UM
+  UM,
+  Heatmap
 } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore } from '@stores'
@@ -294,6 +294,31 @@ class Login extends React.Component {
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}
         </View>
+        <Heatmap
+          right={_.wind}
+          bottom={_.bottom + 120}
+          id='授权登陆.登陆'
+          transparent
+        />
+        <Heatmap
+          right={_.wind + 31}
+          bottom={_.bottom + 86}
+          id='授权登陆.成功'
+          transparent
+        />
+        <Heatmap
+          right={_.wind}
+          bottom={_.bottom + 86}
+          id='授权登陆.错误'
+          transparent
+        />
+        <Heatmap
+          right={_.wind}
+          bottom={_.bottom + 52}
+          id='授权登陆.乱逛'
+          transparent
+        />
+        <Heatmap id='授权登陆' screen='LoginV1' />
       </View>
     )
   }

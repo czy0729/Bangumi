@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:28:16
+ * @Last Modified time: 2020-12-19 17:03:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Touchable, Flex, Text, Mesume } from '@components'
+import { Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { appNavigate, correctAgo } from '@utils/app'
@@ -106,6 +106,7 @@ function List({ style }, { $, navigation }) {
                 </Text>
               </Text>
             </View>
+            {!index && <Heatmap id='小组.跳转' />}
           </Touchable>
         )
       })}

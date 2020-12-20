@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:32:12
+ * @Last Modified time: 2020-12-19 14:05:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,8 @@ function ItemVoice({
   name,
   nameCn,
   cover,
-  subject
+  subject,
+  children
 }) {
   const styles = memoStyles()
   return (
@@ -114,6 +115,7 @@ function ItemVoice({
           ))}
         </Flex.Item>
       </Flex>
+      {children}
     </View>
   )
 }

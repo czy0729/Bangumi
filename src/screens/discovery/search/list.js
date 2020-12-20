@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 20:52:23
+ * @Last Modified time: 2020-12-19 17:38:30
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -39,7 +39,7 @@ class List extends React.Component {
         typeCn={MODEL_SUBJECT_TYPE.getTitle(item.type)}
         {...item}
       >
-        {index === 0 && <Heatmap id='搜索.跳转' />}
+        {!index && <Heatmap id='搜索.跳转' />}
       </ItemSearch>
     )
   }

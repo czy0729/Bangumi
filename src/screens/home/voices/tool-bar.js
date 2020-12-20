@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 14:43:35
+ * @Last Modified time: 2020-12-19 14:04:33
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Text } from '@components'
+import { Flex, Text, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -41,6 +41,7 @@ function ToolBar(props, { $ }) {
           </Flex.Item>
         )
       })}
+      <Heatmap id='角色.职位选择' />
     </Flex>
   )
 }

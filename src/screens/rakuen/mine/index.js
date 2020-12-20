@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:47:17
+ * @Last Modified time: 2020-12-19 17:05:57
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -38,6 +38,7 @@ class Mine extends React.Component {
     $.init()
 
     navigation.setParams({
+      heatmap: '我的小组.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {

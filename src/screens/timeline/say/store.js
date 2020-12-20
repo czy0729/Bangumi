@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-11 14:02:08
+ * @Last Modified time: 2020-12-20 03:04:39
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -138,22 +138,11 @@ export default class ScreenSay extends store {
   }
 
   /**
-   * 显示评论框
-   */
-  showFixedTextarea = (placeholder, replySub, message) => {
-    t('吐槽.显示评论框')
-
-    this.setState({
-      placeholder,
-      replySub,
-      message
-    })
-  }
-
-  /**
    * 收起评论框
    */
   closeFixedTextarea = () => {
+    t('吐槽.显示评论框')
+
     this.setState({
       placeholder: '',
       replySub: '',

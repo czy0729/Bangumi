@@ -3,14 +3,21 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-24 14:49:24
+ * @Last Modified time: 2020-12-19 15:01:03
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import { observer } from 'mobx-react'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
-import { KeyboardSpacer, StatusBarEvents, Text, Flex, UM } from '@components'
+import {
+  KeyboardSpacer,
+  StatusBarEvents,
+  Text,
+  Flex,
+  UM,
+  Heatmap
+} from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore, usersStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
@@ -593,6 +600,13 @@ class LoginV2 extends React.Component {
               >
                 注册
               </Text>
+              <Heatmap
+                id='登陆.跳转'
+                data={{
+                  to: 'Signup',
+                  alias: '注册'
+                }}
+              />
             </Flex.Item>
             <Flex.Item style={this.styles.border}>
               <Text
@@ -609,6 +623,13 @@ class LoginV2 extends React.Component {
               >
                 旧版登陆
               </Text>
+              <Heatmap
+                id='登陆.跳转'
+                data={{
+                  to: 'Login',
+                  alias: '旧版登陆'
+                }}
+              />
             </Flex.Item>
             <Flex.Item style={this.styles.border}>
               <Text
@@ -625,6 +646,13 @@ class LoginV2 extends React.Component {
               >
                 辅助登陆
               </Text>
+              <Heatmap
+                id='登陆.跳转'
+                data={{
+                  to: 'LoginAssist',
+                  alias: '辅助登陆'
+                }}
+              />
             </Flex.Item>
           </Flex>
         )}
@@ -640,6 +668,28 @@ class LoginV2 extends React.Component {
         <StatusBarPlaceholder />
         {this.renderContent()}
         <KeyboardSpacer />
+        <Heatmap
+          right={_.wind}
+          bottom={_.bottom + 120}
+          id='登陆.登陆'
+          transparent
+        />
+        <Heatmap
+          right={_.wind}
+          bottom={_.bottom + 86}
+          id='登陆.成功'
+          transparent
+        />
+        <Heatmap
+          right={_.wind}
+          bottom={_.bottom + 52}
+          id='登陆.错误'
+          transparent
+        />
+        <Heatmap
+          id='登陆'
+          screen='Login'
+        />
       </View>
     )
   }

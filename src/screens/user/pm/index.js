@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:41:13
+ * @Last Modified time: 2020-12-20 17:38:38
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -11,6 +11,7 @@ import { ScrollView, FixedTextarea, Input, Text, Loading } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import Chat from './chat'
+import Heatmaps from './heatmaps'
 import Store from './store'
 
 const title = '短信'
@@ -106,6 +107,7 @@ class PM extends React.Component {
         >
           {this.renderNewForm()}
         </FixedTextarea>
+        <Heatmaps />
       </View>
     )
   }

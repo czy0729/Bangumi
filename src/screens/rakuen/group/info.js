@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 16:34:34
+ * @Last Modified time: 2020-12-19 17:01:13
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -15,7 +15,8 @@ import {
   Flex,
   Image,
   Text,
-  Loading
+  Loading,
+  Heatmap
 } from '@components'
 import { _ } from '@stores'
 import { IOS } from '@constants'
@@ -44,6 +45,7 @@ function Info(props, { $ }) {
               }
             }}
           />
+          <Heatmap id='小组.封面图查看' />
         </Flex>
       )}
       {!!content && (

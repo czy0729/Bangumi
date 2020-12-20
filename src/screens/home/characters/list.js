@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:28:16
+ * @Last Modified time: 2020-12-19 12:08:24
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Loading, ListView, Heatmap } from '@components'
+import { Loading, ListView } from '@components'
 import { ItemCharacter } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
@@ -33,9 +33,7 @@ class List extends React.Component {
         index={index}
         event={event}
         {...item}
-      >
-        {!index && <Heatmap id='更多角色.跳转' />}
-      </ItemCharacter>
+      />
     )
   }
 

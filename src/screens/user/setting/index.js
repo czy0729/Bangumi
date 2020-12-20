@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:42:16
+ * @Last Modified time: 2020-12-20 19:33:29
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -12,7 +12,8 @@ import {
   Flex,
   Text,
   SwitchPro,
-  SegmentedControl
+  SegmentedControl,
+  Heatmap
 } from '@components'
 import {
   Popover,
@@ -235,7 +236,15 @@ class Setting extends React.Component {
 
           navigation.push('UserSetting')
         }}
-      />
+      >
+        <Heatmap
+          id='设置.跳转'
+          data={{
+            to: 'UserSetting',
+            alias: '个人设置'
+          }}
+        />
+      </ItemSetting>
     )
   }
 
@@ -267,7 +276,14 @@ class Setting extends React.Component {
                 />
               }
               information='点击顶部Logo可快速切换，长按则前往设置'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '黑暗模式'
+                }}
+              />
+            </ItemSetting>
             {!IS_BEFORE_ANDROID_10 && (
               <ItemSetting
                 hd='跟随系统'
@@ -286,7 +302,14 @@ class Setting extends React.Component {
                   />
                 }
                 information='启动时黑暗模式是否跟随系统'
-              />
+              >
+                <Heatmap
+                  id='设置.切换'
+                  data={{
+                    title: '跟随系统'
+                  }}
+                />
+              </ItemSetting>
             )}
             <ItemSetting
               hd='CDN加速'
@@ -305,7 +328,14 @@ class Setting extends React.Component {
                 />
               }
               information='建议开启，针对静态数据使用CDN访问快照加速渲染，但数据可能不会及时同步，流量稍微变高'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: 'CDN加速'
+                }}
+              />
+            </ItemSetting>
             {!userStore.isLimit && (
               <ItemSetting
                 hd='小圣杯'
@@ -323,7 +353,14 @@ class Setting extends React.Component {
                   />
                 }
                 information='人物卡片交易系统'
-              />
+              >
+                <Heatmap
+                  id='设置.切换'
+                  data={{
+                    title: '小圣杯'
+                  }}
+                />
+              </ItemSetting>
             )}
             {!userStore.isLimit && tinygrail && (
               <ItemSetting
@@ -360,7 +397,14 @@ class Setting extends React.Component {
                     }}
                   />
                 }
-              />
+              >
+                <Heatmap
+                  id='设置.切换'
+                  data={{
+                    title: '小圣杯涨跌色'
+                  }}
+                />
+              </ItemSetting>
             )}
             <ItemSetting
               hd='片假名终结者'
@@ -379,7 +423,14 @@ class Setting extends React.Component {
                 />
               }
               information='[实验性] 在日语外来语上方标注英文原词，开启后资源消耗增大，非必要请勿开启'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '片假名终结者'
+                }}
+              />
+            </ItemSetting>
           </>
         )}
       </>
@@ -417,7 +468,14 @@ class Setting extends React.Component {
                   }}
                 />
               }
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '隐藏评分'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='优先中文'
               ft={
@@ -435,7 +493,14 @@ class Setting extends React.Component {
                 />
               }
               information='条目名称会自动匹配中文名'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '优先中文'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='章节讨论热力图'
               ft={
@@ -453,7 +518,14 @@ class Setting extends React.Component {
                 />
               }
               information='章节按钮下方不同透明度的橙色条块, 可快速了解讨论激烈程度'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '章节讨论热力图'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='屏蔽默认头像用户相关信息'
               ft={
@@ -470,7 +542,14 @@ class Setting extends React.Component {
                   }}
                 />
               }
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '屏蔽默认头像用户相关信息'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='屏蔽敏感内容'
               ft={
@@ -488,7 +567,14 @@ class Setting extends React.Component {
                 />
               }
               information='条目、小组、时间胶囊等，因网站规则建议注册少于3个月的用户开启'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '屏蔽敏感内容'
+                }}
+              />
+            </ItemSetting>
             {!userStore.isLimit && (
               <ItemSetting
                 hd='启动页'
@@ -506,7 +592,14 @@ class Setting extends React.Component {
                 }
                 arrow
                 highlight
-              />
+              >
+                <Heatmap
+                  id='设置.切换'
+                  data={{
+                    title: '启动页'
+                  }}
+                />
+              </ItemSetting>
             )}
           </>
         )}
@@ -570,7 +663,14 @@ class Setting extends React.Component {
                 />
               }
               information='开启后尽量少出现线条，并适当增大元素间距'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '扁平'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='震动'
               ft={
@@ -588,7 +688,14 @@ class Setting extends React.Component {
                 />
               }
               information='操作请求后轻震动反馈'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '震动'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='封面拟物'
               ft={
@@ -606,7 +713,14 @@ class Setting extends React.Component {
                 />
               }
               information='能确定类型的条目封面拟物化，增加区分度'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '封面拟物'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='图片渐出动画'
               ft={
@@ -623,7 +737,14 @@ class Setting extends React.Component {
                   }}
                 />
               }
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '图片渐出动画'
+                }}
+              />
+            </ItemSetting>
             {!IOS && (
               <ItemSetting
                 hd='点击水纹效果'
@@ -642,7 +763,14 @@ class Setting extends React.Component {
                   />
                 }
                 information='按钮被按下时产生涟漪效果，关闭可提升性能'
-              />
+              >
+                <Heatmap
+                  id='设置.切换'
+                  data={{
+                    title: '点击水纹'
+                  }}
+                />
+              </ItemSetting>
             )}
             <ItemSetting
               hd='看板娘吐槽'
@@ -660,7 +788,14 @@ class Setting extends React.Component {
                   }}
                 />
               }
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '看板娘吐槽'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='头像'
               ft={
@@ -686,7 +821,14 @@ class Setting extends React.Component {
                   }}
                 />
               }
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '圆形头像'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='字号'
               ft={
@@ -700,7 +842,14 @@ class Setting extends React.Component {
                   onValueChange={this.setFontSizeAdjust}
                 />
               }
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '字号'
+                }}
+              />
+            </ItemSetting>
             {!IOS && (
               <ItemSetting
                 hd='切页动画'
@@ -715,7 +864,14 @@ class Setting extends React.Component {
                     onValueChange={this.setTransition}
                   />
                 }
-              />
+              >
+                <Heatmap
+                  id='设置.切换'
+                  data={{
+                    title: '切页动画'
+                  }}
+                />
+              </ItemSetting>
             )}
             <ItemSetting
               hd='图片质量'
@@ -731,7 +887,14 @@ class Setting extends React.Component {
                 />
               }
               information='建议默认，修改后不能享受图片CDN加速'
-            />
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '质量'
+                }}
+              />
+            </ItemSetting>
           </>
         )}
       </>
@@ -762,7 +925,14 @@ class Setting extends React.Component {
             />
           }
           information='APP排序优先：放送中未看 > 放送中 > 明天放送 > 本季未完结新番 > 网页'
-        />
+        >
+          <Heatmap
+            id='设置.切换'
+            data={{
+              title: '首页排序'
+            }}
+          />
+        </ItemSetting>
         <ItemSetting
           hd='布局'
           ft={
@@ -776,7 +946,14 @@ class Setting extends React.Component {
               onValueChange={this.setHomeLayout}
             />
           }
-        />
+        >
+          <Heatmap
+            id='设置.切换'
+            data={{
+              title: '首页布局'
+            }}
+          />
+        </ItemSetting>
         <ItemSetting
           hd='游戏标签页'
           ft={
@@ -794,7 +971,14 @@ class Setting extends React.Component {
             />
           }
           information='首页收藏显示在玩的游戏'
-        />
+        >
+          <Heatmap
+            id='设置.切换'
+            data={{
+              title: '显示游戏'
+            }}
+          />
+        </ItemSetting>
         {/* {!IOS && MODEL_SETTING_HOME_LAYOUT.getLabel(homeLayout) === '列表' && (
           <ItemSetting
             hd='首页阴影'
@@ -833,7 +1017,15 @@ class Setting extends React.Component {
 
           navigation.push('RakuenSetting')
         }}
-      />
+      >
+        <Heatmap
+          id='设置.跳转'
+          data={{
+            to: 'RakuenSetting',
+            alias: '超展开设置'
+          }}
+        />
+      </ItemSetting>
     )
   }
 
@@ -861,7 +1053,15 @@ class Setting extends React.Component {
                   id: APP_ID_SAY_DEVELOP
                 })
               }}
-            />
+            >
+              <Heatmap
+                id='设置.跳转'
+                data={{
+                  to: 'Say',
+                  alias: '吐槽'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='项目帖子'
               arrow
@@ -871,7 +1071,15 @@ class Setting extends React.Component {
                   id: '设置.跳转'
                 })
               }
-            />
+            >
+              <Heatmap
+                id='设置.跳转'
+                data={{
+                  to: 'Topic',
+                  alias: '帖子'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='Github'
               arrow
@@ -882,7 +1090,15 @@ class Setting extends React.Component {
                   id: '设置.跳转'
                 })
               }
-            />
+            >
+              <Heatmap
+                id='设置.跳转'
+                data={{
+                  to: 'WebBrowser',
+                  alias: '浏览器'
+                }}
+              />
+            </ItemSetting>
             {!userStore.isLimit && (
               <ItemSetting
                 hd='投食🍚'
@@ -899,27 +1115,16 @@ class Setting extends React.Component {
 
                   navigation.push('Qiafan')
                 }}
-              />
-            )}
-            {/* <ItemSetting
-              hd='回复添加标识'
-              ft={
-                <SwitchPro
-                  style={this.styles.switch}
-                  value={source}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '来自',
-                      checked: !source
-                    })
-
-                    systemStore.switchSetting('source')
+              >
+                <Heatmap
+                  id='设置.跳转'
+                  data={{
+                    to: 'Qiafan',
+                    alias: '投食'
                   }}
                 />
-              }
-              withoutFeedback
-              information='回复内容最后添加来自APP的文字, 帮助宣传APP吧～☆'
-            /> */}
+              </ItemSetting>
+            )}
           </>
         )}
       </>
@@ -971,7 +1176,9 @@ class Setting extends React.Component {
               arrow
               highlight
               onPress={this.clearStorage}
-            />
+            >
+              <Heatmap id='设置.清除缓存' />
+            </ItemSetting>
             <ItemSetting
               hd='恢复默认设置'
               arrow
@@ -986,7 +1193,9 @@ class Setting extends React.Component {
                   }, 160)
                 })
               }}
-            />
+            >
+              <Heatmap id='设置.恢复默认设置' />
+            </ItemSetting>
             <ItemSetting
               hd='网络探针'
               arrow
@@ -999,7 +1208,15 @@ class Setting extends React.Component {
 
                 navigation.push('ServerStatus')
               }}
-            />
+            >
+              <Heatmap
+                id='设置.跳转'
+                data={{
+                  to: 'ServerStatus',
+                  alias: '网络探针'
+                }}
+              />
+            </ItemSetting>
           </>
         )}
       </>
@@ -1024,7 +1241,9 @@ class Setting extends React.Component {
 
             Stores.logout(navigation)
           }}
-        />
+        >
+          <Heatmap id='设置.退出登陆' />
+        </ItemSetting>
       </>
     )
   }

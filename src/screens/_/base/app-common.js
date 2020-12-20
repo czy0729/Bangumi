@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 17:18:08
+ * @Last Modified time: 2020-12-20 20:40:05
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { ImageViewer } from '@components'
+import { ImageViewer, Heatmap } from '@components'
 import { systemStore } from '@stores'
 import ListenClipboard from './listen-clipboard'
 
@@ -22,6 +22,7 @@ function AppCommon() {
         onCancel={systemStore.closeImageViewer}
       />
       <ListenClipboard />
+      <Heatmap.Control />
     </>
   )
 }

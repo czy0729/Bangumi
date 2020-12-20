@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-12 19:07:18
+ * @Last Modified time: 2020-12-20 20:57:44
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -28,6 +28,7 @@ import UserStore from '../user'
 import {
   NAMESPACE,
   INIT_SETTING,
+  INIT_DEV_EVENT,
   INIT_RELEASE,
   INIT_IMAGE_VIEWER
 } from './init'
@@ -70,6 +71,11 @@ class System extends store {
     dev: false,
 
     /**
+     * 是否显示埋点统计
+     */
+    devEvent: INIT_DEV_EVENT,
+
+    /**
      * iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审
      */
     iosUGCAgree: false
@@ -77,7 +83,15 @@ class System extends store {
 
   init = async () => {
     await this.readStorage(
-      ['ota', 'advance', 'setting', 'release', 'dev', 'iosUGCAgree'],
+      [
+        'ota',
+        'advance',
+        'setting',
+        'release',
+        'dev',
+        'devEvent',
+        'iosUGCAgree'
+      ],
       NAMESPACE
     )
 
@@ -331,6 +345,21 @@ class System extends store {
     const key = 'dev'
     this.setState({
       [key]: !dev
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 切换显示埋点统计
+   */
+  toggleDevEvent = (value = 'enabled') => {
+    const { devEvent } = this.state
+    const key = 'devEvent'
+    this.setState({
+      [key]: {
+        ...devEvent,
+        [value]: !devEvent[value]
+      }
     })
     this.setStorage(key, undefined, NAMESPACE)
   }

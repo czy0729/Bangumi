@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 15:10:20
+ * @Last Modified time: 2020-12-20 19:47:52
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -16,6 +16,7 @@ import { hm } from '@utils/fetch'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import UsedModal from './used-modal'
+import Heatmaps from './heatmaps'
 import Store, { H_BG } from './store'
 
 const title = '空间'
@@ -143,6 +144,7 @@ class Zone extends React.Component {
         />
         <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
         <UsedModal visible={visible} defaultAvatar={$.src} />
+        <Heatmaps />
       </View>
     )
   }

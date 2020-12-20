@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-27 16:16:22
+ * @Last Modified time: 2020-12-20 17:35:38
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -79,22 +79,11 @@ export default class ScreenPM extends store {
   }
 
   /**
-   * 显示评论框
-   */
-  showFixedTextarea = (placeholder, replySub, message) => {
-    t('短信.显示评论框')
-
-    this.setState({
-      placeholder,
-      replySub,
-      message
-    })
-  }
-
-  /**
    * 收起评论框
    */
   closeFixedTextarea = () => {
+    t('短信.显示评论框')
+
     this.setState({
       placeholder: '',
       replySub: '',

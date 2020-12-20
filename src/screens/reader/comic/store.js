@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 20:00:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-03 19:35:04
+ * @Last Modified time: 2020-12-20 02:43:40
  */
 import { observable, computed } from 'mobx'
 import { open, safeObject, trim, getTimestamp, sleep } from '@utils'
@@ -204,7 +204,7 @@ export default class ScreenComic extends store {
           .map((index, element) => {
             const $li = cheerio(element)
             return safeObject({
-              url: `${SITE_77MH}/${$li.attr('href')}`,
+              url: `${SITE_77MH()}/${$li.attr('href')}`,
               text: $li.text(),
               tag: item.tag
             })

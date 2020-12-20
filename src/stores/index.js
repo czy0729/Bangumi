@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-19 12:01:20
+ * @Last Modified time: 2020-12-19 13:50:42
  */
 import { Alert } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -36,6 +36,10 @@ class Stores {
     try {
       if (!DEV && inited) {
         return false
+      }
+
+      if (DEV) {
+        await userStore.init()
       }
       inited = true
 

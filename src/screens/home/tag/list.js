@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:21:24
+ * @Last Modified time: 2020-12-19 13:59:50
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading, ListView } from '@components'
+import { Loading, ListView, Heatmap } from '@components'
 import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
@@ -58,7 +58,9 @@ class List extends React.Component {
             $.userCollectionsMap[String(item.id).replace('/subject/', '')]
           }
           {...item}
-        />
+        >
+          {!index && <Heatmap id='用户标签.跳转' />}
+        </ItemSearch>
       )
     }
 

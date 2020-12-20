@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-20 17:25:44
+ * @Last Modified time: 2020-12-20 21:06:05
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -46,6 +46,14 @@ export const INIT_SETTING = {
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
   transition: MODEL_SETTING_TRANSITION.getValue('水平') // 切页动画
+}
+
+export const INIT_DEV_EVENT = {
+  enabled: false,
+  grid: true,
+  text: true,
+  sum: false,
+  mini: false
 }
 
 export const INIT_RELEASE = {

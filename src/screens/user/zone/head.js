@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 23:57:40
+ * @Last Modified time: 2020-12-20 20:09:56
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Flex, Image, Text } from '@components'
+import { Touchable, Flex, Image, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
@@ -52,6 +52,7 @@ function Head({ style }, { $, navigation }) {
           <Text type={_.select('plain', 'title')} size={11}>
             历史
           </Text>
+          <Heatmap id='空间.历史' />
         </Touchable>
         <Touchable
           style={styles.r1}
@@ -69,6 +70,15 @@ function Head({ style }, { $, navigation }) {
           <Text type={_.select('plain', 'title')} size={11}>
             人物
           </Text>
+          <Heatmap
+            right={-84}
+            bottom={-8}
+            id='空间.跳转'
+            data={{
+              to: 'Character',
+              alias: '人物'
+            }}
+          />
         </Touchable>
         <Touchable
           style={styles.r2}
@@ -86,6 +96,15 @@ function Head({ style }, { $, navigation }) {
           <Text type={_.select('plain', 'title')} size={11}>
             日志
           </Text>
+          <Heatmap
+            right={-74}
+            bottom={-8}
+            id='空间.跳转'
+            data={{
+              to: 'Blogs',
+              alias: '日志'
+            }}
+          />
         </Touchable>
         <Touchable
           style={styles.r3}
@@ -103,6 +122,15 @@ function Head({ style }, { $, navigation }) {
           <Text type={_.select('plain', 'title')} size={11}>
             目录
           </Text>
+          <Heatmap
+            right={-76}
+            bottom={-8}
+            id='空间.跳转'
+            data={{
+              to: 'Catalogs',
+              alias: '目录'
+            }}
+          />
         </Touchable>
       </View>
       <Text style={_.mt.md} type={_.select('plain', 'title')}>
@@ -122,6 +150,7 @@ function Head({ style }, { $, navigation }) {
           </Text>
         )}
       </Text>
+      <User style={styles.r0} />
     </Flex>
   )
 }

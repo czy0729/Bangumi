@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 00:45:29
+ * @Last Modified time: 2020-12-19 12:15:53
  */
 
 /**
@@ -173,6 +173,7 @@ export default {
 
   // 用户标签
   '用户标签.跳转': 'Tag.to',
+  '用户标签.右上角菜单': 'Tag.topRightMenu',
   '用户标签.排序选择': 'Tag.onOrderSelect',
   '用户标签.年选择': 'Tag.onAirdateSelect',
   '用户标签.月选择': 'Tag.onMonthSelect',

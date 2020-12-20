@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 12:05:17
+ * @Last Modified time: 2020-12-20 03:08:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,8 +48,9 @@ function ItemSay(
             size={34}
             userId={id}
             name={name}
-            event={event}
             border={0}
+            round
+            event={event}
           />
         </Flex>
       </Flex>
@@ -66,8 +67,9 @@ function ItemSay(
           size={34}
           userId={id}
           name={name}
-          event={event}
+          round
           border={0}
+          event={event}
           onLongPress={onLongPress}
         />
       </Flex>

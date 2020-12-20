@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-28 22:28:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 22:46:05
+ * @Last Modified time: 2020-12-19 12:11:37
  */
 import React from 'react'
-import { Touchable, Flex, Text, Iconfont } from '@components'
+import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
 
@@ -19,6 +19,7 @@ function Filter({ $ }) {
         </Text>
         <Iconfont size={13} name='down' color={_.colorSub} />
       </Flex>
+      <Heatmap id='用户评分.切换类型' />
     </Touchable>
   )
 }

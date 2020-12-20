@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 19:48:34
+ * @Last Modified time: 2020-12-19 13:58:05
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore } from '@stores'
@@ -10,6 +10,7 @@ import store from '@utils/store'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { MODEL_TAG_ORDERBY } from '@constants/model'
+import { HTML_TAG } from '@constants/html'
 
 const namespace = 'ScreenTag'
 const defaultOrder = MODEL_TAG_ORDERBY.getValue('名称')
@@ -72,6 +73,18 @@ export default class ScreenTag extends store {
 
   @computed get userCollectionsMap() {
     return collectionStore.userCollectionsMap
+  }
+
+  @computed get url() {
+    const { type, tag } = this.params
+    const { order = '', airtime, month } = this.state
+    return HTML_TAG(
+      encodeURIComponent(tag),
+      type,
+      order,
+      1,
+      month ? `${airtime}-${month}` : airtime
+    )
   }
 
   // -------------------- page --------------------

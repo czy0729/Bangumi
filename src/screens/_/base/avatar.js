@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-21 18:39:57
+ * @Last Modified time: 2020-12-20 03:08:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,6 +29,7 @@ function Avatar({
   borderWidth,
   event,
   params,
+  round,
   onPress,
   onLongPress
 }) {
@@ -61,7 +62,7 @@ function Avatar({
     _src = IMG_DEFAULT
   }
 
-  const radius = avatarRound ? size / 2 : true
+  const radius = round || avatarRound ? size / 2 : true
   const _onPress = () => {
     if (onPress) {
       onPress()

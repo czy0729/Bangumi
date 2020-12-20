@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:38:32
+ * @Last Modified time: 2020-12-20 02:57:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,8 @@ import {
   Expand,
   Mesume,
   Input,
-  Button
+  Button,
+  Heatmap
 } from '@components'
 import { Tag } from '@screens/_'
 import { _ } from '@stores'
@@ -31,6 +32,7 @@ export default
 @inject(Store)
 @withHeader({
   screen: title,
+  alias: '漫画',
   hm: ['comic', 'Comic']
 })
 @observer
@@ -64,6 +66,7 @@ class Comic extends React.Component {
             shadow
             radius
           />
+          <Heatmap id='漫画.搜索章节' />
           <Flex.Item style={_.ml.md}>
             <Flex
               style={this.styles.content}
@@ -124,6 +127,7 @@ class Comic extends React.Component {
               }
             >
               <Text size={13}>{i.text}</Text>
+              {!index && <Heatmap id='漫画.搜索图片' />}
             </Touchable>
           ))}
         </Flex>
@@ -155,9 +159,12 @@ class Comic extends React.Component {
               onSubmitEditing={$.onSearch}
             />
           </Flex.Item>
-          <Button style={this.styles.btn} size='sm' onPress={$.onSearch}>
-            搜索
-          </Button>
+          <View style={_.ml.sm}>
+            <Button style={this.styles.btn} size='sm' onPress={$.onSearch}>
+              搜索
+            </Button>
+            <Heatmap id='漫画.搜索' />
+          </View>
         </Flex>
         {list.length ? (
           list.map((item, index) => (
@@ -176,6 +183,7 @@ class Comic extends React.Component {
             <Text style={[this.styles.footerText, _.mt.sm]}>搜索不到源头</Text>
           </Flex>
         )}
+        <Heatmap id='漫画.初始化' transparent />
       </ScrollView>
     )
   }
@@ -201,7 +209,6 @@ const memoStyles = _.memoStyles(_ => ({
   btn: {
     width: 68,
     height: 34,
-    marginLeft: _.sm,
     borderRadius: 34
   },
   item: {

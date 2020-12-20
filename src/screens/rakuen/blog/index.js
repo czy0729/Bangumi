@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:43:47
+ * @Last Modified time: 2020-12-19 16:57:18
  */
 import React from 'react'
 import { InteractionManager, Alert, StyleSheet, View } from 'react-native'
@@ -20,6 +20,7 @@ import HeaderTitle from './header-title'
 import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
+import Heatmaps from './heatmaps'
 import Store from './store'
 
 const title = '日志'
@@ -80,6 +81,7 @@ class Blog extends React.Component {
 
       const url = navigation.getParam('_url') || `${HOST}/blog/${$.blogId}`
       navigation.setParams({
+        heatmap: '日志.右上角菜单',
         popover: {
           data: ['浏览器查看', '复制链接'],
           onSelect: key => {
@@ -283,6 +285,7 @@ class Blog extends React.Component {
           />
         )}
         <TouchScroll onPress={this.scrollToThenFeedback} />
+        <Heatmaps />
       </View>
     )
   }

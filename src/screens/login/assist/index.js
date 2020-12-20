@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:41:33
+ * @Last Modified time: 2020-12-19 15:04:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import cheerio from 'cheerio-without-node-native'
-import { ScrollView, Text, Input, Button, KeyboardSpacer } from '@components'
+import {
+  ScrollView,
+  Text,
+  Input,
+  Button,
+  KeyboardSpacer,
+  Heatmap
+} from '@components'
 import { _, userStore } from '@stores'
 import { copy, getTimestamp } from '@utils'
 import { withHeader } from '@utils/decorators'
@@ -25,6 +32,7 @@ const code = `JSON.stringify({
 export default
 @withHeader({
   screen: title,
+  alias: '辅助登陆',
   hm: ['login/assist', 'LoginAssist']
 })
 @observer
@@ -312,6 +320,7 @@ class LoginAssist extends React.Component {
           >
             点击复制
           </Text>
+          <Heatmap id='辅助登陆.复制' />
         </View>
         <Text style={_.mt.md}>
           2. 使用电脑打开浏览器，访问 {HOST} (一定要是这个域名) 并登陆。
@@ -321,16 +330,19 @@ class LoginAssist extends React.Component {
           之后运行复制的代码。
         </Text>
         <Text style={_.mt.md}>4. 把结果复制到下面的输入框内，提交。</Text>
-        <Input
-          style={[this.styles.input, _.mt.sm]}
-          placeholder='粘贴结果'
-          multiline
-          numberOfLines={6}
-          returnKeyType='done'
-          returnKeyLabel='登陆'
-          onChangeText={this.onChangeText}
-          onSubmitEditing={this.submit}
-        />
+        <View style={_.mt.sm}>
+          <Input
+            style={this.styles.input}
+            placeholder='粘贴结果'
+            multiline
+            numberOfLines={6}
+            returnKeyType='done'
+            returnKeyLabel='登陆'
+            onChangeText={this.onChangeText}
+            onSubmitEditing={this.submit}
+          />
+          <Heatmap id='辅助登陆.提交' />
+        </View>
         <Button
           style={_.mt.lg}
           type='main'

@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:41:48
+ * @Last Modified time: 2020-12-20 17:47:43
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView, Flex, Text, Button, Activity } from '@components'
+import { ScrollView, Flex, Text, Button, Activity, Heatmap } from '@components'
 import { _ } from '@stores'
 import { withHeader, observer } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -361,6 +361,7 @@ class ServerStatus extends React.Component {
           <Button type='primary' onPress={this.onPing}>
             全部检测
           </Button>
+          <Heatmap right={80} id='网络探针.全部检测' />
         </View>
       </>
     )

@@ -2,12 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:43:02
+ * @Last Modified time: 2020-12-20 19:46:27
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { ScrollView, Flex, Image, Text, Input, Touchable } from '@components'
+import {
+  ScrollView,
+  Flex,
+  Image,
+  Text,
+  Input,
+  Touchable,
+  Heatmap
+} from '@components'
 import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -215,6 +223,7 @@ class UserSetting extends React.Component {
                 headers={headers}
                 radius
               />
+              {!index && <Heatmap id='个人设置.查看原图' />}
             </Touchable>
           ))}
         </Flex>

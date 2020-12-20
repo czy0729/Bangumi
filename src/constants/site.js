@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-03 19:23:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 11:21:00
+ * @Last Modified time: 2020-12-19 17:46:56
  */
 import { getSystemStoreAsync } from '@utils/async'
 
@@ -30,15 +30,15 @@ export const SITE_RRYS = () => {
 
 export const SITE_WK8 = () => {
   const ota = getOTA()
-  return ota.SITE_RRYS || 'https://www.wenku8.net'
+  return ota.SITE_WK8 || 'https://www.wenku8.net'
 }
 
 export const SITE_77MH = () => {
   const ota = getOTA()
-  return ota.SITE_RRYS || 'https://so.77mh.cool'
+  return ota.SITE_77MH || 'https://so.77mh.cool'
 }
 
 export const SITE_COMIC123 = () => {
   const ota = getOTA()
-  return ota.SITE_RRYS || 'https://m.comic123.net'
+  return ota.SITE_COMIC123 || 'https://m.comic123.net'
 }

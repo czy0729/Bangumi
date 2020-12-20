@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 17:21:02
+ * @Last Modified time: 2020-12-19 12:14:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
@@ -35,6 +35,7 @@ function ToolBar(props, { $ }) {
               color={order ? _.colorMain : undefined}
             />
           </Flex>
+          <Heatmap id='用户标签.排序选择' />
         </Popover>
       </Flex.Item>
       <Flex.Item flex={0.8}>
@@ -50,6 +51,7 @@ function ToolBar(props, { $ }) {
               color={isEmptyAirdate ? _.colorSub : _.colorMain}
             />
           </Flex>
+          <Heatmap id='用户标签.年选择' />
         </Popover>
       </Flex.Item>
       <Flex.Item flex={0.8}>
@@ -65,6 +67,7 @@ function ToolBar(props, { $ }) {
               color={isEmptyMonth ? _.colorSub : _.colorMain}
             />
           </Flex>
+          <Heatmap id='用户标签.月选择' />
         </Popover>
       </Flex.Item>
       <Flex.Item>
@@ -82,6 +85,7 @@ function ToolBar(props, { $ }) {
               color={!list ? _.colorMain : undefined}
             />
           </Flex>
+          <Heatmap id='用户标签.切换布局' />
         </Touchable>
       </Flex.Item>
     </Flex>

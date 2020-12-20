@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 11:40:33
+ * @Last Modified time: 2020-12-19 17:36:31
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Flex, Button } from '@components'
+import { Flex, Button, Heatmap } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import SearchBar from './search-bar'
@@ -51,14 +51,17 @@ class Search extends React.Component {
           <Flex.Item>
             <SearchBar />
           </Flex.Item>
-          <Button
-            style={styles.btn}
-            type='ghostPlain'
-            size='sm'
-            onPress={this.onPress}
-          >
-            查询
-          </Button>
+          <View style={_.ml.sm}>
+            <Button
+              style={styles.btn}
+              type='ghostPlain'
+              size='sm'
+              onPress={this.onPress}
+            >
+              查询
+            </Button>
+            <Heatmap id='帖子搜索.搜索' />
+          </View>
         </Flex>
         <History style={_.mt.sm} />
         <List />
@@ -75,7 +78,6 @@ const styles = StyleSheet.create({
   btn: {
     width: 68,
     height: 34,
-    marginLeft: _.sm,
     borderRadius: 34
   }
 })

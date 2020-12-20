@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:40:42
+ * @Last Modified time: 2020-12-20 20:53:59
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -36,12 +36,22 @@ class DEV extends React.Component {
   }
 
   rederOptions() {
-    const { dev } = systemStore.state
+    const { dev, devEvent } = systemStore.state
     return (
       <>
         <ItemSetting
           hd='调试'
           ft={<Switch checked={dev} onChange={systemStore.toggleDev} />}
+          withoutFeedback
+        />
+        <ItemSetting
+          hd='显示埋点'
+          ft={
+            <Switch
+              checked={devEvent.enabled}
+              onChange={systemStore.toggleDevEvent}
+            />
+          }
           withoutFeedback
         />
         <ItemSetting

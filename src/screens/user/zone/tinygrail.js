@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-06 19:19:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 04:34:02
+ * @Last Modified time: 2020-12-20 20:03:28
  */
 import React from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Touchable, Text } from '@components'
+import { Touchable, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { t } from '@utils/fetch'
@@ -46,6 +46,13 @@ function Tinygrail(props, { $, navigation }) {
           }}
         >
           <Text underline>查看TA的持仓</Text>
+          <Heatmap
+            id='空间.跳转'
+            data={{
+              to: 'TinygrailCharaAssets',
+              alias: '小圣杯持仓'
+            }}
+          />
         </Touchable>
       </View>
     </Animated.ScrollView>

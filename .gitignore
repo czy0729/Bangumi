@@ -15,8 +15,8 @@ constants/secret.js
 gradle.properties
 sdk
 src/constants/json/user.json
-src/constants/json/heatmap.json
-src/constants/json/heatmap-event.json
+# src/constants/json/heatmap.json
+# src/constants/json/heatmap-event.json
 src/screens/user/zone/user.js
 yarn.lock
 

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:40:01
+ * @Last Modified time: 2020-12-20 03:27:04
  */
 import React from 'react'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { ListView } from '@components'
+import { ListView, Heatmap } from '@components'
 import { ItemBlog } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
@@ -58,15 +59,18 @@ class Blogs extends React.Component {
   render() {
     const { $ } = this.context
     return (
-      <ListView
-        style={_.container.plain}
-        data={$.blogs}
-        keyExtractor={keyExtractor}
-        scrollToTop
-        renderItem={this.renderItem}
-        onHeaderRefresh={$.refresh}
-        onFooterRefresh={() => $.fetchBlogs()}
-      />
+      <View>
+        <ListView
+          style={_.container.plain}
+          data={$.blogs}
+          keyExtractor={keyExtractor}
+          scrollToTop
+          renderItem={this.renderItem}
+          onHeaderRefresh={$.refresh}
+          onFooterRefresh={() => $.fetchBlogs()}
+        />
+        <Heatmap bottom={_.bottom} id='用户日志' screen='Blogs' />
+      </View>
     )
   }
 }

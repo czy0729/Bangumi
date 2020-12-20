@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:46:20
+ * @Last Modified time: 2020-12-19 17:02:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { ScrollView } from '@components'
+import { ScrollView, Heatmap } from '@components'
 import { Pagination, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -20,6 +20,11 @@ import List from './list'
 import Store from './store'
 
 const title = '小组'
+const heatmaps = {
+  prev: '小组.上一页',
+  next: '小组.下一页',
+  search: '小组.页码跳转'
+}
 
 export default
 @inject(Store)
@@ -53,6 +58,7 @@ class RakuenGroup extends React.Component {
     if (joinUrl) data.push('加入小组')
     if (byeUrl) data.push('退出小组')
     navigation.setParams({
+      heatmap: '小组.右上角菜单',
       popover: {
         data,
         onSelect: async key => {
@@ -109,6 +115,7 @@ class RakuenGroup extends React.Component {
     return (
       <Pagination
         input={ipt}
+        heatmaps={heatmaps}
         onPrev={$.prev}
         onNext={$.next}
         onChange={$.onChange}
@@ -158,6 +165,9 @@ class RakuenGroup extends React.Component {
             </>
           )}
         </ScrollView>
+        <Heatmap id='小组' screen='Group' />
+        <Heatmap right={72} bottom={_.bottom} id='小组.加入' />
+        <Heatmap right={72} bottom={_.bottom - 34} id='小组.退出' />
       </View>
     )
   }

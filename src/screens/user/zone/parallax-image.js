@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-22 21:03:00
+ * @Last Modified time: 2020-12-20 20:11:08
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Iconfont, Text } from '@components'
+import { Flex, Iconfont, Text, Heatmap } from '@components'
 import { Popover, IconBack, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
@@ -209,6 +209,18 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
           }}
         >
           <Iconfont name='list' color={_.__colorPlain__} />
+          <Heatmap id='空间.右上角菜单' />
+          <Heatmap right={62} id='空间.添加好友' transparent />
+          <Heatmap right={113} id='空间.解除好友' transparent />
+          <Heatmap
+            right={170}
+            id='空间.跳转'
+            data={{
+              to: 'WebBrowser',
+              alias: '浏览器'
+            }}
+            transparent
+          />
         </Popover>
       </View>
     </>

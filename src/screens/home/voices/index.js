@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 21:45:34
+ * @Last Modified time: 2020-12-19 14:03:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,6 +42,7 @@ class Voices extends React.Component {
     $.init()
 
     navigation.setParams({
+      heatmap: '角色.右上角菜单',
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {

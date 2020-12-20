@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:46:31
+ * @Last Modified time: 2020-12-19 12:11:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
-import { Flex, Text } from '@components'
+import { Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import Filter from './filter'
@@ -112,6 +112,12 @@ class Rating extends React.Component {
             onIndexChange={$.onChange}
           />
         )}
+        <Heatmap
+          right={_.wind + 62}
+          bottom={_.window.height - _.tabsHeaderHeight - 12}
+          id='用户评分.标签页切换'
+          transparent
+        />
       </View>
     )
   }

@@ -2,12 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 18:00:16
+ * @Last Modified time: 2020-12-20 20:05:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Loading, ListView, Flex, Touchable, Text, Iconfont } from '@components'
+import {
+  Loading,
+  ListView,
+  Flex,
+  Touchable,
+  Text,
+  Iconfont,
+  Heatmap
+} from '@components'
 import { SectionHeader, ItemBangumiList } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
@@ -51,6 +59,7 @@ class List extends React.Component {
             {count}{' '}
           </Text>
         </SectionHeader>
+        {title === '在看' && <Heatmap id='空间.展开分组' />}
       </Touchable>
     )
   }
@@ -67,6 +76,13 @@ class List extends React.Component {
       }}
     >
       <Text align='center'>查看TA的所有收藏</Text>
+      <Heatmap
+        id='空间.跳转'
+        data={{
+          to: 'User',
+          alias: '所有收藏'
+        }}
+      />
     </Touchable>
   )
 
@@ -114,6 +130,15 @@ class List extends React.Component {
                     event={event}
                   />
                 ))}
+              {title.includes('在看') && (
+                <Heatmap
+                  id='空间.跳转'
+                  data={{
+                    to: 'Subject',
+                    alias: '条目'
+                  }}
+                />
+              )}
             </Flex>
           )
         }}
