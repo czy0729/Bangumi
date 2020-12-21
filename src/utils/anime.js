@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 21:11:49
+ * @Last Modified time: 2020-12-21 20:51:19
  */
 import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
+import rateData from '@constants/json/rate.json'
 import { getTimestamp, getStorage, setStorage } from './index'
 import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
@@ -139,17 +140,17 @@ export const ANIME_TAGS = [
   '犯罪',
   '历史',
   '职场',
-  '伪娘',
+  // '伪娘',
   '耽美',
   '童年',
   '教育',
   '亲子',
-  '真人',
+  // '真人',
   '悬疑',
   '推理',
   '奇幻',
   '科幻',
-  '肉番',
+  // '肉番',
   '机战',
   '热血',
   '美少女',
@@ -264,8 +265,8 @@ export function search({
 
     case '评分':
       _list = _list.sort((a, b) => {
-        let _a = anime[a].score || 0
-        let _b = anime[b].score || 0
+        let _a = rateData[anime[a].id] || anime[a].score || 0
+        let _b = rateData[anime[b].id] || anime[b].score || 0
         if (anime[a].status === '未播放') _a = 0
         if (anime[b].status === '未播放') _b = 0
         return _b - _a
@@ -295,7 +296,11 @@ export function search({
 }
 
 export function pick(index) {
-  return anime[index] || {}
+  const item = anime[index] || {}
+  if (rateData[item.id]) {
+    item.score = rateData[item.id]
+  }
+  return item
 }
 
 export function find(id) {
