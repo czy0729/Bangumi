@@ -1,79 +1,81 @@
 /*
  * @Author: czy0729
- * @Date: 2019-04-30 18:47:13
+ * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 16:45:14
+ * @Last Modified time: 2020-12-21 16:54:08
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
+import { Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Katakana, Text, Touchable, RenderHtml } from '@components'
+import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar, Name } from '@screens/_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
 import { appNavigate } from '@utils/app'
-import { HOST, EVENT } from '@constants'
-import ItemSub from './item-sub'
+import ItemPlusOne from './item-plus-one'
 
 const avatarWidth = 32
-const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
-const expandNum = 5
+const imagesMaxWidthSub =
+  _.window.width - 2 * _.wind - 2 * avatarWidth - 2 * _.sm
 
-function Item(
+function ItemSub(
   {
-    index,
     id,
-    postId, // 存在就跳转到对应楼层
-    authorId,
-    avatar,
+    message,
     userId,
     userName,
-    userSign,
-    message,
+    avatar,
     floor,
-    time,
-    sub,
-    replySub,
     erase,
+    replySub,
+    time,
+    postId,
+    authorId,
+    uid,
+    url,
+    readedTime,
     showFixedTextare,
     event
   },
   { $, navigation }
 ) {
+  if (message.length <= 20 && message.includes('+1')) {
+    return (
+      <ItemPlusOne
+        id={id}
+        message={message}
+        userId={userId}
+        userName={userName}
+        avatar={avatar}
+        time={time}
+        floor={floor}
+        url={url}
+        event={event}
+      />
+    )
+  }
+
   const styles = memoStyles()
-  const { expands } = $.state
-  const isExpand =
-    sub.length <= expandNum || (sub.length > expandNum && expands.includes(id))
-
   const isAuthor = authorId === userId
+  const isLayer = !isAuthor && uid === userId
   const isFriend = $.myFriendsMap[userId]
-  const isJump = !!postId && postId === id
-  const { _time: readedTime } = $.readed
   const isNew = !!readedTime && getTimestamp(time) > readedTime
-
-  const { _url } = $.params
-  const url = _url || `${HOST}/rakuen/topic/${$.topicId}`
+  const isJump = !!postId && postId === id
   return (
     <Flex
-      style={[
-        _.container.item,
-        isNew && styles.itemNew,
-        isJump && styles.itemJump
-      ]}
+      style={[isNew && styles.itemNew, isJump && styles.itemJump]}
       align='start'
     >
       <Avatar
-        style={styles.image}
+        style={_.mt.md}
         navigation={navigation}
         userId={userId}
         name={userName}
         src={avatar}
         event={event}
       />
-      <Flex.Item
-        style={[styles.content, index !== 0 && !_.flat && styles.border]}
-      >
+      <Flex.Item style={[styles.subContent, !_.flat && styles.border, _.ml.sm]}>
         <Flex>
           <Flex.Item>
             <Name
@@ -93,6 +95,12 @@ function Item(
                     <Text type='warning' size={11} lineHeight={14}>
                       {' '}
                       好友
+                    </Text>
+                  )}
+                  {isLayer && !isAuthor && !isFriend && (
+                    <Text type='primary' size={11} lineHeight={14}>
+                      {' '}
+                      层主
                     </Text>
                   )}
                 </>
@@ -116,19 +124,10 @@ function Item(
             {floor.replace('#', '')}
           </Text>
         </Flex>
-        {!!userSign && (
-          <View style={styles.sign}>
-            <Katakana.Provider size={11} numberOfLines={1}>
-              <Katakana type='sub' size={11}>
-                {userSign.slice(1, userSign.length - 1)}
-              </Katakana>
-            </Katakana.Provider>
-          </View>
-        )}
         <RenderHtml
-          style={_.mt.sm}
+          style={_.mt.xs}
           baseFontStyle={_.baseFontStyle.md}
-          imagesMaxWidth={imagesMaxWidth}
+          imagesMaxWidth={imagesMaxWidthSub}
           html={message}
           onLinkPress={href => appNavigate(href, navigation, {}, event)}
           onImageFallback={() => open(`${url}#post_${id}`)}
@@ -159,7 +158,7 @@ function Item(
             <Touchable
               style={styles.reply}
               onPress={() => {
-                $.showFixedTextarea(userName, replySub)
+                $.showFixedTextarea(userName, replySub, message)
                 showFixedTextare()
               }}
             >
@@ -169,61 +168,17 @@ function Item(
             </Touchable>
           )}
         </Flex>
-        <View style={styles.sub}>
-          {sub
-            .filter((item, index) => (isExpand ? true : index < expandNum))
-            .map(item => (
-              <ItemSub
-                key={item.id}
-                id={item.id}
-                message={item.message}
-                userId={item.userId}
-                userName={item.userName}
-                avatar={item.avatar}
-                floor={item.floor}
-                erase={item.erase}
-                replySub={item.replySub}
-                time={item.time}
-                postId={postId}
-                authorId={authorId}
-                uid={userId}
-                url={url}
-                readedTime={readedTime}
-                showFixedTextare={showFixedTextare}
-                event={event}
-              />
-            ))}
-          {sub.length > expandNum && (
-            <Touchable onPress={() => $.toggleExpand(id)}>
-              <Text
-                style={styles.expand}
-                type={isExpand ? 'sub' : 'main'}
-                size={12}
-                align='center'
-              >
-                {isExpand
-                  ? '收起楼层'
-                  : `展开 ${sub.length - expandNum} 条回复`}
-              </Text>
-            </Touchable>
-          )}
-        </View>
       </Flex.Item>
     </Flex>
   )
 }
 
-Item.defaultProps = {
-  sub: [],
-  event: EVENT
-}
-
-Item.contextTypes = {
+ItemSub.contextTypes = {
   $: PropTypes.object,
   navigation: PropTypes.object
 }
 
-export default observer(Item)
+export default observer(ItemSub)
 
 const memoStyles = _.memoStyles(_ => ({
   itemNew: {
@@ -233,26 +188,12 @@ const memoStyles = _.memoStyles(_ => ({
     borderWidth: 2,
     borderColor: _.colorWarning
   },
-  image: {
-    marginTop: _.space,
-    marginLeft: _.wind
-  },
-  content: {
-    paddingVertical: _.space,
-    paddingRight: _.wind,
-    marginLeft: _.sm
-  },
   border: {
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
   },
-  sign: {
-    marginTop: 2,
-    opacity: _.select(1, 0.64)
-  },
-  sub: {
-    marginTop: _.md,
-    marginBottom: -_.md
+  subContent: {
+    paddingVertical: _.md
   },
   reply: {
     padding: _.sm,
@@ -268,9 +209,5 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: -8,
     marginLeft: _.sm,
     opacity: _.select(1, 0.64)
-  },
-  expand: {
-    paddingVertical: _.sm,
-    paddingLeft: 44
   }
 }))

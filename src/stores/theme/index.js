@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 14:08:06
+ * @Last Modified time: 2020-12-21 16:33:48
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -516,6 +516,22 @@ class Theme extends store {
 
   @computed get fontSize30() {
     return this.fontSize(30)
+  }
+
+  /**
+   * RenderHTML 的 baseFontStyle 通用封装
+   */
+  @computed get baseFontStyle() {
+    return computed(() => ({
+      sm: {
+        fontSize: 12 + this.fontSizeAdjust,
+        lineHeight: 20
+      },
+      md: {
+        fontSize: 14 + this.fontSizeAdjust,
+        lineHeight: 22
+      }
+    })).get()
   }
 
   // -------------------- page --------------------
