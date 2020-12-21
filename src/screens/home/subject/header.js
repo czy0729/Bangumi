@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:29:21
+ * @Last Modified time: 2020-12-21 14:15:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -97,13 +97,14 @@ function Header({ rendered }, { $ }) {
               <Text size={12} type='sub' lineHeight={24}>
                 {20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)}+
               </Text>
-              <Heatmap
-                id='条目.跳转'
-                data={{
-                  from: '吐槽'
-                }}
-              />
             </SectionTitle>
+            <Heatmap
+              bottom={32}
+              id='条目.跳转'
+              data={{
+                from: '吐槽'
+              }}
+            />
           </>
         )}
         {!_loaded && (

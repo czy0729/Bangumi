@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 20:53:59
+ * @Last Modified time: 2020-12-20 21:56:56
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -49,7 +49,7 @@ class DEV extends React.Component {
           ft={
             <Switch
               checked={devEvent.enabled}
-              onChange={systemStore.toggleDevEvent}
+              onChange={() => systemStore.toggleDevEvent('enabled')}
             />
           }
           withoutFeedback

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 21:10:50
+ * @Last Modified time: 2020-12-21 12:13:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,12 +91,12 @@ function Heatmap({ right, bottom, transparent, id, data, screen, mini }) {
     count / 30,
     count >= 30 || count === 0 ? 0 : 1
   )
-  const eventAppPercent = count !== 0 && ` / ${percent}%`
+  const eventAppPercent = count !== 0 ? ` / ${percent}%` : ''
   const eventPagePercent =
     percentTo && percentTo !== percent ? ` (${percentTo}%)` : ''
   return (
     <>
-      {grid && !isPage && !transparent && (
+      {!!grid && !isPage && !transparent && (
         <View
           style={[
             gridStyle,
@@ -107,7 +107,7 @@ function Heatmap({ right, bottom, transparent, id, data, screen, mini }) {
           pointerEvents='none'
         />
       )}
-      {text && (
+      {!!text && (
         <View
           style={isPage ? styles.page : styles.position}
           pointerEvents='none'
@@ -120,7 +120,7 @@ function Heatmap({ right, bottom, transparent, id, data, screen, mini }) {
             <Text type='__plain__' size={9} bold align='right'>
               {sum
                 ? formatNumber(count, 0)
-                : `${eventCount} ${eventAppPercent} ${eventPagePercent}`}
+                : `${eventCount}${eventAppPercent}${eventPagePercent}`}
             </Text>
             {isPage && <PageText page={page} screen={screen} />}
           </View>

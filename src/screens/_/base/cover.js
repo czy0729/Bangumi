@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-28 16:11:35
+ * @Last Modified time: 2020-12-21 14:27:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -107,8 +107,8 @@ function Cover({ style, src, size, height, noDefault, type, ...other }) {
             src={_src}
             {...other}
             radius={4}
-            size={w - 12}
-            width={w - 12}
+            size={w - 8}
+            width={w - 8}
             height={Math.max(h - 20, w - 12)}
             shadow={false}
             border={false}
@@ -221,8 +221,8 @@ const memoStyles = _.memoStyles(_ => ({
   game: {
     backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
-    borderWidth: 6,
-    borderBottomWidth: 2,
+    borderWidth: 5,
+    borderBottomWidth: 1,
     borderRadius: 6,
     borderBottomLeftRadius: 16
   },
@@ -236,7 +236,7 @@ const memoStyles = _.memoStyles(_ => ({
     width: 6,
     height: 4,
     marginTop: 2,
-    borderWidth: 6,
+    borderWidth: 4,
     borderColor: 'transparent',
     borderTopColor: _.select('rgba(0, 0, 0, 0.2)', _._colorDarkModeLevel2)
   },

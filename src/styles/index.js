@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:13:02
+ * @Last Modified time: 2020-12-21 14:54:46
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -20,7 +20,7 @@ export const window = {
 export const logoWidth = 124 // logo宽度
 export const isPad = width > 616
 export const statusBarHeight = Constants.statusBarHeight
-export const appBarHeight = IOS ? 44 : 56 // 单独头部高度
+export const appBarHeight = IOS ? Constants.statusBarHeight : 56 //  单独头部高度, iOS 44
 export const headerHeight = appBarHeight + statusBarHeight // 整个头部高度
 export const tabsHeight = 42 // 标签页的标签栏高度
 export const tabsHeaderHeight = headerHeight + tabsHeight // 带标签栏的头部高度

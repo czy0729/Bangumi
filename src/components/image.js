@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 23:56:53
+ * @Last Modified time: 2020-12-21 14:09:17
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -335,7 +335,13 @@ class Image extends React.Component {
       }
     }
 
-    if (shadow && !_.isDark) {
+    /**
+     * 以下特殊情况不显示阴影
+     *
+     * _.isDark 黑暗模式没必要显示阴影
+     * systemStore.devEvent 安卓下当有阴影, 层级会被提高, 导致遮挡卖点分析的可视化文字
+     */
+    if (shadow && !_.isDark && !(!IOS && systemStore.devEvent.text)) {
       if (shadow === 'lg') {
         container.push(this.styles.shadowLg)
       } else {

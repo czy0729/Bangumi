@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 20:09:56
+ * @Last Modified time: 2020-12-20 21:25:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   r0: {
     position: 'absolute',
     zIndex: 1,
-    top: 122,
+    top: 140,
     right: _.wind,
     opacity: 0.8
   },
