@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 16:54:08
+ * @Last Modified time: 2020-12-21 20:30:09
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -13,6 +13,8 @@ import { Avatar, Name } from '@screens/_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
 import { appNavigate } from '@utils/app'
+import { removeHTMLTag } from '@utils/html'
+import decoder from '@utils/thirdParty/html-entities-decoder'
 import ItemPlusOne from './item-plus-one'
 
 const avatarWidth = 32
@@ -40,7 +42,7 @@ function ItemSub(
   },
   { $, navigation }
 ) {
-  if (message.length <= 20 && message.includes('+1')) {
+  if (removeHTMLTag(decoder(message)).length <= 10 && message.includes('+1')) {
     return (
       <ItemPlusOne
         id={id}
@@ -86,19 +88,19 @@ function ItemSub(
               right={
                 <>
                   {isAuthor && (
-                    <Text type='main' size={11} lineHeight={14}>
+                    <Text type='main' size={10} lineHeight={14} bold>
                       {' '}
                       作者
                     </Text>
                   )}
                   {isFriend && !isAuthor && (
-                    <Text type='warning' size={11} lineHeight={14}>
+                    <Text type='warning' size={10} lineHeight={14} bold>
                       {' '}
                       好友
                     </Text>
                   )}
                   {isLayer && !isAuthor && !isFriend && (
-                    <Text type='primary' size={11} lineHeight={14}>
+                    <Text type='primary' size={10} lineHeight={14} bold>
                       {' '}
                       层主
                     </Text>
@@ -112,7 +114,7 @@ function ItemSub(
           <Text
             style={[styles.time, _.ml.md]}
             type='sub'
-            size={11}
+            size={10}
             lineHeight={14}
           >
             {simpleTime(time)}
@@ -120,7 +122,7 @@ function ItemSub(
           <Text style={styles.floor} type='sub' size={10} lineHeight={14}>
             #
           </Text>
-          <Text style={styles.time} type='sub' size={11} lineHeight={14}>
+          <Text style={styles.time} type='sub' size={10} lineHeight={14}>
             {floor.replace('#', '')}
           </Text>
         </Flex>
@@ -149,7 +151,7 @@ function ItemSub(
                 ])
               }
             >
-              <Text type='icon' size={11}>
+              <Text type='icon' size={10}>
                 删除
               </Text>
             </Touchable>
@@ -162,7 +164,7 @@ function ItemSub(
                 showFixedTextare()
               }}
             >
-              <Text type='icon' size={11}>
+              <Text type='icon' size={10}>
                 回复
               </Text>
             </Touchable>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 22:42:53
+ * @Last Modified time: 2020-12-21 20:32:09
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -45,7 +45,7 @@ class ToggleImage extends React.Component {
     const isRemote = typeof src === 'string'
     if (isRemote && src.includes('.webp')) {
       return (
-        <Touchable style={_.mt.sm} onPress={onImageFallback}>
+        <Touchable style={this.styles.image} onPress={onImageFallback}>
           <Flex
             style={this.styles.imagePlaceholder}
             direction='column'
@@ -73,7 +73,7 @@ class ToggleImage extends React.Component {
     const { show, loaded } = this.state
     if (!show) {
       return (
-        <Touchable style={_.mt.sm} onPress={this.toggleShow}>
+        <Touchable style={this.styles.image} onPress={this.toggleShow}>
           <Flex
             style={this.styles.imagePlaceholder}
             direction='column'
@@ -99,7 +99,7 @@ class ToggleImage extends React.Component {
     }
 
     return (
-      <Flex style={_.mt.sm} justify='center'>
+      <Flex style={this.styles.image} justify='center'>
         <Image
           {...this.props}
           onLoadEnd={this.onLoadEnd}
@@ -138,6 +138,9 @@ class ToggleImage extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
+  image: {
+    marginVertical: _.sm
+  },
   loading: {
     width: 32,
     height: 32

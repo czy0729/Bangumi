@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 16:45:14
+ * @Last Modified time: 2020-12-21 20:30:21
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Katakana, Text, Touchable, RenderHtml } from '@components'
+import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar, Name } from '@screens/_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
@@ -18,7 +18,7 @@ import ItemSub from './item-sub'
 
 const avatarWidth = 32
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
-const expandNum = 5
+const expandNum = 4
 
 function Item(
   {
@@ -84,13 +84,13 @@ function Item(
               right={
                 <>
                   {isAuthor && (
-                    <Text type='main' size={11} lineHeight={14}>
+                    <Text type='main' size={10} lineHeight={14} bold>
                       {' '}
                       作者
                     </Text>
                   )}
                   {isFriend && !isAuthor && (
-                    <Text type='warning' size={11} lineHeight={14}>
+                    <Text type='warning' size={10} lineHeight={14} bold>
                       {' '}
                       好友
                     </Text>
@@ -104,7 +104,7 @@ function Item(
           <Text
             style={[styles.time, _.ml.md]}
             type='sub'
-            size={11}
+            size={10}
             lineHeight={14}
           >
             {simpleTime(time)}
@@ -112,18 +112,14 @@ function Item(
           <Text style={styles.floor} type='sub' size={10} lineHeight={14}>
             #
           </Text>
-          <Text style={styles.time} type='sub' size={11} lineHeight={14}>
+          <Text style={styles.time} type='sub' size={10} lineHeight={14}>
             {floor.replace('#', '')}
           </Text>
         </Flex>
         {!!userSign && (
-          <View style={styles.sign}>
-            <Katakana.Provider size={11} numberOfLines={1}>
-              <Katakana type='sub' size={11}>
-                {userSign.slice(1, userSign.length - 1)}
-              </Katakana>
-            </Katakana.Provider>
-          </View>
+          <Text style={styles.sign} type='sub' size={11} numberOfLines={1}>
+            {userSign.slice(1, userSign.length - 1)}
+          </Text>
         )}
         <RenderHtml
           style={_.mt.sm}
@@ -150,7 +146,7 @@ function Item(
                 ])
               }
             >
-              <Text type='icon' size={11}>
+              <Text type='icon' size={10}>
                 删除
               </Text>
             </Touchable>
@@ -163,7 +159,7 @@ function Item(
                 showFixedTextare()
               }}
             >
-              <Text type='icon' size={11}>
+              <Text type='icon' size={10}>
                 回复
               </Text>
             </Touchable>
@@ -200,6 +196,7 @@ function Item(
                 type={isExpand ? 'sub' : 'main'}
                 size={12}
                 align='center'
+                bold
               >
                 {isExpand
                   ? '收起楼层'
@@ -271,6 +268,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   expand: {
     paddingVertical: _.sm,
-    paddingLeft: 44
+    marginLeft: 44
   }
 }))

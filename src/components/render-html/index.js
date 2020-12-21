@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 12:07:12
+ * @Last Modified time: 2020-12-21 20:24:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -318,7 +318,7 @@ class RenderHtml extends React.Component {
        */
       _html = _html.replace(
         /<div class="quote"><q>/g,
-        '<div class="quote"><q style="font-size: 12px">'
+        '<div class="quote"><q style="font-size: 12px; line-height: 16px">'
       )
 
       return HTMLDecode(_html)
