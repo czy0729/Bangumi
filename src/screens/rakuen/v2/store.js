@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 17:57:03
+ * @Last Modified time: 2020-12-24 00:21:45
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -415,5 +415,29 @@ export default class ScreenRakuen extends store {
     this.setState({
       ...initPrefetchState
     })
+  }
+
+  /**
+   * 底部TabBar再次点击滚动到顶并刷新数据
+   */
+  scrollToIndex = {}
+  connectRef = (ref, index) => {
+    this.scrollToIndex[index] = ref?.scrollToIndex
+  }
+
+  onRefreshThenScrollTop = () => {
+    const { page } = this.state
+    if (typeof this.scrollToIndex[page] === 'function') {
+      t('其他.刷新到顶', {
+        screen: 'Rakuen'
+      })
+
+      this.onHeaderRefresh()
+      this.scrollToIndex[page]({
+        animated: true,
+        index: 0,
+        viewOffset: 8000
+      })
+    }
   }
 }

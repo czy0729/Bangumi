@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 12:14:52
+ * @Last Modified time: 2020-12-23 20:08:37
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -103,7 +103,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   item: {
-    paddingVertical: _.md,
-    paddingHorizontal: _.sm
+    paddingVertical: _.md - 4,
+    paddingHorizontal: _.md
   }
 }))

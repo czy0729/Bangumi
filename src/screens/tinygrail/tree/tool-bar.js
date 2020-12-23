@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 21:38:59
+ * @Last Modified time: 2020-12-23 20:10:31
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -129,7 +129,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorTinygrailContainer
   },
   item: {
-    paddingVertical: _.sm + 4
+    paddingVertical: _.md - 4,
+    paddingHorizontal: _.md
   },
   touchable: {
     paddingHorizontal: _.lg

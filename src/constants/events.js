@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 12:15:53
+ * @Last Modified time: 2020-12-24 00:19:29
  */
 
 /**
@@ -528,5 +528,6 @@ export default {
   '其他.启动': 'Other.start',
   '其他.切换主题': 'Other.theme',
   '其他.查看': 'Other.view',
+  '其他.刷新到顶': 'Other.fetchToTop',
   '其他.Linking': 'Other.deeplink'
 }

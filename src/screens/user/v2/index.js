@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 22:54:14
+ * @Last Modified time: 2020-12-24 00:15:51
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, UM } from '@components'
-import { IconTabBar, Login } from '@screens/_'
+import { IconTabBar, Login, IconPortal } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -153,6 +153,7 @@ class User extends React.Component {
     }
 
     const { _loaded } = $.state
+    const { isFocused } = this.props
     const { fixed } = this.state
     return (
       <View style={this.style}>
@@ -187,6 +188,9 @@ class User extends React.Component {
             />
             <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
           </>
+        )}
+        {isFocused && (
+          <IconPortal index={4} onPress={$.onRefreshThenScrollTop} />
         )}
         <Heatmaps />
       </View>

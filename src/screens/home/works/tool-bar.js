@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 14:38:24
+ * @Last Modified time: 2020-12-23 20:13:48
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -31,6 +31,7 @@ function ToolBar(props, { $ }) {
             />
             <Text
               style={_.ml.sm}
+              size={12}
               type={orderLabel !== '名称' ? 'main' : 'sub'}
               numberOfLines={1}
             >
@@ -52,9 +53,10 @@ function ToolBar(props, { $ }) {
               onSelect={label => $.onFilterSelect(label, item.data)}
             >
               <Flex style={styles.item} justify='center'>
-                <Text>{item.title}</Text>
+                <Text size={12}>{item.title}</Text>
                 <Text
                   style={_.ml.sm}
+                  size={12}
                   type={find.title !== '全部' ? 'main' : 'sub'}
                 >
                   {find.title}
@@ -98,7 +100,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   item: {
-    padding: _.md
+    paddingVertical: _.md - 4,
+    paddingHorizontal: _.md
   },
   touchable: {
     paddingHorizontal: _.lg

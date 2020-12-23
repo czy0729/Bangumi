@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 22:30:42
+ * @Last Modified time: 2020-12-23 22:01:08
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { UM } from '@components'
 import {
-  IconTabBar,
   SafeAreaView,
   StatusBarEvents,
-  NavigationBarEvents
+  NavigationBarEvents,
+  IconTabBar,
+  IconPortal
 } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
@@ -30,7 +31,7 @@ export default
 class Timeline extends React.Component {
   static navigationOptions = {
     header: null,
-    tabBarIcon: ({ tintColor }) => <IconTabBar name='time' color={tintColor} />,
+    tabBarIcon: ({ tintColor }) => <IconTabBar color={tintColor} name='time' />,
     tabBarLabel: title
   }
 
@@ -59,6 +60,7 @@ class Timeline extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
+    const { isFocused } = this.props
     return (
       <SafeAreaView style={this.style}>
         <UM screen={title} />
@@ -71,6 +73,9 @@ class Timeline extends React.Component {
           </>
         )}
         <Heatmaps />
+        {isFocused && (
+          <IconPortal index={1} onPress={$.onRefreshThenScrollTop} />
+        )}
       </SafeAreaView>
     )
   }

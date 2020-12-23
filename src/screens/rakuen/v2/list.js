@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 17:57:58
+ * @Last Modified time: 2020-12-24 00:13:04
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -35,6 +35,7 @@ function List({ index }, { $ }) {
   const { page, isFocused } = $.state
   return (
     <ListView
+      ref={ref => $.connectRef(ref, index)}
       style={!IOS && styles.androidWrap}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}

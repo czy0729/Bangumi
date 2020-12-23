@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-23 17:19:27
+ * @Last Modified time: 2020-12-24 00:17:03
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -118,8 +118,10 @@ class List extends React.Component {
 
     const { list, page, isFocused } = $.state
     const numColumns = list ? undefined : 4
+    const index = tabs.findIndex(item => item.title === title)
     return (
       <ListView
+        ref={ref => $.connectRef(ref, index)}
         key={`${$.subjectType}${String(numColumns)}`}
         keyExtractor={keyExtractor}
         style={!IOS && styles.androidWrap}

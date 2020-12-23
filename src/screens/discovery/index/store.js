@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 19:18:18
+ * @Last Modified time: 2020-12-24 00:21:13
  */
 import { observable, computed } from 'mobx'
 import {
@@ -14,7 +14,7 @@ import {
   usersStore
 } from '@stores'
 import { getTimestamp } from '@utils'
-import { queue } from '@utils/fetch'
+import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -140,5 +140,28 @@ export default class ScreenDiscovery extends store {
       expand: false
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 底部TabBar再次点击滚动到顶并刷新数据
+   */
+  scrollToIndex
+  connectRef = ref => {
+    this.scrollToIndex = ref?.scrollToIndex
+  }
+
+  onRefreshThenScrollTop = () => {
+    if (typeof this.scrollToIndex === 'function') {
+      t('其他.刷新到顶', {
+        screen: 'Discovery'
+      })
+
+      this.fetchOnline()
+      this.scrollToIndex({
+        animated: true,
+        index: 0,
+        viewOffset: 8000
+      })
+    }
   }
 }

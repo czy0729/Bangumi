@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:27:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 10:26:28
+ * @Last Modified time: 2020-12-23 21:31:50
  */
 
 /**
@@ -46,6 +46,7 @@ export { default as Tag } from './base/tag'
 export { default as IconBack } from './icon/back'
 export { default as IconHeader } from './icon/header'
 export { default as IconNotify } from './icon/notify'
+export { default as IconPortal } from './icon/portal'
 export { default as IconReverse } from './icon/reverse'
 export { default as IconTabBar } from './icon/tab-bar'
 export { default as IconTabsHeader } from './icon/tabs-header'

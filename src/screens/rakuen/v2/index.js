@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 01:25:32
+ * @Last Modified time: 2020-12-24 00:11:38
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,7 +11,8 @@ import {
   IconTabBar,
   SafeAreaView,
   StatusBarEvents,
-  NavigationBarEvents
+  NavigationBarEvents,
+  IconPortal
 } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
@@ -60,6 +61,7 @@ class Rakuen extends React.Component {
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
+    const { isFocused } = this.props
     return (
       <SafeAreaView style={this.style}>
         <UM screen={title} />
@@ -70,6 +72,9 @@ class Rakuen extends React.Component {
             <Header />
             <Tab />
           </>
+        )}
+        {isFocused && (
+          <IconPortal index={3} onPress={$.onRefreshThenScrollTop} />
         )}
         <Heatmaps />
       </SafeAreaView>

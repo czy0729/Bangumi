@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 22:32:01
+ * @Last Modified time: 2020-12-23 22:47:59
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -13,7 +13,8 @@ import {
   StatusBarEvents,
   IconTabBar,
   NavigationBarEvents,
-  SafeAreaView
+  SafeAreaView,
+  IconPortal
 } from '@screens/_'
 import { _, userStore } from '@stores'
 import { info } from '@utils/ui'
@@ -123,6 +124,7 @@ class Home extends React.Component {
 
   render() {
     const { $ } = this.context
+    const { isFocused } = this.props
     const { _loaded } = $.state
     return (
       <SafeAreaView style={this.style}>
@@ -136,6 +138,9 @@ class Home extends React.Component {
             <Tab length={$.tabs.length} />
             <Modal />
           </>
+        )}
+        {isFocused && (
+          <IconPortal index={2} onPress={$.onRefreshThenScrollTop} />
         )}
         <Heatmaps />
       </SafeAreaView>

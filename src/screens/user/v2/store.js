@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-23 17:21:36
+ * @Last Modified time: 2020-12-24 00:22:08
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -99,8 +99,6 @@ export default class ScreenUser extends store {
   }
 
   fetchUserCollectionsByScore = async () => {
-    info('排序中')
-
     const { pagination } = await this.fetchUserCollectionsNormal(true)
     const { pageTotal } = pagination
     let { page } = pagination
@@ -305,5 +303,29 @@ export default class ScreenUser extends store {
       list: !list
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 底部TabBar再次点击滚动到顶并刷新数据
+   */
+  scrollToIndex = {}
+  connectRef = (ref, index) => {
+    this.scrollToIndex[index] = ref?.scrollToIndex
+  }
+
+  onRefreshThenScrollTop = () => {
+    const { page } = this.state
+    if (typeof this.scrollToIndex[page] === 'function') {
+      t('其他.刷新到顶', {
+        screen: 'User'
+      })
+
+      this.onHeaderRefresh()
+      this.scrollToIndex[page]({
+        animated: true,
+        index: 0,
+        viewOffset: 8000
+      })
+    }
   }
 }

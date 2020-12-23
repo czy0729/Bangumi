@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-12 23:52:40
+ * @Last Modified time: 2020-12-23 20:14:46
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -40,6 +40,7 @@ function ToolBar(props, { $ }) {
             />
             <Text
               style={_.ml.sm}
+              size={12}
               type={order ? 'main' : 'sub'}
               numberOfLines={1}
             >
@@ -56,7 +57,12 @@ function ToolBar(props, { $ }) {
               size={14}
               color={tag ? _.colorMain : undefined}
             />
-            <Text style={_.ml.sm} type={tag ? 'main' : 'sub'} numberOfLines={1}>
+            <Text
+              style={_.ml.sm}
+              size={12}
+              type={tag ? 'main' : 'sub'}
+              numberOfLines={1}
+            >
               {tag ? tag.replace(/ \(\d+\)/, '') : '标签'}
             </Text>
           </Flex>
@@ -94,7 +100,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   item: {
-    padding: _.md
+    paddingVertical: _.md - 4,
+    paddingHorizontal: _.md
   },
   touchable: {
     paddingHorizontal: _.lg

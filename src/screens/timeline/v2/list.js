@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 22:51:11
+ * @Last Modified time: 2020-12-23 22:57:12
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -167,8 +167,10 @@ class List extends React.Component {
       return <Loading />
     }
 
+    const index = tabs.findIndex(item => item.title === title)
     return (
       <ListView
+        ref={ref => $.connectRef(ref, index)}
         style={styles.androidWrap}
         contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={keyExtractor}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 17:24:31
+ * @Last Modified time: 2020-12-24 00:21:55
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -140,6 +140,32 @@ export default class ScreenTimeline extends store {
       })
       this.fetchTimeline(true)
       this.setStorage(undefined, undefined, namespace)
+    }
+  }
+
+  /**
+   * 底部TabBar再次点击滚动到顶并刷新数据
+   */
+  scrollToLocation = {}
+  connectRef = (ref, index) => {
+    this.scrollToLocation[index] = ref?.scrollToLocation
+  }
+
+  onRefreshThenScrollTop = () => {
+    const { page } = this.state
+    if (typeof this.scrollToLocation[page] === 'function') {
+      t('其他.刷新到顶', {
+        screen: 'Timeline'
+      })
+
+      this.onHeaderRefresh()
+      this.scrollToLocation[page]({
+        animated: true,
+        itemIndex: 0,
+        sectionIndex: 0,
+        viewOffset: 800,
+        viewPosition: 0
+      })
     }
   }
 

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 22:13:26
+ * @Last Modified time: 2020-12-23 22:23:10
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { StatusBarEvents, Loading, ListView, UM, Heatmap } from '@components'
-import { IconTabBar } from '@screens/_'
+import { IconTabBar, IconPortal } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
@@ -52,6 +52,7 @@ class Discovery extends React.Component {
         <StatusBarEvents backgroundColor='transparent' />
         {_loaded ? (
           <ListView
+            ref={$.connectRef}
             style={styles.listView}
             contentContainerStyle={styles.contentContainerStyle}
             keyExtractor={keyExtractor}
@@ -64,6 +65,9 @@ class Discovery extends React.Component {
           />
         ) : (
           <Loading style={_.container.flex} />
+        )}
+        {isFocused && (
+          <IconPortal index={0} onPress={$.onRefreshThenScrollTop} />
         )}
         <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
       </View>

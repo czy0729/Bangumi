@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 14:04:33
+ * @Last Modified time: 2020-12-23 20:12:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -29,10 +29,11 @@ function ToolBar(props, { $ }) {
               onSelect={label => $.onFilterSelect(label, item.data)}
             >
               <Flex style={styles.item} justify='center'>
-                <Text>{item.title}</Text>
+                <Text size={12}>{item.title}</Text>
                 <Text
                   style={_.ml.sm}
                   type={find.title !== '全部' ? 'main' : 'sub'}
+                  size={12}
                 >
                   {find.title}
                 </Text>
@@ -57,7 +58,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorBg
   },
   item: {
-    padding: _.md
+    paddingVertical: _.md - 4,
+    paddingHorizontal: _.md
   },
   touchable: {
     paddingHorizontal: _.lg

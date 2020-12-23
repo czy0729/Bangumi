@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-08 21:00:47
+ * @Last Modified time: 2020-12-24 00:21:30
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -635,6 +635,30 @@ export default class ScreenHomeV2 extends store {
       grid: grid || initItem.grid
     })
     this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 底部TabBar再次点击滚动到顶并刷新数据
+   */
+  scrollToIndex = {}
+  connectRef = (ref, index) => {
+    this.scrollToIndex[index] = ref?.scrollToIndex
+  }
+
+  onRefreshThenScrollTop = () => {
+    const { page } = this.state
+    if (typeof this.scrollToIndex[page] === 'function') {
+      t('其他.刷新到顶', {
+        screen: 'Home'
+      })
+
+      this.onHeaderRefresh()
+      this.scrollToIndex[page]({
+        animated: true,
+        index: 0,
+        viewOffset: 8000
+      })
+    }
   }
 
   // -------------------- action --------------------

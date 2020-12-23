@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 17:55:24
+ * @Last Modified time: 2020-12-23 22:50:27
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -45,8 +45,10 @@ function List({ title }, { $ }) {
   }
 
   const { page, isFocused } = $.state
+  const index = $.tabs.findIndex(item => item.title === title)
   return (
     <ListView
+      ref={ref => $.connectRef(ref, index)}
       style={!IOS && styles.androidWrap}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
