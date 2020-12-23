@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-17 23:30:54
+ * @Last Modified time: 2020-12-23 17:19:27
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -111,6 +111,7 @@ class List extends React.Component {
       subjectType,
       MODEL_COLLECTION_STATUS.getValue(title)
     )
+
     if (!userCollections._loaded) {
       return <Loading style={IOS ? _.container.bg : _.container._plain} />
     }

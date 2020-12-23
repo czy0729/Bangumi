@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 19:21:50
+ * @Last Modified time: 2020-12-23 17:21:36
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
 import store from '@utils/store'
 import { x18 } from '@utils/app'
 import { t } from '@utils/fetch'
+import { info } from '@utils/ui'
 import { IOS } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
@@ -59,7 +60,10 @@ export default class ScreenUser extends store {
     userStore.fetchUserCollectionsStatus(this.userId)
 
     // 用户收藏记录
-    this.fetchUserCollections(true)
+    const { order } = this.state
+    if (MODEL_COLLECTIONS_ORDERBY.getLabel(order) !== '网站评分') {
+      this.fetchUserCollections(true)
+    }
     this.fetchUsers()
     return res
   }
@@ -69,7 +73,18 @@ export default class ScreenUser extends store {
   // -------------------- fetch --------------------
   fetchUsersInfo = () => userStore.fetchUsersInfo(this.userId)
 
+  /**
+   * 网站评分需要递归请求完所有数据, 再通过本地排序显示
+   * @param {*} refresh
+   */
   fetchUserCollections = refresh => {
+    const { order } = this.state
+    return MODEL_COLLECTIONS_ORDERBY.getLabel(order) === '网站评分'
+      ? this.fetchUserCollectionsByScore()
+      : this.fetchUserCollectionsNormal(refresh)
+  }
+
+  fetchUserCollectionsNormal = refresh => {
     const { subjectType, order, tag } = this.state
     return collectionStore.fetchUserCollections(
       {
@@ -81,6 +96,30 @@ export default class ScreenUser extends store {
       },
       refresh
     )
+  }
+
+  fetchUserCollectionsByScore = async () => {
+    info('排序中')
+
+    const { pagination } = await this.fetchUserCollectionsNormal(true)
+    const { pageTotal } = pagination
+    let { page } = pagination
+    for (; page < pageTotal; page += 1) {
+      info(`排序中 ${page + 1} / ${pageTotal}`)
+
+      // eslint-disable-next-line no-await-in-loop
+      await this.fetchUserCollectionsNormal()
+    }
+
+    const { subjectType } = this.state
+    const { username } = this.usersInfo
+    collectionStore.sortUserCollectionsByScore(
+      username || this.userId,
+      subjectType,
+      this.type
+    )
+
+    return true
   }
 
   fetchUsers = () =>
@@ -225,7 +264,7 @@ export default class ScreenUser extends store {
     }
   }
 
-  onOrderSelect = label => {
+  onOrderSelect = async label => {
     t('我的.排序选择', {
       label
     })

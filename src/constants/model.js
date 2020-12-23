@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 14:09:54
+ * @Last Modified time: 2020-12-23 17:21:00
  */
 class Model {
   constructor(data) {
@@ -531,6 +531,10 @@ export const MODEL_COLLECTIONS_ORDERBY = new Model([
   {
     label: '名称',
     value: 'title'
+  },
+  {
+    label: '网站评分',
+    value: 'score'
   }
 ])
 

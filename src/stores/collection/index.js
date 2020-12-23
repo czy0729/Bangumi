@@ -5,9 +5,9 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-13 05:26:07
+ * @Last Modified time: 2020-12-23 17:46:16
  */
-import { observable } from 'mobx'
+import { observable, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
 import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
 import store from '@utils/store'
@@ -25,6 +25,7 @@ import {
   HTML_USER_COLLECTIONS,
   HTML_ACTION_SUBJECT_SET_WATCHED
 } from '@constants/html'
+import rateData from '@constants/json/rate.json'
 import userStore from '../user'
 import {
   NAMESPACE,
@@ -425,6 +426,35 @@ class Collection extends store {
       }
     })
     this.setStorage('userCollectionsTags', data, NAMESPACE)
+  }
+
+  /**
+   * 用户收藏按网站评分本地排序后入库
+   */
+  sortUserCollectionsByScore = (userId, subjectType, type) => {
+    const data = this.userCollections(userId, subjectType, type)
+    const list = data.list.sort(
+      (a, b) => Number(rateData[b.id] || 0) - Number(rateData[a.id] || 0)
+    )
+
+    const key = 'userCollections'
+    const stateKey = `${userId}|${subjectType}|${type}`
+    this.setState({
+      [key]: {
+        [stateKey]: {
+          ...data,
+          list: toJS(list)
+        }
+      }
+    })
+
+    // 只本地化自己的收藏概览
+    if (
+      userId === userStore.userInfo.username ||
+      userId === userStore.myUserId
+    ) {
+      this.setUserCollectionsStroage()
+    }
   }
 
   // -------------------- action --------------------
