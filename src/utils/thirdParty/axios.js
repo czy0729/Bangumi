@@ -1,4 +1,3 @@
-/* eslint-disable */
 /* axios v0.19.0 | (c) 2019 by Matt Zabriskie */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')

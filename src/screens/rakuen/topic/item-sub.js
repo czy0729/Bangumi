@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 20:30:09
+ * @Last Modified time: 2020-12-24 01:10:18
  */
 import React from 'react'
-import { Alert } from 'react-native'
+import { Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
@@ -42,7 +42,8 @@ function ItemSub(
   },
   { $, navigation }
 ) {
-  if (removeHTMLTag(decoder(message)).length <= 10 && message.includes('+1')) {
+  const msg = removeHTMLTag(decoder(message))
+  if (msg.length <= 10 && msg.includes('+1')) {
     return (
       <ItemPlusOne
         id={id}
@@ -64,6 +65,8 @@ function ItemSub(
   const isFriend = $.myFriendsMap[userId]
   const isNew = !!readedTime && getTimestamp(time) > readedTime
   const isJump = !!postId && postId === id
+  const quoteUserName = msg.match(/^(.+?)说:/)?.[1]
+  const quoteUser = $.postUsersMap[quoteUserName]
   return (
     <Flex
       style={[isNew && styles.itemNew, isJump && styles.itemJump]}
@@ -126,14 +129,31 @@ function ItemSub(
             {floor.replace('#', '')}
           </Text>
         </Flex>
-        <RenderHtml
-          style={_.mt.xs}
-          baseFontStyle={_.baseFontStyle.md}
-          imagesMaxWidth={imagesMaxWidthSub}
-          html={message}
-          onLinkPress={href => appNavigate(href, navigation, {}, event)}
-          onImageFallback={() => open(`${url}#post_${id}`)}
-        />
+        <View style={_.mt.xs}>
+          <RenderHtml
+            baseFontStyle={_.baseFontStyle.md}
+            imagesMaxWidth={imagesMaxWidthSub}
+            html={message}
+            onLinkPress={href => appNavigate(href, navigation, {}, event)}
+            onImageFallback={() => open(`${url}#post_${id}`)}
+          />
+          {!!quoteUser && (
+            <Flex style={styles.quoteUserRound}>
+              <Avatar
+                navigation={navigation}
+                size={16}
+                userId={quoteUser.userId}
+                name={quoteUser.userName}
+                src={quoteUser.avatar}
+                event={event}
+              />
+              <Text type={_.select('desc', 'sub')} size={12} bold>
+                {' '}
+                {quoteUser.userName}:
+              </Text>
+            </Flex>
+          )}
+        </View>
         <Flex justify='end'>
           {!!erase && (
             <Touchable
@@ -211,5 +231,14 @@ const memoStyles = _.memoStyles(_ => ({
     marginTop: -8,
     marginLeft: _.sm,
     opacity: _.select(1, 0.64)
+  },
+  quoteUserRound: {
+    position: 'absolute',
+    top: 10,
+    left: 6,
+    zIndex: 1,
+    padding: 2,
+    paddingRight: 4,
+    backgroundColor: _.colorBg
   }
 }))

@@ -1,15 +1,10 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-useless-escape */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-param-reassign */
-/* eslint-disable max-len */
 /*
  * https://github.com/llf137224350/pinyin/blob/master/js/pinyin.js
  *
  * @Author: czy0729
  * @Date: 2020-07-15 11:45:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-15 11:54:04
+ * @Last Modified time: 2020-12-25 15:22:32
  */
 const PinYin = {
   a: '\u554a\u963f\u9515',

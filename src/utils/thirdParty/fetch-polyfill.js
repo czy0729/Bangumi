@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * https://github.com/robinpowered/react-native-fetch-polyfill/blob/master/fetch-polyfill.js
  */

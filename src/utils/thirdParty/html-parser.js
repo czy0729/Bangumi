@@ -1,4 +1,3 @@
-/* eslint-disable */
 /*
  * HTML5 Parser By Sam Blowes
  *

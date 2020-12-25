@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 16:56:37
+ * @Last Modified time: 2020-12-24 00:32:20
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -60,7 +60,7 @@ export default observer(ItemPlusOne)
 const memoStyles = _.memoStyles(_ => ({
   round: {
     padding: 4,
-    paddingRight: 8,
+    paddingRight: 12,
     backgroundColor: _.colorBg,
     borderRadius: 16
   },

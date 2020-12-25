@@ -3,3 +3,4 @@ jsconfig.json
 /components/@/*
 /node_modules
 /src/assets/*
+/src/utils/thirdParty/*

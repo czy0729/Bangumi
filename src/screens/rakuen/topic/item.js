@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 20:30:21
+ * @Last Modified time: 2020-12-24 00:33:11
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -267,7 +267,8 @@ const memoStyles = _.memoStyles(_ => ({
     opacity: _.select(1, 0.64)
   },
   expand: {
-    paddingVertical: _.sm,
+    paddingTop: _.sm,
+    paddingBottom: _.md,
     marginLeft: 44
   }
 }))

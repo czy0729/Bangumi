@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 20:32:09
+ * @Last Modified time: 2020-12-24 01:02:04
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -139,7 +139,7 @@ class ToggleImage extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   image: {
-    marginVertical: _.sm
+    marginVertical: _.xs
   },
   loading: {
     width: 32,

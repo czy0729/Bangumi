@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * @Doc https://github.com/nicopolyptic/treemap
  */

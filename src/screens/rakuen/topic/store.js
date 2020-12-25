@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-12 17:47:51
+ * @Last Modified time: 2020-12-24 00:47:32
  */
 import { observable, computed } from 'mobx'
 import {
@@ -273,6 +273,34 @@ export default class ScreenTopic extends store {
 
   @computed get isLimit() {
     return userStore.isLimit
+  }
+
+  /**
+   * 帖子里所有用户的映射
+   */
+  @computed get postUsersMap() {
+    const postUsersMap = {}
+    const { list } = rakuenStore.comments(this.topicId)
+    list.forEach(item => {
+      if (!postUsersMap[item.userName]) {
+        postUsersMap[item.userName] = {
+          userId: item.userId,
+          userName: item.userName,
+          avatar: item.avatar
+        }
+      }
+
+      item.sub.forEach(i => {
+        if (!postUsersMap[i.userName]) {
+          postUsersMap[i.userName] = {
+            userId: i.userId,
+            userName: i.userName,
+            avatar: i.avatar
+          }
+        }
+      })
+    })
+    return postUsersMap
   }
 
   // -------------------- get: cdn fallback --------------------
