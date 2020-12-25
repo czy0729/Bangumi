@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-25 01:18:51
+ * @Last Modified time: 2020-12-26 04:43:10
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import { Portal } from '@ant-design/react-native'
@@ -275,13 +275,14 @@ export function xhrCustom({
   data,
   headers = {},
   responseType,
-  withCredentials = false
+  withCredentials = false,
+  log = true
 } = {}) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.onreadystatechange = function () {
       if (this.readyState === 4) {
-        if (this.status === 200) {
+        if (this.status === 200 || this.status === 201) {
           resolve(this)
           return
         }
@@ -322,7 +323,7 @@ export function xhrCustom({
     const body = data ? urlStringify(data) : null
     request.send(body)
 
-    if (SHOW_LOG) {
+    if (SHOW_LOG && log) {
       log(`🔍 ${url}`)
     }
   })

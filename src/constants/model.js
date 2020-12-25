@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-23 17:21:00
+ * @Last Modified time: 2020-12-26 03:55:54
  */
 class Model {
   constructor(data) {
@@ -492,6 +492,21 @@ export const MODEL_SETTING_TRANSITION = new Model([
   {
     label: '垂直',
     value: 'vertical'
+  }
+])
+
+export const MODEL_SETTING_SYNC = new Model([
+  {
+    label: '恢复默认',
+    value: 'default'
+  },
+  {
+    label: '上传',
+    value: 'upload'
+  },
+  {
+    label: '下载',
+    value: 'download'
   }
 ])
 

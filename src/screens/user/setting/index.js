@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 19:33:29
+ * @Last Modified time: 2020-12-26 04:32:14
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -18,7 +18,7 @@ import {
 import {
   Popover,
   ItemSetting,
-  IconTouchable,
+  IconHeader,
   NavigationBarEvents
 } from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
@@ -42,7 +42,8 @@ import {
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_INITIAL_PAGE,
   MODEL_SETTING_HOME_LAYOUT,
-  MODEL_SETTING_HOME_SORTING
+  MODEL_SETTING_HOME_SORTING,
+  MODEL_SETTING_SYNC
 } from '@constants/model'
 
 const title = '设置'
@@ -87,9 +88,10 @@ class Setting extends React.Component {
 
   setParams = () => {
     const { navigation } = this.props
+
     navigation.setParams({
       extra: (
-        <IconTouchable
+        <IconHeader
           style={{
             opacity: 0
           }}
@@ -186,6 +188,55 @@ class Setting extends React.Component {
       })
 
       systemStore.setHomeSorting(label)
+    }
+  }
+
+  setSync = label => {
+    if (label) {
+      t('设置.恢复默认设置', {
+        label
+      })
+
+      if (label === '恢复默认') {
+        setTimeout(() => {
+          confirm('确定恢复默认设置?', () => {
+            systemStore.resetSetting()
+            setTimeout(() => {
+              info('已恢复')
+            }, 160)
+          })
+        }, 160)
+        return
+      }
+
+      if (label === '上传') {
+        if (!this.isLogin || !userStore.userInfo.id) {
+          info('上传需先登陆')
+          return
+        }
+
+        setTimeout(() => {
+          confirm('确定上传当前设置到云端?', async () => {
+            const flag = await systemStore.uploadSetting()
+            info(flag ? '已上传' : '上传失败')
+          })
+        }, 160)
+        return
+      }
+
+      if (label === '下载') {
+        if (!this.isLogin || !userStore.userInfo.id) {
+          info('下载需先登陆')
+          return
+        }
+
+        setTimeout(() => {
+          confirm('确定恢复到云端的设置?', async () => {
+            const flag = await systemStore.downloadSetting()
+            info(flag ? '已恢复' : '下载设置失败')
+          })
+        }, 160)
+      }
     }
   }
 
@@ -1180,23 +1231,6 @@ class Setting extends React.Component {
               <Heatmap id='设置.清除缓存' />
             </ItemSetting>
             <ItemSetting
-              hd='恢复默认设置'
-              arrow
-              highlight
-              onPress={() => {
-                confirm('确定恢复默认设置?', () => {
-                  t('设置.恢复默认设置')
-
-                  systemStore.resetSetting()
-                  setTimeout(() => {
-                    info('已恢复')
-                  }, 160)
-                })
-              }}
-            >
-              <Heatmap id='设置.恢复默认设置' />
-            </ItemSetting>
-            <ItemSetting
               hd='网络探针'
               arrow
               highlight
@@ -1216,6 +1250,23 @@ class Setting extends React.Component {
                   alias: '网络探针'
                 }}
               />
+            </ItemSetting>
+            <ItemSetting
+              hd='同步设置'
+              ft={
+                <Popover
+                  data={MODEL_SETTING_SYNC.data.map(({ label }) => label)}
+                  onSelect={this.setSync}
+                >
+                  <Text type='sub' size={15}>
+                    选择
+                  </Text>
+                </Popover>
+              }
+              arrow
+              highlight
+            >
+              <Heatmap id='设置.恢复默认设置' />
             </ItemSetting>
           </>
         )}
@@ -1301,6 +1352,13 @@ const memoStyles = _.memoStyles(_ => ({
     transform: [
       {
         scale: 0.8
+      }
+    ]
+  },
+  upload: {
+    transform: [
+      {
+        rotate: '-90deg'
       }
     ]
   }

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-25 00:57:21
+ * @Last Modified time: 2020-12-26 04:31:51
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import store from '@utils/store'
 import { info } from '@utils/ui'
+import { put, read } from '@utils/db'
 import {
   DEV,
   IOS,
@@ -312,6 +313,46 @@ class System extends store {
       [key]: INIT_SETTING
     })
     this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 上传当前设置到云端
+   */
+  uploadSetting = () => {
+    const { id } = UserStore.userInfo
+    return put({
+      path: `setting/${id}.json`,
+      content: JSON.stringify(this.setting)
+    })
+  }
+
+  /**
+   * 恢复到云端的设置
+   */
+  downloadSetting = async () => {
+    const { id } = UserStore.userInfo
+    const { content } = await read({
+      path: `setting/${id}.json`
+    })
+
+    if (!content) {
+      return false
+    }
+
+    try {
+      const setting = JSON.parse(content)
+      const key = 'setting'
+      this.setState({
+        [key]: {
+          ...this.setting,
+          ...setting
+        }
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+      return true
+    } catch (error) {
+      return false
+    }
   }
 
   /**
