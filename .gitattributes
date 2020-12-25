@@ -1,1 +1,2 @@
 src/screens/user/zone/head.js filter=gitignore
+src/utils/db.js filter=gitignore
