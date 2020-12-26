@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 15:23:04
+ * @Last Modified time: 2020-12-27 01:45:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,10 +29,11 @@ function Auction({ style }, { $ }) {
   const { price = 0, amount } = $.valhallChara
   const { balance } = $.assets
   const { state, type } = $.auctionStatus
+  const { current } = $.chara
   return (
     <View style={[styles.container, style]}>
       <Flex>
-        <Flex.Item flex={1.4}>
+        <Flex.Item flex={1.5}>
           <Text type='tinygrailPlain'>
             竞拍
             <Text type='tinygrailText' size={12} lineHeight={14}>
@@ -46,10 +47,14 @@ function Auction({ style }, { $ }) {
             数量 ({amount ? formatNumber(amount, 0) : '-'}股)
           </Text>
         </Flex.Item>
-        <View style={[styles.btnSubmit, _.ml.sm]} />
+        <View style={[styles.btnSubmit, _.ml.sm]}>
+          <Text type='tinygrailText' size={12}>
+            当前 {current && toFixed(current, 1)}
+          </Text>
+        </View>
       </Flex>
       <Flex style={_.mt.sm}>
-        <Flex.Item flex={1.4}>
+        <Flex.Item flex={1.5}>
           <View style={styles.inputWrap}>
             <Stepper />
           </View>
@@ -181,6 +186,6 @@ const memoStyles = _.memoStyles(_ => ({
     opacity: 0.8
   },
   btnSubmit: {
-    width: 64
+    width: 72
   }
 }))

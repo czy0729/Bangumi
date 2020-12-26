@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-14 01:05:32
+ * @Last Modified time: 2020-12-27 01:38:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -107,7 +107,7 @@ function ItemTemple(
               <Avatar
                 style={styles.avatar}
                 navigation={navigation}
-                size={28}
+                size={31}
                 src={avatar}
                 userId={userId}
                 name={_name}
@@ -139,11 +139,19 @@ function ItemTemple(
       ) : (
         <View style={_.mt.sm}>
           {!!avatar && (
-            <Flex style={styles.fixed} justify='center'>
+            <Flex
+              style={[
+                styles.fixed,
+                {
+                  borderRadius: avatarRound ? 36 : _.radiusSm
+                }
+              ]}
+              justify='center'
+            >
               <Avatar
                 style={styles.avatar}
                 navigation={navigation}
-                size={28}
+                size={31}
                 src={avatar}
                 userId={name}
                 name={_name}

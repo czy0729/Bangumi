@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 18:05:06
+ * @Last Modified time: 2020-12-27 01:42:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -112,7 +112,7 @@ function Info(props, { $, navigation }) {
           {formatNumber(total, 0, $.short)} / 发行价 {toFixed($.issuePrice, 1)}{' '}
           /{' '}
           <Text type='tinygrailPlain' size={13}>
-            {current && toFixed(current, 2)}
+            {current && toFixed(current, 1)}
           </Text>
           <Text type={color} align='center' size={13}>
             {' '}

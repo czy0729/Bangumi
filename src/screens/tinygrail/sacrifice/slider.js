@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 11:58:36
+ * @Last Modified time: 2020-12-27 01:45:29
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -205,6 +205,6 @@ const memoStyles = _.memoStyles(_ => ({
     opacity: 0.8
   },
   btnSubmit: {
-    width: 64
+    width: 72
   }
 }))
