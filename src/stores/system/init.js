@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 21:06:05
+ * @Last Modified time: 2020-12-26 16:19:08
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -17,7 +17,7 @@ export const NAMESPACE = 'System'
 
 // -------------------- init --------------------
 export const INIT_SETTING = {
-  // autoFetch: true, // 切换页面自动请求 (废弃)
+  simple: true, // 设置页面显示最基本的设置
   avatarRound: true, // 头像是否圆形
   cdn: true, // CDN加速
   cnFirst: true, // 是否中文优先
@@ -41,6 +41,7 @@ export const INIT_SETTING = {
   showRelation: true, // 条目头部显示关系条目
   xsbShort: true, // 小圣杯缩短资金数字显示
   source: false, // 回复是否显示来源
+  homeOrigin: false, // 首页条目显示搜索源头
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue('列表'), // 首页收藏布局
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页

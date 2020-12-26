@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 18:05:34
+ * @Last Modified time: 2020-12-26 15:54:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 
 function ItemSetting({
   style,
+  show,
   hd,
   ft,
   arrow,
@@ -21,6 +22,10 @@ function ItemSetting({
   onPress,
   ...other
 }) {
+  if (!show) {
+    return null
+  }
+
   const styles = memoStyles()
   const content = (
     <View style={styles.item}>
@@ -58,6 +63,7 @@ function ItemSetting({
 }
 
 ItemSetting.defaultProps = {
+  show: true,
   informationType: 'sub'
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 04:32:14
+ * @Last Modified time: 2020-12-26 16:16:44
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -18,7 +18,7 @@ import {
 import {
   Popover,
   ItemSetting,
-  IconHeader,
+  IconTouchable,
   NavigationBarEvents
 } from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
@@ -45,6 +45,7 @@ import {
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_SYNC
 } from '@constants/model'
+import Filter from './filter'
 
 const title = '设置'
 const namespace = 'Setting'
@@ -90,15 +91,7 @@ class Setting extends React.Component {
     const { navigation } = this.props
 
     navigation.setParams({
-      extra: (
-        <IconHeader
-          style={{
-            opacity: 0
-          }}
-          name='more'
-          onPress={() => navigation.push('DEV')}
-        />
-      )
+      extra: <Filter />
     })
   }
 
@@ -258,6 +251,10 @@ class Setting extends React.Component {
     return userStore.isLogin
   }
 
+  get simple() {
+    return systemStore.setting.simple
+  }
+
   renderSection(text) {
     return (
       <Flex style={this.styles.section}>
@@ -335,35 +332,35 @@ class Setting extends React.Component {
                 }}
               />
             </ItemSetting>
-            {!IS_BEFORE_ANDROID_10 && (
-              <ItemSetting
-                hd='跟随系统'
-                ft={
-                  <SwitchPro
-                    style={this.styles.switch}
-                    value={autoColorScheme}
-                    onSyncPress={() => {
-                      t('设置.切换', {
-                        title: '跟随系统',
-                        checked: !autoColorScheme
-                      })
+            <ItemSetting
+              show={!IS_BEFORE_ANDROID_10}
+              hd='跟随系统'
+              ft={
+                <SwitchPro
+                  style={this.styles.switch}
+                  value={autoColorScheme}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '跟随系统',
+                      checked: !autoColorScheme
+                    })
 
-                      systemStore.switchSetting('autoColorScheme')
-                    }}
-                  />
-                }
-                information='启动时黑暗模式是否跟随系统'
-              >
-                <Heatmap
-                  id='设置.切换'
-                  data={{
-                    title: '跟随系统'
+                    systemStore.switchSetting('autoColorScheme')
                   }}
                 />
-              </ItemSetting>
-            )}
+              }
+              information='启动时黑暗模式是否跟随系统'
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '跟随系统'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
-              hd='CDN加速'
+              show={!this.simple}
+              hd='CDN加速*'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -378,7 +375,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information='建议开启，针对静态数据使用CDN访问快照加速渲染，但数据可能不会及时同步，流量稍微变高'
+              information={'建议开启，针对静态数据使用CDN快照加速渲染\n*表示不建议修改设置，同后'}
             >
               <Heatmap
                 id='设置.切换'
@@ -387,76 +384,74 @@ class Setting extends React.Component {
                 }}
               />
             </ItemSetting>
-            {!userStore.isLimit && (
-              <ItemSetting
-                hd='小圣杯'
-                ft={
-                  <SwitchPro
-                    style={this.styles.switch}
-                    value={tinygrail}
-                    onSyncPress={() => {
-                      t('设置.切换', {
-                        title: '小圣杯',
-                        checked: !tinygrail
-                      })
-                      systemStore.switchSetting('tinygrail')
-                    }}
-                  />
-                }
-                information='人物卡片交易系统'
-              >
-                <Heatmap
-                  id='设置.切换'
-                  data={{
-                    title: '小圣杯'
+            <ItemSetting
+              show={!userStore.isLimit}
+              hd='小圣杯'
+              ft={
+                <SwitchPro
+                  style={this.styles.switch}
+                  value={tinygrail}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '小圣杯',
+                      checked: !tinygrail
+                    })
+                    systemStore.switchSetting('tinygrail')
                   }}
                 />
-              </ItemSetting>
-            )}
-            {!userStore.isLimit && tinygrail && (
-              <ItemSetting
-                hd='涨跌色'
-                ft={
-                  <SegmentedControl
-                    style={this.styles.segmentedControl}
-                    size={12}
-                    values={tinygrailModeDS}
-                    selectedIndex={_.isWeb ? 2 : _.isGreen ? 0 : 1}
-                    onValueChange={value => {
-                      if (
-                        (_.isGreen && value === tinygrailModeDS[0]) ||
-                        (!_.isGreen && value === tinygrailModeDS[1]) ||
-                        (_.isWeb && value === tinygrailModeDS[2])
-                      ) {
-                        return
-                      }
+              }
+              information='人物卡片交易系统'
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '小圣杯'
+                }}
+              />
+            </ItemSetting>
+            <ItemSetting
+              show={!userStore.isLimit && tinygrail}
+              hd='涨跌色'
+              ft={
+                <SegmentedControl
+                  style={this.styles.segmentedControl}
+                  size={12}
+                  values={tinygrailModeDS}
+                  selectedIndex={_.isWeb ? 2 : _.isGreen ? 0 : 1}
+                  onValueChange={value => {
+                    if (
+                      (_.isGreen && value === tinygrailModeDS[0]) ||
+                      (!_.isGreen && value === tinygrailModeDS[1]) ||
+                      (_.isWeb && value === tinygrailModeDS[2])
+                    ) {
+                      return
+                    }
 
-                      t('设置.切换', {
-                        title: '小圣杯涨跌色',
-                        label: _.isWeb
-                          ? '网页一致'
-                          : _.isGreen
-                          ? '红涨绿跌'
-                          : '绿涨红跌'
-                      })
+                    t('设置.切换', {
+                      title: '小圣杯涨跌色',
+                      label: _.isWeb
+                        ? '网页一致'
+                        : _.isGreen
+                        ? '红涨绿跌'
+                        : '绿涨红跌'
+                    })
 
-                      if (value === tinygrailModeDS[2]) {
-                        _.toggleTinygrailMode('web')
-                        return
-                      }
-                      _.toggleTinygrailMode()
-                    }}
-                  />
-                }
-              >
-                <Heatmap
-                  id='设置.切换'
-                  data={{
-                    title: '小圣杯涨跌色'
+                    if (value === tinygrailModeDS[2]) {
+                      _.toggleTinygrailMode('web')
+                      return
+                    }
+                    _.toggleTinygrailMode()
                   }}
                 />
-              </ItemSetting>
-            )}
+              }
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '小圣杯涨跌色'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
               hd='片假名终结者'
               ft={
@@ -528,7 +523,8 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              hd='优先中文'
+              show={!this.simple}
+              hd='优先中文*'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -553,7 +549,8 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              hd='章节讨论热力图'
+              show={!this.simple}
+              hd='章节讨论热力图*'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -602,7 +599,8 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
-              hd='屏蔽敏感内容'
+              show={!this.simple}
+              hd='屏蔽敏感内容*'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -626,32 +624,31 @@ class Setting extends React.Component {
                 }}
               />
             </ItemSetting>
-            {!userStore.isLimit && (
-              <ItemSetting
-                hd='启动页'
-                ft={
-                  <Popover
-                    data={MODEL_SETTING_INITIAL_PAGE.data.map(
-                      ({ label }) => label
-                    )}
-                    onSelect={this.setInitialPage}
-                  >
-                    <Text type='sub' size={15}>
-                      {MODEL_SETTING_INITIAL_PAGE.getLabel(initialPage)}
-                    </Text>
-                  </Popover>
-                }
-                arrow
-                highlight
-              >
-                <Heatmap
-                  id='设置.切换'
-                  data={{
-                    title: '启动页'
-                  }}
-                />
-              </ItemSetting>
-            )}
+            <ItemSetting
+              show={!this.simple && !userStore.isLimit}
+              hd='启动页*'
+              ft={
+                <Popover
+                  data={MODEL_SETTING_INITIAL_PAGE.data.map(
+                    ({ label }) => label
+                  )}
+                  onSelect={this.setInitialPage}
+                >
+                  <Text type='sub' size={15}>
+                    {MODEL_SETTING_INITIAL_PAGE.getLabel(initialPage)}
+                  </Text>
+                </Popover>
+              }
+              arrow
+              highlight
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '启动页'
+                }}
+              />
+            </ItemSetting>
           </>
         )}
       </>
@@ -677,28 +674,9 @@ class Setting extends React.Component {
         {this.renderSection('UI', 'ui')}
         {ui && (
           <>
-            {/* {!IOS && (
-              <ItemSetting
-                hd='iOS风格菜单'
-                ft={
-                  <SwitchPro
-                    style={this.styles.switch}
-                    value={iosMenu}
-                    onSyncPress={() => {
-                      t('设置.切换', {
-                        title: 'iOS风格菜单',
-                        checked: !iosMenu
-                      })
-
-                      systemStore.switchSetting('iosMenu')
-                    }}
-                  />
-                }
-                information='模拟菜单, 非原生性能略弱, 但显示信息更多并且支持黑暗模式'
-              />
-            )} */}
             <ItemSetting
-              hd='扁平'
+              show={!this.simple}
+              hd='扁平*'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -796,35 +774,35 @@ class Setting extends React.Component {
                 }}
               />
             </ItemSetting>
-            {!IOS && (
-              <ItemSetting
-                hd='点击水纹效果'
-                ft={
-                  <SwitchPro
-                    style={this.styles.switch}
-                    value={ripple}
-                    onSyncPress={() => {
-                      t('设置.切换', {
-                        title: '点击水纹',
-                        checked: !ripple
-                      })
+            <ItemSetting
+              show={!IOS}
+              hd='点击水纹效果'
+              ft={
+                <SwitchPro
+                  style={this.styles.switch}
+                  value={ripple}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '点击水纹',
+                      checked: !ripple
+                    })
 
-                      systemStore.switchSetting('ripple')
-                    }}
-                  />
-                }
-                information='按钮被按下时产生涟漪效果，关闭可提升性能'
-              >
-                <Heatmap
-                  id='设置.切换'
-                  data={{
-                    title: '点击水纹'
+                    systemStore.switchSetting('ripple')
                   }}
                 />
-              </ItemSetting>
-            )}
+              }
+              information='按钮被按下时产生涟漪效果，关闭可提升性能'
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '点击水纹'
+                }}
+              />
+            </ItemSetting>
             <ItemSetting
-              hd='看板娘吐槽'
+              show={!this.simple}
+              hd='看板娘吐槽*'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -901,31 +879,31 @@ class Setting extends React.Component {
                 }}
               />
             </ItemSetting>
-            {!IOS && (
-              <ItemSetting
-                hd='切页动画'
-                ft={
-                  <SegmentedControl
-                    style={this.styles.segmentedControl}
-                    size={12}
-                    values={transitionDS}
-                    selectedIndex={MODEL_SETTING_TRANSITION.data.findIndex(
-                      item => item.value === transition
-                    )}
-                    onValueChange={this.setTransition}
-                  />
-                }
-              >
-                <Heatmap
-                  id='设置.切换'
-                  data={{
-                    title: '切页动画'
-                  }}
-                />
-              </ItemSetting>
-            )}
             <ItemSetting
-              hd='图片质量'
+              show={!this.simple && !IOS}
+              hd='切页动画*'
+              ft={
+                <SegmentedControl
+                  style={this.styles.segmentedControl}
+                  size={12}
+                  values={transitionDS}
+                  selectedIndex={MODEL_SETTING_TRANSITION.data.findIndex(
+                    item => item.value === transition
+                  )}
+                  onValueChange={this.setTransition}
+                />
+              }
+            >
+              <Heatmap
+                id='设置.切换'
+                data={{
+                  title: '切页动画'
+                }}
+              />
+            </ItemSetting>
+            <ItemSetting
+              show={!this.simple}
+              hd='图片质量*'
               ft={
                 <SegmentedControl
                   style={this.styles.segmentedControl}
@@ -953,12 +931,7 @@ class Setting extends React.Component {
   }
 
   renderHome() {
-    const {
-      homeSorting,
-      homeLayout,
-      showGame
-      // itemShadow
-    } = systemStore.setting
+    const { homeSorting, homeLayout, showGame } = systemStore.setting
     return (
       <>
         {this.renderSection('首页收藏')}
@@ -1030,25 +1003,6 @@ class Setting extends React.Component {
             }}
           />
         </ItemSetting>
-        {/* {!IOS && MODEL_SETTING_HOME_LAYOUT.getLabel(homeLayout) === '列表' && (
-          <ItemSetting
-            hd='首页阴影'
-            ft={
-              <SwitchPro
-                style={this.styles.switch}
-                value={itemShadow}
-                onSyncPress={() => {
-                  t('设置.切换', {
-                    title: '首页阴影',
-                    checked: !itemShadow
-                  })
-
-                  systemStore.switchSetting('itemShadow')
-                }}
-              />
-            }
-          />
-        )} */}
       </>
     )
   }
@@ -1084,7 +1038,6 @@ class Setting extends React.Component {
     const { navigation } = this.props
     const { contact } = this.state
     const { advance } = systemStore
-    // const { source } = systemStore.setting
     return (
       <>
         {this.renderSection('联系', 'contact')}
@@ -1150,32 +1103,29 @@ class Setting extends React.Component {
                 }}
               />
             </ItemSetting>
-            {!userStore.isLimit && (
-              <ItemSetting
-                hd='投食🍚'
-                arrow
-                highlight
-                information={
-                  advance && '已收到巨款，您已成为高级会员，感谢支持'
-                }
-                informationType='success'
-                onPress={() => {
-                  t('设置.跳转', {
-                    to: 'Qiafan'
-                  })
+            <ItemSetting
+              show={!userStore.isLimit}
+              hd='投食🍚'
+              arrow
+              highlight
+              information={advance && '已收到巨款，您已成为高级会员，感谢支持'}
+              informationType='success'
+              onPress={() => {
+                t('设置.跳转', {
+                  to: 'Qiafan'
+                })
 
-                  navigation.push('Qiafan')
+                navigation.push('Qiafan')
+              }}
+            >
+              <Heatmap
+                id='设置.跳转'
+                data={{
+                  to: 'Qiafan',
+                  alias: '投食'
                 }}
-              >
-                <Heatmap
-                  id='设置.跳转'
-                  data={{
-                    to: 'Qiafan',
-                    alias: '投食'
-                  }}
-                />
-              </ItemSetting>
-            )}
+              />
+            </ItemSetting>
           </>
         )}
       </>
@@ -1295,6 +1245,15 @@ class Setting extends React.Component {
         >
           <Heatmap id='设置.退出登陆' />
         </ItemSetting>
+        <Flex style={_.mt.md} justify='center'>
+          <IconTouchable
+            style={{
+              opacity: 0
+            }}
+            name='more'
+            onPress={() => navigation.push('DEV')}
+          />
+        </Flex>
       </>
     )
   }
