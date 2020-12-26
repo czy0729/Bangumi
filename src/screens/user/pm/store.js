@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 17:35:38
+ * @Last Modified time: 2020-12-27 01:17:24
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -74,7 +74,7 @@ export default class ScreenPM extends store {
         scrollView.scrollToEnd({
           animated: false
         })
-      }, 80)
+      }, 160)
     }
   }
 

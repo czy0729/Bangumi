@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 22:36:21
+ * @Last Modified time: 2020-12-27 01:00:21
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -81,6 +81,7 @@ class ItemTimeline extends React.Component {
           <Katakana
             key={item || index}
             type={isSubject ? 'main' : 'title'}
+            lineHeight={14}
             bold={isSubject}
             onPress={() =>
               this.appNavigate(
@@ -96,7 +97,7 @@ class ItemTimeline extends React.Component {
           >
             {isSubject ? findSubjectCn(item, subjectId) : item}
           </Katakana>,
-          <Text key={`${item}.`} type='sub'>
+          <Text key={`${item}.`} lineHeight={14} type='sub'>
             、
           </Text>
         )
@@ -113,6 +114,7 @@ class ItemTimeline extends React.Component {
       $p3 = (
         <Katakana
           type={isSubject ? 'main' : 'title'}
+          lineHeight={14}
           bold={isSubject}
           onPress={() =>
             this.appNavigate(
@@ -146,11 +148,12 @@ class ItemTimeline extends React.Component {
     }
 
     return (
-      <Text>
+      <Text lineHeight={14}>
         {!!p1.text && (
           <Name
             userId={this.userId}
             type='title'
+            lineHeight={14}
             bold
             onPress={() =>
               this.appNavigate(p1.url, {
@@ -162,9 +165,17 @@ class ItemTimeline extends React.Component {
             {p1.text}
           </Name>
         )}
-        <Text type='sub'> {p2.text} </Text>
+        <Text type='sub' lineHeight={14}>
+          {' '}
+          {p2.text}{' '}
+        </Text>
         {this.renderP3()}
-        {!!p4.text && <Text type='sub'> {p4.text}</Text>}
+        {!!p4.text && (
+          <Text type='sub' lineHeight={14}>
+            {' '}
+            {p4.text}
+          </Text>
+        )}
       </Text>
     )
   }

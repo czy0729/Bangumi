@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 03:15:52
+ * @Last Modified time: 2020-12-27 01:31:12
  */
 import React from 'react'
-import { View } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { ScrollView, FixedTextarea, Flex, Heatmap } from '@components'
+import { FixedTextarea, Flex, Heatmap } from '@components'
 import { NavigationBarEvents, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -75,7 +75,7 @@ class Say extends React.Component {
 
     setTimeout(() => {
       $.scrollToBottom(this.scrollView)
-    }, 0)
+    }, 160)
 
     hm(
       $.isNew

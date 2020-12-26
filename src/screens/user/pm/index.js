@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 17:38:38
+ * @Last Modified time: 2020-12-27 01:31:21
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-import { ScrollView, FixedTextarea, Input, Text, Loading } from '@components'
+import { FixedTextarea, Input, Text, Loading } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import Chat from './chat'

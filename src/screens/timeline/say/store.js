@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 03:04:39
+ * @Last Modified time: 2020-12-27 01:16:59
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -133,7 +133,7 @@ export default class ScreenSay extends store {
         scrollView.scrollToEnd({
           animated: false
         })
-      }, 200)
+      }, 80)
     }
   }
 
