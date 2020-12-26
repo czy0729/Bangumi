@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-20 17:25:16
+ * @Last Modified time: 2020-12-26 22:41:38
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -76,6 +76,7 @@ export const INIT_SETTING = {
   isBlockDefaultUser: false, // 是否屏蔽默认头像用户帖子
   blockGroups: [], // 屏蔽的小组
   blockUserIds: [], // 屏蔽的用户 `${userName}@${userId}`
+  filterDelete: true, // 过滤用户删除的楼层
   isMarkOldTopic: true, // 标记坟贴
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧') // 帖子楼层滚动导航条方向
 }

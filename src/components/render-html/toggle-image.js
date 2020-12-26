@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 01:02:04
+ * @Last Modified time: 2020-12-26 22:23:47
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { _ } from '@stores'
+import { open } from '@utils'
 import Flex from '../flex'
 import Image from '../image'
 import Touchable from '../touchable'
@@ -51,7 +52,7 @@ class ToggleImage extends React.Component {
             direction='column'
             justify='center'
           >
-            <Text size={12} type='sub'>
+            <Text size={10} type='sub'>
               框架暂不支持webp图片, 使用浏览器打开
             </Text>
             {isRemote && (
@@ -73,14 +74,18 @@ class ToggleImage extends React.Component {
     const { show, loaded } = this.state
     if (!show) {
       return (
-        <Touchable style={this.styles.image} onPress={this.toggleShow}>
+        <Touchable
+          style={this.styles.image}
+          onPress={this.toggleShow}
+          onLongPress={() => open(src)}
+        >
           <Flex
             style={this.styles.imagePlaceholder}
             direction='column'
             justify='center'
           >
-            <Text size={12} type='sub'>
-              点击显示图片
+            <Text size={10} type='sub'>
+              点击显示图片，长按浏览器打开
             </Text>
             {isRemote && (
               <Text
@@ -109,6 +114,7 @@ class ToggleImage extends React.Component {
           <Touchable
             style={this.styles.closeImageWrap}
             onPress={this.toggleShow}
+            onLongPress={() => open(src)}
           >
             <Flex style={this.styles.closeImage} justify='center'>
               <Iconfont size={13} name='close' color={_.__colorPlain__} />
@@ -139,7 +145,7 @@ class ToggleImage extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   image: {
-    marginVertical: _.xs
+    marginVertical: _.sm
   },
   loading: {
     width: 32,
@@ -147,7 +153,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   imagePlaceholder: {
     width: '100%',
-    height: 106,
+    height: 96,
     borderWidth: 1,
     borderColor: _.colorBorder
   },

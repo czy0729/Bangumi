@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 20:24:02
+ * @Last Modified time: 2020-12-26 22:19:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -320,6 +320,11 @@ class RenderHtml extends React.Component {
         /<div class="quote"><q>/g,
         '<div class="quote"><q style="font-size: 12px; line-height: 16px">'
       )
+
+      /**
+       * 去除图片之间的br
+       */
+      _html = _html.replace(/<br><img/g, '<img')
 
       return HTMLDecode(_html)
     } catch (error) {

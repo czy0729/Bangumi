@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:36:59
+ * @Last Modified time: 2020-12-26 22:47:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -99,10 +99,27 @@ class RakuenSetting extends React.Component {
   }
 
   renderList() {
-    const { isBlockDefaultUser, isMarkOldTopic } = rakuenStore.setting
+    const { filterDelete, isBlockDefaultUser, isMarkOldTopic } = rakuenStore.setting
     return (
       <>
         {this.renderSection('列表')}
+        <ItemSetting
+          hd='过滤用户删除的楼层'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={filterDelete}
+              onSyncPress={() => {
+                t('超展开设置.切换', {
+                  title: '过滤删除',
+                  checked: !filterDelete
+                })
+                rakuenStore.switchFilterDelete()
+              }}
+            />
+          }
+          withoutFeedback
+        />
         <ItemSetting
           hd='屏蔽疑似广告姬'
           ft={

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 01:10:18
+ * @Last Modified time: 2020-12-26 22:49:03
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -43,6 +43,10 @@ function ItemSub(
   { $, navigation }
 ) {
   const msg = removeHTMLTag(decoder(message))
+  if ($.filterDelete && msg.includes('内容已被用户删除')) {
+    return null
+  }
+
   if (msg.length <= 10 && msg.includes('+1')) {
     return (
       <ItemPlusOne
@@ -141,7 +145,7 @@ function ItemSub(
             <Flex style={styles.quoteUserRound}>
               <Avatar
                 navigation={navigation}
-                size={16}
+                size={13}
                 userId={quoteUser.userId}
                 name={quoteUser.userName}
                 src={quoteUser.avatar}
@@ -235,10 +239,9 @@ const memoStyles = _.memoStyles(_ => ({
   quoteUserRound: {
     position: 'absolute',
     top: 10,
-    left: 6,
+    left: 10,
     zIndex: 1,
     padding: 2,
-    paddingRight: 4,
     backgroundColor: _.colorBg
   }
 }))

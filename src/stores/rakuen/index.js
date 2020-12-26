@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-22 20:27:30
+ * @Last Modified time: 2020-12-26 22:46:11
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -663,6 +663,21 @@ class Rakuen extends store {
       [key]: {
         ...this.setting,
         quote: !quote
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 切换`过滤用户删除的楼层`
+   */
+  switchFilterDelete = () => {
+    const { filterDelete } = this.setting
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        filterDelete: !filterDelete
       }
     })
     this.setStorage(key, undefined, NAMESPACE)

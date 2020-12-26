@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:33:11
+ * @Last Modified time: 2020-12-26 22:42:43
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -13,6 +13,7 @@ import { Avatar, Name } from '@screens/_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
 import { appNavigate } from '@utils/app'
+import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, EVENT } from '@constants'
 import ItemSub from './item-sub'
 
@@ -41,6 +42,11 @@ function Item(
   },
   { $, navigation }
 ) {
+  const msg = decoder(message)
+  if ($.filterDelete && msg.includes('内容已被用户删除')) {
+    return null
+  }
+
   const styles = memoStyles()
   const { expands } = $.state
   const isExpand =

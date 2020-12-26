@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:47:32
+ * @Last Modified time: 2020-12-26 22:42:33
  */
 import { observable, computed } from 'mobx'
 import {
@@ -273,6 +273,10 @@ export default class ScreenTopic extends store {
 
   @computed get isLimit() {
     return userStore.isLimit
+  }
+
+  @computed get filterDelete() {
+    return rakuenStore.setting.filterDelete
   }
 
   /**
