@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 14:01:52
+ * @Last Modified time: 2020-12-26 20:23:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Progress, Modal } from '@ant-design/react-native'
 import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
-import { Eps, Cover } from '@screens/_'
+import { Eps, Cover, Popover } from '@screens/_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
@@ -131,6 +131,30 @@ class Item extends React.Component {
     return index === 1
   }
 
+  renderBtnOrigin() {
+    const { $ } = this.context
+    if (!$.homeOrigin) {
+      return null
+    }
+
+    const { subjectId, subject } = this.props
+    const { type } = subject
+    if (type !== 2 && type !== 6) {
+      return null
+    }
+
+    return (
+      <Popover
+        style={this.styles.touchable}
+        data={$.onlineOrigins(subjectId)}
+        onSelect={label => $.onlinePlaySelected(label, subjectId)}
+      >
+        <Iconfont style={this.styles.icon} name='xin-fan' size={18} />
+        <Heatmap right={55} bottom={-7} id='首页.搜索源' />
+      </Popover>
+    )
+  }
+
   renderBtnNextEp() {
     const { $ } = this.context
     const { subjectId } = this.props
@@ -140,7 +164,10 @@ class Item extends React.Component {
     }
 
     return (
-      <Touchable style={this.styles.touchable} onPress={this.onCheckPress}>
+      <Touchable
+        style={$.homeOrigin ? this.styles.touchableNext : this.styles.touchable}
+        onPress={this.onCheckPress}
+      >
         <Flex justify='center'>
           <Iconfont style={this.styles.icon} name='check' size={18} />
           <View style={[this.styles.placeholder, _.ml.sm]}>
@@ -156,6 +183,7 @@ class Item extends React.Component {
     const { subject } = this.props
     return (
       <Flex style={this.styles.toolBar}>
+        {this.renderBtnOrigin()}
         {this.renderBtnNextEp()}
         <Touchable
           style={[this.styles.touchable, _.ml.sm]}
@@ -263,6 +291,8 @@ class Item extends React.Component {
     const type = MODEL_SUBJECT_TYPE.getTitle(subject.type)
     const isBook = type === '书籍'
     const doing = isBook ? '读' : '看'
+
+    $.onlineOrigins(subjectId)
     return (
       <View
         style={[
@@ -484,6 +514,10 @@ const memoStyles = _.memoStyles(_ => ({
   touchable: {
     paddingLeft: _.sm,
     paddingRight: _.sm + 2
+  },
+  touchableNext: {
+    paddingLeft: _.sm,
+    paddingRight: 2
   },
   placeholder: {
     marginBottom: -1.5

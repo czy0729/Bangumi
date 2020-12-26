@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 14:25:53
+ * @Last Modified time: 2020-12-26 17:04:46
  */
 import { Platform } from 'react-native'
 
@@ -269,3 +269,19 @@ export const DATA_BROWSER_MONTH = [
 // decimal
 export const B = 100000000
 export const M = 10000
+
+// source
+export const SITES = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
+export const SITES_DS = [
+  'acfun',
+  'bilibili',
+  'sohu',
+  'youku',
+  'qq',
+  'iqiyi',
+  'letv',
+  'pptv',
+  'mgtv',
+  'nicovideo',
+  'netflix'
+]

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:19:29
+ * @Last Modified time: 2020-12-26 19:17:38
  */
 
 /**
@@ -127,6 +127,7 @@ export default {
   '首页.管理收藏': 'Home.doUpdateCollection',
   '首页.章节菜单操作': 'Home.doEpsSelect',
   '首页.章节按钮长按': 'Home.doEpsLongPress',
+  '首页.搜索源': 'Home.searchEp',
 
   // 人物
   '人物.跳转': 'Mono.to',

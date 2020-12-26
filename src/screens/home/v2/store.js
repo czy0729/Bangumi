@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:21:30
+ * @Last Modified time: 2020-12-26 20:21:48
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -15,11 +15,14 @@ import {
   systemStore
 } from '@stores'
 import { Eps } from '@screens/_'
+import { open } from '@utils'
 import { t, queue } from '@utils/fetch'
-import { x18, appNavigate, getCoverMedium } from '@utils/app'
+import { x18, appNavigate, getCoverMedium, getBangumiUrl } from '@utils/app'
 import store from '@utils/store'
+import { HTMLDecode } from '@utils/html'
 import { feedback } from '@utils/ui'
-import { IOS, DEV } from '@constants'
+import { find } from '@utils/anime'
+import { IOS, DEV, SITES_DS } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_EP_STATUS,
@@ -27,6 +30,8 @@ import {
   MODEL_COLLECTIONS_ORDERBY,
   MODEL_SETTING_HOME_SORTING
 } from '@constants/model'
+import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS } from '@constants/site'
+import bangumiData from '@constants/json/bangumi-data-mini.json'
 
 const tabs = [
   {
@@ -189,6 +194,10 @@ export default class ScreenHomeV2 extends store {
 
   @computed get homeSorting() {
     return systemStore.setting.homeSorting
+  }
+
+  @computed get homeOrigin() {
+    return systemStore.setting.homeOrigin
   }
 
   @computed get itemShadow() {
@@ -421,6 +430,45 @@ export default class ScreenHomeV2 extends store {
       return day === 7
         ? item.weekDayCN === 1 || item.weekDayJP === 1
         : item.weekDayCN === day + 1 || item.weekDayJP === day + 1
+    }).get()
+  }
+
+  /**
+   * bangumi-data数据扩展
+   * @param {*} subjectId
+   */
+  bangumiInfo(subjectId) {
+    return computed(() => {
+      const { name_cn, name } = this.subject(subjectId)
+      return (
+        bangumiData.items.find(
+          item =>
+            item.title === HTMLDecode(name_cn) ||
+            item.title === HTMLDecode(name)
+        ) || {}
+      )
+    }).get()
+  }
+
+  onlineOrigins(subjectId) {
+    return computed(() => {
+      const { type } = this.subject(subjectId)
+      const bangumiInfo = this.bangumiInfo(subjectId)
+      const { sites = [] } = bangumiInfo
+      const _data = []
+      const data = [
+        ..._data,
+        ...sites
+          .filter(item => SITES_DS.includes(item.site))
+          .map(item => item.site)
+      ]
+      if (type === 2) {
+        data.push('AGE动漫', '迅播动漫')
+      }
+      if (type === 6) {
+        data.push('人人影视')
+      }
+      return data
     }).get()
   }
 
@@ -658,6 +706,63 @@ export default class ScreenHomeV2 extends store {
         index: 0,
         viewOffset: 8000
       })
+    }
+  }
+
+  /**
+   * 在线源头选择
+   * @params {*} label
+   */
+  onlinePlaySelected = (label, subjectId) => {
+    const { name_cn, name, type } = this.subject(subjectId)
+    const cn = HTMLDecode(name_cn || name)
+    t('首页.搜索源', {
+      type: label,
+      subjectId,
+      subjectType: type
+    })
+
+    try {
+      const bangumiInfo = this.bangumiInfo(subjectId)
+      const { sites = [] } = bangumiInfo
+      let item
+      let url
+      switch (label) {
+        case 'AGE动漫':
+          if (find(subjectId).aid) {
+            url = `${SITE_AGEFANS()}/detail/${find(subjectId).aid}`
+          } else {
+            url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(
+              cn
+            )}&page=1`
+          }
+          break
+
+        case '迅播动漫':
+          url = `${SITE_XUNBO()}/search.php?searchword=${encodeURIComponent(
+            cn
+          )}`
+          break
+
+        case '人人影视':
+          url = `${SITE_RRYS()}/search?keyword=${encodeURIComponent(
+            cn
+          )}&type=resource`
+          break
+
+        default:
+          item = sites.find(item => item.site === label)
+          if (item) {
+            url = getBangumiUrl(item)
+          }
+          break
+      }
+
+      if (url) {
+        open(url)
+      }
+    } catch (error) {
+      warn(namespace, 'onlinePlaySelected', error)
     }
   }
 

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 04:56:33
+ * @Last Modified time: 2020-12-26 20:30:39
  */
 import { xhrCustom as xhr } from './fetch'
 import { log } from './dev'
@@ -34,7 +34,7 @@ export async function oauth() {
       method: 'POST',
       url: 'https://gitee.com/oauth/token',
       data: oauthData,
-      log: false
+      showLog: false
     })
     const { access_token } = JSON.parse(res._response)
     accessToken = access_token
@@ -58,7 +58,7 @@ export async function read({ path }) {
       const res = await xhr({
         method: 'GET',
         url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
-        log: false
+        showLog: false
       })
       const { sha, content } = JSON.parse(res._response)
       if (!sha) {
@@ -93,7 +93,7 @@ export async function add({ path, content, message }) {
         content: Base64.btoa(content),
         message: message || `add ${path}`
       },
-      log: false
+      showLog: false
     })
     const data = JSON.parse(res._response)
 
@@ -136,7 +136,7 @@ export async function update({ path, content, sha, message }) {
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
       },
-      log: false
+      showLog: false
     })
     const data = JSON.parse(res._response)
     if (!data?.content?.sha) {

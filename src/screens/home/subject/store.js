@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 01:26:20
+ * @Last Modified time: 2020-12-26 18:18:10
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -32,7 +32,13 @@ import store from '@utils/store'
 import { feedback, info, showActionSheet } from '@utils/ui'
 import { find } from '@utils/anime'
 import { init as initWenku, find as findWenku } from '@utils/wenku'
-import { HOST, HOST_NING_MOE, URL_DEFAULT_AVATAR } from '@constants'
+import {
+  HOST,
+  HOST_NING_MOE,
+  URL_DEFAULT_AVATAR,
+  SITES,
+  SITES_DS
+} from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS, SITE_WK8 } from '@constants/site'
@@ -47,20 +53,6 @@ const initRating = {
   score: '',
   total: ''
 }
-const sites = ['bilibili', 'qq', 'iqiyi', 'acfun', 'youku']
-const sitesDS = [
-  'acfun',
-  'bilibili',
-  'sohu',
-  'youku',
-  'qq',
-  'iqiyi',
-  'letv',
-  'pptv',
-  'mgtv',
-  'nicovideo',
-  'netflix'
-]
 const excludeState = {
   visible: false, // 是否显示管理模态框
   showHeaderTitle: false,
@@ -232,10 +224,10 @@ export default class ScreenSubject extends store {
         const epsData = {
           _loaded: getTimestamp()
         }
-        sites.forEach(item => (epsData[item] = {}))
+        SITES.forEach(item => (epsData[item] = {}))
         JSON.parse(_response).eps.forEach((item, index) => {
           item.sites.forEach(i => {
-            if (sites.includes(i.site)) {
+            if (SITES.includes(i.site)) {
               epsData[i.site][index] = i.url
             }
           })
@@ -510,7 +502,7 @@ export default class ScreenSubject extends store {
     }
 
     const { epsData } = this.state
-    sites.forEach(item => {
+    SITES.forEach(item => {
       if (epsData[item] && Object.keys(epsData[item]).length) {
         data.push(item)
       }
@@ -549,7 +541,7 @@ export default class ScreenSubject extends store {
     const data = [
       ..._data,
       ...sites
-        .filter(item => sitesDS.includes(item.site))
+        .filter(item => SITES_DS.includes(item.site))
         .map(item => item.site)
     ]
     if (['动画'].includes(this.type)) {
@@ -1157,7 +1149,7 @@ export default class ScreenSubject extends store {
               const { eps = [] } = this.subject
               const site = this.onlinePlayActionSheetData[index]
               let epIndex
-              if (sites.includes(site)) {
+              if (SITES.includes(site)) {
                 if (isSp) {
                   url = getBangumiUrl({
                     id: item.id,

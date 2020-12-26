@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:22:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 22:59:28
+ * @Last Modified time: 2020-12-26 19:23:41
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -40,6 +40,12 @@ function Heatmaps() {
         right={_.wind + 297}
         bottom={_.bottom + 50}
         id='其他.Linking'
+        transparent
+      />
+      <Heatmap
+        right={_.wind + 297}
+        bottom={_.bottom + 85}
+        id='其他.刷新到顶'
         transparent
       />
       <Heatmap

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-23 22:23:10
+ * @Last Modified time: 2020-12-26 20:28:23
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { StatusBarEvents, Loading, ListView, UM, Heatmap } from '@components'
+import { StatusBarEvents, ListView, UM, Heatmap } from '@components'
 import { IconTabBar, IconPortal } from '@screens/_'
 import { _ } from '@stores'
 import { inject, observer } from '@utils/decorators'
@@ -44,28 +44,23 @@ class Discovery extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { _loaded } = $.home
     const { isFocused } = this.props
     return (
       <View style={_.select(_.container._plain, _.container.bg)}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
-        {_loaded ? (
-          <ListView
-            ref={$.connectRef}
-            style={styles.listView}
-            contentContainerStyle={styles.contentContainerStyle}
-            keyExtractor={keyExtractor}
-            data={$.state.home}
-            ListHeaderComponent={this.ListHeaderComponent}
-            renderItem={renderItem}
-            scrollToTop={isFocused}
-            onHeaderRefresh={$.init}
-            onFooterRefresh={$.fetchHome}
-          />
-        ) : (
-          <Loading style={_.container.flex} />
-        )}
+        <ListView
+          ref={$.connectRef}
+          style={styles.listView}
+          contentContainerStyle={styles.contentContainerStyle}
+          keyExtractor={keyExtractor}
+          data={$.state.home}
+          ListHeaderComponent={this.ListHeaderComponent}
+          renderItem={renderItem}
+          scrollToTop={isFocused}
+          onHeaderRefresh={$.init}
+          onFooterRefresh={$.fetchHome}
+        />
         {isFocused && (
           <IconPortal index={0} onPress={$.onRefreshThenScrollTop} />
         )}

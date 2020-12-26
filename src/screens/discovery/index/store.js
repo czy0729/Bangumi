@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:21:13
+ * @Last Modified time: 2020-12-26 20:25:44
  */
 import { observable, computed } from 'mobx'
 import {
@@ -52,7 +52,7 @@ export default class ScreenDiscovery extends store {
 
     const { setting } = systemStore
     if (setting.cdn) {
-      await calendarStore.fetchHomeFromCDN()
+      calendarStore.fetchHomeFromCDN()
     }
 
     setTimeout(() => {

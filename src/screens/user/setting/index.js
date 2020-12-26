@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 16:16:44
+ * @Last Modified time: 2020-12-26 16:22:22
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -375,7 +375,9 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information={'建议开启，针对静态数据使用CDN快照加速渲染\n*表示不建议修改设置，同后'}
+              information={
+                '建议开启，针对静态数据使用CDN快照加速渲染\n*表示不建议修改设置，同后'
+              }
             >
               <Heatmap
                 id='设置.切换'
@@ -931,7 +933,12 @@ class Setting extends React.Component {
   }
 
   renderHome() {
-    const { homeSorting, homeLayout, showGame } = systemStore.setting
+    const {
+      homeSorting,
+      homeLayout,
+      homeOrigin,
+      showGame
+    } = systemStore.setting
     return (
       <>
         {this.renderSection('首页收藏')}
@@ -975,6 +982,30 @@ class Setting extends React.Component {
             id='设置.切换'
             data={{
               title: '首页布局'
+            }}
+          />
+        </ItemSetting>
+        <ItemSetting
+          hd='显示搜索源头按钮'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={homeOrigin}
+              onSyncPress={() => {
+                t('设置.切换', {
+                  title: '显示搜索源头按钮',
+                  checked: !homeOrigin
+                })
+
+                systemStore.switchSetting('homeOrigin')
+              }}
+            />
+          }
+        >
+          <Heatmap
+            id='设置.切换'
+            data={{
+              title: '显示游戏'
             }}
           />
         </ItemSetting>
