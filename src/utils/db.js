@@ -4,8 +4,9 @@
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:30:39
+ * @Last Modified time: 2020-12-27 02:40:58
  */
+import Constants from 'expo-constants'
 import { xhrCustom as xhr } from './fetch'
 import { log } from './dev'
 import Base64 from './thirdParty/base64'
@@ -22,6 +23,7 @@ const repoData = {
 }
 
 let accessToken = ''
+let ua = ''
 const files = {}
 
 /**
@@ -29,21 +31,24 @@ const files = {}
  * https://gitee.com/api/v5/oauth_doc#/list-item-2
  */
 export async function oauth() {
-  try {
-    const res = await xhr({
-      method: 'POST',
-      url: 'https://gitee.com/oauth/token',
-      data: oauthData,
-      showLog: false
-    })
-    const { access_token } = JSON.parse(res._response)
-    accessToken = access_token
-    log(`🗃  oauth ${access_token}`)
-    return accessToken
-  } catch (error) {
-    warn('utils/db', 'oauth', error)
-    return false
+  if (!ua) {
+    ua = await Constants.getWebViewUserAgentAsync()
   }
+
+  const res = await xhr({
+    method: 'POST',
+    url: 'https://gitee.com/oauth/token',
+    data: oauthData,
+    headers: {
+      'User-Agent': ua,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    showLog: false
+  })
+  const { access_token } = JSON.parse(res._response)
+  accessToken = access_token
+  log(`🗃  oauth ${access_token}`)
+  return accessToken
 }
 
 /**
@@ -53,30 +58,32 @@ export async function oauth() {
  * @param {*} path
  */
 export async function read({ path }) {
-  try {
-    if (!files[path]) {
-      const res = await xhr({
-        method: 'GET',
-        url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
-        showLog: false
-      })
-      const { sha, content } = JSON.parse(res._response)
-      if (!sha) {
-        return {}
-      }
-
-      files[path] = {
-        sha,
-        content: Base64.atob(content)
-      }
-      log(`🗃  read ${path}`)
+  if (!files[path]) {
+    if (!ua) {
+      ua = await Constants.getWebViewUserAgentAsync()
     }
 
-    return files[path]
-  } catch (error) {
-    warn('utils/db', 'read', error)
-    return {}
+    const res = await xhr({
+      method: 'GET',
+      url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
+      headers: {
+        'User-Agent': ua
+      },
+      showLog: false
+    })
+    const { sha, content } = JSON.parse(res._response)
+    if (!sha) {
+      return {}
+    }
+
+    files[path] = {
+      sha,
+      content: Base64.atob(content)
+    }
+    log(`🗃  read ${path}`)
   }
+
+  return files[path]
 }
 
 /**
@@ -84,34 +91,37 @@ export async function read({ path }) {
  * https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
  */
 export async function add({ path, content, message }) {
-  try {
-    const res = await xhr({
-      method: 'POST',
-      url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
-      data: {
-        access_token: accessToken,
-        content: Base64.btoa(content),
-        message: message || `add ${path}`
-      },
-      showLog: false
-    })
-    const data = JSON.parse(res._response)
+  if (!ua) {
+    ua = await Constants.getWebViewUserAgentAsync()
+  }
 
-    if (!data?.content?.sha) {
-      return false
-    }
+  const res = await xhr({
+    method: 'POST',
+    url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
+    data: {
+      access_token: accessToken,
+      content: Base64.btoa(content),
+      message: message || `add ${path}`
+    },
+    headers: {
+      'User-Agent': ua,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    showLog: false
+  })
+  const data = JSON.parse(res._response)
 
-    files[path] = {
-      sha: data.content.sha,
-      content
-    }
-
-    log(`🗃  add ${path}`)
-    return files[path]
-  } catch (error) {
-    warn('utils/db', 'add', error)
+  if (!data?.content?.sha) {
     return false
   }
+
+  files[path] = {
+    sha: data.content.sha,
+    content
+  }
+
+  log(`🗃  add ${path}`)
+  return files[path]
 }
 
 /**
@@ -119,41 +129,41 @@ export async function add({ path, content, message }) {
  * https://gitee.com/api/v5/swagger#/putV5ReposOwnerRepoContentsPath
  */
 export async function update({ path, content, sha, message }) {
-  try {
-    if (content === files[path].content) {
-      return files[path]
-    }
-
-    const res = await xhr({
-      method: 'PUT',
-      url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
-      data: {
-        access_token: accessToken,
-        content: Base64.btoa(content),
-        sha,
-        message: message || `update ${path}`
-      },
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      },
-      showLog: false
-    })
-    const data = JSON.parse(res._response)
-    if (!data?.content?.sha) {
-      return false
-    }
-
-    files[path] = {
-      sha: data.content.sha,
-      content
-    }
-
-    log(`🗃  update ${path}`)
+  if (content === files[path].content) {
     return files[path]
-  } catch (error) {
-    warn('utils/db', 'update', error)
+  }
+
+  if (!ua) {
+    ua = await Constants.getWebViewUserAgentAsync()
+  }
+
+  const res = await xhr({
+    method: 'PUT',
+    url: `https://gitee.com/api/v5/repos/${repoData.owner}/${repoData.repo}/contents/${path}`,
+    data: {
+      access_token: accessToken,
+      content: Base64.btoa(content),
+      sha,
+      message: message || `update ${path}`
+    },
+    headers: {
+      'User-Agent': ua,
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    showLog: false
+  })
+  const data = JSON.parse(res._response)
+  if (!data?.content?.sha) {
     return false
   }
+
+  files[path] = {
+    sha: data.content.sha,
+    content
+  }
+
+  log(`🗃  update ${path}`)
+  return files[path]
 }
 
 /**
