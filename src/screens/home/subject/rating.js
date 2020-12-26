@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 12:10:48
+ * @Last Modified time: 2020-12-27 00:45:56
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { open, toFixed } from '@utils'
 import { t } from '@utils/fetch'
 
@@ -50,38 +50,43 @@ class Ranting extends React.Component {
   }
 
   renderTitle() {
+    const { showRating } = systemStore.setting
     const { $ } = this.context
     const { rank = '-' } = $.subject
     return (
       <SectionTitle
         right={
-          <Touchable
-            onPress={() => {
-              t('条目.跳转', {
-                to: 'Netabare',
-                from: '评分分布',
-                subjectId: $.subjectId
-              })
-              open(`https://netaba.re/subject/${$.subjectId}`)
-            }}
-          >
-            <Flex>
-              {this.showScore && (
-                <Text type='sub' bold>
-                  #{rank}{' '}
-                </Text>
-              )}
-              <Text type='sub'>趋势</Text>
-              <Iconfont name='right' size={16} />
-            </Flex>
-            <Heatmap
-              id='条目.跳转'
-              data={{
-                from: '评分分布'
+          showRating && (
+            <Touchable
+              onPress={() => {
+                t('条目.跳转', {
+                  to: 'Netabare',
+                  from: '评分分布',
+                  subjectId: $.subjectId
+                })
+                open(`https://netaba.re/subject/${$.subjectId}`)
               }}
-            />
-          </Touchable>
+            >
+              <Flex>
+                {this.showScore && (
+                  <Text type='sub' bold>
+                    #{rank}{' '}
+                  </Text>
+                )}
+                <Text type='sub'>趋势</Text>
+                <Iconfont name='right' size={16} />
+              </Flex>
+              <Heatmap
+                id='条目.跳转'
+                data={{
+                  from: '评分分布'
+                }}
+              />
+            </Touchable>
+          )
         }
+        icon={!showRating && 'right'}
+        onPress={() => $.switchBlock('showRating')}
       >
         评分{' '}
         {this.showScore && (
@@ -213,17 +218,22 @@ class Ranting extends React.Component {
 
   render() {
     const { style } = this.props
+    const { showRating } = systemStore.setting
     return (
-      <View style={[_.container.wind, style]}>
+      <View style={[_.container.wind, style, !showRating && _.short]}>
         {this.renderTitle()}
-        {this.showScore ? (
-          this.renderRating()
-        ) : (
-          <Touchable onPress={this.setShow}>
-            <Flex style={this.styles.hideScore} justify='center'>
-              <Text>评分已隐藏, 点击显示</Text>
-            </Flex>
-          </Touchable>
+        {showRating && (
+          <View>
+            {this.showScore ? (
+              this.renderRating()
+            ) : (
+              <Touchable onPress={this.setShow}>
+                <Flex style={this.styles.hideScore} justify='center'>
+                  <Text>评分已隐藏, 点击显示</Text>
+                </Flex>
+              </Touchable>
+            )}
+          </View>
         )}
       </View>
     )

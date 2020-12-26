@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:41:54
+ * @Last Modified time: 2020-12-27 00:46:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { SectionTitle, HorizontalList } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 
 function Staff({ style }, { $, navigation }) {
@@ -18,58 +18,67 @@ function Staff({ style }, { $, navigation }) {
     return null
   }
 
+  const { showStaff } = systemStore.setting
   return (
-    <View style={style}>
+    <View style={[style, !showStaff && _.short]}>
       <SectionTitle
         style={_.container.wind}
         right={
-          <Touchable
-            onPress={() => {
-              t('条目.跳转', {
-                to: 'Persons',
-                from: '制作人员',
-                subjectId: $.subjectId
-              })
+          showStaff && (
+            <Touchable
+              onPress={() => {
+                t('条目.跳转', {
+                  to: 'Persons',
+                  from: '制作人员',
+                  subjectId: $.subjectId
+                })
 
-              navigation.push('Persons', {
-                subjectId: $.subjectId,
-                name: $.cn
-              })
-            }}
-          >
-            <Flex>
-              <Text type='sub'>更多</Text>
-              <Iconfont name='right' size={16} />
-            </Flex>
-          </Touchable>
+                navigation.push('Persons', {
+                  subjectId: $.subjectId,
+                  name: $.cn
+                })
+              }}
+            >
+              <Flex>
+                <Text type='sub'>更多</Text>
+                <Iconfont name='right' size={16} />
+              </Flex>
+            </Touchable>
+          )
         }
+        icon={!showStaff && 'right'}
+        onPress={() => $.switchBlock('showStaff')}
       >
         制作人员
       </SectionTitle>
-      <HorizontalList
-        style={_.mt.sm}
-        data={$.staff}
-        quality={false}
-        onPress={({ id, name, nameJP, _image }) => {
-          t('条目.跳转', {
-            to: 'Mono',
-            from: '制作人员',
-            subjectId: $.subjectId
-          })
-          navigation.push('Mono', {
-            monoId: `person/${id}`,
-            _name: name,
-            _jp: nameJP,
-            _image
-          })
-        }}
-      />
-      <Heatmap
-        id='条目.跳转'
-        data={{
-          from: '制作人员'
-        }}
-      />
+      {showStaff && (
+        <>
+          <HorizontalList
+            style={_.mt.sm}
+            data={$.staff}
+            quality={false}
+            onPress={({ id, name, nameJP, _image }) => {
+              t('条目.跳转', {
+                to: 'Mono',
+                from: '制作人员',
+                subjectId: $.subjectId
+              })
+              navigation.push('Mono', {
+                monoId: `person/${id}`,
+                _name: name,
+                _jp: nameJP,
+                _image
+              })
+            }}
+          />
+          <Heatmap
+            id='条目.跳转'
+            data={{
+              from: '制作人员'
+            }}
+          />
+        </>
+      )}
     </View>
   )
 }

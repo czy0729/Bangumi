@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 12:11:53
+ * @Last Modified time: 2020-12-27 00:44:10
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Heatmap } from '@components'
 import { SectionTitle, Avatar, Stars } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { URL_DEFAULT_AVATAR } from '@constants'
 
 function Recent({ style }, { $, navigation }) {
@@ -22,52 +22,64 @@ function Recent({ style }, { $, navigation }) {
   if (!_who.length) {
     return null
   }
+
+  const { showRecent } = systemStore.setting
   return (
-    <View style={style}>
-      <SectionTitle style={_.container.wind}>动态</SectionTitle>
-      <ScrollView
-        style={_.mt.md}
-        contentContainerStyle={styles.contentContainerStyle}
-        horizontal
-        showsHorizontalScrollIndicator={false}
+    <View style={[style, !showRecent && _.short]}>
+      <SectionTitle
+        style={_.container.wind}
+        icon={!showRecent && 'right'}
+        onPress={() => $.switchBlock('showRecent')}
       >
-        {_who.map(item => (
-          <Flex key={item.userId} style={styles.item}>
-            <Avatar
-              navigation={navigation}
-              userId={item.userId}
-              name={item.name}
-              src={item.avatar}
-              event={{
-                id: '条目.跳转',
-                data: {
-                  from: '用户动态',
-                  subjectId: $.subjectId
-                }
-              }}
-            />
-            <View style={_.ml.sm}>
-              <Flex>
-                <Text size={13} bold>
-                  {item.name}
-                </Text>
-                {!$.hideScore && (
-                  <Stars style={_.ml.xs} value={item.star} simple />
-                )}
+        动态
+      </SectionTitle>
+      {showRecent && (
+        <>
+          <ScrollView
+            style={_.mt.md}
+            contentContainerStyle={styles.contentContainerStyle}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          >
+            {_who.map(item => (
+              <Flex key={item.userId} style={styles.item}>
+                <Avatar
+                  navigation={navigation}
+                  userId={item.userId}
+                  name={item.name}
+                  src={item.avatar}
+                  event={{
+                    id: '条目.跳转',
+                    data: {
+                      from: '用户动态',
+                      subjectId: $.subjectId
+                    }
+                  }}
+                />
+                <View style={_.ml.sm}>
+                  <Flex>
+                    <Text size={13} bold>
+                      {item.name}
+                    </Text>
+                    {!$.hideScore && (
+                      <Stars style={_.ml.xs} value={item.star} simple />
+                    )}
+                  </Flex>
+                  <Text style={_.mt.xs} size={10} type='sub'>
+                    {item.status}
+                  </Text>
+                </View>
               </Flex>
-              <Text style={_.mt.xs} size={10} type='sub'>
-                {item.status}
-              </Text>
-            </View>
-          </Flex>
-        ))}
-      </ScrollView>
-      <Heatmap
-        id='条目.跳转'
-        data={{
-          from: '用户动态'
-        }}
-      />
+            ))}
+          </ScrollView>
+          <Heatmap
+            id='条目.跳转'
+            data={{
+              from: '用户动态'
+            }}
+          />
+        </>
+      )}
     </View>
   )
 }

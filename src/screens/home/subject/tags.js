@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:43:13
+ * @Last Modified time: 2020-12-27 00:47:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,15 +10,23 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, Flex, Text, Touchable, Heatmap } from '@components'
 import { SectionTitle, IconTouchable } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 function Tags({ style }, { $, navigation }) {
   const styles = memoStyles()
   const { tag = [] } = $.collection
+  const { showTags } = systemStore.setting
   return (
-    <View style={[_.container.wind, styles.container, style]}>
+    <View
+      style={[
+        _.container.wind,
+        showTags && styles.container,
+        style,
+        !showTags && _.short
+      ]}
+    >
       <SectionTitle
         right={
           $.isPS && (
@@ -31,10 +39,12 @@ function Tags({ style }, { $, navigation }) {
             </IconTouchable>
           )
         }
+        icon={!showTags && 'right'}
+        onPress={() => $.switchBlock('showTags')}
       >
         标签
       </SectionTitle>
-      {!!$.tags.length && (
+      {showTags && !!$.tags.length && (
         <View style={_.mt.sm}>
           <Expand moreStyle={styles.moreStyle}>
             <Flex wrap='wrap'>

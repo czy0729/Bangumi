@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 14:54:46
+ * @Last Modified time: 2020-12-27 00:48:49
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -167,6 +167,9 @@ export const scale = {
       scale: 0.64
     }
   ]
+}
+export const short = {
+  marginVertical: -md
 }
 
 // --------------------  函数 --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-14 23:24:08
+ * @Last Modified time: 2020-12-27 00:46:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, Text, Heatmap } from '@components'
 import { SectionTitle, IconTouchable } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 
 function Summary({ style }, { $ }) {
   const { _loaded } = $.subject
@@ -19,12 +19,21 @@ function Summary({ style }, { $ }) {
   }
 
   const styles = memoStyles()
+  const { showSummary } = systemStore.setting
   const { translateResult } = $.state
   const content = $.summary.replace(/\r\n\r\n/g, '\r\n')
   return (
-    <View style={[_.container.wind, styles.container, style]}>
+    <View
+      style={[
+        _.container.wind,
+        showSummary && styles.container,
+        style,
+        !showSummary && _.short
+      ]}
+    >
       <SectionTitle
         right={
+          showSummary &&
           !translateResult.length && (
             <IconTouchable
               style={styles.iconTranslate}
@@ -36,31 +45,37 @@ function Summary({ style }, { $ }) {
             </IconTouchable>
           )
         }
+        icon={!showSummary && 'right'}
+        onPress={() => $.switchBlock('showSummary')}
       >
         简介
       </SectionTitle>
-      {translateResult.length ? (
+      {showSummary && (
         <View>
-          {translateResult.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <View key={index}>
-              <Text style={_.mt.md} type='sub' selectable>
-                {item.src}
-              </Text>
-              <Text style={_.mt.sm} size={16} selectable>
-                {item.dst}
-              </Text>
+          {translateResult.length ? (
+            <View>
+              {translateResult.map((item, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <View key={index}>
+                  <Text style={_.mt.md} type='sub' selectable>
+                    {item.src}
+                  </Text>
+                  <Text style={_.mt.sm} size={16} selectable>
+                    {item.dst}
+                  </Text>
+                </View>
+              ))}
             </View>
-          ))}
+          ) : (
+            !!content && (
+              <Expand moreStyle={styles.moreStyle}>
+                <Text style={_.mt.sm} size={15} lineHeight={22} selectable>
+                  {content}
+                </Text>
+              </Expand>
+            )
+          )}
         </View>
-      ) : (
-        !!content && (
-          <Expand moreStyle={styles.moreStyle}>
-            <Text style={_.mt.sm} size={15} lineHeight={22} selectable>
-              {content}
-            </Text>
-          </Expand>
-        )
       )}
     </View>
   )

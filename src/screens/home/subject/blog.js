@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 12:14:40
+ * @Last Modified time: 2020-12-27 00:44:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Expand, Heatmap } from '@components'
 import { SectionTitle, ItemArticle } from '@screens/_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { URL_DEFAULT_AVATAR } from '@constants'
 
 function Blog({ style }, { $, navigation }) {
@@ -29,43 +29,52 @@ function Blog({ style }, { $, navigation }) {
   }
 
   const styles = memoStyles()
+  const { showBlog } = systemStore.setting
   return (
-    <View style={style}>
-      <Expand ratio={1.2}>
-        <SectionTitle style={styles.left}>日志</SectionTitle>
-        <View style={_.mt.sm}>
-          {_blog.map((item, index) => (
-            <ItemArticle
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              style={styles.left}
-              navigation={navigation}
-              index={index}
-              avatar={item.user.avatar.small}
-              title={item.title}
-              summary={item.summary}
-              nickname={item.user.nickname}
-              userId={item.user.username}
-              timestamp={item.timestamp}
-              replies={item.replies}
-              url={item.url}
-              event={{
-                id: '条目.跳转',
-                data: {
-                  from: '评论',
-                  subjectId: $.subjectId
-                }
-              }}
-            />
-          ))}
-        </View>
-      </Expand>
-      <Heatmap
-        id='条目.跳转'
-        data={{
-          from: '评论'
-        }}
-      />
+    <View style={[style, !showBlog && _.short]}>
+      <SectionTitle
+        style={styles.left}
+        icon={!showBlog && 'right'}
+        onPress={() => $.switchBlock('showBlog')}
+      >
+        日志
+      </SectionTitle>
+      {showBlog && (
+        <>
+          <Expand style={_.mt.sm} ratio={1.2}>
+            {_blog.map((item, index) => (
+              <ItemArticle
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                style={styles.left}
+                navigation={navigation}
+                index={index}
+                avatar={item.user.avatar.small}
+                title={item.title}
+                summary={item.summary}
+                nickname={item.user.nickname}
+                userId={item.user.username}
+                timestamp={item.timestamp}
+                replies={item.replies}
+                url={item.url}
+                event={{
+                  id: '条目.跳转',
+                  data: {
+                    from: '评论',
+                    subjectId: $.subjectId
+                  }
+                }}
+              />
+            ))}
+          </Expand>
+          <Heatmap
+            id='条目.跳转'
+            data={{
+              from: '评论'
+            }}
+          />
+        </>
+      )}
     </View>
   )
 }

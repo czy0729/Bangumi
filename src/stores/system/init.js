@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 16:19:08
+ * @Last Modified time: 2020-12-27 00:35:05
  */
 import { VERSION_GITHUB_RELEASE } from '@constants'
 import {
@@ -37,8 +37,6 @@ export const INIT_SETTING = {
   autoColorScheme: false, // 黑暗模式跟随系统
   coverThings: true, // 封面拟物
   showGame: false, // 首页显示游戏分类
-  showThumbs: true, // 条目页面展开预览图
-  showRelation: true, // 条目头部显示关系条目
   xsbShort: true, // 小圣杯缩短资金数字显示
   source: false, // 回复是否显示来源
   homeOrigin: false, // 首页条目显示搜索源头
@@ -46,7 +44,25 @@ export const INIT_SETTING = {
   homeSorting: MODEL_SETTING_HOME_SORTING.getValue('APP'), // 首页收藏排序
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue('进度'), // 启动页
   quality: MODEL_SETTING_QUALITY.getValue('默认'), // 图片质量
-  transition: MODEL_SETTING_TRANSITION.getValue('水平') // 切页动画
+  transition: MODEL_SETTING_TRANSITION.getValue('水平'), // 切页动画
+
+  /**
+   * 条目页面
+   */
+  showRelation: true, // 页面头部关系
+  showTags: true, // 页面标签
+  showSummary: true, // 简介
+  showInfo: true, // 简介
+  showThumbs: true, // 页面展开预览图
+  showRating: true, // 评分
+  showCharacter: true, // 角色
+  showStaff: true, // 制作人员
+  showRelations: true, // 关联
+  showCatalog: false, // 目录
+  showRecent: false, // 动态
+  showBlog: false, // 日志
+  showTopic: false, // 帖子
+  showLike: false // 猜你喜欢
 }
 
 export const INIT_DEV_EVENT = {

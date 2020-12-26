@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 19:17:38
+ * @Last Modified time: 2020-12-26 23:24:08
  */
 
 /**
@@ -163,6 +163,7 @@ export default {
   '条目.预览': 'Subject.viewThumbs',
   '条目.筛选分数': 'Subject.filterScores',
   '条目.复制标题': 'Subject.copyTitle',
+  '条目.展开收起功能块': 'Subject.switchBlock',
 
   // 章节
   '章节.跳转': 'Episodes.to',

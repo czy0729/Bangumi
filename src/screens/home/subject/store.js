@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 21:06:51
+ * @Last Modified time: 2020-12-26 23:24:55
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -651,7 +651,11 @@ export default class ScreenSubject extends store {
    * 上映时间
    */
   @computed get release() {
-    return this.info.match(/<li><span>(放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/)?.[2] || ''
+    return (
+      this.info.match(
+        /<li><span>(放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
+      )?.[2] || ''
+    )
   }
 
   // -------------------- get: cdn fallback --------------------
@@ -1092,6 +1096,18 @@ export default class ScreenSubject extends store {
       onHold,
       dropped
     })
+  }
+
+  /**
+   * 展开收起功能块
+   * @param {*} key
+   */
+  switchBlock = key => {
+    t('条目.展开收起功能块', {
+      key
+    })
+
+    systemStore.switchSetting(key)
   }
 
   // -------------------- action --------------------

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:51:13
+ * @Last Modified time: 2020-12-27 00:47:10
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Image, Heatmap } from '@components'
-import { SectionTitle, IconTouchable } from '@screens/_'
+import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
@@ -26,17 +26,11 @@ function Thumbs({ style }, { $ }) {
     headers: epsThumbsHeader
   }))
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style, !showThumbs && _.short]}>
       <SectionTitle
         style={_.container.wind}
-        right={
-          <IconTouchable
-            style={styles.icon}
-            name={showThumbs ? 'up' : 'down'}
-            size={16}
-            onPress={() => systemStore.switchSetting('showThumbs')}
-          />
-        }
+        icon={!showThumbs && 'right'}
+        onPress={() => $.switchBlock('showThumbs')}
       >
         预览
       </SectionTitle>
