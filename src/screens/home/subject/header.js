@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 14:15:03
+ * @Last Modified time: 2020-12-26 20:41:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -126,7 +126,8 @@ export default observer(Header)
 const memoStyles = _.memoStyles(_ => ({
   container: {
     position: 'relative',
-    zIndex: 0
+    zIndex: 0,
+    paddingBottom: _.sm
   },
   content: {
     minHeight: _.window.height * 0.5,

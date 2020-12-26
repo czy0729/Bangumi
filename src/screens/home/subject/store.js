@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 18:18:10
+ * @Last Modified time: 2020-12-26 21:06:51
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -645,6 +645,13 @@ export default class ScreenSubject extends store {
       })
     }
     return status
+  }
+
+  /**
+   * 上映时间
+   */
+  @computed get release() {
+    return this.info.match(/<li><span>(放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/)?.[2] || ''
   }
 
   // -------------------- get: cdn fallback --------------------

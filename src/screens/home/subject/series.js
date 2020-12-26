@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:40:47
+ * @Last Modified time: 2020-12-26 20:39:41
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -111,7 +111,7 @@ function Series({ prev, after, series, size }, { $, navigation }) {
         <IconTouchable
           style={styles.icon}
           name={showRelation ? 'up' : 'down'}
-          size={13}
+          size={16}
           onPress={() => systemStore.switchSetting('showRelation')}
         />
       </Flex>
