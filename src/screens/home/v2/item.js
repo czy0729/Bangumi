@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-02 17:30:10
+ * @Last Modified time: 2021-01-03 01:37:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -465,7 +465,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: itemPadding
   },
   content: {
-    marginLeft: itemPadding - 5
+    marginLeft: itemPadding
   },
   title: {
     minHeight: 60

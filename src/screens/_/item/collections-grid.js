@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-02 18:37:26
+ * @Last Modified time: 2021-01-03 01:45:40
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -16,12 +16,6 @@ import Tag from '../base/tag'
 import Cover from '../base/cover'
 import Stars from '../base/stars'
 
-const gridNum = 3
-const imageWidth = _.window.contentWidth * ((1 / gridNum) * 0.86)
-const imageHeight = imageWidth * 1.4
-const marginLeft =
-  (_.window.contentWidth - gridNum * imageWidth) / (gridNum + 1)
-
 function CollectionsGrid({
   style,
   navigation,
@@ -33,8 +27,12 @@ function CollectionsGrid({
   score,
   isCollect,
   collection,
-  typeCn
+  typeCn,
+  num
 }) {
+  const imageWidth = _.window.contentWidth * ((1 / num) * 0.84)
+  const imageHeight = imageWidth * 1.4
+  const marginLeft = (_.window.contentWidth - num * imageWidth) / (num + 1)
   const onPress = () => {
     const { id: eventId, data: eventData } = event
     const subjectId = String(id).replace('/subject/', '')
@@ -55,7 +53,16 @@ function CollectionsGrid({
 
   const _collection = collection || (isCollect ? '已收藏' : '')
   return (
-    <View style={[styles.item, style]}>
+    <View
+      style={[
+        {
+          width: imageWidth,
+          marginBottom: marginLeft + _.xs,
+          marginLeft
+        },
+        style
+      ]}
+    >
       <Cover
         size={imageWidth}
         height={imageHeight}
@@ -67,7 +74,7 @@ function CollectionsGrid({
       />
       {!!_collection && <Tag style={styles.collection} value={_collection} />}
       <Touchable withoutFeedback onPress={onPress}>
-        <Text style={_.mt.sm} size={12} numberOfLines={3} bold align='center'>
+        <Text style={_.mt.sm} size={11} numberOfLines={3} bold align='center'>
           {HTMLDecode(nameCn || name)}
         </Text>
         {!!score && (
@@ -81,18 +88,13 @@ function CollectionsGrid({
 }
 
 CollectionsGrid.defaultProps = {
-  event: EVENT
+  event: EVENT,
+  num: 3
 }
 
 export default observer(CollectionsGrid)
 
 const styles = StyleSheet.create({
-  item: {
-    width: imageWidth,
-    marginBottom: marginLeft - _.sm + _.xs,
-    marginLeft,
-    marginTop: _.sm
-  },
   collection: {
     position: 'absolute',
     zIndex: 1,

@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 20:51:19
+ * @Last Modified time: 2021-01-03 05:12:41
  */
 import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
+import animeData from '@constants/json/anime.json'
 import rateData from '@constants/json/rate.json'
 import { getTimestamp, getStorage, setStorage } from './index'
 import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
 
 /**
- * v4.0.0后从包抽离, 需对比版本号
+//  * v4.0.0后从包抽离, 需对比版本号
  * 若版本比OTA.VERSION_ANIME的小, 请求OTA.VERSION_STATIC数据然后替换缓存
  * 否则直接读缓存
  */
 const animeVersionKey = '@utils|anime|version'
 const animeDataKey = '@utils|anime|data'
-let anime = []
+let anime = animeData || []
 
 /**
  * 初始化番剧数据
@@ -115,10 +116,10 @@ export const ANIME_YEAR = [
 export const ANIME_BEGIN = ['1月', '4月', '7月', '10月']
 export const ANIME_STATUS = ['连载', '完结', '未播放']
 export const ANIME_TAGS = [
-  '校园',
-  '励志',
   '后宫',
   '百合',
+  '校园',
+  '励志',
   '治愈',
   '冒险',
   '战斗',
@@ -160,7 +161,7 @@ export const ANIME_TAGS = [
   '泡面番',
   '欢乐向'
 ]
-export const ANIME_SORT = ['上映时间', '评分', '随机', '名称']
+export const ANIME_SORT = ['评分', '上映时间', '随机', '名称']
 
 /**
  * 只返回下标数组对象

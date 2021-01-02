@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-02 18:38:23
+ * @Last Modified time: 2021-01-03 01:35:59
  */
 import { Platform } from 'react-native'
 
@@ -83,9 +83,9 @@ export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg' // 空头�
 export const IMG_DEFAULT = require('@assets/images/default.png') // 默认图
 export const IMG_ERROR = require('@assets/images/icon/pic-error-defult.png') // 图裂图
 
-export const IMG_WIDTH = 78
+export const IMG_WIDTH = 82
 export const IMG_HEIGHT = IMG_WIDTH * 1.4
-export const IMG_WIDTH_SM = 62
+export const IMG_WIDTH_SM = 64
 export const IMG_HEIGHT_SM = IMG_WIDTH_SM * 1.4
 export const IMG_AVATAR_WIDTH = 32
 

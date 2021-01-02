@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-26 14:42:01
+ * @Last Modified time: 2021-01-03 04:15:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { _, systemStore } from '@stores'
 
 const nums = [1, 2, 3, 4, 5]
 
-function Stars({ style, simple, value, size }) {
+function Stars({ style, simple, value, size, type }) {
   if (systemStore.setting.hideScore || !value) {
     return null
   }
@@ -21,7 +21,7 @@ function Stars({ style, simple, value, size }) {
     return (
       <Flex style={style}>
         <Iconfont name='star-full' size={size} color={_.colorWarning} />
-        <Text style={_.ml.xs} type='sub' size={size} bold>
+        <Text style={_.ml.xs} type={type} size={size} bold>
           {value}{' '}
         </Text>
       </Flex>
@@ -65,7 +65,7 @@ function Stars({ style, simple, value, size }) {
           />
         )
       })}
-      <Text style={_.ml.xs} type='sub' size={size} lineHeight={size} bold>
+      <Text style={_.ml.xs} type={type} size={size} lineHeight={size} bold>
         {value}{' '}
       </Text>
     </Flex>
@@ -75,7 +75,8 @@ function Stars({ style, simple, value, size }) {
 Stars.defaultProps = {
   simple: false,
   value: 0,
-  size: 11
+  size: 11,
+  type: 'sub'
 }
 
 export default observer(Stars)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 00:33:38
+ * @Last Modified time: 2021-01-03 02:44:33
  */
 import React from 'react'
 import {
@@ -109,7 +109,8 @@ const withHeader = ({
                 ...(_params.headerStyle || headerStyle)
               }
             : {
-                backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+                // backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+                backgroundColor: _.colorPlain,
                 borderBottomColor: _.colorBorder,
                 borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
                 elevation: 0,

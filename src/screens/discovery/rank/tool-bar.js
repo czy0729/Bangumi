@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-23 20:03:15
+ * @Last Modified time: 2021-01-03 04:07:52
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -45,94 +45,62 @@ function ToolBar(props, { $ }) {
   const isEmptyAirdate = airtime === ''
   const isEmptyMonth = month === ''
   return (
-    <Flex style={styles.container}>
-      <Flex.Item>
-        <Popover data={typeData} onSelect={$.onTypeSelect}>
-          <Flex style={styles.item} justify='center'>
-            <Text size={12} type='main'>
-              {typeCn}
-            </Text>
-            <Iconfont
-              style={_.ml.xs}
-              name='down'
-              size={10}
-              color={_.colorMain}
-            />
-          </Flex>
-          <Heatmap id='排行榜.类型选择' />
-        </Popover>
-      </Flex.Item>
+    <Flex style={styles.container} justify='center'>
+      <Popover data={typeData} onSelect={$.onTypeSelect}>
+        <Flex style={styles.item} justify='center'>
+          <Iconfont name='filter' size={12} color={_.colorMain} />
+          <Text style={_.ml.xs} size={11} type='main' bold>
+            {typeCn}
+          </Text>
+        </Flex>
+        <Heatmap id='排行榜.类型选择' />
+      </Popover>
       {typeCn !== '音乐' && (
-        <Flex.Item>
-          <Popover
-            data={filterData.data.map(item => item.label)}
-            onSelect={title => $.onFilterSelect(title, filterData)}
-          >
-            <Flex style={styles.item} justify='center'>
-              <Text size={12} type={isEmptyFilter ? 'sub' : 'main'}>
-                {filterCn === '全部' ? '类型' : filterCn}
-              </Text>
-              <Iconfont
-                style={_.ml.xs}
-                name='down'
-                size={10}
-                color={isEmptyFilter ? _.colorSub : _.colorMain}
-              />
-            </Flex>
-            <Heatmap id='排行榜.筛选选择' />
-          </Popover>
-        </Flex.Item>
+        <Popover
+          data={filterData.data.map(item => item.label)}
+          onSelect={title => $.onFilterSelect(title, filterData)}
+        >
+          <Flex style={styles.item} justify='center'>
+            <Text size={11} type={isEmptyFilter ? 'desc' : 'main'} bold>
+              {filterCn === '全部' ? '类型' : filterCn}
+            </Text>
+          </Flex>
+          <Heatmap id='排行榜.筛选选择' />
+        </Popover>
       )}
-      <Flex.Item flex={0.8}>
-        <Popover data={DATA_AIRTIME} onSelect={$.onAirdateSelect}>
-          <Flex style={styles.item} justify='center'>
-            <Text size={12} type={isEmptyAirdate ? 'sub' : 'main'}>
-              {airtime || '年'}
-            </Text>
-            <Iconfont
-              style={_.ml.xs}
-              name='down'
-              size={10}
-              color={isEmptyAirdate ? _.colorSub : _.colorMain}
-            />
-          </Flex>
-          <Heatmap id='排行榜.年选择' />
-        </Popover>
-      </Flex.Item>
-      <Flex.Item flex={0.8}>
-        <Popover data={DATA_MONTH} onSelect={$.onMonthSelect}>
-          <Flex style={styles.item} justify='center'>
-            <Text size={12} type={isEmptyMonth ? 'sub' : 'main'}>
-              {month || '月'}
-            </Text>
-            <Iconfont
-              style={_.ml.xs}
-              name='down'
-              size={10}
-              color={isEmptyMonth ? _.colorSub : _.colorMain}
-            />
-          </Flex>
-          <Heatmap id='排行榜.月选择' />
-        </Popover>
-      </Flex.Item>
-      <Flex.Item>
-        <Touchable onPress={$.toggleList}>
-          <Flex style={styles.item} justify='center'>
-            <Iconfont
-              name='list'
-              size={14}
-              color={list ? _.colorMain : undefined}
-            />
-            <Iconfont
-              style={_.ml.md}
-              name='order'
-              size={12}
-              color={!list ? _.colorMain : undefined}
-            />
-          </Flex>
-          <Heatmap id='排行榜.切换布局' />
-        </Touchable>
-      </Flex.Item>
+      <Popover data={DATA_AIRTIME} onSelect={$.onAirdateSelect}>
+        <Flex style={styles.item} justify='center'>
+          <Text size={11} type={isEmptyAirdate ? 'desc' : 'main'} bold>
+            {airtime || '年'}
+          </Text>
+        </Flex>
+        <Heatmap id='排行榜.年选择' />
+      </Popover>
+      <Popover data={DATA_MONTH} onSelect={$.onMonthSelect}>
+        <Flex style={styles.item} justify='center'>
+          <Text size={11} type={isEmptyMonth ? 'desc' : 'main'} bold>
+            {month || '月'}
+          </Text>
+        </Flex>
+        <Heatmap id='排行榜.月选择' />
+      </Popover>
+      <Touchable onPress={$.toggleList}>
+        <Flex style={styles.item} justify='center'>
+          <Iconfont
+            style={_.mr.xs}
+            name='list'
+            size={14}
+            color={list ? _.colorMain : _.colorDesc}
+          />
+          <Iconfont
+            style={_.ml.sm}
+            name='order'
+            size={13}
+            color={!list ? _.colorMain : _.colorDesc}
+          />
+        </Flex>
+        <Heatmap id='排行榜.切换布局' />
+      </Touchable>
     </Flex>
   )
 }
@@ -146,10 +114,17 @@ export default observer(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    backgroundColor: _.colorBg
+    paddingTop: 6,
+    paddingBottom: 10
   },
   item: {
-    paddingVertical: _.md - 4,
-    paddingHorizontal: _.md
+    paddingVertical: _.sm,
+    paddingHorizontal: _.md,
+    marginHorizontal: _.xs,
+    backgroundColor: _.select(
+      'rgba(238, 238, 238, 0.8)',
+      _._colorDarkModeLevel1
+    ),
+    borderRadius: 16
   }
 }))

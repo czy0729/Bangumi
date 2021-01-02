@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-16 22:05:13
+ * @Last Modified time: 2021-01-03 04:21:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Touchable, Text } from '@components'
-import { Cover, Tag } from '@screens/_'
+import { Cover, Tag, Stars } from '@screens/_'
 import { _, systemStore } from '@stores'
-import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { imageWidth, imageHeight, marginLeft } from './store'
@@ -59,7 +58,7 @@ function Item(
       </View>
       <Touchable style={_.mt.sm} withoutFeedback onPress={onPress}>
         {!!collection && <Tag style={styles.collection} value={collection} />}
-        <Text size={12} bold lineHeight={14} numberOfLines={2}>
+        <Text size={12} bold lineHeight={13} numberOfLines={2}>
           {indent}
           {HTMLDecode(name)}
         </Text>
@@ -69,11 +68,7 @@ function Item(
               {air}话
             </Text>
           )}
-          {showScore && (
-            <Text size={11} type='sub' bold>
-              {toFixed(score, 1)}{' '}
-            </Text>
-          )}
+          {showScore && <Stars simple value={score} />}
         </Flex>
       </Touchable>
     </View>

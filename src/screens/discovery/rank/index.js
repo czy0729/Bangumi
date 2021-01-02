@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-17 23:51:07
+ * @Last Modified time: 2021-01-03 02:44:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,7 @@ class Rank extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.bg}>
+      <View style={_.container.plain}>
         <ToolBar />
         {_loaded && <List />}
       </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-02 18:09:44
+ * @Last Modified time: 2021-01-03 04:09:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -133,7 +133,7 @@ class List extends React.Component {
     const { _loaded } = $.rank
     return (
       <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
-        {this.renderPagination()}
+        {/* {this.renderPagination()} */}
         {show && (
           <>
             {_loaded ? (
@@ -162,11 +162,8 @@ const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingBottom: _.bottom
   },
-  list: {
-    paddingVertical: _.md
-  },
   grid: {
-    paddingVertical: _.md,
+    paddingVertical: 12,
     paddingHorizontal: _.wind - _._wind
   },
   loading: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 21:00:43
+ * @Last Modified time: 2021-01-03 05:31:52
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -26,12 +26,12 @@ export default class ScreenAnime extends store {
       sort: ''
     },
     data: LIST_EMPTY,
+    layout: 'list', // list | grid
     _loaded: false
   })
 
   init = async () => {
     const { _loaded } = this.state
-
     const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
@@ -82,6 +82,11 @@ export default class ScreenAnime extends store {
     return collectionStore.userCollectionsMap
   }
 
+  @computed get isList() {
+    const { layout } = this.state
+    return layout === 'list'
+  }
+
   // -------------------- page --------------------
   onSelect = (type, value) => {
     const { query } = this.state
@@ -122,5 +127,20 @@ export default class ScreenAnime extends store {
 
       t('Anime.到顶')
     }
+  }
+
+  /**
+   * 切换布局
+   */
+  switchLayout = () => {
+    const _layout = this.isList ? 'grid' : 'list'
+    t('Anime.切换布局', {
+      layout: _layout
+    })
+
+    this.setState({
+      layout: _layout
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 }

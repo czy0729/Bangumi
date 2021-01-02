@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 00:58:34
+ * @Last Modified time: 2021-01-03 05:32:39
  */
 import React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Loading, Heatmap } from '@components'
+import { Flex, Loading, Heatmap } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import IconLayout from './icon-layout'
 import List from './list'
 import Store from './store'
 
@@ -41,25 +42,17 @@ class Anime extends React.Component {
 
     navigation.setParams({
       extra: (
-        <View
-          style={{
-            marginRight: -8
-          }}
-        >
+        <Flex style={styles.right}>
+          <IconLayout $={$} />
           <IconHeader
-            style={{
-              transform: [
-                {
-                  rotate: '90deg'
-                }
-              ]
-            }}
+            style={styles.top}
             size={22}
             name='arrow-left'
             onPress={$.scrollToTop}
-          />
-          <Heatmap id='Anime.到顶' />
-        </View>
+          >
+            <Heatmap id='Anime.到顶' />
+          </IconHeader>
+        </Flex>
       )
     })
 
@@ -79,3 +72,17 @@ class Anime extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  right: {
+    marginRight: -8
+  },
+  top: {
+    marginLeft: -2,
+    transform: [
+      {
+        rotate: '90deg'
+      }
+    ]
+  }
+})

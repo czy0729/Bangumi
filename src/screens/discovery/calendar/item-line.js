@@ -2,21 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 00:23:44
+ * @Last Modified time: 2021-01-03 04:17:34
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Katakana, Text } from '@components'
-import { Cover, Tag } from '@screens/_'
+import { Cover, Tag, Stars } from '@screens/_'
 import { _, systemStore } from '@stores'
-import { toFixed } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-
-const imageWidth = 72
-const imageHeight = imageWidth * 1.28
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 function ItemLine(
   { subjectId, images = {}, name, air, timeCN, score },
@@ -51,8 +48,8 @@ function ItemLine(
         </View>
         <View style={styles.image}>
           <Cover
-            width={imageWidth}
-            height={imageHeight}
+            width={IMG_WIDTH}
+            height={IMG_HEIGHT}
             src={images.medium}
             radius
             shadow
@@ -85,9 +82,7 @@ function ItemLine(
                 </Text>
               )}
               {showScore && (
-                <Text style={styles.score} type='sub' size={13} bold>
-                  {toFixed(score, 1)}{' '}
-                </Text>
+                <Stars simple value={score} type='desc' size={13} />
               )}
             </Flex>
           </Flex>
@@ -110,14 +105,15 @@ const styles = StyleSheet.create({
     paddingVertical: 12
   },
   time: {
-    width: 72
+    width: 72,
+    marginTop: 3
   },
   image: {
-    width: imageWidth
+    width: IMG_WIDTH
   },
   body: {
     width: '100%',
-    height: imageHeight - 6,
+    height: IMG_HEIGHT - 6,
     paddingTop: _.xs,
     paddingRight: _.wind
   },

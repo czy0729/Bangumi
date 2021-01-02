@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 11:32:22
+ * @Last Modified time: 2021-01-03 05:37:56
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -49,9 +49,9 @@ const filterDS = [
 
 function Filter(props, { $ }) {
   const styles = memoStyles()
-  const { query, data } = $.state
+  const { query, data, layout } = $.state
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, layout === 'grid' && _.mb.md]}>
       {filterDS.map(item => {
         const state = query[item.type]
         const all = (
@@ -116,7 +116,7 @@ function Filter(props, { $ }) {
           </Flex>
         )
       })}
-      <Text style={[styles.row, _.mt.sm]} size={10} type='sub'>
+      <Text style={[styles.row, _.mt.md]} size={10} type='sub'>
         {data.list.length} 条记录
       </Text>
     </View>

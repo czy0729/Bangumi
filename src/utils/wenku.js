@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 11:57:30
+ * @Last Modified time: 2021-01-03 05:26:50
  */
 import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
+import wenkuData from '@constants/json/wenku.json'
 import { getTimestamp, getStorage, setStorage } from './index'
 import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
@@ -79,7 +80,7 @@ export const WENKU_SORT = [
  */
 const wenkuVersionKey = '@utils|wenku|version'
 const wenkuDataKey = '@utils|wenku|data'
-let wenku = []
+let wenku = wenkuData || []
 
 /**
  * 初始化文库数据

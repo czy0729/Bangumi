@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-02 18:34:47
+ * @Last Modified time: 2021-01-03 01:43:15
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -16,7 +16,7 @@ import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
 import { tabs, H_BG } from './store'
 
-const gridNum = 3
+const gridNum = 4
 
 export default
 @observer
@@ -92,8 +92,7 @@ class List extends React.Component {
         }
         navigation={navigation}
         index={index}
-        isOnHold={isOnHold}
-        showScore
+        num={4}
         type={typeCn}
         event={event}
         {...item}

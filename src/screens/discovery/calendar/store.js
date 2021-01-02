@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:33:12
+ * @Last Modified time: 2021-01-03 04:17:56
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
@@ -13,7 +13,7 @@ const num = _.isPad ? 4 : 3
 const percent = _.isPad ? 0.22 : 0.3
 
 export const imageWidth = (_.window.width - _.wind * 2) * percent
-export const imageHeight = imageWidth * 1.28
+export const imageHeight = imageWidth * 1.4
 export const marginLeft = (_.window.contentWidth - num * imageWidth) / (num + 1)
 
 const namespace = 'ScreenCalendar'

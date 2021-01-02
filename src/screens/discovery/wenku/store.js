@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-27 11:48:38
+ * @Last Modified time: 2021-01-03 05:31:46
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -23,6 +23,7 @@ export default class ScreenWenku extends store {
       sort: ''
     },
     data: LIST_EMPTY,
+    layout: 'list', // list | grid
     _loaded: false
   })
 
@@ -59,6 +60,11 @@ export default class ScreenWenku extends store {
     return collectionStore.userCollectionsMap
   }
 
+  @computed get isList() {
+    const { layout } = this.state
+    return layout === 'list'
+  }
+
   // -------------------- page --------------------
   onSelect = (type, value) => {
     const { query } = this.state
@@ -90,5 +96,20 @@ export default class ScreenWenku extends store {
 
       t('文库.到顶')
     }
+  }
+
+  /**
+   * 切换布局
+   */
+  switchLayout = () => {
+    const _layout = this.isList ? 'grid' : 'list'
+    t('文库.切换布局', {
+      layout: _layout
+    })
+
+    this.setState({
+      layout: _layout
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 }
