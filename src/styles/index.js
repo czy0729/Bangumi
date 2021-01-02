@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:48:49
+ * @Last Modified time: 2021-01-02 17:39:58
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -80,9 +80,9 @@ export const colorWarningLight = `rgba(${colorWarningRaw.join()}, 0.1)`
 
 // -------------------- dark --------------------
 // 架高层, 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
-export const _colorDarkModeLevel1 = 'rgb(62, 62, 64)'
-export const _colorDarkModeLevel1Hex = '#3e3e40'
-export const _colorDarkModeLevel2 = 'rgb(88, 88, 90)'
+export const _colorDarkModeLevel1 = 'rgb(48, 48, 48)' // 'rgb(62, 62, 64)'
+export const _colorDarkModeLevel1Hex = '#303030' // '#3e3e40'
+export const _colorDarkModeLevel2 = 'rgb(64, 64, 64)' // 'rgb(88, 88, 90)'
 
 // 基础层
 export const _colorMain = 'rgb(254, 138, 149)'
@@ -91,9 +91,9 @@ export const _colorPrimary = 'rgb(35, 149, 233)'
 export const _colorSuccess = 'rgb(50, 209, 96)'
 export const _colorYellow = 'rgb(255, 214, 50)'
 export const _colorWarning = 'rgb(255, 160, 12)'
-export const _colorPlain = 'rgb(46, 46, 48)'
+export const _colorPlain = 'rgb(36, 36, 36)' // 'rgb(46, 46, 48)'
 export const _colorWait = 'rgb(78, 78, 80)'
-export const _colorBg = 'rgb(34, 34, 36)'
+export const _colorBg = 'rgb(24, 24, 24)' // 'rgb(34, 34, 36)'
 export const _colorBorder = 'rgba(255, 255, 255, 0.16)'
 
 // 文字

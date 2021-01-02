@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:17:03
+ * @Last Modified time: 2021-01-02 18:34:47
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -15,6 +15,8 @@ import { observer } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
 import { tabs, H_BG } from './store'
+
+const gridNum = 3
 
 export default
 @observer
@@ -80,7 +82,7 @@ class List extends React.Component {
       )
     }
 
-    const needResetMarginLeft = _.isPad && index % 4 === 0
+    const needResetMarginLeft = _.isPad && index % gridNum === 0
     return (
       <ItemCollectionsGrid
         style={
@@ -91,6 +93,7 @@ class List extends React.Component {
         navigation={navigation}
         index={index}
         isOnHold={isOnHold}
+        showScore
         type={typeCn}
         event={event}
         {...item}
@@ -117,7 +120,7 @@ class List extends React.Component {
     }
 
     const { list, page, isFocused } = $.state
-    const numColumns = list ? undefined : 4
+    const numColumns = list ? undefined : gridNum
     const index = tabs.findIndex(item => item.title === title)
     return (
       <ListView

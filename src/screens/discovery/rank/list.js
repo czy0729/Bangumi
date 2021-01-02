@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 00:06:14
+ * @Last Modified time: 2021-01-02 18:09:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,7 +95,7 @@ class List extends React.Component {
     const { list, _filter } = $.rank
     return (
       <>
-        <Flex style={this.styles.grid} wrap='wrap'>
+        <Flex style={this.styles.grid} wrap='wrap' align='start'>
           {list.length ? (
             list.map((item, index) => {
               const id = String(item.id).replace('/subject/', '')
@@ -172,8 +172,5 @@ const memoStyles = _.memoStyles(_ => ({
   loading: {
     minHeight: 400,
     paddingTop: _.md
-  },
-  itemGird: {
-    height: 124
   }
 }))

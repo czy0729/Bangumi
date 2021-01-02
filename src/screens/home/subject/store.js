@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 23:24:55
+ * @Last Modified time: 2021-01-02 17:20:53
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -37,15 +37,17 @@ import {
   HOST_NING_MOE,
   URL_DEFAULT_AVATAR,
   SITES,
-  SITES_DS
+  SITES_DS,
+  IMG_WIDTH,
+  IMG_HEIGHT
 } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS, SITE_WK8 } from '@constants/site'
 // import { NINGMOE_ID } from '@constants/online'
 
-export const imageWidth = _.isPad ? 152 : 120
-export const imageHeight = imageWidth * 1.33
+export const imageWidth = IMG_WIDTH * (_.isPad ? 1.64 : 1.4)
+export const imageHeight = IMG_HEIGHT * (_.isPad ? 1.64 : 1.4)
 
 const namespace = 'ScreenSubject'
 const initRating = {

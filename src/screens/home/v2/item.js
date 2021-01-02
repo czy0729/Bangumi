@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:23:15
+ * @Last Modified time: 2021-01-02 17:30:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -334,7 +334,7 @@ class Item extends React.Component {
             >
               <Flex align='start'>
                 <Flex.Item>
-                  <Text size={15} numberOfLines={2} bold>
+                  <Text numberOfLines={2} bold>
                     {HTMLDecode(subject.name_cn || subject.name)}
                   </Text>
                   {!!subject?.collection?.doing && (
@@ -465,7 +465,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingRight: itemPadding
   },
   content: {
-    marginLeft: itemPadding - 2
+    marginLeft: itemPadding - 5
   },
   title: {
     minHeight: 60
