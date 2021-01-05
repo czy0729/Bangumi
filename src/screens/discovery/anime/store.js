@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 05:31:52
+ * @Last Modified time: 2021-01-05 20:07:43
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -35,33 +35,16 @@ export default class ScreenAnime extends store {
     const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
-      ...state
+      ...state,
+      _loaded: false
     })
 
-    // @bug
     if (!_loaded) {
       await init()
-      this.search({
-        area: '日本',
-        type: '',
-        first: '',
-        year: 2021,
-        begin: '',
-        status: '',
-        tags: [],
-        sort: ''
-      })
-      this.setState({
-        _loaded: true
-      })
     }
-
-    setTimeout(() => {
-      this.search()
-      this.setState({
-        _loaded: true
-      })
-    }, 0)
+    this.setState({
+      _loaded: true
+    })
     return res
   }
 

@@ -2,61 +2,66 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 05:12:41
+ * @Last Modified time: 2021-01-05 20:07:29
  */
-import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
-import animeData from '@constants/json/anime.json'
+// import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
+// import animeData from '@constants/json/anime.min.json'
 import rateData from '@constants/json/rate.json'
-import { getTimestamp, getStorage, setStorage } from './index'
-import { xhrCustom } from './fetch'
+import {
+  getTimestamp
+  // getStorage,
+  // setStorage
+} from './index'
+// import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
 
 /**
-//  * v4.0.0后从包抽离, 需对比版本号
+ * v4.0.0后从包抽离, 需对比版本号
  * 若版本比OTA.VERSION_ANIME的小, 请求OTA.VERSION_STATIC数据然后替换缓存
  * 否则直接读缓存
  */
-const animeVersionKey = '@utils|anime|version'
-const animeDataKey = '@utils|anime|data'
-let anime = animeData || []
+// const animeVersionKey = '@utils|anime|version'
+// const animeDataKey = '@utils|anime|data'
+let anime = []
 
 /**
  * 初始化番剧数据
  */
 export async function init() {
-  if (anime.length) {
-    return
+  if (!anime.length) {
+    anime = require('@constants/json/anime.min.json')
   }
+  return true
 
-  // 版本没有OTA高需要重新请求数据
-  const version = (await getStorage(animeVersionKey)) || VERSION_ANIME
-  const ota = getOTA()
+  // // 版本没有OTA高需要重新请求数据
+  // const version = (await getStorage(animeVersionKey)) || VERSION_ANIME
+  // const ota = getOTA()
 
-  const needUpdate = parseInt(ota.VERSION_ANIME) > parseInt(version)
-  if (needUpdate) {
-    const { _response } = await xhrCustom({
-      url: CDN_STATIC_ANIME()
-    })
-    anime = JSON.parse(_response)
-    setStorage(animeVersionKey, version)
-    setStorage(animeDataKey, anime)
-    return
-  }
+  // const needUpdate = parseInt(ota.VERSION_ANIME) > parseInt(version)
+  // if (needUpdate) {
+  //   const { _response } = await xhrCustom({
+  //     url: CDN_STATIC_ANIME()
+  //   })
+  //   anime = JSON.parse(_response)
+  //   setStorage(animeVersionKey, version)
+  //   setStorage(animeDataKey, anime)
+  //   return
+  // }
 
-  // 没缓存也要请求数据
-  const data = (await getStorage(animeDataKey)) || []
-  if (!data.length) {
-    const { _response } = await xhrCustom({
-      url: CDN_STATIC_ANIME()
-    })
-    anime = JSON.parse(_response)
-    setStorage(animeVersionKey, version)
-    setStorage(animeDataKey, anime)
-    return
-  }
+  // // 没缓存也要请求数据
+  // const data = (await getStorage(animeDataKey)) || []
+  // if (!data.length) {
+  //   const { _response } = await xhrCustom({
+  //     url: CDN_STATIC_ANIME()
+  //   })
+  //   anime = JSON.parse(_response)
+  //   setStorage(animeVersionKey, version)
+  //   setStorage(animeDataKey, anime)
+  //   return
+  // }
 
-  // 有缓存直接返回
-  anime = data
+  // // 有缓存直接返回
+  // anime = data
 }
 
 export const ANIME_AREA = ['日本', '中国']
@@ -210,38 +215,38 @@ export function search({
     // area: 'jp'
     if (match && area) {
       match =
-        (item.area === 'jp' && area === '日本') ||
-        (item.area === 'cn' && area === '中国')
+        (item.ar === 'jp' && area === '日本') ||
+        (item.ar === 'cn' && area === '中国')
     }
 
     // type: 'TV'
     if (match && type) {
-      match = item.type === type
+      match = item.ty === type
     }
 
     // cn: 'Code Geass 反叛的鲁路修 第二季'
     if (match && first) {
-      match = first === getPinYinFirstCharacter(item.cn)
+      match = first === getPinYinFirstCharacter(item.c)
     }
 
     // begin: '2008-04-06'
     if (match && year) {
-      match = yearReg.test(item.begin)
+      match = yearReg.test(item.b)
     }
     if (match && begin) {
-      match = reg[begin] ? reg[begin].test(item.begin) : false
+      match = reg[begin] ? reg[begin].test(item.b) : false
     }
 
     // status: '完结'
     if (match && status) {
-      match = item.status === status
+      match = item.st === status
     }
 
     // tags: '科幻 机战 悬疑 战斗 战争'
     if (match && tags.length) {
       tags.forEach(tag => {
         if (match) {
-          match = item.tags.includes(tag)
+          match = item.t?.includes(tag)
         }
       })
     }
@@ -253,23 +258,23 @@ export function search({
 
   switch (sort) {
     case '上映时间':
-      _list = _list.sort((a, b) => anime[b].begin.localeCompare(anime[a].begin))
+      _list = _list.sort((a, b) => anime[b].b.localeCompare(anime[a].b))
       break
 
     case '名称':
       _list = _list.sort((a, b) =>
-        getPinYinFirstCharacter(anime[a].cn).localeCompare(
-          getPinYinFirstCharacter(anime[b].cn)
+        getPinYinFirstCharacter(anime[a].c).localeCompare(
+          getPinYinFirstCharacter(anime[b].c)
         )
       )
       break
 
     case '评分':
       _list = _list.sort((a, b) => {
-        let _a = rateData[anime[a].id] || anime[a].score || 0
-        let _b = rateData[anime[b].id] || anime[b].score || 0
-        if (anime[a].status === '未播放') _a = 0
-        if (anime[b].status === '未播放') _b = 0
+        let _a = rateData[anime[a].i] || anime[a].s || 0
+        let _b = rateData[anime[b].i] || anime[b].s || 0
+        if (!anime[a].st === '未播放') _a = 0
+        if (!anime[b].st === '未播放') _b = 0
         return _b - _a
       })
       break
@@ -298,13 +303,33 @@ export function search({
 
 export function pick(index) {
   const item = anime[index] || {}
-  if (rateData[item.id]) {
-    item.score = rateData[item.id]
-  }
-  return item
+  if (rateData[item.id]) item.s = rateData[item.id]
+  return unzip(item)
 }
 
 export function find(id) {
-  const item = anime.find(item => item.id == id) || {}
-  return item
+  return unzip(anime.find(item => item.id == id) || {})
+}
+
+/**
+ * 转换压缩数据的key名
+ * @param {*} item
+ */
+export function unzip(item) {
+  return {
+    id: item.id || 0,
+    ageId: item.a || 0,
+    type: item.ty || '',
+    area: item.ar || '',
+    status: item.st || '',
+    official: item.o || '',
+    tags: item.t || '',
+    ep: item.e || '',
+    cn: item.c || '',
+    jp: item.j || '',
+    image: item.i || '',
+    begin: item.b || '',
+    score: item.s || 0,
+    rank: item.r || 0
+  }
 }
