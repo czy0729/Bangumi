@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 05:31:46
+ * @Last Modified time: 2021-01-06 17:50:49
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -28,18 +28,21 @@ export default class ScreenWenku extends store {
   })
 
   init = async () => {
+    const { _loaded } = this.state
     const res = this.getStorage(undefined, namespace)
     const state = await res
     this.setState({
-      ...state
+      ...state,
+      _loaded: false
     })
 
-    await init()
-    this.search()
+    if (!_loaded) {
+      await init()
+    }
     this.setState({
       _loaded: true
     })
-
+    this.search()
     return res
   }
 

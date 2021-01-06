@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-06 15:13:52
+ * @Last Modified time: 2021-01-06 17:54:57
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
 import {
   getTimestamp
-  // getStorage,
-  // setStorage
+  // getStorage, setStorage
 } from './index'
 // import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
@@ -281,11 +280,11 @@ export function search({
 }
 
 export function pick(index) {
-  return unzip(anime[index] || {})
+  return unzip(anime[index])
 }
 
 export function find(id) {
-  return unzip(anime.find(item => item.id == id) || {})
+  return unzip(anime.find(item => item.id == id))
 }
 
 /**
@@ -293,25 +292,25 @@ export function find(id) {
  * @param {*} item
  *
  * {
- *   id: 283053,
- *   a: 20190207,
- *   o: 'P.A.WORKS',
- *   t: '冒险 奇幻 战斗',
- *   e: 'TV 13-24',
- *   c: 'Fairy gone 2',
- *   j: 'Fairy gone フェアリーゴーン2',
- *   i: '35/c3/283053_fFiKt',
- *   b: '2019-10-06'
+ *   id: 132734,
+ *   a: 20170072,
+ *   o: 'A-1 Pictures',
+ *   t: '爱情 校园 后宫',
+ *   e: 'TV 00-11',
+ *   c: '路人女主的养成方法 ♭',
+ *   j: '冴えない彼女の育てかた ♭',
+ *   i: '3a/ce/132734_m3fQm',
+ *   b: '2017-04-06',
  *
- *   // 可能没有的值
- *   [s: 5.6]
- *   [r: 5299]
+ *   // 可能没有的键值, 使用默认值
+ *   [s: 7.2]
+ *   [r: 1523]
  *   [st: '完结']
  *   [ty: 'TV']
  *   [ar: 'jp']
  * }
  */
-export function unzip(item) {
+export function unzip(item = {}) {
   return {
     id: item.id || 0,
     ageId: item.a || 0,

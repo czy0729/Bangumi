@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 15:35:30
+ * @Last Modified time: 2021-01-07 01:03:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,14 +14,13 @@ import { Tag, Cover, Stars } from '@screens/_'
 import { x18 } from '@utils/app'
 import { pick } from '@utils/wenku'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
   const styles = memoStyles()
   const isFirst = index === 0
   const {
     id,
-    ageId: aid,
     image,
     cn,
     jp,
@@ -29,19 +28,20 @@ function Item({ index, pickIndex }, { $, navigation }) {
     status,
     begin,
     score,
+    rank,
     cate,
     author,
     len,
     anime
   } = pick(pickIndex)
-  const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
+  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const tip = [
     String(ep).replace(/\(完结\)|第/g, ''),
-    status ? '完结' : '连载',
+    status ? '连载' : '完结',
     begin,
     cate,
     author,
-    len ? `${parseInt(len)}万字` : ''
+    len ? `${len}万字` : ''
   ]
     .filter(item => !!item)
     .join(' / ')
@@ -55,8 +55,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
           subjectId: id,
           _jp: jp,
           _cn: cn,
-          _image: cover,
-          _aid: aid
+          _image: cover
         })
 
         t('文库.跳转', {
@@ -111,6 +110,17 @@ function Item({ index, pickIndex }, { $, navigation }) {
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>
               <Stars style={_.mr.sm} value={score} simple />
+              {!!rank && (
+                <Text
+                  style={_.mr.sm}
+                  type='primary'
+                  size={11}
+                  lineHeight={12}
+                  bold
+                >
+                  #{rank}
+                </Text>
+              )}
               {!!anime && <Tag value='动画化' />}
             </Flex>
           </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-06 15:23:13
+ * @Last Modified time: 2021-01-06 17:50:53
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -45,6 +45,7 @@ export default class ScreenAnime extends store {
     this.setState({
       _loaded: true
     })
+    this.search()
     return res
   }
 
