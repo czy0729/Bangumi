@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 05:20:21
+ * @Last Modified time: 2021-01-06 15:07:36
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -20,23 +20,38 @@ class List extends React.Component {
     $: PropTypes.object
   }
 
+  connectRef = ref => {
+    const { $ } = this.context
+    if (ref && ref.scrollToOffset) {
+      $.scrollToOffset = ref.scrollToOffset
+    }
+  }
+
+  renderItem = ({ item, index }) => {
+    if (index > 500) return null
+
+    const { $ } = this.context
+    const { layout } = $.state
+    return layout === 'list' ? (
+      <Item pickIndex={item} index={index} />
+    ) : (
+      <ItemGrid pickIndex={item} />
+    )
+  }
+
   render() {
     const { $ } = this.context
     const { layout, data } = $.state
     return (
       <ListView
         key={layout}
-        ref={ref => {
-          if (ref && ref.scrollToOffset) {
-            $.scrollToOffset = ref.scrollToOffset
-          }
-        }}
+        ref={this.connectRef}
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
-        numColumns={$.isList ? undefined : 4}
+        numColumns={$.isList ? undefined : 3}
         data={data}
         ListHeaderComponent={<Filter />}
-        renderItem={props => renderItem(props, layout)}
+        renderItem={this.renderItem}
         scrollToTop
       />
     )
@@ -45,12 +60,4 @@ class List extends React.Component {
 
 export function keyExtractor(item) {
   return String(item)
-}
-
-function renderItem({ item, index }, layout) {
-  if (layout === 'list') {
-    return <Item pickIndex={item} index={index} />
-  }
-
-  return <ItemGrid pickIndex={item} />
 }

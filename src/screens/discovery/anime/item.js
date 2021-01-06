@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-05 20:04:15
+ * @Last Modified time: 2021-01-06 15:04:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { Tag, Cover, Stars } from '@screens/_'
 import { x18 } from '@utils/app'
 import { pick } from '@utils/anime'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
 
 function Item({ index, pickIndex }, { $, navigation }) {
   const {
@@ -29,7 +29,8 @@ function Item({ index, pickIndex }, { $, navigation }) {
     begin,
     tags,
     official,
-    score
+    score,
+    rank
   } = pick(pickIndex)
   if (!id) {
     return null
@@ -37,7 +38,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
 
   const styles = memoStyles()
   const isFirst = index === 0
-  const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
+  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const _tags = String(tags).split(' ')
   const tip = [
     type === 'TV' ? '' : type,
@@ -113,9 +114,24 @@ function Item({ index, pickIndex }, { $, navigation }) {
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>
               <Stars style={_.mr.sm} value={score} simple />
-              {_tags.map(item => (
-                <Tag key={item} style={_.mr.sm} value={item} />
-              ))}
+              {!!rank && (
+                <Text
+                  style={_.mr.sm}
+                  type='primary'
+                  size={11}
+                  lineHeight={12}
+                  bold
+                >
+                  #{rank}
+                </Text>
+              )}
+              <Flex.Item>
+                <Flex>
+                  {_tags.map(item => (
+                    <Tag key={item} style={_.mr.sm} value={item} />
+                  ))}
+                </Flex>
+              </Flex.Item>
             </Flex>
           </Flex>
         </Flex.Item>

@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-03-15 08:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-08-30 18:09:45
+ * @Last Modified time: 2021-01-05 20:30:19
  */
 import React from 'react'
-import * as ExpoIcon from '@expo/vector-icons'
+import ExpoIcon from '@expo/vector-icons/Ionicons'
 
 function Icon({ style, name, size, color, ...other }) {
   return (
-    <ExpoIcon.Ionicons
+    <ExpoIcon
       style={[
         {
           height: size,

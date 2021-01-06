@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-05 20:07:29
+ * @Last Modified time: 2021-01-06 15:13:52
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
-import rateData from '@constants/json/rate.json'
 import {
   getTimestamp
   // getStorage,
@@ -215,45 +214,31 @@ export function search({
     // area: 'jp'
     if (match && area) {
       match =
-        (item.ar === 'jp' && area === '日本') ||
-        (item.ar === 'cn' && area === '中国')
+        ((item.ar || 'jp') === 'jp' && area === '日本') ||
+        ((item.ar || 'jp') === 'cn' && area === '中国')
     }
 
     // type: 'TV'
-    if (match && type) {
-      match = item.ty === type
-    }
+    if (match && type) match = (item.ty || 'TV') === type
 
     // cn: 'Code Geass 反叛的鲁路修 第二季'
-    if (match && first) {
-      match = first === getPinYinFirstCharacter(item.c)
-    }
+    if (match && first) match = first === getPinYinFirstCharacter(item.c)
 
     // begin: '2008-04-06'
-    if (match && year) {
-      match = yearReg.test(item.b)
-    }
-    if (match && begin) {
-      match = reg[begin] ? reg[begin].test(item.b) : false
-    }
+    if (match && year) match = yearReg.test(item.b)
+    if (match && begin) match = reg[begin]?.test(item.b)
 
     // status: '完结'
-    if (match && status) {
-      match = item.st === status
-    }
+    if (match && status) match = (item.st || '完结') === status
 
     // tags: '科幻 机战 悬疑 战斗 战争'
     if (match && tags.length) {
       tags.forEach(tag => {
-        if (match) {
-          match = item.t?.includes(tag)
-        }
+        if (match) match = item.t?.includes(tag)
       })
     }
 
-    if (match) {
-      _list.push(index)
-    }
+    if (match) _list.push(index)
   })
 
   switch (sort) {
@@ -270,13 +255,7 @@ export function search({
       break
 
     case '评分':
-      _list = _list.sort((a, b) => {
-        let _a = rateData[anime[a].i] || anime[a].s || 0
-        let _b = rateData[anime[b].i] || anime[b].s || 0
-        if (!anime[a].st === '未播放') _a = 0
-        if (!anime[b].st === '未播放') _b = 0
-        return _b - _a
-      })
+      _list = _list.sort((a, b) => (anime[b].s || 0) - (anime[a].s || 0))
       break
 
     case '随机':
@@ -302,9 +281,7 @@ export function search({
 }
 
 export function pick(index) {
-  const item = anime[index] || {}
-  if (rateData[item.id]) item.s = rateData[item.id]
-  return unzip(item)
+  return unzip(anime[index] || {})
 }
 
 export function find(id) {
@@ -314,14 +291,33 @@ export function find(id) {
 /**
  * 转换压缩数据的key名
  * @param {*} item
+ *
+ * {
+ *   id: 283053,
+ *   a: 20190207,
+ *   o: 'P.A.WORKS',
+ *   t: '冒险 奇幻 战斗',
+ *   e: 'TV 13-24',
+ *   c: 'Fairy gone 2',
+ *   j: 'Fairy gone フェアリーゴーン2',
+ *   i: '35/c3/283053_fFiKt',
+ *   b: '2019-10-06'
+ *
+ *   // 可能没有的值
+ *   [s: 5.6]
+ *   [r: 5299]
+ *   [st: '完结']
+ *   [ty: 'TV']
+ *   [ar: 'jp']
+ * }
  */
 export function unzip(item) {
   return {
     id: item.id || 0,
     ageId: item.a || 0,
-    type: item.ty || '',
-    area: item.ar || '',
-    status: item.st || '',
+    type: item.ty || 'TV',
+    area: item.ar || 'jp',
+    status: item.st || '完结',
     official: item.o || '',
     tags: item.t || '',
     ep: item.e || '',
