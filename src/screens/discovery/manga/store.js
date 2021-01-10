@@ -1,23 +1,21 @@
 /*
  * @Author: czy0729
- * @Date: 2019-06-22 15:38:18
+ * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:34:40
+ * @Last Modified time: 2021-01-10 16:43:01
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
 import store from '@utils/store'
-import { init, search } from '@utils/anime'
+import { init, search } from '@utils/manga'
 import { t } from '@utils/fetch'
 import { LIST_EMPTY } from '@constants'
 
-const namespace = 'ScreenAnime'
+const namespace = 'ScreenManga'
 
-export default class ScreenAnime extends store {
+export default class ScreenManga extends store {
   state = observable({
     query: {
-      area: '日本',
-      type: '',
       first: '',
       year: 2020,
       begin: '',
@@ -110,7 +108,7 @@ export default class ScreenAnime extends store {
     setTimeout(() => {
       this.search()
       this.setStorage(undefined, undefined, namespace)
-      t('Anime.选择', {
+      t('Manga.选择', {
         type,
         value,
         multiple
@@ -127,7 +125,7 @@ export default class ScreenAnime extends store {
         animated: true
       })
 
-      t('Anime.到顶')
+      t('Manga.到顶')
     }
   }
 
@@ -136,7 +134,7 @@ export default class ScreenAnime extends store {
    */
   switchLayout = () => {
     const _layout = this.isList ? 'grid' : 'list'
-    t('Anime.切换布局', {
+    t('Manga.切换布局', {
       layout: _layout
     })
 

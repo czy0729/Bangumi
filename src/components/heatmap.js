@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 04:26:55
+ * @Last Modified time: 2021-01-09 22:21:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -297,7 +297,7 @@ const memoStyles = _.memoStyles(_ => ({
     position: 'absolute',
     zIndex: 10001,
     top: _.window.height / 1.5,
-    left: 0,
+    right: 0,
     backgroundColor: _.select('rgba(0, 0, 0, 0.64)', 'rgba(0, 0, 0, 0.7)')
   },
   controlItem: {

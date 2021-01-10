@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 01:35:59
+ * @Last Modified time: 2021-01-10 20:07:39
  */
 import { Platform } from 'react-native'
 
@@ -39,7 +39,7 @@ export const URL_DEFAULT_AVATAR = '/icon.jpg'
 // APP
 export const APP_ID = 'bgm8885c4d524cd61fc' // client_id
 export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd' // client_secret
-export const APP_ID_SAY_DEVELOP = '19945783' // 功能留言板入口
+export const APP_ID_SAY_DEVELOP = '23045125' // 功能留言板入口 2020年: 19945783
 export const APP_ID_SAY_TINYGRAIL = '19820034' // 小圣杯意见反馈入口
 export const APP_ID_BAIDU = '20200130000378695' // 百度翻译
 // export const APP_USERID_TOURIST = 476179 // 6907***59@qq.com (安卓游客)
@@ -264,6 +264,34 @@ export const DATA_BROWSER_MONTH = [
   '10',
   '11',
   '12'
+]
+export const DATA_ALPHABET = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z'
 ]
 
 // decimal

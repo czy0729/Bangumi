@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-02 17:20:53
+ * @Last Modified time: 2021-01-10 20:31:19
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -962,8 +962,8 @@ export default class ScreenSubject extends store {
         //   break
 
         case 'AGE动漫':
-          if (_aid || find(this.subjectId).aid) {
-            url = `${SITE_AGEFANS()}/detail/${_aid || find(this.subjectId).aid}`
+          if (_aid || find(this.subjectId).ageId) {
+            url = `${SITE_AGEFANS()}/detail/${_aid || find(this.subjectId).ageId}`
           } else {
             url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(
               this.cn || this.jp

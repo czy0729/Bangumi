@@ -1,40 +1,34 @@
 /*
  * @Author: czy0729
- * @Date: 2021-01-03 05:07:34
+ * @Date: 2021-01-09 01:01:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:17:21
+ * @Last Modified time: 2021-01-10 20:29:17
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { ItemCollectionsGrid } from '@screens/_'
-import { pick } from '@utils/anime'
+import { pick } from '@utils/manga'
+import { IMG_DEFAULT } from '@constants'
 
 const event = {
-  id: 'Anime.跳转'
+  id: 'Manga.跳转'
 }
 
 function ItemGrid({ pickIndex }, { $, navigation }) {
-  const {
-    id,
-    ageId,
-    image,
-    cn,
-    jp,
-    score
-  } = pick(pickIndex)
+  const { id, mangaId, image, cn, jp, score } = pick(pickIndex)
   if (!id) {
     return null
   }
 
-  const cover = `//lain.bgm.tv/pic/cover/m/${image}.jpg`
+  const cover = image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const collection = $.userCollectionsMap[id]
   return (
     <ItemCollectionsGrid
       navigation={navigation}
       event={event}
       id={id}
-      aid={ageId}
+      mid={mangaId}
       cover={cover}
       name={jp}
       nameCn={cn}

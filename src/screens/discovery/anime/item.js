@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-06 15:04:59
+ * @Last Modified time: 2021-01-10 20:51:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,10 +19,9 @@ import { IMG_WIDTH, IMG_HEIGHT, IMG_DEFAULT } from '@constants'
 function Item({ index, pickIndex }, { $, navigation }) {
   const {
     id,
-    ageId: aid,
+    ageId,
     image,
     cn,
-    jp,
     ep,
     type,
     status,
@@ -57,10 +56,9 @@ function Item({ index, pickIndex }, { $, navigation }) {
       onPress={() => {
         navigation.push('Subject', {
           subjectId: id,
-          _jp: jp,
           _cn: cn,
           _image: cover,
-          _aid: aid
+          _aid: ageId
         })
 
         t('Anime.跳转', {
@@ -97,12 +95,12 @@ function Item({ index, pickIndex }, { $, navigation }) {
                 <Text size={15} numberOfLines={2}>
                   <Text size={15} bold>
                     {indent}
-                    {$.cnFirst ? cn : jp}
+                    {cn}
                   </Text>
-                  <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
+                  {/* <Text type='sub' size={11} lineHeight={15} numberOfLines={1}>
                     {' '}
                     {$.cnFirst ? jp : cn}
-                  </Text>
+                  </Text> */}
                 </Text>
               </Flex.Item>
               <Flex style={_.mt.xxs}>

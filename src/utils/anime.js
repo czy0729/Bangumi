@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-06 17:54:57
+ * @Last Modified time: 2021-01-10 21:08:43
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
@@ -164,7 +164,7 @@ export const ANIME_TAGS = [
   '泡面番',
   '欢乐向'
 ]
-export const ANIME_SORT = ['评分', '上映时间', '随机', '名称']
+export const ANIME_SORT = ['排名', '上映时间', '随机', '名称']
 
 /**
  * 只返回下标数组对象
@@ -242,7 +242,9 @@ export function search({
 
   switch (sort) {
     case '上映时间':
-      _list = _list.sort((a, b) => anime[b].b.localeCompare(anime[a].b))
+      _list = _list.sort((a, b) =>
+        String(anime[b].b).localeCompare(String(anime[a].b))
+      )
       break
 
     case '名称':
@@ -254,7 +256,16 @@ export function search({
       break
 
     case '评分':
-      _list = _list.sort((a, b) => (anime[b].s || 0) - (anime[a].s || 0))
+    case '排名':
+      _list = _list.sort((a, b) => {
+        const itemA = anime[a] || {}
+        const itemB = anime[b] || {}
+        if (itemA.r && itemB.r) return itemA.r - itemB.r
+        return (
+          (itemB.s || 0 + itemB.r ? 100 : 0) -
+          (itemA.s || 0 + itemA.r ? 100 : 0)
+        )
+      })
       break
 
     case '随机':

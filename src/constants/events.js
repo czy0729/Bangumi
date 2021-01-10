@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 23:24:08
+ * @Last Modified time: 2021-01-10 19:56:14
  */
 
 /**
@@ -16,6 +16,7 @@ export default {
   'Anime.跳转': 'Anime.to',
   'Anime.选择': 'Anime.onSelect',
   'Anime.到顶': 'Anime.scrollToTop',
+  'Anime.切换布局': 'Anime.switchLayout',
 
   // - [x] Anitama
   'Anitama.跳转': 'Anitama.to',
@@ -109,6 +110,13 @@ export default {
   '文库.跳转': 'Wenku.to',
   '文库.选择': 'Wenku.onSelect',
   '文库.到顶': 'Wenku.scrollToTop',
+  '文库.切换布局': 'Wenku.switchLayout',
+
+  // Manga
+  'Manga.跳转': 'Manga.to',
+  'Manga.选择': 'Manga.onSelect',
+  'Manga.到顶': 'Manga.scrollToTop',
+  'Manga.切换布局': 'Manga.switchLayout',
 
   /* ==================== home ==================== */
   // 首页

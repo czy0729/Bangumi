@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 01:45:40
+ * @Last Modified time: 2021-01-10 20:18:12
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -28,7 +28,10 @@ function CollectionsGrid({
   isCollect,
   collection,
   typeCn,
-  num
+  num,
+  aid,
+  wid,
+  mid
 }) {
   const imageWidth = _.window.contentWidth * ((1 / num) * 0.84)
   const imageHeight = imageWidth * 1.4
@@ -47,7 +50,10 @@ function CollectionsGrid({
       subjectId,
       _jp: name,
       _cn: nameCn,
-      _image: cover
+      _image: cover,
+      _aid: aid,
+      _wid: wid,
+      _mid: mid
     })
   }
 

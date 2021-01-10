@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-06 17:57:09
+ * @Last Modified time: 2021-01-10 21:07:59
  */
 // import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
 // import wenkuData from '@constants/json/wenku.min.json'
@@ -68,7 +68,7 @@ export const WENKU_STATUS = ['连载', '完结']
 export const WENKU_ANIME = ['是', '否']
 export const WENKU_SORT = [
   '发行',
-  '评分',
+  '排名',
   '热度',
   '趋势',
   '更新',
@@ -194,7 +194,16 @@ export function search({ sort, year, first, status, anime } = {}) {
       break
 
     case '评分':
-      _list = _list.sort((a, b) => (wenku[b].s || 0) - (wenku[a].s || 0))
+    case '排名':
+      _list = _list.sort((a, b) => {
+        const itemA = wenku[a] || {}
+        const itemB = wenku[b] || {}
+        if (itemA.r && itemB.r) return itemA.r - itemB.r
+        return (
+          (itemB.s || 0 + itemB.r ? 100 : 0) -
+          (itemA.s || 0 + itemA.r ? 100 : 0)
+        )
+      })
       break
 
     case '热度':
@@ -274,7 +283,7 @@ export function find(id) {
 export function unzip(item = {}) {
   return {
     id: item.id || 0,
-    wid: item.w || 0,
+    wenkuId: item.w || 0,
     status: item.st || 0,
     anime: item.an || 0,
     author: item.a || '',

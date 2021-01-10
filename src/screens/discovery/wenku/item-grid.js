@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 05:36:43
+ * @Last Modified time: 2021-01-10 20:29:44
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,7 +15,7 @@ const event = {
 }
 
 function ItemGrid({ pickIndex }, { $, navigation }) {
-  const { id, image, cn, jp, score } = pick(pickIndex)
+  const { id, wenkuId, image, cn, jp, score } = pick(pickIndex)
   if (!id) {
     return null
   }
@@ -27,6 +27,7 @@ function ItemGrid({ pickIndex }, { $, navigation }) {
       navigation={navigation}
       event={event}
       id={id}
+      wid={wenkuId}
       cover={cover}
       name={jp}
       nameCn={cn}

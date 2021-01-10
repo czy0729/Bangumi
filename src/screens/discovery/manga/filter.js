@@ -1,9 +1,8 @@
-/* eslint-disable react/jsx-indent */
 /*
  * @Author: czy0729
- * @Date: 2020-07-15 16:37:05
+ * @Date: 2021-01-09 01:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:41:13
+ * @Last Modified time: 2021-01-10 20:35:45
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -12,67 +11,49 @@ import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import {
-  ANIME_AREA,
-  ANIME_TYPE,
-  ANIME_FIRST,
-  ANIME_YEAR,
-  ANIME_BEGIN,
-  ANIME_STATUS,
-  ANIME_TAGS,
-  ANIME_SORT
-} from '@utils/anime'
+  MANGA_FIRST,
+  MANGA_YEAR,
+  MANGA_STATUS,
+  MANGA_TAGS,
+  MANGA_SORT
+} from '@utils/manga'
 import { info } from '@utils/ui'
 
 // 数组分组并弄好看
-const ANIME_TAGS_GROUP = []
-for (let i = 0, len = ANIME_TAGS.length; i < len; i += 15) {
-  ANIME_TAGS_GROUP.push(ANIME_TAGS.slice(i, i + 15))
+const MANGA_TAGS_GROUP = []
+for (let i = 0, len = MANGA_TAGS.length; i < len; i += 15) {
+  MANGA_TAGS_GROUP.push(MANGA_TAGS.slice(i, i + 15))
 }
-let tag = ANIME_TAGS_GROUP[0].pop()
-ANIME_TAGS_GROUP[1] = [tag, ...ANIME_TAGS_GROUP[1]]
-tag = ANIME_TAGS_GROUP[1].pop()
-ANIME_TAGS_GROUP[2] = [tag, ...ANIME_TAGS_GROUP[2]]
+let tag = MANGA_TAGS_GROUP[0].pop()
+MANGA_TAGS_GROUP[1] = [tag, ...MANGA_TAGS_GROUP[1]]
+tag = MANGA_TAGS_GROUP[1].pop()
+MANGA_TAGS_GROUP[2] = [tag, ...MANGA_TAGS_GROUP[2]]
 
 const filterDS = [
   {
-    title: '地区',
-    type: 'area',
-    data: ANIME_AREA
-  },
-  {
-    title: '版本',
-    type: 'type',
-    data: ANIME_TYPE
-  },
-  {
     title: '首字',
     type: 'first',
-    data: ANIME_FIRST
+    data: MANGA_FIRST
   },
   {
     title: '年份',
     type: 'year',
-    data: ANIME_YEAR
-  },
-  {
-    title: '季度',
-    type: 'begin',
-    data: ANIME_BEGIN
+    data: MANGA_YEAR
   },
   {
     title: '状态',
     type: 'status',
-    data: ANIME_STATUS
+    data: MANGA_STATUS
   },
   {
     title: '类型',
     type: 'tags',
-    data: ANIME_TAGS_GROUP
+    data: MANGA_TAGS_GROUP
   },
   {
     title: '排序',
     type: 'sort',
-    data: ANIME_SORT
+    data: MANGA_SORT
   }
 ]
 
