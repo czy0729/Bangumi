@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:22:08
+ * @Last Modified time: 2021-01-10 23:02:48
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -154,7 +154,8 @@ export default class ScreenUser extends store {
   @computed get avatar() {
     const { sign = '' } = this.users
     const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
-    return avatars ? String(avatars[1]).trim() : ''
+    const src = avatars ? String(avatars[1]).trim() : ''
+    return /(jpg|jpeg|png|bmp|gif)$/.test(src) ? src : ''
   }
 
   @computed get bg() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-14 22:19:15
+ * @Last Modified time: 2021-01-11 01:53:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { Cover as CompCover } from '@screens/_'
 import { getCoverMedium, getCoverLarge } from '@utils/app'
+import { IMG_DEFAULT } from '@constants'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 import { _ } from '@stores'
 import { imageWidth, imageHeight } from './store'
@@ -41,7 +42,7 @@ class Cover extends React.Component {
       <View style={[this.styles.container, onLoad && this.styles.shadow]}>
         {!!image && (
           <CompCover
-            src={CDN_OSS_SUBJECT(getCoverMedium(image))}
+            src={CDN_OSS_SUBJECT(getCoverMedium(image)) || IMG_DEFAULT}
             size={imageWidth}
             height={imageHeight}
             radius
@@ -62,7 +63,7 @@ class Cover extends React.Component {
         {!onLoad && (
           <CompCover
             style={[this.styles.placeholder, this.styles.shadow]}
-            src={placeholder}
+            src={placeholder || IMG_DEFAULT}
             size={imageWidth}
             height={imageHeight}
             radius

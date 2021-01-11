@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-17 23:25:30
+ * @Last Modified time: 2021-01-10 22:15:28
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,6 +22,7 @@ function Head({ style }, { $, navigation }) {
       <View>
         <View style={_.mt.md}>
           <Image
+            style={styles.avatar}
             key={src}
             size={88}
             radius={44}
@@ -141,6 +142,9 @@ const styles = StyleSheet.create({
     top: 16,
     right: 100,
     opacity: 0.8
+  },
+  avatar: {
+    backgroundColor: _.__colorPlain__
   },
   l1: {
     position: 'absolute',

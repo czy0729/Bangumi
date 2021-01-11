@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-03 19:23:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 17:46:56
+ * @Last Modified time: 2021-01-11 21:47:36
  */
 import { getSystemStoreAsync } from '@utils/async'
 
@@ -41,4 +41,9 @@ export const SITE_77MH = () => {
 export const SITE_COMIC123 = () => {
   const ota = getOTA()
   return ota.SITE_COMIC123 || 'https://m.comic123.net'
+}
+
+export const SITE_MANHUADB = () => {
+  const ota = getOTA()
+  return ota.SITE_MANHUADB || 'https://www.manhuadb.com'
 }

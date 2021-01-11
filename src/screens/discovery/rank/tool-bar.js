@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 04:07:52
+ * @Last Modified time: 2021-01-10 23:08:11
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -45,7 +45,7 @@ function ToolBar(props, { $ }) {
   const isEmptyAirdate = airtime === ''
   const isEmptyMonth = month === ''
   return (
-    <Flex style={styles.container} justify='center'>
+    <Flex style={[styles.container, !list && _.mb.xs]} justify='center'>
       <Popover data={typeData} onSelect={$.onTypeSelect}>
         <Flex style={styles.item} justify='center'>
           <Iconfont name='filter' size={12} color={_.colorMain} />

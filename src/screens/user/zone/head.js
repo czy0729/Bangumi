@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:16:54
+ * @Last Modified time: 2021-01-10 22:52:21
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -25,7 +25,7 @@ function Head({ style }, { $, navigation }) {
     <Flex style={style} justify='center' direction='column'>
       <View>
         <Image
-          style={_.mt.md}
+          style={style.image}
           size={88}
           radius={44}
           border={_.__colorPlain__}
@@ -150,6 +150,7 @@ function Head({ style }, { $, navigation }) {
           </Text>
         )}
       </Text>
+      <User style={styles.r0} />
     </Flex>
   )
 }
@@ -167,6 +168,10 @@ const styles = StyleSheet.create({
     borderColor: _.__colorPlain__,
     borderRadius: 88,
     overflow: 'hidden'
+  },
+  image: {
+    marginTop: _.md,
+    backgroundColor: _.__colorPlain__
   },
   l1: {
     position: 'absolute',

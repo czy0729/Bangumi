@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 21:57:33
+ * @Last Modified time: 2021-01-10 21:30:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,19 +22,24 @@ const menus = [
     path: 'Rank'
   },
   {
-    title: '每日放送',
-    icon: 'calendar',
-    path: 'Calendar'
-  },
-  {
-    title: '找番剧',
+    title: '番剧',
     icon: 'xin-fan',
     path: 'Anime'
   },
   {
-    title: '找文库',
+    title: '漫画',
     icon: 'menu',
+    path: 'Manga'
+  },
+  {
+    title: '文库',
+    icon: 'bang-dan',
     path: 'Wenku'
+  },
+  {
+    title: '每日放送',
+    icon: 'calendar',
+    path: 'Calendar'
   },
   {
     title: '索引',
@@ -47,19 +52,14 @@ const menus = [
     path: 'Catalog'
   },
   {
-    title: '日志',
-    icon: 'ri-zhi',
-    path: 'DiscoveryBlog'
-  },
-  {
     title: '更多',
     icon: 'more',
     path: 'open'
   },
   {
-    title: '标签',
-    icon: 'paihang',
-    path: 'Tags'
+    title: '日志',
+    icon: 'ri-zhi',
+    path: 'DiscoveryBlog'
   },
   {
     title: '搜索',
@@ -78,9 +78,9 @@ const menus = [
     login: true
   },
   {
-    title: 'Anitama',
-    icon: 'anitama',
-    path: 'Anitama'
+    title: '标签',
+    icon: 'paihang',
+    path: 'Tags'
   },
   {
     title: '时间线',
@@ -94,11 +94,16 @@ const menus = [
     path: 'Friends',
     login: true
   },
+  // {
+  //   title: '我的人物',
+  //   icon: 'like',
+  //   path: 'Character',
+  //   login: true
+  // },
   {
-    title: '我的人物',
-    icon: 'like',
-    path: 'Character',
-    login: true
+    title: 'Anitama',
+    icon: 'anitama',
+    path: 'Anitama'
   },
   {
     title: '收起',

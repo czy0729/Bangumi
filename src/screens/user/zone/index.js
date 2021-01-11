@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:15:33
+ * @Last Modified time: 2021-01-10 23:04:06
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -114,7 +114,7 @@ class Zone extends React.Component {
     const { visible } = $.state
     const { fixed } = this.state
     return (
-      <View style={_.container.plain}>
+      <View style={_.select(_.container.plain, _.container.bg)}>
         <UM screen={title} />
         <StatusBarEvents
           barStyle='light-content'

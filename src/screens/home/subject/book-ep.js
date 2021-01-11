@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:18:51
+ * @Last Modified time: 2021-01-12 00:44:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,20 +34,7 @@ function BookEp({ style }, { $, navigation }) {
     <View style={[styles.container, _.container.wind, style]}>
       <SectionTitle
         right={
-          !$.isLimit && $.wenku.wid ? (
-            <Touchable
-              style={styles.iconPlay}
-              onPress={() => $.toWenku8($.wenku.wid)}
-            >
-              <Flex>
-                <Iconfont name='discovery' size={16} />
-                <Text style={_.ml.xs} size={12} type='sub'>
-                  阅读
-                </Text>
-              </Flex>
-              <Heatmap id='条目.阅读轻小说' />
-            </Touchable>
-          ) : (
+          <>
             <Touchable
               style={styles.iconPlay}
               onPress={() => {
@@ -64,7 +51,7 @@ function BookEp({ style }, { $, navigation }) {
               }}
             >
               <Flex>
-                <Iconfont name='search' size={16} />
+                <Iconfont name='search' size={14} />
                 <Text style={_.ml.xs} size={12} type='sub'>
                   源头
                 </Text>
@@ -76,7 +63,29 @@ function BookEp({ style }, { $, navigation }) {
                 }}
               />
             </Touchable>
-          )
+            {!$.isLimit && !!$.source.mangaId && (
+              <Touchable style={styles.iconPlay} onPress={$.toManhuadb}>
+                <Flex>
+                  <Iconfont name='discovery' size={16} />
+                  <Text style={_.ml.xs} size={12} type='sub'>
+                    漫画
+                  </Text>
+                </Flex>
+                <Heatmap id='条目.阅读漫画' />
+              </Touchable>
+            )}
+            {!$.isLimit && !!$.source.wenkuId && (
+              <Touchable style={styles.iconPlay} onPress={$.toWenku8}>
+                <Flex>
+                  <Iconfont name='discovery' size={16} />
+                  <Text style={_.ml.xs} size={12} type='sub'>
+                    小说
+                  </Text>
+                </Flex>
+                <Heatmap id='条目.阅读轻小说' />
+              </Touchable>
+            )}
+          </>
         }
       >
         章节
@@ -198,7 +207,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   iconPlay: {
     padding: _.sm,
-    marginRight: -_.sm
+    marginRight: -_.sm,
+    marginLeft: _.xs
   },
   total: {
     position: 'absolute',

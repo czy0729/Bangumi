@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 20:05:37
+ * @Last Modified time: 2021-01-10 23:05:03
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -162,7 +162,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   sectionHeader: {
     paddingHorizontal: _._wind,
-    backgroundColor: _.colorPlain
+    backgroundColor: _.select(_.colorPlain, _.colorBg)
   },
   section: {
     backgroundColor: _.colorBg

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 16:32:51
+ * @Last Modified time: 2021-01-10 22:01:20
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -21,7 +21,7 @@ import { info } from '@utils/ui'
 import { navigationReference } from '@utils/app'
 import { inject, observer } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
-import { IOS, DEV } from '@constants'
+import { IOS } from '@constants'
 import { MODEL_SETTING_INITIAL_PAGE } from '@constants/model'
 import Header from './header'
 import Tab from './tab-wrap'
@@ -95,7 +95,7 @@ class Home extends React.Component {
 
     // popToTop回来时需要延时才能获得正确的登出后的isLogin状态
     setTimeout(() => {
-      if (!$.isLogin && !DEV) {
+      if (!$.isLogin) {
         navigation.navigate('Auth')
       }
     }, 160)

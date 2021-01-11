@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:15:51
+ * @Last Modified time: 2021-01-11 02:17:58
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -140,7 +140,7 @@ class User extends React.Component {
   }
 
   get style() {
-    return IOS ? _.container.bg : _.container._plain
+    return IOS ? _.container.plain : _.container._plain
   }
 
   render() {

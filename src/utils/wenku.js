@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 21:07:59
+ * @Last Modified time: 2021-01-11 21:17:42
  */
 // import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
 // import wenkuData from '@constants/json/wenku.min.json'
@@ -129,6 +129,8 @@ export async function init() {
  */
 const searchCache = {}
 export function search({ sort, year, first, status, anime } = {}) {
+  init()
+
   // 查询指纹
   const finger = JSON.stringify({
     sort,
@@ -247,10 +249,12 @@ export function search({ sort, year, first, status, anime } = {}) {
 }
 
 export function pick(index) {
+  init()
   return unzip(wenku[index])
 }
 
 export function find(id) {
+  init()
   return unzip(wenku.find(item => item.id == id))
 }
 

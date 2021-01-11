@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 21:08:43
+ * @Last Modified time: 2021-01-11 21:16:37
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
@@ -186,6 +186,8 @@ export function search({
   tags = [],
   sort
 } = {}) {
+  init()
+
   // 查询指纹
   const finger = JSON.stringify({
     area,
@@ -291,10 +293,12 @@ export function search({
 }
 
 export function pick(index) {
+  init()
   return unzip(anime[index])
 }
 
 export function find(id) {
+  init()
   return unzip(anime.find(item => item.id == id))
 }
 

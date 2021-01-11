@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 23:06:58
+ * @Last Modified time: 2021-01-11 01:52:46
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import { Flex, Text, Touchable, Heatmap } from '@components'
 import { Cover as CompCover, IconTouchable } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
+import { IMG_DEFAULT } from '@constants'
 
 function Series({ prev, after, series, size }, { $, navigation }) {
   if (!(prev || after || series)) {
@@ -45,7 +46,7 @@ function Series({ prev, after, series, size }, { $, navigation }) {
                   <Flex>
                     <CompCover
                       style={styles.cover}
-                      src={prev.image}
+                      src={prev.image || IMG_DEFAULT}
                       size={24}
                       height={24 * 1.33}
                       radius
@@ -84,7 +85,7 @@ function Series({ prev, after, series, size }, { $, navigation }) {
                   <Flex>
                     <CompCover
                       style={styles.cover}
-                      src={after.image}
+                      src={after.image || IMG_DEFAULT}
                       size={24}
                       height={24 * 1.33}
                       radius

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:31:19
+ * @Last Modified time: 2021-01-12 00:30:57
  */
 import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -30,8 +30,9 @@ import {
 } from '@utils/app'
 import store from '@utils/store'
 import { feedback, info, showActionSheet } from '@utils/ui'
-import { find } from '@utils/anime'
-import { init as initWenku, find as findWenku } from '@utils/wenku'
+import { find as findAnime } from '@utils/anime'
+import { find as findManga } from '@utils/manga'
+import { find as findWenku } from '@utils/wenku'
 import {
   HOST,
   HOST_NING_MOE,
@@ -43,7 +44,13 @@ import {
 } from '@constants'
 import { CDN_EPS } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
-import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS, SITE_WK8 } from '@constants/site'
+import {
+  SITE_AGEFANS,
+  SITE_XUNBO,
+  SITE_RRYS,
+  SITE_WK8,
+  SITE_MANHUADB
+} from '@constants/site'
 // import { NINGMOE_ID } from '@constants/online'
 
 export const imageWidth = IMG_WIDTH * (_.isPad ? 1.64 : 1.4)
@@ -104,12 +111,6 @@ export default class ScreenSubject extends store {
         _loaded: needFetch ? current : _loaded
       })
 
-      setTimeout(() => {
-        if (this.type === '书籍') {
-          initWenku()
-        }
-      }, 80)
-
       if (needFetch) {
         return this.onHeaderRefresh()
       }
@@ -155,9 +156,6 @@ export default class ScreenSubject extends store {
     }
 
     queue([
-      // () => userStore.fetchUserProgress(this.subjectId), // 用户收藏状态
-      // () => subjectStore.fetchSubjectEp(this.subjectId), // [废弃] 跟条目API重复
-      // () => this.fetchCollection(), // 用户每集收看进度
       () => this.fetchSubjectComments(true), // 吐槽
       () => this.fetchSubjectFormHTML(), // 条目API没有的网页额外数据
       () => this.fetchEpsData() // 单集播放源
@@ -415,13 +413,6 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 章节信息
-   */
-  // @computed get subjectEp() {
-  //   return subjectStore.subjectEp(this.subjectId)
-  // }
-
-  /**
    * 条目留言
    * 筛选逻辑
    *  - 主动设置屏蔽默认头像用户相关信息
@@ -568,16 +559,21 @@ export default class ScreenSubject extends store {
   }
 
   /**
-   * 是否已收录在找文库
+   * 漫画或文库是否有源头
    */
+  _manga = null
   _wenku = null
-  @computed get wenku() {
+  @computed get source() {
     if (this.type !== '书籍') {
       return false
     }
 
+    this._manga = findManga(this.subjectId)
     this._wenku = findWenku(this.subjectId)
-    return this._wenku
+    return {
+      mangaId: this._manga.mangaId,
+      wenkuId: this._wenku.wenkuId
+    }
   }
 
   /**
@@ -962,8 +958,10 @@ export default class ScreenSubject extends store {
         //   break
 
         case 'AGE动漫':
-          if (_aid || find(this.subjectId).ageId) {
-            url = `${SITE_AGEFANS()}/detail/${_aid || find(this.subjectId).ageId}`
+          if (_aid || findAnime(this.subjectId).ageId) {
+            url = `${SITE_AGEFANS()}/detail/${
+              _aid || findAnime(this.subjectId).ageId
+            }`
           } else {
             url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(
               this.cn || this.jp
@@ -1003,13 +1001,30 @@ export default class ScreenSubject extends store {
     }
   }
 
-  toWenku8 = wid => {
-    t('条目.阅读轻小说', {
+  toManhuadb = () => {
+    t('条目.阅读漫画', {
       subjectId: this.subjectId,
-      wid
+      mid: this.source.mangaId
     })
 
-    const url = `${SITE_WK8()}/novel/${parseInt(wid / 1000)}/${wid}/index.htm`
+    const url = `${SITE_MANHUADB()}/manhua/${this.source.mangaId}`
+    Clipboard.setString(url)
+    info('已复制地址')
+
+    setTimeout(() => {
+      open(url)
+    }, 1600)
+  }
+
+  toWenku8 = () => {
+    t('条目.阅读轻小说', {
+      subjectId: this.subjectId,
+      wid: this.source.wenkuId
+    })
+
+    const url = `${SITE_WK8()}/novel/${parseInt(this.source.wenkuId / 1000)}/${
+      this.source.wenkuId
+    }/index.htm`
     Clipboard.setString(url)
     info('已复制地址')
 

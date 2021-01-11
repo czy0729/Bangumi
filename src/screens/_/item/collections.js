@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 02:42:58
+ * @Last Modified time: 2021-01-10 22:48:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -71,7 +71,7 @@ function ItemCollections({
   const indent = _collection ? (collection ? '　　 ' : '　　　') : ''
   return (
     <Touchable
-      style={[_.container.item, styles.container]}
+      style={[_.container.plain, styles.container]}
       onPress={() => {
         const { id: eventId, data: eventData } = event
         t(eventId, {

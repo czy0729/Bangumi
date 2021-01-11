@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 01:43:15
+ * @Last Modified time: 2021-01-11 02:23:13
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -115,7 +115,7 @@ class List extends React.Component {
     )
 
     if (!userCollections._loaded) {
-      return <Loading style={IOS ? _.container.bg : _.container._plain} />
+      return <Loading style={IOS ? _.container.plain : _.container._plain} />
     }
 
     const { list, page, isFocused } = $.state

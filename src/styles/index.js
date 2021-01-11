@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-05 20:54:47
+ * @Last Modified time: 2021-01-11 02:01:39
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -80,8 +80,8 @@ export const colorWarningLight = `rgba(${colorWarningRaw.join()}, 0.1)`
 
 // -------------------- dark --------------------
 // 架高层, 参考 https://www.zcool.com.cn/article/ZMTAwMzI4OA==.html
-export const _colorDarkModeLevel1 = 'rgb(48, 48, 48)' // 'rgb(62, 62, 64)'
-export const _colorDarkModeLevel1Hex = '#303030' // '#3e3e40'
+export const _colorDarkModeLevel1 = 'rgb(52, 52, 52)' // 'rgb(62, 62, 64)'
+export const _colorDarkModeLevel1Hex = '#343434' // '#3e3e40'
 export const _colorDarkModeLevel2 = 'rgb(64, 64, 64)' // 'rgb(88, 88, 90)'
 
 // 基础层

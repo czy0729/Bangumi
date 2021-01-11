@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 18:20:20
+ * @Last Modified time: 2021-01-10 23:01:35
  */
 import { observable, computed } from 'mobx'
 import {
@@ -170,7 +170,8 @@ export default class ScreenZone extends store {
   @computed get avatar() {
     const { sign = '' } = this.users
     const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
-    return avatars ? String(avatars[1]).trim() : ''
+    const src = avatars ? String(avatars[1]).trim() : ''
+    return /(jpg|jpeg|png|bmp|gif)$/.test(src) ? src : ''
   }
 
   @computed get src() {

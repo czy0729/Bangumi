@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-23 20:10:52
+ * @Last Modified time: 2021-01-11 02:21:39
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -26,68 +26,65 @@ function ToolBar(props, { $ }) {
     filterData.push(`${item.tag} (${item.count})`)
   )
   return (
-    <Flex style={list && styles.bg}>
-      <Flex.Item>
-        <Popover
-          data={MODEL_COLLECTIONS_ORDERBY.data.map(item => item.label)}
-          onSelect={$.onOrderSelect}
-        >
-          <Flex style={styles.item} justify='center'>
-            <Iconfont
-              name='sort'
-              size={14}
-              color={order ? _.colorMain : undefined}
-            />
-            <Text
-              style={_.ml.sm}
-              size={12}
-              type={order ? 'main' : 'sub'}
-              numberOfLines={1}
-            >
-              {order ? MODEL_COLLECTIONS_ORDERBY.getLabel(order) : '收藏时间'}
-            </Text>
-          </Flex>
-          <Heatmap id='我的.筛选选择' />
-        </Popover>
-      </Flex.Item>
-      <Flex.Item>
-        <Popover data={filterData} onSelect={$.onFilterSelect}>
-          <Flex style={styles.item} justify='center'>
-            <Iconfont
-              name='filter'
-              size={14}
-              color={tag ? _.colorMain : undefined}
-            />
-            <Text
-              style={_.ml.sm}
-              size={12}
-              type={tag ? 'main' : 'sub'}
-              numberOfLines={1}
-            >
-              {tag ? tag.replace(/ \(\d+\)/, '') : '标签'}
-            </Text>
-          </Flex>
-          <Heatmap id='我的.排序选择' />
-        </Popover>
-      </Flex.Item>
-      <Flex.Item>
-        <Touchable onPress={$.toggleList}>
-          <Flex style={styles.item} justify='center'>
-            <Iconfont
-              name='list'
-              size={14}
-              color={list ? _.colorMain : undefined}
-            />
-            <Iconfont
-              style={_.ml.md}
-              name='order'
-              size={14}
-              color={!list ? _.colorMain : undefined}
-            />
-          </Flex>
-          <Heatmap id='我的.布局选择' />
-        </Touchable>
-      </Flex.Item>
+    <Flex style={[styles.container, !list && _.mb.md]} justify='center'>
+      <Popover
+        data={MODEL_COLLECTIONS_ORDERBY.data.map(item => item.label)}
+        onSelect={$.onOrderSelect}
+      >
+        <Flex style={styles.item} justify='center'>
+          <Iconfont
+            name='sort'
+            size={13}
+            color={order ? _.colorMain : undefined}
+          />
+          <Text
+            style={_.ml.xs}
+            size={11}
+            type={order ? 'main' : 'sub'}
+            bold
+            numberOfLines={1}
+          >
+            {order ? MODEL_COLLECTIONS_ORDERBY.getLabel(order) : '收藏时间'}
+          </Text>
+        </Flex>
+        <Heatmap id='我的.筛选选择' />
+      </Popover>
+      <Popover data={filterData} onSelect={$.onFilterSelect}>
+        <Flex style={styles.item} justify='center'>
+          <Iconfont
+            name='filter'
+            size={13}
+            color={tag ? _.colorMain : undefined}
+          />
+          <Text
+            style={_.ml.xs}
+            size={11}
+            type={tag ? 'main' : 'sub'}
+            bold
+            numberOfLines={1}
+          >
+            {tag ? tag.replace(/ \(\d+\)/, '') : '标签'}
+          </Text>
+        </Flex>
+        <Heatmap id='我的.排序选择' />
+      </Popover>
+      <Touchable onPress={$.toggleList}>
+        <Flex style={styles.item} justify='center'>
+          <Iconfont
+            style={_.mr.xs}
+            name='list'
+            size={14}
+            color={list ? _.colorMain : undefined}
+          />
+          <Iconfont
+            style={_.ml.sm}
+            name='order'
+            size={13}
+            color={!list ? _.colorMain : undefined}
+          />
+        </Flex>
+        <Heatmap id='我的.布局选择' />
+      </Touchable>
     </Flex>
   )
 }
@@ -99,14 +96,18 @@ ToolBar.contextTypes = {
 export default observer(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
-  bg: {
-    backgroundColor: _.colorBg
+  container: {
+    paddingTop: 12,
+    backgroundColor: _.colorPlain
   },
   item: {
-    paddingVertical: _.md - 4,
-    paddingHorizontal: _.md
-  },
-  touchable: {
-    paddingHorizontal: _.lg
+    paddingVertical: _.sm,
+    paddingHorizontal: _.md,
+    marginHorizontal: _.xs,
+    backgroundColor: _.select(
+      'rgba(238, 238, 238, 0.8)',
+      _._colorDarkModeLevel1
+    ),
+    borderRadius: 16
   }
 }))

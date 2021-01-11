@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 21:08:24
+ * @Last Modified time: 2021-01-11 21:20:12
  */
 import { DATA_ALPHABET } from '@constants'
 import { getTimestamp } from './index'
@@ -129,6 +129,8 @@ export const MANGA_SORT = ['排名', '发行时间', '随机', '名称']
  */
 const searchCache = {}
 export function search({ first, year, begin, status, tags = [], sort } = {}) {
+  init()
+
   // 查询指纹
   const finger = JSON.stringify({
     first,
@@ -224,10 +226,12 @@ export function search({ first, year, begin, status, tags = [], sort } = {}) {
 }
 
 export function pick(index) {
+  init()
   return unzip(manga[index])
 }
 
 export function find(id) {
+  init()
   return unzip(manga.find(item => item.id == id))
 }
 

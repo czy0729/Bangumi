@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 19:56:14
+ * @Last Modified time: 2021-01-11 21:49:47
  */
 
 /**
@@ -168,6 +168,7 @@ export default {
   '条目.查看奖杯': 'Subject.toPSNINE',
   '条目.设置章节筛选': 'Subject.updateFilterEps',
   '条目.阅读轻小说': 'Subject.readNoval',
+  '条目.阅读漫画': 'Subject.readManga',
   '条目.预览': 'Subject.viewThumbs',
   '条目.筛选分数': 'Subject.filterScores',
   '条目.复制标题': 'Subject.copyTitle',
