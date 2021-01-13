@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 21:30:34
+ * @Last Modified time: 2021-01-12 00:54:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,12 +28,12 @@ const menus = [
   },
   {
     title: '漫画',
-    icon: 'menu',
+    icon: 'bang-dan',
     path: 'Manga'
   },
   {
     title: '文库',
-    icon: 'bang-dan',
+    icon: 'menu',
     path: 'Wenku'
   },
   {
@@ -72,7 +72,7 @@ const menus = [
     path: 'Tinygrail'
   },
   {
-    title: '评分趋势',
+    title: '趋势',
     icon: 'fen-xi',
     path: 'netabare',
     login: true
@@ -89,7 +89,7 @@ const menus = [
     login: true
   },
   {
-    title: '我的好友',
+    title: '好友',
     icon: 'friends',
     path: 'Friends',
     login: true

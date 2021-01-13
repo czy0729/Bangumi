@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:21:48
+ * @Last Modified time: 2021-01-12 20:47:41
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -28,7 +28,8 @@ import {
   MODEL_EP_STATUS,
   MODEL_COLLECTION_STATUS,
   MODEL_COLLECTIONS_ORDERBY,
-  MODEL_SETTING_HOME_SORTING
+  MODEL_SETTING_HOME_SORTING,
+  MODEL_SETTING_HOME_LAYOUT
 } from '@constants/model'
 import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS } from '@constants/site'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
@@ -315,7 +316,9 @@ export default class ScreenHomeV2 extends store {
         const { length } = eps
 
         // 集数超过了1页的显示个数
-        if (length > Eps.pageLimit) {
+        const isGrid =
+          this.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
+        if (length > (isGrid ? 24 : Eps.pageLimit)) {
           const userProgress = this.userProgress(subjectId)
           const index = eps.findIndex(
             item => item.type === 0 && userProgress[item.id] !== '看过'

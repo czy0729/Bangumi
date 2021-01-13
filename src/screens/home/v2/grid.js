@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 18:57:50
+ * @Last Modified time: 2021-01-12 20:50:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -134,7 +134,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   current: {
     width: '100%',
-    height: 256
+    height: 204
   },
   noSelect: {
     width: '100%',

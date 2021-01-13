@@ -1,4 +1,3 @@
-/* eslint-disable no-cond-assign, no-bitwise */
 /*
  * jsDelivr CDN
  *  - 每日放送
@@ -10,13 +9,12 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-13 22:23:13
+ * @Last Modified time: 2021-01-13 11:50:55
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
+import _hash from '@utils/thirdParty/hash'
 import { SDK } from './index'
-import hashAvatarData from './json/hash-avatar.json'
-import hashSubjectData from './json/hash-subject.json'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
@@ -27,38 +25,26 @@ export function getOTA() {
   return getSystemStoreAsync().ota
 }
 
-export const VERSION_STATIC = '20201213'
-export const VERSION_RAKUEN = '20201213'
-export const VERSION_AVATAR = '20201213'
-export const VERSION_OSS = '20201213'
-export const VERSION_SUBJECT = '20201213'
-export const VERSION_MONO = '20201012'
-export const VERSION_ANIME = '20201107'
+export const VERSION_STATIC = '20210113'
+export const VERSION_RAKUEN = '20210113'
+export const VERSION_AVATAR = '20210113'
+export const VERSION_OSS = '20210113'
+export const VERSION_SUBJECT = '20210113'
+export const VERSION_MONO = '20201216'
+export const VERSION_ANIME = '20201126'
 export const VERSION_WENKU = '20200927'
+export const VERSIONS_AVATAR = [
+  '20201213',
+  '20201018',
+  '20200712',
+  '20200502',
+  '1.0.2'
+]
 
-export const VERSIONS_AVATAR = ['20201018', '20200712', '20200502', '1.0.2']
-
-const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
-  ''
-)
-export function hash(input) {
-  let hash = 5381
-  let i = input.length - 1
-
-  if (typeof input == 'string') {
-    for (; i > -1; i -= 1) hash += (hash << 5) + input.charCodeAt(i)
-  } else {
-    for (; i > -1; i -= 1) hash += (hash << 5) + input[i]
-  }
-  let value = hash & 0x7fffffff
-
-  let retValue = ''
-  do {
-    retValue += I64BIT_TABLE[value & 0x3f]
-  } while ((value >>= 6))
-
-  return retValue
-}
+/**
+ * 对图片完整地址进行哈希计算
+ */
+export const hash = _hash
 
 /**
  * 每日放送
@@ -151,14 +137,15 @@ export const CDN_RAKUEN_USER_TOPICS = userId => {
  * 头像CDN
  * @url https://github.com/czy0729/Bangumi-OSS
  */
-const avatarCache = {}
+const cacheAvatar = {}
+let hashAvatar
 export const CDN_OSS_AVATAR = src => {
   if (typeof src !== 'string') {
     return src
   }
 
-  if (avatarCache[src]) {
-    return avatarCache[src]
+  if (cacheAvatar[src]) {
+    return cacheAvatar[src]
   }
 
   // 修正图片地址
@@ -172,8 +159,19 @@ export const CDN_OSS_AVATAR = src => {
    * 计算图片hash, 之后查询在不在OSS缓存里面
    * 计算规则: 带https://开头, 使用/m/质量, 去掉?后面的参数
    */
+  if (!hashAvatar) {
+    hashAvatar = Object.assign(
+      {},
+      ...require('./json/hash/avatar.json')
+        .split(',')
+        .map(v => ({
+          [v]: ''
+        }))
+    )
+  }
+
   const _hash = hash(_src)
-  if (_hash in hashAvatarData) {
+  if (_hash in hashAvatar) {
     const ota = getOTA()
     const version =
       parseInt(ota.VERSION_AVATAR) > parseInt(VERSION_AVATAR)
@@ -182,11 +180,11 @@ export const CDN_OSS_AVATAR = src => {
 
     const path = _hash.slice(0, 1).toLocaleLowerCase()
     const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/avatar/m/${path}/${_hash}.jpg`
-    avatarCache[src] = cdnSrc
+    cacheAvatar[src] = cdnSrc
     return cdnSrc
   }
 
-  avatarCache[src] = src
+  cacheAvatar[src] = src
   return src
 }
 
@@ -194,14 +192,15 @@ export const CDN_OSS_AVATAR = src => {
  * 条目封面CDN
  * @url https://github.com/czy0729/Bangumi-OSS
  */
-const subjectCache = {}
+const cacheSubject = {}
+let hashSubject
 export const CDN_OSS_SUBJECT = src => {
   if (typeof src !== 'string') {
     return src
   }
 
-  if (subjectCache[src]) {
-    return subjectCache[src]
+  if (cacheSubject[src]) {
+    return cacheSubject[src]
   }
 
   // 修正图片地址
@@ -215,8 +214,19 @@ export const CDN_OSS_SUBJECT = src => {
    * 计算图片hash, 之后查询在不在OSS缓存里面
    * 计算规则: 带https://开头, 使用/c/质量, 去掉?后面的参数
    */
+  if (!hashSubject) {
+    hashSubject = Object.assign(
+      {},
+      ...require('./json/hash/subject.json')
+        .split(',')
+        .map(v => ({
+          [v]: ''
+        }))
+    )
+  }
+
   const _hash = hash(_src)
-  if (_hash in hashSubjectData) {
+  if (_hash in hashSubject) {
     const ota = getOTA()
     const version =
       parseInt(ota.VERSION_OSS) > parseInt(VERSION_OSS)
@@ -225,11 +235,11 @@ export const CDN_OSS_SUBJECT = src => {
 
     const path = _hash.slice(0, 1).toLocaleLowerCase()
     const cdnSrc = `${HOST_CDN}/gh/czy0729/Bangumi-OSS@${version}/data/subject/c/${path}/${_hash}.jpg`
-    subjectCache[src] = cdnSrc
+    cacheSubject[src] = cdnSrc
     return cdnSrc
   }
 
-  subjectCache[src] = src
+  cacheSubject[src] = src
   return src
 }
 

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-11 21:20:12
+ * @Last Modified time: 2021-01-13 12:05:54
  */
 import { DATA_ALPHABET } from '@constants'
 import { getTimestamp } from './index'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
+import { SORT } from './anime'
 
 let manga = []
 
@@ -15,7 +16,7 @@ let manga = []
  */
 export async function init() {
   if (!manga.length) {
-    manga = require('@constants/json/manga.min.json')
+    manga = require('@constants/json/thirdParty/manga.min.json')
   }
   return true
 }
@@ -177,34 +178,20 @@ export function search({ first, year, begin, status, tags = [], sort } = {}) {
 
   switch (sort) {
     case '发行时间':
-      _list = _list.sort((a, b) =>
-        String(manga[b].b).localeCompare(String(manga[a].b))
-      )
+      _list = _list.sort((a, b) => SORT.begin(manga[a], manga[b]))
       break
 
     case '名称':
-      _list = _list.sort((a, b) =>
-        getPinYinFirstCharacter(manga[a].c).localeCompare(
-          getPinYinFirstCharacter(manga[b].c)
-        )
-      )
+      _list = _list.sort((a, b) => SORT.name(manga[a], manga[b]))
       break
 
     case '评分':
     case '排名':
-      _list = _list.sort((a, b) => {
-        const itemA = manga[a] || {}
-        const itemB = manga[b] || {}
-        if (itemA.r && itemB.r) return itemA.r - itemB.r
-        return (
-          (itemB.s || 0 + itemB.r ? 100 : 0) -
-          (itemA.s || 0 + itemA.r ? 100 : 0)
-        )
-      })
+      _list = _list.sort((a, b) => SORT.rating(manga[a], manga[b]))
       break
 
     case '随机':
-      _list = _list.sort(() => 0.5 - Math.random())
+      _list = _list.sort(() => SORT.random())
       break
 
     default:

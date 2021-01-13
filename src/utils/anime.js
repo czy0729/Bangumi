@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-11 21:16:37
+ * @Last Modified time: 2021-01-13 12:04:24
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
@@ -27,7 +27,7 @@ let anime = []
  */
 export async function init() {
   if (!anime.length) {
-    anime = require('@constants/json/anime.min.json')
+    anime = require('@constants/json/thirdParty/anime.min.json')
   }
   return true
 
@@ -166,6 +166,34 @@ export const ANIME_TAGS = [
 ]
 export const ANIME_SORT = ['排名', '上映时间', '随机', '名称']
 
+export const SORT = {
+  // 上映时间
+  begin(a = {}, b = {}) {
+    return String(b.b || '').localeCompare(String(a.b || ''))
+  },
+
+  // 名称
+  name(a = {}, b = {}) {
+    return getPinYinFirstCharacter(a.c || '').localeCompare(
+      getPinYinFirstCharacter(b.c || '')
+    )
+  },
+
+  // 评分或排名
+  rating(a = {}, b = {}) {
+    const sA = a.s || 0
+    const sB = b.s || 0
+    const rA = a.r === undefined ? -10000 : 10000 - a.r
+    const rB = b.r === undefined ? -10000 : 10000 - b.r
+    return sB + rB - (sA + rA)
+  },
+
+  // 随机
+  random() {
+    return 0.5 - Math.random()
+  }
+}
+
 /**
  * 只返回下标数组对象
  */
@@ -176,6 +204,7 @@ const reg = {
   '10月': /-(10|11|12)-/
 }
 const searchCache = {}
+
 export function search({
   area,
   type,
@@ -244,34 +273,20 @@ export function search({
 
   switch (sort) {
     case '上映时间':
-      _list = _list.sort((a, b) =>
-        String(anime[b].b).localeCompare(String(anime[a].b))
-      )
+      _list = _list.sort((a, b) => SORT.begin(anime[a], anime[b]))
       break
 
     case '名称':
-      _list = _list.sort((a, b) =>
-        getPinYinFirstCharacter(anime[a].c).localeCompare(
-          getPinYinFirstCharacter(anime[b].c)
-        )
-      )
+      _list = _list.sort((a, b) => SORT.name(anime[a], anime[b]))
       break
 
     case '评分':
     case '排名':
-      _list = _list.sort((a, b) => {
-        const itemA = anime[a] || {}
-        const itemB = anime[b] || {}
-        if (itemA.r && itemB.r) return itemA.r - itemB.r
-        return (
-          (itemB.s || 0 + itemB.r ? 100 : 0) -
-          (itemA.s || 0 + itemA.r ? 100 : 0)
-        )
-      })
+      _list = _list.sort((a, b) => SORT.rating(anime[a], anime[b]))
       break
 
     case '随机':
-      _list = _list.sort(() => 0.5 - Math.random())
+      _list = _list.sort(() => SORT.random())
       break
 
     default:
