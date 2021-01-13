@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-12 20:47:41
+ * @Last Modified time: 2021-01-13 21:05:08
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -697,18 +697,22 @@ export default class ScreenHomeV2 extends store {
   }
 
   onRefreshThenScrollTop = () => {
-    const { page } = this.state
-    if (typeof this.scrollToIndex[page] === 'function') {
-      t('其他.刷新到顶', {
-        screen: 'Home'
-      })
+    try {
+      const { page } = this.state
+      if (typeof this.scrollToIndex[page] === 'function') {
+        t('其他.刷新到顶', {
+          screen: 'Home'
+        })
 
-      this.onHeaderRefresh()
-      this.scrollToIndex[page]({
-        animated: true,
-        index: 0,
-        viewOffset: 8000
-      })
+        this.onHeaderRefresh()
+        this.scrollToIndex[page]({
+          animated: true,
+          index: 0,
+          viewOffset: 8000
+        })
+      }
+    } catch (error) {
+      warn('Home', 'onRefreshThenScrollTop', error)
     }
   }
 

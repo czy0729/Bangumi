@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:21:55
+ * @Last Modified time: 2021-01-13 21:03:27
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -152,20 +152,24 @@ export default class ScreenTimeline extends store {
   }
 
   onRefreshThenScrollTop = () => {
-    const { page } = this.state
-    if (typeof this.scrollToLocation[page] === 'function') {
-      t('其他.刷新到顶', {
-        screen: 'Timeline'
-      })
+    try {
+      const { page } = this.state
+      if (typeof this.scrollToLocation[page] === 'function') {
+        t('其他.刷新到顶', {
+          screen: 'Timeline'
+        })
 
-      this.onHeaderRefresh()
-      this.scrollToLocation[page]({
-        animated: true,
-        itemIndex: 0,
-        sectionIndex: 0,
-        viewOffset: 800,
-        viewPosition: 0
-      })
+        this.onHeaderRefresh()
+        this.scrollToLocation[page]({
+          animated: true,
+          itemIndex: 0,
+          sectionIndex: 0,
+          viewOffset: 800,
+          viewPosition: 0
+        })
+      }
+    } catch (error) {
+      warn('Timeline', 'onRefreshThenScrollTop', error)
     }
   }
 

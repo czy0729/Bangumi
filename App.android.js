@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-11 18:08:48
+ * @Last Modified time: 2021-01-13 20:59:44
  */
 import React, { useEffect } from 'react'
 import { Alert, View } from 'react-native'
@@ -19,6 +19,8 @@ import { AppCommon } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { bootApp } from '@utils/app'
 import { useBoolean } from '@utils/hooks'
+import { t } from '@utils/fetch'
+import { getUserStoreAsync } from '@utils/async'
 import theme from '@styles/theme'
 import Navigations from './src/navigations/index'
 
@@ -89,6 +91,12 @@ function errorHandler(e, isFatal) {
         }
       ]
     )
+
+    const userStore = getUserStoreAsync()
+    t('其他.崩溃', {
+      error: `${e.name} ${e.message}`,
+      id: userStore.myId || ''
+    })
   }
 }
 

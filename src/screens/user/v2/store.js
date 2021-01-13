@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 23:02:48
+ * @Last Modified time: 2021-01-13 21:02:32
  */
 import { observable, computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore } from '@stores'
@@ -315,18 +315,22 @@ export default class ScreenUser extends store {
   }
 
   onRefreshThenScrollTop = () => {
-    const { page } = this.state
-    if (typeof this.scrollToIndex[page] === 'function') {
-      t('其他.刷新到顶', {
-        screen: 'User'
-      })
+    try {
+      const { page } = this.state
+      if (typeof this.scrollToIndex[page] === 'function') {
+        t('其他.刷新到顶', {
+          screen: 'User'
+        })
 
-      this.onHeaderRefresh()
-      this.scrollToIndex[page]({
-        animated: true,
-        index: 0,
-        viewOffset: 8000
-      })
+        this.onHeaderRefresh()
+        this.scrollToIndex[page]({
+          animated: true,
+          index: 0,
+          viewOffset: 8000
+        })
+      }
+    } catch (error) {
+      warn('User', 'onRefreshThenScrollTop', error)
     }
   }
 }

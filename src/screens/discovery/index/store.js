@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:25:44
+ * @Last Modified time: 2021-01-13 21:05:35
  */
 import { observable, computed } from 'mobx'
 import {
@@ -151,17 +151,21 @@ export default class ScreenDiscovery extends store {
   }
 
   onRefreshThenScrollTop = () => {
-    if (typeof this.scrollToIndex === 'function') {
-      t('其他.刷新到顶', {
-        screen: 'Discovery'
-      })
+    try {
+      if (typeof this.scrollToIndex === 'function') {
+        t('其他.刷新到顶', {
+          screen: 'Discovery'
+        })
 
-      this.fetchOnline()
-      this.scrollToIndex({
-        animated: true,
-        index: 0,
-        viewOffset: 8000
-      })
+        this.fetchOnline()
+        this.scrollToIndex({
+          animated: true,
+          index: 0,
+          viewOffset: 8000
+        })
+      }
+    } catch (error) {
+      warn('Discovery', 'onRefreshThenScrollTop', error)
     }
   }
 }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:21:45
+ * @Last Modified time: 2021-01-13 21:04:21
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -426,18 +426,22 @@ export default class ScreenRakuen extends store {
   }
 
   onRefreshThenScrollTop = () => {
-    const { page } = this.state
-    if (typeof this.scrollToIndex[page] === 'function') {
-      t('其他.刷新到顶', {
-        screen: 'Rakuen'
-      })
+    try {
+      const { page } = this.state
+      if (typeof this.scrollToIndex[page] === 'function') {
+        t('其他.刷新到顶', {
+          screen: 'Rakuen'
+        })
 
-      this.onHeaderRefresh()
-      this.scrollToIndex[page]({
-        animated: true,
-        index: 0,
-        viewOffset: 8000
-      })
+        this.onHeaderRefresh()
+        this.scrollToIndex[page]({
+          animated: true,
+          index: 0,
+          viewOffset: 8000
+        })
+      }
+    } catch (error) {
+      warn('Rakuen', 'onRefreshThenScrollTop', error)
     }
   }
 }
