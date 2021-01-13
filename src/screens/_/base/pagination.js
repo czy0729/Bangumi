@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 02:42:08
+ * @Last Modified time: 2021-01-13 22:09:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -74,10 +74,10 @@ const memoStyles = _.memoStyles(_ => ({
     marginHorizontal: _.wind
   },
   pagination: {
-    height: 28
+    height: 30
   },
   input: {
-    height: 28,
+    height: 30,
     ..._.fontSize(13),
     textAlign: 'center',
     backgroundColor: 'transparent',

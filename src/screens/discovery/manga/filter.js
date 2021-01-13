@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:35:45
+ * @Last Modified time: 2021-01-13 22:15:40
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -233,6 +233,6 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     bottom: 0,
     width: 34,
-    marginBottom: -29
+    marginBottom: -30
   }
 }))

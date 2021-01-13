@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 02:44:33
+ * @Last Modified time: 2021-01-13 22:05:33
  */
 import React from 'react'
 import {
@@ -147,7 +147,7 @@ const withHeader = ({
         const { navigation } = this.props
         let backgroundColor
         if (!IOS && _.isDark) {
-          backgroundColor = _._colorDarkModeLevel1Hex
+          backgroundColor = _._colorPlainHex
         }
 
         // withHeaderParams动态生成的params优先级最高

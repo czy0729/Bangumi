@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.5.0" src="https://img.shields.io/badge/Version-4.5.0-0366d6" />
+  <img alt="Version: 4.6.0" src="https://img.shields.io/badge/Version-4.6.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -46,32 +46,28 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.5.0 - 2020/12/27
+v4.6.0 - 2021/01/13
 
 —— 新增 ——
 
-- [x] [设置] 设置可上传到云端, 下载并恢复, 不用再怕重装后丢失
+- [x] [找番剧 | 文库 | 漫画]
+  - [x] 新增找漫画
+  - [x] 新增方格布局
+  - [x] 类型标签支持长按多选
+  - [x] 数据显示分数和排名, 排名优先度高于分数 (排名需要一定数量人打过分才会有)
+  - [x] 更新了 1 月新番数据
+  - [x] 一次最多显示前 500 条数据, 请活用筛选
 
 —— 优化 ——
 
-- [x] [首页] 5 个底部 TabBar 图标, 再点击时会滚动到顶并刷新当前列表数据
-- [x] [首页收藏] 条目增加直接查询播放源按钮 (需要在设置打开)
-- [x] [条目] 未上映的番剧会单独显示上映日期
-- [x] [条目] 页面内每个模块的标题点击都能折叠, 且通过分析埋点后, 使用率过低的模块默认折叠
-- [x] [帖子] +1 和子楼层引用的 UI 迭代
-- [x] [帖子] 楼层的引用回复默认最多显示 3 行, 点击展开
-- [x] [帖子] 默认过滤掉用户已删除的楼层 (可在超展开设置中设置不过滤)
-- [x] [时光机] 追加按 [网站评分] 排序
-- [x] [找番剧] 条目分数使用更准确的最近快照
-- [x] [找番剧] 删除无数据的标签
-- [x] [设置] 隐藏不常用设置
+- [x] [条目] 优化源头搜索(说明一下: 源头跟本应用和作者都没任何关系, 部分源头广告多可以考虑不看或者装个带广告过滤的浏览器)
+- [x] 方格样式番剧列表、分页块、筛选栏 UI 迭代
+- [x] 强制设置不能分屏使用本应用 (分屏会卡死手机, 当前不知道怎么解决, 暂时屏蔽)
 
 —— 修复 ——
 
-- [x] [个人设置] 不符合格式的数据会被修复, 有问题请再次保存即可
-- [x] [吐槽 | 私信] 修复进入页面没有自动滚动到底的问题
-- [x] [iOS] 修复 iphone12 系列 屏幕分辨率问题
-- [x] [安卓] 修复用户曾用名错误行高导致昵称显示不全问题
+- [x] [首页进度] 修复方格模式下, 章节数大于 24 格子显示不全的问
+- [x] 修复再次点击底部 TabBar 图标到顶, 当页面没有数据会报错的问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 

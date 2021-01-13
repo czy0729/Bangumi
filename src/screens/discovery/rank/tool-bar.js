@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 23:08:11
+ * @Last Modified time: 2021-01-13 22:08:16
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -10,7 +10,7 @@ import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
 import { observer } from '@utils/decorators'
-import { DATA_AIRTIME, DATA_MONTH } from '@constants'
+import { IOS, DATA_AIRTIME, DATA_MONTH } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
   MODEL_RANK_ANIME_FILTER,
@@ -45,7 +45,7 @@ function ToolBar(props, { $ }) {
   const isEmptyAirdate = airtime === ''
   const isEmptyMonth = month === ''
   return (
-    <Flex style={[styles.container, !list && _.mb.xs]} justify='center'>
+    <Flex style={styles.container} justify='center'>
       <Popover data={typeData} onSelect={$.onTypeSelect}>
         <Flex style={styles.item} justify='center'>
           <Iconfont name='filter' size={12} color={_.colorMain} />
@@ -114,7 +114,7 @@ export default observer(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingTop: 6,
+    paddingTop: IOS ? 6 : 0,
     paddingBottom: 10
   },
   item: {

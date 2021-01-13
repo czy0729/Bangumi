@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:02:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 16:36:59
+ * @Last Modified time: 2021-01-13 23:01:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,7 +64,7 @@ class DiscoveryBlog extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.bg}>
+      <View style={_.container.plain}>
         {!!_loaded && <Tabs />}
         <Heatmap
           right={_.wind + 62}

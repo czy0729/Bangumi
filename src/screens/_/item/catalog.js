@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:02:55
+ * @Last Modified time: 2021-01-13 22:56:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -163,7 +163,7 @@ export default observer(CatalogItem)
 const memoStyles = _.memoStyles(_ => ({
   container: {
     paddingLeft: _.wind,
-    backgroundColor: _.select(_.colorPlain, _.colorBg)
+    backgroundColor: _.colorPlain
   },
   wrap: {
     paddingVertical: _.space,
@@ -185,7 +185,7 @@ const memoStyles = _.memoStyles(_ => ({
   catalogLine: {
     position: 'absolute',
     right: 0,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderRadius: 2,
     borderColor: _.colorBorder
@@ -207,7 +207,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     width: w + 2,
     height: w + 2,
-    backgroundColor: _.colorPlain,
+    backgroundColor: _.select(_.colorPlain, _.colorBg),
     borderWidth: 1,
     borderColor: _.colorBorder,
     borderRadius: 3,

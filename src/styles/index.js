@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-11 02:01:39
+ * @Last Modified time: 2021-01-13 22:05:24
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -92,6 +92,7 @@ export const _colorSuccess = 'rgb(50, 209, 96)'
 export const _colorYellow = 'rgb(255, 214, 50)'
 export const _colorWarning = 'rgb(255, 160, 12)'
 export const _colorPlain = 'rgb(36, 36, 36)' // 'rgb(46, 46, 48)'
+export const _colorPlainHex = '#242424'
 export const _colorWait = 'rgb(78, 78, 80)'
 export const _colorBg = 'rgb(24, 24, 24)' // 'rgb(34, 34, 36)'
 export const _colorBorder = 'rgba(255, 255, 255, 0.16)'

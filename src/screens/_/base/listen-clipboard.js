@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 10:46:55
+ * @Last Modified time: 2021-01-13 23:17:09
  */
 import React from 'react'
 import { AppState, Clipboard } from 'react-native'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:02:43
+ * @Last Modified time: 2021-01-13 22:55:54
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -70,12 +70,12 @@ class Catalog extends React.Component {
     const { $ } = this.context
     const { show, _loaded } = $.state
     if (!_loaded) {
-      return <View style={_.container.bg} />
+      return <View style={_.container.plain} />
     }
 
     return (
       <ScrollView
-        style={_.container.bg}
+        style={_.container.plain}
         contentContainerStyle={_.container.bottom}
         showsVerticalScrollIndicator={false}
         scrollToTop

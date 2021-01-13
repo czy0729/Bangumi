@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:30:28
+ * @Last Modified time: 2021-01-13 21:25:07
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import { Portal } from '@ant-design/react-native'
@@ -405,6 +405,7 @@ export function sax({
  * @param {*} url
  * @param {*} screen
  */
+let lastHm = ''
 export function hm(url, screen) {
   if (screen) {
     t('其他.查看', {
@@ -433,6 +434,7 @@ export function hm(url, screen) {
       const u = `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}${urlStringify(
         query
       )}`
+      lastHm = u
 
       if (DEV) {
         log(`📌 ${u}`)
@@ -490,7 +492,15 @@ export function t(desc, eventData) {
       const eventId = events[desc]
       if (eventId) {
         if (eventData) {
-          UMAnalyticsModule.onEventWithMap(eventId, eventData)
+          UMAnalyticsModule.onEventWithMap(
+            eventId,
+            eventId === '其他.崩溃'
+              ? {
+                  ...eventData,
+                  url: lastHm
+                }
+              : eventData
+          )
         } else {
           UMAnalyticsModule.onEvent(eventId)
         }
