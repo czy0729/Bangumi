@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 12:04:24
+ * @Last Modified time: 2021-01-13 14:44:49
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
@@ -164,6 +164,129 @@ export const ANIME_TAGS = [
   '泡面番',
   '欢乐向'
 ]
+export const ANIME_OFFICIAL = [
+  // 首屏
+  'J.C.STAFF',
+  'A-1 Pictures',
+  'Studio DEEN',
+  'BONES',
+  '京都动画',
+  'SHAFT',
+  'XEBEC',
+  'TMS Entertainment',
+  'LIDENFILMS',
+  // eslint-disable-next-line quotes
+  "Brain's Base",
+  'GONZO',
+  '小丑社',
+  'WHITE FOX',
+  '8bit',
+  'SEVEN・ARCS',
+  'OLM',
+  'ZEXCS',
+  'WIT STUDIO',
+  'project No.9',
+  '玄机科技',
+  'david production',
+  'Hoods Entertainment',
+  '龙之子Production',
+  '绘梦',
+  'KINEMA CITRUS',
+  'ufotable',
+  'Manglobe',
+  'SANZIGEN',
+  'GoHands',
+  'GAINAX',
+  'Production IMS',
+  'AIC',
+  'Studio五組',
+  'BN Pictures',
+  'ZERO-G',
+  'Seven',
+  'Arms',
+  'TNK',
+  '东映动画',
+  'CloverWorks',
+  'TRIGGER',
+  '上海福煦影视文化投资有限公司',
+  'PPI',
+  'Passione',
+  'asread',
+
+  // 次屏
+  'W-toon Studio',
+  '视美精典',
+  '铸梦动画',
+  'GEMBA',
+  '中影年年',
+  'BLADE',
+  'studio A-CAT',
+  'Science SARU',
+  '幻维数码',
+  '若鸿文化',
+  'Magic Bus',
+  'Signal-MD',
+
+  // 首屏
+  'MAPPA',
+  'MADHOUSE',
+  'SUNRISE',
+  'Production I.G',
+  'SILVER LINK.',
+  '動画工房',
+  'feel.',
+  'diomedéa',
+  'Lerche',
+  'SATELIGHT',
+  'P.A.WORKS',
+  '東映動画',
+
+  // 次屏
+  'Nippon Animation',
+  'Studio五组',
+  'CONNECT',
+  'Creators in Pack',
+  'NOMAD',
+  'Actas',
+  'Bridge',
+  'Telecom Animation Film',
+  'ARTLAND',
+  'SHIN-EI动画',
+  'C-Station',
+  'TROYCA',
+  'TYO Animations',
+  'Studio 3Hz',
+  'ILCA',
+  'C2C',
+  'Lay-duce',
+  '朱夏',
+  'AXsiZ',
+  'Hal Film Maker',
+  'AIC ASTA',
+  'Graphinica',
+  'Ordet',
+  'GATHERING',
+  '动画工房',
+  'Pierrot+',
+  '北京若森数字科技有限公司',
+  'PINE JAM',
+  '亜細亜堂',
+  '精英集团',
+  'Encourage Films',
+  'NAZ',
+  '旭Production',
+  'Genostudio',
+  'Millepensee',
+  'PlatinumVision',
+  'DMM.futureworks',
+  'EMT2',
+  '童夢',
+  'CoMix Wave Films',
+  '云雀工作室',
+  '彗星社',
+  'Nexus',
+  'Orange'
+]
 export const ANIME_SORT = ['排名', '上映时间', '随机', '名称']
 
 export const SORT = {
@@ -213,6 +336,7 @@ export function search({
   begin,
   status,
   tags = [],
+  official,
   sort
 } = {}) {
   init()
@@ -226,6 +350,7 @@ export function search({
     begin,
     status,
     tags,
+    official,
     sort
   })
   if (sort !== '随机' && searchCache[finger]) {
@@ -267,6 +392,8 @@ export function search({
         if (match) match = item.t?.includes(tag)
       })
     }
+
+    if (match && official) match = item.o?.includes(official)
 
     if (match) _list.push(index)
   })

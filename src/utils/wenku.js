@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-11 21:17:42
+ * @Last Modified time: 2021-01-13 14:15:48
  */
 // import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
 // import wenkuData from '@constants/json/wenku.min.json'
@@ -90,7 +90,7 @@ let wenku = []
  */
 export async function init() {
   if (!wenku.length) {
-    wenku = require('@constants/json/wenku.min.json')
+    wenku = require('@constants/json/thirdParty/wenku.min.json')
   }
   return true
 

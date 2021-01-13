@@ -1,9 +1,8 @@
-/* eslint-disable react/jsx-indent */
 /*
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:41:13
+ * @Last Modified time: 2021-01-13 14:39:09
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -19,11 +18,12 @@ import {
   ANIME_BEGIN,
   ANIME_STATUS,
   ANIME_TAGS,
+  ANIME_OFFICIAL,
   ANIME_SORT
 } from '@utils/anime'
 import { info } from '@utils/ui'
 
-// 数组分组并弄好看
+// 类型分组
 const ANIME_TAGS_GROUP = []
 for (let i = 0, len = ANIME_TAGS.length; i < len; i += 15) {
   ANIME_TAGS_GROUP.push(ANIME_TAGS.slice(i, i + 15))
@@ -32,6 +32,18 @@ let tag = ANIME_TAGS_GROUP[0].pop()
 ANIME_TAGS_GROUP[1] = [tag, ...ANIME_TAGS_GROUP[1]]
 tag = ANIME_TAGS_GROUP[1].pop()
 ANIME_TAGS_GROUP[2] = [tag, ...ANIME_TAGS_GROUP[2]]
+
+// 制作分组
+const ANIME_OFFICIAL_GROUP = []
+for (
+  let i = 0, len = ANIME_OFFICIAL.length;
+  i < len;
+  i += parseInt((ANIME_OFFICIAL.length + 1) / 2)
+) {
+  ANIME_OFFICIAL_GROUP.push(
+    ANIME_OFFICIAL.slice(i, i + parseInt((ANIME_OFFICIAL.length + 1) / 2))
+  )
+}
 
 const filterDS = [
   {
@@ -70,6 +82,11 @@ const filterDS = [
     data: ANIME_TAGS_GROUP
   },
   {
+    title: '制作',
+    type: 'official',
+    data: ANIME_OFFICIAL_GROUP
+  },
+  {
     title: '排序',
     type: 'sort',
     data: ANIME_SORT
@@ -83,7 +100,8 @@ function Filter(props, { $ }) {
     <View style={[styles.container, layout === 'grid' && _.mb.md]}>
       {filterDS.map(item => {
         const state = query[item.type]
-        const multiple = item.title === '类型'
+        const multiple = ['类型', '制作'].includes(item.title)
+        const multiSelect = item.title === '类型'
         const all = (
           <Touchable
             style={[
@@ -107,7 +125,7 @@ function Filter(props, { $ }) {
                 <Text style={multiple && styles.multipleTitle} size={12} bold>
                   {item.title}
                 </Text>
-                {multiple && (
+                {multiSelect && (
                   <Touchable
                     style={styles.how}
                     onPress={() => info('长按标签多选类型')}
@@ -157,7 +175,11 @@ function Filter(props, { $ }) {
                                 : state === tag) && styles.itemActive
                             ]}
                             onPress={() => $.onSelect(item.type, tag)}
-                            onLongPress={() => $.onSelect(item.type, tag, true)}
+                            onLongPress={
+                              multiSelect
+                                ? () => $.onSelect(item.type, tag, true)
+                                : undefined
+                            }
                           >
                             <Text size={11}>{tag}</Text>
                             <Heatmap

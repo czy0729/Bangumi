@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:34:40
+ * @Last Modified time: 2021-01-13 14:13:54
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -23,6 +23,7 @@ export default class ScreenAnime extends store {
       begin: '',
       status: '',
       tags: [], // 已支持多选, 不过暂时不开放
+      official: '',
       sort: ''
     },
     data: LIST_EMPTY,
