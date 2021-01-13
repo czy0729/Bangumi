@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 14:15:48
+ * @Last Modified time: 2021-01-13 20:33:27
  */
 // import { VERSION_WENKU, CDN_STATIC_WENKU, getOTA } from '@constants/cdn'
 // import wenkuData from '@constants/json/wenku.min.json'
@@ -12,6 +12,7 @@ import {
 } from './index'
 // import { xhrCustom } from './fetch'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
+import { SORT } from './anime'
 
 export const WENKU_FIRST = [
   'A',
@@ -42,6 +43,7 @@ export const WENKU_FIRST = [
   'Z'
 ]
 export const WENKU_YEAR = [
+  2021,
   2020,
   2019,
   2018,
@@ -66,6 +68,78 @@ export const WENKU_YEAR = [
 ]
 export const WENKU_STATUS = ['连载', '完结']
 export const WENKU_ANIME = ['是', '否']
+export const WENKU_CATE = [
+  '电击文库',
+  'MF文库J',
+  '角川文库',
+  '富士见文库',
+  'Fami通文库',
+  '集英社',
+  '讲谈社',
+  'HJ文库',
+  'GA文库',
+  '小学馆',
+  '少女文库',
+  '一迅社',
+  '游戏剧本',
+  '其他文库'
+]
+export const WENKU_AUTHOR = [
+  '西尾维新',
+  '入间人间',
+  '杉井光',
+  '镰池和马',
+  '榊一郎',
+  '合作',
+  '野村美月',
+  '日日日',
+  '田中芳树',
+  '筑地俊彦',
+  '有川浩',
+  '五十岚雄策',
+  '京极夏彦',
+  '奈须蘑菇',
+  '森见登美彦',
+  '米泽穗信',
+  '十文字青',
+  '村崎幸也',
+  '矢岛さら',
+  '成田良悟',
+  '细音启',
+  '虚渊玄',
+  '时雨泽惠一',
+  '铃木大辅',
+  '川口士',
+  '森田季节',
+  '朝野始',
+  '望公太',
+  '桥本纺',
+  '三田诚',
+  '樱庭一树',
+  '本田透',
+  '土桥真二郎',
+  '甲田学人',
+  '田尾典丈',
+  '新木伸',
+  '绫里惠史',
+  '朝浦',
+  '石田衣良',
+  '犬村小六',
+  '平坂读',
+  '唐边叶介',
+  '红玉伊月',
+  '小野不由美',
+  '上远野浩平',
+  '舞阪洸',
+  '竹冈叶月',
+  '镜游',
+  '石川博品',
+  '柑橘ゆすら',
+  '岬鹭宫',
+  '三河ごーすと',
+  '古宫九时',
+  '天泽夏月'
+]
 export const WENKU_SORT = [
   '发行',
   '排名',
@@ -128,7 +202,15 @@ export async function init() {
  * 只返回下标数组对象
  */
 const searchCache = {}
-export function search({ sort, year, first, status, anime } = {}) {
+export function search({
+  sort,
+  year,
+  first,
+  status,
+  anime,
+  cate,
+  author
+} = {}) {
   init()
 
   // 查询指纹
@@ -137,7 +219,9 @@ export function search({ sort, year, first, status, anime } = {}) {
     year,
     first,
     status,
-    anime
+    anime,
+    cate,
+    author
   })
 
   if (sort !== '随机' && searchCache[finger]) {
@@ -171,14 +255,15 @@ export function search({ sort, year, first, status, anime } = {}) {
       match = anime === '是' ? item.an === 1 : !item.an
     }
 
+    if (match && author) match = item.a === author
+    if (match && cate) match = item.ca === cate
+
     if (match) _list.push(index)
   })
 
   switch (sort) {
     case '发行':
-      _list = _list.sort((a, b) =>
-        String(wenku[b].b).localeCompare(String(wenku[a].b))
-      )
+      _list = _list.sort((a, b) => SORT.begin(wenku[a], wenku[b]))
       break
 
     case '更新':
@@ -188,24 +273,12 @@ export function search({ sort, year, first, status, anime } = {}) {
       break
 
     case '名称':
-      _list = _list.sort((a, b) =>
-        getPinYinFirstCharacter(wenku[a].c || wenku[a].j).localeCompare(
-          getPinYinFirstCharacter(wenku[b].c || wenku[a].j)
-        )
-      )
+      _list = _list.sort((a, b) => SORT.name(wenku[a], wenku[b]))
       break
 
     case '评分':
     case '排名':
-      _list = _list.sort((a, b) => {
-        const itemA = wenku[a] || {}
-        const itemB = wenku[b] || {}
-        if (itemA.r && itemB.r) return itemA.r - itemB.r
-        return (
-          (itemB.s || 0 + itemB.r ? 100 : 0) -
-          (itemA.s || 0 + itemA.r ? 100 : 0)
-        )
-      })
+      _list = _list.sort((a, b) => SORT.rating(wenku[a], wenku[b]))
       break
 
     case '热度':
@@ -227,7 +300,7 @@ export function search({ sort, year, first, status, anime } = {}) {
       break
 
     case '随机':
-      _list = _list.sort(() => 0.5 - Math.random())
+      _list = _list.sort(() => SORT.random())
       break
 
     default:

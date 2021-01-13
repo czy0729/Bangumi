@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 13:50:42
+ * @Last Modified time: 2021-01-13 20:29:05
  */
 import { Alert } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -80,7 +80,7 @@ class Stores {
    * @param {*} store
    */
   add(key, store) {
-    if (!this[key]) {
+    if (!this[key] || DEV) {
       this[key] = store
     }
   }

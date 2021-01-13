@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 05:37:56
+ * @Last Modified time: 2021-01-13 20:34:20
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,6 +16,8 @@ import {
   WENKU_YEAR,
   WENKU_STATUS,
   WENKU_ANIME,
+  WENKU_CATE,
+  WENKU_AUTHOR,
   WENKU_SORT
 } from '@utils/wenku'
 
@@ -39,6 +41,16 @@ const filterDS = [
     title: '动画化',
     type: 'anime',
     data: WENKU_ANIME
+  },
+  {
+    title: '出版　',
+    type: 'cate',
+    data: WENKU_CATE
+  },
+  {
+    title: '作者　',
+    type: 'author',
+    data: WENKU_AUTHOR
   },
   {
     title: '排序　',

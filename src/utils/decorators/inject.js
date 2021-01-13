@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-05 21:17:38
+ * @Last Modified time: 2021-01-13 20:28:25
  */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { NavigationEvents } from 'react-navigation'
 import { observer } from 'mobx-react'
 import Stores from '@stores'
+import { DEV } from '@constants'
 import { urlStringify } from '../index'
 
 /**
@@ -46,7 +47,7 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
         // storeKey约定为路由名字 + 参数(排除_开头的key)的序列化
         const screenKey = `${state.routeName}?${urlStringify(params)}`
         this.$ = Stores.get(screenKey)
-        if (!this.$) {
+        if (!this.$ || DEV) {
           this.$ = new Store() // 新建store
           // this.$.setup() // store约定初始化
 

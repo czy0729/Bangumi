@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:29:59
+ * @Last Modified time: 2021-01-13 20:08:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -107,7 +107,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
                 {x18(id) && <Tag style={_.ml.sm} value='H' />}
               </Flex>
             </Flex>
-            <Text style={_.mt.sm} size={11} lineHeight={14}>
+            <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
               {tip}
             </Text>
             <Flex style={_.mt.md} wrap='wrap'>
