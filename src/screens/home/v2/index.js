@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 22:01:20
+ * @Last Modified time: 2021-01-14 16:35:34
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -106,16 +106,9 @@ class Home extends React.Component {
    */
   updateInitialPage = () => {
     const { $, navigation } = this.context
-    if ($.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('进度')) {
-      return
-    }
-
     if ($.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('小圣杯')) {
       navigation.push('Tinygrail')
-      return
     }
-
-    navigation.navigate($.initialPage)
   }
 
   get style() {

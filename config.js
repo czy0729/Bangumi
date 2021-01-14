@@ -2,10 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 20:48:31
+ * @Last Modified time: 2021-01-14 16:48:10
  */
+import AsyncStorage from '@react-native-community/async-storage'
+import { MODEL_SETTING_INITIAL_PAGE } from '@constants/model'
+
+let initialPage
+
+  // 获取启动页
+  // eslint-disable-next-line semi-style, wrap-iife
+;(async function getSetting() {
+  const setting = await AsyncStorage.getItem('System|setting|state')
+  initialPage =
+    setting.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('小圣杯')
+      ? 'Home'
+      : setting.initialPage
+})()
+
 export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
-export const initialHomeTabName = 'Home'
+export const initialHomeTabName = initialPage
 
 export default {
   initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets TinygrailSacrifice
