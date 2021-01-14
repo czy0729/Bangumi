@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 21:24:30
+ * @Last Modified time: 2021-01-14 17:58:50
  */
 import React from 'react'
 import {
@@ -13,7 +13,7 @@ import {
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { observer } from 'mobx-react'
 import * as Screens from '@screens'
-import navigationsParams, { initialHomeTabName } from '@/config'
+import navigationsParams, { initialRouteName } from '@/config'
 import TabBarComponent from './tab-bar-component'
 import config from './config'
 import HomeScreen from './home-screen'
@@ -29,7 +29,7 @@ const HomeTab = observer(
       User: Screens.User
     },
     {
-      initialRouteName: initialHomeTabName,
+      initialRouteName,
       tabBarComponent: props => <TabBarComponent {...props} />,
       navigationOptions: ({ navigation, screenProps }) =>
         getActiveChildNavigationOptions(navigation, screenProps),

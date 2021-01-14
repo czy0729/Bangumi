@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-14 16:35:34
+ * @Last Modified time: 2021-01-14 21:00:29
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -47,11 +47,10 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    const { $, navigation } = this.context
+    const { navigation } = this.context
 
     // App生命周期内保存首页的navigation引用
     navigationReference(navigation)
-    $.init()
     this.updateInitialPage()
 
     setTimeout(() => {
@@ -99,6 +98,11 @@ class Home extends React.Component {
         navigation.navigate('Auth')
       }
     }, 160)
+
+    const { _loaded } = $.state
+    if (!_loaded) {
+      $.init()
+    }
   }
 
   /**
@@ -106,9 +110,22 @@ class Home extends React.Component {
    */
   updateInitialPage = () => {
     const { $, navigation } = this.context
+    if ($.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('进度')) {
+      $.init()
+      return
+    }
+
     if ($.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('小圣杯')) {
       navigation.push('Tinygrail')
+      return
     }
+
+    setTimeout(() => {
+      $.setState({
+        isFocused: false
+      })
+      navigation.navigate($.initialPage)
+    }, 0)
   }
 
   get style() {
@@ -117,8 +134,7 @@ class Home extends React.Component {
 
   render() {
     const { $ } = this.context
-    const { isFocused } = this.props
-    const { _loaded } = $.state
+    const { isFocused, _loaded } = $.state
     return (
       <SafeAreaView style={this.style}>
         <UM screen={title} />
