@@ -9,11 +9,13 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 11:50:55
+ * @Last Modified time: 2021-01-14 17:01:28
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
 import _hash from '@utils/thirdParty/hash'
+import hashSubject from '@constants/json/hash/subject.json'
+import hashAvatar from '@constants/json/hash/avatar.json'
 import { SDK } from './index'
 
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
@@ -138,7 +140,6 @@ export const CDN_RAKUEN_USER_TOPICS = userId => {
  * @url https://github.com/czy0729/Bangumi-OSS
  */
 const cacheAvatar = {}
-let hashAvatar
 export const CDN_OSS_AVATAR = src => {
   if (typeof src !== 'string') {
     return src
@@ -154,21 +155,6 @@ export const CDN_OSS_AVATAR = src => {
     _src = `https:${_src}`
   }
   _src = _src.replace('http://', 'https://')
-
-  /**
-   * 计算图片hash, 之后查询在不在OSS缓存里面
-   * 计算规则: 带https://开头, 使用/m/质量, 去掉?后面的参数
-   */
-  if (!hashAvatar) {
-    hashAvatar = Object.assign(
-      {},
-      ...require('./json/hash/avatar.json')
-        .split(',')
-        .map(v => ({
-          [v]: ''
-        }))
-    )
-  }
 
   const _hash = hash(_src)
   if (_hash in hashAvatar) {
@@ -193,7 +179,6 @@ export const CDN_OSS_AVATAR = src => {
  * @url https://github.com/czy0729/Bangumi-OSS
  */
 const cacheSubject = {}
-let hashSubject
 export const CDN_OSS_SUBJECT = src => {
   if (typeof src !== 'string') {
     return src
@@ -209,21 +194,6 @@ export const CDN_OSS_SUBJECT = src => {
     _src = `https:${_src}`
   }
   _src = _src.replace('http://', 'https://')
-
-  /**
-   * 计算图片hash, 之后查询在不在OSS缓存里面
-   * 计算规则: 带https://开头, 使用/c/质量, 去掉?后面的参数
-   */
-  if (!hashSubject) {
-    hashSubject = Object.assign(
-      {},
-      ...require('./json/hash/subject.json')
-        .split(',')
-        .map(v => ({
-          [v]: ''
-        }))
-    )
-  }
 
   const _hash = hash(_src)
   if (_hash in hashSubject) {
