@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 14:56:52
+ * @Last Modified time: 2021-01-15 00:07:44
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -49,7 +49,7 @@ class Home extends React.Component {
     navigation: PropTypes.object
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const { $, navigation } = this.context
 
     // App生命周期内保存首页的navigation引用

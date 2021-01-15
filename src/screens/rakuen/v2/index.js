@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:11:38
+ * @Last Modified time: 2021-01-15 00:10:58
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,6 +15,7 @@ import {
   IconPortal
 } from '@screens/_'
 import { _ } from '@stores'
+import { runAfter } from '@utils'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -43,8 +44,10 @@ class Rakuen extends React.Component {
 
   componentDidMount() {
     const { $ } = this.context
-    $.init()
-    hm('rakuen', 'Rakuen')
+    runAfter(() => {
+      $.init()
+      hm('rakuen', 'Rakuen')
+    })
   }
 
   componentWillReceiveProps({ isFocused }) {
@@ -64,19 +67,19 @@ class Rakuen extends React.Component {
     const { isFocused } = this.props
     return (
       <SafeAreaView style={this.style}>
-        <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
         {_loaded && (
           <>
+            <UM screen={title} />
             <Header />
             <Tab />
+            {isFocused && (
+              <IconPortal index={3} onPress={$.onRefreshThenScrollTop} />
+            )}
+            <Heatmaps />
           </>
         )}
-        {isFocused && (
-          <IconPortal index={3} onPress={$.onRefreshThenScrollTop} />
-        )}
-        <Heatmaps />
       </SafeAreaView>
     )
   }

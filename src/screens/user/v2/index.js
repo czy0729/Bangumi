@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-11 02:17:58
+ * @Last Modified time: 2021-01-15 00:12:59
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import { StatusBarEvents, UM } from '@components'
 import { IconTabBar, Login, IconPortal } from '@screens/_'
 import { _ } from '@stores'
+import { runAfter } from '@utils'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -45,13 +46,15 @@ class User extends React.Component {
   offsetZeroNativeEvent
   loaded = {}
 
-  async componentDidMount() {
-    const { $ } = this.context
-    await $.init()
-    const { page } = $.state
-    this.loaded[page] = true
+  componentDidMount() {
+    runAfter(async () => {
+      const { $ } = this.context
+      await $.init()
+      const { page } = $.state
+      this.loaded[page] = true
 
-    hm(`user/${$.myUserId}?route=user`, 'User')
+      hm(`user/${$.myUserId}?route=user`, 'User')
+    })
   }
 
   componentWillReceiveProps({ isFocused }) {
@@ -157,13 +160,13 @@ class User extends React.Component {
     const { fixed } = this.state
     return (
       <View style={this.style}>
-        <UM screen={title} />
         <StatusBarEvents
           barStyle='light-content'
           backgroundColor='transparent'
         />
         {_loaded && (
           <>
+            <UM screen={title} />
             <NavigationEvents onDidFocus={this.onDidFocus} />
             <Tab
               scrollY={this.scrollY}
@@ -187,12 +190,12 @@ class User extends React.Component {
               )}
             />
             <ParallaxImage scrollY={this.scrollY} fixed={fixed} />
+            {isFocused && (
+              <IconPortal index={4} onPress={$.onRefreshThenScrollTop} />
+            )}
+            <Heatmaps />
           </>
         )}
-        {isFocused && (
-          <IconPortal index={4} onPress={$.onRefreshThenScrollTop} />
-        )}
-        <Heatmaps />
       </View>
     )
   }

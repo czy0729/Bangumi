@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:28:23
+ * @Last Modified time: 2021-01-15 00:16:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { StatusBarEvents, ListView, UM, Heatmap } from '@components'
 import { IconTabBar, IconPortal } from '@screens/_'
 import { _ } from '@stores'
+import { runAfter } from '@utils'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -35,9 +36,11 @@ class Discovery extends React.Component {
   }
 
   componentDidMount() {
-    const { $ } = this.context
-    $.init()
-    hm('discovery', 'Discovery')
+    runAfter(() => {
+      const { $ } = this.context
+      $.init()
+      hm('discovery', 'Discovery')
+    })
   }
 
   ListHeaderComponent = (<Header />)

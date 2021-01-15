@@ -1,45 +1,47 @@
-/* eslint-disable */
-
+/*
+ * @Author: czy0729
+ * @Date: 2021-01-15 10:00:59
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2021-01-15 10:01:30
+ */
 import React from 'react'
 import { Animated, View, StyleSheet } from 'react-native'
 
-export default class TabBarIcon extends React.Component<Props> {
-  render() {
-    const {
-      route,
-      activeOpacity,
-      inactiveOpacity,
-      activeTintColor,
-      inactiveTintColor,
-      renderIcon,
-      horizontal,
-      style
-    } = this.props
-
-    // We render the icon twice at the same position on top of each other:
-    // active and inactive one, so we can fade between them.
-    return (
-      <View style={style}>
-        <Animated.View style={[styles.icon, { opacity: activeOpacity }]}>
-          {renderIcon({
-            route,
-            focused: true,
-            horizontal,
-            tintColor: activeTintColor
-          })}
-        </Animated.View>
-        <Animated.View style={[styles.icon, { opacity: inactiveOpacity }]}>
-          {renderIcon({
-            route,
-            focused: false,
-            horizontal,
-            tintColor: inactiveTintColor
-          })}
-        </Animated.View>
-      </View>
-    )
-  }
+function TabBarIcon({
+  route,
+  activeOpacity,
+  inactiveOpacity,
+  activeTintColor,
+  inactiveTintColor,
+  renderIcon,
+  horizontal,
+  style
+}) {
+  // We render the icon twice at the same position on top of each other:
+  // active and inactive one, so we can fade between them.
+  return (
+    <View style={style}>
+      <Animated.View style={[styles.icon, { opacity: activeOpacity }]}>
+        {renderIcon({
+          route,
+          focused: true,
+          horizontal,
+          tintColor: activeTintColor
+        })}
+      </Animated.View>
+      <Animated.View style={[styles.icon, { opacity: inactiveOpacity }]}>
+        {renderIcon({
+          route,
+          focused: false,
+          horizontal,
+          tintColor: inactiveTintColor
+        })}
+      </Animated.View>
+    </View>
+  )
 }
+
+export default TabBarIcon
 
 const styles = StyleSheet.create({
   icon: {

@@ -2,13 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 18:11:36
+ * @Last Modified time: 2021-01-15 00:10:20
  */
-import { Clipboard } from 'react-native'
+import { InteractionManager, Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import * as WebBrowser from 'expo-web-browser'
 import { DEV, B, M } from '@constants'
 import { info } from './ui'
+
+export function runAfter(fn) {
+  return InteractionManager.runAfterInteractions(fn)
+}
 
 /**
  * 节流

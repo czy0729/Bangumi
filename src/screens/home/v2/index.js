@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-14 21:00:29
+ * @Last Modified time: 2021-01-15 00:15:35
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -17,6 +17,7 @@ import {
   IconPortal
 } from '@screens/_'
 import { _, userStore } from '@stores'
+import { runAfter } from '@utils'
 import { info } from '@utils/ui'
 import { navigationReference } from '@utils/app'
 import { inject, observer } from '@utils/decorators'
@@ -51,18 +52,19 @@ class Home extends React.Component {
 
     // App生命周期内保存首页的navigation引用
     navigationReference(navigation)
-    this.updateInitialPage()
+    runAfter(() => {
+      this.updateInitialPage()
+      BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
 
-    setTimeout(() => {
-      const id = userStore.userInfo.username || userStore.myUserId
-      t('其他.启动', {
-        userId: id,
-        device: _.isPad ? 'pad' : 'mobile'
-      })
-      hm(`?id=${id}`, 'Home')
-    }, 6400)
-
-    BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
+      setTimeout(() => {
+        const id = userStore.userInfo.username || userStore.myUserId
+        t('其他.启动', {
+          userId: id,
+          device: _.isPad ? 'pad' : 'mobile'
+        })
+        hm(`?id=${id}`, 'Home')
+      }, 6400)
+    })
   }
 
   componentWillReceiveProps({ isFocused }) {
@@ -137,21 +139,21 @@ class Home extends React.Component {
     const { isFocused, _loaded } = $.state
     return (
       <SafeAreaView style={this.style}>
-        <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
         <NavigationEvents onWillFocus={this.onWillFocus} />
         {$.isLogin && _loaded && (
           <>
+            <UM screen={title} />
             <Header />
             <Tab length={$.tabs.length} />
             <Modal />
+            {isFocused && (
+              <IconPortal index={2} onPress={$.onRefreshThenScrollTop} />
+            )}
+            <Heatmaps />
           </>
         )}
-        {isFocused && (
-          <IconPortal index={2} onPress={$.onRefreshThenScrollTop} />
-        )}
-        <Heatmaps />
       </SafeAreaView>
     )
   }

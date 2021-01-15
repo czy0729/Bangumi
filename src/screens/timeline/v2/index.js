@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-23 22:01:08
+ * @Last Modified time: 2021-01-15 00:15:14
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -15,6 +15,7 @@ import {
   IconPortal
 } from '@screens/_'
 import { _ } from '@stores'
+import { runAfter } from '@utils'
 import { inject, observer } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -41,9 +42,11 @@ class Timeline extends React.Component {
   }
 
   componentDidMount() {
-    const { $ } = this.context
-    $.init()
-    hm('timeline', 'Timeline')
+    runAfter(() => {
+      const { $ } = this.context
+      $.init()
+      hm('timeline', 'Timeline')
+    })
   }
 
   componentWillReceiveProps({ isFocused }) {
@@ -63,18 +66,18 @@ class Timeline extends React.Component {
     const { isFocused } = this.props
     return (
       <SafeAreaView style={this.style}>
-        <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
         {_loaded && (
           <>
+            <UM screen={title} />
             <Header />
             <Tab />
+            {isFocused && (
+              <IconPortal index={1} onPress={$.onRefreshThenScrollTop} />
+            )}
+            <Heatmaps />
           </>
-        )}
-        <Heatmaps />
-        {isFocused && (
-          <IconPortal index={1} onPress={$.onRefreshThenScrollTop} />
         )}
       </SafeAreaView>
     )

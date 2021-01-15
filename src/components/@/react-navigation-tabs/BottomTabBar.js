@@ -1,4 +1,10 @@
-/* eslint-disable */
+/* eslint-disable import/no-extraneous-dependencies */
+/*
+ * @Author: czy0729
+ * @Date: 2021-01-15 09:55:17
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2021-01-15 10:28:11
+ */
 import React from 'react'
 import {
   Animated,
@@ -18,32 +24,40 @@ const isIos = Platform.OS === 'ios'
 const isIOS11 = majorVersion >= 11 && isIos
 
 const DEFAULT_MAX_TAB_ITEM_WIDTH = 125
-
-class TouchableWithoutFeedbackWrapper extends React.Component<*> {
-  render() {
-    const {
-      onPress,
-      onLongPress,
-      testID,
-      accessibilityLabel,
-      ...props
-    } = this.props
-
-    return (
-      <TouchableWithoutFeedback
-        onPress={onPress}
-        onLongPress={onLongPress}
-        testID={testID}
-        hitSlop={{ left: 15, right: 15, top: 5, bottom: 5 }}
-        accessibilityLabel={accessibilityLabel}
-      >
-        <View {...props} />
-      </TouchableWithoutFeedback>
-    )
-  }
+const hitSlop = {
+  left: 16,
+  right: 16,
+  top: 6,
+  bottom: 6
 }
 
-class TabBarBottom extends React.Component<Props> {
+function TouchableWithoutFeedbackWrapper({
+  onPress,
+  onLongPress,
+  testID,
+  accessibilityLabel,
+  ...props
+}) {
+  /**
+   * @modify 使用 onPressIn 替代 onPress 加速点击反馈
+   *
+   * onPress={onPress}
+   */
+  return (
+    <TouchableWithoutFeedback
+      delayPressIn={16}
+      onPressIn={onPress}
+      onLongPress={onLongPress}
+      testID={testID}
+      hitSlop={hitSlop}
+      accessibilityLabel={accessibilityLabel}
+    >
+      <View {...props} />
+    </TouchableWithoutFeedback>
+  )
+}
+
+class TabBarBottom extends React.Component {
   static defaultProps = {
     activeTintColor: '#007AFF',
     activeBackgroundColor: 'transparent',
@@ -53,14 +67,17 @@ class TabBarBottom extends React.Component<Props> {
     showIcon: true,
     allowFontScaling: true,
     adaptive: isIOS11,
-    safeAreaInset: { bottom: 'always', top: 'never' }
+    safeAreaInset: {
+      bottom: 'always',
+      top: 'never'
+    }
   }
 
   _renderLabel = ({ route, focused }) => {
     const {
-      activeTintColor,
-      inactiveTintColor,
-      labelStyle,
+      // activeTintColor,
+      // inactiveTintColor,
+      // labelStyle,
       showLabel,
       showIcon,
       allowFontScaling
@@ -78,10 +95,10 @@ class TabBarBottom extends React.Component<Props> {
 
     /**
      * @modify theme mode
+     *
+     * const tintColor = focused ? activeTintColor : inactiveTintColor
      */
-    // const tintColor = focused ? activeTintColor : inactiveTintColor
     const tintColor = focused ? _.colorMain : _.colorDesc
-
     const label = this.props.getLabelText({ route })
     if (typeof label === 'string') {
       return (
@@ -89,11 +106,11 @@ class TabBarBottom extends React.Component<Props> {
           numberOfLines={1}
           style={[
             styles.label,
-            { color: tintColor },
             showIcon && this._shouldUseHorizontalLabels()
               ? styles.labelBeside
               : styles.labelBeneath,
             {
+              color: tintColor,
               fontSize: 11 + _.fontSizeAdjust
             }
           ]}
@@ -114,8 +131,8 @@ class TabBarBottom extends React.Component<Props> {
   _renderIcon = ({ route, focused }) => {
     const {
       navigation,
-      activeTintColor,
-      inactiveTintColor,
+      // activeTintColor,
+      // inactiveTintColor,
       renderIcon,
       showIcon,
       showLabel
@@ -130,6 +147,9 @@ class TabBarBottom extends React.Component<Props> {
 
     /**
      * @modify theme mode
+     *
+     * activeTintColor={activeTintColor}
+     * inactiveTintColor={inactiveTintColor}
      */
     return (
       <CrossFadeIcon
@@ -138,8 +158,6 @@ class TabBarBottom extends React.Component<Props> {
         navigation={navigation}
         activeOpacity={activeOpacity}
         inactiveOpacity={inactiveOpacity}
-        // activeTintColor={activeTintColor}
-        // inactiveTintColor={inactiveTintColor}
         activeTintColor={_.colorMain}
         inactiveTintColor={_.colorDesc}
         renderIcon={renderIcon}
@@ -155,16 +173,13 @@ class TabBarBottom extends React.Component<Props> {
   _shouldUseHorizontalLabels = () => {
     const { routes } = this.props.navigation.state
     const { isLandscape, dimensions, adaptive, tabStyle } = this.props
-
     if (!adaptive) {
       return false
     }
 
     if (Platform.isPad) {
       let maxTabItemWidth = DEFAULT_MAX_TAB_ITEM_WIDTH
-
       const flattenedStyle = StyleSheet.flatten(tabStyle)
-
       if (flattenedStyle) {
         if (typeof flattenedStyle.width === 'number') {
           maxTabItemWidth = flattenedStyle.width
@@ -172,11 +187,9 @@ class TabBarBottom extends React.Component<Props> {
           maxTabItemWidth = flattenedStyle.maxWidth
         }
       }
-
       return routes.length * maxTabItemWidth <= dimensions.width
-    } else {
-      return isLandscape
     }
+    return isLandscape
   }
 
   render() {
@@ -190,9 +203,7 @@ class TabBarBottom extends React.Component<Props> {
       style,
       tabStyle
     } = this.props
-
     const { routes } = navigation.state
-
     const tabBarStyle = [
       styles.tabBar,
       this._shouldUseHorizontalLabels() && !Platform.isPad
@@ -201,7 +212,6 @@ class TabBarBottom extends React.Component<Props> {
       style,
       { backgroundColor: 'transparent' }
     ]
-
     return (
       <SafeAreaView style={tabBarStyle} forceInset={safeAreaInset}>
         {routes.map((route, index) => {
@@ -211,15 +221,12 @@ class TabBarBottom extends React.Component<Props> {
             route
           })
           const testID = this.props.getTestID({ route })
-
           const backgroundColor = focused
             ? activeBackgroundColor
             : inactiveBackgroundColor
-
           const ButtonComponent =
             this.props.getButtonComponent({ route }) ||
             TouchableWithoutFeedbackWrapper
-
           return (
             <ButtonComponent
               key={route.key}
