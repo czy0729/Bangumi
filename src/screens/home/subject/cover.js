@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 20:05:04
+ * @Last Modified time: 2021-01-17 01:44:58
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Heatmap } from '@components'
 import { Cover as CompCover } from '@screens/_'
-import { ob } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { getCoverMedium, getCoverLarge } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
@@ -17,12 +16,8 @@ import { _ } from '@stores'
 import { imageWidth, imageHeight } from './store'
 
 export default
-@ob
+@obc
 class Cover extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object
-  }
-
   state = {
     onLoad: false
   }

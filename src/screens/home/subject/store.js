@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 16:41:21
+ * @Last Modified time: 2021-01-17 01:59:30
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
@@ -569,6 +569,13 @@ export default class ScreenSubject extends store {
 
     this._manga = findManga(this.subjectId)
     this._wenku = findWenku(this.subjectId)
+
+    // 若为单行本则还需要找到系列, 用系列id查询
+    if (this.subjectSeries) {
+      const { id } = this.subjectSeries
+      if (!this._manga?.id) this._manga = findManga(id)
+      if (!this._wenku?.id) this._wenku = findWenku(id)
+    }
     return {
       mangaId: this._manga.mangaId,
       wenkuId: this._wenku.wenkuId
@@ -866,7 +873,30 @@ export default class ScreenSubject extends store {
     return usersStore.friendsMap
   }
 
-  // 存在高清资源
+  /**
+   * 关联: 前传和续集, 或系列: 若为单行本, relations第一项则为系列
+   */
+  // 前传
+  @computed get subjectPrev() {
+    const { relations = [] } = this.subjectFormHTML
+    return relations.find(item => item.type === '前传')
+  }
+
+  // 续集
+  @computed get subjectAfter() {
+    const { relations = [] } = this.subjectFormHTML
+    return relations.find(item => item.type === '续集')
+  }
+
+  // 系列
+  @computed get subjectSeries() {
+    const { relations = [] } = this.subjectFormHTML
+    return relations?.[0]?.type === '系列' ? relations[0] : null
+  }
+
+  /**
+   * 存在高清资源
+   */
   @computed get hd() {
     const { HD = [] } = getOTA()
     return HD.includes(Number(this.subjectId))

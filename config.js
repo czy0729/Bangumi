@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 20:19:46
+ * @Last Modified time: 2021-01-17 02:00:49
  */
 export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const initialRouteName = 'Home'
 
 export default {
-  initialRouteName: 'Subject', // HomeTab TinygrailCharaAssets TinygrailSacrifice
+  initialRouteName: 'HomeTab', // HomeTab TinygrailCharaAssets TinygrailSacrifice
   initialRouteParams: {
-    subjectId: 143597 // anime: 262940, music: 302514, book: 267358, game: 137458
+    // subjectId: 143597 // anime: 262940, music: 302514, book: 267358, game: 137458
     // topicId: 'group/360615' // group/360353, ep/938136
     // userId: 'ekibun' // 456208, 419012
     // monoId: 'character/69867' // 20391 character/70323 person/5745

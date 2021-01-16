@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:06:39
+ * @Last Modified time: 2021-01-17 01:53:08
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -21,14 +21,8 @@ function Head({ style }, { $ }) {
   const styles = memoStyles()
   const { showRelation } = systemStore.setting
   const { images = {} } = $.subject
-  const { relations = [] } = $.subjectFormHTML
-
-  // 关联: 前传和续集, 或系列: 若为单行本, relations第一项则为系列
-  const subjectPrev = relations.find(item => item.type === '前传')
-  const subjectAfter = relations.find(item => item.type === '续集')
-  const subjectSeries = relations?.[0]?.type === '系列' ? relations[0] : null
-  const hasRelation = !!(subjectPrev || subjectAfter)
-  const showSeries = subjectPrev || subjectAfter || subjectSeries
+  const hasRelation = !!($.subjectPrev || $.subjectAfter)
+  const showSeries = $.subjectPrev || $.subjectAfter || $.subjectSeries
 
   // 主标题大小
   let size = $.cn.length > 24 ? 11 : $.cn.length > 16 ? 13 : 16
@@ -79,7 +73,7 @@ function Head({ style }, { $ }) {
                 </Katakana>
               </Katakana.Provider>
             )}
-            {!subjectSeries && (
+            {!$.subjectSeries && (
               <Text
                 style={!!$.cn && _.mt.xs}
                 size={size}
@@ -96,9 +90,9 @@ function Head({ style }, { $ }) {
           </View>
           {showSeries && (
             <Series
-              prev={subjectPrev}
-              after={subjectAfter}
-              series={subjectSeries}
+              prev={$.subjectPrev}
+              after={$.subjectAfter}
+              series={$.subjectSeries}
               size={size}
             />
           )}

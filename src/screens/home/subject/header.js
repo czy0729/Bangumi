@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:16:41
+ * @Last Modified time: 2021-01-17 01:45:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ import Like from './like'
 import Recent from './recent'
 import Blog from './blog'
 import Topic from './topic'
-import RateSegement from './block/rate-segment'
+import RateSegement from './rate-segment'
 import IconComment from './icon/comment'
 
 function Header({ rendered }, { $ }) {
