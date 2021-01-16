@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:47:10
+ * @Last Modified time: 2021-01-17 01:35:38
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { ScrollView, View } from 'react-native'
 import { Image, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { showImageViewer } from '@utils/ui'
 import { t } from '@utils/fetch'
 
@@ -71,13 +70,9 @@ function Thumbs({ style }, { $ }) {
   )
 }
 
-Thumbs.contextTypes = {
-  $: PropTypes.object
-}
+export default obc(Thumbs)
 
-export default observer(Thumbs)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   contentContainerStyle: {
     paddingHorizontal: _.wind
   },

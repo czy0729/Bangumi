@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 15:17:48
+ * @Last Modified time: 2021-01-16 16:41:21
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
@@ -41,7 +41,7 @@ import {
   IMG_WIDTH,
   IMG_HEIGHT
 } from '@constants'
-import { CDN_EPS } from '@constants/cdn'
+import { CDN_EPS, getOTA } from '@constants/cdn'
 import { MODEL_SUBJECT_TYPE, MODEL_EP_STATUS } from '@constants/model'
 import {
   SITE_AGEFANS,
@@ -868,7 +868,8 @@ export default class ScreenSubject extends store {
 
   // 存在高清资源
   @computed get hd() {
-    return [143597].includes(Number(this.subjectId))
+    const { HD = [] } = getOTA()
+    return HD.includes(Number(this.subjectId))
   }
 
   // -------------------- page --------------------

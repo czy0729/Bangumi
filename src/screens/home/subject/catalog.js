@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:42:36
+ * @Last Modified time: 2021-01-16 19:58:28
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
+import { ScrollView, View } from 'react-native'
+import { Flex, Text, Touchable, Heatmap } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
-import { cnjp } from '@utils/app'
+import { obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
+import IconCatalog from './icon/catalog'
 
 function Catalog({ style }, { $, navigation }) {
   const { catalog } = $.subjectFormHTML
@@ -32,35 +31,7 @@ function Catalog({ style }, { $, navigation }) {
     <View style={[style, !showCatalog && _.short]}>
       <SectionTitle
         style={_.container.wind}
-        right={
-          showCatalog && (
-            <Touchable
-              onPress={() => {
-                t('条目.跳转', {
-                  to: 'SubjectCatalogs',
-                  from: '目录',
-                  subjectId: $.subjectId
-                })
-
-                navigation.push('SubjectCatalogs', {
-                  subjectId: $.subjectId,
-                  name: cnjp($.cn, $.jp)
-                })
-              }}
-            >
-              <Flex>
-                <Text type='sub'>更多</Text>
-                <Iconfont name='right' size={16} />
-              </Flex>
-              <Heatmap
-                id='条目.跳转'
-                data={{
-                  from: '目录'
-                }}
-              />
-            </Touchable>
-          )
-        }
+        right={showCatalog && <IconCatalog />}
         icon={!showCatalog && 'right'}
         onPress={() => $.switchBlock('showCatalog')}
       >
@@ -129,15 +100,9 @@ function Catalog({ style }, { $, navigation }) {
     </View>
   )
 }
+export default obc(Catalog)
 
-Catalog.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Catalog)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   contentContainerStyle: {
     paddingTop: _.sm,
     paddingHorizontal: _.wind,

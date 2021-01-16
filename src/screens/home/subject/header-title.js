@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:34:19
+ * @Last Modified time: 2021-01-17 01:08:33
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { observer } from 'mobx-react'
 import { FadeIn, Flex, Text } from '@components'
 import { Cover, Stars } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { urlStringify } from '@utils'
+import { ob } from '@utils/decorators'
 import { getCoverMedium } from '@utils/app'
 import { CDN_OSS_SUBJECT } from '@constants/cdn'
 
@@ -58,9 +57,9 @@ function HeaderTitle({ navigation }) {
   )
 }
 
-export default observer(HeaderTitle)
+export default ob(HeaderTitle)
 
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     marginLeft: -_.md,
     marginRight: _.md

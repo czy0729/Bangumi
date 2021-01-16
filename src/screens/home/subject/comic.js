@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:27:19
+ * @Last Modified time: 2021-01-16 20:04:06
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Comic({ style }, { $, navigation }) {
@@ -50,9 +49,4 @@ function Comic({ style }, { $, navigation }) {
   )
 }
 
-Comic.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Comic)
+export default obc(Comic)

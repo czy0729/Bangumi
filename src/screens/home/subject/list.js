@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 14:12:39
+ * @Last Modified time: 2021-01-17 01:20:39
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { ItemComment } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import Header from './header'
 
@@ -20,13 +18,8 @@ const refreshControlProps = {
 }
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   renderItem = ({ item, index }) => {
     const { rendered } = this.props
     if (!rendered) {
@@ -78,7 +71,7 @@ class List extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   contentContainerStyle: {
     paddingTop: _.headerHeight,
     paddingBottom: _.space

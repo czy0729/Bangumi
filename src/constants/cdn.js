@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 01:19:58
+ * @Last Modified time: 2021-01-16 16:58:55
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -274,8 +274,12 @@ export const CDN_AWARD = year => {
   }.json`
 }
 
-export const CDN_HD = subjectId =>
-  `${HOST_CDN}/gh/czybot/m@master/out/${subjectId}/index.json`
+export const CDN_HD = subjectId => {
+  const ota = getOTA()
+  return `${HOST_CDN}/${ota.SITE_HD}/${subjectId}/index.json`
+}
 
-export const CDN_HD_OBJECT = (subjectId, vol) =>
-  `${HOST_CDN}/gh/czybot/m@master/out/${subjectId}/${vol}/cover.jpg`
+export const CDN_HD_OBJECT = (subjectId, vol) => {
+  const ota = getOTA()
+  return `${HOST_CDN}/${ota.SITE_HD}/${subjectId}/${vol}/cover.jpg`
+}

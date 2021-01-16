@@ -4,9 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:07:39
+ * @Last Modified time: 2021-01-16 17:14:18
  */
 import { Platform } from 'react-native'
+import PropTypes from 'prop-types'
 
 const expoPackageJson = require('@/node_modules/expo/package.json')
 const appJson = require('@/app.json')
@@ -313,3 +314,8 @@ export const SITES_DS = [
   'nicovideo',
   'netflix'
 ]
+
+export const contextTypes = {
+  $: PropTypes.object,
+  navigation: PropTypes.object
+}

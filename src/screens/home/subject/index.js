@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 14:12:14
+ * @Last Modified time: 2021-01-17 01:20:52
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
-import { inject, withTransitionHeader, observer } from '@utils/decorators'
+import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import { DEV, TITLE } from '@constants'
@@ -30,13 +29,8 @@ export default
   colorStart: _.colorPlainRaw,
   HeaderTitle
 })
-@observer
+@obc
 class Subject extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   state = {
     showBlurView: true,
     rendered: DEV

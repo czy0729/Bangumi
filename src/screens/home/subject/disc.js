@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 12:00:06
+ * @Last Modified time: 2021-01-16 20:17:50
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Expand, Text, Heatmap } from '@components'
-import { SectionTitle, IconTouchable } from '@screens/_'
+import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
+import IconDisc from './icon/disc'
 
 function Disc({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -19,20 +19,7 @@ function Disc({ style }, { $, navigation }) {
   const _discTranslateResult = [...discTranslateResult]
   return (
     <View style={[_.container.wind, styles.container, style]}>
-      <SectionTitle
-        right={
-          !discTranslateResult.length && (
-            <IconTouchable
-              style={styles.iconTranslate}
-              name='translate'
-              size={16}
-              onPress={$.doDiscTranslate}
-            >
-              <Heatmap id='条目.翻译曲目' />
-            </IconTouchable>
-          )
-        }
-      >
+      <SectionTitle right={!discTranslateResult.length && <IconDisc />}>
         曲目列表
       </SectionTitle>
       {!!$.disc.length && (
@@ -71,13 +58,12 @@ function Disc({ style }, { $, navigation }) {
                           }
                         >
                           {i.title}
-                          {!!translate && (
-                            <Text type='sub' size={12} lineHeight={14}>
-                              {' '}
-                              {translate}
-                            </Text>
-                          )}
                         </Text>
+                        {!!translate && (
+                          <Text style={styles.translate} type='sub' size={12}>
+                            {translate}
+                          </Text>
+                        )}
                       </View>
                     )
                   })}
@@ -97,12 +83,7 @@ function Disc({ style }, { $, navigation }) {
   )
 }
 
-Disc.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Disc)
+export default obc(Disc)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
@@ -114,5 +95,8 @@ const memoStyles = _.memoStyles(_ => ({
   },
   odd: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
+  },
+  translate: {
+    marginTop: _.xs
   }
 }))

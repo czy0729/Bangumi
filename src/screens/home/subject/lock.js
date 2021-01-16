@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 13:20:28
+ * @Last Modified time: 2021-01-17 01:21:11
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Mesume, Text } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 
 function Lock({ style }, { $ }) {
   if (!$.lock) {
@@ -31,11 +30,7 @@ function Lock({ style }, { $ }) {
   )
 }
 
-Lock.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Lock)
+export default obc(Lock)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

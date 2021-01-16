@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:47:00
+ * @Last Modified time: 2021-01-17 01:35:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Expand, Flex, Text, Touchable, Heatmap } from '@components'
-import { SectionTitle, IconTouchable } from '@screens/_'
+import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import IconPS from './icon/ps'
 
 function Tags({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -28,17 +28,7 @@ function Tags({ style }, { $, navigation }) {
       ]}
     >
       <SectionTitle
-        right={
-          $.isPS && (
-            <IconTouchable
-              style={styles.trophy}
-              name='trophy'
-              onPress={$.toPSNINE}
-            >
-              <Heatmap id='条目.查看奖杯' />
-            </IconTouchable>
-          )
-        }
+        right={<IconPS />}
         icon={!showTags && 'right'}
         onPress={() => $.switchBlock('showTags')}
       >
@@ -101,12 +91,7 @@ function Tags({ style }, { $, navigation }) {
   )
 }
 
-Tags.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Tags)
+export default obc(Tags)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
@@ -128,9 +113,6 @@ const memoStyles = _.memoStyles(_ => ({
   selected: {
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1)
-  },
-  trophy: {
-    marginRight: -_.sm
   },
   moreStyle: {
     marginRight: _.md

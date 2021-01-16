@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:44:38
+ * @Last Modified time: 2021-01-16 17:57:23
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Expand, Heatmap } from '@components'
 import { SectionTitle, ItemArticle } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
 
 function Blog({ style }, { $, navigation }) {
@@ -44,8 +43,7 @@ function Blog({ style }, { $, navigation }) {
           <Expand style={_.mt.sm} ratio={1.2}>
             {_blog.map((item, index) => (
               <ItemArticle
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
+                key={item.id}
                 style={styles.left}
                 navigation={navigation}
                 index={index}
@@ -79,12 +77,7 @@ function Blog({ style }, { $, navigation }) {
   )
 }
 
-Blog.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Blog)
+export default obc(Blog)
 
 const memoStyles = _.memoStyles(_ => ({
   left: {

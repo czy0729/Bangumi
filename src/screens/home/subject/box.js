@@ -2,25 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 14:22:32
+ * @Last Modified time: 2021-01-16 19:21:34
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Flex, Button, Icon, Text, Touchable, Heatmap } from '@components'
-import { SectionTitle, IconTouchable } from '@screens/_'
+import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
 import { getType, getRating } from '@utils/app'
-import { info } from '@utils/ui'
+import { obc } from '@utils/decorators'
+import IconClose from './icon/close'
 
 function Box({ style }, { $, navigation }) {
   const styles = memoStyles()
 
   // 自己的收藏状态
   const { status = { name: '未收藏' }, rating = 0 } = $.collection
-  const { formhash } = $.subjectFormHTML
-  const showErase = status.name !== '未收藏' && !!formhash
   const leftStyle = []
   const rightStyle = []
   if (rating) {
@@ -31,40 +28,10 @@ function Box({ style }, { $, navigation }) {
   const onPress = $.isLogin
     ? $.showManageModel
     : () => navigation.push('LoginV2')
-
   const statusSize = $.status[$.status.length - 1]?.text.length >= 6 ? 11 : 12
   return (
     <View style={[_.container.wind, styles.container, style]}>
-      <SectionTitle
-        style={styles.sectionTitle}
-        right={
-          <IconTouchable
-            style={styles.iconErase}
-            name='close'
-            size={16}
-            color={_.colorIcon}
-            onPress={() => {
-              if (!showErase) {
-                info('无法操作, 请检查登陆状态')
-                return
-              }
-
-              Alert.alert('警告', '确定删除收藏?', [
-                {
-                  text: '取消',
-                  style: 'cancel'
-                },
-                {
-                  text: '确定',
-                  onPress: () => $.doEraseCollection()
-                }
-              ])
-            }}
-          >
-            <Heatmap id='条目.删除收藏' />
-          </IconTouchable>
-        }
-      >
+      <SectionTitle style={styles.sectionTitle} right={<IconClose />}>
         收藏
       </SectionTitle>
       <Touchable style={styles.btn} onPress={onPress}>
@@ -128,12 +95,7 @@ function Box({ style }, { $, navigation }) {
   )
 }
 
-Box.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Box)
+export default obc(Box)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
@@ -141,9 +103,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   sectionTitle: {
     height: 28
-  },
-  iconErase: {
-    marginRight: -_.sm
   },
   btn: {
     marginTop: _.md,

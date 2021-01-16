@@ -2,27 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 00:42:18
+ * @Last Modified time: 2021-01-16 17:46:41
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import {
-  Flex,
-  Touchable,
-  Text,
-  Input,
-  Button,
-  Iconfont,
-  Heatmap
-} from '@components'
+import { Flex, Text, Input, Button, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { obc } from '@utils/decorators'
+import IconSearch from './icon/search'
+import IconManga from './icon/manga'
+import IconWenku from './icon/wenku'
+import IconHD from './icon/hd'
 
-function BookEp({ style }, { $, navigation }) {
-  const styles = memoStyles()
+function BookEp({ style }, { $ }) {
   const { chap, vol } = $.state
   const { book = {} } = $.subjectFormHTML
   const {
@@ -35,77 +28,10 @@ function BookEp({ style }, { $, navigation }) {
       <SectionTitle
         right={
           <>
-            {!$.isLimit && !$.hd && (
-              <Touchable
-                style={styles.iconPlay}
-                onPress={() => {
-                  t('条目.跳转', {
-                    from: '源头',
-                    subjectId: $.subjectId
-                  })
-
-                  navigation.push('Comic', {
-                    cn: $.cn,
-                    jp: $.jp,
-                    subjectId: $.subjectId
-                  })
-                }}
-              >
-                <Flex>
-                  <Iconfont name='search' size={14} />
-                  <Text style={_.ml.xs} size={12} type='sub'>
-                    源头
-                  </Text>
-                </Flex>
-                <Heatmap
-                  id='条目.跳转'
-                  data={{
-                    from: '源头'
-                  }}
-                />
-              </Touchable>
-            )}
-            {!$.isLimit && !!$.source.mangaId && (
-              <Touchable style={styles.iconPlay} onPress={$.toManhuadb}>
-                <Flex>
-                  <Iconfont name='discovery' size={16} />
-                  <Text style={_.ml.xs} size={12} type='sub'>
-                    漫画
-                  </Text>
-                </Flex>
-                <Heatmap id='条目.阅读漫画' />
-              </Touchable>
-            )}
-            {!$.isLimit && !!$.source.wenkuId && (
-              <Touchable style={styles.iconPlay} onPress={$.toWenku8}>
-                <Flex>
-                  <Iconfont name='discovery' size={16} />
-                  <Text style={_.ml.xs} size={12} type='sub'>
-                    小说
-                  </Text>
-                </Flex>
-                <Heatmap id='条目.阅读轻小说' />
-              </Touchable>
-            )}
-            {!$.isLimit && $.hd && (
-              <Touchable
-                style={styles.iconPlay}
-                onPress={() => {
-                  navigation.push('Comic', {
-                    cn: $.cn,
-                    jp: $.jp,
-                    subjectId: $.subjectId
-                  })
-                }}
-              >
-                <Flex>
-                  <Iconfont name='order' size={14} />
-                  <Text style={_.ml.xs} size={12} type='sub'>
-                    HD
-                  </Text>
-                </Flex>
-              </Touchable>
-            )}
+            <IconSearch />
+            <IconManga />
+            <IconWenku />
+            <IconHD />
           </>
         }
       >
@@ -200,14 +126,9 @@ function BookEp({ style }, { $, navigation }) {
   )
 }
 
-BookEp.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(BookEp)
 
-export default observer(BookEp)
-
-const memoStyles = _.memoStyles(_ => ({
+const styles = _.create({
   container: {
     height: 120
   },
@@ -226,15 +147,10 @@ const memoStyles = _.memoStyles(_ => ({
     width: 40,
     height: 34
   },
-  iconPlay: {
-    padding: _.sm,
-    marginRight: -_.sm,
-    marginLeft: _.xs
-  },
   total: {
     position: 'absolute',
     zIndex: 100,
     top: 8,
     right: 12
   }
-}))
+})

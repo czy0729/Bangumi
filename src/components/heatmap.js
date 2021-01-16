@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-09 22:21:16
+ * @Last Modified time: 2021-01-16 18:03:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -247,6 +247,16 @@ Heatmap.Control = observer(() => {
         onPress={() => _.toggleMode()}
       >
         Dark
+      </Text>
+      <Text
+        style={styles.controlItem}
+        type={systemStore.dev ? 'warning' : '__plain__'}
+        size={10}
+        bold
+        align='center'
+        onPress={systemStore.toggleDev}
+      >
+        Dev
       </Text>
     </View>
   )

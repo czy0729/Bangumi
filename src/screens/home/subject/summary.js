@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:46:49
+ * @Last Modified time: 2021-01-17 01:31:57
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { Expand, Text, Heatmap } from '@components'
-import { SectionTitle, IconTouchable } from '@screens/_'
+import { Expand, Text } from '@components'
+import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
+import IconTranslate from './icon/translate'
 
 function Summary({ style }, { $ }) {
   const { _loaded } = $.subject
@@ -32,19 +32,7 @@ function Summary({ style }, { $ }) {
       ]}
     >
       <SectionTitle
-        right={
-          showSummary &&
-          !translateResult.length && (
-            <IconTouchable
-              style={styles.iconTranslate}
-              name='translate'
-              size={16}
-              onPress={$.doTranslate}
-            >
-              <Heatmap id='条目.翻译简介' />
-            </IconTouchable>
-          )
-        }
+        right={<IconTranslate />}
         icon={!showSummary && 'right'}
         onPress={() => $.switchBlock('showSummary')}
       >
@@ -81,18 +69,11 @@ function Summary({ style }, { $ }) {
   )
 }
 
-Summary.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Summary)
+export default obc(Summary)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
     minHeight: 120
-  },
-  iconTranslate: {
-    marginRight: -_.sm
   },
   moreStyle: {
     marginRight: _.md

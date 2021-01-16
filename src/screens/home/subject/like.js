@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:45:36
+ * @Last Modified time: 2021-01-17 01:19:03
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Like({ style }, { $, navigation }) {
@@ -60,9 +59,4 @@ function Like({ style }, { $, navigation }) {
   )
 }
 
-Like.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Like)
+export default obc(Like)

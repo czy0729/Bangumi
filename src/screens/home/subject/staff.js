@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:46:35
+ * @Last Modified time: 2021-01-17 01:27:21
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
+import { Heatmap } from '@components'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import IconStaff from './icon/staff'
 
 function Staff({ style }, { $, navigation }) {
   if (!$.staff.length) {
@@ -23,29 +23,7 @@ function Staff({ style }, { $, navigation }) {
     <View style={[style, !showStaff && _.short]}>
       <SectionTitle
         style={_.container.wind}
-        right={
-          showStaff && (
-            <Touchable
-              onPress={() => {
-                t('条目.跳转', {
-                  to: 'Persons',
-                  from: '制作人员',
-                  subjectId: $.subjectId
-                })
-
-                navigation.push('Persons', {
-                  subjectId: $.subjectId,
-                  name: $.cn
-                })
-              }}
-            >
-              <Flex>
-                <Text type='sub'>更多</Text>
-                <Iconfont name='right' size={16} />
-              </Flex>
-            </Touchable>
-          )
-        }
+        right={<IconStaff />}
         icon={!showStaff && 'right'}
         onPress={() => $.switchBlock('showStaff')}
       >
@@ -83,9 +61,4 @@ function Staff({ style }, { $, navigation }) {
   )
 }
 
-Staff.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Staff)
+export default obc(Staff)

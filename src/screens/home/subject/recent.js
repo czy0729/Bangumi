@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:44:10
+ * @Last Modified time: 2021-01-17 01:23:33
  */
 import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { ScrollView, View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
 import { SectionTitle, Avatar, Stars } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
 
 function Recent({ style }, { $, navigation }) {
@@ -84,14 +83,9 @@ function Recent({ style }, { $, navigation }) {
   )
 }
 
-Recent.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Recent)
 
-export default observer(Recent)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   contentContainerStyle: {
     paddingHorizontal: _.wind
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 11:10:08
+ * @Last Modified time: 2021-01-16 16:37:43
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -46,10 +46,10 @@ function ItemComment({
             <Name
               userId={userId}
               showFriend
-              size={13}
+              size={14}
               bold
               right={
-                <Text type='sub' size={11} lineHeight={13}>
+                <Text type='sub' size={11} lineHeight={14}>
                   {' '}
                   {correctAgo(formatTime(time))}
                 </Text>
@@ -58,8 +58,8 @@ function ItemComment({
               {userName}
             </Name>
           </Flex.Item>
-          <Stars value={star} />
         </Flex>
+        <Stars style={[_.mt.xs, _.mb.xs]} value={star} />
         <Text style={_.mt.xs} size={15} lineHeight={20} selectable>
           {comment}
         </Text>

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 05:39:05
+ * @Last Modified time: 2021-01-17 01:21:28
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ManageModal } from '@screens/_'
+import { obc } from '@utils/decorators'
 
 function Modal(props, { $ }) {
   const { visible } = $.state
@@ -25,8 +24,4 @@ function Modal(props, { $ }) {
   )
 }
 
-Modal.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Modal)
+export default obc(Modal)

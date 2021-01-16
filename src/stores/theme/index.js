@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 16:33:48
+ * @Last Modified time: 2021-01-16 17:25:09
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -130,6 +130,8 @@ class Theme extends store {
 
     return true
   }
+
+  create = style => StyleSheet.create(style)
 
   // -------------------- mode styles --------------------
   @computed get mode() {
@@ -323,7 +325,7 @@ class Theme extends store {
 
   // -------------------- tool styles --------------------
   @computed get container() {
-    return StyleSheet.create({
+    return this.create({
       /**
        * 特殊布局, background与item应配合使用
        * 安卓为了防止过渡绘制, 全局底色为白色, 所以Item为白色时可以使用透明
@@ -667,7 +669,7 @@ class Theme extends store {
         memoId._mode = this.mode
         memoId._tMode = this.tinygrailThemeMode
         memoId._flat = this.flat
-        memoId._styles = StyleSheet.create(styles(this))
+        memoId._styles = this.create(styles(this))
 
         if (dev) {
           log(memoId)

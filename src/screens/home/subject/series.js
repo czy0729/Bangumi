@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-11 01:52:46
+ * @Last Modified time: 2021-01-17 01:25:17
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { Cover as CompCover, IconTouchable } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
 
@@ -161,16 +160,9 @@ function Series({ prev, after, series, size }, { $, navigation }) {
   )
 }
 
-Series.defaultProps = {
+export default obc(Series, {
   size: 14
-}
-
-Series.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Series)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   cover: {

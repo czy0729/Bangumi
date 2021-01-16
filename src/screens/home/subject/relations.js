@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:46:13
+ * @Last Modified time: 2021-01-17 01:24:01
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Relations({ style }, { $, navigation }) {
@@ -61,9 +60,4 @@ function Relations({ style }, { $, navigation }) {
   )
 }
 
-Relations.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Relations)
+export default obc(Relations)

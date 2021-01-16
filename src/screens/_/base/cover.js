@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 14:27:31
+ * @Last Modified time: 2021-01-16 16:32:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,9 +17,13 @@ function Cover({ style, src, size, height, noDefault, type, ...other }) {
   const styles = memoStyles()
   const { dev } = systemStore.state
   const { cdn, coverThings } = systemStore.setting
+
+  // 有些情况图片地址分析错误, 排除掉
   const _src =
-    (cdn ? CDN_OSS_SUBJECT(getCoverMedium(src)) : getCoverMedium(src)) ||
-    (noDefault ? '' : IMG_DEFAULT)
+    src === '//lain.bgm.tv/pic/cover/c/'
+      ? IMG_DEFAULT
+      : (cdn ? CDN_OSS_SUBJECT(getCoverMedium(src)) : getCoverMedium(src)) ||
+        (noDefault ? '' : IMG_DEFAULT)
   const imageStyle = [
     style,
     dev && typeof _src === 'string' && _src.includes(HOST_CDN) && styles.dev

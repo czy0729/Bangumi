@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:45:02
+ * @Last Modified time: 2021-01-17 01:27:47
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
+import { Heatmap } from '@components'
 import { SectionTitle, HorizontalList } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import IconCharacter from './icon/character'
 
 function Character({ style }, { $, navigation }) {
   if (!$.crt.length) {
@@ -23,29 +23,7 @@ function Character({ style }, { $, navigation }) {
     <View style={[style, !showCharacter && _.short]}>
       <SectionTitle
         style={_.container.wind}
-        right={
-          showCharacter && (
-            <Touchable
-              onPress={() => {
-                t('条目.跳转', {
-                  to: 'Characters',
-                  from: '角色',
-                  subjectId: $.subjectId
-                })
-
-                navigation.push('Characters', {
-                  subjectId: $.subjectId,
-                  name: $.cn
-                })
-              }}
-            >
-              <Flex>
-                <Text type='sub'>更多</Text>
-                <Iconfont name='right' size={16} />
-              </Flex>
-            </Touchable>
-          )
-        }
+        right={<IconCharacter />}
         icon={!showCharacter && 'right'}
         onPress={() => $.switchBlock('showCharacter')}
       >
@@ -83,9 +61,4 @@ function Character({ style }, { $, navigation }) {
   )
 }
 
-Character.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Character)
+export default obc(Character)

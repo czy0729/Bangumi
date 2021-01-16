@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:41:19
+ * @Last Modified time: 2021-01-17 01:16:41
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { Text, Flex, Loading, SegmentedControl, Heatmap } from '@components'
-import { SectionTitle, IconReverse } from '@screens/_'
+import { Text, Flex, Loading, Heatmap } from '@components'
+import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import Head from './head'
 import Lock from './lock'
 import Box from './box'
@@ -29,17 +28,15 @@ import Like from './like'
 import Recent from './recent'
 import Blog from './blog'
 import Topic from './topic'
-
-const scoresDS = ['全部', '9-10', '7-8', '4-6', '1-3']
+import RateSegement from './block/rate-segment'
+import IconComment from './icon/comment'
 
 function Header({ rendered }, { $ }) {
   const styles = memoStyles()
   const {
     pagination: { pageTotal = 0 },
-    _reverse,
     _loaded
   } = $.subjectComments
-  const { filterScores } = $.state
   return (
     <View style={styles.container}>
       <Head />
@@ -64,32 +61,11 @@ function Header({ rendered }, { $ }) {
             <Blog style={_.mt.lg} />
             <Topic style={_.mt.lg} />
             <SectionTitle
-              style={[styles.title, _.mt.lg]}
+              style={styles.title}
               right={
                 <>
-                  <View>
-                    <SegmentedControl
-                      style={styles.segmentedControl}
-                      size={11}
-                      values={scoresDS}
-                      selectedIndex={
-                        filterScores.length
-                          ? scoresDS.findIndex(
-                              item => item === filterScores.join('-')
-                            )
-                          : 0
-                      }
-                      onValueChange={$.filterScores}
-                    />
-                    <Heatmap right={30} bottom={-4} id='条目.筛选分数' />
-                  </View>
-                  <IconReverse
-                    style={styles.sort}
-                    color={_reverse ? _.colorMain : _.colorIcon}
-                    onPress={$.toggleReverseComments}
-                  >
-                    <Heatmap id='条目.吐槽箱倒序' />
-                  </IconReverse>
+                  <RateSegement />
+                  <IconComment />
                 </>
               }
             >
@@ -117,11 +93,7 @@ function Header({ rendered }, { $ }) {
   )
 }
 
-Header.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Header)
+export default obc(Header)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
@@ -134,15 +106,10 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   title: {
-    paddingHorizontal: _.wind
-  },
-  sort: {
-    marginRight: -_.sm
+    paddingHorizontal: _.wind,
+    marginTop: _.lg
   },
   loading: {
     height: 240
-  },
-  segmentedControl: {
-    height: 22
   }
 }))

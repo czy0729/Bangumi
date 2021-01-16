@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 21:09:19
+ * @Last Modified time: 2021-01-17 01:06:39
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Katakana, Heatmap } from '@components'
 import { ScoreTag, Tag } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { toFixed, getTimestamp } from '@utils'
+import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { x18 } from '@utils/app'
 import { imageWidth, imageHeight } from './store'
@@ -124,12 +123,7 @@ function Head({ style }, { $ }) {
   )
 }
 
-Head.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Head)
+export default obc(Head)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

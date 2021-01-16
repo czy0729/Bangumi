@@ -2,24 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:29:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:45:56
+ * @Last Modified time: 2021-01-17 01:21:54
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { open, toFixed } from '@utils'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
+export default
+@obc
 class Ranting extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   state = {
     show: false
   }
@@ -243,8 +239,6 @@ class Ranting extends React.Component {
     return memoStyles()
   }
 }
-
-export default observer(Ranting)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

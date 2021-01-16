@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:47:22
+ * @Last Modified time: 2021-01-17 01:35:55
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Expand, Heatmap } from '@components'
 import { SectionTitle, ItemArticle } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
 
 function Topic({ style }, { $, navigation }) {
@@ -79,9 +78,4 @@ function Topic({ style }, { $, navigation }) {
   )
 }
 
-Topic.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Topic)
+export default obc(Topic)

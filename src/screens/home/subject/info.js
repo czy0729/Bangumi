@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 00:45:25
+ * @Last Modified time: 2021-01-17 01:18:31
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Expand, RenderHtml, Heatmap } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 
 function Info({ style }, { $, navigation }) {
@@ -69,12 +68,7 @@ function Info({ style }, { $, navigation }) {
   )
 }
 
-Info.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Info)
+export default obc(Info)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
