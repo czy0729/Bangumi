@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-14 17:01:28
+ * @Last Modified time: 2021-01-16 01:19:58
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -273,3 +273,9 @@ export const CDN_AWARD = year => {
     SDK >= 36 ? '.expo' : ''
   }.json`
 }
+
+export const CDN_HD = subjectId =>
+  `${HOST_CDN}/gh/czybot/m@master/out/${subjectId}/index.json`
+
+export const CDN_HD_OBJECT = (subjectId, vol) =>
+  `${HOST_CDN}/gh/czybot/m@master/out/${subjectId}/${vol}/cover.jpg`

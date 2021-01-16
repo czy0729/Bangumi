@@ -60,7 +60,11 @@
         lazyload(document.querySelectorAll('.lazy-1'))
       }
       document.querySelector('.lazy-1').onload = () => {
-        lazyload(document.querySelectorAll('.lazy'))
+        new LazyLoad(document.querySelectorAll('.lazy'), {
+          root: null,
+          rootMargin: '480px',
+          threshold: 0
+        })
       }
       lazyload(document.querySelectorAll('.lazy-0'))
     </script>

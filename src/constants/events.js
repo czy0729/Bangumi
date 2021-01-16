@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 20:51:57
+ * @Last Modified time: 2021-01-16 15:30:39
  */
 
 /**
@@ -316,6 +316,10 @@ export default {
   '漫画.搜索章节': 'Comic.searchEps',
   '漫画.搜索图片': 'Comic.searchImages',
   '漫画.搜索': 'Comic.onSearch',
+
+  // HD
+  'HD.查看': 'HD.jump',
+  'HD.提示': 'HD.alert',
 
   /* ==================== timeline ==================== */
   // 时间胶囊

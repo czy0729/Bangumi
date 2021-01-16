@@ -4,9 +4,8 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-12 00:30:57
+ * @Last Modified time: 2021-01-16 15:17:48
  */
-import { Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
 import {
@@ -18,7 +17,7 @@ import {
   userStore,
   usersStore
 } from '@stores'
-import { open, getTimestamp } from '@utils'
+import { open, copy, getTimestamp } from '@utils'
 import { HTMLDecode, HTMLTrim } from '@utils/html'
 import { t, xhrCustom, queue, baiduTranslate } from '@utils/fetch'
 import {
@@ -867,6 +866,11 @@ export default class ScreenSubject extends store {
     return usersStore.friendsMap
   }
 
+  // 存在高清资源
+  @computed get hd() {
+    return [143597].includes(Number(this.subjectId))
+  }
+
   // -------------------- page --------------------
   /**
    * 显示收藏管理
@@ -990,7 +994,7 @@ export default class ScreenSubject extends store {
       }
 
       if (url) {
-        Clipboard.setString(url)
+        copy(url)
         info('已复制地址')
         setTimeout(() => {
           open(url)
@@ -1008,7 +1012,7 @@ export default class ScreenSubject extends store {
     })
 
     const url = `${SITE_MANHUADB()}/manhua/${this.source.mangaId}`
-    Clipboard.setString(url)
+    copy(url)
     info('已复制地址')
 
     setTimeout(() => {
@@ -1025,7 +1029,7 @@ export default class ScreenSubject extends store {
     const url = `${SITE_WK8()}/novel/${parseInt(this.source.wenkuId / 1000)}/${
       this.source.wenkuId
     }/index.htm`
-    Clipboard.setString(url)
+    copy(url)
     info('已复制地址')
 
     setTimeout(() => {

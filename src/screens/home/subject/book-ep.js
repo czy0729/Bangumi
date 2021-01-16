@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-12 00:44:14
+ * @Last Modified time: 2021-01-16 00:42:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,34 +35,36 @@ function BookEp({ style }, { $, navigation }) {
       <SectionTitle
         right={
           <>
-            <Touchable
-              style={styles.iconPlay}
-              onPress={() => {
-                t('条目.跳转', {
-                  from: '源头',
-                  subjectId: $.subjectId
-                })
+            {!$.isLimit && !$.hd && (
+              <Touchable
+                style={styles.iconPlay}
+                onPress={() => {
+                  t('条目.跳转', {
+                    from: '源头',
+                    subjectId: $.subjectId
+                  })
 
-                navigation.push('Comic', {
-                  cn: $.cn,
-                  jp: $.jp,
-                  subjectId: $.subjectId
-                })
-              }}
-            >
-              <Flex>
-                <Iconfont name='search' size={14} />
-                <Text style={_.ml.xs} size={12} type='sub'>
-                  源头
-                </Text>
-              </Flex>
-              <Heatmap
-                id='条目.跳转'
-                data={{
-                  from: '源头'
+                  navigation.push('Comic', {
+                    cn: $.cn,
+                    jp: $.jp,
+                    subjectId: $.subjectId
+                  })
                 }}
-              />
-            </Touchable>
+              >
+                <Flex>
+                  <Iconfont name='search' size={14} />
+                  <Text style={_.ml.xs} size={12} type='sub'>
+                    源头
+                  </Text>
+                </Flex>
+                <Heatmap
+                  id='条目.跳转'
+                  data={{
+                    from: '源头'
+                  }}
+                />
+              </Touchable>
+            )}
             {!$.isLimit && !!$.source.mangaId && (
               <Touchable style={styles.iconPlay} onPress={$.toManhuadb}>
                 <Flex>
@@ -83,6 +85,25 @@ function BookEp({ style }, { $, navigation }) {
                   </Text>
                 </Flex>
                 <Heatmap id='条目.阅读轻小说' />
+              </Touchable>
+            )}
+            {!$.isLimit && $.hd && (
+              <Touchable
+                style={styles.iconPlay}
+                onPress={() => {
+                  navigation.push('Comic', {
+                    cn: $.cn,
+                    jp: $.jp,
+                    subjectId: $.subjectId
+                  })
+                }}
+              >
+                <Flex>
+                  <Iconfont name='order' size={14} />
+                  <Text style={_.ml.xs} size={12} type='sub'>
+                    HD
+                  </Text>
+                </Flex>
               </Touchable>
             )}
           </>

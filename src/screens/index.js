@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-09 01:09:16
+ * @Last Modified time: 2021-01-16 01:05:45
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -32,6 +32,7 @@ export { default as Wenku } from './discovery/wenku'
 
 // Reader
 export { default as Comic } from './reader/comic'
+export { default as HD } from './reader/hd'
 
 // Timeline
 export { default as Timeline } from './timeline/v2'
