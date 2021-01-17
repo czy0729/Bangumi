@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 17:57:23
+ * @Last Modified time: 2021-01-17 14:04:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,7 +49,7 @@ function Blog({ style }, { $, navigation }) {
                 index={index}
                 avatar={item.user.avatar.small}
                 title={item.title}
-                summary={item.summary}
+                summary={item.summary.replace(/\r\n/g, '').trim()}
                 nickname={item.user.nickname}
                 userId={item.user.username}
                 timestamp={item.timestamp}

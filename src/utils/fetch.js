@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:08:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 21:25:07
+ * @Last Modified time: 2021-01-17 14:42:55
  */
 import { NativeModules, InteractionManager } from 'react-native'
 import { Portal } from '@ant-design/react-native'
@@ -91,9 +91,7 @@ export default async function fetchAPI({
       })
     }
   }
-  if (SHOW_LOG) {
-    log(`🌐 ${info} ${_url}`)
-  }
+  if (SHOW_LOG) log(`🌐 ${info} ${_url}`)
 
   return fetch(_url, _config)
     .then(response => {
@@ -141,9 +139,12 @@ export default async function fetchAPI({
 
 /**
  * 请求获取HTML
- * chii_cookietime=2592000
+ *  - chii_cookietime=2592000
+ *  - 2021/01/17 拦截瞬间多次完全同样的请求
+ *
  * @param {*} param
  */
+const lastFetchHTML = {}
 export async function fetchHTML({
   method = 'GET',
   url,
@@ -153,6 +154,29 @@ export async function fetchHTML({
   raw = false
 } = {}) {
   const isGet = method === 'GET'
+
+  // 拦截瞬间多次完全同样的请求
+  if (isGet) {
+    const cacheKey = JSON.stringify({
+      url,
+      data,
+      headers,
+      cookie
+    })
+    const ts = new Date().valueOf()
+    if (!lastFetchHTML[cacheKey]) {
+      lastFetchHTML[cacheKey] = ts
+    } else {
+      const distance = ts - lastFetchHTML[cacheKey]
+      if (distance <= 2000) {
+        log(`[prevent] ⚡️ ${url} ${distance}ms`)
+        return Promise.reject(new Error('prevent fetchHTML'))
+      }
+
+      lastFetchHTML[cacheKey] = ts
+    }
+  }
+
   const userStore = getUserStoreAsync()
   const { cookie: userCookie, setCookie, userAgent } = userStore.userCookie
   const _config = {
@@ -204,9 +228,7 @@ export async function fetchHTML({
       if (toastId) Portal.remove(toastId)
     })
   }
-  if (SHOW_LOG) {
-    log(`⚡️ ${_url}`)
-  }
+  if (SHOW_LOG) log(`⚡️ ${_url}`)
 
   return fetch(_url, _config)
     .then(res => {
@@ -234,20 +256,13 @@ export function xhr(
 ) {
   const userStore = getUserStoreAsync()
   const { cookie: userCookie, userAgent } = userStore.userCookie
-
   const toastId = Toast.loading('Loading...', 0, () => {
     if (toastId) Portal.remove(toastId)
   })
   const request = new XMLHttpRequest()
   request.onreadystatechange = () => {
-    if (request.readyState !== 4) {
-      return
-    }
-
-    if (toastId) {
-      Portal.remove(toastId)
-    }
-
+    if (request.readyState !== 4) return
+    if (toastId) Portal.remove(toastId)
     if (request.status === 200) {
       success(request.responseText)
     } else {
@@ -422,9 +437,7 @@ export function hm(url, screen) {
         v: VERSION_GITHUB_RELEASE
       }
       const { isDark, isTinygrailDark } = getThemeStoreAsync()
-      if (isDark) {
-        query.dark = 1
-      }
+      if (isDark) query.dark = 1
       if (screen) {
         if (screen.includes('Tinygrail') && isTinygrailDark) {
           query.tdark = 1
@@ -435,10 +448,7 @@ export function hm(url, screen) {
         query
       )}`
       lastHm = u
-
-      if (DEV) {
-        log(`📌 ${u}`)
-      }
+      if (DEV) log(`📌 ${u}`)
 
       const request = new XMLHttpRequest()
       request.open(
@@ -468,14 +478,10 @@ export function hm(url, screen) {
  * @param {*} u
  */
 export function t(desc, eventData) {
-  if (!desc) {
-    return
-  }
+  if (!desc) return
 
   if (IOS) {
-    if (!DEV) {
-      return
-    }
+    if (!DEV) return
 
     const eventId = events[desc]
     log(
@@ -524,9 +530,7 @@ export function t(desc, eventData) {
  * @param {*} fetchs
  */
 export async function queue(fetchs, num = 2) {
-  if (!fetchs.length) {
-    return false
-  }
+  if (!fetchs.length) return false
 
   await Promise.all(
     new Array(num).fill(0).map(async () => {
