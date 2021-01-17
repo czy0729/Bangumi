@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 21:05:08
+ * @Last Modified time: 2021-01-17 21:10:21
  */
 import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -17,7 +17,13 @@ import {
 import { Eps } from '@screens/_'
 import { open } from '@utils'
 import { t, queue } from '@utils/fetch'
-import { x18, appNavigate, getCoverMedium, getBangumiUrl } from '@utils/app'
+import {
+  x18,
+  appNavigate,
+  getCoverMedium,
+  getBangumiUrl,
+  unzipBangumiData
+} from '@utils/app'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { feedback } from '@utils/ui'
@@ -32,7 +38,7 @@ import {
   MODEL_SETTING_HOME_LAYOUT
 } from '@constants/model'
 import { SITE_AGEFANS, SITE_XUNBO, SITE_RRYS } from '@constants/site'
-import bangumiData from '@constants/json/bangumi-data-mini.json'
+import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 
 const tabs = [
   {
@@ -443,12 +449,14 @@ export default class ScreenHomeV2 extends store {
   bangumiInfo(subjectId) {
     return computed(() => {
       const { name_cn, name } = this.subject(subjectId)
-      return (
-        bangumiData.items.find(
+      return unzipBangumiData(
+        bangumiData.find(
           item =>
-            item.title === HTMLDecode(name_cn) ||
-            item.title === HTMLDecode(name)
-        ) || {}
+            item.j === HTMLDecode(name_cn) ||
+            item.j === HTMLDecode(name) ||
+            item.c === HTMLDecode(name_cn) ||
+            item.c === HTMLDecode(name)
+        )
       )
     }).get()
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 15:59:02
+ * @Last Modified time: 2021-01-17 20:09:55
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -50,8 +50,8 @@ class HD extends React.Component {
             t('HD.提示')
 
             Alert.alert(
-              '功能说明',
-              '一般只提供高清单行本数据\n会不定时增加数据\n所有数据来源于互联网请支持正版\n若因不可抗力原因功能会随时下线\n若想收录想要的单行本可以私聊',
+              '高清高速源头',
+              '一般只提供高清单行本数据\n会不定时添加数据\n所有数据来源于互联网请支持正版\n若因不可抗力原因功能会随时下线\n若想收录想要的单行本可留言私聊\n开发维护有成本暗示投食',
               [
                 {
                   text: '知道了'
@@ -85,9 +85,9 @@ class HD extends React.Component {
                 onPress={() => $.jump(item)}
               />
               <Text style={_.mt.sm} align='center' bold>
+                {typeof item.vol === 'number' && 'vol.'}
                 {item.vol}
-                {typeof item.vol === 'number' && '卷'}
-                <Text size={11} lineHeight={14} type='sub'>
+                <Text size={10} lineHeight={14} type='sub'>
                   {' '}
                   {item.page}P
                 </Text>

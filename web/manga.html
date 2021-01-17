@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0"
     />
-    <meta name="referrer" content="never" />
+    <!-- <meta name="referrer" content="never" /> -->
     <title>Comic-Reader</title>
     <style>
       * {
@@ -21,52 +21,56 @@
         box-shadow: 0 2px 16px rgba(0, 0, 0, 0.64);
       }
     </style>
+    <script>
+      var _hmt = _hmt || []
+      ;(function () {
+        var hm = document.createElement('script')
+        hm.src = 'https://hm.baidu.com/hm.js?808e2b3d19b283a29d4f56206f30363d'
+        var s = document.getElementsByTagName('script')[0]
+        s.parentNode.insertBefore(hm, s)
+      })()
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
   </head>
   <body>
     <div class="container"></div>
     <script>
-      var _hmt = _hmt || []
-      ;(function () {
-        var hm = document.createElement('script')
-        hm.src = 'https://hm.baidu.com/hm.js?aa938a130b93228ecd9143359ec8e82b'
-        var s = document.getElementsByTagName('script')[0]
-        s.parentNode.insertBefore(hm, s)
-      })()
-    </script>
-    <script>
-      function getQuery(name) {
-        const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, 'i')
-        const r = window.location.search.substr(1).match(reg)
-        if (r != null) {
-          return decodeURIComponent(r[2])
+      try {
+        function getQuery(name) {
+          const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, 'i')
+          const r = window.location.search.substr(1).match(reg)
+          if (r != null) {
+            return decodeURIComponent(r[2])
+          }
+          return null
         }
-        return null
-      }
 
-      // script 执行的脚本必须提供String: title, Array<String>: images变量
-      eval(getQuery('script'))
-      document.title = title
+        // script 执行的脚本必须提供String: title, Array<String>: images变量
+        eval(getQuery('script'))
+        document.title = title
 
-      let _html = ''
+        let _html = ''
 
-      images.forEach((item, index) => {
-        _html += `<img class="lazy lazy-${index}" data-src="${item}" referrerpolicy="no-referrer" width="375" height="667" />`
-      })
-      document.querySelector('.container').innerHTML = _html
-
-      // 先完全加载完第1,2张图片再初始化其余的lazyload
-      document.querySelector('.lazy-0').onload = () => {
-        lazyload(document.querySelectorAll('.lazy-1'))
-      }
-      document.querySelector('.lazy-1').onload = () => {
-        new LazyLoad(document.querySelectorAll('.lazy'), {
-          root: null,
-          rootMargin: '480px',
-          threshold: 0
+        images.forEach((item, index) => {
+          _html += `<img class="lazy lazy-${index}" data-src="${item}" referrerpolicy="no-referrer" width="375" height="667" />`
         })
+        document.querySelector('.container').innerHTML = _html
+
+        // 先完全加载完第1,2张图片再初始化其余的lazyload
+        document.querySelector('.lazy-0').onload = () => {
+          lazyload(document.querySelectorAll('.lazy-1'))
+        }
+        document.querySelector('.lazy-1').onload = () => {
+          new LazyLoad(document.querySelectorAll('.lazy'), {
+            root: null,
+            rootMargin: '480px',
+            threshold: 0
+          })
+        }
+        lazyload(document.querySelectorAll('.lazy-0'))
+      } catch (error) {
+        console.log('解析错误')
       }
-      lazyload(document.querySelectorAll('.lazy-0'))
     </script>
   </body>
 </html>

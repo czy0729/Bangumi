@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-25 00:59:50
+ * @Last Modified time: 2021-01-17 21:25:41
  */
 import * as WebBrowser from 'expo-web-browser'
-import bangumiData from '@constants/json/bangumi-data-mini.json'
+import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 import * as ReactNativeScreens from 'react-native-screens'
+import { HTMLDecode } from '@utils/html'
 import { DEV, HOST, HOST_2 } from '@constants'
 import cnData from '@constants/json/cn.json'
 import x18data from '@constants/json/18x.json'
@@ -141,12 +142,15 @@ export function findSubjectCn(jp = '', subjectId) {
   /**
    * 没有id则使用jp在bangumi-data里面匹配
    */
-  const item = bangumiData.items.find(item => item.title === jp)
+  const item = bangumiData.find(
+    item => subjectId == item.id || item.j === HTMLDecode(jp)
+  )
   if (item) {
+    const _item = unzipBangumiData(item)
     const cn =
-      (item.titleTranslate &&
-        item.titleTranslate['zh-Hans'] &&
-        item.titleTranslate['zh-Hans'][0]) ||
+      (_item.titleTranslate &&
+        _item.titleTranslate['zh-Hans'] &&
+        _item.titleTranslate['zh-Hans'][0]) ||
       jp
     cache[jp] = cn
     return cn
@@ -730,4 +734,57 @@ export function tinygrailOSS(str, w = 150) {
  */
 export function tinygrailFixedTime(time) {
   return (time || '').replace('T', ' ').split('+')[0].split('.')[0]
+}
+
+/**
+ * bangumi-data的min转换成正常item
+ * @param {*} item
+ *
+ * {
+ *   id: 132734,
+ *   j: '冴えない彼女の育てかた♭',
+ *   c: '路人女主的养成方法 ♭',
+ *   s: {
+ *     p: 'SP3XVb0jk9E0sho',
+ *     i: 'a_19rrh9f1yl',
+ *     ni: 'saenai2',
+ *     b: 28228738
+ *   }
+ *   [t: 'tv']
+ * }
+ */
+const sitesMap = {
+  a: 'acfun',
+  b: 'bilibili',
+  s: 'sohu',
+  y: 'youku',
+  q: 'qq',
+  i: 'iqiyi',
+  l: 'letv',
+  p: 'pptv',
+  m: 'mgtv',
+  ni: 'nicovideo',
+  n: 'netflix'
+}
+export function unzipBangumiData(item = {}) {
+  const sites = [
+    {
+      site: 'bangumi',
+      id: String(item.id)
+    }
+  ]
+  Object.keys(item.s || {}).forEach(s =>
+    sites.push({
+      site: sitesMap[s],
+      id: String(item.s[s])
+    })
+  )
+  return {
+    title: item.j,
+    type: item.t || 'tv',
+    sites,
+    titleTranslate: {
+      'zh-Hans': [item.c]
+    }
+  }
 }

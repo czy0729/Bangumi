@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 22:15:40
+ * @Last Modified time: 2021-01-17 20:11:12
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -15,6 +15,7 @@ import {
   MANGA_YEAR,
   MANGA_STATUS,
   MANGA_TAGS,
+  MANGA_HD,
   MANGA_SORT
 } from '@utils/manga'
 import { info } from '@utils/ui'
@@ -49,6 +50,11 @@ const filterDS = [
     title: '类型',
     type: 'tags',
     data: MANGA_TAGS_GROUP
+  },
+  {
+    title: '源头',
+    type: 'hd',
+    data: MANGA_HD
   },
   {
     title: '排序',

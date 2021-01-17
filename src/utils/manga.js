@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 12:05:54
+ * @Last Modified time: 2021-01-17 19:59:49
  */
 import { DATA_ALPHABET } from '@constants'
+import { getOTA } from '@constants/cdn'
 import { getTimestamp } from './index'
 import { getPinYinFirstCharacter } from './thirdParty/pinyin'
 import { SORT } from './anime'
@@ -123,13 +124,22 @@ export const MANGA_TAGS = [
   '写实',
   '异世界'
 ]
+export const MANGA_HD = ['HD']
 export const MANGA_SORT = ['排名', '发行时间', '随机', '名称']
 
 /**
  * 只返回下标数组对象
  */
 const searchCache = {}
-export function search({ first, year, begin, status, tags = [], sort } = {}) {
+export function search({
+  first,
+  year,
+  begin,
+  status,
+  tags = [],
+  hd,
+  sort
+} = {}) {
   init()
 
   // 查询指纹
@@ -139,12 +149,14 @@ export function search({ first, year, begin, status, tags = [], sort } = {}) {
     begin,
     status,
     tags,
+    hd,
     sort
   })
   if (sort !== '随机' && searchCache[finger]) {
     return searchCache[finger]
   }
 
+  const { HD = [] } = getOTA()
   let _list = []
   let yearReg
   if (year) {
@@ -172,6 +184,8 @@ export function search({ first, year, begin, status, tags = [], sort } = {}) {
         if (match) match = item.t?.includes(tag)
       })
     }
+
+    if (match && hd) match = HD.includes(item.id)
 
     if (match) _list.push(index)
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 22:14:56
+ * @Last Modified time: 2021-01-17 19:51:55
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore } from '@stores'
@@ -21,6 +21,7 @@ export default class ScreenManga extends store {
       begin: '',
       status: '',
       tags: [], // 已支持多选, 不过暂时不开放
+      hd: '',
       sort: ''
     },
     data: LIST_EMPTY,

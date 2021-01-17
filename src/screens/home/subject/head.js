@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 13:50:13
+ * @Last Modified time: 2021-01-17 19:30:39
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -25,7 +25,7 @@ function Head({ style }, { $ }) {
 
   // 主标题大小
   let size = $.cn.length > 24 ? 11 : $.cn.length > 16 ? 13 : 16
-  if (showRelation && hasRelation) size = Math.max(10, size - 2)
+  if (showRelation && hasRelation) size = Math.max(11, size - 2)
 
   // 是否未上映
   let showRelease
@@ -116,8 +116,8 @@ const memoStyles = _.memoStyles(_ => ({
     paddingTop: 48
   },
   content: {
-    minHeight: imageHeight - _.space,
-    paddingVertical: _.space,
+    minHeight: imageHeight - 20,
+    paddingTop: 12,
     paddingLeft: imageWidth + _.wind + 12,
     paddingRight: _.wind,
     backgroundColor: _.colorPlain,
@@ -125,7 +125,7 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopRightRadius: _.radiusLg
   },
   title: {
-    minHeight: 84
+    minHeight: 90
   },
   katakana: {
     marginTop: -11

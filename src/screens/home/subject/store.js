@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 13:57:44
+ * @Last Modified time: 2021-01-17 21:28:59
  */
 import { observable, computed } from 'mobx'
-import bangumiData from '@constants/json/bangumi-data-mini.json'
+import bangumiData from '@constants/json/thirdParty/bangumiData.min.json'
 import {
   _,
   collectionStore,
@@ -25,7 +25,8 @@ import {
   findSubjectCn,
   getBangumiUrl,
   getCoverMedium,
-  cnjp
+  cnjp,
+  unzipBangumiData
 } from '@utils/app'
 import store from '@utils/store'
 import { feedback, info, showActionSheet } from '@utils/ui'
@@ -140,12 +141,15 @@ export default class ScreenSubject extends store {
     const data = await res
 
     // bangumi-data数据扩展
-    const item = bangumiData.items.find(item => item.title === data.name)
+    const item = bangumiData.find(
+      item => item.j === HTMLDecode(data.name) || item.c === HTMLDecode(data.name)
+    )
     if (item) {
+      const _item = unzipBangumiData(item)
       this.setState({
         bangumiInfo: {
-          sites: item.sites,
-          type: item.type
+          sites: _item.sites,
+          type: _item.type
         }
       })
 
@@ -896,9 +900,10 @@ export default class ScreenSubject extends store {
 
   // 动画化
   @computed get subjectAnime() {
-    if (!this.titleLabel.includes('系列')) {
+    if (!(this.titleLabel || '').includes('系列')) {
       return null
     }
+
     const { relations = [] } = this.subjectFormHTML
     const find = relations.find(
       item => item.type === '动画' || item.type === '其他'
@@ -919,7 +924,19 @@ export default class ScreenSubject extends store {
    */
   @computed get hd() {
     const { HD = [] } = getOTA()
-    return HD.includes(Number(this.subjectId))
+    if (HD.includes(Number(this.subjectId))) {
+      return this.subjectId
+    }
+
+    // 若为单行本则还需要找到系列, 用系列id查询
+    if (this.subjectSeries) {
+      const { id } = this.subjectSeries
+      if (HD.includes(Number(id))) {
+        return id
+      }
+    }
+
+    return false
   }
 
   // -------------------- page --------------------

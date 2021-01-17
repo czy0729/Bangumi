@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-15 00:16:17
+ * @Last Modified time: 2021-01-17 20:08:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -49,7 +49,7 @@ class Discovery extends React.Component {
     const { $ } = this.context
     const { isFocused } = this.props
     return (
-      <View style={_.select(_.container._plain, _.container.bg)}>
+      <View style={_.container._plain}>
         <UM screen={title} />
         <StatusBarEvents backgroundColor='transparent' />
         <ListView
