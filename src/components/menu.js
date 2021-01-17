@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 23:20:45
+ * @Last Modified time: 2021-01-17 02:27:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,7 @@ function Menu({ style, title, data, onSelect }) {
               key={item}
               style={index !== 0 && _.mt.sm}
               type='sub'
-              size={13}
+              size={12}
               align='center'
             >
               {item}
@@ -36,9 +36,7 @@ function Menu({ style, title, data, onSelect }) {
           return (
             <View key={item} style={styles.border}>
               <Touchable style={styles.item} onPress={() => onSelect(item)}>
-                <Text size={15} align='center'>
-                  {item}
-                </Text>
+                <Text align='center'>{item}</Text>
               </Touchable>
             </View>
           )
@@ -72,7 +70,7 @@ export default observer(Menu)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    width: parseInt(_.window.width * 0.5),
+    width: parseInt(_.window.width * 0.48),
     maxWidth: 240,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2)
   },

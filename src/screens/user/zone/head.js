@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 22:52:21
+ * @Last Modified time: 2021-01-17 02:25:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -22,10 +22,10 @@ function Head({ style }, { $, navigation }) {
   const userId = id || _id
   const userName = HTMLDecode(nickname || _name)
   return (
-    <Flex style={style} justify='center' direction='column'>
+    <Flex style={style} direction='column'>
       <View>
         <Image
-          style={style.image}
+          style={styles.avatar}
           size={88}
           radius={44}
           border={_.__colorPlain__}
@@ -164,14 +164,9 @@ export default observer(Head)
 
 const styles = StyleSheet.create({
   avatar: {
-    borderWidth: 2,
-    borderColor: _.__colorPlain__,
-    borderRadius: 88,
+    marginTop: 14,
+    backgroundColor: _.__colorPlain__,
     overflow: 'hidden'
-  },
-  image: {
-    marginTop: _.md,
-    backgroundColor: _.__colorPlain__
   },
   l1: {
     position: 'absolute',

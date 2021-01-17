@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:59:30
+ * @Last Modified time: 2021-01-17 13:57:44
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@constants/json/bangumi-data-mini.json'
@@ -892,6 +892,26 @@ export default class ScreenSubject extends store {
   @computed get subjectSeries() {
     const { relations = [] } = this.subjectFormHTML
     return relations?.[0]?.type === '系列' ? relations[0] : null
+  }
+
+  // 动画化
+  @computed get subjectAnime() {
+    if (!this.titleLabel.includes('系列')) {
+      return null
+    }
+    const { relations = [] } = this.subjectFormHTML
+    const find = relations.find(
+      item => item.type === '动画' || item.type === '其他'
+    )
+
+    // 部分条目维护不够好, 动画化条目标签为其他, 若日文名字相等都认为是动画化
+    if (
+      find?.type === '动画' ||
+      (find?.type === '其他' && this.jp.includes(find?.title))
+    ) {
+      return find
+    }
+    return null
   }
 
   /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:25:17
+ * @Last Modified time: 2021-01-17 13:59:29
  */
 import React from 'react'
 import { Flex, Text, Touchable, Heatmap } from '@components'
@@ -12,21 +12,21 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
 
-function Series({ prev, after, series, size }, { $, navigation }) {
-  if (!(prev || after || series)) {
+function Series({ size }, { $, navigation }) {
+  if (!($.subjectPrev || $.subjectAfter || $.subjectSeries || $.subjectAnime)) {
     return null
   }
 
   const styles = memoStyles()
   const { showRelation } = systemStore.setting
-  if (prev || after) {
+  if ($.subjectPrev || $.subjectAfter || $.subjectAnime) {
     return (
       <Flex style={showRelation && styles.relation}>
         <Flex.Item>
           {showRelation && (
             <Flex>
               <Text size={13}>⤷</Text>
-              {!!prev && (
+              {!!$.subjectPrev && (
                 <Touchable
                   style={_.ml.sm}
                   onPress={() => {
@@ -36,16 +36,16 @@ function Series({ prev, after, series, size }, { $, navigation }) {
                       subjectId: $.subjectId
                     })
                     navigation.push('Subject', {
-                      subjectId: prev.id,
-                      _jp: prev.title,
-                      _image: prev.image
+                      subjectId: $.subjectPrev.id,
+                      _jp: $.subjectPrev.title,
+                      _image: $.subjectPrev.image
                     })
                   }}
                 >
                   <Flex>
                     <CompCover
                       style={styles.cover}
-                      src={prev.image || IMG_DEFAULT}
+                      src={$.subjectPrev.image || IMG_DEFAULT}
                       size={24}
                       height={24 * 1.33}
                       radius
@@ -65,7 +65,7 @@ function Series({ prev, after, series, size }, { $, navigation }) {
                   />
                 </Touchable>
               )}
-              {!!after && (
+              {!!$.subjectAfter && (
                 <Touchable
                   style={_.ml.sm}
                   onPress={() => {
@@ -75,16 +75,16 @@ function Series({ prev, after, series, size }, { $, navigation }) {
                       subjectId: $.subjectId
                     })
                     navigation.push('Subject', {
-                      subjectId: after.id,
-                      _jp: after.title,
-                      _image: after.image
+                      subjectId: $.subjectAfter.id,
+                      _jp: $.subjectAfter.title,
+                      _image: $.subjectAfter.image
                     })
                   }}
                 >
                   <Flex>
                     <CompCover
                       style={styles.cover}
-                      src={after.image || IMG_DEFAULT}
+                      src={$.subjectAfter.image || IMG_DEFAULT}
                       size={24}
                       height={24 * 1.33}
                       radius
@@ -101,6 +101,46 @@ function Series({ prev, after, series, size }, { $, navigation }) {
                     id='条目.跳转'
                     data={{
                       from: '系列续集'
+                    }}
+                  />
+                </Touchable>
+              )}
+              {!!$.subjectAnime && (
+                <Touchable
+                  style={_.ml.sm}
+                  onPress={() => {
+                    t('条目.跳转', {
+                      to: 'Subject',
+                      from: '动画化',
+                      subjectId: $.subjectId
+                    })
+                    navigation.push('Subject', {
+                      subjectId: $.subjectAnime.id,
+                      _jp: $.subjectAnime.title,
+                      _image: $.subjectAnime.image
+                    })
+                  }}
+                >
+                  <Flex>
+                    <CompCover
+                      style={styles.cover}
+                      src={$.subjectAnime.image || IMG_DEFAULT}
+                      size={24}
+                      height={24 * 1.33}
+                      radius
+                      placeholder={false}
+                      fadeDuration={0}
+                      noDefault
+                    />
+                    <Text style={_.ml.sm} size={11}>
+                      动画
+                    </Text>
+                  </Flex>
+                  <Heatmap
+                    right={-19}
+                    id='条目.跳转'
+                    data={{
+                      from: '动画化'
                     }}
                   />
                 </Touchable>
@@ -128,9 +168,9 @@ function Series({ prev, after, series, size }, { $, navigation }) {
           subjectId: $.subjectId
         })
         navigation.push('Subject', {
-          subjectId: series.id,
-          _jp: series.title,
-          _image: series.image
+          subjectId: $.subjectSeries.id,
+          _jp: $.subjectSeries.title,
+          _image: $.subjectSeries.image
         })
       }}
     >
@@ -138,7 +178,7 @@ function Series({ prev, after, series, size }, { $, navigation }) {
         <Text size={13}>⤷</Text>
         <CompCover
           style={[styles.cover, _.ml.sm]}
-          src={series.image}
+          src={$.subjectSeries.image}
           size={24}
           height={24 * 1.33}
           radius
@@ -147,7 +187,7 @@ function Series({ prev, after, series, size }, { $, navigation }) {
           noDefault
         />
         <Text style={_.ml.sm} size={size} bold>
-          {series.title}
+          {$.subjectSeries.title}
         </Text>
       </Flex>
       <Heatmap

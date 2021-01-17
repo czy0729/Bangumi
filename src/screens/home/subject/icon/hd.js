@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:35:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 19:19:32
+ * @Last Modified time: 2021-01-17 13:35:44
  */
 import React from 'react'
 import { Flex, Touchable, Text, Iconfont } from '@components'
@@ -25,7 +25,7 @@ function IconHD(props, { $, navigation }) {
       }}
     >
       <Flex>
-        <Iconfont name='order' size={14} />
+        <Iconfont name='list' size={17} />
         <Text style={_.ml.xs} size={12} type='sub' bold>
           HD
         </Text>

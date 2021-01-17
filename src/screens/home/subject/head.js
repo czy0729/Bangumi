@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:53:08
+ * @Last Modified time: 2021-01-17 13:50:13
  */
 import React from 'react'
 import { View, Clipboard } from 'react-native'
@@ -21,8 +21,7 @@ function Head({ style }, { $ }) {
   const styles = memoStyles()
   const { showRelation } = systemStore.setting
   const { images = {} } = $.subject
-  const hasRelation = !!($.subjectPrev || $.subjectAfter)
-  const showSeries = $.subjectPrev || $.subjectAfter || $.subjectSeries
+  const hasRelation = !!($.subjectPrev || $.subjectAfter || $.subjectSeries)
 
   // 主标题大小
   let size = $.cn.length > 24 ? 11 : $.cn.length > 16 ? 13 : 16
@@ -88,14 +87,7 @@ function Head({ style }, { $ }) {
             )}
             <Heatmap id='条目.复制标题' />
           </View>
-          {showSeries && (
-            <Series
-              prev={$.subjectPrev}
-              after={$.subjectAfter}
-              series={$.subjectSeries}
-              size={size}
-            />
-          )}
+          <Series size={size} />
         </View>
         <Flex>
           {!$.hideScore && (
