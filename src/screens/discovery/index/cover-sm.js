@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-12 00:52:15
+ * @Last Modified time: 2021-01-18 22:14:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 
 const imageWidth = _.window.width * 0.34
-const imageHeight = imageWidth * 1.32
+const imageHeight = imageWidth * 1.38
 const linearColor = ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.8)']
 
 function CoverSm({ title, src, cn, data }, { navigation }) {

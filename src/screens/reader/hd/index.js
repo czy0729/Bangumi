@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 20:09:55
+ * @Last Modified time: 2021-01-18 22:16:28
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -51,7 +51,7 @@ class HD extends React.Component {
 
             Alert.alert(
               '高清高速源头',
-              '一般只提供高清单行本数据\n会不定时添加数据\n所有数据来源于互联网请支持正版\n若因不可抗力原因功能会随时下线\n若想收录想要的单行本可留言私聊\n开发维护有成本暗示投食',
+              '一般只提供高清单行本数据\n会不定时添加数据\n所有数据来源于互联网请支持正版\n若因不可抗力原因功能会随时下线\n若想收录想要的单行本可留言私聊',
               [
                 {
                   text: '知道了'

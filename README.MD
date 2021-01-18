@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.6.0" src="https://img.shields.io/badge/Version-4.6.0-0366d6" />
+  <img alt="Version: 4.6.2" src="https://img.shields.io/badge/Version-4.6.2-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -45,6 +45,26 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 - 不限于搜索 / 排行榜 / 索引 / 目录 / 每日放送 / 年鉴 / 标签
 
 ## Update
+
+v4.6.2 - 2021/01/18
+
+—— 优化 ——
+
+- [x] [条目] 单行本应使用系列 id 查询源头, 因为源头都是基于系列来搜索的
+- [x] [条目] 小说|漫画系列, 若动画化, 顶部系列显示动画
+- [x] [找漫画] 部分功能优化
+- [x] 加速 Tabbar 点击响应
+
+—— 修复 ——
+
+- [x] 修复了启动页不是进度时, 进度页面无法点击的问题
+
+—— 开发 ——
+
+- [x] [HD] 灰度测试 HD 漫画源头
+- [x] 加入阻止短时间内发送完全相同请求 HTML 的机制
+- [x] 使用更 mini 版 bangumi-data, 缩小包体积, 1.2m -> 660k
+- [x] 横向 ScrollView, 触发横向移动才渲染看不见的 Item
 
 v4.6.0 - 2021/01/13
 

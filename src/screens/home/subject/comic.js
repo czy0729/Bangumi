@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 20:04:06
+ * @Last Modified time: 2021-01-18 22:02:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,10 @@ import { SectionTitle, HorizontalList } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+
+const initialRenderNums = _.isPad
+  ? 0
+  : Math.floor(_.window.contentWidth / 80) + 1
 
 function Comic({ style }, { $, navigation }) {
   if (!$.comic.length) {
@@ -26,6 +30,7 @@ function Comic({ style }, { $, navigation }) {
         width={80}
         height={106}
         ellipsizeMode='middle'
+        initialRenderNums={initialRenderNums}
         onPress={({ id, name, image }) => {
           t('条目.跳转', {
             to: 'Subject',

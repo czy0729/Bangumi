@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 04:31:51
+ * @Last Modified time: 2021-01-18 22:20:54
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -79,7 +79,12 @@ class System extends store {
     /**
      * iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审
      */
-    iosUGCAgree: false
+    iosUGCAgree: false,
+
+    /**
+     * 用于标记APP启动后是否进入静止期
+     */
+    rendered: false
   })
 
   init = async () => {
@@ -103,6 +108,12 @@ class System extends store {
         this.fetchRelease()
       }, 4000)
     }
+
+    setTimeout(() => {
+      this.setState({
+        rendered: true
+      })
+    }, 10000)
 
     return true
   }

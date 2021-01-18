@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 05:17:50
+ * @Last Modified time: 2021-01-18 02:00:00
  */
 import React from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -12,27 +12,68 @@ import { _ } from '@stores'
 import { findSubjectCn } from '@utils/app'
 import Cover from './cover'
 
-function HorizontalList({
-  style,
-  data,
-  width,
-  height,
-  quality,
-  findCn,
-  ellipsizeMode,
-  onPress
-}) {
-  return (
-    <ScrollView
-      style={style}
-      contentContainerStyle={styles.contentContainerStyle}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-    >
-      {data
-        // 没封面图的置后
-        .sort((a, b) => (b.image ? 1 : 0) - (a.image ? 1 : 0))
-        .map((item, index) => {
+export default
+@observer
+class HorizontalList extends React.Component {
+  static defaultProps = {
+    data: [],
+    width: 52,
+    height: 52,
+    quality: false,
+    findCn: false,
+    ellipsizeMode: 'tail',
+    initialRenderNums: 0,
+    onPress: Function.prototype
+  }
+
+  state = {
+    scrolled: false
+  }
+
+  onScroll = () => {
+    const { scrolled } = this.state
+    if (!scrolled) {
+      this.setState({
+        scrolled: true
+      })
+    }
+  }
+
+  get data() {
+    const { data, initialRenderNums } = this.props
+    const { scrolled } = this.state
+    if (!initialRenderNums || scrolled) {
+      // 没封面图的置后
+      return data.sort((a, b) => (b.image ? 1 : 0) - (a.image ? 1 : 0))
+    }
+
+    return data
+      .sort((a, b) => (b.image ? 1 : 0) - (a.image ? 1 : 0))
+      .filter((item, index) => index < initialRenderNums)
+  }
+
+  render() {
+    const {
+      style,
+      width,
+      height,
+      quality,
+      findCn,
+      ellipsizeMode,
+      initialRenderNums,
+      onPress
+    } = this.props
+    const { scrolled } = this.state
+    return (
+      <ScrollView
+        style={style}
+        contentContainerStyle={styles.contentContainerStyle}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        scrollEventThrottle={80}
+        onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}
+      >
+        {this.data.map((item, index) => {
           const desc = String(item.desc)
           let typeCn = ''
           if (
@@ -88,21 +129,10 @@ function HorizontalList({
             </View>
           )
         })}
-    </ScrollView>
-  )
+      </ScrollView>
+    )
+  }
 }
-
-HorizontalList.defaultProps = {
-  data: [],
-  width: 52,
-  height: 52,
-  quality: false,
-  findCn: false,
-  ellipsizeMode: 'tail',
-  onPress: Function.prototype
-}
-
-export default observer(HorizontalList)
 
 const styles = StyleSheet.create({
   contentContainerStyle: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:24:01
+ * @Last Modified time: 2021-01-18 02:00:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,10 @@ import { SectionTitle, HorizontalList } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+
+const initialRenderNums = _.isPad
+  ? 0
+  : Math.floor(_.window.contentWidth / 80) + 1
 
 function Relations({ style }, { $, navigation }) {
   if (!$.relations.length) {
@@ -35,6 +39,7 @@ function Relations({ style }, { $, navigation }) {
             width={80}
             height={106}
             findCn
+            initialRenderNums={initialRenderNums}
             onPress={({ id, name, image }) => {
               t('条目.跳转', {
                 to: 'Subject',

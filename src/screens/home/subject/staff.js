@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:27:21
+ * @Last Modified time: 2021-01-18 22:02:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,10 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import IconStaff from './icon/staff'
+
+const initialRenderNums = _.isPad
+  ? 0
+  : Math.floor(_.window.contentWidth / 56) + 1
 
 function Staff({ style }, { $, navigation }) {
   if (!$.staff.length) {
@@ -35,6 +39,7 @@ function Staff({ style }, { $, navigation }) {
             style={_.mt.sm}
             data={$.staff}
             quality={false}
+            initialRenderNums={initialRenderNums}
             onPress={({ id, name, nameJP, _image }) => {
               t('条目.跳转', {
                 to: 'Mono',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-23 21:30:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-23 22:08:33
+ * @Last Modified time: 2021-01-18 22:21:53
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Portal } from '@ant-design/react-native'
 import { SafeAreaView } from 'react-navigation'
 import { Touchable } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 
 const forceInset = {
   top: 'always',
@@ -18,6 +18,10 @@ const forceInset = {
 }
 
 function IconPortal({ index, onPress }) {
+  if (!systemStore.rendered) {
+    return null
+  }
+
   return (
     <Portal>
       <SafeAreaView style={_.container.flex} forceInset={forceInset}>
