@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 00:53:40
+ * @Last Modified time: 2021-01-20 15:36:59
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Text, SegmentedControl, Heatmap } from '@components'
 import { SectionTitle as CompSectionTitle, IconReverse } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 
 function SectionTitle(props, { $ }) {
   const { list = [] } = $.comments
@@ -99,20 +98,15 @@ function SectionTitle(props, { $ }) {
   )
 }
 
-SectionTitle.contextTypes = {
-  $: PropTypes.object
-}
+export default obc(SectionTitle)
 
-export default observer(SectionTitle)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   title: {
     paddingHorizontal: _.wind,
     marginTop: _.lg,
     marginBottom: _.md
   },
   sort: {
-    marginRight: -_.sm,
     marginLeft: _.xs
   },
   segmentedControl: {

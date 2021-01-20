@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 21:42:16
+ * @Last Modified time: 2021-01-20 14:58:47
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -23,7 +23,7 @@ import Touchable from './touchable'
 const namespace = 'c-fixed-textarea'
 const maxHistoryCount = 7 // 最大常用bgm表情数量
 const sourceFlag = '来自Bangumi for'
-const sourceText = `\n\n[color=grey][size=10][${sourceFlag} ${
+const sourceText = `\n[color=grey][size=10][${sourceFlag} ${
   IOS ? 'iOS' : 'android'
 }] [url=https://bgm.tv/group/topic/350677][color=grey]获取[/color][/url][/size][/color]`
 

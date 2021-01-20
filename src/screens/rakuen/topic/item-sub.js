@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 22:49:03
+ * @Last Modified time: 2021-01-20 15:31:57
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, RenderHtml } from '@components'
+import { View } from 'react-native'
+import { Flex, Text, RenderHtml } from '@components'
 import { Avatar, Name } from '@screens/_'
 import { _ } from '@stores'
-import { getTimestamp, simpleTime, open } from '@utils'
+import { getTimestamp, open } from '@utils'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { removeHTMLTag } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import ItemPlusOne from './item-plus-one'
+import UserLabel from './user-label'
+import FloorText from './floor-text'
+import IconExtra from './icon/extra'
 
 const avatarWidth = 32
 const imagesMaxWidthSub =
@@ -71,6 +73,7 @@ function ItemSub(
   const isJump = !!postId && postId === id
   const quoteUserName = msg.match(/^(.+?)说:/)?.[1]
   const quoteUser = $.postUsersMap[quoteUserName]
+
   return (
     <Flex
       style={[isNew && styles.itemNew, isJump && styles.itemJump]}
@@ -93,46 +96,25 @@ function ItemSub(
               lineHeight={14}
               bold
               right={
-                <>
-                  {isAuthor && (
-                    <Text type='main' size={10} lineHeight={14} bold>
-                      {' '}
-                      作者
-                    </Text>
-                  )}
-                  {isFriend && !isAuthor && (
-                    <Text type='warning' size={10} lineHeight={14} bold>
-                      {' '}
-                      好友
-                    </Text>
-                  )}
-                  {isLayer && !isAuthor && !isFriend && (
-                    <Text type='primary' size={10} lineHeight={14} bold>
-                      {' '}
-                      层主
-                    </Text>
-                  )}
-                </>
+                <UserLabel
+                  isAuthor={isAuthor}
+                  isFriend={isFriend}
+                  isLayer={isLayer}
+                />
               }
             >
               {userName}
             </Name>
           </Flex.Item>
-          <Text
-            style={[styles.time, _.ml.md]}
-            type='sub'
-            size={10}
-            lineHeight={14}
-          >
-            {simpleTime(time)}
-          </Text>
-          <Text style={styles.floor} type='sub' size={10} lineHeight={14}>
-            #
-          </Text>
-          <Text style={styles.time} type='sub' size={10} lineHeight={14}>
-            {floor.replace('#', '')}
-          </Text>
+          <IconExtra
+            replySub={replySub}
+            erase={erase}
+            userName={userName}
+            message={message}
+            showFixedTextare={showFixedTextare}
+          />
         </Flex>
+        <FloorText time={time} floor={floor} />
         <View style={_.mt.xs}>
           <RenderHtml
             baseFontStyle={_.baseFontStyle.md}
@@ -158,53 +140,12 @@ function ItemSub(
             </Flex>
           )}
         </View>
-        <Flex justify='end'>
-          {!!erase && (
-            <Touchable
-              style={[styles.reply, _.mr.sm]}
-              onPress={() =>
-                Alert.alert('警告', '确定删除回复?', [
-                  {
-                    text: '取消',
-                    style: 'cancel'
-                  },
-                  {
-                    text: '确定',
-                    onPress: () => $.doDeleteReply(erase)
-                  }
-                ])
-              }
-            >
-              <Text type='icon' size={10}>
-                删除
-              </Text>
-            </Touchable>
-          )}
-          {!!replySub && (
-            <Touchable
-              style={styles.reply}
-              onPress={() => {
-                $.showFixedTextarea(userName, replySub, message)
-                showFixedTextare()
-              }}
-            >
-              <Text type='icon' size={10}>
-                回复
-              </Text>
-            </Touchable>
-          )}
-        </Flex>
       </Flex.Item>
     </Flex>
   )
 }
 
-ItemSub.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(ItemSub)
+export default obc(ItemSub)
 
 const memoStyles = _.memoStyles(_ => ({
   itemNew: {
@@ -220,21 +161,6 @@ const memoStyles = _.memoStyles(_ => ({
   },
   subContent: {
     paddingVertical: _.md
-  },
-  reply: {
-    padding: _.sm,
-    marginTop: -_.sm,
-    marginRight: -_.sm,
-    marginBottom: -_.md,
-    opacity: _.select(1, 0.64)
-  },
-  time: {
-    opacity: _.select(1, 0.64)
-  },
-  floor: {
-    marginTop: -8,
-    marginLeft: _.sm,
-    opacity: _.select(1, 0.64)
   },
   quoteUserRound: {
     position: 'absolute',

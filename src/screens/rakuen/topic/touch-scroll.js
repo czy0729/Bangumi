@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 22:16:14
+ * @Last Modified time: 2021-01-20 15:37:43
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, titleCase } from '@utils'
+import { obc } from '@utils/decorators'
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants/model'
 
 function TouchScroll({ onPress }, { $ }) {
@@ -102,15 +101,9 @@ function TouchScroll({ onPress }, { $ }) {
   )
 }
 
-TouchScroll.defaultProps = {
+export default obc(TouchScroll, {
   onPress: Function.prototype
-}
-
-TouchScroll.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(TouchScroll)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   containerRight: {
@@ -152,10 +145,7 @@ const memoStyles = _.memoStyles(_ => ({
     height: '100%'
   },
   itemNew: {
-    backgroundColor: _.select(
-      'rgba(254, 138, 149, 0.4)',
-      'rgba(254, 113, 127, 0.16)'
-    )
+    backgroundColor: _.select('rgba(254, 138, 149, 0.4)', 'rgb(59, 48, 51)')
   },
   itemText: {
     minHeight: 24

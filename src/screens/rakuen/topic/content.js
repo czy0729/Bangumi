@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 00:49:41
+ * @Last Modified time: 2021-01-20 15:35:02
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Flex, RenderHtml, Loading, Text, Heatmap } from '@components'
 import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 
 function Content(props, { $, navigation }) {
@@ -115,14 +114,9 @@ function Content(props, { $, navigation }) {
   )
 }
 
-Content.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Content)
 
-export default observer(Content)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   html: {
     minHeight: 120
   },

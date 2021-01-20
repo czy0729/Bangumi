@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 22:42:43
+ * @Last Modified time: 2021-01-20 15:32:12
  */
 import React from 'react'
-import { Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar, Name } from '@screens/_'
 import { _ } from '@stores'
-import { getTimestamp, simpleTime, open } from '@utils'
+import { getTimestamp, open } from '@utils'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, EVENT } from '@constants'
 import ItemSub from './item-sub'
+import UserLabel from './user-label'
+import FloorText from './floor-text'
+import IconExtra from './icon/extra'
 
 const avatarWidth = 32
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
@@ -88,45 +90,25 @@ function Item(
               lineHeight={14}
               bold
               right={
-                <>
-                  {isAuthor && (
-                    <Text type='main' size={10} lineHeight={14} bold>
-                      {' '}
-                      作者
-                    </Text>
-                  )}
-                  {isFriend && !isAuthor && (
-                    <Text type='warning' size={10} lineHeight={14} bold>
-                      {' '}
-                      好友
-                    </Text>
-                  )}
-                </>
+                <UserLabel
+                  isAuthor={isAuthor}
+                  isFriend={isFriend}
+                  userSign={userSign}
+                />
               }
+              numberOfLines={1}
             >
               {userName}
             </Name>
           </Flex.Item>
-          <Text
-            style={[styles.time, _.ml.md]}
-            type='sub'
-            size={10}
-            lineHeight={14}
-          >
-            {simpleTime(time)}
-          </Text>
-          <Text style={styles.floor} type='sub' size={10} lineHeight={14}>
-            #
-          </Text>
-          <Text style={styles.time} type='sub' size={10} lineHeight={14}>
-            {floor.replace('#', '')}
-          </Text>
+          <IconExtra
+            replySub={replySub}
+            erase={erase}
+            userName={userName}
+            showFixedTextare={showFixedTextare}
+          />
         </Flex>
-        {!!userSign && (
-          <Text style={styles.sign} type='sub' size={11} numberOfLines={1}>
-            {userSign.slice(1, userSign.length - 1)}
-          </Text>
-        )}
+        <FloorText time={time} floor={floor} />
         <RenderHtml
           style={_.mt.sm}
           baseFontStyle={_.baseFontStyle.md}
@@ -135,42 +117,6 @@ function Item(
           onLinkPress={href => appNavigate(href, navigation, {}, event)}
           onImageFallback={() => open(`${url}#post_${id}`)}
         />
-        <Flex justify='end'>
-          {!!erase && (
-            <Touchable
-              style={[styles.reply, _.mr.sm]}
-              onPress={() =>
-                Alert.alert('警告', '确定删除回复?', [
-                  {
-                    text: '取消',
-                    style: 'cancel'
-                  },
-                  {
-                    text: '确定',
-                    onPress: () => $.doDeleteReply(erase)
-                  }
-                ])
-              }
-            >
-              <Text type='icon' size={10}>
-                删除
-              </Text>
-            </Touchable>
-          )}
-          {!!replySub && (
-            <Touchable
-              style={styles.reply}
-              onPress={() => {
-                $.showFixedTextarea(userName, replySub)
-                showFixedTextare()
-              }}
-            >
-              <Text type='icon' size={10}>
-                回复
-              </Text>
-            </Touchable>
-          )}
-        </Flex>
         <View style={styles.sub}>
           {sub
             .filter((item, index) => (isExpand ? true : index < expandNum))
@@ -216,24 +162,17 @@ function Item(
   )
 }
 
-Item.defaultProps = {
+export default obc(Item, {
   sub: [],
   event: EVENT
-}
-
-Item.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Item)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   itemNew: {
     backgroundColor: _.colorMainLight
   },
   itemJump: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: _.colorWarning
   },
   image: {
@@ -249,28 +188,9 @@ const memoStyles = _.memoStyles(_ => ({
     borderTopColor: _.colorBorder,
     borderTopWidth: _.hairlineWidth
   },
-  sign: {
-    marginTop: 2,
-    opacity: _.select(1, 0.64)
-  },
   sub: {
     marginTop: _.md,
     marginBottom: -_.md
-  },
-  reply: {
-    padding: _.sm,
-    marginTop: -_.sm,
-    marginRight: -_.sm,
-    marginBottom: -_.md,
-    opacity: _.select(1, 0.64)
-  },
-  time: {
-    opacity: _.select(1, 0.64)
-  },
-  floor: {
-    marginTop: -8,
-    marginLeft: _.sm,
-    opacity: _.select(1, 0.64)
   },
   expand: {
     paddingTop: _.sm,

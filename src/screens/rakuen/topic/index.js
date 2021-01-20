@@ -2,17 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 00:59:43
+ * @Last Modified time: 2021-01-20 15:34:13
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ListView, FixedTextarea, Flex, Text } from '@components'
 import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
-import { inject, withTransitionHeader } from '@utils/decorators'
+import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { keyExtractor, appNavigate } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -35,13 +33,8 @@ export default
   barStyle: 'dark-content',
   HeaderTitle
 })
-@observer
+@obc
 class Topic extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   state = {
     rendered: false
   }

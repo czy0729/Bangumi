@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 23:23:05
+ * @Last Modified time: 2021-01-20 15:36:17
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 
 function IconFavor({ $ }) {
   return (
@@ -25,13 +23,9 @@ function IconFavor({ $ }) {
   )
 }
 
-IconFavor.contextTypes = {
-  $: PropTypes.object
-}
+export default ob(IconFavor)
 
-export default observer(IconFavor)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   icon: {
     marginRight: -2
   }

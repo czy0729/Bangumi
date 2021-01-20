@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:32:20
+ * @Last Modified time: 2021-01-20 15:36:37
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, RenderHtml } from '@components'
 import { Avatar, Name } from '@screens/_'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 
 const avatarWidth = 32
@@ -51,11 +50,7 @@ function ItemPlusOne(
   )
 }
 
-ItemPlusOne.contextTypes = {
-  navigation: PropTypes.object
-}
-
-export default observer(ItemPlusOne)
+export default obc(ItemPlusOne)
 
 const memoStyles = _.memoStyles(_ => ({
   round: {

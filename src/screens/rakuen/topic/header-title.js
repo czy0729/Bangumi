@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-21 15:29:34
+ * @Last Modified time: 2021-01-20 15:35:32
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { observer } from 'mobx-react'
 import { FadeIn, Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { urlStringify } from '@utils'
+import { ob } from '@utils/decorators'
 
 const routeName = 'Topic'
 const imgWidth = 24
@@ -41,7 +40,7 @@ function HeaderTitle({ navigation }) {
           />
         )}
         <Flex.Item style={_.ml.sm}>
-          <Text size={12} numberOfLines={1}>
+          <Text size={13} numberOfLines={1}>
             {$.title}
           </Text>
           {!!($.userName || $.group) && (
@@ -55,9 +54,9 @@ function HeaderTitle({ navigation }) {
   )
 }
 
-export default observer(HeaderTitle)
+export default ob(HeaderTitle)
 
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     marginLeft: -_.md,
     marginRight: _.md
