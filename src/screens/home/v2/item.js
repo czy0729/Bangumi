@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:18:19
+ * @Last Modified time: 2021-01-21 01:15:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IOS, IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IOS, IMG_WIDTH, IMG_HEIGHT, LIMIT_HEAVY_RENDER } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const itemPadding = _._wind
@@ -125,6 +125,13 @@ class Item extends React.Component {
   get isSecond() {
     const { index } = this.props
     return index === 1
+  }
+
+  get isLazyRendered() {
+    const { $ } = this.context
+    const { _mounted } = $.state
+    const { index } = this.props
+    return index >= LIMIT_HEAVY_RENDER && !_mounted
   }
 
   renderBtnOrigin() {
@@ -274,6 +281,10 @@ class Item extends React.Component {
   }
 
   render() {
+    if (this.isLazyRendered) {
+      return <View style={this.styles.lazy} />
+    }
+
     const { $ } = this.context
     const { subjectId, subject, epStatus } = this.props
     const { expand } = $.$Item(subjectId)
@@ -441,6 +452,12 @@ class Item extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
+  lazy: {
+    height: 150,
+    backgroundColor: IOS ? _.colorPlain : 'transparent',
+    borderBottomWidth: 8,
+    borderBottomColor: _.colorBg
+  },
   item: {
     paddingVertical: itemPadding,
     paddingLeft: itemPadding,

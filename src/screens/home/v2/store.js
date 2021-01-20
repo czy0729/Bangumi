@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 21:10:21
+ * @Last Modified time: 2021-01-21 01:14:11
  */
-import { InteractionManager } from 'react-native'
 import { observable, computed } from 'mobx'
 import {
   _,
@@ -15,7 +14,7 @@ import {
   systemStore
 } from '@stores'
 import { Eps } from '@screens/_'
-import { open } from '@utils'
+import { open, runAfter } from '@utils'
 import { t, queue } from '@utils/fetch'
 import {
   x18,
@@ -82,7 +81,8 @@ const excludeState = {
     subject: {},
     ep_status: ''
   },
-  isFocused: true
+  isFocused: true,
+  _mounted: false
 }
 const day = new Date().getDay()
 
@@ -113,9 +113,16 @@ export default class ScreenHomeV2 extends store {
       this.initFetch()
     }
 
-    InteractionManager.runAfterInteractions(() => {
+    runAfter(() => {
       userStore.logTourist()
       calendarStore.fetchOnAir()
+
+      // 延迟加载标记
+      setTimeout(() => {
+        this.setState({
+          _mounted: true
+        })
+      }, 2000)
     })
 
     return res
@@ -134,7 +141,7 @@ export default class ScreenHomeV2 extends store {
        * 由于Bangumi没提供一次性查询多个章节信息的API, 暂时每项都发一次请求
        * cloudfare请求太快会被拒绝
        */
-      InteractionManager.runAfterInteractions(() => {
+      runAfter(() => {
         const fetchs = []
         this.sortList(data[0]).forEach(({ subject_id: subjectId }) => {
           const { _loaded } = this.subject(subjectId)

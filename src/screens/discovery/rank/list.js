@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 04:09:49
+ * @Last Modified time: 2021-01-20 20:48:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { ScrollView, Flex, Empty, Heatmap } from '@components'
 import {
@@ -16,7 +15,7 @@ import {
   FilterText
 } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 const event = {
@@ -29,13 +28,8 @@ const heatmaps = {
 }
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   renderPagination() {
     const { $ } = this.context
     const { type, ipt } = $.state
@@ -133,7 +127,6 @@ class List extends React.Component {
     const { _loaded } = $.rank
     return (
       <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
-        {/* {this.renderPagination()} */}
         {show && (
           <>
             {_loaded ? (

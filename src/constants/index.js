@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 17:14:18
+ * @Last Modified time: 2021-01-21 01:15:37
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -105,6 +105,7 @@ export const LIST_EMPTY = {
 export const LIMIT_LIST = 100 // 用于制造分页数据
 export const LIMIT_LIST_COMMENTS = 50 // 用于制造分页数据 (评论)
 export const LIMIT_TOPIC_PUSH = 500 // 对评论数多的帖子进行网页跳转
+export const LIMIT_HEAVY_RENDER = 10 // 部分首屏渲染任务非常重的页面设置的初始最大项显示值
 
 // EVENT
 export const EVENT = {
@@ -115,6 +116,7 @@ export const EVENT = {
 // 时间数组
 export const DATA_AIRTIME = [
   '全部',
+  '2021',
   '2020',
   '2019',
   '2018',
