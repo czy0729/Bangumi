@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 15:34:13
+ * @Last Modified time: 2021-01-20 19:30:52
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -19,8 +19,8 @@ import HeaderTitle from './header-title'
 import Top from './top'
 import Item from './item'
 import TouchScroll from './touch-scroll'
-import IconFavor from './icon-favor'
 import Heatmaps from './heatmaps'
+import IconFavor from './icon/favor'
 import Store from './store'
 
 const title = '帖子'

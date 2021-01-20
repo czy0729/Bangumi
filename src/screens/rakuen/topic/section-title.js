@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 15:36:59
+ * @Last Modified time: 2021-01-20 20:00:34
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Text, SegmentedControl, Heatmap } from '@components'
+import { Text, Heatmap } from '@components'
 import { SectionTitle as CompSectionTitle, IconReverse } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import Segment from './segment'
 
 function SectionTitle(props, { $ }) {
   const { list = [] } = $.comments
-  const { filterMe, filterFriends, reverse } = $.state
-  const hasLogin = !!$.myId
+  const { reverse } = $.state
   let commentsCount = 0
   list.forEach(item => {
     commentsCount += 1
@@ -23,61 +22,12 @@ function SectionTitle(props, { $ }) {
     }
   })
 
-  const segmentedControlDS = ['全部']
-  if (hasLogin && $.commentMeCount) {
-    segmentedControlDS.push(`我 ${$.commentMeCount}`)
-  }
-  if (hasLogin && $.commentFriendsCount) {
-    segmentedControlDS.push(`好友 ${$.commentFriendsCount}`)
-  }
-
-  let selectedIndex = 0
-  if (segmentedControlDS.length > 1) {
-    if (filterMe && segmentedControlDS.find(item => item.includes('我'))) {
-      selectedIndex = 1
-    } else if (filterFriends) {
-      selectedIndex = segmentedControlDS.length - 1
-    }
-  }
-
   return (
     <CompSectionTitle
       style={styles.title}
       right={
         <>
-          {segmentedControlDS.length > 1 && (
-            <View>
-              <SegmentedControl
-                style={[
-                  styles.segmentedControl,
-                  {
-                    width: segmentedControlDS.length * 56
-                  }
-                ]}
-                size={11}
-                values={segmentedControlDS}
-                selectedIndex={selectedIndex}
-                onValueChange={title => {
-                  if (
-                    (title.includes('我') && !filterMe) ||
-                    (title === '全部' && filterMe)
-                  ) {
-                    $.toggleFilterMe()
-                    return
-                  }
-
-                  if (
-                    (title.includes('好友') && !filterFriends) ||
-                    (title === '全部' && filterFriends)
-                  ) {
-                    $.toggleFilterFriends()
-                  }
-                }}
-              />
-              <Heatmap right={74} bottom={24} id='帖子.好友相关' />
-              <Heatmap right={24} bottom={24} id='帖子.与我相关' />
-            </View>
-          )}
+          <Segment />
           <IconReverse
             style={styles.sort}
             color={reverse ? _.colorMain : _.colorIcon}
@@ -108,8 +58,5 @@ const styles = _.create({
   },
   sort: {
     marginLeft: _.xs
-  },
-  segmentedControl: {
-    height: 22
   }
 })

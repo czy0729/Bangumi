@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 15:31:57
+ * @Last Modified time: 2021-01-20 20:04:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,10 +14,10 @@ import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { removeHTMLTag } from '@utils/html'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import ItemPlusOne from './item-plus-one'
-import UserLabel from './user-label'
-import FloorText from './floor-text'
-import IconExtra from './icon/extra'
+import UserLabel from '../user-label'
+import FloorText from '../floor-text'
+import IconExtra from '../icon/extra'
+import ItemPlusOne from './plus-one'
 
 const avatarWidth = 32
 const imagesMaxWidthSub =

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 15:32:12
+ * @Last Modified time: 2021-01-20 20:05:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,10 +14,10 @@ import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, EVENT } from '@constants'
-import ItemSub from './item-sub'
-import UserLabel from './user-label'
-import FloorText from './floor-text'
-import IconExtra from './icon/extra'
+import UserLabel from '../user-label'
+import FloorText from '../floor-text'
+import IconExtra from '../icon/extra'
+import ItemSub from './sub'
 
 const avatarWidth = 32
 const imagesMaxWidth = _.window.width - 2 * _.wind - avatarWidth - _.sm
