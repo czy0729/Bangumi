@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:28:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-02 20:13:03
+ * @Last Modified time: 2021-01-20 20:17:16
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import { IconNotify, IconTinygrail, IconTabsHeader } from '@screens/_'
 import { _, systemStore } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 const event = {
@@ -48,13 +46,9 @@ function Icons(props, { navigation }) {
   )
 }
 
-Icons.contextTypes = {
-  navigation: PropTypes.object
-}
+export default obc(Icons)
 
-export default observer(Icons)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   icons: {
     position: 'absolute',
     zIndex: 3,

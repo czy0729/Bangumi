@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 23:02:33
+ * @Last Modified time: 2021-01-20 20:10:22
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Heatmap } from '@components'
 import { Logo, IconNotify, IconTinygrail, IconTabsHeader } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 
@@ -82,13 +80,9 @@ function Header(props, { navigation }) {
   )
 }
 
-Header.contextTypes = {
-  navigation: PropTypes.object
-}
+export default obc(Header)
 
-export default observer(Header)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   header: {
     position: 'absolute',
     zIndex: 3,

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 01:37:15
+ * @Last Modified time: 2021-01-20 20:18:19
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Progress, Modal } from '@ant-design/react-native'
 import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
 import { Eps, Cover, Popover } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IOS, IMG_WIDTH, IMG_HEIGHT } from '@constants'
@@ -24,17 +23,14 @@ const colorDark = {
   color: _.colorDark
 }
 
+export default
+@obc
 class Item extends React.Component {
   static defaultProps = {
     index: '',
     subjectId: 0,
     subject: {},
     epStatus: ''
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   onPress = () => {
@@ -443,8 +439,6 @@ class Item extends React.Component {
     return memoStyles()
   }
 }
-
-export default observer(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

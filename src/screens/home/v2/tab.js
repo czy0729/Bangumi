@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 16:52:55
+ * @Last Modified time: 2021-01-20 20:11:09
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { TabBar } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { H_TABBAR } from './store'
 
@@ -62,15 +61,9 @@ function Tab({ routes, renderScene }, { $ }) {
   )
 }
 
-Tab.contextTypes = {
-  $: PropTypes.object
-}
-
-Tab.defaultProps = {
+export default obc(Tab, {
   routes: []
-}
-
-export default observer(Tab)
+})
 
 const W_INDICATOR = 16
 const memoStyles = _.memoStyles(_ => ({

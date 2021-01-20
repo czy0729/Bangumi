@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-18 22:19:10
+ * @Last Modified time: 2021-01-20 20:08:48
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
-import PropTypes from 'prop-types'
 import { UM } from '@components'
 import {
   StatusBarEvents,
@@ -20,7 +19,7 @@ import { _, userStore } from '@stores'
 import { runAfter } from '@utils'
 import { info } from '@utils/ui'
 import { navigationReference } from '@utils/app'
-import { inject, observer } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { MODEL_SETTING_INITIAL_PAGE } from '@constants/model'
@@ -34,17 +33,12 @@ const title = '首页'
 
 export default
 @inject(Store)
-@observer
+@obc
 class Home extends React.Component {
   static navigationOptions = {
     header: null,
     tabBarIcon: ({ tintColor }) => <IconTabBar name='star' color={tintColor} />,
     tabBarLabel: '进度'
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

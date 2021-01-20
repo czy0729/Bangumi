@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-12 20:50:19
+ * @Last Modified time: 2021-01-20 20:25:11
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView, Flex, Text, Mesume } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import GridInfo from './grid-info'
@@ -31,13 +30,11 @@ const prevTextMap = {
   游戏: '游戏'
 }
 
+export default
+@obc
 class Grid extends React.Component {
   static defaultProps = {
     title: '全部'
-  }
-
-  static contextTypes = {
-    $: PropTypes.object
   }
 
   listView
@@ -119,8 +116,6 @@ class Grid extends React.Component {
   }
 }
 
-export default observer(Grid)
-
 const memoStyles = _.memoStyles(_ => ({
   container: {
     flex: 1,
@@ -134,7 +129,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   current: {
     width: '100%',
-    height: 204
+    height: 212
   },
   noSelect: {
     width: '100%',

@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 19:04:29
+ * @Last Modified time: 2021-01-20 20:24:53
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Eps, Cover } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -18,16 +17,13 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 const imageWidth = 88 * (_.isPad ? 1.2 : 1)
 const imageHeight = imageWidth * 1.4
 
+export default
+@obc
 class GridInfo extends React.Component {
   static defaultProps = {
     subjectId: 0,
     subject: {},
     epStatus: ''
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   onPress = () => {
@@ -213,6 +209,7 @@ class GridInfo extends React.Component {
           <Eps
             style={_.mt.xs}
             numbersOfLine={6}
+            lines={3}
             login={$.isLogin}
             subjectId={subjectId}
             eps={$.eps(subjectId)}
@@ -226,9 +223,7 @@ class GridInfo extends React.Component {
   }
 }
 
-export default observer(GridInfo)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   item: {
     paddingVertical: 16,
     paddingHorizontal: _.wind

@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-23 22:50:27
+ * @Last Modified time: 2021-01-20 20:18:43
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_SETTING_HOME_LAYOUT, MODEL_SUBJECT_TYPE } from '@constants/model'
 import Grid from './grid'
@@ -65,17 +63,11 @@ function List({ title }, { $ }) {
   )
 }
 
-List.defaultProps = {
+export default obc(List, {
   title: '全部'
-}
+})
 
-List.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(List)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   androidWrap: {
     marginBottom: _.tabBarHeight - 1
   },

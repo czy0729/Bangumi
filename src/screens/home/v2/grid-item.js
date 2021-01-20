@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-06 18:28:31
+ * @Last Modified time: 2021-01-20 20:16:12
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Progress } from '@ant-design/react-native'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 
 const margin = 10
 const num = _.isPad ? 5 : 4
@@ -48,16 +47,10 @@ function GridItem({ subject, subjectId, epStatus }, { $ }) {
   )
 }
 
-GridItem.defaultProps = {
+export default obc(GridItem, {
   subject: {},
   subject_id: 0
-}
-
-GridItem.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(GridItem)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:36:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-15 00:10:20
+ * @Last Modified time: 2021-01-20 20:28:07
  */
 import { InteractionManager, Clipboard } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
