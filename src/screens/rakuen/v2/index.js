@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-15 00:10:58
+ * @Last Modified time: 2021-01-21 20:03:05
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { UM } from '@components'
 import {
-  IconTabBar,
   SafeAreaView,
   StatusBarEvents,
   NavigationBarEvents,
+  IconTabBar,
   IconPortal
 } from '@screens/_'
 import { _ } from '@stores'
 import { runAfter } from '@utils'
-import { inject, observer } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
 import Header from './header'
@@ -28,7 +27,7 @@ const title = '超展开'
 
 export default
 @inject(Store)
-@observer
+@obc
 class Rakuen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -36,10 +35,6 @@ class Rakuen extends React.Component {
       <IconTabBar name='planet' color={tintColor} />
     ),
     tabBarLabel: title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object
   }
 
   componentDidMount() {
@@ -57,16 +52,12 @@ class Rakuen extends React.Component {
     })
   }
 
-  get style() {
-    return IOS ? _.container.plain : _.container._plain
-  }
-
   render() {
     const { $ } = this.context
     const { _loaded } = $.state
     const { isFocused } = this.props
     return (
-      <SafeAreaView style={this.style}>
+      <SafeAreaView style={IOS ? _.container.plain : _.container._plain}>
         <StatusBarEvents backgroundColor='transparent' />
         <NavigationBarEvents />
         {_loaded && (

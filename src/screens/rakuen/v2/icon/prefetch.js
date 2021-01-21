@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 11:16:23
+ * @Last Modified time: 2021-01-21 20:04:33
  */
 import React from 'react'
-import { StyleSheet, Alert } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { Alert } from 'react-native'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
 import { IconTabsHeader } from '@screens/_'
+import { obc } from '@utils/decorators'
 import { _ } from '@stores'
 
-function Prefetch(props, { $ }) {
+function IconPrefetch(props, { $ }) {
   const { prefetching, prefetchTotal, prefetchCurrent } = $.state
   if (prefetching) {
     return (
@@ -52,13 +51,9 @@ function Prefetch(props, { $ }) {
   )
 }
 
-Prefetch.contextTypes = {
-  $: PropTypes.object
-}
+export default obc(IconPrefetch)
 
-export default observer(Prefetch)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   icon: {
     marginRight: -6,
     marginBottom: 0

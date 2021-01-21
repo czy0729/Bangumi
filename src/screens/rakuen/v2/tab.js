@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 16:34:55
+ * @Last Modified time: 2021-01-21 20:05:15
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import TabBar from '@components/@/react-native-tab-view/TabBar'
 import { Flex, Text } from '@components'
 import { BlurView, Popover } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import {
   MODEL_RAKUEN_TYPE,
@@ -135,11 +134,7 @@ function Tab(props, { $ }) {
   )
 }
 
-Tab.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Tab)
+export default obc(Tab)
 
 const W_TAB_BAR_LEFT = 0
 const W_TAB = _.window.width / 5

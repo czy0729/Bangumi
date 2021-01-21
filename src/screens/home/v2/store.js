@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 16:18:04
+ * @Last Modified time: 2021-01-21 17:23:28
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -36,6 +36,7 @@ import {
   MODEL_EP_STATUS,
   MODEL_COLLECTION_STATUS,
   MODEL_COLLECTIONS_ORDERBY,
+  MODEL_SETTING_INITIAL_PAGE,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_HOME_LAYOUT
 } from '@constants/model'
@@ -835,6 +836,28 @@ export default class ScreenHomeV2 extends store {
       })
     }
     Modal.operation(data)
+  }
+
+  /**
+   * 设置应用初始页面
+   */
+  updateInitialPage = navigation => {
+    if (this.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('进度')) {
+      this.init()
+      return
+    }
+
+    if (this.initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('小圣杯')) {
+      navigation.push('Tinygrail')
+      return
+    }
+
+    setTimeout(() => {
+      this.setState({
+        isFocused: false
+      })
+      navigation.navigate(this.initialPage)
+    }, 0)
   }
 
   // -------------------- action --------------------

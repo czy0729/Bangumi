@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 16:18:45
+ * @Last Modified time: 2021-01-21 16:56:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,96 +19,67 @@ import ToolBar from './tool-bar'
 import Progress from './progress'
 import { itemPadding } from './ds'
 
-const LIMIT_HEAVY_RENDER = _.isPad ? 20 : 10
+const LIMIT_HEAVY_RENDER = _.isPad ? 16 : 8
 
-export default
-@obc
-class Item extends React.Component {
-  static defaultProps = {
-    index: '',
-    subjectId: 0,
-    subject: {},
-    epStatus: ''
+function Item({ index, subjectId, subject, epStatus }, { $, navigation }) {
+  const styles = memoStyles()
+  const { top, _mounted } = $.state
+  if (index >= LIMIT_HEAVY_RENDER && !_mounted) {
+    return <View style={styles.lazy} />
   }
 
-  get isTop() {
-    const { $ } = this.context
-    const { subjectId } = this.props
-    const { top } = $.state
-    return top.indexOf(subjectId) !== -1
-  }
-
-  get isLazyRendered() {
-    const { $ } = this.context
-    const { index } = this.props
-    const { _mounted } = $.state
-    return index >= LIMIT_HEAVY_RENDER && !_mounted
-  }
-
-  render() {
-    if (this.isLazyRendered) {
-      return <View style={this.styles.lazy} />
-    }
-
-    const { $, navigation } = this.context
-    const { index, subjectId, subject, epStatus } = this.props
-    const { expand } = $.$Item(subjectId)
-    return (
-      <View
-        style={
-          $.heatMap && expand ? this.styles.itemWithHeatMap : this.styles.item
-        }
-      >
-        <Flex style={this.styles.hd}>
-          <Cover index={index} subjectId={subjectId} subject={subject} />
-          <Flex.Item style={this.styles.content}>
-            <Touchable
-              style={this.styles.title}
-              withoutFeedback
-              onPress={() => $.onItemPress(navigation, subjectId, subject)}
-            >
-              <Flex align='start'>
-                <Flex.Item>
-                  <Title subject={subject} />
-                </Flex.Item>
-                <OnAir subjectId={subjectId} />
-              </Flex>
-            </Touchable>
-            <View>
-              <Flex style={this.styles.info}>
-                <Flex.Item>
-                  <Count
-                    index={index}
-                    subjectId={subjectId}
-                    subject={subject}
-                    epStatus={epStatus}
-                  />
-                </Flex.Item>
-                <ToolBar
+  const { expand } = $.$Item(subjectId)
+  const isTop = top.indexOf(subjectId) !== -1
+  return (
+    <View style={$.heatMap && expand ? styles.itemWithHeatMap : styles.item}>
+      <Flex style={styles.hd}>
+        <Cover index={index} subjectId={subjectId} subject={subject} />
+        <Flex.Item style={styles.content}>
+          <Touchable
+            style={styles.title}
+            withoutFeedback
+            onPress={() => $.onItemPress(navigation, subjectId, subject)}
+          >
+            <Flex align='start'>
+              <Flex.Item>
+                <Title subject={subject} />
+              </Flex.Item>
+              <OnAir subjectId={subjectId} />
+            </Flex>
+          </Touchable>
+          <View>
+            <Flex style={styles.info}>
+              <Flex.Item>
+                <Count
                   index={index}
                   subjectId={subjectId}
                   subject={subject}
+                  epStatus={epStatus}
                 />
-              </Flex>
-              <Progress epStatus={epStatus} subject={subject} />
-            </View>
-          </Flex.Item>
-          {index === 1 && (
-            <View>
-              <Heatmap id='首页.置顶或取消置顶' />
-            </View>
-          )}
-        </Flex>
-        <Eps subjectId={subjectId} />
-        {this.isTop && <View style={this.styles.dot} />}
-      </View>
-    )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+              </Flex.Item>
+              <ToolBar index={index} subjectId={subjectId} subject={subject} />
+            </Flex>
+            <Progress epStatus={epStatus} subject={subject} />
+          </View>
+        </Flex.Item>
+        {index === 1 && (
+          <View>
+            <Heatmap id='首页.置顶或取消置顶' />
+          </View>
+        )}
+      </Flex>
+      <Eps subjectId={subjectId} />
+      {isTop && <View style={styles.dot} />}
+    </View>
+  )
 }
+
+export default obc(Item, {
+  index: '',
+  subjectId: 0,
+  subject: {},
+  epStatus: ''
+})
 
 const memoStyles = _.memoStyles(_ => ({
   lazy: {

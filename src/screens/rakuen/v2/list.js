@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-24 00:13:04
+ * @Last Modified time: 2021-01-21 20:03:36
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import Item from './item'
 import { H_TABBAR } from './store'
@@ -50,13 +48,9 @@ function List({ index }, { $ }) {
   )
 }
 
-List.contextTypes = {
-  $: PropTypes.object
-}
+export default obc(List)
 
-export default observer(List)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   androidWrap: {
     marginBottom: _.tabBarHeight - 1
   },

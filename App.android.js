@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 20:59:44
+ * @Last Modified time: 2021-01-21 17:15:34
  */
 import React, { useEffect } from 'react'
 import { Alert, View } from 'react-native'
@@ -14,7 +14,7 @@ import {
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
 import { Provider } from '@ant-design/react-native'
-import { DeepLink } from '@components'
+import { DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { bootApp } from '@utils/app'
@@ -37,6 +37,7 @@ export default function App() {
       <Provider theme={theme}>
         <Navigations />
       </Provider>
+      <BackAndroid />
       <DeepLink />
       <AppCommon />
     </View>

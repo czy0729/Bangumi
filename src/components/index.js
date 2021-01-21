@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-14 17:22:42
+ * @Last Modified time: 2021-01-21 17:14:21
  */
 export { default as Activity } from './activity'
+export { default as BackAndroid } from './back-android'
 export { default as Bgm } from './bgm'
 export { default as BgmText } from './bgm-text'
 export { default as BlurView } from './blur-view'

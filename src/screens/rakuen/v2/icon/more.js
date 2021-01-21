@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 20:11:59
+ * @Last Modified time: 2021-01-21 20:00:24
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { Iconfont, Heatmap } from '@components'
 import { Popover } from '@screens/_'
+import { _ } from '@stores'
 import { open } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants/html'
-import { _ } from '@stores'
 
 const data = ['预读取帖子', '本地帖子', '设置', '新讨论']
 
-function More({ style }, { $, navigation }) {
+function IconMore({ style }, { $, navigation }) {
   return (
     <Popover
       style={[styles.icon, style]}
@@ -59,14 +57,9 @@ function More({ style }, { $, navigation }) {
   )
 }
 
-More.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(IconMore)
 
-export default observer(More)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   icon: {
     padding: _.sm
   }
