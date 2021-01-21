@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 12:12:48
+ * @Last Modified time: 2021-01-21 16:13:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,7 @@ function Cover({ index, subjectId, subject }, { $, navigation }) {
         radius
         shadow
         type={type}
-        onPress={() => $.onPress(navigation, subjectId, subject)}
+        onPress={() => $.onItemPress(navigation, subjectId, subject)}
         onLongPress={() => $.onItemLongPress(subjectId)}
       />
       {index === 1 && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 12:10:28
+ * @Last Modified time: 2021-01-21 16:18:04
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -128,7 +128,7 @@ export default class ScreenHomeV2 extends store {
         this.setState({
           _mounted: true
         })
-      }, 0)
+      }, 80)
     })
 
     return res
