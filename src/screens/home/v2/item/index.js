@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 01:15:49
+ * @Last Modified time: 2021-01-21 13:58:40
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Progress, Modal } from '@ant-design/react-native'
+import { Progress } from '@ant-design/react-native'
 import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
-import { Eps, Cover, Popover } from '@screens/_'
+import { Eps, Popover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
-import { IOS, IMG_WIDTH, IMG_HEIGHT, LIMIT_HEAVY_RENDER } from '@constants'
+import { IOS, IMG_WIDTH } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
+import Cover from './cover'
+import OnAir from './onair'
 
+const LIMIT_HEAVY_RENDER = 10
 const itemPadding = _._wind
 const layoutWidth = _.window.contentWidth - _.wind
 const wrapWidth = layoutWidth - IMG_WIDTH - _.wind - itemPadding + 2
-const colorDark = {
-  color: _.colorDark
-}
 
 export default
 @obc
@@ -47,37 +47,6 @@ class Item extends React.Component {
       _cn: subject.name_cn || subject.name,
       _image: subject?.images?.medium || ''
     })
-  }
-
-  onLongPress = () => {
-    const { $ } = this.context
-    const { top } = $.state
-    const { subjectId } = this.props
-    const isTop = top.indexOf(subjectId) !== -1
-    const data = [
-      {
-        text: <Text style={colorDark}>全部展开</Text>,
-        onPress: () =>
-          setTimeout(() => {
-            $.expandAll()
-          }, 40)
-      },
-      {
-        text: <Text style={colorDark}>全部收起</Text>,
-        onPress: $.closeAll
-      },
-      {
-        text: <Text style={colorDark}>置顶</Text>,
-        onPress: () => $.itemToggleTop(subjectId, true)
-      }
-    ]
-    if (isTop) {
-      data.push({
-        text: <Text style={colorDark}>取消置顶</Text>,
-        onPress: () => $.itemToggleTop(subjectId, false)
-      })
-    }
-    Modal.operation(data)
   }
 
   onEpsSelect = (value, item) => {
@@ -286,20 +255,14 @@ class Item extends React.Component {
     }
 
     const { $ } = this.context
-    const { subjectId, subject, epStatus } = this.props
+    const { index, subjectId, subject, epStatus } = this.props
     const { expand } = $.$Item(subjectId)
-    const isToday = $.isToday(subjectId)
-    const isNextDay = $.isNextDay(subjectId)
     const percent = subject.eps_count
       ? (parseInt(epStatus || 0) / parseInt(subject.eps_count)) * 100
       : 0
-    const onAir = $.onAir[subjectId] || {}
-    const time = onAir.timeCN || onAir.timeJP || ''
     const type = MODEL_SUBJECT_TYPE.getTitle(subject.type)
     const isBook = type === '书籍'
     const doing = isBook ? '读' : '看'
-
-    $.onlineOrigins(subjectId)
     return (
       <View
         style={[
@@ -308,31 +271,7 @@ class Item extends React.Component {
         ]}
       >
         <Flex style={this.styles.hd}>
-          <View>
-            <Cover
-              src={subject?.images?.medium || ''}
-              size={IMG_WIDTH}
-              height={IMG_HEIGHT}
-              radius
-              shadow
-              type={type}
-              onPress={this.onPress}
-              onLongPress={this.onLongPress}
-            />
-            {this.isSecond && (
-              <>
-                <Heatmap bottom={68} id='首页.全部展开' transparent />
-                <Heatmap bottom={34} id='首页.全部收起' transparent />
-                <Heatmap
-                  id='首页.跳转'
-                  data={{
-                    to: 'Subject',
-                    alias: '条目'
-                  }}
-                />
-              </>
-            )}
-          </View>
+          <Cover index={index} subjectId={subjectId} subject={subject} />
           <Flex.Item style={this.styles.content}>
             <Touchable
               style={this.styles.title}
@@ -350,27 +289,7 @@ class Item extends React.Component {
                     </Text>
                   )}
                 </Flex.Item>
-                {isToday ? (
-                  <Text
-                    style={_.ml.sm}
-                    type='success'
-                    size={13}
-                    lineHeight={15}
-                    bold
-                  >
-                    {time.slice(0, 2)}:{time.slice(2, 4)}{' '}
-                  </Text>
-                ) : isNextDay ? (
-                  <Text
-                    style={_.ml.sm}
-                    type='sub'
-                    size={13}
-                    lineHeight={15}
-                    bold
-                  >
-                    明天{time.slice(0, 2)}:{time.slice(2, 4)}{' '}
-                  </Text>
-                ) : null}
+                <OnAir />
               </Flex>
             </Touchable>
             <View>

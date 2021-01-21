@@ -2,9 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 01:14:11
+ * @Last Modified time: 2021-01-21 12:10:28
  */
+import React from 'react'
 import { observable, computed } from 'mobx'
+import { Modal } from '@ant-design/react-native'
+import { Text } from '@components'
+import { Eps } from '@screens/_'
 import {
   _,
   userStore,
@@ -13,7 +17,6 @@ import {
   calendarStore,
   systemStore
 } from '@stores'
-import { Eps } from '@screens/_'
 import { open, runAfter } from '@utils'
 import { t, queue } from '@utils/fetch'
 import {
@@ -67,6 +70,9 @@ export const tabsWithGame = [
 export const H_TABBAR = 48
 
 const namespace = 'ScreenHomeV2'
+const colorDark = {
+  color: _.colorDark
+}
 const initItem = {
   expand: false,
   doing: false
@@ -122,7 +128,7 @@ export default class ScreenHomeV2 extends store {
         this.setState({
           _mounted: true
         })
-      }, 2000)
+      }, 0)
     })
 
     return res
@@ -786,6 +792,49 @@ export default class ScreenHomeV2 extends store {
     } catch (error) {
       warn(namespace, 'onlinePlaySelected', error)
     }
+  }
+
+  onItemPress = (navigation, subjectId, subject) => {
+    t('首页.跳转', {
+      to: 'Subject',
+      from: 'list'
+    })
+
+    navigation.push('Subject', {
+      subjectId,
+      _jp: subject.name,
+      _cn: subject.name_cn || subject.name,
+      _image: subject?.images?.medium || ''
+    })
+  }
+
+  onItemLongPress = subjectId => {
+    const { top } = this.state
+    const isTop = top.indexOf(subjectId) !== -1
+    const data = [
+      {
+        text: <Text style={colorDark}>全部展开</Text>,
+        onPress: () =>
+          setTimeout(() => {
+            this.expandAll()
+          }, 40)
+      },
+      {
+        text: <Text style={colorDark}>全部收起</Text>,
+        onPress: this.closeAll
+      },
+      {
+        text: <Text style={colorDark}>置顶</Text>,
+        onPress: () => this.itemToggleTop(subjectId, true)
+      }
+    ]
+    if (isTop) {
+      data.push({
+        text: <Text style={colorDark}>取消置顶</Text>,
+        onPress: () => this.itemToggleTop(subjectId, false)
+      })
+    }
+    Modal.operation(data)
   }
 
   // -------------------- action --------------------
