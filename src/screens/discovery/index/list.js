@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-24 14:44:40
+ * @Last Modified time: 2021-01-21 20:33:04
  */
 import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { ScrollView } from 'react-native'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { findSubjectCn, getCoverLarge } from '@utils/app'
 import { IMG_DEFAULT } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -81,17 +80,11 @@ function List({ style, type }, { $ }) {
   )
 }
 
-List.contextTypes = {
-  $: PropTypes.object
-}
-
-List.defaultProps = {
+export default obc(List, {
   type: 'anime'
-}
+})
 
-export default observer(List)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   contentContainerStyle: {
     paddingVertical: _.space + 4,
     paddingRight: _.wind - _._wind,

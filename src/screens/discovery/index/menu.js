@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-12 00:54:45
+ * @Last Modified time: 2021-01-21 20:33:15
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Touchable, Text, Iconfont, Image, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import ImageAnitama from '@assets/images/anitama.jpg'
@@ -218,12 +217,7 @@ function Menu(props, { $, navigation }) {
   )
 }
 
-Menu.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Menu)
+export default obc(Menu)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

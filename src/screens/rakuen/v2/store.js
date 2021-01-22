@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 21:04:21
+ * @Last Modified time: 2021-01-21 20:17:35
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
+import { runAfter } from '@utils'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { URL_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
@@ -31,7 +32,8 @@ const initPrefetchState = {
   prefetchCurrent: 0
 }
 const excludeState = {
-  isFocused: true
+  isFocused: true,
+  _mounted: false
 }
 const prefetchCount = 20
 
@@ -56,6 +58,15 @@ export default class ScreenRakuen extends store {
       _loaded: true
     })
     this.fetchRakuen(true)
+
+    runAfter(() => {
+      // 延迟加载标记
+      setTimeout(() => {
+        this.setState({
+          _mounted: true
+        })
+      }, 80)
+    })
     return res
   }
 

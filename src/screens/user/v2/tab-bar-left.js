@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-17 23:32:13
+ * @Last Modified time: 2021-01-21 20:35:01
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex, Button, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 function TabBarLeft({ onSelect }, { $ }) {
@@ -30,11 +29,7 @@ function TabBarLeft({ onSelect }, { $ }) {
   )
 }
 
-TabBarLeft.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(TabBarLeft)
+export default obc(TabBarLeft)
 
 const memoStyles = _.memoStyles(_ => ({
   tabBarLeft: {

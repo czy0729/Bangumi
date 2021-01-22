@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-11 02:23:13
+ * @Last Modified time: 2021-01-21 20:34:38
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { Loading, ListView, Heatmap } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants/model'
 import { tabs, H_BG } from './store'
@@ -19,13 +17,8 @@ import { tabs, H_BG } from './store'
 const gridNum = 4
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   state = {
     // @issue 列表的滚回顶部scrollToLocation不知道如何正确使用
     // 暂时使用重新渲染的办法解决列表变换置顶问题
@@ -142,7 +135,7 @@ class List extends React.Component {
 }
 
 const H_TOOLBAR = 42
-const styles = StyleSheet.create({
+const styles = _.create({
   androidWrap: {
     marginBottom: _.tabBarHeight - 1
   },

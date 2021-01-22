@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-18 22:14:33
+ * @Last Modified time: 2021-01-21 20:31:54
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Text } from '@components'
 import { Cover } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 const imageWidth = _.window.width * 0.34
@@ -72,11 +71,7 @@ function CoverSm({ title, src, cn, data }, { navigation }) {
   )
 }
 
-CoverSm.contextTypes = {
-  navigation: PropTypes.object
-}
-
-export default observer(CoverSm)
+export default obc(CoverSm)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

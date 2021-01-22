@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-17 20:32:54
+ * @Last Modified time: 2021-01-21 20:34:39
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, Iconfont, Heatmap } from '@components'
 import {
   Popover,
@@ -18,7 +17,7 @@ import {
 import { _ } from '@stores'
 import { open } from '@utils'
 import { HTMLDecode } from '@utils/html'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Head from './head'
@@ -264,12 +263,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   )
 }
 
-ParallaxImage.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(ParallaxImage)
+export default obc(ParallaxImage)
 
 const memoStyles = _.memoStyles(_ => ({
   parallax: {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:02:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 22:15:28
+ * @Last Modified time: 2021-01-21 20:34:01
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Flex, Image, Text, Touchable, Heatmap } from '@components'
 import { t } from '@utils/fetch'
+import { obc } from '@utils/decorators'
 import { _ } from '@stores'
 
 function Head({ style }, { $, navigation }) {
@@ -128,14 +127,9 @@ function Head({ style }, { $, navigation }) {
   )
 }
 
-Head.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Head)
 
-export default observer(Head)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   userSetting: {
     position: 'absolute',
     zIndex: 1,

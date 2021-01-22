@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 22:05:33
+ * @Last Modified time: 2021-01-22 11:26:39
  */
 import React from 'react'
 import {
@@ -14,10 +14,10 @@ import {
   UM,
   Heatmap
 } from '@components'
-import { IconBack } from '@screens/_'
 import { _ } from '@stores'
 import { hm as utilsHM } from '@utils/fetch'
 import { IOS, BARE } from '@constants'
+import { IconBack } from '@screens/_'
 import observer from './observer'
 
 const defaultHeaderStyle = {}

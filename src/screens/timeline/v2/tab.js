@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 16:34:15
+ * @Last Modified time: 2021-01-21 20:26:11
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
 import { BlurView } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
@@ -95,11 +94,7 @@ function Tab(props, { $ }) {
   )
 }
 
-Tab.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Tab)
+export default obc(Tab)
 
 const W_TAB_BAR_LEFT = 68
 const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / 5

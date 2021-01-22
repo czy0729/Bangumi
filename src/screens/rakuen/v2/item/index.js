@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 19:53:48
+ * @Last Modified time: 2021-01-21 20:17:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import Content from './content'
 import BtnPopover from './btn-popover'
 import IconFavor from './icon-favor'
 
+const LIMIT_HEAVY_RENDER = _.isPad ? 20 : 10
 const adRepliesCount = 4 // 回复数少于的数字, 判断为广告姬
 
 export default
@@ -114,6 +115,7 @@ class Item extends React.Component {
   }
 
   render() {
+    const { $ } = this.context
     const {
       index,
       avatar,
@@ -124,6 +126,11 @@ class Item extends React.Component {
       title,
       userName
     } = this.props
+    const { _mounted } = $.state
+    if (index >= LIMIT_HEAVY_RENDER && !_mounted) {
+      return <View style={this.styles.lazy} />
+    }
+
     if (this.isBlockGroup || this.isBlockUser || this.isAd) {
       return null
     }
@@ -188,6 +195,9 @@ class Item extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
+  lazy: {
+    height: 74
+  },
   container: {
     paddingLeft: _.wind,
     paddingVertical: _.flat ? _.xs : 0

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:59:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:01:26
+ * @Last Modified time: 2021-01-22 11:31:27
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -16,6 +16,7 @@ function IconReverse(props, { $ }) {
     <CompIconReverse
       style={_.mr.sm}
       color={epsReverse ? _.colorMain : _.colorIcon}
+      size={16}
       onPress={$.toggleReverseEps}
     >
       <Heatmap right={-5} id='条目.章节倒序' />

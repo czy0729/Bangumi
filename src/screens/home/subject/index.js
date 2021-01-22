@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 01:20:52
+ * @Last Modified time: 2021-01-22 11:36:51
  */
 import React from 'react'
-import { InteractionManager, View } from 'react-native'
+import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { open, copy } from '@utils'
+import { open, copy, runAfter } from '@utils'
 import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -37,7 +37,7 @@ class Subject extends React.Component {
   }
 
   componentDidMount() {
-    InteractionManager.runAfterInteractions(async () => {
+    runAfter(async () => {
       requestAnimationFrame(() => {
         this.rendered()
       })
@@ -133,8 +133,12 @@ class Subject extends React.Component {
       <View style={_.container.plain}>
         <Bg show={showBlurView} />
         <List rendered={rendered} onScroll={this.onScroll} />
-        {rendered && <Modal />}
-        <Heatmap id={title} screen='Subject' />
+        {rendered && (
+          <>
+            <Modal />
+            <Heatmap id={title} screen='Subject' />
+          </>
+        )}
       </View>
     )
   }

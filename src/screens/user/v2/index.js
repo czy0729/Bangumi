@@ -3,17 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-15 00:12:59
+ * @Last Modified time: 2021-01-21 20:34:23
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
-import PropTypes from 'prop-types'
 import { StatusBarEvents, UM } from '@components'
 import { IconTabBar, Login, IconPortal } from '@screens/_'
 import { _ } from '@stores'
 import { runAfter } from '@utils'
-import { inject, observer } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
 import { MODEL_COLLECTION_STATUS } from '@constants/model'
@@ -26,16 +25,12 @@ const title = '时光机'
 
 export default
 @inject(Store)
-@observer
+@obc
 class User extends React.Component {
   static navigationOptions = {
     header: null,
     tabBarIcon: ({ tintColor }) => <IconTabBar name='me' color={tintColor} />,
     tabBarLabel: title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object
   }
 
   state = {

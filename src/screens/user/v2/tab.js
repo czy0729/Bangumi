@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-16 22:54:53
+ * @Last Modified time: 2021-01-21 20:35:13
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
-import PropTypes from 'prop-types'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import TabBarLeft from './tab-bar-left'
 import ToolBar from './tool-bar'
@@ -114,16 +113,8 @@ class Tab extends React.Component {
         scrollEnabled
         renderLabel={this.renderLabel}
       />
-      <Heatmap
-        right={_.wind + 62}
-        id='我的.标签页切换'
-        transparent
-      />
-      <Heatmap
-        right={_.wind}
-        id='我的.标签页点击'
-        transparent
-      />
+      <Heatmap right={_.wind + 62} id='我的.标签页切换' transparent />
+      <Heatmap right={_.wind} id='我的.标签页点击' transparent />
     </Animated.View>
   )
 
@@ -149,11 +140,7 @@ class Tab extends React.Component {
   }
 }
 
-Tab.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Tab)
+export default obc(Tab)
 
 const W_TAB_BAR_LEFT = 68
 const W_TAB = (_.window.width - W_TAB_BAR_LEFT) / 5

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 20:08:03
+ * @Last Modified time: 2021-01-21 20:32:38
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import { StatusBarEvents, ListView, UM, Heatmap } from '@components'
 import { IconTabBar, IconPortal } from '@screens/_'
 import { _ } from '@stores'
 import { runAfter } from '@utils'
-import { inject, observer } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { IOS } from '@constants'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
@@ -23,16 +22,12 @@ const title = '发现'
 
 export default
 @inject(Store)
-@observer
+@obc
 class Discovery extends React.Component {
   static navigationOptions = {
     header: null,
     tabBarIcon,
     tabBarLabel: title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object
   }
 
   componentDidMount() {
@@ -73,7 +68,7 @@ class Discovery extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   listView: {
     flex: 1,
     marginBottom: IOS ? 0 : _.tabBarHeight - 1
