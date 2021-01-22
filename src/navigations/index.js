@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-29 10:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-14 17:58:50
+ * @Last Modified time: 2021-01-22 11:49:37
  */
 import React from 'react'
 import {
-  createAppContainer,
+  // createAppContainer,
   createStackNavigator,
   getActiveChildNavigationOptions
 } from 'react-navigation'
+import createAppContainer from '@components/@/react-navigation/createAppContainer'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { observer } from 'mobx-react'
 import * as Screens from '@screens'
