@@ -1,16 +1,14 @@
-/* eslint-disable react/jsx-indent */
 /*
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 20:34:20
+ * @Last Modified time: 2021-01-25 01:47:45
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import {
   WENKU_FIRST,
   WENKU_YEAR,
@@ -135,12 +133,7 @@ function Filter(props, { $ }) {
   )
 }
 
-Filter.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Filter)
+export default obc(Filter)
 
 const vertical = 4
 const memoStyles = _.memoStyles(_ => ({

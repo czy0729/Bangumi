@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 05:34:20
+ * @Last Modified time: 2021-01-25 01:48:41
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import { Flex, Loading, Heatmap } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import IconLayout from './icon-layout'
 import List from './list'
@@ -24,15 +23,10 @@ export default
   screen: title,
   hm: ['wenku', 'Wenku']
 })
-@observer
+@obc
 class Wenku extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {
@@ -72,7 +66,7 @@ class Wenku extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   right: {
     marginRight: -8
   },

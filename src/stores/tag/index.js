@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-24 00:01:11
+ * @Last Modified time: 2021-01-24 23:42:55
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -33,7 +33,8 @@ class Tag extends store {
      * @param {*} type
      */
     rank: {
-      _: (type = DEFAULT_TYPE, page = 1) => `${type}|${page}`,
+      _: (type = DEFAULT_TYPE, page = 1, filter = '', airtime = '') =>
+        `${type}|${page}|${filter}|${airtime}`,
       0: LIST_EMPTY // <INIT_RANK_ITEM>
     },
 
@@ -113,8 +114,8 @@ class Tag extends store {
    */
   fetchRank = async ({
     type = DEFAULT_TYPE,
-    filter,
-    airtime,
+    filter = '',
+    airtime = '',
     page = 1
   } = {}) => {
     const key = 'rank'
@@ -124,10 +125,10 @@ class Tag extends store {
     const raw = await res
     const list = analysiRank(raw)
 
-    const stateKey = type
+    const stateKey = `${type}|${page}|${filter}|${airtime}`
     this.setState({
       [key]: {
-        [`${stateKey}|${page}`]: {
+        [stateKey]: {
           list,
           pagination: {
             page: 1,

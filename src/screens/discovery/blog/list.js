@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:01:23
+ * @Last Modified time: 2021-01-24 20:41:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,6 @@ class List extends React.Component {
         contentContainerStyle={_.container.bottom}
         scrollToTop={type === $.type}
       >
-        {this.renderPagination()}
         {show && (
           <>
             {_loaded ? (

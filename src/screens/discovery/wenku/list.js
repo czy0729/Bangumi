@@ -2,24 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-06 17:52:57
+ * @Last Modified time: 2021-01-25 01:49:26
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import Filter from './filter'
 import Item from './item'
 import ItemGrid from './item-grid'
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object
-  }
-
   connectRef = ref => {
     const { $ } = this.context
     if (ref && ref.scrollToOffset) {

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-11 02:08:12
+ * @Last Modified time: 2021-01-25 01:52:34
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ListView, Flex, Text, Iconfont, Heatmap } from '@components'
 import { SectionHeader } from '@screens/_'
 import { _ } from '@stores'
 import { date, getTimestamp } from '@utils'
+import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import Item from './item'
 import ItemLine from './item-line'
@@ -119,11 +118,7 @@ function List(props, { $ }) {
   )
 }
 
-List.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(List)
+export default obc(List)
 
 const memoStyles = _.memoStyles(_ => ({
   contentContainerStyle: {

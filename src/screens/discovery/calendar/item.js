@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-11 02:07:06
+ * @Last Modified time: 2021-01-25 01:51:51
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Flex, Touchable, Text } from '@components'
 import { Cover, Tag, Stars } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { imageWidth, imageHeight, marginLeft } from './store'
@@ -75,14 +74,9 @@ function Item(
   )
 }
 
-Item.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Item)
 
-export default observer(Item)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   item: {
     width: imageWidth,
     marginBottom: _.space,

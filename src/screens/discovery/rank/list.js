@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:48:24
+ * @Last Modified time: 2021-01-25 01:33:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,8 +18,17 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
-const event = {
-  id: '排行榜.跳转'
+const eventList = {
+  id: '排行榜.跳转',
+  data: {
+    type: 'list'
+  }
+}
+const eventGrid = {
+  id: '排行榜.跳转',
+  data: {
+    type: 'grid'
+  }
 }
 const heatmaps = {
   prev: '排行榜.上一页',
@@ -62,12 +71,7 @@ class List extends React.Component {
                 collection={
                   $.userCollectionsMap[String(item.id).replace('/subject/', '')]
                 }
-                event={{
-                  ...event,
-                  data: {
-                    type: 'list'
-                  }
-                }}
+                event={eventList}
                 typeCn={MODEL_SUBJECT_TYPE.getTitle(type)}
                 {...item}
               >
@@ -100,14 +104,10 @@ class List extends React.Component {
                   navigation={navigation}
                   index={index}
                   collection={$.userCollectionsMap[id]}
-                  event={{
-                    ...event,
-                    data: {
-                      type: 'grid'
-                    }
-                  }}
+                  event={eventGrid}
                   {...item}
                   id={id}
+                  showRank
                 />
               )
             })
@@ -125,24 +125,14 @@ class List extends React.Component {
     const { $ } = this.context
     const { show, list: _list } = $.state
     const { _loaded } = $.rank
-    return (
+    return show && _loaded ? (
       <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
-        {show && (
-          <>
-            {_loaded ? (
-              _list ? (
-                this.renderList()
-              ) : (
-                this.renderGrid()
-              )
-            ) : (
-              <Flex style={this.styles.loading} justify='center'>
-                <ActivityIndicator />
-              </Flex>
-            )}
-          </>
-        )}
+        {_list ? this.renderList() : this.renderGrid()}
       </ScrollView>
+    ) : (
+      <Flex style={this.styles.loading} justify='center'>
+        <ActivityIndicator />
+      </Flex>
     )
   }
 
@@ -160,7 +150,9 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.wind - _._wind
   },
   loading: {
+    width: _.window.width,
     minHeight: 400,
-    paddingTop: _.md
+    paddingTop: _.md,
+    paddingVertical: _.wind
   }
 }))

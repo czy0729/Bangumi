@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:15:05
+ * @Last Modified time: 2021-01-25 01:41:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
 import { Tag, Cover, Stars } from '@screens/_'
+import { obc } from '@utils/decorators'
 import { x18 } from '@utils/app'
 import { pick } from '@utils/manga'
 import { t } from '@utils/fetch'
@@ -139,12 +138,7 @@ function Item({ index, pickIndex }, { $, navigation }) {
   )
 }
 
-Item.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Item)
+export default obc(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

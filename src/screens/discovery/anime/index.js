@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 21:14:12
+ * @Last Modified time: 2021-01-24 20:59:33
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import { Flex, Loading, Heatmap } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import IconLayout from './icon-layout'
 import List from './list'
@@ -25,15 +24,10 @@ export default
   alias: 'Anime',
   hm: ['anime', 'Anime']
 })
-@observer
+@obc
 class Anime extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {
@@ -73,7 +67,7 @@ class Anime extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   right: {
     marginRight: -8
   },

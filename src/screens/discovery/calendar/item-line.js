@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 04:17:34
+ * @Last Modified time: 2021-01-25 01:51:30
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text } from '@components'
 import { Cover, Tag, Stars } from '@screens/_'
 import { _, systemStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
@@ -92,14 +91,9 @@ function ItemLine(
   )
 }
 
-ItemLine.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(ItemLine)
 
-export default observer(ItemLine)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   item: {
     width: '100%',
     paddingVertical: 12

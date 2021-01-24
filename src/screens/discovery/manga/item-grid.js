@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:01:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 20:29:17
+ * @Last Modified time: 2021-01-25 01:40:53
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ItemCollectionsGrid } from '@screens/_'
+import { obc } from '@utils/decorators'
 import { pick } from '@utils/manga'
 import { IMG_DEFAULT } from '@constants'
 
@@ -38,9 +37,4 @@ function ItemGrid({ pickIndex }, { $, navigation }) {
   )
 }
 
-ItemGrid.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(ItemGrid)
+export default obc(ItemGrid)

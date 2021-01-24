@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 22:08:16
+ * @Last Modified time: 2021-01-25 01:35:06
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { IOS, DATA_AIRTIME, DATA_MONTH } from '@constants'
 import {
   MODEL_SUBJECT_TYPE,
@@ -105,12 +104,7 @@ function ToolBar(props, { $ }) {
   )
 }
 
-ToolBar.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(ToolBar)
+export default obc(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 20:11:12
+ * @Last Modified time: 2021-01-25 01:45:09
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import {
   MANGA_FIRST,
   MANGA_YEAR,
@@ -108,7 +107,7 @@ function Filter(props, { $ }) {
               <Heatmap
                 right={-16}
                 bottom={8}
-                id='Anime.选择'
+                id='Manga.选择'
                 data={{
                   type: item.type
                 }}
@@ -149,7 +148,7 @@ function Filter(props, { $ }) {
                             <Text size={11}>{tag}</Text>
                             <Heatmap
                               right={-1}
-                              id='Anime.选择'
+                              id='Manga.选择'
                               data={{
                                 value: tag
                               }}
@@ -177,7 +176,7 @@ function Filter(props, { $ }) {
                         <Text size={11}>{i}</Text>
                         <Heatmap
                           right={-1}
-                          id='Anime.选择'
+                          id='Manga.选择'
                           data={{
                             value: i
                           }}
@@ -200,12 +199,7 @@ function Filter(props, { $ }) {
   )
 }
 
-Filter.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Filter)
+export default obc(Filter)
 
 const vertical = 4
 const memoStyles = _.memoStyles(_ => ({

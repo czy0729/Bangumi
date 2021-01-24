@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-10 18:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 00:19:43
+ * @Last Modified time: 2021-01-25 01:50:25
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 
 function IconLayout({ $ }) {
   return (
@@ -23,4 +23,4 @@ function IconLayout({ $ }) {
   )
 }
 
-export default observer(IconLayout)
+export default ob(IconLayout)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-27 17:15:33
+ * @Last Modified time: 2021-01-24 23:43:37
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -65,8 +65,13 @@ export default class ScreenRank extends store {
 
   // -------------------- get --------------------
   @computed get rank() {
-    const { type, currentPage } = this.state
-    const rank = tagStore.rank(type, currentPage[type])
+    const { type, filter, airtime, month, currentPage } = this.state
+    const rank = tagStore.rank(
+      type,
+      currentPage[type],
+      filter,
+      month ? `${airtime}-${month}` : airtime
+    )
     if (userStore.isLimit) {
       let _filter = 0
       const list = rank.list.filter(item => {
@@ -80,7 +85,10 @@ export default class ScreenRank extends store {
         _filter
       }
     }
-    return rank
+
+    return {
+      ...rank
+    }
   }
 
   @computed get url() {
