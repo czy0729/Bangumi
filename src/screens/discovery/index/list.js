@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:33:04
+ * @Last Modified time: 2021-01-24 20:13:01
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { HorizontalList } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { findSubjectCn, getCoverLarge } from '@utils/app'
@@ -17,6 +17,12 @@ import CoverSm from './cover-sm'
 import CoverXs from './cover-xs'
 
 const dataCache = {}
+const initialRenderNumsSm = _.isPad
+  ? 0
+  : Math.floor(_.window.contentWidth / 140) + 1
+const initialRenderNumsXs = _.isPad
+  ? 0
+  : Math.floor(_.window.contentWidth / 86) + 1
 
 function List({ style, type }, { $ }) {
   if (!$.home[type].length) {
@@ -40,41 +46,35 @@ function List({ style, type }, { $ }) {
         cn={findSubjectCn(data[0].title, data[0].subjectId)}
         data={data[0]}
       />
-      <ScrollView
+      <HorizontalList
         style={style}
         contentContainerStyle={styles.contentContainerStyle}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-      >
-        {data
-          .filter((item, index) => index > 0)
-          .map(item => (
-            <CoverSm
-              key={item.subjectId}
+        data={data.filter((item, index) => index > 0)}
+        initialRenderNums={initialRenderNumsSm}
+        renderItem={item => (
+          <CoverSm
+            key={item.subjectId}
+            title={title}
+            src={item.cover || IMG_DEFAULT}
+            cn={findSubjectCn(item.title, item.subjectId)}
+            data={item}
+          />
+        )}
+      />
+      {!!friendsChannel.length && (
+        <HorizontalList
+          contentContainerStyle={styles.contentContainerStyleSm}
+          data={friendsChannel.filter(item => item.cover !== '/img/no_img.gif')}
+          initialRenderNums={initialRenderNumsXs}
+          renderItem={item => (
+            <CoverXs
+              key={`${item.userId}|${item.id}`}
               title={title}
-              src={item.cover || IMG_DEFAULT}
-              cn={findSubjectCn(item.title, item.subjectId)}
+              avatar={$.friendsMap[item.userId]?.avatar}
               data={item}
             />
-          ))}
-      </ScrollView>
-      {!!friendsChannel.length && (
-        <ScrollView
-          contentContainerStyle={styles.contentContainerStyleSm}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        >
-          {friendsChannel
-            .filter(item => item.cover !== '/img/no_img.gif')
-            .map(item => (
-              <CoverXs
-                key={`${item.userId}|${item.id}`}
-                title={title}
-                avatar={$.friendsMap[item.userId]?.avatar}
-                data={item}
-              />
-            ))}
-        </ScrollView>
+          )}
+        />
       )}
     </>
   )

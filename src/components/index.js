@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 17:14:21
+ * @Last Modified time: 2021-01-24 20:04:37
  */
 export { default as Activity } from './activity'
 export { default as BackAndroid } from './back-android'
@@ -18,6 +18,7 @@ export { default as Expand } from './expand'
 export { default as FadeIn } from './fade-in'
 export { default as FixedTextarea } from './fixed-textarea'
 export { default as Flex } from './flex'
+export { default as HorizontalList } from './horizontal-list'
 export { default as HeaderPlaceholder } from './header-placeholder'
 export { default as Heatmap } from './heatmap'
 export { default as Icon } from './icon'
