@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 15:30:39
+ * @Last Modified time: 2021-01-25 02:09:18
  */
 
 /**
@@ -35,6 +35,7 @@ export default {
   '索引.类型选择': 'Browser.onSelect',
   '索引.年选择': 'Browser.onAirdateSelect',
   '索引.月选择': 'Browser.onMonthSelect',
+  '索引.切换布局': 'Browser.switchLayout',
 
   // - [x] 每日放送
   '每日放送.跳转': 'Calendar.to',

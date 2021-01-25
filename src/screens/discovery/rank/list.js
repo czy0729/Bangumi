@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 01:33:37
+ * @Last Modified time: 2021-01-25 02:24:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -100,14 +100,12 @@ class List extends React.Component {
               return (
                 <ItemCollectionsGrid
                   key={item.id}
-                  style={this.styles.itemGird}
                   navigation={navigation}
                   index={index}
                   collection={$.userCollectionsMap[id]}
                   event={eventGrid}
                   {...item}
                   id={id}
-                  showRank
                 />
               )
             })

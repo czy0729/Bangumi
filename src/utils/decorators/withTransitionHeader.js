@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 13:59:20
+ * @Last Modified time: 2021-01-25 11:23:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ import { IconBack } from '@screens/_'
 import { _ } from '@stores'
 import { gradientColor } from '@utils'
 import { IOS, BARE } from '@constants'
-import observer from './observer'
+import ob from './observer-props'
 
 const defaultHeaderStyle = {
   backgroundColor: 'transparent'
@@ -44,7 +44,7 @@ const withTransitionHeader = ({
   barStyle,
   hm
 } = {}) => ComposedComponent =>
-  observer(
+  ob(
     class withTransitionHeaderComponent extends React.Component {
       static navigationOptions = ({ navigation }) => {
         const headerStyle = navigation.getParam('headerStyle')

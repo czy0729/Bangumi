@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 22:05:24
+ * @Last Modified time: 2021-01-26 00:05:44
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -166,6 +166,13 @@ export const scale = {
   transform: [
     {
       scale: 0.64
+    }
+  ]
+}
+export const rotate = {
+  transform: [
+    {
+      rotate: '180deg'
     }
   ]
 }

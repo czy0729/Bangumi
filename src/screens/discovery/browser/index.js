@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 22:47:34
+ * @Last Modified time: 2021-01-25 02:26:53
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import IconLayout from './icon-layout'
 import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
@@ -24,15 +23,10 @@ export default
   screen: title,
   hm: ['browser', 'Browser']
 })
-@observer
+@obc
 class Browser extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {
@@ -41,6 +35,7 @@ class Browser extends React.Component {
 
     navigation.setParams({
       heatmap: '索引.右上角菜单',
+      extra: <IconLayout $={$} />,
       popover: {
         data: ['浏览器查看'],
         onSelect: key => {

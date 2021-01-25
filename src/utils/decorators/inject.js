@@ -3,15 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 20:28:25
+ * @Last Modified time: 2021-01-25 11:28:04
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { NavigationEvents } from 'react-navigation'
-import { observer } from 'mobx-react'
 import Stores from '@stores'
-import { DEV } from '@constants'
+import { DEV, contextTypes } from '@constants'
 import { urlStringify } from '../index'
+import observer from './observer'
 
 /**
  * App HOC
@@ -23,10 +22,7 @@ const Inject = (Store, { cache = true } = {}) => ComposedComponent =>
     class InjectComponent extends React.Component {
       static navigationOptions = ComposedComponent.navigationOptions
 
-      static childContextTypes = {
-        $: PropTypes.object,
-        navigation: PropTypes.object
-      }
+      static childContextTypes = contextTypes
 
       constructor(props) {
         super(props)

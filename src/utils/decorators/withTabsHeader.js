@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-04-29 14:48:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-10 11:57:26
+ * @Last Modified time: 2021-01-25 11:22:27
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import Constants from 'expo-constants'
 import { StatusBarEvents, UM } from '@components'
 import { BlurView, Logo } from '@screens/_'
 import { _ } from '@stores'
 import { hm as utilsHM } from '@utils/fetch'
 import { IOS } from '@constants'
-import observer from './observer'
+import ob from './observer-props'
 
 const correctHeightIOS = 14 // @issue iOS端头部高度误差修正值
 
 // (1) 装饰器
 const withTabsHeader = ({ screen } = {}, hm) => ComposedComponent =>
-  observer(
+  ob(
     class withTabsHeaderComponent extends React.Component {
       /**
        * @notice 把tabbar通过某些手段放进去header里面, 才能实现比较好的毛玻璃效果
@@ -161,7 +161,7 @@ withTabsHeader.listViewProps = IOS
 
 export default withTabsHeader
 
-const styles = StyleSheet.create({
+const styles = _.create({
   headerBackgroundIOS: {
     position: 'absolute',
     top: 0,

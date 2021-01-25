@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-24 20:04:37
+ * @Last Modified time: 2021-01-25 12:04:04
  */
 export { default as Activity } from './activity'
 export { default as BackAndroid } from './back-android'
@@ -46,6 +46,7 @@ export { default as SwitchPro } from './switch-pro'
 export { default as Tabs } from './tabs'
 export { default as TabsV2 } from './tabs-v2'
 export { default as Text } from './text'
+export { default as ToolBar } from './tool-bar'
 export { default as Touchable } from './touchable'
 export { default as UM } from './um'
 export { default as UserStatus } from './user-status'

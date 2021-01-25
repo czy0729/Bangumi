@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 16:33:23
+ * @Last Modified time: 2021-01-26 00:19:23
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore } from '@stores'
@@ -27,6 +27,7 @@ export default class ScreenBrowser extends store {
     type: defaultType,
     airtime: y,
     month: m,
+    layout: 'list', // list | grid
     ...excludeState,
     _loaded: false
   })
@@ -95,6 +96,11 @@ export default class ScreenBrowser extends store {
     return collectionStore.userCollectionsMap
   }
 
+  @computed get isList() {
+    const { layout } = this.state
+    return layout === 'list'
+  }
+
   // -------------------- page --------------------
   onTypeSelect = type => {
     t('索引.类型选择', {
@@ -158,5 +164,96 @@ export default class ScreenBrowser extends store {
     }, 0)
 
     this.fetchBrowser(true)
+  }
+
+  onAirdatePrev = () => {
+    const { airtime, month } = this.state
+    if (airtime === '') {
+      info('请先选择年')
+      return
+    }
+
+    if (!month) {
+      this.setState({
+        show: false,
+        airtime: airtime - 1
+      })
+    } else {
+      let _airtime = airtime
+      let _month = month
+      if (month == 1) {
+        _airtime -= 1
+        _month = 12
+      } else {
+        _month -= 1
+      }
+      this.setState({
+        show: false,
+        airtime: _airtime,
+        month: _month
+      })
+    }
+
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+      this.setStorage(undefined, undefined, namespace)
+    }, 0)
+
+    this.fetchBrowser(true)
+  }
+
+  onAirdateNext = () => {
+    const { airtime, month } = this.state
+    if (airtime === '') {
+      info('请先选择年')
+      return
+    }
+
+    if (!month) {
+      this.setState({
+        show: false,
+        airtime: airtime + 1
+      })
+    } else {
+      let _airtime = airtime
+      let _month = month
+      if (month == 12) {
+        _airtime += 1
+        _month = 1
+      } else {
+        _month += 1
+      }
+      this.setState({
+        show: false,
+        airtime: _airtime,
+        month: _month
+      })
+    }
+
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+      this.setStorage(undefined, undefined, namespace)
+    }, 0)
+
+    this.fetchBrowser(true)
+  }
+
+  /**
+   * 切换布局
+   */
+  switchLayout = () => {
+    const _layout = this.isList ? 'grid' : 'list'
+    t('索引.切换布局', {
+      layout: _layout
+    })
+
+    this.setState({
+      layout: _layout
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-22 11:26:39
+ * @Last Modified time: 2021-01-25 11:22:11
  */
 import React from 'react'
 import {
@@ -18,7 +18,7 @@ import { _ } from '@stores'
 import { hm as utilsHM } from '@utils/fetch'
 import { IOS, BARE } from '@constants'
 import { IconBack } from '@screens/_'
-import observer from './observer'
+import ob from './observer-props'
 
 const defaultHeaderStyle = {}
 if (!IOS && BARE) {
@@ -36,7 +36,7 @@ const withHeader = ({
   hm,
   withHeaderParams // function
 } = {}) => ComposedComponent =>
-  observer(
+  ob(
     class withHeaderComponent extends React.Component {
       static navigationOptions = ({ navigation }) => {
         let headerRight
