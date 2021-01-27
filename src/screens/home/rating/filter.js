@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-28 22:28:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 12:11:37
+ * @Last Modified time: 2021-01-26 20:54:59
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 
 function Filter({ $ }) {
   const { isFriend } = $.state
@@ -24,4 +24,4 @@ function Filter({ $ }) {
   )
 }
 
-export default observer(Filter)
+export default ob(Filter)

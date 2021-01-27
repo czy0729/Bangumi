@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-21 02:07:27
+ * @Last Modified time: 2021-01-26 20:41:47
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Touchable, Katakana, Image } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
@@ -41,14 +40,9 @@ function Item({ avatar, name, id }, { navigation }) {
   )
 }
 
-Item.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Item)
 
-export default observer(Item)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   item: {
     width: imageWidth,
     marginTop: _.space,

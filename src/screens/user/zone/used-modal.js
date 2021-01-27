@@ -2,28 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-13 18:12:46
+ * @Last Modified time: 2021-01-27 10:02:34
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, Flex, Text, Image } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _, timelineStore } from '@stores'
+import { obc } from '@utils/decorators'
 import { MODEL_TIMELINE_TYPE } from '@constants/model'
 import { hash, HOST_CDN, VERSIONS_AVATAR } from '@constants/cdn'
 
 export default
-@observer
+@obc
 class UsedModal extends React.Component {
   static defaultProps = {
     title: '',
     visible: false
-  }
-
-  static contextTypes = {
-    $: PropTypes.object
   }
 
   state = {

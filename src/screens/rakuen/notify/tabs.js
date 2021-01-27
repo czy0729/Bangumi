@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-09-21 17:57:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 23:05:57
+ * @Last Modified time: 2021-01-26 21:05:23
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { TabsV2 } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import List from './list'
 import { tabs } from './store'
 
@@ -25,8 +24,4 @@ function Tabs(props, { $ }) {
   )
 }
 
-Tabs.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Tabs)
+export default obc(Tabs)

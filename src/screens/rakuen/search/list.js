@@ -2,24 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:37:03
+ * @Last Modified time: 2021-01-27 09:42:20
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView, Text } from '@components'
+import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { _ } from '@stores'
 import Item from './item'
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   renderItem = ({ item, index }) => <Item index={index} {...item} />
 
   render() {

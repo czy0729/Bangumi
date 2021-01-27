@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:25:13
+ * @Last Modified time: 2021-01-26 20:51:30
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Loading, ListView, Heatmap } from '@components'
 import { ItemCatalog } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t, hm } from '@utils/fetch'
 import { keyExtractor } from '@utils/app'
 import Store from './store'
@@ -25,18 +24,13 @@ export default
 @withHeader({
   screen: title
 })
-@observer
+@obc
 class SubjectCatalogs extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { name } = navigation.state.params
     return {
       title: name ? `包含${name}的目录` : title
     }
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

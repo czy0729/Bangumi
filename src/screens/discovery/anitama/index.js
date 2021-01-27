@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 20:56:30
+ * @Last Modified time: 2021-01-26 00:26:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { ScrollView, Touchable, Text, Image, Heatmap } from '@components'
 import { Pagination } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import Store from './store'
 
@@ -30,15 +29,10 @@ export default
   screen: title,
   hm: ['discovery/anitama', 'Anitama']
 })
-@observer
+@obc
 class Anitama extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

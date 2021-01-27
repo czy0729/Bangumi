@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 21:18:04
+ * @Last Modified time: 2021-01-26 20:41:12
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Tabs from './tabs'
@@ -24,15 +23,10 @@ export default
   screen: title,
   hm: ['character', 'Character']
 })
-@observer
+@obc
 class Character extends React.Component {
   static navigationOptions = {
     title: '用户人物'
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

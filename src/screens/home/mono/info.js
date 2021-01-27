@@ -2,12 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 11:29:46
+ * @Last Modified time: 2021-01-26 20:53:27
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import {
   Flex,
   Katakana,
@@ -22,6 +20,7 @@ import {
 } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -147,14 +146,9 @@ function Info(props, { $, navigation }) {
   )
 }
 
-Info.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Info)
 
-export default observer(Info)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     minHeight: _.window.height * 0.56,
     ..._.container.inner

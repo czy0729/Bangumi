@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 14:56:05
+ * @Last Modified time: 2021-01-26 20:59:20
  */
 import React from 'react'
 import { Alert, View, Image as RNImage } from 'react-native'
-import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import {
   Flex,
@@ -20,13 +19,14 @@ import {
 } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, HOST_2, HOST_3 } from '@constants'
 
 const data = [HOST, HOST_2, HOST_3]
 
 export default
-@observer
+@ob
 class Form extends React.Component {
   static defaultProps = {
     host: '',

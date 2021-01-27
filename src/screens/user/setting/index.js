@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 16:22:22
+ * @Last Modified time: 2021-01-27 09:58:26
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -23,7 +23,7 @@ import {
 } from '@screens/_'
 import Stores, { _, userStore, systemStore } from '@stores'
 import { toFixed, setStorage } from '@utils'
-import { withHeader, observer } from '@utils/decorators'
+import { withHeader, ob } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import { confirm, info } from '@utils/ui'
@@ -64,7 +64,7 @@ export default
   screen: title,
   hm: ['settings', 'Setting']
 })
-@observer
+@ob
 class Setting extends React.Component {
   static navigationOptions = {
     title

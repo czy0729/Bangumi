@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 17:38:30
+ * @Last Modified time: 2021-01-26 20:48:27
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView, Heatmap } from '@components'
 import { ItemSearch } from '@screens/_'
+import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import { _ } from '@stores'
@@ -18,13 +17,8 @@ const event = {
 }
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   renderItem = ({ item, index }) => {
     const { $, navigation } = this.context
     return (

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-24 20:41:11
+ * @Last Modified time: 2021-01-26 00:27:57
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { ScrollView, Flex } from '@components'
 import { Pagination, ItemBlog } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 const event = {
   id: '全站日志.跳转'
@@ -23,13 +22,8 @@ const heatmaps = {
 }
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   renderPagination() {
     const { $ } = this.context
     const { type } = this.props

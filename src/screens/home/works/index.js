@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 14:34:57
+ * @Last Modified time: 2021-01-26 20:57:38
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import ToolBar from './tool-bar'
 import List from './list'
@@ -23,18 +22,13 @@ export default
   screen: title,
   hm: ['works', 'Works']
 })
-@observer
+@obc
 class Works extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { name } = navigation.state.params
     return {
       title: `${name}的作品`
     }
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 17:21:42
+ * @Last Modified time: 2021-01-26 21:04:58
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_NOTIFY } from '@constants/html'
 import Tabs from './tabs'
@@ -24,15 +23,10 @@ export default
   screen: title,
   hm: ['notify/all', 'Notify']
 })
-@observer
+@obc
 class Notify extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   async componentDidMount() {

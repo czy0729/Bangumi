@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-04-25 19:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-25 20:05:04
+ * @Last Modified time: 2021-01-26 20:53:55
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function SectionRight({ event, text, to }, { $, navigation }) {
@@ -36,9 +35,4 @@ function SectionRight({ event, text, to }, { $, navigation }) {
   )
 }
 
-SectionRight.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(SectionRight)
+export default obc(SectionRight)

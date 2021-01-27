@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 11:28:10
+ * @Last Modified time: 2021-01-26 20:54:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { appNavigate, findSubjectCn } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import SectionRight from './section-right'
@@ -97,12 +96,7 @@ function Works({ style }, { $, navigation }) {
   )
 }
 
-Works.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Works)
+export default obc(Works)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

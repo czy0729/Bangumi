@@ -3,11 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 15:01:03
+ * @Last Modified time: 2021-01-26 20:59:41
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
-import { observer } from 'mobx-react'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import {
@@ -21,6 +20,7 @@ import {
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore, usersStore } from '@stores'
 import { getTimestamp, setStorage, getStorage, open } from '@utils'
+import { ob } from '@utils/decorators'
 import { xhrCustom, hm, t, queue } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import { IOS, HOST_2, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
@@ -32,7 +32,7 @@ const namespace = 'LoginV2'
 const AUTH_RETRY_COUNT = 10
 
 export default
-@observer
+@ob
 class LoginV2 extends React.Component {
   static navigationOptions = {
     header: null

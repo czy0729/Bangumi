@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:02:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 23:01:19
+ * @Last Modified time: 2021-01-26 00:27:46
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Tabs from './tabs'
 import Store from './store'
@@ -24,15 +23,10 @@ export default
   alias: '全站日志',
   hm: ['discovery/blog', 'DiscoveryBlog']
 })
-@observer
+@obc
 class DiscoveryBlog extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

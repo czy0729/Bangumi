@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 17:36:31
+ * @Last Modified time: 2021-01-27 09:39:57
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import { Flex, Button, Heatmap } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import SearchBar from './search-bar'
 import History from './history'
 import List from './list'
@@ -23,15 +22,10 @@ export default
   screen: title,
   hm: ['search', 'Search']
 })
-@observer
+@obc
 class Search extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {
@@ -70,7 +64,7 @@ class Search extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   searchBar: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind

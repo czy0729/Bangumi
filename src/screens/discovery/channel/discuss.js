@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 16:50:20
+ * @Last Modified time: 2021-01-26 20:39:18
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Touchable, Flex, Katakana, Text } from '@components'
 import { SectionTitle } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
 
@@ -81,12 +80,7 @@ function Discuss(props, { $, navigation }) {
   )
 }
 
-Discuss.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Discuss)
+export default obc(Discuss)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

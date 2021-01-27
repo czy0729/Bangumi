@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 11:50:14
+ * @Last Modified time: 2021-01-26 20:53:45
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Image, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { appNavigate, getCoverMedium } from '@utils/app'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
@@ -151,12 +150,7 @@ function Jobs({ style }, { $, navigation }) {
   )
 }
 
-Jobs.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Jobs)
+export default obc(Jobs)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

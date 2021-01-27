@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-31 10:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-09 17:41:20
+ * @Last Modified time: 2021-01-26 20:58:39
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
-import { observer } from 'mobx-react'
 import { Flex, StatusBarEvents, Button, UM } from '@components'
 import { StatusBarPlaceholder, IconTouchable, IconTabBar } from '@screens/_'
 import { _, userStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 
 const title = '预登陆'
 
 export default
-@observer
+@ob
 class Auth extends React.Component {
   static navigationOptions = {
     header: null,
@@ -80,7 +80,7 @@ class Auth extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   toolbar: {
     padding: _.sm
   },

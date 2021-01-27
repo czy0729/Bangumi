@@ -4,11 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 15:01:42
+ * @Last Modified time: 2021-01-26 20:59:01
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import {
   StatusBarEvents,
   WebView,
@@ -23,6 +22,7 @@ import {
 import { StatusBarPlaceholder } from '@screens/_'
 import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
+import { ob } from '@utils/decorators'
 import { info, feedback } from '@utils/ui'
 import { hm, t } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
@@ -36,7 +36,7 @@ const uri = `${URL_OAUTH}?${urlStringify({
 })}`
 
 export default
-@observer
+@ob
 class Login extends React.Component {
   static navigationOptions = {
     header: null

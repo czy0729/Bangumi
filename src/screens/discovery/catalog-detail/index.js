@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:09:42
+ * @Last Modified time: 2021-01-26 20:38:12
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ListView, Heatmap } from '@components'
 import { ItemCollections } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withTransitionHeader, observer } from '@utils/decorators'
+import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { findSubjectCn, keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
@@ -29,13 +28,8 @@ export default
 @withTransitionHeader({
   screen: title
 })
-@observer
+@obc
 class CatalogDetail extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   async componentDidMount() {
     const { $, navigation } = this.context
     await $.init()

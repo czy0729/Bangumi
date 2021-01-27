@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 23:04:06
+ * @Last Modified time: 2021-01-27 10:00:57
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { StatusBarEvents, UM } from '@components'
 import { NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
-import { inject } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
@@ -23,14 +21,10 @@ const title = '空间'
 
 export default
 @inject(Store)
-@observer
+@obc
 class Zone extends React.Component {
   static navigationOptions = {
     header: null
-  }
-
-  static contextTypes = {
-    $: PropTypes.object
   }
 
   state = {

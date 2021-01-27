@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 21:56:56
+ * @Last Modified time: 2021-01-27 09:55:51
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -10,7 +10,7 @@ import Constants from 'expo-constants'
 import { ScrollView, Text, Switch, Touchable, Button } from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, systemStore, userStore } from '@stores'
-import { withHeader, observer } from '@utils/decorators'
+import { withHeader, ob } from '@utils/decorators'
 
 const title = '开发菜单'
 
@@ -19,7 +19,7 @@ export default
   screen: title,
   hm: ['dev', 'DEV']
 })
-@observer
+@ob
 class DEV extends React.Component {
   static navigationOptions = {
     title

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-04 15:40:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-13 14:20:13
+ * @Last Modified time: 2021-01-26 20:38:57
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { SectionTitle, ItemBlog } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 
 function Blog(props, { $ }) {
   const { blog } = $.channel
@@ -36,8 +35,4 @@ function Blog(props, { $ }) {
   )
 }
 
-Blog.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Blog)
+export default obc(Blog)

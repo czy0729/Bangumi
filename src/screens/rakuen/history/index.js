@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:46:57
+ * @Last Modified time: 2021-01-26 21:04:02
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { SectionHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import IconFavor from './icon-favor'
 import Item from './item'
 import Store from './store'
@@ -22,15 +21,10 @@ export default
   screen: title,
   hm: ['rakuen/history', 'RakuenHistory']
 })
-@observer
+@obc
 class RakuenHistory extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   async componentDidMount() {

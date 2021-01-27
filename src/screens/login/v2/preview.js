@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-17 10:03:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 14:51:04
+ * @Last Modified time: 2021-01-26 21:00:03
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Button, Mesume, Heatmap } from '@components'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 
 function Preview({ onLogin, onTour }) {
   return (
@@ -29,14 +29,12 @@ function Preview({ onLogin, onTour }) {
   )
 }
 
-Preview.defaultProps = {
+export default ob(Preview, {
   onLogin: Function.prototype,
   onTour: Function.prototype
-}
+})
 
-export default observer(Preview)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   bottomContainer: {
     width: 300,
     height: 400

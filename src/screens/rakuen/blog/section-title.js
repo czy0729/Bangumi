@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-17 00:33:57
+ * @Last Modified time: 2021-01-26 21:01:47
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { SectionTitle as CompSectionTitle } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 
 function SectionTitle(props, { $ }) {
   const { list = [] } = $.comments
@@ -33,13 +31,9 @@ function SectionTitle(props, { $ }) {
   )
 }
 
-SectionTitle.contextTypes = {
-  $: PropTypes.object
-}
+export default obc(SectionTitle)
 
-export default observer(SectionTitle)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   title: {
     paddingHorizontal: _.wind,
     marginTop: _.lg,

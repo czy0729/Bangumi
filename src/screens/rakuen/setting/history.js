@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-24 23:33:45
+ * @Last Modified time: 2021-01-27 09:43:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text, Iconfont } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 
 function History({ style, data, onDelete }) {
   const styles = memoStyles()
@@ -49,12 +49,10 @@ function History({ style, data, onDelete }) {
   )
 }
 
-History.defaultProps = {
+export default ob(History, {
   data: [],
   onDelete: Function.prototype
-}
-
-export default observer(History)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 20:46:37
+ * @Last Modified time: 2021-01-26 20:45:07
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function History({ style }, { $ }) {
   const { history, value } = $.state
@@ -43,11 +42,7 @@ function History({ style }, { $ }) {
   )
 }
 
-History.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(History)
+export default obc(History)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

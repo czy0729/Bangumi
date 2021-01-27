@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-09-22 16:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:33:41
+ * @Last Modified time: 2021-01-26 21:05:12
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { ItemNotify, ItemPM } from '@screens/_'
+import { obc } from '@utils/decorators'
 
 const event = {
   id: '电波提醒.跳转'
@@ -59,12 +58,7 @@ function List({ id, title }, { $, navigation }) {
   )
 }
 
-List.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(List)
+export default obc(List)
 
 function keyExtractor(item, index) {
   return String(index)

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 03:38:43
+ * @Last Modified time: 2021-01-27 09:46:11
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import Tabs from './tabs'
 import Store from './store'
@@ -21,15 +20,10 @@ export default
 @withHeader({
   screen: title
 })
-@observer
+@obc
 class Catelogs extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 01:31:21
+ * @Last Modified time: 2021-01-27 09:57:06
  */
 import React from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
-import PropTypes from 'prop-types'
+import { View, ScrollView } from 'react-native'
 import { FixedTextarea, Input, Text, Loading } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import Chat from './chat'
 import Heatmaps from './heatmaps'
 import Store from './store'
@@ -22,15 +21,10 @@ export default
   screen: title,
   hm: ['pm', 'PM']
 })
-@observer
+@obc
 class PM extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   scrollView
@@ -113,7 +107,7 @@ class PM extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   form: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind

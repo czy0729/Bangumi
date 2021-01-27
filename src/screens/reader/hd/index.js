@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-18 22:16:28
+ * @Last Modified time: 2021-01-27 09:44:40
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
 import { ScrollView, Text, Flex } from '@components'
 import { Cover, IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { CDN_HD_OBJECT } from '@constants/cdn'
 import Store from './store'
@@ -28,16 +27,11 @@ export default
   alias: 'HD',
   hm: ['hd', 'HD']
 })
-@observer
+@obc
 class HD extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('cn')
   })
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
 
   componentDidMount() {
     const { $, navigation } = this.context

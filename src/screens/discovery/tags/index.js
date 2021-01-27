@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 16:39:55
+ * @Last Modified time: 2021-01-26 20:49:12
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Tabs from './tabs'
 import Store from './store'
@@ -24,15 +23,10 @@ export default
   alias: '标签索引',
   hm: ['discovery/tags', 'Tags']
 })
-@observer
+@obc
 class Tags extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

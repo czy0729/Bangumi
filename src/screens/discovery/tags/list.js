@@ -2,25 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 16:41:05
+ * @Last Modified time: 2021-01-26 20:49:42
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import Item from './item'
 import { tabs } from './store'
 
 export default
-@observer
+@obc
 class List extends React.Component {
   static defaultProps = {
     title: '全部'
-  }
-
-  static contextTypes = {
-    $: PropTypes.object
   }
 
   renderItem = ({ item, index }) => {

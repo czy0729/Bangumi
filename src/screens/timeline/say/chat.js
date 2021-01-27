@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-11 14:11:40
+ * @Last Modified time: 2021-01-27 09:45:08
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import { Text } from '@components'
 import { ItemSay } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 const event = {
   id: '吐槽.跳转'
@@ -42,14 +41,9 @@ function Chat(props, { $ }) {
   )
 }
 
-Chat.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Chat)
 
-export default observer(Chat)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind

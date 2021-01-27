@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 21:01:47
+ * @Last Modified time: 2021-01-27 09:58:53
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, Heatmap } from '@components'
 import { Cover, Stars, Tag } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { findSubjectCn } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
@@ -191,12 +190,7 @@ function List(props, { $, navigation }) {
   )
 }
 
-List.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(List)
+export default obc(List)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:50:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 12:12:17
+ * @Last Modified time: 2021-01-26 20:55:33
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { ListView, Loading, Heatmap } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { MODEL_RATING_STATUS } from '@constants/model'
 import Item from './item'
 import { routes } from './store'
@@ -39,11 +37,8 @@ function List({ title }, { $ }) {
     />
   )
 }
-List.contextTypes = {
-  $: PropTypes.object
-}
 
-export default observer(List)
+export default obc(List)
 
 function renderItem({ item, index }) {
   return (
@@ -54,7 +49,7 @@ function renderItem({ item, index }) {
   )
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   contentContainerStyle: {
     paddingHorizontal: _.wind,
     paddingTop: _.space,

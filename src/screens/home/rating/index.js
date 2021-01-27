@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 12:11:03
+ * @Last Modified time: 2021-01-26 20:55:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import Filter from './filter'
 import List from './list'
 import Store, { routes } from './store'
@@ -31,13 +30,8 @@ export default
   screen: title,
   hm: ['rating', 'Rating']
 })
-@observer
+@obc
 class Rating extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   componentDidMount() {
     const { $, navigation } = this.context
     $.init()

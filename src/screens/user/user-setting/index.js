@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 19:46:27
+ * @Last Modified time: 2021-01-27 09:59:29
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import {
   ScrollView,
   Flex,
@@ -19,7 +18,7 @@ import {
 import { IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { confirm } from '@utils/ui'
 import { IOS } from '@constants'
@@ -40,15 +39,10 @@ export default
   screen: title,
   hm: ['userSetting', 'UserSetting']
 })
-@observer
+@obc
 class UserSetting extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   async componentDidMount() {

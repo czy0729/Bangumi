@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 22:47:53
+ * @Last Modified time: 2021-01-27 09:43:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import {
 } from '@components'
 import { ItemSetting } from '@screens/_'
 import { _, rakuenStore } from '@stores'
-import { withHeader, observer } from '@utils/decorators'
+import { withHeader, ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants/model'
 import History from './history'
@@ -30,7 +30,7 @@ export default
   screen: title,
   hm: ['rakuen/settings', 'RakuenSetting']
 })
-@observer
+@ob
 class RakuenSetting extends React.Component {
   static navigationOptions = {
     title

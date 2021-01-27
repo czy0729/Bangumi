@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 15:04:11
+ * @Last Modified time: 2021-01-26 20:58:16
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import cheerio from 'cheerio-without-node-native'
 import {
   ScrollView,
@@ -18,7 +17,7 @@ import {
 } from '@components'
 import { _, userStore } from '@stores'
 import { copy, getTimestamp } from '@utils'
-import { withHeader } from '@utils/decorators'
+import { withHeader, ob } from '@utils/decorators'
 import { xhrCustom, t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
@@ -35,7 +34,7 @@ export default
   alias: '辅助登陆',
   hm: ['login/assist', 'LoginAssist']
 })
-@observer
+@ob
 class LoginAssist extends React.Component {
   static navigationOptions = {
     title

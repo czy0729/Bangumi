@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-12-20 03:15:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 03:15:32
+ * @Last Modified time: 2021-01-27 09:45:13
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 
 function Heatmaps() {
   return (
@@ -31,4 +31,4 @@ function Heatmaps() {
   )
 }
 
-export default observer(Heatmaps)
+export default ob(Heatmaps)

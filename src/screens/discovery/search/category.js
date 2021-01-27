@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 16:49:00
+ * @Last Modified time: 2021-01-26 20:44:54
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { StyleSheet } from 'react-native'
 import { Button, Heatmap } from '@components'
 import { Popover } from '@screens/_'
-import { observer } from '@utils/decorators'
+import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { MODEL_SEARCH_CAT } from '@constants/model'
 
 const data = MODEL_SEARCH_CAT.data.map(item => item.label)
@@ -31,13 +30,9 @@ function Category(props, { $ }) {
   )
 }
 
-Category.contextTypes = {
-  $: PropTypes.object
-}
+export default obc(Category)
 
-export default observer(Category)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   btn: {
     width: 68,
     height: 34,

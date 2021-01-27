@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 17:13:31
+ * @Last Modified time: 2021-01-26 20:39:37
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Flex, Katakana, Text } from '@components'
 import { SectionTitle, Cover } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
 
@@ -93,14 +92,9 @@ function Friends(props, { $, navigation }) {
   )
 }
 
-Friends.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Friends)
 
-export default observer(Friends)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   item: {
     width: itemWidth,
     marginLeft: _._wind,

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-28 23:00:48
+ * @Last Modified time: 2021-01-26 20:55:18
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { Avatar, Stars } from '@screens/_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 const event = {
   id: '用户评分.跳转'
@@ -54,11 +53,7 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }) {
   )
 }
 
-Item.contextTypes = {
-  navigation: PropTypes.object
-}
-
-export default observer(Item)
+export default obc(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

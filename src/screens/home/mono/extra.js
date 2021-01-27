@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 00:59:40
+ * @Last Modified time: 2021-01-26 20:52:22
  */
 import React from 'react'
 import { Alert } from 'react-native'
 import { IconHeader } from '@screens/_'
 import { Flex, Text, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Extra({ $, navigation }) {
@@ -78,4 +78,4 @@ function Extra({ $, navigation }) {
   )
 }
 
-export default observer(Extra)
+export default ob(Extra)

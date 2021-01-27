@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 21:12:57
+ * @Last Modified time: 2021-01-27 09:56:03
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ListView, Text, Heatmap } from '@components'
 import { ItemFriends } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import Store from './store'
 
@@ -23,16 +22,11 @@ export default
 @withHeader({
   screen: title
 })
-@observer
+@obc
 class Friends extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('title', '好友')
   })
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
 
   async componentDidMount() {
     const { $, navigation } = this.context

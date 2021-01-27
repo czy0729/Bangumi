@@ -2,28 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 11:56:10
+ * @Last Modified time: 2021-01-26 20:54:47
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Loading, ListView } from '@components'
 import { ItemCharacter } from '@screens/_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 const event = {
   id: '制作人员.跳转'
 }
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   renderItem = ({ item, index }) => {
     const { navigation } = this.context
     return (

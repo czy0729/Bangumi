@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-06 21:16:45
+ * @Last Modified time: 2021-01-26 21:02:04
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { HeaderPlaceholder, Flex, Text, RenderHtml, Divider } from '@components'
 import { Avatar, HorizontalList } from '@screens/_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
@@ -98,14 +97,9 @@ function Top(props, { $, navigation }) {
   )
 }
 
-Top.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Top)
 
-export default observer(Top)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   groupWrap: {
     height: 32
   },

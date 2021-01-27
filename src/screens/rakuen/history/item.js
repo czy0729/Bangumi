@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:34:14
+ * @Last Modified time: 2021-01-26 21:04:14
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Item(
@@ -79,12 +78,7 @@ function Item(
   )
 }
 
-Item.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Item)
+export default obc(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

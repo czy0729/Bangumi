@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-24 17:59:14
+ * @Last Modified time: 2021-01-26 21:00:38
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { observer } from 'mobx-react'
 import { FadeIn, Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
 import Stores, { _ } from '@stores'
 import { urlStringify } from '@utils'
+import { ob } from '@utils/decorators'
 
 const routeName = 'Blog'
 const imgWidth = 24
@@ -55,9 +54,9 @@ function HeaderTitle({ navigation }) {
   )
 }
 
-export default observer(HeaderTitle)
+export default ob(HeaderTitle)
 
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     marginLeft: -_.md,
     marginRight: _.md

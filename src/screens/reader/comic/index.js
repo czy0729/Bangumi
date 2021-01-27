@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 02:57:24
+ * @Last Modified time: 2021-01-27 09:44:29
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import {
   ScrollView,
   Loading,
@@ -22,7 +21,7 @@ import {
 } from '@components'
 import { Tag } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import Store from './store'
 
@@ -35,16 +34,11 @@ export default
   alias: '漫画',
   hm: ['comic', 'Comic']
 })
-@observer
+@obc
 class Comic extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('cn')
   })
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
 
   componentDidMount() {
     const { $ } = this.context

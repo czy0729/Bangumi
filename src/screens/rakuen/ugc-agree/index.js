@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-08-31 15:45:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:37:54
+ * @Last Modified time: 2021-01-27 09:43:57
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { ScrollView, RenderHtml, Flex, Button } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils/app'
-import { withHeader } from '@utils/decorators'
+import { withHeader, ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TITLE } from '@constants'
 
@@ -22,7 +21,7 @@ export default
   screen: title,
   hm: ['about/guideline', 'UGCAgree']
 })
-@observer
+@ob
 class UGCAgree extends React.Component {
   static navigationOptions = {
     title

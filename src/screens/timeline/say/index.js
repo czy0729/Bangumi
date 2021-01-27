@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 01:31:12
+ * @Last Modified time: 2021-01-27 09:45:25
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
-import PropTypes from 'prop-types'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { FixedTextarea, Flex, Heatmap } from '@components'
 import { NavigationBarEvents, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import Chat from './chat'
@@ -29,15 +28,10 @@ export default
 @withHeader({
   screen: title
 })
-@observer
+@obc
 class Say extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   scrollView

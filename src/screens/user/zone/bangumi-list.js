@@ -2,11 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-10 23:05:03
+ * @Last Modified time: 2021-01-27 09:59:55
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import {
   Loading,
   ListView,
@@ -18,6 +16,7 @@ import {
 } from '@components'
 import { SectionHeader, ItemBangumiList } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { t } from '@utils/fetch'
 import { H_BG } from './store'
@@ -27,13 +26,8 @@ const event = {
 }
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   renderSectionHeader = ({ section: { title, count } }) => {
     const { $ } = this.context
     const { expand } = $.state

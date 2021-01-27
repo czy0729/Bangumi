@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 17:02:50
+ * @Last Modified time: 2021-01-26 21:03:01
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { ScrollView, Heatmap } from '@components'
 import { Pagination, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withTransitionHeader, observer } from '@utils/decorators'
+import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { HOST } from '@constants'
 import HeaderTitle from './header-title'
@@ -33,13 +32,8 @@ export default
   barStyle: 'dark-content',
   HeaderTitle
 })
-@observer
+@obc
 class RakuenGroup extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   async componentDidMount() {
     const { $, navigation } = this.context
     await $.init()

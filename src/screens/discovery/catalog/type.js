@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 16:33:06
+ * @Last Modified time: 2021-01-26 20:36:11
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 
 function Type({ $ }) {
   const { type } = $.state
@@ -22,4 +22,4 @@ function Type({ $ }) {
   )
 }
 
-export default observer(Type)
+export default ob(Type)

@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 17:47:43
+ * @Last Modified time: 2021-01-27 09:57:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, Button, Activity, Heatmap } from '@components'
 import { _ } from '@stores'
-import { withHeader, observer } from '@utils/decorators'
+import { withHeader, ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
   HOST_MANGA,
@@ -182,7 +182,7 @@ export default
   screen: title,
   hm: ['server-status', 'ServerStatus']
 })
-@observer
+@ob
 class ServerStatus extends React.Component {
   static navigationOptions = {
     title

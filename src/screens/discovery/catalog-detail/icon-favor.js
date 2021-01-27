@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 21:34:43
+ * @Last Modified time: 2021-01-26 20:36:34
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 
 function IconFavor({ $ }) {
   return (
@@ -24,8 +23,4 @@ function IconFavor({ $ }) {
   )
 }
 
-IconFavor.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(IconFavor)
+export default obc(IconFavor)

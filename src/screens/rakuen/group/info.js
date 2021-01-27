@@ -2,12 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 17:01:13
+ * @Last Modified time: 2021-01-26 21:03:17
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import {
   HeaderPlaceholder,
   RenderHtml,
@@ -19,6 +17,7 @@ import {
   Heatmap
 } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 
 function Info(props, { $ }) {
@@ -64,13 +63,9 @@ function Info(props, { $ }) {
   )
 }
 
-Info.contextTypes = {
-  $: PropTypes.object
-}
+export default obc(Info)
 
-export default observer(Info)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     minHeight: 328,
     ..._.container.inner

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-12-28 13:37:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 20:49:27
+ * @Last Modified time: 2021-01-26 20:48:09
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Button, Heatmap } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants/model'
 
 const data = MODEL_SEARCH_LEGACY.data.map(item => item.label)
@@ -36,11 +35,7 @@ function Legacy(props, { $ }) {
   )
 }
 
-Legacy.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Legacy)
+export default obc(Legacy)
 
 const memoStyles = _.memoStyles(_ => ({
   btn: {

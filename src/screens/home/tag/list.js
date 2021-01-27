@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 13:59:50
+ * @Last Modified time: 2021-01-26 20:56:10
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView, Heatmap } from '@components'
 import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 
 const event = {
@@ -17,13 +16,8 @@ const event = {
 }
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   onHeaderRefresh = () => {
     const { $ } = this.context
     $.fetchTag(true)

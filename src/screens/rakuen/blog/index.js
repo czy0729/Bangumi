@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:15:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 16:57:18
+ * @Last Modified time: 2021-01-26 21:01:03
  */
 import React from 'react'
 import { InteractionManager, Alert, StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { ListView, FixedTextarea } from '@components'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
-import { inject, withTransitionHeader } from '@utils/decorators'
+import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -33,13 +31,8 @@ export default
   barStyle: 'dark-content',
   HeaderTitle
 })
-@observer
+@obc
 class Blog extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   listView
   fixedTextarea
   scrollFailCount = 0

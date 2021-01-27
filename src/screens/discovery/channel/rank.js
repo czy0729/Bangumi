@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 17:12:47
+ * @Last Modified time: 2021-01-26 20:40:30
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Flex, Touchable, Katakana, Text } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { findSubjectCn } from '@utils/app'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
@@ -150,14 +149,9 @@ function Rank(props, { $, navigation }) {
   )
 }
 
-Rank.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Rank)
 
-export default observer(Rank)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     width: '100%',
     paddingHorizontal: _.wind

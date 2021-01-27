@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 03:27:04
+ * @Last Modified time: 2021-01-27 09:45:53
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { ListView, Heatmap } from '@components'
 import { ItemBlog } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { keyExtractor } from '@utils/app'
 import Store from './store'
@@ -25,15 +24,10 @@ export default
 @withHeader({
   screen: title
 })
-@observer
+@obc
 class Blogs extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   async componentDidMount() {

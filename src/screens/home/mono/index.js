@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 11:52:42
+ * @Last Modified time: 2021-01-26 20:53:03
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import { ListView, Heatmap } from '@components'
 import { ItemTopic, NavigationBarEvents } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
 import { keyExtractor } from '@utils/app'
-import { inject, withTransitionHeader, observer } from '@utils/decorators'
+import { inject, withTransitionHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { info } from '@utils/ui'
 import HeaderTitle from './header-title'
@@ -35,13 +34,8 @@ export default
   barStyle: 'dark-content',
   HeaderTitle
 })
-@observer
+@obc
 class Mono extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   async componentDidMount() {
     const { $ } = this.context
     if ($.mono._loaded && $.chara._loaded) {
@@ -165,7 +159,7 @@ class Mono extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   contentContainerStyle: {
     paddingBottom: _.space
   }

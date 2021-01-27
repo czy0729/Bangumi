@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 17:05:57
+ * @Last Modified time: 2021-01-26 21:04:35
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ScrollView, Flex } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Item from './item'
 import Store from './store'
@@ -22,15 +21,10 @@ export default
   screen: title,
   hm: ['group/mine', 'Mine']
 })
-@observer
+@obc
 class Mine extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-14 22:22:51
+ * @Last Modified time: 2021-01-27 10:02:15
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { SectionHeader, ItemTimeline } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 
 const event = {
@@ -20,13 +19,8 @@ const event = {
 }
 
 export default
-@observer
+@obc
 class TimelineList extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   renderSectionHeader = ({ section: { title } }) => (
     <SectionHeader>{title}</SectionHeader>
   )

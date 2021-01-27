@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:52:33
+ * @Last Modified time: 2021-01-27 09:56:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 
 const event = {
@@ -110,12 +109,7 @@ function Chat(props, { $, navigation }) {
   )
 }
 
-Chat.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Chat)
+export default obc(Chat)
 
 const memoStyles = _.memoStyles(_ => ({
   loading: {

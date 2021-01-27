@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:10:16
+ * @Last Modified time: 2021-01-26 20:39:55
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ScrollView, Iconfont, Loading } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants/model'
 import Rank from './rank'
@@ -27,18 +26,13 @@ export default
   screen: title,
   hm: ['channel', 'Channel']
 })
-@observer
+@obc
 class Channel extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { type } = navigation.state.params
     return {
       title: `${MODEL_SUBJECT_TYPE.getTitle(type)}频道`
     }
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

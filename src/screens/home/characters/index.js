@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:27:25
+ * @Last Modified time: 2021-01-26 20:51:41
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import List from './list'
 import Store from './store'
@@ -22,18 +21,13 @@ export default
   screen: title,
   hm: ['characters', 'Characters']
 })
-@observer
+@obc
 class Characters extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { name } = navigation.state.params
     return {
       title: `${name}的角色`
     }
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

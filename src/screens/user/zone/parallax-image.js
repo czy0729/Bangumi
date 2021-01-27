@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 02:10:32
+ * @Last Modified time: 2021-01-27 10:01:16
  */
 import React from 'react'
 import { Animated, View, Alert } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Heatmap } from '@components'
 import { Popover, IconBack, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open, copy } from '@utils'
+import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -227,12 +226,7 @@ function ParallaxImage({ scrollY, fixed }, { $, navigation }) {
   )
 }
 
-ParallaxImage.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(ParallaxImage)
+export default obc(ParallaxImage)
 
 const memoStyles = _.memoStyles(_ => ({
   parallax: {

@@ -3,15 +3,14 @@
  * @Author: czy0729
  * @Date: 2020-10-23 11:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 17:39:22
+ * @Last Modified time: 2021-01-27 09:40:19
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Text, Touchable, Expand, Flex, Heatmap } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { correctAgo } from '@utils/app'
 
@@ -90,12 +89,7 @@ function Item({ index, topicId, content }, { $, navigation }) {
   )
 }
 
-Item.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Item)
+export default obc(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

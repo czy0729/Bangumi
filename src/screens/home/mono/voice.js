@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-02 22:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 01:06:02
+ * @Last Modified time: 2021-01-26 20:54:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Image, Text, Heatmap } from '@components'
 import { SectionTitle, Cover, Tag } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import SectionRight from './section-right'
 
@@ -132,12 +131,7 @@ function Voice({ style }, { $, navigation }) {
   )
 }
 
-Voice.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Voice)
+export default obc(Voice)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

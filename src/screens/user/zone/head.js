@@ -3,14 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-17 02:25:06
+ * @Last Modified time: 2021-01-27 10:00:31
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View } from 'react-native'
 import { Touchable, Flex, Image, Text, Heatmap } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 
@@ -155,14 +154,9 @@ function Head({ style }, { $, navigation }) {
   )
 }
 
-Head.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(Head)
 
-export default observer(Head)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   avatar: {
     marginTop: 14,
     backgroundColor: _.__colorPlain__,

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 05:16:43
+ * @Last Modified time: 2021-01-27 09:59:55
  */
 import React from 'react'
-import { StyleSheet, View, Animated } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { View, Animated } from 'react-native'
 import { RenderHtml } from '@components'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { H_BG } from './store'
 
@@ -49,14 +48,9 @@ function About(props, { $, navigation }) {
   )
 }
 
-About.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
+export default obc(About)
 
-export default observer(About)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   contentContainerStyle: {
     paddingTop: H_BG + _.space * 2,
     paddingHorizontal: _.wind,

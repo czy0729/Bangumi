@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:30:45
+ * @Last Modified time: 2021-01-26 20:52:02
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { toJS } from 'mobx'
 import { ScrollView, Flex, Text, Touchable, Image, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { cnjp } from '@utils/app'
 import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
@@ -26,18 +25,13 @@ export default
   screen: title,
   hm: ['episodes', 'Episodes']
 })
-@observer
+@obc
 class Episodes extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { name } = navigation.state.params
     return {
       title: name ? `${name}的${title}` : title
     }
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 21:21:46
+ * @Last Modified time: 2021-01-26 20:41:28
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Touchable, Flex, Katakana, Text, Heatmap } from '@components'
 import { Tag, Stars, Cover } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { x18 } from '@utils/app'
@@ -141,12 +140,7 @@ function ItemRecents(
   )
 }
 
-ItemRecents.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(ItemRecents)
+export default obc(ItemRecents)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

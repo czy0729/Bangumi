@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 17:03:46
+ * @Last Modified time: 2021-01-26 21:03:32
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { appNavigate, correctAgo } from '@utils/app'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
@@ -114,12 +113,7 @@ function List({ style }, { $, navigation }) {
   )
 }
 
-List.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(List)
+export default obc(List)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

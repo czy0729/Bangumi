@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-12-26 15:38:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 16:05:55
+ * @Last Modified time: 2021-01-27 09:58:07
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
 
@@ -42,4 +42,4 @@ function Filter() {
   )
 }
 
-export default observer(Filter)
+export default ob(Filter)

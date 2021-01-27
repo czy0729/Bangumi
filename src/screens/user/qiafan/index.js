@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 18:41:29
+ * @Last Modified time: 2021-01-27 09:57:36
  */
 import React from 'react'
 import { ScrollView, Flex, Text, Image } from '@components'
 import { _ } from '@stores'
-import { withHeader, observer } from '@utils/decorators'
+import { withHeader, ob } from '@utils/decorators'
 
 const title = '投食'
 
@@ -17,7 +17,7 @@ export default
   screen: title,
   hm: ['qiafan', 'Qiafan']
 })
-@observer
+@ob
 class Qiafan extends React.Component {
   static navigationOptions = {
     title

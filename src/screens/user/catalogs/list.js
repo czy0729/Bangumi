@@ -2,23 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-18 22:06:12
+ * @Last Modified time: 2021-01-27 09:55:29
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView } from '@components'
 import { ItemCatalog } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 
 export default
-@observer
+@obc
 class List extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object
-  }
-
   renderItem = ({ item }) => <ItemCatalog {...item} isUser event={this.event} />
 
   get event() {

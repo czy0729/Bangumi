@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 20:07:11
+ * @Last Modified time: 2021-01-27 10:01:52
  */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Loading, ListView, Text, Heatmap } from '@components'
 import { SectionHeader } from '@screens/_'
 import { _ } from '@stores'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import RakuenItem from './rakuen-item'
 
@@ -21,13 +20,8 @@ const event = {
 }
 
 export default
-@observer
+@obc
 class RakuenList extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
-  }
-
   toQiafan = () => {
     const { navigation } = this.context
     t('空间.跳转', {

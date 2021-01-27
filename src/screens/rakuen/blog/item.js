@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-26 17:11:26
+ * @Last Modified time: 2021-01-26 21:01:25
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable, RenderHtml } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { getTimestamp, simpleTime, open } from '@utils'
+import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { HOST, EVENT } from '@constants'
 
@@ -263,17 +262,10 @@ function Item(
   )
 }
 
-Item.defaultProps = {
+export default obc(Item, {
   sub: [],
   event: EVENT
-}
-
-Item.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Item)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
