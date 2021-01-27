@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 20:00:36
+ * @Last Modified time: 2021-01-27 10:09:53
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import Item from '../_/item'
 import { tabs } from './store'
 
@@ -54,12 +53,6 @@ function List({ id }, { $ }) {
   )
 }
 
-List.defaultProps = {
+export default obc(List, {
   title: '全部'
-}
-
-List.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(List)
+})

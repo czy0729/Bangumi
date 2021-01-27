@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:13:20
+ * @Last Modified time: 2021-01-27 10:22:16
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex, Input, Touchable, Text, Activity } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function SearchBar(props, { $, navigation }) {
   const styles = memoStyles()
@@ -49,12 +48,7 @@ function SearchBar(props, { $, navigation }) {
   )
 }
 
-SearchBar.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(SearchBar)
+export default obc(SearchBar)
 
 const memoStyles = _.memoStyles(_ => ({
   searchIpt: {

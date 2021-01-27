@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:48:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 22:05:17
+ * @Last Modified time: 2021-01-27 10:19:30
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
@@ -26,7 +24,7 @@ export default
   hm: ['tinygrail/relation', 'TinygrailRelation'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailRelation extends React.Component {
   static navigationOptions = {
     title
@@ -37,11 +35,6 @@ class TinygrailRelation extends React.Component {
     return {
       title: name || title
     }
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

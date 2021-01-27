@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 01:20:41
+ * @Last Modified time: 2021-01-27 10:13:00
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, UM } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
-import { inject, observer } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import StatusBarEvents from '../_/status-bar-events'
 import Header from './header'
@@ -24,15 +23,10 @@ const title = '交易'
 
 export default
 @inject(Store)
-@observer
+@obc
 class TinygrailDeal extends React.Component {
   static navigationOptions = {
     header: null
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   state = {

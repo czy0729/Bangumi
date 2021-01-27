@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:20:03
+ * @Last Modified time: 2021-01-27 10:18:02
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { lastDate, getTimestamp, formatNumber } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function Item(
   { index, balance, desc, change, time, charaId },
@@ -152,12 +151,7 @@ function Item(
   )
 }
 
-Item.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Item)
+export default obc(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

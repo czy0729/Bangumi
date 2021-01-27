@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:52:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:41:09
+ * @Last Modified time: 2021-01-27 10:13:58
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 
 function Bar({ style, total, level, next }) {
   const styles = memoStyles()
@@ -58,7 +58,7 @@ function Bar({ style, total, level, next }) {
   )
 }
 
-export default observer(Bar)
+export default ob(Bar)
 
 const memoStyles = _.memoStyles(_ => ({
   ico: {

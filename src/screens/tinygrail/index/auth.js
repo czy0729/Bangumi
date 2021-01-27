@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:20:44
+ * @Last Modified time: 2021-01-27 10:15:06
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { IconBack, IconTouchable, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils/app'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import Btns from './btns'
 
 function Auth(props, { $, navigation }) {
@@ -77,12 +76,7 @@ function Auth(props, { $, navigation }) {
   )
 }
 
-Auth.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Auth)
+export default obc(Auth)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

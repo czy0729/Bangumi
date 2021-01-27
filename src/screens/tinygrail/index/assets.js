@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 16:31:54
+ * @Last Modified time: 2021-01-27 10:14:57
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { M } from '@constants'
 
 function Assets(props, { $ }) {
@@ -116,13 +114,9 @@ function Assets(props, { $ }) {
   )
 }
 
-Assets.contextTypes = {
-  $: PropTypes.object
-}
+export default obc(Assets)
 
-export default observer(Assets)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     width: '100%',
     paddingVertical: _.sm,

@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-14 01:03:05
+ * @Last Modified time: 2021-01-27 10:15:30
  */
 import React from 'react'
 import { Alert } from 'react-native'
-import PropTypes from 'prop-types'
 import { Button } from '@components'
 import { Popover } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'
 
 const dataMore = ['重新授权', '意见反馈', '设置']
@@ -125,12 +124,7 @@ function Btns(props, { $, navigation }) {
   )
 }
 
-Btns.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Btns)
+export default obc(Btns)
 
 const memoStyles = _.memoStyles(_ => ({
   btn: {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-04 01:41:34
+ * @Last Modified time: 2021-01-27 10:21:29
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Input, Touchable } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function Stepper({ style }, { $ }) {
   const styles = memoStyles()
@@ -45,11 +44,7 @@ function Stepper({ style }, { $ }) {
   )
 }
 
-Stepper.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Stepper)
+export default obc(Stepper)
 
 const memoStyles = _.memoStyles(_ => ({
   input: {

@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 15:56:04
+ * @Last Modified time: 2021-01-27 10:21:44
  */
 import React from 'react'
-import { StyleSheet, View, Alert } from 'react-native'
-import PropTypes from 'prop-types'
+import { View, Alert } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import ItemTemple from '../_/item-temple'
 
@@ -19,12 +18,8 @@ const event = {
 }
 
 export default
-@observer
+@obc
 class Temples extends React.Component {
-  static contextTypes = {
-    $: PropTypes.object
-  }
-
   get myTemple() {
     const { $ } = this.context
     const { list } = $.charaTemple
@@ -191,7 +186,7 @@ class Temples extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     minHeight: 120
   },

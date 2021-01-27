@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-12 11:40:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 01:01:28
+ * @Last Modified time: 2021-01-27 10:12:23
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function Submit({ style }, { $ }) {
   const styles = memoStyles()
@@ -32,11 +31,7 @@ function Submit({ style }, { $ }) {
   )
 }
 
-Submit.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Submit)
+export default obc(Submit)
 
 const memoStyles = _.memoStyles(_ => ({
   btn: {

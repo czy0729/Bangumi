@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:19:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 11:20:49
+ * @Last Modified time: 2021-01-27 10:08:31
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
@@ -25,15 +24,10 @@ export default
   hm: ['tinygrail/advance-sacrifice', 'TinygrailAdvanceSacrifice'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailAdvanceSacrifice extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

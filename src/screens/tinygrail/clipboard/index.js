@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 20:33:00
+ * @Last Modified time: 2021-01-27 10:11:11
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
@@ -26,15 +25,10 @@ export default
   hm: ['tinygrail/clipboard', 'TinygrailClipboard'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailClipboard extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   async componentDidMount() {

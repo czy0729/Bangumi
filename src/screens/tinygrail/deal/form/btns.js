@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:17:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 00:54:57
+ * @Last Modified time: 2021-01-27 10:11:38
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function Btns(props, { $ }) {
   const styles = memoStyles()
@@ -50,11 +49,7 @@ function Btns(props, { $ }) {
   )
 }
 
-Btns.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Btns)
+export default obc(Btns)
 
 const memoStyles = _.memoStyles(_ => ({
   btn: {

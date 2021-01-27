@@ -3,15 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-03 04:26:54
+ * @Last Modified time: 2021-01-27 10:24:01
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 const height = 160
 
@@ -169,11 +168,7 @@ function DepthMap({ style }, { $ }) {
   )
 }
 
-DepthMap.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(DepthMap)
+export default obc(DepthMap)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

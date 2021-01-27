@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 15:03:00
+ * @Last Modified time: 2021-01-27 10:06:50
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
 import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
@@ -26,15 +25,10 @@ export default
   hm: ['tinygrail/advance-auction2', 'TinygrailAdvanceAuction2'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailAdvanceAuction2 extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

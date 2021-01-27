@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 15:51:52
+ * @Last Modified time: 2021-01-27 10:22:02
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import SearchBar from './search-bar'
@@ -26,15 +25,10 @@ export default
   hm: ['tinygrail/search', 'TinygrailSearch'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailSearch extends React.Component {
   static navigationOptions = {
     title: '人物查询'
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

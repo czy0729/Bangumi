@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 19:59:22
+ * @Last Modified time: 2021-01-27 10:07:04
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ListView, Loading } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import ItemAdvance from '../_/item-advance'
 
 function List(props, { $ }) {
@@ -51,12 +50,6 @@ function List(props, { $ }) {
   )
 }
 
-List.defaultProps = {
+export default obc(List, {
   title: '全部'
-}
-
-List.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(List)
+})

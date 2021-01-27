@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 20:07:00
+ * @Last Modified time: 2021-01-27 10:11:24
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import Item from '../_/item'
 
 const event = {
@@ -35,15 +34,9 @@ function List(props, { $ }) {
   )
 }
 
-List.defaultProps = {
+export default obc(List, {
   title: '全部'
-}
-
-List.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(List)
+})
 
 function renderItem({ item, index }) {
   return <Item index={index} event={event} {...item} />

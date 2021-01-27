@@ -2,29 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-22 22:04:58
+ * @Last Modified time: 2021-01-27 10:15:20
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Image, Button } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
+import { obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
 import { IOS } from '@constants'
 
 export default
-@observer
+@obc
 class BonusModal extends React.Component {
   static defaultProps = {
     visible: false
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

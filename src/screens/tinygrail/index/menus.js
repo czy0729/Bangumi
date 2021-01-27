@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 21:51:35
+ * @Last Modified time: 2021-01-27 10:16:00
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import MenuItem from './menu-item'
 import Assets from './assets'
 
@@ -102,13 +100,9 @@ function Menus(props, { $ }) {
   )
 }
 
-Menus.contextTypes = {
-  $: PropTypes.object
-}
+export default obc(Menus)
 
-export default observer(Menus)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   section: {
     paddingBottom: _.sm,
     marginLeft: _.wind

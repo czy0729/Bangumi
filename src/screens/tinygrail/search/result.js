@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-11-05 12:14:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:20:37
+ * @Last Modified time: 2021-01-27 10:22:16
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Touchable, Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 
@@ -81,12 +80,7 @@ function Result({ style }, { $, navigation }) {
   )
 }
 
-Result.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Result)
+export default obc(Result)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

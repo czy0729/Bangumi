@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 22:06:51
+ * @Last Modified time: 2021-01-27 10:28:43
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import Item from './item'
 
 function Chart({ data, onPress, onLongPress }) {
@@ -26,12 +26,10 @@ function Chart({ data, onPress, onLongPress }) {
   )
 }
 
-Chart.defaultProps = {
+export default ob(Chart, {
   data: [],
   onPress: Function.prototype
-}
-
-export default observer(Chart)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

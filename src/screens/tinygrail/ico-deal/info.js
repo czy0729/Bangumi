@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:19:24
+ * @Last Modified time: 2021-01-27 10:14:14
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Image, Iconfont, Touchable, CountDown } from '@components'
 import { _ } from '@stores'
 import { formatNumber, getTimestamp } from '@utils'
+import { obc } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge, caculateICO } from '@utils/app'
 import { t } from '@utils/fetch'
 import Bar from './bar'
@@ -95,12 +94,7 @@ function Info(props, { $, navigation }) {
   )
 }
 
-Info.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Info)
+export default obc(Info)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

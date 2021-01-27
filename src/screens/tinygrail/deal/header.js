@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 19:52:26
+ * @Last Modified time: 2021-01-27 10:12:49
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { Avatar, IconBack } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function Header(props, { $, navigation }) {
@@ -172,12 +171,7 @@ function Header(props, { $, navigation }) {
   )
 }
 
-Header.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Header)
+export default obc(Header)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 21:42:51
+ * @Last Modified time: 2021-01-27 10:22:40
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { ScrollView, Flex, Text, Touchable } from '@components'
 import { Avatar, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { info } from '@utils/ui'
@@ -29,15 +28,10 @@ export default
   hm: ['tinygrail/top-week', 'TopWeek'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailTopWeek extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

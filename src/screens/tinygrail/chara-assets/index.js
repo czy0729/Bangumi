@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 11:39:53
+ * @Last Modified time: 2021-01-27 10:10:04
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
@@ -27,7 +26,7 @@ export default
   hm: ['tinygrail/chara/assets', 'TinygrailCharaAssets'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailCharaAssets extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state
@@ -40,11 +39,6 @@ class TinygrailCharaAssets extends React.Component {
     return {
       title
     }
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   async componentDidMount() {

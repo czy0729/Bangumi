@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 17:29:31
+ * @Last Modified time: 2021-01-27 10:19:59
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
@@ -26,15 +25,10 @@ export default
   hm: ['tinygrail/rich', 'TinygrailRich'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailRich extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

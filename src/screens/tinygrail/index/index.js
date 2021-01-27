@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:27:12
+ * @Last Modified time: 2021-01-27 10:15:40
  */
 import React from 'react'
 import { ScrollView, RefreshControl } from 'react-native'
-import PropTypes from 'prop-types'
 import { UM, Flex, Text } from '@components'
 import { StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
-import { inject, observer } from '@utils/decorators'
+import { inject, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { appNavigate } from '@utils/app'
 import {
@@ -27,15 +26,10 @@ const title = '小圣杯'
 
 export default
 @inject(Store)
-@observer
+@obc
 class Tinygrail extends React.Component {
   static navigationOptions = {
     header: null
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   state = {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 20:06:21
+ * @Last Modified time: 2021-01-27 10:10:28
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import ItemTemple from '../_/item-temple'
 import ItemEdit from './item-edit'
 import { tabs } from './store'
@@ -93,9 +92,4 @@ function List({ id }, { $, navigation }) {
   )
 }
 
-List.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(List)
+export default obc(List)

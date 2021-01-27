@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-09 20:02:50
+ * @Last Modified time: 2021-01-27 10:09:37
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Touchable, Flex, Text } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
@@ -26,15 +25,10 @@ export default
   screen: title,
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailBid extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

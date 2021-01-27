@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-09 10:24:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 10:26:58
+ * @Last Modified time: 2021-01-27 10:17:25
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 
 const refreshControlProps = {
@@ -30,9 +29,9 @@ function List({ data, renderItem }) {
   )
 }
 
-export default observer(List)
+export default ob(List)
 
-const styles = StyleSheet.create({
+const styles = _.create({
   listView: {
     flex: 1,
     marginTop: _.sm

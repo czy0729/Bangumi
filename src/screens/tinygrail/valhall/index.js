@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:55:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 11:34:35
+ * @Last Modified time: 2021-01-27 10:29:32
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { inject, withHeader } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from '../_/tool-bar'
@@ -26,15 +24,10 @@ export default
   hm: ['tinygrail/valhall', 'TinygrailValhall'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailValhall extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

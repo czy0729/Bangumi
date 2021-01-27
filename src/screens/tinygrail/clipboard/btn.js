@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-11-30 20:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 20:43:28
+ * @Last Modified time: 2021-01-27 10:11:00
  */
 import React from 'react'
 import { Alert } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Button } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function Btn(props, { $ }) {
   const styles = memoStyles()
@@ -46,11 +45,7 @@ function Btn(props, { $ }) {
   )
 }
 
-Btn.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Btn)
+export default obc(Btn)
 
 const memoStyles = _.memoStyles(_ => ({
   wrap: {

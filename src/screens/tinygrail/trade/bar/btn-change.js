@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-02 14:59:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:11:06
+ * @Last Modified time: 2021-01-27 10:23:25
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Text } from '@components'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function BtnChange({ value, text }, { $ }) {
   const { distance } = $.state
@@ -22,8 +21,4 @@ function BtnChange({ value, text }, { $ }) {
   )
 }
 
-BtnChange.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(BtnChange)
+export default obc(BtnChange)

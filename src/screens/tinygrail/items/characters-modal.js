@@ -3,13 +3,11 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 17:38:34
+ * @Last Modified time: 2021-01-27 10:16:26
  */
 import React from 'react'
 import { BackHandler, View, Alert, StatusBar } from 'react-native'
-import PropTypes from 'prop-types'
 import { computed } from 'mobx'
-import { observer } from 'mobx-react'
 import { Flex, Text, Button, SegmentedControl, Iconfont } from '@components'
 import Modal from '@components/@/ant-design/modal'
 import { IconTouchable, Popover } from '@screens/_'
@@ -22,6 +20,7 @@ import {
   getStorage,
   setStorage
 } from '@utils'
+import { obc } from '@utils/decorators'
 import { info } from '@utils/ui'
 import { IOS } from '@constants'
 import SearchInput from './search-input'
@@ -33,15 +32,11 @@ const namespace = 'TinygrailCharactersModal'
 const starsdustDS = ['消耗圣殿', '消耗活股']
 
 export default
-@observer
+@obc
 class CharactersModal extends React.Component {
   static defaultProps = {
     title: '',
     visible: false
-  }
-
-  static contextTypes = {
-    $: PropTypes.object
   }
 
   state = {

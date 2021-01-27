@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-11 16:22:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 22:26:41
+ * @Last Modified time: 2021-01-27 10:11:55
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import Btns from './btns'
 import Stepper from './stepper'
 import Slider from './slider'
@@ -25,13 +24,9 @@ function Form({ style }) {
   )
 }
 
-Form.contextTypes = {
-  $: PropTypes.object
-}
+export default ob(Form)
 
-export default observer(Form)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     paddingTop: _.sm,
     paddingBottom: _.md - 4,

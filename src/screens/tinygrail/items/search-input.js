@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-09 10:30:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-09 10:35:13
+ * @Last Modified time: 2021-01-27 10:17:35
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { Touchable, Flex, Iconfont, Input } from '@components'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 
 function SearchInput({
   placeholder,
@@ -39,7 +39,7 @@ function SearchInput({
   )
 }
 
-export default observer(SearchInput)
+export default ob(SearchInput)
 
 const memoStyles = _.memoStyles(_ => ({
   wrap: {

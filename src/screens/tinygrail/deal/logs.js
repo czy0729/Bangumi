@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 18:16:10
+ * @Last Modified time: 2021-01-27 10:13:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function Logs({ style }, { $ }) {
   const styles = memoStyles()
@@ -127,11 +126,7 @@ function Logs({ style }, { $ }) {
   )
 }
 
-Logs.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Logs)
+export default obc(Logs)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

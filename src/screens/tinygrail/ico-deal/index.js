@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 20:07:40
+ * @Last Modified time: 2021-01-27 10:14:13
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
-import PropTypes from 'prop-types'
 import { ScrollView } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
@@ -26,15 +25,10 @@ export default
   screen: title,
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailICODeal extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   state = {

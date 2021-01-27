@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 15:55:07
+ * @Last Modified time: 2021-01-27 10:14:36
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Text, Flex } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { Avatar } from '@screens/_'
 import { tinygrailOSS } from '@utils/app'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function Initial({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -67,12 +66,7 @@ function Initial({ style }, { $, navigation }) {
   )
 }
 
-Initial.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Initial)
+export default obc(Initial)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

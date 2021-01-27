@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 19:44:33
+ * @Last Modified time: 2021-01-27 10:21:53
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, UserStatus } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, toFixed, getTimestamp } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 const event = {
   id: '资产重组.跳转',
@@ -94,12 +93,7 @@ function Users({ style }, { $, navigation }) {
   )
 }
 
-Users.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Users)
+export default obc(Users)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

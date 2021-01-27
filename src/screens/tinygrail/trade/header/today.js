@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-02 15:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:17:35
+ * @Last Modified time: 2021-01-27 10:26:22
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { date, getTimestamp, toFixed } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function Today({ style }, { $ }) {
   const styles = memoStyles()
@@ -77,11 +76,7 @@ function Today({ style }, { $ }) {
   )
 }
 
-Today.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Today)
+export default obc(Today)
 
 const memoStyles = _.memoStyles(_ => ({
   value: {

@@ -3,15 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-20 23:14:11
+ * @Last Modified time: 2021-01-27 10:23:51
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function DepthList({ style }, { $ }) {
   const { asks = [], bids = [], _loaded } = $.depth
@@ -153,11 +152,7 @@ function DepthList({ style }, { $ }) {
   )
 }
 
-DepthList.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(DepthList)
+export default obc(DepthList)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

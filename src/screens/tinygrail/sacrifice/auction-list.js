@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-19 17:51:36
+ * @Last Modified time: 2021-01-27 10:20:41
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 
 function AuctionList({ style }, { $, navigation }) {
@@ -107,12 +106,7 @@ function AuctionList({ style }, { $, navigation }) {
   )
 }
 
-AuctionList.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(AuctionList)
+export default obc(AuctionList)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

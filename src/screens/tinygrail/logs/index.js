@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 16:46:33
+ * @Last Modified time: 2021-01-27 10:17:52
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
 import Tabs from '../_/tabs-v2'
@@ -25,15 +24,10 @@ export default
   hm: ['tinygrail/logs', 'TinygrailLogs'],
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailLogs extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   componentDidMount() {

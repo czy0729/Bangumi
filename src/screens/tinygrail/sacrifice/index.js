@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 21:33:46
+ * @Last Modified time: 2021-01-27 10:21:03
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
-import PropTypes from 'prop-types'
 import { ScrollView, Text } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, observer } from '@utils/decorators'
+import { inject, withHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { withHeaderParams } from '../styles'
 import StatusBarEvents from '../_/status-bar-events'
@@ -29,15 +28,10 @@ export default
   screen: title,
   withHeaderParams
 })
-@observer
+@obc
 class TinygrailSacrifice extends React.Component {
   static navigationOptions = {
     title
-  }
-
-  static contextTypes = {
-    $: PropTypes.object,
-    navigation: PropTypes.object
   }
 
   state = {

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-21 00:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-09 21:58:36
+ * @Last Modified time: 2021-01-27 10:23:39
  */
 import React from 'react'
 import { Flex } from '@components'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { m15, h1, h4, h12, d1, w1, month1 } from '../store'
 import BtnChange from './btn-change'
 
@@ -26,7 +26,7 @@ function Bar({ style }) {
   )
 }
 
-export default observer(Bar)
+export default ob(Bar)
 
 const memoStyles = _.memoStyles(_ => ({
   bar: {

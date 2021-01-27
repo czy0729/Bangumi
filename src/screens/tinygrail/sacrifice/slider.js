@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 01:45:29
+ * @Last Modified time: 2021-01-27 10:21:22
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
-import PropTypes from 'prop-types'
 import {
   Flex,
   Input,
@@ -18,7 +17,7 @@ import {
 } from '@components'
 import { _ } from '@stores'
 import { formatNumber, lastDate } from '@utils'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 
 function Slider({ style }, { $ }) {
   const styles = memoStyles()
@@ -167,11 +166,7 @@ function Slider({ style }, { $ }) {
   )
 }
 
-Slider.contextTypes = {
-  $: PropTypes.object
-}
-
-export default observer(Slider)
+export default obc(Slider)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-18 00:56:22
+ * @Last Modified time: 2021-01-27 10:20:09
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text, Touchable, Iconfont, UserStatus } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, getTimestamp, lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { B, M } from '@constants'
 
 function Item(
@@ -186,12 +185,7 @@ function Item(
   )
 }
 
-Item.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Item)
+export default obc(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

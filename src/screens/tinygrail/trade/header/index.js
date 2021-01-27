@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-10 20:21:03
+ * @Last Modified time: 2021-01-27 10:25:55
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { Flex, Text } from '@components'
 import { Avatar, IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import Today from './today'
 
 function Header({ goBack }, { $, navigation }) {
@@ -140,16 +139,9 @@ function Header({ goBack }, { $, navigation }) {
   )
 }
 
-Header.defaultProps = {
+export default obc(Header, {
   goBack: Function.prototype
-}
-
-Header.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-export default observer(Header)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 19:16:32
+ * @Last Modified time: 2021-01-27 10:10:47
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { Iconfont } from '@components'
 import { Popover, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import IconGo from '../_/icon-go'
@@ -82,9 +81,9 @@ function IconRight({ $ }) {
   )
 }
 
-export default observer(IconRight)
+export default ob(IconRight)
 
-const styles = StyleSheet.create({
+const styles = _.create({
   icon: {
     padding: _.sm,
     paddingTop: _.sm + 1,

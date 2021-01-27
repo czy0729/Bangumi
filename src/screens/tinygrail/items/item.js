@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-06 11:02:22
+ * @Last Modified time: 2021-01-27 10:16:54
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { Touchable, Flex, Text } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 import { tinygrailOSS } from '@utils/app'
 
 function Item({ src, id, level, name, extra, disabled, onPress }) {
@@ -46,7 +46,7 @@ function Item({ src, id, level, name, extra, disabled, onPress }) {
   )
 }
 
-export default observer(Item)
+export default ob(Item)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
