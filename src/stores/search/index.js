@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 11:36:48
+ * @Last Modified time: 2021-01-29 16:07:21
  */
 import { observable } from 'mobx'
 import Constants from 'expo-constants'
@@ -65,7 +65,7 @@ class Search extends store {
     // -------------------- 请求HTML --------------------
     const res = fetchHTML({
       url: HTML_SEARCH(_text, cat, page, legacy),
-      cookie: `chii_searchDateLine=${getTimestamp()};` // 搜索不加这个会无条件返回错误
+      cookie: `; chii_searchDateLine=${getTimestamp() - 60};` // 搜索不加这个会无条件返回错误
     })
     const raw = await res
     const HTML = HTMLTrim(raw)

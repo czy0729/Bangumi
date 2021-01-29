@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:31:29
+ * @Last Modified time: 2021-01-29 15:21:45
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,8 +13,8 @@ import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import ImageHero from '@assets/images/hero.png'
 import ImageHeroTitle from '@assets/images/hero_title_ios.png'
+import { years } from './store'
 
-const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 const itemWidth = 132
 
 function Award(props, { navigation }) {

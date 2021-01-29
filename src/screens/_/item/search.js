@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-22 18:34:37
+ * @Last Modified time: 2021-01-29 16:40:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -71,10 +71,9 @@ function ItemSearch({
           <Cover
             style={styles.image}
             src={cover}
-            resizeMode={isMono ? 'contain' : undefined}
             placeholder={!isMono}
             width={IMG_WIDTH}
-            height={IMG_HEIGHT}
+            height={isMono ? IMG_WIDTH : IMG_HEIGHT}
             radius
             shadow
             type={typeCn}
@@ -104,18 +103,17 @@ function ItemSearch({
                         {comments}
                       </Text>
                     )}
-                    {!!name && name !== nameCn && (
-                      <Katakana
-                        type='sub'
-                        size={11}
-                        lineHeight={15}
-                        numberOfLines={1}
-                      >
-                        {' '}
-                        {HTMLDecode(name)}
-                      </Katakana>
-                    )}
                   </Katakana.Provider>
+                )}
+                {!!name && name !== nameCn && (
+                  <Katakana
+                    type='sub'
+                    size={12}
+                    lineHeight={15}
+                    numberOfLines={1}
+                  >
+                    {HTMLDecode(name)}
+                  </Katakana>
                 )}
               </Flex.Item>
               <Flex style={_.mt.xxs}>

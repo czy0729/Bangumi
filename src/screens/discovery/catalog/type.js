@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 12:09:33
+ * @Last Modified time: 2021-01-29 13:54:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, SegmentedControl } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+
+const typeDS = ['最新', '热门']
 
 function Type({ $ }) {
   const { type } = $.state
@@ -17,7 +19,7 @@ function Type({ $ }) {
       <SegmentedControl
         style={styles.segment}
         size={11}
-        values={['最新', '热门']}
+        values={typeDS}
         selectedIndex={type === 'collect' ? 1 : 0}
         onValueChange={$.toggleType}
       />

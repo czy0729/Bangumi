@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 21:05:35
+ * @Last Modified time: 2021-01-29 14:40:06
  */
 import { observable, computed } from 'mobx'
 import {
@@ -20,6 +20,7 @@ import { MODEL_SUBJECT_TYPE } from '@constants/model'
 
 export const sectionWidth = (_.window.width - _.wind * 3) / 2
 export const sectionHeight = sectionWidth / 2
+export const years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
 
 const namespace = 'ScreenDiscovery'
 

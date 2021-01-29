@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:41:28
+ * @Last Modified time: 2021-01-29 14:05:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,7 +55,7 @@ function ItemRecents(
             />
           )}
         </View>
-        <Flex.Item style={_.ml.wind}>
+        <Flex.Item>
           <Touchable onPress={onPress}>
             <Flex direction='column' justify='between' align='start'>
               <View>
@@ -105,10 +105,10 @@ function ItemRecents(
           </Touchable>
           <Flex style={_.mt.sm} wrap='wrap'>
             {actors.map(item => (
-              <Flex key={item.id} style={[styles.actors, _.mt.sm]}>
+              <Flex key={item.id} style={[styles.actors, _.mt.md]}>
                 <Cover
                   src={item.avatar}
-                  size={32}
+                  size={36}
                   radius
                   shadow
                   onPress={() => {
@@ -148,7 +148,8 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorPlain
   },
   imgContainer: {
-    width: IMG_WIDTH
+    width: IMG_WIDTH,
+    marginRight: _.md + 4
   },
   wrap: {
     paddingVertical: _.space,

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-07 14:48:16
+ * @Last Modified time: 2021-01-29 15:52:36
  */
 import { MODEL_TIMELINE_SCOPE } from '@constants/model'
 import { urlStringify } from '@utils'
@@ -177,11 +177,9 @@ export const HTML_BLOG_LIST = (type = '', page = 1) =>
  */
 export const HTML_SEARCH = (text, cat = '', page = 1, legacy = '') => {
   const [type, _cat] = cat.split('_')
-  let _text = text
-  if (legacy) {
-    _text = `"${_text}"`
-  }
-  return `${HOST}/${type}_search/${_text}?cat=${_cat}&page=${page}`
+  return `${HOST}/${type}_search/${text}?cat=${_cat}&page=${page}&legacy=${
+    legacy ? 1 : 0
+  }`
 }
 
 /**

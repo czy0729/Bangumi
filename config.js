@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 00:28:22
+ * @Last Modified time: 2021-01-28 01:12:52
  */
 export const initialDevDark = '' // '' 不控制 | true 强制黑暗 | false 强制白天
 export const initialRouteName = 'Home'

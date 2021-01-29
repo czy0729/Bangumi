@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:41:12
+ * @Last Modified time: 2021-01-29 13:59:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,7 @@ class Character extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.bg}>
+      <View style={_.container.plain}>
         {!!_loaded && <Tabs />}
         <Heatmap
           right={_.wind + 62}

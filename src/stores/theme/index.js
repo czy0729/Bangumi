@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 17:25:09
+ * @Last Modified time: 2021-01-29 15:02:03
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -655,6 +655,8 @@ class Theme extends store {
    * 生成记忆styles函数
    * 原理: 通过闭包使每一个组件里面的StyleSheet.create都被记忆
    * 只有mode改变了, 才会重新StyleSheet.create, 配合mobx的observer触发重新渲染
+   *
+   *  - 支持key名为current的对象懒计算
    */
   memoStyles = (styles, dev) => {
     const memoId = getMemoStylesId()
@@ -669,7 +671,15 @@ class Theme extends store {
         memoId._mode = this.mode
         memoId._tMode = this.tinygrailThemeMode
         memoId._flat = this.flat
-        memoId._styles = this.create(styles(this))
+
+        const computedStyles = styles(this)
+        if (computedStyles.current) {
+          const { current, ...otherStyles } = computedStyles
+          memoId._styles = this.create(otherStyles)
+          memoId._styles.current = current
+        } else {
+          memoId._styles = this.create(computedStyles)
+        }
 
         if (dev) {
           log(memoId)
