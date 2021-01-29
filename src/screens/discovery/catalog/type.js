@@ -2,24 +2,35 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:36:11
+ * @Last Modified time: 2021-01-29 12:09:33
  */
 import React from 'react'
-import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
+import { View } from 'react-native'
+import { Heatmap, SegmentedControl } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 function Type({ $ }) {
   const { type } = $.state
   return (
-    <Touchable onPress={$.toggleType}>
-      <Flex>
-        <Text>{type === 'collect' ? '热门' : '最新'}</Text>
-        <Iconfont style={_.ml.xs} name='down' size={10} color={_.colorTitle} />
-      </Flex>
+    <View>
+      <SegmentedControl
+        style={styles.segment}
+        size={11}
+        values={['最新', '热门']}
+        selectedIndex={type === 'collect' ? 1 : 0}
+        onValueChange={$.toggleType}
+      />
       <Heatmap id='目录.切换类型' />
-    </Touchable>
+    </View>
   )
 }
 
 export default ob(Type)
+
+const styles = _.create({
+  segment: {
+    width: 80,
+    height: 22
+  }
+})

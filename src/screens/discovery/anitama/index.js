@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 00:26:56
+ * @Last Modified time: 2021-01-28 01:18:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,16 +91,15 @@ class Anitama extends React.Component {
     const { $ } = this.context
     const { show, _loaded } = $.state
     if (!_loaded) {
-      return <View style={_.container.screen} />
+      return <View style={_.select(_.container.bg, _.container.plain)} />
     }
 
     return (
       <ScrollView
-        style={_.container.bg}
+        style={_.select(_.container.bg, _.container.plain)}
         contentContainerStyle={_.container.bottom}
         scrollToTop
       >
-        {this.renderPaganation()}
         {show && (
           <>
             <View style={this.styles.container}>
@@ -159,7 +158,7 @@ const memoStyles = _.memoStyles(_ => ({
     paddingHorizontal: _.wind,
     paddingTop: 24,
     marginTop: _.lg,
-    backgroundColor: _.colorPlain
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
   info: {
     paddingVertical: _.space

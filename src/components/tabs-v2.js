@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-03 11:05:55
+ * @Last Modified time: 2021-01-28 01:22:35
  */
 import React, { useMemo } from 'react'
 import { TabBar, SceneMap } from 'react-native-tab-view'
@@ -133,7 +133,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: IOS
       ? 'transparent'
       : _.select('transparent', _._colorDarkModeLevel1),
-    borderBottomWidth: IOS ? 0 : _.select(_.hairlineWidth, 0),
+    borderBottomWidth: _.select(IOS ? 0 : _.hairlineWidth, _.hairlineWidth),
     borderBottomColor: _.colorBorder,
     elevation: 0
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 00:20:24
+ * @Last Modified time: 2021-01-28 01:08:16
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -28,13 +28,20 @@ ToolBar.Icon = function ToolBarItem({ icon, iconStyle, iconColor, onSelect }) {
   return (
     <Touchable style={styles.item} onPress={onSelect}>
       {!!icon && (
-        <Iconfont
-          style={iconStyle}
-          name={icon}
-          size={15}
-          color={iconColor}
-        />
+        <Iconfont style={iconStyle} name={icon} size={15} color={iconColor} />
       )}
+    </Touchable>
+  )
+}
+
+ToolBar.Touchable = function ToolBarItem({ heatmap, onSelect, children }) {
+  const styles = memoStyles()
+  return (
+    <Touchable onPress={onSelect}>
+      <Flex style={styles.item} justify='center'>
+        {children}
+      </Flex>
+      {!!heatmap && <Heatmap id={heatmap} />}
     </Touchable>
   )
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:35:07
+ * @Last Modified time: 2021-01-28 01:25:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -74,7 +74,6 @@ class Catalog extends React.Component {
         showsVerticalScrollIndicator={false}
         scrollToTop
       >
-        {this.renderPaganation(_.mt.md)}
         {show && (
           <>
             <View style={styles.list}>
