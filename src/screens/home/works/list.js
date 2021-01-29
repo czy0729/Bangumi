@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:57:39
+ * @Last Modified time: 2021-01-30 01:26:33
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -66,7 +66,7 @@ class List extends React.Component {
     }
 
     const { list } = $.state
-    const numColumns = list ? undefined : 4
+    const numColumns = list ? undefined : 3
     return (
       <ListView
         key={String(numColumns)}

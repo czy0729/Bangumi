@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-24 20:43:50
+ * @Last Modified time: 2021-01-30 00:21:21
  */
 import React from 'react'
 import { Input } from '@components'
@@ -23,6 +23,7 @@ function SearchBar(props, { $ }) {
       returnKeyType='search'
       returnKeyLabel='搜索'
       placeholder='输入关键字'
+      autoFocus
       onChange={$.onChange}
       onSubmitEditing={() => $.doSearch(true)}
     />

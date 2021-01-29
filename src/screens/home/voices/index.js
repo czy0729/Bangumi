@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:57:08
+ * @Last Modified time: 2021-01-30 01:03:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ class Voices extends React.Component {
 
   render() {
     return (
-      <View style={_.container.bg}>
+      <View style={_.container.plain}>
         <ToolBar />
         <List />
       </View>

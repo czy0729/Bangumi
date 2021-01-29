@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:52:02
+ * @Last Modified time: 2021-01-30 00:30:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -138,10 +138,10 @@ class Episodes extends React.Component {
                     ]}
                   />
                   <Flex.Item>
-                    <Text size={13}>
+                    <Text bold>
                       {item.sort}. {HTMLDecode(cnjp(item.name_cn, item.name))}
                       {!!item.comment && (
-                        <Text type='main' size={11} lineHeight={13}>
+                        <Text type='main' size={11} lineHeight={14}>
                           {' '}
                           +{item.comment}
                         </Text>

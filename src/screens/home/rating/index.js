@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:55:09
+ * @Last Modified time: 2021-01-30 00:40:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
+import { IOS } from '@constants'
 import Filter from './filter'
 import List from './list'
 import Store, { routes } from './store'
@@ -125,8 +126,10 @@ const W_TAB = _.window.width / routes.length
 const W_INDICATOR = 16
 const memoStyles = _.memoStyles(_ => ({
   tabBar: {
-    backgroundColor: _.colorPlain,
-    borderBottomWidth: _.flat ? 0 : _.hairlineWidth,
+    backgroundColor: IOS
+      ? 'transparent'
+      : _.select('transparent', _._colorDarkModeLevel1),
+    borderBottomWidth: _.select(IOS ? 0 : _.hairlineWidth, _.hairlineWidth),
     borderBottomColor: _.colorBorder,
     elevation: 0
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:51:30
+ * @Last Modified time: 2021-01-30 00:27:00
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -88,7 +88,7 @@ class SubjectCatalogs extends React.Component {
     return (
       <>
         <ListView
-          style={_.select(_.container.plain, _.container.bg)}
+          style={_.container.plain}
           contentContainerStyle={_.container.bottom}
           keyExtractor={keyExtractor}
           data={$.list}

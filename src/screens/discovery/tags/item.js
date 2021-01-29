@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:49:29
+ * @Last Modified time: 2021-01-30 00:24:09
  */
 import React from 'react'
 import { Touchable, Text, Flex, Heatmap } from '@components'
@@ -60,7 +60,7 @@ const memoStyles = _.memoStyles(_ => ({
   item: {
     width,
     height: width,
-    backgroundColor: _.colorPlain,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusXs,
     borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder

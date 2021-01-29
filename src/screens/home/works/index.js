@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:57:38
+ * @Last Modified time: 2021-01-30 01:17:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ class Works extends React.Component {
 
   render() {
     return (
-      <View style={_.container.bg}>
+      <View style={_.container.plain}>
         <ToolBar />
         <List />
       </View>

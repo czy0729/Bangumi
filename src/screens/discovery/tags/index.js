@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:49:12
+ * @Last Modified time: 2021-01-30 00:23:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ class Tags extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.bg}>
+      <View style={_.container.plain}>
         {!!_loaded && <Tabs />}
         <Heatmap
           right={_.wind}

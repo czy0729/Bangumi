@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:57:57
+ * @Last Modified time: 2021-01-30 01:50:31
  */
 import React from 'react'
-import { Flex, Iconfont, Text, Touchable, Heatmap } from '@components'
-import { Popover } from '@screens/_'
+import { Iconfont, ToolBar as CompToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_MONO_WORKS_ORDERBY } from '@constants/model'
@@ -14,91 +13,52 @@ import { MODEL_MONO_WORKS_ORDERBY } from '@constants/model'
 const orderData = MODEL_MONO_WORKS_ORDERBY.data.map(item => item.label)
 
 function ToolBar(props, { $ }) {
-  const styles = memoStyles()
   const { order, position, list } = $.state
   const { filters } = $.monoWorks
   const orderLabel = MODEL_MONO_WORKS_ORDERBY.getLabel(order)
   return (
-    <Flex style={styles.container}>
-      <Flex.Item>
-        <Popover data={orderData} onSelect={$.onOrderSelect}>
-          <Flex style={styles.item} justify='center'>
-            <Iconfont
-              name='sort'
-              size={14}
-              color={orderLabel !== '名称' ? _.colorMain : undefined}
-            />
-            <Text
-              style={_.ml.sm}
-              size={12}
-              type={orderLabel !== '名称' ? 'main' : 'sub'}
-              numberOfLines={1}
-            >
-              {orderLabel}
-            </Text>
-          </Flex>
-          <Heatmap id='作品.排序选择' />
-        </Popover>
-      </Flex.Item>
+    <CompToolBar style={!list && _.mb.sm}>
+      <CompToolBar.Popover
+        data={orderData}
+        icon='sort'
+        iconColor={orderLabel !== '名称' ? _.colorMain : undefined}
+        text={orderLabel}
+        type={orderLabel !== '名称' ? 'main' : 'sub'}
+        heatmap='作品.排序选择'
+        onSelect={$.onOrderSelect}
+      />
       {filters.map(item => {
         const data = item.data.map(i => i.title)
         const find = item.data.find(i => i.value === position) || {
           title: '全部'
         }
         return (
-          <Flex.Item key={item.title}>
-            <Popover
-              data={data}
-              onSelect={label => $.onFilterSelect(label, item.data)}
-            >
-              <Flex style={styles.item} justify='center'>
-                <Text size={12}>{item.title}</Text>
-                <Text
-                  style={_.ml.sm}
-                  size={12}
-                  type={find.title !== '全部' ? 'main' : 'sub'}
-                >
-                  {find.title}
-                </Text>
-              </Flex>
-              <Heatmap id='作品.职位选择' />
-            </Popover>
-          </Flex.Item>
+          <CompToolBar.Popover
+            key={item.title}
+            data={data}
+            text={find.title === '全部' ? item.title : find.title || item.title}
+            type={find.title !== '全部' ? 'main' : 'sub'}
+            heatmap='作品.职位选择'
+            onSelect={label => $.onFilterSelect(label, item.data)}
+          />
         )
       })}
-      <Flex.Item>
-        <Touchable onPress={$.toggleList}>
-          <Flex style={styles.item} justify='center'>
-            <Iconfont
-              name='list'
-              size={14}
-              color={list ? _.colorMain : undefined}
-            />
-            <Iconfont
-              style={_.ml.md}
-              name='order'
-              size={14}
-              color={!list ? _.colorMain : undefined}
-            />
-          </Flex>
-          <Heatmap id='作品.切换布局' />
-        </Touchable>
-      </Flex.Item>
-    </Flex>
+      <CompToolBar.Touchable heatmap='作品.切换布局' onSelect={$.toggleList}>
+        <Iconfont
+          style={_.mr.xs}
+          name='list'
+          size={14}
+          color={list ? _.colorMain : _.colorDesc}
+        />
+        <Iconfont
+          style={_.ml.sm}
+          name='order'
+          size={13}
+          color={!list ? _.colorMain : _.colorDesc}
+        />
+      </CompToolBar.Touchable>
+    </CompToolBar>
   )
 }
 
 export default obc(ToolBar)
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    backgroundColor: _.colorBg
-  },
-  item: {
-    paddingVertical: _.md - 4,
-    paddingHorizontal: _.md
-  },
-  touchable: {
-    paddingHorizontal: _.lg
-  }
-}))

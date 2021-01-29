@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:55:58
+ * @Last Modified time: 2021-01-30 00:47:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ class Tag extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.bg}>
+      <View style={_.container.plain}>
         <ToolBar />
         {_loaded && <List />}
       </View>

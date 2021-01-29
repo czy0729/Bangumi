@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:53:03
+ * @Last Modified time: 2021-01-30 00:34:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import { info } from '@utils/ui'
 import HeaderTitle from './header-title'
 import Extra from './extra'
 import Info from './info'
+import Heatmaps from './heatmaps'
 import Store from './store'
 
 const title = '人物'
@@ -104,32 +105,7 @@ class Mono extends React.Component {
     const { navigation } = this.context
     return (
       <ItemTopic navigation={navigation} index={index} event={event} {...item}>
-        {index === 2 && (
-          <Heatmap
-            id='人物.跳转'
-            data={{
-              from: '吐槽'
-            }}
-          />
-        )}
-        {index === 3 && (
-          <Heatmap
-            id='人物.跳转'
-            data={{
-              to: 'Zone',
-              alias: '空间'
-            }}
-          />
-        )}
-        {index === 4 && (
-          <Heatmap
-            id='人物.跳转'
-            data={{
-              to: 'WebBrowser',
-              alias: '浏览器'
-            }}
-          />
-        )}
+        <Heatmaps index={index} />
       </ItemTopic>
     )
   }
