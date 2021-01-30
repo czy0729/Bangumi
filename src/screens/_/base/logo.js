@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-25 14:38:34
+ * @Last Modified time: 2021-01-30 22:57:31
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,6 +11,7 @@ import { Touchable, Flex, Iconfont } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { navigationReference } from '@utils/app'
+import { info } from '@utils/ui'
 
 const IOS = true
 function Logo({ forceUpdate }) {
@@ -21,13 +22,16 @@ function Logo({ forceUpdate }) {
           isDark: !_.isDark
         })
 
-        _.toggleMode()
-        if (forceUpdate) {
-          // 安卓端触发重渲染
-          setTimeout(() => {
-            forceUpdate()
-          }, 0)
-        }
+        info('主题切换中')
+        setTimeout(() => {
+          _.toggleMode()
+          if (forceUpdate) {
+            // 安卓端触发重渲染
+            setTimeout(() => {
+              forceUpdate()
+            }, 0)
+          }
+        }, 40)
       }}
       onLongPress={() => {
         const navigation = navigationReference()

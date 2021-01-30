@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 14:58:47
+ * @Last Modified time: 2021-01-30 23:20:45
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { TextareaItem } from '@ant-design/react-native'
 import { _ } from '@stores'
-import { getStorage, setStorage } from '@utils'
+import { getStorage, setStorage, open } from '@utils'
 import { IOS } from '@constants'
 import Text from './text'
 import Bgm from './bgm'
@@ -369,7 +369,7 @@ class FixedTextarea extends React.Component {
             }
           }}
         >
-          <Text type={showBgm && !showReplyHistory ? 'main' : 'sub'} size={11}>
+          <Text type={showBgm && !showReplyHistory ? 'main' : 'sub'} size={12}>
             {text}
           </Text>
         </Touchable>
@@ -403,7 +403,13 @@ class FixedTextarea extends React.Component {
     return (
       <Touchable
         style={this.styles.toolBarBtn}
-        onPress={() => this.onAddSymbolText(symbol)}
+        onPress={() => {
+          if (text === '图床') {
+            open('https://imgchr.com/')
+          } else {
+            this.onAddSymbolText(symbol)
+          }
+        }}
       >
         <Text type='sub' size={11} align='center'>
           {text}
@@ -420,7 +426,11 @@ class FixedTextarea extends React.Component {
 
     const { simple } = this.props
     return (
-      <Flex style={this.styles.toolBar} wrap='wrap'>
+      <Flex
+        style={this.styles.toolBar}
+        wrap='wrap'
+        justify={simple ? undefined : 'between'}
+      >
         {this.renderBtn('BGM')}
         {!simple && this.renderBtn('加粗', 'b')}
         {!simple && this.renderBtn('斜体', 'i')}
@@ -428,6 +438,7 @@ class FixedTextarea extends React.Component {
         {!simple && this.renderBtn('删除', 's')}
         {!simple && this.renderBtn('剧透', 'mask')}
         {!simple && this.renderBtn('图片', 'img')}
+        {!simple && this.renderBtn('图床', 'imgchr')}
         {!simple && this.renderBtn('链接', 'url')}
         {this.renderBtn('历史')}
       </Flex>
@@ -641,7 +652,8 @@ const memoStyles = _.memoStyles(_ => ({
     marginLeft: -_.sm
   },
   toolBarBtn: {
-    padding: 8
+    paddingVertical: 8,
+    paddingHorizontal: 5
   },
   bgmContainer: {
     paddingVertical: _.sm

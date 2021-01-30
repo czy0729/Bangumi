@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 03:08:22
+ * @Last Modified time: 2021-01-30 23:05:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,18 @@ import Avatar from '../base/avatar'
 import Name from '../base/name'
 
 function ItemSay(
-  { event, index, position, avatar, showName, name, text, id, onLongPress },
+  {
+    event,
+    index,
+    position,
+    avatar,
+    showName,
+    name,
+    text,
+    id,
+    format,
+    onLongPress
+  },
   { navigation }
 ) {
   const styles = memoStyles()
@@ -34,7 +45,7 @@ function ItemSay(
               <RenderHtml
                 baseFontStyle={styles.baseFontStyleRight}
                 linkStyle={styles.linkStyleRight}
-                html={getBgmHtml(text)}
+                html={format ? getBgmHtml(text) : text}
                 onLinkPress={href => appNavigate(href, navigation, {}, event)}
               />
             </View>
@@ -90,7 +101,7 @@ function ItemSay(
           <View style={[styles.text, _.mt.xs]}>
             <RenderHtml
               baseFontStyle={styles.baseFontStyle}
-              html={getBgmHtml(text)}
+              html={format ? getBgmHtml(text) : text}
               onLinkPress={href => appNavigate(href, navigation, {}, event)}
             />
           </View>
@@ -103,6 +114,7 @@ function ItemSay(
 ItemSay.defaultProps = {
   event: EVENT,
   position: 'left',
+  format: true,
   onLongPress: Function.prototype
 }
 
