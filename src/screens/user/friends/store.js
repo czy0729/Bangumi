@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-24 15:24:53
+ * @Last Modified time: 2021-01-30 14:24:08
  */
 import { observable, computed } from 'mobx'
 import { usersStore } from '@stores'
@@ -107,7 +107,7 @@ export default class ScreenFriends extends store {
     if (title === '同步率') {
       sort = 'percent'
     }
-    if (title === '最近操作') {
+    if (title === '最近') {
       sort = 'recent'
     }
     this.setState({

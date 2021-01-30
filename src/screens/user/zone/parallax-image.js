@@ -275,6 +275,6 @@ const memoStyles = _.memoStyles(_ => ({
     zIndex: 1,
     marginTop: -5,
     marginRight: 34,
-    opacity: 0.8
+    opacity: 0.88
   }
 }))

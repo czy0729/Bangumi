@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:59:55
+ * @Last Modified time: 2021-01-30 22:51:05
  */
 import React from 'react'
 import {
@@ -60,7 +60,7 @@ class List extends React.Component {
 
   ListFooterComponent = ($, navigation) => (
     <Touchable
-      style={_.mt.md}
+      style={[_.mt.md, _.mb.md]}
       onPress={() => {
         t('空间.跳转', {
           to: 'User'
@@ -156,7 +156,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   sectionHeader: {
     paddingHorizontal: _._wind,
-    backgroundColor: _.select(_.colorPlain, _.colorBg)
+    backgroundColor: _.colorPlain
   },
   section: {
     backgroundColor: _.colorBg

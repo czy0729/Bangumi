@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:55:29
+ * @Last Modified time: 2021-01-30 14:09:11
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -37,7 +37,7 @@ class List extends React.Component {
 
     return (
       <ListView
-        style={_.container.screen}
+        style={_.container.plain}
         keyExtractor={keyExtractor}
         data={catalogs}
         scrollToTop

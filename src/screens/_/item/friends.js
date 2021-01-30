@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-18 01:17:38
+ * @Last Modified time: 2021-01-30 14:19:34
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -63,7 +63,7 @@ function ItemFriends({
               {recent}
             </Text>
           </Flex>
-          <Text style={_.mt.xs} size={10} type='sub'>
+          <Text style={[_.mt.sm, _.mb.xs]} size={11} type='sub'>
             {!!doing && `${doing}在看`}
             {!!collect && `${doing ? ' · ' : ''}${collect}看过`}
             {!!wish && ` · ${wish}想看`}
@@ -77,7 +77,7 @@ function ItemFriends({
             percent={percent}
           />
         </Flex.Item>
-        <Text style={styles.hobby} size={12} type='sub'>
+        <Text style={styles.hobby} size={11} type='sub'>
           {hobby || '-'} / {percent || '-'}%
         </Text>
       </Flex>

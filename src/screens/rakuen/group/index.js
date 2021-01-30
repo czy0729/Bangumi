@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:03:01
+ * @Last Modified time: 2021-01-30 03:19:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -131,10 +131,9 @@ class RakuenGroup extends React.Component {
     }
 
     return (
-      <View style={_.container.content}>
+      <View style={_.container.plain}>
         <NavigationBarEvents />
         <ScrollView
-          style={_.container.content}
           contentContainerStyle={_.container.bottom}
           scrollEventThrottle={16}
           scrollToTop
@@ -142,7 +141,6 @@ class RakuenGroup extends React.Component {
           {...withTransitionHeader.listViewProps}
         >
           <Info />
-          {this.renderPagination()}
           {show && (
             <>
               <View

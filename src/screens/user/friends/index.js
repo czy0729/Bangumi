@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:56:03
+ * @Last Modified time: 2021-01-30 14:23:43
  */
 import React from 'react'
-import { ListView, Text, Heatmap } from '@components'
+import { ListView, Heatmap } from '@components'
 import { ItemFriends } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
+import Sort from './sort'
 import Store from './store'
 
 const title = '好友'
@@ -24,26 +25,16 @@ export default
 })
 @obc
 class Friends extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('title', '好友')
-  })
+  static navigationOptions = {
+    title
+  }
 
   async componentDidMount() {
     const { $, navigation } = this.context
     await $.init()
 
-    const { userId } = $.params
-    const { userName } = $.users(userId)
     navigation.setParams({
-      title: userName ? `${userName}的好友` : '我的好友',
-      heatmap: '好友.排序',
-      popover: {
-        data: ['默认', '同步率', '最近操作'],
-        onSelect: key => {
-          $.sort(key)
-        }
-      },
-      element: <Text>排序</Text>
+      extra: <Sort $={$} />
     })
 
     hm(`user/${$.params.userId}/friends`, 'Friends')
@@ -68,7 +59,7 @@ class Friends extends React.Component {
     return (
       <>
         <ListView
-          style={_.container.screen}
+          style={_.container.plain}
           data={$.friends}
           keyExtractor={keyExtractor}
           scrollToTop

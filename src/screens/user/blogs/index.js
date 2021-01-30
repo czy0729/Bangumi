@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:45:53
+ * @Last Modified time: 2021-01-30 14:05:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,9 +53,8 @@ class Blogs extends React.Component {
   render() {
     const { $ } = this.context
     return (
-      <View>
+      <View style={_.container.plain}>
         <ListView
-          style={_.container.plain}
           data={$.blogs}
           keyExtractor={keyExtractor}
           scrollToTop

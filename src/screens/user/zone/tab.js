@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:02:02
+ * @Last Modified time: 2021-01-30 22:53:22
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -190,7 +190,7 @@ const memoStylesWithTinygrail = _.memoStyles(_ => ({
   ...commonStyle,
   tabBar: {
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderBottomWidth: _.flat ? 0 : _.select(_.hairlineWidth, 0),
+    borderBottomWidth: _.select(_.hairlineWidth, 0),
     borderBottomColor: _.colorBorder,
     shadowOpacity: 0,
     elevation: 0

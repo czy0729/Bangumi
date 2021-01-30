@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 11:47:23
+ * @Last Modified time: 2021-01-30 14:38:03
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { HTMLDecode } from '@utils/html'
 import { EVENT } from '@constants'
 import Avatar from '../base/avatar'
 import Name from '../base/name'
@@ -79,8 +80,8 @@ function ItemPM({
               <Text style={_.mt.xs} type='main' bold>
                 {title}
               </Text>
-              <Text style={_.mt.xs} size={13} type='title'>
-                {content}
+              <Text style={_.mt.sm} size={13} lineHeight={16} type='title'>
+                {HTMLDecode(content)}
               </Text>
             </Flex.Item>
             {isNew && (

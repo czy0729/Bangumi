@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:59:29
+ * @Last Modified time: 2021-01-30 22:43:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,10 +54,6 @@ class UserSetting extends React.Component {
     })
   }
 
-  get style() {
-    return IOS ? _.container.bg : _.container._plain
-  }
-
   onViewOrigin = (item, index) => {
     t('个人设置.查看原图', {
       index
@@ -66,7 +62,7 @@ class UserSetting extends React.Component {
   }
 
   renderPreview() {
-    const { $ } = this.context
+    const { $, navigation } = this.context
     const { avatar = {}, nickname, id, username } = $.usersInfo
     const bgSrc = $.bg || avatar.large
     const avatarSrc = $.avatar || avatar.large
@@ -75,6 +71,7 @@ class UserSetting extends React.Component {
       <View>
         <Image
           key={bgSrc}
+          style={this.styles.avatar}
           headers={headers}
           src={bgSrc}
           width={_.window.width}
@@ -101,6 +98,18 @@ class UserSetting extends React.Component {
             </Text>
           </Text>
         </Flex>
+        <Touchable
+          style={this.styles.example}
+          onPress={() =>
+            navigation.push('Zone', {
+              userId: 'sukaretto'
+            })
+          }
+        >
+          <Text size={10} lineHeight={16} type='__plain__'>
+            [示例]
+          </Text>
+        </Touchable>
       </View>
     )
   }
@@ -227,7 +236,7 @@ class UserSetting extends React.Component {
 
   render() {
     return (
-      <View style={this.style}>
+      <View style={_.container.plain}>
         {this.renderPreview()}
         <ScrollView
           contentContainerStyle={this.styles.contentContainerStyle}
@@ -255,8 +264,11 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.48)'
   },
+  avatar: {
+    backgroundColor: _.__colorPlain__
+  },
   contentContainerStyle: {
-    paddingTop: _.md,
+    paddingTop: _.md + 8,
     paddingHorizontal: _.wind,
     paddingBottom: _.bottom
   },
@@ -267,5 +279,12 @@ const memoStyles = _.memoStyles(_ => ({
   },
   input: {
     paddingRight: 8
+  },
+  example: {
+    position: 'absolute',
+    zIndex: 2,
+    right: _.wind,
+    bottom: _.sm,
+    opacity: 0.64
   }
 }))

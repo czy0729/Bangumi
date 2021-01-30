@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:04:43
+ * @Last Modified time: 2021-01-30 04:02:10
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -58,7 +58,7 @@ export default obc(Item)
 const memoStyles = _.memoStyles(_ => ({
   container: {
     width: '48%',
-    paddingVertical: _.sm,
+    paddingBottom: _.md + 4,
     marginRight: '2%'
   },
   body: {

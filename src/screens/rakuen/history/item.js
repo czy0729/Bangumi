@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:04:14
+ * @Last Modified time: 2021-01-30 03:21:23
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -48,7 +48,7 @@ function Item(
         >
           <Flex align='start'>
             <Flex.Item>
-              <Text size={16}>{title}</Text>
+              <Text bold>{title}</Text>
               <Text style={_.mt.sm} type='sub' size={12}>
                 {time.split(' ')[1]} /
                 <Text size={12} type='title' bold>

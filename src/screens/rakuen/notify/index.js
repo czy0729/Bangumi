@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 21:04:58
+ * @Last Modified time: 2021-01-30 04:05:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -60,7 +60,7 @@ class Notify extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={_.container.screen}>
+      <View style={_.container.plain}>
         {_loaded && <Tabs />}
         <Heatmaps />
       </View>

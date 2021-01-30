@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:53:27
+ * @Last Modified time: 2021-01-30 13:25:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,7 @@ function Info(props, { $, navigation }) {
               <Flex>
                 <Iconfont size={14} name='like' color={_.colorMain} />
                 <Text style={_.ml.xs} lineHeight={22} type='sub'>
-                  加入收藏
+                  收藏
                 </Text>
               </Flex>
               <Heatmap id='人物.收藏人物' />

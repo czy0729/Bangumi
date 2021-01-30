@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:39:57
+ * @Last Modified time: 2021-01-30 04:08:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,7 @@ class Search extends React.Component {
 
   render() {
     return (
-      <View style={_.select(_.container.plain, _.container.bg)}>
+      <View style={_.container.plain}>
         <Flex style={styles.searchBar}>
           <Flex.Item>
             <SearchBar />

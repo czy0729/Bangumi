@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:00:31
+ * @Last Modified time: 2021-01-30 22:54:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -166,49 +166,49 @@ const styles = _.create({
     position: 'absolute',
     top: 16,
     right: 100,
-    opacity: 0.8
+    opacity: 0.88
   },
   l2: {
     position: 'absolute',
     top: 52,
     right: 116,
-    opacity: 0.8
+    opacity: 0.88
   },
   l3: {
     position: 'absolute',
     top: 88,
     right: 100,
-    opacity: 0.8
+    opacity: 0.88
   },
   r1: {
     position: 'absolute',
     zIndex: 1,
     top: 16,
     left: 100,
-    opacity: 0.8
+    opacity: 0.88
   },
   r2: {
     position: 'absolute',
     zIndex: 1,
     top: 52,
     left: 116,
-    opacity: 0.8
+    opacity: 0.88
   },
   r3: {
     position: 'absolute',
     zIndex: 1,
     top: 88,
     left: 100,
-    opacity: 0.8
+    opacity: 0.88
   },
   r0: {
     position: 'absolute',
     zIndex: 1,
     top: 140,
     right: _.wind,
-    opacity: 0.8
+    opacity: 0.88
   },
   friend: {
-    opacity: 0.8
+    opacity: 0.88
   }
 })

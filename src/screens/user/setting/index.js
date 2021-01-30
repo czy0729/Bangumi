@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:58:26
+ * @Last Modified time: 2021-01-30 22:24:37
  */
 import React from 'react'
 import { InteractionManager, View } from 'react-native'
@@ -45,7 +45,7 @@ import {
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_SYNC
 } from '@constants/model'
-import Filter from './filter'
+import Type from './type'
 
 const title = '设置'
 const namespace = 'Setting'
@@ -91,7 +91,7 @@ class Setting extends React.Component {
     const { navigation } = this.props
 
     navigation.setParams({
-      extra: <Filter />
+      extra: <Type />
     })
   }
 
@@ -360,7 +360,7 @@ class Setting extends React.Component {
             </ItemSetting>
             <ItemSetting
               show={!this.simple}
-              hd='CDN加速*'
+              hd='CDN加速'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -375,9 +375,7 @@ class Setting extends React.Component {
                   }}
                 />
               }
-              information={
-                '建议开启，针对静态数据使用CDN快照加速渲染\n*表示不建议修改设置，同后'
-              }
+              information='建议开启，针对静态数据使用CDN快照加速渲染'
             >
               <Heatmap
                 id='设置.切换'
@@ -526,7 +524,7 @@ class Setting extends React.Component {
             </ItemSetting>
             <ItemSetting
               show={!this.simple}
-              hd='优先中文*'
+              hd='优先中文'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -552,7 +550,7 @@ class Setting extends React.Component {
             </ItemSetting>
             <ItemSetting
               show={!this.simple}
-              hd='章节讨论热力图*'
+              hd='章节讨论热力图'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -602,7 +600,7 @@ class Setting extends React.Component {
             </ItemSetting>
             <ItemSetting
               show={!this.simple}
-              hd='屏蔽敏感内容*'
+              hd='屏蔽敏感内容'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -628,7 +626,7 @@ class Setting extends React.Component {
             </ItemSetting>
             <ItemSetting
               show={!this.simple && !userStore.isLimit}
-              hd='启动页*'
+              hd='启动页'
               ft={
                 <Popover
                   data={MODEL_SETTING_INITIAL_PAGE.data.map(
@@ -678,7 +676,7 @@ class Setting extends React.Component {
           <>
             <ItemSetting
               show={!this.simple}
-              hd='扁平*'
+              hd='扁平'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -703,6 +701,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
+              show={!this.simple}
               hd='震动'
               ft={
                 <SwitchPro
@@ -728,6 +727,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
+              show={!this.simple}
               hd='封面拟物'
               ft={
                 <SwitchPro
@@ -753,6 +753,7 @@ class Setting extends React.Component {
               />
             </ItemSetting>
             <ItemSetting
+              show={!this.simple}
               hd='图片渐出动画'
               ft={
                 <SwitchPro
@@ -804,7 +805,7 @@ class Setting extends React.Component {
             </ItemSetting>
             <ItemSetting
               show={!this.simple}
-              hd='看板娘吐槽*'
+              hd='看板娘吐槽'
               ft={
                 <SwitchPro
                   style={this.styles.switch}
@@ -883,7 +884,7 @@ class Setting extends React.Component {
             </ItemSetting>
             <ItemSetting
               show={!this.simple && !IOS}
-              hd='切页动画*'
+              hd='切页动画'
               ft={
                 <SegmentedControl
                   style={this.styles.segmentedControl}
@@ -905,7 +906,7 @@ class Setting extends React.Component {
             </ItemSetting>
             <ItemSetting
               show={!this.simple}
-              hd='图片质量*'
+              hd='图片质量'
               ft={
                 <SegmentedControl
                   style={this.styles.segmentedControl}

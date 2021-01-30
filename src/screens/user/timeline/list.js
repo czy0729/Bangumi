@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:58:53
+ * @Last Modified time: 2021-01-30 22:28:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,8 @@ import { findSubjectCn } from '@utils/app'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
-const width = parseInt(IMG_WIDTH / 2)
-const height = parseInt(IMG_HEIGHT / 2)
+const width = parseInt(IMG_WIDTH / 1.4)
+const height = parseInt(IMG_HEIGHT / 1.4)
 
 function List(props, { $, navigation }) {
   const styles = memoStyles()
@@ -31,9 +31,9 @@ function List(props, { $, navigation }) {
                 {item.title}年{' '}
               </Text>
               {index === 0 && (
-                <Text style={_.ml.sm} size={10} bold>
+                <Text style={_.ml.sm} size={12} bold>
                   加入Bangumi
-                  <Text type='main' size={10} bold>
+                  <Text type='main' size={12} bold>
                     {' '}
                     {$.days}{' '}
                   </Text>
@@ -158,7 +158,7 @@ function List(props, { $, navigation }) {
                                     )}
                                   </Flex>
                                   <Text
-                                    style={_.mt.xs}
+                                    style={_.mt.sm}
                                     size={12}
                                     bold
                                     numberOfLines={2}
@@ -167,7 +167,7 @@ function List(props, { $, navigation }) {
                                   </Text>
                                   {!!i.comment && (
                                     <Flex style={_.mt.sm}>
-                                      <Text style={styles.comment} size={10}>
+                                      <Text style={styles.comment} size={12}>
                                         {i.comment}
                                       </Text>
                                     </Flex>
@@ -287,12 +287,12 @@ const memoStyles = _.memoStyles(_ => ({
   },
   subject: {
     marginRight: _.sm,
-    marginBottom: _.sm
+    marginBottom: _.md
   },
   subjectHalf: {
     maxWidth: 160,
     marginRight: _.sm,
-    marginBottom: _.sm
+    marginBottom: _.md
   },
   comment: {
     paddingVertical: _.xs,

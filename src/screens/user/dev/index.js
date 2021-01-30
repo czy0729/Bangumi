@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:55:51
+ * @Last Modified time: 2021-01-30 14:11:21
  */
 import React from 'react'
 import { Platform } from 'react-native'
@@ -126,18 +126,18 @@ class DEV extends React.Component {
 
 const memoStyles = _.memoStyles(_ => ({
   screen: {
-    backgroundColor: _.colorBg
+    backgroundColor: _.colorPlain
   },
   container: {
     display: 'flex',
     flexDirection: 'column',
-    paddingVertical: _.lg,
+    paddingVertical: _.md,
     paddingHorizontal: _.wind
   },
   code: {
     paddingVertical: _.space,
     paddingHorizontal: _.wind,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: 1,
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,

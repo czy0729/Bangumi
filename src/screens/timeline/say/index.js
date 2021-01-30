@@ -2,12 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-10-08 16:56:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 09:45:25
+ * @Last Modified time: 2021-01-30 14:00:50
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 import { ActivityIndicator } from '@ant-design/react-native'
-import { FixedTextarea, Flex, Heatmap } from '@components'
+import {
+  FixedTextarea,
+  Flex,
+  Heatmap,
+  Touchable,
+  Text,
+  Iconfont
+} from '@components'
 import { NavigationBarEvents, Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -32,6 +39,10 @@ export default
 class Say extends React.Component {
   static navigationOptions = {
     title
+  }
+
+  state = {
+    expand: false
   }
 
   scrollView
@@ -84,6 +95,11 @@ class Say extends React.Component {
   connectRefFixedTextarea = ref => (this.fixedTextarea = ref)
 
   showFixedTextare = () => this.fixedTextarea.onFocus()
+
+  onExpand = () =>
+    this.setState({
+      expand: true
+    })
 
   renderNew() {
     const { $, navigation } = this.context
@@ -139,7 +155,33 @@ class Say extends React.Component {
     )
   }
 
+  renderExpand() {
+    const { $ } = this.context
+    return (
+      <Touchable onPress={this.onExpand}>
+        <ScrollView
+          style={this.styles.expand}
+          contentContainerStyle={this.styles.contentContainerStyle}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        >
+          <Flex>
+            <Text style={_.ml.sm} size={12} bold>
+              {$.users.length}人参与
+            </Text>
+            <Iconfont name='extra' />
+          </Flex>
+        </ScrollView>
+      </Touchable>
+    )
+  }
+
   renderUsers() {
+    const { expand } = this.state
+    if (!expand) {
+      return this.renderExpand()
+    }
+
     const { $, navigation } = this.context
     return (
       <ScrollView
@@ -205,6 +247,16 @@ class Say extends React.Component {
 }
 
 const memoStyles = _.memoStyles(_ => ({
+  expand: {
+    position: 'absolute',
+    zIndex: 1,
+    right: _.wind,
+    bottom: 52,
+    height: 50,
+    paddingVertical: _.sm,
+    backgroundColor: _.colorPlain,
+    borderRadius: 28
+  },
   users: {
     position: 'absolute',
     zIndex: 1,

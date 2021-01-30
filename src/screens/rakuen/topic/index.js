@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 19:30:52
+ * @Last Modified time: 2021-01-30 13:28:01
  */
 import React from 'react'
 import { InteractionManager, Alert, View } from 'react-native'
@@ -50,7 +50,10 @@ class Topic extends React.Component {
       }, 300)
 
       const { $, navigation } = this.context
-      if (!$.isUGCAgree) {
+
+      // 不上架暂时屏蔽UCG协议
+      // eslint-disable-next-line no-constant-condition
+      if (false && !$.isUGCAgree) {
         /**
          * @issue 这里注意在iOS上面, 一定要延迟,
          * 不然首页点击讨论跳进来popover + alert直接就不能操作了
