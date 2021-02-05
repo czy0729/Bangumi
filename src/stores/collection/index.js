@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 15:44:10
+ * @Last Modified time: 2021-02-05 12:09:36
  */
 import { observable, toJS } from 'mobx'
 import { getTimestamp, trim, sleep } from '@utils'
@@ -288,7 +288,7 @@ class Collection extends store {
    * 排队获取自己的所有动画收藏列表记录
    *  - 每种最多取10页240条数据
    */
-  fetchUserCollectionsQueue = async () => {
+  fetchUserCollectionsQueue = async refresh => {
     try {
       const { username } = userStore.usersInfo(userStore.myUserId)
       const userId = username || userStore.myUserId
@@ -304,7 +304,7 @@ class Collection extends store {
           subjectType,
           item.value
         )
-        if (!_loaded || now - _loaded > 60 * 60) {
+        if (refresh || !_loaded || now - _loaded > 60 * 60) {
           await this.fetchUserCollections(
             {
               userId,

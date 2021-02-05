@@ -3,7 +3,7 @@
     "description": "A React Native App for https://bgm.tv, tinygrail plugin 3.2.2",
     "version": "4.6.4",
     "android": {
-      "versionCode": 4640,
+      "versionCode": 4641,
       "package": "com.czy0729.bangumi",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/foreground.png",

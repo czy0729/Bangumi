@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-18 22:12:07
+ * @Last Modified time: 2021-02-05 15:47:24
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -88,7 +88,7 @@ class Thumbs extends React.Component {
                     t('条目.预览', {
                       subjectId: $.subjectId
                     })
-
+console.log(epsThumbsHeader)
                     showImageViewer(
                       thumbs.filter((item, index) => index < 12),
                       index

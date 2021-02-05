@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 14:44:49
+ * @Last Modified time: 2021-02-05 11:48:16
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
@@ -484,4 +484,78 @@ export function unzip(item = {}) {
     score: item.s || 0,
     rank: item.r || 0
   }
+}
+
+/**
+ * 猜你喜欢
+ *  - 用户所有动画收藏
+ *  - 动画标签
+ *  - 动画排行/评分
+ *
+ *  - 最近操作记录
+ */
+const change = {
+  想看: 3,
+  在看: 2,
+  看过: 1,
+  搁置: -5,
+  抛弃: -10
+}
+export function guess(
+  userCollectionsMap = {}
+  // skipIds = []
+) {
+  const rates = {}
+  Object.keys(userCollectionsMap).forEach(id => {
+    const subject = find(id)
+    if (subject.id && subject.tags) {
+      const type = userCollectionsMap[id]
+      subject.tags.split(' ').forEach(tag => {
+        if (!(tag in rates)) {
+          rates[tag] = 0
+        }
+        rates[tag] += change[type]
+      })
+    }
+  })
+
+  return (
+    anime
+      .map((item, index) => {
+        if (userCollectionsMap[item.id]) {
+          return [index, 0]
+        }
+
+        let rate = 0
+        String(item.t || '')
+          .split(' ')
+          .sort((a, b) => rates[b] - rates[a])
+          .filter((item, index) => index < 3)
+          .forEach(tag => {
+            rate += rates[tag] || 0
+          })
+        rate *= item.r ? item.s || 0 : 0
+
+        if (item.b) {
+          const y = Number(item.b.slice(0, 4))
+          if (!Number.isNaN(y)) {
+            rate *= 0.98 ** Math.min(2021 - y, 10)
+          } else {
+            rate *= 0.98 ** 10
+          }
+        } else {
+          rate *= 0.98 ** 10
+        }
+
+        return [index, parseInt(rate)]
+      })
+      .sort((a, b) => b[1] - a[1])
+      // .filter(item => !skipIds.includes(item.id))
+      .filter((item, index) => index < 200)
+      .map(item => ({
+        ...unzip(anime[item[0]]),
+        rate: item[1]
+      }))
+  )
+  // .sort(() => SORT.random())
 }

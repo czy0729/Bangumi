@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 02:09:18
+ * @Last Modified time: 2021-02-04 20:01:32
  */
 
 /**
@@ -118,6 +118,10 @@ export default {
   'Manga.选择': 'Manga.onSelect',
   'Manga.到顶': 'Manga.scrollToTop',
   'Manga.切换布局': 'Manga.switchLayout',
+
+  // 推荐
+  '推荐.跳转': 'Guess.to',
+  '推荐.刷新': 'Guess.refresh',
 
   /* ==================== home ==================== */
   // 首页

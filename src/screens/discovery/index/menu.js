@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:33:15
+ * @Last Modified time: 2021-02-05 16:07:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -71,6 +71,12 @@ const menus = [
     path: 'Tinygrail'
   },
   {
+    title: '推荐',
+    icon: 'like',
+    path: 'Guess',
+    login: true
+  },
+  {
     title: '趋势',
     icon: 'fen-xi',
     path: 'netabare',
@@ -87,12 +93,12 @@ const menus = [
     path: 'UserTimeline',
     login: true
   },
-  {
-    title: '好友',
-    icon: 'friends',
-    path: 'Friends',
-    login: true
-  },
+  // {
+  //   title: '好友',
+  //   icon: 'friends',
+  //   path: 'Friends',
+  //   login: true
+  // },
   // {
   //   title: '我的人物',
   //   icon: 'like',

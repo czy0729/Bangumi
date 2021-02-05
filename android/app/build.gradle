@@ -150,7 +150,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk true  // If true, also generate a universal APK
-            include "armeabi-v7a" // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+            include "armeabi-v7a", "arm64-v8a" // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
     signingConfigs {
@@ -203,7 +203,7 @@ android {
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html
             // def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
-            def versionCodes = ["armeabi-v7a": 1]
+            def versionCodes = ["armeabi-v7a": 1, "arm64-v8a": 2]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
