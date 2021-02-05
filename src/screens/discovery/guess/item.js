@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-04 19:23:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 16:01:50
+ * @Last Modified time: 2021-02-05 16:44:41
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -17,7 +17,7 @@ import { showImageViewer } from '@utils/ui'
 import { IMG_DEFAULT } from '@constants'
 
 const imageWidth = _.window.width - _.wind * 2
-const imageHeight = imageWidth * 1.24
+const imageHeight = imageWidth * 1.38
 const colors = [
   'rgba(0, 0, 0, 0)',
   'rgba(0, 0, 0, 0.24)',
@@ -80,14 +80,17 @@ function Item(
           <HorizontalList
             style={_.mt.md}
             data={eps.epsThumbs}
-            initialRenderNums={5}
+            initialRenderNums={4}
             renderItem={(item, index) => (
               <Image
-                style={!!index && _.ml.sm}
+                style={[
+                  !!index && _.ml.sm,
+                  index === eps.epsThumbs.length - 1 && _.mr.md
+                ]}
                 key={item}
                 src={item}
-                size={80}
-                height={52}
+                size={96}
+                height={64}
                 radius
                 headers={eps.epsThumbsHeader}
                 onPress={() => {
@@ -121,8 +124,8 @@ const styles = _.create({
     position: 'absolute',
     zIndex: 1,
     right: 0,
-    bottom: _.space,
-    left: _._wind
+    bottom: _.md,
+    left: _.md
   },
   title: {
     opacity: 0.88

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 11:48:16
+ * @Last Modified time: 2021-02-05 16:32:42
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
@@ -551,7 +551,7 @@ export function guess(
       })
       .sort((a, b) => b[1] - a[1])
       // .filter(item => !skipIds.includes(item.id))
-      .filter((item, index) => index < 200)
+      .filter((item, index) => index < 500)
       .map(item => ({
         ...unzip(anime[item[0]]),
         rate: item[1]
