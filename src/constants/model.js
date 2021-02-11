@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 03:55:54
+ * @Last Modified time: 2021-02-10 03:58:19
  */
 class Model {
   constructor(data) {

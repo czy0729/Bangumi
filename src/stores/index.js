@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 20:29:05
+ * @Last Modified time: 2021-02-11 20:53:00
  */
 import { Alert } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -118,13 +118,15 @@ class Stores {
             userStore.setStorage('accessToken', undefined, 'User') // 用户授权信息
             userStore.setStorage('userInfo', undefined, 'User') // 用户个人信息
             userStore.setStorage('userCookie', undefined, 'User') // 用户网页cookie
-            tinygrailStore.setStorage('advanceList', undefined, 'Tinygrail') // 2小时限制
-            tinygrailStore.setStorage('advanceBidList', undefined, 'Tinygrail')
-            tinygrailStore.setStorage(
-              'advanceAuctionList',
-              undefined,
-              'Tinygrail'
-            )
+
+            // 小圣杯
+            // tinygrailStore.setStorage('advanceList', undefined, 'Tinygrail') // 2小时限制
+            // tinygrailStore.setStorage('advanceBidList', undefined, 'Tinygrail')
+            // tinygrailStore.setStorage(
+            //   'advanceAuctionList',
+            //   undefined,
+            //   'Tinygrail'
+            // )
             tinygrailStore.setStorage('collected', undefined, 'Tinygrail') // 小圣杯人物收藏
 
             info('已清除')

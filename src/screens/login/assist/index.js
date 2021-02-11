@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 17:40:18
+ * @Last Modified time: 2021-02-05 17:47:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -108,7 +108,6 @@ class LoginAssist extends React.Component {
       }
 
       if (cookie) {
-        log(cookie)
         const matchSid = cookie.match(/chii_sid=(.+?);/) || cookie.match(/chii_sid=(.+?)$/)
         if (matchSid) {
           this.cookie.chiiSid = matchSid[1]

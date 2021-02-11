@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:00:24
+ * @Last Modified time: 2021-02-11 20:51:00
  */
 import React from 'react'
 import { Iconfont, Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants/html'
 
-const data = ['预读取帖子', '本地帖子', '设置', '新讨论']
+const data = ['收藏', '设置', '新讨论', '预读取帖子']
 
 function IconMore({ style }, { $, navigation }) {
   return (
@@ -26,14 +26,14 @@ function IconMore({ style }, { $, navigation }) {
         })
 
         switch (key) {
+          case '收藏':
+            navigation.push('RakuenHistory')
+            break
+
           case '预读取帖子':
             setTimeout(() => {
               $.prefetchConfirm()
             }, 80)
-            break
-
-          case '本地帖子':
-            navigation.push('RakuenHistory')
             break
 
           case '设置':

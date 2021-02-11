@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 00:27:25
+ * @Last Modified time: 2021-02-10 01:25:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -50,6 +50,10 @@ class Award extends React.Component {
     } else {
       this.fetchHTML()
     }
+
+    setTimeout(() => {
+      this.onLoad()
+    }, 3000)
 
     hm(`award/${this.year}`, 'Award')
   }

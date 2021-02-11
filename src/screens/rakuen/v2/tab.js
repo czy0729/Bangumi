@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 20:05:15
+ * @Last Modified time: 2021-02-10 03:47:40
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import TabBar from '@components/@/react-native-tab-view/TabBar'
 import { Flex, Text } from '@components'
-import { BlurView, Popover } from '@screens/_'
+import { BlurView } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
@@ -19,6 +19,7 @@ import {
   MODEL_RAKUEN_TYPE_MONO
 } from '@constants/model'
 import List from './list'
+import Label from './label'
 import { H_TABBAR } from './store'
 
 const routes = MODEL_RAKUEN_TYPE.data
@@ -80,41 +81,23 @@ function Tab(props, { $ }) {
           renderLabel={({ route, focused }) => {
             if (route.title === '小组' && routes[page].title === '小组') {
               return (
-                <Popover
-                  style={styles.labelText}
-                  data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
-                  onSelect={$.onGroupMenuPress}
-                >
-                  <Flex style={styles.labelText} justify='center'>
-                    <Text type='title' size={13} bold={focused}>
-                      小组
-                    </Text>
-                    <Text size={11} lineHeight={13} type='sub'>
-                      {' '}
-                      {MODEL_RAKUEN_TYPE_GROUP.getLabel(group)}{' '}
-                    </Text>
-                  </Flex>
-                </Popover>
+                <Label
+                  focused={focused}
+                  model={MODEL_RAKUEN_TYPE_GROUP}
+                  label='小组'
+                  value={group}
+                />
               )
             }
 
             if (route.title === '人物' && routes[page].title === '人物') {
               return (
-                <Popover
-                  style={styles.labelText}
-                  data={MODEL_RAKUEN_TYPE_GROUP.data.map(item => item.label)}
-                  onSelect={$.onGroupMenuPress}
-                >
-                  <Flex style={styles.labelText} justify='center'>
-                    <Text type='title' size={13} bold={focused}>
-                      人物
-                    </Text>
-                    <Text size={11} lineHeight={13} type='sub'>
-                      {' '}
-                      {MODEL_RAKUEN_TYPE_MONO.getLabel(mono)}{' '}
-                    </Text>
-                  </Flex>
-                </Popover>
+                <Label
+                  focused={focused}
+                  model={MODEL_RAKUEN_TYPE_MONO}
+                  label='人物'
+                  value={mono}
+                />
               )
             }
 

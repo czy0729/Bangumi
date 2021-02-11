@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 03:20:59
+ * @Last Modified time: 2021-02-11 20:33:34
  */
 import React from 'react'
-import { ListView } from '@components'
+import { ListView, Loading } from '@components'
 import { SectionHeader } from '@screens/_'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
@@ -24,7 +24,7 @@ export default
 @obc
 class RakuenHistory extends React.Component {
   static navigationOptions = {
-    title
+    title: '收藏'
   }
 
   async componentDidMount() {
@@ -32,13 +32,18 @@ class RakuenHistory extends React.Component {
     await $.init()
 
     navigation.setParams({
-      title: $.keys.length ? `本地帖子 (${$.keys.length})` : '本地帖子',
+      title: '收藏',
       extra: <IconFavor $={$} />
     })
   }
 
   render() {
     const { $ } = this.context
+    const { _loaded } = $.state
+    if (!_loaded) {
+      return <Loading style={_.container.screen} />
+    }
+
     return (
       <ListView
         key={$.sections.length}

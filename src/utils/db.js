@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 02:40:58
+ * @Last Modified time: 2021-02-11 17:42:34
  */
 import Constants from 'expo-constants'
 import { xhrCustom as xhr } from './fetch'
@@ -127,6 +127,8 @@ export async function add({ path, content, message }) {
 /**
  * 更新文件
  * https://gitee.com/api/v5/swagger#/putV5ReposOwnerRepoContentsPath
+ *
+ *  - 提示, content不允许携带中文, 请先escape或encode
  */
 export async function update({ path, content, sha, message }) {
   if (content === files[path].content) {

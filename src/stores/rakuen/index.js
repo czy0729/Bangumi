@@ -3,12 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 22:46:11
+ * @Last Modified time: 2021-02-11 20:35:19
  */
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
+import { put, read } from '@utils/db'
+import { getUserStoreAsync } from '@utils/async'
 import { HOST, LIST_EMPTY, LIMIT_LIST } from '@constants'
 import {
   HTML_ACTION_BLOG_REPLY,
@@ -72,6 +74,14 @@ class Rakuen extends store {
     },
 
     /**
+     * 云端帖子内容
+     * @param {*} topicId
+     */
+    cloudTopic: {
+      0: INIT_TOPIC
+    },
+
+    /**
      * 帖子回复
      * @param {*} topicId
      */
@@ -100,7 +110,7 @@ class Rakuen extends store {
 
     /**
      * 本地收藏
-     *  [topicId
+     * @param {*} topicId
      */
     favor: {
       0: false
@@ -174,7 +184,8 @@ class Rakuen extends store {
         'rakuen',
         'readed',
         'setting',
-        'topic'
+        'topic',
+        'cloudTopic'
       ],
       NAMESPACE
     )
@@ -182,6 +193,39 @@ class Rakuen extends store {
   // -------------------- get --------------------
   blogFormCDN() {
     return INIT_TOPIC
+  }
+
+  @computed get favorTopic() {
+    const { favor, topic, cloudTopic } = this.state
+    const data = {
+      ...cloudTopic,
+      _favor: favor
+    }
+    Object.keys(topic)
+      .filter(topicId => {
+        // 不知道哪里有问题, 有时会出现undefined的key值, 过滤掉
+        if (!topicId.includes('group/') || topicId.includes('undefined')) {
+          return false
+        }
+
+        return this.favor(topicId)
+      })
+      .sort((a, b) => b.localeCompare(a))
+      .forEach(topicId => {
+        const target = topic[topicId] || cloudTopic[topicId]
+        if (target) {
+          data[topicId] = {
+            topicId,
+            avatar: target.avatar || '',
+            userName: target.userName || '',
+            title: target.title || '',
+            group: target.group || '',
+            time: target.time || '',
+            userId: target.userId || 0
+          }
+        }
+      })
+    return data
   }
 
   // -------------------- fetch --------------------
@@ -809,6 +853,48 @@ class Rakuen extends store {
       }
     })
     this.setStorage(key, undefined, NAMESPACE)
+  }
+
+  /**
+   * 上传收藏帖子到云端
+   */
+  uploadFavorTopic = () => {
+    const { id } = getUserStoreAsync().userInfo
+    return put({
+      path: `topic/${id}.json`,
+      content: escape(JSON.stringify(this.favorTopic))
+    })
+  }
+
+  /**
+   * 同步云端收藏帖子
+   */
+  downloadFavorTopic = async () => {
+    const { id } = getUserStoreAsync().userInfo
+    const { content } = await read({
+      path: `topic/${id}.json`
+    })
+    if (!content) {
+      return false
+    }
+
+    try {
+      const { favor } = this.state
+      const { _favor, ...cloudTopic } = JSON.parse(unescape(content))
+      this.setState({
+        favor: {
+          ..._favor,
+          ...favor
+        },
+        cloudTopic
+      })
+
+      this.setStorage('favor', undefined, NAMESPACE)
+      this.setStorage('cloudTopic', undefined, NAMESPACE)
+      return true
+    } catch (error) {
+      return false
+    }
   }
 }
 
