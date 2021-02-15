@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 11:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 00:55:50
+ * @Last Modified time: 2021-02-16 04:08:56
  */
 import { getTimestamp } from '@utils'
 import { getSystemStoreAsync } from '@utils/async'
@@ -27,7 +27,7 @@ export function getOTA() {
   return getSystemStoreAsync().ota
 }
 
-export const VERSION_STATIC = '20210113'
+export const VERSION_STATIC = '20210216'
 export const VERSION_RAKUEN = '20210113'
 export const VERSION_AVATAR = '20210113'
 export const VERSION_OSS = '20210113'

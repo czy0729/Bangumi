@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-10 01:25:51
+ * @Last Modified time: 2021-02-16 04:48:30
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -14,16 +14,16 @@ import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { info } from '@utils/ui'
-import { hm, xhrCustom, fetchHTML } from '@utils/fetch'
+import { hm, fetchHTML } from '@utils/fetch'
 import { removeCF } from '@utils/html'
 import { HOST } from '@constants'
-import { CDN_AWARD } from '@constants/cdn'
+// import { CDN_AWARD } from '@constants/cdn'
 import resetStyle from './reset-style'
 import { injectedStaticJavaScript } from './utils'
 
 const title = '年鉴'
 const originWhitelist = ['*']
-const lightContentYears = ['2016', '2015', '2012', '2011']
+const lightContentYears = ['2020', '2016', '2015', '2012', '2011']
 const htmlCache = {}
 
 export default
@@ -48,7 +48,7 @@ class Award extends React.Component {
         html: htmlCache[this.year]
       })
     } else {
-      this.fetchHTML()
+      this.fetch()
     }
 
     setTimeout(() => {
@@ -58,48 +58,53 @@ class Award extends React.Component {
     hm(`award/${this.year}`, 'Award')
   }
 
-  fetchHTML = async () => {
-    if (this.year == 2019) {
-      this.fetch2019()
-      return
-    }
+  /**
+   * CDN方式已废弃
+   */
+  // fetchHTML = async () => {
+  //   if (this.year == 2019) {
+  //     this.fetch2019()
+  //     return
+  //   }
 
-    try {
-      const { _response } = await xhrCustom({
-        url: CDN_AWARD(this.year)
-      })
-      const { html } = JSON.parse(_response)
-      htmlCache[this.year] = html
-      this.setState({
-        html
-      })
-    } catch (error) {
-      warn('discovery/award/index.js', 'fetchHTML', error)
-    }
-  }
+  //   try {
+  //     const { _response } = await xhrCustom({
+  //       url: CDN_AWARD(this.year)
+  //     })
+  //     const { html } = JSON.parse(_response)
+  //     htmlCache[this.year] = html
+  //     this.setState({
+  //       html
+  //     })
+  //   } catch (error) {
+  //     warn('discovery/award/index.js', 'fetchHTML', error)
+  //   }
+  // }
 
-  fetch2019 = async () => {
+  fetch = async () => {
     try {
       const html = await fetchHTML({
-        url: `${HOST}/award/2019`
+        url: `${HOST}/award/${this.year}`
       })
 
+      const _html = `${removeCF(html)
+        .replace(/>\s+</g, '><')
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(
+          /<div id="headerNeue2">(.+?)<div id="awardWrapper"/g,
+          '<div id="awardWrapper"'
+        )
+        .replace(/<div class="shareBtn">(.+?)<\/div>/, '')
+        .replace(/<div id="dock">(.+?)<div id="robot"/g, '<div id="robot"')
+        .replace(
+          /<div id="main" class="png_bg"><div id="footer">(.+?)<\/div><div class="homeBg">/g,
+          '</div><div class="homeBg">'
+        )}<style>${
+        resetStyle[this.year]
+      }</style><script>${injectedStaticJavaScript}</script>`
+      htmlCache[this.year] = _html
       this.setState({
-        html: `${removeCF(html)
-          .replace(/>\s+</g, '><')
-          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-          .replace(
-            /<div id="headerNeue2">(.+?)<div id="awardWrapper"/g,
-            '<div id="awardWrapper"'
-          )
-          .replace(/<div class="shareBtn">(.+?)<\/div>/, '')
-          .replace(/<div id="dock">(.+?)<div id="robot"/g, '<div id="robot"')
-          .replace(
-            /<div id="main" class="png_bg"><div id="footer">(.+?)<\/div><div class="homeBg">/g,
-            '</div><div class="homeBg">'
-          )}<style>${
-          resetStyle[2019]
-        }</style><script>${injectedStaticJavaScript}</script>`
+        html: _html
       })
     } catch (error) {
       this.onError()
