@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-11 19:13:38
+ * @Last Modified time: 2021-02-16 03:13:26
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -98,8 +98,8 @@ class LoginV2 extends React.Component {
         //   ? 'https://czy0729.github.io/Bangumi/web/tourist.ios.json'
         //   : 'https://czy0729.github.io/Bangumi/web/tourist.json'
         url: IOS
-          ? `https://gitee.com/a402731062/bangumi/raw/master/tourist.ios.json?t=${getTimestamp()}`
-          : `https://gitee.com/a402731062/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
+          ? `https://gitee.com/a296377710/bangumi/raw/master/tourist.ios.json?t=${getTimestamp()}`
+          : `https://gitee.com/a296377710/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
       })
       const { accessToken, userCookie } = JSON.parse(_response)
       userStore.updateAccessToken(accessToken)

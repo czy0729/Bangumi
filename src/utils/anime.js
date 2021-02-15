@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 16:32:42
+ * @Last Modified time: 2021-02-15 06:16:47
  */
 // import { VERSION_ANIME, CDN_STATIC_ANIME, getOTA } from '@constants/cdn'
 // import animeData from '@constants/json/anime.min.json'
@@ -502,7 +502,8 @@ const change = {
   抛弃: -10
 }
 export function guess(
-  userCollectionsMap = {}
+  userCollectionsMap = {},
+  reverse
   // skipIds = []
 ) {
   const rates = {}
@@ -523,7 +524,7 @@ export function guess(
     anime
       .map((item, index) => {
         if (userCollectionsMap[item.id]) {
-          return [index, 0]
+          return [index, reverse ? 100000 : 0]
         }
 
         let rate = 0
@@ -549,7 +550,7 @@ export function guess(
 
         return [index, parseInt(rate)]
       })
-      .sort((a, b) => b[1] - a[1])
+      .sort((a, b) => (reverse ? a[1] - b[1] : b[1] - a[1]))
       // .filter(item => !skipIds.includes(item.id))
       .filter((item, index) => index < 500)
       .map(item => ({

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-11 17:42:34
+ * @Last Modified time: 2021-02-16 03:18:08
  */
 import Constants from 'expo-constants'
 import { xhrCustom as xhr } from './fetch'

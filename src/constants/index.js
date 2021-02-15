@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 01:15:37
+ * @Last Modified time: 2021-02-16 03:12:54
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -67,9 +67,9 @@ export const GITHUB_RELEASE_REPOS =
   'https://api.github.com/repos/czy0729/Bangumi/releases' // 版本析出api地址
 // export const GITHUB_DATA = `${GITHUB_PROJECT_GH}/web/data.json` // online数
 export const GITHUB_DATA =
-  'https://gitee.com/a402731062/bangumi/raw/master/data.json' // online数
+  'https://gitee.com/a296377710/bangumi/raw/master/data.json' // online数
 export const GITHUB_ADVANCE =
-  'https://gitee.com/a402731062/bangumi/raw/master/advance.json' // 高级会员
+  'https://gitee.com/a296377710/bangumi/raw/master/advance.json' // 高级会员
 
 // 图片
 export const IMG_EMPTY = {

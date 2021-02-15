@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 15:12:26
+ * @Last Modified time: 2021-02-15 06:08:37
  */
 import { observable, computed } from 'mobx'
 import { Portal } from '@ant-design/react-native'
@@ -21,6 +21,7 @@ export default class ScreenGuess extends store {
     list: [],
     page: 1,
     show: false,
+    like: true,
     eps: {}
   })
 
@@ -51,14 +52,17 @@ export default class ScreenGuess extends store {
   }
 
   // -------------------- page --------------------
-  getList = async () => {
-    const toastId = Toast.loading('根据收藏分析中...', 0, () => {
+  getList = async (refresh = true) => {
+    if (refresh) {
+      const toastId = Toast.loading('根据收藏分析中...', 0, () => {
+        if (toastId) Portal.remove(toastId)
+      })
+      await collectionStore.fetchUserCollectionsQueue(true)
       if (toastId) Portal.remove(toastId)
-    })
-    await collectionStore.fetchUserCollectionsQueue(true)
-    if (toastId) Portal.remove(toastId)
+    }
 
-    const list = guess(this.userCollectionsMap)
+    const { like } = this.state
+    const list = guess(this.userCollectionsMap, !like)
     this.setState({
       show: true,
       list,
@@ -120,6 +124,19 @@ export default class ScreenGuess extends store {
   queueFetchEpsThumbs = () => {
     const { list } = this.state
     queue(list.map(item => () => this.fetchEpsThumbs(item.id)))
+  }
+
+  toggleLike = () => {
+    const { like } = this.state
+    this.setState({
+      like: !like,
+      show: false
+    })
+    this.setStorage(undefined, undefined, namespace)
+
+    setTimeout(() => {
+      this.getList(false)
+    }, 80)
   }
 
   /**

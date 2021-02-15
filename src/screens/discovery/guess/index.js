@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 16:05:27
+ * @Last Modified time: 2021-02-15 06:02:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { IconHeader, Pagination } from '@screens/_'
 import { _ } from '@stores'
 import { inject, obc, withHeader } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import Type from './type'
 import Item from './item'
 import Store from './store'
 
@@ -34,13 +35,19 @@ class Guess extends React.Component {
 
     navigation.setParams({
       extra: (
-        <IconHeader
-          name='refresh'
-          onPress={() => {
-            t('推荐.刷新')
-            $.getList()
-          }}
-        />
+        <>
+          <Type $={$} />
+          <IconHeader
+            style={{
+              marginRight: -_.xs
+            }}
+            name='refresh'
+            onPress={() => {
+              t('推荐.刷新')
+              $.getList()
+            }}
+          />
+        </>
       )
     })
   }

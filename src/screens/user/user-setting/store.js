@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 19:44:20
+ * @Last Modified time: 2021-02-16 03:13:48
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -11,7 +11,7 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
 
-const onlineBgsUrl = 'https://gitee.com/a402731062/bangumi/raw/master/bg.json'
+const onlineBgsUrl = 'https://gitee.com/a296377710/bangumi/raw/master/bg.json'
 const regBg = /\[bg\](.+?)\[\/bg\]/
 const regAvatar = /\[avatar\](.+?)\[\/avatar\]/
 const regFixed = /\[size=0\]\[avatar\]\[\/avatar\]\[\/size\]|\[size=0\]\[bg\]\[\/bg\]\[\/size\]/g

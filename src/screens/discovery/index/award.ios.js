@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 15:21:45
+ * @Last Modified time: 2021-02-16 02:40:16
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -65,7 +65,7 @@ function Award(props, { navigation }) {
       >
         <View style={styles.borderAward} />
         <View style={styles.image}>
-          <Image src={ImageHero} size={itemWidth} placeholder={false} />
+          <Image src={ImageHero} size={itemWidth + 8} placeholder={false} />
         </View>
         <Image
           style={styles.imageTitle}
