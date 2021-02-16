@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 02:40:12
+ * @Last Modified time: 2021-02-16 15:40:19
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -11,11 +11,12 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
-import ImageHero from '@assets/images/hero.png'
-import ImageHeroTitle from '@assets/images/hero_title.png'
 import { years } from './store'
 
-const itemWidth = 132
+const cdn =
+  'https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@master/data/award/title'
+const itemWidth = 128
+const itemWidthLg = itemWidth * 2 + 16
 
 function Award(props, { navigation }) {
   const styles = memoStyles()
@@ -26,7 +27,29 @@ function Award(props, { navigation }) {
       showsHorizontalScrollIndicator={false}
     >
       <Touchable
-        style={_.mr.md}
+        style={styles.item2020}
+        withoutFeedback
+        onPress={() => {
+          t('发现.跳转', {
+            to: 'Award',
+            year: 2020
+          })
+
+          navigation.push('Award', {
+            uri: `${HOST}/award/2020`
+          })
+        }}
+      >
+        <Image
+          src={`${cdn}/2020.png`}
+          size={itemWidthLg}
+          height={itemWidth}
+          placeholder={false}
+          resizeMode='contain'
+        />
+      </Touchable>
+      <Touchable
+        style={styles.item2019}
         withoutFeedback
         onPress={() => {
           t('发现.跳转', {
@@ -39,18 +62,16 @@ function Award(props, { navigation }) {
           })
         }}
       >
-        <View style={styles.border} />
-        <Flex style={styles.itemSquare} justify='center' direction='column'>
-          <Text size={18} type={_.select('plain', 'title')} bold>
-            2019
-          </Text>
-          <Text size={16} type={_.select('plain', 'title')} bold>
-            年鉴
-          </Text>
-        </Flex>
+        <Image
+          src={`${cdn}/2019.png`}
+          size={itemWidthLg - 32}
+          height={itemWidth}
+          placeholder={false}
+          resizeMode='contain'
+        />
       </Touchable>
       <Touchable
-        style={styles.item}
+        style={styles.item2018}
         withoutFeedback
         onPress={() => {
           t('发现.跳转', {
@@ -63,21 +84,10 @@ function Award(props, { navigation }) {
           })
         }}
       >
-        <View style={styles.borderAward} />
-        <View style={styles.image}>
-          <Image
-            style={styles.imageHero}
-            src={ImageHero}
-            size={itemWidth}
-            placeholder={false}
-          />
-        </View>
         <Image
-          style={styles.imageTitle}
-          src={ImageHeroTitle}
-          size={itemWidth * 1.25}
+          src={`${cdn}/2018.png`}
+          size={itemWidthLg}
           height={itemWidth}
-          resizeMode='contain'
           placeholder={false}
         />
       </Touchable>
@@ -98,9 +108,12 @@ function Award(props, { navigation }) {
           }}
         >
           <View style={styles.border} />
-          <Flex style={styles.itemSquare} justify='center' direction='column'>
+          <Flex style={styles.item} justify='center' direction='column'>
             <Text size={18} type={_.select('plain', 'title')} bold>
               {item}
+            </Text>
+            <Text size={18} type={_.select('plain', 'title')} bold>
+              年鉴
             </Text>
           </Flex>
         </Touchable>
@@ -116,25 +129,30 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: _.space,
     paddingHorizontal: _.wind
   },
-  item: {
-    width: itemWidth * 2.12,
-    borderRadius: _.radiusMd
+  item2020: {
+    width: itemWidthLg,
+    marginRight: _.md,
+    backgroundColor: 'rgb(236, 243, 236)',
+    borderRadius: _.radiusMd,
+    overflow: 'hidden'
   },
-  itemSquare: {
+  item2019: {
+    width: itemWidthLg,
+    paddingLeft: 20,
+    marginRight: _.md,
+    backgroundColor: 'rgb(54, 63, 69)',
+    borderRadius: _.radiusMd,
+    overflow: 'hidden'
+  },
+  item2018: {
+    width: itemWidthLg,
+    borderRadius: _.radiusMd,
+    overflow: 'hidden'
+  },
+  item: {
     width: itemWidth,
     height: itemWidth,
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
     borderRadius: _.radiusMd
-  },
-  image: {
-    backgroundColor: _.colorDanger,
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
-  },
-  imageTitle: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    marginRight: -8
   }
 }))

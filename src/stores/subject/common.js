@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 17:18:22
+ * @Last Modified time: 2021-02-16 16:29:34
  */
 import { safeObject } from '@utils'
 import { getCoverMedium } from '@utils/app'
@@ -204,6 +204,23 @@ export async function fetchMono({ monoId = 0 }) {
         node = findTreeNode(children, 'div > div > h3 > span')
         const type = node ? String(node[0].attrs.class).substring(30, 31) : ''
 
+        // 20210216 适配第二个声优, 第三个不适配了
+        const cast2 = {}
+        node = findTreeNode(children, 'ul > li > a')
+        if (node) {
+          const cast = node?.[1]?.attrs?.title || ''
+          if (cast) {
+            cast2.cast = cast
+            cast2.castHref = node?.[1]?.attrs?.href || ''
+
+            node = findTreeNode(children, 'ul > li > div > small')
+            cast2.castTag = node?.[1]?.text[0] || ''
+
+            node = findTreeNode(children, 'ul > li > a > img')
+            cast2.castCover = String(node?.[1]?.attrs?.src).split('?')[0] || ''
+          }
+        }
+
         mono.jobs.push({
           href,
           name: HTMLDecode(name),
@@ -214,6 +231,7 @@ export async function fetchMono({ monoId = 0 }) {
           castHref,
           castTag,
           castCover,
+          cast2,
           type
         })
       })
