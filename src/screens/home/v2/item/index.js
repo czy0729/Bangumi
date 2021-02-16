@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-23 14:43:37
+ * @Last Modified time: 2021-02-17 04:33:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ function Item({ index, subjectId, subject, epStatus }, { $, navigation }) {
           >
             <Flex align='start'>
               <Flex.Item>
-                <Title subject={subject} />
+                <Title subjectId={subjectId} subject={subject} />
               </Flex.Item>
               <OnAir subjectId={subjectId} />
             </Flex>

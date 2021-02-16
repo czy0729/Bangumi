@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-10 03:58:19
+ * @Last Modified time: 2021-02-17 00:50:22
  */
 class Model {
   constructor(data) {
@@ -408,6 +408,10 @@ export const MODEL_SETTING_HOME_SORTING = new Model([
   {
     label: '网页',
     value: 'web'
+  },
+  {
+    label: '放送',
+    value: 'onair'
   }
 ])
 

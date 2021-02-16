@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 01:00:21
+ * @Last Modified time: 2021-02-17 01:31:49
  */
 import React from 'react'
 import { ScrollView, View, Alert } from 'react-native'
@@ -162,11 +162,10 @@ class ItemTimeline extends React.Component {
               })
             }
           >
-            {p1.text}
+            {p1.text}{' '}
           </Name>
         )}
         <Text type='sub' lineHeight={14}>
-          {' '}
           {p2.text}{' '}
         </Text>
         {this.renderP3()}

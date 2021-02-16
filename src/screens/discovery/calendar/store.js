@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-03 04:17:56
+ * @Last Modified time: 2021-02-17 02:47:18
  */
 import { observable, computed } from 'mobx'
 import { _, calendarStore, userStore, collectionStore } from '@stores'
@@ -54,7 +54,12 @@ export default class ScreenCalendar extends store {
             return {
               ...i,
               air,
-              timeCN: timeCN || timeJP || '2359'
+
+              /**
+               * @fixed 20210217 bangumi的每日放送是以日本放送日作为分组, 所以时间应以日本时间为主
+               * 避免刚好+1小时时差导致周几错误
+               */
+              timeCN: timeJP || timeCN || '2359'
             }
           })
           .filter(item => item.timeCN !== '2359') // 暂时把没有放送具体时间的番剧隐藏

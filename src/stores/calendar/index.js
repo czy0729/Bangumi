@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 20:30:47
+ * @Last Modified time: 2021-02-17 02:27:54
  */
 import { observable } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -204,7 +204,14 @@ class Calendar extends store {
         data[item.id] = {
           timeCN: item.timeCN,
           timeJP: item.timeJP,
-          weekDayCN: item.weekDayCN,
+
+          // weekDayCN === 0 为没国内放送, 使用weekDayJP, weekDayCN === 7 要转换为 0
+          weekDayCN:
+            item.weekDayCN === 0
+              ? item.weekDayJP
+              : item.weekDayCN === 7
+              ? 0
+              : item.weekDayCN,
           weekDayJP: item.weekDayJP
         }
         if (airEps.length) {

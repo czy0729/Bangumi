@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-21 16:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 15:39:43
+ * @Last Modified time: 2021-02-17 04:32:22
  */
 import React from 'react'
 import { observable, computed } from 'mobx'
@@ -423,6 +423,10 @@ export default class ScreenHomeV2 extends store {
     return calendarStore.onAir
   }
 
+  @computed get sortOnAir() {
+    return this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('放送')
+  }
+
   /**
    * 是否放送中
    */
@@ -437,7 +441,8 @@ export default class ScreenHomeV2 extends store {
       if (!item) {
         return false
       }
-      return item.weekDayCN === day || item.weekDayJP === day
+      // return item.weekDayJP === day || item.weekDayCN === day
+      return item.weekDayJP === day
     }).get()
   }
 
@@ -450,9 +455,10 @@ export default class ScreenHomeV2 extends store {
       if (!item) {
         return false
       }
-      return day === 7
-        ? item.weekDayCN === 1 || item.weekDayJP === 1
-        : item.weekDayCN === day + 1 || item.weekDayJP === day + 1
+      // return day === 6
+      //   ? item.weekDayJP === 0 || item.weekDayCN === 0
+      //   : item.weekDayJP === day + 1 || item.weekDayCN === day + 1
+      return day === 6 ? item.weekDayJP === 0 : item.weekDayJP === day + 1
     }).get()
   }
 
@@ -528,6 +534,7 @@ export default class ScreenHomeV2 extends store {
     const topMap = {}
     top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
 
+    // 网页顺序: 不需要处理
     if (this.homeSorting === MODEL_SETTING_HOME_SORTING.getValue('网页')) {
       return list.sort(
         (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
@@ -537,6 +544,33 @@ export default class ScreenHomeV2 extends store {
     try {
       // 计算每一个条目看过ep的数量
       const weightMap = {}
+
+      // 放送顺序: 根据今天星期几, 每天递减, 放送中的番剧优先
+      if (this.sortOnAir) {
+        list.forEach(item => {
+          const { subject_id: subjectId } = item
+          const weekDay = this.onAir[subjectId]?.weekDayJP
+          if (weekDay === undefined) {
+            weightMap[subjectId] = 1
+          } else if (this.isNextDay(subjectId)) {
+            weightMap[subjectId] = 1001
+          } else if (this.isToday(subjectId)) {
+            weightMap[subjectId] = 1000
+          } else if (day === 0 || weekDay <= day) {
+            weightMap[subjectId] = 100 + weekDay
+          } else {
+            weightMap[subjectId] = 10 + weekDay
+          }
+        })
+
+        return list
+          .sort((a, b) => weightMap[b.subject_id] - weightMap[a.subject_id])
+          .sort(
+            (a, b) => (topMap[b.subject_id] || 0) - (topMap[a.subject_id] || 0)
+          )
+      }
+
+      // APP顺序
       list.forEach(item => {
         const { subject_id: subjectId } = item
         const progress = this.userProgress(subjectId)
