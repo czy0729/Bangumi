@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 03:14:03
+ * @Last Modified time: 2021-02-17 06:06:09
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -945,6 +945,9 @@ class Tinygrail extends store {
           id: item.CharacterId,
           avatar: item.Avatar,
           name: item.CharacterName,
+          price: item.Price,
+          sacrifices: item.Sacrifices,
+          assets: item.Assets,
           extra: item.Extra,
           extraChange: item.Extra - lastItem.extra,
           rank,

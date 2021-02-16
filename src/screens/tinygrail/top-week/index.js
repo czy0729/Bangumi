@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:22:40
+ * @Last Modified time: 2021-02-17 06:07:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -179,6 +179,18 @@ class TinygrailTopWeek extends React.Component {
                                 </Text>
                               </>
                             )}
+                            <Text
+                              style={_.mt.xs}
+                              type='tinygrailText'
+                              size={11}
+                              align='right'
+                            >
+                              平均拍价：
+                              {formatNumber(
+                                (item.extra + item.price * item.sacrifices) /
+                                  item.assets
+                              )}
+                            </Text>
                           </Flex>
                         </View>
                       </Flex>
