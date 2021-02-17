@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.6.4" src="https://img.shields.io/badge/Version-4.6.4-0366d6" />
+  <img alt="Version: 4.7.0" src="https://img.shields.io/badge/Version-4.7.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -46,24 +46,26 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.6.4 - 2021/01/30
+v4.7.0 - 2021/02/18
+
+—— 新增 ——
+
+- [x] [发现] 推荐页面, 根据你的收藏, 猜测你喜欢的一些番剧 (实验性)
+- [x] [发现] 2020 年鉴入口
 
 —— 优化 ——
 
-- [x] 优化了启动后的流畅度
-- [x] [首页进度] 优化 APP 启动时渲染的条目数量, 加速滑动响应
-- [x] [帖子] APP 内很多元素左右分布的 UI, 都会把元素调整到左边, 浏览更舒服
-- [x] [私信] 打字的工具条增加图床入口
-- [x] [索引] 添加方格布局, 和向前/后一个月的按钮
-- [x] [排行榜] 切换筛选条件时列表不会再闪一下
-- [x] 右上角 type UI 迭代
+- [x] [首页收藏] 新增按放送时间排序,可在设置里面设定, 若设置还会显示放送星期几
+- [x] [发现] 优化了所有年鉴的加载速度
 
 —— 修复 ——
 
-- [x] [安卓] 修复了安卓设备黑暗模式, 页面切换的时候, 掉帧时右侧会出现白色的问题
-- [x] [搜索] 修复查询人物失败的问题
-- [x] [PM] UI 迭代, 与吐槽页一致
-- [x] 游客访问敏感图片, 使用默认图片
+- [x] [角色] 适配同一角色多个声优的情况 (比如角色有中/日声优)
+- [x] [每日放送] 修复部分条目星期错误, 因为数据是多源头的, 主要按日本时间为主, 会有部分番剧不准确, 仅供参考
+
+—— 小圣杯 3.2.3 ——
+
+- [x] [每周萌王] 显示平均拍价
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
