@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-17 19:40:05
+ * @Last Modified time: 2021-02-18 14:28:06
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -29,7 +29,7 @@ export const HOST_2 = 'https://bangumi.tv' // 备用域名
 export const HOST_3 = 'https://chii.in'
 export const HOST_NING_MOE = 'https://www.ningmoe.com' // 柠萌瞬间地址
 export const HOST_ANITAMA = 'https://app.anitama.net' // Anitama api地址
-export const HOST_MANGA = 'https://tinygrail.mange.cn/app/index.html' // https://a402731062.gitee.io/manga
+export const HOST_MANGA = 'https://tinygrail.mange.cn/app' // https://a402731062.gitee.io/manga
 
 // URL
 export const URL_OAUTH = `${HOST}/oauth/authorize` // 登陆v1.0 oauth地址

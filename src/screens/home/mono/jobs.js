@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 16:29:26
+ * @Last Modified time: 2021-02-18 19:07:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -143,32 +143,32 @@ function Jobs({ style }, { $, navigation }) {
                 )}
               </Flex>
 
-              {!!item.cast2.cast && (
+              {!!item?.cast2?.cast && (
                 <Flex style={_.mt.md} align='start'>
                   <Flex.Item>
                     <Text style={_.mt.xs} size={12} align='right' bold>
-                      {item.cast2.cast}
+                      {item?.cast2?.cast}
                     </Text>
-                    {!!item.cast2.castTag && (
+                    {!!item?.cast2?.castTag && (
                       <Text style={_.mt.xs} size={10} type='sub' align='right'>
-                        {item.cast2.castTag}
+                        {item?.cast2?.castTag}
                       </Text>
                     )}
                   </Flex.Item>
-                  {!!item.cast2.castCover && (
+                  {!!item?.cast2?.castCover && (
                     <View style={_.ml.sm}>
                       <Image
                         size={40}
-                        src={item.cast2.castCover}
+                        src={item?.cast2?.castCover}
                         radius
                         shadow
                         onPress={() =>
                           appNavigate(
-                            item.cast2.castHref,
+                            item?.cast2?.castHref,
                             navigation,
                             {
-                              _name: item.cast2.cast,
-                              _image: getCoverMedium(item.cast2.castCover)
+                              _name: item?.cast2?.cast,
+                              _image: getCoverMedium(item?.cast2?.castCover)
                             },
                             event
                           )

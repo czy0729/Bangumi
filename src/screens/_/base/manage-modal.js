@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-18 14:10:11
+ * @Last Modified time: 2021-02-18 19:11:43
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { Button, Flex, Input, Text, Touchable } from '@components'
 import Modal from '@components/@/ant-design/modal'
-import { _, collectionStore, subjectStore } from '@stores'
+import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
 import StarGroup from './star-group'
 import StatusBtnGroup from './status-btn-group'
@@ -21,6 +21,7 @@ const initState = {
   fetching: false,
   rating: 0,
   tags: '',
+  showTags: true,
   comment: '',
   status: '',
   privacy: MODEL_PRIVATE.getValue('公开')
@@ -43,6 +44,9 @@ class ManageModal extends React.Component {
   commentRef
 
   componentDidMount() {
+    this.setState({
+      showTags: systemStore.setting.showTags
+    })
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
   }
 
@@ -129,7 +133,8 @@ class ManageModal extends React.Component {
   fetchTags = async () => {
     const { subjectId } = this.props
     this.setState({
-      fetching: true
+      fetching: true,
+      showTags: true
     })
     await subjectStore.fetchSubjectFormHTML(subjectId)
 
@@ -179,7 +184,8 @@ class ManageModal extends React.Component {
     }
 
     const { _loaded, tags } = this.subjectFormHTML
-    if (!_loaded) {
+    const { showTags } = this.state
+    if (!_loaded || !showTags) {
       return (
         <Touchable style={_.ml.xs} onPress={this.fetchTags}>
           <Text size={13} underline>

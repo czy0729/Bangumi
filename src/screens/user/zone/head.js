@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 22:54:04
+ * @Last Modified time: 2021-02-18 18:35:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -149,7 +149,7 @@ function Head({ style }, { $, navigation }) {
           </Text>
         )}
       </Text>
-      <User style={styles.r0} />
+      <User style={styles.r0} />{/* #gitignore */}
     </Flex>
   )
 }
