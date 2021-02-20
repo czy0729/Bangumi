@@ -3,22 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-08-18 22:44:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-16 04:52:08
+ * @Last Modified time: 2021-02-20 17:53:08
  */
 const widthSubject = '30vw'
 const widthSubjectSm = '28vw'
 const widthMono = '20vw'
 const heightMono = `${widthMono * 1.32}vw`
-const hiddenStyle = `
-  .shareBtn,
-  #headerNeue2,
-  #personalStatsWrapper,
-  #personalTabStats,
-  #main,
-  #dock {
-    display: none;
-  }
-`
+// const hiddenStyle = `
+//   .shareBtn,
+//   #headerNeue2,
+//   #personalStatsWrapper,
+//   #personalTabStats,
+//   #main,
+//   #dock {
+//     display: none;
+//   }
+// `
 
 /**
  * 样式遍历加上important
@@ -81,7 +81,6 @@ export default {
       display: block;
       padding: 0 8px;
     }
-    ${hiddenStyle}
   `),
   2017: important(`
     /* 频道 */
@@ -96,7 +95,6 @@ export default {
       width: ${widthMono};
       height: ${heightMono};
     }
-    ${hiddenStyle}
   `),
   2016: important(`
     /* 文档 */
@@ -175,7 +173,6 @@ export default {
     #awardSpecial p.sign {
       width: 100%;
     }
-    ${hiddenStyle}
   `),
   2015: important(`
     /* 文档 */
@@ -189,7 +186,7 @@ export default {
       background: #f3f2ee;
     }
     /* 大标题 */
-    #headerAward {
+    #headerVertical {
       display: none;
     }
     #headerVertical {
@@ -269,11 +266,10 @@ export default {
     #chl_community span.tip_i {
       color: #444;
     }
-    #headerAward div.musume,
+    // #headerAward div.musume,
     #awardFooter {
       display: none;
     }
-    ${hiddenStyle}
   `),
   2014: important(`
     /* 文档 */
@@ -285,9 +281,6 @@ export default {
     #headerVertical {
       width: 100%;
       padding: 40px 0;
-    }
-    #personalStatsWrapper {
-      display: none;
     }
     /* 章节 */
     .channelStatsWrapper .columns {
@@ -339,7 +332,6 @@ export default {
     .columnGrid ul.grid li.avatar small.fade {
       width: 100%;
     }
-    ${hiddenStyle}
   `),
   2013: important(`
     /* 文档 */
@@ -397,7 +389,6 @@ export default {
     .columnGrid ul.grid li span.avatar {
       border: 0;
     }
-    ${hiddenStyle}
   `),
   2012: important(`
     /* 文档 */
@@ -452,7 +443,6 @@ export default {
     .columnGrid ul.grid li.avatar small.fade {
       width: 100%;
     }
-    ${hiddenStyle}
   `),
   2011: important(`
     /* 文档 */
@@ -504,7 +494,6 @@ export default {
       width: 100%;
       height: 100%;
     }
-    ${hiddenStyle}
   `),
   2010: important(`
     /* 文档 */
@@ -547,6 +536,5 @@ export default {
       display: block;
       padding: 8px;
     }
-    ${hiddenStyle}
   `)
 }
