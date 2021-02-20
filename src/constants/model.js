@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-17 00:50:22
+ * @Last Modified time: 2021-02-20 17:28:22
  */
 class Model {
   constructor(data) {
@@ -364,7 +364,7 @@ export const MODEL_SEARCH_CAT = new Model([
   {
     label: '人物',
     value: 'mono_all'
-  }
+  },
   // {
   //   label: '虚拟角色',
   //   value: 'mono_crt'
@@ -373,6 +373,10 @@ export const MODEL_SEARCH_CAT = new Model([
   //   label: '现实人物',
   //   value: 'mono_prsn'
   // }
+  {
+    label: '用户',
+    value: 'user'
+  }
 ])
 
 // 搜索细度

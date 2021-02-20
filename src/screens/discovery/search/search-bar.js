@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 00:21:21
+ * @Last Modified time: 2021-02-20 17:40:01
  */
 import React from 'react'
 import { Input } from '@components'
@@ -10,22 +10,23 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SEARCH_CAT } from '@constants/model'
 
-function SearchBar(props, { $ }) {
+function SearchBar({ onPress }, { $ }) {
   const styles = memoStyles()
   const { cat, value } = $.state
+  const label = MODEL_SEARCH_CAT.getLabel(cat)
   return (
     <Input
       style={[
         styles.searchIpt,
-        MODEL_SEARCH_CAT.getLabel(cat) === '人物' && styles.radius
+        ['人物', '用户'].includes(label) && styles.radius
       ]}
       value={value}
       returnKeyType='search'
       returnKeyLabel='搜索'
-      placeholder='输入关键字'
+      placeholder={label === '用户' ? '输入完整的用户Id' : '输入关键字'}
       autoFocus
       onChange={$.onChange}
-      onSubmitEditing={() => $.doSearch(true)}
+      onSubmitEditing={onPress}
     />
   )
 }

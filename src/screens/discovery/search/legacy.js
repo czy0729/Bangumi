@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-28 13:37:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:48:09
+ * @Last Modified time: 2021-02-20 17:30:12
  */
 import React from 'react'
 import { Button, Heatmap } from '@components'
@@ -15,7 +15,7 @@ const data = MODEL_SEARCH_LEGACY.data.map(item => item.label)
 
 function Legacy(props, { $ }) {
   const { cat, legacy } = $.state
-  if (MODEL_SEARCH_CAT.getLabel(cat) === '人物') {
+  if (['人物', '用户'].includes(MODEL_SEARCH_CAT.getLabel(cat))) {
     return null
   }
 
