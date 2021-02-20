@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 15:54:13
+ * @Last Modified time: 2021-02-20 15:44:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
 import { _ } from '@stores'
+import { showImageViewer } from '@utils/ui'
 
 function ItemSetting({
   style,
@@ -18,6 +19,7 @@ function ItemSetting({
   arrow,
   information,
   informationType,
+  thumb,
   children,
   onPress,
   ...other
@@ -31,18 +33,36 @@ function ItemSetting({
     <View style={styles.item}>
       <Flex>
         <Flex.Item>
-          <Text type='title' size={16} bold>
-            {hd}
-          </Text>
+          <Flex>
+            <Text type='title' size={16} bold>
+              {hd}
+            </Text>
+            {!!thumb && (
+              <Touchable
+                style={_.ml.sm}
+                onPress={() =>
+                  showImageViewer([
+                    {
+                      url: thumb
+                    }
+                  ])
+                }
+              >
+                <Iconfont name='information' />
+              </Touchable>
+            )}
+          </Flex>
         </Flex.Item>
         {typeof ft === 'string' ? <Text type='sub'>{ft}</Text> : ft}
         {arrow && <Iconfont style={_.ml.xs} size={14} name='right' />}
       </Flex>
-      {information && (
-        <Text style={styles.information} type={informationType} size={12}>
-          {information}
-        </Text>
-      )}
+      <Flex>
+        {information && (
+          <Text style={styles.information} type={informationType} size={12}>
+            {information}
+          </Text>
+        )}
+      </Flex>
       {children}
     </View>
   )

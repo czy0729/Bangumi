@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-19 00:46:19
+ * @Last Modified time: 2021-02-20 16:15:27
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, tinygrailStore, systemStore } from '@stores'
+import { open } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
@@ -153,6 +154,13 @@ export default class ScreenMono extends store {
     this.setState({
       showHeaderTitle
     })
+
+  onMore = () =>
+    open(
+      `https://mzh.moegirl.org.cn/index.php?title=${encodeURIComponent(
+        this.cn || this.jp
+      )}&mobileaction=toggle_view_mobile`
+    )
 
   // -------------------- action --------------------
   /**
