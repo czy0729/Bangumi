@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-02 02:57:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-05 16:07:39
+ * @Last Modified time: 2021-02-20 17:23:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -93,22 +93,37 @@ const menus = [
     path: 'UserTimeline',
     login: true
   },
-  // {
-  //   title: '好友',
-  //   icon: 'friends',
-  //   path: 'Friends',
-  //   login: true
-  // },
-  // {
-  //   title: '我的人物',
-  //   icon: 'like',
-  //   path: 'Character',
-  //   login: true
-  // },
+  {
+    title: '好友',
+    icon: 'friends',
+    path: 'Friends',
+    login: true
+  },
   {
     title: 'Anitama',
     icon: 'anitama',
     path: 'Anitama'
+  },
+  {
+    title: '我的人物',
+    icon: 'list',
+    iconList: 'like',
+    path: 'Character',
+    login: true
+  },
+  {
+    title: '我的目录',
+    icon: 'list',
+    iconList: 'bag',
+    path: 'Catalogs',
+    login: true
+  },
+  {
+    title: '我的日志',
+    icon: 'list',
+    iconList: 'ri-zhi',
+    path: 'Blogs',
+    login: true
   },
   {
     title: '收起',
@@ -196,12 +211,23 @@ function Menu(props, { $, navigation }) {
                         fadeDuration={0}
                       />
                     ) : (
-                      <Iconfont
-                        style={item.path === 'close' && styles.rotate}
-                        name={item.icon}
-                        size={26}
-                        color={_.__colorPlain__}
-                      />
+                      <>
+                        <Iconfont
+                          style={item.path === 'close' && styles.rotate}
+                          name={item.icon}
+                          size={26}
+                          color={_.__colorPlain__}
+                        />
+                        {!!item.iconList && (
+                          <Flex style={styles.iconList} justify='center'>
+                            <Iconfont
+                              name={item.iconList}
+                              size={item.iconList === 'ri-zhi' ? 14 : 15}
+                              color={_.__colorPlain__}
+                            />
+                          </Flex>
+                        )}
+                      </>
                     )}
                   </Flex>
                 </View>
@@ -237,13 +263,22 @@ const memoStyles = _.memoStyles(_ => ({
     width: itemWidth
   },
   iconWrap: {
-    width: 52
+    width: 50
   },
   icon: {
-    width: 52,
-    height: 52,
+    width: 50,
+    height: 50,
     backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-    borderRadius: 52
+    borderRadius: 50
+  },
+  iconList: {
+    position: 'absolute',
+    right: 8,
+    bottom: 11,
+    width: 18,
+    height: 18,
+    backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
+    overflow: 'hidden'
   },
   rotate: {
     transform: [

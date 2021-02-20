@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:22:16
+ * @Last Modified time: 2021-02-20 16:48:09
  */
 import React from 'react'
 import { Flex, Input, Touchable, Text, Activity } from '@components'
@@ -18,7 +18,6 @@ function SearchBar(props, { $, navigation }) {
         <Input
           style={styles.searchIpt}
           value={value}
-          keyboardType='numeric'
           returnKeyType='search'
           placeholder='输入角色名字或id'
           placeholderTextColor={_.colorTinygrailText}
