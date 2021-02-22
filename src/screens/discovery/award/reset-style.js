@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-18 22:44:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 17:53:08
+ * @Last Modified time: 2021-02-20 18:23:28
  */
 const widthSubject = '30vw'
 const widthSubjectSm = '28vw'

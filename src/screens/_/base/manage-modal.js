@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-18 19:11:43
+ * @Last Modified time: 2021-02-22 10:31:48
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { Button, Flex, Input, Text, Touchable } from '@components'
 import Modal from '@components/@/ant-design/modal'
+import { setStorage, getStorage } from '@utils'
 import { _, collectionStore, subjectStore, systemStore } from '@stores'
 import { MODEL_PRIVATE } from '@constants/model'
 import StarGroup from './star-group'
@@ -26,6 +27,7 @@ const initState = {
   status: '',
   privacy: MODEL_PRIVATE.getValue('公开')
 }
+const storageKey = 'ManageModal|privacy'
 
 export default
 @observer
@@ -43,9 +45,12 @@ class ManageModal extends React.Component {
   state = initState
   commentRef
 
-  componentDidMount() {
+  async componentDidMount() {
+    const privacy =
+      (await getStorage(storageKey)) || MODEL_PRIVATE.getValue('公开')
     this.setState({
-      showTags: systemStore.setting.showTags
+      showTags: systemStore.setting.showTags,
+      privacy
     })
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
   }
@@ -69,13 +74,17 @@ class ManageModal extends React.Component {
           private: privacy,
           status = {}
         } = await collectionStore.fetchCollection(subjectId)
-        this.setState({
+
+        const state = {
           rating,
           tags: tag.join(' '),
           comment,
-          status: status.type,
-          privacy
-        })
+          status: status.type
+        }
+        if (privacy !== undefined) {
+          state.privacy = privacy
+        }
+        this.setState(state)
       }
     }
   }
@@ -125,9 +134,11 @@ class ManageModal extends React.Component {
   togglePrivacy = () => {
     const { privacy } = this.state
     const label = MODEL_PRIVATE.getLabel(privacy)
+    const _privacy = MODEL_PRIVATE.getValue(label === '公开' ? '私密' : '公开')
     this.setState({
-      privacy: MODEL_PRIVATE.getValue(label === '公开' ? '私密' : '公开')
+      privacy: _privacy
     })
+    setStorage(storageKey, _privacy)
   }
 
   fetchTags = async () => {
@@ -241,6 +252,7 @@ class ManageModal extends React.Component {
       status,
       privacy
     } = this.state
+    const label = MODEL_PRIVATE.getLabel(privacy)
     return (
       <Modal
         style={[this.styles.modal, focus && this.styles.focus]}
@@ -298,10 +310,10 @@ class ManageModal extends React.Component {
                 </Flex.Item>
                 <Button
                   style={[this.styles.btnEye, _.ml.sm]}
-                  type='ghostMain'
+                  type={label === '公开' ? 'ghostMain' : 'ghostPlain'}
                   onPress={this.togglePrivacy}
                 >
-                  {MODEL_PRIVATE.getLabel(privacy)}
+                  {label}
                 </Button>
               </Flex>
             </Flex>
