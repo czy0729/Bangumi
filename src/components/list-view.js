@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-10 20:00:11
+ * @Last Modified time: 2021-02-23 10:45:05
  */
 import React from 'react'
 import {
@@ -18,8 +18,14 @@ import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { _, systemStore } from '@stores'
 import { sleep, date, simpleTime } from '@utils'
-import { randomSpeech } from '@constants/speech'
 import { LIST_EMPTY } from '@constants'
+import {
+  TEXT_REFRESHING,
+  TEXT_FAIL,
+  TEXT_NO_MORE,
+  TEXT_EMPTY
+} from '@constants/text'
+import { randomSpeech } from '@constants/speech'
 import Flex from './flex'
 import Mesume from './mesume'
 import Text from './text'
@@ -48,10 +54,10 @@ class ListView extends React.Component {
     progressViewOffset: undefined,
     refreshControlProps: {},
     renderItem: undefined,
-    footerRefreshingText: '加载中...',
-    footerFailureText: '居然失败了 =.=!',
-    footerNoMoreDataText: '到底啦',
-    footerEmptyDataText: '好像什么都没有',
+    footerRefreshingText: TEXT_REFRESHING,
+    footerFailureText: TEXT_FAIL,
+    footerNoMoreDataText: TEXT_NO_MORE,
+    footerEmptyDataText: TEXT_EMPTY,
     footerTextType: 'sub',
     optimize: true, // 是否开启长列表优化
     showFooter: true,

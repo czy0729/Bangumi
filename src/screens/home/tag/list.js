@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:55:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-26 20:56:10
+ * @Last Modified time: 2021-02-23 10:41:24
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
 import { ItemSearch, ItemCollectionsGrid } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { keyExtractor } from '@utils/app'
+import { keyExtractor, x18s } from '@utils/app'
+import { TEXT_18X } from '@constants/text'
 
 const event = {
   id: '用户标签.跳转'
@@ -104,6 +105,7 @@ class List extends React.Component {
         numColumns={numColumns}
         data={$.tag}
         scrollToTop
+        footerEmptyDataText={x18s($.params.tag) ? TEXT_18X : undefined}
         renderItem={this.renderItem}
         onHeaderRefresh={this.onHeaderRefresh}
         onFooterRefresh={this.onFooterRefresh}
