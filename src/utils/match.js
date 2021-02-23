@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 23:15:07
+ * @Last Modified time: 2021-02-23 15:53:48
  */
 
 /**
@@ -72,4 +72,21 @@ export function matchBgmUrl(str = '', returnAll = false) {
       /https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g
     ) || []
   return returnAll ? matchs : matchs[0] || ''
+}
+
+/**
+ * 从头像地址匹配用户Id
+ * @param {*} str
+ */
+export function matchUserIdFromAvatar(str = '') {
+  if (!str) {
+    return 0
+  }
+
+  const match = str.match(/\/(\d+).jpg/)
+  if (!match) {
+    return 0
+  }
+
+  return match[1]
 }

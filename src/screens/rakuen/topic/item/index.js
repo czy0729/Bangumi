@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:05:12
+ * @Last Modified time: 2021-02-23 19:47:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,6 +44,10 @@ function Item(
   },
   { $, navigation }
 ) {
+  if ($.isBlockUser(userId, userName, replySub)) {
+    return null
+  }
+
   const msg = decoder(message)
   if ($.filterDelete && msg.includes('内容已被用户删除')) {
     return null
@@ -104,6 +108,7 @@ function Item(
           <IconExtra
             replySub={replySub}
             erase={erase}
+            userId={userId}
             userName={userName}
             showFixedTextare={showFixedTextare}
           />

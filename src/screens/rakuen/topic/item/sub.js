@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 20:04:46
+ * @Last Modified time: 2021-02-23 19:47:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { getTimestamp, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { appNavigate } from '@utils/app'
 import { removeHTMLTag } from '@utils/html'
+import { matchUserIdFromAvatar } from '@utils/match'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import UserLabel from '../user-label'
 import FloorText from '../floor-text'
@@ -44,6 +45,10 @@ function ItemSub(
   },
   { $, navigation }
 ) {
+  if ($.isBlockUser(userId, userName, replySub)) {
+    return null
+  }
+
   const msg = removeHTMLTag(decoder(message))
   if ($.filterDelete && msg.includes('内容已被用户删除')) {
     return null
@@ -65,14 +70,22 @@ function ItemSub(
     )
   }
 
+  // 回复引用的用户是屏蔽用户也要隐藏
+  const quoteUserName = msg.match(/^(.+?)说:/)?.[1]
+  const quoteUser = $.postUsersMap[quoteUserName]
+  if (quoteUser) {
+    const quoteUserId = matchUserIdFromAvatar(quoteUser.avatar)
+    if (quoteUserId && $.isBlockUser(quoteUserId, quoteUserName)) {
+      return null
+    }
+  }
+
   const styles = memoStyles()
   const isAuthor = authorId === userId
   const isLayer = !isAuthor && uid === userId
   const isFriend = $.myFriendsMap[userId]
   const isNew = !!readedTime && getTimestamp(time) > readedTime
   const isJump = !!postId && postId === id
-  const quoteUserName = msg.match(/^(.+?)说:/)?.[1]
-  const quoteUser = $.postUsersMap[quoteUserName]
 
   return (
     <Flex
@@ -109,6 +122,7 @@ function ItemSub(
           <IconExtra
             replySub={replySub}
             erase={erase}
+            userId={userId}
             userName={userName}
             message={message}
             showFixedTextare={showFixedTextare}

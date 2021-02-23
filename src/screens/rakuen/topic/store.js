@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 22:42:33
+ * @Last Modified time: 2021-02-23 19:52:16
  */
 import { observable, computed } from 'mobx'
 import {
@@ -305,6 +305,35 @@ export default class ScreenTopic extends store {
       })
     })
     return postUsersMap
+  }
+
+  /**
+   * 是否屏蔽用户
+   * @param {*} userId
+   * @param {*} userName
+   */
+  isBlockUser(userId, userName, replySub = '') {
+    return computed(() => {
+      const { blockUserIds } = rakuenStore.setting
+      const findIndex = blockUserIds.findIndex(item => {
+        const [itemUserName, itemUserId] = item.split('@')
+        if (itemUserId === 'undefined') {
+          return itemUserName === userName
+        }
+
+        // userId 可能是用户更改后的英文单词, 但是外面屏蔽的 userId 一定是整数id
+        // 所以需要优先使用 subReply('group',361479,1773295,0,456208,[572818],0) 中的userId进行匹配
+        if (replySub) {
+          const splits = replySub.split(',')
+          if (splits.length === 7 && itemUserId == splits[5]) {
+            return true
+          }
+        }
+
+        return itemUserId == userId || itemUserName === userName
+      })
+      return findIndex !== -1
+    }).get()
   }
 
   // -------------------- get: cdn fallback --------------------
