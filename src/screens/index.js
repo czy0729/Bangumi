@@ -1,8 +1,9 @@
 /*
+ * 58 + 28
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-03 22:49:57
+ * @Last Modified time: 2021-02-28 14:16:13
  */
 // Login
 export { default as Auth } from './login/auth'
@@ -100,6 +101,7 @@ export { default as TinygrailRelation } from './tinygrail/relation'
 export { default as TinygrailRich } from './tinygrail/rich'
 export { default as TinygrailSacrifice } from './tinygrail/sacrifice'
 export { default as TinygrailSearch } from './tinygrail/search'
+export { default as TinygrailStar } from './tinygrail/star'
 export { default as TinygrailTemples } from './tinygrail/temples'
 export { default as TinygrailTopWeek } from './tinygrail/top-week'
 export { default as TinygrailTrade } from './tinygrail/trade'

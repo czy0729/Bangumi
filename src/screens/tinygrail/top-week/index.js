@@ -62,7 +62,7 @@ class TinygrailTopWeek extends React.Component {
         <ScrollView
           style={_.container.flex}
           contentContainerStyle={_.container.bottom}
-          scrollToTOP
+          scrollToTop
         >
           {list.map((item, index) => {
             let changeColor

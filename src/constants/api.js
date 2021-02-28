@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-06 17:00:45
+ * @Last Modified time: 2021-02-28 17:37:05
  */
 import { HOST } from './index'
 
@@ -513,3 +513,15 @@ export const API_TINYGRAIL_DAILY_COUNT = () =>
  */
 export const API_TINYGRAIL_INIT = monoId =>
   `${API_HOST_TINYGRAIL}/api/chara/init/${monoId}/10000`
+
+/**
+ * 通天塔(α)
+ */
+export const API_TINYGRAIL_STAR = (page = 1, limit = 50) =>
+  `${API_HOST_TINYGRAIL}/api/chara/babel/${page}/${limit}`
+
+/**
+ * 通天塔(α) 排行记录
+ */
+export const API_TINYGRAIL_STAR_LOGS = (page = 1, limit = 50) =>
+  `${API_HOST_TINYGRAIL}/api/chara/star/log/${page}/${limit}`

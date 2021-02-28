@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-17 06:06:09
+ * @Last Modified time: 2021-02-28 17:50:03
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -63,6 +63,8 @@ import {
   API_TINYGRAIL_LINK,
   API_TINYGRAIL_DAILY_COUNT,
   API_TINYGRAIL_INIT,
+  API_TINYGRAIL_STAR,
+  API_TINYGRAIL_STAR_LOGS,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants/api'
 import UserStore from '../user'
@@ -362,6 +364,18 @@ class Tinygrail extends store {
     },
 
     /**
+     * 通天塔(α)
+     */
+    star: {
+      0: LIST_EMPTY
+    },
+
+    /**
+     * 通天塔(α)记录
+     */
+    starLogs: LIST_EMPTY,
+
+    /**
      * iOS此刻是否显示WebView
      *  - 此bug在sdk37下已不存在
      *  - 新的WKWebView已代替老的UIWebView, 但是当前版本新的有一个致命的问题,
@@ -407,6 +421,7 @@ class Tinygrail extends store {
         'nbc',
         'recent',
         'rich',
+        'star',
         'temple',
         'topWeek',
         'userLogs',
@@ -2085,6 +2100,89 @@ class Tinygrail extends store {
     // })
     // this.setStorage(key, undefined, NAMESPACE)
     // return Promise.resolve(data)
+  }
+
+  /**
+   * 通天塔(α)
+   * @param {*} page
+   * @param {*} limit
+   */
+  fetchStar = async (page = 1, limit = 50) => {
+    const result = await this.fetch(API_TINYGRAIL_STAR(page, limit))
+
+    let data = {
+      ...LIST_EMPTY
+    }
+
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.map(item => ({
+          id: item.Id,
+          name: item.Name,
+          icon: item.Icon,
+          current: Number(toFixed(item.Current, 2)),
+          bonus: item.Bonus,
+          rate: Number(toFixed(item.Rate, 2)),
+          level: item.Level,
+          rank: item.Rank,
+          starForces: item.StarForces,
+          stars: item.Stars
+        })),
+        pagination: paginationOnePage,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'star'
+    this.setState({
+      [key]: {
+        [`${page}|${limit}`]: data
+      }
+    })
+    this.setStorage(key, undefined, NAMESPACE)
+
+    return Promise.resolve(data)
+  }
+
+  /**
+   * 通天塔(α)记录
+   * @param {*} page
+   * @param {*} limit
+   */
+  fetchStarLogs = async (page = 1, limit = 100) => {
+    const result = await this.fetch(API_TINYGRAIL_STAR_LOGS(page, limit))
+
+    let data = {
+      ...LIST_EMPTY
+    }
+
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map(item => ({
+          id: item.Id,
+          monoId: item.CharacterId,
+          fromMonoId: item.FromCharacterId,
+          name: item.CharacterName,
+          icon: item.Icon,
+          amount: item.Amount,
+          oldRank: item.OldRank,
+          rank: item.Rank,
+          userName: item.Nickname,
+          userId: item.UserName
+        })),
+        pagination: paginationOnePage,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'starLogs'
+    this.setState({
+      [key]: data
+    })
+
+    return Promise.resolve(data)
   }
 
   // -------------------- page --------------------

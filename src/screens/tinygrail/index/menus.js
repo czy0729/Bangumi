@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:16:00
+ * @Last Modified time: 2021-02-28 15:14:13
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -24,7 +24,8 @@ function Menus(props, { $ }) {
       <MenuItem title='英灵殿' pathname='TinygrailValhall' icon='app' />
       <MenuItem title='最新圣殿' pathname='TinygrailTemples' icon='break' />
       <MenuItem title='每周萌王' pathname='TinygrailTopWeek' icon='like' />
-      <MenuItem title='人物查询' pathname='TinygrailSearch' icon='search' />
+      <MenuItem title='通天塔(α)' pathname='TinygrailStar' icon='search' />
+      {/* <MenuItem title='人物查询' pathname='TinygrailSearch' icon='search' /> */}
       <Assets />
       <MenuItem
         style={{
