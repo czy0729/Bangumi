@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-28 17:50:03
+ * @Last Modified time: 2021-03-02 19:54:59
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
-import { getTimestamp, toFixed, throttle } from '@utils'
+import { getTimestamp, toFixed, throttle, lastDate } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { queue, xhrCustom } from '@utils/fetch'
@@ -2170,7 +2170,8 @@ class Tinygrail extends store {
           oldRank: item.OldRank,
           rank: item.Rank,
           userName: item.Nickname,
-          userId: item.UserName
+          userId: item.UserName,
+          time: lastDate(getTimestamp(item.LogTime.replace('T', ' ')))
         })),
         pagination: paginationOnePage,
         _loaded: getTimestamp()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 16:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-03-21 01:32:17
+ * @Last Modified time: 2021-03-01 18:18:43
  */
 import { _ } from '@stores'
 
@@ -17,3 +17,8 @@ export const withHeaderParams = () => ({
   iconBackColor: _.colorTinygrailPlain,
   statusBarEvents: false
 })
+
+export const refreshControlProps = {
+  titleColor: _.colorTinygrailText,
+  tintColor: _.colorTinygrailText
+}

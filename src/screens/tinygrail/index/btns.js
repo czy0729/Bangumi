@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:15:30
+ * @Last Modified time: 2021-03-02 22:57:52
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'
 
-const dataMore = ['重新授权', '意见反馈', '设置']
+const dataMore = ['重新授权', '粘贴板', '意见反馈', '设置']
 
 function Btns(props, { $, navigation }) {
   const styles = memoStyles()
@@ -93,6 +93,10 @@ function Btns(props, { $, navigation }) {
             switch (title) {
               case '重新授权':
                 $.doAuth()
+                break
+
+              case '粘贴板':
+                navigation.push('TinygrailClipboard')
                 break
 
               case '意见反馈':
