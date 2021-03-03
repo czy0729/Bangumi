@@ -23,7 +23,7 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 [安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [酷安市场下载](https://www.coolapk.com/apk/235642)
 
-苹果开发者账号已过期, 期间没能过审, 有缘再送审.
+苹果开发者账号已过期, 期间没能过审, 有缘再送审
 [TestFlight](https://testflight.apple.com/join/pAaJ0MWU) | [Expo 试用方法](https://github.com/czy0729/Bangumi/blob/master/IOS-TEST.MD) | [Expo 主页](https://expo.io/@bgm-ios-test/bangumi-pro)
 
 ## Features
@@ -103,7 +103,7 @@ v4.7.0 - 2021/02/18
 
 ## 后续迭代
 
-现版本基本用户需要的功能已齐全, 接下来会使用友盟收集到的埋点数据(匿名), 尝试学习数据分析, 根据结果计划后续版本迭代的方向.
+现版本基本用户需要的功能已齐全, 接下来会使用友盟收集到的埋点数据(匿名), 尝试学习数据分析, 根据结果计划后续版本迭代的方向
 
 [[bangumi-analysis]](https://github.com/czy0729/Bangumi-Analysis) 脱敏埋点数据
 
@@ -111,7 +111,7 @@ v4.7.0 - 2021/02/18
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/1.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/2.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/3.png" width="188" /><img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Analysis@master/screenshots/4.png" width="188" />
 
-可以一眼了解到哪些功能需求强, 可以进行迭代, 也能明确哪些功能需求偏低, 适当进行隐藏或者移除. 发现存在 0 数据的事件, 可以考虑是不是埋点写法出了问题.
+可以一眼了解到哪些功能需求强, 可以进行迭代, 也能明确哪些功能需求偏低, 适当进行隐藏或者移除, 发现存在 0 数据的事件, 可以考虑是不是埋点写法出了问题
 
 ## 免责声明
 
@@ -121,14 +121,13 @@ v4.7.0 - 2021/02/18
 
 ## 本地开发
 
-** 提醒 **
+** 提示 **
 
-最近项目使用的 Expo SDK 因官方问题, 现最新版本想在电脑上面跑起来需要手动修改包.
-你可以 fork 完后切换到 tag v4.0.0 的版本进行尝试跑起来
+本人一直在 mac 环境下开发, iOS 跑 expo 客户端调试, 安卓跑真机 usb 调试, window 用法不详, 遇到跑不起来, 不要太过折腾, window 和 mac 的环境差异还是比较大的, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档, 您可以选择同一局域网真机扫码调试, 需先下载 Expo App,
 
 ** 下载 **
 
-推荐使用 npm, 切换 npm 官方源可以按下面操作
+推荐使用 npm, 切换 npm 官方源可以按下面操作, 不建议使用 taobao 源头, 可能会在跑环境时提示不允许代理,
 
 ```bash
 npm config set registry https://registry.npmjs.org
@@ -139,12 +138,20 @@ npm config set registry https://registry.npmjs.org
 ```bash
 git clone https://github.com/czy0729/Bangumi
 cd ./Bangumi
-npm install // 不推荐使用 yarn, 因为后面会魔改 node_modules, 使用 yarn 会被识别并还原
+npm install // 不推荐使用 yarn, 因为项目部分库较旧的原因, 无法使用最新的包, 会手动修改 node_modules, 每次使用 yarn 新安装包会被识别并还原
 ```
+
+** iOS 安装包遇到 react-native 包找不到的问题 **
+
+最近项目使用的 Expo SDK 因官方问题, 现最新版本想在电脑上面跑起来需要手动修改包, 这个 sdk-39.0.3.tar.gz 的包我已经上传到蓝奏云, 下载后放在根目录再 install, 或者你可以尝试使用 0.63.x 的 rn 版本
 
 ** 前置操作, 否则 App 内图标均为问号 **
 
-自定义 Iconfont, 把 assets/iconfont/ 下的目录 `vector-icons` 和 node_modules/@expo/ 下的目录 `vector-icons` 合并 (注意是合并不是替换, 假如不行, 就手动把文件夹下面的 2 个文件, 找到对应的地方替换, 观察文件修改日期是不是变化了), 原理其实就是用自己的字体文件把原有的 AntDesign 字体文件替换掉, 之后引用 Icon.AntDesign .
+自定义 Iconfont, 把 assets/iconfont/ 下的目录 `vector-icons` 和 node_modules/@expo/ 下的目录 `vector-icons` 合并 (注意是合并不是替换, 假如不行, 就手动把文件夹下面的 2 个文件, 找到对应的地方替换, 观察文件修改日期是不是变化了), 原理其实就是用自己的字体文件把原有的 AntDesign 字体文件替换掉, 之后引用 Icon.AntDesign
+
+** 遇到 undefined is not an object (evaluating '\_this.view.\_component.measureInWindow') **
+
+把 components/@/react-native-safe-area-view/index.js 替换掉 node_modules/react-native-safe-area-view/index.js
 
 ** 启动 **
 
@@ -155,5 +162,3 @@ npm start // [iOS] 之后点击在浏览器打开的Expo Developer Tools, 点击
 
 react-native run-android // [android] 真机 usb 调试
 ```
-
-本人一直在 mac 环境下开发, iOS 跑 expo 客户端调试, 安卓跑真机 usb 调试. window 用法不详, 也不清楚到底能不能运行, 可以查阅 [Expo](https://github.com/expo/expo) 官方文档. 可以选择同一局域网真机扫码调试, 需先下载 Expo App.

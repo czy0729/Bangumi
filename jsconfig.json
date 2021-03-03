@@ -5,7 +5,6 @@
     "experimentalDecorators": true,
     "baseUrl": "./",
     "paths": {
-      "@comp": ["src/components/index.js"],
       "@components": ["src/components/index.js"],
       "@components/*": ["src/components/*"],
       "@screens/_": ["src/screens/_/index.js"],
@@ -13,8 +12,6 @@
       "@stores": ["src/stores/index.js"],
       "@stores/*": ["src/stores/*"],
       "@utils": ["src/utils/index.js"],
-      "@utils/decorators": ["src/utils/decorators/index.js"],
-      "@utils/hooks": ["src/utils/hooks/index.js"],
       "@utils/*": ["src/utils/*"],
       "@constants": ["src/constants/index.js"],
       "@constants/*": ["src/constants/*"]
