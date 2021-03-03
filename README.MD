@@ -143,7 +143,7 @@ npm install // 不推荐使用 yarn, 因为项目部分库较旧的原因, 无�
 
 ** iOS 安装包遇到 react-native 包找不到的问题 **
 
-最近项目使用的 Expo SDK 因官方问题, 现最新版本想在电脑上面跑起来需要手动修改包, 这个 sdk-39.0.3.tar.gz 的包我已经上传到蓝奏云, 下载后放在根目录再 install, 或者你可以尝试使用 0.63.x 的 rn 版本
+最近项目使用的 Expo SDK 因官方问题, 现最新版本想在电脑上面跑起来需要手动修改包, 这个 sdk-39.0.3.tar.gz 的包我已经上传到 [蓝奏云](https://www.lanzous.com/iNFwLmfygvi), 下载后放在根目录再 install, 或者你可以尝试使用 0.63.x 的 rn 版本
 
 ** 前置操作, 否则 App 内图标均为问号 **
 
