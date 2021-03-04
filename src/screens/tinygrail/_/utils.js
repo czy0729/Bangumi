@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 17:36:25
+ * @Last Modified time: 2021-03-04 16:45:13
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
@@ -27,6 +27,11 @@ export function relation(data) {
       return i
     })
   }
+}
+
+export const SORT_RK = {
+  label: '通天塔',
+  value: 'rk'
 }
 
 export const SORT_GF = {
@@ -117,6 +122,9 @@ export const SORT_XFJL = {
 export function sortList(sort, direction, list) {
   const base = direction === 'down' ? 1 : -1
   switch (sort) {
+    case SORT_RK.value:
+      return list.sort((a, b) => ((a.rank || 0) - (b.rank || 0)) * base)
+
     case SORT_GF.value:
       return list.sort((a, b) => ((b.amount || 0) - (a.amount || 0)) * base)
 

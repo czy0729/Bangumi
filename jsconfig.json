@@ -6,15 +6,10 @@
     "baseUrl": "./",
     "paths": {
       "@components": ["src/components/index.js"],
-      "@components/*": ["src/components/*"],
       "@screens/_": ["src/screens/_/index.js"],
-      "@screens/_/*": ["src/screens/_/*"],
       "@stores": ["src/stores/index.js"],
-      "@stores/*": ["src/stores/*"],
       "@utils": ["src/utils/index.js"],
-      "@utils/*": ["src/utils/*"],
-      "@constants": ["src/constants/index.js"],
-      "@constants/*": ["src/constants/*"]
+      "@constants": ["src/constants/index.js"]
     }
   },
   "exclude": ["node_modules", "dist", "android", "src/assets", "web"]

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-02 19:54:59
+ * @Last Modified time: 2021-03-03 22:38:07
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -568,23 +568,26 @@ class Tinygrail extends store {
               iconsCache[id] = item.Icon
             }
             return {
-              _index: index + 1,
-              id,
-              bids: item.Bids,
-              asks: item.Asks,
-              change: item.Change,
-              current: item.Current,
-              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-              total: item.Total,
-              marketValue: item.MarketValue,
-              lastOrder: item.LastOrder,
-              end: item.End,
-              users: item.Users,
-              name: item.Name,
-              icon: item.Icon,
-              bonus: item.Bonus,
-              rate: Number(toFixed(item.Rate, 2)),
-              level: item.Level
+              _index: index + 1, // 索引
+              id, // 角色id
+              bids: item.Bids, // 买单
+              asks: item.Asks, // 卖单
+              change: item.Change, // 今天成交量
+              current: item.Current, // 当前价格
+              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '', // 当前涨跌
+              total: item.Total, // 流通量
+              marketValue: item.MarketValue, // 市场总值
+              lastOrder: item.LastOrder, // 最近交易
+              end: item.End, // [ico] 结束时间
+              users: item.Users, // [ico] 参与人数
+              name: item.Name, // 角色名
+              icon: item.Icon, // 角色头像
+              bonus: item.Bonus, // 新番加成
+              rate: Number(toFixed(item.Rate, 2)), // 股息
+              level: item.Level, // 等级
+              rank: item.Rank, // 通天塔排名
+              stars: item.Stars, // 通天塔星数
+              starForces: item.StarForces // 通天塔献祭量
             }
           }
         ),

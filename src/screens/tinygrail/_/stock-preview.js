@@ -2,18 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-24 15:43:10
+ * @Last Modified time: 2021-03-04 16:41:41
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { toFixed } from '@utils'
 import { caculateICO } from '@utils/app'
+import { ob } from '@utils/decorators'
+
+const backgroundColorMap = {
+  0: '#aaa',
+  1: _.colorBid,
+  2: _.colorPrimary,
+  3: '#ffdc51',
+  4: _.colorWarning,
+  5: _.colorMain
+}
 
 export default
-@observer
+@ob
 class StockPreview extends React.Component {
   static defaultProps = {
     style: undefined,
@@ -33,38 +42,12 @@ class StockPreview extends React.Component {
     const { total } = this.props
     const { level, next } = caculateICO(this.props)
     const percent = toFixed((total / next) * 100, 0)
-
-    let backgroundColor
-    switch (level) {
-      case 0:
-        backgroundColor = '#aaa'
-        break
-      case 1:
-        backgroundColor = _.colorBid
-        break
-      case 2:
-        backgroundColor = _.colorPrimary
-        break
-      case 3:
-        backgroundColor = '#ffdc51'
-        break
-      case 4:
-        backgroundColor = _.colorWarning
-        break
-      case 5:
-        backgroundColor = _.colorMain
-        break
-      default:
-        backgroundColor = _.colorAsk
-        break
-    }
-
     return (
       <Flex style={this.styles.ico}>
         <Text
           style={this.styles.iconText}
           type='tinygrailPlain'
-          size={11}
+          size={10}
           align='center'
           bold
         >
@@ -76,7 +59,7 @@ class StockPreview extends React.Component {
               this.styles.icoProcess,
               {
                 width: `${percent}%`,
-                backgroundColor
+                backgroundColor: backgroundColorMap[level] || _.colorAsk
               }
             ]}
           />
@@ -155,10 +138,10 @@ class StockPreview extends React.Component {
     if (fluctuationText.length > 8) {
       fluctuationSize = 10
     } else if (fluctuationText.length > 7) {
-      fluctuationSize = 11
+      fluctuationSize = 10
     }
 
-    const hasNoChanged = (show ? realChange : fluctuationText) === '-%'
+    const hasNoChanged = show ? realChange === '0.00' : fluctuationText === '-%'
     return (
       <Touchable
         style={[this.styles.container, style]}
@@ -166,8 +149,8 @@ class StockPreview extends React.Component {
       >
         <Flex justify='end'>
           <Text
-            style={!hasNoChanged && this.styles.current}
             type='tinygrailPlain'
+            size={13}
             lineHeight={16}
             bold
             align='right'
@@ -190,45 +173,47 @@ class StockPreview extends React.Component {
             </Text>
           )}
         </Flex>
-        <Flex style={show ? _.mt.xs : _.mt.sm} justify='end'>
-          {show && (
-            <Text style={style.textChange} type='tinygrailText' size={11}>
+        <Flex style={this.styles.bottom} justify='end'>
+          {show && !!change && (
+            <Text type='tinygrailText' size={10}>
               量{change}{' '}
             </Text>
           )}
           {showFloor ? (
             <Flex>
               {show && (
-                <Text type='bid' size={11}>
+                <Text type='bid' size={10}>
                   {bids}
                 </Text>
               )}
-              <Flex
-                style={[
-                  show ? this.styles.floorShowDetail : this.styles.floor,
-                  _.ml.xs
-                ]}
-                justify='between'
-              >
-                <View
-                  style={[
-                    this.styles.bids,
-                    {
-                      width: `${bidsPercent}%`
-                    }
-                  ]}
-                />
-                <View
-                  style={[
-                    this.styles.asks,
-                    {
-                      width: `${asksPercent}%`
-                    }
-                  ]}
-                />
-              </Flex>
               {show && (
-                <Text style={[this.styles.small, _.ml.xs]} type='ask' size={11}>
+                <Flex
+                  style={[
+                    show ? this.styles.floorShowDetail : this.styles.floor,
+                    _.ml.xs
+                  ]}
+                  justify='between'
+                >
+                  <View
+                    style={[
+                      this.styles.bids,
+                      {
+                        width: `${bidsPercent}%`
+                      }
+                    ]}
+                  />
+                  <View
+                    style={[
+                      this.styles.asks,
+                      {
+                        width: `${asksPercent}%`
+                      }
+                    ]}
+                  />
+                </Flex>
+              )}
+              {show && (
+                <Text style={[this.styles.small, _.ml.xs]} type='ask' size={10}>
                   {asks}
                 </Text>
               )}
@@ -237,7 +222,7 @@ class StockPreview extends React.Component {
             <Text
               style={this.styles.noDeal}
               type='tinygrailText'
-              size={11}
+              size={10}
               align='right'
             >
               没挂单
@@ -256,14 +241,8 @@ class StockPreview extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   container: {
     height: '100%',
-    paddingVertical: _.space,
+    paddingVertical: 16,
     paddingHorizontal: _.sm
-  },
-  current: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    marginRight: 72
   },
   fluctuation: {
     minWidth: 64,
@@ -320,13 +299,11 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     right: _.sm
   },
-  textChange: {
-    paddingLeft: _.wind,
-    paddingRight: _.xs,
-    backgroundColor: _.colorTinygrailContainer
-  },
   noDeal: {
     minWidth: 40,
     marginLeft: _.sm
+  },
+  bottom: {
+    marginTop: 4
   }
 }))

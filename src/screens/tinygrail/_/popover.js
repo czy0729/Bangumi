@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 22:12:01
+ * @Last Modified time: 2021-03-04 16:42:16
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { Iconfont } from '@components'
 import { Popover as CompPopover } from '@screens/_'
 import { _ } from '@stores'
-import { observer } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS, EVENT } from '@constants'
 
@@ -126,34 +124,28 @@ function Popover(
       <Iconfont
         style={styles.extra}
         name='extra'
-        size={17}
+        size={16}
         color={_.colorTinygrailText}
       />
     </CompPopover>
   )
 }
 
-Popover.contextTypes = {
-  navigation: PropTypes.object
-}
-
-Popover.defaultProps = {
+export default obc(Popover, {
   relation: [],
   event: EVENT,
   onCollect: Function.prototype
-}
+})
 
-export default observer(Popover)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   content: {
     borderTopRightRadius: 0
   },
   extra: {
     height: 56,
-    paddingTop: 18,
+    paddingTop: 19,
     paddingRight: _.sm + (IOS ? 5 : 0),
     paddingBottom: 12,
-    paddingLeft: _.sm
+    paddingLeft: _.xs
   }
 })

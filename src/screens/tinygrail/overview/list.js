@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:19:12
+ * @Last Modified time: 2021-03-03 22:39:14
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -10,6 +10,7 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { obc } from '@utils/decorators'
 import Item from '../_/item'
+import { refreshControlProps } from '../styles'
 import { tabs } from './store'
 
 const event = {
@@ -28,9 +29,7 @@ function List({ id }, { $ }) {
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
-      refreshControlProps={{
-        color: _.colorTinygrailText
-      }}
+      refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={list}
       scrollToTop={tabs[page].key === id}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:52:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-28 19:13:04
+ * @Last Modified time: 2021-03-03 22:20:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ function Item({ id, icon, name, rank, starForces, hover }, { $, navigation }) {
           src={tinygrailOSS(icon, 120)}
           size={imageWidth}
           radius={0}
+          fadeDuration={300}
           placeholder={false}
           borderColor='transparent'
         />
