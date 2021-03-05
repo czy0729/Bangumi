@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-02 20:00:44
+ * @Last Modified time: 2021-03-04 22:00:01
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
@@ -119,8 +119,7 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   rank: {
-    minWidth: 22,
-    paddingHorizontal: _.xs,
+    minWidth: 30,
     marginLeft: _.xs,
     color: _.__colorPlain__,
     textShadowOffset: {
@@ -133,7 +132,7 @@ const memoStyles = _.memoStyles(_ => ({
     overflow: 'hidden'
   },
   change: {
-    minWidth: 22,
+    minWidth: 30,
     paddingHorizontal: _.xs,
     marginLeft: _.xs,
     color: _.__colorPlain__,

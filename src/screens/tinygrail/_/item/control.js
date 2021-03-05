@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 16:43:08
+ * @Last Modified time: 2021-03-05 11:10:39
  */
 import React from 'react'
 import { Alert } from 'react-native'
-import { Iconfont, Text, Touchable } from '@components'
+import { Text, Touchable } from '@components'
 import { tinygrailStore, _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Popover from '../popover'
@@ -64,14 +64,6 @@ function Control(props) {
       {!isAuction && (
         <StockPreview {...props} style={styles.stockPreview} _loaded />
       )}
-      {showMenu && !!tinygrailStore.collected(id) && (
-        <Iconfont
-          style={styles.favor}
-          size={11}
-          name='star-full'
-          color={_.tSelect(_.colorTinygrailText, _.colorYellow)}
-        />
-      )}
       {showMenu && !isICO && (
         <Popover
           event={event}
@@ -95,10 +87,5 @@ const styles = _.create({
   },
   stockPreview: {
     marginRight: -8
-  },
-  favor: {
-    position: 'absolute',
-    right: 15,
-    top: 40
   }
 })

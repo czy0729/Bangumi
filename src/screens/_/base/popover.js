@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-03 12:08:09
+ * @Last Modified time: 2021-03-05 11:42:20
  */
 import React from 'react'
 import { Popover as CompPopover, Menu } from '@components'
 import { IOS } from '@constants'
 
-function Popover({ data, onSelect, children, ...other }) {
+function Popover({ data, menuStyle, onSelect, children, ...other }) {
   const popoverProps = IOS
     ? {
         overlay: (
           <Menu
+            style={menuStyle}
             data={data}
             onSelect={title => setTimeout(() => onSelect(title), 0)}
           />

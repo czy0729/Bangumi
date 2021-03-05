@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:10:47
+ * @Last Modified time: 2021-03-05 00:59:45
  */
 import React from 'react'
 import { Iconfont } from '@components'
@@ -74,7 +74,7 @@ function IconRight({ $ }) {
             $.toggleBatchEdit(key)
           }}
         >
-          <Iconfont name='list' size={21} color={_.colorTinygrailPlain} />
+          <Iconfont name='star-list' size={21} color={_.colorTinygrailPlain} />
         </Popover>
       )}
     </>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 17:36:51
+ * @Last Modified time: 2021-03-04 23:01:07
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -18,9 +18,9 @@ import {
   SORT_GDS,
   SORT_SC,
   SORT_GX,
-  SORT_GXB,
-  SORT_SDGX,
-  SORT_SDGXB,
+  // SORT_GXB,
+  // SORT_SDGX,
+  // SORT_SDGXB,
   SORT_DJ,
   SORT_HYD,
   SORT_SCJ,
@@ -49,15 +49,15 @@ export const sortDS = [
   SORT_GDS,
   SORT_HYD,
   SORT_GX,
-  SORT_SDGX,
+  // SORT_SDGX,
   SORT_DQJ,
   SORT_SCJ,
   SORT_DQZD,
   SORT_DJ,
   SORT_XFJL,
-  SORT_FHL,
-  SORT_GXB,
-  SORT_SDGXB
+  SORT_FHL
+  // SORT_GXB,
+  // SORT_SDGXB
 ]
 
 export default class ScreenTinygrailBid extends store {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-03 22:38:07
+ * @Last Modified time: 2021-03-05 00:50:11
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -553,7 +553,6 @@ class Tinygrail extends store {
    */
   fetchList = async (key = defaultKey) => {
     const result = await this.fetch(API_TINYGRAIL_LIST(key))
-
     let data = {
       ...LIST_EMPTY
     }
@@ -564,9 +563,7 @@ class Tinygrail extends store {
         list: (result.data.Value.Items || result.data.Value).map(
           (item, index) => {
             const id = item.CharacterId || item.Id
-            if (item.Icon) {
-              iconsCache[id] = item.Icon
-            }
+            if (item.Icon) iconsCache[id] = item.Icon
             return {
               _index: index + 1, // 索引
               id, // 角色id
@@ -585,6 +582,7 @@ class Tinygrail extends store {
               bonus: item.Bonus, // 新番加成
               rate: Number(toFixed(item.Rate, 2)), // 股息
               level: item.Level, // 等级
+              sa: item.Sacrifices, // 献祭数量
               rank: item.Rank, // 通天塔排名
               stars: item.Stars, // 通天塔星数
               starForces: item.StarForces // 通天塔献祭量
@@ -809,9 +807,7 @@ class Tinygrail extends store {
       data.id = result.data.Value.Id
       data.balance = result.data.Value.Balance
       data.characters = result.data.Value.Characters.map(item => {
-        if (item.Icon) {
-          iconsCache[item.Id] = item.Icon
-        }
+        if (item.Icon) iconsCache[item.Id] = item.Icon
         return {
           id: item.Id,
           icon: item.Icon,
@@ -828,9 +824,7 @@ class Tinygrail extends store {
         }
       })
       data.initials = result.data.Value.Initials.map(item => {
-        if (item.Icon) {
-          iconsCache[item.Id] = item.Icon
-        }
+        if (item.Icon) iconsCache[item.Id] = item.Icon
         return {
           id: item.Id,
           icon: item.Icon,
@@ -872,9 +866,7 @@ class Tinygrail extends store {
       const iconsCache = toJS(this.state.iconsCache)
       data._loaded = getTimestamp()
       data.list = result.data.Value.Items.map(item => {
-        if (item.Icon) {
-          iconsCache[item.Id] = item.Icon
-        }
+        if (item.Icon) iconsCache[item.Id] = item.Icon
         return {
           id: item.Id,
           icon: item.Icon,
@@ -1097,9 +1089,7 @@ class Tinygrail extends store {
       data = {
         ...LIST_EMPTY,
         list: result.data.Value.Items.map(item => {
-          if (item.Icon) {
-            iconsCache[item.Id] = item.Icon
-          }
+          if (item.Icon) iconsCache[item.Id] = item.Icon
           return {
             id: item.Id,
             bids: item.Bids,
@@ -1117,7 +1107,11 @@ class Tinygrail extends store {
             bonus: item.Bonus,
             state: item.State,
             rate: Number(toFixed(item.Rate, 2)),
-            level: item.Level
+            level: item.Level,
+            sa: item.Sacrifices,
+            rank: item.Rank,
+            stars: item.Stars,
+            starForces: item.StarForces
           }
         }),
         pagination: paginationOnePage,
@@ -1149,9 +1143,7 @@ class Tinygrail extends store {
       data = {
         ...LIST_EMPTY,
         list: result.data.Value.Items.map(item => {
-          if (item.Icon) {
-            iconsCache[item.Id] = item.Icon
-          }
+          if (item.Icon) iconsCache[item.Id] = item.Icon
           return {
             id: item.Id,
             bids: item.Bids,
@@ -1169,7 +1161,11 @@ class Tinygrail extends store {
             bonus: item.Bonus,
             state: item.State,
             rate: Number(toFixed(item.Rate, 2)),
-            level: item.Level
+            level: item.Level,
+            sa: item.Sacrifices,
+            rank: item.Rank,
+            stars: item.Stars,
+            starForces: item.StarForces
           }
         }),
         pagination: paginationOnePage,
@@ -1275,21 +1271,15 @@ class Tinygrail extends store {
       ...INIT_MY_CHARA_ASSETS
     }
     if (result.data.State === 0) {
-      const sacrificesMap = {}
       const { list } = this.charaAll(this.hash)
-      list.forEach(item => {
-        if (item.sacrifices) {
-          sacrificesMap[item.id] = item.sacrifices
-        }
-      })
+      const charaAllMap = {}
+      list.forEach(item => (charaAllMap[item.id] = item))
 
       const iconsCache = toJS(this.state.iconsCache)
       data = {
         chara: {
           list: result.data.Value.Characters.map(item => {
-            if (item.Icon) {
-              iconsCache[item.Id] = item.Icon
-            }
+            if (item.Icon) iconsCache[item.Id] = item.Icon
             return {
               id: item.Id,
               monoId: item.CharacterId,
@@ -1307,9 +1297,12 @@ class Tinygrail extends store {
               icon: item.Icon,
               bonus: item.Bonus,
               state: item.State,
-              sacrifices: sacrificesMap[item.Id] || 0,
               rate: Number(toFixed(item.Rate, 2)),
-              level: item.Level
+              level: item.Level,
+              sacrifices: charaAllMap[item.Id]?.sacrifices || 0,
+              rank: item.Rank || 0,
+              stars: item.Stars || 0,
+              starForces: item.StarForces || 0
             }
           }),
           pagination: paginationOnePage,
@@ -1317,9 +1310,7 @@ class Tinygrail extends store {
         },
         ico: {
           list: result.data.Value.Initials.map(item => {
-            if (item.Icon) {
-              iconsCache[item.Id] = item.Icon
-            }
+            if (item.Icon) iconsCache[item.Id] = item.Icon
             return {
               id: item.Id,
               monoId: item.CharacterId,
@@ -1529,7 +1520,10 @@ class Tinygrail extends store {
           level: item.Level,
           marketValue: item.MarketValue,
           change: item.Change,
-          fluctuation: item.Fluctuation
+          fluctuation: item.Fluctuation,
+          rank: item.Rank,
+          stars: item.Stars,
+          starForces: item.StarForces
         })),
         _loaded: getTimestamp()
       }

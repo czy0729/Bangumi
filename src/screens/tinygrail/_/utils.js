@@ -2,128 +2,61 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 16:45:13
+ * @Last Modified time: 2021-03-05 11:00:39
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
-import { throttle } from '@utils'
+import { throttle, toFixed, formatNumber } from '@utils'
 import { info } from '@utils/ui'
-import { IOS } from '@constants'
+import { IOS, B, M } from '@constants'
 import XSBRelationData from '@constants/json/xsb-relation'
 
-export function relation(data) {
-  return {
-    ...data,
-    list: data.list.map(item => {
-      const i = {
-        ...item
-      }
-      const { s, r } = XSBRelationData.data[item.monoId || item.id] || {}
-      if (s) {
-        i._subject = XSBRelationData.name[s]
-        i._subjectId = s
-      }
-      if (r) i._relation = r
-      return i
-    })
+/**
+ * 计算角色当前股息
+ *  - version 2021/03/05
+ * @param {*} rate
+ * @param {*} rank
+ * @param {*} stars
+ */
+export function calculateRate(rate, rank, stars) {
+  if (rank < 501 && rate > 0) {
+    return (601 - rank) * 0.005 * rate
   }
+  return stars * 2
 }
 
-export const SORT_RK = {
-  label: '通天塔',
-  value: 'rk'
+/**
+ * 数目缩略
+ * @param {*} value
+ */
+export function decimal(value) {
+  if (value > B) return `${toFixed(value / B, 1)}亿`
+  if (value > M) return `${toFixed(value / M, 1)}万`
+  return formatNumber(value, 0)
 }
 
-export const SORT_GF = {
-  label: '股份',
-  value: 'gf'
-}
-
-export const SORT_SC = {
-  label: '收藏',
-  value: 'sc'
-}
-
-export const SORT_GX = {
-  label: '流动股息',
-  value: 'gx'
-}
-
-export const SORT_GXB = {
-  label: '流动股息比',
-  value: 'gxb'
-}
-
-export const SORT_SDGX = {
-  label: '圣殿股息',
-  value: 'sdgx'
-}
-
-export const SORT_SDGXB = {
-  label: '圣殿股息比',
-  value: 'sdgxb'
-}
-
-export const SORT_DJ = {
-  label: '等级',
-  value: 'dj'
-}
-
-export const SORT_GDS = {
-  label: '挂单数',
-  value: 'cgs'
-}
-
-export const SORT_CGS = {
-  label: '持股数',
-  value: 'cgs'
-}
-
-export const SORT_GDZC = {
-  label: '固定资产',
-  value: 'gdzc'
-}
-
-export const SORT_CCJZ = {
-  label: '持仓价值',
-  value: 'ccjz'
-}
-
-export const SORT_HYD = {
-  label: '活跃度',
-  value: 'hyd'
-}
-
-export const SORT_SCJ = {
-  label: '市场价',
-  value: 'scj'
-}
-
-export const SORT_FHL = {
-  label: '发行量',
-  value: 'fhl'
-}
-
-export const SORT_DQJ = {
-  label: '当前价',
-  value: 'dqj'
-}
-
-export const SORT_DQZD = {
-  label: '当前涨跌',
-  value: 'dqzd'
-}
-
-export const SORT_XFJL = {
-  label: '新番奖励',
-  value: 'xfjl'
-}
-
+/**
+ * 列表排序
+ * @param {*} sort
+ * @param {*} direction
+ * @param {*} list
+ */
 export function sortList(sort, direction, list) {
   const base = direction === 'down' ? 1 : -1
   switch (sort) {
+    case SORT_SSGX.value:
+      return list.sort(
+        (a, b) =>
+          (calculateRate(b.rate, b.rank, b.stars) -
+            calculateRate(a.rate, a.rank, a.stars)) *
+          base
+      )
+
     case SORT_RK.value:
       return list.sort((a, b) => ((a.rank || 0) - (b.rank || 0)) * base)
+
+    case SORT_XX.value:
+      return list.sort((a, b) => ((b.stars || 0) - (a.stars || 0)) * base)
 
     case SORT_GF.value:
       return list.sort((a, b) => ((b.amount || 0) - (a.amount || 0)) * base)
@@ -211,12 +144,139 @@ export function sortList(sort, direction, list) {
   }
 }
 
+/**
+ * 等级筛选列表
+ * @param {*} level
+ * @param {*} list
+ */
 export function levelList(level, list) {
   if (level === undefined) {
     return list
   }
 
   return list.filter(item => item.level == level)
+}
+
+/**
+ * 获取角色关联条目信息
+ * @param {*} data
+ */
+export function relation(data) {
+  return {
+    ...data,
+    list: data.list.map(item => {
+      const i = {
+        ...item
+      }
+      const { s, r } = XSBRelationData.data[item.monoId || item.id] || {}
+      if (s) {
+        i._subject = XSBRelationData.name[s]
+        i._subjectId = s
+      }
+      if (r) i._relation = r
+      return i
+    })
+  }
+}
+
+export const SORT_RK = {
+  label: '通天塔',
+  value: 'rk'
+}
+
+export const SORT_XX = {
+  label: '星星',
+  value: 'xx'
+}
+
+export const SORT_GF = {
+  label: '股份',
+  value: 'gf'
+}
+
+export const SORT_SC = {
+  label: '收藏',
+  value: 'sc'
+}
+
+export const SORT_GX = {
+  label: '股息', // 流动股息
+  value: 'gx'
+}
+
+export const SORT_SSGX = {
+  label: '实时股息', // 实时股息
+  value: 'ssgx'
+}
+
+export const SORT_GXB = {
+  label: '流动股息比',
+  value: 'gxb'
+}
+
+export const SORT_SDGX = {
+  label: '圣殿股息',
+  value: 'sdgx'
+}
+
+export const SORT_SDGXB = {
+  label: '圣殿股息比',
+  value: 'sdgxb'
+}
+
+export const SORT_DJ = {
+  label: '等级',
+  value: 'dj'
+}
+
+export const SORT_GDS = {
+  label: '挂单',
+  value: 'cgs'
+}
+
+export const SORT_CGS = {
+  label: '持股',
+  value: 'cgs'
+}
+
+export const SORT_GDZC = {
+  label: '塔',
+  value: 'gdzc'
+}
+
+export const SORT_CCJZ = {
+  label: '持仓价值',
+  value: 'ccjz'
+}
+
+export const SORT_HYD = {
+  label: '活跃度',
+  value: 'hyd'
+}
+
+export const SORT_SCJ = {
+  label: '市场价',
+  value: 'scj'
+}
+
+export const SORT_FHL = {
+  label: '发行量',
+  value: 'fhl'
+}
+
+export const SORT_DQJ = {
+  label: '当前价',
+  value: 'dqj'
+}
+
+export const SORT_DQZD = {
+  label: '当前涨跌',
+  value: 'dqzd'
+}
+
+export const SORT_XFJL = {
+  label: '新番奖励',
+  value: 'xfjl'
 }
 
 function _info(message) {

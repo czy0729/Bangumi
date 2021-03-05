@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-09-25 21:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 13:58:24
+ * @Last Modified time: 2021-03-04 23:05:32
  */
 import { log } from '@utils/dev'
+import { DEV } from '@constants'
 
 /**
  * 防止多次快速点击重复进入相同页面
@@ -23,7 +24,7 @@ export const navigateOnce = getStateForAction => (action, lastState) => {
   const { type, routeName, params } = action
   if (type === 'Navigation/PUSH') {
     const currentStringify = `${routeName}/${JSON.stringify(params)}`
-    if (currentStringify === lastStringify) {
+    if (!DEV && currentStringify === lastStringify) {
       log(`🔒 ${routeName}`)
       return null
     }

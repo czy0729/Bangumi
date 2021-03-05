@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:20:09
+ * @Last Modified time: 2021-03-04 22:44:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, UserStatus } from '@components'
 import { Avatar } from '@screens/_'
 import { _ } from '@stores'
-import { formatNumber, getTimestamp, lastDate } from '@utils'
+import { getTimestamp, lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { B, M } from '@constants'
+import { decimal } from '../_/utils'
 
 function Item(
   {
@@ -38,30 +38,9 @@ function Item(
   const isTop = index === 0
   const lastActiveTS = getTimestamp(lastActiveDate.replace('T', ' '))
 
-  let totalText
-  if (Math.abs(total) > B) {
-    totalText = `${formatNumber(total / B, 1)}亿`
-  } else if (Math.abs(total) > M) {
-    totalText = `${formatNumber(total / M, 1)}万`
-  } else {
-    totalText = formatNumber(Math.abs(total), 1)
-  }
-
-  let assetsText
-  if (Math.abs(assets) > B) {
-    assetsText = `${formatNumber(assets / B, 1)}亿`
-  } else if (Math.abs(assets) > M) {
-    assetsText = `${formatNumber(assets / M, 1)}万`
-  } else {
-    assetsText = formatNumber(Math.abs(assets), 1)
-  }
-
-  let shareText
-  if (Math.abs(share) > M) {
-    shareText = `${formatNumber(share / M, 1)}万`
-  } else {
-    shareText = formatNumber(Math.abs(share), 1)
-  }
+  const totalText = decimal(Math.abs(total))
+  const assetsText = decimal(Math.abs(assets))
+  const shareText = decimal(Math.abs(share))
 
   const rank = index + 1 + (page - 1) * limit
   let changeText = ''
@@ -89,14 +68,7 @@ function Item(
     text = `总值${assetsText} / 股息${shareText}`
     right = totalText
   } else if (title === '初始') {
-    let principalText
-    if (Math.abs(principal) > B) {
-      principalText = `${formatNumber(principal / B, 1)}亿`
-    } else if (Math.abs(principal) > M) {
-      principalText = `${formatNumber(principal / M, 1)}万`
-    } else {
-      principalText = formatNumber(Math.abs(principal), 1)
-    }
+    const principalText = decimal(Math.abs(principal))
     text = `总值${assetsText} / 股息${shareText} / 余${totalText}`
     right = principalText
   } else {
@@ -149,20 +121,25 @@ function Item(
               >
                 <Flex>
                   <Flex.Item>
-                    <Text
-                      type={state === 666 ? 'ask' : 'tinygrailPlain'}
-                      size={15}
-                      bold
-                    >
-                      {rank}. {nickname}
-                      {!!changeText && (
-                        <Text type={changeColor} size={15}>
-                          {' '}
-                          {changeText}
-                        </Text>
-                      )}
-                    </Text>
-                    <Text style={_.mt.xs} type='tinygrailText' size={11}>
+                    <Flex>
+                      <Text style={styles.rank} size={12} bold align='center'>
+                        {rank}
+                      </Text>
+                      <Text
+                        type={state === 666 ? 'ask' : 'tinygrailPlain'}
+                        size={15}
+                        bold
+                      >
+                        {nickname}
+                        {!!changeText && (
+                          <Text type={changeColor} size={15}>
+                            {' '}
+                            {changeText}
+                          </Text>
+                        )}
+                      </Text>
+                    </Flex>
+                    <Text style={_.mt.xs} type='tinygrailText' size={12}>
                       {text}
                     </Text>
                   </Flex.Item>
@@ -219,6 +196,20 @@ const memoStyles = _.memoStyles(_ => ({
     height: 18,
     borderRadius: 9,
     backgroundColor: _.colorWarning,
+    overflow: 'hidden'
+  },
+  rank: {
+    minWidth: 20,
+    marginRight: 6,
+    color: _.__colorPlain__,
+    textShadowOffset: {
+      width: 1,
+      hegith: 1
+    },
+    textShadowRadius: 1,
+    textShadowColor: 'rgba(0, 0, 0, 0.48)',
+    backgroundColor: '#ffc107',
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   }
 }))

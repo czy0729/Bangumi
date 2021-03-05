@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 16:42:16
+ * @Last Modified time: 2021-03-05 11:51:00
  */
 import React from 'react'
 import { Iconfont } from '@components'
@@ -10,7 +10,7 @@ import { Popover as CompPopover } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IOS, EVENT } from '@constants'
+import { EVENT, IOS } from '@constants'
 
 const data = ['收藏', 'K线', '买入', '卖出', '资产重组']
 
@@ -142,10 +142,9 @@ const styles = _.create({
     borderTopRightRadius: 0
   },
   extra: {
-    height: 56,
+    height: 48,
     paddingTop: 19,
-    paddingRight: _.sm + (IOS ? 5 : 0),
-    paddingBottom: 12,
-    paddingLeft: _.xs
+    paddingRight: IOS ? _.sm + 5 : _.sm,
+    paddingLeft: 8
   }
 })

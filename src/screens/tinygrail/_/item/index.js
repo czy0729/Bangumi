@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 02:21:02
+ * @Last Modified time: 2021-03-04 17:34:13
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -23,26 +23,9 @@ function Item(props, { $, navigation }) {
     index,
     id,
     monoId,
-    name,
-    icon,
-    lastOrder,
-    end,
-    marketValue,
-    total,
-    bonus,
-    users,
-    type,
-    price,
-    state,
-    sacrifices,
-    rate,
-    level,
-    current,
-    rank,
-    // stars,
-    // starForces,
-    amount,
     event,
+    type,
+    users,
     withoutFeedback
   } = props
   const go = props.go || $.state.go
@@ -80,7 +63,7 @@ function Item(props, { $, navigation }) {
 
   return (
     <Flex style={[styles.container, style]} align='start'>
-      <Icon id={id} monoId={monoId} icon={icon} name={name} event={event} />
+      <Icon {...props} />
       <Flex.Item style={[styles.wrap, index !== 0 && !_.flat && styles.border]}>
         <Flex align='start'>
           <Flex.Item style={_.mr.sm}>
@@ -91,30 +74,10 @@ function Item(props, { $, navigation }) {
             >
               <Flex align='start'>
                 <Flex.Item>
-                  <Title rank={rank} name={name} level={level} bonus={bonus} />
-                  <Detail
-                    current={current}
-                    end={end}
-                    lastOrder={lastOrder}
-                    level={level}
-                    marketValue={marketValue}
-                    price={price}
-                    rate={rate}
-                    sacrifices={sacrifices}
-                    state={state}
-                    total={total}
-                    type={type}
-                    users={users}
-                  />
+                  <Title {...props} />
+                  <Detail {...props} />
                 </Flex.Item>
-                {isAuction && (
-                  <Auction
-                    type={type}
-                    price={price}
-                    state={state}
-                    amount={amount}
-                  />
-                )}
+                {isAuction && <Auction {...props} />}
               </Flex>
             </Touchable>
           </Flex.Item>

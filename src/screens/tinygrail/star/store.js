@@ -2,19 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:48:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-02 19:54:21
+ * @Last Modified time: 2021-03-04 22:02:02
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 
 const namespace = 'ScreenTinygrailStar'
+const excludeState = {
+  hover: 0
+}
 
 export default class ScreenTinygrailStar extends store {
   state = observable({
     page: 1,
     limit: 100,
-    hover: 0,
+    ...excludeState,
     _loaded: false
   })
 
@@ -22,6 +25,7 @@ export default class ScreenTinygrailStar extends store {
     const state = await this.getStorage(undefined, namespace)
     this.setState({
       ...state,
+      ...excludeState,
       _loaded: true
     })
 
@@ -57,5 +61,6 @@ export default class ScreenTinygrailStar extends store {
       page,
       limit
     })
+    this.setStorage(undefined, undefined, namespace)
   }
 }

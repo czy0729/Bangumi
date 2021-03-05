@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-21 14:09:17
+ * @Last Modified time: 2021-02-23 20:49:04
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -201,18 +201,10 @@ class Image extends React.Component {
    * 选择图片质量
    */
   getQuality = (uri, qualityLevel = 'default') => {
-    if (!uri) {
-      return ''
-    }
-    if (qualityLevel === 'default') {
-      return uri
-    }
-    if (qualityLevel === 'best') {
-      return getCoverLarge(uri)
-    }
-    if (qualityLevel === 'low') {
-      return getCoverSmall(uri)
-    }
+    if (!uri) return ''
+    if (qualityLevel === 'default') return uri
+    if (qualityLevel === 'best') return getCoverLarge(uri)
+    if (qualityLevel === 'low') return getCoverSmall(uri)
     return uri
   }
 
@@ -227,20 +219,20 @@ class Image extends React.Component {
     }
 
     const cb = (width, height) => {
-      let _width
-      let _height
+      let w
+      let h
 
       // 假如图片本身的宽度没有超过给定的最大宽度, 直接沿用图片原尺寸
       if (width < autoSize) {
-        _width = width
-        _height = height
+        w = width
+        h = height
       } else {
-        _width = autoSize
-        _height = Math.floor((autoSize / width) * height)
+        w = autoSize
+        h = Math.floor((autoSize / width) * height)
       }
       this.setState({
-        width: _width,
-        height: _height
+        width: w,
+        height: h
       })
     }
 
@@ -288,15 +280,15 @@ class Image extends React.Component {
       placeholder,
       autoSize
     } = this.props
-    const { width: _width, height: _height } = this.state
+    const { width: w, height: h } = this.state
     const container = []
     const image = []
 
     // 以state里面的width和height优先
     if (autoSize) {
       image.push({
-        width: _width || 160,
-        height: _height || 160
+        width: w || 160,
+        height: h || 160
       })
     } else if (size) {
       image.push({
@@ -307,31 +299,29 @@ class Image extends React.Component {
 
     // 若边框等于hairlineWidth且有影子就不显示边框
     if (border && !(border === _.hairlineWidth && shadow)) {
-      if (typeof border === 'string') {
-        image.push({
-          borderWidth,
-          borderColor: border
-        })
-      } else {
-        image.push(this.styles.border)
-      }
+      image.push(
+        typeof border === 'string'
+          ? {
+              borderWidth,
+              borderColor: border
+            }
+          : this.styles.border
+      )
     }
 
     if (radius) {
       if (typeof radius === 'boolean') {
-        container.push({
+        const style = {
           borderRadius: _.radiusXs
-        })
-        image.push({
-          borderRadius: _.radiusXs
-        })
+        }
+        container.push(style)
+        image.push(style)
       } else {
-        container.push({
+        const style = {
           borderRadius: radius
-        })
-        image.push({
-          borderRadius: radius
-        })
+        }
+        container.push(style)
+        image.push(style)
       }
     }
 
@@ -342,21 +332,12 @@ class Image extends React.Component {
      * systemStore.devEvent 安卓下当有阴影, 层级会被提高, 导致遮挡卖点分析的可视化文字
      */
     if (shadow && !_.isDark && !(!IOS && systemStore.devEvent.text)) {
-      if (shadow === 'lg') {
-        container.push(this.styles.shadowLg)
-      } else {
-        container.push(this.styles.shadow)
-      }
+      container.push(
+        shadow === 'lg' ? this.styles.shadowLg : this.styles.shadow
+      )
     }
-
-    if (placeholder) {
-      container.push(this.styles.placeholder)
-    }
-
-    if (style) {
-      container.push(style)
-    }
-
+    if (placeholder) container.push(this.styles.placeholder)
+    if (style) container.push(style)
     if (imageStyle) {
       container.push(imageStyle)
       image.push(imageStyle)
@@ -366,6 +347,16 @@ class Image extends React.Component {
       container,
       image
     }
+  }
+
+  @computed get fadeDuration() {
+    const { fadeDuration } = this.props
+    const { imageTransition } = systemStore.setting
+    return fadeDuration === undefined
+      ? imageTransition
+        ? undefined
+        : 0
+      : fadeDuration
   }
 
   renderImage() {
@@ -395,22 +386,14 @@ class Image extends React.Component {
       ...other
     } = this.props
     const { error, uri } = this.state
-
     const { imageTransition } = systemStore.setting
-    const _fadeDuration =
-      fadeDuration === undefined
-        ? imageTransition
-          ? undefined
-          : 0
-        : fadeDuration
-
     if (error) {
       // 错误显示本地的错误提示图片
       return (
         <RNImage
           style={[this.computedStyle.image, this.styles.error]}
           source={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
-          fadeDuration={_fadeDuration}
+          fadeDuration={this.fadeDuration}
           {...other}
         />
       )
@@ -446,7 +429,7 @@ class Image extends React.Component {
               headers: this.headers,
               uri: uri.replace('http://', 'https://') // 安卓新版本不允许非https的图片了
             }}
-            fadeDuration={_fadeDuration}
+            fadeDuration={this.fadeDuration}
             onError={this.onError}
             {...other}
           />
@@ -469,7 +452,7 @@ class Image extends React.Component {
               }
             : src
         }
-        fadeDuration={_fadeDuration}
+        fadeDuration={this.fadeDuration}
         onError={this.onError}
         {...other}
       />

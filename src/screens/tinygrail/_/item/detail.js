@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 16:55:37
+ * @Last Modified time: 2021-03-05 10:52:29
  */
 import React from 'react'
-import { Text } from '@components'
+import { Text, Icon } from '@components'
 import { tinygrailStore, _ } from '@stores'
 import { formatNumber, getTimestamp, lastDate, toFixed } from '@utils'
 import { formatTime, tinygrailFixedTime } from '@utils/app'
 import { ob } from '@utils/decorators'
-import { B, M } from '@constants'
+import { decimal, calculateRate } from '@tinygrail/_/utils'
 
 const types = ['bid', 'asks', 'chara']
 const colorMap = {
@@ -25,14 +25,16 @@ let timezone = new Date().getTimezoneOffset() / -60
 if (String(timezone).length === 1) timezone = `0${timezone}`
 
 function Detail({
-  // current,
   end,
   lastOrder,
-  level,
   marketValue,
   price,
+  rank,
   rate,
+  sa,
   sacrifices,
+  starForces,
+  stars,
   state,
   total,
   type,
@@ -48,65 +50,44 @@ function Detail({
   let marketValueText // 总市场价
   let totalText // 总量
   if (show || isICO) {
-    if (marketValue > B) {
-      marketValueText = `${toFixed(marketValue / B, 1)}亿`
-    } else if (marketValue > M) {
-      marketValueText = `${toFixed(marketValue / M, 1)}万`
-    } else {
-      marketValueText = formatNumber(marketValue, 0)
-    }
+    marketValueText = decimal(marketValue)
+    totalText = decimal(total)
+  }
 
-    if (total > 1000) {
-      totalText = `${toFixed(total / M, 1)}万`
+  const extra = []
+  if (isICO) {
+    let _end = end
+    if (!String(_end).includes('+')) _end = `${end}+${timezone}:00`
+    extra.push(formatTime(_end)) // ICO结束时间
+    extra.push(`已筹${totalText || '-'}`) // ICO已筹资金
+  } else {
+    extra.push(
+      `+${toFixed(rate, 1)} (${Number(
+        toFixed(calculateRate(rate, rank, stars), 1)
+      )})`
+    ) // 股息(当前生效股息)
+
+    if (isValhall) {
+      extra.push(`底价${toFixed(price, 1)}`) // 英灵殿底价
+      extra.push(`数量${formatNumber(state, 0)}`) // 英灵殿数量
     } else {
-      totalText = formatNumber(total, 0)
+      if (show || isAuction) {
+        extra.push(`${lastDate(getTimestamp(tinygrailFixedTime(lastOrder)))}`) // 拍卖出价时间
+      }
+      if (totalText) extra.push(`量${totalText}`) // 市场流通量
+      if (marketValueText) extra.push(`总${marketValueText}`) // 市场总值
     }
   }
 
-  let extra
-  if (isICO) {
-    // ICO结束时间
-    let _end = end
-    if (!String(_end).includes('+')) _end = `${end}+${timezone}:00`
-    extra = `${formatTime(_end)} / 已筹${totalText || '-'}`
-  } else {
-    // 流动股息比
-    extra = `+${toFixed(rate, 1)}`
-    // if (show) {
-    //   const rateRatio = toFixed(((rate || 0) / (current || 10)) * 10, 1)
-    //   extra += ` (${rateRatio})`
-    // }
-
-    /**
-     * 圣殿股息比
-     *  - 20210304 第一次调整
-     */
-    // const templeRate = toFixed((rate || 0) * (level + 1) * 0.3, 1)
-    const templeRate = toFixed(rate, 1)
-    if (level !== undefined) extra += ` / +${templeRate}`
-    // if (show) {
-    //   const templeRateRatio = toFixed(
-    //     ((templeRate || 0) / (current || 10)) * 10,
-    //     1
-    //   )
-    //   extra += ` (${templeRateRatio})`
-    // }
-
-    if (isValhall) {
-      extra += ` / 底价${toFixed(price, 1)} / 数量${formatNumber(state, 0)}`
-    } else {
-      if (show || isAuction) {
-        extra += ` / ${lastDate(getTimestamp(tinygrailFixedTime(lastOrder)))}`
-      }
-      if (marketValueText) extra += ` / 总${marketValueText}`
-      if (totalText) extra += ` / 量${totalText}`
-    }
+  if (show) {
+    if (sa) extra.push(`献祭${decimal(sa)}`) // 市场总献祭量
+    if (starForces) extra.push(`通天塔${decimal(starForces)}`) // 市场通天塔献祭量
   }
 
   let icoUser
   let icoHighlight
   if (users && users !== 'ico') {
-    extra += ' / '
+    // extra += ' / '
     icoUser = users
     icoHighlight = Number(icoUser || 0) > 9 && Number(icoUser || 0) < 15
   }
@@ -119,28 +100,43 @@ function Detail({
   }
 
   return (
-    <Text style={_.mt.xs} type='tinygrailText' size={10} lineHeight={12}>
+    <Text style={_.mt.xs} type='tinygrailText' size={11} lineHeight={12}>
       {isDeal && (
-        <Text type={colorMap[type]} size={10} bold>
+        <Text type={colorMap[type]} size={11} bold>
           {prevText}
         </Text>
       )}
       {!!sacrifices && ' / '}
       {!!sacrifices && (
-        <Text type='bid' size={10}>
+        <Text type='bid' size={11}>
           塔{sacrifices}
         </Text>
       )}
       {isDeal && !isAuction && !isValhall && ' / '}
-      {extra}
+      {extra.join(' / ')}
       {!!icoUser && (
         <Text
-          size={10}
+          size={11}
           type={icoHighlight ? 'warning' : 'tinygrailText'}
           bold={icoHighlight}
         >
+          {' / '}
           {icoUser}人
         </Text>
+      )}
+      {!!stars && '  '}
+      {!!stars && (
+        <>
+          {new Array(stars).fill('').map((item, index) => (
+            <Icon
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+              name='ios-star'
+              size={11}
+              color='#ffc107'
+            />
+          ))}
+        </>
       )}
     </Text>
   )

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-30 19:44:03
+ * @Last Modified time: 2021-03-05 00:57:22
  */
 import { Alert, Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -19,9 +19,9 @@ import {
   sortList,
   SORT_SC,
   SORT_GX,
-  SORT_GXB,
-  SORT_SDGX,
-  SORT_SDGXB,
+  // SORT_GXB,
+  // SORT_SDGX,
+  // SORT_SDGXB,
   SORT_CGS,
   SORT_GDZC,
   SORT_CCJZ,
@@ -40,30 +40,30 @@ export const tabs = [
     key: 'chara'
   },
   {
-    title: 'ICO',
-    key: 'ico'
-  },
-  {
     title: '圣殿',
     key: 'temple'
+  },
+  {
+    title: 'ICO',
+    key: 'ico'
   }
 ]
 export const sortDS = [
   SORT_SC,
   SORT_CGS,
+  SORT_GDZC,
+  SORT_GX,
   SORT_DQJ,
   SORT_HYD,
-  SORT_GDZC,
   SORT_DJ,
-  SORT_GX,
-  SORT_SDGX,
+  // SORT_SDGX,
   SORT_SCJ,
   SORT_DQZD,
   SORT_CCJZ,
   SORT_XFJL,
-  SORT_FHL,
-  SORT_GXB,
-  SORT_SDGXB
+  SORT_FHL
+  // SORT_GXB,
+  // SORT_SDGXB
 ]
 const namespace = 'ScreenTinygrailCharaAssets'
 const excludeState = {

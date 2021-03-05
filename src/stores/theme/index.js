@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-29 15:02:03
+ * @Last Modified time: 2021-03-05 01:05:27
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -376,6 +376,10 @@ class Theme extends store {
       screen: {
         flex: 1,
         backgroundColor: this.colorBg
+      },
+      tinygrail: {
+        flex: 1,
+        backgroundColor: this.colorTinygrailContainer
       },
       column: {
         flex: 1,

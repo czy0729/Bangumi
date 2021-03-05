@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 06:02:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-02 10:16:29
+ * @Last Modified time: 2021-03-04 17:34:50
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -138,7 +138,7 @@ export const _colorTinygrailContainer = 'rgb(255, 255, 255)'
 export const _colorTinygrailContainerHex = '#ffffff'
 export const _colorTinygrailBorder = colorBorder
 export const _colorTinygrailIcon = 'rgb(172, 182, 188)'
-export const _colorTinygrailText = 'rgb(160, 160, 160)'
+export const _colorTinygrailText = 'rgb(120, 120, 120)'
 export const _colorTinygrailActive = 'rgb(247, 242, 232)'
 
 // -------------------- 文字 --------------------

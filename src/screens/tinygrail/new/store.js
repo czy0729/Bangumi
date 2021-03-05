@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-04 09:53:23
+ * @Last Modified time: 2021-03-04 22:36:18
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -13,11 +13,13 @@ import {
   levelList,
   sortList,
   relation,
+  SORT_RK,
+  SORT_XX,
   SORT_SC,
   SORT_GX,
-  SORT_GXB,
-  SORT_SDGX,
-  SORT_SDGXB,
+  // SORT_GXB,
+  // SORT_SDGX,
+  // SORT_SDGXB,
   SORT_DJ,
   SORT_HYD,
   SORT_SCJ,
@@ -39,11 +41,13 @@ export const tabs = [
 ]
 export const sortDS = [
   SORT_SC,
+  SORT_RK,
+  SORT_XX,
   SORT_HYD,
   SORT_GX,
-  SORT_GXB,
-  SORT_SDGX,
-  SORT_SDGXB,
+  // SORT_GXB,
+  // SORT_SDGX,
+  // SORT_SDGXB,
   SORT_DQJ,
   SORT_SCJ,
   SORT_DQZD,

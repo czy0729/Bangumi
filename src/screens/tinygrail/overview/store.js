@@ -2,70 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 16:44:37
+ * @Last Modified time: 2021-03-05 10:31:33
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import {
-  levelList,
-  sortList,
-  relation,
-  SORT_RK,
-  SORT_SC,
-  SORT_GX,
-  // SORT_GXB,
-  SORT_SDGX,
-  // SORT_SDGXB,
-  SORT_DJ,
-  SORT_HYD,
-  SORT_SCJ,
-  SORT_FHL,
-  SORT_DQJ,
-  SORT_DQZD,
-  SORT_XFJL
-} from '../_/utils'
-
-export const tabs = [
-  {
-    title: '最近活跃',
-    key: 'recent'
-  },
-  {
-    title: '最高市值',
-    key: 'mvc'
-  },
-  {
-    title: '最高股息',
-    key: 'msrc'
-  },
-  {
-    title: '最大涨幅',
-    key: 'mrc'
-  },
-  {
-    title: '最大跌幅',
-    key: 'mfc'
-  }
-]
-export const sortDS = [
-  SORT_SC,
-  SORT_RK,
-  SORT_HYD,
-  SORT_GX,
-  SORT_SDGX,
-  SORT_DQJ,
-  SORT_SCJ,
-  SORT_DQZD,
-  SORT_DJ,
-  SORT_XFJL,
-  SORT_FHL
-  // SORT_GXB,
-  // SORT_SDGXB
-]
-const namespace = 'ScreenTinygrailOverview'
+import { levelList, sortList, relation } from '@tinygrail/_/utils'
+import { namespace, tabs } from './ds'
 
 export default class ScreenTinygrailOverview extends store {
   state = observable({

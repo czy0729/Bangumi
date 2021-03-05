@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 22:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 01:56:52
+ * @Last Modified time: 2021-03-05 00:32:53
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -30,19 +30,19 @@ function Title({ rank, name, level, bonus }) {
       )}
       <Text
         type='tinygrailPlain'
-        size={name.length > 12 ? 9 : name.length > 8 ? 11 : 13}
-        lineHeight={13}
+        size={name.length > 12 ? 10 : name.length > 8 ? 12 : 14}
+        lineHeight={14}
         bold
       >
         {name}
       </Text>
       {parseInt(level) > 1 && (
-        <Text style={_.ml.xs} type='ask' size={10} lineHeight={13} bold>
+        <Text style={_.ml.xs} type='ask' size={11} lineHeight={14} bold>
           lv{level}
         </Text>
       )}
       {!!bonus && (
-        <Text style={_.ml.xs} type='warning' size={10} lineHeight={13} bold>
+        <Text style={_.ml.xs} type='warning' size={11} lineHeight={14} bold>
           x{bonus}
         </Text>
       )}
@@ -54,7 +54,7 @@ export default ob(Title)
 
 const memoStyles = _.memoStyles(_ => ({
   rank: {
-    width: 30,
+    minWidth: 30,
     marginRight: 6,
     color: _.__colorPlain__,
     textShadowOffset: {

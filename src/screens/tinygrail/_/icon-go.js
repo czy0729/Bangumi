@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-14 03:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 22:00:06
+ * @Last Modified time: 2021-03-05 11:15:15
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -31,6 +31,7 @@ export default observer(IconGo)
 
 const styles = StyleSheet.create({
   icon: {
-    padding: _.sm
+    padding: _.sm,
+    marginRight: -_.xs
   }
 })

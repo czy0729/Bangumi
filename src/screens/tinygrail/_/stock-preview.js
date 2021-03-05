@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 16:41:41
+ * @Last Modified time: 2021-03-05 11:55:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { _, tinygrailStore } from '@stores'
 import { toFixed } from '@utils'
 import { caculateICO } from '@utils/app'
 import { ob } from '@utils/decorators'
+import { decimal } from '@tinygrail/_/utils'
 
 const backgroundColorMap = {
   0: '#aaa',
@@ -47,7 +48,7 @@ class StockPreview extends React.Component {
         <Text
           style={this.styles.iconText}
           type='tinygrailPlain'
-          size={10}
+          size={11}
           align='center'
           bold
         >
@@ -134,7 +135,7 @@ class StockPreview extends React.Component {
       fluctuationText = `${toFixed(fluctuation, 2)}%`
     }
 
-    let fluctuationSize = 12
+    let fluctuationSize = 11
     if (fluctuationText.length > 8) {
       fluctuationSize = 10
     } else if (fluctuationText.length > 7) {
@@ -151,7 +152,7 @@ class StockPreview extends React.Component {
           <Text
             type='tinygrailPlain'
             size={13}
-            lineHeight={16}
+            lineHeight={14}
             bold
             align='right'
           >
@@ -166,8 +167,9 @@ class StockPreview extends React.Component {
                 fluctuationStyle
               ]}
               size={fluctuationSize}
-              lineHeight={16}
+              lineHeight={14}
               align='center'
+              bold
             >
               {show ? realChange : fluctuationText}
             </Text>
@@ -175,15 +177,15 @@ class StockPreview extends React.Component {
         </Flex>
         <Flex style={this.styles.bottom} justify='end'>
           {show && !!change && (
-            <Text type='tinygrailText' size={10}>
+            <Text type='tinygrailText' size={11}>
               量{change}{' '}
             </Text>
           )}
-          {showFloor ? (
+          {showFloor && (
             <Flex>
-              {show && (
-                <Text type='bid' size={10}>
-                  {bids}
+              {show && !!bids && (
+                <Text type='bid' size={11}>
+                  {decimal(bids)}
                 </Text>
               )}
               {show && (
@@ -212,21 +214,12 @@ class StockPreview extends React.Component {
                   />
                 </Flex>
               )}
-              {show && (
-                <Text style={[this.styles.small, _.ml.xs]} type='ask' size={10}>
-                  {asks}
+              {show && !!asks && (
+                <Text style={[this.styles.small, _.ml.xs]} type='ask' size={11}>
+                  {decimal(asks)}
                 </Text>
               )}
             </Flex>
-          ) : (
-            <Text
-              style={this.styles.noDeal}
-              type='tinygrailText'
-              size={10}
-              align='right'
-            >
-              没挂单
-            </Text>
           )}
         </Flex>
       </Touchable>
@@ -241,11 +234,11 @@ class StockPreview extends React.Component {
 const memoStyles = _.memoStyles(_ => ({
   container: {
     height: '100%',
-    paddingVertical: 16,
+    paddingVertical: 17,
     paddingHorizontal: _.sm
   },
   fluctuation: {
-    minWidth: 64,
+    minWidth: 52,
     paddingHorizontal: _.xs,
     borderRadius: 2,
     overflow: 'hidden'
@@ -299,11 +292,7 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     right: _.sm
   },
-  noDeal: {
-    minWidth: 40,
-    marginLeft: _.sm
-  },
   bottom: {
-    marginTop: 4
+    marginTop: 3
   }
 }))
