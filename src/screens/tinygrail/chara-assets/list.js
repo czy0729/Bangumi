@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 16:55:46
+ * @Last Modified time: 2021-03-06 06:50:52
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -25,10 +25,13 @@ function List({ id }, { $, navigation }) {
   }
 
   const { page } = $.state
+  const isMerge = id === 'merge'
   const isChara = id === 'chara'
   const isTemple = id === 'temple'
   let data
-  if (isChara) {
+  if (isMerge) {
+    data = $.mergeList
+  } else if (isChara) {
     data = $.charaList
   } else if (isTemple) {
     data = $.temple

@@ -1,10 +1,8 @@
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-restricted-syntax */
 /*
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 16:53:54
+ * @Last Modified time: 2021-03-06 07:01:15
  */
 import { Alert, Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -25,7 +23,7 @@ const perBatchCount = 10
 
 export default class ScreenTinygrailCharaAssets extends store {
   state = observable({
-    page: 0,
+    page: 1,
     level: '',
     sort: '',
     direction: '', // void | down | up
@@ -55,12 +53,6 @@ export default class ScreenTinygrailCharaAssets extends store {
       this.fetchMyCharaAssets()
       this.fetchMpi()
     }
-
-    // const data = await tinygrailStore.doLink({
-    //   monoId: 45099,
-    //   toMonoId: 26394
-    // })
-    // log(data)
 
     return res
   }
@@ -116,7 +108,6 @@ export default class ScreenTinygrailCharaAssets extends store {
     } catch (error) {
       // do nothing
     }
-
     return res
   }
 
@@ -141,8 +132,9 @@ export default class ScreenTinygrailCharaAssets extends store {
   }
 
   @computed get myCharaAssets() {
+    // 我的持仓页面支持自己和他人公用, 当有用户id时, 为显示他人持仓页面
     if (this.userId) {
-      // 统一他人和自己持仓的数据结构
+      // 构造跟自己持仓一样的数据结构
       const { characters, initials } = tinygrailStore.charaAssets(this.userId)
       const _loaded = getTimestamp()
       return {
@@ -176,6 +168,9 @@ export default class ScreenTinygrailCharaAssets extends store {
     return tinygrailStore.temple(this.userId)
   }
 
+  /**
+   * ICO最高人气, 用于显示自己当前参与的ICO
+   */
   @computed get mpi() {
     return computed(() => tinygrailStore.list('mpi')).get()
   }
@@ -215,6 +210,45 @@ export default class ScreenTinygrailCharaAssets extends store {
       data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
     )
     return data
+  }
+
+  /**
+   * 人物和圣殿合并成总览列表
+   */
+  @computed get mergeList() {
+    const { chara } = this.myCharaAssets
+    const { temple } = this
+    const map = {}
+    chara.list.forEach(item => (map[item.id] = item))
+    temple.list.forEach(item => {
+      if (!map[item.id]) {
+        map[item.id] = {
+          id: item.id,
+          icon: item.cover,
+          level: item.level,
+          monoId: item.id,
+          name: item.name,
+          rank: item.rank,
+          rate: item.rate,
+          sacrifices: item.sacrifices,
+          starForces: item.starForces,
+          stars: item.stars
+        }
+      }
+    })
+
+    const { sort, level, direction } = this.state
+    let list = Object.values(map)
+    if (level) list = levelList(level, list)
+    if (sort) list = sortList(sort, direction, list)
+    return relation({
+      list,
+      pagination: {
+        page: 1,
+        pageTotal: 1
+      },
+      _loaded: getTimestamp()
+    })
   }
 
   // -------------------- page --------------------
@@ -388,8 +422,10 @@ export default class ScreenTinygrailCharaAssets extends store {
 
         const successIds = []
         const errorIds = []
+        // eslint-disable-next-line no-restricted-syntax
         for (const id of ids) {
           try {
+            // eslint-disable-next-line no-await-in-loop
             const { State } = await tinygrailStore.doSacrifice({
               monoId: id,
               amount: editingIds[id],
@@ -456,11 +492,13 @@ export default class ScreenTinygrailCharaAssets extends store {
         const { list } = this.charaList
         const successIds = []
         const errorIds = []
+        // eslint-disable-next-line no-restricted-syntax
         for (const id of ids) {
           try {
             const item = list.find(item => item.id == id)
             if (item) {
               const { current, state } = item
+              // eslint-disable-next-line no-await-in-loop
               const { State } = await tinygrailStore.doAsk({
                 monoId: id,
                 price: current,
@@ -523,6 +561,7 @@ export default class ScreenTinygrailCharaAssets extends store {
     const { page } = this.state
     const list = page === 1 ? this.myCharaAssets.ico : this.charaList
     const items = []
+    // eslint-disable-next-line no-restricted-syntax
     for (const id of ids) {
       try {
         const item = list.list.find(item => item.id == id)

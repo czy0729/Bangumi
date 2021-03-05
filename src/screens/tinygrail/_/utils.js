@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:33:55
+ * @Last Modified time: 2021-03-06 07:20:36
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
@@ -29,9 +29,11 @@ export function calculateRate(rate = 0, rank = 0, stars = 0) {
  * 计算角色当前总股息
  * @param {*} item
  */
-export function calculateTotalRate(item) {
-  const currentRate = calculateRate(item.rate, item.rank, item.stars)
-  return (item.state || 0 + item.sacrifices || 0) * currentRate
+export function calculateTotalRate(item, isBase) {
+  const currentRate = isBase
+    ? item.rate || 0
+    : calculateRate(item.rate, item.rank, item.stars)
+  return ((item.state || 0) + (item.sacrifices || 0)) * currentRate
 }
 
 /**
@@ -64,6 +66,12 @@ export function sortList(sort, direction, list) {
     case SORT_SSZGX.value:
       return list.sort(
         (a, b) => (calculateTotalRate(b) - calculateTotalRate(a)) * base
+      )
+
+    case SORT_ZGX.value:
+      return list.sort(
+        (a, b) =>
+          (calculateTotalRate(b, true) - calculateTotalRate(a, true)) * base
       )
 
     case SORT_RK.value:
@@ -218,13 +226,18 @@ export const SORT_GX = {
   value: 'gx'
 }
 
+export const SORT_ZGX = {
+  label: '总股息',
+  value: 'zgx'
+}
+
 export const SORT_SSGX = {
-  label: '实时股息',
+  label: '生效股息',
   value: 'ssgx'
 }
 
 export const SORT_SSZGX = {
-  label: '实时总股息',
+  label: '生效总股息',
   value: 'sszgx'
 }
 

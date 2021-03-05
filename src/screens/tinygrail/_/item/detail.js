@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:48:48
+ * @Last Modified time: 2021-03-06 07:29:05
  */
 import React from 'react'
 import { Text, Icon } from '@components'
@@ -12,13 +12,14 @@ import { formatTime, tinygrailFixedTime } from '@utils/app'
 import { ob } from '@utils/decorators'
 import { decimal, calculateRate, calculateTotalRate } from '@tinygrail/_/utils'
 
-const types = ['bid', 'asks', 'chara']
+const types = ['bid', 'asks', 'chara', 'merge']
 const colorMap = {
   bid: 'bid',
   asks: 'ask',
   chara: 'warning',
   ico: 'primary',
-  auction: 'warning'
+  auction: 'warning',
+  merge: 'warning'
 }
 
 let timezone = new Date().getTimezoneOffset() / -60
@@ -50,15 +51,15 @@ function Detail({
   let marketValueText // 总市场价
   let totalText // 总量
   if (show || isICO) {
-    marketValueText = decimal(marketValue)
-    totalText = decimal(total)
+    if (marketValue) marketValueText = decimal(marketValue)
+    if (total) totalText = decimal(total)
   }
 
   const extra = []
   if (isICO) {
     let _end = end
     if (!String(_end).includes('+')) _end = `${end}+${timezone}:00`
-    extra.push(formatTime(_end)) // ICO结束时间
+    extra.push(`剩余${formatTime(_end)}`) // ICO结束时间
     extra.push(`已筹${totalText || '-'}`) // ICO已筹资金
   } else {
     extra.push(
@@ -66,9 +67,21 @@ function Detail({
         toFixed(calculateRate(rate, rank, stars), 1)
       )})`
     )
+
     if (show) {
       extra.push(
-        `总股息${decimal(
+        `+${decimal(
+          calculateTotalRate(
+            {
+              rate,
+              rank,
+              stars,
+              state,
+              sacrifices
+            },
+            true
+          )
+        )} (${decimal(
           calculateTotalRate({
             rate,
             rank,
@@ -76,7 +89,7 @@ function Detail({
             state,
             sacrifices
           })
-        )}`
+        )})`
       )
     }
 
@@ -84,7 +97,7 @@ function Detail({
       extra.push(`底价${toFixed(price, 1)}`) // 英灵殿底价
       extra.push(`数量${formatNumber(state, 0)}`) // 英灵殿数量
     } else {
-      if (show || isAuction) {
+      if ((show || isAuction) && lastOrder) {
         extra.push(`${lastDate(getTimestamp(tinygrailFixedTime(lastOrder)))}`) // 拍卖出价时间
       }
       if (totalText) extra.push(`流通量${totalText}`) // 市场流通量
@@ -106,10 +119,10 @@ function Detail({
   }
 
   let prevText
-  if (types.includes(type)) {
+  if (types.includes(type) && state) {
     prevText = `${state}股`
   } else if (type === 'ico') {
-    prevText = `注资${state}`
+    prevText = `注资${decimal(state)}`
   }
 
   return (
@@ -119,7 +132,7 @@ function Detail({
           {prevText}
         </Text>
       )}
-      {!!sacrifices && ' / '}
+      {!!prevText && !!sacrifices && ' / '}
       {!!sacrifices && (
         <Text type='bid' size={11} bold lineHeight={12}>
           塔{sacrifices}
@@ -135,7 +148,7 @@ function Detail({
           bold={icoHighlight}
         >
           {' / '}
-          {icoUser}人
+          当前{icoUser}人
         </Text>
       )}
       {!!stars && ' '}

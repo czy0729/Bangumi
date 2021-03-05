@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:42:29
+ * @Last Modified time: 2021-03-06 07:02:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -157,7 +157,7 @@ class StockPreview extends React.Component {
             bold
             align='right'
           >
-            {toFixed(current, 2)}
+            {current ? toFixed(current, 2) : '-'}
           </Text>
           {!hasNoChanged && (
             <Text
@@ -278,6 +278,7 @@ const memoStyles = _.memoStyles(_ => ({
   },
   ico: {
     height: '100%',
+    maxHeight: 68,
     paddingRight: _.wind
   },
   icoBar: {
