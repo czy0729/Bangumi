@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 10:52:29
+ * @Last Modified time: 2021-03-06 05:48:48
  */
 import React from 'react'
 import { Text, Icon } from '@components'
@@ -10,7 +10,7 @@ import { tinygrailStore, _ } from '@stores'
 import { formatNumber, getTimestamp, lastDate, toFixed } from '@utils'
 import { formatTime, tinygrailFixedTime } from '@utils/app'
 import { ob } from '@utils/decorators'
-import { decimal, calculateRate } from '@tinygrail/_/utils'
+import { decimal, calculateRate, calculateTotalRate } from '@tinygrail/_/utils'
 
 const types = ['bid', 'asks', 'chara']
 const colorMap = {
@@ -65,7 +65,20 @@ function Detail({
       `+${toFixed(rate, 1)} (${Number(
         toFixed(calculateRate(rate, rank, stars), 1)
       )})`
-    ) // 股息(当前生效股息)
+    )
+    if (show) {
+      extra.push(
+        `总股息${decimal(
+          calculateTotalRate({
+            rate,
+            rank,
+            stars,
+            state,
+            sacrifices
+          })
+        )}`
+      )
+    }
 
     if (isValhall) {
       extra.push(`底价${toFixed(price, 1)}`) // 英灵殿底价
@@ -74,8 +87,8 @@ function Detail({
       if (show || isAuction) {
         extra.push(`${lastDate(getTimestamp(tinygrailFixedTime(lastOrder)))}`) // 拍卖出价时间
       }
-      if (totalText) extra.push(`量${totalText}`) // 市场流通量
-      if (marketValueText) extra.push(`总${marketValueText}`) // 市场总值
+      if (totalText) extra.push(`流通量${totalText}`) // 市场流通量
+      if (marketValueText) extra.push(`总值${marketValueText}`) // 市场总值
     }
   }
 
@@ -102,13 +115,13 @@ function Detail({
   return (
     <Text style={_.mt.xs} type='tinygrailText' size={11} lineHeight={12}>
       {isDeal && (
-        <Text type={colorMap[type]} size={11} bold>
+        <Text type={colorMap[type]} size={11} bold lineHeight={12}>
           {prevText}
         </Text>
       )}
       {!!sacrifices && ' / '}
       {!!sacrifices && (
-        <Text type='bid' size={11}>
+        <Text type='bid' size={11} bold lineHeight={12}>
           塔{sacrifices}
         </Text>
       )}
@@ -117,6 +130,7 @@ function Detail({
       {!!icoUser && (
         <Text
           size={11}
+          lineHeight={12}
           type={icoHighlight ? 'warning' : 'tinygrailText'}
           bold={icoHighlight}
         >
@@ -124,7 +138,7 @@ function Detail({
           {icoUser}人
         </Text>
       )}
-      {!!stars && '  '}
+      {!!stars && ' '}
       {!!stars && (
         <>
           {new Array(stars).fill('').map((item, index) => (

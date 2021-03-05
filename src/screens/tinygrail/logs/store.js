@@ -2,53 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 01:09:03
+ * @Last Modified time: 2021-03-06 05:55:42
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-
-export const tabs = [
-  {
-    title: '全部',
-    key: 'all'
-  },
-  {
-    title: '道具',
-    key: 'items'
-  },
-  {
-    title: '刮刮乐',
-    key: 'lottery'
-  },
-  {
-    title: 'ICO',
-    key: 'ico'
-  },
-  {
-    title: '卖出',
-    key: 'asks'
-  },
-  {
-    title: '买入',
-    key: 'bid'
-  },
-  {
-    title: '竞拍',
-    key: 'auction'
-  },
-  {
-    title: '圣殿',
-    key: 'temple'
-  },
-  {
-    title: '分红',
-    key: 'award'
-  }
-]
-const namespace = 'ScreenTinygrailLogs'
+import { namespace } from './ds'
 
 export default class ScreenTinygrailLogs extends store {
   state = observable({

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:20:22
+ * @Last Modified time: 2021-03-05 14:56:10
  */
 import React from 'react'
 import { toJS } from 'mobx'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { refreshControlProps } from '@tinygrail/styles'
 import Item from './item'
-import { tabs } from './store'
+import { tabs } from './ds'
 
 function List({ id, title }, { $ }) {
   const rich = $.rich(id)
@@ -39,9 +40,7 @@ function List({ id, title }, { $ }) {
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={item => String(item.userId)}
-      refreshControlProps={{
-        color: _.colorTinygrailText
-      }}
+      refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={data}
       scrollToTop={tabs[$.state.page].title === title}

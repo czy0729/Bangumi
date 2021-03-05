@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:18:04
+ * @Last Modified time: 2021-03-06 05:56:13
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { obc } from '@utils/decorators'
+import { refreshControlProps } from '@tinygrail/styles'
 import Item from './item'
-import { tabs } from './store'
+import { tabs } from './ds'
 
 function List({ title }, { $ }) {
   if (!$.balance._loaded) {
@@ -84,9 +85,7 @@ function List({ title }, { $ }) {
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
-      refreshControlProps={{
-        color: _.colorTinygrailText
-      }}
+      refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={data}
       scrollToTop={tabs[page].title === title}

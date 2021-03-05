@@ -2,60 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 22:36:18
+ * @Last Modified time: 2021-03-05 14:59:36
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import {
-  levelList,
-  sortList,
-  relation,
-  SORT_RK,
-  SORT_XX,
-  SORT_SC,
-  SORT_GX,
-  // SORT_GXB,
-  // SORT_SDGX,
-  // SORT_SDGXB,
-  SORT_DJ,
-  SORT_HYD,
-  SORT_SCJ,
-  SORT_FHL,
-  SORT_DQJ,
-  SORT_DQZD,
-  SORT_XFJL
-} from '../_/utils'
-
-export const tabs = [
-  {
-    title: '最近活跃',
-    key: 'nbc'
-  },
-  {
-    title: '最高市值',
-    key: 'tnbc'
-  }
-]
-export const sortDS = [
-  SORT_SC,
-  SORT_RK,
-  SORT_XX,
-  SORT_HYD,
-  SORT_GX,
-  // SORT_GXB,
-  // SORT_SDGX,
-  // SORT_SDGXB,
-  SORT_DQJ,
-  SORT_SCJ,
-  SORT_DQZD,
-  SORT_DJ,
-  SORT_XFJL,
-  SORT_FHL
-]
-const namespace = 'ScreenTinygrailNew'
+import { levelList, sortList, relation } from '@tinygrail/_/utils'
+import { namespace, tabs } from './ds'
 
 export default class ScreenTinygrailNew extends store {
   state = observable({

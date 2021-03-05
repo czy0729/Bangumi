@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-17 14:42:03
+ * @Last Modified time: 2021-03-05 14:23:37
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
@@ -57,39 +57,38 @@ function ToolBar({
         </Flex>
       </Popover>
       {!!data.length && (
-        <>
-          <Flex.Item>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {data.map((item, index) => {
-                const isActive = sort === item.value
-                return (
-                  <Touchable
-                    key={item.label}
-                    style={index === 0 && _.ml.sm}
-                    withoutFeedback
-                    onPress={() => onSortPress(item.value)}
+        <ScrollView
+          style={_.container.flex}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        >
+          {data.map((item, index) => {
+            const isActive = sort === item.value
+            return (
+              <Touchable
+                key={item.label}
+                style={index === 0 && _.ml.sm}
+                withoutFeedback
+                onPress={() => onSortPress(item.value)}
+              >
+                <Flex style={styles.item} justify='center'>
+                  <Text
+                    type={isActive ? 'warning' : 'tinygrailText'}
+                    size={13}
+                    bold={isActive}
                   >
-                    <Flex style={styles.item} justify='center'>
-                      <Text
-                        type={isActive ? 'warning' : 'tinygrailText'}
-                        size={13}
-                        bold={isActive}
-                      >
-                        {item.label}
-                      </Text>
-                      <View style={styles.angle}>
-                        {isActive && !!direction && (
-                          <View style={styles[direction]} />
-                        )}
-                      </View>
-                    </Flex>
-                  </Touchable>
-                )
-              })}
-            </ScrollView>
-          </Flex.Item>
-          {data.length > 3 && <View style={styles.tips} />}
-        </>
+                    {item.label}
+                  </Text>
+                  <View style={styles.angle}>
+                    {isActive && !!direction && (
+                      <View style={styles[direction]} />
+                    )}
+                  </View>
+                </Flex>
+              </Touchable>
+            )
+          })}
+        </ScrollView>
       )}
     </Flex>
   )
@@ -106,15 +105,15 @@ export default observer(ToolBar)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {
-    paddingLeft: 6,
-    paddingRight: 10,
-    height: 47,
+    paddingLeft: 12,
+    height: 46,
     borderBottomWidth: _.hairlineWidth,
     borderBottomColor: _.colorTinygrailBorder
   },
   tips: {
     width: 4,
     height: 4,
+    marginTop: -1,
     marginLeft: 8,
     borderWidth: 4,
     borderColor: 'transparent',
@@ -126,13 +125,11 @@ const memoStyles = _.memoStyles(_ => ({
     ]
   },
   popover: {
-    paddingHorizontal: 6,
-    height: 44,
-    marginTop: -3
+    paddingHorizontal: 4,
+    height: 46
   },
   item: {
-    paddingHorizontal: 4,
-    height: 44
+    paddingHorizontal: 4
   },
   angle: {
     width: 4,

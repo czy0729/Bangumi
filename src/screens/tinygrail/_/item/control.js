@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 11:10:39
+ * @Last Modified time: 2021-03-06 05:24:52
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -86,6 +86,6 @@ const styles = _.create({
     paddingLeft: _.md
   },
   stockPreview: {
-    marginRight: -8
+    marginRight: -12
   }
 })

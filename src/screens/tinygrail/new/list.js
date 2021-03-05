@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:18:40
+ * @Last Modified time: 2021-03-05 14:34:12
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { obc } from '@utils/decorators'
-import Item from '../_/item'
-import { tabs } from './store'
+import { refreshControlProps } from '@tinygrail/styles'
+import Item from '@tinygrail/_/item'
+import { tabs } from './ds'
 
 const event = {
   id: '新番榜单.跳转'
@@ -28,9 +29,7 @@ function List({ id }, { $ }) {
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
-      refreshControlProps={{
-        color: _.colorTinygrailText
-      }}
+      refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={list}
       scrollToTop={tabs[page].key === id}

@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:10:04
+ * @Last Modified time: 2021-03-05 17:14:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
-import { withHeaderParams } from '../styles'
-import StatusBarEvents from '../_/status-bar-events'
-import ToolBar from '../_/tool-bar'
-import Tabs from '../_/tabs-v2'
+import { withHeaderParams } from '@tinygrail/styles'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
+import ToolBar from '@tinygrail/_/tool-bar'
+import Tabs from '@tinygrail/_/tabs-v2'
 import Right from './right'
 import List from './list'
-import Store, { tabs, sortDS } from './store'
+import Store from './store'
+import { tabs, sortDS } from './ds'
 
 const title = '我的持仓'
 
@@ -80,7 +81,7 @@ class TinygrailCharaAssets extends React.Component {
     return (
       editing && (
         <Touchable onPress={$.increaseBatchSelect}>
-          <Flex style={this.styles.check}>
+          <Flex style={styles.check}>
             <Iconfont
               name='check-simple'
               size={13}
@@ -120,7 +121,7 @@ class TinygrailCharaAssets extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={this.styles.container}>
+      <View style={_.container.tinygrail}>
         <StatusBarEvents />
         {!!_loaded && (
           <Tabs
@@ -128,7 +129,7 @@ class TinygrailCharaAssets extends React.Component {
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
             renderItem={item => <List key={item.key} id={item.key} />}
             renderLabel={({ route, focused }) => (
-              <Flex style={this.styles.labelText} justify='center'>
+              <Flex style={styles.labelText} justify='center'>
                 <Text type='tinygrailPlain' size={13} bold={focused}>
                   {route.title}
                 </Text>
@@ -145,17 +146,9 @@ class TinygrailCharaAssets extends React.Component {
       </View>
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  },
+const styles = _.create({
   check: {
     paddingHorizontal: 8,
     height: 44,
@@ -164,4 +157,4 @@ const memoStyles = _.memoStyles(_ => ({
   labelText: {
     width: '100%'
   }
-}))
+})

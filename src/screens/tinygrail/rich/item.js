@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 22:44:56
+ * @Last Modified time: 2021-03-05 14:54:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { getTimestamp, lastDate } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { decimal } from '../_/utils'
+import { decimal } from '@tinygrail/_/utils'
 
 function Item(
   {

@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-27 01:38:31
+ * @Last Modified time: 2021-03-06 05:11:59
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Flex, Text, Image } from '@components'
 import { _, systemStore } from '@stores'
 import { Avatar } from '@screens/_'
+import { formatNumber } from '@utils'
 import { HTMLDecode } from '@utils/html'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
+import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
+import Rank from './rank'
 
 const imageWidth = _.window.contentWidth * 0.28
 const imageHeight = imageWidth * 1.28
@@ -26,17 +27,17 @@ function ItemTemple(
   {
     style,
     id,
-    userId,
-    cover,
-    avatar,
-    name,
-    nickname,
     assets,
-    sacrifices,
+    avatar,
+    cover,
     event,
-    type,
     level,
-    // count,
+    name,
+    rank,
+    nickname,
+    sacrifices,
+    type,
+    userId,
     onPress
   },
   { navigation }
@@ -45,21 +46,19 @@ function ItemTemple(
   const { avatarRound } = systemStore.setting
   const { id: eventId, data: eventData } = event
   const isView = type === 'view' // 后来加的最近圣殿
-  // const isFormCharaAssets = !!onPress
   const _name = HTMLDecode(nickname || name)
 
   let colorLevel
   if (level === 3) {
-    colorLevel = _.colorDanger
+    colorLevel = '#b169ff'
   } else if (level === 2) {
-    colorLevel = _.colorWarning
+    colorLevel = '#ffc107'
   }
 
-  const numText = assets
-    ? assets === sacrifices
-      ? assets
-      : `${assets} / ${sacrifices}`
-    : sacrifices
+  const text = [formatNumber(assets, 0)]
+  if (assets !== sacrifices) {
+    text.push(formatNumber(sacrifices, 0))
+  }
   return (
     <View style={[styles.item, style]}>
       <View
@@ -67,7 +66,7 @@ function ItemTemple(
           styles.wrap,
           {
             borderColor: colorLevel,
-            borderWidth: colorLevel ? 3 : 0
+            borderWidth: colorLevel ? _.tSelect(2, 3) : 0
           }
         ]}
       >
@@ -117,10 +116,11 @@ function ItemTemple(
             </Flex>
           )}
           <Text
+            style={_.mt.xs}
             type='tinygrailPlain'
             size={11}
             bold
-            numberOfLines={1}
+            numberOfLines={2}
             onPress={() => {
               t(eventId, {
                 to: 'TinygrailSacrifice',
@@ -160,23 +160,14 @@ function ItemTemple(
               />
             </Flex>
           )}
-          <Text
-            style={styles.name}
-            type='tinygrailPlain'
-            size={11}
-            bold
-            numberOfLines={1}
-          >
-            {numText}
-            <Text
-              type='tinygrailText'
-              size={10}
-              lineHeight={11}
-              numberOfLines={1}
-            >
-              {' '}
+          <Flex>
+            <Rank value={rank} />
+            <Text type='tinygrailPlain' size={11} bold align='center'>
               {_name}
             </Text>
+          </Flex>
+          <Text style={_.mt.xs} type='tinygrailText' size={10} bold>
+            {text.join(' / ')}
           </Text>
         </View>
       )}
@@ -184,16 +175,9 @@ function ItemTemple(
   )
 }
 
-ItemTemple.contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object
-}
-
-ItemTemple.defaultProps = {
+export default obc(ItemTemple, {
   event: EVENT
-}
-
-export default observer(ItemTemple)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   item: {
@@ -218,9 +202,6 @@ const memoStyles = _.memoStyles(_ => ({
     left: 0,
     marginLeft: -(imageResizeWidth - imageWidth) / 2,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  name: {
-    marginTop: 1
   },
   fixed: {
     position: 'absolute',

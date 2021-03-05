@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:19:59
+ * @Last Modified time: 2021-03-05 14:55:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,12 @@ import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { withHeaderParams } from '../styles'
-import StatusBarEvents from '../_/status-bar-events'
-import Tabs from '../_/tabs-v2'
+import { withHeaderParams } from '@tinygrail/styles'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
+import Tabs from '@tinygrail/_/tabs-v2'
 import List from './list'
-import Store, { tabs } from './store'
+import Store from './store'
+import { tabs } from './ds'
 
 const title = '番市首富'
 
@@ -58,7 +59,7 @@ class TinygrailRich extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={this.styles.container}>
+      <View style={_.container.tinygrail}>
         <StatusBarEvents />
         {!!_loaded && (
           <Tabs
@@ -71,15 +72,4 @@ class TinygrailRich extends React.Component {
       </View>
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))

@@ -2,33 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 16:36:15
+ * @Last Modified time: 2021-03-05 14:45:54
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-
-export const tabs = [
-  {
-    title: '最多资金',
-    key: 'mvi'
-  },
-  {
-    title: '最近活跃',
-    key: 'rai'
-  },
-  {
-    title: '即将结束',
-    key: 'mri'
-  },
-  {
-    title: '最高人气',
-    key: 'mpi'
-  }
-]
-const namespace = 'ScreenTinygrailICO'
+import { namespace, tabs } from './ds'
 
 export default class ScreenTinygrailICO extends store {
   state = observable({

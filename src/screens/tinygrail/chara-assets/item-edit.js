@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Item from '../_/item'
+import Item from '@tinygrail/_/item'
 
 function ItemEdit({ index, item, type, users, event }, { $ }) {
   const { editing, editingIds } = $.state

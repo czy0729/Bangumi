@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 22:48:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 11:12:07
+ * @Last Modified time: 2021-03-06 06:00:59
  */
 import React from 'react'
 import { Avatar } from '@screens/_'
@@ -18,7 +18,7 @@ function Icon({ id, monoId, name, icon, event }, { navigation }) {
     <Avatar
       style={styles.avatar}
       src={tinygrailOSS(icon)}
-      size={favor ? _.tSelect(38, 40) : 36}
+      size={40}
       name={name}
       borderWidth={favor ? _.tSelect(1, 2) : 0}
       borderColor={favor ? '#ffc107' : 'transparent'}

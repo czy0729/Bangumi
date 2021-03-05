@@ -3,62 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 23:01:07
+ * @Last Modified time: 2021-03-05 15:56:12
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
-import {
-  throttleInfo,
-  levelList,
-  sortList,
-  relation,
-  SORT_GDS,
-  SORT_SC,
-  SORT_GX,
-  // SORT_GXB,
-  // SORT_SDGX,
-  // SORT_SDGXB,
-  SORT_DJ,
-  SORT_HYD,
-  SORT_SCJ,
-  SORT_FHL,
-  SORT_DQJ,
-  SORT_DQZD,
-  SORT_XFJL
-} from '../_/utils'
-
-export const tabs = [
-  {
-    title: '我的买单',
-    key: 'bid'
-  },
-  {
-    title: '我的卖单',
-    key: 'asks'
-  },
-  {
-    title: '我的拍卖',
-    key: 'auction'
-  }
-]
-export const sortDS = [
-  SORT_SC,
-  SORT_GDS,
-  SORT_HYD,
-  SORT_GX,
-  // SORT_SDGX,
-  SORT_DQJ,
-  SORT_SCJ,
-  SORT_DQZD,
-  SORT_DJ,
-  SORT_XFJL,
-  SORT_FHL
-  // SORT_GXB,
-  // SORT_SDGXB
-]
+import { throttleInfo, levelList, sortList, relation } from '@tinygrail/_/utils'
+import { tabs } from './ds'
 
 export default class ScreenTinygrailBid extends store {
   state = observable({

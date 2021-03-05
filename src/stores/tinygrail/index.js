@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 00:50:11
+ * @Last Modified time: 2021-03-06 04:17:29
  */
 import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
@@ -858,7 +858,7 @@ class Tinygrail extends store {
    * 英灵殿
    */
   fetchValhallList = async () => {
-    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 1000))
+    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 2000))
     const data = {
       ...LIST_EMPTY
     }
@@ -885,7 +885,10 @@ class Tinygrail extends store {
           bonus: item.Bonus,
           rate: Number(toFixed(item.Rate, 2)),
           level: item.Level,
-          price: item.Price
+          price: item.Price,
+          rank: item.Rank,
+          stars: item.Stars,
+          starForces: item.StarForces
         }
       })
       this.updateIconsCache(iconsCache)
@@ -1470,13 +1473,16 @@ class Tinygrail extends store {
         ...LIST_EMPTY,
         list: result.data.Value.Items.map(item => ({
           id: item.CharacterId,
+          assets: item.Assets, // 用户献祭剩余资产
+          cLevel: item.CharacterLevel,
           cover: item.Cover,
-          name: item.Name,
-          assets: item.Assets, // 剩余资产
-          sacrifices: item.Sacrifices, // 献祭总数
-          rate: Number(toFixed(item.Rate, 2)),
           level: item.Level,
-          cLevel: item.CharacterLevel
+          name: item.Name,
+          rank: item.CharacterRank,
+          rate: Number(toFixed(item.Rate, 2)),
+          sacrifices: item.Sacrifices, // 用户献祭总数
+          starForces: item.CharacterStarForces,
+          stars: item.CharacterStars
         })),
         _loaded: getTimestamp()
       }

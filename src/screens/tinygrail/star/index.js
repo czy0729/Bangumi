@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-02 19:36:25
+ * @Last Modified time: 2021-03-05 15:49:27
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
-import { withHeaderParams } from '../styles'
-import StatusBarEvents from '../_/status-bar-events'
+import { withHeaderParams } from '@tinygrail/styles'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from './tool-bar'
 import List from './list'
 import Logs from './logs'
@@ -37,7 +37,7 @@ class TinygrailStar extends React.Component {
 
   render() {
     return (
-      <View style={this.styles.container}>
+      <View style={_.container.tinygrail}>
         <StatusBarEvents />
         <ToolBar />
         <List />
@@ -45,15 +45,4 @@ class TinygrailStar extends React.Component {
       </View>
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
-
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  }
-}))

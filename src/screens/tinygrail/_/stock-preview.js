@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 11:55:49
+ * @Last Modified time: 2021-03-06 05:42:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -150,13 +150,14 @@ class StockPreview extends React.Component {
       >
         <Flex justify='end'>
           <Text
+            style={!hasNoChanged && this.styles.absolute}
             type='tinygrailPlain'
             size={13}
             lineHeight={14}
             bold
             align='right'
           >
-            {toFixed(current, 2)}{' '}
+            {toFixed(current, 2)}
           </Text>
           {!hasNoChanged && (
             <Text
@@ -237,8 +238,13 @@ const memoStyles = _.memoStyles(_ => ({
     paddingVertical: 17,
     paddingHorizontal: _.sm
   },
+  absolute: {
+    position: 'absolute',
+    zIndex: 1,
+    right: 62
+  },
   fluctuation: {
-    minWidth: 52,
+    minWidth: 56,
     paddingHorizontal: _.xs,
     borderRadius: 2,
     overflow: 'hidden'
@@ -293,6 +299,6 @@ const memoStyles = _.memoStyles(_ => ({
     right: _.sm
   },
   bottom: {
-    marginTop: 3
+    marginTop: 4
   }
 }))

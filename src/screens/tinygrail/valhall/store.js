@@ -2,41 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-04 22:49:20
+ * @Last Modified time: 2021-03-05 15:06:06
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import {
-  levelList,
-  sortList,
-  relation,
-  SORT_SC,
-  SORT_GX,
-  // SORT_GXB,
-  // SORT_SDGX,
-  // SORT_SDGXB,
-  SORT_HYD,
-  SORT_DQJ,
-  SORT_DQZD,
-  SORT_XFJL,
-  SORT_DJ
-} from '../_/utils'
+import { levelList, sortList, relation } from '@tinygrail/_/utils'
 
-export const sortDS = [
-  SORT_SC,
-  SORT_HYD,
-  SORT_GX,
-  // SORT_GXB,
-  // SORT_SDGX,
-  // SORT_SDGXB,
-  SORT_DQJ,
-  SORT_DQZD,
-  SORT_DJ,
-  SORT_XFJL
-]
 const namespace = 'ScreenTinygrailValhall'
 
 export default class ScreenTinygrailValhall extends store {

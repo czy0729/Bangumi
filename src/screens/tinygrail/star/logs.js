@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-02 09:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-02 19:58:09
+ * @Last Modified time: 2021-03-05 15:50:39
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -11,7 +11,7 @@ import { IconHeader } from '@screens/_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
-import { refreshControlProps } from '../styles'
+import { refreshControlProps } from '@tinygrail/styles'
 import Log from './log'
 
 const width = 256

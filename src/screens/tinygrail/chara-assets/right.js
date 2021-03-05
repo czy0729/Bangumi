@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
-import IconGo from '../_/icon-go'
+import IconGo from '@tinygrail/_/icon-go'
 
 const data = ['批量献祭', '批量出售', '批量挂卖单', '批量分享']
 const dataICO = ['批量分享']

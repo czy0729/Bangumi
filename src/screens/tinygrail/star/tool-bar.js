@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-03-02 17:57:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-02 19:40:25
+ * @Last Modified time: 2021-03-05 15:50:48
  */
 import React from 'react'
 import { Text } from '@components'
 import { obc } from '@utils/decorators'
-import Btns from '../_/btns'
+import Btns from '@tinygrail/_/btns'
 
 function ToolBar(props, { $ }) {
   const { page, limit } = $.state

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:10:28
+ * @Last Modified time: 2021-03-05 16:55:46
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import ItemTemple from '../_/item-temple'
+import ItemTemple from '@tinygrail/_/item-temple'
+import { refreshControlProps } from '@tinygrail/styles'
 import ItemEdit from './item-edit'
-import { tabs } from './store'
+import { tabs } from './ds'
 
 const event = {
   id: '我的持仓.跳转'
@@ -42,9 +43,7 @@ function List({ id }, { $, navigation }) {
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={(item, index) => String(index)}
-      refreshControlProps={{
-        color: _.colorTinygrailText
-      }}
+      refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={data}
       scrollToTop={id === tabs[page].key}

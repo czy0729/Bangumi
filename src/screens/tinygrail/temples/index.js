@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:22:31
+ * @Last Modified time: 2021-03-05 15:13:12
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ListView, Loading } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
-import { withHeaderParams } from '../styles'
-import StatusBarEvents from '../_/status-bar-events'
-import ItemTemple from '../_/item-temple'
+import { withHeaderParams, refreshControlProps } from '@tinygrail/styles'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
+import ItemTemple from '@tinygrail/_/item-temple'
 import Store from './store'
 
 const title = '最新圣殿'
@@ -41,16 +41,14 @@ class TinygrailTemples extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.templeLast
     return (
-      <View style={this.styles.container}>
+      <View style={_.container.tinygrail}>
         <StatusBarEvents />
         {_loaded ? (
           <ListView
             style={_.container.flex}
-            contentContainerStyle={this.styles.contentContainerStyle}
+            contentContainerStyle={styles.contentContainerStyle}
             keyExtractor={keyExtractor}
-            refreshControlProps={{
-              color: _.colorTinygrailText
-            }}
+            refreshControlProps={refreshControlProps}
             footerTextType='tinygrailText'
             numColumns={3}
             data={$.templeLast}
@@ -65,22 +63,14 @@ class TinygrailTemples extends React.Component {
       </View>
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  },
+const styles = _.create({
   contentContainerStyle: {
     paddingHorizontal: _.wind - _._wind,
     paddingBottom: _.bottom
   }
-}))
+})
 
 function keyExtractor(item) {
   return `${item.id}|${item.userId}`

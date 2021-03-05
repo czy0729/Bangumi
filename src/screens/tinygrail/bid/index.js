@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:09:37
+ * @Last Modified time: 2021-03-05 15:58:14
  */
 import React from 'react'
 import { Alert, View } from 'react-native'
@@ -10,12 +10,13 @@ import { Touchable, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import { withHeaderParams } from '../styles'
-import StatusBarEvents from '../_/status-bar-events'
-import Tabs from '../_/tabs-v2'
-import ToolBar from '../_/tool-bar'
+import { withHeaderParams } from '@tinygrail/styles'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
+import Tabs from '@tinygrail/_/tabs-v2'
+import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
-import Store, { tabs, sortDS } from './store'
+import Store from './store'
+import { tabs, sortDS } from './ds'
 
 const title = '我的委托'
 
@@ -56,7 +57,7 @@ class TinygrailBid extends React.Component {
             )
           }
         >
-          <Text style={this.styles.batch} type='tinygrailText'>
+          <Text style={styles.batch} type='tinygrailText'>
             [一键取消]
           </Text>
         </Touchable>
@@ -103,7 +104,7 @@ class TinygrailBid extends React.Component {
     const { $ } = this.context
     const { _loaded } = $.state
     return (
-      <View style={this.styles.container}>
+      <View style={_.container.tinygrail}>
         <StatusBarEvents />
         {!!_loaded && (
           <Tabs
@@ -111,7 +112,7 @@ class TinygrailBid extends React.Component {
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
             renderItem={item => <List key={item.key} id={item.key} />}
             renderLabel={({ route, focused }) => (
-              <Flex style={this.styles.labelText} justify='center'>
+              <Flex style={styles.labelText} justify='center'>
                 <Text type='tinygrailPlain' size={13} bold={focused}>
                   {route.title}
                 </Text>
@@ -128,21 +129,13 @@ class TinygrailBid extends React.Component {
       </View>
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
 }
 
-const memoStyles = _.memoStyles(_ => ({
-  container: {
-    flex: 1,
-    backgroundColor: _.colorTinygrailContainer
-  },
+const styles = _.create({
   labelText: {
     width: '100%'
   },
   batch: {
     paddingVertical: _.sm
   }
-}))
+})

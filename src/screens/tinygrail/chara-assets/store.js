@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 00:57:22
+ * @Last Modified time: 2021-03-05 16:53:54
  */
 import { Alert, Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -13,59 +13,9 @@ import { toFixed, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { confirm, info, feedback } from '@utils/ui'
-import {
-  relation,
-  levelList,
-  sortList,
-  SORT_SC,
-  SORT_GX,
-  // SORT_GXB,
-  // SORT_SDGX,
-  // SORT_SDGXB,
-  SORT_CGS,
-  SORT_GDZC,
-  SORT_CCJZ,
-  SORT_HYD,
-  SORT_SCJ,
-  SORT_FHL,
-  SORT_DQJ,
-  SORT_DQZD,
-  SORT_XFJL,
-  SORT_DJ
-} from '../_/utils'
+import { relation, levelList, sortList, SORT_HYD } from '@tinygrail/_/utils'
+import { namespace } from './ds'
 
-export const tabs = [
-  {
-    title: '人物',
-    key: 'chara'
-  },
-  {
-    title: '圣殿',
-    key: 'temple'
-  },
-  {
-    title: 'ICO',
-    key: 'ico'
-  }
-]
-export const sortDS = [
-  SORT_SC,
-  SORT_CGS,
-  SORT_GDZC,
-  SORT_GX,
-  SORT_DQJ,
-  SORT_HYD,
-  SORT_DJ,
-  // SORT_SDGX,
-  SORT_SCJ,
-  SORT_DQZD,
-  SORT_CCJZ,
-  SORT_XFJL,
-  SORT_FHL
-  // SORT_GXB,
-  // SORT_SDGXB
-]
-const namespace = 'ScreenTinygrailCharaAssets'
 const excludeState = {
   editing: false, // 是否批量选择中
   editingIds: {}, // 选中的角色id

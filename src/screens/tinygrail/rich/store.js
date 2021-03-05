@@ -2,33 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-25 17:27:03
+ * @Last Modified time: 2021-03-05 14:54:26
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-
-export const tabs = [
-  {
-    title: '1-100',
-    key: '1/100'
-  },
-  {
-    title: '股息',
-    key: '1/100/0'
-  },
-  {
-    title: '余额',
-    key: '1/100/1'
-  },
-  {
-    title: '初始',
-    key: '1/100/3'
-  }
-]
-const namespace = 'ScreenTinygrailRich'
+import { namespace, tabs } from './ds'
 
 export default class ScreenTinygrailRich extends store {
   state = observable({

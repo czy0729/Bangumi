@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 11:00:39
+ * @Last Modified time: 2021-03-06 05:33:55
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
@@ -18,11 +18,20 @@ import XSBRelationData from '@constants/json/xsb-relation'
  * @param {*} rank
  * @param {*} stars
  */
-export function calculateRate(rate, rank, stars) {
+export function calculateRate(rate = 0, rank = 0, stars = 0) {
   if (rank < 501 && rate > 0) {
     return (601 - rank) * 0.005 * rate
   }
   return stars * 2
+}
+
+/**
+ * 计算角色当前总股息
+ * @param {*} item
+ */
+export function calculateTotalRate(item) {
+  const currentRate = calculateRate(item.rate, item.rank, item.stars)
+  return (item.state || 0 + item.sacrifices || 0) * currentRate
 }
 
 /**
@@ -50,6 +59,11 @@ export function sortList(sort, direction, list) {
           (calculateRate(b.rate, b.rank, b.stars) -
             calculateRate(a.rate, a.rank, a.stars)) *
           base
+      )
+
+    case SORT_SSZGX.value:
+      return list.sort(
+        (a, b) => (calculateTotalRate(b) - calculateTotalRate(a)) * base
       )
 
     case SORT_RK.value:
@@ -200,13 +214,18 @@ export const SORT_SC = {
 }
 
 export const SORT_GX = {
-  label: '股息', // 流动股息
+  label: '股息',
   value: 'gx'
 }
 
 export const SORT_SSGX = {
-  label: '实时股息', // 实时股息
+  label: '实时股息',
   value: 'ssgx'
+}
+
+export const SORT_SSZGX = {
+  label: '实时总股息',
+  value: 'sszgx'
 }
 
 export const SORT_GXB = {

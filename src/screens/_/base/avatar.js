@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-28 15:15:47
+ * @Last Modified time: 2021-03-06 04:39:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { t } from '@utils/fetch'
 import { IOS, URL_DEFAULT_AVATAR, IMG_DEFAULT } from '@constants'
 import { HOST_CDN, CDN_OSS_AVATAR } from '@constants/cdn'
 
-const ts = getTimestamp()
+const ts = parseInt(getTimestamp() / 604800) // 一周才变化一次
 
 function Avatar({
   style,
@@ -49,7 +49,6 @@ function Avatar({
   if (avatar?.medium) {
     const _1 = mSrc.split('?')[0].split('/m/')
     const _2 = getCoverMedium(avatar.medium, true).split('?')[0].split('/m/')
-
     if (_1[1] && _2[1] && _1[1] === _2[1]) {
       _src = `${mSrc}?r=${ts}`
     }
@@ -60,7 +59,7 @@ function Avatar({
   }
 
   // 若还是原始头像, 使用本地
-  if (userStore.isLimit && _src.includes(URL_DEFAULT_AVATAR)) {
+  if ((userStore.isLimit && _src.includes(URL_DEFAULT_AVATAR)) || !_src) {
     _src = IMG_DEFAULT
   }
 

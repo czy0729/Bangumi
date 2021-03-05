@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:15:41
+ * @Last Modified time: 2021-03-05 15:45:05
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -13,7 +13,10 @@ import { t } from '@utils/fetch'
 const sectionWidth = parseInt((_.window.width - _.wind * 2 - _._wind) / 2)
 const sectionHeight = Math.min(sectionWidth / 2.68, 88)
 
-function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
+function MenuItem(
+  { style, iconStyle, pathname, config, title, icon },
+  { navigation }
+) {
   const styles = memoStyles()
   return (
     <Touchable
@@ -31,7 +34,11 @@ function MenuItem({ style, pathname, config, title, icon }, { navigation }) {
         <Text type='tinygrailPlain' size={18} bold>
           {title}
         </Text>
-        <Iconfont style={styles.icon} name={icon} size={46} />
+        <Iconfont
+          style={iconStyle ? [styles.icon, iconStyle] : styles.icon}
+          name={icon}
+          size={46}
+        />
       </Flex>
     </Touchable>
   )
