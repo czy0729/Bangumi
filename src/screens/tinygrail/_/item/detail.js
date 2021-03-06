@@ -1,8 +1,9 @@
+/* eslint-disable react/no-array-index-key */
 /*
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 07:29:05
+ * @Last Modified time: 2021-03-06 18:44:27
  */
 import React from 'react'
 import { Text, Icon } from '@components'
@@ -68,7 +69,7 @@ function Detail({
       )})`
     )
 
-    if (show) {
+    if (show && (state || sacrifices)) {
       extra.push(
         `+${decimal(
           calculateTotalRate(
@@ -151,22 +152,55 @@ function Detail({
           当前{icoUser}人
         </Text>
       )}
-      {!!stars && ' '}
-      {!!stars && (
-        <>
-          {new Array(stars).fill('').map((item, index) => (
-            <Icon
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              name='ios-star'
-              size={11}
-              color='#ffc107'
-            />
-          ))}
-        </>
-      )}
+      {renderStars(stars)}
     </Text>
   )
 }
 
 export default ob(Detail)
+
+function renderStars(stars) {
+  if (!stars) return null
+
+  const style = {
+    lineHeight: _.fontSize(12).lineHeight
+  }
+  const sun = parseInt(stars / 16)
+  const moon = parseInt((stars - sun * 16) / 4)
+  const star = stars - sun * 16 - moon * 4
+  return (
+    <>
+      {' '}
+      {!!sun &&
+        new Array(sun).fill('').map((item, index) => (
+          <Icon
+            key={index}
+            style={style}
+            name='ios-sunny'
+            size={11}
+            color='#ffc107'
+          />
+        ))}
+      {!!moon &&
+        new Array(moon).fill('').map((item, index) => (
+          <Icon
+            key={index}
+            style={style}
+            name='ios-moon'
+            size={11}
+            color='#ffc107'
+          />
+        ))}
+      {!!star &&
+        new Array(star).fill('').map((item, index) => (
+          <Icon
+            key={index}
+            style={style}
+            name='ios-star'
+            size={11}
+            color='#ffc107'
+          />
+        ))}
+    </>
+  )
+}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 07:01:15
+ * @Last Modified time: 2021-03-06 16:24:14
  */
 import { Alert, Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -223,6 +223,7 @@ export default class ScreenTinygrailCharaAssets extends store {
     temple.list.forEach(item => {
       if (!map[item.id]) {
         map[item.id] = {
+          ...tinygrailStore.characters(item.id),
           id: item.id,
           icon: item.cover,
           level: item.level,

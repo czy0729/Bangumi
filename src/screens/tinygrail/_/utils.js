@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 07:20:36
+ * @Last Modified time: 2021-03-06 16:53:06
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
@@ -41,8 +41,8 @@ export function calculateTotalRate(item, isBase) {
  * @param {*} value
  */
 export function decimal(value) {
-  if (value > B) return `${toFixed(value / B, 1)}亿`
-  if (value > M) return `${toFixed(value / M, 1)}万`
+  if (value >= B) return `${toFixed(value / B, 1)}亿`
+  if (value >= M) return `${toFixed(value / M, 1)}万`
   return formatNumber(value, 0)
 }
 

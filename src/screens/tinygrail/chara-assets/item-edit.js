@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 00:33:56
+ * @Last Modified time: 2021-03-06 15:06:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,9 +15,6 @@ function ItemEdit({ index, item, type, users, event }, { $ }) {
   const { editing, editingIds } = $.state
   const { id, monoId, state } = item
   const isActive = editingIds[id]
-  let _users
-  if (users === 'ico') _users = $.mpiUsers[monoId]
-
   return (
     <Touchable
       withoutFeedback={!editing}
@@ -38,7 +35,7 @@ function ItemEdit({ index, item, type, users, event }, { $ }) {
             index={index}
             {...item}
             type={type}
-            users={_users || users}
+            users={users === 'ico' ? $.mpiUsers[monoId] : users}
             event={event}
             showMenu={!editing}
             withoutFeedback={editing}

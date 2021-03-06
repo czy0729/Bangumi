@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:12:49
+ * @Last Modified time: 2021-03-06 17:26:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,21 +13,19 @@ import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import Rank from '@tinygrail/_/rank'
+import { calculateRate } from '@tinygrail/_/utils'
 
 function Header(props, { $, navigation }) {
   const styles = memoStyles()
-  const { icon, name, fluctuation, bonus, rate, level } = $.chara
+  const { icon, name, fluctuation, rate, level, rank, stars } = $.chara
   let color = 'tinygrailPlain'
-  if (fluctuation < 0) {
-    color = 'ask'
-  } else if (fluctuation > 0) {
-    color = 'bid'
-  }
-
   let fluctuationText = ''
   if (fluctuation > 0) {
+    color = 'bid'
     fluctuationText = `+${toFixed(fluctuation, 2)}%`
   } else if (fluctuation < 0) {
+    color = 'ask'
     fluctuationText = `${toFixed(fluctuation, 2)}%`
   }
 
@@ -55,7 +53,7 @@ function Header(props, { $, navigation }) {
               <Avatar
                 style={styles.avatar}
                 src={tinygrailOSS(icon)}
-                size={32}
+                size={40}
                 borderColor='transparent'
                 name={name}
                 onPress={() => {
@@ -73,99 +71,101 @@ function Header(props, { $, navigation }) {
             )}
             <Flex.Item style={_.ml.sm}>
               <Flex>
-                <Text type='tinygrailPlain' size={13} numberOfLines={1} bold>
+                <Rank value={rank} />
+                <Text
+                  type='tinygrailPlain'
+                  size={name.length > 12 ? 10 : name.length > 8 ? 12 : 13}
+                  numberOfLines={1}
+                  lineHeight={13}
+                  bold
+                >
                   {name}
-                  {!!bonus && (
-                    <Text type='warning' size={12} lineHeight={13}>
-                      {' '}
-                      x{bonus}
-                    </Text>
-                  )}
-                  <Text type='ask' size={12} lineHeight={13}>
-                    {' '}
-                    lv{level}
-                  </Text>
+                </Text>
+                <Text style={_.ml.xs} type='ask' size={11} bold lineHeight={13}>
+                  lv{level}
                 </Text>
                 <Text
                   style={_.ml.xs}
                   type={color}
-                  size={12}
+                  size={11}
                   lineHeight={13}
                   align='center'
+                  bold
                 >
                   {fluctuationText}
                 </Text>
               </Flex>
-              <Text type='tinygrailText' size={11} lineHeight={13}>
-                #{$.monoId} / +{toFixed(rate, 2)} / +
-                {toFixed(rate * (level + 1) * 0.3, 2)}
-                {!!subject && (
-                  <Text
-                    type='tinygrailText'
-                    size={11}
-                    onPress={() => {
-                      navigation.push('TinygrailRelation', {
-                        ids: r,
-                        name: `${subject} (${r.length})`
-                      })
-                    }}
-                  >
-                    {' '}
-                    [关联]
-                  </Text>
-                )}
+              <Text type='tinygrailText' size={11} lineHeight={14}>
+                #{$.monoId} / +{toFixed(rate, 1)} (
+                {Number(toFixed(calculateRate(rate, rank, stars), 1))})
               </Text>
             </Flex.Item>
           </Flex>
         </Flex.Item>
-        <Text
-          style={styles.sacrifice}
-          type='tinygrailText'
-          size={13}
-          onPress={() => {
-            t('交易.跳转', {
-              to: 'TinygrailSacrifice',
-              monoId: $.monoId
-            })
+        <Flex>
+          <Text
+            type='tinygrailText'
+            size={12}
+            onPress={() => {
+              t('交易.跳转', {
+                to: 'TinygrailSacrifice',
+                monoId: $.monoId
+              })
 
-            const { form, monoId } = $.params
-            if (form === 'sacrifice') {
-              navigation.goBack()
-              return
-            }
+              const { form, monoId } = $.params
+              if (form === 'sacrifice') {
+                navigation.goBack()
+                return
+              }
 
-            navigation.push('TinygrailSacrifice', {
-              monoId,
-              form: 'deal'
-            })
-          }}
-        >
-          [资产重组]
-        </Text>
-        <Text
-          style={styles.trade}
-          type='tinygrailText'
-          size={13}
-          onPress={() => {
-            t('交易.跳转', {
-              to: 'TinygrailTrade',
-              monoId: $.monoId
-            })
+              navigation.push('TinygrailSacrifice', {
+                monoId,
+                form: 'deal'
+              })
+            }}
+          >
+            [资产重组]
+          </Text>
+          <Text
+            style={_.ml.xs}
+            type='tinygrailText'
+            size={12}
+            onPress={() => {
+              t('交易.跳转', {
+                to: 'TinygrailTrade',
+                monoId: $.monoId
+              })
 
-            const { form, monoId } = $.params
-            if (form === 'trade') {
-              navigation.goBack()
-              return
-            }
+              const { form, monoId } = $.params
+              if (form === 'trade') {
+                navigation.goBack()
+                return
+              }
 
-            navigation.push('TinygrailTrade', {
-              monoId,
-              form: 'deal'
-            })
-          }}
-        >
-          [K线]
-        </Text>
+              navigation.push('TinygrailTrade', {
+                monoId,
+                form: 'deal'
+              })
+            }}
+          >
+            [K线]
+          </Text>
+          {!!subject && (
+            <Text
+              style={_.ml.xs}
+              type='tinygrailText'
+              size={12}
+              onPress={() => {
+                navigation.push('TinygrailRelation', {
+                  ids: r,
+                  name: `${subject} (${r.length})`
+                })
+              }}
+            >
+              [关联]
+            </Text>
+          )}
+        </Flex>
       </Flex>
     </View>
   )
@@ -191,12 +191,5 @@ const memoStyles = _.memoStyles(_ => ({
   avatar: {
     marginLeft: -_.sm,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
-  sacrifice: {
-    paddingVertical: _.sm
-  },
-  trade: {
-    paddingVertical: _.sm,
-    marginHorizontal: _.sm
   }
 }))

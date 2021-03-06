@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 07:02:17
+ * @Last Modified time: 2021-03-06 18:16:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -177,15 +177,15 @@ class StockPreview extends React.Component {
           )}
         </Flex>
         <Flex style={this.styles.bottom} justify='end'>
-          {show && !!change && (
-            <Text type='tinygrailText' size={11}>
+          {show && !!change && change >= 10 && (
+            <Text type='tinygrailText' size={10}>
               量{change}{' '}
             </Text>
           )}
           {showFloor && (
             <Flex>
               {show && !!bids && (
-                <Text type='bid' size={11}>
+                <Text type='bid' size={10}>
                   {decimal(bids)}
                 </Text>
               )}
@@ -216,7 +216,7 @@ class StockPreview extends React.Component {
                 </Flex>
               )}
               {show && !!asks && (
-                <Text style={[this.styles.small, _.ml.xs]} type='ask' size={11}>
+                <Text style={[this.styles.small, _.ml.xs]} type='ask' size={10}>
                   {decimal(asks)}
                 </Text>
               )}
@@ -241,11 +241,12 @@ const memoStyles = _.memoStyles(_ => ({
   absolute: {
     position: 'absolute',
     zIndex: 1,
-    right: 62
+    right: 64
   },
   fluctuation: {
     minWidth: 56,
     paddingHorizontal: _.xs,
+    paddingBottom: 0.5,
     borderRadius: 2,
     overflow: 'hidden'
   },
@@ -262,7 +263,7 @@ const memoStyles = _.memoStyles(_ => ({
     width: 64
   },
   floorShowDetail: {
-    width: 36
+    width: 24
   },
   bids: {
     height: 2,

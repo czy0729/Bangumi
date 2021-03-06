@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:13:00
+ * @Last Modified time: 2021-03-06 15:28:41
  */
 import React from 'react'
 import { ScrollView, View, RefreshControl } from 'react-native'
@@ -11,7 +11,7 @@ import { StatusBarPlaceholder } from '@screens/_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
-import StatusBarEvents from '../_/status-bar-events'
+import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Header from './header'
 import Form from './form'
 import Depth from './depth'

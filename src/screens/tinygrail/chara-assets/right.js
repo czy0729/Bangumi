@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 00:59:45
+ * @Last Modified time: 2021-03-06 17:19:54
  */
 import React from 'react'
-import { Iconfont } from '@components'
+import { Icon } from '@components'
 import { Popover, IconTouchable } from '@screens/_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
@@ -74,7 +74,7 @@ function IconRight({ $ }) {
             $.toggleBatchEdit(key)
           }}
         >
-          <Iconfont name='star-list' size={21} color={_.colorTinygrailPlain} />
+          <Icon name='ios-list' size={24} color={_.colorTinygrailPlain} />
         </Popover>
       )}
     </>

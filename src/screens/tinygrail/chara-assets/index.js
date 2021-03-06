@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 17:14:06
+ * @Last Modified time: 2021-03-06 18:15:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -99,7 +99,7 @@ class TinygrailCharaAssets extends React.Component {
   renderContentHeaderComponent() {
     const { $ } = this.context
     const { page, level, sort, direction } = $.state
-    if (page !== 0) {
+    if (page > 1) {
       return undefined
     }
 

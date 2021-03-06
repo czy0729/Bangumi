@@ -3,17 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 04:17:29
+ * @Last Modified time: 2021-03-06 16:51:24
  */
-import { ToastAndroid } from 'react-native'
 import { observable, computed, toJS } from 'mobx'
-import { getTimestamp, toFixed, throttle, lastDate } from '@utils'
+import { getTimestamp, toFixed, lastDate } from '@utils'
 import store from '@utils/store'
 import { HTMLDecode } from '@utils/html'
 import { queue, xhrCustom } from '@utils/fetch'
 import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
-import { SDK, IOS, LIST_EMPTY } from '@constants'
+import { SDK, LIST_EMPTY } from '@constants'
 import {
   API_TINYGRAIL_ASK,
   API_TINYGRAIL_ASSETS,
@@ -80,17 +79,8 @@ import {
   INIT_MY_CHARA_ASSETS,
   INIT_AUCTION_STATUS
 } from './init'
-
-const defaultKey = 'recent'
-const defaultSort = '1/50'
-function _info(message) {
-  info(message, 0.4)
-}
-const throttleInfo = throttle(_info, IOS ? 400 : ToastAndroid.SHORT)
-const paginationOnePage = {
-  page: 1,
-  pageTotal: 1
-}
+import { throttleInfo, toCharacter } from './utils'
+import { defaultKey, defaultSort, paginationOnePage, storageKeys } from './ds'
 
 class Tinygrail extends store {
   state = observable({
@@ -105,7 +95,12 @@ class Tinygrail extends store {
     advance: false,
 
     /**
-     * 人物数据
+     * 用户唯一标识
+     */
+    hash: '',
+
+    /**
+     * 全局人物数据
      * @param {*} monoId
      */
     characters: {
@@ -152,11 +147,6 @@ class Tinygrail extends store {
     depth: {
       0: INIT_DEPTH_ITEM
     },
-
-    /**
-     * 用户唯一标识
-     */
-    hash: '',
 
     /**
      * 用户资产
@@ -390,45 +380,7 @@ class Tinygrail extends store {
     _stockPreview: false
   })
 
-  init = () =>
-    this.readStorage(
-      [
-        'advance',
-        'advanceAuctionList',
-        'advanceAuctionList2',
-        'advanceBidList',
-        'advanceList',
-        'advanceSacrificeList',
-        'asks',
-        'assets',
-        'auction',
-        'balance',
-        'bid',
-        'charaAll',
-        'charaAssets',
-        'charaTemple',
-        'characters',
-        'collected',
-        'cookie',
-        'depth',
-        'hash',
-        'iconsCache',
-        'issuePrice',
-        'items',
-        'kline',
-        'mvi',
-        'myCharaAssets',
-        'nbc',
-        'recent',
-        'rich',
-        'star',
-        'temple',
-        'topWeek',
-        'userLogs',
-        'valhallList'
-      ],
-      NAMESPACE
-    )
+  init = () => this.readStorage(storageKeys, NAMESPACE)
 
   // -------------------- get --------------------
   list(key = defaultKey) {
@@ -448,14 +400,10 @@ class Tinygrail extends store {
         Cookie: this.cookie
       }
     }
-    if (data) {
-      config.data = data
-    }
+    if (data) config.data = data
 
     return axios(config).catch(() => {
-      if (showError) {
-        info('接口出错')
-      }
+      if (showError) info('接口出错')
     })
   }
 
@@ -463,15 +411,8 @@ class Tinygrail extends store {
    * 判断是否高级用户
    */
   fetchAdvance = async () => {
-    // 永久性质
-    if (this.advance) {
-      return true
-    }
-
-    if (!UserStore.myId) {
-      return false
-    }
-
+    if (this.advance) return true
+    if (!UserStore.myId) return false
     try {
       const { _response } = await xhrCustom({
         // url: 'https://czy0729.github.io/Bangumi/web/advance.json'
@@ -494,113 +435,95 @@ class Tinygrail extends store {
 
   /**
    * 人物数据
-   *  - 20201017 [deprecated] API_TINYGRAIL_CHARAS => API_TINYGRAIL_CHARA
+   *  - 20201017 API_TINYGRAIL_CHARAS => API_TINYGRAIL_CHARA
+   *  - 20210306 optimize
+   * @param {*} ids
    */
   fetchCharacters = async ids => {
+    const key = 'characters'
     const result = await this.fetch(API_TINYGRAIL_CHARA(parseInt(ids[0])))
-    const { characters } = this.state
-    const data = {
-      ...characters
-    }
 
     if (result.data.State === 0) {
-      const iconsCache = toJS(this.state.iconsCache)
+      const data = {}
+      const iconsCache = {}
+
       const target = Array.isArray(result.data.Value)
         ? result.data.Value
         : [result.data.Value]
       target.forEach(item => {
         const id = item.CharacterId || item.Id
-        if (item.Icon) {
-          iconsCache[id] = item.Icon
-        }
-        data[id] = {
-          id,
-          icoId: item.Id, // to check
-          bids: item.Bids,
-          asks: item.Asks,
-          change: item.Change,
-          current: item.Current,
-          fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-          total: item.Total,
-          marketValue: item.MarketValue,
-          lastOrder: item.LastOrder,
-          lastDeal: item.LastDeal,
-          end: item.End, // to check
-          users: item.Users, // to check
-          name: item.Name,
-          icon: item.Icon,
-          bonus: item.Bonus,
-          rate: Number(toFixed(item.Rate, 2)),
-          level: item.Level,
-          _loaded: getTimestamp()
-        }
+        if (item.Icon) iconsCache[id] = item.Icon
+        data[id] = toCharacter(item)
       })
+
       this.updateIconsCache(iconsCache)
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
     }
 
-    const key = 'characters'
-    this.setState({
-      [key]: data
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-
-    return Promise.resolve(data)
+    return Promise.resolve(this.state[key])
   }
 
   /**
    * 总览列表
-   * @notice 需自行添加顺序index, 以支持二次排序显示
+   *  - 自行添加顺序index, 以支持二次排序显示
+   *  - 20210306 optimize
    */
   fetchList = async (key = defaultKey) => {
     const result = await this.fetch(API_TINYGRAIL_LIST(key))
-    let data = {
-      ...LIST_EMPTY
-    }
+
     if (result.data.State === 0) {
-      const iconsCache = toJS(this.state.iconsCache)
-      data = {
+      const keys = [
+        'asks',
+        'bids',
+        'bonus',
+        'change',
+        'current',
+        'end',
+        'fluctuation',
+        'icon',
+        'lastOrder',
+        'level',
+        'marketValue',
+        'name',
+        'rank',
+        'rate',
+        'sa',
+        'starForces',
+        'stars',
+        'total',
+        'users'
+      ]
+      const iconsCache = {}
+      const data = {
         ...LIST_EMPTY,
         list: (result.data.Value.Items || result.data.Value).map(
           (item, index) => {
+            const character = toCharacter(item, keys)
             const id = item.CharacterId || item.Id
-            if (item.Icon) iconsCache[id] = item.Icon
+            const { icon } = character
+            if (icon) iconsCache[id] = icon
             return {
-              _index: index + 1, // 索引
-              id, // 角色id
-              bids: item.Bids, // 买单
-              asks: item.Asks, // 卖单
-              change: item.Change, // 今天成交量
-              current: item.Current, // 当前价格
-              fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '', // 当前涨跌
-              total: item.Total, // 流通量
-              marketValue: item.MarketValue, // 市场总值
-              lastOrder: item.LastOrder, // 最近交易
-              end: item.End, // [ico] 结束时间
-              users: item.Users, // [ico] 参与人数
-              name: item.Name, // 角色名
-              icon: item.Icon, // 角色头像
-              bonus: item.Bonus, // 新番加成
-              rate: Number(toFixed(item.Rate, 2)), // 股息
-              level: item.Level, // 等级
-              sa: item.Sacrifices, // 献祭数量
-              rank: item.Rank, // 通天塔排名
-              stars: item.Stars, // 通天塔星数
-              starForces: item.StarForces // 通天塔献祭量
+              ...character,
+              _index: index + 1, // 索引,
+              id
             }
           }
         ),
         pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
+
       this.updateIconsCache(iconsCache)
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
     }
 
-    this.setState({
-      [key]: data
-    })
-    this.setStorage(key, undefined, NAMESPACE)
-
-    return Promise.resolve(data)
+    return Promise.resolve(this.state[key])
   }
 
   /**
@@ -856,51 +779,80 @@ class Tinygrail extends store {
 
   /**
    * 英灵殿
+   *  - 20210306 optimize, 更新全局角色基本数据
    */
   fetchValhallList = async () => {
-    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 2000))
-    const data = {
-      ...LIST_EMPTY
-    }
-    if (result.data.State === 0) {
-      const iconsCache = toJS(this.state.iconsCache)
-      data._loaded = getTimestamp()
-      data.list = result.data.Value.Items.map(item => {
-        if (item.Icon) iconsCache[item.Id] = item.Icon
-        return {
-          id: item.Id,
-          icon: item.Icon,
-          name: item.Name,
-          current: item.Current,
-          state: item.State,
-          total: item.Total,
-          bids: item.Bids,
-          asks: item.Asks,
-          change: item.Change,
-          fluctuation: item.Fluctuation ? item.Fluctuation * 100 : '',
-          marketValue: item.MarketValue,
-          lastOrder: item.LastOrder,
-          end: item.End,
-          users: item.Users,
-          bonus: item.Bonus,
-          rate: Number(toFixed(item.Rate, 2)),
-          level: item.Level,
-          price: item.Price,
-          rank: item.Rank,
-          stars: item.Stars,
-          starForces: item.StarForces
-        }
-      })
-      this.updateIconsCache(iconsCache)
-    }
-
     const key = 'valhallList'
-    this.setState({
-      [key]: data
-    })
-    this.setStorage(key, undefined, NAMESPACE)
+    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, 1600))
+    if (result.data.State === 0) {
+      const keys = [
+        'asks',
+        'bids',
+        'bonus',
+        'change',
+        'current',
+        'fluctuation',
+        'icon',
+        'id',
+        'lastOrder',
+        'level',
+        'marketValue',
+        'name',
+        'price',
+        'rank',
+        'rate',
+        'starForces',
+        'stars',
+        'state',
+        'total'
+      ]
+      const iconsCache = {}
+      const characters = {}
+      const data = {
+        list: result.data.Value.Items.map(item => {
+          const character = toCharacter(item, keys)
+          const {
+            bonus,
+            current,
+            fluctuation,
+            icon,
+            id,
+            level,
+            rank,
+            rate,
+            sacrifices,
+            stars
+          } = character
 
-    return Promise.resolve(data)
+          if (icon) iconsCache[id] = icon
+          characters[id] = {
+            ...this.characters(id),
+            bonus,
+            current,
+            fluctuation,
+            icon,
+            id,
+            level,
+            rank,
+            rate,
+            sacrifices,
+            stars
+          }
+
+          return character
+        }),
+        pagination: paginationOnePage,
+        _loaded: getTimestamp()
+      }
+
+      this.updateCharacters(characters)
+      this.setState({
+        [key]: data
+      })
+      this.setStorage(key, undefined, NAMESPACE)
+    }
+
+    return Promise.resolve(this.state[key])
   }
 
   /**
@@ -2202,6 +2154,13 @@ class Tinygrail extends store {
       iconsCache
     })
     this.setStorage('iconsCache', undefined, NAMESPACE)
+  }
+
+  updateCharacters = characters => {
+    this.setState({
+      characters
+    })
+    this.setStorage('characters', undefined, NAMESPACE)
   }
 
   updateWebViewShow = show => {

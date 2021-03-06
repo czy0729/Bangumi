@@ -2,24 +2,37 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 20:55:20
+ * @Last Modified time: 2021-03-06 16:15:46
  */
 import { LIST_EMPTY } from '@constants'
 
 export const NAMESPACE = 'Tinygrail'
 
 export const INIT_CHARACTERS_ITEM = {
-  id: 0,
-  bids: 0, // 买入
-  asks: 0, // 卖出
-  change: 0, // 成交量
+  // end: '', // 若角色当前是ico状态, 返回ico结束时间
+  // icoId: 0, // 若角色当前是ico状态, 返回ico的id
+  // users: 0, // 若角色当前是ico状态, 返回当前参与ico人数
+  // type: 0, // 不详
+  amount: 0, // 英灵殿数量
+  asks: 0, // 当前市场卖出数
+  bids: 0, // 当前市场买入数
+  bonus: 0, // 新番加成(周)
+  change: 0, // 今天成交量
   current: 0, // 当前价
   fluctuation: 0, // 涨跌幅
-  total: 0, // 发行量
-  marketValue: 0, // 市值
-  users: 0, // ico人数
+  icon: '', // 头像
+  id: 0, // 角色bgm id
+  lastDeal: '', // 最近交易时间
+  lastOrder: '', // 最近挂单时间
+  level: 0, // 角色等级
+  marketValue: 0, // 总市值
   name: '', // 人物中文名
-  rate: ''
+  price: 0, // 英灵殿底价
+  rank: 0, // 通天塔等级
+  rate: 0, // 基本股息
+  starForces: 0, // 通天塔献祭量
+  stars: 0, // 通天塔星星
+  total: 0 // 发行量
 }
 
 export const INIT_RICH = {
