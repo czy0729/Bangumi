@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-26 17:52:40
+ * @Last Modified time: 2021-03-07 21:14:36
  */
 import { Alert } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -15,9 +15,11 @@ import {
   toFixed
 } from '@utils'
 import store from '@utils/store'
-import { queue, t } from '@utils/fetch'
+import { queue, t, xhrCustom } from '@utils/fetch'
 import { info, feedback } from '@utils/ui'
+import { API_TINYGRAIL_STAR } from '@constants/api'
 import XSBRelationData from '@constants/json/xsb-relation'
+import { decimal, calculateRate } from '@tinygrail/_/utils'
 
 const namespace = 'ScreenTinygrailSacrifice'
 const excludeState = {
@@ -26,7 +28,8 @@ const excludeState = {
   expand: false, // 展开所有圣殿
   auctionLoading: false,
   auctionAmount: 0,
-  auctionPrice: 0
+  auctionPrice: 0,
+  starForcesValue: 0
 }
 const initLastAuction = {
   price: '',
@@ -46,6 +49,19 @@ export default class ScreenTinygrailSacrifice extends store {
     showLogs: true, // 显示记录
     showTemples: true, // 显示圣殿
     showUsers: true, // 显示董事会
+    showSacrifice: true, // 显示献祭模块
+    showStarForces: true, // 显示星之力模块
+    showAuction: true, // 显示竞拍模块
+
+    // 通天塔各分段排名需要的献祭数
+    rankStarForces: {
+      100: '',
+      200: '',
+      300: '',
+      400: '',
+      500: '',
+      _loaded: 0
+    },
     ...excludeState,
     loading: false,
 
@@ -55,28 +71,27 @@ export default class ScreenTinygrailSacrifice extends store {
   })
 
   init = async () => {
-    const { _loaded } = this.state
-    const current = getTimestamp()
-    const needFetch = !_loaded || current - _loaded > 60
-
     const state = (await this.getStorage(undefined, namespace)) || {}
     const lastAuction =
       (await getStorage(this.namespaceLastAuction)) || initLastAuction
     const lastSacrifice =
       (await getStorage(this.namespaceLastSacrifice)) || initLastSacrifice
 
+    const current = getTimestamp()
     this.setState({
       ...state,
       ...excludeState,
       lastAuction,
       lastSacrifice,
-      _loaded: needFetch ? current : _loaded
+      _loaded: current
     })
 
-    if (needFetch) {
-      return this.refresh()
+    const { rankStarForces } = this.state
+    if (!rankStarForces._loaded || current - rankStarForces._loaded > 600) {
+      this.fetchStarForcesRankValues()
     }
-    return true
+
+    return this.refresh()
   }
 
   refresh = async update => {
@@ -87,10 +102,11 @@ export default class ScreenTinygrailSacrifice extends store {
         () => tinygrailStore.fetchAssets(), // 自己的资产
         () => tinygrailStore.fetchIssuePrice(this.monoId), // 角色发行价
         () => this.fetchValhallChara(), // 本次拍卖信息
-        () => tinygrailStore.fetchCharaTemple(this.monoId), // 所有人固定资产
+        () => tinygrailStore.fetchCharaTemple(this.monoId), // 所有人固定资产 (可以得到自己的可用资产)
         () => tinygrailStore.fetchAuctionStatus(this.monoId), // 当前拍卖状态
         () => tinygrailStore.fetchAuctionList(this.monoId), // 上周拍卖信息
-        () => tinygrailStore.fetchUsers(this.monoId) // 董事会
+        () => tinygrailStore.fetchUsers(this.monoId), // 董事会
+        () => this.fetchStarForcesRankValues()
       ])
     }
 
@@ -119,6 +135,29 @@ export default class ScreenTinygrailSacrifice extends store {
       // do nothing
     }
     return res
+  }
+
+  fetchStarForcesRankValues = async () => {
+    const rankStarForces = {
+      _loaded: getTimestamp()
+    }
+    try {
+      for (let i = 1; i <= 5; i += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        const { _response } = await xhrCustom({
+          url: API_TINYGRAIL_STAR(i * 100, 1)
+        })
+        const { Value } = JSON.parse(_response)
+        rankStarForces[i * 100] = Value[0].StarForces
+      }
+    } catch (error) {
+      // do nothing
+    }
+
+    this.setState({
+      rankStarForces
+    })
+    this.setStorage(undefined, undefined, namespace)
   }
 
   // -------------------- get --------------------
@@ -203,6 +242,54 @@ export default class ScreenTinygrailSacrifice extends store {
       subject: s ? XSBRelationData.name[s] : '',
       r: [Number(this.monoId), ...r]
     }
+  }
+
+  /**
+   * 计算通天塔各分段等级需要的星之力在slider上面的位置
+   */
+  @computed get rankPercents() {
+    const { rankStarForces } = this.state
+    const { state = 0, rank = 0, rate, stars, starForces = 0 } = this.chara
+    const { sacrifices = 0 } = this.userLogs
+    const { assets = 0 } = this.myTemple
+    const max = parseInt(assets || sacrifices)
+
+    const data = []
+    const currentRate = calculateRate(rate, rank, stars)
+    const current = {
+      left: 0,
+      rank,
+      text: formatNumber(starForces, 0),
+      distance: 0,
+      rate: toFixed(currentRate, 1),
+      totalRate: (state + assets) * currentRate
+    }
+    for (let i = 1; i <= 5; i += 1) {
+      const r = i * 100 || 1
+      if (
+        max &&
+        rank > r &&
+        rankStarForces[r] &&
+        assets + starForces > rankStarForces[r]
+      ) {
+        const _rate = calculateRate(rate, r, stars)
+        const distance = rankStarForces[r] - starForces + 1
+        data.push({
+          left: `${((rankStarForces[r] - starForces + 1) / max) * 100}%`,
+          rank: r,
+          text: formatNumber(rankStarForces[r], 0),
+          distance, // 距离段位差多少星之力
+          rate: toFixed(_rate, 1), // 打到段位可以提升多少生效股息
+          totalRate: decimal(
+            (state + assets - distance) * _rate - current.totalRate
+          )
+        })
+      }
+    }
+
+    data.push(current) // 当前
+
+    return data
   }
 
   // -------------------- action --------------------
@@ -369,6 +456,59 @@ export default class ScreenTinygrailSacrifice extends store {
     this.refresh(true)
   }
 
+  /**
+   * 灌注星之力
+   */
+  doStarForces = async () => {
+    const { loading } = this.state
+    if (loading) {
+      return
+    }
+
+    this.setState({
+      loading: true
+    })
+
+    const { starForcesValue } = this.state
+    if (!starForcesValue) {
+      info('请输入星之力数量')
+      this.setState({
+        loading: false
+      })
+      return
+    }
+
+    t('资产重组.灌注星之力', {
+      monoId: this.monoId,
+      amount: starForcesValue
+    })
+
+    const { State, Message } = await tinygrailStore.doStarForces({
+      monoId: this.monoId,
+      amount: starForcesValue
+    })
+    feedback()
+
+    if (State !== 0) {
+      info(Message)
+      this.setState({
+        loading: false
+      })
+      return
+    }
+
+    Alert.alert('小圣杯助手', '星之力转化完成', [
+      {
+        text: '知道了'
+      }
+    ])
+    this.setState({
+      loading: false,
+      starForcesValue: 0
+    })
+    this.refresh()
+  }
+
   // -------------------- page --------------------
   /**
    * 金额格式过滤
@@ -507,6 +647,22 @@ export default class ScreenTinygrailSacrifice extends store {
   }
 
   /**
+   * 星之力改变
+   */
+  changeStarForces = starforces => {
+    let _starforces = parseInt(starforces)
+
+    // eslint-disable-next-line no-restricted-globals
+    if (isNaN(_starforces)) {
+      _starforces = 0
+    }
+
+    this.setState({
+      starForcesValue: _starforces
+    })
+  }
+
+  /**
    * 展开/收起所有圣殿
    */
   toggleExpand = () => {
@@ -618,6 +774,39 @@ export default class ScreenTinygrailSacrifice extends store {
 
     this.setState({
       showUsers: !showUsers
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起献祭模块
+   */
+  toggleSacrifice = () => {
+    const { showSacrifice } = this.state
+    this.setState({
+      showSacrifice: !showSacrifice
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起拍卖模块
+   */
+  toggleAuction = () => {
+    const { showAuction } = this.state
+    this.setState({
+      showAuction: !showAuction
+    })
+    this.setStorage(undefined, undefined, namespace)
+  }
+
+  /**
+   * 展开收起星之力模块
+   */
+  toggleStarForces = () => {
+    const { showStarForces } = this.state
+    this.setState({
+      showStarForces: !showStarForces
     })
     this.setStorage(undefined, undefined, namespace)
   }

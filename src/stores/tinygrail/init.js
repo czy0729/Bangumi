@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 16:15:46
+ * @Last Modified time: 2021-03-07 01:18:47
  */
 import { LIST_EMPTY } from '@constants'
 
 export const NAMESPACE = 'Tinygrail'
 
 export const INIT_CHARACTERS_ITEM = {
+  // assets: 0, // 塔可用资产
   // end: '', // 若角色当前是ico状态, 返回ico结束时间
   // icoId: 0, // 若角色当前是ico状态, 返回ico的id
   // users: 0, // 若角色当前是ico状态, 返回当前参与ico人数

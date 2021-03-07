@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:21:44
+ * @Last Modified time: 2021-03-07 04:57:02
  */
 import React from 'react'
-import { View, Alert } from 'react-native'
-import { Flex, Text, Touchable } from '@components'
+import { View } from 'react-native'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import ItemTemple from '../_/item-temple'
+import ItemTemple from '@tinygrail/_/item-temple'
+import { calculateRate } from '@tinygrail/_/utils'
 
 const event = {
   id: '资产重组.圣殿图查看'
@@ -26,11 +26,11 @@ class Temples extends React.Component {
     return list.find(item => item.name === $.hash)
   }
 
-  get templeRate() {
-    const { $ } = this.context
-    const { rate, level } = $.chara
-    return rate * (level + 1) * 0.3
-  }
+  // get templeRate() {
+  //   const { $ } = this.context
+  //   const { rate, level } = $.chara
+  //   return rate * (level + 1) * 0.3
+  // }
 
   get levelMap() {
     const { $ } = this.context
@@ -88,63 +88,62 @@ class Temples extends React.Component {
     return _list
   }
 
-  onShowRule = () => {}
+  // onShowAlert = () => {
+  //   const { $ } = this.context
+  //   const { rate } = $.chara
+  //   const { amount } = $.userLogs
+  //   t('资产重组.股息查看', {
+  //     monoId: $.monoId
+  //   })
 
-  onShowAlert = () => {
-    const { $ } = this.context
-    const { rate } = $.chara
-    const { amount } = $.userLogs
-    t('资产重组.股息查看', {
-      monoId: $.monoId
-    })
+  //   const rateBonus = amount * rate
+  //   let message = `您拥有流动股 ${amount} 股，派息 ${toFixed(rateBonus, 1)}`
+  //   if (this.myTemple) {
+  //     const { sacrifices = 0 } = this.myTemple || {}
+  //     const templeRateBonus = sacrifices * this.templeRate
+  //     message += `\n圣殿股 ${sacrifices} 股，派息 ${toFixed(
+  //       templeRateBonus,
+  //       1
+  //     )}\n共派息 ${toFixed(rateBonus + templeRateBonus, 1)}`
+  //   }
 
-    const rateBonus = amount * rate
-    let message = `您拥有流动股 ${amount} 股，派息 ${toFixed(rateBonus, 1)}`
-    if (this.myTemple) {
-      const { sacrifices = 0 } = this.myTemple || {}
-      const templeRateBonus = sacrifices * this.templeRate
-      message += `\n圣殿股 ${sacrifices} 股，派息 ${toFixed(
-        templeRateBonus,
-        1
-      )}\n共派息 ${toFixed(rateBonus + templeRateBonus, 1)}`
-    }
-
-    Alert.alert('小圣杯助手', message, [
-      {
-        text: '知道了'
-      }
-    ])
-  }
+  //   Alert.alert('小圣杯助手', message, [
+  //     {
+  //       text: '知道了'
+  //     }
+  //   ])
+  // }
 
   render() {
     const { $ } = this.context
     const { style } = this.props
     const { showTemples, expand } = $.state
-    const { rate } = $.chara
+    const { rate, rank, stars } = $.chara
     const { list } = $.charaTemple
     return (
       <View style={[styles.container, style]}>
         <Flex style={styles.info}>
           <Flex.Item>
-            <Text type='tinygrailText' size={13} lineHeight={17}>
+            <Text type='tinygrailPlain' size={13} lineHeight={16}>
               固定资产{list.length || '-'}{' '}
               {!!list.length &&
                 `(${this.levelMap[3]}+${this.levelMap[2]}+${this.levelMap[1]})`}{' '}
               /{' '}
-              <Text size={17} type='warning'>
-                +{rate ? formatNumber(rate) : '-'} (
-                {toFixed(this.templeRate, 2)})
+              <Text type='warning' size={14} lineHeight={16}>
+                +{rate ? formatNumber(rate, 1) : '-'}(
+                {toFixed(calculateRate(rate, rank, stars), 1)})
               </Text>
             </Text>
           </Flex.Item>
-          <Touchable
+          {/* <Touchable
             style={{
               padding: _.sm
             }}
+            size={13}
             onPress={this.onShowAlert}
           >
             <Text type='tinygrailText'>[计息]</Text>
-          </Touchable>
+          </Touchable> */}
         </Flex>
         {showTemples && (
           <Flex style={styles.temples} wrap='wrap'>
@@ -157,6 +156,7 @@ class Temples extends React.Component {
                 name={item.name}
                 nickname={item.nickname}
                 sacrifices={item.sacrifices}
+                assets={item.assets}
                 level={item.level}
                 count={item.count}
               />

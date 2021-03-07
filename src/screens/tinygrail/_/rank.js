@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-03-06 04:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:07:54
+ * @Last Modified time: 2021-03-07 19:39:35
  */
 import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
-function Rank({ value }) {
+function Rank({ style, size, value }) {
   if (!value) {
     return null
   }
@@ -21,9 +21,10 @@ function Rank({ value }) {
         styles.rank,
         {
           backgroundColor: value <= 500 ? '#ffc107' : '#aaa'
-        }
+        },
+        style
       ]}
-      size={10}
+      size={size}
       bold
       align='center'
     >
@@ -32,7 +33,9 @@ function Rank({ value }) {
   )
 }
 
-export default ob(Rank)
+export default ob(Rank, {
+  size: 10
+})
 
 const memoStyles = _.memoStyles(_ => ({
   rank: {

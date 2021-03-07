@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:11:59
+ * @Last Modified time: 2021-03-07 02:19:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -160,7 +160,7 @@ function ItemTemple(
               />
             </Flex>
           )}
-          <Flex>
+          <Flex style={_.mt.xs}>
             <Rank value={rank} />
             <Text type='tinygrailPlain' size={11} bold align='center'>
               {_name}

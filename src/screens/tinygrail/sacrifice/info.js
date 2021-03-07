@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:21:04
+ * @Last Modified time: 2021-03-07 20:43:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,8 @@ import { formatNumber, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import { tinygrailOSS, getCoverLarge } from '@utils/app'
 import { t } from '@utils/fetch'
+import Rank from '@tinygrail/_/rank'
+import Stars from '@tinygrail/_/stars'
 
 function Info(props, { $, navigation }) {
   const styles = memoStyles()
@@ -25,7 +27,9 @@ function Info(props, { $, navigation }) {
     current,
     total,
     level,
-    fluctuation
+    fluctuation,
+    rank,
+    stars
   } = $.chara
   let color = 'tinygrailPlain'
   if (fluctuation < 0) {
@@ -79,15 +83,16 @@ function Info(props, { $, navigation }) {
           }}
         >
           <Flex justify='center'>
+            <Rank value={rank} />
             <Text type='tinygrailPlain' size={15} align='center' bold>
               #{id} - {name}
               {!!bonus && (
-                <Text type='warning' size={15}>
+                <Text type='warning' size={12} lineHeight={15} bold>
                   {' '}
                   x{bonus}
                 </Text>
               )}
-              <Text type='ask' size={15}>
+              <Text type='ask' size={12} lineHeight={15} bold>
                 {' '}
                 lv{level}
               </Text>
@@ -101,22 +106,28 @@ function Info(props, { $, navigation }) {
           </Flex>
         </Touchable>
       </Flex>
+      {!!stars && (
+        <Flex style={_.mt.xs} justify='center'>
+          <Stars value={stars} size={15} />
+        </Flex>
+      )}
       <Flex
-        style={[_.container.wind, _.mt.sm]}
+        style={[_.container.wind, _.mt.xs]}
         justify='center'
         align='baseline'
       >
-        <Text type='tinygrailText' align='center' size={13}>
-          市值{formatNumber(marketValue, 0, $.short)} / 量
-          {formatNumber(total, 0, $.short)} / 发行价 {toFixed($.issuePrice, 1)}{' '}
-          /{' '}
-          <Text type='tinygrailPlain' size={13}>
-            {current && toFixed(current, 1)}
-          </Text>
-          <Text type={color} align='center' size={13}>
-            {' '}
-            {fluctuationText}
-          </Text>
+        <Text type='tinygrailPlain' size={15} bold>
+          ₵{current && toFixed(current, 1)}
+        </Text>
+        <Text type={color} align='center' size={12}>
+          {' '}
+          {fluctuationText}
+        </Text>
+        <Text type='tinygrailText' align='center' size={12}>
+          {' '}
+          / 发行价{toFixed($.issuePrice, 1)} / 市值
+          {formatNumber(marketValue, 0, $.short)} / 量
+          {formatNumber(total, 0, $.short)}
         </Text>
       </Flex>
       <Flex style={_.mt.sm} justify='center'>

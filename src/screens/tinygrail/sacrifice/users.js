@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:21:53
+ * @Last Modified time: 2021-03-07 04:57:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Avatar } from '@screens/_'
 import { _ } from '@stores'
 import { formatNumber, toFixed, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
+import Rank from '@tinygrail/_/rank'
 
 const event = {
   id: '资产重组.跳转',
@@ -29,7 +30,7 @@ function Users({ style }, { $, navigation }) {
   const { list, total } = $.users
   return (
     <View style={[_.container.inner, style]}>
-      <Text type='tinygrailText' size={13} lineHeight={17}>
+      <Text type='tinygrailPlain' size={13} lineHeight={17}>
         董事会{' '}
         <Text type='warning' size={17}>
           {total || '-'}
@@ -59,17 +60,19 @@ function Users({ style }, { $, navigation }) {
               </UserStatus>
               <Flex.Item style={_.ml.sm}>
                 <Flex style={!!item.balance && _.mt.xs}>
-                  <Text type='tinygrailPlain' size={12} bold numberOfLines={1}>
+                  <Rank style={styles.rank} value={item.lastIndex} />
+                  <Text
+                    type='tinygrailPlain'
+                    size={11}
+                    lineHeight={12}
+                    bold
+                    numberOfLines={1}
+                  >
                     {item.nickName}
                   </Text>
-                  {item.lastIndex !== 0 && (
-                    <Text style={styles.rank} type='ask' size={9} bold>
-                      #{item.lastIndex}
-                    </Text>
-                  )}
                 </Flex>
                 {!!item.balance && (
-                  <Text type='tinygrailText' size={11} lineHeight={13}>
+                  <Text type='tinygrailText' size={10} lineHeight={12} bold>
                     +{formatNumber(item.balance, 0)}{' '}
                     {toFixed((item.balance / amount) * 100, 2)}%
                   </Text>
@@ -104,13 +107,13 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.colorTinygrailContainer
   },
   avatar: {
+    marginTop: 2,
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   expand: {
     paddingVertical: _.sm
   },
   rank: {
-    marginTop: -2,
-    marginLeft: 2
+    minWidth: 24
   }
 }))

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 16:51:24
+ * @Last Modified time: 2021-03-07 20:00:26
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate } from '@utils'
@@ -14,6 +14,7 @@ import { info } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
 import { SDK, LIST_EMPTY } from '@constants'
 import {
+  // API_TINYGRAIL_CHARAS,
   API_TINYGRAIL_ASK,
   API_TINYGRAIL_ASSETS,
   API_TINYGRAIL_AUCTION,
@@ -27,20 +28,23 @@ import {
   API_TINYGRAIL_BONUS_HOLIDAY,
   API_TINYGRAIL_CANCEL_ASK,
   API_TINYGRAIL_CANCEL_BID,
-  // API_TINYGRAIL_CHARAS,
   API_TINYGRAIL_CHARA,
   API_TINYGRAIL_CHARA_ALL,
   API_TINYGRAIL_CHARA_ASKS,
   API_TINYGRAIL_CHARA_ASSETS,
   API_TINYGRAIL_CHARA_BID,
+  API_TINYGRAIL_CHARA_STAR,
   API_TINYGRAIL_CHARA_TEMPLE,
   API_TINYGRAIL_CHARTS,
+  API_TINYGRAIL_DAILY_COUNT,
   API_TINYGRAIL_DEPTH,
   API_TINYGRAIL_HASH,
+  API_TINYGRAIL_INIT,
   API_TINYGRAIL_INITIAL,
   API_TINYGRAIL_ISSUE_PRICE,
   API_TINYGRAIL_ITEMS,
   API_TINYGRAIL_JOIN,
+  API_TINYGRAIL_LINK,
   API_TINYGRAIL_LIST,
   API_TINYGRAIL_MAGIC,
   API_TINYGRAIL_MY_AUCTION_LIST,
@@ -49,21 +53,18 @@ import {
   API_TINYGRAIL_SACRIFICE,
   API_TINYGRAIL_SCRATCH,
   API_TINYGRAIL_SCRATCH2,
+  API_TINYGRAIL_SEARCH,
+  API_TINYGRAIL_STAR,
+  API_TINYGRAIL_STAR_LOGS,
   API_TINYGRAIL_TEMPLE,
   API_TINYGRAIL_TEMPLE_LAST,
   API_TINYGRAIL_TOP_WEEK,
   API_TINYGRAIL_USERS,
   API_TINYGRAIL_USER_CHARA,
+  API_TINYGRAIL_USER_CHARA_TOTAL,
+  API_TINYGRAIL_USER_TEMPLE_TOTAL,
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
-  API_TINYGRAIL_USER_TEMPLE_TOTAL,
-  API_TINYGRAIL_USER_CHARA_TOTAL,
-  API_TINYGRAIL_SEARCH,
-  API_TINYGRAIL_LINK,
-  API_TINYGRAIL_DAILY_COUNT,
-  API_TINYGRAIL_INIT,
-  API_TINYGRAIL_STAR,
-  API_TINYGRAIL_STAR_LOGS,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants/api'
 import UserStore from '../user'
@@ -2524,6 +2525,17 @@ class Tinygrail extends store {
    */
   doICO = async ({ monoId }) => {
     const { data } = await this.fetch(API_TINYGRAIL_INIT(monoId), true)
+    return data
+  }
+
+  /**
+   * 灌注星之力
+   */
+  doStarForces = async ({ monoId, amount }) => {
+    const { data } = await this.fetch(
+      API_TINYGRAIL_CHARA_STAR(monoId, amount),
+      true
+    )
     return data
   }
 }

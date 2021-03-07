@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 16:24:14
+ * @Last Modified time: 2021-03-07 01:41:48
  */
 import { Alert, Clipboard } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -232,8 +232,15 @@ export default class ScreenTinygrailCharaAssets extends store {
           rank: item.rank,
           rate: item.rate,
           sacrifices: item.sacrifices,
+          assets: item.assets,
           starForces: item.starForces,
           stars: item.stars
+        }
+      } else {
+        map[item.id] = {
+          ...map[item.id],
+          sacrifices: item.sacrifices,
+          assets: item.assets
         }
       }
     })

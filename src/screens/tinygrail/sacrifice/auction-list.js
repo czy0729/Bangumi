@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:20:41
+ * @Last Modified time: 2021-03-07 02:09:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,9 +10,8 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
 
-function AuctionList({ style }, { $, navigation }) {
+function AuctionList({ style }, { $ }) {
   const styles = memoStyles()
   const { showLogs } = $.state
   const { list, _loaded } = $.auctionList
@@ -29,14 +28,14 @@ function AuctionList({ style }, { $, navigation }) {
       {_loaded && (
         <View style={styles.info}>
           {list.length ? (
-            <Text type='tinygrailPlain'>
+            <Text type='tinygrailPlain' size={13}>
               上周公示：共 {list.length || '-'} 人拍卖，成功{' '}
               {successCount || '-'} 人 /{' '}
               {successAmount ? formatNumber(successAmount, 0) : '-'} 股
             </Text>
           ) : (
             <Flex style={_.mt.md} direction='column'>
-              <Text style={_.mt.sm} type='tinygrailPlain'>
+              <Text style={_.mt.sm} type='tinygrailPlain' size={13}>
                 上周没有拍卖纪录
               </Text>
             </Flex>
@@ -61,19 +60,19 @@ function AuctionList({ style }, { $, navigation }) {
                   <Text
                     type='tinygrailPlain'
                     size={12}
-                    onPress={() => {
-                      t('资产重组.跳转', {
-                        to: 'Zone',
-                        from: '竞拍列表',
-                        monoId: $.monoId,
-                        userId: item.name
-                      })
+                    // onPress={() => {
+                    //   t('资产重组.跳转', {
+                    //     to: 'Zone',
+                    //     from: '竞拍列表',
+                    //     monoId: $.monoId,
+                    //     userId: item.name
+                    //   })
 
-                      navigation.push('Zone', {
-                        userId: item.name,
-                        from: 'tinygrail'
-                      })
-                    }}
+                    //   navigation.push('Zone', {
+                    //     userId: item.name,
+                    //     from: 'tinygrail'
+                    //   })
+                    // }}
                   >
                     {item.nickname}
                   </Text>

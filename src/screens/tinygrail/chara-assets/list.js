@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 06:50:52
+ * @Last Modified time: 2021-03-07 01:43:47
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -87,9 +87,13 @@ function List({ id }, { $, navigation }) {
           />
         )
       }}
-      onHeaderRefresh={() =>
-        isTemple ? $.fetchTemple() : $.fetchMyCharaAssets()
-      }
+      onHeaderRefresh={() => {
+        if (isMerge) {
+          $.fetchTemple()
+          return $.fetchMyCharaAssets()
+        }
+        return isTemple ? $.fetchTemple() : $.fetchMyCharaAssets()
+      }}
     />
   )
 }

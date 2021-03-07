@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-12-17 10:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-04 20:01:32
+ * @Last Modified time: 2021-03-07 21:17:59
  */
 
 /**
@@ -440,6 +440,7 @@ export default {
   '资产重组.展开收起圣殿板块': 'TSacrifice.toggleTemples',
   '资产重组.展开收起董事会': 'TSacrifice.toggleUsers',
   '资产重组.测试效率': 'TSacrifice.doTestSacrifice',
+  '资产重组.灌注星之力': 'TSacrifice.doStarForces',
 
   // 人物直达
   '人物直达.跳转': 'TSearch.to',

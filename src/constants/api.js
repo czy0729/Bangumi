@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-28 17:37:05
+ * @Last Modified time: 2021-03-07 19:58:30
  */
 import { HOST } from './index'
 
@@ -525,3 +525,9 @@ export const API_TINYGRAIL_STAR = (page = 1, limit = 50) =>
  */
 export const API_TINYGRAIL_STAR_LOGS = (page = 1, limit = 50) =>
   `${API_HOST_TINYGRAIL}/api/chara/star/log/${page}/${limit}`
+
+/**
+ * 灌注星之力
+ */
+export const API_TINYGRAIL_CHARA_STAR = (monoId = 0, amount = 0) =>
+  `https://tinygrail.com/api/chara/star/${monoId}/${amount}`

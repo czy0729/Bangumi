@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 16:53:06
+ * @Last Modified time: 2021-03-07 21:10:10
  */
 import { ToastAndroid } from 'react-native'
 import { tinygrailStore } from '@stores'
@@ -33,7 +33,9 @@ export function calculateTotalRate(item, isBase) {
   const currentRate = isBase
     ? item.rate || 0
     : calculateRate(item.rate, item.rank, item.stars)
-  return ((item.state || 0) + (item.sacrifices || 0)) * currentRate
+  return (
+    ((item.state || 0) + (item.assets || item.sacrifices || 0)) * currentRate
+  )
 }
 
 /**

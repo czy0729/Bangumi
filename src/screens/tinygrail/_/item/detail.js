@@ -1,17 +1,17 @@
-/* eslint-disable react/no-array-index-key */
 /*
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 18:44:27
+ * @Last Modified time: 2021-03-07 20:31:28
  */
 import React from 'react'
-import { Text, Icon } from '@components'
+import { Text } from '@components'
 import { tinygrailStore, _ } from '@stores'
 import { formatNumber, getTimestamp, lastDate, toFixed } from '@utils'
 import { formatTime, tinygrailFixedTime } from '@utils/app'
 import { ob } from '@utils/decorators'
 import { decimal, calculateRate, calculateTotalRate } from '@tinygrail/_/utils'
+import Stars from '@tinygrail/_/stars'
 
 const types = ['bid', 'asks', 'chara', 'merge']
 const colorMap = {
@@ -27,6 +27,7 @@ let timezone = new Date().getTimezoneOffset() / -60
 if (String(timezone).length === 1) timezone = `0${timezone}`
 
 function Detail({
+  assets,
   end,
   lastOrder,
   marketValue,
@@ -57,6 +58,9 @@ function Detail({
   }
 
   const extra = []
+  const extra2 = []
+  const extra3 = []
+  const extra4 = []
   if (isICO) {
     let _end = end
     if (!String(_end).includes('+')) _end = `${end}+${timezone}:00`
@@ -64,13 +68,13 @@ function Detail({
     extra.push(`已筹${totalText || '-'}`) // ICO已筹资金
   } else {
     extra.push(
-      `+${toFixed(rate, 1)} (${Number(
+      `+${toFixed(rate, 1)}(${Number(
         toFixed(calculateRate(rate, rank, stars), 1)
       )})`
     )
 
     if (show && (state || sacrifices)) {
-      extra.push(
+      extra2.push(
         `+${decimal(
           calculateTotalRate(
             {
@@ -78,43 +82,44 @@ function Detail({
               rank,
               stars,
               state,
-              sacrifices
+              sacrifices,
+              assets
             },
             true
           )
-        )} (${decimal(
+        )}(${decimal(
           calculateTotalRate({
             rate,
             rank,
             stars,
             state,
-            sacrifices
+            sacrifices,
+            assets
           })
         )})`
       )
     }
 
     if (isValhall) {
-      extra.push(`底价${toFixed(price, 1)}`) // 英灵殿底价
-      extra.push(`数量${formatNumber(state, 0)}`) // 英灵殿数量
+      extra2.push(`底价${toFixed(price, 1)}`) // 英灵殿底价
+      extra2.push(`数量${formatNumber(state, 0)}`) // 英灵殿数量
     } else {
       if ((show || isAuction) && lastOrder) {
-        extra.push(`${lastDate(getTimestamp(tinygrailFixedTime(lastOrder)))}`) // 拍卖出价时间
+        extra4.push(`${lastDate(getTimestamp(tinygrailFixedTime(lastOrder)))}`) // 最近交易或拍卖出价时间
       }
-      if (totalText) extra.push(`流通量${totalText}`) // 市场流通量
-      if (marketValueText) extra.push(`总值${marketValueText}`) // 市场总值
+      if (totalText) extra4.push(`流通量${totalText}`) // 市场流通量
+      if (marketValueText) extra4.push(`总值${marketValueText}`) // 市场总值
     }
   }
 
   if (show) {
-    if (sa) extra.push(`献祭${decimal(sa)}`) // 市场总献祭量
-    if (starForces) extra.push(`通天塔${decimal(starForces)}`) // 市场通天塔献祭量
+    if (sa) extra3.push(`献祭${decimal(sa)}`) // 市场总献祭量
+    if (starForces) extra3.push(`通天塔${decimal(starForces)}`) // 市场通天塔献祭量
   }
 
   let icoUser
   let icoHighlight
   if (users && users !== 'ico') {
-    // extra += ' / '
     icoUser = users
     icoHighlight = Number(icoUser || 0) > 9 && Number(icoUser || 0) < 15
   }
@@ -126,81 +131,58 @@ function Detail({
     prevText = `注资${decimal(state)}`
   }
 
+  const size = show ? 10 : 11
   return (
-    <Text style={_.mt.xs} type='tinygrailText' size={11} lineHeight={12}>
-      {isDeal && (
-        <Text type={colorMap[type]} size={11} bold lineHeight={12}>
-          {prevText}
+    <>
+      <Text style={_.mt.xs} type='tinygrailText' size={size} lineHeight={12}>
+        {isDeal && (
+          <Text type={colorMap[type]} size={size} bold lineHeight={12}>
+            {prevText}
+          </Text>
+        )}
+        {!!prevText && !!sacrifices && ' / '}
+        {!!sacrifices && (
+          <Text type='bid' size={size} bold lineHeight={12}>
+            塔
+            {!show || !assets || assets === sacrifices
+              ? sacrifices
+              : `${sacrifices}(${assets})`}
+          </Text>
+        )}
+        {isDeal && !isAuction && !isValhall && ' / '}
+        {extra.join(' / ')}
+        {!!icoUser && (
+          <Text
+            size={size}
+            lineHeight={12}
+            type={icoHighlight ? 'warning' : 'tinygrailText'}
+            bold={icoHighlight}
+          >
+            {' / '}
+            当前{icoUser}人
+          </Text>
+        )}{' '}
+        {!show && <Stars value={stars} />}
+      </Text>
+      {!!extra2.length && (
+        <Text type='tinygrailText' size={size} lineHeight={12}>
+          {extra2.join(' / ')}
         </Text>
       )}
-      {!!prevText && !!sacrifices && ' / '}
-      {!!sacrifices && (
-        <Text type='bid' size={11} bold lineHeight={12}>
-          塔{sacrifices}
+      {!!extra3.length && (
+        <Text type='tinygrailText' size={size} lineHeight={12}>
+          {extra3.join(' / ')}
+          {!!stars && ' / '}
+          <Stars value={stars} />
         </Text>
       )}
-      {isDeal && !isAuction && !isValhall && ' / '}
-      {extra.join(' / ')}
-      {!!icoUser && (
-        <Text
-          size={11}
-          lineHeight={12}
-          type={icoHighlight ? 'warning' : 'tinygrailText'}
-          bold={icoHighlight}
-        >
-          {' / '}
-          当前{icoUser}人
+      {!!extra4.length && (
+        <Text type='tinygrailText' size={size} lineHeight={12}>
+          {extra4.join(' / ')}
         </Text>
       )}
-      {renderStars(stars)}
-    </Text>
+    </>
   )
 }
 
 export default ob(Detail)
-
-function renderStars(stars) {
-  if (!stars) return null
-
-  const style = {
-    lineHeight: _.fontSize(12).lineHeight
-  }
-  const sun = parseInt(stars / 16)
-  const moon = parseInt((stars - sun * 16) / 4)
-  const star = stars - sun * 16 - moon * 4
-  return (
-    <>
-      {' '}
-      {!!sun &&
-        new Array(sun).fill('').map((item, index) => (
-          <Icon
-            key={index}
-            style={style}
-            name='ios-sunny'
-            size={11}
-            color='#ffc107'
-          />
-        ))}
-      {!!moon &&
-        new Array(moon).fill('').map((item, index) => (
-          <Icon
-            key={index}
-            style={style}
-            name='ios-moon'
-            size={11}
-            color='#ffc107'
-          />
-        ))}
-      {!!star &&
-        new Array(star).fill('').map((item, index) => (
-          <Icon
-            key={index}
-            style={style}
-            name='ios-star'
-            size={11}
-            color='#ffc107'
-          />
-        ))}
-    </>
-  )
-}
