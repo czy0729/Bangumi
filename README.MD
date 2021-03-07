@@ -1,7 +1,7 @@
 <img src="https://cdn.jsdelivr.net/gh/czy0729/bangumi@master/preview/bangumi.png" width="100%" />
 
 <p align="center">
-  <img alt="Version: 4.7.0" src="https://img.shields.io/badge/Version-4.7.0-0366d6" />
+  <img alt="Version: 4.8.0" src="https://img.shields.io/badge/Version-4.8.0-0366d6" />
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-33CC12" />
   <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/473bdb1186484703b4069148730a3c12?isInternal=true" />
   <img alt="jsdelivr" src="https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi/badge" />
@@ -46,26 +46,26 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、AVG）
 
 ## Update
 
-v4.7.0 - 2021/02/18
+v4.8.0 - 2021/03/07
 
 —— 新增 ——
-
-- [x] [发现] 推荐页面, 根据你的收藏, 猜测你喜欢的一些番剧 (实验性)
-- [x] [发现] 2020 年鉴入口
+- [x] [发现] 菜单按钮优化, 列出所有主要功能
+- [x] [搜索] 搜索类型增加输入用户id去到用户空间
+- [x] [人物] 人物更多资料跳转到外站
 
 —— 优化 ——
+- [x] [收藏] 私密按钮记忆
+- [x] [帖子] 楼层菜单增加屏蔽用户
+- [x] [帖子] 用户屏蔽范围覆盖到回复, 并且回复屏蔽人的子楼层也会隐藏
+- [x] [年鉴] 把个人信息显示回来
+- [x] 账号未成年时, 优化列表为空敏感内容提示
 
-- [x] [首页收藏] 新增按放送时间排序,可在设置里面设定, 若设置还会显示放送星期几
-- [x] [发现] 优化了所有年鉴的加载速度
-
-—— 修复 ——
-
-- [x] [角色] 适配同一角色多个声优的情况 (比如角色有中/日声优)
-- [x] [每日放送] 修复部分条目星期错误, 因为数据是多源头的, 主要按日本时间为主, 会有部分番剧不准确, 仅供参考
-
-—— 小圣杯 3.2.3 ——
-
-- [x] [每周萌王] 显示平均拍价
+—— 小圣杯 4.0 ——
+- [x] [通天塔] 新增页面
+- [x] [资产重组] 页面新增通天塔献祭模块
+- [x] [我的持仓] 因没有活股时, 圣殿角色不会显示, 所以新增持仓角色+圣殿合并数据的列表, 方便一览和排序
+- [x] [人物查询] 修复了输入框不能输入文字的问题
+- [x] 优化角色项数值显示, 用基础(实时)股息替代流动(圣殿)股息, 增加通天塔献祭数目、通天塔星星数
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/CHANGELOG.MD)
 
