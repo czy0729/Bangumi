@@ -2,56 +2,74 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 23:05:25
+ * @Last Modified time: 2021-03-08 20:09:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
-import PropTypes from 'prop-types'
 import { Flex, Text, RenderHtml } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils/app'
+import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
-import Avatar from '../base/avatar'
-import Name from '../base/name'
+import { Avatar, Name } from '../base'
 
-function ItemSay(
-  {
-    event,
-    index,
-    position,
-    avatar,
-    showName,
-    name,
-    text,
-    id,
-    format,
-    onLongPress
-  },
-  { navigation }
-) {
-  const styles = memoStyles()
-  if (position === 'right') {
+export const ItemSay = obc(
+  (
+    {
+      event = EVENT,
+      index,
+      position = 'left',
+      avatar,
+      showName,
+      name,
+      text,
+      id,
+      format = true,
+      onLongPress = Function.prototype
+    },
+    { navigation }
+  ) => {
+    const styles = memoStyles()
+    if (position === 'right') {
+      return (
+        <Flex key={index} style={showName ? _.mt.md : _.mt.sm} align='start'>
+          <Flex.Item style={styles.contentRight}>
+            <Flex direction='column' align='end'>
+              {showName && (
+                <Text style={_.mr.sm} size={11} type='title' bold>
+                  {name}
+                </Text>
+              )}
+              <View style={[styles.text, styles.textActive, _.mt.xs]}>
+                <RenderHtml
+                  baseFontStyle={styles.baseFontStyleRight}
+                  linkStyle={styles.linkStyleRight}
+                  html={format ? getBgmHtml(text) : text}
+                  onLinkPress={href => appNavigate(href, navigation, {}, event)}
+                />
+              </View>
+            </Flex>
+          </Flex.Item>
+          <Flex style={styles.avatarWrapRight} justify='center'>
+            <Avatar
+              style={styles.avatar}
+              navigation={navigation}
+              src={avatar}
+              size={34}
+              userId={id}
+              name={name}
+              border={0}
+              round
+              event={event}
+            />
+          </Flex>
+        </Flex>
+      )
+    }
+
     return (
       <Flex key={index} style={showName ? _.mt.md : _.mt.sm} align='start'>
-        <Flex.Item style={styles.contentRight}>
-          <Flex direction='column' align='end'>
-            {showName && (
-              <Text style={_.mr.sm} size={11} type='title' bold>
-                {name}
-              </Text>
-            )}
-            <View style={[styles.text, styles.textActive, _.mt.xs]}>
-              <RenderHtml
-                baseFontStyle={styles.baseFontStyleRight}
-                linkStyle={styles.linkStyleRight}
-                html={format ? getBgmHtml(text) : text}
-                onLinkPress={href => appNavigate(href, navigation, {}, event)}
-              />
-            </View>
-          </Flex>
-        </Flex.Item>
-        <Flex style={styles.avatarWrapRight} justify='center'>
+        <Flex style={styles.avatarWrapLeft} justify='center'>
           <Avatar
             style={styles.avatar}
             navigation={navigation}
@@ -59,70 +77,39 @@ function ItemSay(
             size={34}
             userId={id}
             name={name}
-            border={0}
             round
+            border={0}
             event={event}
+            onLongPress={onLongPress}
           />
         </Flex>
+        <Flex.Item style={styles.contentLeft}>
+          <Flex direction='column' align='start'>
+            {showName && (
+              <Name
+                style={_.ml.sm}
+                userId={id}
+                showFriend
+                size={11}
+                type='title'
+                bold
+              >
+                {name}
+              </Name>
+            )}
+            <View style={[styles.text, _.mt.xs]}>
+              <RenderHtml
+                baseFontStyle={styles.baseFontStyle}
+                html={format ? getBgmHtml(text) : text}
+                onLinkPress={href => appNavigate(href, navigation, {}, event)}
+              />
+            </View>
+          </Flex>
+        </Flex.Item>
       </Flex>
     )
   }
-
-  return (
-    <Flex key={index} style={showName ? _.mt.md : _.mt.sm} align='start'>
-      <Flex style={styles.avatarWrapLeft} justify='center'>
-        <Avatar
-          style={styles.avatar}
-          navigation={navigation}
-          src={avatar}
-          size={34}
-          userId={id}
-          name={name}
-          round
-          border={0}
-          event={event}
-          onLongPress={onLongPress}
-        />
-      </Flex>
-      <Flex.Item style={styles.contentLeft}>
-        <Flex direction='column' align='start'>
-          {showName && (
-            <Name
-              style={_.ml.sm}
-              userId={id}
-              showFriend
-              size={11}
-              type='title'
-              bold
-            >
-              {name}
-            </Name>
-          )}
-          <View style={[styles.text, _.mt.xs]}>
-            <RenderHtml
-              baseFontStyle={styles.baseFontStyle}
-              html={format ? getBgmHtml(text) : text}
-              onLinkPress={href => appNavigate(href, navigation, {}, event)}
-            />
-          </View>
-        </Flex>
-      </Flex.Item>
-    </Flex>
-  )
-}
-
-ItemSay.defaultProps = {
-  event: EVENT,
-  position: 'left',
-  format: true,
-  onLongPress: Function.prototype
-}
-
-ItemSay.contextTypes = {
-  navigation: PropTypes.object
-}
-
-export default observer(ItemSay)
+)
 
 const memoStyles = _.memoStyles(_ => ({
   avatarWrapLeft: {

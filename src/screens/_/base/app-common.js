@@ -3,15 +3,15 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-20 20:40:05
+ * @Last Modified time: 2021-03-08 20:19:41
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { ImageViewer, Heatmap } from '@components'
 import { systemStore } from '@stores'
-import ListenClipboard from './listen-clipboard'
+import { ob } from '@utils/decorators'
+import { ListenClipboard } from './listen-clipboard'
 
-function AppCommon() {
+export const AppCommon = ob(() => {
   const { visible, imageUrls, index } = systemStore.imageViewer
   return (
     <>
@@ -25,6 +25,4 @@ function AppCommon() {
       <Heatmap.Control />
     </>
   )
-}
-
-export default observer(AppCommon)
+})

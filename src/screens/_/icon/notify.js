@@ -2,73 +2,73 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 20:48:02
+ * @Last Modified time: 2021-03-08 19:50:19
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import { _, rakuenStore, userStore } from '@stores'
 import { t } from '@utils/fetch'
+import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import IconTabsHeader from './tabs-header'
+import { IconTabsHeader } from './tabs-header'
 
 let isSetTimeout = false
 
-export default
-@observer
-class Notify extends React.Component {
-  static defaultProps = {
-    event: EVENT
-  }
+export const IconNotify = ob(
+  class extends React.Component {
+    static defaultProps = {
+      event: EVENT
+    }
 
-  componentDidMount() {
-    if (!isSetTimeout) {
-      isSetTimeout = true
+    componentDidMount() {
+      if (!isSetTimeout) {
+        isSetTimeout = true
 
-      setTimeout(() => {
-        if (userStore.isWebLogin) {
-          rakuenStore.fetchNotify()
-          userStore.fetchPM(true, 'pmIn')
-        }
-      }, 30000)
+        setTimeout(() => {
+          if (userStore.isWebLogin) {
+            rakuenStore.fetchNotify()
+            userStore.fetchPM(true, 'pmIn')
+          }
+        }, 30000)
+      }
+    }
+
+    render() {
+      const { style, navigation, event, children } = this.props
+      const hasNewNotify = !!rakuenStore.notify.unread
+      const { hasNewPM } = userStore
+      return (
+        <View>
+          {(hasNewNotify || hasNewPM) && <View style={this.styles.dot} />}
+          <IconTabsHeader
+            style={style}
+            name='mail'
+            onPress={() => {
+              if (userStore.isWebLogin) {
+                const { id, data } = event
+                t(id, {
+                  to: 'Notify',
+                  ...data
+                })
+                navigation.push('Notify', {
+                  type: hasNewPM ? 'pm' : 'notify'
+                })
+              } else {
+                navigation.push('LoginV2')
+              }
+            }}
+          >
+            {children}
+          </IconTabsHeader>
+        </View>
+      )
+    }
+
+    get styles() {
+      return memoStyles()
     }
   }
-
-  render() {
-    const { style, navigation, event, children } = this.props
-    const hasNewNotify = !!rakuenStore.notify.unread
-    const { hasNewPM } = userStore
-    return (
-      <View>
-        {(hasNewNotify || hasNewPM) && <View style={this.styles.dot} />}
-        <IconTabsHeader
-          style={style}
-          name='mail'
-          onPress={() => {
-            if (userStore.isWebLogin) {
-              const { id, data } = event
-              t(id, {
-                to: 'Notify',
-                ...data
-              })
-              navigation.push('Notify', {
-                type: hasNewPM ? 'pm' : 'notify'
-              })
-            } else {
-              navigation.push('LoginV2')
-            }
-          }}
-        >
-          {children}
-        </IconTabsHeader>
-      </View>
-    )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
-}
+)
 
 const memoStyles = _.memoStyles(_ => ({
   dot: {

@@ -2,27 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-12-11 01:36:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-11 01:37:34
+ * @Last Modified time: 2021-03-08 17:49:22
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 
-function HeaderBackground({ style, children, ...other }) {
-  return (
-    <View
-      style={[
-        style,
-        {
-          backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
-        }
-      ]}
-      {...other}
-    >
-      {children}
-    </View>
-  )
-}
-
-export default observer(HeaderBackground)
+export const HeaderBackground = ob(({ style, children, ...other }) => (
+  <View
+    style={[
+      style,
+      {
+        backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
+      }
+    ]}
+    {...other}
+  >
+    {children}
+  </View>
+))

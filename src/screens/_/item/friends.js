@@ -2,95 +2,91 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-30 14:19:34
+ * @Last Modified time: 2021-03-08 20:07:18
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { Progress } from '@ant-design/react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import Avatar from '../base/avatar'
+import { Avatar } from '../base'
 
 const wrapWidth = _.window.contentWidth - 144
 
-function ItemFriends({
-  navigation,
-  avatar,
-  userId,
-  userName,
-  hobby,
-  percent,
-  recent,
-  doing,
-  collect,
-  wish,
-  dropped,
-  event,
-  children,
-  onHold
-}) {
-  const styles = memoStyles()
-  return (
-    <Touchable
-      style={styles.container}
-      onPress={() => {
-        const { id, data = {} } = event
-        t(id, {
-          to: 'Zone',
-          userId,
-          ...data
-        })
+export const ItemFriends = ob(
+  ({
+    navigation,
+    avatar,
+    userId,
+    userName,
+    hobby,
+    percent,
+    recent,
+    doing,
+    collect,
+    wish,
+    dropped,
+    event = EVENT,
+    children,
+    onHold
+  }) => {
+    const styles = memoStyles()
+    return (
+      <Touchable
+        style={styles.container}
+        onPress={() => {
+          const { id, data = {} } = event
+          t(id, {
+            to: 'Zone',
+            userId,
+            ...data
+          })
 
-        navigation.push('Zone', {
-          userId,
-          _name: userName,
-          _image: avatar
-        })
-      }}
-    >
-      <Flex>
-        <Avatar style={styles.image} size={36} name={userName} src={avatar} />
-        <Flex.Item style={styles.item}>
-          <Flex>
-            <Flex.Item>
-              <Text numberOfLines={1} bold>
-                {userName}
+          navigation.push('Zone', {
+            userId,
+            _name: userName,
+            _image: avatar
+          })
+        }}
+      >
+        <Flex>
+          <Avatar style={styles.image} size={36} name={userName} src={avatar} />
+          <Flex.Item style={styles.item}>
+            <Flex>
+              <Flex.Item>
+                <Text numberOfLines={1} bold>
+                  {userName}
+                </Text>
+              </Flex.Item>
+              <Text style={_.ml.sm} size={12}>
+                {recent}
               </Text>
-            </Flex.Item>
-            <Text style={_.ml.sm} size={12}>
-              {recent}
+            </Flex>
+            <Text style={[_.mt.sm, _.mb.xs]} size={11} type='sub'>
+              {!!doing && `${doing}在看`}
+              {!!collect && `${doing ? ' · ' : ''}${collect}看过`}
+              {!!wish && ` · ${wish}想看`}
+              {!!onHold && ` · ${onHold}搁置`}
+              {!!dropped && ` · ${dropped}抛弃`}
             </Text>
-          </Flex>
-          <Text style={[_.mt.sm, _.mb.xs]} size={11} type='sub'>
-            {!!doing && `${doing}在看`}
-            {!!collect && `${doing ? ' · ' : ''}${collect}看过`}
-            {!!wish && ` · ${wish}想看`}
-            {!!onHold && ` · ${onHold}搁置`}
-            {!!dropped && ` · ${dropped}抛弃`}
+            <Progress
+              style={styles.progress}
+              barStyle={styles.bar}
+              wrapWidth={wrapWidth}
+              percent={percent}
+            />
+          </Flex.Item>
+          <Text style={styles.hobby} size={11} type='sub'>
+            {hobby || '-'} / {percent || '-'}%
           </Text>
-          <Progress
-            style={styles.progress}
-            barStyle={styles.bar}
-            wrapWidth={wrapWidth}
-            percent={percent}
-          />
-        </Flex.Item>
-        <Text style={styles.hobby} size={11} type='sub'>
-          {hobby || '-'} / {percent || '-'}%
-        </Text>
-      </Flex>
-      {children}
-    </Touchable>
-  )
-}
-
-ItemFriends.defaultProps = {
-  event: EVENT
-}
-
-export default observer(ItemFriends)
+        </Flex>
+        {children}
+      </Touchable>
+    )
+  }
+)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

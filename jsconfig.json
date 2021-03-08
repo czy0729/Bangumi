@@ -1,15 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "allowSyntheticDefaultImports": false,
-    "experimentalDecorators": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@components": ["src/components/index.js"],
-      "@screens/_": ["src/screens/_/index.js"],
-      "@stores": ["src/stores/index.js"],
-      "@utils": ["src/utils/index.js"],
-      "@constants": ["src/constants/index.js"]
+      "@screens/*": ["src/screens/*"]
     }
   },
   "exclude": ["node_modules", "dist", "android", "src/assets", "web"]

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 11:22:11
+ * @Last Modified time: 2021-03-08 12:13:19
  */
 import React from 'react'
 import {
@@ -17,7 +17,7 @@ import {
 import { _ } from '@stores'
 import { hm as utilsHM } from '@utils/fetch'
 import { IOS, BARE } from '@constants'
-import { IconBack } from '@screens/_'
+import IconBack from './cycles/back'
 import ob from './observer-props'
 
 const defaultHeaderStyle = {}

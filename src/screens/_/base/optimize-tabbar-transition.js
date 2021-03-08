@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-12 20:40:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-17 20:50:47
+ * @Last Modified time: 2021-03-08 18:29:38
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { _ } from '@stores'
 import { IOS } from '@constants'
@@ -18,7 +18,7 @@ const PAGES_HAS_HEADER = {
   User: false
 }
 
-class OptimizeTabbarTransition extends React.Component {
+export const OptimizeTabbarTransition = class extends React.Component {
   static defaultProps = {
     header: false
   }
@@ -64,9 +64,7 @@ class OptimizeTabbarTransition extends React.Component {
   }
 }
 
-export default OptimizeTabbarTransition
-
-const styles = StyleSheet.create({
+const styles = _.create({
   hide: {
     opacity: 0
   }

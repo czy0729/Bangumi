@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 23:17:09
+ * @Last Modified time: 2021-03-08 18:29:04
  */
 import React from 'react'
 import { AppState, Clipboard } from 'react-native'
@@ -13,7 +13,7 @@ import { IOS } from '@constants'
 
 let lastUrl = ''
 
-class ListenClipboard extends React.Component {
+export const ListenClipboard = class extends React.Component {
   state = {
     appState: AppState.currentState
   }
@@ -69,5 +69,3 @@ class ListenClipboard extends React.Component {
     return null
   }
 }
-
-export default ListenClipboard

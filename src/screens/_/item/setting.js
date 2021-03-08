@@ -2,92 +2,91 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-20 15:44:52
+ * @Last Modified time: 2021-03-08 20:11:50
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
 import { _ } from '@stores'
 import { showImageViewer } from '@utils/ui'
+import { ob } from '@utils/decorators'
 
-function ItemSetting({
-  style,
-  show,
-  hd,
-  ft,
-  arrow,
-  information,
-  informationType,
-  thumb,
-  children,
-  onPress,
-  ...other
-}) {
-  if (!show) {
-    return null
-  }
+export const ItemSetting = ob(
+  ({
+    style,
+    show = true,
+    hd,
+    ft,
+    arrow,
+    information,
+    informationType = 'sub',
+    thumb,
+    children,
+    onPress,
+    ...other
+  }) => {
+    if (!show) {
+      return null
+    }
 
-  const styles = memoStyles()
-  const content = (
-    <View style={styles.item}>
-      <Flex>
-        <Flex.Item>
-          <Flex>
-            <Text type='title' size={16} bold>
-              {hd}
+    const styles = memoStyles()
+    const content = (
+      <View style={styles.item}>
+        <Flex>
+          <Flex.Item>
+            <Flex>
+              <Text type='title' size={16} bold>
+                {hd}
+              </Text>
+              {!!thumb && (
+                <Touchable
+                  style={_.ml.sm}
+                  onPress={() =>
+                    showImageViewer([
+                      {
+                        url: thumb
+                      }
+                    ])
+                  }
+                >
+                  <Iconfont name='information' />
+                </Touchable>
+              )}
+            </Flex>
+          </Flex.Item>
+          {typeof ft === 'string' ? <Text type='sub'>{ft}</Text> : ft}
+          {arrow && <Iconfont style={_.ml.xs} size={14} name='right' />}
+        </Flex>
+        <Flex>
+          {information && (
+            <Text style={styles.information} type={informationType} size={12}>
+              {information}
             </Text>
-            {!!thumb && (
-              <Touchable
-                style={_.ml.sm}
-                onPress={() =>
-                  showImageViewer([
-                    {
-                      url: thumb
-                    }
-                  ])
-                }
-              >
-                <Iconfont name='information' />
-              </Touchable>
-            )}
-          </Flex>
-        </Flex.Item>
-        {typeof ft === 'string' ? <Text type='sub'>{ft}</Text> : ft}
-        {arrow && <Iconfont style={_.ml.xs} size={14} name='right' />}
-      </Flex>
-      <Flex>
-        {information && (
-          <Text style={styles.information} type={informationType} size={12}>
-            {information}
-          </Text>
-        )}
-      </Flex>
-      {children}
-    </View>
-  )
+          )}
+        </Flex>
+        {children}
+      </View>
+    )
 
-  if (onPress) {
+    if (onPress) {
+      return (
+        <Touchable
+          style={[styles.touchable, style]}
+          onPress={onPress}
+          {...other}
+        >
+          {content}
+        </Touchable>
+      )
+    }
+
     return (
-      <Touchable style={[styles.touchable, style]} onPress={onPress} {...other}>
+      <View style={[styles.touchable, style]} {...other}>
         {content}
-      </Touchable>
+      </View>
     )
   }
-
-  return (
-    <View style={[styles.touchable, style]} {...other}>
-      {content}
-    </View>
-  )
-}
-
-ItemSetting.defaultProps = {
-  show: true,
-  informationType: 'sub'
-}
-
-export default observer(ItemSetting)
+)
 
 const memoStyles = _.memoStyles(_ => ({
   touchable: {

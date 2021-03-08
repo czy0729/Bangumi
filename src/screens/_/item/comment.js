@@ -2,77 +2,71 @@
  * @Author: czy0729
  * @Date: 2019-04-10 22:40:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-16 16:37:43
+ * @Last Modified time: 2021-03-08 20:05:53
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { correctAgo } from '@utils/app'
+import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import Avatar from '../base/avatar'
-import Stars from '../base/stars'
-import Name from '../base/name'
+import { Avatar, Stars, Name } from '../base'
 
-function ItemComment({
-  style,
-  navigation,
-  index,
-  time,
-  avatar,
-  userId,
-  userName,
-  star,
-  comment,
-  event
-}) {
-  const styles = memoStyles()
-  const isTop = index === 0
-  return (
-    <Flex style={[styles.item, style]} align='start'>
-      <Avatar
-        style={styles.image}
-        navigation={navigation}
-        userId={userId}
-        name={userName}
-        src={avatar}
-        event={event}
-      />
-      <Flex.Item
-        style={[styles.content, !isTop && !_.flat && styles.border, _.ml.sm]}
-      >
-        <Flex>
-          <Flex.Item>
-            <Name
-              userId={userId}
-              showFriend
-              size={14}
-              bold
-              right={
-                <Text type='sub' size={11} lineHeight={14}>
-                  {' '}
-                  {correctAgo(formatTime(time))}
-                </Text>
-              }
-            >
-              {userName}
-            </Name>
-          </Flex.Item>
-        </Flex>
-        <Stars style={[_.mt.xs, _.mb.xs]} value={star} />
-        <Text style={_.mt.xs} size={15} lineHeight={20} selectable>
-          {comment}
-        </Text>
-      </Flex.Item>
-    </Flex>
-  )
-}
-
-ItemComment.defaultProps = {
-  event: EVENT
-}
-
-export default observer(ItemComment)
+export const ItemComment = ob(
+  ({
+    style,
+    navigation,
+    index,
+    time,
+    avatar,
+    userId,
+    userName,
+    star,
+    comment,
+    event = EVENT
+  }) => {
+    const styles = memoStyles()
+    const isTop = index === 0
+    return (
+      <Flex style={[styles.item, style]} align='start'>
+        <Avatar
+          style={styles.image}
+          navigation={navigation}
+          userId={userId}
+          name={userName}
+          src={avatar}
+          event={event}
+        />
+        <Flex.Item
+          style={[styles.content, !isTop && !_.flat && styles.border, _.ml.sm]}
+        >
+          <Flex>
+            <Flex.Item>
+              <Name
+                userId={userId}
+                showFriend
+                size={14}
+                bold
+                right={
+                  <Text type='sub' size={11} lineHeight={14}>
+                    {' '}
+                    {correctAgo(formatTime(time))}
+                  </Text>
+                }
+              >
+                {userName}
+              </Name>
+            </Flex.Item>
+          </Flex>
+          <Stars style={[_.mt.xs, _.mb.xs]} value={star} />
+          <Text style={_.mt.xs} size={15} lineHeight={20} selectable>
+            {comment}
+          </Text>
+        </Flex.Item>
+      </Flex>
+    )
+  }
+)
 
 const memoStyles = _.memoStyles(_ => ({
   item: {

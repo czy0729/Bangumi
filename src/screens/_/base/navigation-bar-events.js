@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-12-10 22:47:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-11 11:46:59
+ * @Last Modified time: 2021-03-08 18:08:13
  */
 import React from 'react'
 import { NavigationEvents } from 'react-navigation'
-import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 
-function NavigationBarEvents({ tinygrail }) {
+export const NavigationBarEvents = ob(({ tinygrail }) => {
   if (IOS) {
     return null
   }
@@ -30,6 +30,4 @@ function NavigationBarEvents({ tinygrail }) {
       }}
     />
   )
-}
-
-export default observer(NavigationBarEvents)
+})

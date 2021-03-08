@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 11:23:27
+ * @Last Modified time: 2021-03-08 12:13:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,10 +17,10 @@ import {
   UM,
   Heatmap
 } from '@components'
-import { IconBack } from '@screens/_'
 import { _ } from '@stores'
 import { gradientColor } from '@utils'
 import { IOS, BARE } from '@constants'
+import IconBack from './cycles/back'
 import ob from './observer-props'
 
 const defaultHeaderStyle = {

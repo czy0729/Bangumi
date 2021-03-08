@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-03 20:47:25
+ * @Last Modified time: 2021-03-08 18:17:54
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 
-function Tag({ style, type, value, size }) {
+export const Tag = ob(({ style, type, value, size = 10 }) => {
   if (!value) {
     return null
   }
@@ -87,13 +87,7 @@ function Tag({ style, type, value, size }) {
       </Text>
     </Flex>
   )
-}
-
-Tag.defaultProps = {
-  size: 10
-}
-
-export default observer(Tag)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   tag: {

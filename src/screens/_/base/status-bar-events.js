@@ -5,63 +5,54 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-11 15:34:18
+ * @Last Modified time: 2021-03-08 18:16:27
  */
 import React from 'react'
 import { StatusBar } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
-import { observer } from 'mobx-react'
 import { IOS } from '@constants'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 
-function StatusBarEvents({
-  tinygrail,
-  backgroundColor,
-  barStyle,
-  translucent,
-  animated,
-  action
-}) {
-  let _barStyle
-  if (tinygrail) {
-    _barStyle = barStyle
-  } else {
-    // 黑暗模式可以一直设置为light-content
-    _barStyle = _.mode === 'light' ? barStyle : 'light-content'
-  }
-  const events = () => {
-    if (!IOS) {
-      StatusBar.setBackgroundColor(backgroundColor, animated)
-      StatusBar.setTranslucent(translucent, animated)
+export const StatusBarEvents = ob(
+  ({
+    tinygrail = false,
+    backgroundColor = '#ffffff',
+    barStyle = 'dark-content',
+    translucent = !IOS,
+    animated = IOS,
+    action = 'onDidFocus'
+  }) => {
+    let _barStyle
+    if (tinygrail) {
+      _barStyle = barStyle
+    } else {
+      // 黑暗模式可以一直设置为light-content
+      _barStyle = _.mode === 'light' ? barStyle : 'light-content'
     }
-    StatusBar.setBarStyle(_barStyle, animated)
+    const events = () => {
+      if (!IOS) {
+        StatusBar.setBackgroundColor(backgroundColor, animated)
+        StatusBar.setTranslucent(translucent, animated)
+      }
+      StatusBar.setBarStyle(_barStyle, animated)
+    }
+    const props = {
+      onDidFocus: () => events()
+    }
+    if (action === 'onWillFocus') {
+      props.onWillFocus = () => events()
+    }
+    return (
+      <>
+        <StatusBar
+          backgroundColor={backgroundColor}
+          barStyle={_barStyle}
+          translucent={translucent}
+          animated={animated}
+        />
+        <NavigationEvents {...props} />
+      </>
+    )
   }
-  const props = {
-    onDidFocus: () => events()
-  }
-  if (action === 'onWillFocus') {
-    props.onWillFocus = () => events()
-  }
-  return (
-    <>
-      <StatusBar
-        backgroundColor={backgroundColor}
-        barStyle={_barStyle}
-        translucent={translucent}
-        animated={animated}
-      />
-      <NavigationEvents {...props} />
-    </>
-  )
-}
-
-StatusBarEvents.defaultProps = {
-  tinygrail: false,
-  backgroundColor: '#ffffff',
-  barStyle: 'dark-content',
-  translucent: !IOS,
-  animated: IOS,
-  action: 'onDidFocus'
-}
-
-export default observer(StatusBarEvents)
+)

@@ -2,24 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-14 14:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-10 04:15:05
+ * @Last Modified time: 2021-03-08 18:16:54
  */
 import React from 'react'
 import { View } from 'react-native'
 import Constants from 'expo-constants'
-import { observer } from 'mobx-react'
+import { ob } from '@utils/decorators'
 
-function StatusBarPlaceholder({ style }) {
-  return (
-    <View
-      style={[
-        {
-          height: Constants.statusBarHeight
-        },
-        style
-      ]}
-    />
-  )
-}
-
-export default observer(StatusBarPlaceholder)
+export const StatusBarPlaceholder = ob(({ style }) => (
+  <View
+    style={[
+      {
+        height: Constants.statusBarHeight
+      },
+      style
+    ]}
+  />
+))

@@ -2,19 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-05-25 21:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-25 21:15:31
+ * @Last Modified time: 2021-03-08 17:48:48
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
+import { ob } from '@utils/decorators'
 
-function FilterText({ value }) {
-  return (
-    <Text style={_.mt.md} size={12} type='sub' align='center'>
-      已过滤{value}个敏感条目
-    </Text>
-  )
-}
-
-export default observer(FilterText)
+export const FilterText = ob(({ value }) => (
+  <Text style={_.mt.md} size={12} type='sub' align='center'>
+    已过滤{value}个敏感条目
+  </Text>
+))
