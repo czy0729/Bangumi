@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-27 10:14:36
+ * @Last Modified time: 2021-03-09 17:07:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { formatNumber } from '@utils'
 import { Avatar } from '@screens/_'
 import { tinygrailOSS } from '@utils/app'
 import { obc } from '@utils/decorators'
+import Rank from '@tinygrail/_/rank'
 
 function Initial({ style }, { $, navigation }) {
   const styles = memoStyles()
@@ -44,17 +45,13 @@ function Initial({ style }, { $, navigation }) {
             />
             <Flex.Item style={_.ml.sm}>
               <Flex>
+                <Rank style={styles.rank} value={item.lastIndex} />
                 <Text type='tinygrailPlain' size={12} bold numberOfLines={1}>
                   {item.nickName}
                 </Text>
-                {item.lastIndex !== 0 && (
-                  <Text style={styles.rank} type='ask' size={9} bold>
-                    #{item.lastIndex}
-                  </Text>
-                )}
               </Flex>
               {!!item.amount && (
-                <Text type='tinygrailText' size={11} lineHeight={13}>
+                <Text type='tinygrailText' size={10} lineHeight={13}>
                   +{formatNumber(item.amount, 0, $.short)}
                 </Text>
               )}
@@ -83,7 +80,6 @@ const memoStyles = _.memoStyles(_ => ({
     backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   rank: {
-    marginTop: -2,
-    marginLeft: 2
+    minWidth: 24
   }
 }))

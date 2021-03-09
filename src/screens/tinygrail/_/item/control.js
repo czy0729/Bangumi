@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 18:18:18
+ * @Last Modified time: 2021-03-09 16:43:37
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -23,11 +23,11 @@ function Control(props) {
     event,
     showMenu,
     state,
-    users,
+    end,
     withoutFeedback,
     onAuctionCancel
   } = props
-  const isICO = users !== undefined
+  const isICO = !!end
   const isAuction = type === 'auction'
 
   let auctionText = '竞拍中'

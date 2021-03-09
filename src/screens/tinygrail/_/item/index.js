@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 05:47:03
+ * @Last Modified time: 2021-03-09 16:43:51
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -18,18 +18,9 @@ import Title from './title'
 
 function Item(props, { $, navigation }) {
   const styles = memoStyles()
-  const {
-    style,
-    index,
-    id,
-    monoId,
-    event,
-    type,
-    users,
-    withoutFeedback
-  } = props
+  const { style, index, id, monoId, event, type, end, withoutFeedback } = props
   const go = props.go || $.state.go
-  const isICO = users !== undefined // 有users为ico中
+  const isICO = !!end
   const isAuction = type === 'auction'
   const isValhall = type === 'valhall'
 
@@ -41,6 +32,7 @@ function Item(props, { $, navigation }) {
         monoId: monoId || id,
         ...event.data
       })
+
       return navigation.push('TinygrailICODeal', {
         monoId: `character/${monoId || id}`
       })

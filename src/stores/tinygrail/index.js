@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 20:00:26
+ * @Last Modified time: 2021-03-09 16:39:29
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate } from '@utils'
@@ -476,40 +476,27 @@ class Tinygrail extends store {
     const result = await this.fetch(API_TINYGRAIL_LIST(key))
 
     if (result.data.State === 0) {
-      const keys = [
-        'asks',
-        'bids',
-        'bonus',
-        'change',
-        'current',
-        'end',
-        'fluctuation',
-        'icon',
-        'lastOrder',
-        'level',
-        'marketValue',
-        'name',
-        'rank',
-        'rate',
-        'sa',
-        'starForces',
-        'stars',
-        'total',
-        'users'
-      ]
       const iconsCache = {}
       const data = {
         ...LIST_EMPTY,
         list: (result.data.Value.Items || result.data.Value).map(
           (item, index) => {
-            const character = toCharacter(item, keys)
+            const character = toCharacter(item)
             const id = item.CharacterId || item.Id
             const { icon } = character
             if (icon) iconsCache[id] = icon
+
+            if (item.End) {
+              return {
+                ...character,
+                _index: index + 1,
+                id,
+                icoId: item.End ? item.Id : 0
+              }
+            }
             return {
               ...character,
-              _index: index + 1, // 索引,
-              id
+              _index: index + 1
             }
           }
         ),

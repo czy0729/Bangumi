@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-01 18:22:25
+ * @Last Modified time: 2021-03-09 16:39:55
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore, systemStore } from '@stores'
@@ -38,8 +38,8 @@ export default class ScreenTinygrailICODeal extends store {
       tinygrailStore.fetchAssets()
     ])
 
-    const { icoId } = this.chara
-    return tinygrailStore.fetchInitial(icoId)
+    const { id } = this.chara
+    return tinygrailStore.fetchInitial(id)
   }
 
   // -------------------- get --------------------
@@ -61,8 +61,8 @@ export default class ScreenTinygrailICODeal extends store {
   }
 
   @computed get initial() {
-    const { icoId } = this.chara
-    return tinygrailStore.initial(icoId)
+    const { id } = this.chara
+    return tinygrailStore.initial(id)
   }
 
   @computed get userInfo() {
@@ -88,14 +88,14 @@ export default class ScreenTinygrailICODeal extends store {
       loading: true
     })
 
-    const { icoId, id } = this.chara
+    const { id, monoId } = this.chara
     t('ICO交易.注资', {
-      monoId: id,
+      monoId,
       amount
     })
 
     const result = await tinygrailStore.doJoin({
-      id: icoId,
+      id,
       amount
     })
     feedback()

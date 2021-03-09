@@ -1,8 +1,9 @@
+/* eslint-disable no-extra-semi */
 /*
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 20:31:28
+ * @Last Modified time: 2021-03-09 16:57:24
  */
 import React from 'react'
 import { Text } from '@components'
@@ -45,8 +46,7 @@ function Detail({
 }) {
   // 用show判断是否精简模式
   const { _stockPreview: show } = tinygrailStore.state
-  const isICO = users !== undefined // 有users为ico中
-  const isDeal = !!type // 有此值为用户委托单
+  const isICO = !!end
   const isAuction = type === 'auction'
   const isValhall = type === 'valhall'
 
@@ -63,9 +63,9 @@ function Detail({
   const extra4 = []
   if (isICO) {
     let _end = end
-    if (!String(_end).includes('+')) _end = `${end}+${timezone}:00`
-    extra.push(`剩余${formatTime(_end)}`) // ICO结束时间
-    extra.push(`已筹${totalText || '-'}`) // ICO已筹资金
+    if (_end) _end = `${end}+${timezone}:00`
+    extra.push(formatTime(_end)) // ICO结束时间
+    extra.push(`已筹${totalText}`) // ICO已筹资金
   } else {
     extra.push(
       `+${toFixed(rate, 1)}(${Number(
@@ -135,21 +135,25 @@ function Detail({
   return (
     <>
       <Text style={_.mt.xs} type='tinygrailText' size={size} lineHeight={12}>
-        {isDeal && (
+        {!!prevText && (
           <Text type={colorMap[type]} size={size} bold lineHeight={12}>
             {prevText}
+            <Text type='tinygrailText' size={size} lineHeight={12}>
+              {' / '}
+            </Text>
           </Text>
         )}
-        {!!prevText && !!sacrifices && ' / '}
         {!!sacrifices && (
           <Text type='bid' size={size} bold lineHeight={12}>
             塔
             {!show || !assets || assets === sacrifices
               ? sacrifices
               : `${sacrifices}(${assets})`}
+            <Text type='tinygrailText' size={size} lineHeight={12}>
+              {' / '}
+            </Text>
           </Text>
         )}
-        {isDeal && !isAuction && !isValhall && ' / '}
         {extra.join(' / ')}
         {!!icoUser && (
           <Text

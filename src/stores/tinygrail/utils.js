@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-06 16:26:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-06 16:47:33
+ * @Last Modified time: 2021-03-09 16:32:55
  */
 import { ToastAndroid } from 'react-native'
 import { getTimestamp, throttle, titleCase, toFixed } from '@utils'
@@ -40,6 +40,10 @@ export function toCharacter(item, keys = defaultToCharacterKeys) {
 
       case 'sa':
         data[key] = item.Sacrifices
+        break
+
+      case 'monoId':
+        data[key] = item.CharacterId || item.Id
         break
 
       default:
