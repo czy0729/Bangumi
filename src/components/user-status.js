@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-10-29 15:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-29 19:45:39
+ * @Last Modified time: 2021-03-09 12:03:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
-import Flex from './flex'
+import { Flex } from './flex'
 
 const d1ts = 24 * 60 * 60
 const d3ts = 3 * d1ts
 
-function UserStatus({ style, last, children }) {
+export const UserStatus = observer(({ style, last, children }) => {
   if (!last) {
     return children
   }
@@ -34,9 +34,7 @@ function UserStatus({ style, last, children }) {
       </Flex>
     </View>
   )
-}
-
-export default observer(UserStatus)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   wrap: {

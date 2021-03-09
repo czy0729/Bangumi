@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-08 18:28:52
+ * @Last Modified time: 2021-03-08 21:11:24
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,7 +10,7 @@ import { Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { findSubjectCn } from '@utils/app'
 import { ob } from '@utils/decorators'
-import Cover from './cover'
+import { Cover } from './cover'
 
 export const HorizontalList = ob(
   class extends React.Component {

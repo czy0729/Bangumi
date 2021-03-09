@@ -2,83 +2,80 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-14 00:59:30
+ * @Last Modified time: 2021-03-09 11:42:14
  */
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import { Portal } from '@ant-design/react-native'
 import { _, systemStore } from '@stores'
 import { IOS } from '@constants'
-import Touchable from './touchable'
+import { Touchable } from './touchable'
 
-function ScrollToTop({
-  scrollTo,
-  scrollToIndex,
-  scrollToLocation,
-  isFocused,
-  onPress
-}) {
-  if ((IOS || !isFocused) && !systemStore.dev) {
-    return null
-  }
+const ScrollToTop = observer(
+  ({
+    scrollTo,
+    scrollToIndex,
+    scrollToLocation,
+    isFocused = true,
+    onPress
+  }) => {
+    if ((IOS || !isFocused) && !systemStore.dev) {
+      return null
+    }
 
-  return (
-    <Portal>
-      <Touchable
-        style={styles.container}
-        highlight
-        onPress={() => {
-          if (onPress) {
-            onPress()
-            return
-          }
-
-          if (scrollTo) {
-            try {
-              scrollTo({
-                x: 0,
-                y: 0,
-                animated: true
-              })
-            } catch (error) {
-              warn('ScrollToTop', 'scrollTo', error)
+    return (
+      <Portal>
+        <Touchable
+          style={styles.container}
+          highlight
+          onPress={() => {
+            if (onPress) {
+              onPress()
+              return
             }
-            return
-          }
 
-          if (scrollToIndex) {
-            try {
-              scrollToIndex({
-                animated: true,
-                index: 0,
-                viewOffset: 8000
-              })
-            } catch (error) {
-              warn('ScrollToTop', 'scrollToIndex', error)
-
+            if (scrollTo) {
               try {
-                scrollToLocation({
-                  animated: true,
-                  itemIndex: 0,
-                  sectionIndex: 0,
-                  viewOffset: 800,
-                  viewPosition: 0
+                scrollTo({
+                  x: 0,
+                  y: 0,
+                  animated: true
                 })
               } catch (error) {
-                warn('ScrollToTop', 'scrollToLocation', error)
+                warn('ScrollToTop', 'scrollTo', error)
+              }
+              return
+            }
+
+            if (scrollToIndex) {
+              try {
+                scrollToIndex({
+                  animated: true,
+                  index: 0,
+                  viewOffset: 8000
+                })
+              } catch (error) {
+                warn('ScrollToTop', 'scrollToIndex', error)
+
+                try {
+                  scrollToLocation({
+                    animated: true,
+                    itemIndex: 0,
+                    sectionIndex: 0,
+                    viewOffset: 800,
+                    viewPosition: 0
+                  })
+                } catch (error) {
+                  warn('ScrollToTop', 'scrollToLocation', error)
+                }
               }
             }
-          }
-        }}
-      />
-    </Portal>
-  )
-}
-
-ScrollToTop.defaultProps = {
-  isFocused: true
-}
+          }}
+        />
+      </Portal>
+    )
+  }
+)
 
 ScrollToTop.scrollToTop = fn => {
   if (fn) {
@@ -94,9 +91,9 @@ ScrollToTop.scrollToTop = fn => {
   }
 }
 
-export default observer(ScrollToTop)
+export { ScrollToTop }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     position: 'absolute',
     zIndex: 1,

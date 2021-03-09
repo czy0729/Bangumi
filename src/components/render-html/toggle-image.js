@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-26 22:23:47
+ * @Last Modified time: 2021-03-09 12:05:47
  */
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,11 +10,11 @@ import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { _ } from '@stores'
 import { open } from '@utils'
-import Flex from '../flex'
-import Image from '../image'
-import Touchable from '../touchable'
-import Iconfont from '../iconfont'
-import Text from '../text'
+import { Flex } from '../flex'
+import { Image } from '../image'
+import { Touchable } from '../touchable'
+import { Iconfont } from '../iconfont'
+import { Text } from '../text'
 
 export default
 @observer
@@ -33,6 +33,10 @@ class ToggleImage extends React.Component {
     this.setState({
       show: !show
     })
+  }
+
+  onProgress = ({ nativeEvent: { loaded, total } }) => {
+    console.log(loaded, total)
   }
 
   onLoadEnd = () =>
@@ -107,6 +111,7 @@ class ToggleImage extends React.Component {
       <Flex style={this.styles.image} justify='center'>
         <Image
           {...this.props}
+          onProgress={this.onProgress}
           onLoadEnd={this.onLoadEnd}
           onError={this.onLoadEnd}
         />

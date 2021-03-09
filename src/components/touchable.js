@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-04 11:16:57
+ * @Last Modified time: 2021-03-09 13:56:52
  */
 import React from 'react'
 import {
@@ -14,9 +14,9 @@ import {
   View
 } from 'react-native'
 import { observer } from 'mobx-react'
+import _ from '@styles'
 import { getSystemStoreAsync } from '@utils/async'
 import { IOS } from '@constants'
-import _ from '@styles'
 
 /**
  * 防止瞬间多次点击
@@ -38,82 +38,74 @@ function callOnceInInterval(functionTobeCalled, interval = 40) {
   return false
 }
 
-function Touchable({
-  style,
-  withoutFeedback,
-  highlight,
-  children,
-  delay,
-  onPress,
-  ...other
-}) {
-  if (withoutFeedback) {
-    return (
-      <TouchableOpacity
-        style={style}
-        activeOpacity={1}
-        {...other}
-        onPress={delay ? () => callOnceInInterval(onPress) : onPress}
-      >
-        {children}
-      </TouchableOpacity>
-    )
-  }
-
-  const { ripple } = getSystemStoreAsync().setting
-  if (IOS || !ripple) {
-    if (highlight) {
+export const Touchable = observer(
+  ({
+    style,
+    withoutFeedback = false,
+    highlight = false,
+    delay = true,
+    children,
+    onPress = Function.prototype,
+    ...other
+  }) => {
+    if (withoutFeedback) {
       return (
-        <View style={style}>
-          <TouchableHighlight
-            style={styles.touchable}
-            activeOpacity={1}
-            underlayColor={_.colorHighLight}
-            {...other}
-            onPress={delay ? () => callOnceInInterval(onPress) : onPress}
-          >
-            <View />
-          </TouchableHighlight>
+        <TouchableOpacity
+          style={style}
+          activeOpacity={1}
+          {...other}
+          onPress={delay ? () => callOnceInInterval(onPress) : onPress}
+        >
           {children}
-        </View>
+        </TouchableOpacity>
       )
     }
 
-    // 绝大部分情况会return这个
+    const { ripple } = getSystemStoreAsync().setting
+    if (IOS || !ripple) {
+      if (highlight) {
+        return (
+          <View style={style}>
+            <TouchableHighlight
+              style={styles.touchable}
+              activeOpacity={1}
+              underlayColor={_.colorHighLight}
+              {...other}
+              onPress={delay ? () => callOnceInInterval(onPress) : onPress}
+            >
+              <View />
+            </TouchableHighlight>
+            {children}
+          </View>
+        )
+      }
+
+      // 绝大部分情况会return这个
+      return (
+        <TouchableOpacity
+          style={style}
+          activeOpacity={0.64}
+          {...other}
+          onPress={delay ? () => callOnceInInterval(onPress) : onPress}
+        >
+          {children}
+        </TouchableOpacity>
+      )
+    }
+
     return (
-      <TouchableOpacity
-        style={style}
-        activeOpacity={0.64}
-        {...other}
-        onPress={delay ? () => callOnceInInterval(onPress) : onPress}
-      >
+      <View style={style}>
+        <TouchableNativeFeedback
+          {...other}
+          onPress={delay ? () => callOnceInInterval(onPress) : onPress}
+        >
+          <View style={styles.touchable} />
+        </TouchableNativeFeedback>
         {children}
-      </TouchableOpacity>
+      </View>
     )
   }
-
-  return (
-    <View style={style}>
-      <TouchableNativeFeedback
-        {...other}
-        onPress={delay ? () => callOnceInInterval(onPress) : onPress}
-      >
-        <View style={styles.touchable} />
-      </TouchableNativeFeedback>
-      {children}
-    </View>
-  )
-}
-
-Touchable.defaultProps = {
-  style: undefined,
-  withoutFeedback: false,
-  highlight: false,
-  delay: true,
-  onPress: Function.prototype
-}
-
-export default observer(Touchable)
+)
 
 const styles = StyleSheet.create({
   touchable: {

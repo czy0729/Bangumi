@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-04-12 03:50:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-12 05:10:55
+ * @Last Modified time: 2021-03-09 11:44:53
  */
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 
-function MaxWidth({ children }) {
+export const MaxWidth = observer(({ children }) => {
   if (!_.isPad) {
     return children
   }
 
   return <View style={styles.maxWidth}>{children}</View>
-}
+})
 
-export default MaxWidth
-
-const styles = StyleSheet.create({
+const styles = _.create({
   maxWidth: {
     width: _.window.width,
     paddingHorizontal: (_.window.width - _.window.maxWidth) / 2

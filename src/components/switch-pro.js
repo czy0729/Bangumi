@@ -6,14 +6,13 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-17 11:01:24
+ * @Last Modified time: 2021-03-09 11:50:10
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   ViewPropTypes,
   ColorPropType,
-  StyleSheet,
   Animated,
   Easing,
   PanResponder
@@ -23,7 +22,7 @@ import { _ } from '@stores'
 
 const SCALE = 6 / 5
 
-class SwitchPro extends Component {
+class SwitchProComp extends Component {
   static propTypes = {
     style: ViewPropTypes.style,
     circleStyle: ViewPropTypes.style,
@@ -276,22 +275,22 @@ class SwitchPro extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     overflow: 'hidden',
     justifyContent: 'center'
   }
 })
 
-function _SwitchPro({
-  circleColorActive,
-  circleColorInactive,
-  backgroundActive,
-  backgroundInactive,
-  ...other
-}) {
-  return (
-    <SwitchPro
+export const SwitchPro = observer(
+  ({
+    circleColorActive,
+    circleColorInactive,
+    backgroundActive,
+    backgroundInactive,
+    ...other
+  }) => (
+    <SwitchProComp
       backgroundActive={backgroundActive || _.colorSuccess}
       backgroundInactive={
         backgroundInactive || _.select(_.colorBg, _._colorDarkModeLevel2)
@@ -299,6 +298,4 @@ function _SwitchPro({
       {...other}
     />
   )
-}
-
-export default observer(_SwitchPro)
+)

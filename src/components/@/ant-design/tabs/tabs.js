@@ -8,7 +8,7 @@ import {
   View,
   Text
 } from 'react-native'
-import Flex from '../../../flex'
+import { Flex } from '../../../flex'
 import { WithTheme } from '../style'
 import { DefaultTabBar } from './defaultTabBar'
 import TabsStyles from './style/tabs'

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-06 10:40:30
+ * @Last Modified time: 2021-03-09 10:45:51
  */
 import React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { Text } from 'react-native'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 
 export const bgmMap = [
@@ -143,37 +144,26 @@ export const bgmMap = [
   ''
 ]
 
-function BgmText({ style, index, size, lineHeight, children, ...other }) {
-  const _style = [styles.text]
-  if (size) {
-    _style.push(styles[size])
+export const BgmText = observer(
+  ({ style, index = 0, size = 14, lineHeight, children, ...other }) => {
+    const _style = [styles.text]
+    if (size) _style.push(styles[size])
+    if (lineHeight !== undefined) {
+      _style.push({
+        lineHeight:
+          lineHeight <= 2 ? lineHeight * size : lineHeight * _.lineHeightRatio
+      })
+    }
+    if (style) _style.push(style)
+    return (
+      <Text style={_style} allowFontScaling={false} selectable {...other}>
+        {children || bgmMap[index - 1]}
+      </Text>
+    )
   }
-  if (lineHeight !== undefined) {
-    _style.push({
-      lineHeight:
-        lineHeight <= 2 ? lineHeight * size : lineHeight * _.lineHeightRatio
-    })
-  }
-  if (style) {
-    _style.push(style)
-  }
-  return (
-    <Text style={_style} allowFontScaling={false} selectable {...other}>
-      {children || bgmMap[index - 1]}
-    </Text>
-  )
-}
+)
 
-BgmText.defaultProps = {
-  style: undefined,
-  index: 0,
-  size: 14,
-  lineHeight: undefined
-}
-
-export default BgmText
-
-const styles = StyleSheet.create({
+const styles = _.create({
   text: {
     fontFamily: 'bgm',
     fontWeight: 'normal',

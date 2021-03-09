@@ -3,46 +3,32 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-10 15:42:32
+ * @Last Modified time: 2021-03-09 11:44:20
  */
 import React from 'react'
-import { StyleSheet, View, ActivityIndicator } from 'react-native'
+import { View, ActivityIndicator } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 
-function Raw({ color, size }) {
-  return (
-    <ActivityIndicator
-      color={color || _.select(_.colorSub, _.colorDesc)}
-      size={size}
-    />
-  )
-}
+const Raw = observer(({ color, size = 'small' }) => (
+  <ActivityIndicator
+    color={color || _.select(_.colorSub, _.colorDesc)}
+    size={size}
+  />
+))
 
-Raw.defaultProps = {
-  color: undefined,
-  size: 'small'
-}
+const Loading = observer(({ style, color, size = 'small', children }) => (
+  <View style={[_.container.column, styles.loading, style]}>
+    <Raw color={color} size={size} />
+    {children}
+  </View>
+))
 
-function Loading({ style, color, size, children }) {
-  return (
-    <View style={[_.container.column, styles.loading, style]}>
-      <Raw color={color} size={size} />
-      {children}
-    </View>
-  )
-}
+Loading.Raw = Raw
 
-Loading.defaultProps = {
-  color: undefined,
-  size: 'small'
-}
+export { Loading }
 
-Loading.Raw = observer(Raw)
-
-export default observer(Loading)
-
-const styles = StyleSheet.create({
+const styles = _.create({
   loading: {
     paddingBottom: _.md
   }

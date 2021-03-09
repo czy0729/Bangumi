@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-12-13 11:08:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2019-12-13 11:18:48
+ * @Last Modified time: 2021-03-09 11:47:58
  */
 import React from 'react'
 import { Slider as RNSlider } from 'react-native'
+import { observer } from 'mobx-react'
 
-function Slider({
-  defaultValue,
-  value,
-  min,
-  max,
-  step,
-  disabled,
-  onChange,
-  onAfterChange,
-  maximumTrackTintColor,
-  minimumTrackTintColor
-}) {
-  return (
+export const Slider = observer(
+  ({
+    defaultValue = 0,
+    value,
+    min,
+    max,
+    step,
+    disabled = false,
+    onChange = Function.prototype,
+    onAfterChange = Function.prototype,
+    maximumTrackTintColor,
+    minimumTrackTintColor
+  }) => (
     <RNSlider
       value={defaultValue || value}
       minimumValue={min}
@@ -32,13 +33,4 @@ function Slider({
       onSlidingComplete={onAfterChange}
     />
   )
-}
-
-Slider.defaultProps = {
-  defaultValue: 0,
-  disabled: false,
-  onChange: Function.prototype,
-  onAfterChange: Function.prototype
-}
-
-export default Slider
+)

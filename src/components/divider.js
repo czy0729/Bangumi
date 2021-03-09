@@ -3,15 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-03-29 03:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-03 10:18:55
+ * @Last Modified time: 2021-03-09 11:03:51
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import Flex from './flex'
+import { Flex } from './flex'
 
-function Divider({ style }) {
+export const Divider = observer(({ style }) => {
   const styles = memoStyles()
   return (
     <Flex
@@ -21,9 +21,7 @@ function Divider({ style }) {
       <View style={styles.line} />
     </Flex>
   )
-}
-
-export default observer(Divider)
+})
 
 const memoStyles = _.memoStyles(_ => ({
   divider: {

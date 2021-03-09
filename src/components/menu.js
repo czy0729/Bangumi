@@ -3,70 +3,71 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 11:45:44
+ * @Last Modified time: 2021-03-09 11:46:01
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import Text from './text'
-import Touchable from './touchable'
+import { Text } from './text'
+import { Touchable } from './touchable'
 
-function Menu({ style, title, data, onSelect }) {
-  const styles = memoStyles()
-  return (
-    <View style={style ? [styles.container, style] : styles.container}>
-      {title.length !== 0 && (
-        <View style={styles.title}>
-          {title.map((item, index) => (
-            <Text
-              key={item}
-              style={index !== 0 && _.mt.sm}
-              type='sub'
-              size={12}
-              align='center'
-            >
-              {item}
-            </Text>
-          ))}
-        </View>
-      )}
-      {data.map((item, index) => {
-        if (typeof item === 'string') {
+export const Menu = observer(
+  ({
+    style,
+    title = [], // ['a', 'b'] | ['a', { title: <Text>b</Text>, disabled: true }]
+    data = [],
+    onSelect = Function.prototype
+  }) => {
+    const styles = memoStyles()
+    return (
+      <View style={style ? [styles.container, style] : styles.container}>
+        {title.length !== 0 && (
+          <View style={styles.title}>
+            {title.map((item, index) => (
+              <Text
+                key={item}
+                style={index !== 0 && _.mt.sm}
+                type='sub'
+                size={12}
+                align='center'
+              >
+                {item}
+              </Text>
+            ))}
+          </View>
+        )}
+        {data.map((item, index) => {
+          if (typeof item === 'string') {
+            return (
+              <View key={item} style={styles.border}>
+                <Touchable style={styles.item} onPress={() => onSelect(item)}>
+                  <Text align='center'>{item}</Text>
+                </Touchable>
+              </View>
+            )
+          }
+
+          if (item.type === 'divider') {
+            // eslint-disable-next-line react/no-array-index-key
+            return <View key={index} style={styles.border} />
+          }
+
           return (
-            <View key={item} style={styles.border}>
-              <Touchable style={styles.item} onPress={() => onSelect(item)}>
-                <Text align='center'>{item}</Text>
+            <View key={item.title} style={styles.border}>
+              <Touchable
+                style={styles.item}
+                onPress={() => onSelect(item.title)}
+              >
+                {item.title}
               </Touchable>
             </View>
           )
-        }
-
-        if (item.type === 'divider') {
-          // eslint-disable-next-line react/no-array-index-key
-          return <View key={index} style={styles.border} />
-        }
-
-        return (
-          <View key={item.title} style={styles.border}>
-            <Touchable style={styles.item} onPress={() => onSelect(item.title)}>
-              {item.title}
-            </Touchable>
-          </View>
-        )
-      })}
-    </View>
-  )
-}
-
-Menu.defaultProps = {
-  style: undefined,
-  title: [], // ['a', 'b'] | ['a', { title: <Text>b</Text>, disabled: true }]
-  data: [],
-  onSelect: Function.prototype
-}
-
-export default observer(Menu)
+        })}
+      </View>
+    )
+  }
+)
 
 const memoStyles = _.memoStyles(_ => ({
   container: {

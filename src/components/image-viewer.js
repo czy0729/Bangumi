@@ -4,123 +4,126 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 15:05:22
+ * @Last Modified time: 2021-03-09 11:36:06
  */
 import React from 'react'
-import { StyleSheet, Modal, View, StatusBar } from 'react-native'
+import { Modal, View, StatusBar } from 'react-native'
 import RNImageViewer from 'react-native-image-zoom-viewer'
+import { observer } from 'mobx-react'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { showActionSheet } from '@utils/ui'
 import { IOS } from '@constants'
-import Touchable from './touchable'
-import Iconfont from './iconfont'
-import Text from './text'
+import { Touchable } from './touchable'
+import { Iconfont } from './iconfont'
+import { Text } from './text'
 
 const actionSheetDS = ['浏览器打开图片', '取消']
 
-export default class ImageViewer extends React.Component {
-  static defaultProps = {
-    index: 0,
-    visible: false,
-    imageUrls: [],
-    onCancel: Function.prototype
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!IOS) {
-      StatusBar.setHidden(nextProps.visible)
+export const ImageViewer = observer(
+  class extends React.Component {
+    static defaultProps = {
+      index: 0,
+      visible: false,
+      imageUrls: [],
+      onCancel: Function.prototype
     }
-  }
 
-  onRequestClose = () => {
-    const { onCancel } = this.props
-    onCancel()
-  }
+    UNSAFE_componentWillReceiveProps(nextProps) {
+      if (!IOS) {
+        StatusBar.setHidden(nextProps.visible)
+      }
+    }
 
-  onMenus = () => {
-    const { index, imageUrls, onCancel } = this.props
-    return this.renderMenus(
-      imageUrls[index]._url || imageUrls[index].url,
-      onCancel
-    )
-  }
-
-  renderMenus(url, onCancel) {
-    // 不想涉及到权限问题, 暂时用浏览器打开图片来处理
-    if (IOS) {
-      showActionSheet(actionSheetDS, index => {
-        if (index === 0) {
-          const result = open(url)
-          if (result) {
-            onCancel()
-          }
-        }
-      })
-    } else {
-      // @issue 安卓的ActionSheet在这个Viewer的下面
+    onRequestClose = () => {
+      const { onCancel } = this.props
       onCancel()
-      showActionSheet(actionSheetDS, index => {
-        if (index === 0) {
-          open(url)
-        }
-      })
     }
 
-    return null
-  }
+    onMenus = () => {
+      const { index, imageUrls, onCancel } = this.props
+      return this.renderMenus(
+        imageUrls[index]._url || imageUrls[index].url,
+        onCancel
+      )
+    }
 
-  renderIndicator = (currentIndex, allSize) => {
-    const { imageUrls } = this.props
-    if (imageUrls.length <= 1) {
+    renderMenus(url, onCancel) {
+      // 不想涉及到权限问题, 暂时用浏览器打开图片来处理
+      if (IOS) {
+        showActionSheet(actionSheetDS, index => {
+          if (index === 0) {
+            const result = open(url)
+            if (result) {
+              onCancel()
+            }
+          }
+        })
+      } else {
+        // @issue 安卓的ActionSheet在这个Viewer的下面
+        onCancel()
+        showActionSheet(actionSheetDS, index => {
+          if (index === 0) {
+            open(url)
+          }
+        })
+      }
+
       return null
     }
 
-    return (
-      <Text style={styles.indicator} align='center' pointerEvents='none'>
-        {currentIndex} / {allSize}
-      </Text>
-    )
-  }
+    renderIndicator = (currentIndex, allSize) => {
+      const { imageUrls } = this.props
+      if (imageUrls.length <= 1) {
+        return null
+      }
 
-  render() {
-    const { index, visible, imageUrls, onCancel, ...other } = this.props
-    return (
-      <Modal
-        visible={visible}
-        transparent
-        hardwareAccelerated
-        animationType='fade'
-        statusBarTranslucent
-        // presentationStyle='fullScreen'
-        onRequestClose={this.onRequestClose}
-      >
-        <View style={styles.container}>
-          <View style={styles.activityIndicator}>
-            <ActivityIndicator />
+      return (
+        <Text style={styles.indicator} align='center' pointerEvents='none'>
+          {currentIndex} / {allSize}
+        </Text>
+      )
+    }
+
+    render() {
+      const { index, visible, imageUrls, onCancel, ...other } = this.props
+      return (
+        <Modal
+          visible={visible}
+          transparent
+          hardwareAccelerated
+          animationType='fade'
+          statusBarTranslucent
+          // presentationStyle='fullScreen'
+          onRequestClose={this.onRequestClose}
+        >
+          <View style={styles.container}>
+            <View style={styles.activityIndicator}>
+              <ActivityIndicator />
+            </View>
+            <RNImageViewer
+              style={styles.viewer}
+              index={index}
+              imageUrls={imageUrls}
+              backgroundColor='transparent'
+              enableSwipeDown
+              menus={this.onMenus}
+              renderIndicator={this.renderIndicator}
+              onCancel={onCancel}
+              {...other}
+            />
+            <Touchable style={styles.close} onPress={onCancel}>
+              <Iconfont style={styles.iconfont} name='close' size={24} />
+            </Touchable>
           </View>
-          <RNImageViewer
-            style={styles.viewer}
-            index={index}
-            imageUrls={imageUrls}
-            backgroundColor='transparent'
-            enableSwipeDown
-            menus={this.onMenus}
-            renderIndicator={this.renderIndicator}
-            onCancel={onCancel}
-            {...other}
-          />
-          <Touchable style={styles.close} onPress={onCancel}>
-            <Iconfont style={styles.iconfont} name='close' size={24} />
-          </Touchable>
-        </View>
-      </Modal>
-    )
+        </Modal>
+      )
+    }
   }
-}
+)
 
-const styles = StyleSheet.create({
+const styles = _.create({
   container: {
     flex: 1,
     minHeight: _.window.height,

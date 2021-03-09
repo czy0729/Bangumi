@@ -2,14 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-25 12:00:24
+ * @Last Modified time: 2021-03-09 12:01:02
  */
 import React from 'react'
 import { IOS } from '@constants'
-import Menu from '../menu'
-import CompPopover from './index'
+import { Menu } from '../menu'
+import { Popover as CompPopover } from './index'
 
-function Popover({ data, onSelect, children, ...other }) {
+export const Popover = ({
+  data = [],
+  onSelect = Function.prototype,
+  children,
+  ...other
+}) => {
   const popoverProps = IOS
     ? {
         overlay: (
@@ -29,10 +34,3 @@ function Popover({ data, onSelect, children, ...other }) {
     </CompPopover>
   )
 }
-
-Popover.defaultProps = {
-  data: [],
-  onSelect: Function.prototype
-}
-
-export default Popover

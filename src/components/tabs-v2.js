@@ -2,31 +2,31 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-05 14:57:27
+ * @Last Modified time: 2021-03-09 11:52:09
  */
 import React, { useMemo } from 'react'
 import { TabBar, SceneMap } from 'react-native-tab-view'
 import TabView from '@components/@/react-native-tab-view/TabView'
 import { _ } from '@stores'
 import { IOS } from '@constants'
-import Flex from './flex'
-import Text from './text'
+import { Flex } from './flex'
+import { Text } from './text'
 
 const W_INDICATOR = 16
 
-function Tabs({
-  routes,
+export const TabsV2 = ({
+  routes = [], // Array<{ key: string, title: string }>
   tabBarLength,
-  page,
+  page = 0,
   textColor,
   backgroundColor,
   borderBottomColor,
   underlineColor,
   renderItem,
   renderLabel,
-  onChange,
+  onChange = Function.prototype,
   ...other
-}) {
+}) => {
   const styles = memoStyles()
   const renderScene = useMemo(
     () =>
@@ -119,14 +119,6 @@ function Tabs({
     />
   )
 }
-
-Tabs.defaultProps = {
-  routes: [], // Array<{ key: string, title: string }>
-  page: 0,
-  onChange: Function.prototype // page => void
-}
-
-export default Tabs
 
 const memoStyles = _.memoStyles(_ => ({
   tabBar: {

@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-20 11:08:27
+ * @Last Modified time: 2021-03-09 12:00:26
  */
 import React from 'react'
 import { StyleSheet, UIManager, findNodeHandle, View } from 'react-native'
-import Touchable from '../touchable'
+import { Touchable } from '../touchable'
 
 export default class Popover extends React.Component {
   static defaultProps = {

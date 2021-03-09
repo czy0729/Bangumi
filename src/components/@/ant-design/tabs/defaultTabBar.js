@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import _ from '@styles'
 import { IOS } from '@constants'
-import Flex from '../../../flex'
+import { Flex } from '../../../flex'
 import { WithTheme } from '../style'
 import TabBarStyles from './style'
 

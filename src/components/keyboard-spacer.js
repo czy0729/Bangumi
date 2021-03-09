@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-21 16:51:44
+ * @Last Modified time: 2021-03-09 11:14:17
  */
 import {
   UIManager,
@@ -46,7 +46,7 @@ const defaultAnimation = {
   }
 }
 
-export default class KeyboardSpacer extends Component {
+export const KeyboardSpacer = class extends Component {
   static propTypes = {
     topSpacing: PropTypes.number,
     onToggle: PropTypes.func

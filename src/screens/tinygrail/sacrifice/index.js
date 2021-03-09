@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-03-07 16:36:30
+ * @Last Modified time: 2021-03-08 21:47:52
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -10,15 +10,15 @@ import { ScrollView, Text } from '@components'
 import { _ } from '@stores'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
-import { withHeaderParams } from '@tinygrail/styles'
 import StatusBarEvents from '@tinygrail/_/status-bar-events'
-import { refreshControlProps } from '@tinygrail/styles'
+import { withHeaderParams, refreshControlProps } from '@tinygrail/styles'
 import Info from './info'
 import Slider from './slider'
 import Starforces from './starforces'
 import Temples from './temples'
 import Auction from './auction'
 import AuctionList from './auction-list'
+import Items from './items'
 import Users from './users'
 import Store from './store'
 
@@ -127,10 +127,11 @@ class TinygrailSacrifice extends React.Component {
   }
 
   render() {
+    const { style } = this.props
     const { refreshing } = this.state
     return (
       <ScrollView
-        style={_.container.tinygrail}
+        style={[_.container.tinygrail, style]}
         contentContainerStyle={_.container.bottom}
         refreshControl={
           <RefreshControl
@@ -147,7 +148,8 @@ class TinygrailSacrifice extends React.Component {
         <Starforces style={_.mt.sm} />
         <Auction style={_.mt.sm} />
         <AuctionList style={_.mt.sm} />
-        <Temples />
+        <Items style={_.mt.sm} />
+        <Temples style={_.mt.sm} />
         <Users />
       </ScrollView>
     )

@@ -3,104 +3,94 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-11-05 20:17:00
+ * @Last Modified time: 2021-03-09 11:01:51
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { titleCase } from '@utils'
 import { _ } from '@stores'
-import Activity from './activity'
-import Flex from './flex'
-import Text from './text'
-import Touchable from './touchable'
+import { Activity } from './activity'
+import { Flex } from './flex'
+import { Text } from './text'
+import { Touchable } from './touchable'
 
-function Button({
-  style,
-  styleText,
-  type,
-  size,
-  shadow,
-  radius,
-  loading,
-  children,
-  onPress,
-  ...other
-}) {
-  const styles = memoStyles(_.mode)
-  const _wrap = [styles.button]
-  const _text = [styles.text]
-  if (shadow && !_.isDark) {
-    _wrap.push(styles.shadow)
-  }
-  if (type) {
-    _wrap.push(styles[type])
-    _text.push(styles[`text${titleCase(type)}`])
-  }
-  if (size) {
-    _wrap.push(styles[size])
-    _text.push(styles[`text${titleCase(size)}`])
-  }
-  if (radius) {
-    _wrap.push(styles.radius)
-  }
-  if (style) {
-    _wrap.push(style)
-  }
+export const Button = observer(
+  ({
+    style,
+    styleText,
+    type = 'plain',
+    size = 'md',
+    shadow = false,
+    radius = true,
+    loading = false,
+    children,
+    onPress,
+    ...other
+  }) => {
+    const styles = memoStyles(_.mode)
+    const _wrap = [styles.button]
+    const _text = [styles.text]
+    if (shadow && !_.isDark) {
+      _wrap.push(styles.shadow)
+    }
+    if (type) {
+      _wrap.push(styles[type])
+      _text.push(styles[`text${titleCase(type)}`])
+    }
+    if (size) {
+      _wrap.push(styles[size])
+      _text.push(styles[`text${titleCase(size)}`])
+    }
+    if (radius) {
+      _wrap.push(styles.radius)
+    }
+    if (style) {
+      _wrap.push(style)
+    }
 
-  const content = (
-    <Flex justify='center'>
-      {loading && (
-        <View style={_.scale}>
-          <Activity
-            color={type === 'plain' ? 'rgb(128, 128, 128)' : 'white'}
-            size='small'
-          />
-        </View>
-      )}
-      <Text
-        style={[
-          // 部分安卓机不写具体width会导致文字显示不全
-          size === 'sm' && {
-            width: 32
-          },
-          _text,
-          styleText
-        ]}
-        align='center'
-        selectable={false}
-      >
-        {children}
-      </Text>
-    </Flex>
-  )
+    const content = (
+      <Flex justify='center'>
+        {loading && (
+          <View style={_.scale}>
+            <Activity
+              color={type === 'plain' ? 'rgb(128, 128, 128)' : 'white'}
+              size='small'
+            />
+          </View>
+        )}
+        <Text
+          style={[
+            // 部分安卓机不写具体width会导致文字显示不全
+            size === 'sm' && {
+              width: 32
+            },
+            _text,
+            styleText
+          ]}
+          align='center'
+          selectable={false}
+        >
+          {children}
+        </Text>
+      </Flex>
+    )
 
-  if (onPress) {
+    if (onPress) {
+      return (
+        <Touchable style={_wrap} onPress={onPress} {...other}>
+          {content}
+        </Touchable>
+      )
+    }
+
     return (
-      <Touchable style={_wrap} onPress={onPress} {...other}>
+      <View style={_wrap} {...other}>
         {content}
-      </Touchable>
+      </View>
     )
   }
-
-  return (
-    <View style={_wrap} {...other}>
-      {content}
-    </View>
-  )
-}
-
-Button.defaultProps = {
-  style: undefined,
-  styleText: undefined,
-  type: 'plain',
-  size: 'md',
-  shadow: false,
-  radius: true,
-  loading: false
-}
-
-export default observer(Button)
+)
 
 const memoStyles = _.memoStyles(_ => ({
   button: {

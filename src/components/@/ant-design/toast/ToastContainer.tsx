@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-07 01:22:08
+ * @Last Modified time: 2021-03-09 12:09:49
  */
 import React from 'react'
 import { ActivityIndicator, Animated, Text, View } from 'react-native'
@@ -12,7 +12,7 @@ import ToastStyles, {
   ToastStyle
 } from '@ant-design/react-native/lib/toast/style/index'
 import { IOS } from '@constants'
-import Touchable from '../../../touchable'
+import { Touchable } from '../../../touchable'
 
 export interface ToastProps extends WithThemeStyles<ToastStyle> {
   content: string

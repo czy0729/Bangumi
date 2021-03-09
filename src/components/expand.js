@@ -3,20 +3,25 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-12 15:31:23
+ * @Last Modified time: 2021-03-09 11:08:24
  */
 import React, { useState, useCallback } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { useObserver } from 'mobx-react-lite'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
-import Touchable from './touchable'
-import Flex from './flex'
-import Iconfont from './iconfont'
+import { Touchable } from './touchable'
+import { Flex } from './flex'
+import { Iconfont } from './iconfont'
 
 const size = 216 // 1个比例的最大高度
 
-function Expand({ style, moreStyle, ratio, children }) {
+export const Expand = ({
+  style,
+  moreStyle,
+  ratio = 0.8, // 比例
+  children
+}) => {
   const [state, setState] = useState({
     layouted: false,
     expand: false,
@@ -87,14 +92,7 @@ function Expand({ style, moreStyle, ratio, children }) {
   )
 }
 
-Expand.defaultProps = {
-  style: undefined,
-  ratio: 0.8 // 比例
-}
-
-export default Expand
-
-const styles = StyleSheet.create({
+const styles = _.create({
   layout: {
     position: 'absolute',
     top: 0,

@@ -5,10 +5,10 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-08 16:38:36
+ * @Last Modified time: 2021-03-09 14:15:44
  */
-import * as React from 'react'
-import { StyleSheet, Animated, Easing, View } from 'react-native'
+import React, { useEffect, useState, useRef } from 'react'
+import { Animated, Easing, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { SegmentedControlTab } from './segmented-control-tab'
@@ -17,13 +17,15 @@ import { SegmentedControlTab } from './segmented-control-tab'
  * SegmentedControl
  * iOS 13 Style UISegmentedControl Component for Android and Web
  */
-function SegmentedControl({
+const SegmentedControlComp = ({
   style,
   values,
   selectedIndex,
-  enabled,
+  enabled = true,
   tintColor,
-  fontStyle,
+  fontStyle = {
+    fontSize: 14
+  },
   activeFontStyle,
   backgroundColor,
   onChange,
@@ -33,9 +35,9 @@ function SegmentedControl({
   styleExtra,
   type,
   size
-}) {
-  const [segmentWidth, setSegmentWidth] = React.useState(0)
-  const animation = React.useRef(new Animated.Value(0)).current
+}) => {
+  const [segmentWidth, setSegmentWidth] = useState(0)
+  const animation = useRef(new Animated.Value(0)).current
 
   const handleChange = (index: number) => {
     // mocks iOS's nativeEvent
@@ -49,7 +51,7 @@ function SegmentedControl({
     onValueChange && onValueChange(values[index])
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (animation && segmentWidth) {
       Animated.timing(animation, {
         toValue: segmentWidth * (selectedIndex || 0),
@@ -120,14 +122,7 @@ function SegmentedControl({
   )
 }
 
-SegmentedControl.defaultProps = {
-  enabled: true,
-  fontStyle: {
-    fontSize: 14
-  }
-}
-
-const styles = StyleSheet.create({
+const styles = _.create({
   default: {
     position: 'relative',
     flexDirection: 'row',
@@ -151,20 +146,12 @@ const styles = StyleSheet.create({
   }
 })
 
-function _SegmentedControl({
-  tintColor,
-  fontStyle,
-  activeFontStyle,
-  backgroundColor,
-  ...other
-}) {
-  return (
-    <SegmentedControl
+export const SegmentedControl = observer(
+  ({ tintColor, fontStyle, activeFontStyle, backgroundColor, ...other }) => (
+    <SegmentedControlComp
       tintColor={tintColor || _.select(_.colorPlain, _._colorDarkModeLevel2)}
       backgroundColor={backgroundColor || _.colorBg}
       {...other}
     />
   )
-}
-
-export default observer(_SegmentedControl)
+)

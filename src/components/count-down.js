@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-13 15:12:57
+ * @Last Modified time: 2021-03-09 11:02:17
  */
 import React, { useState, useEffect } from 'react'
 import { getTimestamp } from '@utils'
-import Text from './text'
+import { Text } from './text'
 
-function CountDown({ end, ...other }) {
+export const CountDown = ({ end, ...other }) => {
   const [now, setNow] = useState(getTimestamp())
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,5 +35,3 @@ function CountDown({ end, ...other }) {
     </Text>
   )
 }
-
-export default CountDown

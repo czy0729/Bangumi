@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-26 20:10:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-26 13:57:00
+ * @Last Modified time: 2021-03-09 12:03:07
  */
 import React from 'react'
 import { NativeModules } from 'react-native'
@@ -11,7 +11,7 @@ import { IOS } from '@constants'
 
 const UMAnalyticsModule = NativeModules.UMAnalyticsModule
 
-function UM({ screen }) {
+export const UM = ({ screen = '' }) => {
   if (IOS || !screen) {
     return null
   }
@@ -29,9 +29,3 @@ function UM({ screen }) {
     />
   )
 }
-
-UM.defaultProps = {
-  screen: ''
-}
-
-export default UM

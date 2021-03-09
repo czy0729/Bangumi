@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-28 01:08:16
+ * @Last Modified time: 2021-03-09 12:02:36
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { IOS } from '@constants'
-import Flex from './flex'
-import Popover from './popover/comp'
-import Touchable from './touchable'
-import Iconfont from './iconfont'
-import Text from './text'
-import Heatmap from './heatmap'
+import { Flex } from './flex'
+import { Popover } from './popover/comp'
+import { Touchable } from './touchable'
+import { Iconfont } from './iconfont'
+import { Text } from './text'
+import { Heatmap } from './heatmap'
 
-function ToolBar({ style, children, ...other }) {
+const ToolBar = observer(({ style, children, ...other }) => {
   const styles = memoStyles()
   return (
     <Flex style={[styles.toolBar, style]} justify='center' {...other}>
       {children}
     </Flex>
   )
-}
+})
 
 ToolBar.Icon = function ToolBarItem({ icon, iconStyle, iconColor, onSelect }) {
   const styles = memoStyles()
@@ -71,7 +72,7 @@ ToolBar.Popover = function ToolBarPopover({
   )
 }
 
-export default ToolBar
+export { ToolBar }
 
 const memoStyles = _.memoStyles(_ => ({
   toolBar: {

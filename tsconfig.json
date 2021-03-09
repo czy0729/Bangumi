@@ -12,6 +12,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
+      "@components": ["src/components"],
       "@screens/*": ["src/screens/*"]
     }
   },

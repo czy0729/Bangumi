@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-21 17:15:04
+ * @Last Modified time: 2021-03-09 10:41:41
  */
 import { useEffect } from 'react'
 import { BackHandler } from 'react-native'
@@ -11,7 +11,7 @@ import { info } from '@utils/ui'
 
 let lastBackPressed
 
-function BackAndroid() {
+export const BackAndroid = () => {
   useEffect(() => {
     // 这里不需要remove, APP整个生命周期只注册一次
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -37,5 +37,3 @@ function BackAndroid() {
 
   return null
 }
-
-export default BackAndroid

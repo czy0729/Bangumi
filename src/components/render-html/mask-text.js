@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:03:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-07 11:12:45
+ * @Last Modified time: 2021-03-09 12:05:14
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import Text from '../text'
+import { Text } from '../text'
 
 export default
 @observer

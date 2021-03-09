@@ -3,44 +3,25 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:11:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-15 15:20:06
+ * @Last Modified time: 2021-03-09 11:53:55
  */
 import React from 'react'
-import { Text as RNText, StyleSheet } from 'react-native'
+import { Text as RNText } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { IOS } from '@constants'
 import { _ } from '@stores'
 
-/**
- * 某些安卓手机, 例如oppo、一加, 没有默认系统字体, 有时候显示数字会被截断
- * 需要手动包裹一层默认字体
- * https://github.com/facebook/react-native/issues/15114
- */
-function StandardText({ children, ...other }) {
-  return (
-    <Text style={!IOS && styles.standardText} {...other}>
-      {children}
-    </Text>
-  )
-}
-
-const styles = StyleSheet.create({
-  standardText: {
-    fontFamily: 'Roboto'
-  }
-})
-
-function Text(
+function CompText(
   {
     style,
-    type,
+    type = 'desc',
     underline,
-    size,
+    size = 14,
     lineHeight,
     align,
-    bold,
-    selectable,
+    bold = false,
+    selectable = false,
     children,
     ...other
   },
@@ -48,15 +29,9 @@ function Text(
 ) {
   const styles = memoStyles(_.mode)
   const _style = [styles.text]
-  if (type) {
-    _style.push(styles[type])
-  }
-  if (underline) {
-    _style.push(styles.underline)
-  }
-  if (size) {
-    _style.push(_[`fontSize${size}`])
-  }
+  if (type) _style.push(styles[type])
+  if (underline) _style.push(styles.underline)
+  if (size) _style.push(_[`fontSize${size}`])
 
   const _lineHeightIncrease =
     other.lineHeightIncrease === undefined
@@ -75,12 +50,8 @@ function Text(
   if (align) {
     _style.push(align === 'right' ? styles.alignRight : styles.alignCenter)
   }
-  if (bold) {
-    _style.push(styles.bold)
-  }
-  if (style) {
-    _style.push(style)
-  }
+  if (bold) _style.push(styles.bold)
+  if (style) _style.push(style)
   return (
     <RNText
       style={_style}
@@ -96,25 +67,11 @@ function Text(
   )
 }
 
-Text.defaultProps = {
-  style: undefined,
-  type: 'desc',
-  underline: false,
-  size: 14,
-  lineHeight: undefined,
-  align: undefined,
-  bold: false,
-  selectable: false,
-  children: ''
-}
-
-Text.contextTypes = {
+CompText.contextTypes = {
   lineHeightIncrease: PropTypes.number
 }
 
-Text.StandardText = StandardText
-
-export default observer(Text)
+export const Text = observer(CompText)
 
 const memoStyles = _.memoStyles(_ => ({
   text: IOS

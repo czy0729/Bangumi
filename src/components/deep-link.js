@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-11 14:58:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-09-12 22:31:46
+ * @Last Modified time: 2021-03-09 11:03:24
  */
 import { useEffect } from 'react'
 import { Linking } from 'react-native'
@@ -25,7 +25,7 @@ function navigate(url) {
   }
 }
 
-function DeepLink() {
+export const DeepLink = () => {
   const { url: initialUrl } = useInitialURL()
   useEffect(() => {
     if (!bind) {
@@ -39,5 +39,3 @@ function DeepLink() {
 
   return null
 }
-
-export default DeepLink
